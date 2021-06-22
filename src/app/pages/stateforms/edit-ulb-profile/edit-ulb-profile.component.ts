@@ -1,11 +1,18 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { BaseComponent } from 'src/app/util/baseComponent';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
 import { StateformsService } from '../stateforms.service';
+import { EditViewComponent } from './edit-view/edit-view.component';
+import { EditComponent } from './edit/edit.component';
+import {
+  customEmailValidator,
+  mobileNoValidator,
+} from "../../../util/reactiveFormValidators";
 
 @Component({
   selector: 'app-edit-ulb-profile',
@@ -14,10 +21,14 @@ import { StateformsService } from '../stateforms.service';
 })
 export class EditUlbProfileComponent extends BaseComponent implements OnInit {
 
+  private regexForUserName = "[A-Z]+[a-zA-Z]*[\\s*[a-zA-Z]*";
+  private regexForOnlyNumberWithoutDecimalAccept = `\\d*$`;
+  private regexForOnlyNumbericWithDecimalAccept = `\\d*\\.?\\d{1,9}`;
   constructor(
     public ulbService : UlbadminServiceService,
     public _stateformsService: StateformsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog,
   ) {
     super();
    }
@@ -59,51 +70,85 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   row_no = null;
   errMessage='';
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData(){
     this._stateformsService.getulbDetails()
-      .subscribe((res) => {
-        console.log('getulbDetails', res);
-        let resData:any = res;
-        this.tabelData = resData.data;
-        this.totalItems = this.tabelData.length;
-       console.log('tabelData',this.tabelData)
-       this.tabelData.forEach(data => {
-       this.filledValue(data)
-               })
-    if(this.detailsEdit)
-    this.editableForm.disable();
-      },
-      error => {
-        this.errMessage = error.message;
-        console.log(error, this.errMessage);
-      });
+    .subscribe((res) => {
+      console.log('getulbDetails', res);
+      let resData:any = res;
+      this.tabelData = resData.data;
+      this.totalItems = this.tabelData.length;
+     console.log('tabelData',this.tabelData)
+     this.tabelData.forEach(data => {
+     this.filledValue(data)
+             })
+  if(this.detailsEdit)
+  this.editableForm.disable();
+    },
+    error => {
+      this.errMessage = error.message;
+      console.log(error, this.errMessage);
+    });
 
-    this.editableForm = this.fb.group({
-      editDetailsArray : this.fb.array([
-        this.fb.group({
+  this.editableForm = this.fb.group({
+    editDetailsArray : this.fb.array([
+      this.fb.group({
+        nodal_officer_name : ['', [Validators.required, Validators.pattern(this.regexForUserName)]],
+        nodal_officer_email : ['', [Validators.required, Validators.email, customEmailValidator]],
+        nodal_officer_phone : ['', [Validators.required, mobileNoValidator]]
+      })
+    ])
 
-        })
-      ])
-
-    })
+  })
 
   }
   get tabelRows() {
     return this.editableForm.get("editDetailsArray") as FormArray;
   }
+  get editFormControl() {
+    return this.editableForm.controls;
+  }
   filledValue(data){
      this.tabelRows.push(
         this.fb.group({
-          nodal_officer_name : [data.accountantName],
-          nodal_officer_email : [data.accountantEmail],
-          nodal_officer_phone : [data.
-            accountantConatactNumber]
+          nodal_officer_name : [data.accountantName, [Validators.required, Validators.pattern(this.regexForUserName)]],
+          nodal_officer_email : [data.accountantEmail, [Validators.required, Validators.email, customEmailValidator]],
+          nodal_officer_phone : [data.accountantConatactNumber, [Validators.required, mobileNoValidator]]
 
     })
    )
 
   }
-  viewDetails(){
-
+  viewDetails(id){
+    this.detailsEdit = true;
+    let dialogRef = this.dialog.open(EditViewComponent, {
+      data:{_id : id, role: 'ULB' },
+      height: "100%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadData();
+      this.editableForm.disable();
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  editMore(id){
+    this.detailsEdit = true;
+    let dialogRef = this.dialog.open(EditComponent, {
+      data:{_id : id, role: 'ULB' },
+      height: "100%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadData();
+     // if(this.detailsEdit)
+      this.editableForm.disable();
+      console.log(`Dialog result: ${result}`);
+    });
   }
   editDetails(index){
     this.detailsEdit = false;
@@ -141,9 +186,10 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
       console.log(error, this.errMessage);
     });
     console.log('updateData', updateData)
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_name').disable();
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_email').disable();
-    this.editableForm.get('editDetailsArray').at(index+1).get('nodal_officer_phone').disable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_name').disable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_email').disable();
+    this.editableForm.get('editDetailsArray').at(this.indexNo+1).get('nodal_officer_phone').disable();
+
   }
 
   setLIstFetchOptions() {

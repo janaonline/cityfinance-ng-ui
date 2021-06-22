@@ -1,155 +1,168 @@
-<mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti>
-    <!-- <div class="row header" style="text-align: center; display: block;">
-        <div *ngIf="!parentData" class="text-right pdf-hide">
-            <a mat-dialog-close style="margin-right: 4%;">
-                <mat-icon aria-hidden="false">
-                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
-                </mat-icon>
-            </a>
-        </div>
+<!-- <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti> -->
+<div class="container-fluid" id="previewUti" #previewUti>
+    <div>
+        <div class="row">
+            <div class="col-sm-12 header-p">
+                <a *ngIf="!parentData" mat-dialog-close class="h-cls" style="position: absolute;z-index:3; right: 4%; top: 14%; cursor: pointer;">
+                    <mat-icon aria-hidden="false">
+                        <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                    </mat-icon>
+                </a>
 
-        <div class="col-sm-12 heading-p" [ngStyle]="{'margin-top':!parentData  ? '-2rem' : '2.7rem'}">
-            <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
-            <br *ngIf="!parentData">
+                <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
+                    <span *ngIf="!parentData">Submissions for 15th FC Grants for FY 2021-22</span>
+                    <br *ngIf="!parentData"> Utilization Report(2020-21),{{data.ulbName}},{{data.state_name}}
+                </div>
 
-        </div>
-    </div> -->
-    <div class="row">
-        <div class="col-sm-12 header-p">
-            <a *ngIf="!parentData" mat-dialog-close class="h-cls" style="position: absolute;z-index:3; right: 4%; top: 14%; cursor: pointer;">
-                <mat-icon aria-hidden="false">
-                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
-                </mat-icon>
-            </a>
-
-            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
-                <span *ngIf="!parentData">15th FC Grants for 2021-22</span>
-                <br *ngIf="!parentData"> Utilization Report :2020-21
             </div>
-
         </div>
-    </div>
 
-    <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 3.7%">
-        <p class="form-status-ut">
-            <b *ngIf="!parentData">Application Current Status:</b> {{totalStatus}}
-            <br *ngIf="!parentData">
-            <b>Form Current Status:</b> {{formStatusCheck}}
-        </p>
-        <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none; margin-right: 3.5%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
+        <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 3.7%">
+            <p class="form-status-ut">
+                <b *ngIf="!parentData">Application Current Status:</b> {{totalStatus}}
+                <br *ngIf="!parentData">
+                <b>Form Current Status:</b> {{formStatusCheck}}
+            </p>
+            <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none; margin-right: 3.5%" class="btn btn-primary btn-upload pdf-hide" (click)="clickedDownloadAsPDF(template)">
           Download as PDF
       </button>
-    </div>
+        </div>
 
 
-    <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
+        <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
         <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
     </div> -->
 
-    <mat-card class="mat-card2">
-        <div class="card2Div">
-            <label for="" class="card2 qus-ut-s pp">1. State Name</label>
-            <label for="" class="card2 ans-ut-s pp-l">{{data.state_name}} </label>
-        </div>
-        <div class="card2Div">
-            <label for="" class="card2 qus-ut-u pp">2. Name of MPC/UA/NMPC</label>
-            <label for="" class="card2 ans-ut-u pp-l">{{data.ulbName}} </label>
-        </div>
-        <div class="crd-ls-div">
-            <label for="" class="card2 qus-ut-t pp">3. Type of grant</label>
-            <label for="" class="card2 ans-ut-t pp-l">{{data.grantType}} </label>
-        </div>
+        <mat-card class="mat-card2">
+            <div class="card2Div">
+                <label for="" class="card2 qus-ut-s pp">1. State Name</label>
+                <label for="" class="card2 ans-ut-s pp-l">{{data.state_name}} </label>
+            </div>
+            <div class="card2Div">
+                <label for="" class="card2 qus-ut-u pp">2. Name of MPC/UA/NMPC</label>
+                <label for="" class="card2 ans-ut-u pp-l">{{data.ulbName}} </label>
+            </div>
+            <div class="crd-ls-div">
+                <label for="" class="card2 qus-ut-t pp">3. Type of grant</label>
+                <label for="" class="card2 ans-ut-t pp-l">{{data.grantType}} </label>
+            </div>
 
-    </mat-card>
-    <mat-card class="mat-card2">
-        <div class="row" style="margin: 0;">
-            <div class="h-ut">4. 15th FC Tied Grant Position during the year :</div>
-        </div>
+        </mat-card>
+        <mat-card class="mat-card2">
+            <div class="row" style="margin: 0;">
+                <div class="h-ut">4. 15th FC Tied Grant Position during the year :</div>
+            </div>
 
-        <div class="c-2-d">
-            <label for="" class="card2 qus-ut-a"> (i) Unutilized from previous installments(INR in lakhs) </label>
-            <label for="" class="card2 ans-ut-a">{{data.grantPosition.unUtilizedPrevYr}} </label>
-        </div>
+            <div class="c-2-d">
+                <label for="" class="card2 qus-ut-a"> (i) Unutilized from previous installments(INR in lakhs) </label>
+                <label for="" class="card2 ans-ut-a">{{data.grantPosition.unUtilizedPrevYr}} </label>
+            </div>
 
-        <div class="c-2-d">
-            <label for="" class="card2 qus-ut-b">(ii) Tied Grant received during the year(INR in lakhs) </label>
-            <label for="" class="card2 ans-ut-b">{{data.grantPosition.receivedDuringYr}} </label>
-        </div>
-        <div class="c-2-d">
-            <label for="" class="card2 qus-ut-c"> (iii) Expenditure incurred during the year(INR in lakhs) </label>
-            <label for="" class="card2 ans-ut-c">{{data.grantPosition.expDuringYr}} </label>
-        </div>
-        <div class="crd-ls-div c-2-d">
-            <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs)
+            <div class="c-2-d">
+                <label for="" class="card2 qus-ut-b">(ii) Tied Grant received during the year(INR in lakhs) </label>
+                <label for="" class="card2 ans-ut-b">{{data.grantPosition.receivedDuringYr}} </label>
+            </div>
+            <div class="c-2-d">
+                <label for="" class="card2 qus-ut-c"> (iii) Expenditure incurred during the year(INR in lakhs) </label>
+                <label for="" class="card2 ans-ut-c">{{data.grantPosition.expDuringYr}} </label>
+            </div>
+            <div class="crd-ls-div c-2-d">
+                <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs)
                     (2(i)+2(ii)-2(iii))</b> </label>
-            <label for="" class="card3 ans-ut-l"> <b>{{data.grantPosition.closingBal}} </b> </label>
-        </div>
-        <br>
+                <label for="" class="card3 ans-ut-l"> <b>{{data.grantPosition.closingBal}} </b> </label>
+            </div>
+            <br>
 
-    </mat-card>
-    <mat-card class="mat-card2">
-        <div class="row" style="margin: 0;">
-            <div class="h-ut-t">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii)) :</div>
-        </div>
-        <table class="table table-striped">
-            <thead>
-                <tr class="thHeader">
-                    <th scope="col" class="w-5">S.No</th>
-                    <th scope="col" class="w-12">Category</th>
-                    <th scope="col" class="w-12">Project</th>
-                    <th scope="col" class="w-12">Description</th>
-                    <th scope="col" class="w-10">Capacity</th>
-                    <th scope="col" class="w-10">Images</th>
-                    <th scope="col" class="w-15">Co-ordinates</th>
-                    <th scope="col" class="w-12">Project Cost</th>
-                    <th scope="col" class="w-12">Expenditure</th>
+        </mat-card>
+        <mat-card class="mat-card2">
+            <div class="row" style="margin: 0;">
+                <div class="h-ut-t">5. Component Wise Utilization of Tied grants (break-up of expenditure incurred in 2(iii)) :</div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr class="thHeader">
+                        <th scope="col" class="w-5">S.No</th>
+                        <th scope="col" class="w-12">Category</th>
+                        <th scope="col" class="w-12">Project</th>
+                        <th scope="col" class="w-12">Description</th>
+                        <th scope="col" class="w-10">Capacity</th>
+                        <th scope="col" class="w-10">Images</th>
+                        <th scope="col" class="w-15">Co-ordinates</th>
+                        <th scope="col" class="w-12">Project Cost</th>
+                        <th scope="col" class="w-12">Expenditure</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
-                    <td><label for="">{{1+i}}</label></td>
-                    <td><label for="">{{data.projects[i].category}}</label></td>
-                    <td> <label for="">{{data.projects[i].name}}</label></td>
-                    <td><label for="">{{data.projects[i].description}}</label></td>
-                    <td><label for="">{{data.projects[i].capacity}}</label></td>
-                    <td>
-                        <div style="display: grid !important;">
-                            <img class="ml-2" [src]="imgUrl.url" alt="" width="40px" height="40px" *ngFor="let imgUrl
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
+                        <td><label for="">{{1+i}}</label></td>
+                        <td><label for="">{{data.projects[i].category}}</label></td>
+                        <td> <label for="">{{data.projects[i].name}}</label></td>
+                        <td><label for="">{{data.projects[i].description}}</label></td>
+                        <td><label for="">{{data.projects[i].capacity}}</label></td>
+                        <td>
+                            <div style="display: grid !important;">
+                                <img class="ml-2" [src]="imgUrl.url" alt="" width="40px" height="40px" *ngFor="let imgUrl
                       of data.projects[i].photos">
-                        </div>
+                            </div>
 
-                    </td>
-                    <td>
-                        <label for="" class="bor-in-l">Lat :&nbsp; <span>{{data.projects[i].location.lat}}</span></label> <br>
-                        <label for="" class="bor-in-l long">Long :&nbsp;<span>{{data.projects[i].location.long}}</span> </label>
+                        </td>
+                        <td>
+                            <label for="" class="bor-in-l">Lat :&nbsp; <span>{{data.projects[i].location.lat}}</span></label> <br>
+                            <label for="" class="bor-in-l long">Long :&nbsp;<span>{{data.projects[i].location.long}}</span> </label>
 
-                    </td>
-                    <td> <label class="bor-in-l" for="">{{data.projects[i].cost}}</label></td>
-                    <td> <label for="" class="bor-in-l">{{data.projects[i].expenditure}}</label> </td>
-                </tr>
-            </tbody>
-            <thead>
-                <tr class="thHeader">
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"><span>Total(INR in lakhs)</span></th>
-                    <th scope="col"><span>{{data.totalProCost}}</span></th>
-                    <th scope="col"><span>{{data.totalExpCost}}</span></th>
+                        </td>
+                        <td> <label class="bor-in-l" for="">{{data.projects[i].cost}}</label></td>
+                        <td> <label for="" class="bor-in-l">{{data.projects[i].expenditure}}</label> </td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr class="thHeader">
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"><span>Total(INR in lakhs)</span></th>
+                        <th scope="col"><span>{{data.totalProCost}}</span></th>
+                        <th scope="col"><span>{{data.totalExpCost}}</span></th>
 
-                </tr>
-            </thead>
-        </table>
-        <div style="float: right;margin-top: 2rem;" class="margin-t-1">
-            <p class="f-d-n font-9"><b>Name : {{data.name}} </b></p>
-            <p class="f-d-n font-9"><b>Designation : {{data.designation}} </b></p>
-        </div>
-    </mat-card>
-</mat-dialog-content>
+                    </tr>
+                </thead>
+            </table>
+            <div style="float: right; margin-top: 2rem;" class="margin-t-1">
+
+            </div>
+        </mat-card>
+    </div>
+    <div class="s-d" style="float: right;">
+        <p class="f-d-n font-9"><b>Name : {{data.name}} </b></p>
+        <p class="f-d-n font-9"><b>Designation : {{data.designation}} </b></p>
+        <h5 class="font-9">
+            Form First Submitted On:
+            <span style="font-weight: normal; margin-bottom: 0;">
+      {{
+       (data["modifiedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
+       "Not Submitted"
+      }}
+<!-- {{ (modiDate | date: "MMMM d, y, h:mm a":"+00") ||
+"Not Submitted" }} -->
+    </span>
+        </h5>
+        <h5 class="font-9" style="margin-top: 0; margin-bottom: 1rem;">
+            Form Last Rejected On:
+            <span style="font-weight: normal">
+           {{
+              (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
+         "No Reject Found"
+        }}</span>
+        </h5>
+
+
+    </div>
+</div>
+<!-- </mat-dialog-content> -->
 <ng-template #template>
     <div class="modal-body text-center">
         <div class="modal-header">

@@ -31,7 +31,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       if (id) {
         this.id = id;
         console.log('stid', id)
-        // sessionStorage.setItem('row_id', id);
+        sessionStorage.setItem('row_id', id);
       }
     });
 
@@ -201,7 +201,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           });
     })
   }
-  headertext = 'The 15th Finance Commission Grants Management System facilitates seamless submission and flow of required information between Urban Local Bodies, State Governments and Ministry of Housuing and Urban Affairs for the purposes of availaing ULB Grants between 2021-2026.'
+  headertext = `The 15th Finance Commission Grants Management System
+  facilitates seamless submission and flow of required information
+   between Urban Local Bodies, State Governments and Ministry
+  of Housing and Urban Affairs for the purposes of availing ULB Grants between 2021-26.`
   numcard = 0;
   p = 60;
   position = 0;
@@ -246,7 +249,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       console.log('12elseblock', this.isMillionPlus, this.isUA)
     }
     console.log('overview', this.isUA, this.isMillionPlus)
-    if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes') {
+    if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 4;
       this.factor = 100 / this.formValue;
@@ -266,13 +269,22 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.formValue = 3;
       this.factor = Math.floor(100 / this.formValue);
       this.numcard = 5;
-    } else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
-      this.cardsOverview = this.cardsOverview;
-      this.formValue = 5;
-      this.factor = 100 / this.formValue;
-      this.numcard = 7;
-
     }
+    else if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes') {
+      this.formValue = 4;
+      let userType = "No";
+      this.cardsOverview = this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
+      this.factor = 100 / (+this.formValue);
+      this.numcard = 6;
+      console.log('no. no', this.factor)
+    }
+    // else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
+    //   this.cardsOverview = this.cardsOverview;
+    //   this.formValue = 5;
+    //   this.factor = 100 / this.formValue;
+    //   this.numcard = 7;
+
+    //}
     this.width = (this.row_width / this.numcard) - 8;
     this.percentage = this.count * this.factor;
     // this.percentage = this.count * 20;

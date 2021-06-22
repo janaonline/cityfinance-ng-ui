@@ -1,0 +1,49 @@
+.wrapper {
+    background-attachment: rgb(140, 215, 245);
+    // width: 85%;
+    margin-left: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    h1 {
+        width: 100%;
+    }
+    form {
+        width: 100%;
+        .fileName {
+            font-weight: normal;
+        }
+        label {
+            display: block;
+        }
+        input[type="file"] {
+            display: none;
+        }
+    }
+    .input-group {
+        width: 31%;
+        margin-top: 2%;
+        margin-right: 2%;
+        display: inline-block;
+        .form-control {
+            border-radius: 4px;
+        }
+    }
+}
+
+.is-invalid {
+    border-color: red;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+:host {
+    .back-button {
+        padding: 0.5% 3%;
+    }
+    .form-field-error-message {
+        text-align: left;
+    }
+}

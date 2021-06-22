@@ -18,6 +18,8 @@ export class PfmsPreviewComponent implements OnInit {
   modalRef: BsModalRef;
   @ViewChild("pfmsPre") _html: ElementRef;
   showLoader;
+  ulbName ='';
+  stateName = '';
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
     private LinkPFMSAccount: LinkPFMSAccount,
@@ -30,7 +32,7 @@ export class PfmsPreviewComponent implements OnInit {
   styleForPDF = `<style>
     .header-p {
       background-color: #047474;
-      height: 70px;
+      height: 90px;
       text-align: center;
   }
   .heading-p {
@@ -68,6 +70,11 @@ export class PfmsPreviewComponent implements OnInit {
         font-size: 10px;
         margin-top: 10px;
       }
+      h5{
+        font-size: 10px !important;
+        margin-top: 2px !important;
+        padding-top : 0;
+      }
 
     </style>`
 
@@ -86,11 +93,15 @@ export class PfmsPreviewComponent implements OnInit {
   changeFromOutSide: any;
   @Output() change = new EventEmitter<any>();
   errMessage = ''
-
+  modiDate;
   subParentForModal
 
   ngOnInit(): void {
+    let userData = JSON.parse(localStorage.getItem('userData'));
+    this.ulbName = userData['name'];
+    this.stateName = userData['stateName'];
     let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
+    this.modiDate = getData.response.modifiedAt;
     this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe((change) => {
       if (this.changeFromOutSide) {
         this.openDialog(this.template);

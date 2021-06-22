@@ -1,5 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { AgGridAngular } from "ag-grid-angular";
+import { ActionplanserviceService } from "./actionplanservice.service";
+import { StateformsService } from "../stateforms.service";
+import { Router, NavigationStart, Event } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { SweetAlert } from "sweetalert/typings/core";
+import { ActionplanspreviewComponent } from "./actionplanspreview/actionplanspreview.component";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-action-plan-ua",
   templateUrl: "./action-plan-ua.component.html",
@@ -11,17 +18,154 @@ export class ActionPlanUAComponent implements OnInit {
   userData = JSON.parse(localStorage.getItem("userData"));
 
   data = null;
-  template = { projectExcute, sourceFund, yearOutlay };
-  columnDefs = { project, fund, year };
-  constructor() {}
+  yearCode = "2021-22";
+  ulbNames = {};
+  saveBtnText = "NEXT";
+  routerNavigate = null;
+  uaCodes = {};
+  showLoader = true;
+  projectCategories = [];
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
+  dialogRefForNavigation;
 
-  ngOnInit(): void {
-    this.load();
+  constructor(
+    public stateformsService: StateformsService,
+    public actionplanserviceService: ActionplanserviceService,
+    private _router: Router,
+    private dialog: MatDialog
+  ) {
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url === "/" || event.url === "/login") {
+          sessionStorage.setItem("changeInActionPlans", "false");
+          return;
+        }
+        const change = sessionStorage.getItem("changeInActionPlans");
+        if (change === "true" && this.routerNavigate === null) {
+          this.dialog.closeAll();
+          this.routerNavigate = event;
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.openModal(this.template);
+        }
+      }
+    });
   }
 
-  yearCode = "2021-22";
+  ngOnInit(): void {
+    sessionStorage.setItem("changeInActionPlans", "false");
+    this.getUlbNames();
+    for (const key in this.uasData) {
+      let code = localStorage.getItem("state_code");
+      code += "/" + this.uasData[key]?.UACode ?? "UA";
+      code += "/" + this.yearCode;
+      this.uaCodes[key] = code;
+    }
+  }
+  getUlbNames() {
+    this.actionplanserviceService
+      .getUlbsByState(this.userData.state)
+      .subscribe(
+        (res) => {
+          this.ulbNames = res["data"]
+          this.getCategory();
+          this.load();
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  getCategory() {
+    this.actionplanserviceService.getCategory().subscribe(
+      (res: Array<object>) => {
+        res.forEach((element) => {
+          this.projectCategories.push(element["name"]);
+        });
+        console.log(this.projectCategories);
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
+  }
 
   load() {
+    this.actionplanserviceService.getFormData().subscribe(
+      (res) => {
+        this.showLoader = false;
+        console.log(res["data"], "sss");
+        this.data = {
+          state: res["data"].state,
+          design_year: res["data"]["design_year"],
+          uaData: res["data"]["uaData"],
+          status: res["data"]["status"],
+          isDraft: res["data"]["isDraft"],
+        };
+        sessionStorage.setItem("actionPlans", this.data);
+        this.addKeys(this.data);
+      },
+      (err) => {
+        this.showLoader = false;
+        this.onFail();
+      }
+    );
+  }
+
+  addKeys(data) {
+    data.uaData.forEach((element) => {
+      for (let i = 0; i < element.projectExecute.length; i++) {
+        element.projectExecute[i].index = i + 1;
+        element.sourceFund[i].index = i + 1;
+        element.yearOutlay[i].index = i + 1;
+      }
+      element.name = this.uasData[element.ua]["name"];
+      element.ulbList = this.uasData[element.ua]["ulb"];
+      let newList = [];
+      element.ulbList.forEach((e) => {
+        newList.push(this.ulbNames[e]);
+      });
+      element.ulbList = newList;
+      element.code = this.uaCodes[element.ua];
+    });
+
+    data.uaData.forEach((element) => {
+      let temp = [];
+      element.projectExecute.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(input.projectExecute[0]));
+        for (const key in e) {
+          if (pro.hasOwnProperty(key)) pro[key]["value"] = e[key];
+        }
+        temp.push(pro);
+      });
+      element.projectExecute = temp;
+      temp = [];
+      element.sourceFund.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(input.sourceFund[0]));
+        for (const key in e) {
+          if (pro.hasOwnProperty(key)) pro[key]["value"] = e[key];
+        }
+        temp.push(pro);
+      });
+      element.sourceFund = temp;
+      temp = [];
+      element.yearOutlay.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(input.yearOutlay[0]));
+        for (const key in e) {
+          if (pro.hasOwnProperty(key)) pro[key]["value"] = e[key];
+        }
+        temp.push(pro);
+      });
+      element.yearOutlay = temp;
+    });
+    console.log(this.data);
+  }
+
+  onFail() {
     this.data = {
       state: this.userData.state,
       design_year: this.Year["2021-22"],
@@ -33,19 +177,25 @@ export class ActionPlanUAComponent implements OnInit {
       let temp = JSON.parse(JSON.stringify(input));
       temp.ua = key;
       temp.name = this.uasData[key].name;
-      temp.ulbList = this.uasData[key].ulb;
+      let tempList = [];
+      console.log(this.ulbNames, this.uasData[key].ulb);
+
+      this.uasData[key].ulb.forEach((element) => {
+        tempList.push(this.ulbNames[element]);
+      });
+      temp.ulbList = tempList;
       let code = localStorage.getItem("state_code");
-      code += this.uasData[key]?.code ?? "UA";
-      code += this.yearCode;
+      code += "/" + this.uasData[key]?.UACode ?? "UA";
+      code += "/" + this.yearCode;
       temp.code = code;
-      for (let index = 1; index <= temp.projectExcute.length; index++) {
-        temp.projectExcute[index - 1].code = code + index;
+      for (let index = 1; index <= temp.projectExecute.length; index++) {
+        temp.projectExecute[index - 1].code.value = code + "/" + index;
       }
       for (let index = 1; index <= temp.sourceFund.length; index++) {
-        temp.sourceFund[index - 1].code = code + index;
+        temp.sourceFund[index - 1].code.value = code + "/" + index;
       }
       for (let index = 1; index <= temp.yearOutlay.length; index++) {
-        temp.yearOutlay[index - 1].code = code + index;
+        temp.yearOutlay[index - 1].code.value = code + "/" + index;
       }
       this.data.uaData.push(temp);
     }
@@ -54,14 +204,193 @@ export class ActionPlanUAComponent implements OnInit {
   foldCard(i) {
     this.data.uaData[i].fold = !this.data.uaData[i].fold;
   }
+
+  submit(fromPrev = null) {
+    if (this.data.isDraft && !fromPrev) {
+      return this.openModal(this.template1);
+    }
+    let data = this.makeApiData();
+    this.actionplanserviceService.postFormData(data).subscribe(
+      (res) => {
+        swal({
+          title: "Submitted",
+          text: "Record submitted successfully!",
+          icon: "success",
+        });
+        sessionStorage.setItem("changeInWaterRejenuvation", "false");
+        if (this.routerNavigate) {
+          this._router.navigate([this.routerNavigate.url]);
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  makeApiData() {
+    let newUaData = [];
+    this.data.uaData.forEach((element) => {
+      let Uas = JSON.parse(JSON.stringify(output));
+      Uas.ua = element.ua;
+      let temp = [];
+      element.projectExecute.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(Uas.projectExecute[0]));
+        for (const key in e) {
+          pro[key] = e[key]["value"];
+          if (e[key]["lastValidation"] != true) {
+            this.data.isDraft = true;
+          }
+        }
+        temp.push(pro);
+      });
+      Uas.projectExecute = temp;
+      temp = [];
+      element.sourceFund.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(Uas.sourceFund[0]));
+        for (const key in e) {
+          pro[key] = e[key]["value"];
+          if (e[key]["lastValidation"] != true) {
+            this.data.isDraft = true;
+          }
+        }
+        temp.push(pro);
+      });
+      Uas.sourceFund = temp;
+      temp = [];
+      element.yearOutlay.forEach((e) => {
+        let pro = JSON.parse(JSON.stringify(Uas.yearOutlay[0]));
+        for (const key in e) {
+          pro[key] = e[key]["value"];
+          if (e[key]["lastValidation"] != true) {
+            this.data.isDraft = true;
+          }
+        }
+        temp.push(pro);
+      });
+      Uas.yearOutlay = temp;
+      newUaData.push(Uas);
+    });
+    let apiData = JSON.parse(JSON.stringify(this.data));
+    apiData.uaData = newUaData;
+    return apiData;
+  }
+
+  getDataFromGrid(data, index) {
+    let temp = sessionStorage.getItem("actionPlans");
+    let t = this.makeApiData();
+    if (JSON.stringify(t) != temp) {
+      sessionStorage.setItem("changeInActionPlans", "true");
+    } else {
+      sessionStorage.setItem("changeInActionPlans", "false");
+    }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
+    this.dialogRefForNavigation.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
+  }
+
+  stay() {
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+
+  proceed() {
+    this.dialogRefForNavigation.close(true);
+    this.submit(true);
+  }
+
+  alertClose() {
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+
+  onPreview() {
+    let data = this.makeApiData();
+    let dialogRef = this.dialog.open(ActionplanspreviewComponent, {
+      data: data,
+      height: "80%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
 }
 
 const input = {
-  ua: "",
-  name: "",
-  projectExcute: [
+  ua: { value: "", isValidating: false, lastValidation: true },
+  name: { value: "", isValidating: false, lastValidation: true },
+  projectExecute: [
     {
-      index: 1,
+      index: { value: 1, isValidating: false, lastValidation: true },
+      code: { value: "", isValidating: false, lastValidation: true },
+      name: { value: "", isValidating: false, lastValidation: true },
+      details: { value: "", isValidating: false, lastValidation: true },
+      cost: { value: "", isValidating: false, lastValidation: true },
+      exAgency: { value: "", isValidating: false, lastValidation: true },
+      paraAgency: { value: "", isValidating: false, lastValidation: true },
+      sector: { value: "", isValidating: false, lastValidation: true },
+      type: { value: "", isValidating: false, lastValidation: true },
+      esOutcome: { value: "", isValidating: false, lastValidation: true },
+    },
+  ],
+  sourceFund: [
+    {
+      index: { value: 1, isValidating: false, lastValidation: true },
+      code: { value: "", isValidating: false, lastValidation: true },
+      name: { value: "", isValidating: false, lastValidation: true },
+      cost: { value: "", isValidating: false, lastValidation: true },
+      fc: { value: "", isValidating: false, lastValidation: true },
+      jjm: { value: "", isValidating: false, lastValidation: true },
+      sbm: { value: "", isValidating: false, lastValidation: true },
+      centalScheme: { value: "", isValidating: false, lastValidation: true },
+      stateScheme: { value: "", isValidating: false, lastValidation: true },
+      stateGrant: { value: "", isValidating: false, lastValidation: true },
+      ulb: { value: "", isValidating: false, lastValidation: true },
+      other: { value: "", isValidating: false, lastValidation: true },
+      total: { value: "", isValidating: false, lastValidation: true },
+      "2021-22": { value: "", isValidating: false, lastValidation: true },
+      "2022-23": { value: "", isValidating: false, lastValidation: true },
+      "2023-24": { value: "", isValidating: false, lastValidation: true },
+      "2024-25": { value: "", isValidating: false, lastValidation: true },
+      "2025-26": { value: "", isValidating: false, lastValidation: true },
+    },
+  ],
+  yearOutlay: [
+    {
+      index: { value: 1, isValidating: false, lastValidation: true },
+      code: { value: "", isValidating: false, lastValidation: true },
+      name: { value: "", isValidating: false, lastValidation: true },
+      cost: { value: "", isValidating: false, lastValidation: true },
+      funding: { value: "", isValidating: false, lastValidation: true },
+      amount: { value: "", isValidating: false, lastValidation: true },
+      "2021-22": { value: "", isValidating: false, lastValidation: true },
+      "2022-23": { value: "", isValidating: false, lastValidation: true },
+      "2023-24": { value: "", isValidating: false, lastValidation: true },
+      "2024-25": { value: "", isValidating: false, lastValidation: true },
+      "2025-26": { value: "", isValidating: false, lastValidation: true },
+    },
+  ],
+  fold: false,
+  code: { value: "", isValidating: false, lastValidation: true },
+};
+
+const output = {
+  ua: "",
+  projectExecute: [
+    {
       code: "",
       name: "",
       details: "",
@@ -75,7 +404,6 @@ const input = {
   ],
   sourceFund: [
     {
-      index: 1,
       code: "",
       name: "",
       cost: "",
@@ -88,15 +416,6 @@ const input = {
       ulb: "",
       other: "",
       total: "",
-    },
-  ],
-  yearOutlay: [
-    {
-      index: 1,
-      code: "",
-      name: "",
-      cost: "",
-      funding: "",
       "2021-22": "",
       "2022-23": "",
       "2023-24": "",
@@ -104,437 +423,18 @@ const input = {
       "2025-26": "",
     },
   ],
-  fold: false,
-  code: "",
+  yearOutlay: [
+    {
+      code: "",
+      name: "",
+      cost: "",
+      funding: "",
+      amount: "",
+      "2021-22": "",
+      "2022-23": "",
+      "2023-24": "",
+      "2024-25": "",
+      "2025-26": "",
+    },
+  ],
 };
-
-const projectExcute = {
-  code: "",
-  name: "",
-  details: "",
-  cost: "",
-  exAgency: "",
-  paraAgency: "",
-  sector: "",
-  type: "",
-  esOutcome: "",
-};
-
-const sourceFund = {
-  code: "",
-  name: "",
-  cost: "",
-  fc: "",
-  jjm: "",
-  sbm: "",
-  centalScheme: "",
-  stateScheme: "",
-  stateGrant: "",
-  ulb: "",
-  other: "",
-  total: "",
-  "2021-22": "",
-  "2022-23": "",
-  "2023-24": "",
-  "2024-25": "",
-  "2025-26": "",
-};
-
-const yearOutlay = {
-  code: "",
-  name: "",
-  cost: "",
-  funding: "",
-  "2021-22": "",
-  "2022-23": "",
-  "2023-24": "",
-  "2024-25": "",
-  "2025-26": "",
-};
-
-const project = [
-  {
-    cellRenderer: "customizedCell",
-    headerName: "S No",
-    width: 70,
-    pinned: true,
-    field: "index",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Code",
-    width: 120,
-    editable: false,
-    pinned: true,
-    tooltipField: "code",
-    tooltipComponent: "customTooltip",
-    field: "code",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Name",
-    width: 120,
-    editable: true,
-    pinned: true,
-    tooltipField: "name",
-    tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-    tooltipComponent: "customTooltip",
-    field: "name",
-    cellEditor: "agTextCellEditor",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Cost",
-    width: 120,
-    editable: true,
-    pinned: true,
-    tooltipField: "cost",
-    tooltipComponent: "customTooltip",
-    field: "cost",
-    valueParser: "Number(newValue)",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Details",
-    width: 150,
-    editable: true,
-    tooltipField: "details",
-    tooltipComponent: "customTooltip",
-    field: "details",
-    cellEditor: "agLargeTextCellEditor",
-    cellEditorParams: {
-      maxLength: "200",
-      cols: "50",
-      rows: "6",
-    },
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Executing Agency",
-    width: 150,
-    editable: true,
-    tooltipField: "exAgency",
-    tooltipComponent: "customTooltip",
-    field: "exAgency",
-    cellEditor: "agSelectCellEditor",
-    cellEditorParams: {
-      values: ["English", "Spanish", "French", "Portuguese", "(other)"],
-    },
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Sector",
-    width: 120,
-    editable: true,
-    tooltipField: "sector",
-    tooltipComponent: "customTooltip",
-    field: "sector",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Type",
-    width: 150,
-    editable: true,
-    field: "type",
-    cellEditor: "agSelectCellEditor",
-    cellEditorParams: {
-      values: ["English", "Spanish", "French", "Portuguese", "(other)"],
-    },
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Estimated Outcome",
-    width: 160,
-    editable: true,
-    tooltipField: "esOutcome",
-    tooltipComponent: "customTooltip",
-    field: "esOutcome",
-    cellEditor: "agLargeTextCellEditor",
-    cellEditorParams: {
-      maxLength: "200",
-      cols: "50",
-      rows: "6",
-    },
-  },
-];
-const fund = [
-  {
-    cellRenderer: "customizedCell",
-    headerName: "S No",
-    width: 70,
-    pinned: true,
-    field: "index",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Code",
-    pinned: true,
-    width: 120,
-    tooltipField: "code",
-    tooltipComponent: "customTooltip",
-    field: "code",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Name",
-    width: 120,
-    pinned: true,
-    tooltipField: "name",
-    tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-    tooltipComponent: "customTooltip",
-    field: "name",
-    cellEditor: "agTextCellEditor",
-    cellEditorParams: {
-      maxLength: "50",
-    },
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Cost",
-    width: 120,
-    pinned: true,
-    tooltipField: "cost",
-    tooltipComponent: "customTooltip",
-    field: "cost",
-  },
-
-  {
-    cellRenderer: "customizedCell",
-    headerName: "15th FC",
-    width: 100,
-    editable: true,
-    tooltipField: "fc",
-    tooltipComponent: "customTooltip",
-    field: "fc",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "JJM",
-    width: 100,
-    editable: true,
-    tooltipField: "jjm",
-    tooltipComponent: "customTooltip",
-    field: "jjm",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "SBM 2.0",
-    width: 100,
-    editable: true,
-    tooltipField: "sbm",
-    tooltipComponent: "customTooltip",
-    field: "sbm",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Other Central Schemes",
-    width: 180,
-    editable: true,
-    tooltipField: "centalScheme",
-    tooltipComponent: "customTooltip",
-    field: "centalScheme",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "State Schemes",
-    width: 150,
-    editable: true,
-    tooltipField: "stateScheme",
-    tooltipComponent: "customTooltip",
-    field: "stateScheme",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "State Gov Grants",
-    width: 150,
-    editable: true,
-    tooltipField: "stateGrant",
-    tooltipComponent: "customTooltip",
-    field: "stateGrant",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "ULB",
-    width: 100,
-    editable: true,
-    tooltipField: "ulb",
-    tooltipComponent: "customTooltip",
-    field: "ulb",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Other",
-    width: 100,
-    editable: true,
-    tooltipField: "other",
-    tooltipComponent: "customTooltip",
-    field: "other",
-    valueParser: "Number(newValue)",
-    filter: "agNumberColumnFilter",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Total",
-    width: 100,
-    editable: false,
-    tooltipField: "total",
-    tooltipComponent: "customTooltip",
-    field: "total",
-    valueGetter:
-      "data.fc + data.jjm + data.sbm + data.centalScheme + data.stateScheme + data.stateGrant + data.ulb + data.other",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2021-22",
-    width: 150,
-    editable: true,
-    tooltipField: "2021-22",
-    tooltipComponent: "customTooltip",
-    field: "2021-22",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2022-23",
-    width: 150,
-    editable: true,
-    tooltipField: "2022-23",
-    tooltipComponent: "customTooltip",
-    field: "2022-23",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2023-24",
-    width: 150,
-    editable: true,
-    tooltipField: "2023-24",
-    tooltipComponent: "customTooltip",
-    field: "2023-24",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2024-25",
-    width: 150,
-    editable: true,
-    tooltipField: "2024-25",
-    tooltipComponent: "customTooltip",
-    field: "2024-25",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2025-26",
-    width: 150,
-    editable: true,
-    tooltipField: "2025-26",
-    tooltipComponent: "customTooltip",
-    field: "2025-26",
-  },
-];
-const year = [
-  {
-    cellRenderer: "customizedCell",
-    headerName: "S No",
-    width: 70,
-    pinned: true,
-    field: "index",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Code",
-    pinned: true,
-    width: 120,
-    tooltipField: "code",
-    tooltipComponent: "customTooltip",
-    field: "code",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Name",
-    width: 120,
-    pinned: true,
-    tooltipField: "name",
-    tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-    tooltipComponent: "customTooltip",
-    field: "name",
-    cellEditor: "agTextCellEditor",
-    cellEditorParams: {
-      maxLength: "50",
-    },
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "Project Cost",
-    width: 120,
-    pinned: true,
-    tooltipField: "cost",
-    tooltipComponent: "customTooltip",
-    field: "cost",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "% Funding",
-    width: 150,
-    editable: true,
-    tooltipField: "funding",
-    tooltipComponent: "customTooltip",
-    field: "funding",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2021-22",
-    width: 150,
-    editable: true,
-    tooltipField: "2021-22",
-    tooltipComponent: "customTooltip",
-    field: "2021-22",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2022-23",
-    width: 150,
-    editable: true,
-    tooltipField: "2022-23",
-    tooltipComponent: "customTooltip",
-    field: "2022-23",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2023-24",
-    width: 150,
-    editable: true,
-    tooltipField: "2023-24",
-    tooltipComponent: "customTooltip",
-    field: "2023-24",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2024-25",
-    width: 150,
-    editable: true,
-    tooltipField: "2024-25",
-    tooltipComponent: "customTooltip",
-    field: "2024-25",
-  },
-  {
-    cellRenderer: "customizedCell",
-    headerName: "FY 2025-26",
-    width: 150,
-    editable: true,
-    tooltipField: "2025-26",
-    tooltipComponent: "customTooltip",
-    field: "2025-26",
-  },
-];

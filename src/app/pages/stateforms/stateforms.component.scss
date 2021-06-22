@@ -1,9 +1,58 @@
+// .sidebar {
+//     position: fixed;
+//     // top: 100px;
+//     left: 0;
+//     bottom: 0;
+//     overflow-y: scroll;
+//     //  max-height: 70%;
+// }
+// .main {
+//     position: relative;
+//     top: 0;
+//     left: 233px;
+// }
 .pd {
     padding-bottom: 1rem;
 }
 
 .t-c {
     color: #FFFFFF;
+}
+
+div.active {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+}
+
+.svg-icon {
+    filter: invert(1);
+}
+
+.mat-icon {
+    color: red;
+}
+
+.link-div:hover {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
 }
 
 .linktext {

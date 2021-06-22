@@ -10,7 +10,7 @@
                     <div class="col-sm-12">
                         <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
                             <form [formGroup]="editableForm">
-                                <table class="table">
+                                <table class="table custom-position">
                                     <thead>
                                         <tr style="background-color: #047474; color: #FFFFFF;">
                                             <th scope="col">S.No</th>
@@ -62,7 +62,7 @@
                                             itemsPerPage: tableDefaultOptions.itemPerPage,
                                             currentPage: tableDefaultOptions.currentPage,
                                             totalItems: tableDefaultOptions.totalCount
-                                          }; let tabelIndex=index" [formGroupName]="tabelIndex+1">
+                                          }; let tabelIndex=index" [formGroupName]="tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex +1">
 
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 {{ tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex + 1}}</td>
@@ -71,25 +71,72 @@
 
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 <input type="text" class="form-control" formControlName="nodal_officer_name">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.invalid &&
+                                                (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.dirty ||
+                                                editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.touched)">
+
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.required">
+                                                        cannot be empty.
+                                                    </div>
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.pattern">
+                                                        must be of only Alphabet characters only and 1st letter must be capital.
+                                                    </div>
+                                                    <!-- utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required -->
+                                                </div>
+
                                             </td>
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 <input type="text" class="form-control" formControlName="nodal_officer_email">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.invalid &&
+                                                (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.dirty ||
+                                                editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.touched)">
+
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.required">
+                                                        cannot be empty.
+                                                    </div>
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.email === false">
+                                                        is not a valid email id.
+                                                    </div>
+
+                                                </div>
                                             </td>
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                                 <input type="text" class="form-control" formControlName="nodal_officer_phone">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.invalid &&
+                                                (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.dirty ||
+                                                editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.touched)">
+
+                                                    <!-- <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors?.required">
+                                                        cannot be empty.
+                                                    </div> -->
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors">
+                                                        Contact No is not valid
+                                                    </div>
+
+                                                </div>
+
                                             </td>
 
 
 
                                             <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: resData._id, role: 'ULB'}" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails()">View</a>
+                                                <!-- <a [routerLink]="['/', 'user', 'profile', 'view']"
+                                                 [queryParams]="{ id: resData._id, role: 'ULB'}" class="btn btn-t"
+                                                 style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)"
+                                                 (click)="viewDetails()">View</a> -->
+                                                <a class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails(resData._id)">View</a>
                                                 <!-- <button type="button" class="btn btn-t" (click)="editDetails()">
                                                   {{detailsEdit == true?
                                                     'Edit': 'Update'}}</button> -->
                                                 <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="editDetails(tabelIndex)">Edit</button>
                                                 <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="updateDetails(tabelIndex)">Update</button>
-                                                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: resData._id, role: 'ULB', edit: true }" class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
-                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">Edit more</a>
+                                                <!-- <a [routerLink]="['/', 'user', 'profile', 'view']"
+                                                 [queryParams]="{ id: resData._id, role: 'ULB', edit: true }"
+                                                 class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">
+                                                 Edit more</a> -->
+                                                <a class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="editMore(resData._id)">Edit more</a>
                                             </td>
 
                                         </tr>

@@ -90,8 +90,10 @@ export class GrantAllocationComponent implements OnInit {
   onClickNo() {
 
     this.account = 'no';
-
     this.linked = 'no';
+    this.fileName = '';
+    this.gtFileUrl ='';
+   // this.progessType =''
     // if (!this.change)
   }
   fileChangeEvent(event) {
@@ -297,7 +299,6 @@ export class GrantAllocationComponent implements OnInit {
         },
           (error) => {
             this.err = error.message;
-            debugger
             console.log(this.err);
             swal(`Error- ${this.err}`)
           //  resolve(error)

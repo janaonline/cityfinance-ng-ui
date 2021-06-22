@@ -17,7 +17,6 @@ export class CustomizedCellComponent
   noEditable = false;
 
   agInit(params) {
-    // console.log(params);
     if (!params.colDef.editable && params.colDef.field != "index") {
       this.noEditable = true;
     }
@@ -32,12 +31,12 @@ export class CustomizedCellComponent
   }
 
   checkError(params) {
-    if (
-      params.colDef?.cellEditor == "agTextCellEditor" &&
-      params.value.length > 10
-    ) {
+    let field = params.colDef.field;
+    if (params.data[field].lastValidation != true) {
       this.notValid = true;
-      this.noEditable = false
+      this.noEditable = false;
+    } else {
+      this.notValid = false;
     }
   }
 }

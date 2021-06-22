@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class=" row h-cls" style="margin-top: 1.5rem;">
+    <div class="row form-status" style="margin-top: 1.5rem;">
         <div class="col-sm-6">
             Form Current Status: {{status}}
         </div>
@@ -35,7 +35,7 @@
                         <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
                     </div>
                     <table class="table custom-position">
-                        <thead>
+                        <thead style="color: #047474">
                             <tr class="thHeader">
                                 <th style="width: 4%;" scope="col">S.No</th>
                                 <th style="width: 10%;" scope="col">Project Name</th>
@@ -54,8 +54,8 @@
                                 <th style="width: 14%;" scope="col">Project Details</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let waterBodies of uas.waterBodies; let waterBodiesIndex=index">
-                            <tr>
+                        <tbody>
+                            <tr *ngFor="let waterBodies of uas.waterBodies; let waterBodiesIndex=index">
                                 <td class="t-i">
                                     <span>{{1+waterBodiesIndex}}</span>
                                 </td>
@@ -101,7 +101,7 @@
                         <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
                     </div>
                     <table class="table custom-position">
-                        <thead>
+                        <thead style="color: #047474">
                             <tr class="thHeader">
                                 <th style="width: 5%;" scope="col">S.No</th>
                                 <th style="width: 23%;" scope="col">Project Name</th>
@@ -113,8 +113,8 @@
                                 <th style="width: 23%;" scope="col">Proposed capacity</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let waterReuse of uas.reuseWater; let reuseWaterIndex=index">
-                            <tr>
+                        <tbody>
+                            <tr *ngFor="let waterReuse of uas.reuseWater; let reuseWaterIndex=index">
                                 <td>
                                     <span>{{1+reuseWaterIndex}}</span>
                                 </td>

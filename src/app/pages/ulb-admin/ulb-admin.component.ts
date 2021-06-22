@@ -32,12 +32,13 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
       case USER_TYPE.ULB:
         this._router.navigate(["/ulbform/overview"]);
         break;
-      // case USER_TYPE.STATE:
+      case USER_TYPE.STATE:
+          this._router.navigate(["/stateform/dashboard"]);
+        break;
       // case USER_TYPE.PARTNER:
       // case USER_TYPE.MoHUA:
       // case USER_TYPE.ADMIN:
-      //   this._router.navigate(["/user/xvform/list"]);
-      //   break;
+
       // case undefined:
       // case null:
       //   return;
