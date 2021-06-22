@@ -304,10 +304,12 @@
                     </a>
 
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
+                            aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
+                            aria-hidden="false">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -363,7 +365,8 @@
                 </div>
                 <div>
                     <div matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="!validate" (click)="finalSubmit()">Submit</button>
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted"
+                            (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
                     </div>
                 </div>
             </div>
@@ -371,7 +374,8 @@
 
 
         </div>
-        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" style="background-color: #FFFFFF; width: 82%; padding-right: 0;">
+        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9"
+            style="background-color: #FFFFFF; width: 82%; padding-right: 0;">
 
             <div class="container-fluid">
                 <div class="col header1">

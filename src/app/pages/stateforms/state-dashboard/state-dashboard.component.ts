@@ -64,6 +64,7 @@ export class StateDashboardComponent implements OnInit {
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
+    this.pieChart();
     this.getCardData();
     this.getFormData()
     this.getPlansData();
@@ -372,6 +373,47 @@ export class StateDashboardComponent implements OnInit {
 
     });
   }
+  pieChart() {
+    const data = {
+      labels: [
+        'Red',
+        'Blue',
+        'Yellow'
+      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [300, 50, 100],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+      }],
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+
+          position: 'left',
+          align: 'start',
+          labels: {
+            fontSize: 13,
+            fontColor: 'black',
+            usePointStyle: true,
+            padding: 15,
+          }
+        }
+      }
+    };
+
+
+    const canvas = <HTMLCanvasElement>document.getElementById('pie');
+    const ctx = canvas.getContext('2d');
+    let myChart = new Chart(ctx, {
+      type: 'pie',
+      data: data
+    });
+  }
   getCardData() {
     this.stateDashboardService.getCardData().subscribe(
       (res) => {
@@ -414,24 +456,25 @@ export class StateDashboardComponent implements OnInit {
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
-
+    this.pieChart();
   }
   selected() {
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
-      let data = this.formDataApiRes[0]
+      let data = this.formDataApiRes['data'][0]
 
       this.mapValues(data);
       this.updateCharts();
     } else if (this.selectedLevel === "ulbsInMillionPlusUa") {
-      let data = this.formDataApiRes[1]
+      let data = this.formDataApiRes['data'][1]
       this.mapValues(data);
       this.updateCharts();
     } else if (this.selectedLevel === "NonMillionPlusULBs") {
-      let data = this.formDataApiRes[2]
+      let data = this.formDataApiRes['data'][2]
       this.mapValues(data);
       this.updateCharts();
     }
+
 
   }
   selectedUA() {
