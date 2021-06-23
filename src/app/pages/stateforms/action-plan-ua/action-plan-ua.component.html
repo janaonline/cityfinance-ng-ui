@@ -4,21 +4,25 @@
             PREVIEW
         </button>
     </div>
+    <div *ngIf="showLoader" style="margin-left: 33pc;">
+        <mat-spinner></mat-spinner>
+    </div>
     <div *ngFor="let item of data?.uaData;  let projectIndex=index">
         <div class="mat-card">
             <div class="mat-card-title">
-                <h4 style="height: 3pc;margin-left: 1pc;">
-                    <b>UA:{{projectIndex + 1}} {{item.name}}</b>
-                    <button class="btn pull-right btn-primary" style="margin-right: 1pc;"
+                <h5 style="height: 3pc;margin-left: 1pc;">
+                    UA:{{projectIndex + 1}} {{item.name}}
+                    <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}" style="margin-right: 1pc;"
                         (click)="foldCard(projectIndex)">Select</button>
-                </h4>
+                </h5>
             </div>
-            <app-ag-grid *ngIf="item.fold" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList" [rowData]="item">
+            <app-ag-grid *ngIf="item.fold" [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
+                [rowData]="item">
             </app-ag-grid>
         </div>
     </div>
     <div class="footer">
-        <button [routerLink]="[ '../grant-allocation']" class="btn saveBtn pull-right" (click)="submit()" type="button">
+        <button class="btn saveBtn pull-right" (click)="submit()" type="button">
             {{saveBtnText}}
         </button>
         <button class="btn back pull-left">

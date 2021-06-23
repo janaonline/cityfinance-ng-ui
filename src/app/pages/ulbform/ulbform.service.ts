@@ -33,6 +33,6 @@ export class UlbformService {
   }
 
   postMasterForm(data) {
-    this.http.post(`${environment.api.url}masterForm/finalSubmit`, data)
+    return this.http.post(`${environment.api.url}masterForm/finalSubmit`, data)
   }
 }

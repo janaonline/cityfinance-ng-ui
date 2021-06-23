@@ -17,7 +17,6 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   styleUrls: ["./ag-grid.component.scss"],
 })
 export class AgGridComponent implements OnInit, OnChanges {
-  k;
   constructor() {}
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
@@ -26,6 +25,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   rowData;
   @Input()
   ulbList;
+  @Input()
+  catList;
 
   @Output()
   gridData = new EventEmitter();
@@ -38,7 +39,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["index"].value != null ? params.data["index"].value : "",
       headerName: "S No",
-      width: 70,
+      width: 50,
       pinned: true,
       field: "index",
     },
@@ -75,7 +76,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["cost"].value != null ? params.data["cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
-      width: 120,
+      width: 100,
       editable: true,
       pinned: true,
       tooltipField: "cost",
@@ -150,7 +151,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["sector"].value != null ? params.data["sector"].value : "",
       valueSetter: syncValueSetter(dropDown),
       headerName: "Sector",
-      width: 290,
+      width: 200,
       editable: true,
       tooltipField: "sector",
       tooltipComponent: "customTooltip",
@@ -177,7 +178,12 @@ export class AgGridComponent implements OnInit, OnChanges {
       field: "type",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: {
-        values: ["English", "Spanish", "French", "Portuguese", "(other)"],
+        values: [
+          "Augmentation of existing infrastructure",
+          "Any ongoing projects under existing schemes",
+          "New project",
+          "Replacing of existing infrastructure",
+        ],
       },
     },
     {
@@ -704,10 +710,11 @@ export class AgGridComponent implements OnInit, OnChanges {
   ];
 
   ngOnInit(): void {
-
     if (!this.ulbList.includes("Parastatal Agency"))
       this.ulbList.push("Parastatal Agency");
     this.project[5].cellEditorParams.values = this.ulbList;
+    
+    this.project[7].cellEditorParams.values = this.catList;
 
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
@@ -899,8 +906,10 @@ const number = (x, params) => {
 };
 
 const checkYear = (x, param) => {
+  debugger;
   let data = param.data;
   let val = 0;
+  let count = 0;
   for (const key in data) {
     if (years.includes(key)) {
       if (
@@ -908,18 +917,23 @@ const checkYear = (x, param) => {
         data[key].value != "" &&
         param.colDef.field != key
       ) {
+        count++;
         val += data[key].value;
       }
     }
   }
   val += x;
   let cost = param.data.cost?.value;
+  if (count == 4) {
+    return cost == val;
+  }
   return val <= (cost ? cost : 0);
 };
 
 const checkYear2 = (x, param) => {
   let data = param.data;
   let val = 0;
+  let count = 0;
   for (const key in data) {
     if (years.includes(key)) {
       if (
@@ -927,12 +941,16 @@ const checkYear2 = (x, param) => {
         data[key].value != "" &&
         param.colDef.field != key
       ) {
+        count++;
         val += data[key].value;
       }
     }
   }
   val += x;
   let cost = param.data.amount.value;
+  if (count == 4) {
+    return cost == val;
+  }
   return val <= (cost ? cost : 0);
 };
 

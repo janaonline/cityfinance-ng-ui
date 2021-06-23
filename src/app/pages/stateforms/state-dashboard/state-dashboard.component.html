@@ -58,7 +58,7 @@
     <div class="search-bar">
         Population Category:
         <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
-            <option value="allUlbs" selected>All ULBs</option>
+            <option value="allUlbs">All ULBs</option>
             <option value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
             <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
         </select>
@@ -163,68 +163,75 @@
                 </select>
             </div>
         </div>
-        <div class="container-fluid millionPlus"
-            style="display: flex; justify-content: space-between;text-align: center;">
+        <div class="row">
+            <div class="col-sm-6 millionPlus" style="display: block;text-align: center;">
 
-            <div class="col-sm-5 Card1" style="color:#000000C4">
+                <div style="color:#000000C4">
+                    <div class="Card1">
+                        <div class="row" style="height: 70%;">
+                            <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
+                                <span style="color: #12505A; font-size: 41px;">{{plans}}<small>% </small></span>
+                                <span>ULBs in Million Plus UA</span>
 
-                <div class="row" style="height: 70%;">
-                    <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                        <span style="color: #12505A; font-size: 41px;">{{plans}}<small>% </small></span>
-                        <span>ULBs in Million Plus UA</span>
-
-                    </div>
-                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+                            </div>
+                            <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
 
-                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                        <div class="opacity_div" style=" z-index:3;right:31px;margin-right:147px;"
-                            [style.width]="width1">
+                                <div class="opacity_div" style=" z-index:3;right:31px;margin-right:147px;"
+                                    [style.width]="width1">
+                                </div>
+                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                                <div class="opacity_div" style=" z-index:4;right:-18px;margin-right:147px;"
+                                    [style.width]="width2">
+                                </div>
+                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                                <div class="opacity_div" style=" z-index:5;right:-67px;margin-right:147px;"
+                                    [style.width]="width3"></div>
+                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
+                                <div class="opacity_div" style=" z-index:6;right:-116px;margin-right:147px;"
+                                    [style.width]="width4"></div>
+                            </div>
                         </div>
-                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                        <div class="opacity_div" style=" z-index:4;right:-18px;margin-right:147px;"
-                            [style.width]="width2">
+                        <div class="row">
+                            Water Supply and Sanitation Indicators compiled for <b> 20
+                                ULBs</b>
                         </div>
-                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                        <div class="opacity_div" style=" z-index:5;right:-67px;margin-right:147px;"
-                            [style.width]="width3"></div>
-                        <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                        <div class="opacity_div" style=" z-index:6;right:-116px;margin-right:147px;"
-                            [style.width]="width4"></div>
                     </div>
-                </div>
-                <div class="row">
-                    Water Supply and Sanitation Indicators compiled for <b> 20
-                        ULBs</b>
+                    <div class="Card2">
+                        <div class="row" style="height: 70%;">
+                            <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
+                                <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
+                                </span>
+                                <span>ULBs in Million Plus UA</span>
+
+                            </div>
+
+                            <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            Submission of Water Rejuvenation, Water Recycling and
+                            Action Plans
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- <div class="col-sm-2"></div> -->
-            <div class="col-sm-5 Card2" style="color:#000000C4">
-                <div class="row" style="height: 70%;">
-                    <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}} </span>
-                        <span>ULBs in Million Plus UA</span>
-
-                    </div>
-
-                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-
-
-                    </div>
-                </div>
-                <div class="row">
-                    Submission of Water Rejuvenation, Water Recycling and
-                    Action Plans
+            <div class="col-sm-6" style="color:#000000C4">
+                <div class="pieChart">
+                    <canvas id="pie"></canvas>
                 </div>
             </div>
         </div>

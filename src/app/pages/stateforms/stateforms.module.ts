@@ -33,6 +33,8 @@ import { EditComponent } from './edit-ulb-profile/edit/edit.component';
 import { AgGridModule } from 'ag-grid-angular';
 import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
 import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActionplanspreviewComponent } from './action-plan-ua/actionplanspreview/actionplanspreview.component';
 
 @NgModule({
   declarations: [StateformsComponent,
@@ -52,7 +54,8 @@ import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-too
     EditViewComponent,
     EditComponent,
     // DoughnutChartArea
-    AgGridComponent
+    AgGridComponent,
+    ActionplanspreviewComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +70,7 @@ import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-too
     AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent]),
     PaginationModule.forRoot(),
     NgxPaginationModule,
+    MatProgressSpinnerModule
   ]
 })
 export class StateformsModule { }

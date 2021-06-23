@@ -14,7 +14,7 @@ export class StateDashboardService {
         return this.http.get(`${environment.api.url}dashboard/state`);
     }
     getFormData() {
-        return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/masterData');
+        return this.http.get(`${environment.api.url}masterForm/state-dashboard/606aaf854dff55e6c075d219`);
     }
     getPlansData() {
         return this.http.get('https://60b5e300fe923b0017c84d35.mockapi.io/plansData');
