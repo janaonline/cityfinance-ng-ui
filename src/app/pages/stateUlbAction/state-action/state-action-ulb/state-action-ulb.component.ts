@@ -11,23 +11,27 @@ export class StateActionUlbComponent implements OnInit {
   @Output()
    actionValues = new EventEmitter<any>();
   stateAction = '';
-  rejectReason = '';
+  rejectReason = null;
+  actionData;
   ngOnInit(): void {
   }
-  checkStatusAp(){
-    this.rejectReason ='';
-    console.log('stateAction', this.stateAction)
-    this.actionValues.emit(this.stateAction);
-  }
-  checkStatusRe(){
-    console.log('stateAction', this.stateAction)
-    let actionValues = {
+  checkStatus(){
+    this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason
     }
-    this.actionValues.emit(actionValues);
-     console.log('stateActionemit', actionValues)
+    console.log('stateAction', this.stateAction)
+    this.actionValues.emit(this.actionData);
   }
+  // checkStatusRe(){
+  //   console.log('stateAction', this.stateAction)
+  //    this.actionData = {
+  //     status: this.stateAction,
+  //     rejectReason: this.rejectReason
+  //   }
+  //   this.actionValues.emit(this.actionData);
+  //    console.log('stateActionemit', this.actionData)
+  // }
   // isChecked = false;
   // stateFormStatus = ''
   // stateForm(){

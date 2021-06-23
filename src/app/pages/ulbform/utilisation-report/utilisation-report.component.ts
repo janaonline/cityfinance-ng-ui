@@ -47,6 +47,8 @@ export class UtilisationReportComponent implements OnInit {
   submitted = false;
   isSumEqual = false;
   draft = true;
+  ulbFormStaus = 'PENDING'
+  ulbFormRejectR = null;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -99,7 +101,7 @@ export class UtilisationReportComponent implements OnInit {
   isDisabled = false;
   isSubmitted = false;
   isDraft = null;
-
+  ulbId = null;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -117,6 +119,7 @@ export class UtilisationReportComponent implements OnInit {
           this.utilizationReport.controls.projects.disable();
 
       }
+
       this.getResponse();
     });
   }
@@ -203,12 +206,10 @@ export class UtilisationReportComponent implements OnInit {
     }
   }
 
-  ulbId = null;
+
   public getResponse() {
-
     this.ulbId = sessionStorage.getItem('ulb_id');
-
-    console.log('pk', this.ulbId)
+    console.log('pk1222222222222', this.ulbId)
     this.UtiReportService.fetchPosts(this.designYear, this.financialYear, this.ulbId).subscribe(
       (res) => {
         //  this.formDataResponce = res;
@@ -725,7 +726,38 @@ export class UtilisationReportComponent implements OnInit {
   clickedSaveAndNext(template1) {
     this.clickedSave = true
     sessionStorage.setItem("canNavigate", "true")
-    this.saveAndNext(template1)
+    if(this.ulbId == null){
+      this.saveAndNext(template1)
+    }else{
+      this.stateActionSave();
+    }
+
+  }
+  stateActionSave(){
+    let stateData;
+        stateData  = this.utilizationReport.value;
+        stateData.isDraft = true;
+        stateData.financialYear = this.financialYear;
+        stateData.designYear = this.designYear;
+        stateData.grantType = 'Tied';
+        stateData.grantPosition.closingBal = this.totalclosingBal;
+        stateData.ulb = this.ulbId
+        stateData.status = this.ulbFormStaus
+        stateData.rejectReason = this.ulbFormRejectR;
+        this.UtiReportService.stateActionPost(stateData).subscribe(
+          (res) => {
+            swal("Record submitted successfully!");
+            // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+            // status.utilReport.isSubmit = res["isCompleted"];
+            // this._ulbformService.allStatus.next(status);
+          },
+          (error) => {
+            swal("An error occured!");
+            this.errMessage = error.message;
+            console.log(this.errMessage);
+          }
+        );
+
   }
   saveAndNext(template1) {
 
@@ -1087,6 +1119,8 @@ export class UtilisationReportComponent implements OnInit {
 
   checkStatus(ev){
     console.log('actionValues', ev);
+    this.ulbFormStaus = ev.status;
+    this.ulbFormRejectR = ev.rejectReason;
   }
 }
 
