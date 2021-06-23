@@ -12,6 +12,22 @@
     font-weight: 700;
 }
 
+.sub-h {
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.form-h {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.form-status {
+    margin: 0;
+    padding-top: 7px;
+}
+
 .card {
     padding: 5px 10px;
     background-color: #EBF5F5;
@@ -31,5 +47,3 @@
     position: relative;
     z-index: 2;
 }
-
-.d-h {}

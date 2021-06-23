@@ -17,8 +17,7 @@
             <div class="card-body ">
                 <div class="table-responsive">
                     <div>
-                        <h4>Details of Proposed Project to Improve Service Level Indicators related to Water
-                                Supply
+                        <h4>Details of Proposed Project to Improve Service Level Indicators related to Water Supply
                         </h4>
                     </div>
                     <table class="table custom-position">
@@ -27,35 +26,25 @@
                                 <th scope="col">Project Name</th>
                                 <th scope="col">Physical Components</th>
                                 <th scope="col">Indicator</th>
-                                <th scope="col">Existing
-                                    (As-is)</th>
-                                <th scope="col">After
-                                    (To-be)</th>
-                                <th scope="col">Estimated Cost
-                                    (Amount in INR)</th>
+                                <th scope="col">Existing (As-is)
+                                </th>
+                                <th scope="col">After (To-be)
+                                </th>
+                                <th scope="col">Estimated Cost (Amount in INR)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <input [ngClass]="{'error': errors.water.lengthError.text}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.water.lengthError.text ? 'Name less than 50 char' : null"
-                                        type="text" (keyup)="onKey($event,'water.name')"
-                                        placeholder="Enter Project Name" value="{{waterAndSanitation.water.name}}">
+                                    <input [ngClass]="{'error': errors.water.lengthError.text}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.text ? 'Name less than 50 char' : null" type="text" (keyup)="onKey($event,'water.name')" placeholder="Enter Project Name" value="{{waterAndSanitation.water.name}}">
                                 </td>
                                 <td>
-                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.water.lengthError.textarea ? 'Description less than 200 char' : null"
-                                        (keyup)="onKey($event,'water.component')"
-                                        placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
+                                    <textarea type="textarea" [ngClass]="{'error': errors.water.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.textarea ? 'Description less than 200 char' : null" (keyup)="onKey($event,'water.component')" placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
                                 </td>
                                 <td>
                                     <mat-form-field style="margin-top: 1pc;">
                                         <!-- <mat-label>Select</mat-label> -->
-                                        <mat-select [(value)]="waterAndSanitation.water.serviceLevel.indicator"
-                                            (selectionChange)="onKey($event,'water.serviceLevel.indicator')">
+                                        <mat-select [(value)]="waterAndSanitation.water.serviceLevel.indicator" (selectionChange)="onKey($event,'water.serviceLevel.indicator')">
                                             <mat-option *ngFor="let Indicator of waterIndicators" [value]="Indicator">
                                                 {{Indicator}}
                                             </mat-option>
@@ -63,24 +52,15 @@
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <input  oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.water.serviceLvlError.before}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null"
-                                        (keyup)="onKey($event,'water.serviceLevel.existing')"
-                                        placeholder="Enter Existing (As-is)"
-                                        value="{{waterAndSanitation.water.serviceLevel.existing}}">
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.water.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.existing')"
+                                        placeholder="Enter Existing (As-is)" value="{{waterAndSanitation.water.serviceLevel.existing}}">
                                 </td>
                                 <td>
-                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.water.serviceLvlError.after}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null"
-                                        (keyup)="onKey($event,'water.serviceLevel.after')"
-                                        placeholder="Enter After (To-be)"
-                                        value="{{waterAndSanitation.water.serviceLevel.after}}">
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.water.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.after')"
+                                        placeholder="Enter After (To-be)" value="{{waterAndSanitation.water.serviceLevel.after}}">
                                 </td>
                                 <td>
-                                    <input oninput="this.value = Math.abs(this.value)" type="number" (keyup)="onKey($event,'water.cost')" placeholder="Cost in INR"
-                                        value="{{waterAndSanitation.water.cost}}">
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" (keyup)="onKey($event,'water.cost')" placeholder="Cost in INR" value="{{waterAndSanitation.water.cost}}">
                                 </td>
                             </tr>
                         </tbody>
@@ -95,62 +75,43 @@
                                 <th scope="col">Project Name</th>
                                 <th scope="col">Physical Components</th>
                                 <th scope="col">Indicator</th>
-                                <th scope="col">Existing
-                                    (As-is)</th>
-                                <th scope="col">After
-                                    (To-be)</th>
-                                <th scope="col">Estimated Cost
-                                    (Amount in INR)</th>
+                                <th scope="col">Existing (As-is)
+                                </th>
+                                <th scope="col">After (To-be)
+                                </th>
+                                <th scope="col">Estimated Cost (Amount in INR)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.sanitation.lengthError.text ? 'Name less than 50 char' : null"
-                                        (keyup)="onKey($event,'sanitation.name')" placeholder="Enter Project Name"
+                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.text ? 'Name less than 50 char' : null" (keyup)="onKey($event,'sanitation.name')" placeholder="Enter Project Name"
                                         value="{{waterAndSanitation.sanitation.name}}">
                                 </td>
                                 <td>
-                                    <textarea type="textarea"
-                                        [ngClass]="{'error': errors.sanitation.lengthError.textarea}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.sanitation.lengthError.textarea ? 'Description less than 200 char' : null"
-                                        (keyup)="onKey($event,'sanitation.component')"
+                                    <textarea type="textarea" [ngClass]="{'error': errors.sanitation.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.textarea ? 'Description less than 200 char' : null" (keyup)="onKey($event,'sanitation.component')"
                                         placeholder="Enter Physical Components">{{waterAndSanitation.sanitation.component}}</textarea>
                                 </td>
                                 <td>
                                     <mat-form-field style="margin-top: 1pc;">
                                         <!-- <mat-label>Select</mat-label> -->
-                                        <mat-select [(value)]="waterAndSanitation.sanitation.serviceLevel.indicator"
-                                            (selectionChange)="onKey($event,'sanitation.serviceLevel.indicator')">
-                                            <mat-option *ngFor="let Indicator of sanitationIndicators"
-                                                [value]="Indicator">
+                                        <mat-select [(value)]="waterAndSanitation.sanitation.serviceLevel.indicator" (selectionChange)="onKey($event,'sanitation.serviceLevel.indicator')">
+                                            <mat-option *ngFor="let Indicator of sanitationIndicators" [value]="Indicator">
                                                 {{Indicator}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null"
-                                        (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
-                                        placeholder="Enter Existing (As-is)"
-                                        value="{{waterAndSanitation.sanitation.serviceLevel.existing}}">
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.existing')"
+                                        placeholder="Enter Existing (As-is)" value="{{waterAndSanitation.sanitation.serviceLevel.existing}}">
                                 </td>
                                 <td>
-                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}"
-                                        matTooltipPosition="above"
-                                        [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null"
-                                        (keyup)="onKey($event,'sanitation.serviceLevel.after')"
-                                        placeholder="Enter After (To-be)"
-                                        value="{{waterAndSanitation.sanitation.serviceLevel.after}}">
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null" (keyup)="onKey($event,'sanitation.serviceLevel.after')"
+                                        placeholder="Enter After (To-be)" value="{{waterAndSanitation.sanitation.serviceLevel.after}}">
                                 </td>
                                 <td>
-                                    <input oninput="this.value = Math.abs(this.value)" type="number" (keyup)="onKey($event,'sanitation.cost')"
-                                        placeholder="Cost in INR" value="{{waterAndSanitation.sanitation.cost}}">
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" (keyup)="onKey($event,'sanitation.cost')" placeholder="Cost in INR" value="{{waterAndSanitation.sanitation.cost}}">
                                 </td>
                             </tr>
                         </tbody>
@@ -158,7 +119,13 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-top: 20px; margin-left: 10px;">
+        <!--  -->
+        <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="loggedInUserType === USER_TYPE.STATE">
+            <div class="card-body">
+                <app-state-action-ulb (actionValues)="checkStatus($event)"> </app-state-action-ulb>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px; margin-left: 10px; margin-bottom: 1rem;">
             <div class="col-sm-6" style="padding: 0ch;">
                 <button type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</button>
             </div>
@@ -185,8 +152,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -208,8 +174,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
         </div>
 
     </div>

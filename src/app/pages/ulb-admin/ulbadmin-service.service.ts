@@ -73,4 +73,25 @@ export class UlbadminServiceService {
       params: queryParams,
     });
 }
+fetchEditDataList(params = {}, body = {}) {
+  let queryParams = new HttpParams();
+  for (const key in params) {
+    queryParams = queryParams.set(
+      key,
+      typeof params[key] === "string" ? params[key].trim() : params[key]
+    );
+  }
+  for (const key in body) {
+    queryParams = queryParams.set(
+      key,
+      JSON.stringify(
+        typeof body[key] === "string" ? body[key].trim() : body[key]
+      )
+    );
+  }
+
+  return this.http.get(`${environment.api.url}user/all?role=ULB`, {
+    params: queryParams,
+  });
+}
 }

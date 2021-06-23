@@ -9,16 +9,20 @@
                     </mat-icon>
                 </a>
 
-                <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
+                <!-- <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
                     <span *ngIf="!parentData">Submissions for 15th FC Grants for FY 2021-22</span>
                     <br *ngIf="!parentData"> Utilization Report(2020-21),{{data.ulbName}},{{data.state_name}}
+                </div> -->
+                <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
+                    <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
+                    <br *ngIf="!parentData"><b class="sub-h">{{data.ulbName}},{{data.state_name}}</b>
                 </div>
 
             </div>
         </div>
 
         <div class="d-flex justify-content-between mt-2 d-status" style="padding-left: 3.7%">
-            <p class="form-status-ut">
+            <p class="form-status-ut" style="margin: 0;">
                 <b *ngIf="!parentData">Application Current Status:</b> {{totalStatus}}
                 <br *ngIf="!parentData">
                 <b>Form Current Status:</b> {{formStatusCheck}}
@@ -32,7 +36,11 @@
         <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
         <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
     </div> -->
-
+        <div class="row">
+            <div class="col-sm-12 text-center form-h">
+                Utilization Report(2020-21)
+            </div>
+        </div>
         <mat-card class="mat-card2">
             <div class="card2Div">
                 <label for="" class="card2 qus-ut-s pp">1. State Name</label>

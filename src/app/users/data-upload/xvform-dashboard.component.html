@@ -1,65 +1,54 @@
 <ng-container *ngIf="id; else noId">
-  <div class="row" style="margin-left: 2%;">
-    <div class="col mt-3"></div>
-    <ng-container *ngIf="id === 'upload-form'">
-      <app-financial-uploads [financialData]="uploadObject">
-        <button
-          *ngIf="uploadObject && loggedInUserData?.role !== userTypes.ULB"
-          (click)="location.back()"
-          class="btn btn-primary btn-upload"
-          style="transform: unset;"
-        >
+    <div class="row" style="margin-left: 2%;">
+        <div class="col mt-3"></div>
+        <ng-container *ngIf="id === 'upload-form'">
+            <app-financial-uploads [financialData]="uploadObject">
+                <button *ngIf="uploadObject && loggedInUserData?.role !== userTypes.ULB" (click)="location.back()" class="btn btn-primary btn-upload" style="transform: unset;">
           Back
         </button>
-        <button
-          *ngIf="uploadObject && loggedInUserData?.role == userTypes.ULB"
-          routerLink="/fc_grant"
-          class="btn btn-primary btn-upload"
-          style="transform: unset;"
-        >
+                <button *ngIf="uploadObject && loggedInUserData?.role == userTypes.ULB" routerLink="/fc_grant" class="btn btn-primary btn-upload" style="transform: unset;">
           Back
         </button>
-      </app-financial-uploads>
-    </ng-container>
-  </div>
+            </app-financial-uploads>
+        </ng-container>
+    </div>
 </ng-container>
 
 <ng-template class="" #noId>
-  <div class="common-container">
-    <div class="container">
-      <div class="row">
-        <div
-          class="col-sm-12"
-          *ngIf="
+    <div class="common-container" style="padding: 5px 0 40px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12" *ngIf="
             !(
               userUtil.getUserType() == 'ULB' ||
               userUtil.getUserType() == 'STATE'
             )
-          "
-        >
-          <!-- <app-financial-data-chart
+          ">
+                    <!-- <app-financial-data-chart
             [financialYears]="financialYearDropdown"
           ></app-financial-data-chart> -->
-        </div>
-      </div>
+                </div>
+            </div>
+            <!-- Cards -->
 
-      <!-- Cards -->
-      <div class="card-container">
-        <div class="card blue">
-          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Total Number of ULBs</p>
-          <span
-            class="card-main-value"
-            [ngClass]="{ 'loading-value': !cardData }"
-          >
+            <button routerLink="/fc-home-page" class="btn btn-t" style="margin: 0; padding-left: 4px;
+            padding-top: 4px;">
+              <mat-icon aria-hidden="false" style="font-size: 18px;">
+                <img src="../../../assets/homeIcon/home_white_18dp (1).svg">
+            </mat-icon>Back
+            </button>
+
+            <div class="card-container" style="margin-top: 5px;">
+                <div class="card blue">
+                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                    <p class="heading">Total Number of ULBs</p>
+                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
             {{ cardData?.totalULB?.sum || "0" }}
           </span>
-          <hr />
+                    <hr />
 
-          <div
-            class="categories d-flex justify-content-between align-items-center"
-          >
-            <span class="category">
+                    <div class="categories d-flex justify-content-between align-items-center">
+                        <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span
               ><br />
               <span
@@ -68,18 +57,15 @@
               >
                 {{ (cardData?.totalULB)["Municipal Corporation"] || 0 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading">Municipalities</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{ (cardData?.totalULB)["Municipality"] || 0 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Panchayats</span
@@ -91,47 +77,36 @@
               >
                 {{ (cardData?.totalULB)["Town Panchayat"] || 0 }}
               </span>
-            </span>
-          </div>
+                        </span>
+                    </div>
 
-          <div class="view-list" (click)="onclickTotalNoOfULB()">View List</div>
-        </div>
+                    <div class="view-list" (click)="onclickTotalNoOfULB()">View List</div>
+                </div>
 
-        <div class="card pink">
-          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">No of ULBs (Submitted)</p>
-          <span
-            class="card-main-value"
-            [ngClass]="{ 'loading-value': !cardData }"
-          >
+                <div class="card pink">
+                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                    <p class="heading">No of ULBs (Submitted)</p>
+                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
             {{ cardData?.registeredUlb?.sum || 0 }}
           </span>
-          <hr />
+                    <hr />
 
-          <div
-            class="categories d-flex justify-content-between align-items-center"
-          >
-            <span class="category">
+                    <div class="categories d-flex justify-content-between align-items-center">
+                        <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{ (cardData?.registeredUlb)["Municipal Corporation"] || 0 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading">Municipalities</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{ (cardData?.registeredUlb)["Municipality"] || 0 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Panchayats</span
@@ -143,52 +118,41 @@
               >
                 {{ (cardData?.registeredUlb)["Town Panchayat"] || 0 }}
               </span>
-            </span>
-          </div>
+                        </span>
+                    </div>
 
-          <div class="view-list" (click)="onClickCharTakeAction('')">
-            View List
-          </div>
-        </div>
+                    <div class="view-list" (click)="onClickCharTakeAction('')">
+                        View List
+                    </div>
+                </div>
 
-        <div class="card green">
-          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Million Plus Cities (Submitted)</p>
-          <span
-            class="card-main-value"
-            [ngClass]="{ 'loading-value': !cardData }"
-          >
+                <div class="card green">
+                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                    <p class="heading">Million Plus Cities (Submitted)</p>
+                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
             {{ cardData?.registeredMillionPlus?.sum || 0 }}
           </span>
-          <hr />
+                    <hr />
 
-          <div
-            class="categories d-flex justify-content-between align-items-center"
-          >
-            <span class="category">
+                    <div class="categories d-flex justify-content-between align-items-center">
+                        <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{
                   (cardData?.registeredMillionPlus)["Municipal Corporation"] ||
                     0
                 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading">Municipalities</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{ (cardData?.registeredMillionPlus)["Municipality"] || 0 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Panchayats</span
@@ -200,53 +164,42 @@
               >
                 {{ (cardData?.registeredMillionPlus)["Town Panchayat"] || 0 }}
               </span>
-            </span>
-          </div>
+                        </span>
+                    </div>
 
-          <div class="view-list" (click)="onClickCharTakeAction('', 'Yes')">
-            View List
-          </div>
-        </div>
+                    <div class="view-list" (click)="onClickCharTakeAction('', 'Yes')">
+                        View List
+                    </div>
+                </div>
 
-        <div class="card yellow">
-          <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-          <p class="heading">Non-Million Cities (Submitted)</p>
-          <span
-            class="card-main-value"
-            [ngClass]="{ 'loading-value': !cardData }"
-          >
+                <div class="card yellow">
+                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                    <p class="heading">Non-Million Cities (Submitted)</p>
+                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
             {{ (cardData?.registeredNonMillionPlus)["sum"] || 0 }}
           </span>
-          <hr />
+                    <hr />
 
-          <div
-            class="categories d-flex justify-content-between align-items-center"
-          >
-            <span class="category">
+                    <div class="categories d-flex justify-content-between align-items-center">
+                        <span class="category">
               <span class="category-heading">Municipal<br />Corporations</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{
                   (cardData?.registeredNonMillionPlus)[
                     "Municipal Corporation"
                   ] || 0
                 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading">Municipalities</span>
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
                 {{ (cardData?.registeredNonMillionPlus)["Municipality"] || 0 }}
               </span>
-            </span>
-            <span class="category">
+                        </span>
+                        <span class="category">
               <span class="category-heading"
                 >Town <br />
                 Panchayats</span
@@ -260,30 +213,25 @@
                   (cardData?.registeredNonMillionPlus)["Town Panchayat"] || 0
                 }}
               </span>
-            </span>
-          </div>
+                        </span>
+                    </div>
 
-          <div class="view-list" (click)="onClickCharTakeAction('', 'No')">
-            View List
-          </div>
-        </div>
+                    <div class="view-list" (click)="onClickCharTakeAction('', 'No')">
+                        View List
+                    </div>
+                </div>
 
-        <div class="nested-card-container d-flex">
-          <div class="card brown">
-            <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Million Plus Cities (Total)</p>
-            <span
-              class="card-main-value"
-              [ngClass]="{ 'loading-value': !cardData }"
-            >
+                <div class="nested-card-container d-flex">
+                    <div class="card brown">
+                        <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                        <p class="heading">Million Plus Cities (Total)</p>
+                        <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
               {{ (cardData?.totalMillionPlus)["sum"] || 0 }}
             </span>
-            <hr />
+                        <hr />
 
-            <div
-              class="categories d-flex justify-content-between align-items-center"
-            >
-              <span class="category">
+                        <div class="categories d-flex justify-content-between align-items-center">
+                            <span class="category">
                 <span class="category-heading"
                   >Municipal<br />Corporations</span
                 >
@@ -296,15 +244,12 @@
                   }}</span
                 >
               </span>
-              <span class="category">
+                            <span class="category">
                 <span class="category-heading">Municipalities</span> <br />
-                <span
-                  class="category-heading category-value"
-                  [ngClass]="{ 'loading-value': !cardData }"
-                  >{{ (cardData?.totalMillionPlus)["Municipality"] || 0 }}</span
+                            <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalMillionPlus)["Municipality"] || 0 }}</span
                 >
               </span>
-              <span class="category">
+                            <span class="category">
                 <span class="category-heading"
                   >Town <br />
                   Panchayats</span
@@ -318,28 +263,22 @@
                   }}</span
                 >
               </span>
-            </div>
+                        </div>
 
-            <div
-              class="view-list"
-              (click)="
+                        <div class="view-list" (click)="
                 onClickingOtherCards({
                   isMillionPlus: 'Milion Plus',
                   registration: ''
                 })
-              "
-            >
-              View List
-            </div>
-          </div>
+              ">
+                            View List
+                        </div>
+                    </div>
 
-          <div class="card dark-green" style="margin-bottom: 0px;">
-            <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-            <p class="heading">Non-Million Cities (Total)</p>
-            <span
-              class="card-main-value"
-              [ngClass]="{ 'loading-value': !cardData }"
-              >{{ (cardData?.totalNonMillionPlus)["sum"] || 0 }}</span
+                    <div class="card dark-green" style="margin-bottom: 0px;">
+                        <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                        <p class="heading">Non-Million Cities (Total)</p>
+                        <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalNonMillionPlus)["sum"] || 0 }}</span
             >
             <hr />
 
@@ -360,18 +299,15 @@
                   }}</span
                 >
               </span>
-              <span class="category">
+                        <span class="category">
                 <span class="category-heading">Municipalities</span>
-                <br />
-                <span
-                  class="category-heading category-value"
-                  [ngClass]="{ 'loading-value': !cardData }"
-                  >{{
+                        <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">{{
                     (cardData?.totalNonMillionPlus)["Municipality"] || 0
                   }}</span
                 >
               </span>
-              <span class="category">
+                        <span class="category">
                 <span class="category-heading"
                   >Town <br />
                   Panchayat</span
@@ -385,32 +321,25 @@
                   }}</span
                 >
               </span>
-            </div>
+                    </div>
 
-            <div
-              class="view-list"
-              (click)="
+                    <div class="view-list" (click)="
                 onClickingOtherCards({
                   isMillionPlus: 'Non Million',
                   registration: ''
                 })
-              "
-            >
-              View List
+              ">
+                        View List
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <div class="chart-container">
-          <p
-            class="heading mb-2"
-            style="font-size: 1.6rem; display: inline-block;"
-          >
-            15<sup>th</sup> FC Form Status
-          </p>
-          <div style="float: right; display: inline-flex; align-items: center;">
-            <b style="display: inline-block;" class="mr-1"
-              >Filter by Population Type:</b
+            <div class="chart-container">
+                <p class="heading mb-2" style="font-size: 1.6rem; display: inline-block;">
+                    15<sup>th</sup> FC Form Status
+                </p>
+                <div style="float: right; display: inline-flex; align-items: center;">
+                    <b style="display: inline-block;" class="mr-1">Filter by Population Type:</b
             >
             <div class="input-group" style="display: inline-block;">
               <select
@@ -1296,9 +1225,8 @@
             "
           >
             <span class="stateName"
-              ><b> {{ i + 1 }}. {{ state.name }}: </b></span
-            >
-            <span>
+              ><b> {{ i + 1 }}. {{ state.name }}: </b></span>
+                    <span>
               <span *ngIf="state.ulbs">
                 <angular2-multiselect
                   [formControl]="state.ULBFormControl"
@@ -1310,26 +1238,20 @@
                 >
                 </angular2-multiselect>
               </span>
-              <span
-                *ngIf="!state.ulbs"
-                style="
+                    <span *ngIf="!state.ulbs" style="
                   display: inline-block;
                   width: 50%;
                   height: 7vh;
                   overflow: hidden;
-                "
-              >
+                ">
                 <app-pre-loader></app-pre-loader>
               </span>
-            </span>
-          </p>
-        </div>
+                    </span>
+                    </p>
+                </div>
 
-        <div
-          style="color: red; padding: 2%;"
-          *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length"
-        >
-          <span>
+                <div style="color: red; padding: 2%;" *ngIf="errorsInMultiSelectULBApprovalDueToAlreadyApproval?.length">
+                    <span>
             <!-- <b
               >Approval for following ULB's
               {{
@@ -1416,17 +1338,15 @@
         </div>
       </div>
       <p class="note">
-        <span style="font-size: 1.3em;">NOTE:</span> <br />1. Only those ULBs
-        will be shown whose FC Grant Form is under review by MoHUA <br />
-      </p>
-    </mat-tab>
+        <span style="font-size: 1.3em;">NOTE:</span> <br />1. Only those ULBs will be shown whose FC Grant Form is under review by MoHUA <br />
+                    </p>
+                    </mat-tab>
 
-    <mat-tab [label]="'Reject ULBs'" [disabled]="!!totalUlbApprovalInProgress">
-      <div class="approve">
-        <div id="multiApprovalModal">
-          <p class="states-selection" style="margin-bottom: 2%;">
-            <span class="stateName"
-              ><strong>Select Form Status Type:</strong></span
+                    <mat-tab [label]="'Reject ULBs'" [disabled]="!!totalUlbApprovalInProgress">
+                        <div class="approve">
+                            <div id="multiApprovalModal">
+                                <p class="states-selection" style="margin-bottom: 2%;">
+                                    <span class="stateName"><strong>Select Form Status Type:</strong></span
             >
             <angular2-multiselect
               [formControl]="formStatusForRejectControl"
@@ -1438,37 +1358,23 @@
           </p>
           <p class="states-selection">
             <span class="stateName"><strong>Select States:</strong></span>
-            <angular2-multiselect
-              *ngIf="statesForULBUnderMoHUARejection"
-              [formControl]="multiStatesForRejectControl"
-              style="display: inline-block; width: 70%;"
-              [data]="statesForULBUnderMoHUARejection"
-              [settings]="multiSelectStates"
-              (onClose)="onSelectingMultipleStateForRejection($event)"
-            >
-            </angular2-multiselect>
-            <span
-              *ngIf="!statesForULBUnderMoHUAApproval"
-              style="
+                                    <angular2-multiselect *ngIf="statesForULBUnderMoHUARejection" [formControl]="multiStatesForRejectControl" style="display: inline-block; width: 70%;" [data]="statesForULBUnderMoHUARejection" [settings]="multiSelectStates" (onClose)="onSelectingMultipleStateForRejection($event)">
+                                    </angular2-multiselect>
+                                    <span *ngIf="!statesForULBUnderMoHUAApproval" style="
                 display: inline-block;
                 width: 50%;
                 height: 15vh;
                 overflow: hidden;
-              "
-            >
+              ">
               <app-pre-loader></app-pre-loader>
             </span>
-          </p>
-          <hr />
-          <p
-            class="states"
-            *ngFor="
+                                </p>
+                                <hr />
+                                <p class="states" *ngFor="
               let state of multiStatesForRejectControl?.value;
               let i = index
-            "
-          >
-            <span class="stateName"
-              ><b> {{ i + 1 }}. {{ state.name }}: </b></span
+            ">
+                                    <span class="stateName"><b> {{ i + 1 }}. {{ state.name }}: </b></span
             >
             <span>
               <span *ngIf="state.ulbs">
@@ -1482,27 +1388,23 @@
                 >
                 </angular2-multiselect>
               </span>
-              <span
-                *ngIf="!state.ulbs"
-                style="
+                                    <span *ngIf="!state.ulbs" style="
                   display: inline-block;
                   width: 50%;
                   height: 7vh;
                   overflow: hidden;
-                "
-              >
+                ">
                 <app-pre-loader></app-pre-loader>
               </span>
-            </span>
-          </p>
+                                    </span>
+                                </p>
 
-          <p class="states" style="display: flex;">
-            <span class="stateName"
-              ><strong>
+                                <p class="states" style="display: flex;">
+                                    <span class="stateName"><strong>
                 Reason For Rejection <span style="color: red;">*</span> :
-              </strong></span
-            >
-            <span style="width: 70%;">
+                                    </strong>
+                                    </span>
+                                    <span style="width: 70%;">
               <span>
                 <textarea
                   [formControl]="reasonForMultiSelectRejection"
@@ -1512,15 +1414,12 @@
                 >
                 </textarea>
               </span>
-            </span>
-          </p>
-        </div>
+                                    </span>
+                                </p>
+                            </div>
 
-        <div
-          style="color: red; padding: 2%;"
-          *ngIf="errorsInMultiSelectULBRejectDueToAlreadyApproval?.length"
-        >
-          <span>
+                            <div style="color: red; padding: 2%;" *ngIf="errorsInMultiSelectULBRejectDueToAlreadyApproval?.length">
+                                <span>
             <!-- <b
               >Rejection for following ULB's
               {{
@@ -1608,10 +1507,8 @@
         </div>
       </div>
       <p class="note">
-        <span style="font-size: 1.3em;">NOTE:</span> <br />1. Only those ULBs
-        will be shown whose FC Grant Form is under review by MoHUA <br />2. All
-        selected ULBs will be have same rejection reason.
-      </p>
-    </mat-tab>
-  </mat-tab-group>
+        <span style="font-size: 1.3em;">NOTE:</span> <br />1. Only those ULBs will be shown whose FC Grant Form is under review by MoHUA <br />2. All selected ULBs will be have same rejection reason.
+                                </p>
+                    </mat-tab>
+                    </mat-tab-group>
 </ng-template>

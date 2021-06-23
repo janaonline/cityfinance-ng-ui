@@ -1,13 +1,16 @@
 <div class="container-fluid" #annualPreview id="annualPreview">
     <div class="row">
         <div class="col-sm-12 header-p">
-            <a *ngIf="!fromParent" mat-dialog-close
-                style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!fromParent" (click)="closeMat()" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
             </a>
-            <div class="col-sm-12 heading-p">Annual Accounts: 2021-22</div>
+            <!-- <div class="col-sm-12 heading-p">Annual Accounts: 2021-22</div> -->
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!fromParent  ? '' : '1.5rem'}">
+                <span *ngIf="!fromParent"> Submissions for 15th FC Grants for FY 2021-22</span>
+                <br *ngIf="!fromParent"><b class="sub-h">{{ulbName}},{{stateName}}</b>
+            </div>
         </div>
     </div>
     <!-- <div class="row hi" style="margin-top: 1.5rem;">
@@ -24,17 +27,20 @@
             <br *ngIf="!fromParent">
             <b>Form Current Status:</b> {{formStatusCheck}}
         </p>
-        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%; height: 2pc;"
-            class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
+        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%; height: 2pc;" class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
             Download as PDF
         </button>
     </div>
 
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 0; margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-12 text-center form-h">
+                    Annual Accounts
+                </div>
+            </div>
             <div class="row m-an" style="margin: 0;">
-                <div class="col-sm-12 h-annual"
-                    style="background-color: #124A55; margin: 0; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-12 h-annual" style="background-color: #124A55; margin: 0; color: #FFFFFF; padding: 4px;">
                     Provisional Accounts for 2020-21
                 </div>
             </div>
@@ -48,8 +54,7 @@
                         <div class="col-sm-4 col-md-4 col-lg-4  h-font f-r m-clss">
                             <div *ngIf="year2021.submit_annual_accounts.answer == 'yes'"> Yes</div>
                             <div *ngIf="year2021.submit_annual_accounts.answer == 'no'"> No</div>
-                            <div class="text-danger"
-                                *ngIf="year2021.submit_annual_accounts.answer == null || year2021.submit_annual_accounts.answer == undefined">
+                            <div class="text-danger" *ngIf="year2021.submit_annual_accounts.answer == null || year2021.submit_annual_accounts.answer == undefined">
                                 N/A</div>
                         </div>
                     </div>
@@ -57,8 +62,7 @@
                         <div class="col-sm-8 qus-h-an">
                             1.Balance Sheet
                         </div>
-                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.bal_sheet.pdfUrl"
-                            class="col-sm-4 ans-h-an">
+                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2021.provisional_data.bal_sheet.pdfUrl}}">
@@ -70,8 +74,7 @@
                                     {{year2021.provisional_data.bal_sheet.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -79,8 +82,7 @@
                         <div class="col-sm-8 qus-h-an">
                             2.Balance Sheet Schedule
                         </div>
-                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.bal_sheet_schedules.pdfUrl"
-                            class="col-sm-4 ans-h-an ">
+                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 ans-h-an ">
                             <div class="row ans-h-an">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2021.provisional_data.bal_sheet_schedules.pdfUrl}}">
@@ -92,8 +94,7 @@
                                     {{year2021.provisional_data.bal_sheet_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet_schedules.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -101,22 +102,19 @@
                         <div class="col-sm-8 qus-h-an">
                             3.Income Expenditure
                         </div>
-                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.inc_exp.pdfUrl"
-                            class="col-sm-4 ans-h-an">
+                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2021.provisional_data.inc_exp.pdfUrl}}">
                                     {{year2021.provisional_data.inc_exp.pdfName}}</a>
                             </div>
-                            <div class="row ans-h-an"
-                                *ngIf="year2021.provisional_data.inc_exp.excelName && year2021.provisional_data.inc_exp.pdfUrl">
+                            <div class="row ans-h-an" *ngIf="year2021.provisional_data.inc_exp.excelName && year2021.provisional_data.inc_exp.pdfUrl">
                                 Excel -
                                 <a href="{{year2021.provisional_data.inc_exp.excelUrl}}">
                                     {{year2021.provisional_data.inc_exp.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -124,8 +122,7 @@
                         <div class="col-sm-8 qus-h-an">
                             4.Income Expenditure Schedule
                         </div>
-                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.inc_exp_schedules.pdfUrl"
-                            class="col-sm-4 ans-h-an">
+                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2021.provisional_data.inc_exp_schedules.pdfUrl}}">
@@ -137,8 +134,7 @@
                                     {{year2021.provisional_data.inc_exp_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp_schedules.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -146,8 +142,7 @@
                         <div class="col-sm-8 qus-h-an">
                             5.Cash flow Statement
                         </div>
-                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.cash_flow.pdfUrl"
-                            class="col-sm-4 ans-h-an">
+                        <div *ngIf="year2021.provisional_data && year2021.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2021.provisional_data.cash_flow.pdfUrl}}">
@@ -159,8 +154,7 @@
                                     {{year2021.provisional_data.cash_flow.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.cash_flow.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2021.provisional_data || !year2021.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -175,8 +169,7 @@
                         <div class="col-sm-4 col-md-4 col-lg-4  h-font f-r">
                             <div *ngIf="year2021.submit_standardized_data.answer == 'yes'"> Yes</div>
                             <div *ngIf="year2021.submit_standardized_data.answer == 'no'"> No</div>
-                            <div class="text-danger"
-                                *ngIf="year2021.submit_standardized_data.answer == null || year2021.submit_standardized_data.answer == undefined">
+                            <div class="text-danger" *ngIf="year2021.submit_standardized_data.answer == null || year2021.submit_standardized_data.answer == undefined">
                                 N/A</div>
                         </div>
                     </div>
@@ -186,8 +179,7 @@
                         </div>
                         <div *ngIf="year2021.standardized_data?.upload.excelUrl" class="col-sm-4 ans-h-an ">
                             Excel -
-                            <a
-                                href="{{year2021.standardized_data?.upload.excelUrl}}">{{year2021.standardized_data?.upload.excelName}}</a>
+                            <a href="{{year2021.standardized_data?.upload.excelUrl}}">{{year2021.standardized_data?.upload.excelName}}</a>
                         </div>
                         <div *ngIf="!year2021.standardized_data?.upload.excelUrl" class="col-sm-4 ans-h-na">
                             N/A
@@ -195,19 +187,15 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-8 qus-h-an">
-                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the
-                            standardised financial statements uploaded above. I hereby confirm that I have verified the
-                            information uploaded in standardized template and it is true and correct. It
-                            is confirmed that this information can be made available for public consumption on the
-                            CityFinance portal.
+                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
+                            is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-4">
                             <span class="ans-h-an" *ngIf="year2021.standardized_data?.declaration == true">Agreed</span>
 
                             <span class="ans-h-an" *ngIf="year2021.standardized_data?.declaration == false">Not
                                 Agreed</span>
-                            <span class="ans-h-na"
-                                *ngIf="year2021.standardized_data?.declaration == null || year2021.standardized_data?.declaration == undefined">N/A</span>
+                            <span class="ans-h-na" *ngIf="year2021.standardized_data?.declaration == null || year2021.standardized_data?.declaration == undefined">N/A</span>
                         </div>
                     </div>
                 </div>
@@ -218,8 +206,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
             <div class="row m-an" style="margin: 0;">
-                <div class="col-sm-12 h-annual"
-                    style="margin: 0; background-color: #124A55; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-12 h-annual" style="margin: 0; background-color: #124A55; color: #FFFFFF; padding: 4px;">
                     Audited Accounts for 2019-20
                 </div>
             </div>
@@ -232,8 +219,7 @@
                         <div class="col-sm-4 col-md-4 col-lg-4 h-font f-r m-clss">
                             <div *ngIf="year2019.submit_annual_accounts.answer == 'yes'"> Yes</div>
                             <div *ngIf="year2019.submit_annual_accounts.answer == 'no'"> No</div>
-                            <div class="text-danger"
-                                *ngIf="year2019.submit_annual_accounts.answer == null || year2019.submit_annual_accounts.answer == undefined">
+                            <div class="text-danger" *ngIf="year2019.submit_annual_accounts.answer == null || year2019.submit_annual_accounts.answer == undefined">
                                 N/A</div>
                         </div>
                     </div>
@@ -241,8 +227,7 @@
                         <div class="col-sm-8 qus-h-an">
                             1.Balance Sheet
                         </div>
-                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.bal_sheet.pdfUrl"
-                            class="col-sm-4">
+                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.bal_sheet.pdfUrl" class="col-sm-4">
                             <div class="row ans-h-an-b">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2019.provisional_data.bal_sheet.pdfUrl}}">
@@ -254,8 +239,7 @@
                                     {{year2019.provisional_data.bal_sheet.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -263,8 +247,7 @@
                         <div class="col-sm-8 qus-h-an">
                             2.Balance Sheet Schedule
                         </div>
-                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.bal_sheet_schedules.pdfUrl"
-                            class="col-sm-4">
+                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4">
                             <div class="row ans-h-an-b">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2019.provisional_data.bal_sheet_schedules.pdfUrl}}">
@@ -276,8 +259,7 @@
                                     {{year2019.provisional_data.bal_sheet_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet_schedules.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.bal_sheet_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -285,22 +267,19 @@
                         <div class="col-sm-8 qus-h-an">
                             3.Income Expenditure
                         </div>
-                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.inc_exp.pdfUrl"
-                            class="col-sm-4">
+                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.inc_exp.pdfUrl" class="col-sm-4">
                             <div class="row ans-h-an-b">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2019.provisional_data.inc_exp.pdfUrl}}">
                                     {{year2019.provisional_data.inc_exp.pdfName}}</a>
                             </div>
-                            <div class="row ans-h-an-b"
-                                *ngIf="year2019.provisional_data.inc_exp.excelName && year2019.provisional_data.inc_exp.pdfUrl">
+                            <div class="row ans-h-an-b" *ngIf="year2019.provisional_data.inc_exp.excelName && year2019.provisional_data.inc_exp.pdfUrl">
                                 Excel -
                                 <a href="{{year2019.provisional_data.inc_exp.excelUrl}}">
                                     {{year2019.provisional_data.inc_exp.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -308,8 +287,7 @@
                         <div class="col-sm-8 qus-h-an">
                             4.Income Expenditure Schedule
                         </div>
-                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.inc_exp_schedules.pdfUrl"
-                            class="col-sm-4">
+                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4">
                             <div class="row ans-h-an-b">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2019.provisional_data.inc_exp_schedules.pdfUrl}}">
@@ -321,8 +299,7 @@
                                     {{year2019.provisional_data.inc_exp_schedules.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp_schedules.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.inc_exp_schedules.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -330,8 +307,7 @@
                         <div class="col-sm-8 qus-h-an">
                             5.Cash flow Statement
                         </div>
-                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.cash_flow.pdfUrl"
-                            class="col-sm-4">
+                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.cash_flow.pdfUrl" class="col-sm-4">
                             <div class="row ans-h-an-b">
                                 Pdf - &nbsp;&nbsp;
                                 <a target="_blank" href="{{year2019.provisional_data.cash_flow.pdfUrl}}">
@@ -343,8 +319,7 @@
                                     {{year2019.provisional_data.cash_flow.excelName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.cash_flow.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.cash_flow.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -352,15 +327,13 @@
                         <div class="col-sm-8 qus-h-an">
                             6.Auditor Report
                         </div>
-                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.auditor_report.pdfUrl"
-                            class="col-sm-4">
+                        <div *ngIf="year2019.provisional_data && year2019.provisional_data.auditor_report.pdfUrl" class="col-sm-4">
                             <div class="row ans-h-an-b">
                                 Pdf - &nbsp;&nbsp; <a href="{{year2019.provisional_data.auditor_report.pdfUrl}}">
                                     {{year2019.provisional_data.auditor_report.pdfName}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.auditor_report.pdfUrl"
-                            class="col-sm-4 ans-h-na">
+                        <div *ngIf="!year2019.provisional_data || !year2019.provisional_data.auditor_report.pdfUrl" class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -375,8 +348,7 @@
                         <div class="col-sm-4 col-md-4 col-lg-4  h-font f-r">
                             <div *ngIf="year2019.submit_standardized_data.answer == 'yes'"> Yes</div>
                             <div *ngIf="year2019.submit_standardized_data.answer == 'no'"> No</div>
-                            <div class="text-danger"
-                                *ngIf="year2019.submit_standardized_data.answer == null || year2019.submit_standardized_data.answer == undefined">
+                            <div class="text-danger" *ngIf="year2019.submit_standardized_data.answer == null || year2019.submit_standardized_data.answer == undefined">
                                 N/A</div>
 
                         </div>
@@ -387,8 +359,7 @@
                         </div>
                         <div class="col-sm-4 ans-h-an" *ngIf="year2019.standardized_data?.upload.excelUrl">
                             Excel -
-                            <a
-                                href="{{year2019.standardized_data?.upload.excelUrl}}">{{year2019.standardized_data?.upload.excelName}}</a>
+                            <a href="{{year2019.standardized_data?.upload.excelUrl}}">{{year2019.standardized_data?.upload.excelName}}</a>
                         </div>
                         <div class="col-sm-4 ans-h-na" *ngIf="!year2019.standardized_data?.upload.excelUrl">
                             N/A
@@ -396,11 +367,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-8 qus-h-an">
-                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the
-                            standardised financial statements uploaded above. I hereby confirm that I have verified the
-                            information uploaded in standardized template and it is true and correct. It
-                            is confirmed that this information can be made available for public consumption on the
-                            CityFinance portal.
+                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
+                            is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-4 ">
                             <span class="ans-h-an" *ngIf="year2019.standardized_data?.declaration == true">Agreed</span>
@@ -431,8 +399,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 

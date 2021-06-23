@@ -82,7 +82,6 @@ export class UtilisationReportComponent implements OnInit {
   projectExp = 0;
   selectedFile;
   categories;
-  rejectForm = false;
   // editable;
   photoUrl: any = [];
   fd;
@@ -100,6 +99,7 @@ export class UtilisationReportComponent implements OnInit {
   isDisabled = false;
   isSubmitted = false;
   isDraft = null;
+
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -146,7 +146,6 @@ export class UtilisationReportComponent implements OnInit {
       this.submitted = true;
       this.isSubmitted = true;
     }
-
 
   }
 
@@ -1085,12 +1084,9 @@ export class UtilisationReportComponent implements OnInit {
       }
     });
   }
-  rejectReason(e){
-    this.rejectForm = true;
-    console.log('reject', e)
-  }
-  approveForm(){
-    this.rejectForm = false;
+
+  checkStatus(ev){
+    console.log('actionValues', ev);
   }
 }
 

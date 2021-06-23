@@ -29,6 +29,7 @@ import { LinkPFMSComponent } from './link-pfms/link-pfms.component';
 //ngx-bootstrap
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { AnnualAccountsComponent } from './annual-accounts/annual-accounts.component';
 import { UlbformPreviewComponent } from './ulbform-preview/ulbform-preview.component';
 import { PfmsPreviewComponent } from './link-pfms/pfms-preview/pfms-preview.component';
@@ -38,7 +39,8 @@ import { SlbsGaurdGuard } from './slbs/slbs-gaurd.guard';
 import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
 import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { StateActionUlbComponent } from '../stateUlbAction/state-action/state-action-ulb/state-action-ulb.component';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -60,11 +62,14 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     WaterSanitationPreviewComponent,
     AnnualPreviewComponent,
     ServiceSlbsComponent,
+    StateActionUlbComponent
 
   ],
   imports: [
     CarouselModule.forRoot(),
+    ButtonsModule.forRoot(),
     CommonModule,
+    MatSlideToggleModule,
     UlbformRoutingModule,
     MatInputModule,
     MatIconModule,

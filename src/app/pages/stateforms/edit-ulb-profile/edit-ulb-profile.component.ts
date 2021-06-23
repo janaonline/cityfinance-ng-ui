@@ -46,8 +46,8 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
 
   listFetchOption = {
     filter: null,
-    sort: null,
-    role: null,
+    //sort: null,
+   // role: null,
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
@@ -91,18 +91,21 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
       this.errMessage = error.message;
       console.log(error, this.errMessage);
     });
+this.formInitialize();
 
-  this.editableForm = this.fb.group({
-    editDetailsArray : this.fb.array([
-      this.fb.group({
-        nodal_officer_name : ['', [Validators.required, Validators.pattern(this.regexForUserName)]],
-        nodal_officer_email : ['', [Validators.required, Validators.email, customEmailValidator]],
-        nodal_officer_phone : ['', [Validators.required, mobileNoValidator]]
-      })
-    ])
 
-  })
+  }
+  formInitialize(){
+    this.editableForm = this.fb.group({
+      editDetailsArray : this.fb.array([
+        this.fb.group({
+          nodal_officer_name : ['', [Validators.required, Validators.pattern(this.regexForUserName)]],
+          nodal_officer_email : ['', [Validators.required, Validators.email, customEmailValidator]],
+          nodal_officer_phone : ['', [Validators.required, mobileNoValidator]]
+        })
+      ])
 
+    })
   }
   get tabelRows() {
     return this.editableForm.get("editDetailsArray") as FormArray;
@@ -110,7 +113,10 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   get editFormControl() {
     return this.editableForm.controls;
   }
-  filledValue(data){
+  filledValue(data) {
+
+  this.editableForm.enable();
+
      this.tabelRows.push(
         this.fb.group({
           nodal_officer_name : [data.accountantName, [Validators.required, Validators.pattern(this.regexForUserName)]],
@@ -228,28 +234,45 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
 
 
     stateData(){
+      console.log('userType', this.userTypes, this.userTypes.ULB)
       this.loading = true;
+     // this.listFetchOption.role = this.userTypes.ULB;
       this.listFetchOption.skip = 0;
       this.tableDefaultOptions.currentPage = 1;
       this.listFetchOption = this.setLIstFetchOptions();
+    //  const { role } = this.listFetchOption;
       const { skip } = this.listFetchOption;
       if (this.fcFormListSubscription) {
         this.fcFormListSubscription.unsubscribe();
       }
-
       this.fcFormListSubscription = this.ulbService
-        .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
+        .fetchEditDataList({skip, limit: 10 }, this.listFetchOption)
         .subscribe(
           (result) => {
             let res:any = result;
-            this.tabelData = res.data;
             if(res.data.length == 0){
               this.nodataFound = true;
             }else{
               this.nodataFound = false;
             }
-            console.log(result);
+            this.editableForm.enable();
+            this.tabelData = res.data;
+            console.log('tabelrows', this.tabelRows);
+            this.tabelRows.clear();
+            this.formInitialize();
+            this.tabelData.forEach(data => {
+              this.tabelRows.push(
+                this.fb.group({
+                  nodal_officer_name : [data.accountantName, [Validators.required, Validators.pattern(this.regexForUserName)]],
+                  nodal_officer_email : [data.accountantEmail, [Validators.required, Validators.email, customEmailValidator]],
+                  nodal_officer_phone : [data.accountantConatactNumber, [Validators.required, mobileNoValidator]]
 
+            })
+           )
+
+                      })
+
+                      this.editableForm.disable();
           },
           (response: HttpErrorResponse) => {
             this.loading = false;

@@ -43,15 +43,26 @@ export class AnnualPreviewComponent implements OnInit {
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
-    height: 70px;
+    height: 75px;
     text-align: center;
 }
 .heading-p {
-    color: #FFFFFF;
-    font-size: 18px;
-    padding-top: 1.5rem !important;
-    font-weight: 700;
+  color: #FFFFFF;
+  font-size: 18px;
+  padding-top: 1rem !important;
+  font-weight: 700;
 
+}
+.sub-h {
+font-weight: 600 !important;
+font-size: 14px;
+}
+
+.form-h {
+font-size: 18px;
+font-weight: 700;
+margin-bottom: 1rem;
+text-align: center;
 }
 
 .card {
@@ -133,8 +144,12 @@ export class AnnualPreviewComponent implements OnInit {
   previewStatus;
   totalStatus;
   subParentForModal;
-
+  ulbName='';
+  stateName =''
   async ngOnInit() {
+    let userData = JSON.parse(localStorage.getItem('userData'));
+    this.ulbName = userData['name'];
+    this.stateName = userData['stateName'];
     this.subParentForModal =
       this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
         if (this.changeFromOutSide) {
@@ -161,6 +176,9 @@ export class AnnualPreviewComponent implements OnInit {
 
     this.setData();
     this.previewStatuSet();
+  }
+  closeMat(){
+    this._matDialog.closeAll();
   }
 
   ngOnDestroy(): void {

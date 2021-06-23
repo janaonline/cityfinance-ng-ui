@@ -20,7 +20,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   isMillionPlus;
   isUA;
   id = null;
-  sessionUlbId = null;
+//  sessionUlbId = null;
   checkPos = true;
   constructor(private Overview: Overview,
     public activatedRoute: ActivatedRoute) {
@@ -167,7 +167,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
         .subscribe((res) => {
           console.log('overviewRes', res['response']);
           sessionStorage.setItem("masterForm", JSON.stringify(res['response']))
-          this.sessionUlbId = res['response']['ulb'];
+       //   this.sessionUlbId = res['response']['ulb'];
           // this.isMillionPlus = res['response']['isMillionPlus'];
           // this.isUA = res['response']['isUA'];
           this.stateName = res['response']['stateName'];
@@ -177,15 +177,15 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           this.forms[2] = res['response']?.steps?.plans?.isSubmit
           this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
           this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
-          switch (this.loggedInUserType) {
-            case USER_TYPE.STATE:
-            case USER_TYPE.PARTNER:
-            case USER_TYPE.MoHUA:
-            case USER_TYPE.ADMIN:
-              this.storeUlbId();
-              break;
+          // switch (this.loggedInUserType) {
+          //   case USER_TYPE.STATE:
+          //   case USER_TYPE.PARTNER:
+          //   case USER_TYPE.MoHUA:
+          //   case USER_TYPE.ADMIN:
+          //     this.storeUlbId();
+          //     break;
 
-          }
+          // }
           for (let key of this.forms) {
             if (key) {
               this.count = this.count + key;
@@ -314,10 +314,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms))
 
   }
-  storeUlbId() {
-    sessionStorage.setItem('ulb_id', this.sessionUlbId);
-    console.log('ulb_id', this.sessionUlbId)
-  }
+  // storeUlbId() {
+  //   sessionStorage.setItem('ulb_id', this.sessionUlbId);
+  //   console.log('ulb_id', this.sessionUlbId)
+  // }
   onUnhover(num) {
     this.hover = false
     this.val = num;
