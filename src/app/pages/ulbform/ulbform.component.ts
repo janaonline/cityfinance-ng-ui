@@ -27,6 +27,8 @@ export class UlbformComponent implements OnInit {
   isMillionPlus;
   isUA;
   id = null;
+  backHeader;
+  backLink;
   validate = true
   constructor(
     private _commonService: CommonService,
@@ -44,9 +46,7 @@ export class UlbformComponent implements OnInit {
       if (id) {
         this.id = id;
         console.log("pkstid", id);
-        // sessionStorage.setItem('row_id', id);
-        // return this._router.navigate(['/ulbform/overview',
-        // id]);
+
       } else {
 
       }
@@ -144,12 +144,13 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
+      this.backHeader = '15FC Grants for 2021-22';
+      this.backLink = '../fc-home-page'
     }
     else {
+      this.backHeader = 'State Dashboard';
+      this.backLink = '../stateform/dashboard'
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
-      if (this.isMillionPlus == null || this.isMillionPlus == undefined) {
-
-      }
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
     }

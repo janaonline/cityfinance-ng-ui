@@ -65,6 +65,17 @@ td, th{
   font-weight: 700;
 
 }
+.sub-h {
+font-weight: 600 !important;
+font-size: 14px;
+}
+
+.form-h {
+font-size: 15px;
+font-weight: 700;
+margin-bottom: 1rem;
+text-align: center;
+}
 
 .h-ut{
   font-size: 10px !important;

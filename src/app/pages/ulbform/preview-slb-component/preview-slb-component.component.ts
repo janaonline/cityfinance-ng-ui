@@ -58,6 +58,15 @@ export class PreviewSlbComponentComponent implements OnInit {
   :root {
     font-size: 14px;
   }
+  .sub-h-font{
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+  .heading-font{
+    font-size: 18px !important;
+    font-weight: 700;
+
+  }
   table tbody tr {
     border: 100px solid black;
   }

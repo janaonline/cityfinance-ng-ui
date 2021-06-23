@@ -8,6 +8,7 @@
     background-color: #047474;
     height: auto;
     text-align: center;
+    padding: 10px;
 }
 
 .heading-p {
@@ -15,6 +16,17 @@
     font-size: 24px;
     margin-top: 1.5rem;
     font-weight: 700;
+}
+
+.sub-h {
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.form-h {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
 
 .long {
@@ -43,7 +55,8 @@
 
 .mat-card2 {
     padding: 5px 10px;
-    margin: 10px 40px;
+    // margin-top: 10px;
+    margin-bottom: 15px;
     background-color: #EBF5F5;
 }
 
@@ -137,6 +150,6 @@ th {
 }
 
 .s-d {
-    margin: 10px 40px;
+    // margin: 10px 40px;
     padding: 5px 10px;
 }

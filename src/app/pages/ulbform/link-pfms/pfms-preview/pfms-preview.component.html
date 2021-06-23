@@ -9,16 +9,19 @@
 
             <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
                 <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
-                <br *ngIf="!parentData"> Linking of PFMS Account,{{ulbName}},{{stateName}}
+                <br *ngIf="!parentData"><b class="sub-h">{{ulbName}},{{stateName}}</b>
+
             </div>
 
         </div>
     </div>
-    <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
-        <p class="form-status">
+    <!-- <div class="justify-content-between mt-2" style="padding-left: 2%">
+        <b> {{ulbName}},{{stateName}} </b>
+    </div> -->
+    <div class="d-flex justify-content-between mt-1" style="padding-left: 2%">
+        <p class="form-status" style="margin: 0;">
             <b>Form Current Status:</b> {{ formStatusCheck }}
         </p>
-
         <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload h-cls" (click)="clickedDownloadAsPDF(template)">
             Download as PDF
         </button>
@@ -33,7 +36,12 @@
     </div> -->
 
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 0rem; margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-12 text-center form-h">
+                    Linking of PFMS Account
+                </div>
+            </div>
             <div class="card">
                 <div class="card-body">
                     <div class="row">

@@ -148,10 +148,11 @@ label {
     font-weight: normal;
 }
 
-// .footerBtnDiv {
-//     margin-right: -30px;
-//     margin-left: 0;
-// }
+.footerBtnDiv {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
 .footerBtn {
     // margin-right: 15px;
     height: 32px;
@@ -254,4 +255,12 @@ label {
 
 .tooltip-inner {
     margin-left: 1rem;
+}
+
+.btn-danger {
+    border-color: transparent;
+}
+
+.btn-success {
+    border-color: transparent;
 }

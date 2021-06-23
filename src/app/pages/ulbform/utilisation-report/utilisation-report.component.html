@@ -73,7 +73,6 @@
 </div>
 <form *ngIf="utilizationReport" [formGroup]="utilizationReport" (ngSubmit)="onSubmit()">
     <div class="form-group">
-
         <div class="card" style="background-color: #F7F7F7;">
             <div class="card-body" formGroupName="grantPosition">
                 <p style="margin-left: 5px;">15th FC Tied Grant Position during the year <span style="color: red;">*</span></p>
@@ -420,58 +419,24 @@
 
             </div>
         </div>
-        <div class="row" *ngIf="loggedInUserType === userTypes.STATE" style="margin-bottom: 1rem;">
-
-            <div class="col-sm-6 col-lg-6 col-md-6">
-                <label><input type="radio" name="action" [value]="approveAction" (click)="approveForm()"/>
-                Approve
-
-                <!-- <span>
-                  {{
-                  form.controls[service.key]["controls"]["status"].disabled
-                  ? "Approved"
-                  : actionNames[approveAction]
-                  }}
-                </span> -->
-              </label>
-                <label style="margin-left: 40%;">
-                <input type="radio" name="action" [value]="rejectAction" (click)="rejectReason($event.target)" />
-                Reject
-
-            <!-- <span>
-              {{
-              form.controls[service.key]["controls"]["status"].disabled
-              ? "Approved"
-              : actionNames[approveAction]
-              }}
-            </span> -->
-          </label>
-            </div>
-
-        </div>
-        <div class="row" *ngIf="rejectForm">
-            <div class="col-sm-6 col-lg-6 col-md-6">
-                <span style="font-weight: 700; text-align: left">Reason for rejection</span>
-                <div class="input-group" style="width: 100%">
-                    <!-- <div *ngIf="form.controls[services[0].key]['controls']['rejectReason']?.disabled">
-              {{form.controls[services[0].key]['controls']['rejectReason'].value}}
-            </div> -->
-                    <textarea rows="3" style="width: 100%" class="form-control">
-          </textarea>
-                </div>
-            </div>
-        </div>
-        <div class="row footerBtnDiv">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-                <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-                <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">SAVE AND NEXT</button>
-            </div>
-        </div>
     </div>
 </form>
+<div class="card" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === userTypes.STATE">
+    <div class="card-body">
+        <app-state-action-ulb (actionValues)="checkStatus($event)"> </app-state-action-ulb>
+    </div>
+</div>
+<div class="row footerBtnDiv">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+        <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">SAVE AND NEXT</button>
+    </div>
+</div>
+
+
 
 <ng-template #templateUtil>
     <div class="modal-body text-center">

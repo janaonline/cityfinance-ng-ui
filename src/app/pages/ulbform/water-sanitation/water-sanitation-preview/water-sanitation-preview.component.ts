@@ -106,11 +106,22 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
     text-align: center;
 }
 .heading-p {
-    color: #FFFFFF;
-    font-size: 18px;
-    padding-top: 1rem !important;
-    font-weight: 700;
+  color: #FFFFFF;
+  font-size: 18px;
+  padding-top: 1rem !important;
+  font-weight: 700;
 
+}
+.sub-h {
+font-weight: 600 !important;
+font-size: 14px;
+}
+
+.form-h {
+font-size: 15px;
+font-weight: 700;
+margin-bottom: 1rem;
+text-align: center;
 }
 
 .card {

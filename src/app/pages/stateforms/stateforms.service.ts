@@ -23,7 +23,7 @@ export class StateformsService {
      // return this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/user/profile')
 
      //https://democityfinanceapi.dhwaniris.in/api/v1/user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0&limit=10
-      return this.http.get(`${environment.api.url}user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0`);
+      return this.http.get(`${environment.api.url}user/all?role=ULB`);
     }
     getUlbReview(){
       return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`);
