@@ -251,7 +251,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log('overview', this.isUA, this.isMillionPlus)
     if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
       this.cardsOverview = this.cardsOverview;
-      this.formValue = 4;
+      this.formValue = 5;
       this.factor = 100 / this.formValue;
       this.numcard = 7;
     }
