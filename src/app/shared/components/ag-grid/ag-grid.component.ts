@@ -16,7 +16,7 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   templateUrl: "./ag-grid.component.html",
   styleUrls: ["./ag-grid.component.scss"],
 })
-export class AgGridComponent implements OnInit, OnChanges {
+export class AgGridComponent implements OnInit, OnChanges {k
   constructor() {}
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
@@ -147,7 +147,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["sector"].value != null ? params.data["sector"].value : "",
       valueSetter: syncValueSetter(dropDown),
       headerName: "Sector",
-      width: 110,
+      width: 122,
       editable: true,
       tooltipField: "sector",
       tooltipComponent: "customTooltip",
@@ -552,7 +552,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["name"].value != null ? params.data["name"].value : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
-      width: 120,
+      width: 130,
       pinned: true,
       tooltipField: "name",
       tooltipComponent: "customTooltip",
