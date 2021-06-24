@@ -1,32 +1,48 @@
-import { Component, OnInit, Inject, Input, ElementRef, ViewChild, TemplateRef, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-import { QuestionnaireService } from '../../../questionnaires/service/questionnaire.service';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
+import {
+  Component,
+  OnInit,
+  Inject,
+  Input,
+  ElementRef,
+  ViewChild,
+  TemplateRef,
+  Output,
+  EventEmitter,
+} from "@angular/core";
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+} from "@angular/material/dialog";
+import { QuestionnaireService } from "../../../questionnaires/service/questionnaire.service";
+import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { SweetAlert } from "sweetalert/typings/core";
 import { LinkPFMSAccount } from "../link-pfms.service";
 import { UlbformService } from "../../ulbform.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
-  selector: 'app-pfms-preview',
-  templateUrl: './pfms-preview.component.html',
-  styleUrls: ['./pfms-preview.component.scss']
+  selector: "app-pfms-preview",
+  templateUrl: "./pfms-preview.component.html",
+  styleUrls: ["./pfms-preview.component.scss"],
 })
 export class PfmsPreviewComponent implements OnInit {
   @Input() parentData: any;
   modalRef: BsModalRef;
   @ViewChild("pfmsPre") _html: ElementRef;
   showLoader;
-  ulbName ='';
-  stateName = '';
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  ulbName = "";
+  stateName = "";
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
     private LinkPFMSAccount: LinkPFMSAccount,
     private _ulbformService: UlbformService,
 
     private _matDialog: MatDialog,
-    private modalService: BsModalService,) { }
+    private modalService: BsModalService
+  ) {}
   @ViewChild("template") template;
 
   styleForPDF = `<style>
@@ -87,91 +103,87 @@ export class PfmsPreviewComponent implements OnInit {
         padding-top : 0;
       }
 
-    </style>`
+    </style>`;
 
-  formStatusCheck = ''
+  formStatusCheck = "";
   statusArray = [
-    'Not Started',
-    'Under Review By State',
-    'Completed',
-    'In Progress',
-    'Registered',
-    'Not Registered'
-  ]
-  formData
+    "Not Started",
+    "Under Review By State",
+    "Completed",
+    "In Progress",
+    "Registered",
+    "Not Registered",
+  ];
+  formData;
 
   @Input()
   changeFromOutSide: any;
   @Output() change = new EventEmitter<any>();
-  errMessage = ''
+  errMessage = "";
   modiDate;
-  subParentForModal
+  subParentForModal;
 
   ngOnInit(): void {
-    let userData = JSON.parse(localStorage.getItem('userData'));
-    this.ulbName = userData['name'];
-    this.stateName = userData['stateName'];
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbName = userData["name"];
+    this.stateName = userData["stateName"];
     let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
     this.modiDate = getData.response.modifiedAt;
-    this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe((change) => {
-      if (this.changeFromOutSide) {
-        this.openDialog(this.template);
+    this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openDialog(this.template);
+        }
       }
-    });
-
+    );
 
     if (this.parentData) {
-      this.data = this.parentData
+      this.data = this.parentData;
     }
 
-    console.log(this.data)
-    console.log(getData)
+    console.log(this.data);
+    console.log(getData);
     if (getData) {
       let change = sessionStorage.getItem("changeInPFMSAccount");
       if (change == "true") {
-        if (this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[3]
-        } else if (!this.data['isDraft']) {
-          if (this.data['linked'] == "yes") {
-            this.formStatusCheck = this.statusArray[4]
-          } else if (this.data['linked'] == "no") {
-            this.formStatusCheck = this.statusArray[5]
+        if (this.data["isDraft"]) {
+          this.formStatusCheck = this.statusArray[3];
+        } else if (!this.data["isDraft"]) {
+          if (this.data["linked"] == "yes") {
+            this.formStatusCheck = this.statusArray[4];
+          } else if (this.data["linked"] == "no") {
+            this.formStatusCheck = this.statusArray[5];
           }
-
         }
       } else if (change == "false") {
-        if (this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[3]
-        } else if (!this.data['isDraft']) {
-          if (this.data['linked'] == "yes") {
-            this.formStatusCheck = this.statusArray[4]
-          } else if (this.data['linked'] == "no") {
-            this.formStatusCheck = this.statusArray[5]
+        if (this.data["isDraft"]) {
+          this.formStatusCheck = this.statusArray[3];
+        } else if (!this.data["isDraft"]) {
+          if (this.data["linked"] == "yes") {
+            this.formStatusCheck = this.statusArray[4];
+          } else if (this.data["linked"] == "no") {
+            this.formStatusCheck = this.statusArray[5];
           }
         }
-
       }
     } else {
       let change = sessionStorage.getItem("changeInPFMSAccount");
       if (change == "true") {
-        if (this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[3]
-        } else if (!this.data['isDraft']) {
-          this.formStatusCheck = this.statusArray[2]
+        if (this.data["isDraft"]) {
+          this.formStatusCheck = this.statusArray[3];
+        } else if (!this.data["isDraft"]) {
+          this.formStatusCheck = this.statusArray[2];
         }
       } else if (change == "false") {
-        this.formStatusCheck = this.statusArray[0]
-
+        this.formStatusCheck = this.statusArray[0];
       }
-
     }
 
-    this.clicked = false
-
+    this.clicked = false;
   }
 
   ngOnDestroy(): void {
-    this.subParentForModal.unsubscribe()
+    if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -179,22 +191,20 @@ export class PfmsPreviewComponent implements OnInit {
   }
   clicked = false;
 
-
   clickedDownloadAsPDF(template) {
-    let changeHappen = sessionStorage.getItem("changeInPFMSAccount")
+    let changeHappen = sessionStorage.getItem("changeInPFMSAccount");
     this.clicked = true;
-    this.change.emit(this.clicked)
+    this.change.emit(this.clicked);
     //use dialog instead of Modal
-    if (changeHappen === 'true') {
+    if (changeHappen === "true") {
       this.openDialog(template);
     } else {
       this.downloadAsPDF();
     }
 
-
     // this.openModal(template)
   }
-  dialogRef
+  dialogRef;
   openDialog(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this._matDialog.open(template, dialogConfig);
@@ -245,38 +255,34 @@ export class PfmsPreviewComponent implements OnInit {
     // this._matDialog.close(this.clicked);
     // this._matDialog.closeAll('Hello');
     // this._matDialog.ngOnDestroy()
-    console.log('Check this value', this.data)
+    console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPFMSAccount", "false");
-    console.log(this.data)
-    this.LinkPFMSAccount.postData(this.data)
-      .subscribe((res) => {
+    console.log(this.data);
+    this.LinkPFMSAccount.postData(this.data).subscribe(
+      (res) => {
         console.log(res);
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.pfmsAccount.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        console.log(res)
-        if (res['isCompleted'] == true) {
-          console.log('true')
-          this.formStatusCheck = 'Completed'
+        console.log(res);
+        if (res["isCompleted"] == true) {
+          console.log("true");
+          this.formStatusCheck = "Completed";
+        } else {
+          console.log("entered else, in progress");
+          this.formStatusCheck = "In Progress";
         }
-        else {
-          console.log('entered else, in progress')
-          this.formStatusCheck = 'In Progress'
-        }
-        swal("Record submitted successfully!")
+        swal("Record submitted successfully!");
       },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        });
+      (error) => {
+        this.errMessage = error.message;
+        console.log(error, this.errMessage);
+      }
+    );
 
     if (this.changeFromOutSide) {
       this._ulbformService.initiateDownload.next(true);
-    }
-    else
-      this.downloadAsPDF()
-
-
+    } else this.downloadAsPDF();
   }
   alertClose() {
     this.stay();
@@ -285,5 +291,4 @@ export class PfmsPreviewComponent implements OnInit {
   stay() {
     this.dialogRef.close();
   }
-
 }

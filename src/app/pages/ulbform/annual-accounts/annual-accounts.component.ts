@@ -574,6 +574,12 @@ export class AnnualAccountsComponent implements OnInit {
 
     if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
+      this.checkForm()
+      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
+      if (allFormData) {
+        allFormData.annualAccountData = [this.data];
+        this._ulbformService.allFormsData.next(allFormData);
+      }
     } else {
       sessionStorage.setItem("changeInAnnual", "false");
     }

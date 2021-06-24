@@ -137,6 +137,7 @@ text-align: center;
   ulbName='';
   stateName =''
   async ngOnInit() {
+    debugger
     let userData = JSON.parse(localStorage.getItem('userData'));
     this.ulbName = userData['name'];
     this.stateName = userData['stateName'];
@@ -150,6 +151,8 @@ text-align: center;
     this.download = false;
     if (this.data && this.parentData === undefined) {
       this.fromParent = false;
+    }else{
+      this.data = this.parentData
     }
     console.log(this.data, "456789");
 

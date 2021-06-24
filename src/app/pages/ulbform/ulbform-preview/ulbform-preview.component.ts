@@ -590,186 +590,114 @@ margin-left : .5rem !important;
     },
   };
 
-  annualAccountError = [
-    {
-      design_year: null,
-      audit_status: null,
-      isCompleted: false,
-      year: null,
-      submit_annual_accounts: {
-        answer: null,
-      },
-      submit_standardized_data: {
-        answer: null,
-      },
+  annualAccountError = {
+    isDraft: false,
+    audited: {
       provisional_data: {
         bal_sheet: {
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          pdfName: null,
-          excelUrl: null,
-          excelError: null,
-          pdfError: null,
-          excelName: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         bal_sheet_schedules: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         inc_exp: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         inc_exp_schedules: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         cash_flow: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         auditor_report: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
       },
       standardized_data: {
-        upload: {
-          excelUrl: null,
-          excelName: null,
-          progressExcel: null,
-          excelError: null,
+        excel: {
+          url: null,
+          name: null,
         },
         declaration: null,
       },
+      audit_status: "Audited",
+      submit_annual_accounts: null,
+      submit_standardized_data: null,
     },
-    {
-      design_year: null,
-      audit_status: null,
-      isCompleted: false,
-      year: null,
-      submit_annual_accounts: {
-        answer: null,
-      },
-      submit_standardized_data: {
-        answer: null,
-      },
+    unAudited: {
       provisional_data: {
         bal_sheet: {
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          pdfName: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         bal_sheet_schedules: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         inc_exp: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         inc_exp_schedules: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
         cash_flow: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
-        },
-        auditor_report: {
-          pdfName: null,
-          pdfUrl: null,
-          progress: null,
-          progressExcel: null,
-          excelUrl: null,
-          excelName: null,
-          excelError: null,
-          pdfError: null,
-          rejectReason: null,
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
       },
       standardized_data: {
-        upload: {
-          excelUrl: null,
-          excelName: null,
-          progressExcel: null,
-          excelError: null,
+        excel: {
+          url: null,
+          name: null,
         },
         declaration: null,
       },
+      audit_status: "Unaudited",
+      submit_annual_accounts: null,
+      submit_standardized_data: null,
     },
-  ];
+  };
 
   waterSanitationError = {
     water: {
@@ -867,7 +795,7 @@ margin-left : .5rem !important;
   setAllData(data) {
     this.setLinkPfms(data.pfmsAccounts[0]);
     this.setDetailUtilData(data.utilizationReport[0]);
-    this.setAnnualAccount(data.annualAccountData);
+    this.setAnnualAccount(data.annualAccountData[0]);
     if (data.isUA == "Yes") this.setSlbData(data.SLBs[0]);
     if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
   }
