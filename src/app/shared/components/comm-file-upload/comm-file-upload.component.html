@@ -1,0 +1,98 @@
+<div class="col-md-12">
+    <span class="col-md-6"><b>{{quesName}}<b class="text-danger">*</b></b></span>
+    <button (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
+        <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
+    </button>
+    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')"
+        type="file" accept=".pdf" #file>
+    <button (click)="bs_excel1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload
+        EXCEL
+        <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+            data-height="16"></span>
+    </button>
+    <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')"
+        type="file" accept=".xls, .xlsx" #file>
+</div>
+<div class="row allupload">
+    <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+        <div class="row">
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.pdf?.name">
+                    {{data.pdf?.name}}</label>
+            </div>
+            <div *ngIf="data.pdf?.progress" class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.pdf?.progress }}"
+                    aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.pdf?.progress + '%' }">
+                    {{ data.pdf?.progress }}%
+                </div>
+            </div>
+
+            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
+                <ng-container>
+                    <div *ngIf="data.pdf?.url">
+                        <a href="{{ data.pdf?.url }}" target="_blank">
+                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                style="margin-left: 1px; height: 19px;">
+
+                        </a>
+                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('pdf')" style="margin-left: 3px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                        </a>
+                    </div>
+                    <div *ngIf="data.pdf?.error">
+                        <a>
+                            <img src="../../../../assets/form-icon/warning.png" alt=""
+                                style="margin-left: 1px; height: 19px;">
+                        </a>
+                        <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'pdf')"
+                            style="margin-left: 3px;">
+                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                        </a>
+                    </div>
+
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row allupload">
+    <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+        <div class="row">
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.excel?.name">
+                    {{data.excel?.name}}</label>
+            </div>
+            <div *ngIf="data.excel?.progress" class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.excel?.progress }}"
+                    aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.excel?.progress + '%' }">
+                    {{ data.excel?.progress }}%
+                </div>
+            </div>
+
+            <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
+                <ng-container>
+                    <div *ngIf="data.excel?.url">
+                        <a href="{{ data.excel?.url }}" target="_blank">
+                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                style="margin-left: 1px; height: 19px;">
+
+                        </a>
+                        <a [ngClass]="{cross: isDisabled}" (click)="clearFile('excel')" style="margin-left: 3px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                        </a>
+                    </div>
+                    <div *ngIf="data.excel?.error">
+                        <a>
+                            <img src="../../../../assets/form-icon/warning.png" alt=""
+                                style="margin-left: 1px; height: 19px;">
+                        </a>
+                        <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'excel')"
+                            style="margin-left: 3px;">
+                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

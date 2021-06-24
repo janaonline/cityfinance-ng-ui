@@ -117,17 +117,7 @@ export class AnnualPreviewComponent implements OnInit {
   @Input()
   changeFromOutSide: any;
 
-  annualAccountComp = new AnnualAccountsComponent(
-    this.dataEntryService,
-    this.annualAccountsService,
-    this._matDialog,
-    this._ulbformService,
-    this._router,
-    this._matDialog
-  );
   fromParent = true;
-  year2021;
-  year2019;
   dialogRef;
   download;
   previewStatus;
@@ -144,22 +134,10 @@ export class AnnualPreviewComponent implements OnInit {
 
     this.download = false;
     if (this.data && this.parentData === undefined) {
-      this.parentData = this.data;
       this.fromParent = false;
     }
-    console.log("befor", JSON.stringify(this.parentData));
-    let annualData;
-    if (!this.fromParent) {
-      annualData = JSON.parse(JSON.stringify(this.data));
-    } else {
-      annualData = this.data.annualAccountData;
-    }
-    annualData[0] = await this.annualAccountComp.checkForm(annualData[0]);
-    annualData[1] = await this.annualAccountComp.checkForm(annualData[1]);
-    this.parentData = annualData;
-    console.log("after", JSON.stringify(this.parentData));
+    console.log(this.data, "456789");
 
-    this.setData();
     this.previewStatuSet();
   }
 
@@ -167,15 +145,6 @@ export class AnnualPreviewComponent implements OnInit {
     this.subParentForModal.unsubscribe();
   }
 
-  setData() {
-    if (this.Years["2020-21"] == this.parentData[0].year) {
-      this.year2021 = this.parentData[0];
-      this.year2019 = this.parentData[1];
-    } else {
-      this.year2021 = this.parentData[1];
-      this.year2019 = this.parentData[0];
-    }
-  }
   clickedDownloadAsPDF(template) {
     this.download = true;
     let changeHappen = sessionStorage.getItem("changeInAnnual");
@@ -216,14 +185,10 @@ export class AnnualPreviewComponent implements OnInit {
     this._matDialog.open(DialogComponent, { data: option });
   }
   private downloadFile(blob: any, type: string, filename: string): string {
-    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
-
-    // create hidden dom element (so it works in all browsers)
+    const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.setAttribute("style", "display:none;");
     document.body.appendChild(a);
-
-    // create file, attach to hidden element and open hidden element
     a.href = url;
     a.download = filename;
     a.click();
@@ -240,39 +205,23 @@ export class AnnualPreviewComponent implements OnInit {
   }
 
   async submit() {
-    this.setData();
-    console.log(this.year2021);
-    console.log(this.year2019);
-    await this.checkForm(this.year2021);
-    await this.checkForm(this.year2019);
-    if (this.year2021.isCompleted == false) {
-      await this.save(this.year2019);
-      await this.save(this.year2021);
-    } else {
-      await this.save(this.year2021);
-      await this.save(this.year2019);
-    }
-
-    let res = false;
-    if (this.year2021.isCompleted && this.year2019.isCompleted) {
-      res = true;
-    }
-    const status = JSON.parse(sessionStorage.getItem("allStatus"));
-    status.annualAccounts.isSubmit = res;
-    this._ulbformService.allStatus.next(status);
-    swal("Record submitted successfully!");
-    sessionStorage.setItem("changeInAnnual", "false");
-  }
-
-  async save(form) {
-    await this.annualAccountComp.save(form);
-  }
-  async checkForm(form) {
-    await this.annualAccountComp.checkForm(form);
-  }
-
-  errorHandler(form, key, key2, key3 = null) {
-    this.annualAccountComp.errorHandler(form, key, key2, key3);
+    return new Promise((resolve, rej) => {
+      this.annualAccountsService.postData(this.data).subscribe(
+        (res) => {
+          sessionStorage.setItem("changeInAnnual", "false");
+          console.log(res);
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.annualAccounts.isSubmit = res["isCompleted"];
+          this._ulbformService.allStatus.next(status);
+          swal("Record submitted successfully!");
+          resolve("sucess");
+        },
+        (err) => {
+          swal("Failed To Save");
+          resolve(err);
+        }
+      );
+    });
   }
 
   alertClose() {
@@ -286,62 +235,26 @@ export class AnnualPreviewComponent implements OnInit {
   formStatusCheck = "";
   statusArray = [
     "Not Started",
-    "Under Review By State",
-    "Completed but Not Submitted",
     "In Progress",
+    "Completed but Not Submitted",
+    "Under Review By State",
   ];
 
   async previewStatuSet() {
-    console.log(this.data);
-    let annualData;
-    if (!this.fromParent) {
-      annualData = JSON.parse(JSON.stringify(this.data));
-    } else {
-      annualData = this.data.annualAccountData;
-    }
-    annualData[0] = await this.annualAccountComp.checkForm(annualData[0]);
-    annualData[1] = await this.annualAccountComp.checkForm(annualData[1]);
     if (
-      annualData[0]["isCompleted"] != null &&
-      annualData[1]["isCompleted"] != null
+      this.data.audited.submit_annual_accounts == null &&
+      this.data.audited.submit_standardized_data == null
     ) {
-      let change = sessionStorage.getItem("changeInAnnual");
-      if (change == "true") {
-        if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
-          this.formStatusCheck = this.statusArray[2];
-        } else if (
-          !annualData[0]["isCompleted"] ||
-          !annualData[1]["isCompleted"]
-        ) {
-          this.formStatusCheck = this.statusArray[3];
-        }
-      } else if (change == "false") {
-        if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
-          this.formStatusCheck = this.statusArray[1];
-        } else if (
-          !annualData[0]["isCompleted"] ||
-          !annualData[1]["isCompleted"]
-        ) {
-          this.formStatusCheck = this.statusArray[3];
-        }
-      }
+      this.formStatusCheck = this.statusArray[0];
     } else {
-      let change = sessionStorage.getItem("changeInAnnual");
-      if (change == "true") {
-        if (annualData[0]["isCompleted"] && annualData[1]["isCompleted"]) {
-          this.formStatusCheck = this.statusArray[2];
-        } else if (
-          !annualData[0]["isCompleted"] ||
-          !annualData[1]["isCompleted"]
-        ) {
-          this.formStatusCheck = this.statusArray[3];
-        }
-      } else if (change == "false") {
-        this.formStatusCheck = this.statusArray[0];
+      if (this.data.isDraft) {
+        this.formStatusCheck = this.statusArray[1];
+      } else {
+        this.formStatusCheck = this.statusArray[2];
       }
     }
 
-    if (!this.fromParent) {
+    if (!this.parentData) {
       this.totalStatus = sessionStorage.getItem("masterForm");
       if (this.totalStatus) {
         this.totalStatus = JSON.parse(this.totalStatus);

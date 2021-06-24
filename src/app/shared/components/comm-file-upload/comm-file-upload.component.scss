@@ -1,0 +1,199 @@
+.header2 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 25px;
+    margin-top: 10px;
+    // margin-left: 1.70%;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.header1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-left: 1.70%;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.secDiv {
+    background-color: #124A55;
+}
+
+.pr-btn {
+    width: auto;
+    height: 32px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.square {
+    width: 570px;
+    height: 30px;
+    background-color: #DBDBDB;
+}
+
+#checkboxes input[type=radio] {
+    display: none;
+}
+
+#checkboxes input[type=radio]:checked+.square {
+    background-color: #124A55;
+    color: white;
+}
+
+#checkboxes input[type=radio]:checked+.btn {
+    background-color: #ffc500;
+    color: white;
+}
+
+#checkboxes2 input[type=radio] {
+    display: none;
+}
+
+#checkboxes2 input[type=radio]:checked+.square {
+    background-color: #124A55;
+    color: white;
+}
+
+#checkboxes2 input[type=radio]:checked+.btn {
+    background-color: #ffc500;
+    color: white;
+}
+
+.footerBtn {
+    // margin-left: 15px;
+    width: auto;
+    height: 32px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.backbtn {
+    // margin-right: 48rem;
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: auto;
+    height: 32px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.card-body {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 96%;
+    height: auto;
+    background-color: #F7F7F7;
+}
+
+.qbtn {
+    top: 321px;
+    left: 370px;
+    width: 72px;
+    height: 30px;
+    margin-top: 2rem;
+    background-color: #CFCFCF;
+    margin-bottom: 1pc;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+    font-weight: bold;
+}
+
+.footerBtnDiv {
+    margin-top: 2pc;
+    // margin-right: 10px;
+    margin-bottom: 2pc;
+    padding: 0;
+}
+
+.btn2 {
+    background-color: #059b9a;
+    margin-left: 1pc;
+    margin-bottom: 1pc;
+    color: white;
+}
+
+.btninput {
+    margin-bottom: 2pc;
+    background-color: #CFCFCF;
+}
+
+.header1:hover {
+    background-color: #124A55;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+.allBtn {
+    margin-left: 2pc;
+}
+
+.allupload {
+    margin-left: 2pc;
+    margin-bottom: 1pc;
+}
+
+.cursor-input {
+    cursor: pointer;
+}
+
+.xls {
+    color: #007822;
+    vertical-align: sub;
+}
+
+.quesLine{
+    height: 2pc;
+}
+
+.quesIn{
+    vertical-align: sub;
+}
+
+.qbtn2 {
+    width: 72px;
+    background-color: #CFCFCF;
+}
+
+.btn22 {
+    background-color: #059b9a;
+    margin-bottom: 1pc;
+    color: white;
+}
+
+.cross{
+    cursor: not-allowed;
+}

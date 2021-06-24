@@ -29,20 +29,32 @@ export class AnnualAccountsComponent implements OnInit {
     this.navigationCheck();
   }
   @ViewChild("templateAnnual") template;
-  quesOneAnswer: boolean = false;
-  quesTwoAnswer: boolean = false;
+  @ViewChild("template1") template1;
+  // quesOneAnswer: boolean = false;
+  // quesTwoAnswer: boolean = false;
   fromPreview = null;
-
-  quesOneAnswer1: boolean = false;
-  quesTwoAnswer1: boolean = false;
-  audit_status;
+  unAuditQues = [
+    { name: "Balance Sheet", error: false, data: null },
+    { name: "Balance Sheet Schedule", error: false, data: null },
+    { name: "Income Expenditure", error: false, data: null },
+    { name: "Income Expenditure Schedule", error: false, data: null },
+    { name: "Cash flow Statement", error: false, data: null },
+  ];
+  auditQues = [
+    { name: "Balance Sheet", error: false, data: null },
+    { name: "Balance Sheet Schedule", error: false, data: null },
+    { name: "Income Expenditure", error: false, data: null },
+    { name: "Income Expenditure Schedule", error: false, data: null },
+    { name: "Cash flow Statement", error: false, data: null },
+    { name: "Auditor Report", error: false, data: null },
+  ];
+  // quesOneAnswer1: boolean = false;
+  // quesTwoAnswer1: boolean = false;
+  audit_status = "Unaudited";
   Years = JSON.parse(localStorage.getItem("Years"));
   dateShow: string = "2020-21";
+  userData = JSON.parse(localStorage.getItem("userData"));
   childComp = false;
-  isPdf;
-  fileSelected;
-  progressArray;
-  fileNameArray;
   routerNavigate = null;
   response;
   isDisabled = false;
@@ -50,312 +62,151 @@ export class AnnualAccountsComponent implements OnInit {
   alertError = "Are you sure you want to proceed further?";
   dialogRef;
   modalRef;
-  temp;
   @HostBinding("")
   pdfError = "PDF Not Uploaded!";
-  tt = {
-    ulb: "",
-    design_year: "",
-    status: "",
-    isCompleted: "",
+  uploadErrors = {
+    audited: {
+      standardized_data: {
+        error: null,
+        progress: null,
+        file: null,
+      },
+    },
+    unAudited: {
+      standardized_data: {
+        error: null,
+        progress: null,
+        file: null,
+      },
+    },
+  };
+
+  data = {
+    ulb: this.userData.ulb,
+    design_year: this.Years["2021-22"],
+    isDraft: false,
     audited: {
       provisional_data: {
         bal_sheet: {
-          pdfUrl: "",
-          pdfName: "",
-          status: "",
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
-        bal_sheet_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        bal_sheet_schedules: {
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
+        },
         inc_exp: {
-          pdfUrl: "",
-          pdfName: "",
-          status: "",
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
-        inc_exp_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        inc_exp_schedules: {
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
+        },
         cash_flow: {
-          pdfUrl: "",
-          pdfName: "",
-          status: "",
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
-        auditor_report: { pdfUrl: "", pdfName: "", status: "" },
+        auditor_report: {
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
+        },
       },
       standardized_data: {
-        upload: {
-          excelUrl: "",
-          excelName: "",
+        excel: {
+          url: null,
+          name: null,
         },
-        declaration: "",
+        declaration: null,
       },
-      audit_status: "",
-      submit_annual_accounts: { answer: "" },
-      submit_standardized_data: { answer: "" },
-      year: "",
+      audit_status: "Audited",
+      submit_annual_accounts: null,
+      submit_standardized_data: null,
+      year: this.Years["2020-21"],
     },
     unAudited: {
       provisional_data: {
         bal_sheet: {
-          pdfUrl: "",
-          pdfName: "",
-          status: "",
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
-        bal_sheet_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        bal_sheet_schedules: {
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
+        },
         inc_exp: {
-          pdfUrl: "",
-          pdfName: "",
-          status: "",
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
-        inc_exp_schedules: { pdfUrl: "", pdfName: "", status: "" },
+        inc_exp_schedules: {
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
+        },
         cash_flow: {
-          pdfUrl: "",
-          pdfName: "",
-          status: "",
+          pdf: {
+            url: null,
+            name: null,
+          },
+          excel: { url: null, name: null },
         },
-        auditor_report: { pdfUrl: "", pdfName: "", status: "" },
       },
       standardized_data: {
-        upload: {
-          excelUrl: "",
-          excelName: "",
+        excel: {
+          url: null,
+          name: null,
         },
-        declaration: "",
+        declaration: null,
       },
-      audit_status: "",
-      submit_annual_accounts: { answer: "" },
-      submit_standardized_data: { answer: "" },
-      year: "",
+      audit_status: "Unaudited",
+      submit_annual_accounts: null,
+      submit_standardized_data: null,
+      year: this.Years["2019-20"],
     },
   };
+
   answerError = {
-    Audited: {
+    audited: {
       submit_annual_accounts: false,
       submit_standardized_data: false,
     },
-    Unaudited: {
+    unAudited: {
       submit_annual_accounts: false,
       submit_standardized_data: false,
-    },
-  };
-
-  auditResponse = {
-    design_year: this.Years["2021-22"],
-    audit_status: "Audited",
-    isCompleted: null,
-    year: this.Years["2019-20"],
-    submit_annual_accounts: {
-      answer: null,
-    },
-    submit_standardized_data: {
-      answer: null,
-    },
-    provisional_data: {
-      bal_sheet: {
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        pdfName: null,
-        excelUrl: null,
-        excelError: null,
-        pdfError: null,
-        excelName: null,
-        rejectReason: null,
-        file: null,
-      },
-      bal_sheet_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      inc_exp: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      inc_exp_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      cash_flow: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      auditor_report: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-    },
-    standardized_data: {
-      upload: {
-        excelUrl: null,
-        excelName: null,
-        progressExcel: null,
-        excelError: null,
-        excelFile: null,
-        secondExcelRetry: false,
-      },
-      declaration: null,
-    },
-  };
-
-  unauditResponse = {
-    design_year: this.Years["2021-22"],
-    audit_status: "Unaudited",
-    isCompleted: null,
-    year: this.Years["2020-21"],
-    submit_annual_accounts: {
-      answer: null,
-    },
-    submit_standardized_data: {
-      answer: null,
-    },
-    provisional_data: {
-      bal_sheet: {
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        pdfName: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      bal_sheet_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      inc_exp: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      inc_exp_schedules: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-      cash_flow: {
-        pdfName: null,
-        pdfUrl: null,
-        excelRetry: false,
-        excelFile: null,
-        retry: false,
-        progress: null,
-        progressExcel: null,
-        excelUrl: null,
-        excelName: null,
-        excelError: null,
-        pdfError: null,
-        rejectReason: null,
-        file: null,
-      },
-    },
-    standardized_data: {
-      upload: {
-        excelUrl: null,
-        excelName: null,
-        progressExcel: null,
-        excelError: null,
-        excelFile: null,
-        secondExcelRetry: false,
-      },
-      declaration: null,
     },
   };
 
   ngOnInit(): void {
     this.clickedSave = false;
-    this.changeAudit("Unaudited");
     this.onLoad();
     sessionStorage.setItem("changeInAnnual", "false");
   }
@@ -375,6 +226,7 @@ export class AnnualAccountsComponent implements OnInit {
               skipLocationChange: true,
             });
             this.routerNavigate = event;
+            this._matDialog.closeAll();
             this.openDialog(this.template);
           }
         }
@@ -387,8 +239,24 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onPreview() {
+    this.checkForm();
+    let prevData = JSON.parse(JSON.stringify(this.data));
+    if (!prevData.audited.submit_annual_accounts) {
+      delete prevData.audited.standardized_data;
+      delete prevData.audited.provisional_data;
+    } else if (!prevData.audited.submit_standardized_data) {
+      delete prevData.audited.provisional_data;
+    }
+
+    if (!prevData.unAudited.submit_annual_accounts) {
+      delete prevData.unAudited.standardized_data;
+      delete prevData.unAudited.provisional_data;
+    } else if (!prevData.unAudited.submit_standardized_data) {
+      delete prevData.unAudited.provisional_data;
+    }
+
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
-      data: [this.auditResponse, this.unauditResponse],
+      data: prevData,
       height: "95%",
       width: "85vw",
       panelClass: "no-padding-dialog",
@@ -402,35 +270,17 @@ export class AnnualAccountsComponent implements OnInit {
       this.isDisabled = true;
     }
     this.annualAccountsService
-      .getData(
-        {
-          design_year: this.Years["2021-22"],
-        },
-        ulbId
-      )
+      .getData({
+        design_year: this.Years["2021-22"],
+        ulb: ulbId,
+      })
       .subscribe(
         async (res) => {
-          console.log(res);
-
-          const responseType =
-            res["data"][0]["audit_status"] === "Audited"
-              ? "auditResponse"
-              : "unauditResponse";
-          await this.dataPopulate(res["data"][0], responseType);
-          let type =
-            responseType === "auditResponse"
-              ? "unauditResponse"
-              : "auditResponse";
-          await this.dataPopulate(res["data"][1], type);
-          const toStoreResponse = [this.auditResponse, this.unauditResponse];
-          sessionStorage.setItem(
-            "annualAccounts",
-            JSON.stringify(toStoreResponse)
-          );
-          console.log(toStoreResponse);
+          this.dataPopulate(res);
+          console.log(res, "---------------");
         },
         (err) => {
-          const toStoreResponse = [this.auditResponse, this.unauditResponse];
+          const toStoreResponse = this.data;
           sessionStorage.setItem(
             "annualAccounts",
             JSON.stringify(toStoreResponse)
@@ -440,192 +290,105 @@ export class AnnualAccountsComponent implements OnInit {
       );
   }
 
-  dataPopulate(res, type) {
-    console.log("Ssssss");
-
-    return new Promise((resolve, rej) => {
-      for (let key in res) {
-        let value = res[key];
-        if (typeof value === "object" && value !== null) {
-          for (let key2 in value) {
-            let value2 = value[key2];
-            if (typeof value2 === "object" && value2 !== null) {
-              for (let key3 in value2) {
-                if (
-                  this[type][key][key2][key3] ||
-                  this[type][key][key2][key3] === null
-                ) {
-                  this[type][key][key2][key3] = res[key][key2][key3];
-                }
-              }
-            } else if (
-              this[type][key][key2] ||
-              this[type][key][key2] === null
-            ) {
-              this[type][key][key2] = res[key][key2];
-            }
-          }
-        } else if (this[type][key] || this[type][key] === null) {
-          this[type][key] = res[key];
-        }
-      }
-      const isAudit = type === "auditResponse" ? true : null;
-      if (this[type].submit_annual_accounts.answer == "yes")
-        this.answer("q1", true, isAudit, true);
-      if (this[type].submit_standardized_data.answer == "yes")
-        this.answer("q2", true, isAudit, true);
-      resolve("success");
-    });
+  dataPopulate(res) {
+    delete res.modifiedAt;
+    delete res.createdAt;
+    delete res.isActive;
+    delete res._id;
+    delete res.__v;
+    delete res.actionTakenBy;
+    this.data = res;
+    let index = 0;
+    for (const key in res.audited.provisional_data) {
+      this.auditQues[index].data = res.audited.provisional_data[key];
+      index++;
+    }
+    index = 0;
+    for (const key in res.unAudited.provisional_data) {
+      this.unAuditQues[index].data = res.unAudited.provisional_data[key];
+      index++;
+    }
+    this.checkForm();
   }
 
   async submit(template = null) {
-    await this.checkForm(this.unauditResponse);
-    await this.checkForm(this.auditResponse);
-    if (template != null) {
-      if (
-        !this.unauditResponse.isCompleted ||
-        !this.auditResponse.isCompleted
-      ) {
-        this.alertError =
-          "Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?";
-        this.openDialog(template);
-        return;
-      }
-    }
-    if (this.unauditResponse.isCompleted == false) {
-      await this.save(this.auditResponse);
-      await this.save(this.unauditResponse);
+    this.checkForm();
+    console.log(this.data);
+    if (template && this.data.isDraft) {
+      this.openDialog(template);
     } else {
-      await this.save(this.unauditResponse);
-      await this.save(this.auditResponse);
+      await this.save(this.data);
     }
-    let res = false;
-    if (this.unauditResponse.isCompleted && this.auditResponse.isCompleted) {
-      res = true;
-    }
-    const status = JSON.parse(sessionStorage.getItem("allStatus"));
-    status.annualAccounts.isSubmit = res;
-    this._ulbformService.allStatus.next(status);
-    swal("Record submitted successfully!");
-    sessionStorage.setItem("changeInAnnual", "false");
-    if (template != null)
-      return this._router.navigate(["ulbform/service-level"]);
   }
 
   save(form) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, rej) => {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
-          const toStoreResponse = [this.auditResponse, this.unauditResponse];
-          console.log(toStoreResponse);
-
-          sessionStorage.setItem(
-            "annualAccounts",
-            JSON.stringify(toStoreResponse)
-          );
-          resolve("success");
+          sessionStorage.setItem("changeInAnnual", "false");
+          console.log(res);
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.annualAccounts.isSubmit = res["isCompleted"];
+          this._ulbformService.allStatus.next(status);
+          swal("Record submitted successfully!");
+          resolve("sucess");
         },
         (err) => {
           swal("Failed To Save");
+          resolve(err);
         }
       );
     });
   }
 
-  checkForm(form) {
-    return new Promise((res, rej) => {
-      if (
-        form.submit_standardized_data.answer === "no" ||
-        form.submit_standardized_data.answer === null
-      ) {
-        delete form.standardized_data;
-      }
-      if (form.submit_annual_accounts.answer === "no") {
-        form.submit_standardized_data.answer = null;
-        delete form.provisional_data;
-        delete form.standardized_data;
-        form["isCompleted"] = true;
-        return res(form);
-      } else if (form.submit_annual_accounts.answer === null) {
-        delete form.provisional_data;
-      }
-      let flag = false;
-      for (let key in form) {
-        let value = form[key];
-        if (typeof value === "object" && value !== null) {
-          for (let key2 in value) {
-            let value2 = value[key2];
-            if (key2 === "auditor_report" && form.audit_status !== "Audited") {
-              delete form.provisional_data.auditor_report;
-              continue;
-            }
-            if (typeof value2 === "object" && value2 !== null) {
-              for (let key3 in value2) {
-                if (
-                  key3 === "progressExcel" ||
-                  key3 === "excelUrl" ||
-                  key3 === "excelName" ||
-                  key3 === "progress" ||
-                  key3 === "excelError" ||
-                  key3 === "pdfName" ||
-                  key3 === "pdfError" ||
-                  key3 === "rejectReason" ||
-                  key3 === "file" ||
-                  key3 === "excelFile"
-                ) {
-                  continue;
-                }
-                if (key3 === "retry") {
-                  if (form[key][key2][key3] == true) {
-                    form[key][key2]["pdfName"] = null;
-                    form[key][key2]["progress"] = null;
-                    form[key][key2][key3] = false;
-                  }
-                }
+  checkForm() {
+    if (
+      this.data.audited.submit_annual_accounts == false &&
+      this.data.unAudited.submit_annual_accounts == false
+    ) {
+      this.data.isDraft = false;
+      return;
+    }
 
-                if (key3 === "excelRetry" || key3 === "secondExcelRetry") {
-                  if (form[key][key2][key3] == true) {
-                    form[key][key2]["excelName"] = null;
-                    form[key][key2]["progprogressExcelress"] = null;
-                    form[key][key2][key3] = false;
-                  }
-                }
-
-                if (form[key][key2][key3] === null) {
-                  this.errorHandler(form, key, key2, key3);
-                  flag = true;
-                }
-              }
-            } else if (form[key][key2] === null) {
-              this.errorHandler(form, key, key2);
-              flag = true;
-            }
-          }
-        } else if (form[key] === null) {
-          flag = true;
+    let index = 0;
+    if (this.data.audited.submit_annual_accounts) {
+      for (const key in this.data.audited.provisional_data) {
+        if (
+          this.data.audited.provisional_data[key].pdf.url == null ||
+          this.data.audited.provisional_data[key].pdf.name == null
+        ) {
+          this.auditQues[index].error = true;
+          this.data.isDraft = true;
         }
+        index++;
       }
-      if (flag) {
-        form["isCompleted"] = false;
-      } else {
-        form["isCompleted"] = true;
+    } else if (this.data.audited.submit_annual_accounts == null) {
+      this.answerError.audited.submit_annual_accounts = true;
+      this.data.isDraft = true;
+    }
+    if (this.data.unAudited.submit_annual_accounts) {
+      index = 0;
+      for (const key in this.data.unAudited.provisional_data) {
+        if (
+          this.data.unAudited.provisional_data[key].pdf.url == null ||
+          this.data.unAudited.provisional_data[key].pdf.name == null
+        ) {
+          this.unAuditQues[index].error = true;
+          this.data.isDraft = true;
+        }
+        index++;
       }
-      res(form);
-    });
-  }
-
-  errorHandler(form, key, key2, key3 = null) {
-    if (key3 == "pdfUrl") {
-      form[key][key2]["pdfError"] = this.pdfError;
+    } else if (this.data.unAudited.submit_annual_accounts == null) {
+      this.answerError.unAudited.submit_annual_accounts = true;
+      this.data.isDraft = true;
     }
-    if (key2 === "answer") {
-      this.answerError[form["audit_status"]][key] = true;
-      setTimeout(() => {
-        this.answerError[form["audit_status"]][key] = false;
-      }, 4000);
+    if (this.data.unAudited.submit_standardized_data == null) {
+      this.answerError.unAudited.submit_standardized_data = true;
+      this.data.isDraft = true;
     }
-    if (key2 == "auditor_registration") {
-      form[key]["auditor_registration_error"] = "Field Empty";
+    if (this.data.audited.submit_standardized_data == null) {
+      this.answerError.audited.submit_standardized_data = true;
+      this.data.isDraft = true;
     }
   }
 
@@ -634,20 +397,22 @@ export class AnnualAccountsComponent implements OnInit {
     switch (audit) {
       case "Audited":
         this.dateShow = "2019-20";
-        this.response = "auditResponse";
-        this[this.response].audit_status = audit;
-        // this[this.response].year = this.Years["2019-20"] ;
         break;
       default:
         this.dateShow = "2020-21";
-        this.response = "unauditResponse";
-        this[this.response].audit_status = audit;
-        // this[this.resresponseponse].year = this.Years["2020-21"];
         break;
     }
+    this.checkDiff();
+  }
+
+  declareCheck(data) {
+    console.log(data);
+    data.declaration = !data.declaration;
+    this.checkDiff();
   }
 
   async clickedSaveAndNext(template) {
+    console.log(JSON.stringify(this.data));
     this.clickedSave = true;
     let changeHappen = sessionStorage.getItem("changeInAnnual");
     if (changeHappen === "true") {
@@ -657,219 +422,102 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
   answer(question, val, isAudit = null, fromStart = false) {
+    let status = isAudit ? "audited" : "unAudited";
     switch (question) {
       case "q1":
-        if (isAudit) this.quesOneAnswer1 = val;
-        else this.quesOneAnswer = val;
+        this.answerError[status].submit_annual_accounts = false;
         if (val) {
-          this[this.response].submit_annual_accounts.answer = "yes";
+          this.data[status].submit_annual_accounts = val;
         } else {
-          this[this.response].submit_annual_accounts.answer = "no";
+          this.data[status].submit_annual_accounts = val;
         }
+        this.checkDiff();
         break;
       default:
-        if (isAudit) {
-          this.quesTwoAnswer1 = val;
-        } else {
-          this.quesTwoAnswer = val;
-        }
+        this.answerError[status].submit_standardized_data = false;
         if (val) {
-          this[this.response].submit_standardized_data.answer = "yes";
+          this.data[status].submit_standardized_data = val;
         } else {
-          this[this.response].submit_standardized_data.answer = "no";
+          this.data[status].submit_standardized_data = val;
         }
+        this.checkDiff();
         break;
     }
-    if (!fromStart)
-      this.checkDiff(isAudit ? "auditResponse" : "unauditResponse");
   }
 
-  clearFile(path, type = null, fromUploadExcel = null) {
-    if (this.isDisabled) {
-      return true;
+  clearFile(fileType) {
+    let temp = this.data[fileType].standardized_data.excel;
+    for (const key in temp) {
+      temp[key] = null;
     }
-    const clearPathArray = fromUploadExcel ? path : path.split(".");
-    if (type) {
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]]["pdfUrl"] =
-        null;
-
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
-        "progress"
-      ] = null;
-
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]]["pdfName"] =
-        null;
-    } else {
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
-        "excelUrl"
-      ] = null;
-
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
-        "progressExcel"
-      ] = null;
-
-      this[clearPathArray[0]][clearPathArray[1]][clearPathArray[2]][
-        "excelName"
-      ] = null;
+    temp = this.uploadErrors[fileType].standardized_data;
+    for (const key in temp) {
+      temp[key] = null;
     }
   }
 
-  fileChangeEvent(
-    event,
-    progressType,
-    fileName,
-    type = null,
-    isUploadExcel = null
-  ) {
-    this.resetFileTracker();
-    this.isPdf = type;
-    this.progressArray = progressType.split(".");
-    this.fileNameArray = fileName.split(".");
-    if (event.target?.files)
-      this.fileSelected = <Array<File>>event.target["files"];
-    else this.fileSelected = [event];
-    if (type) {
-      this[this.fileNameArray[0]][this.fileNameArray[1]][this.fileNameArray[2]][
-        "file"
-      ] = this.fileSelected[0];
-    } else {
-      this[this.fileNameArray[0]][this.fileNameArray[1]][this.fileNameArray[2]][
-        "excelFile"
-      ] = this.fileSelected[0];
-    }
-    if (type) {
-      this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
-        "retry"
-      ] = false;
-    } else {
-      this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
-        "excelRetry"
-      ] = false;
-    }
-
-    if (isUploadExcel) {
-      this[this.progressArray[0]][this.progressArray[1]][this.progressArray[2]][
-        "secondExcelRetry"
-      ] = false;
-    }
-    this.upload(this.progressArray, this.fileNameArray, type, isUploadExcel);
+  async fileChangeEvent(event, fileType) {
+    this.uploadErrors[fileType].standardized_data.progress = 10;
+    let files;
+    if (event?.target) files = event.target.files[0];
+    else files = event;
+    this.uploadFile(files, files.name, files.type, fileType);
   }
 
-  resetFileTracker() {
-    this.progressArray = null;
-    this.fileNameArray = null;
-  }
+  uploadFile(file, name, type, fileType) {
+    this.uploadErrors[fileType].standardized_data.progress = 20;
+    this.dataEntryService.getURLForFileUpload(name, type).subscribe(
+      (s3Response) => {
+        this.uploadErrors[fileType].standardized_data.progress = 50;
+        const res = s3Response.data[0];
+        this.data[fileType].standardized_data.excel.name = name;
 
-  async upload(progressArray, fileNameArray, isPdf, isUploadExcel) {
-    this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
-      fileNameArray[3]
-    ] = this.fileSelected[0].name;
-    this[progressArray[0]][progressArray[1]][progressArray[2]][
-      progressArray[3]
-    ] = 10;
-    try {
-      await this.uploadFile();
-      if (isUploadExcel) {
-        await this.uploadExcel(progressArray);
-        this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
-          "excelError"
-        ] = null;
-      }
-      this.checkDiff(fileNameArray[0]);
-    } catch (error) {
-      if (isUploadExcel) {
-        this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
-          "excelError"
-        ] = error?.data?.message || "Upload Error";
-        this[fileNameArray[0]][fileNameArray[1]][fileNameArray[2]][
-          "secondExcelRetry"
-        ] = true;
-      }
-      //  else this.clearFile(fileNameArray, isPdf, true);
-    }
-  }
-
-  async uploadFile() {
-    return new Promise((resolve, reject) => {
-      this.dataEntryService
-        .getURLForFileUpload(
-          this.fileSelected[0].name,
-          this.fileSelected[0].type
-        )
-        .subscribe(
-          async (s3Response) => {
-            const fileAlias = s3Response["data"][0]["file_alias"];
-            this[this.progressArray[0]][this.progressArray[1]][
-              this.progressArray[2]
-            ][this.progressArray[3]] = Math.floor(Math.random() * 90) + 10;
-            const s3URL = s3Response["data"][0].url;
-            try {
-              await this.uploadFileToS3(this.fileSelected[0], s3URL, fileAlias);
-              resolve("success");
-            } catch (error) {
-              reject(error);
-            }
-          },
-          (err) => {
-            reject(err);
-          }
+        this.uploadFileToS3(
+          file,
+          res["url"],
+          res["file_alias"],
+          name,
+          fileType
         );
-    });
+      },
+      (err) => {
+        console.log(err);
+        this.uploadErrors[fileType].standardized_data.file = file;
+        this.uploadErrors[fileType].standardized_data.error = err;
+      }
+    );
   }
 
-  private uploadFileToS3(file: File, s3URL: string, fileAlias: string) {
-    return new Promise((resolve, reject) => {
-      this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
-        (res) => {
-          if (res.type === HttpEventType.Response) {
-            this[this.progressArray[0]][this.progressArray[1]][
-              this.progressArray[2]
-            ][this.progressArray[3]] = 100;
-            if (this.isPdf) {
-              this[this.progressArray[0]][this.progressArray[1]][
-                this.progressArray[2]
-              ]["pdfUrl"] = fileAlias;
-              this[this.progressArray[0]][this.progressArray[1]][
-                this.progressArray[2]
-              ]["pdfError"] = null;
-            } else {
-              this[this.progressArray[0]][this.progressArray[1]][
-                this.progressArray[2]
-              ]["excelUrl"] = fileAlias;
-            }
-            this[this.progressArray[0]][this.progressArray[1]][
-              this.progressArray[2]
-            ]["file"] = null;
-            resolve("Success");
-          }
-        },
-        (err) => {
-          if (this.progressArray[3] != "progressExcel")
-            this[this.progressArray[0]][this.progressArray[1]][
-              this.progressArray[2]
-            ]["retry"] = true;
-          else
-            this[this.progressArray[0]][this.progressArray[1]][
-              this.progressArray[2]
-            ]["excelRetry"] = true;
-
-          reject(err);
+  private uploadFileToS3(
+    file: File,
+    s3URL: string,
+    fileAlias: string,
+    name,
+    fileType
+  ) {
+    this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
+      (res) => {
+        this.uploadErrors[fileType].standardized_data.progress = 60;
+        if (res.type === HttpEventType.Response) {
+          this.uploadErrors[fileType].standardized_data.progress = 80;
+          this.uploadExcel(file, fileAlias, name, fileType);
         }
-      );
-    });
+      },
+      (err) => {
+        this.uploadErrors[fileType].standardized_data.file = file;
+        this.uploadErrors[fileType].standardized_data.error = err;
+      }
+    );
   }
 
-  async uploadExcel(progressArray) {
+  async uploadExcel(file: File, fileAlias: string, name, fileType) {
     return new Promise((resolve, rej) => {
       let newObj = {
-        alias:
-          this[progressArray[0]][progressArray[1]][this.progressArray[2]][
-            "excelUrl"
-          ],
+        alias: fileAlias,
         financialYear: "",
-        design_year: this[progressArray[0]]["design_year"],
+        design_year: this.Years["2021-22"],
       };
-      if (this[progressArray[0]]["audit_status"] === "Audited") {
+      if (fileType === "audited") {
         newObj.financialYear = "2019-20";
       } else {
         newObj.financialYear = "2021-22";
@@ -878,12 +526,24 @@ export class AnnualAccountsComponent implements OnInit {
         async (res) => {
           try {
             await this.checkExcelStatus(res["data"]);
+            this.uploadErrors[fileType].standardized_data.progress = 100;
+            this.data[fileType].standardized_data.excel.url = fileAlias;
+
+            this.uploadErrors[fileType].standardized_data.file = null;
+            this.uploadErrors[fileType].standardized_data.error = null;
+            this.checkDiff();
           } catch (error) {
+            this.uploadErrors[fileType].standardized_data.file = file;
+            this.uploadErrors[fileType].standardized_data.error =
+              error?.data.message;
+            this.data[fileType].standardized_data.excel.url = null;
             rej(error);
           }
           resolve("Success");
         },
         (err) => {
+          this.uploadErrors[fileType].standardized_data.file = file;
+          this.uploadErrors[fileType].standardized_data.error = err;
           rej(err);
         }
       );
@@ -907,32 +567,13 @@ export class AnnualAccountsComponent implements OnInit {
     });
   }
 
-  declareCheck(res) {
-    if (this[res]["standardized_data"]["declaration"] == null)
-      this[res]["standardized_data"]["declaration"] = true;
-    else
-      this[res]["standardized_data"]["declaration"] =
-        !this[res]["standardized_data"]["declaration"];
-    this.checkDiff(res);
-  }
+  checkDiff() {
+    let storedData = sessionStorage.getItem("annualAccounts");
+    let toCompData = JSON.stringify(this.data);
+    console.log(storedData, toCompData);
 
-  checkDiff(status) {
-    const annualAccounts = sessionStorage.getItem("annualAccounts");
-    const currentAnnualAccounts = JSON.stringify([
-      this.unauditResponse,
-      this.auditResponse,
-    ]);
-    if (annualAccounts != currentAnnualAccounts) {
+    if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
-
-      let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
-      if (allFormData) {
-        allFormData.annualAccountData = [
-          this.unauditResponse,
-          this.auditResponse,
-        ];
-        this._ulbformService.allFormsData.next(allFormData);
-      }
     } else {
       sessionStorage.setItem("changeInAnnual", "false");
     }
@@ -968,5 +609,54 @@ export class AnnualAccountsComponent implements OnInit {
   }
   alertClose() {
     this.stay();
+  }
+
+  getUploadFileData(e, fileType, quesName, index) {
+    console.log(e, fileType, quesName, index);
+    if (fileType == "audited") {
+      this.auditQues.forEach((ele) => {
+        if (ele.name === quesName) {
+          ele.data = e;
+          ele.error = false;
+          return true;
+        }
+      });
+    } else {
+      this.unAuditQues.forEach((ele) => {
+        if (ele.name === quesName) {
+          ele.data = e;
+          ele.error = false;
+          return true;
+        }
+      });
+    }
+    let newData = {
+      pdf: {
+        url: e.pdf.url,
+        name: e.pdf.name,
+      },
+      excel: { url: e.excel.url, name: e.excel.name },
+    };
+    switch (quesName) {
+      case "Balance Sheet":
+        this.data[fileType].provisional_data.bal_sheet = newData;
+        break;
+      case "Balance Sheet Schedule":
+        this.data[fileType].provisional_data.bal_sheet_schedules = newData;
+        break;
+      case "Income Expenditure":
+        this.data[fileType].provisional_data.inc_exp = newData;
+        break;
+      case "Income Expenditure Schedule":
+        this.data[fileType].provisional_data.inc_exp_schedules = newData;
+        break;
+      case "Cash flow Statement":
+        this.data[fileType].provisional_data.cash_flow = newData;
+        break;
+      case "Auditor Report":
+        this.data[fileType].provisional_data.auditor_report = newData;
+        break;
+    }
+    this.checkDiff();
   }
 }
