@@ -1,13 +1,16 @@
 <div class="container-fluid" #annualPreview id="annualPreview">
     <div class="row">
         <div class="col-sm-12 header-p">
-            <a *ngIf="!fromParent" mat-dialog-close
-                style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!fromParent" (click)="closeMat()" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
             </a>
-            <div class="col-sm-12 heading-p">Annual Accounts: 2021-22</div>
+            <!-- <div class="col-sm-12 heading-p">Annual Accounts: 2021-22</div> -->
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!fromParent  ? '' : '1.5rem'}">
+                <span *ngIf="!fromParent"> Submissions for 15th FC Grants for FY 2021-22</span>
+                <br *ngIf="!fromParent"><b class="sub-h">{{ulbName}},{{stateName}}</b>
+            </div>
         </div>
     </div>
     <!-- <div class="row hi" style="margin-top: 1.5rem;">
@@ -24,17 +27,20 @@
             <br *ngIf="!fromParent">
             <b>Form Current Status:</b> {{formStatusCheck}}
         </p>
-        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%; height: 2pc;"
-            class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
+        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%; height: 2pc;" class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
             Download as PDF
         </button>
     </div>
 
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 0; margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-12 text-center form-h">
+                    Annual Accounts
+                </div>
+            </div>
             <div class="row m-an" style="margin: 0;">
-                <div class="col-sm-12 h-annual"
-                    style="background-color: #124A55; margin: 0; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-12 h-annual" style="background-color: #124A55; margin: 0; color: #FFFFFF; padding: 4px;">
                     Provisional Accounts for 2020-21
                 </div>
             </div>
@@ -198,11 +204,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-8 qus-h-an">
-                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the
-                            standardised financial statements uploaded above. I hereby confirm that I have verified the
-                            information uploaded in standardized template and it is true and correct. It
-                            is confirmed that this information can be made available for public consumption on the
-                            CityFinance portal.
+                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
+                            is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-4">
                             <span class="ans-h-an"
@@ -222,8 +225,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
             <div class="row m-an" style="margin: 0;">
-                <div class="col-sm-12 h-annual"
-                    style="margin: 0; background-color: #124A55; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-12 h-annual" style="margin: 0; background-color: #124A55; color: #FFFFFF; padding: 4px;">
                     Audited Accounts for 2019-20
                 </div>
             </div>
@@ -401,11 +403,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-8 qus-h-an">
-                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the
-                            standardised financial statements uploaded above. I hereby confirm that I have verified the
-                            information uploaded in standardized template and it is true and correct. It
-                            is confirmed that this information can be made available for public consumption on the
-                            CityFinance portal.
+                            Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above. I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It
+                            is confirmed that this information can be made available for public consumption on the CityFinance portal.
                         </div>
                         <div class="col-sm-4 ">
                             <span class="ans-h-an"
@@ -436,8 +435,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
     </div>

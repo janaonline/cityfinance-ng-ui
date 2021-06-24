@@ -48,7 +48,12 @@
                                                 <input type="text" [formControl]="nodal_of_phn" class="s-th p-s" (change)="stateData()">
                                             </th>
                                             <th class="filter">
-
+                                                <button class="btn btn-t" (click)="stateData()">Search</button>
+                                                <a (click)="loadData()">
+                                                    <mat-icon aria-hidden="false">
+                                                        <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
+                                                    </mat-icon>
+                                                </a>
                                             </th>
                                         </tr>
 

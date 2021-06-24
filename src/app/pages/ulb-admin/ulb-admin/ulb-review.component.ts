@@ -94,6 +94,7 @@ nodataFound = false;
   }
   viewUlbForm(resData){
      console.log('pk123456',resData);
+     sessionStorage.setItem('ulb_id',resData?.ulb)
      sessionStorage.setItem('isMillionPlus', resData.isMillionPlus);
      sessionStorage.setItem('isUA', resData.isUA);
      sessionStorage.setItem('stateName', resData.state);

@@ -117,6 +117,13 @@ margin-top:40px;
 margin-left:auto;
 margin-right:auto;
 }
+.pieChart{
+height:297px;
+width:100%;
+// margin-left:auto;
+// margin-right:auto;
+
+}
 
 .smallDonuts{
     height:120px;
@@ -165,7 +172,7 @@ color:black;
     border-radius: 4px;
     width:inherit;
     margin-bottom: 50px;
-    height:181px
+    height:297px
 }
 
 .header{
@@ -240,3 +247,6 @@ rect {
     z-index:2;
  }
  
+ #brandingLogo{
+     opacity:0
+ }

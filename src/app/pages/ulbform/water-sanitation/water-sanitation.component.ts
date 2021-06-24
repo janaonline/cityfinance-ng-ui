@@ -7,13 +7,15 @@ import { UlbformService } from "../ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 import { Subject } from "rxjs";
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 @Component({
   selector: "app-water-sanitation",
   templateUrl: "./water-sanitation.component.html",
   styleUrls: ["./water-sanitation.component.scss"],
 })
-export class WaterSanitationComponent implements OnInit {
+export class WaterSanitationComponent extends BaseComponent implements OnInit {
   dialogRefForNavigation;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
@@ -29,13 +31,21 @@ export class WaterSanitationComponent implements OnInit {
   HRS = 24;
   sanitationToolTip;
   waterToolTip;
-
+  isDisabled = false;
   constructor(
     private _router: Router,
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public _ulbformService: UlbformService
   ) {
+    super();
+    switch (this.loggedInUserType) {
+      case USER_TYPE.STATE:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.MoHUA:
+      case USER_TYPE.ADMIN:
+           this.isDisabled = true;
+        }
     this.errorSet.subscribe((res) => {
       const { keys, value } = res;
       if (value === undefined) {
@@ -422,5 +432,8 @@ export class WaterSanitationComponent implements OnInit {
       }
     }
     this.body.isDraft = false;
+  }
+  checkStatus(ev){
+    console.log('actionValues', ev);
   }
 }

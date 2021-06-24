@@ -186,6 +186,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         console.log(res);
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.pfmsAccount.isSubmit = res["isCompleted"];
+        console.log(status)
         this._ulbformService.allStatus.next(status);
 
         swal("Record submitted successfully!")

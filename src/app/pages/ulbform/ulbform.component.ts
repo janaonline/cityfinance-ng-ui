@@ -27,6 +27,8 @@ export class UlbformComponent implements OnInit {
   isMillionPlus;
   isUA;
   id = null;
+  backHeader;
+  backLink;
   validate = true
   constructor(
     private _commonService: CommonService,
@@ -44,9 +46,7 @@ export class UlbformComponent implements OnInit {
       if (id) {
         this.id = id;
         console.log("pkstid", id);
-        // sessionStorage.setItem('row_id', id);
-        // return this._router.navigate(['/ulbform/overview',
-        // id]);
+
       } else {
 
       }
@@ -82,6 +82,9 @@ export class UlbformComponent implements OnInit {
   };
 
   async ngOnInit() {
+
+
+
     this.ulbformService.allStatus.subscribe((status) => {
       this.allStatus = status;
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
@@ -94,14 +97,22 @@ export class UlbformComponent implements OnInit {
     });
     this.getStatus();
     this.getAllForm();
+    this.submitted = false;
+    // let masterData = JSON.parse(sessionStorage.getItem("masterForm"))
+    // if (masterData) {
+    //   console.log(masterData)
+    //   this.submitted = masterData['isSubmit']
+    // }
+    // console.log("submitted", this.submitted)
 
   }
 
   getStatus() {
     this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
-
         this.ulbformService.allStatus.next(res["response"]["steps"]);
+        this.submitted = res["response"]["isSubmit"]
+
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -133,12 +144,13 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
+      this.backHeader = '15FC Grants for 2021-22';
+      this.backLink = '../fc-home-page'
     }
     else {
+      this.backHeader = 'State Dashboard';
+      this.backLink = '../stateform/dashboard'
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
-      if (this.isMillionPlus == null || this.isMillionPlus == undefined) {
-
-      }
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
     }
@@ -187,14 +199,33 @@ export class UlbformComponent implements OnInit {
   //   panelClass: "XVfc-preview",
   //   disableClose: false,
   // });
-  data;
+  submitted = false;
   finalSubmit() {
+    let data = {
+      "design_year": this.design_year,
+      "isSubmit": true,
+      "status": "PENDING",
+      actionTakenByRole: "ULB"
+    }
     this.checkValidationStatusOfAllForms();
     if (!this.validate) {
       swal("Kindly Fill All the Forms Completely Before Submitting")
     } else {
-      this.ulbformService.postMasterForm(this.data)
-      swal("Forms Successfully Submitted to be Reviewed by State and MoHUA")
+
+      this.ulbformService.postMasterForm(data)
+        .subscribe(
+          res => {
+            console.log(res)
+            this.submitted = true;
+            swal("Forms Successfully Submitted to be Reviewed by State and MoHUA")
+          },
+          err => {
+            console.log(err);
+            swal('Form Submission Failed!')
+          }
+
+        )
+
     }
 
 

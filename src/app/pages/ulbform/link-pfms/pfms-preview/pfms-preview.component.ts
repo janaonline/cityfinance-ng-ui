@@ -32,7 +32,7 @@ export class PfmsPreviewComponent implements OnInit {
   styleForPDF = `<style>
     .header-p {
       background-color: #047474;
-      height: 90px;
+      height: 75px;
       text-align: center;
   }
   .heading-p {
@@ -42,6 +42,17 @@ export class PfmsPreviewComponent implements OnInit {
       font-weight: 700;
 
   }
+  .sub-h {
+    font-weight: 600 !important;
+    font-size: 14px;
+}
+
+.form-h {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+}
 
   .card {
       margin-top: 10px !important;

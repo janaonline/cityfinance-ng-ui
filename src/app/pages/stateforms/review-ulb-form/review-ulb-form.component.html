@@ -12,9 +12,9 @@
                             <table class="table">
                                 <thead>
                                     <tr style="background-color: #047474; color: #FFFFFF;">
-                                        <th scope="col">S.No</th>
+                                        <th scope="col" style="width: 1%;">S.No</th>
                                         <th scope="col">ULB Name </th>
-                                        <th scope="col">ULB Census Code/ ULB Code </th>
+                                        <th scope="col" style="width: 11%;">ULB Census Code/ ULB Code </th>
                                         <th scope="col">ULB Type</th>
                                         <th scope="col">Population Type</th>
                                         <th scope="col">Name of UA</th>
@@ -24,13 +24,13 @@
                                 </thead>
                                 <thead>
                                     <tr class="filter">
-                                        <th class="filter"></th>
+                                        <th class="filter" style="width: 1%;"></th>
 
                                         <th class="filter">
                                             <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData()">
                                         </th>
-                                        <th class="filter">
+                                        <th class="filter" style="width: 11%;">
                                             <span class="s-s"><img src="../../../../assets/ulbform/search_black_18dp.svg"></span>
                                             <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData()">
                                         </th>
@@ -68,10 +68,15 @@
                                         <option value="PENDING">PENDING</option>
                                         <option value="REJECTED">REJECTED</option>
                                         <option value="NA">NA</option>
-
-
-
                                       </select>
+                                        </th>
+                                        <th class="filter">
+                                            <button class="btn btn-t" (click)="stateData()">Search</button>
+                                            <a (click)="loadData()">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
+                                                </mat-icon>
+                                            </a>
                                         </th>
                                     </tr>
 
@@ -85,26 +90,30 @@
                                         currentPage: tableDefaultOptions.currentPage,
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}</td>
+                                        <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode || resData.sbCode }}</td>
+                                        <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode || resData.sbCode }}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.populationType}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">{{resData.status}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit == false)">
+
                                             <a (click)="viewUlbForm(resData)" [routerLink]="[
-                                          '/ulbform/overview',
-                              resData?._id
-                            ]">
+                                          '/ulbform/overview', resData?._id  ]">
                                                 <!-- <a (click)="viewUlbForm(resData)" [routerLink]="[
-                            '/ulbform',
-                resData?._id
-              ]"> -->
+                            '/ulbform',  resData?._id ]"> -->
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">
                                                 </mat-icon>
                                             </a>
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit == true)">
+                                            <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
+                                        '/ulbform/overview', resData?._id  ]">
+
+                                  Take Action
+                                          </a>
                                         </td>
                                     </tr>
                                 </tbody>

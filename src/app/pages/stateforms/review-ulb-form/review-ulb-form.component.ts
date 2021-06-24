@@ -45,6 +45,9 @@ export class ReviewUlbFormComponent implements OnInit {
   status_s = new FormControl('');
 
   ngOnInit() {
+   this.loadData();
+  }
+  loadData(){
     this._stateformsService.getUlbReview()
     .subscribe((res) => {
       console.log('profile', res);
@@ -130,6 +133,7 @@ export class ReviewUlbFormComponent implements OnInit {
     }
     viewUlbForm(resData){
       console.log('review',resData);
+      sessionStorage.setItem('ulb_id',resData?.ulb)
       sessionStorage.setItem('isMillionPlus', resData.isMillionPlus);
       sessionStorage.setItem('isUA', resData.isUA);
       sessionStorage.setItem('stateName', resData.state);
