@@ -1,37 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { delay, map, retryWhen } from 'rxjs/operators';
-import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { GAservicesService } from './g-aservices.service';
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { delay, map, retryWhen } from "rxjs/operators";
+import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
+import { HttpEventType, HttpResponse } from "@angular/common/http";
+import { GAservicesService } from "./g-aservices.service";
 import { SweetAlert } from "sweetalert/typings/core";
-import { GrantAllPreviewComponent } from './grant-all-preview/grant-all-preview.component';
-import { MatDialog } from '@angular/material/dialog';
+import { GrantAllPreviewComponent } from "./grant-all-preview/grant-all-preview.component";
 const swal: SweetAlert = require("sweetalert");
-import * as fileSaver from 'file-saver';
-
+import * as fileSaver from "file-saver";
+import { Router, NavigationStart, Event } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-grant-allocation',
-  templateUrl: './grant-allocation.component.html',
-  styleUrls: ['./grant-allocation.component.scss']
+  selector: "app-grant-allocation",
+  templateUrl: "./grant-allocation.component.html",
+  styleUrls: ["./grant-allocation.component.scss"],
 })
 export class GrantAllocationComponent implements OnInit {
-
   constructor(
     private dataEntryService: DataEntryService,
     private _gAservices: GAservicesService,
     private dialog: MatDialog,
-  ) { }
-  account = '';
-  linked = '';
-  err ='';
-  state_name = '';
+    private _router: Router
+  ) {
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url === "/" || event.url === "/login") {
+          sessionStorage.setItem("ChangeInGrantAllocation", "false");
+          return;
+        }
+        const change = sessionStorage.getItem("ChangeInGrantAllocation");
+        if (change === "true" && this.routerNavigate === null) {
+          this.dialog.closeAll();
+          this.routerNavigate = event;
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.openModal(this.template);
+        }
+      }
+    });
+  }
+  @ViewChild("template") template;
+  @ViewChild("template1") template1;
+  dialogRefForNavigation;
+
+  saveBtnText = "NEXT";
+  routerNavigate = null;
+  account = "";
+  linked = "";
+  err = "";
+  state_name = "";
   postData;
   submitted;
   templateUrl;
   filesToUpload: Array<File> = [];
-  gtFileUrl ='';
-  fileName ='';
+  gtFileUrl = "";
+  fileName = "";
   progessType;
   fileUploadTracker: {
     [fileIndex: number]: {
@@ -50,51 +75,55 @@ export class GrantAllocationComponent implements OnInit {
   filesAlreadyInProcess: number[] = [];
 
   ngOnInit() {
- this.state_name = localStorage.getItem('state_name');
- //console.log('gaa', this.state_name);
-  this._gAservices.getFiles().subscribe(res => {
-    console.log('gaResponse', res)
-    let gAData: any = res;
-    if(gAData.data.answer == true){
-      this.account = 'yes';
-      this.fileName = gAData.data.fileName;
-      this.gtFileUrl = gAData.data.url;
-    }
-    else if(gAData.data.answer == false){
-      this.account = 'no';
-    }
-  },
-  errMes => {
-    // alert(errMes)
-    console.log(errMes);
-  })
-
+    sessionStorage.setItem("ChangeInGrantAllocation", "false");
+    this.state_name = localStorage.getItem("state_name");
+    //console.log('gaa', this.state_name);
+    this._gAservices.getFiles().subscribe(
+      (res) => {
+        console.log("gaResponse", res);
+        let gAData: any = res;
+        if (gAData.data.answer == true) {
+          this.account = "yes";
+          this.fileName = gAData.data.fileName;
+          this.gtFileUrl = gAData.data.url;
+        } else if (gAData.data.answer == false) {
+          this.account = "no";
+        }
+      },
+      (errMes) => {
+        // alert(errMes)
+        console.log(errMes);
+      }
+    );
   }
 
   downloadSample() {
-    this._gAservices.downloadFile().subscribe(response => {
-			let blob:any = new Blob([response], { type: 'text/json; charset=utf-8' });
-			const url = window.URL.createObjectURL(blob);
-			//window.open(url);
-			//window.location.href = response.url;
-			fileSaver.saveAs(blob, 'grant-allocation-template.xlsx');
-		}), error => console.log('Error downloading the file'),
-         () => console.info('File downloaded successfully');
+    this._gAservices.downloadFile().subscribe((response) => {
+      let blob: any = new Blob([response], {
+        type: "text/json; charset=utf-8",
+      });
+      const url = window.URL.createObjectURL(blob);
+      //window.open(url);
+      //window.location.href = response.url;
+      fileSaver.saveAs(blob, "grant-allocation-template.xlsx");
+    }),
+      (error) => console.log("Error downloading the file"),
+      () => console.info("File downloaded successfully");
   }
   onClickYes() {
+    this.account = "yes";
 
-    this.account = 'yes';
-
-    this.linked = '';
+    this.linked = "";
+    sessionStorage.setItem("ChangeInGrantAllocation", "true");
   }
   onClickNo() {
-
-    this.account = 'no';
-    this.linked = 'no';
-    this.fileName = '';
-    this.gtFileUrl ='';
-   // this.progessType =''
+    this.account = "no";
+    this.linked = "no";
+    this.fileName = "";
+    this.gtFileUrl = "";
+    // this.progessType =''
     // if (!this.change)
+    sessionStorage.setItem("ChangeInGrantAllocation", "true");
   }
   fileChangeEvent(event) {
     this.submitted = false;
@@ -102,6 +131,7 @@ export class GrantAllocationComponent implements OnInit {
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload();
+    sessionStorage.setItem("ChangeInGrantAllocation", "true");
   }
 
   resetFileTracker() {
@@ -116,8 +146,7 @@ export class GrantAllocationComponent implements OnInit {
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
-      if (fileExtension === "xlsx"
-        ) {
+      if (fileExtension === "xlsx") {
         validFiles.push(file);
       }
     }
@@ -127,7 +156,7 @@ export class GrantAllocationComponent implements OnInit {
   async upload() {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
-   this.fileName = files[0].name;
+    this.fileName = files[0].name;
     this.progessType = 10;
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
@@ -152,8 +181,8 @@ export class GrantAllocationComponent implements OnInit {
             fileIndex,
             this.progessType
           );
-          resolve("success")
-          console.log('file url', fileAlias)
+          resolve("success");
+          console.log("file url", fileAlias);
         },
         (err) => {
           if (!this.fileUploadTracker[fileIndex]) {
@@ -165,7 +194,7 @@ export class GrantAllocationComponent implements OnInit {
           }
         }
       );
-    })
+    });
   }
 
   private uploadFileToS3(
@@ -173,7 +202,7 @@ export class GrantAllocationComponent implements OnInit {
     s3URL: string,
     fileAlias: string,
     fileIndex: number,
-    progressType: string = ''
+    progressType: string = ""
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -186,35 +215,35 @@ export class GrantAllocationComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.type === HttpEventType.Response) {
-          //  this.progessType = 100;
-           // this.gtFileUrl = fileAlias;
-            this._gAservices.checkFile(fileAlias)
-            .subscribe(
+            //  this.progessType = 100;
+            // this.gtFileUrl = fileAlias;
+            this._gAservices.checkFile(fileAlias).subscribe(
               (response) => {
-              console.log(response);
-               sessionStorage.setItem("changeInGTC", "false")
-               this.progessType = 100;
-               this.gtFileUrl = fileAlias;
-             //  swal('Record Submitted Successfully!')
-             //  resolve(res)
-             },
-               (error) => {
-                 this.err = error;
+                console.log(response);
+                sessionStorage.setItem("changeInGTC", "false");
+                this.progessType = 100;
+                this.gtFileUrl = fileAlias;
+                //  swal('Record Submitted Successfully!')
+                //  resolve(res)
+              },
+              (error) => {
+                this.err = error;
 
-                 console.log(this.err);
+                console.log(this.err);
                 // swal(`Error- ${this.err}`)
-                 let blob:any = new Blob([error], { type: 'text/json; charset=utf-8' });
-                 const url = window.URL.createObjectURL(blob);
-                 this.progessType = '';
-                 this.gtFileUrl = '';
-                 this.fileName = '';
-                 fileSaver.saveAs(blob, 'error-sheet.xlsx');
-                 swal('Your file is not correct, Please refer error sheet')
-               }
-               );
+                let blob: any = new Blob([error], {
+                  type: "text/json; charset=utf-8",
+                });
+                const url = window.URL.createObjectURL(blob);
+                this.progessType = "";
+                this.gtFileUrl = "";
+                this.fileName = "";
+                fileSaver.saveAs(blob, "error-sheet.xlsx");
+                swal("Your file is not correct, Please refer error sheet");
+              }
+            );
 
-
-           // console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
+            // console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
           }
         },
         (err) => {
@@ -266,67 +295,101 @@ export class GrantAllocationComponent implements OnInit {
         }
       );
   }
-  clearFiles(){
-    this.fileName = '';
-    this.gtFileUrl ='';
-    this.progessType =''
-
+  clearFiles() {
+    this.fileName = "";
+    this.gtFileUrl = "";
+    this.progessType = "";
   }
 
   saveForm() {
     this.submitted = true;
-  this.postData =  {
-      "answer": this.account,
-      "isDraft": true,
-      "design_year": "606aaf854dff55e6c075d219",
-      "fileName": this.fileName,
-      "url" : this.gtFileUrl
-     }
-     console.log('postData', this.postData);
+    this.postData = {
+      answer: this.account,
+      isDraft: true,
+      design_year: "606aaf854dff55e6c075d219",
+      fileName: this.fileName,
+      url: this.gtFileUrl,
+    };
+    console.log("postData", this.postData);
 
-      this._gAservices.sendRequest(this.postData)
-        .subscribe((res) => {
-         console.log(res);
-          sessionStorage.setItem("changeInGTC", "false")
-      //   //  this.change = "false"
-      //     swal('Record Submitted Successfully!')
-      //     let blob:any = new Blob([res], { type: 'text/json; charset=utf-8' });
-		  //    	const url = window.URL.createObjectURL(blob);
-			// //window.open(url);
-			// //window.location.href = response.url;
-			// fileSaver.saveAs(blob, 'error-sheet.xlsx');
+    this._gAservices.sendRequest(this.postData).subscribe(
+      (res) => {
+        console.log(res);
+        sessionStorage.setItem("ChangeInGrantAllocation", "false");
+        swal('Record Submitted Successfully!')
+
+        if (this.routerNavigate) {
+          this._router.navigate([this.routerNavigate.url]);
+        }
+        //   //  this.change = "false"
+        //     let blob:any = new Blob([res], { type: 'text/json; charset=utf-8' });
+        //    	const url = window.URL.createObjectURL(blob);
+        // //window.open(url);
+        // //window.location.href = response.url;
+        // fileSaver.saveAs(blob, 'error-sheet.xlsx');
         //  resolve(res)
-        },
-          (error) => {
-            this.err = error.message;
-            console.log(this.err);
-            swal(`Error- ${this.err}`)
-          //  resolve(error)
-          });
-
+      },
+      (error) => {
+        this.err = error.message;
+        console.log(this.err);
+        swal(`Error- ${this.err}`);
+        //  resolve(error)
+      }
+    );
   }
   onPreview() {
-    console.log('preview............')
+    console.log("preview............");
     let preData = {
-  "answer" : this.account,
-  "fileName" : this.fileName,
-  "url" : this.gtFileUrl
-    }
-    const dialogRef = this.dialog.open(GrantAllPreviewComponent,
-      {
-        data: preData,
-        maxHeight: "95%",
-        width: '85vw',
-        panelClass: 'no-padding-dialog'
-      });
-    console.log('dialog ref')
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
+      answer: this.account,
+      fileName: this.fileName,
+      url: this.gtFileUrl,
+    };
+    const dialogRef = this.dialog.open(GrantAllPreviewComponent, {
+      data: preData,
+      maxHeight: "95%",
+      width: "85vw",
+      panelClass: "no-padding-dialog",
+    });
+    console.log("dialog ref");
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
     });
   }
 
+  openModal(template: TemplateRef<any>) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
+    this.dialogRefForNavigation.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
+  }
+
+  stay() {
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+
+  proceed() {
+    this.dialogRefForNavigation.close(true);
+    if(this.routerNavigate){
+
+    }
+    this.saveForm();
+  }
+
+  alertClose() {
+    this.dialogRefForNavigation.close(true);
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
 }
 function observableThrowError(arg0: string) {
-  throw new Error('Function not implemented.');
+  throw new Error("Function not implemented.");
 }
-

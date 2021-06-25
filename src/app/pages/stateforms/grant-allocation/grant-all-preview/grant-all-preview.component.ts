@@ -1,19 +1,33 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
-import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+  TemplateRef,
+} from "@angular/core";
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+} from "@angular/material/dialog";
+import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
+import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
+import { GAservicesService } from "../g-aservices.service";
 
 @Component({
-  selector: 'app-grant-all-preview',
-  templateUrl: './grant-all-preview.component.html',
-  styleUrls: ['./grant-all-preview.component.scss']
+  selector: "app-grant-all-preview",
+  templateUrl: "./grant-all-preview.component.html",
+  styleUrls: ["./grant-all-preview.component.scss"],
 })
 export class GrantAllPreviewComponent implements OnInit {
   @ViewChild("gtallocation") _html: ElementRef;
   @ViewChild("template") template;
   showLoader;
+  dialogRef;
+
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -67,19 +81,19 @@ margin-left: 1.2rem !important;
       margin-top: 10px;
     }
 
-  </style>`
+  </style>`;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
-  ) { }
+    private _gAservices: GAservicesService
+  ) {}
 
   ngOnInit() {
-    console.log('previewData', this.data)
+    console.log("previewData", this.data);
   }
   close() {
     this._matDialog.closeAll();
-
   }
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -120,4 +134,46 @@ margin-left: 1.2rem !important;
     return url;
   }
 
+  openModal(template: TemplateRef<any>) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+    });
+  }
+
+  stay() {
+    this.dialogRef.close(true);
+  }
+  alertClose() {
+    this.dialogRef.close(true);
+  }
+
+  proceed(uploadedFiles) {
+    this._matDialog.closeAll();
+    this.postsDataCall(this.data);
+    this.downloadAsPDF();
+    return;
+  }
+
+  clickedDownloadAsPDF() {
+    let change = sessionStorage.getItem("ChangeInGrantAllocation");
+    if (change == "true") {
+      this.openModal(this.template);
+    } else {
+      this.downloadAsPDF();
+    }
+  }
+
+  postsDataCall(data) {
+    this._gAservices.sendRequest(data).subscribe(
+      (res) => {
+        console.log(res);
+        sessionStorage.setItem("ChangeInGrantAllocation", "false");
+      },
+      (error) => {
+        console.log(error.message);
+      }
+    );
+  }
 }
