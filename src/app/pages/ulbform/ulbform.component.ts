@@ -27,6 +27,7 @@ export class UlbformComponent implements OnInit {
   isMillionPlus;
   isUA;
   id = null;
+  ulbId = null;
   backHeader;
   backLink;
   validate = true
@@ -83,8 +84,6 @@ export class UlbformComponent implements OnInit {
 
   async ngOnInit() {
 
-
-
     this.ulbformService.allStatus.subscribe((status) => {
       this.allStatus = status;
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
@@ -111,8 +110,8 @@ export class UlbformComponent implements OnInit {
     this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
-        this.submitted = res["response"]["isSubmit"]
-
+        this.submitted = res["response"]["isSubmit"];
+        localStorage.setItem('finalSubmitStatus', this.submitted.toString())
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -137,9 +136,9 @@ export class UlbformComponent implements OnInit {
   }
 
   public accessGrant() {
-    let ulbId = sessionStorage.getItem("ulb_id");
-    console.log("pk12", ulbId);
-    if (ulbId == null) {
+     this.ulbId = sessionStorage.getItem("ulb_id");
+    console.log("pk12", this.ulbId);
+    if (this.ulbId == null) {
       let userData = JSON.parse(localStorage.getItem("userData"));
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
@@ -286,5 +285,18 @@ export class UlbformComponent implements OnInit {
     }
     console.log('validate', this.validate)
   }
+  finalStateAction(){
+    this.ulbformService.postFinalActionByState(this.ulbId)
+        .subscribe(
+          res => {
+            console.log(res)
+            swal("Action Successfully Submitted")
+          },
+          err => {
+            console.log(err);
+            swal('Action Submission Failed!')
+          }
 
+        )
+  }
 }

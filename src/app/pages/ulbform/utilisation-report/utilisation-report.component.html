@@ -421,9 +421,21 @@
         </div>
     </div>
 </form>
-<div class="card" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === userTypes.STATE">
+<div class="card" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === userTypes.STATE && utilizationReport">
     <div class="card-body">
-        <app-state-action-ulb (actionValues)="checkStatus($event)"> </app-state-action-ulb>
+        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-state-action-ulb>
+    </div>
+</div>
+<!-- (ulbFormStaus !== 'NA') -->
+<div class="card" style="background-color: #F7F7F7;" *ngIf="utilizationReport &&
+(loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true')">
+    <div class="card-body">
+        <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
+        <br>
+        <p *ngIf="ulbFormStaus == 'REJECTED'">
+            <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
+        </p>
+
     </div>
 </div>
 <div class="row footerBtnDiv">

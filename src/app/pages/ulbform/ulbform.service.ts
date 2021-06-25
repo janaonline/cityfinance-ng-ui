@@ -35,4 +35,7 @@ export class UlbformService {
   postMasterForm(data) {
     return this.http.post(`${environment.api.url}masterForm/finalSubmit`, data)
   }
+  postFinalActionByState(ublbId){
+    return this.http.post(`${environment.api.url}form-submit-action`, ublbId)
+  }
 }

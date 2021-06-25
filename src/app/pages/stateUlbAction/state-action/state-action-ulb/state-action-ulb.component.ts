@@ -1,33 +1,65 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewChecked, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-state-action-ulb',
   templateUrl: './state-action-ulb.component.html',
   styleUrls: ['./state-action-ulb.component.scss']
 })
-export class StateActionUlbComponent implements OnInit {
+export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChanges {
 
   constructor() { }
   @Output()
    actionValues = new EventEmitter<any>();
-  stateAction = '';
-  rejectReason = '';
-  ngOnInit(): void {
+   @Input() statusResponse;
+  // @Input() statusResponseW;
+  stateAction= '';
+  rejectReason = null;
+  actionData;
+  btnStyleA = false;
+  btnStyleR = false;
+
+  ngOnInit() {
+
+  }
+  ngOnChanges(){
+    this.stateAction = this.statusResponse?.st;
+    this.rejectReason = this.statusResponse?.rRes;
+    if(this.stateAction == 'APPROVED'){
+      this.btnStyleA = true
+    }else if(this.stateAction == 'REJECTED'){
+      this.btnStyleR = true
+    }
+  }
+  ngAfterViewChecked() {
+
   }
   checkStatusAp(){
-    this.rejectReason ='';
-    console.log('stateAction', this.stateAction)
-    this.actionValues.emit(this.stateAction);
-  }
-  checkStatusRe(){
-    console.log('stateAction', this.stateAction)
-    let actionValues = {
+    this.rejectReason = null;
+    this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason
     }
-    this.actionValues.emit(actionValues);
-     console.log('stateActionemit', actionValues)
+    console.log('stateAction', this.stateAction, this.statusResponse)
+    this.actionValues.emit(this.actionData);
   }
+  checkStatus(){
+    this.actionData = {
+      status: this.stateAction,
+      rejectReason: this.rejectReason
+    }
+    console.log('stateAction', this.stateAction, this.statusResponse)
+    this.actionValues.emit(this.actionData);
+  }
+
+  // checkStatusRe(){
+  //   console.log('stateAction', this.stateAction)
+  //    this.actionData = {
+  //     status: this.stateAction,
+  //     rejectReason: this.rejectReason
+  //   }
+  //   this.actionValues.emit(this.actionData);
+  //    console.log('stateActionemit', this.actionData)
+  // }
   // isChecked = false;
   // stateFormStatus = ''
   // stateForm(){

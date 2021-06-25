@@ -8,31 +8,26 @@ import { Subject } from "rxjs";
 })
 export class AnnualAccountsService {
   constructor(private http: HttpClient) {}
-  OpenModalTrigger = new Subject<any>()
+  OpenModalTrigger = new Subject<any>();
 
-
-  getData(params, ulbId) {
-  if(ulbId != null){
-    return this.http.get(`${environment.api.url}annual-accounts/get/${ulbId}`, {
-      params,
-    });
-  }else{
-    return this.http.get(`${environment.api.url}annual-accounts/get/`, {
-      params,
-    });
-  }
-
+  getData(params) {
+      return this.http.get(
+        `${environment.api.url}annual-accounts/get`,
+        {
+          params,
+        }
+      );
   }
 
   postData(body) {
     return this.http.post(`${environment.api.url}annual-accounts/create`, body);
   }
 
-  processData(body){
-    return this.http.post(`${environment.api.url}processData`, body)
+  processData(body) {
+    return this.http.post(`${environment.api.url}processData`, body);
   }
 
-  getProcessStatus(id){
-    return this.http.get(`${environment.api.url}getProcessStatus/${id}`)
+  getProcessStatus(id) {
+    return this.http.get(`${environment.api.url}getProcessStatus/${id}`);
   }
 }

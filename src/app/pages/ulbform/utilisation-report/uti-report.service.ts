@@ -36,7 +36,7 @@ export class UtiReportService {
   //   );
  }
  fetchPosts(d_yr, f_yr, ulbId){
-   
+
    console.log('dyr', ulbId)
    let utFetchUrl;
    if(ulbId != null){
@@ -58,6 +58,10 @@ getLocation(){
   if(this.location.lat === null || this.location.lng === null)
     return null;
   return this.location;
+}
+stateActionPost(st){
+  let utUrl = environment.api.url + 'utilization-report/action '
+     return this.http.post(utUrl, st)
 }
 
 }

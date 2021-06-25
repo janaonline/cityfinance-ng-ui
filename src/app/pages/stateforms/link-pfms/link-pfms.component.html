@@ -1,36 +1,37 @@
-<div class="container-fluid" style="margin-bottom: 1pc;">
-    <div class="header" style="margin-bottom: 3pc;">
-        <button class="btn saveBtn pull-right" (click)="onPreview()">
-            PREVIEW
-        </button>
+<!-- <input type="button" value="set background" ng-click="myStyle={'background-color':rgb(68, 255, 99)}"> -->
+
+<div class="row">
+
+    <div class="col-sm-8 col-lg-8 col-md-8 header2">
+        Linking of PFMS Account
     </div>
-    <div *ngIf="showLoader" style="margin-left: 33pc;">
-        <mat-spinner></mat-spinner>
+
+    <div class="col-sm-4 col-lg-4 col-md-4  text-right">
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn"
+            (click)="openModal(template,true)">PREVIEW</button>
     </div>
-    <div *ngFor="let item of data?.uaData;  let projectIndex=index">
-        <div class="mat-card">
-            <div class="mat-card-title">
-                <h5 style="height: 3pc;margin-left: 1pc;">
-                    UA:{{projectIndex + 1}} {{item.name}}
-                    <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}" style="margin-right: 1pc;"
-                        (click)="foldCard(projectIndex)">Select</button>
-                </h5>
-            </div>
-            <app-ag-grid *ngIf="item.fold" [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
-                [rowData]="item">
-            </app-ag-grid>
-        </div>
-    </div>
-    <div class="footer">
-        <button class="btn saveBtn pull-right" (click)="submit()" type="button">
-            {{saveBtnText}}
-        </button>
-        <button class="btn back pull-left">
-            Back
-        </button>
+</div>
+<div class="mat-card">
+    <div class="card-body" style="margin-top: 2pc;">
+        <ng-container>
+            <br>
+            <app-comm-file-upload [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
+            <br>
+        </ng-container>
     </div>
 </div>
 
+
+
+
+<div class="row" style="margin-top: 5rem;">
+    <div [routerLink]="['../gtCertificate']" routerLinkActive="router-link-active"  class="col-sm-6 col-md-6 col-lg-6">
+        <button class="backButton">BACK</button>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+        <button class="save" (click)="saveAndNextValue(template1)" [disabled]="isDisabled">{{saveBtnTxt}}</button>
+    </div>
+</div>
 <ng-template #template>
     <div class="modal-body text-center">
         <div class="modal-header">
@@ -71,7 +72,7 @@
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed</button>
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>

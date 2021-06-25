@@ -50,6 +50,7 @@ import { WaterRejenuvationComponent } from "./components/water-rejenuvation/wate
 import { CustomizedCellComponent } from './components/ag-grid/customized-cell/customized-cell.component';
 import { CustomizedHeaderComponent } from './components/ag-grid/customized-header/customized-header.component';
 import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/custom-tooltip.component';
+import { CommFileUploadComponent } from './components/comm-file-upload/comm-file-upload.component';
 @NgModule({
   imports: [
     RouterModule,
@@ -101,6 +102,7 @@ import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/cust
     CustomizedCellComponent,
     CustomizedHeaderComponent,
     CustomTooltipComponent,
+    CommFileUploadComponent,
   ],
   exports: [
     PreLoaderComponent,
@@ -126,6 +128,7 @@ import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/cust
     FileUploadComponent,
     MatCheckboxModule,
     FcSlbComponent,
+    CommFileUploadComponent,
   ],
   providers: [FinancialDataService],
 })

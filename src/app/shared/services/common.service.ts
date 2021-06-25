@@ -516,7 +516,7 @@ export class CommonService {
     // const newData = this.jsonUtil.convert(data);
     if(ulbId != null){
       return this.http.get(
-        `${environment.api.url}xv-fc-form/${ulbId}?${params}`
+        `${environment.api.url}xv-fc-form/admin/${ulbId}?${params}`
       );
     }else{
       return this.http.get(
