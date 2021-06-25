@@ -49,6 +49,7 @@ export class UtilisationReportComponent implements OnInit {
   draft = true;
   ulbFormStaus = 'PENDING'
   ulbFormRejectR = null;
+  finalSubmitUtiStatus;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -64,6 +65,9 @@ export class UtilisationReportComponent implements OnInit {
   ) {
 
     let yearId = JSON.parse(localStorage.getItem('Years'));
+     this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+    console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
+
     this.designYear = yearId['2021-22']
     this.financialYear = yearId['2020-21']
     this.initializeUserType();
@@ -102,12 +106,17 @@ export class UtilisationReportComponent implements OnInit {
   isSubmitted = false;
   isDraft = null;
   ulbId = null;
+  actionRes;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
-
+      if(this.finalSubmitUtiStatus == 'true'){
+        this.isDisabled = true;
+        this.utilizationReport.disable();
+        this.utilizationReport.controls.projects.disable();
+      }
 
       switch (this.userLoggedInDetails.role) {
         case USER_TYPE.STATE:
@@ -209,7 +218,6 @@ export class UtilisationReportComponent implements OnInit {
 
   public getResponse() {
     this.ulbId = sessionStorage.getItem('ulb_id');
-    console.log('pk1222222222222', this.ulbId)
     this.UtiReportService.fetchPosts(this.designYear, this.financialYear, this.ulbId).subscribe(
       (res) => {
         //  this.formDataResponce = res;
@@ -246,6 +254,11 @@ export class UtilisationReportComponent implements OnInit {
     res.projects.forEach((project) => {
       this.addPreFilledRow(project);
     });
+    if(this.finalSubmitUtiStatus == 'true'){
+      this.isDisabled = true;
+      this.utilizationReport.disable();
+      this.utilizationReport.controls.projects.disable();
+    }
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
@@ -256,9 +269,25 @@ export class UtilisationReportComponent implements OnInit {
         this.utilizationReport.controls.projects.disable();
 
     }
+    if(this.ulbFormStaus == 'REJECTED'){
+        this.utilizationReport.enable();
+        this.isDisabled = false;
+        this.utilizationReport.controls.projects.enable();
+    }
   }
   addPreFilledSimple(data) {
-    console.log('88888', data)
+      let actRes = {
+        st : data?.status,
+        rRes : data?.rejectReason
+      }
+      if(data?.status != 'NA'){
+        this.ulbFormStaus = data?.status;
+      }
+
+      this.ulbFormRejectR = data?.rejectReason;
+     this.actionRes = actRes;
+     console.log('asdfghj', actRes, this.actionRes);
+
     this.utilizationReport.patchValue({
       name: data.name,
       designation: data.designation,
@@ -736,14 +765,20 @@ export class UtilisationReportComponent implements OnInit {
   stateActionSave(){
     let stateData;
         stateData  = this.utilizationReport.value;
-        stateData.isDraft = true;
+
         stateData.financialYear = this.financialYear;
         stateData.designYear = this.designYear;
         stateData.grantType = 'Tied';
         stateData.grantPosition.closingBal = this.totalclosingBal;
         stateData.ulb = this.ulbId
         stateData.status = this.ulbFormStaus
+        if(this.ulbFormStaus == 'APPROVED' || (this.ulbFormStaus == 'REJECTED' && this.ulbFormRejectR != null)){
+          stateData.isDraft = false;
+        }else{
+          stateData.isDraft = true;
+        }
         stateData.rejectReason = this.ulbFormRejectR;
+
         this.UtiReportService.stateActionPost(stateData).subscribe(
           (res) => {
             swal("Record submitted successfully!");
