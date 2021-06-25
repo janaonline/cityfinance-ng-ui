@@ -236,7 +236,7 @@
                             (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)"
                             [quesName]="item.name"></app-comm-file-upload>
                         </ng-container>
-                        <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
+                        <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
                             <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
                                 {{pdfError}}</label>
                         </div>
