@@ -12,7 +12,7 @@
             <div class="col-sm-3 card ">
                 <div class="row">
                     <div class="col-sm-8">
-                        <div class="card-number">{{totalUlbs}}</div>
+                        <div class="card-number">{{totalUlbs }}</div>
                         <div class="card-text">Total ULBs</div>
                     </div>
                     <div class="col-sm-4 iconImage">
@@ -63,7 +63,7 @@
             <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
         </select>
 
-        <button class="btn btn-primary">SEARCH</button>
+
 
     </div>
     <div class="row statusArea">
@@ -78,7 +78,7 @@
                 <canvas id="myChart" style="width:400px ; height:400px"></canvas>
             </div>
             <div class="viewListBtn">
-                <button class="btn btn-primary">VIEW LIST</button>
+                <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
         </div>
         <div class="col-sm-3 secondColumn">
@@ -123,6 +123,10 @@
             <div class="row formDonutCharts">
                 <span class="textInThirdColumn">
                     ULB PFMS STATUS</span>
+                <a (click)="openDialogPfms()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+                <!-- <button (click)="openDialogPfms()"> View List</button> -->
                 <div class="smallDonuts">
                     <canvas id="pfms"></canvas>
                 </div>
@@ -130,6 +134,10 @@
             <div class="row formDonutCharts">
 
                 <span class="textInThirdColumn"> ULB Utilization Report Status</span>
+                <a (click)="openDialogUtil()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+
                 <div class="smallDonuts">
                     <canvas id="utilReport"></canvas>
                 </div>
@@ -140,6 +148,10 @@
                 <span class="textInThirdColumn">
                     ULB Service Level Benchmark Status
                 </span>
+                <a (click)="openDialogSlb()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+
                 <div class="smallDonuts">
                     <canvas id="slb"></canvas>
                 </div>
@@ -149,8 +161,8 @@
         </div>
     </div>
 
-    <div class="bottomPart" style="margin-top:10px">
-        <div class="row header">
+    <div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
+        <div class="header">
             <div class="col-sm-4" style="font-size:18px;font-weight: 450; padding-left:40px;">
                 Million Plus Cities Challenge Fund
             </div>
@@ -163,8 +175,8 @@
                 </select>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 millionPlus" style="display: block;text-align: center;">
+        <div style="height:244px;">
+            <div class="col-sm-6" style="display: block;text-align: center;">
 
                 <div style="color:#000000C4">
                     <div class="Card1">
@@ -179,7 +191,7 @@
 
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:3;right:31px;margin-right:147px;"
+                                <div class="opacity_div" style=" z-index:3;right:29px;margin-right:147px;"
                                     [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
@@ -195,7 +207,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            Water Supply and Sanitation Indicators compiled for <b> 20
+                            Water Supply and Sanitation Indicators compiled for <b> {{ulbs}}
                                 ULBs</b>
                         </div>
                     </div>
@@ -229,9 +241,21 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6" style="color:#000000C4">
-                <div class="pieChart">
-                    <canvas id="pie"></canvas>
+            <div class="col-sm-6" style="color:#000000C4;height:inherit; border-left:1px solid #0000001A;">
+                <span style="line-height: 40px;
+                text-align: left;
+                margin-left: 10px;
+                font-size: 18px;
+                font-weight: bold;
+                margin-top: 8px;">ULB Water Supply and Sanitation Indicators</span>
+                <a (click)="openDialogPlans()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+
+                <div class="row pieChart">
+                    <div style="height:170px; width:100%; margin-left:50px; margin-top:20px ;">
+                        <canvas id="pfm"></canvas>
+                    </div>
                 </div>
             </div>
         </div>

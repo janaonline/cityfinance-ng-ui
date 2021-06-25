@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 import { StateformsRoutingModule } from './stateforms-routing.module';
 import { StateformsComponent } from './stateforms.component';
 import { GTCertificateComponent } from './gtcertificate/gtcertificate.component';
@@ -31,12 +32,20 @@ import { EditComponent } from './edit-ulb-profile/edit/edit.component';
 
 // import { DoughnutChartArea } from './state-dashboard/donut/donut'
 import { AgGridModule } from 'ag-grid-angular';
-import {AgGridComponent} from '../../shared/components/ag-grid/ag-grid.component'
-import {CustomTooltipComponent} from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
+import { AgGridComponent } from '../../shared/components/ag-grid/ag-grid.component'
+import { CustomTooltipComponent } from '../../shared/components/ag-grid/custom-tooltip/custom-tooltip.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActionplanspreviewComponent } from './action-plan-ua/actionplanspreview/actionplanspreview.component';
-
+import { OverallListComponent } from './state-dashboard/overall-list/overall-list.component';
+import { MatTableModule } from '@angular/material/table'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { AnnualaccListComponent } from './state-dashboard/annualacc-list/annualacc-list.component';
+import { UtilreportListComponent } from './state-dashboard/utilreport-list/utilreport-list.component';
+import { PlansListComponent } from './state-dashboard/plans-list/plans-list.component';
+import { PfmsListComponent } from './state-dashboard/pfms-list/pfms-list.component';
+import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component';
 @NgModule({
+  entryComponents: [OverallListComponent],
   declarations: [StateformsComponent,
     GTCertificateComponent,
     StateDashboardComponent,
@@ -55,10 +64,24 @@ import { ActionplanspreviewComponent } from './action-plan-ua/actionplanspreview
     EditComponent,
     // DoughnutChartArea
     AgGridComponent,
-    ActionplanspreviewComponent
+    ActionplanspreviewComponent,
+    OverallListComponent,
+    AnnualaccListComponent,
+    UtilreportListComponent,
+    PlansListComponent,
+    PfmsListComponent,
+    SlbListComponent,
+    // OverallListComponent,
+    // AnnualAccountsListComponent,
+    // PfmsListComponent,
+    // SlbListComponent,
+    // PlansListComponent,
+    // UtilReportListComponent
   ],
   imports: [
     CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
     StateformsRoutingModule,
     MatIconModule,
     ReactiveFormsModule,
@@ -67,10 +90,12 @@ import { ActionplanspreviewComponent } from './action-plan-ua/actionplanspreview
     TooltipModule.forRoot(),
     FormsModule,
     CollapseModule.forRoot(),
-    AgGridModule.withComponents([ActionPlanUAComponent,AgGridComponent,CustomTooltipComponent]),
+    AgGridModule.withComponents([ActionPlanUAComponent, AgGridComponent, CustomTooltipComponent]),
     PaginationModule.forRoot(),
     NgxPaginationModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule,
+
   ]
 })
 export class StateformsModule { }

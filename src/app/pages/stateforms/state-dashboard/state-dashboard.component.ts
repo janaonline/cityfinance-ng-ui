@@ -2,8 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { pipe } from 'rxjs';
 import { StateDashboardService } from "./state-dashboard.service";
+import { OverallListComponent } from './overall-list/overall-list.component'
+import { ReviewUlbFormComponent } from '../review-ulb-form/review-ulb-form.component'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
+import { PfmsListComponent } from './pfms-list/pfms-list.component'
+import { PlansListComponent } from './plans-list/plans-list.component'
+import { SlbListComponent } from './slb-list/slb-list.component'
+import { UtilreportListComponent } from './utilreport-list/utilreport-list.component'
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
@@ -15,7 +22,12 @@ import * as JSC from "jscharting";
   styleUrls: ["./state-dashboard.component.scss"],
 })
 export class StateDashboardComponent implements OnInit {
-  constructor(public stateDashboardService: StateDashboardService) { }
+  constructor(
+    public stateDashboardService: StateDashboardService,
+    public dialog: MatDialog
+
+
+  ) { }
 
   ngOnInit(): void {
 
@@ -52,6 +64,7 @@ export class StateDashboardComponent implements OnInit {
   plansDataApiRes;
   rejuvenationPlans;
   plans = 0;
+  ulbs = 0;
   width1 = '';
   width2 = '';
   width3 = '';
@@ -69,7 +82,45 @@ export class StateDashboardComponent implements OnInit {
     this.getFormData()
     this.getPlansData();
   }
+  openDialogSlb() {
+    const dialogRef = this.dialog.open(SlbListComponent);
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openDialogPlans() {
+    const dialogRef = this.dialog.open(PlansListComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openDialogPfms() {
+    const dialogRef = this.dialog.open(PfmsListComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openDialogUtil() {
+    const dialogRef = this.dialog.open(UtilreportListComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openDialog() {
+
+    const dialogRef = this.dialog.open(OverallListComponent, {
+      height: '1000px',
+      width: '1600px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   getPlansData() {
     this.stateDashboardService.getPlansData().subscribe(
@@ -124,6 +175,9 @@ export class StateDashboardComponent implements OnInit {
 
     });
   }
+
+
+
   utilReportDonughtChart() {
     const data = {
       labels: [
@@ -374,23 +428,37 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   pieChart() {
+
+
     const data = {
       labels: [
-        'Red',
-        'Blue',
-        'Yellow'
-      ],
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '76 - Under State Review',
+        '213 - Approved by State'],
       datasets: [{
         label: 'My First Dataset',
-        data: [300, 50, 100],
+        data: [300, 50, 100, 30],
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
+
         ],
         hoverOffset: 4
       }],
+
+    };
+
+
+    const canvas = <HTMLCanvasElement>document.getElementById('pfm');
+    const ctx = canvas.getContext('2d');
+    let myChart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
       options: {
+        responsive: true,
         maintainAspectRatio: false,
         legend: {
 
@@ -400,18 +468,11 @@ export class StateDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 15,
+
+            padding: 18,
           }
         }
       }
-    };
-
-
-    const canvas = <HTMLCanvasElement>document.getElementById('pie');
-    const ctx = canvas.getContext('2d');
-    let myChart = new Chart(ctx, {
-      type: 'pie',
-      data: data
     });
   }
   getCardData() {
@@ -479,16 +540,16 @@ export class StateDashboardComponent implements OnInit {
   }
   selectedUA() {
     console.log('selectedUA', this.selectUa)
-    this.plansDataApiRes.forEach(element => {
+    this.ulbs = 0;
+    this.plans = 0;
+    this.plansDataApiRes['data'].forEach(element => {
       if (element.UA === this.selectUa) {
-        this.plans = element.plans;
+        this.ulbs = element.ulbs;
+        this.plans = element.ulbCount;
         this.rejuvenationPlans = element.submissionOfPlans
       }
 
     });
-
-
-
     this.calculateValue();
   }
 
