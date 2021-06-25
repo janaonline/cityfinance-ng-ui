@@ -30,8 +30,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
   @ViewChild("templateAnnual") template;
   @ViewChild("template1") template1;
-  // quesOneAnswer: boolean = false;
-  // quesTwoAnswer: boolean = false;
   fromPreview = null;
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null },
@@ -48,8 +46,6 @@ export class AnnualAccountsComponent implements OnInit {
     { name: "Cash flow Statement", error: false, data: null },
     { name: "Auditor Report", error: false, data: null },
   ];
-  // quesOneAnswer1: boolean = false;
-  // quesTwoAnswer1: boolean = false;
   audit_status = "Unaudited";
   Years = JSON.parse(localStorage.getItem("Years"));
   dateShow: string = "2020-21";
@@ -238,8 +234,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.onPreview();
   }
 
-  onPreview() {
-    this.checkForm();
+  prevData() {
     let prevData = JSON.parse(JSON.stringify(this.data));
     if (!prevData.audited.submit_annual_accounts) {
       delete prevData.audited.standardized_data;
@@ -254,9 +249,16 @@ export class AnnualAccountsComponent implements OnInit {
     } else if (!prevData.unAudited.submit_standardized_data) {
       delete prevData.unAudited.provisional_data;
     }
+    return prevData;
+  }
+
+  onPreview() {
+    this.checkForm();
+    let temp = JSON.parse(JSON.stringify(this.prevData()));
+    console.log(temp);
 
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
-      data: prevData,
+      data: temp,
       height: "95%",
       width: "85vw",
       panelClass: "no-padding-dialog",
@@ -299,6 +301,8 @@ export class AnnualAccountsComponent implements OnInit {
     delete res.actionTakenBy;
     this.data = res;
     let index = 0;
+    const toStoreResponse = this.data;
+    sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
     for (const key in res.audited.provisional_data) {
       this.auditQues[index].data = res.audited.provisional_data[key];
       index++;
@@ -359,6 +363,9 @@ export class AnnualAccountsComponent implements OnInit {
         ) {
           this.auditQues[index].error = true;
           this.data.isDraft = true;
+        } else {
+          this.auditQues[index].error = false;
+          this.data.isDraft = false;
         }
         index++;
       }
@@ -375,6 +382,9 @@ export class AnnualAccountsComponent implements OnInit {
         ) {
           this.unAuditQues[index].error = true;
           this.data.isDraft = true;
+        } else {
+          this.auditQues[index].error = false;
+          this.data.isDraft = false;
         }
         index++;
       }
@@ -388,6 +398,17 @@ export class AnnualAccountsComponent implements OnInit {
     }
     if (this.data.audited.submit_standardized_data == null) {
       this.answerError.audited.submit_standardized_data = true;
+      this.data.isDraft = true;
+    }
+
+    if (this.data.audited.standardized_data.declaration != null) {
+      this.data.isDraft = false;
+    } else {
+      this.data.isDraft = true;
+    }
+    if (this.data.unAudited.standardized_data.declaration != null) {
+      this.data.isDraft = false;
+    } else {
       this.data.isDraft = true;
     }
   }
@@ -412,6 +433,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async clickedSaveAndNext(template) {
+    debugger;
     console.log(JSON.stringify(this.data));
     this.clickedSave = true;
     let changeHappen = sessionStorage.getItem("changeInAnnual");
@@ -574,10 +596,12 @@ export class AnnualAccountsComponent implements OnInit {
 
     if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
-      this.checkForm()
+      this.checkForm();
       let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
       if (allFormData) {
-        allFormData.annualAccountData = [this.data];
+        allFormData.annualAccountData = [
+          JSON.parse(JSON.stringify(this.prevData())),
+        ];
         this._ulbformService.allFormsData.next(allFormData);
       }
     } else {
