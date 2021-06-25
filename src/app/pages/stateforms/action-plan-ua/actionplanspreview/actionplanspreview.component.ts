@@ -83,6 +83,7 @@ margin-bottom: 1.5rem !important;
   dialogRef;
   err = "";
   status;
+  uasData = JSON.parse(sessionStorage.getItem("UasList"));
 
   ngOnInit(): void {
     this.setStatus();

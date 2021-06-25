@@ -27,7 +27,7 @@
             <div class="card-body ">
                 <div style="display: flex;">
                     <div>
-                        <h4> UA{{projectIndex+1}}: {{uas.name}}</h4>
+                        <h4> UA{{projectIndex+1}}: {{uasData[uas.ua].name}}</h4>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -179,13 +179,13 @@
                                 <th style="width: 10%;" scope="col">Project Code</th>
                                 <th style="width: 10%;" scope="col">Project Name</th>
                                 <th style="width: 10%;" scope="col">Project Cost</th>
-                                <th style="width: 10%;" scope="col">% Funding</th>
+                                <th style="width: 9%;" scope="col">% Funding</th>
                                 <th style="width: 9%;" scope="col">Amount</th>
                                 <th style="width: 10%;" scope="col">FY 2021-22</th>
                                 <th style="width: 10%;" scope="col">FY 2022-23</th>
                                 <th style="width: 10%;" scope="col">FY 2023-24</th>
                                 <th style="width: 10%;" scope="col">FY 2024-25</th>
-                                <th style="width: 11%;" scope="col">FY 2025-26</th>
+                                <th style="width: 12%;" scope="col">FY 2025-26</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let yearOutlay of uas.yearOutlay; let yearOutlayIndex=index">
