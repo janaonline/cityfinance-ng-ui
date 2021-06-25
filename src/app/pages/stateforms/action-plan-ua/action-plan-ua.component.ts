@@ -66,18 +66,16 @@ export class ActionPlanUAComponent implements OnInit {
     }
   }
   getUlbNames() {
-    this.actionplanserviceService
-      .getUlbsByState(this.userData.state)
-      .subscribe(
-        (res) => {
-          this.ulbNames = res["data"]
-          this.getCategory();
-          this.load();
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    this.actionplanserviceService.getUlbsByState(this.userData.state).subscribe(
+      (res) => {
+        this.ulbNames = res["data"];
+        this.getCategory();
+        this.load();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   getCategory() {
@@ -162,7 +160,6 @@ export class ActionPlanUAComponent implements OnInit {
       });
       element.yearOutlay = temp;
     });
-    console.log(this.data);
   }
 
   onFail() {
@@ -279,6 +276,7 @@ export class ActionPlanUAComponent implements OnInit {
   getDataFromGrid(data, index) {
     let temp = sessionStorage.getItem("actionPlans");
     let t = this.makeApiData();
+
     if (JSON.stringify(t) != temp) {
       sessionStorage.setItem("changeInActionPlans", "true");
     } else {
@@ -330,61 +328,61 @@ export class ActionPlanUAComponent implements OnInit {
 }
 
 const input = {
-  ua: { value: "", isValidating: false, lastValidation: true },
-  name: { value: "", isValidating: false, lastValidation: true },
+  ua: { value: "", isEmpty: null, lastValidation: true },
+  name: { value: "", isEmpty: null, lastValidation: true },
   projectExecute: [
     {
-      index: { value: 1, isValidating: false, lastValidation: true },
-      code: { value: "", isValidating: false, lastValidation: true },
-      name: { value: "", isValidating: false, lastValidation: true },
-      details: { value: "", isValidating: false, lastValidation: true },
-      cost: { value: "", isValidating: false, lastValidation: true },
-      exAgency: { value: "", isValidating: false, lastValidation: true },
-      paraAgency: { value: "", isValidating: false, lastValidation: true },
-      sector: { value: "", isValidating: false, lastValidation: true },
-      type: { value: "", isValidating: false, lastValidation: true },
-      esOutcome: { value: "", isValidating: false, lastValidation: true },
+      index: { value: 1, isEmpty: null, lastValidation: true },
+      code: { value: "", isEmpty: null, lastValidation: true },
+      name: { value: "", isEmpty: null, lastValidation: true },
+      details: { value: "", isEmpty: null, lastValidation: true },
+      cost: { value: "", isEmpty: null, lastValidation: true },
+      exAgency: { value: "", isEmpty: null, lastValidation: true },
+      paraAgency: { value: "", isEmpty: null, lastValidation: true },
+      sector: { value: "", isEmpty: null, lastValidation: true },
+      type: { value: "", isEmpty: null, lastValidation: true },
+      esOutcome: { value: "", isEmpty: null, lastValidation: true },
     },
   ],
   sourceFund: [
     {
-      index: { value: 1, isValidating: false, lastValidation: true },
-      code: { value: "", isValidating: false, lastValidation: true },
-      name: { value: "", isValidating: false, lastValidation: true },
-      cost: { value: "", isValidating: false, lastValidation: true },
-      fc: { value: "", isValidating: false, lastValidation: true },
-      jjm: { value: "", isValidating: false, lastValidation: true },
-      sbm: { value: "", isValidating: false, lastValidation: true },
-      centalScheme: { value: "", isValidating: false, lastValidation: true },
-      stateScheme: { value: "", isValidating: false, lastValidation: true },
-      stateGrant: { value: "", isValidating: false, lastValidation: true },
-      ulb: { value: "", isValidating: false, lastValidation: true },
-      other: { value: "", isValidating: false, lastValidation: true },
-      total: { value: "", isValidating: false, lastValidation: true },
-      "2021-22": { value: "", isValidating: false, lastValidation: true },
-      "2022-23": { value: "", isValidating: false, lastValidation: true },
-      "2023-24": { value: "", isValidating: false, lastValidation: true },
-      "2024-25": { value: "", isValidating: false, lastValidation: true },
-      "2025-26": { value: "", isValidating: false, lastValidation: true },
+      index: { value: 1, isEmpty: null, lastValidation: true },
+      code: { value: "", isEmpty: null, lastValidation: true },
+      name: { value: "", isEmpty: null, lastValidation: true },
+      cost: { value: "", isEmpty: null, lastValidation: true },
+      fc: { value: "", isEmpty: null, lastValidation: true },
+      jjm: { value: "", isEmpty: null, lastValidation: true },
+      sbm: { value: "", isEmpty: null, lastValidation: true },
+      centalScheme: { value: "", isEmpty: null, lastValidation: true },
+      stateScheme: { value: "", isEmpty: null, lastValidation: true },
+      stateGrant: { value: "", isEmpty: null, lastValidation: true },
+      ulb: { value: "", isEmpty: null, lastValidation: true },
+      other: { value: "", isEmpty: null, lastValidation: true },
+      total: { value: "", isEmpty: null, lastValidation: true },
+      "2021-22": { value: "", isEmpty: null, lastValidation: true },
+      "2022-23": { value: "", isEmpty: null, lastValidation: true },
+      "2023-24": { value: "", isEmpty: null, lastValidation: true },
+      "2024-25": { value: "", isEmpty: null, lastValidation: true },
+      "2025-26": { value: "", isEmpty: null, lastValidation: true },
     },
   ],
   yearOutlay: [
     {
-      index: { value: 1, isValidating: false, lastValidation: true },
-      code: { value: "", isValidating: false, lastValidation: true },
-      name: { value: "", isValidating: false, lastValidation: true },
-      cost: { value: "", isValidating: false, lastValidation: true },
-      funding: { value: "", isValidating: false, lastValidation: true },
-      amount: { value: "", isValidating: false, lastValidation: true },
-      "2021-22": { value: "", isValidating: false, lastValidation: true },
-      "2022-23": { value: "", isValidating: false, lastValidation: true },
-      "2023-24": { value: "", isValidating: false, lastValidation: true },
-      "2024-25": { value: "", isValidating: false, lastValidation: true },
-      "2025-26": { value: "", isValidating: false, lastValidation: true },
+      index: { value: 1, isEmpty: null, lastValidation: true },
+      code: { value: "", isEmpty: null, lastValidation: true },
+      name: { value: "", isEmpty: null, lastValidation: true },
+      cost: { value: "", isEmpty: null, lastValidation: true },
+      funding: { value: "", isEmpty: null, lastValidation: true },
+      amount: { value: "", isEmpty: null, lastValidation: true },
+      "2021-22": { value: "", isEmpty: null, lastValidation: true },
+      "2022-23": { value: "", isEmpty: null, lastValidation: true },
+      "2023-24": { value: "", isEmpty: null, lastValidation: true },
+      "2024-25": { value: "", isEmpty: null, lastValidation: true },
+      "2025-26": { value: "", isEmpty: null, lastValidation: true },
     },
   ],
   fold: false,
-  code: { value: "", isValidating: false, lastValidation: true },
+  code: { value: "", isEmpty: null, lastValidation: true },
 };
 
 const output = {

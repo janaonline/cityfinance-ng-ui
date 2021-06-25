@@ -235,7 +235,7 @@ export class GTCertificateComponent implements OnInit {
     };
     let changeHappen = sessionStorage.getItem("changeInGTC")
     if (changeHappen == "false") {
-      this._router.navigate(["stateform/water-supply"]);
+      this._router.navigate(["stateform/link-in-pfms"]);
       return;
     } else {
       if (

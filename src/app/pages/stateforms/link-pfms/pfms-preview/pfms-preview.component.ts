@@ -20,7 +20,6 @@ import { defaultDailogConfiuration } from "../../../questionnaires/state/configs
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { SweetAlert } from "sweetalert/typings/core";
 import { LinkPFMSAccount } from "../link-pfms.service";
-import { UlbformService } from "../../ulbform.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-pfms-preview",
@@ -38,7 +37,6 @@ export class PfmsPreviewComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
     private LinkPFMSAccount: LinkPFMSAccount,
-    private _ulbformService: UlbformService,
 
     private _matDialog: MatDialog,
     private modalService: BsModalService
@@ -108,82 +106,36 @@ export class PfmsPreviewComponent implements OnInit {
   formStatusCheck = "";
   statusArray = [
     "Not Started",
-    "Under Review By State",
-    "Completed",
     "In Progress",
+    "Completed but not Submitted",
+    "Completed",
+    "Under Review By State",
     "Registered",
     "Not Registered",
   ];
-  formData;
-
-  @Input()
-  changeFromOutSide: any;
-  @Output() change = new EventEmitter<any>();
-  errMessage = "";
-  modiDate;
-  subParentForModal;
 
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
     let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
-    this.modiDate = getData.response.modifiedAt;
-    this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe(
-      (change) => {
-        if (this.changeFromOutSide) {
-          this.openDialog(this.template);
-        }
-      }
-    );
 
     if (this.parentData) {
       this.data = this.parentData;
     }
-
-    console.log(this.data);
-    console.log(getData);
-    if (getData) {
-      let change = sessionStorage.getItem("changeInPFMSAccount");
-      if (change == "true") {
-        if (this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[3];
-        } else if (!this.data["isDraft"]) {
-          if (this.data["linked"] == "yes") {
-            this.formStatusCheck = this.statusArray[4];
-          } else if (this.data["linked"] == "no") {
-            this.formStatusCheck = this.statusArray[5];
-          }
-        }
-      } else if (change == "false") {
-        if (this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[3];
-        } else if (!this.data["isDraft"]) {
-          if (this.data["linked"] == "yes") {
-            this.formStatusCheck = this.statusArray[4];
-          } else if (this.data["linked"] == "no") {
-            this.formStatusCheck = this.statusArray[5];
-          }
-        }
+    if (this.data.isDraft != null) {
+      if (this.data.isDraft) {
+        this.formStatusCheck = this.statusArray[1];
+      } else {
+        this.formStatusCheck = this.statusArray[2];
       }
     } else {
-      let change = sessionStorage.getItem("changeInPFMSAccount");
-      if (change == "true") {
-        if (this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[3];
-        } else if (!this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[2];
-        }
-      } else if (change == "false") {
-        this.formStatusCheck = this.statusArray[0];
-      }
+      this.formStatusCheck = this.statusArray[0];
     }
-
-    this.clicked = false;
   }
 
   ngOnDestroy(): void {
-    if (this.subParentForModal) this.subParentForModal.unsubscribe();
+    // if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
 
   openModal(template: TemplateRef<any>) {
@@ -194,15 +146,11 @@ export class PfmsPreviewComponent implements OnInit {
   clickedDownloadAsPDF(template) {
     let changeHappen = sessionStorage.getItem("changeInPFMSAccount");
     this.clicked = true;
-    this.change.emit(this.clicked);
-    //use dialog instead of Modal
     if (changeHappen === "true") {
       this.openDialog(template);
     } else {
       this.downloadAsPDF();
     }
-
-    // this.openModal(template)
   }
   dialogRef;
   openDialog(template) {
@@ -237,12 +185,10 @@ export class PfmsPreviewComponent implements OnInit {
   private downloadFile(blob: any, type: string, filename: string): string {
     const url = window.URL.createObjectURL(blob); // <-- work with blob directly
 
-    // create hidden dom element (so it works in all browsers)
     const a = document.createElement("a");
     a.setAttribute("style", "display:none;");
     document.body.appendChild(a);
 
-    // create file, attach to hidden element and open hidden element
     a.href = url;
     a.download = filename;
     a.click();
@@ -250,11 +196,7 @@ export class PfmsPreviewComponent implements OnInit {
   }
 
   async proceed(uploadedFiles) {
-    // await this.modalRef.hide();
     this.dialogRef.close();
-    // this._matDialog.close(this.clicked);
-    // this._matDialog.closeAll('Hello');
-    // this._matDialog.ngOnDestroy()
     console.log("Check this value", this.data);
     sessionStorage.setItem("changeInPFMSAccount", "false");
     console.log(this.data);
@@ -263,7 +205,6 @@ export class PfmsPreviewComponent implements OnInit {
         console.log(res);
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.pfmsAccount.isSubmit = res["isCompleted"];
-        this._ulbformService.allStatus.next(status);
         console.log(res);
         if (res["isCompleted"] == true) {
           console.log("true");
@@ -275,14 +216,13 @@ export class PfmsPreviewComponent implements OnInit {
         swal("Record submitted successfully!");
       },
       (error) => {
-        this.errMessage = error.message;
-        console.log(error, this.errMessage);
+        console.log(error.message);
       }
     );
 
-    if (this.changeFromOutSide) {
-      this._ulbformService.initiateDownload.next(true);
-    } else this.downloadAsPDF();
+    // if (this.changeFromOutSide) {
+    // } else
+    this.downloadAsPDF();
   }
   alertClose() {
     this.stay();
@@ -290,5 +230,9 @@ export class PfmsPreviewComponent implements OnInit {
 
   stay() {
     this.dialogRef.close();
+  }
+
+  close() {
+    this._matDialog.closeAll();
   }
 }
