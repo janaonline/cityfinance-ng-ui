@@ -20,6 +20,15 @@ export class CommFileUploadComponent implements OnInit {
   @Output()
   getFileUploadResult = new EventEmitter();
 
+  @Input()
+  requiredBtn;
+
+  @Input()
+  FromLinkinPfms;
+
+  showPdf = true;
+  showExcel = true;
+
   data = {
     pdf: {
       file: null,
@@ -32,6 +41,16 @@ export class CommFileUploadComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    if (this.requiredBtn) {
+      switch (this.requiredBtn) {
+        case "pdf":
+          this.showExcel = false;
+          break;
+        case "excel":
+          this.showPdf = false;
+          break;
+      }
+    }
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
     }

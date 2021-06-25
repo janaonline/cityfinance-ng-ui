@@ -1,11 +1,11 @@
 <div class="col-md-12">
-    <span class="col-md-6"><b>{{quesName}}<b class="text-danger">*</b></b></span>
-    <button (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
+    <span class="col-md-6"> <b *ngIf="FromLinkinPfms">(A) </b> <b>{{quesName}}<b class="text-danger">*</b></b></span>
+    <button *ngIf="showPdf" (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
     </button>
     <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')"
         type="file" accept=".pdf" #file>
-    <button (click)="bs_excel1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload
+    <button *ngIf="showExcel" (click)="bs_excel1.click()" [ngClass]="{linkinpfms: FromLinkinPfms}" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload
         EXCEL
         <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
             data-height="16"></span>
@@ -13,7 +13,7 @@
     <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')"
         type="file" accept=".xls, .xlsx" #file>
 </div>
-<div class="row allupload">
+<div class="row allupload " *ngIf="showPdf">
     <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
         <div class="row">
             <div class="col-sm-4 col-lg-4 col-md-4">
@@ -55,7 +55,7 @@
         </div>
     </div>
 </div>
-<div class="row allupload">
+<div class="row allupload" *ngIf="showExcel">
     <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
         <div class="row">
             <div class="col-sm-4 col-lg-4 col-md-4">

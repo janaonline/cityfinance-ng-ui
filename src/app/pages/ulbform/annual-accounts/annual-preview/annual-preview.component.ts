@@ -137,7 +137,6 @@ text-align: center;
   ulbName='';
   stateName =''
   async ngOnInit() {
-    debugger
     let userData = JSON.parse(localStorage.getItem('userData'));
     this.ulbName = userData['name'];
     this.stateName = userData['stateName'];

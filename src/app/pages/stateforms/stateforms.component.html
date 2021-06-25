@@ -41,7 +41,8 @@
             </div>
 
             <div class="row link-div">
-                <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
+                <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+                    aria-controls="collapseBasic">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
@@ -102,8 +103,24 @@
                     </div>
                 </a>
             </div>
+            <div class="row link-div" routerLinkActive="active">
+                <a [routerLink]="['link-in-pfms']">
+                    <div class="col-sm-1 col-xs-1 m-l">
+                        <mat-icon aria-hidden="false">
+                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 col-xs-9 linktext pd">
+                        Linking of PFMS Account
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+
+                    </div>
+                </a>
+            </div>
             <div class="row link-div">
-                <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer" aria-controls="collapseBasicSer">
+                <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
+                    aria-controls="collapseBasicSer">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 3px;">
                             <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
@@ -206,15 +223,15 @@
         loggedInUserType === userTypes.MoHUA ||
         loggedInUserType === userTypes.PARTNER
       ">
-                        {{ userLoggedInDetails.role }}
-                    </span>
+                            {{ userLoggedInDetails.role }}
+                        </span>
                         <span *ngIf="
         states &&
         (loggedInUserType === userTypes.STATE ||
           loggedInUserType === userTypes.ULB)
       ">
-                        {{ states[userLoggedInDetails["state"]]?.name }}
-                    </span>
+                            {{ states[userLoggedInDetails["state"]]?.name }}
+                        </span>
                     </h3>
 
                 </div>
@@ -225,8 +242,8 @@
                 <div class="col-sm-12 col-lg-12 col-md-12" style="padding-right: 0;">
                     <router-outlet></router-outlet>
                 </div>
-            <!-- </div> -->
+                <!-- </div> -->
+            </div>
+
+
         </div>
-
-
-    </div>
