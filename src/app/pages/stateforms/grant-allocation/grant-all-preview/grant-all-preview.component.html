@@ -12,11 +12,16 @@
         </div>
     </div>
     <div class=" row h-cls" style="margin-top: 1.5rem;">
-        <div class="col-sm-12 text-right">
-            <button id="donwloadButton" style="right: 0%;
-  outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
-              Download as PDF
-          </button>
+        <div class="col-sm-12 ">
+            <div class="col-sm-6">
+                Form Current Status: {{status}}
+            </div>
+            <div class="col-sm-6 text-right">
+                <button id="donwloadButton" style="right: 0%;
+                outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
+                    Download as PDF
+                </button>
+            </div>
         </div>
     </div>
 
@@ -26,7 +31,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-10 qus-h">
-                            (A) Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the State?
+                            (A) Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the
+                            State?
                         </div>
                         <div class="col-sm-2 qus-h m-l" *ngIf="data.answer != ''; else naDiv">
                             {{data.answer | titlecase}}
@@ -37,16 +43,17 @@
                             </div>
                         </ng-template>
 
-                        <div class="col-sm-9 m-url a-h" *ngIf="data.answer != 'no'">
-                            Please fill in the grant amounts in the given template and upload the excel
+                        <div class="a-h" [ngClass]="{'col-sm-10': data.fileName =='', 'col-sm-6': data.fileName !=''}" *ngIf="data.answer != 'no'">
+                            (B) Please fill in the grant amounts in the given template and upload the excel
                         </div>
                         <ng-template #nadiv>
-                            <div class="col-sm-2 qus-h m-l n-l" style="margin-top: 0;">
+                            <div class="col-sm-2 qus-h m-l" style="margin-top: 0;">
                                 N/A
                             </div>
                         </ng-template>
 
-                        <div class=" col-sm-10 a-h m-url " *ngIf="(data.fileName !='' || data.answer == 'no') ; else nadiv ">
+                        <div class=" col-sm-5 a-h text-right"
+                            *ngIf="(data.fileName !='' || data.answer == 'no') ; else nadiv ">
                             <a href="{{data.url}} " target="_blank ">{{ data.fileName}}</a>
                         </div>
 
@@ -60,23 +67,23 @@
     </div>
 </div>
 <ng-template #template>
-  <div class="modal-body text-center ">
-      <div class="modal-header ">
-          <h4 class="modal-title pull-left " style="color: red; "> <i>Alert!</i> </h4>
-          <div class="text-right ">
-              <a (click)="alertClose() ">
-                  <img src="../../../../assets/form-icon/close-red-icon.png ">
-              </a>
-          </div>
-      </div>
+    <div class="modal-body text-center ">
+        <div class="modal-header ">
+            <h4 class="modal-title pull-left " style="color: red; "> <i>Alert!</i> </h4>
+            <div class="text-right ">
+                <a (click)="alertClose() ">
+                    <img src="../../../../assets/form-icon/close-red-icon.png ">
+                </a>
+            </div>
+        </div>
 
-      <p style="margin-top: 8px; ">
-          Are you sure you want to proceed?
-      <div>
-          <button type="button " class="btn btn-primary m-btn " (click)="stay() ">Stay</button>
-          <button type="button " class="btn btn-success m-btn " style="margin-left: 6px; " (click)="proceed() ">Save &
-              Proceed</button>
-      </div>
+        <p style="margin-top: 8px; ">
+            Are you sure you want to proceed?
+        <div>
+            <button type="button " class="btn btn-primary m-btn " (click)="stay() ">Stay</button>
+            <button type="button " class="btn btn-success m-btn " style="margin-left: 6px; " (click)="proceed() ">Save &
+                Proceed</button>
+        </div>
 
-  </div>
+    </div>
 </ng-template>

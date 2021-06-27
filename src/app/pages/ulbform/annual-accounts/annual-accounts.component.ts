@@ -363,6 +363,8 @@ export class AnnualAccountsComponent implements OnInit {
       form.unAudited.standardized_data.excel.url == null;
       form.unAudited.standardized_data.declaration == null;
     }
+    console.log(JSON.stringify(form),"saved form.........");
+    
     return new Promise((resolve, rej) => {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {

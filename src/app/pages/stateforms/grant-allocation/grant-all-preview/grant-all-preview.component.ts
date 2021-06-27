@@ -27,6 +27,8 @@ export class GrantAllPreviewComponent implements OnInit {
   @ViewChild("template") template;
   showLoader;
   dialogRef;
+  status;
+
 
   styleForPDF = `<style>
   .header-p {
@@ -91,6 +93,7 @@ margin-left: 1.2rem !important;
 
   ngOnInit() {
     console.log("previewData", this.data);
+    this.setStatus()
   }
   close() {
     this._matDialog.closeAll();
@@ -175,5 +178,15 @@ margin-left: 1.2rem !important;
         console.log(error.message);
       }
     );
+  }
+
+  setStatus() {
+    if (this.data.isDraft == null) {
+      this.status = "Not Started";
+    } else if (this.data.isDraft) {
+      this.status = "In Progress";
+    } else if (!this.data.isDraft) {
+      this.status = "Completed but Not Submitted";
+    }
   }
 }

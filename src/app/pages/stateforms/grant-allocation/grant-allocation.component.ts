@@ -220,7 +220,6 @@ export class GrantAllocationComponent implements OnInit {
             this._gAservices.checkFile(fileAlias).subscribe(
               (response) => {
                 console.log(response);
-                sessionStorage.setItem("changeInGTC", "false");
                 this.progessType = 100;
                 this.gtFileUrl = fileAlias;
                 //  swal('Record Submitted Successfully!')
@@ -228,10 +227,9 @@ export class GrantAllocationComponent implements OnInit {
               },
               (error) => {
                 this.err = error;
-
                 console.log(this.err);
                 // swal(`Error- ${this.err}`)
-                let blob: any = new Blob([error], {
+                let blob: any = new Blob([error.error], {
                   type: "text/json; charset=utf-8",
                 });
                 const url = window.URL.createObjectURL(blob);
@@ -301,11 +299,22 @@ export class GrantAllocationComponent implements OnInit {
     this.progessType = "";
   }
 
+  checkDraft() {
+    if (this.account === "no") {
+      return false;
+    }
+    if (this.account == "" || this.fileName == "" || this.gtFileUrl == "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   saveForm() {
     this.submitted = true;
     this.postData = {
       answer: this.account,
-      isDraft: true,
+      isDraft: this.checkDraft(),
       design_year: "606aaf854dff55e6c075d219",
       fileName: this.fileName,
       url: this.gtFileUrl,
@@ -316,7 +325,7 @@ export class GrantAllocationComponent implements OnInit {
       (res) => {
         console.log(res);
         sessionStorage.setItem("ChangeInGrantAllocation", "false");
-        swal('Record Submitted Successfully!')
+        swal("Record Submitted Successfully!");
 
         if (this.routerNavigate) {
           this._router.navigate([this.routerNavigate.url]);
@@ -343,6 +352,7 @@ export class GrantAllocationComponent implements OnInit {
       answer: this.account,
       fileName: this.fileName,
       url: this.gtFileUrl,
+      isDraft: this.checkDraft(),
     };
     const dialogRef = this.dialog.open(GrantAllPreviewComponent, {
       data: preData,
@@ -377,9 +387,6 @@ export class GrantAllocationComponent implements OnInit {
 
   proceed() {
     this.dialogRefForNavigation.close(true);
-    if(this.routerNavigate){
-
-    }
     this.saveForm();
   }
 
