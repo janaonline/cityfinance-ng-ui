@@ -186,8 +186,18 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     sessionStorage.setItem("changeInPlans", "false")
     this.wsService.getFiles(this.ulbId).subscribe(
       (res) => {
-        console.log(res);
+       let waterSres: any = res;
         this.waterAndSanitation = res["plans"];
+        console.log('water-suply-res', res, this.waterAndSanitation);
+        let actRes = {
+          st : waterSres?.status,
+          rRes : waterSres?.rejectReason
+        }
+        if(waterSres?.status != 'NA'){
+          this.ulbFormStaus = waterSres?.status;
+        }
+        this.ulbFormRejectR = waterSres?.rejectReason;
+        this.actionResW = actRes;
         sessionStorage.setItem(
           "plansData",
           JSON.stringify(this.waterAndSanitation)

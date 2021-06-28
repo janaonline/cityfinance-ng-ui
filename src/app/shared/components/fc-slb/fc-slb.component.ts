@@ -113,12 +113,11 @@ export class FcSlbComponent implements OnInit, OnChanges {
   invalidWhole = false;
   benchmarks = []
   ngOnInit() {
-
-
-
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
       this.isDisabled = true;
+    }else{
+      this.isDisabled = false;
     }
     console.log(this.services)
     this.services.forEach(data => {
@@ -152,7 +151,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         this.focusTargetKey[obj] = false;
       }
     }
-    console.log('focusTargetKey', this.focusTargetKey)
+   // console.log('focusTargetKey', this.focusTargetKey)
   }
 
   ngOnChanges(changes) {

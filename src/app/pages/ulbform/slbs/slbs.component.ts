@@ -23,11 +23,15 @@ export class SlbsComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   previewData: any;
-
+  loggedInUserType;
   jsonUtil = new JSONUtility();
   slbTitleText: string = "SLB's for Water Supply and Sanitation"
   preFilledWaterManagement: any = {}
   slbId: string = '';
+  ulbFormStaus = 'PENDING'
+  ulbFormRejectR = null;
+  finalSubmitUtiStatus;
+  actionRes;
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -35,6 +39,7 @@ export class SlbsComponent implements OnInit {
     private modalService: BsModalService,
     public _ulbformService: UlbformService) {
 
+    this.loggedInUserType =  this.loggedInUserDetails.role;
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
@@ -62,6 +67,7 @@ export class SlbsComponent implements OnInit {
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: '', url: '' }
   async ngOnInit() {
+    console.log('usertype....',this.loggedInUserDetails, USER_TYPE)
     this.clickedSave = false
     sessionStorage.setItem("changeInSLB", "false");
     await this.getSlbData()
@@ -336,6 +342,14 @@ export class SlbsComponent implements OnInit {
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
+  }
+  checkStatus(ev){
+    console.log('actionValues', ev);
+    this.ulbFormStaus = ev.status;
+    this.ulbFormRejectR = ev.rejectReason;
+  }
+  saveStateAction() {
+
   }
 
 

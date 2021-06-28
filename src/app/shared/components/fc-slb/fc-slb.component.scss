@@ -118,7 +118,6 @@
         display: inline-block;
     }
     .btn:hover {
-       
         font-weight: bold;
     }
     .download-link-icon {
@@ -244,12 +243,10 @@
 }
 
 .footerBtnDiv {
-    margin-right: 10px;
     margin-bottom: 10px;
 }
 
 .footerBtn {
-    margin-right: 15px;
     width: 135px;
     height: 36px;
     background-color: #26A1A1;
@@ -259,7 +256,6 @@
 }
 
 .backbtn {
-    margin-right: 48rem;
     background-color: #CFCFCF;
     color: #FFFFFF;
     width: 106px;
@@ -282,3 +278,6 @@ a.anDisable {
     pointer-events: none;
 }
 
+.btn-slb {
+    display: none;
+}

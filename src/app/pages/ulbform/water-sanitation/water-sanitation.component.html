@@ -132,7 +132,7 @@
              (loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true')">
             <div class="card-body">
                 <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
-                <br>
+
                 <p *ngIf="ulbFormStaus == 'REJECTED'">
                     <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
                 </p>
