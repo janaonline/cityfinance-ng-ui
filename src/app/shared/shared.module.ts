@@ -51,6 +51,7 @@ import { CustomizedCellComponent } from './components/ag-grid/customized-cell/cu
 import { CustomizedHeaderComponent } from './components/ag-grid/customized-header/customized-header.component';
 import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { CommFileUploadComponent } from './components/comm-file-upload/comm-file-upload.component';
+import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
 @NgModule({
   imports: [
     RouterModule,
@@ -103,6 +104,7 @@ import { CommFileUploadComponent } from './components/comm-file-upload/comm-file
     CustomizedHeaderComponent,
     CustomTooltipComponent,
     CommFileUploadComponent,
+
   ],
   exports: [
     PreLoaderComponent,

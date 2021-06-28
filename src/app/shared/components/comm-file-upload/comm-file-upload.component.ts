@@ -28,7 +28,7 @@ export class CommFileUploadComponent implements OnInit {
 
   showPdf = true;
   showExcel = true;
-
+  actionRes;
   data = {
     pdf: {
       file: null,
@@ -117,5 +117,8 @@ export class CommFileUploadComponent implements OnInit {
       this.data[fileType][key] = null;
     }
     this.getFileUploadResult.emit(this.data);
+  }
+  checkStatus(e) {
+  console.log('eeeeeeeee', e)
   }
 }

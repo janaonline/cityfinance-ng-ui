@@ -41,6 +41,7 @@ import { ServiceSlbsComponent } from './service-slbs/service-slbs.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { StateActionUlbComponent } from '../stateUlbAction/state-action/state-action-ulb/state-action-ulb.component';
+import { CommFileUploadComponent } from 'src/app/shared/components/comm-file-upload/comm-file-upload.component';
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -62,7 +63,7 @@ import { StateActionUlbComponent } from '../stateUlbAction/state-action/state-ac
     WaterSanitationPreviewComponent,
     AnnualPreviewComponent,
     ServiceSlbsComponent,
-    StateActionUlbComponent
+    StateActionUlbComponent,
 
   ],
   imports: [

@@ -37,7 +37,8 @@ export class SlbsComponent implements OnInit {
     private commonService: CommonService,
     private _router: Router,
     private modalService: BsModalService,
-    public _ulbformService: UlbformService) {
+    public _ulbformService: UlbformService
+    ) {
 
     this.loggedInUserType =  this.loggedInUserDetails.role;
     this._router.events.subscribe(async (event: Event) => {
@@ -85,6 +86,8 @@ export class SlbsComponent implements OnInit {
     const newForm = this.formBuilder.group({
       ...waterWasteManagementForm.controls,
     });
+    console.log('new form p', newForm, data);
+
     if (!data) return newForm;
     newForm.patchValue({ ...data.waterManagement });
 
@@ -112,9 +115,21 @@ export class SlbsComponent implements OnInit {
 
 
         this.slbId = res['data'] && res['data'][0] ? res['data'][0]._id : ''
+        let actRes = {
+          st : res['data']['status'],
+          rRes : res['data']['rejectReason']
+        }
+        if(res['data']['status'] != 'NA'){
+          this.ulbFormStaus = res['data']['status'];
+        }
 
+        this.ulbFormRejectR = res['data']['rejectReason'];
+        this.actionRes = actRes;
+        console.log('asdfghj', actRes, this.actionRes);
         sessionStorage.setItem("slbData", JSON.stringify(res))
         resolve(res)
+        console.log('slbResponse', res['data'].status);
+
       })
 
     })
@@ -350,7 +365,28 @@ export class SlbsComponent implements OnInit {
   }
   saveStateAction() {
 
-  }
+    let data = {
+      design_year: this.Years["2021-22"],
+      isCompleted: this.value.isCompleted,
+      status : this.ulbFormStaus,
+      rejectReason : this.ulbFormRejectR,
+      waterManagement:
+        { ...this.value.waterManagement },
+      water_index: this.value.water_index,
+      waterPotability: {
+        documents: {
+          waterPotabilityPlan: [
+            this.value.waterPotabilityPlan
+          ]
+        }
+      },
+      // completeness: 'APPROVED', correctness: 'APPROVED',
+    }
+    // this._ulbformService.postStateActionSlb(data).subscribe(res =>{
 
+    // })
+
+
+  }
 
 }

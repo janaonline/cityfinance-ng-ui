@@ -323,6 +323,8 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   save(form) {
+    console.log('adsfghSave', this.data);
+
     if (
       !form.audited.submit_annual_accounts ||
       form.audited.submit_annual_accounts == null
@@ -364,7 +366,7 @@ export class AnnualAccountsComponent implements OnInit {
       form.unAudited.standardized_data.declaration == null;
     }
     console.log(JSON.stringify(form),"saved form.........");
-    
+
     return new Promise((resolve, rej) => {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
@@ -779,5 +781,10 @@ export class AnnualAccountsComponent implements OnInit {
         break;
     }
     this.checkDiff();
+  }
+  actionRes;
+  checkStatus(e) {
+    console.log('eeeeeeeeee', e);
+
   }
 }
