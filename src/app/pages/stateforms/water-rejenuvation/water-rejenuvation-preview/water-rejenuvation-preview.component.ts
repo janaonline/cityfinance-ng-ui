@@ -158,14 +158,14 @@ h5{
     console.log(this.data);
   }
 
-  // clickedDownloadAsPDF() {
-  //   let change = sessionStorage.getItem("changeInWaterRejenuvation");
-  //   if (change == "true") {
-  //     this.openModal(this.template);
-  //   } else {
-  //     // this.downloadAsPDF();
-  //   }
-  // }
+  clickedDownloadAsPDF() {
+    let change = sessionStorage.getItem("changeInWaterRejenuvation");
+    if (change == "true") {
+      this.openModal(this.template);
+    } else {
+      this.downloadAsPDF();
+    }
+  }
 
   close() {
     this._matDialog.closeAll();
@@ -225,7 +225,7 @@ h5{
   proceed(uploadedFiles) {
     this._matDialog.closeAll();
     this.postsDataCall(uploadedFiles);
-    // this.downloadAsPDF();
+    this.downloadAsPDF();
     return;
   }
   postsDataCall(uploadedFiles) {

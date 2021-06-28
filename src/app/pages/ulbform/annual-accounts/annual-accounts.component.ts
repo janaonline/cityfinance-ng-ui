@@ -30,8 +30,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
   @ViewChild("templateAnnual") template;
   @ViewChild("template1") template1;
-  // quesOneAnswer: boolean = false;
-  // quesTwoAnswer: boolean = false;
   fromPreview = null;
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null },
@@ -48,8 +46,6 @@ export class AnnualAccountsComponent implements OnInit {
     { name: "Cash flow Statement", error: false, data: null },
     { name: "Auditor Report", error: false, data: null },
   ];
-  // quesOneAnswer1: boolean = false;
-  // quesTwoAnswer1: boolean = false;
   audit_status = "Unaudited";
   Years = JSON.parse(localStorage.getItem("Years"));
   dateShow: string = "2020-21";
@@ -238,8 +234,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.onPreview();
   }
 
-  onPreview() {
-    this.checkForm();
+  prevData() {
     let prevData = JSON.parse(JSON.stringify(this.data));
     if (!prevData.audited.submit_annual_accounts) {
       delete prevData.audited.standardized_data;
@@ -254,9 +249,14 @@ export class AnnualAccountsComponent implements OnInit {
     } else if (!prevData.unAudited.submit_standardized_data) {
       delete prevData.unAudited.provisional_data;
     }
+    return prevData;
+  }
 
+  onPreview() {
+    let temp = JSON.parse(JSON.stringify(this.prevData()));
+    console.log(temp);
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
-      data: prevData,
+      data: temp,
       height: "95%",
       width: "85vw",
       panelClass: "no-padding-dialog",
@@ -299,6 +299,8 @@ export class AnnualAccountsComponent implements OnInit {
     delete res.actionTakenBy;
     this.data = res;
     let index = 0;
+    const toStoreResponse = this.data;
+    sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
     for (const key in res.audited.provisional_data) {
       this.auditQues[index].data = res.audited.provisional_data[key];
       index++;
@@ -312,16 +314,57 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async submit(template = null) {
-    this.checkForm();
-    console.log(this.data);
     if (template && this.data.isDraft) {
       this.openDialog(template);
     } else {
       await this.save(this.data);
+      return this._router.navigate(["ulbform/service-level"]);
     }
   }
 
   save(form) {
+    if (
+      !form.audited.submit_annual_accounts ||
+      form.audited.submit_annual_accounts == null
+    ) {
+      for (const key in form.audited.provisional_data) {
+        if (key == undefined || key == "auditor_report") break;
+        form.audited.provisional_data[key].excel.name = null;
+        form.audited.provisional_data[key].excel.url = null;
+        form.audited.provisional_data[key].pdf.url = null;
+        form.audited.provisional_data[key].pdf.name = null;
+      }
+    }
+    if (
+      !form.unAudited.submit_annual_accounts ||
+      form.unAudited.submit_annual_accounts == null
+    ) {
+      for (const key in form.unAudited.provisional_data) {
+        if (key == undefined) break;
+        form.unAudited.provisional_data[key].excel.name = null;
+        form.unAudited.provisional_data[key].excel.url = null;
+        form.unAudited.provisional_data[key].pdf.url = null;
+        form.unAudited.provisional_data[key].pdf.name = null;
+      }
+    }
+    if (
+      !form.audited.submit_standardized_data ||
+      form.audited.submit_standardized_data == null
+    ) {
+      form.audited.standardized_data.excel.name == null;
+      form.audited.standardized_data.excel.url == null;
+      form.audited.standardized_data.declaration == null;
+    }
+    if (
+      !form.unAudited.submit_standardized_data ||
+      form.unAudited.submit_standardized_data == null
+    ) {
+      form.unAudited.standardized_data.excel.name == null;
+      form.unAudited.standardized_data.excel.url == null;
+      form.unAudited.standardized_data.declaration == null;
+    }
+    console.log(JSON.stringify(form),"saved form.........");
+    
     return new Promise((resolve, rej) => {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
@@ -349,46 +392,118 @@ export class AnnualAccountsComponent implements OnInit {
       this.data.isDraft = false;
       return;
     }
+    this.checkForAudit();
+    if (!this.data.isDraft) this.checkForUnAudit();
+  }
 
+  checkForAudit() {
     let index = 0;
-    if (this.data.audited.submit_annual_accounts) {
-      for (const key in this.data.audited.provisional_data) {
-        if (
-          this.data.audited.provisional_data[key].pdf.url == null ||
-          this.data.audited.provisional_data[key].pdf.name == null
-        ) {
-          this.auditQues[index].error = true;
-          this.data.isDraft = true;
+    if (this.data.audited.submit_annual_accounts == null) {
+      this.data.isDraft = true;
+    } else {
+      if (this.data.audited.submit_annual_accounts) {
+        for (const key in this.data.audited.provisional_data) {
+          if (
+            this.data.audited.provisional_data[key].pdf.url == null ||
+            this.data.audited.provisional_data[key].pdf.name == null
+          ) {
+            this.auditQues[index].error = true;
+            this.data.isDraft = true;
+          } else {
+            this.auditQues[index].error = false;
+            this.data.isDraft = false;
+          }
+          index++;
         }
-        index++;
-      }
-    } else if (this.data.audited.submit_annual_accounts == null) {
-      this.answerError.audited.submit_annual_accounts = true;
-      this.data.isDraft = true;
-    }
-    if (this.data.unAudited.submit_annual_accounts) {
-      index = 0;
-      for (const key in this.data.unAudited.provisional_data) {
-        if (
-          this.data.unAudited.provisional_data[key].pdf.url == null ||
-          this.data.unAudited.provisional_data[key].pdf.name == null
-        ) {
-          this.unAuditQues[index].error = true;
-          this.data.isDraft = true;
+        if (this.data.isDraft) {
+          return;
         }
-        index++;
+        if (this.data.audited.submit_standardized_data == null) {
+          this.data.isDraft = true;
+        } else {
+          if (this.data.audited.submit_standardized_data) {
+            if (
+              this.data.audited.standardized_data.declaration != null &&
+              this.data.audited.standardized_data.declaration == true
+            ) {
+              this.data.isDraft = false;
+            } else {
+              this.data.isDraft = true;
+            }
+            if (this.data.isDraft) {
+              return;
+            }
+            if (
+              this.data.audited.standardized_data.excel.url == null ||
+              this.data.audited.standardized_data.excel.name == null
+            ) {
+              this.auditQues[index].error = true;
+              this.data.isDraft = true;
+            } else {
+              this.auditQues[index].error = false;
+              this.data.isDraft = false;
+            }
+          } else {
+            this.data.isDraft = false;
+          }
+        }
+      } else {
+        this.data.isDraft = false;
       }
-    } else if (this.data.unAudited.submit_annual_accounts == null) {
-      this.answerError.unAudited.submit_annual_accounts = true;
-      this.data.isDraft = true;
     }
-    if (this.data.unAudited.submit_standardized_data == null) {
-      this.answerError.unAudited.submit_standardized_data = true;
+  }
+  checkForUnAudit() {
+    let index = 0;
+    if (this.data.unAudited.submit_annual_accounts == null) {
       this.data.isDraft = true;
-    }
-    if (this.data.audited.submit_standardized_data == null) {
-      this.answerError.audited.submit_standardized_data = true;
-      this.data.isDraft = true;
+    } else {
+      if (this.data.unAudited.submit_annual_accounts) {
+        for (const key in this.data.unAudited.provisional_data) {
+          if (
+            this.data.unAudited.provisional_data[key].pdf.url == null ||
+            this.data.unAudited.provisional_data[key].pdf.name == null
+          ) {
+            this.unAuditQues[index].error = true;
+            this.data.isDraft = true;
+          } else {
+            this.unAuditQues[index].error = false;
+            this.data.isDraft = false;
+          }
+          index++;
+        }
+        if (this.data.isDraft) {
+          return;
+        }
+        if (this.data.unAudited.submit_standardized_data == null) {
+          this.data.isDraft = true;
+        } else {
+          if (this.data.unAudited.submit_standardized_data) {
+            if (
+              this.data.unAudited.standardized_data.declaration != null &&
+              this.data.unAudited.standardized_data.declaration == true
+            ) {
+              this.data.isDraft = false;
+            } else {
+              this.data.isDraft = true;
+            }
+            if (this.data.isDraft) {
+              return;
+            }
+            if (
+              this.data.unAudited.standardized_data.excel.url == null ||
+              this.data.unAudited.standardized_data.excel.name == null
+            ) {
+              this.data.isDraft = true;
+            } else {
+              this.data.isDraft = false;
+            }
+          } else {
+            this.data.isDraft = false;
+          }
+        }
+      } else {
+        this.data.isDraft = false;
+      }
     }
   }
 
@@ -570,14 +685,14 @@ export class AnnualAccountsComponent implements OnInit {
   checkDiff() {
     let storedData = sessionStorage.getItem("annualAccounts");
     let toCompData = JSON.stringify(this.data);
-    console.log(storedData, toCompData);
-
     if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
-      this.checkForm()
+      this.checkForm();
       let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
       if (allFormData) {
-        allFormData.annualAccountData = [this.data];
+        allFormData.annualAccountData = [
+          JSON.parse(JSON.stringify(this.prevData())),
+        ];
         this._ulbformService.allFormsData.next(allFormData);
       }
     } else {
