@@ -759,7 +759,6 @@ margin-left : .5rem !important;
     this.checkDataChange();
     if (this.data) {
       this.setAllData(this.data);
-      this.showLoader = false;
     } else this.getAllForm();
   }
 
@@ -798,6 +797,7 @@ margin-left : .5rem !important;
     this.setAnnualAccount(data.annualAccountData[0]);
     if (data.isUA == "Yes") this.setSlbData(data.SLBs[0]);
     if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
+    this.showLoader = false;
   }
 
   setDetailUtilData(detailUtilData) {
@@ -821,11 +821,14 @@ margin-left : .5rem !important;
       this.detailUtil.useData.projects.forEach((element) => {
         element.category = this.categories[element.category];
       });
-
     } else this.detailUtil = this.detailUtilError;
   }
 
   setSlbData(slbData) {
+    if (!slbData) {
+      this.slbWaterSanitaion = this.slbWaterSanitaionError;
+      return
+    }
     this.slbWaterSanitaion = slbData;
     if (this.slbWaterSanitaion) {
       let tem =
@@ -833,7 +836,7 @@ margin-left : .5rem !important;
           ?.waterPotabilityPlan[0];
       if (tem) this.slbWaterSanitaion.waterPotability = tem;
       this.slbWaterSanitaion.fromParent = true;
-    } else this.slbWaterSanitaion = this.slbWaterSanitaionError;
+    }
   }
 
   setLinkPfms(pfmsData) {

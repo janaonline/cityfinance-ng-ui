@@ -116,7 +116,6 @@ export class CommFileUploadComponent implements OnInit {
     for (const key in this.data[fileType]) {
       this.data[fileType][key] = null;
     }
-
     this.getFileUploadResult.emit(this.data);
   }
 }
