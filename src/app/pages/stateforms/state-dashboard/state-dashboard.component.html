@@ -57,7 +57,8 @@
     </div>
     <div class="search-bar">
         Population Category:
-        <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
+        <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown" placeholder="--Please Select--">
+            <!-- <option value="0">--Please Select--</option> -->
             <option value="allUlbs">All ULBs</option>
             <option value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
             <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
@@ -163,16 +164,36 @@
 
     <div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
         <div class="header">
-            <div class="col-sm-4" style="font-size:18px;font-weight: 450; padding-left:40px;">
-                Million Plus Cities Challenge Fund
-            </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4" style="font-weight: 450; text-align: right; padding-right:40px;">
-                UA:
-                <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
-                    <option *ngFor="let item of UANames">{{item}}</option>
+            <div class="col-sm-6"
+                style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
+                <div class="row">
+                    <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
+                    <div class="col-sm-5">
+                        <span style="text-align: right; margin-left: auto; font-size: 15px;">
+                            UA:
+                            <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown"
+                                style="width: 150px !important;">
+                                <option value="0">-Select-</option>
+                                <option *ngFor="let item of UANames">{{item}}</option>
 
-                </select>
+                            </select>
+                        </span>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-sm-6" style="font-weight: 450; text-align: left; padding-right:40px;">
+                <span style="line-height: 40px;
+                text-align: left;
+                margin-left: 10px;
+                font-size: 18px;
+                font-weight: bold;
+                margin-top: 8px;">ULB Water Supply and Sanitation Indicators</span>
+                <a (click)="openDialogPlans()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
             </div>
         </div>
         <div style="height:244px;">
@@ -242,18 +263,10 @@
                 </div>
             </div>
             <div class="col-sm-6" style="color:#000000C4;height:inherit; border-left:1px solid #0000001A;">
-                <span style="line-height: 40px;
-                text-align: left;
-                margin-left: 10px;
-                font-size: 18px;
-                font-weight: bold;
-                margin-top: 8px;">ULB Water Supply and Sanitation Indicators</span>
-                <a (click)="openDialogPlans()" style="margin-left:30px">
-                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                </a>
+
 
                 <div class="row pieChart">
-                    <div style="height:170px; width:100%; margin-left:50px; margin-top:20px ;">
+                    <div style="height:190px; width:100%; margin-left:50px; margin-top:24px ;">
                         <canvas id="pfm"></canvas>
                     </div>
                 </div>

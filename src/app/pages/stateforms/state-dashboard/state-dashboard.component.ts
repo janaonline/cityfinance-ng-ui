@@ -70,6 +70,12 @@ export class StateDashboardComponent implements OnInit {
   width3 = '';
   width4 = '';
   UANames = []
+  maindonughtChart;
+  pfmsdonughtChart;
+  utilreportDonughtChart;
+  slbdonughtChart
+  piechart;
+
   onLoad() {
     this.mainDonughtChart();
     this.gaugeChart1();
@@ -156,7 +162,7 @@ export class StateDashboardComponent implements OnInit {
     };
     const canvas = <HTMLCanvasElement>document.getElementById('pfms');
     const ctx = canvas.getContext('2d');
-    let pfms = new Chart(ctx, {
+    this.pfmsdonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
       options: {
@@ -183,7 +189,7 @@ export class StateDashboardComponent implements OnInit {
       labels: [
         '103 - Pending Completion',
         '213 - Completed and Pending Submission',
-        '213 - Completed and Pending Submission',
+        '213 - Under State Review',
         '213 - Approved by State'
       ],
       datasets: [{
@@ -204,7 +210,7 @@ export class StateDashboardComponent implements OnInit {
     };
     const canvas = <HTMLCanvasElement>document.getElementById('utilReport');
     const ctx = canvas.getContext('2d');
-    let utilReport = new Chart(ctx, {
+    this.utilreportDonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
 
@@ -229,7 +235,7 @@ export class StateDashboardComponent implements OnInit {
       labels: [
         '103 - Pending Completion',
         '213 - Completed and Pending Submission',
-        '213 - Completed and Pending Submission',
+        '213 - Under State Review',
         '213 - Approved by State'
       ],
       datasets: [{
@@ -250,7 +256,7 @@ export class StateDashboardComponent implements OnInit {
     };
     const canvas = <HTMLCanvasElement>document.getElementById('slb');
     const ctx = canvas.getContext('2d');
-    let slb = new Chart(ctx, {
+    this.slbdonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
       options: {
@@ -386,6 +392,7 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   mainDonughtChart() {
+
     const data = {
       labels: [
         'Pending for Submission',
@@ -408,7 +415,7 @@ export class StateDashboardComponent implements OnInit {
     };
     const canvas = <HTMLCanvasElement>document.getElementById('myChart');
     const ctx = canvas.getContext('2d');
-    let myChart = new Chart(ctx, {
+    this.maindonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
       options: {
@@ -426,6 +433,7 @@ export class StateDashboardComponent implements OnInit {
       }
 
     });
+
   }
   pieChart() {
 
@@ -454,7 +462,7 @@ export class StateDashboardComponent implements OnInit {
 
     const canvas = <HTMLCanvasElement>document.getElementById('pfm');
     const ctx = canvas.getContext('2d');
-    let myChart = new Chart(ctx, {
+    this.piechart = new Chart(ctx, {
       type: 'pie',
       data: data,
       options: {
@@ -520,6 +528,11 @@ export class StateDashboardComponent implements OnInit {
     this.pieChart();
   }
   selected() {
+    this.maindonughtChart.destroy();
+    this.utilreportDonughtChart.destroy();
+    this.slbdonughtChart.destroy();
+    this.pfmsdonughtChart.destroy();
+    this.piechart.destroy();
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
       let data = this.formDataApiRes['data'][0]
@@ -539,6 +552,7 @@ export class StateDashboardComponent implements OnInit {
 
   }
   selectedUA() {
+
     console.log('selectedUA', this.selectUa)
     this.ulbs = 0;
     this.plans = 0;

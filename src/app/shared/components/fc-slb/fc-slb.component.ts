@@ -112,10 +112,11 @@ export class FcSlbComponent implements OnInit, OnChanges {
   showPublishedUpload: boolean;
   invalidWhole = false;
   benchmarks = []
+  changeInData = false;
   ngOnInit() {
 
 
-
+    this.changeInData = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
       this.isDisabled = true;
@@ -498,6 +499,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
   onBlur(control: AbstractControl, formValue = '', currentControlKey = '', serviceKey = '', increase = true) {
+    this.changeInData = true;
     console.log('individual input field', control)
     console.log('individual service field', formValue)
     console.log('total form', this.form)
