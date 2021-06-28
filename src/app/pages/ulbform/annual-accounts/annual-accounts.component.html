@@ -60,19 +60,15 @@
                 </div>
                 <div *ngIf="data.unAudited.submit_annual_accounts">
                     <div *ngFor="let item of unAuditQues ; let quesIndex=index">
-                        <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data"
-                        (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)"
-                        [quesName]="item.name">
-                    </app-comm-file-upload>
-                        <div *ngIf="item.error" class="row allupload">
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; ">
-                                <div class="row">
-                                    <div class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
-                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
-                                            {{pdfError}}</label>
-                                    </div>
-                                </div>
-                            </div>
+                        <ng-container >
+                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data"
+                            (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)"
+                            [quesName]="item.name">
+                        </app-comm-file-upload>
+                        </ng-container>
+                        <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
+                            <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
+                                {{pdfError}}</label>
                         </div>
                     </div>
                 </div>
@@ -197,8 +193,8 @@
                         </div>
                         <div class="row pull-left">
                             <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration"
-                                [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)" name="agree"
-                                value=true>
+                                [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)"
+                                name="agree" value=true>
                             <label style="margin-left: 1ch;" for="agree"> I Agree</label>
                         </div>
                     </div>
@@ -235,18 +231,14 @@
                 </div>
                 <div *ngIf="data.audited.submit_annual_accounts">
                     <div *ngFor="let item of auditQues; let quesIndex=index">
-                        <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data"
+                        <ng-container >
+                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data"
                             (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)"
                             [quesName]="item.name"></app-comm-file-upload>
-                        <div *ngIf="item.error" class="row allupload">
-                            <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; ">
-                                <div class="row">
-                                    <div class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
-                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
-                                            {{pdfError}}</label>
-                                    </div>
-                                </div>
-                            </div>
+                        </ng-container>
+                        <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
+                            <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
+                                {{pdfError}}</label>
                         </div>
                     </div>
                 </div>
@@ -428,7 +420,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>
