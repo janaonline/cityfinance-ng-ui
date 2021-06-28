@@ -269,7 +269,7 @@ export class UtilisationReportComponent implements OnInit {
         this.utilizationReport.controls.projects.disable();
 
     }
-    if(this.ulbFormStaus == 'REJECTED'){
+    if(this.ulbFormStaus == 'REJECTED' && (this.userLoggedInDetails.role === USER_TYPE.ULB)){
         this.utilizationReport.enable();
         this.isDisabled = false;
         this.utilizationReport.controls.projects.enable();

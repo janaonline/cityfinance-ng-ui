@@ -10,6 +10,7 @@ import { Subject } from "rxjs";
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
+import { UserUtility } from "src/app/util/user/user";
 
 @Component({
   selector: "app-water-sanitation",
@@ -37,10 +38,11 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
   actionResW;
-  userLoggedInDetails: IUserLoggedInDetails;
-  loggedInUserType: USER_TYPE;
+  userLoggedInDetails = new UserUtility().getLoggedInUserDetails();
+  loggedInUserType;
   userTypes = USER_TYPE;
   ulbId = null;
+
   constructor(
     private _router: Router,
     private wsService: WaterSanitationService,
@@ -49,6 +51,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
 
   ) {
     super();
+    this.loggedInUserType =  this.userLoggedInDetails.role;
     this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
     console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
     switch (this.loggedInUserType) {
@@ -186,8 +189,18 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     sessionStorage.setItem("changeInPlans", "false")
     this.wsService.getFiles(this.ulbId).subscribe(
       (res) => {
-        console.log(res);
+       let waterSres: any = res;
         this.waterAndSanitation = res["plans"];
+        console.log('water-suply-res', res, this.waterAndSanitation);
+        let actRes = {
+          st : waterSres?.status,
+          rRes : waterSres?.rejectReason
+        }
+        if(waterSres?.status != 'NA'){
+          this.ulbFormStaus = waterSres?.status;
+        }
+        this.ulbFormRejectR = waterSres?.rejectReason;
+        this.actionResW = actRes;
         sessionStorage.setItem(
           "plansData",
           JSON.stringify(this.waterAndSanitation)
@@ -195,6 +208,10 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
         this.diffCheck();
         this.onLoadDataCheck(this.waterAndSanitation);
         this.isDraft = res["isDraft"];
+        console.log('ddddddddd', this.loggedInUserType, this.USER_TYPE)
+        if((this.ulbFormStaus == 'REJECTED') && (this.loggedInUserType == USER_TYPE.ULB)){
+          this.isDisabled = false;
+      }
       },
       (errMes) => {
         console.log(errMes);
@@ -206,6 +223,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
         this.diffCheck();
       }
     );
+
   }
 
   onLoadDataCheck(data) {

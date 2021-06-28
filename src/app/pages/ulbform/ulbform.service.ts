@@ -38,4 +38,7 @@ export class UlbformService {
   postFinalActionByState(ublbId){
     return this.http.post(`${environment.api.url}form-submit-action`, ublbId)
   }
+  postStateActionSlb(data) {
+
+  }
 }
