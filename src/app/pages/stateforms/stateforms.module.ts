@@ -44,6 +44,7 @@ import { UtilreportListComponent } from './state-dashboard/utilreport-list/utilr
 import { PlansListComponent } from './state-dashboard/plans-list/plans-list.component';
 import { PfmsListComponent } from './state-dashboard/pfms-list/pfms-list.component';
 import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component';
+
 @NgModule({
   entryComponents: [OverallListComponent],
   declarations: [StateformsComponent,
@@ -78,7 +79,8 @@ import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component'
     // PlansListComponent,
     // UtilReportListComponent
     LinkPFMSComponent,
-    PfmsPreviewComponent
+    PfmsPreviewComponent,
+
   ],
   imports: [
     CommonModule,

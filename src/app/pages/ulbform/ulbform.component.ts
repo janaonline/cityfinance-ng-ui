@@ -112,6 +112,7 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
         localStorage.setItem('finalSubmitStatus', this.submitted.toString())
+        console.log('here')
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -136,7 +137,7 @@ export class UlbformComponent implements OnInit {
   }
 
   public accessGrant() {
-     this.ulbId = sessionStorage.getItem("ulb_id");
+    this.ulbId = sessionStorage.getItem("ulb_id");
     console.log("pk12", this.ulbId);
     if (this.ulbId == null) {
       let userData = JSON.parse(localStorage.getItem("userData"));
@@ -285,18 +286,18 @@ export class UlbformComponent implements OnInit {
     }
     console.log('validate', this.validate)
   }
-  finalStateAction(){
+  finalStateAction() {
     this.ulbformService.postFinalActionByState(this.ulbId)
-        .subscribe(
-          res => {
-            console.log(res)
-            swal("Action Successfully Submitted")
-          },
-          err => {
-            console.log(err);
-            swal('Action Submission Failed!')
-          }
+      .subscribe(
+        res => {
+          console.log(res)
+          swal("Action Successfully Submitted")
+        },
+        err => {
+          console.log(err);
+          swal('Action Submission Failed!')
+        }
 
-        )
+      )
   }
 }
