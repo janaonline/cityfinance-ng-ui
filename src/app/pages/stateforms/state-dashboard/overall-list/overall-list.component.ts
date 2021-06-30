@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { OverallListService } from './overall-list.service'
-
+import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 @Component({
   selector: 'app-overall-list',
   templateUrl: './overall-list.component.html',
@@ -32,6 +32,7 @@ export class OverallListComponent implements OnInit {
   errMessage = '';
   constructor(
     private overallListService: OverallListService,
+    public ulbService: UlbadminServiceService,
   ) { }
 
 
@@ -40,7 +41,7 @@ export class OverallListComponent implements OnInit {
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
   ua_name_s = new FormControl('');
-
+  status_s = new FormControl('');
 
   ngOnInit() {
     this.loadData();
@@ -61,6 +62,29 @@ export class OverallListComponent implements OnInit {
       )
   }
   setLIstFetchOptions() {
+    console.log(this.status_s.value)
+    let overall_statusCode;
+    if (this.status_s.value) {
+
+      if (this.status_s.value == "Not Started") {
+        overall_statusCode = 1;
+      } else if (this.status_s.value == "In Progess") {
+        overall_statusCode = 2;
+      } else if (this.status_s.value == "Completed but not Submitted") {
+        overall_statusCode = 3;
+      }
+      else if (this.status_s.value == "Under Review by State") {
+        overall_statusCode = 4;
+      } else if (this.status_s.value == "Under Review by MoHUA") {
+        overall_statusCode = 5;
+      } else if (this.status_s.value == "Approval Completed") {
+        overall_statusCode = 6;
+      } else if (this.status_s.value == "Rejected by State") {
+        overall_statusCode = 7;
+      } else if (this.status_s.value == "Rejected by MoHUA") {
+        overall_statusCode = 8;
+      }
+    }
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
@@ -80,9 +104,9 @@ export class OverallListComponent implements OnInit {
         UA: this.ua_name_s.value
           ? this.ua_name_s.value.trim()
           : "",
-        // status: this.status_s.value
-        //   ? this.status_s.value.trim()
-        //   : "",
+        status: overall_statusCode
+          ? overall_statusCode
+          : "",
       }
 
     }
@@ -92,6 +116,39 @@ export class OverallListComponent implements OnInit {
       ...this.filterObject,
       //  ...config,
     };
+
+  }
+  stateData() {
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
+
+    this.fcFormListSubscription = this.ulbService
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption)
+      .subscribe(
+        (result) => {
+          let res: any = result;
+          this.tabelData = res.data;
+          if (res.data.length == 0) {
+            this.nodataFound = true;
+          } else {
+            this.nodataFound = false;
+          }
+          console.log(result);
+
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          alert('Some Error Occurred')
+
+        }
+      );
+
 
   }
 
