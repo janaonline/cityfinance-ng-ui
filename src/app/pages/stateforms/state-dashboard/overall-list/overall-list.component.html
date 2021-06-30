@@ -28,24 +28,25 @@
                                         <th scope="col">Plans for Water Supply and Sanitation Status</th>
                                     </tr>
                                 </thead>
-                                <!-- <thead>
+                                <thead>
                                     <tr class="filter">
                                         <th class="filter"></th>
 
                                         <th class="filter">
-                                            <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <!-- <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
-                                                (keyup.enter)="stateData()">
+                                                style="width:75px" (keyup.enter)="stateData()">
                                         </th>
                                         <th class="filter">
-                                            <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <!-- <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
                                             <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
-                                                (keyup.enter)="stateData()">
+                                                style="width:75px" (keyup.enter)="stateData()">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="ulb_type_s" (change)="stateData()">
+                                            <select class="s-th" [formControl]="ulb_type_s" (change)="stateData()"
+                                                style="width:auto">
                                                 <option selected value="">ULB Type</option>
                                                 <option value="Municipality">Municipality</option>
 
@@ -67,8 +68,7 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                         
                                             <input type="text" [formControl]="ua_name_s" class="s-th p-s"
                                                 style="width: 76px;" (change)="stateData()">
                                         </th>
@@ -78,14 +78,88 @@
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
-                                                <option value="APPROVED">APPROVED</option>
-                                                <option value="PENDING">PENDING</option>
-                                                <option value="REJECTED">REJECTED</option>
-                                                <option value="NA">NA</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed but not Submitted">Completed but not Submitted
+                                                </option>
+                                                <option value="Under Review by State">Under Review by State</option>
+                                                <option value="Under Review by MoHUA">Under Review by MoHUA</option>
+                                                <option value="Approval Completed">Approval Completed</option>
+                                                <option value="Rejected by State">Rejected by State</option>
+                                                <option value="Rejected by MoHUA">Rejected by MoHUA</option>
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <button class="btn btn-t" (click)="stateData()">Search</button>
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Registered">Registered</option>
+                                                <option value="Not Registered">Not Registered</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed and Accounts not Submitted">Completed and
+                                                    Accounts not Submitted</option>
+                                                <option value="Completed and Accounts Submitted">Completed and Accounts
+                                                    Submitted</option>
+
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed and Accounts not Submitted">Completed and
+                                                    Accounts not Submitted</option>
+                                                <option value="Completed and Accounts Submitted">Completed and Accounts
+                                                    Submitted</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed">Completed</option>
+
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed">Completed</option>
+                                                <option value="Not Applicable">Not Applicable</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed">Completed</option>
+                                                <option value="Not Applicable">Not Applicable</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+
                                             <a (click)="loadData()">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
@@ -94,7 +168,7 @@
                                         </th>
                                     </tr>
 
-                                </thead>  -->
+                                </thead>
 
                                 <tbody>
                                     <tr *ngFor="let resData of tabelData | paginate
@@ -152,12 +226,5 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <button type="button" class="btn btn-back" [routerLink]="[ '../review-ulb-form']">BACK</button>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-            <button type="button" class="btn btn-next" [routerLink]="[ '../gtCertificate']">NEXT</button>
-        </div>
-    </div>
+
 </div>
