@@ -12,7 +12,7 @@
             <div class="col-sm-3 card ">
                 <div class="row">
                     <div class="col-sm-8">
-                        <div class="card-number">{{totalUlbs}}</div>
+                        <div class="card-number">{{totalUlbs }}</div>
                         <div class="card-text">Total ULBs</div>
                     </div>
                     <div class="col-sm-4 iconImage">
@@ -57,13 +57,14 @@
     </div>
     <div class="search-bar">
         Population Category:
-        <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
+        <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown" placeholder="--Please Select--">
+            <!-- <option value="0">--Please Select--</option> -->
             <option value="allUlbs">All ULBs</option>
             <option value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
             <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
         </select>
 
-        <button class="btn btn-primary">SEARCH</button>
+
 
     </div>
     <div class="row statusArea">
@@ -78,14 +79,16 @@
                 <canvas id="myChart" style="width:400px ; height:400px"></canvas>
             </div>
             <div class="viewListBtn">
-                <button class="btn btn-primary">VIEW LIST</button>
+                <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
         </div>
         <div class="col-sm-3 secondColumn">
 
             <div class="row"
-                style="font-size: 18px; text-align: center;font-weight:bold; line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
-                ULB Annual Accounts Status
+                style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                ULB Annual Accounts Status <a (click)="openDialogPfms()" style="margin-left:5px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
+                </a>
             </div>
             <div class="row gauge">
                 <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
@@ -116,13 +119,17 @@
                 </div>
             </div>
             <div class="row" style="margin-top:23px;text-align: center; position:relative;margin-right: 5px;">
-                <button class="btn btn-primary">VIEW LIST</button>
+
             </div>
         </div>
         <div class="col-sm-6 thirdColumn">
             <div class="row formDonutCharts">
                 <span class="textInThirdColumn">
                     ULB PFMS STATUS</span>
+                <a (click)="openDialogPfms()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+                <!-- <button (click)="openDialogPfms()"> View List</button> -->
                 <div class="smallDonuts">
                     <canvas id="pfms"></canvas>
                 </div>
@@ -130,6 +137,10 @@
             <div class="row formDonutCharts">
 
                 <span class="textInThirdColumn"> ULB Utilization Report Status</span>
+                <a (click)="openDialogUtil()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+
                 <div class="smallDonuts">
                     <canvas id="utilReport"></canvas>
                 </div>
@@ -140,6 +151,10 @@
                 <span class="textInThirdColumn">
                     ULB Service Level Benchmark Status
                 </span>
+                <a (click)="openDialogSlb()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
+
                 <div class="smallDonuts">
                     <canvas id="slb"></canvas>
                 </div>
@@ -149,22 +164,42 @@
         </div>
     </div>
 
-    <div class="bottomPart" style="margin-top:10px">
-        <div class="row header">
-            <div class="col-sm-4" style="font-size:18px;font-weight: 450; padding-left:40px;">
-                Million Plus Cities Challenge Fund
-            </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4" style="font-weight: 450; text-align: right; padding-right:40px;">
-                UA:
-                <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
-                    <option *ngFor="let item of UANames">{{item}}</option>
+    <div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
+        <div class="header">
+            <div class="col-sm-6"
+                style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
+                <div class="row">
+                    <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
+                    <div class="col-sm-5">
+                        <span style="text-align: right; margin-left: auto; font-size: 15px;">
+                            UA:
+                            <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown"
+                                style="width: 150px !important;">
+                                <option value="0">-Select-</option>
+                                <option *ngFor="let item of UANames">{{item}}</option>
 
-                </select>
+                            </select>
+                        </span>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-sm-6" style="font-weight: 450; text-align: left; padding-right:40px;">
+                <span style="line-height: 40px;
+                text-align: left;
+                margin-left: 10px;
+                font-size: 18px;
+                font-weight: bold;
+                margin-top: 8px;">ULB Water Supply and Sanitation Indicators</span>
+                <a (click)="openDialogPlans()" style="margin-left:30px">
+                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                </a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 millionPlus" style="display: block;text-align: center;">
+        <div style="height:244px;">
+            <div class="col-sm-6" style="display: block;text-align: center;">
 
                 <div style="color:#000000C4">
                     <div class="Card1">
@@ -179,7 +214,7 @@
 
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:3;right:31px;margin-right:147px;"
+                                <div class="opacity_div" style=" z-index:3;right:29px;margin-right:147px;"
                                     [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
@@ -195,7 +230,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            Water Supply and Sanitation Indicators compiled for <b> 20
+                            Water Supply and Sanitation Indicators compiled for <b> {{ulbs}}
                                 ULBs</b>
                         </div>
                     </div>
@@ -229,9 +264,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6" style="color:#000000C4">
-                <div class="pieChart">
-                    <canvas id="pie"></canvas>
+            <div class="col-sm-6" style="color:#000000C4;height:inherit; border-left:1px solid #0000001A;">
+
+
+                <div class="row pieChart">
+                    <div style="height:190px; width:100%; margin-left:50px; margin-top:24px ;">
+                        <canvas id="pfm"></canvas>
+                    </div>
                 </div>
             </div>
         </div>

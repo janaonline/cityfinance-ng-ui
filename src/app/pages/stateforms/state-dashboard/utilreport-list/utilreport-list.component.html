@@ -1,0 +1,146 @@
+<div class="row">
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-d">DOWNLOAD</button>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+                            <table class="table">
+                                <thead>
+
+                                    <tr style="background-color: #047474; color: #FFFFFF;">
+                                        <th scope="col">S.No</th>
+                                        <th scope="col">ULB Name </th>
+                                        <th scope="col">ULB Census Code/ ULB Code </th>
+                                        <th scope="col">ULB Type</th>
+                                        <th scope="col">Population Type</th>
+                                        <th scope="col">Name of UA</th>
+                                        <th scope="col">Utilisation Report Status</th>
+
+                                    </tr>
+                                </thead>
+                                <!-- <thead>
+                                    <tr class="filter">
+                                        <th class="filter"></th>
+
+                                        <th class="filter">
+                                            <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
+                                                (keyup.enter)="stateData()">
+                                        </th>
+                                        <th class="filter">
+                                            <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
+                                                (keyup.enter)="stateData()">
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="ulb_type_s" (change)="stateData()">
+                                                <option selected value="">ULB Type</option>
+                                                <option value="Municipality">Municipality</option>
+
+                                                <option value="Municipal Corporation">Municipal Corporation</option>
+                                                <option value="Nagar Nigam">Nagar Nigam</option>
+                                                <option value="Nagar Palika Parishad">Nagar Palika Parishad</option>
+                                                <option value="Town Panchayat">Town Panchayat</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
+                                                (change)="stateData()">
+                                                <option selected value="">Population Type</option>
+                                                <option value="Million Plus">Million Plus</option>
+                                                <option value="Non Million">Non Million</option>
+
+
+
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s"
+                                                style="width: 76px;" (change)="stateData()">
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="APPROVED">APPROVED</option>
+                                                <option value="PENDING">PENDING</option>
+                                                <option value="REJECTED">REJECTED</option>
+                                                <option value="NA">NA</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <button class="btn btn-t" (click)="stateData()">Search</button>
+                                            <a (click)="loadData()">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
+                                                </mat-icon>
+                                            </a>
+                                        </th>
+                                    </tr>
+
+                                </thead>  -->
+
+                                <tbody>
+                                    <tr *ngFor="let resData of tabelData | paginate
+                                    : {
+                                        id: 'foo',
+                                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                                        currentPage: tableDefaultOptions.currentPage,
+                                        totalItems: tableDefaultOptions.totalCount
+                                      }; let tabelIndex=index">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                                            tabelIndex+1}}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode ||
+                                            resData.sbCode }}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{resData.isMillionPlus == "No"? 'Non-Million': 'Million-Plus'}}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.isUA =="No"?
+                                            'NA': resData.UA}}</td>
+
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{resData.utilizationreport}}</td>
+
+
+
+
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
+                            <pagination-controls style="float: right; position: relative" id="foo"
+                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
+                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                            </pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-back" [routerLink]="[ '../review-ulb-form']">BACK</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+            <button type="button" class="btn btn-next" [routerLink]="[ '../gtCertificate']">NEXT</button>
+        </div>
+    </div>
+</div>

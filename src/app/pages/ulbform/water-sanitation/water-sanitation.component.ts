@@ -9,6 +9,8 @@ const swal: SweetAlert = require("sweetalert");
 import { Subject } from "rxjs";
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
+import { UserUtility } from "src/app/util/user/user";
 
 @Component({
   selector: "app-water-sanitation",
@@ -32,19 +34,35 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   sanitationToolTip;
   waterToolTip;
   isDisabled = false;
+  ulbFormStaus = 'PENDING'
+  ulbFormRejectR = null;
+  finalSubmitUtiStatus;
+  actionResW;
+  userLoggedInDetails = new UserUtility().getLoggedInUserDetails();
+  loggedInUserType;
+  userTypes = USER_TYPE;
+  ulbId = null;
+
   constructor(
     private _router: Router,
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
-    public _ulbformService: UlbformService
+    public _ulbformService: UlbformService,
+
   ) {
     super();
+    this.loggedInUserType =  this.userLoggedInDetails.role;
+    this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+    console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
     switch (this.loggedInUserType) {
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
       case USER_TYPE.MoHUA:
       case USER_TYPE.ADMIN:
            this.isDisabled = true;
+        }
+        if(this.finalSubmitUtiStatus == 'true'){
+          this.isDisabled = true;
         }
     this.errorSet.subscribe((res) => {
       const { keys, value } = res;
@@ -162,15 +180,27 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.ulbId = sessionStorage.getItem('ulb_id');
     this.onLoad();
+
   }
 
   onLoad() {
     sessionStorage.setItem("changeInPlans", "false")
-    this.wsService.getFiles().subscribe(
+    this.wsService.getFiles(this.ulbId).subscribe(
       (res) => {
-        console.log(res);
+       let waterSres: any = res;
         this.waterAndSanitation = res["plans"];
+        console.log('water-suply-res', res, this.waterAndSanitation);
+        let actRes = {
+          st : waterSres?.status,
+          rRes : waterSres?.rejectReason
+        }
+        if(waterSres?.status != 'NA'){
+          this.ulbFormStaus = waterSres?.status;
+        }
+        this.ulbFormRejectR = waterSres?.rejectReason;
+        this.actionResW = actRes;
         sessionStorage.setItem(
           "plansData",
           JSON.stringify(this.waterAndSanitation)
@@ -178,6 +208,10 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
         this.diffCheck();
         this.onLoadDataCheck(this.waterAndSanitation);
         this.isDraft = res["isDraft"];
+        console.log('ddddddddd', this.loggedInUserType, this.USER_TYPE)
+        if((this.ulbFormStaus == 'REJECTED') && (this.loggedInUserType == USER_TYPE.ULB)){
+          this.isDisabled = false;
+      }
       },
       (errMes) => {
         console.log(errMes);
@@ -189,6 +223,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
         this.diffCheck();
       }
     );
+
   }
 
   onLoadDataCheck(data) {
@@ -272,13 +307,18 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
 
   saveForm(template = null) {
     this.body.plans = this.waterAndSanitation;
-    this.testForDraft();
-    if (!this.body.isDraft || template === null) {
-      this.postsDataCall(this.body);
-      sessionStorage.setItem("changeInPlans", "false")
-    } else {
-      this.openModal(template);
+    if(this.ulbId == null){
+      this.testForDraft();
+      if (!this.body.isDraft || template === null) {
+        this.postsDataCall(this.body);
+        sessionStorage.setItem("changeInPlans", "false")
+      } else {
+        this.openModal(template);
+      }
+    }else {
+      this.stateActionSave(this.body);
     }
+
   }
 
   postsDataCall(body) {
@@ -435,5 +475,28 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   }
   checkStatus(ev){
     console.log('actionValues', ev);
+    this.ulbFormStaus = ev.status;
+    this.ulbFormRejectR = ev.rejectReason;
+  }
+  errMessage =''
+  stateActionSave(body){
+        body.isDraft = false;
+        body.ulb = this.ulbId;
+        body.status = this.ulbFormStaus;
+        body.rejectReason = this.ulbFormRejectR;
+        this.wsService.stateActionPost(body).subscribe(
+          (res) => {
+            swal("Record submitted successfully!");
+            // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+            // status.utilReport.isSubmit = res["isCompleted"];
+            // this._ulbformService.allStatus.next(status);
+          },
+          (error) => {
+            swal("An error occured!");
+            this.errMessage = error.message;
+            console.log(this.errMessage);
+          }
+        );
+
   }
 }

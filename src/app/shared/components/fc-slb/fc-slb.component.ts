@@ -112,13 +112,16 @@ export class FcSlbComponent implements OnInit, OnChanges {
   showPublishedUpload: boolean;
   invalidWhole = false;
   benchmarks = []
+  changeInData = false;
   ngOnInit() {
 
 
-
+    this.changeInData = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
       this.isDisabled = true;
+    } else {
+      this.isDisabled = false;
     }
     console.log(this.services)
     this.services.forEach(data => {
@@ -152,7 +155,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         this.focusTargetKey[obj] = false;
       }
     }
-    console.log('focusTargetKey', this.focusTargetKey)
+    // console.log('focusTargetKey', this.focusTargetKey)
   }
 
   ngOnChanges(changes) {
@@ -182,43 +185,44 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log('onChanges', this.form)
 
     let FORM = this.form;
-    console.log('this', this)
+    console.log('this.form', this.form)
+    if (this.form) {
+      for (let key in this.form['controls']) {
+        console.log(key)
+        for (let key2 in this.form['controls'][key]['controls']['target'].controls) {
+          console.log(key2)
+          let textValue = this.form.controls[key]['controls']['target']['controls'][key2]
+          let currentControlKey = key2
+          let controlValue = this.form.controls[key].value.target
+          let increase;
+          if (key == 'reduction') {
+            increase = false;
+          } else {
+            increase = true;
+          }
+          let serviceKey = key
+          let actualData = parseFloat(this.form.controls[key]['controls']['baseline']['value']['2021'])
+          let control = this.form['controls'][key]['controls']['target'].controls[key2]
+          let formValue = this.form['controls'][key]['controls']['target']
 
-    for (let key in this.form['controls']) {
-      console.log(key)
-      for (let key2 in this.form['controls'][key]['controls']['target'].controls) {
-        console.log(key2)
-        let textValue = this.form.controls[key]['controls']['target']['controls'][key2]
-        let currentControlKey = key2
-        let controlValue = this.form.controls[key].value.target
-        let increase;
-        if (key == 'reduction') {
-          increase = false;
-        } else {
-          increase = true;
-        }
-        let serviceKey = key
-        let actualData = parseFloat(this.form.controls[key]['controls']['baseline']['value']['2021'])
-        let control = this.form['controls'][key]['controls']['target'].controls[key2]
-        let formValue = this.form['controls'][key]['controls']['target']
 
 
+          console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
+          if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey, actualData)) {
+            this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
+            //true means the entered value is not as per the desired logic
+          } else {
+            this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
+          }
 
-        console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
-        if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey, actualData)) {
-          this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
-          //true means the entered value is not as per the desired logic
-        } else {
-          this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
         }
 
       }
-
     }
 
 
-    console.log(this.form)
-    console.log('this', this)
+
+
   }
 
 
@@ -497,6 +501,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
   onBlur(control: AbstractControl, formValue = '', currentControlKey = '', serviceKey = '', increase = true) {
+    this.changeInData = true;
     console.log('individual input field', control)
     console.log('individual service field', formValue)
     console.log('total form', this.form)

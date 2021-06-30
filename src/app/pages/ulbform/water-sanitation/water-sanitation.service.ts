@@ -9,8 +9,10 @@ import { Subject } from "rxjs";
   providedIn: 'root'
 })
 export class WaterSanitationService {
+  ulbId;
+  constructor( private http: HttpClient) {
 
-  constructor( private http: HttpClient) { }
+  }
 
   OpenModalTrigger = new Subject<any>()
 
@@ -19,9 +21,13 @@ export class WaterSanitationService {
     return  this.http.post(sendUrl, val)
 
   }
-  getFiles(){
-    let getFilesUrl = environment.api.url + 'plans/606aaf854dff55e6c075d219'
+  getFiles(ulbId){
+    let getFilesUrl = environment.api.url + `plans/606aaf854dff55e6c075d219?ulb=${ulbId}`
     return this.http.get(getFilesUrl);
+  }
+  stateActionPost(st){
+    let utUrl = environment.api.url + 'plans/action '
+       return this.http.post(utUrl, st)
   }
 
 }
