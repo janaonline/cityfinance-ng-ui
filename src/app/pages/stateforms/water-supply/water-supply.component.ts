@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { services, targets } from '../../../users/data-upload/components/configs/water-waste-management';
 import { IFinancialData, WaterManagement } from '../../../users/data-upload/models/financial-data.interface';
@@ -22,23 +22,42 @@ export class WaterSupplyComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
+  tableData: any;
+  currentSort = 1;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
+  };
+  loading = false;
+  filterObject;
+  // fcFormListSubscription: Subscription;
+  nodataFound = false;
+  errMessage = '';
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
     private _router: Router,
     private dialog: MatDialog,
-    private _WaterSupplyService : WaterSupplyService
-    ) {
-      this.initializeUserType();
-      this.fetchStateList();
-      this.initializeLoggedInUserDataFetch();
-    }
+    private _WaterSupplyService: WaterSupplyService
+  ) {
+    this.initializeUserType();
+    this.fetchStateList();
+    this.initializeLoggedInUserDataFetch();
+  }
   waterWasteManagementForm: FormGroup;
 
   focusTargetKey: any = {}
   focusTargetKeyForErrorMessages: any = {}
   targets = targets;
-
+  // @ViewChild("template") template;
   benchmarks = []
   services: {
     key: keyof WaterManagement;
@@ -65,16 +84,17 @@ export class WaterSupplyComponent implements OnInit {
     console.log(this.benchmarks);
     console.log('target', this.targets)
     console.log('serv', this.services);
-    console.log('basline',this.focusTargetKey )
+    console.log('basline', this.focusTargetKey)
     this.getwaterSuppyData()
 
   }
-  getwaterSuppyData(){
+  getwaterSuppyData() {
     this._WaterSupplyService.getslbsData()
       .subscribe((res) => {
-         console.log('response', res)
-         let ulbdetails: any = res;
-         this.detailsOfUa = ulbdetails.data;
+        console.log('response', res)
+        let ulbdetails: any = res;
+        this.detailsOfUa = ulbdetails.data;
+
       })
   }
 
@@ -84,6 +104,12 @@ export class WaterSupplyComponent implements OnInit {
       res.forEach((state) => (this.states[state._id] = state));
       console.log('res', res)
     });
+  }
+  setPage(pageNoClick: number) {
+    this.tableDefaultOptions.currentPage = pageNoClick;
+    this.listFetchOption.skip =
+      (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
+    // this.searchUsersBy(this.filterForm.value);
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -103,37 +129,61 @@ export class WaterSupplyComponent implements OnInit {
       case USER_TYPE.ULB:
         return this.fetchStateList();
     }
- }
- isCollapsed = true;
- message = 'expanded';
-
- collapsed(i): void {
-   this.message = 'collapsed';
-   console.log('collapsed', i)
- }
-
- collapses(i): void {
-   this.message = 'collapses';
- }
-
- expanded(i): void {
-   this.message = 'expanded';
- }
-
- expands(i): void {
-   this.message = 'expands';
- }
- onPreview() {
-  let dialogRef = this.dialog.open(WaterSupplyPreviewComponent, {
-    height: "100%",
-    width: "90%",
-    panelClass: "no-padding-dialog",
-  });
-  dialogRef.afterClosed().subscribe((result) => {
-    console.log(`Dialog result: ${result}`);
-  });
-}
-
   }
+  isCollapsed = true;
+  message = 'expanded';
+
+  collapsed(i): void {
+    this.message = 'collapsed';
+    console.log('collapsed', i)
+  }
+
+  collapses(i): void {
+    this.message = 'collapses';
+  }
+
+  expanded(i): void {
+    this.message = 'expanded';
+  }
+
+  expands(i): void {
+    this.message = 'expands';
+  }
+  uaDetails;
+  openDialog(template, uaDetails) {
+    console.log(uaDetails)
+    this.uaDetails = uaDetails
+    const dialogConfig = new MatDialogConfig();
+    let dialogRef = this.dialog.open(template, {
+      height: "500px",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openDialog2(template1, uaDetails) {
+    this.uaDetails = uaDetails
+    const dialogConfig = new MatDialogConfig();
+    let dialogRef = this.dialog.open(template1, {
+      height: "500px",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  onPreview() {
+    let dialogRef = this.dialog.open(WaterSupplyPreviewComponent, {
+      height: "100%",
+      width: "90%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+}
 
 
