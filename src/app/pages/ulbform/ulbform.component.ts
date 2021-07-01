@@ -87,10 +87,16 @@ export class UlbformComponent implements OnInit {
         if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
           this.allStatus[key].isSubmit = false;
         }
-        if(this.lastRoleInMasterForm != this.userLoggedInDetails.role && this.userLoggedInDetails.role == "ULB" ){
+        if (
+          this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
+          this.userLoggedInDetails.role == "ULB"
+        ) {
           this.allStatus[key].isSubmit = true;
         }
-        if(this.lastRoleInMasterForm == "MoHUA" && this.userLoggedInDetails.role == "STATE" ){
+        if (
+          this.lastRoleInMasterForm == "MoHUA" &&
+          this.userLoggedInDetails.role == "STATE"
+        ) {
           this.allStatus[key].isSubmit = true;
         }
       }
@@ -120,6 +126,11 @@ export class UlbformComponent implements OnInit {
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
+        if (
+          this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
+          this.userLoggedInDetails.role == "ULB"
+        )
+          this.submitted = !this.submitted;
         localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here");
       },
