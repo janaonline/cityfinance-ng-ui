@@ -1,39 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { pipe } from 'rxjs';
-import { StateDashboardService } from "./state-dashboard.service";
-import { OverallListComponent } from './overall-list/overall-list.component'
-import { ReviewUlbFormComponent } from '../review-ulb-form/review-ulb-form.component'
+import { StateDashboardService } from "../state-dashboard/state-dashboard.service";
+import { OverallListComponent } from '../state-dashboard/overall-list/overall-list.component'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
-import { PfmsListComponent } from './pfms-list/pfms-list.component'
-import { PlansListComponent } from './plans-list/plans-list.component'
-import { SlbListComponent } from './slb-list/slb-list.component'
-import { UtilreportListComponent } from './utilreport-list/utilreport-list.component'
-import { AnnualaccListComponent } from './annualacc-list/annualacc-list.component'
+import { PfmsListComponent } from '../state-dashboard/pfms-list/pfms-list.component'
+import { PlansListComponent } from '../state-dashboard/plans-list/plans-list.component'
+import { SlbListComponent } from '../state-dashboard/slb-list/slb-list.component'
+import { UtilreportListComponent } from '../state-dashboard/utilreport-list/utilreport-list.component'
+import { AnnualaccListComponent } from '../state-dashboard/annualacc-list/annualacc-list.component'
+import { ReUseableHeatMapComponent } from '../../../shared/components/re-useable-heat-map/re-useable-heat-map.component';
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
 
-
 @Component({
-  selector: "app-state-dashboard",
-  templateUrl: "./state-dashboard.component.html",
-  styleUrls: ["./state-dashboard.component.scss"],
+  selector: 'app-mohua-dashboard',
+  templateUrl: './mohua-dashboard.component.html',
+  styleUrls: ['./mohua-dashboard.component.scss']
 })
-export class StateDashboardComponent implements OnInit {
+export class MohuaDashboardComponent implements OnInit {
+
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog
-
-
   ) { }
 
   ngOnInit(): void {
-
     this.onLoad();
-
   }
   values = {
     overall_approvedByState: 0,
@@ -160,9 +156,9 @@ export class StateDashboardComponent implements OnInit {
           this.values.pfms_notRegistered,
           this.values.pfms_pendingResponse],
         backgroundColor: [
-          '#67DF7B',
-          '#67DF7B',
-          '#DBDBDB',
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
 
         ],
         hoverOffset: 4
@@ -208,10 +204,10 @@ export class StateDashboardComponent implements OnInit {
           this.values.util_underStateReview,
           this.values.util_approvedbyState],
         backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#FF9E30',
-          '#67DF7B'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
         ],
         hoverOffset: 4
       }]
@@ -254,10 +250,10 @@ export class StateDashboardComponent implements OnInit {
           this.values.slb_underStateReview,
           this.values.slb_approvedbyState],
         backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#FF9E30',
-          '#67DF7B'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
         ],
         hoverOffset: 4
       }]
@@ -414,9 +410,9 @@ export class StateDashboardComponent implements OnInit {
           this.values.overall_underReviewByState,
           this.values.overall_approvedByState],
         backgroundColor: [
-          '#FF7575',
-          '#FFCE56',
-          '#A1CE65'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
         ],
         hoverOffset: 4
       }]
@@ -456,10 +452,10 @@ export class StateDashboardComponent implements OnInit {
         label: 'My First Dataset',
         data: [300, 50, 100, 30],
         backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#FF9E30',
-          '#67DF7B'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
 
         ],
         hoverOffset: 4
@@ -620,7 +616,4 @@ export class StateDashboardComponent implements OnInit {
   }
 
 
-
-
 }
-
