@@ -83,7 +83,6 @@ export class UlbformComponent implements OnInit {
   async ngOnInit() {
     this.ulbformService.allStatus.subscribe((status) => {
       for (const key in status) {
-        debugger
         this.allStatus[key] = status[key];
         if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
           this.allStatus[key].isSubmit = false;
