@@ -11,6 +11,7 @@ import { PfmsListComponent } from './pfms-list/pfms-list.component'
 import { PlansListComponent } from './plans-list/plans-list.component'
 import { SlbListComponent } from './slb-list/slb-list.component'
 import { UtilreportListComponent } from './utilreport-list/utilreport-list.component'
+import { AnnualaccListComponent } from './annualacc-list/annualacc-list.component'
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
@@ -87,6 +88,13 @@ export class StateDashboardComponent implements OnInit {
     this.getCardData();
     this.getFormData()
     this.getPlansData();
+  }
+  openDialogAnnual() {
+    const dialogRef = this.dialog.open(AnnualaccListComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   openDialogSlb() {
     const dialogRef = this.dialog.open(SlbListComponent);
