@@ -92,6 +92,8 @@ export class UlbformComponent implements OnInit {
           this.userLoggedInDetails.role == "ULB"
         ) {
           this.allStatus[key].isSubmit = true;
+          if(this.allStatus[key].status == "REJECTED")
+          this.allStatus[key].isSubmit = false;
         }
         if (
           this.lastRoleInMasterForm == "MoHUA" &&
