@@ -15,7 +15,7 @@
 
 <div class="card" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === USER_TYPE.STATE">
     <div class="card-body">
-        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-state-action-ulb>
+        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
     </div>
 </div>
 <!-- (ulbFormStaus !== 'NA') -->
@@ -38,7 +38,7 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveStateAction()">SAVE
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveSlbStateAction()">SAVE
       AND NEXT</button>
     </div>
 </div>

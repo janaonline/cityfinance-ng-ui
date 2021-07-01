@@ -12,19 +12,15 @@ export class LinkPFMSAccount {
   OpenModalTrigger = new Subject<any>();
 
   postData(fd) {
-    console.log(fd);
-    let catUrl = environment.api.url + "pfmsAccount/state/create";
+    let catUrl = environment.api.url + "LinkPfmsState";
     return this.http.post(catUrl, fd);
   }
 
-  getData(design_year, ulbId) {
+  getData(design_year, stateId) {
     let catUrl;
-    if (ulbId != null) {
-      catUrl = environment.api.url + `pfmsAccount/state/get/${design_year}/${ulbId}`;
-    } else {
-      catUrl = environment.api.url + `pfmsAccount/state/get/${design_year}`;
-    }
-
+    catUrl =
+      environment.api.url +
+      `LinkPfmsState?design_year=${design_year}&state_id=${stateId}`;
     return this.http.get(catUrl);
   }
 }

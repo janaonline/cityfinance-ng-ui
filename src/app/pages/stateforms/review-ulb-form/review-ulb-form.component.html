@@ -29,14 +29,12 @@
                                         <th class="filter">
                                             <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
-                                                (keyup.enter)="stateData()">
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData()">
                                         </th>
                                         <th class="filter" style="width: 11%;">
                                             <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
-                                                (keyup.enter)="stateData()">
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData()">
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData()">
@@ -50,8 +48,7 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
-                                                (change)="stateData()">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;" (change)="stateData()">
                                                 <option selected value="">Population Type</option>
                                                 <option value="Million Plus">Million Plus</option>
                                                 <option value="Non Million">Non Million</option>
@@ -63,12 +60,10 @@
                                         <th class="filter">
                                             <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s"
-                                                style="width: 76px;" (change)="stateData()">
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s" style="width: 76px;" (change)="stateData()">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
-                                                (change)="stateData()">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;" (change)="stateData()">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -99,8 +94,8 @@
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
-                                            tabelIndex+1}}</td>
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                                        </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                                         </td>
                                         <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
@@ -112,8 +107,7 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
                                             {{resData.printStatus}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB') || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB') || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
 
                                             <a (click)="viewUlbForm(resData)" [routerLink]="[
                                           '/ulbform/overview', resData?._id  ]">
@@ -124,8 +118,8 @@
                                                 </mat-icon>
                                             </a>
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB') || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
+                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
                                             <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
                                         '/ulbform/overview', resData?._id  ]">
                                                 Take Action
@@ -136,10 +130,8 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo"
-                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
-                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
-                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
                         </div>
                     </div>

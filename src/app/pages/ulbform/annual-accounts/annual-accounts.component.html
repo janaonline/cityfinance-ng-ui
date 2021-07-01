@@ -53,11 +53,16 @@
                 <div *ngIf="data.unAudited.submit_annual_accounts">
                     <div *ngFor="let item of unAuditQues ; let quesIndex=index">
                         <ng-container>
-                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)" [quesName]="item.name">
+                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)" (actionValues)="checkStatusUnA($event, quesIndex)" [statusResponse]='actionResAn' [quesName]="item.name">
                             </app-comm-file-upload>
                         </ng-container>
-                        <!-- <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'>
-                        </app-state-action-ulb> -->
+                        <!-- <div class="row" style="margin-left: 2pc;">
+                            <div class="col">
+                                <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'>
+                                </app-state-action-ulb>
+                            </div>
+                        </div> -->
+
                         <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
                             <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
                                 {{pdfError}}</label>
@@ -192,7 +197,7 @@
                 <div *ngIf="data.audited.submit_annual_accounts">
                     <div *ngFor="let item of auditQues; let quesIndex=index">
                         <ng-container>
-                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)" [quesName]="item.name"></app-comm-file-upload>
+                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)" [statusResponse]="actionResAn" [quesName]="item.name" (actionValues)="checkStatusAu($event, quesIndex)"></app-comm-file-upload>
                         </ng-container>
                         <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
                             <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
@@ -303,12 +308,23 @@
         </div>
     </div>
 </div>
+<div class="card" style="background-color: #F7F7F7;" *ngIf="(finalSubmitUtiStatus == 'true') &&
+(loggedInUserType === USER_TYPE.ULB)">
+    <div class="card-body">
+        <p style="padding-top: 2rem; padding-left: .5rem;"><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
+        <br>
+        <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
+            <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
+        </p> -->
+
+    </div>
+</div>
 <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
         <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active" class="btn btn-secondary backbtn">BACK</button>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-        <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)" [disabled]="isDisabled" id="saveNext">SAVE AND NEXT</button>
+        <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)" id="saveNext">SAVE AND NEXT</button>
     </div>
 </div>
 

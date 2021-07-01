@@ -30,4 +30,7 @@ export class AnnualAccountsService {
   getProcessStatus(id) {
     return this.http.get(`${environment.api.url}getProcessStatus/${id}`);
   }
+  postActionData(body) {
+    return this.http.post(`${environment.api.url}annual-accounts/action`, body);
+  }
 }
