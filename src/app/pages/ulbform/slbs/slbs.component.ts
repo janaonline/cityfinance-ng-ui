@@ -116,22 +116,24 @@ export class SlbsComponent implements OnInit {
 
 
         this.slbId = res['data'] && res['data'][0] ? res['data'][0]._id : ''
+        console.log('slbsResppppppppp', res)
+        console.log('slbResponse', res['data']);
         let actRes = {
-          st : res['data']['waterManagement']['status'],
-          rRes : res['data']['waterManagement']['rejectReason']
+          st : res['data'][0]['waterManagement']['status'],
+          rRes : res['data'][0]['waterManagement']['rejectReason']
         }
-        if(res['data']['waterManagement']['status'] != 'NA'){
-          this.ulbFormStaus = res['data']['waterManagement']['status'];
+        if(res['data'][0]['waterManagement']['status'] != 'NA'){
+          this.ulbFormStaus = res['data'][0]['waterManagement']['status'];
         }
 
-        this.ulbFormRejectR = res['data']['waterManagement']['rejectReason'];
+        this.ulbFormRejectR = res['data'][0]['waterManagement']['rejectReason'];
         this.actionResSlb = actRes;
        console.log('asdfghj', actRes, this.actionResSlb);
         sessionStorage.setItem("slbData", JSON.stringify(res))
         console.log('slbsResppppppppp', res)
         this.statePostData = res;
         resolve(res)
-        console.log('slbResponse', res['data']);
+
 
       })
 
