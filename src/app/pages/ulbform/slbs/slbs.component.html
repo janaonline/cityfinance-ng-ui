@@ -15,7 +15,7 @@
 
 <div class="card" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === USER_TYPE.STATE">
     <div class="card-body">
-        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-state-action-ulb>
+        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
     </div>
 </div>
 <!-- (ulbFormStaus !== 'NA') -->
