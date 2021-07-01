@@ -30,7 +30,7 @@ export class UlbformComponent implements OnInit {
   ulbId = null;
   backHeader;
   backLink;
-  validate = true
+  validate = true;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -38,18 +38,15 @@ export class UlbformComponent implements OnInit {
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public ulbformService: UlbformService,
-    public activatedRoute: ActivatedRoute,
-
+    public activatedRoute: ActivatedRoute
   ) {
     this.activatedRoute.params.subscribe((val) => {
-      console.log('vallllll', val)
+      console.log("vallllll", val);
       const { id } = val;
       if (id) {
         this.id = id;
         console.log("pkstid", id);
-
       } else {
-
       }
     });
     this.accessGrant();
@@ -73,21 +70,33 @@ export class UlbformComponent implements OnInit {
     });
   }
 
+  lastRoleInMasterForm;
   design_year = JSON.parse(localStorage.getItem("Years"))["2021-22"];
   allStatus = {
-    annualAccounts: { isSubmit: null },
-    pfmsAccount: { isSubmit: null },
-    plans: { isSubmit: null },
-    slbForWaterSupplyAndSanitation: { isSubmit: null },
-    utilReport: { isSubmit: null },
+    annualAccounts: { isSubmit: null, status: null },
+    pfmsAccount: { isSubmit: null, status: null },
+    plans: { isSubmit: null, status: null },
+    slbForWaterSupplyAndSanitation: { isSubmit: null, status: null },
+    utilReport: { isSubmit: null, status: null },
   };
 
   async ngOnInit() {
-
     this.ulbformService.allStatus.subscribe((status) => {
-      this.allStatus = status;
+      for (const key in status) {
+        debugger
+        this.allStatus[key] = status[key];
+        if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
+          this.allStatus[key].isSubmit = false;
+        }
+        if(this.lastRoleInMasterForm != this.userLoggedInDetails.role && this.userLoggedInDetails.role == "ULB" ){
+          this.allStatus[key].isSubmit = true;
+        }
+        if(this.lastRoleInMasterForm == "MoHUA" && this.userLoggedInDetails.role == "STATE" ){
+          this.allStatus[key].isSubmit = true;
+        }
+      }
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
-      console.log('red this', this.allStatus)
+      console.log("red this", this.allStatus);
       this.checkValidationStatusOfAllForms();
     });
     this.ulbformService.allFormsData.subscribe((data) => {
@@ -103,16 +112,17 @@ export class UlbformComponent implements OnInit {
     //   this.submitted = masterData['isSubmit']
     // }
     // console.log("submitted", this.submitted)
-
   }
 
   getStatus() {
+    this.id = sessionStorage.getItem("row_id");
     this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
+        this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
-        localStorage.setItem('finalSubmitStatus', this.submitted.toString())
-        console.log('here')
+        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        console.log("here");
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -127,7 +137,7 @@ export class UlbformComponent implements OnInit {
 
     this.ulbformService
       .getAllForms(
-        userData.ulb,
+        userData.ulb ?? sessionStorage.getItem("row_id"),
         "606aaf854dff55e6c075d219",
         "606aadac4dff55e6c075c507"
       )
@@ -144,12 +154,11 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
-      this.backHeader = '15FC Grants for 2021-22';
-      this.backLink = '../fc-home-page'
-    }
-    else {
-      this.backHeader = 'State Dashboard';
-      this.backLink = '../stateform/dashboard'
+      this.backHeader = "15FC Grants for 2021-22";
+      this.backLink = "../fc-home-page";
+    } else {
+      this.backHeader = "State Dashboard";
+      this.backLink = "../stateform/dashboard";
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
@@ -202,79 +211,76 @@ export class UlbformComponent implements OnInit {
   submitted = false;
   finalSubmit() {
     let data = {
-      "design_year": this.design_year,
-      "isSubmit": true,
-      "status": "PENDING",
-      actionTakenByRole: "ULB"
-    }
+      design_year: this.design_year,
+      isSubmit: true,
+      status: "PENDING",
+      actionTakenByRole: "ULB",
+    };
     this.checkValidationStatusOfAllForms();
     if (!this.validate) {
-      swal("Kindly Fill All the Forms Completely Before Submitting")
+      swal("Kindly Fill All the Forms Completely Before Submitting");
     } else {
-
-      this.ulbformService.postMasterForm(data)
-        .subscribe(
-          res => {
-            console.log(res)
-            this.submitted = true;
-            swal("Forms Successfully Submitted to be Reviewed by State and MoHUA")
-          },
-          err => {
-            console.log(err);
-            swal('Form Submission Failed!')
-          }
-
-        )
-
+      this.ulbformService.postMasterForm(data).subscribe(
+        (res) => {
+          console.log(res);
+          this.submitted = true;
+          swal(
+            "Forms Successfully Submitted to be Reviewed by State and MoHUA"
+          );
+        },
+        (err) => {
+          console.log(err);
+          swal("Form Submission Failed!");
+        }
+      );
     }
-
-
   }
 
-
   checkValidationStatusOfAllForms() {
-
     const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
     this.validate = true;
-    let requiredStatus = {}
+    let requiredStatus = {};
     //checking the status of each form
-    eligibleForms.forEach(element => {
+    eligibleForms.forEach((element) => {
       for (let key in this.allStatus) {
-        if (element === 'PFMS' && key === 'pfmsAccount') {
-          let change = sessionStorage.getItem("changeInPFMSAccount")
+        if (element === "PFMS" && key === "pfmsAccount") {
+          let change = sessionStorage.getItem("changeInPFMSAccount");
           if (change === "true") {
             this.validate = false;
-            return
+            return;
           }
-          requiredStatus[key] = this.allStatus[key]['isSubmit']
-        } else if (element === 'Utilization Report' && key === 'utilReport') {
-          let change = sessionStorage.getItem("canNavigate")
+          requiredStatus[key] = this.allStatus[key]["isSubmit"];
+        } else if (element === "Utilization Report" && key === "utilReport") {
+          let change = sessionStorage.getItem("canNavigate");
           if (change === "false") {
             this.validate = false;
-            return
+            return;
           }
-          requiredStatus[key] = this.allStatus[key]['isSubmit']
-        } else if (element === 'Annual Acconts' && key === 'annualAccounts') {
-          let change = sessionStorage.getItem("changeInAnnual")
+          requiredStatus[key] = this.allStatus[key]["isSubmit"];
+        } else if (element === "Annual Acconts" && key === "annualAccounts") {
+          let change = sessionStorage.getItem("changeInAnnual");
           if (change === "true") {
             this.validate = false;
-            return
+            return;
           }
-          requiredStatus[key] = this.allStatus[key]['isSubmit']
-        } else if (element === 'slbs' && key === 'slbForWaterSupplyAndSanitation') {
-          let change = sessionStorage.getItem("changeInSLB")
+          requiredStatus[key] = this.allStatus[key]["isSubmit"];
+        } else if (
+          element === "slbs" &&
+          key === "slbForWaterSupplyAndSanitation"
+        ) {
+          let change = sessionStorage.getItem("changeInSLB");
           if (change === "true") {
             this.validate = false;
-            return
+            return;
           }
-          requiredStatus[key] = this.allStatus[key]['isSubmit']
-        } else if (element === 'Plan water sanitation' && key === 'plans') {
-          let change = sessionStorage.getItem("changeInPlans")
+          requiredStatus[key] = this.allStatus[key]["isSubmit"];
+        } else if (element === "Plan water sanitation" && key === "plans") {
+          let change = sessionStorage.getItem("changeInPlans");
           if (change === "true") {
             this.validate = false;
-            return
+            return;
           }
-          requiredStatus[key] = this.allStatus[key]['isSubmit']
+          requiredStatus[key] = this.allStatus[key]["isSubmit"];
         }
       }
     });
@@ -284,20 +290,18 @@ export class UlbformComponent implements OnInit {
         this.validate = false;
       }
     }
-    console.log('validate', this.validate)
+    console.log("validate", this.validate);
   }
   finalStateAction() {
-    this.ulbformService.postFinalActionByState(this.ulbId)
-      .subscribe(
-        res => {
-          console.log(res)
-          swal("Action Successfully Submitted")
-        },
-        err => {
-          console.log(err);
-          swal('Action Submission Failed!')
-        }
-
-      )
+    this.ulbformService.postFinalActionByState(this.ulbId).subscribe(
+      (res) => {
+        console.log(res);
+        swal("Action Successfully Submitted");
+      },
+      (err) => {
+        console.log(err);
+        swal("Action Submission Failed!");
+      }
+    );
   }
 }

@@ -62,17 +62,17 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   data = {
     design_year: this.Years["2021-22"],
     isDraft: null,
-    excel: "",
+    excel: null,
   };
   saveBtnTxt = "NEXT";
 
   ngOnInit() {
     sessionStorage.setItem("changeInPFMSAccountState", "false");
-    let ulb_id = sessionStorage.getItem("ulb_id");
-    if (ulb_id != null) {
+    let state_id = sessionStorage.getItem("state_id");
+    if (state_id != null) {
       this.isDisabled = true;
     }
-    this.onLoad(ulb_id);
+    this.onLoad(state_id);
   }
 
   saveAndNextValue(template1) {
@@ -124,11 +124,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     await this.dialogRef.close(true);
   }
 
-  onLoad(ulb_id) {
-    this.LinkPFMSAccount.getData(this.Years["2021-22"], ulb_id).subscribe(
+  onLoad(state_id) {
+    this.LinkPFMSAccount.getData(this.Years["2021-22"], state_id).subscribe(
       (res) => {
         console.log(res);
-
+        this.data.excel = res['data'].excel
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
       },
       (error) => {
@@ -139,6 +139,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   checkDiff() {
     this.saveBtnTxt = "SAVE AND NEXT";
+    sessionStorage.setItem("changeInPFMSAccountState", "true");
   }
 
   async proceed(uploadedFiles) {
@@ -177,5 +178,6 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     } else {
       this.data.isDraft = true;
     }
+    this.checkDiff()
   }
 }
