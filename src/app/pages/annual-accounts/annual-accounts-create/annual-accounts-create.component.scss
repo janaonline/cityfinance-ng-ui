@@ -64,3 +64,13 @@
     margin: 3px;
   }
 }
+
+.tracking-history-table {
+  thead tr th {
+    background: #047474;
+    color: white;
+  }
+  tbody tr:nth-child(even) {
+    background: #dbdbdb;
+  }
+}
