@@ -225,7 +225,7 @@ export class OverallListComponent implements OnInit {
     }
 
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption)
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, null)
       .subscribe(
         (result) => {
           let res: any = result;

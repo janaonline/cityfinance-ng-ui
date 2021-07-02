@@ -15,6 +15,20 @@ import { ReUseableHeatMapComponent } from '../../../shared/components/re-useable
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { FeatureCollection, Geometry } from 'geojson';
+import * as L from 'leaflet';
+import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { ULBWithMapData } from 'src/app/shared/models/ulbsForMapResponse';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
+import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
+import { UserUtility } from 'src/app/util/user/user';
+
+
 
 @Component({
   selector: 'app-mohua-dashboard',
@@ -22,15 +36,52 @@ import * as JSC from "jscharting";
   styleUrls: ['./mohua-dashboard.component.scss']
 })
 export class MohuaDashboardComponent implements OnInit {
-
   constructor(
     public stateDashboardService: StateDashboardService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    protected commonService: CommonService,
+    protected _snackbar: MatSnackBar,
+    protected geoService: GeographicalService,
+    protected _activateRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+      try {
+        this.mapGeoData = data;
+        setTimeout(() => {
+          this.createNationalLevelMap(data, "finance-law-map");
+          // this.loadSlides();
+        }, 1);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+    this.commonService.states.subscribe((res) => {
+      this.states = res;
+    });
+    this.commonService.loadStates(true);
     this.onLoad();
   }
+  mapGeoData: FeatureCollection<
+    Geometry,
+    {
+      [name: string]: any;
+    }
+  >;
+  states: any;
+  list = [];
+  selectedStates = ["criteria"];
+  stateName = "";
+
+  stateColors = {
+    unselected: "#E5E5E5",
+    selected: "#059b9a",
+  };
+  nationalLevelMap: L.Map;
+
+  statesLayer: L.GeoJSON<any>;
+
   values = {
     overall_approvedByState: 0,
     overall_pendingForSubmission: 0,
@@ -85,6 +136,115 @@ export class MohuaDashboardComponent implements OnInit {
     this.getFormData()
     this.getPlansData();
   }
+  calculateVH(vh: number) {
+    const h = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    return (vh * h) / 100;
+  }
+
+  calculateMapZoomLevel() {
+    let zoom: number;
+    const userUtil = new UserUtility();
+    if (userUtil.isUserOnMobile()) {
+      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      if (window.innerHeight < 600) zoom = 3.6;
+      const valueOf1vh = this.calculateVH(1);
+      if (valueOf1vh < 5) zoom = 3;
+      else if (valueOf1vh < 7) zoom = zoom - 0.2;
+      return zoom;
+    }
+
+    const defaultZoomLevel =
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      zoom = defaultZoomLevel;
+    }
+
+    return zoom;
+  }
+  createNationalLevelMap(
+    geoData: FeatureCollection<
+      Geometry,
+      {
+        [name: string]: any;
+      }
+    >,
+    containerId: string
+  ) {
+    const zoom = this.calculateMapZoomLevel();
+
+    const configuration = {
+      containerId,
+      geoData,
+      options: {
+        zoom,
+        minZoom: zoom,
+        attributionControl: false,
+        doubleClickZoom: false,
+        dragging: false,
+        tap: false,
+      },
+    };
+    let map;
+
+    ({ stateLayers: this.statesLayer, map } = MapUtil.createDefaultNationalMap(
+      configuration
+    ));
+
+    this.nationalLevelMap = map;
+
+    this.statesLayer.eachLayer((layer) => {
+      (layer as any).bringToBack();
+      (layer as any).on({
+        click: (args: ILeafletStateClickEvent) => {
+          // this.onClickingStateOnMap(args);
+        },
+      });
+    });
+  }
+  // onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
+  //   const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
+  //   // const stateList = this.slides[this.currentSlideIndex].states;
+  //   const list = this.slides.find((slide) => {
+  //     const slideHasState = !!slide.states.find(
+  //       (name) => name.toLowerCase() === stateName
+  //     );
+  //     return slideHasState;
+  //   });
+
+  //   if (!list) {
+  //     return;
+  //   }
+
+  //   // const stateFound = !!stateList.find(
+  //   //   (name) => name.toLowerCase() == stateName
+  //   // );
+
+  //   this.showStateGroup({ states: list.states }, stateName);
+  // }
+  // showStateGroup(item, stateToShow?: string) {
+  //   const stateList = item.states;
+  //   this.selectedStates = ["criteria"];
+
+  //   this.states.forEach((state) => {
+  //     if (
+  //       stateList.indexOf(state.name.toLowerCase()) > -1 &&
+  //       (stateToShow ? stateToShow == state.name.toLowerCase() : true)
+  //     ) {
+  //       this.addToCompare(state);
+  //     } else {
+  //       state.selected = false;
+  //     }
+  //   });
+  //   this.showComparisionPage();
+  // }
+
   openDialogAnnual() {
     const dialogRef = this.dialog.open(AnnualaccListComponent);
 

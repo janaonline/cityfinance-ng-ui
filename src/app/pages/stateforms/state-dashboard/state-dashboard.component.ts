@@ -31,7 +31,6 @@ export class StateDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.onLoad();
 
   }
@@ -51,7 +50,11 @@ export class StateDashboardComponent implements OnInit {
     util_pendingCompletion: 0,
     util_underStateReview: 0,
     annualAcc_audited: 0,
-    annualAcc_provisional: 0
+    annualAcc_provisional: 0,
+    plans_approvedbyState: 0,
+    plans_completedAndPendingSubmission: 0,
+    plans_pendingCompletion: 0,
+    plans_underStateReview: 0,
 
   };
   errMessage = ''
@@ -60,7 +63,7 @@ export class StateDashboardComponent implements OnInit {
   millionPlusUAs = 0;
   UlbInMillionPlusUA = 0;
   formDataApiRes;
-  selectedLevel;
+  selectedLevel = "allUlbs";
   selectUa = '';
   plansDataApiRes;
   rejuvenationPlans;
@@ -78,16 +81,21 @@ export class StateDashboardComponent implements OnInit {
   piechart;
 
   onLoad() {
+    this.getCardData();
+    this.getFormData()
+    this.getPlansData();
     this.mainDonughtChart();
     this.gaugeChart1();
+    this.constChart();
+    this.constChart1()
     this.gaugeChart2();
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
-    this.pieChart();
     this.getCardData();
     this.getFormData()
     this.getPlansData();
+
   }
   openDialogAnnual() {
     const dialogRef = this.dialog.open(AnnualaccListComponent);
@@ -161,8 +169,8 @@ export class StateDashboardComponent implements OnInit {
           this.values.pfms_pendingResponse],
         backgroundColor: [
           '#67DF7B',
-          '#67DF7B',
           '#DBDBDB',
+          '#FF7154',
 
         ],
         hoverOffset: 4
@@ -210,7 +218,7 @@ export class StateDashboardComponent implements OnInit {
         backgroundColor: [
           '#F95151',
           '#FF9E30',
-          '#FF9E30',
+          '#DBDBDB',
           '#67DF7B'
         ],
         hoverOffset: 4
@@ -231,7 +239,7 @@ export class StateDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 15,
+            padding: 22,
           }
         }
       }
@@ -256,7 +264,7 @@ export class StateDashboardComponent implements OnInit {
         backgroundColor: [
           '#F95151',
           '#FF9E30',
-          '#FF9E30',
+          '#DBDBDB',
           '#67DF7B'
         ],
         hoverOffset: 4
@@ -277,7 +285,7 @@ export class StateDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 15,
+            padding: 22,
           }
         }
       }
@@ -285,118 +293,137 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   gaugeChart1() {
-    var chart = JSC.chart('chartDiv', {
-      debug: true,
-      legend_visible: false,
-      defaultTooltip_enabled: false,
-      xAxis_spacingPercentage: 0.4,
-      yAxis: [
-        {
-          id: 'ax1',
-          defaultTick: { padding: 10, enabled: false },
-          customTicks: [0, 40, 60, 80, 100],
-          line: {
-            width: 3,
 
-            /*Defining the option will enable it.*/
-            breaks: {},
+    let mainColor = '', complimentColor = '', borderColor = '';
+    if (this.values.annualAcc_provisional < 25) {
+      mainColor = '#FF7154';
+      complimentColor = '#ffcabf';
+      borderColor = '#FF7154'
+    } else {
+      mainColor = "#09C266"
+      complimentColor = "#C6FBE0"
+      borderColor = '#09C266';
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
 
-            /*Palette is defined at series level with an ID referenced here.*/
-            color: 'smartPalette:pal1'
-          },
-          scale_range: [0, 100]
-        },
-
-      ],
-      defaultSeries: {
-        type: 'gauge column roundcaps',
-        shape: {
-          label: {
-
-            text: '%value%',
-            align: 'center',
-            verticalAlign: 'middle'
+            data: [this.values.annualAcc_provisional, 100 - this.values.annualAcc_provisional],
+            backgroundColor: [mainColor, complimentColor],
+            borderColor: [borderColor],
+            borderWidth: 1
           }
-        }
+        ]
       },
-      series: [
-        {
-          type: 'column roundcaps',
-          name: 'Temperatures',
-          yAxis: 'ax1',
-          palette: {
-            id: 'pal1',
-            pointValue: 'ff',
-            ranges: [
-              { value: 0, color: '#FF5353' },
-              { value: 40, color: '#FFD221' },
-              { value: 60, color: '#77E6B4' },
-              { value: [80, 100], color: '#21D683' }
-            ]
-          },
-          shape_label: { style: { fontSize: 22 } },
-          points: [['x', [0, this.values.annualAcc_provisional]]]
-        },
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 64,
 
-      ]
+        onClick(...args) {
+          console.log(args);
+        }
+      }
     });
 
   }
-  gaugeChart2() {
-    var chart = JSC.chart('chartDiv2', {
-      debug: true,
-      legend_visible: false,
-      defaultTooltip_enabled: false,
-      xAxis_spacingPercentage: 0.4,
-      yAxis: [
-        {
-          id: 'ax1',
-          defaultTick: { padding: 10, enabled: false },
-          customTicks: [0, 40, 60, 80, 100],
-          line: {
-            width: 3,
+  constChart() {
+    const canvas = <HTMLCanvasElement>document.getElementById('meter');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
 
-            /*Defining the option will enable it.*/
-            breaks: {},
-
-            /*Palette is defined at series level with an ID referenced here.*/
-            color: 'smartPalette:pal1'
-          },
-          scale_range: [0, 100]
-        },
-
-      ],
-      defaultSeries: {
-        type: 'gauge column roundcaps',
-        shape: {
-          label: {
-
-            text: '%value%',
-            align: 'center',
-            verticalAlign: 'middle'
+            data: [25, 75],
+            backgroundColor: ["#FF7154", "#67DF7B"],
           }
-        }
+        ]
       },
-      series: [
-        {
-          type: 'column roundcaps',
-          name: 'Temperatures',
-          yAxis: 'ax1',
-          palette: {
-            id: 'pal1',
-            pointValue: 'ff',
-            ranges: [
-              { value: 0, color: '#FF5353' },
-              { value: 40, color: '#FFD221' },
-              { value: 60, color: '#77E6B4' },
-              { value: [80, 100], color: '#21D683' }
-            ]
-          },
-          shape_label: { style: { fontSize: 22 } },
-          points: [['x', [0, this.values.annualAcc_audited]]]
-        },
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 94,
 
-      ]
+        onClick(...args) {
+          console.log(args);
+        }
+      }
+    });
+  }
+  constChart1() {
+    const canvas = <HTMLCanvasElement>document.getElementById('meter1');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
+
+            data: [25, 75],
+            backgroundColor: ["#FF7154", "#67DF7B"],
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 94,
+
+        onClick(...args) {
+          console.log(args);
+        }
+      }
+    });
+  }
+  gaugeChart2() {
+    let mainColor = '', complimentColor = '', borderColor = '';
+    if (this.values.annualAcc_audited < 25) {
+      mainColor = '#FF7154';
+      complimentColor = '#ffcabf';
+      borderColor = '#FF7154'
+    } else {
+      mainColor = "#09C266"
+      complimentColor = "#C6FBE0"
+      borderColor = '#09C266';
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv2');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
+
+            data: [this.values.annualAcc_audited, 100 - this.values.annualAcc_audited],
+            backgroundColor: [mainColor, complimentColor],
+            borderColor: [borderColor],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 64,
+
+        onClick(...args) {
+          console.log(args);
+        }
+      }
     });
   }
   mainDonughtChart() {
@@ -454,11 +481,15 @@ export class StateDashboardComponent implements OnInit {
         '213 - Approved by State'],
       datasets: [{
         label: 'My First Dataset',
-        data: [300, 50, 100, 30],
+        data: [
+          this.values.plans_pendingCompletion,
+          this.values.plans_completedAndPendingSubmission,
+          this.values.plans_underStateReview,
+          this.values.plans_approvedbyState],
         backgroundColor: [
           '#F95151',
           '#FF9E30',
-          '#FF9E30',
+          '#DBDBDB',
           '#67DF7B'
 
         ],
@@ -485,7 +516,7 @@ export class StateDashboardComponent implements OnInit {
             fontColor: 'black',
             usePointStyle: true,
 
-            padding: 18,
+            padding: 22,
           }
         }
       }
@@ -520,6 +551,7 @@ export class StateDashboardComponent implements OnInit {
       (res) => {
         console.log(res);
         this.formDataApiRes = res
+        this.selected();
       },
       (err) => {
         console.log(err);
@@ -536,13 +568,15 @@ export class StateDashboardComponent implements OnInit {
     this.pieChart();
   }
   selected() {
-    this.maindonughtChart.destroy();
-    this.utilreportDonughtChart.destroy();
-    this.slbdonughtChart.destroy();
-    this.pfmsdonughtChart.destroy();
-    this.piechart.destroy();
+    this.maindonughtChart?.destroy();
+    this.utilreportDonughtChart?.destroy();
+    this.slbdonughtChart?.destroy();
+    this.pfmsdonughtChart?.destroy();
+    this.piechart?.destroy();
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
+
+      console.log(this.formDataApiRes['data'][0])
       let data = this.formDataApiRes['data'][0]
 
       this.mapValues(data);
@@ -615,6 +649,10 @@ export class StateDashboardComponent implements OnInit {
       this.values.util_completedAndPendingSubmission = data['utilReport']['completedAndPendingSubmission'],
       this.values.util_pendingCompletion = data['utilReport']['pendingCompletion'],
       this.values.util_underStateReview = data['utilReport']['underStateReview'],
+      this.values.plans_approvedbyState = data['plans']['approvedbyState'],
+      this.values.plans_completedAndPendingSubmission = data['plans']['completedAndPendingSubmission'],
+      this.values.plans_pendingCompletion = data['plans']['pendingCompletion'],
+      this.values.plans_underStateReview = data['plans']['underStateReview'],
       this.values.annualAcc_audited = data['annualAccounts']['audited'],
       this.values.annualAcc_provisional = data['annualAccounts']['provisional']
   }

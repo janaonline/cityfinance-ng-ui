@@ -11,7 +11,7 @@
                         <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
                             <table class="table">
                                 <thead>
-
+                                    //
                                     <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col">S.No</th>
                                         <th scope="col">ULB Name </th>
@@ -24,19 +24,17 @@
 
                                     </tr>
                                 </thead>
-                                <!-- <thead>
+                                <thead>
                                     <tr class="filter">
                                         <th class="filter"></th>
 
                                         <th class="filter">
-                                            <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
                                                 (keyup.enter)="stateData()">
                                         </th>
                                         <th class="filter">
-                                            <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+
                                             <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
                                                 (keyup.enter)="stateData()">
                                         </th>
@@ -63,34 +61,40 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+
                                             <input type="text" [formControl]="ua_name_s" class="s-th p-s"
                                                 style="width: 76px;" (change)="stateData()">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
+                                            <select class="s-th" [formControl]="status_audited" style="width: 71px;"
                                                 (change)="stateData()">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
-                                                <option value="APPROVED">APPROVED</option>
-                                                <option value="PENDING">PENDING</option>
-                                                <option value="REJECTED">REJECTED</option>
-                                                <option value="NA">NA</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Accounts Not Submitted">Accounts Not Submitted</option>
+                                                <option value="Accounts Submitted">Accounts
+                                                    Submitted</option>
+
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <button class="btn btn-t" (click)="stateData()">Search</button>
-                                            <a (click)="loadData()">
-                                                <mat-icon aria-hidden="false">
-                                                    <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
-                                                </mat-icon>
-                                            </a>
+                                            <select class="s-th" [formControl]="status_unaudited" style="width: 71px;"
+                                                (change)="stateData()">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Accounts Not Submitted">Accounts Not
+                                                    Submitted</option>
+                                                <option value="Accounts Submitted">Accounts Submitted
+                                                </option>
+                                            </select>
                                         </th>
+
                                     </tr>
 
-                                </thead>  -->
+                                </thead>
 
                                 <tbody>
                                     <tr *ngFor="let resData of tabelData | paginate
@@ -115,9 +119,9 @@
                                             'NA': resData.UA}}</td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.audited_annualaccounts}}</td>
+                                            {{resData.audited_annualaccountsStatus}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.unaudited_annualaccounts}}</td>
+                                            {{resData.unaudited_annualaccountsStatus}}</td>
 
 
 
