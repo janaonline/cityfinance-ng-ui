@@ -54,6 +54,7 @@ export class CommFileUploadComponent implements OnInit {
   btnStyleA = false;
   btnStyleR = false;
   finalSubmitUtiStatus;
+  ulbDisabled = false;
   data = {
     pdf: {
       file: null,
@@ -93,6 +94,13 @@ export class CommFileUploadComponent implements OnInit {
       this.btnStyleA = true
     }else if(this.stateAction == 'REJECTED'){
       this.btnStyleR = true
+
+    }
+    if(this.stateAction == 'REJECTED' &&  (this.loggedInUserType === USER_TYPE.ULB)){
+      this.isDisabled = false;
+    }
+    if( this.loggedInUserType === USER_TYPE.ULB){
+      this.ulbDisabled = true;
     }
   }
 

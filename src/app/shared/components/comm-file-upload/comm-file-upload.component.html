@@ -14,7 +14,7 @@
     </button>
     <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')" type="file" accept=".xls, .xlsx" #file>
     <!-- </div> -->
-    <div class="btn-group float-right" *ngIf="loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 13%;">
+    <div class="btn-group float-right" *ngIf="loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 10%;">
         <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
         <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px; width: 82px;">Reject</label>
@@ -111,7 +111,7 @@
     <div class="col-sm-10 col-lg-10 col-md-10" style="margin-left: 5rem;">
         <span style="font-weight: 600; text-align: left">Reason for rejection</span>
         <div class="input-group" style="width: 100%">
-            <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus()" [(ngModel)]="rejectReason">
+            <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus()" [(ngModel)]="rejectReason" [disabled]="ulbDisabled">
 </textarea>
         </div>
     </div>

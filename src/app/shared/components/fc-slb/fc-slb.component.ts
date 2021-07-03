@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 import { UPLOAD_STATUS } from 'src/app/util/enums';
 import { JSONUtility } from 'src/app/util/jsonUtil';
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
@@ -23,6 +24,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
   publishedFileName: string = '';
   publishedProgress: number;
   isDisabled = false;
+  finalSubmitUtiStatus;
+  ulb_id;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
   constructor(
     private _router: Router,
     private modalService: BsModalService,
@@ -30,6 +35,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     protected _dialog: MatDialog
   ) {
     // super(dataEntryService, _dialog);
+    this.ulb_id = sessionStorage.getItem('ulb_id');
+    this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
   }
 
   focusTargetKey: any = {}
@@ -65,7 +72,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   @Input() waterPotability: any = {}
   uploadQuestion: string = 'Have you published Water Potability Index';
   uploadDocumentText: string = 'Upload the published document';
-  USER_TYPE = USER_TYPE;
+
 
 
   approveAction = UPLOAD_STATUS.APPROVED;
@@ -114,16 +121,11 @@ export class FcSlbComponent implements OnInit, OnChanges {
   benchmarks = []
   changeInData = false;
   ngOnInit() {
-
-
     this.changeInData = false;
-    let ulb_id = sessionStorage.getItem('ulb_id');
-    if (ulb_id != null) {
-      this.isDisabled = true;
-    } else {
-      this.isDisabled = false;
-    }
-    console.log(this.services)
+    // if (this.ulb_id != null) {
+    //   this.isDisabled = true;
+    // }
+   // console.log(this.services)
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {
@@ -138,18 +140,18 @@ export class FcSlbComponent implements OnInit, OnChanges {
     })
 
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
-    console.log(this.benchmarks)
-    console.log("tt", this.form, this.focusTargetKey)
+ //   console.log(this.benchmarks)
+ //   console.log("tt", this.form, this.focusTargetKey)
     // this.checkAutoValidCustom();
   }
 
   setFocusTarget(focusTarget = '') {
     // this.focusTargetKey[focusTarget] =true
-    console.log('Focus target inside set focus target function', focusTarget)
+   // console.log('Focus target inside set focus target function', focusTarget)
     for (let obj in this.focusTargetKey) {
 
       if (obj == focusTarget) {
-        console.log(obj)
+     //   console.log(obj)
         this.focusTargetKey[obj] = true;
       } else {
         this.focusTargetKey[obj] = false;
@@ -159,7 +161,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    console.log('changes', changes)
+    console.log('changes ........', changes)
     this.invalidWhole = false;
     this.showPublishedUpload = null;
     // console.log("services", this.services, changes)
@@ -190,7 +192,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
       for (let key in this.form['controls']) {
         console.log(key)
         for (let key2 in this.form['controls'][key]['controls']['target'].controls) {
-          console.log(key2)
+        //  console.log(key2)
           let textValue = this.form.controls[key]['controls']['target']['controls'][key2]
           let currentControlKey = key2
           let controlValue = this.form.controls[key].value.target
@@ -207,7 +209,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
 
-          console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
+         // console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
           if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey, actualData)) {
             this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
             //true means the entered value is not as per the desired logic
@@ -218,6 +220,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
         }
 
       }
+    }
+    if (this.ulb_id != null || this.finalSubmitUtiStatus == 'true') {
+      this.isDisabled = true;
+      this.form?.disable();
     }
 
 
@@ -297,7 +303,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   private emitValues(values: IFinancialData["waterManagement"], next = false) {
-    console.log("emitvalues called", values, next)
+   // console.log("emitvalues called", values, next)
     // if (values) {
     //   if (
     //     values.documents.wasteWaterPlan &&
@@ -486,28 +492,28 @@ export class FcSlbComponent implements OnInit, OnChanges {
   afterValue = '';
 
   setFocusTargetForErrorMessages(focusTarget = '') {
-    console.log('mouseover on', focusTarget)
+   // console.log('mouseover on', focusTarget)
     for (let obj in this.focusTargetKey) {
 
       if (obj == focusTarget) {
-        console.log(obj)
+       // console.log(obj)
         this.focusTargetKeyForErrorMessages[obj] = true;
       } else {
         this.focusTargetKeyForErrorMessages[obj] = false;
       }
     }
-    console.log('focusTargetKey', this.focusTargetKey)
+   // console.log('focusTargetKey', this.focusTargetKey)
   }
 
 
   onBlur(control: AbstractControl, formValue = '', currentControlKey = '', serviceKey = '', increase = true) {
     this.changeInData = true;
-    console.log('individual input field', control)
-    console.log('individual service field', formValue)
-    console.log('total form', this.form)
-    console.log('current Control Key', currentControlKey)
-    console.log('service Key', serviceKey)
-    console.log('increase', increase)
+    // console.log('individual input field', control)
+    // console.log('individual service field', formValue)
+    // console.log('total form', this.form)
+    // console.log('current Control Key', currentControlKey)
+    // console.log('service Key', serviceKey)
+    // console.log('increase', increase)
     let actualData = parseFloat(this.form?.controls[serviceKey]['controls']['baseline']?.controls['2021']?.value)
     // this.setFocusTarget()
     // console.log('focusTargetKey', this.focusTargetKey)
@@ -545,7 +551,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // this.previousValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) - 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) - 101)].value : null
     // this.afterValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) + 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) + 101)].value : null
     if (formValue || currentControlKey == 'actual') {
-      console.log('inside if FormValue')
+     // console.log('inside if FormValue')
       if (formValue) {
         if ((increase && control.value >= benchmarkValue) || (!increase && control.value <= benchmarkValue)) {
           this.checkAutoValidCustom();
@@ -556,13 +562,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
       for (let el in this.form?.controls[serviceKey]['controls']['target']?.controls) {
         if (increase)
-          console.log(serviceKey + el)
+         // console.log(serviceKey + el)
         this.setFocusTarget(serviceKey + el)
-        console.log('focus target key after on blur', this.focusTargetKey)
-        console.log(el)
-        console.log(this.form?.controls[serviceKey]['controls']['target']?.controls)
+        //console.log('focus target key after on blur', this.focusTargetKey)
+        //console.log(el)
+        //console.log(this.form?.controls[serviceKey]['controls']['target']?.controls)
         let currentValue = this.form?.controls[serviceKey]['controls']['target']?.controls[el];
-        console.log('current Value', currentValue)
+      //  console.log('current Value', currentValue)
         this.onKeyUp(currentValue, formValue, el, serviceKey, increase, actualData)
         //currentValue is the details of that particular input field which is in focus
         //formValue is the details of entire service field
@@ -572,7 +578,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
     }
     console.log('final Form after validations', this.form)
-    this.checkAutoValidCustom();
+   // this.checkAutoValidCustom();
     // this.form['isFormInvalid'] = this.invalidWhole
     this.emitValues(this.form.getRawValue());
   }
@@ -586,7 +592,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //textValue - info about the particular field
     //formvalue -> info about the particular service field
     //currentCOntrol Key - 2122,2223,2324,2425
-    console.log("estblished", textValue, formValue, currentControlKey, increase, actualData)
+   // console.log("estblished", textValue, formValue, currentControlKey, increase, actualData)
     let controlValue = this.form?.value[serviceKey]?.target
     //control value contains value filled in every input of the service yearwise
     //logic should be that whever a user enter a value, then all the input field of that service should be checked again
@@ -606,7 +612,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //value -> value entered in the input
     //controlKey ->2122,2223,2324,,2425
     //control value contains value filled in every input of the service yearwise
-    console.log("increasevalidation called", value, controlKey, controlValue, increse)
+  //  console.log("increasevalidation called", value, controlKey, controlValue, increse)
     let before = true;
     let invalid = false;
     let upperLimit = 101;
@@ -637,11 +643,11 @@ export class FcSlbComponent implements OnInit, OnChanges {
             let mainValue = parseFloat(value)
 
             if (controlValue[obj] != "") {
-              console.log(mainValue, actualData)
+             // console.log(mainValue, actualData)
               invalid = increse ? !(mainValue > 0 && mainValue < upperLimit && mainValue >= otherValue) : !(mainValue > 0 && mainValue < upperLimit && mainValue <= otherValue)
               // console.log(value > controlValue[obj])
-              console.log("if", value, controlValue[obj], controlKey, obj)
-              console.log(invalid)
+              // console.log("if", value, controlValue[obj], controlKey, obj)
+              // console.log(invalid)
             }
             if (invalid) {
               return true;
@@ -675,7 +681,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
           this.invalidWhole = true;
       }
     }
-    console.log(this.invalidWhole)
+  //  console.log(this.invalidWhole)
   }
 
 }

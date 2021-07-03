@@ -11,6 +11,7 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
   @Output()
    actionValues = new EventEmitter<any>();
    @Input() statusResponse;
+  // @Input() statusResponseSlb;
   // @Input() statusResponseW;
   stateAction= '';
   rejectReason = null;
@@ -22,6 +23,7 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
 
   }
   ngOnChanges(){
+    console.log('stateActionRec', this.statusResponse)
     this.stateAction = this.statusResponse?.st;
     this.rejectReason = this.statusResponse?.rRes;
     if(this.stateAction == 'APPROVED'){

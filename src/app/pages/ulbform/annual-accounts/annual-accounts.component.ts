@@ -389,6 +389,9 @@ export class AnnualAccountsComponent implements OnInit {
   //  console.log('asdfghj', actRes, this.actionRes);
     this.checkForm();
   }
+  checkDisabled(quesIndex){
+
+  }
 
   async submit(template = null) {
     if (template && this.data.isDraft) {
