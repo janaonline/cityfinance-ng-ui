@@ -2,14 +2,26 @@ import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { EventEmitter, Output } from "@angular/core";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
-
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 @Component({
   selector: "app-comm-file-upload",
   templateUrl: "./comm-file-upload.component.html",
   styleUrls: ["./comm-file-upload.component.scss"],
 })
 export class CommFileUploadComponent implements OnInit {
-  constructor(private dataEntryService: DataEntryService) {}
+
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType;
+  constructor(private dataEntryService: DataEntryService,
+    ) {
+      this.loggedInUserType =  this.loggedInUserDetails.role;
+      this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+
+    }
+
+
 
   @Input()
   quesName;
@@ -20,15 +32,29 @@ export class CommFileUploadComponent implements OnInit {
   @Output()
   getFileUploadResult = new EventEmitter();
 
+
   @Input()
   requiredBtn;
 
   @Input()
   FromLinkinPfms;
+  @Output()
+  actionValues = new EventEmitter();
+
+  @Input() statusResponse;
+
+//  @Input() statusResponseUnA;
 
   showPdf = true;
   showExcel = true;
   actionRes;
+  stateAction= '';
+  rejectReason = null;
+  actionData;
+  btnStyleA = false;
+  btnStyleR = false;
+  finalSubmitUtiStatus;
+  ulbDisabled = false;
   data = {
     pdf: {
       file: null,
@@ -36,11 +62,18 @@ export class CommFileUploadComponent implements OnInit {
       name: null,
       error: null,
       progress: null,
+
     },
     excel: { file: null, url: null, name: null, error: null, progress: null },
+    status: this.stateAction,
+    rejectReason: this.rejectReason
   };
 
   ngOnInit(): void {
+   console.log('an res status', this.statusResponse, this.dataFromParent);
+    if(this.finalSubmitUtiStatus == 'true') {
+      this.isDisabled = true;
+    }
     if (this.requiredBtn) {
       switch (this.requiredBtn) {
         case "pdf":
@@ -53,6 +86,21 @@ export class CommFileUploadComponent implements OnInit {
     }
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
+      this.stateAction = this.data?.status;
+      this.rejectReason = this.data?.rejectReason;
+    }
+    console.log('isdddddd', this.isDisabled)
+    if(this.stateAction == 'APPROVED'){
+      this.btnStyleA = true
+    }else if(this.stateAction == 'REJECTED'){
+      this.btnStyleR = true
+
+    }
+    if(this.stateAction == 'REJECTED' &&  (this.loggedInUserType === USER_TYPE.ULB)){
+      this.isDisabled = false;
+    }
+    if( this.loggedInUserType === USER_TYPE.ULB){
+      this.ulbDisabled = true;
     }
   }
 
@@ -118,7 +166,22 @@ export class CommFileUploadComponent implements OnInit {
     }
     this.getFileUploadResult.emit(this.data);
   }
-  checkStatus(e) {
-  console.log('eeeeeeeee', e)
+  checkStatusAp(){
+    this.rejectReason = null;
+    this.actionData = {
+      status: this.stateAction,
+      rejectReason: this.rejectReason
+    }
+    console.log('stateAction', this.stateAction, this.actionData)
+   this.actionValues.emit(this.actionData);
   }
+  checkStatus(){
+    this.actionData = {
+      status: this.stateAction,
+      rejectReason: this.rejectReason
+    }
+    console.log('stateAction', this.stateAction, this.actionData)
+    this.actionValues.emit(this.actionData);
+  }
+
 }

@@ -66,7 +66,7 @@ export class UtilisationReportComponent implements OnInit {
 
     let yearId = JSON.parse(localStorage.getItem('Years'));
      this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
-    console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
+     console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
 
     this.designYear = yearId['2021-22']
     this.financialYear = yearId['2020-21']

@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule,FormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -52,8 +52,11 @@ import { CustomizedHeaderComponent } from './components/ag-grid/customized-heade
 import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/custom-tooltip.component';
 import { CommFileUploadComponent } from './components/comm-file-upload/comm-file-upload.component';
 import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
   imports: [
+    ButtonsModule.forRoot(),
+    FormsModule,
     RouterModule,
     CommonModule,
     MatFormFieldModule,
@@ -107,6 +110,7 @@ import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/st
 
   ],
   exports: [
+    FormsModule,
     PreLoaderComponent,
     ReUseableHeatMapComponent,
     RupeeConverterPipe,

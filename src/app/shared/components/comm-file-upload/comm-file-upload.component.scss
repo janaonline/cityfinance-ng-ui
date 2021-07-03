@@ -150,6 +150,18 @@
     background-color: #CFCFCF;
 }
 
+.pfmsClass {
+    width: 100%;
+}
+
+.stateActionClass {
+    width: 60%
+}
+
+.ulbClass {
+    width: 100%;
+}
+
 .header1:hover {
     background-color: #124A55;
     font-weight: bold;
@@ -200,4 +212,15 @@
 
 .linkinpfms {
     margin-left: 9pc !important;
+}
+
+.btn-r {
+    border: 2px solid red;
+    background-color: rgb(245, 143, 143);
+}
+
+.btn-a {
+    border: 2px solid green;
+    background-color: rgb(203, 248, 136);
+    color: green;
 }

@@ -28,10 +28,11 @@ export class SlbsComponent implements OnInit {
   slbTitleText: string = "SLB's for Water Supply and Sanitation"
   preFilledWaterManagement: any = {}
   slbId: string = '';
+  ulbId=null;
   ulbFormStaus = 'PENDING'
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
-  actionRes;
+  actionResSlb;
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -41,6 +42,7 @@ export class SlbsComponent implements OnInit {
     ) {
 
     this.loggedInUserType =  this.loggedInUserDetails.role;
+    this.ulbId = sessionStorage.getItem('ulb_id');
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
@@ -86,18 +88,17 @@ export class SlbsComponent implements OnInit {
     const newForm = this.formBuilder.group({
       ...waterWasteManagementForm.controls,
     });
+
+
     console.log('new form p', newForm, data);
 
-    if (!data) return newForm;
+    if (!data)  return newForm;
+
     newForm.patchValue({ ...data.waterManagement });
 
-    let ulbId = sessionStorage.getItem('ulb_id');
-    if (ulbId != null) {
-      newForm.disable();
-    }
     return newForm;
   }
-
+  statePostData;
   getSlbData() {
     let ulbId = sessionStorage.getItem('ulb_id');
 
@@ -115,20 +116,24 @@ export class SlbsComponent implements OnInit {
 
 
         this.slbId = res['data'] && res['data'][0] ? res['data'][0]._id : ''
+        console.log('slbsResppppppppp', res)
+        console.log('slbResponse', res['data']);
         let actRes = {
-          st : res['data']['status'],
-          rRes : res['data']['rejectReason']
+          st : res['data'][0]['waterManagement']['status'],
+          rRes : res['data'][0]['waterManagement']['rejectReason']
         }
-        if(res['data']['status'] != 'NA'){
-          this.ulbFormStaus = res['data']['status'];
+        if(res['data'][0]['waterManagement']['status'] != 'NA'){
+          this.ulbFormStaus = res['data'][0]['waterManagement']['status'];
         }
 
-        this.ulbFormRejectR = res['data']['rejectReason'];
-        this.actionRes = actRes;
-        console.log('asdfghj', actRes, this.actionRes);
+        this.ulbFormRejectR = res['data'][0]['waterManagement']['rejectReason'];
+        this.actionResSlb = actRes;
+       console.log('asdfghj', actRes, this.actionResSlb);
         sessionStorage.setItem("slbData", JSON.stringify(res))
+        console.log('slbsResppppppppp', res)
+        this.statePostData = res;
         resolve(res)
-        console.log('slbResponse', res['data'].status);
+
 
       })
 
@@ -363,28 +368,43 @@ export class SlbsComponent implements OnInit {
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
   }
-  saveStateAction() {
+
+  saveSlbStateAction() {
+
+      console.log('satAction', this.statePostData.data,'szfdg');
 
     let data = {
+      ulb: this.ulbId,
       design_year: this.Years["2021-22"],
-      isCompleted: this.value.isCompleted,
-      status : this.ulbFormStaus,
-      rejectReason : this.ulbFormRejectR,
+      isCompleted: this.statePostData.data.isCompleted,
+
       waterManagement:
-        { ...this.value.waterManagement },
-      water_index: this.value.water_index,
+        { ...this.statePostData.data.waterManagement,
+          status : this.ulbFormStaus,
+          rejectReason : this.ulbFormRejectR
+         },
+
+      water_index: this.statePostData.data.water_index,
       waterPotability: {
         documents: {
           waterPotabilityPlan: [
-            this.value.waterPotabilityPlan
+            this.statePostData.data.waterPotabilityPlan
           ]
         }
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     }
-    // this._ulbformService.postStateActionSlb(data).subscribe(res =>{
+    console.log('actionData.....', data)
+    this._ulbformService.postStateSlbActionSlb(data).subscribe((res) =>{
+      swal("Record submitted successfully!");
+          },
+          (error) => {
+            swal("An error occured!");
+            // this.errMessage = error.message;
+            // console.log(this.errMessage);
+          }
 
-    // })
+          )
 
 
   }

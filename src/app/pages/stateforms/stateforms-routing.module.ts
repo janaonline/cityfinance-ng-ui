@@ -6,10 +6,12 @@ import { WaterSupplyComponent } from './water-supply/water-supply.component';
 import { ReviewUlbFormComponent } from './review-ulb-form/review-ulb-form.component';
 import { EditUlbProfileComponent } from './edit-ulb-profile/edit-ulb-profile.component';
 import { StateDashboardComponent } from './state-dashboard/state-dashboard.component'
-import {WaterRejenuvationComponent} from "./water-rejenuvation/water-rejenuvation.component"
-import {ActionPlanUAComponent} from "./action-plan-ua/action-plan-ua.component"
+import { WaterRejenuvationComponent } from "./water-rejenuvation/water-rejenuvation.component"
+import { ActionPlanUAComponent } from "./action-plan-ua/action-plan-ua.component"
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
-import {LinkPFMSComponent} from "./link-pfms/link-pfms.component"
+import { LinkPFMSComponent } from "./link-pfms/link-pfms.component"
+import { MohuaDashboardComponent } from "./mohua-dashboard/mohua-dashboard.component"
+
 const routes: Routes = [
   {
     path: "",
@@ -41,6 +43,9 @@ const routes: Routes = [
       },
       {
         path: "link-in-pfms", component: LinkPFMSComponent,
+      },
+      {
+        path: "mohua-dashboard", component: MohuaDashboardComponent,
       }
     ]
   }

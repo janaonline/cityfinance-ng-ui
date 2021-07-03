@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { OverallListService } from './overall-list.service'
-
+import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 @Component({
   selector: 'app-overall-list',
   templateUrl: './overall-list.component.html',
@@ -32,6 +32,7 @@ export class OverallListComponent implements OnInit {
   errMessage = '';
   constructor(
     private overallListService: OverallListService,
+    public ulbService: UlbadminServiceService,
   ) { }
 
 
@@ -40,7 +41,13 @@ export class OverallListComponent implements OnInit {
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
   ua_name_s = new FormControl('');
-
+  status_s = new FormControl('');
+  status_pfms = new FormControl('');
+  status_audited = new FormControl('');
+  status_unaudited = new FormControl('');
+  status_util = new FormControl('');
+  status_slb = new FormControl('');
+  status_plans = new FormControl('');
 
   ngOnInit() {
     this.loadData();
@@ -61,6 +68,101 @@ export class OverallListComponent implements OnInit {
       )
   }
   setLIstFetchOptions() {
+    console.log(this.status_s.value)
+    let overall_statusCode,
+      pfms_statusCode,
+      audited_statusCode,
+      unaudited_statusCode,
+      util_statusCode,
+      slb_statusCode,
+      plans_statusCode;
+
+    if (this.status_s.value) {
+
+      if (this.status_s.value == "Not Started") {
+        overall_statusCode = 1;
+      } else if (this.status_s.value == "In Progess") {
+        overall_statusCode = 2;
+      }
+      // else if (this.status_s.value == "Completed but not Submitted") {
+      //   overall_statusCode = 3;
+      // }
+      else if (this.status_s.value == "Under Review by State") {
+        overall_statusCode = 4;
+      } else if (this.status_s.value == "Under Review by MoHUA") {
+        overall_statusCode = 5;
+      } else if (this.status_s.value == "Approval Completed") {
+        overall_statusCode = 6;
+      } else if (this.status_s.value == "Rejected by State") {
+        overall_statusCode = 7;
+      } else if (this.status_s.value == "Rejected by MoHUA") {
+        overall_statusCode = 8;
+      }
+    }
+    if (this.status_pfms.value) {
+      if (this.status_pfms.value == "Not Started") {
+        pfms_statusCode = 9;
+      } else if (this.status_pfms.value == "In Progess") {
+        pfms_statusCode = 10;
+      } else if (this.status_pfms.value == "Registered") {
+        pfms_statusCode = 11;
+      } else if (this.status_pfms.value == "Not Registered") {
+        pfms_statusCode = 12;
+      }
+    }
+    if (this.status_audited.value) {
+      if (this.status_audited.value == "Not Started") {
+        audited_statusCode = 13;
+      } else if (this.status_audited.value == "In Progess") {
+        audited_statusCode = 14;
+      } else if (this.status_audited.value == "Accounts Not Submitted") {
+        audited_statusCode = 15;
+      } else if (this.status_audited.value == "Accounts Submitted") {
+        audited_statusCode = 16;
+      }
+    }
+    if (this.status_unaudited.value) {
+      if (this.status_unaudited.value == "Not Started") {
+        unaudited_statusCode = 17;
+      } else if (this.status_unaudited.value == "In Progess") {
+        unaudited_statusCode = 18;
+      } else if (this.status_unaudited.value == "Accounts Not Submitted") {
+        unaudited_statusCode = 19;
+      } else if (this.status_unaudited.value == "Accounts Submitted") {
+        unaudited_statusCode = 20;
+      }
+    }
+    if (this.status_util) {
+      if (this.status_util.value == "Not Started") {
+        util_statusCode = 21;
+      } else if (this.status_util.value == "In Progess") {
+        util_statusCode = 22;
+      } else if (this.status_util.value == "Completed") {
+        util_statusCode = 23;
+      }
+    }
+    if (this.status_slb) {
+      if (this.status_slb.value == "Not Started") {
+        slb_statusCode = 24;
+      } else if (this.status_slb.value == "In Progess") {
+        slb_statusCode = 25;
+      } else if (this.status_slb.value == "Completed") {
+        slb_statusCode = 26;
+      } else if (this.status_slb.value == "Not Applicable") {
+        slb_statusCode = 30;
+      }
+    }
+    if (this.status_plans) {
+      if (this.status_plans.value == "Not Started") {
+        plans_statusCode = 27;
+      } else if (this.status_plans.value == "In Progess") {
+        plans_statusCode = 28;
+      } else if (this.status_plans.value == "Completed") {
+        plans_statusCode = 29;
+      } else if (this.status_plans.value == "Not Applicable") {
+        plans_statusCode = 31;
+      }
+    }
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
@@ -80,9 +182,27 @@ export class OverallListComponent implements OnInit {
         UA: this.ua_name_s.value
           ? this.ua_name_s.value.trim()
           : "",
-        // status: this.status_s.value
-        //   ? this.status_s.value.trim()
-        //   : "",
+        status: overall_statusCode
+          ? overall_statusCode
+          : "",
+        pfmsStatus: pfms_statusCode
+          ? pfms_statusCode
+          : "",
+        auditedStatus: audited_statusCode
+          ? audited_statusCode
+          : "",
+        unauditedStatus: unaudited_statusCode
+          ? unaudited_statusCode
+          : "",
+        utilStatus: util_statusCode
+          ? util_statusCode
+          : "",
+        slbStatus: slb_statusCode
+          ? slb_statusCode
+          : "",
+        plansStatus: plans_statusCode
+          ? plans_statusCode
+          : "",
       }
 
     }
@@ -92,6 +212,39 @@ export class OverallListComponent implements OnInit {
       ...this.filterObject,
       //  ...config,
     };
+
+  }
+  stateData() {
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
+
+    this.fcFormListSubscription = this.ulbService
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, null)
+      .subscribe(
+        (result) => {
+          let res: any = result;
+          this.tabelData = res.data;
+          if (res.data.length == 0) {
+            this.nodataFound = true;
+          } else {
+            this.nodataFound = false;
+          }
+          console.log(result);
+
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          alert('Some Error Occurred')
+
+        }
+      );
+
 
   }
 

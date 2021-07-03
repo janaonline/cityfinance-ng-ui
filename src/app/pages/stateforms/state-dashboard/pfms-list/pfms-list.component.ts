@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { PfmsListService } from './pfms-list.service'
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 @Component({
   selector: 'app-pfms-list',
   templateUrl: './pfms-list.component.html',
@@ -27,8 +30,18 @@ export class PfmsListComponent implements OnInit {
   nodataFound = false;
   errMessage = '';
   constructor(
-    private pfmsListService: PfmsListService
+    private pfmsListService: PfmsListService,
+    public ulbService: UlbadminServiceService,
   ) { }
+
+  ulb_name_s = new FormControl('');
+  ulb_code_s = new FormControl('');
+  ulb_type_s = new FormControl('');
+  population_type_s = new FormControl('');
+  ua_name_s = new FormControl('');
+  status_pfms = new FormControl('');
+
+
 
   ngOnInit(): void {
     this.pfmsListService.getData()
@@ -51,4 +64,91 @@ export class PfmsListComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
+  setLIstFetchOptions() {
+
+    let pfms_statusCode;
+
+
+
+    if (this.status_pfms.value) {
+      if (this.status_pfms.value == "Not Started") {
+        pfms_statusCode = 9;
+      } else if (this.status_pfms.value == "In Progess") {
+        pfms_statusCode = 10;
+      } else if (this.status_pfms.value == "Registered") {
+        pfms_statusCode = 11;
+      } else if (this.status_pfms.value == "Not Registered") {
+        pfms_statusCode = 12;
+      }
+    }
+
+    //  const filterKeys = ["financialYear", "auditStatus"];
+    this.filterObject = {
+      filter: {
+        state: '',
+        ulbType: this.ulb_type_s.value
+          ? this.ulb_type_s.value.trim()
+          : "",
+        populationType: this.population_type_s.value
+          ? this.population_type_s.value.trim()
+          : "",
+        ulbName: this.ulb_name_s.value
+          ? this.ulb_name_s.value.trim()
+          : "",
+        censusCode: this.ulb_code_s.value
+          ? this.ulb_code_s.value.trim()
+          : "",
+        UA: this.ua_name_s.value
+          ? this.ua_name_s.value.trim()
+          : "",
+        pfmsStatus: pfms_statusCode
+          ? pfms_statusCode
+          : "",
+
+      }
+
+    }
+
+    return {
+      ...this.listFetchOption,
+      ...this.filterObject,
+      //  ...config,
+    };
+
+  }
+  stateData() {
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
+
+    this.fcFormListSubscription = this.ulbService
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'pfms')
+      .subscribe(
+        (result) => {
+          let res: any = result;
+          this.tabelData = res.data;
+          if (res.data.length == 0) {
+            this.nodataFound = true;
+          } else {
+            this.nodataFound = false;
+          }
+          console.log(result);
+
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          alert('Some Error Occurred')
+
+        }
+      );
+
+
+  }
+
+
 }
