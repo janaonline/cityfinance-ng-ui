@@ -17,8 +17,9 @@ import {
   MatSnackBarModule,
   MatProgressSpinnerModule,
 } from "@angular/material";
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgxPaginationModule } from "ngx-pagination";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { NgxPaginationModule } from "ngx-pagination";
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatIconModule,
   ],
   declarations: [AnnualAccountsCreateComponent],
   exports: [AnnualAccountsCreateComponent],

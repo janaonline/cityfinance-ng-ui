@@ -1,4 +1,4 @@
-<div class="container" #prev>
+<div class="container" >
   <div class="row mt-2">
     <div style="text-align: center; margin-bottom: 25px">
       <h3 *ngIf="!viewMode">Upload Annual Accounts</h3>
@@ -427,7 +427,9 @@
       <h3>Thank You!</h3>
     </div>
     <p style="margin-bottom: 2pc;">You can Download your Acknowledgement of Submission from here..
-      <button (click)="downloadAsPDF()" class="btn btn-primary " style="margin-right: 2pc;">Download</button>
+        <mat-icon class="cursor" style="margin-right: 2pc;" (click)="downloadAsPDF()" aria-hidden="false">
+            <img src="../../../../assets/images//file (1).png" >
+        </mat-icon>
     </p>
     <div class="pull-right">
       <a [routerLink]="['/home']" (click)="alertClose()">Go to Home</a>
@@ -448,3 +450,92 @@
     </div>
   </div>
 </ng-template>
+
+<div class="container dwn" #prev2>
+  <div class="row">
+    <h2 style="text-align: center;">Annual Accounts Acknowledgement</h2>
+  </div>
+  <br><br>
+  <div class="row">
+    1. Name of the State
+    <label style="float: right; width: 60%;">{{stateListName[validateForm.value.state]}}</label>
+  </div>
+  <br>
+  <div class="row">
+    2. Name of the Urban Local Body
+    <label style="float: right; width: 60%;">{{ulbListName[validateForm.value.ulb]?.name}}</label>
+  </div>
+  <br>
+  <div class="row">
+    3. ULB Type
+    <label style="float: right; width: 60%;">{{ulbListName[validateForm.value.ulb]?.ulbType.name}}</label>
+  </div>
+  <br>
+  <div class="row">4. Name of the Person <label style="float: right; width: 60%;">{{validateForm.value.person}}</label>
+  </div>
+  <br>
+  <div class="row">5. Designation <label style="float: right; width: 60%;">{{validateForm.value.designation}}</label>
+  </div>
+  <br>
+  <div class="row">6. Email Id <label style="float: right; width: 60%;">{{validateForm.value.email}}</label></div>
+  <br>
+  <div class="row">
+    <div class="instructions-layout">
+      <h4 style="font-weight: 600;margin-top: 3%;">
+        Please read the following instructions and upload the documents:
+      </h4>
+      <p style="line-break: strict;">
+        1. All the documents pertaining to a specific financial year should be
+        combined into a single document before uploading.
+        <br />2. Please use following format for naming the documents to be
+        uploaded: nameofthedocument_FY_ULB Name (Example: Name of the document
+        for annual audited accounts of Jaipur for 2015-16: Annual
+        accounts_15-16_Jaipur municipal corporation).<br />3. Please upload
+        the documents in PDF and Excel format according to type mentioned in
+        the question.<br />4. File size of the single document should not
+        exceed 50 MB. If it exceeds 50 MB the compress the file size using
+        https://pdfcompressor.com/.
+      </p>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    Audited/Unaudited Annual Accounts for financial year 2015-16:- <br>
+    <div class="mr" ><label>PDF: <a
+          href="{{documents.financial_year_2015_16.pdf[0]?.url}}">{{
+          documents.financial_year_2015_16.pdf[0]?.name }}</a></label></div>
+    <br>
+    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2015_16.excel[0]?.url}}">{{
+          documents.financial_year_2015_16.excel[0]?.name }}</a></label></div>
+  </div>
+  <br>
+  <div class="row">
+    Audited/Unaudited Annual Accounts for financial year 2016-17:- <br>
+    <div class="mr" ><label>PDF: <a
+          href="{{documents.financial_year_2016_17.pdf[0]?.url}}">{{
+          documents.financial_year_2016_17.pdf[0]?.name }}</a></label></div>
+    <br>
+    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2016_17.excel[0]?.url}}">{{
+          documents.financial_year_2016_17.excel[0]?.name }}</a></label></div>
+  </div>
+  <br>
+  <div class="row">
+    Audited/Unaudited Annual Accounts for financial year 2017-18:- <br>
+    <div class="mr" ><label>PDF: <a
+          href="{{documents.financial_year_2017_18.pdf[0]?.url}}">{{
+          documents.financial_year_2017_18.pdf[0]?.name }}</a></label></div>
+    <br>
+    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2017_18.excel[0]?.url}}">{{
+          documents.financial_year_2017_18.excel[0]?.name }}</a></label></div>
+  </div>
+  <br>
+  <div class="row">
+    Audited/Unaudited Annual Accounts for financial year 2018-19:- <br>
+    <div class="mr" ><label>PDF: <a
+          href="{{documents.financial_year_2018_19.pdf[0]?.url}}">{{
+          documents.financial_year_2018_19.pdf[0]?.name }}</a></label></div>
+    <br>
+    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2018_19.excel[0]?.url}}">{{
+          documents.financial_year_2018_19.excel[0]?.name }}</a></label></div>
+  </div>
+</div>

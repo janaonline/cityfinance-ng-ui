@@ -49,90 +49,23 @@ export class AnnualAccountsCreateComponent implements OnInit {
   @ViewChild("template") template: TemplateRef<any>;
   @ViewChild("saveTemplate") saveTemplate: TemplateRef<any>;
   @ViewChild("fileTemplate") fileTemplate: TemplateRef<any>;
-  @ViewChild("prev") _html: ElementRef;
+  @ViewChild("prev2") _html: ElementRef;
 
-  styleForPDF = `.container {
+  styleForPDF = `<style>
+  .container {
     width: 95%;
+  font-size: 10px !important;
   }
-  
-  .radio-group {
-    display: flex;
-    flex-direction: row;
-    //   margin: 10px 0;
-    margin-left: 12px;
+  .mr{
+    margin-left: 1em;
   }
-  
-  .radio-button {
-    margin: 3px;
-  }
-  .instructions-layout {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-  
-  .myFile input[type="file"] {
-    display: block;
-    position: absolute;
-    top: -10px;
-    opacity: 0;
-    font-size: 100px;
-    filter: alpha(opacity=0);
-    cursor: pointer;
-    width: 94px;
-    height: 38px;
-    left: 100px;
-  }
-  .myFile input[type="file"]:disabled {
-    cursor: not-allowed;
-  }
-  
-  .myFile:disabled {
-    cursor: not-allowed !important;
-  }
-  
-  .form-control {
-    width: 210px;
-  }
-  
-  .form-group {
-    margin-bottom: 0;
-  }
-  
-  .form-field-layout {
-    margin-top: 15px;
-  }
-  
-  .button-layout {
-    margin-bottom: 10px;
-  }
-  
-  .icon-layout {
-    margin-left: 10px;
-    font-size: 16px;
-  }
-  
-  .spinner-layout {
-    display: flex;
-    span {
-      margin: 3px;
-    }
-  }
-  
-  .tracking-history-table {
-    thead tr th {
-      background: #047474;
-      color: white;
-    }
-    tbody tr:nth-child(even) {
-      background: #dbdbdb;
-    }
-  }
-  
   </style>`;
 
   validateForm!: FormGroup;
   stateList: IStateULBCovered[] = [];
+  stateListName = {};
   ulbList: any[] = [];
+  ulbListName = {};
   documents = {
     financial_year_2015_16: {
       pdf: [],
@@ -249,6 +182,9 @@ export class AnnualAccountsCreateComponent implements OnInit {
   fetchStateList() {
     this._commonService.getStateUlbCovered().subscribe((res) => {
       this.stateList = res.data;
+      res.data.forEach((element) => {
+        this.stateListName[element._id] = element.name;
+      });
     });
   }
 
@@ -261,6 +197,9 @@ export class AnnualAccountsCreateComponent implements OnInit {
         );
       }
       this.ulbList = res["data"];
+      res["data"].forEach((element) => {
+        this.ulbListName[element._id] = element;
+      });
     });
   }
 
@@ -377,29 +316,25 @@ export class AnnualAccountsCreateComponent implements OnInit {
                       year,
                       type,
                     };
-                    // this.annualAccountsService.getYearHistory(params).subscribe(
-                    //   async (res) => {
-                    //     this.loader[year][type] = false;
-                    //     if (res["data"].haveHistory) {
-                    //       this.historyYear = res["data"].historyData;
-                    //       this.yearInHistory = year;
-                    //       this.typeInHistory = type;
-                    //       let store = await this.openModal(this.template);
-                    //       if (!store) return;
-                    //     }
-                    //     this.documents[year][type] = [
-                    //       { name: fileName, url: finalUrl },
-                    //     ];
-                    //   },
-                    //   (err) => {
-                    //     console.error(err);
-                    //     this.loader[year][type] = false;
-                    //   }
-                    // );
-                    this.documents[year][type] = [
-                      { name: fileName, url: finalUrl },
-                    ];
-                    this.loader[year][type] = false;
+                    this.annualAccountsService.getYearHistory(params).subscribe(
+                      async (res) => {
+                        this.loader[year][type] = false;
+                        if (res["data"].haveHistory) {
+                          this.historyYear = res["data"].historyData;
+                          this.yearInHistory = year;
+                          this.typeInHistory = type;
+                          let store = await this.openModal(this.template);
+                          if (!store) return;
+                        }
+                        this.documents[year][type] = [
+                          { name: fileName, url: finalUrl },
+                        ];
+                      },
+                      (err) => {
+                        console.error(err);
+                        this.loader[year][type] = false;
+                      }
+                    );
                   }
                 },
                 (error) => {
@@ -489,7 +424,6 @@ export class AnnualAccountsCreateComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = disableOutSideClick ? true : false;
-      debugger;
       this.dialogRefForAlert = this.dialog.open(template, dialogConfig);
       this.dialogRefForAlert.afterClosed().subscribe((result) => {
         resolve(result);
@@ -525,7 +459,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        
+
         this.onGettingError(
           ' "Failed to download PDF. Please try after sometime."'
         );
