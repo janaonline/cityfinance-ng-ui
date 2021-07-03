@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { pipe } from 'rxjs';
-import { StateDashboardService } from "../state-dashboard/state-dashboard.service";
-import { OverallListComponent } from '../state-dashboard/overall-list/overall-list.component'
+import { StateDashboardService } from "../../stateforms/state-dashboard/state-dashboard.service";
+import { OverallListComponent } from '../../stateforms/state-dashboard/overall-list/overall-list.component'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
-import { PfmsListComponent } from '../state-dashboard/pfms-list/pfms-list.component'
-import { PlansListComponent } from '../state-dashboard/plans-list/plans-list.component'
-import { SlbListComponent } from '../state-dashboard/slb-list/slb-list.component'
-import { UtilreportListComponent } from '../state-dashboard/utilreport-list/utilreport-list.component'
-import { AnnualaccListComponent } from '../state-dashboard/annualacc-list/annualacc-list.component'
+import { PfmsListComponent } from '../../stateforms/state-dashboard/pfms-list/pfms-list.component'
+import { PlansListComponent } from '../../stateforms/state-dashboard/plans-list/plans-list.component'
+import { SlbListComponent } from '../../stateforms/state-dashboard/slb-list/slb-list.component'
+import { UtilreportListComponent } from '../../stateforms/state-dashboard/utilreport-list/utilreport-list.component'
+import { AnnualaccListComponent } from '../../stateforms/state-dashboard/annualacc-list/annualacc-list.component'
 import { ReUseableHeatMapComponent } from '../../../shared/components/re-useable-heat-map/re-useable-heat-map.component';
 import * as $ from 'jquery';
 import { constants } from 'buffer';

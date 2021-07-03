@@ -1,18 +1,17 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
-import { StateformsService } from '../stateforms.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ReviewUlbFormService } from './review-ulb-form.service'
+import { ReviewUlbService } from './review-ulb.service'
+import { StateformsService } from '../../stateforms/stateforms.service'
 @Component({
-  selector: 'app-review-ulb-form',
-  templateUrl: './review-ulb-form.component.html',
-  styleUrls: ['./review-ulb-form.component.scss']
+  selector: 'app-review-ulb',
+  templateUrl: './review-ulb.component.html',
+  styleUrls: ['./review-ulb.component.scss']
 })
-export class ReviewUlbFormComponent implements OnInit {
-
+export class ReviewUlbComponent implements OnInit {
   tabelData: any;
   currentSort = 1;
   tableDefaultOptions = {
@@ -33,13 +32,12 @@ export class ReviewUlbFormComponent implements OnInit {
   nodataFound = false;
   errMessage = '';
   constructor(
+    public reviewUlbService: ReviewUlbService,
     public ulbService: UlbadminServiceService,
-    public _stateformsService: StateformsService,
     public dialog: MatDialog,
-    private reviewUlbFormService: ReviewUlbFormService
+    public _stateformsService: StateformsService
+
   ) { }
-
-
   ulb_name_s = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
@@ -53,7 +51,7 @@ export class ReviewUlbFormComponent implements OnInit {
   viewHistory(template, formId) {
     console.log(formId)
 
-    this.reviewUlbFormService.getData(formId).subscribe(
+    this.reviewUlbService.getData(formId).subscribe(
       (res) => {
         this.historyData = res['data']
         console.log(this.historyData)
@@ -172,5 +170,6 @@ export class ReviewUlbFormComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
+
 
 }
