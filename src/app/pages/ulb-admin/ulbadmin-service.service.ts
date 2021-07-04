@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -11,28 +11,28 @@ export class UlbadminServiceService {
 
   constructor(private http: HttpClient) { }
 
-  getMasterTabel(){
+  getMasterTabel() {
     let getFilesUrl = environment.api.url + 'masterForm/getAll/606aaf854dff55e6c075d219';
     return this.http.get(getFilesUrl).pipe(catchError(error => {
       let errMes = 'An error occured.'
       console.log(error);
-      if(error.status =='404'){
-        errMes ="No records found."
+      if (error.status == '404') {
+        errMes = "No records found."
         return throwError(errMes)
-      }else{
+      } else {
         return throwError(errMes)
       }
     }));
   }
-  getStateName(){
+  getStateName() {
     let url = environment.api.url + 'state';
     return this.http.get(url).pipe(catchError(error => {
       let errMes = 'An error occured.'
       console.log(error);
-      if(error.status =='404'){
-        errMes ="No records found."
+      if (error.status == '404') {
+        errMes = "No records found."
         return throwError(errMes)
-      }else{
+      } else {
         return throwError(errMes)
       }
     }));
@@ -72,47 +72,52 @@ export class UlbadminServiceService {
     return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`, {
       params: queryParams,
     });
-}
-fetchAllFormStatusList(params = {}, body = {}) {
-  let queryParams = new HttpParams();
-  for (const key in params) {
-    queryParams = queryParams.set(
-      key,
-      typeof params[key] === "string" ? params[key].trim() : params[key]
-    );
   }
-  for (const key in body) {
-    queryParams = queryParams.set(
-      key,
-      JSON.stringify(
-        typeof body[key] === "string" ? body[key].trim() : body[key]
-      )
-    );
+  fetchAllFormStatusList(params = {}, body = {}, formName) {
+    let queryParams = new HttpParams();
+    for (const key in params) {
+      queryParams = queryParams.set(
+        key,
+        typeof params[key] === "string" ? params[key].trim() : params[key]
+      );
+    }
+    for (const key in body) {
+      queryParams = queryParams.set(
+        key,
+        JSON.stringify(
+          typeof body[key] === "string" ? body[key].trim() : body[key]
+        )
+      );
+    }
+    let url;
+    if (formName) {
+      url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219/${formName}`
+    } else {
+      url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219`
+    }
+    return this.http.get(url, {
+      params: queryParams,
+    });
   }
+  fetchEditDataList(params = {}, body = {}) {
+    let queryParams = new HttpParams();
+    for (const key in params) {
+      queryParams = queryParams.set(
+        key,
+        typeof params[key] === "string" ? params[key].trim() : params[key]
+      );
+    }
+    for (const key in body) {
+      queryParams = queryParams.set(
+        key,
+        JSON.stringify(
+          typeof body[key] === "string" ? body[key].trim() : body[key]
+        )
+      );
+    }
 
-  return this.http.get(`${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219`, {
-    params: queryParams,
-  });
-}
-fetchEditDataList(params = {}, body = {}) {
-  let queryParams = new HttpParams();
-  for (const key in params) {
-    queryParams = queryParams.set(
-      key,
-      typeof params[key] === "string" ? params[key].trim() : params[key]
-    );
+    return this.http.get(`${environment.api.url}user/all?role=ULB`, {
+      params: queryParams,
+    });
   }
-  for (const key in body) {
-    queryParams = queryParams.set(
-      key,
-      JSON.stringify(
-        typeof body[key] === "string" ? body[key].trim() : body[key]
-      )
-    );
-  }
-
-  return this.http.get(`${environment.api.url}user/all?role=ULB`, {
-    params: queryParams,
-  });
-}
 }

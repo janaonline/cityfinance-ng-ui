@@ -40,7 +40,7 @@ export class UlbLocationVisualizeComponent
     }, 1000);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   createNationalLevelMap(
     geoData: FeatureCollection<
