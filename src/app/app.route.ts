@@ -46,6 +46,13 @@ export const appRouter: Routes = [
       ),
   },
   {
+    path: "mohua",
+    loadChildren: () =>
+      import("./pages/mohuaform/mohuaform.module").then(
+        (m) => m.MohuaformModule
+      ),
+  },
+  {
     path: "ulbAdmin",
     loadChildren: () =>
       import("./pages/ulb-admin/ulb-admin.module").then(
@@ -140,7 +147,7 @@ export const appRouter: Routes = [
     component: UlbNotRegisteredComponent,
   },
   {
-    path:"app-water-rejenuvation",
+    path: "app-water-rejenuvation",
     component: WaterRejenuvationComponent
   },
 
