@@ -756,6 +756,14 @@
         </div>
     </div>
 </div>
+<div class="card mb-2 mt-1 p-1 box-shadow" *ngIf="(loggedInUserType === USER_TYPE.ULB) && (finalSubmitStatus == 'true')" [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : '64px'">
+    <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
+        <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
+        <p *ngIf="ulbFormStaus == 'REJECTED'">
+            <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
+        </p>
+    </div>
+</div>
 <div class="row footerBtnDiv" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB">
     <div class="col-lg-6 col-md-6 col-sm-6">
         <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../service-level']">BACK</a>
