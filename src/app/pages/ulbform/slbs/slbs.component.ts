@@ -31,7 +31,7 @@ export class SlbsComponent implements OnInit {
   ulbId=null;
   ulbFormStaus = 'PENDING'
   ulbFormRejectR = null;
-  finalSubmitUtiStatus;
+  finalSubmitStatus;
   actionResSlb;
   constructor(
     private _matDialog: MatDialog,
@@ -43,6 +43,7 @@ export class SlbsComponent implements OnInit {
 
     this.loggedInUserType =  this.loggedInUserDetails.role;
     this.ulbId = sessionStorage.getItem('ulb_id');
+   this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
@@ -118,20 +119,22 @@ export class SlbsComponent implements OnInit {
         this.slbId = res['data'] && res['data'][0] ? res['data'][0]._id : ''
         console.log('slbsResppppppppp', res)
         console.log('slbResponse', res['data']);
+        this.statePostData = res;
         let actRes = {
-          st : res['data'][0]['waterManagement']['status'],
-          rRes : res['data'][0]['waterManagement']['rejectReason']
+          st : this.statePostData.data[0]?.waterManagement['status'],
+          rRes : this.statePostData.data[0]?.waterManagement['rejectReason']
         }
-        if(res['data'][0]['waterManagement']['status'] != 'NA'){
-          this.ulbFormStaus = res['data'][0]['waterManagement']['status'];
+        if(this.statePostData.data[0]?.waterManagement['status'] != 'NA'){
+          this.ulbFormStaus = this.statePostData.data[0]?.waterManagement['status'];
+          console.log('slb Status', this.ulbFormStaus)
         }
 
-        this.ulbFormRejectR = res['data'][0]['waterManagement']['rejectReason'];
+        this.ulbFormRejectR = this.statePostData.data[0]?.waterManagement['rejectReason'];
         this.actionResSlb = actRes;
        console.log('asdfghj', actRes, this.actionResSlb);
         sessionStorage.setItem("slbData", JSON.stringify(res))
         console.log('slbsResppppppppp', res)
-        this.statePostData = res;
+
         resolve(res)
 
 
@@ -371,24 +374,24 @@ export class SlbsComponent implements OnInit {
 
   saveSlbStateAction() {
 
-      console.log('satAction', this.statePostData.data,'szfdg');
+      console.log('satAction', this.statePostData.data[0],'szfdg');
 
     let data = {
       ulb: this.ulbId,
       design_year: this.Years["2021-22"],
-      isCompleted: this.statePostData.data.isCompleted,
+      isCompleted: this.statePostData.data[0].isCompleted,
 
       waterManagement:
-        { ...this.statePostData.data.waterManagement,
+        { ...this.statePostData.data[0].waterManagement,
           status : this.ulbFormStaus,
           rejectReason : this.ulbFormRejectR
          },
 
-      water_index: this.statePostData.data.water_index,
+      water_index: this.statePostData.data[0].water_index,
       waterPotability: {
         documents: {
           waterPotabilityPlan: [
-            this.statePostData.data.waterPotabilityPlan
+            this.statePostData.data[0].waterPotabilityPlan
           ]
         }
       },

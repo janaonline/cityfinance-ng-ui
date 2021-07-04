@@ -31,8 +31,6 @@ export class CommFileUploadComponent implements OnInit {
   dataFromParent;
   @Output()
   getFileUploadResult = new EventEmitter();
-
-
   @Input()
   requiredBtn;
 

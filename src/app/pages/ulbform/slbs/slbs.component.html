@@ -1,12 +1,12 @@
 <div col-sm-12 mb-2>
     <h3 style="position: relative; text-align: center">
-        <span class="col-sm-6 text-left">{{slbTitleText}}</span>
+        <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
         <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
       ULB: {{ financialData?.ulbName }}</span>
 
         <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right; margin-right: 2.5%; outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
+        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
       Preview
     </button>
     </h3>
@@ -19,25 +19,27 @@
     </div>
 </div>
 <!-- (ulbFormStaus !== 'NA') -->
-<div class="card" style="background-color: #F7F7F7;" *ngIf="
-(loggedInUserType === USER_TYPE.ULB) && (finalSubmitUtiStatus == 'true')">
+
+<div class="card" style="background-color: #F7F7F7; margin: 1rem 0 1rem 0;" *ngIf="(loggedInUserType === USER_TYPE.ULB) && (finalSubmitStatus == 'true')">
     <div class="card-body">
         <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
         <br>
         <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
         </p>
-
     </div>
 </div>
-<div class="row footerBtnDiv" *ngIf="(loggedInUserDetails.role === USER_TYPE.STATE) ||
+<div class="row footerBtnDiv" *ngIf="
+ (loggedInUserDetails.role === USER_TYPE.STATE) ||
  (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
- (loggedInUserDetails.role === USER_TYPE.MoHUA) ">
+ (loggedInUserDetails.role === USER_TYPE.MoHUA)">
     <div class="col-lg-6 col-md-6 col-sm-6">
         <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../service-level']">BACK</a>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-        <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+        <!-- <button type="button" class="btn footerBtn" id="saveDraft"
+               (click)="saveAsDraft()">SAVE AS DRAFT</button>
+           -->
         <button type="button" class="btn footerBtn" id="saveNext" (click)="saveSlbStateAction()">SAVE
       AND NEXT</button>
     </div>
