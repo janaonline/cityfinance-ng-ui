@@ -15,6 +15,7 @@ export class ReviewUlbFormComponent implements OnInit {
 
   tabelData: any;
   currentSort = 1;
+  takeStateAction = 'false';
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -165,6 +166,11 @@ export class ReviewUlbFormComponent implements OnInit {
     sessionStorage.setItem('isUA', resData.isUA);
     sessionStorage.setItem('stateName', resData.state);
     sessionStorage.setItem('ulbName', resData.ulbName);
+    if((resData.actionTakenByUserRole == 'ULB' && resData.isSubmit == true) ||
+    (resData.actionTakenByUserRole == 'STATE' && resData.isSubmit == false)){
+       this.takeStateAction = 'true'
+    }
+    localStorage.setItem('takeStateAction' , this.takeStateAction)
   }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;

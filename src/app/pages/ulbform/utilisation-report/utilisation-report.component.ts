@@ -50,6 +50,7 @@ export class UtilisationReportComponent implements OnInit {
   ulbFormStaus = 'PENDING'
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
+  takeStateAction;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -66,6 +67,7 @@ export class UtilisationReportComponent implements OnInit {
 
     let yearId = JSON.parse(localStorage.getItem('Years'));
      this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+     this.takeStateAction = localStorage.getItem('takeStateAction');
      console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
 
     this.designYear = yearId['2021-22']

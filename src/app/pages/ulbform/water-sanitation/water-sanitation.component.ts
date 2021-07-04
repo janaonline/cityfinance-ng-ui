@@ -37,6 +37,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   ulbFormStaus = 'PENDING'
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
+  takeStateAction;
   actionResW;
   userLoggedInDetails = new UserUtility().getLoggedInUserDetails();
   loggedInUserType;
@@ -53,6 +54,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     super();
     this.loggedInUserType =  this.userLoggedInDetails.role;
     this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+    this.takeStateAction = localStorage.getItem('takeStateAction');
     console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
     switch (this.loggedInUserType) {
       case USER_TYPE.STATE:
