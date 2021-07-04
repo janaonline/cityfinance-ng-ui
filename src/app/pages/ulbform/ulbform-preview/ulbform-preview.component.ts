@@ -51,16 +51,40 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
   .b-hide{
     display: none;
   }
-  .header-p {
-    background-color: #047474;
-    height: 70px;
+  .m-h {
+    font-size: 20px;
+    margin-top: 5px;
+    font-weight: 700;
+}
+.m-h-mr {
+  padding-bottom: 1rem !important;
+}
+.sub-m-h{
+    font-size: 18px;
+    font-weight: 600;
     text-align: center;
 }
-.heading-p {
-    color: #FFFFFF;
-    font-size: 18px;
-    padding-top: 1.5rem !important;
-    font-weight: 700;
+.header-u-p {
+  background-color: #047474;
+  text-align: center;
+  height: 60px;
+}
+
+.heading-u-p {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 700;
+  padding-top: 1.3rem !important;
+}
+.slb-pd-t {
+  background-color: #047474;
+  text-align: center;
+  height: 60px;
+}
+.slb-h{
+  font-size: 18px;
+  padding-top: 1.3rem !important;
+  font-weight: 700;
 }
 .card {
     padding: 5px 10px;
@@ -733,10 +757,12 @@ margin-left : .5rem !important;
   designYear;
   financialYear;
   stateName;
+
   canDownload = true;
   downloadSub;
 
   ngOnInit(): void {
+
     this.downloadSub = this.ulbformService.initiateDownload.subscribe(
       (proceedSelected) => {
         if (proceedSelected) {
@@ -771,10 +797,19 @@ margin-left : .5rem !important;
       "canNavigate",
     ];
     status.forEach((element) => {
+      let change = sessionStorage.getItem(element);
       if (
-        sessionStorage.getItem(element) == "true" ||
-        (element === "canNavigate" &&
-          sessionStorage.getItem(element) == "false")
+        element == "canNavigate"
+      ) {
+        if(change == 'false')
+        {
+          this.changeTrigger[element] = true;
+          this.canDownload = false;
+        }
+        return
+      }
+      if (
+        change == "true"
       ) {
         this.changeTrigger[element] = true;
         this.canDownload = false;
@@ -858,7 +893,6 @@ margin-left : .5rem !important;
 
   openModal() {
     if (this.canDownload) this.downloadAsPDF();
-
     const status = [
       "changeInAnnual",
       "changeInPFMSAccount",

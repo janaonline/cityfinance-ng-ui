@@ -1,25 +1,26 @@
 <div id="previewSlb" #previewSlb>
-    <div style="background: #047474; color: white; padding: 2% 0% 2.5% 0%; position: relative; text-align: center;">
+    <!-- [ngStyle]="{'padding': !data?.fromParent  ? '2% 0% 2.5% 0%' : '.4rem 0 1rem 0'}" -->
+    <div style="background: #047474; color: white; position: relative; text-align: center;" [ngClass]="{'slb-pd':!data?.fromParent, 'slb-pd-t' : data?.fromParent }">
         <span *ngIf="!data?.fromParent" class="heading-font" style="margin-top: 0px; margin-bottom: 0;">
             Submissions for 15th FC Grants for FY 2021-22</span>
-        <!-- <h3 *ngIf="data?.fromParent" style="text-align: center">{{slbTitleText}}</h3> -->
+        <h3 *ngIf="data?.fromParent" class="slb-h" style="text-align: center">{{slbTitleText}}</h3>
         <h3 *ngIf="!data?.fromParent" class="sub-h-font" style="text-align: center; margin-top: 3px; margin-bottom: 0;">
-            {{ data?.ulbName || userDetails.name }}
+            {{ data?.ulbName || userDetails.name }},{{userData.stateName}}
         </h3>
         <i *ngIf="!data?.fromParent" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;" class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
     </div>
 
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
         <p class="form-status">
-            <b>Application Current Status:</b> {{ formStatusCheck }}
+            <b>Application Current Status:</b>{{ formStatusCheck }}
         </p>
 
         <button *ngIf="!data?.fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
       Download as PDF
     </button>
     </div>
-    <div style="position: relative; padding: 1% 2%" class="scrol">
-        <h3 *ngIf="!data?.fromParent" style="text-align: center">{{slbTitleText}}</h3>
+    <div style="position: relative; padding: 0% 2%" class="scrol">
+        <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
 
         <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
             <thead style="color: #047474">

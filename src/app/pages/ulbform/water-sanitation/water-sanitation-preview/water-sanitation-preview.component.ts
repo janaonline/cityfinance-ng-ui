@@ -96,13 +96,10 @@ export class WaterSanitationPreviewComponent implements OnInit, OnDestroy {
 
   .form-status {
     font-size: 10px;
-    margin-top: 10px;
-
-
   }
   .header-p {
     background-color: #047474;
-    height: 85px;
+    height: 75px;
     text-align: center;
 }
 .heading-p {
@@ -120,7 +117,6 @@ font-size: 14px;
 .form-h {
 font-size: 15px;
 font-weight: 700;
-margin-bottom: 1rem;
 text-align: center;
 }
 

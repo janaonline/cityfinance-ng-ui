@@ -31,6 +31,7 @@ export class UlbformComponent implements OnInit {
   backHeader;
   backLink;
   validate = true;
+  finalActionDis = true;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -109,10 +110,12 @@ export class UlbformComponent implements OnInit {
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
+      console.log('allformStatus', data)
     });
     this.getStatus();
     this.getAllForm();
     this.submitted = false;
+
     // let masterData = JSON.parse(sessionStorage.getItem("masterForm"))
     // if (masterData) {
     //   console.log(masterData)
@@ -128,6 +131,7 @@ export class UlbformComponent implements OnInit {
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
+        let finalSubmit = this.submitted;
         if (
           this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
           this.userLoggedInDetails.role == "ULB"
@@ -135,6 +139,12 @@ export class UlbformComponent implements OnInit {
           this.submitted = !this.submitted;
         localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here");
+
+        // if(finalSubmit == true && res["response"].actionTakenByRole == 'STATE'
+        //  && (res["response"].status == 'APPROVED'|| res["response"].status =='REJECTED')){
+        //    this.finalActionDis = false;
+        //  }
+        this.checkActionFinal();
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -155,9 +165,58 @@ export class UlbformComponent implements OnInit {
       )
       .subscribe((res) => {
         this.ulbformService.allFormsData.next(res[0]);
+
       });
   }
+  checkActionFinal(){
+    const eligibleActionForms = JSON.parse(sessionStorage.getItem("eligibleActionForms"));
+    console.log('dcfe fvf', eligibleActionForms, this.allStatus);
 
+    eligibleActionForms.forEach((element) => {
+      for (let key in this.allStatus) {
+       console.log('keygbnm', this.allStatus[key]['status']);
+        if(element === "Utilization Report" && key === "utilReport"){
+          if ( this.allStatus['utilReport']['isSubmit'] === true && this.allStatus['utilReport']['status'] != 'PENDING') {
+            console.log('0');
+           // console.log('action form is submit',element, key['isSubmit'], key['status']);
+            this.finalActionDis = false;
+            return;
+          }
+        }else if(element === "Annual Acconts" && key === "annualAccounts"){
+          if ( this.allStatus['annualAccounts']['isSubmit'] === true &&
+          this.allStatus['annualAccounts']['status'] != 'PENDING') {
+           // console.log('action form is submit',element, key['isSubmit'], key['status']);
+           console.log('1');
+
+            this.finalActionDis = false;
+            return
+          }
+        }
+        else if (element === "slbs" && key === "slbForWaterSupplyAndSanitation"){
+          if ( this.allStatus['slbForWaterSupplyAndSanitation']['isSubmit'] === true &&
+          this.allStatus['slbForWaterSupplyAndSanitation']['status'] != 'PENDING') {
+           // console.log('action form is submit',element, key['isSubmit'], key['status']);
+            console.log('2');
+
+            this.finalActionDis = false;
+            return
+          }
+        }
+        else if (element === "Plan water sanitation" && key === "plans") {
+          if ( this.allStatus['slbForWaterSupplyAndSanitation']['isSubmit'] === true &&
+           this.allStatus['slbForWaterSupplyAndSanitation']['status'] != 'PENDING') {
+           // console.log('action form is submit',element, key['isSubmit'], key['status']);
+           console.log('3');
+
+            this.finalActionDis = false;
+            return
+          }
+        }
+
+      }
+    }
+    )
+  }
   public accessGrant() {
     this.ulbId = sessionStorage.getItem("ulb_id");
     console.log("pk12", this.ulbId);

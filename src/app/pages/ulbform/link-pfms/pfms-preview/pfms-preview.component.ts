@@ -46,7 +46,7 @@ export class PfmsPreviewComponent implements OnInit {
   @ViewChild("template") template;
 
   styleForPDF = `<style>
-    .header-p {
+ .header-p {
       background-color: #047474;
       height: 75px;
       text-align: center;
@@ -59,14 +59,13 @@ export class PfmsPreviewComponent implements OnInit {
 
   }
   .sub-h {
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     font-size: 14px;
 }
 
 .form-h {
     font-size: 15px;
     font-weight: 700;
-    margin-bottom: 1rem;
     text-align: center;
 }
 
