@@ -372,15 +372,15 @@
 
 
     <div style="font-size: 18px; line-height: 30px; text-align: left; font-weight: bold"> APPROVED BY STATE</div>
-    <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+    <div class="table-responsive tracking-history-table " style="border: 1px solid  #00000029; margin-bottom: 1rem;">
 
-        <table class="table">
+        <table class="table ">
             <thead>
 
                 <tr style="background-color: white">
-                    <th scope="col">S.No</th>
-                    <th scope="col">ULB Name </th>
-                    <th scope="col">ULB Census Code/ ULB Code </th>
+                    <th scope="col" style="width:10%">S.No</th>
+                    <th scope="col" style="width:45%">ULB Name </th>
+                    <th scope="col" style="width:45%">ULB Census Code/ ULB Code </th>
                 </tr>
             </thead>
             <tbody>
@@ -423,16 +423,17 @@
 <ng-template #template1>
 
 
-    <div style="font-size: 18px; line-height: 30px; text-align: left; font-weight: bold"> PENDING FOR APPROVAL</div>
-    <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/
+        SUBMISSION</div>
+    <div class="table-responsive tracking-history-table" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
 
         <table class="table">
             <thead>
 
                 <tr style="background-color: white">
-                    <th scope="col">S.No</th>
-                    <th scope="col">ULB Name </th>
-                    <th scope="col">ULB Census Code/ ULB Code </th>
+                    <th scope="col" style="width:10%">S.No</th>
+                    <th scope="col" style="width:45%">ULB Name </th>
+                    <th scope="col" style="width:45%">ULB Census Code/ ULB Code </th>
                 </tr>
             </thead>
             <tbody>
@@ -452,7 +453,7 @@
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData['censusCode'] ? resData['censusCode']:
-                        resData['sbCode']}}
+                        resData['sbCode'] ? resData['sbCode'] : 'Not Available' }}
                     </td>
                 </tr>
             </tbody>
