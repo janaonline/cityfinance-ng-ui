@@ -5,6 +5,7 @@ import { AnnualAccountsRoutingModule } from "./annual-accounts-routing.module";
 import { AnnualAccountsCreateComponent } from "./annual-accounts-create/annual-accounts-create.component";
 // import { AnnualAccountsViewComponent } from "./annual-accounts-view/annual-accounts-view.component";
 import { ReactiveFormsModule } from "@angular/forms";
+import { MatDialogModule } from "@angular/material";
 import {
   MatFormFieldModule,
   MatSelectModule,
@@ -16,7 +17,9 @@ import {
   MatSnackBarModule,
   MatProgressSpinnerModule,
 } from "@angular/material";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgxPaginationModule } from "ngx-pagination";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   imports: [
@@ -33,6 +36,9 @@ import { NgxPaginationModule } from "ngx-pagination";
     NgxPaginationModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatIconModule,
   ],
   declarations: [AnnualAccountsCreateComponent],
   exports: [AnnualAccountsCreateComponent],
