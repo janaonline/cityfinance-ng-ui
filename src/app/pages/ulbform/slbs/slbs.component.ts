@@ -31,7 +31,8 @@ export class SlbsComponent implements OnInit {
   ulbId=null;
   ulbFormStaus = 'PENDING'
   ulbFormRejectR = null;
-  finalSubmitUtiStatus;
+  finalSubmitStatus;
+  takeStateAction;
   actionResSlb;
   constructor(
     private _matDialog: MatDialog,
@@ -43,6 +44,8 @@ export class SlbsComponent implements OnInit {
 
     this.loggedInUserType =  this.loggedInUserDetails.role;
     this.ulbId = sessionStorage.getItem('ulb_id');
+   this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
+   this.takeStateAction = localStorage.getItem('takeStateAction');
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
@@ -125,6 +128,7 @@ export class SlbsComponent implements OnInit {
         }
         if(this.statePostData.data[0]?.waterManagement['status'] != 'NA'){
           this.ulbFormStaus = this.statePostData.data[0]?.waterManagement['status'];
+          console.log('slb Status', this.ulbFormStaus)
         }
 
         this.ulbFormRejectR = this.statePostData.data[0]?.waterManagement['rejectReason'];

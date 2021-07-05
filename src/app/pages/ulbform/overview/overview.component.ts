@@ -298,11 +298,16 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
     console.log(this.cardsOverview)
     let eligibleForms = [];
+    let eligibleActionForms = [];
+
     this.cardsOverview.forEach((element) => {
       if (element.label != 'Grant Transfer Certificate') {
         if (element.label != 'service-level') {
           eligibleForms.push(element.label)
           console.log(element.label)
+          if (element.label != 'PFMS') {
+            eligibleActionForms.push(element.label)
+          }
         }
 
       }
@@ -311,7 +316,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
 
     sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms))
-
+    sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms))
   }
   // storeUlbId() {
   //   sessionStorage.setItem('ulb_id', this.sessionUlbId);

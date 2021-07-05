@@ -10,7 +10,7 @@ import { WaterRejenuvationComponent } from "./water-rejenuvation/water-rejenuvat
 import { ActionPlanUAComponent } from "./action-plan-ua/action-plan-ua.component"
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { LinkPFMSComponent } from "./link-pfms/link-pfms.component"
-import { MohuaDashboardComponent } from "./mohua-dashboard/mohua-dashboard.component"
+
 
 const routes: Routes = [
   {
@@ -43,9 +43,6 @@ const routes: Routes = [
       },
       {
         path: "link-in-pfms", component: LinkPFMSComponent,
-      },
-      {
-        path: "mohua-dashboard", component: MohuaDashboardComponent,
       }
     ]
   }

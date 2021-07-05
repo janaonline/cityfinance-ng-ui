@@ -24,10 +24,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
   publishedFileName: string = '';
   publishedProgress: number;
   isDisabled = false;
-  finalSubmitUtiStatus;
+  finalSubmitStatus;
+  ulbFormStaus = 'PENDING'
+  ulbFormRejectR = null;
   ulb_id;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role
   constructor(
     private _router: Router,
     private modalService: BsModalService,
@@ -36,7 +39,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   ) {
     // super(dataEntryService, _dialog);
     this.ulb_id = sessionStorage.getItem('ulb_id');
-    this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+    this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
   }
 
   focusTargetKey: any = {}
@@ -70,6 +73,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   @Output()
   previous = new EventEmitter<WaterManagement>();
   @Input() waterPotability: any = {}
+  @Input() actionStatus;
   uploadQuestion: string = 'Have you published Water Potability Index';
   uploadDocumentText: string = 'Upload the published document';
 
@@ -161,7 +165,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    console.log('changes ........', changes)
+    console.log('changes ........', changes, this.form)
+    console.log('action.........', this.actionStatus);
+    this.ulbFormStaus = this.actionStatus.st;
+    if(this.actionStatus.rRes != null){
+      this.ulbFormRejectR = this.actionStatus.rRes;
+    }
+
     this.invalidWhole = false;
     this.showPublishedUpload = null;
     // console.log("services", this.services, changes)
@@ -184,7 +194,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         this.publishedFileUrl = changes.waterPotability.currentValue.hasOwnProperty('url') ? changes.waterPotability.currentValue.url : ''
       }
     // if (this.form) this.initializeForm();
-    console.log('onChanges', this.form)
+    console.log('onChanges values', this.form)
 
     let FORM = this.form;
     console.log('this.form', this.form)
@@ -221,14 +231,14 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
       }
     }
-    if (this.ulb_id != null || this.finalSubmitUtiStatus == 'true') {
+    if (this.ulb_id != null || this.finalSubmitStatus == 'true') {
       this.isDisabled = true;
       this.form?.disable();
     }
-
-
-
-
+    if(this.actionStatus.st == 'REJECTED' && this.loggedInUserType === USER_TYPE.ULB){
+      this.isDisabled = false;
+      this.form?.enable();
+    }
   }
 
 
