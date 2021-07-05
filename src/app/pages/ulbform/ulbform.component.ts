@@ -106,7 +106,6 @@ export class UlbformComponent implements OnInit {
         }
       }
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
-      debugger
       console.log("red this", this.allStatus);
       if(this.userLoggedInDetails.role === USER_TYPE.ULB){
         this.checkValidationStatusOfAllForms();
@@ -134,7 +133,6 @@ export class UlbformComponent implements OnInit {
     this.id = sessionStorage.getItem("row_id");
     this.ulbformService.getStatus(this.design_year, this.id).subscribe(
       (res) => {
-        debugger
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
