@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SlbListService } from './slb-list.service'
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 @Component({
   selector: 'app-slb-list',
   templateUrl: './slb-list.component.html',
@@ -27,8 +30,17 @@ export class SlbListComponent implements OnInit {
   nodataFound = false;
   errMessage = '';
   constructor(
-    private slbListService: SlbListService
+    private slbListService: SlbListService,
+    public ulbService: UlbadminServiceService,
   ) { }
+
+  ulb_name_s = new FormControl('');
+  ulb_code_s = new FormControl('');
+  ulb_type_s = new FormControl('');
+  population_type_s = new FormControl('');
+  ua_name_s = new FormControl('');
+  status_slb = new FormControl('');
+
 
   ngOnInit(): void {
     this.slbListService.getData()
@@ -50,5 +62,90 @@ export class SlbListComponent implements OnInit {
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
+  }
+
+  setLIstFetchOptions() {
+
+    let slb_statusCode;
+
+
+    if (this.status_slb) {
+      if (this.status_slb.value == "Not Started") {
+        slb_statusCode = 24;
+      } else if (this.status_slb.value == "In Progess") {
+        slb_statusCode = 25;
+      } else if (this.status_slb.value == "Completed") {
+        slb_statusCode = 26;
+      } else if (this.status_slb.value == "Not Applicable") {
+        slb_statusCode = 30;
+      }
+    }
+
+    //  const filterKeys = ["financialYear", "auditStatus"];
+    this.filterObject = {
+      filter: {
+        state: '',
+        ulbType: this.ulb_type_s.value
+          ? this.ulb_type_s.value.trim()
+          : "",
+        populationType: this.population_type_s.value
+          ? this.population_type_s.value.trim()
+          : "",
+        ulbName: this.ulb_name_s.value
+          ? this.ulb_name_s.value.trim()
+          : "",
+        censusCode: this.ulb_code_s.value
+          ? this.ulb_code_s.value.trim()
+          : "",
+        UA: this.ua_name_s.value
+          ? this.ua_name_s.value.trim()
+          : "",
+        slbStatus: slb_statusCode
+          ? slb_statusCode
+          : ""
+
+      }
+
+    }
+
+    return {
+      ...this.listFetchOption,
+      ...this.filterObject,
+      //  ...config,
+    };
+
+  }
+  stateData() {
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
+
+    this.fcFormListSubscription = this.ulbService
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'slb')
+      .subscribe(
+        (result) => {
+          let res: any = result;
+          this.tabelData = res.data;
+          if (res.data.length == 0) {
+            this.nodataFound = true;
+          } else {
+            this.nodataFound = false;
+          }
+          console.log(result);
+
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          alert('Some Error Occurred')
+
+        }
+      );
+
+
   }
 }

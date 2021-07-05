@@ -1,39 +1,87 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { pipe } from 'rxjs';
-import { StateDashboardService } from "./state-dashboard.service";
-import { OverallListComponent } from './overall-list/overall-list.component'
-import { ReviewUlbFormComponent } from '../review-ulb-form/review-ulb-form.component'
+import { StateDashboardService } from "../state-dashboard/state-dashboard.service";
+import { OverallListComponent } from '../state-dashboard/overall-list/overall-list.component'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
-import { PfmsListComponent } from './pfms-list/pfms-list.component'
-import { PlansListComponent } from './plans-list/plans-list.component'
-import { SlbListComponent } from './slb-list/slb-list.component'
-import { UtilreportListComponent } from './utilreport-list/utilreport-list.component'
-import { AnnualaccListComponent } from './annualacc-list/annualacc-list.component'
+import { PfmsListComponent } from '../state-dashboard/pfms-list/pfms-list.component'
+import { PlansListComponent } from '../state-dashboard/plans-list/plans-list.component'
+import { SlbListComponent } from '../state-dashboard/slb-list/slb-list.component'
+import { UtilreportListComponent } from '../state-dashboard/utilreport-list/utilreport-list.component'
+import { AnnualaccListComponent } from '../state-dashboard/annualacc-list/annualacc-list.component'
+import { ReUseableHeatMapComponent } from '../../../shared/components/re-useable-heat-map/re-useable-heat-map.component';
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { FeatureCollection, Geometry } from 'geojson';
+import * as L from 'leaflet';
+import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
+import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
+import { ULBWithMapData } from 'src/app/shared/models/ulbsForMapResponse';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
+import { MapUtil } from 'src/app/util/map/mapUtil';
+import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
+import { UserUtility } from 'src/app/util/user/user';
+
 
 
 @Component({
-  selector: "app-state-dashboard",
-  templateUrl: "./state-dashboard.component.html",
-  styleUrls: ["./state-dashboard.component.scss"],
+  selector: 'app-mohua-dashboard',
+  templateUrl: './mohua-dashboard.component.html',
+  styleUrls: ['./mohua-dashboard.component.scss']
 })
-export class StateDashboardComponent implements OnInit {
+export class MohuaDashboardComponent implements OnInit {
   constructor(
     public stateDashboardService: StateDashboardService,
-    public dialog: MatDialog
-
-
+    public dialog: MatDialog,
+    protected commonService: CommonService,
+    protected _snackbar: MatSnackBar,
+    protected geoService: GeographicalService,
+    protected _activateRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
+      try {
+        this.mapGeoData = data;
+        setTimeout(() => {
+          this.createNationalLevelMap(data, "finance-law-map");
+          // this.loadSlides();
+        }, 1);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+    this.commonService.states.subscribe((res) => {
+      this.states = res;
+    });
+    this.commonService.loadStates(true);
     this.onLoad();
-
   }
+  mapGeoData: FeatureCollection<
+    Geometry,
+    {
+      [name: string]: any;
+    }
+  >;
+  states: any;
+  list = [];
+  selectedStates = ["criteria"];
+  stateName = "";
+
+  stateColors = {
+    unselected: "#E5E5E5",
+    selected: "#059b9a",
+  };
+  nationalLevelMap: L.Map;
+
+  statesLayer: L.GeoJSON<any>;
+
   values = {
     overall_approvedByState: 0,
     overall_pendingForSubmission: 0,
@@ -50,11 +98,7 @@ export class StateDashboardComponent implements OnInit {
     util_pendingCompletion: 0,
     util_underStateReview: 0,
     annualAcc_audited: 0,
-    annualAcc_provisional: 0,
-    plans_approvedbyState: 0,
-    plans_completedAndPendingSubmission: 0,
-    plans_pendingCompletion: 0,
-    plans_underStateReview: 0,
+    annualAcc_provisional: 0
 
   };
   errMessage = ''
@@ -63,7 +107,7 @@ export class StateDashboardComponent implements OnInit {
   millionPlusUAs = 0;
   UlbInMillionPlusUA = 0;
   formDataApiRes;
-  selectedLevel = "allUlbs";
+  selectedLevel;
   selectUa = '';
   plansDataApiRes;
   rejuvenationPlans;
@@ -81,22 +125,126 @@ export class StateDashboardComponent implements OnInit {
   piechart;
 
   onLoad() {
-    this.getCardData();
-    this.getFormData()
-    this.getPlansData();
     this.mainDonughtChart();
     this.gaugeChart1();
-    this.constChart();
-    this.constChart1()
     this.gaugeChart2();
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
+    this.pieChart();
     this.getCardData();
     this.getFormData()
     this.getPlansData();
-
   }
+  calculateVH(vh: number) {
+    const h = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    return (vh * h) / 100;
+  }
+
+  calculateMapZoomLevel() {
+    let zoom: number;
+    const userUtil = new UserUtility();
+    if (userUtil.isUserOnMobile()) {
+      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      if (window.innerHeight < 600) zoom = 3.6;
+      const valueOf1vh = this.calculateVH(1);
+      if (valueOf1vh < 5) zoom = 3;
+      else if (valueOf1vh < 7) zoom = zoom - 0.2;
+      return zoom;
+    }
+
+    const defaultZoomLevel =
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
+    try {
+      zoom = localStorage.getItem("mapZoomLevel")
+        ? +localStorage.getItem("mapZoomLevel")
+        : defaultZoomLevel;
+    } catch (error) {
+      zoom = defaultZoomLevel;
+    }
+
+    return zoom;
+  }
+  createNationalLevelMap(
+    geoData: FeatureCollection<
+      Geometry,
+      {
+        [name: string]: any;
+      }
+    >,
+    containerId: string
+  ) {
+    const zoom = this.calculateMapZoomLevel();
+
+    const configuration = {
+      containerId,
+      geoData,
+      options: {
+        zoom,
+        minZoom: zoom,
+        attributionControl: false,
+        doubleClickZoom: false,
+        dragging: false,
+        tap: false,
+      },
+    };
+    let map;
+
+    ({ stateLayers: this.statesLayer, map } = MapUtil.createDefaultNationalMap(
+      configuration
+    ));
+
+    this.nationalLevelMap = map;
+
+    this.statesLayer.eachLayer((layer) => {
+      (layer as any).bringToBack();
+      (layer as any).on({
+        click: (args: ILeafletStateClickEvent) => {
+          // this.onClickingStateOnMap(args);
+        },
+      });
+    });
+  }
+  // onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
+  //   const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
+  //   // const stateList = this.slides[this.currentSlideIndex].states;
+  //   const list = this.slides.find((slide) => {
+  //     const slideHasState = !!slide.states.find(
+  //       (name) => name.toLowerCase() === stateName
+  //     );
+  //     return slideHasState;
+  //   });
+
+  //   if (!list) {
+  //     return;
+  //   }
+
+  //   // const stateFound = !!stateList.find(
+  //   //   (name) => name.toLowerCase() == stateName
+  //   // );
+
+  //   this.showStateGroup({ states: list.states }, stateName);
+  // }
+  // showStateGroup(item, stateToShow?: string) {
+  //   const stateList = item.states;
+  //   this.selectedStates = ["criteria"];
+
+  //   this.states.forEach((state) => {
+  //     if (
+  //       stateList.indexOf(state.name.toLowerCase()) > -1 &&
+  //       (stateToShow ? stateToShow == state.name.toLowerCase() : true)
+  //     ) {
+  //       this.addToCompare(state);
+  //     } else {
+  //       state.selected = false;
+  //     }
+  //   });
+  //   this.showComparisionPage();
+  // }
+
   openDialogAnnual() {
     const dialogRef = this.dialog.open(AnnualaccListComponent);
 
@@ -168,9 +316,9 @@ export class StateDashboardComponent implements OnInit {
           this.values.pfms_notRegistered,
           this.values.pfms_pendingResponse],
         backgroundColor: [
-          '#67DF7B',
-          '#DBDBDB',
-          '#FF7154',
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
 
         ],
         hoverOffset: 4
@@ -216,10 +364,10 @@ export class StateDashboardComponent implements OnInit {
           this.values.util_underStateReview,
           this.values.util_approvedbyState],
         backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
         ],
         hoverOffset: 4
       }]
@@ -239,7 +387,7 @@ export class StateDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 22,
+            padding: 15,
           }
         }
       }
@@ -262,10 +410,10 @@ export class StateDashboardComponent implements OnInit {
           this.values.slb_underStateReview,
           this.values.slb_approvedbyState],
         backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
         ],
         hoverOffset: 4
       }]
@@ -285,7 +433,7 @@ export class StateDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 22,
+            padding: 15,
           }
         }
       }
@@ -293,137 +441,118 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   gaugeChart1() {
+    var chart = JSC.chart('chartDiv', {
+      debug: true,
+      legend_visible: false,
+      defaultTooltip_enabled: false,
+      xAxis_spacingPercentage: 0.4,
+      yAxis: [
+        {
+          id: 'ax1',
+          defaultTick: { padding: 10, enabled: false },
+          customTicks: [0, 40, 60, 80, 100],
+          line: {
+            width: 3,
 
-    let mainColor = '', complimentColor = '', borderColor = '';
-    if (this.values.annualAcc_provisional < 25) {
-      mainColor = '#FF7154';
-      complimentColor = '#ffcabf';
-      borderColor = '#FF7154'
-    } else {
-      mainColor = "#09C266"
-      complimentColor = "#C6FBE0"
-      borderColor = '#09C266';
-    }
-    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv');
-    const ctx = canvas.getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [
-          {
+            /*Defining the option will enable it.*/
+            breaks: {},
 
-            data: [this.values.annualAcc_provisional, 100 - this.values.annualAcc_provisional],
-            backgroundColor: [mainColor, complimentColor],
-            borderColor: [borderColor],
-            borderWidth: 1
+            /*Palette is defined at series level with an ID referenced here.*/
+            color: 'smartPalette:pal1'
+          },
+          scale_range: [0, 100]
+        },
+
+      ],
+      defaultSeries: {
+        type: 'gauge column roundcaps',
+        shape: {
+          label: {
+
+            text: '%value%',
+            align: 'center',
+            verticalAlign: 'middle'
           }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        circumference: Math.PI + 1,
-        rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
-
-        onClick(...args) {
-          console.log(args);
         }
-      }
+      },
+      series: [
+        {
+          type: 'column roundcaps',
+          name: 'Temperatures',
+          yAxis: 'ax1',
+          palette: {
+            id: 'pal1',
+            pointValue: 'ff',
+            ranges: [
+              { value: 0, color: '#FF5353' },
+              { value: 40, color: '#FFD221' },
+              { value: 60, color: '#77E6B4' },
+              { value: [80, 100], color: '#21D683' }
+            ]
+          },
+          shape_label: { style: { fontSize: 22 } },
+          points: [['x', [0, this.values.annualAcc_provisional]]]
+        },
+
+      ]
     });
 
-  }
-  constChart() {
-    const canvas = <HTMLCanvasElement>document.getElementById('meter');
-    const ctx = canvas.getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [
-          {
-
-            data: [25, 75],
-            backgroundColor: ["#FF7154", "#67DF7B"],
-          }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        circumference: Math.PI + 1,
-        rotation: -Math.PI - 0.5,
-        cutoutPercentage: 94,
-
-        onClick(...args) {
-          console.log(args);
-        }
-      }
-    });
-  }
-  constChart1() {
-    const canvas = <HTMLCanvasElement>document.getElementById('meter1');
-    const ctx = canvas.getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [
-          {
-
-            data: [25, 75],
-            backgroundColor: ["#FF7154", "#67DF7B"],
-          }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        circumference: Math.PI + 1,
-        rotation: -Math.PI - 0.5,
-        cutoutPercentage: 94,
-
-        onClick(...args) {
-          console.log(args);
-        }
-      }
-    });
   }
   gaugeChart2() {
-    let mainColor = '', complimentColor = '', borderColor = '';
-    if (this.values.annualAcc_audited < 25) {
-      mainColor = '#FF7154';
-      complimentColor = '#ffcabf';
-      borderColor = '#FF7154'
-    } else {
-      mainColor = "#09C266"
-      complimentColor = "#C6FBE0"
-      borderColor = '#09C266';
-    }
-    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv2');
-    const ctx = canvas.getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: [],
-        datasets: [
-          {
+    var chart = JSC.chart('chartDiv2', {
+      debug: true,
+      legend_visible: false,
+      defaultTooltip_enabled: false,
+      xAxis_spacingPercentage: 0.4,
+      yAxis: [
+        {
+          id: 'ax1',
+          defaultTick: { padding: 10, enabled: false },
+          customTicks: [0, 40, 60, 80, 100],
+          line: {
+            width: 3,
 
-            data: [this.values.annualAcc_audited, 100 - this.values.annualAcc_audited],
-            backgroundColor: [mainColor, complimentColor],
-            borderColor: [borderColor],
-            borderWidth: 1
+            /*Defining the option will enable it.*/
+            breaks: {},
+
+            /*Palette is defined at series level with an ID referenced here.*/
+            color: 'smartPalette:pal1'
+          },
+          scale_range: [0, 100]
+        },
+
+      ],
+      defaultSeries: {
+        type: 'gauge column roundcaps',
+        shape: {
+          label: {
+
+            text: '%value%',
+            align: 'center',
+            verticalAlign: 'middle'
           }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        circumference: Math.PI + 1,
-        rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
-
-        onClick(...args) {
-          console.log(args);
         }
-      }
+      },
+      series: [
+        {
+          type: 'column roundcaps',
+          name: 'Temperatures',
+          yAxis: 'ax1',
+          palette: {
+            id: 'pal1',
+            pointValue: 'ff',
+            ranges: [
+              { value: 0, color: '#FF5353' },
+              { value: 40, color: '#FFD221' },
+              { value: 60, color: '#77E6B4' },
+              { value: [80, 100], color: '#21D683' }
+            ]
+          },
+          shape_label: { style: { fontSize: 22 } },
+          points: [['x', [0, this.values.annualAcc_audited]]]
+        },
+
+      ]
     });
   }
   mainDonughtChart() {
@@ -441,9 +570,9 @@ export class StateDashboardComponent implements OnInit {
           this.values.overall_underReviewByState,
           this.values.overall_approvedByState],
         backgroundColor: [
-          '#FF7575',
-          '#FFCE56',
-          '#A1CE65'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
         ],
         hoverOffset: 4
       }]
@@ -481,16 +610,12 @@ export class StateDashboardComponent implements OnInit {
         '213 - Approved by State'],
       datasets: [{
         label: 'My First Dataset',
-        data: [
-          this.values.plans_pendingCompletion,
-          this.values.plans_completedAndPendingSubmission,
-          this.values.plans_underStateReview,
-          this.values.plans_approvedbyState],
+        data: [300, 50, 100, 30],
         backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 215, 86)'
 
         ],
         hoverOffset: 4
@@ -516,7 +641,7 @@ export class StateDashboardComponent implements OnInit {
             fontColor: 'black',
             usePointStyle: true,
 
-            padding: 22,
+            padding: 18,
           }
         }
       }
@@ -551,7 +676,6 @@ export class StateDashboardComponent implements OnInit {
       (res) => {
         console.log(res);
         this.formDataApiRes = res
-        this.selected();
       },
       (err) => {
         console.log(err);
@@ -568,15 +692,13 @@ export class StateDashboardComponent implements OnInit {
     this.pieChart();
   }
   selected() {
-    this.maindonughtChart?.destroy();
-    this.utilreportDonughtChart?.destroy();
-    this.slbdonughtChart?.destroy();
-    this.pfmsdonughtChart?.destroy();
-    this.piechart?.destroy();
+    this.maindonughtChart.destroy();
+    this.utilreportDonughtChart.destroy();
+    this.slbdonughtChart.destroy();
+    this.pfmsdonughtChart.destroy();
+    this.piechart.destroy();
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
-
-      console.log(this.formDataApiRes['data'][0])
       let data = this.formDataApiRes['data'][0]
 
       this.mapValues(data);
@@ -649,16 +771,9 @@ export class StateDashboardComponent implements OnInit {
       this.values.util_completedAndPendingSubmission = data['utilReport']['completedAndPendingSubmission'],
       this.values.util_pendingCompletion = data['utilReport']['pendingCompletion'],
       this.values.util_underStateReview = data['utilReport']['underStateReview'],
-      this.values.plans_approvedbyState = data['plans']['approvedbyState'],
-      this.values.plans_completedAndPendingSubmission = data['plans']['completedAndPendingSubmission'],
-      this.values.plans_pendingCompletion = data['plans']['pendingCompletion'],
-      this.values.plans_underStateReview = data['plans']['underStateReview'],
       this.values.annualAcc_audited = data['annualAccounts']['audited'],
       this.values.annualAcc_provisional = data['annualAccounts']['provisional']
   }
 
 
-
-
 }
-

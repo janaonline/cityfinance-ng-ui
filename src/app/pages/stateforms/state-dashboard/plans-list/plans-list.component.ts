@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PlansListService } from './plans-list.service'
 import { Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 @Component({
   selector: 'app-plans-list',
   templateUrl: './plans-list.component.html',
@@ -27,8 +30,15 @@ export class PlansListComponent implements OnInit {
   nodataFound = false;
   errMessage = '';
   constructor(
-    private plansListService: PlansListService
+    private plansListService: PlansListService,
+    public ulbService: UlbadminServiceService,
   ) { }
+  ulb_name_s = new FormControl('');
+  ulb_code_s = new FormControl('');
+  ulb_type_s = new FormControl('');
+  population_type_s = new FormControl('');
+  ua_name_s = new FormControl('');
+  status_plans = new FormControl('');
 
   ngOnInit(): void {
     this.plansListService.getData()
@@ -50,6 +60,89 @@ export class PlansListComponent implements OnInit {
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
+  }
+
+  setLIstFetchOptions() {
+
+    let plans_statusCode;
+
+
+    if (this.status_plans) {
+      if (this.status_plans.value == "Not Started") {
+        plans_statusCode = 27;
+      } else if (this.status_plans.value == "In Progess") {
+        plans_statusCode = 28;
+      } else if (this.status_plans.value == "Completed") {
+        plans_statusCode = 29;
+      } else if (this.status_plans.value == "Not Applicable") {
+        plans_statusCode = 31;
+      }
+    }
+    //  const filterKeys = ["financialYear", "auditStatus"];
+    this.filterObject = {
+      filter: {
+        state: '',
+        ulbType: this.ulb_type_s.value
+          ? this.ulb_type_s.value.trim()
+          : "",
+        populationType: this.population_type_s.value
+          ? this.population_type_s.value.trim()
+          : "",
+        ulbName: this.ulb_name_s.value
+          ? this.ulb_name_s.value.trim()
+          : "",
+        censusCode: this.ulb_code_s.value
+          ? this.ulb_code_s.value.trim()
+          : "",
+        UA: this.ua_name_s.value
+          ? this.ua_name_s.value.trim()
+          : "",
+        plansStatus: plans_statusCode
+          ? plans_statusCode
+          : "",
+      }
+
+    }
+
+    return {
+      ...this.listFetchOption,
+      ...this.filterObject,
+      //  ...config,
+    };
+
+  }
+  stateData() {
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
+
+    this.fcFormListSubscription = this.ulbService
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'plans')
+      .subscribe(
+        (result) => {
+          let res: any = result;
+          this.tabelData = res.data;
+          if (res.data.length == 0) {
+            this.nodataFound = true;
+          } else {
+            this.nodataFound = false;
+          }
+          console.log(result);
+
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          alert('Some Error Occurred')
+
+        }
+      );
+
+
   }
 
 }

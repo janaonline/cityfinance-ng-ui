@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AnnualaccListService } from './annualacc-list.service'
 import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-annualacc-list',
   templateUrl: './annualacc-list.component.html',
@@ -28,7 +31,8 @@ export class AnnualaccListComponent implements OnInit {
   errMessage = '';
   resData
   constructor(
-    private annualaccListService: AnnualaccListService
+    private annualaccListService: AnnualaccListService,
+    public ulbService: UlbadminServiceService,
   ) { }
 
   ngOnInit(): void {
@@ -46,10 +50,120 @@ export class AnnualaccListComponent implements OnInit {
         }
       )
   }
+  ulb_name_s = new FormControl('');
+  ulb_code_s = new FormControl('');
+  ulb_type_s = new FormControl('');
+  population_type_s = new FormControl('');
+  ua_name_s = new FormControl('');
+  status_audited = new FormControl('');
+  status_unaudited = new FormControl('');
+
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
+  setLIstFetchOptions() {
+
+    let audited_statusCode,
+      unaudited_statusCode;
+
+
+
+    if (this.status_audited.value) {
+      if (this.status_audited.value == "Not Started") {
+        audited_statusCode = 13;
+      } else if (this.status_audited.value == "In Progess") {
+        audited_statusCode = 14;
+      } else if (this.status_audited.value == "Accounts Not Submitted") {
+        audited_statusCode = 15;
+      } else if (this.status_audited.value == "Accounts Submitted") {
+        audited_statusCode = 16;
+      }
+    }
+    if (this.status_unaudited.value) {
+      if (this.status_unaudited.value == "Not Started") {
+        unaudited_statusCode = 17;
+      } else if (this.status_unaudited.value == "In Progess") {
+        unaudited_statusCode = 18;
+      } else if (this.status_unaudited.value == "Accounts Not Submitted") {
+        unaudited_statusCode = 19;
+      } else if (this.status_unaudited.value == "Accounts Submitted") {
+        unaudited_statusCode = 20;
+      }
+    }
+
+    //  const filterKeys = ["financialYear", "auditStatus"];
+    this.filterObject = {
+      filter: {
+        state: '',
+        ulbType: this.ulb_type_s.value
+          ? this.ulb_type_s.value.trim()
+          : "",
+        populationType: this.population_type_s.value
+          ? this.population_type_s.value.trim()
+          : "",
+        ulbName: this.ulb_name_s.value
+          ? this.ulb_name_s.value.trim()
+          : "",
+        censusCode: this.ulb_code_s.value
+          ? this.ulb_code_s.value.trim()
+          : "",
+        UA: this.ua_name_s.value
+          ? this.ua_name_s.value.trim()
+          : "",
+        auditedStatus: audited_statusCode
+          ? audited_statusCode
+          : "",
+        unauditedStatus: unaudited_statusCode
+          ? unaudited_statusCode
+          : "",
+
+      }
+
+    }
+
+    return {
+      ...this.listFetchOption,
+      ...this.filterObject,
+      //  ...config,
+    };
+
+  }
+
+  stateData() {
+    this.loading = true;
+    this.listFetchOption.skip = 0;
+    this.tableDefaultOptions.currentPage = 1;
+    this.listFetchOption = this.setLIstFetchOptions();
+    const { skip } = this.listFetchOption;
+    if (this.fcFormListSubscription) {
+      this.fcFormListSubscription.unsubscribe();
+    }
+
+    this.fcFormListSubscription = this.ulbService
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'annualaccount')
+      .subscribe(
+        (result) => {
+          let res: any = result;
+          this.tabelData = res.data;
+          if (res.data.length == 0) {
+            this.nodataFound = true;
+          } else {
+            this.nodataFound = false;
+          }
+          console.log(result);
+
+        },
+        (response: HttpErrorResponse) => {
+          this.loading = false;
+          alert('Some Error Occurred')
+
+        }
+      );
+
+
+  }
+
 }
