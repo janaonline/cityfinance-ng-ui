@@ -175,7 +175,6 @@ export class UlbformComponent implements OnInit {
       });
   }
   checkActionFinal(){
-    debugger
     const eligibleActionForms = JSON.parse(sessionStorage.getItem("eligibleActionForms"));
     console.log('dcfe fvf', eligibleActionForms, this.allStatus);
     this.finalActionDis = true;
@@ -386,18 +385,24 @@ export class UlbformComponent implements OnInit {
   }
   finalStateAction() {
     let actionStatus = 'PENDING'
-    // for (let key in this.currentActionStatus) {
-    //   if (this.currentActionStatus[key] == 'APPROVED') {
-    //     console.log('con if',this.currentActionStatus[key]);
-    //     this.finalActionDis = true;
-    //   }
-    // }
+    for (let key in this.currentActionStatus) {
+      if (this.currentActionStatus[key] == 'REJECTED') {
+        console.log('con if',this.currentActionStatus[key]);
+        actionStatus =  'REJECTED'
+        break;
+      }else{
+        actionStatus =  'APPROVED'
+      }
+    }
 
    let actionBody =
    {
      "status" : actionStatus,
      "isSubmit" : true,
+     "ulb" : this.ulbId
     }
+    console.log('actionbody.....', actionBody);
+
     this.ulbformService.postFinalActionByState(actionBody).subscribe(
       (res) => {
         console.log(res);
