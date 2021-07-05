@@ -14,6 +14,7 @@
                                     <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col" style="width: 1%;">S.No</th>
                                         <th scope="col">ULB Name </th>
+                                        <th scope="col">State </th>
                                         <th scope="col" style="width: 11%;">ULB Census Code/ ULB Code </th>
                                         <th scope="col">ULB Type</th>
                                         <th scope="col">Population Type</th>
@@ -31,6 +32,14 @@
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
                                                 (keyup.enter)="stateData()">
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
+                                                (change)="stateData()">
+                                                <option selected value="">Select State</option>
+                                                <option value="Million Plus">Rajasthan</option>
+                                                <option value="Non Million">Himachal Pradesh</option>
+                                            </select>
                                         </th>
                                         <th class="filter" style="width: 11%;">
                                             <span class="s-s"><img
@@ -103,6 +112,8 @@
                                             tabelIndex+1}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
                                         <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.censusCode || resData.sbCode }}</td>

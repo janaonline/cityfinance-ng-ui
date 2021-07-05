@@ -65,7 +65,7 @@ export class ReviewUlbComponent implements OnInit {
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {

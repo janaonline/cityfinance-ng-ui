@@ -51,12 +51,16 @@ export class ReviewUlbFormComponent implements OnInit {
   ngOnInit() {
     this.loadData();
   }
+  noHistorydataFound = false
   viewHistory(template, formId) {
     console.log(formId)
-
+    this.noHistorydataFound = false
     this.reviewUlbFormService.getData(formId).subscribe(
       (res) => {
         this.historyData = res['data']
+        if (this.historyData.length == 0) {
+          this.noHistorydataFound = true
+        }
         console.log(this.historyData)
       },
       (err) => {
@@ -68,7 +72,7 @@ export class ReviewUlbFormComponent implements OnInit {
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {

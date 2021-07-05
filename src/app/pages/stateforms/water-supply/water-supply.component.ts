@@ -94,7 +94,7 @@ export class WaterSupplyComponent implements OnInit {
         console.log('response', res)
         let ulbdetails: any = res;
         this.detailsOfUa = ulbdetails.data;
-
+        console.log(this.detailsOfUa)
       })
   }
 
@@ -155,7 +155,7 @@ export class WaterSupplyComponent implements OnInit {
     this.uaDetails = uaDetails
     const dialogConfig = new MatDialogConfig();
     let dialogRef = this.dialog.open(template, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -166,7 +166,7 @@ export class WaterSupplyComponent implements OnInit {
     this.uaDetails = uaDetails
     const dialogConfig = new MatDialogConfig();
     let dialogRef = this.dialog.open(template1, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {
