@@ -59,7 +59,6 @@ h5 {
     padding-right: 2rem;
 }
 
-
 .btn:hover {
     background-color: #ffc500 !important;
 }
@@ -67,4 +66,8 @@ h5 {
 .xls {
     color: #007822;
     vertical-align: sub;
+}
+
+a.anDisable {
+    pointer-events: none;
 }

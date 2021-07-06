@@ -385,8 +385,10 @@ export class SlbsComponent implements OnInit {
       water_index: this.statePostData.data[0].water_index,
       waterPotability: {
         documents: {
-          waterPotabilityPlan: [this.statePostData.data[0].waterPotabilityPlan],
-        },
+          waterPotabilityPlan: [
+            this.statePostData.data[0].waterPotability.documents.waterPotabilityPlan
+          ]
+        }
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     };

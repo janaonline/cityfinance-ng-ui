@@ -13,8 +13,7 @@
                             <h5>UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}</h5>
                         </div>
                         <div style="margin-left: 85%;">
-                            <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}"
-                                (click)="foldCard(projectIndex)">Select</button>
+                            <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
                         </div>
                     </div>
                     <div *ngIf="checkCard(projectIndex)" class="table-responsive">
@@ -41,23 +40,16 @@
                                     <th style="width: 14%;" scope="col">Project Details</th>
                                 </tr>
                             </thead>
-                            <tbody formArrayName="waterBodies"
-                                *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
+                            <tbody formArrayName="waterBodies" *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
                                 <tr [formGroupName]="waterBodiesIndex">
                                     <td class="t-i">
                                         <span>{{1+waterBodiesIndex}}</span>
                                     </td>
                                     <td>
-                                        <input formControlName="name" matTooltipPosition="above"
-                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
-                                            [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
-                                            type="text" />
+                                        <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
                                     </td>
                                     <td>
-                                        <input formControlName="nameOfBody" matTooltipPosition="above"
-                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}"
-                                            [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null"
-                                            type="number" min="0" />
+                                        <input formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null" type="number" min="0" />
                                     </td>
                                     <td>
                                         <input formControlName="area" type="number">
@@ -68,29 +60,19 @@
                                                 <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                             </label>
-                                            <input style="display: none;" [attr.id]="waterBodiesIndex" type="file"
-                                                [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
-                                                (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required
-                                                multiple />
+                                            <input style="display: none;" [attr.id]="waterBodiesIndex" type="file" [disabled]="isDisabled" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required multiple />
                                         </div>
-                                        <a style="margin-left: 1ch;"
-                                            (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span
-                                                class="material-icons file"
-                                                style="font-size: 14px; padding-left:2px; vertical-align: middle;">
+                                        <a style="margin-left: 1ch;" (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
                                                 collections
                                             </span></a>
-                                        <a style="margin-left: 1ch;"
-                                            (click)="removePhotos(waterBodiesIndex,projectIndex)"
-                                            [ngClass]="{'anDisable': isDisabled }">
-                                            <span class="material-icons file"
-                                                style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
+                                        <a style="margin-left: 1ch;" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'anDisable': isDisabled }">
+                                            <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
                                                 delete_forever
                                             </span></a>
                                     </td>
                                     <td style="display: inline-flex;">
                                         <input formControlName="lat" type="number" min="0" appSixDigitDecimaNumber>
-                                        <input formControlName="long" style="margin-left: 1ch;" type="number" min="0"
-                                            appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1ch;" type="number" min="0" appSixDigitDecimaNumber>
                                         <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                             <mat-icon class="file" aria-hidden="false">
                                                 <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -113,11 +95,7 @@
                                         <input formControlName="turbidity" type="number" min="0">
                                     </td>
                                     <td>
-                                        <input formControlName="details"
-                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}"
-                                            matTooltipPosition="above"
-                                            [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null"
-                                            type="text" />
+                                        <input formControlName="details" [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null" type="text" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -138,28 +116,20 @@
                                     <th style="width: 23%;" scope="col">Proposed capacity</th>
                                 </tr>
                             </thead>
-                            <tbody formArrayName="reuseWater"
-                                *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
+                            <tbody formArrayName="reuseWater" *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
                                 <tr [formGroupName]="reuseWaterIndex">
                                     <td class="t-i">
                                         <span>{{1+reuseWaterIndex}}</span>
                                     </td>
                                     <td>
-                                        <input formControlName="name" matTooltipPosition="above"
-                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
-                                            [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
-                                            type="text" />
+                                        <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
                                     </td>
                                     <td>
-                                        <input formControlName="treatmentPlant" matTooltipPosition="above"
-                                            [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}"
-                                            [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null"
-                                            type="text">
+                                        <input formControlName="treatmentPlant" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null" type="text">
                                     </td>
                                     <td style="display: inline-flex;">
                                         <input formControlName="lat" type="number" min="0" appSixDigitDecimaNumber>
-                                        <input formControlName="long" style="margin-left: 1pc;" type="number" min="0"
-                                            appSixDigitDecimaNumber>
+                                        <input formControlName="long" style="margin-left: 1pc;" type="number" min="0" appSixDigitDecimaNumber>
                                         <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                             <mat-icon aria-hidden="false">
                                                 <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -203,8 +173,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -226,8 +195,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed</button>
         </div>
 
     </div>

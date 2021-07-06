@@ -9,7 +9,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
-
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
 import { SweetAlert } from "sweetalert/typings/core";
@@ -48,6 +49,10 @@ export class GTCertificateComponent implements OnInit {
   err = '';
   submitted = false;
   routerDiff = {};
+  isDisabled = false;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -63,7 +68,14 @@ export class GTCertificateComponent implements OnInit {
     public _stateformsService: StateformsService
   ) {
     this.navigationCheck()
-
+    switch (this.loggedInUserType) {
+      case USER_TYPE.ULB:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.ADMIN:
+      case USER_TYPE.MoHUA:
+        this.isDisabled = true;
+        break;
+    }
 
   }
   @ViewChild("template1") template1;

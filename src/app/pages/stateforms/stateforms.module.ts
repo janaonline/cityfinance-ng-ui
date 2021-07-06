@@ -11,7 +11,6 @@ import { StateDashboardComponent } from "./state-dashboard/state-dashboard.compo
 import { EditUlbProfileComponent } from "./edit-ulb-profile/edit-ulb-profile.component";
 import { ReviewUlbFormComponent } from "./review-ulb-form/review-ulb-form.component";
 import { WaterSupplyComponent } from "./water-supply/water-supply.component";
-import { WaterRecyclingComponent } from "./water-recycling/water-recycling.component";
 import { ActionPlanUAComponent } from "./action-plan-ua/action-plan-ua.component";
 import { GrantAllocationComponent } from "./grant-allocation/grant-allocation.component";
 import { GtcertificatePreviewComponent } from "./gtcertificate/gtcertificate-preview/gtcertificate-preview.component";
@@ -54,7 +53,6 @@ import { ChartsModule } from 'ng2-charts';
     EditUlbProfileComponent,
     ReviewUlbFormComponent,
     WaterSupplyComponent,
-    WaterRecyclingComponent,
     ActionPlanUAComponent,
     GrantAllocationComponent,
     GtcertificatePreviewComponent,
