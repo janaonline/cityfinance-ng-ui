@@ -10,8 +10,8 @@ import { UlbformService } from "../ulbform.service";
 import { Router, Event } from "@angular/router";
 import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
-import { UserUtility } from 'src/app/util/user/user';
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -20,7 +20,6 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./annual-accounts.component.scss"],
 })
 export class AnnualAccountsComponent implements OnInit {
-
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType;
@@ -33,14 +32,14 @@ export class AnnualAccountsComponent implements OnInit {
     private _matDialog: MatDialog
   ) {
     this.navigationCheck();
-    this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
-    this.loggedInUserType =  this.loggedInUserDetails.role;
+    this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
+    this.loggedInUserType = this.loggedInUserDetails.role;
   }
   @ViewChild("templateAnnual") template;
   @ViewChild("template1") template1;
   fromPreview = null;
   finalSubmitUtiStatus;
-  anFormStaus = 'PENDING'
+  anFormStaus = "PENDING";
   ulbFormRejectR = null;
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null },
@@ -61,8 +60,8 @@ export class AnnualAccountsComponent implements OnInit {
   unAuditAct = [
     {
       status: null,
-      rejectReason: null
-    }
+      rejectReason: null,
+    },
   ];
   AuditAct = [];
   Years = JSON.parse(localStorage.getItem("Years"));
@@ -77,7 +76,7 @@ export class AnnualAccountsComponent implements OnInit {
   dialogRef;
   modalRef;
   actionResAn;
- // actionResAu;
+  // actionResAu;
   ulbId = null;
   @HostBinding("")
   pdfError = "PDF Not Uploaded!";
@@ -102,6 +101,7 @@ export class AnnualAccountsComponent implements OnInit {
     ulb: this.userData.ulb,
     design_year: this.Years["2021-22"],
     isDraft: false,
+    status: null,
     audited: {
       provisional_data: {
         bal_sheet: {
@@ -111,7 +111,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         bal_sheet_schedules: {
           pdf: {
@@ -120,7 +120,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         inc_exp: {
           pdf: {
@@ -129,7 +129,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         inc_exp_schedules: {
           pdf: {
@@ -138,7 +138,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         cash_flow: {
           pdf: {
@@ -147,7 +147,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         auditor_report: {
           pdf: {
@@ -156,7 +156,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
       },
       standardized_data: {
@@ -180,7 +180,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         bal_sheet_schedules: {
           pdf: {
@@ -189,7 +189,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         inc_exp: {
           pdf: {
@@ -198,7 +198,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         inc_exp_schedules: {
           pdf: {
@@ -207,7 +207,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
         cash_flow: {
           pdf: {
@@ -216,7 +216,7 @@ export class AnnualAccountsComponent implements OnInit {
           },
           excel: { url: null, name: null },
           status: null,
-          rejectReason: null
+          rejectReason: null,
         },
       },
       standardized_data: {
@@ -245,7 +245,7 @@ export class AnnualAccountsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.ulbId = sessionStorage.getItem('ulb_id');
+    this.ulbId = sessionStorage.getItem("ulb_id");
     this.clickedSave = false;
     this.onLoad();
     sessionStorage.setItem("changeInAnnual", "false");
@@ -310,7 +310,7 @@ export class AnnualAccountsComponent implements OnInit {
 
   onLoad() {
     let ulbId = sessionStorage.getItem("ulb_id");
-    if (ulbId != null || this.finalSubmitUtiStatus == 'true' ) {
+    if (ulbId != null || this.finalSubmitUtiStatus == "true") {
       this.isDisabled = true;
     }
     this.annualAccountsService
@@ -344,7 +344,7 @@ export class AnnualAccountsComponent implements OnInit {
     this.data = res;
     let index = 0;
     const toStoreResponse = this.data;
-    console.log('annnualREs', this.data['status']);
+    console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
     for (const key in res.audited.provisional_data) {
@@ -359,39 +359,35 @@ export class AnnualAccountsComponent implements OnInit {
     // for action status
     index = 0;
     for (const key in res.unAudited.provisional_data) {
-
-     this.unAuditAct[index] = res.unAudited.provisional_data[key];
-    // console.log('ssssssssss', res.unAudited.provisional_data[key]);
+      this.unAuditAct[index] = res.unAudited.provisional_data[key];
+      // console.log('ssssssssss', res.unAudited.provisional_data[key]);
 
       index++;
     }
     index = 0;
     for (const key in res.audited.provisional_data) {
-     this.AuditAct[index] = res.audited.provisional_data[key];
+      this.AuditAct[index] = res.audited.provisional_data[key];
 
       index++;
     }
     this.actionResAn = this.unAuditAct.concat(this.AuditAct);
-   // this.actionResAu = this.AuditAct;
-    console.log('action status both', this.actionResAn);
-
+    // this.actionResAu = this.AuditAct;
+    console.log("action status both", this.actionResAn);
 
     // let actRes = {
     //   st : data?.status,
     //   rRes : data?.rejectReason
     // }
-    if(this.data['status'] != 'NA'){
-      this.anFormStaus = this.data['status'];
+    if (this.data["status"] != "NA") {
+      this.anFormStaus = this.data["status"];
     }
 
-   // this.ulbFormRejectR = data?.rejectReason;
-  //  this.actionRes = actRes;
-  //  console.log('asdfghj', actRes, this.actionRes);
+    // this.ulbFormRejectR = data?.rejectReason;
+    //  this.actionRes = actRes;
+    //  console.log('asdfghj', actRes, this.actionRes);
     this.checkForm();
   }
-  checkDisabled(quesIndex){
-
-  }
+  checkDisabled(quesIndex) {}
 
   async submit(template = null) {
     if (template && this.data.isDraft) {
@@ -403,7 +399,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   save(form) {
-    console.log('adsfghSave', this.data);
+    console.log("adsfghSave", this.data);
 
     if (
       !form.audited.submit_annual_accounts ||
@@ -445,7 +441,7 @@ export class AnnualAccountsComponent implements OnInit {
       form.unAudited.standardized_data.excel.url == null;
       form.unAudited.standardized_data.declaration == null;
     }
-    console.log(JSON.stringify(form),"saved form.........");
+    console.log(JSON.stringify(form), "saved form.........");
 
     return new Promise((resolve, rej) => {
       this.annualAccountsService.postData(form).subscribe(
@@ -609,21 +605,18 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async clickedSaveAndNext(template) {
-   if(this.ulbId == null){
-    console.log(JSON.stringify(this.data));
-    this.clickedSave = true;
-    let changeHappen = sessionStorage.getItem("changeInAnnual");
-    if (changeHappen === "true") {
-      this.submit(template);
+    if (this.ulbId == null) {
+      console.log(JSON.stringify(this.data));
+      this.clickedSave = true;
+      let changeHappen = sessionStorage.getItem("changeInAnnual");
+      if (changeHappen === "true") {
+        this.submit(template);
+      } else {
+        return this._router.navigate(["ulbform/service-level"]);
+      }
     } else {
-      return this._router.navigate(["ulbform/service-level"]);
+      this.saveStateActionData();
     }
-   }
-
-   else{
-    this.saveStateActionData();
-   }
-
   }
   answer(question, val, isAudit = null, fromStart = false) {
     let status = isAudit ? "audited" : "unAudited";
@@ -871,61 +864,74 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkStatusUnA(e, index) {
-    console.log('eeeeeeeeee',index, e);
+    console.log("eeeeeeeeee", index, e);
     this.unAuditAct[index] = e;
     console.log(this.unAuditAct);
-    console.log('checkStatus', this.data);
-
+    console.log("checkStatus", this.data);
   }
   checkStatusAu(e, index) {
-    console.log('eeeeeeeeee',index, e);
+    console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
     console.log(this.AuditAct);
-
   }
 
-  saveStateActionData(){
-    console.log('checkStatus', this.data);
+  saveStateActionData() {
+    console.log("checkStatus", this.data);
     let stateData = this.data;
-    stateData.unAudited.provisional_data.bal_sheet.status = this.unAuditAct[0]?.status;
-    stateData.unAudited.provisional_data.bal_sheet.rejectReason = this.unAuditAct[0]?.rejectReason;
-    stateData.unAudited.provisional_data.bal_sheet_schedules.status = this.unAuditAct[1]?.status;
-    stateData.unAudited.provisional_data.bal_sheet_schedules.rejectReason = this.unAuditAct[1]?.rejectReason;
-    stateData.unAudited.provisional_data.inc_exp.status = this.unAuditAct[2]?.status;
-    stateData.unAudited.provisional_data.inc_exp.rejectReason = this.unAuditAct[2]?.rejectReason;
-    stateData.unAudited.provisional_data.inc_exp_schedules.status = this.unAuditAct[3]?.status;
-    stateData.unAudited.provisional_data.inc_exp_schedules.rejectReason = this.unAuditAct[3]?.rejectReason;
-    stateData.unAudited.provisional_data.cash_flow.status = this.unAuditAct[4]?.status;
-    stateData.unAudited.provisional_data.cash_flow.rejectReason = this.unAuditAct[4]?.rejectReason;
+    stateData.unAudited.provisional_data.bal_sheet.status =
+      this.unAuditAct[0]?.status;
+    stateData.unAudited.provisional_data.bal_sheet.rejectReason =
+      this.unAuditAct[0]?.rejectReason;
+    stateData.unAudited.provisional_data.bal_sheet_schedules.status =
+      this.unAuditAct[1]?.status;
+    stateData.unAudited.provisional_data.bal_sheet_schedules.rejectReason =
+      this.unAuditAct[1]?.rejectReason;
+    stateData.unAudited.provisional_data.inc_exp.status =
+      this.unAuditAct[2]?.status;
+    stateData.unAudited.provisional_data.inc_exp.rejectReason =
+      this.unAuditAct[2]?.rejectReason;
+    stateData.unAudited.provisional_data.inc_exp_schedules.status =
+      this.unAuditAct[3]?.status;
+    stateData.unAudited.provisional_data.inc_exp_schedules.rejectReason =
+      this.unAuditAct[3]?.rejectReason;
+    stateData.unAudited.provisional_data.cash_flow.status =
+      this.unAuditAct[4]?.status;
+    stateData.unAudited.provisional_data.cash_flow.rejectReason =
+      this.unAuditAct[4]?.rejectReason;
 
-    stateData.audited.provisional_data.bal_sheet.status = this.AuditAct[0]?.status;
-    stateData.audited.provisional_data.bal_sheet.rejectReason = this.AuditAct[0]?.rejectReason;
-    stateData.audited.provisional_data.bal_sheet_schedules.status = this.AuditAct[1]?.status;
-    stateData.audited.provisional_data.bal_sheet_schedules.rejectReason = this.AuditAct[1]?.rejectReason;
-    stateData.audited.provisional_data.inc_exp.status = this.AuditAct[2]?.status;
-    stateData.audited.provisional_data.inc_exp.rejectReason = this.AuditAct[2]?.rejectReason;
-    stateData.audited.provisional_data.inc_exp_schedules.status = this.AuditAct[3]?.status;
-    stateData.audited.provisional_data.inc_exp_schedules.rejectReason = this.AuditAct[3]?.rejectReason;
-    stateData.audited.provisional_data.cash_flow.status = this.AuditAct[4]?.status;
-    stateData.audited.provisional_data.cash_flow.rejectReason = this.AuditAct[4]?.rejectReason;
-    stateData.audited.provisional_data.auditor_report.status = this.AuditAct[4]?.status;
-    stateData.audited.provisional_data.auditor_report.rejectReason = this.AuditAct[4]?.rejectReason;
+    stateData.audited.provisional_data.bal_sheet.status =
+      this.AuditAct[0]?.status;
+    stateData.audited.provisional_data.bal_sheet.rejectReason =
+      this.AuditAct[0]?.rejectReason;
+    stateData.audited.provisional_data.bal_sheet_schedules.status =
+      this.AuditAct[1]?.status;
+    stateData.audited.provisional_data.bal_sheet_schedules.rejectReason =
+      this.AuditAct[1]?.rejectReason;
+    stateData.audited.provisional_data.inc_exp.status =
+      this.AuditAct[2]?.status;
+    stateData.audited.provisional_data.inc_exp.rejectReason =
+      this.AuditAct[2]?.rejectReason;
+    stateData.audited.provisional_data.inc_exp_schedules.status =
+      this.AuditAct[3]?.status;
+    stateData.audited.provisional_data.inc_exp_schedules.rejectReason =
+      this.AuditAct[3]?.rejectReason;
+    stateData.audited.provisional_data.cash_flow.status =
+      this.AuditAct[4]?.status;
+    stateData.audited.provisional_data.cash_flow.rejectReason =
+      this.AuditAct[4]?.rejectReason;
+    stateData.audited.provisional_data.auditor_report.status =
+      this.AuditAct[4]?.status;
+    stateData.audited.provisional_data.auditor_report.rejectReason =
+      this.AuditAct[4]?.rejectReason;
 
     console.log(stateData);
     this.annualAccountsService.postActionData(stateData).subscribe(
       (res) => {
-        swal('Action submitted successfully.')
+        swal("Action submitted successfully.");
       },
       (err) => {
         swal("Failed To Save Action");
-
       }
     );
-
-    }
-
-
-
   }
-
-
+}

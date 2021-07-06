@@ -11,24 +11,16 @@
     </button>
     </h3>
 </div>
-<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability"></app-fc-slb>
+<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 
-<div class="card" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === USER_TYPE.STATE">
+<div class="card mt-1 mb-2" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === USER_TYPE.STATE &&
+(takeStateAction == 'true')">
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
     </div>
 </div>
 <!-- (ulbFormStaus !== 'NA') -->
 
-<div class="card" style="background-color: #F7F7F7; margin: 1rem 0 1rem 0;" *ngIf="(loggedInUserType === USER_TYPE.ULB) && (finalSubmitStatus == 'true')">
-    <div class="card-body">
-        <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
-        <br>
-        <p *ngIf="ulbFormStaus == 'REJECTED'">
-            <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
-        </p>
-    </div>
-</div>
 <div class="row footerBtnDiv" *ngIf="
  (loggedInUserDetails.role === USER_TYPE.STATE) ||
  (loggedInUserDetails.role === USER_TYPE.ADMIN) ||

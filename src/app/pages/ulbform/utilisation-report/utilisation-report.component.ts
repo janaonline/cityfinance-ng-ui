@@ -47,9 +47,10 @@ export class UtilisationReportComponent implements OnInit {
   submitted = false;
   isSumEqual = false;
   draft = true;
-  ulbFormStaus = 'PENDING'
+  ulbFormStaus = "PENDING";
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
+  takeStateAction;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -63,13 +64,13 @@ export class UtilisationReportComponent implements OnInit {
     private modalService: BsModalService,
     private _ulbformService: UlbformService
   ) {
+    let yearId = JSON.parse(localStorage.getItem("Years"));
+    this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
+    this.takeStateAction = localStorage.getItem("takeStateAction");
+    console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
 
-    let yearId = JSON.parse(localStorage.getItem('Years'));
-     this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
-     console.log('finalSubmitStatus', typeof(this.finalSubmitUtiStatus));
-
-    this.designYear = yearId['2021-22']
-    this.financialYear = yearId['2020-21']
+    this.designYear = yearId["2021-22"];
+    this.financialYear = yearId["2020-21"];
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
@@ -112,7 +113,7 @@ export class UtilisationReportComponent implements OnInit {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
-      if(this.finalSubmitUtiStatus == 'true'){
+      if (this.finalSubmitUtiStatus == "true") {
         this.isDisabled = true;
         this.utilizationReport.disable();
         this.utilizationReport.controls.projects.disable();
@@ -126,7 +127,6 @@ export class UtilisationReportComponent implements OnInit {
           this.utilizationReport.disable();
           this.isDisabled = true;
           this.utilizationReport.controls.projects.disable();
-
       }
 
       this.getResponse();
@@ -138,7 +138,7 @@ export class UtilisationReportComponent implements OnInit {
   // }
 
   ngOnInit() {
-    this.clickedSave = false
+    this.clickedSave = false;
     sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
@@ -147,31 +147,28 @@ export class UtilisationReportComponent implements OnInit {
         a.name.localeCompare(b.name)
       );
     });
-    let form_data = JSON.parse(sessionStorage.getItem('allStatus'));
-    console.log('form-data', form_data.utilReport)
+    let form_data = JSON.parse(sessionStorage.getItem("allStatus"));
+    console.log("form-data", form_data.utilReport);
     let form_status = form_data.utilReport.isSubmit;
-    console.log('stat', form_status)
+    console.log("stat", form_status);
     if (form_status == null) {
       this.submitted = false;
-    }
-    else if (form_status == false) {
+    } else if (form_status == false) {
       this.submitted = true;
       this.isSubmitted = true;
     }
-
   }
 
   navigationCheck() {
     if (!this.clickedSave) {
       this._router.events.subscribe(async (event: Event) => {
-
-        console.log('entered into router', this.routerNavigate)
+        console.log("entered into router", this.routerNavigate);
         if (event instanceof NavigationStart) {
           const canNavigate = sessionStorage.getItem("canNavigate");
-          console.log(canNavigate)
+          console.log(canNavigate);
           if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("canNavigate", "true")
-            return
+            sessionStorage.setItem("canNavigate", "true");
+            return;
           }
           if (canNavigate === "false" && this.routerNavigate === null) {
             // this.dialogReference.close();
@@ -187,15 +184,12 @@ export class UtilisationReportComponent implements OnInit {
         }
       });
     }
-
   }
-
-
 
   currentChanges() {
     this.utilizationReport.valueChanges.subscribe((formChange) => {
-      this.submitData(true)
-      this.setFormDataToAllForms(this.fd, formChange)
+      this.submitData(true);
+      this.setFormDataToAllForms(this.fd, formChange);
 
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
@@ -208,17 +202,20 @@ export class UtilisationReportComponent implements OnInit {
   }
 
   setFormDataToAllForms(data, formChange) {
-    let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"))
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
     if (allFormData) {
-      allFormData.utilizationReport[0] = data
-      this._ulbformService.allFormsData.next(allFormData)
+      allFormData.utilizationReport[0] = data;
+      this._ulbformService.allFormsData.next(allFormData);
     }
   }
 
-
   public getResponse() {
-    this.ulbId = sessionStorage.getItem('ulb_id');
-    this.UtiReportService.fetchPosts(this.designYear, this.financialYear, this.ulbId).subscribe(
+    this.ulbId = sessionStorage.getItem("ulb_id");
+    this.UtiReportService.fetchPosts(
+      this.designYear,
+      this.financialYear,
+      this.ulbId
+    ).subscribe(
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
@@ -229,7 +226,7 @@ export class UtilisationReportComponent implements OnInit {
           grantPosition: res["grantPosition"],
           name: res["name"],
           projects: res["projects"],
-          grantType: res["grantType"]
+          grantType: res["grantType"],
         };
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         setTimeout(() => {
@@ -237,13 +234,15 @@ export class UtilisationReportComponent implements OnInit {
         }, 1000);
       },
       (error) => {
-
-        this.utilizationReport.value['blankForm'] = true
-        console.log(this.utilizationReport)
-        sessionStorage.setItem("utilReport", JSON.stringify(this.utilizationReport.value));
+        this.utilizationReport.value["blankForm"] = true;
+        console.log(this.utilizationReport);
+        sessionStorage.setItem(
+          "utilReport",
+          JSON.stringify(this.utilizationReport.value)
+        );
         console.log(error);
         this.currentChanges();
-        this.isDraft = 'fail';
+        this.isDraft = "fail";
       }
     );
   }
@@ -254,7 +253,7 @@ export class UtilisationReportComponent implements OnInit {
     res.projects.forEach((project) => {
       this.addPreFilledRow(project);
     });
-    if(this.finalSubmitUtiStatus == 'true'){
+    if (this.finalSubmitUtiStatus == "true") {
       this.isDisabled = true;
       this.utilizationReport.disable();
       this.utilizationReport.controls.projects.disable();
@@ -267,26 +266,28 @@ export class UtilisationReportComponent implements OnInit {
         this.utilizationReport.disable();
         this.isDisabled = true;
         this.utilizationReport.controls.projects.disable();
-
     }
-    if(this.ulbFormStaus == 'REJECTED' && (this.userLoggedInDetails.role === USER_TYPE.ULB)){
-        this.utilizationReport.enable();
-        this.isDisabled = false;
-        this.utilizationReport.controls.projects.enable();
+    if (
+      this.ulbFormStaus == "REJECTED" &&
+      this.userLoggedInDetails.role === USER_TYPE.ULB
+    ) {
+      this.utilizationReport.enable();
+      this.isDisabled = false;
+      this.utilizationReport.controls.projects.enable();
     }
   }
   addPreFilledSimple(data) {
-      let actRes = {
-        st : data?.status,
-        rRes : data?.rejectReason
-      }
-      if(data?.status != 'NA'){
-        this.ulbFormStaus = data?.status;
-      }
+    let actRes = {
+      st: data?.status,
+      rRes: data?.rejectReason,
+    };
+    if (data?.status != "NA") {
+      this.ulbFormStaus = data?.status;
+    }
 
-      this.ulbFormRejectR = data?.rejectReason;
-     this.actionRes = actRes;
-     console.log('asdfghj', actRes, this.actionRes);
+    this.ulbFormRejectR = data?.rejectReason;
+    this.actionRes = actRes;
+    console.log("asdfghj", actRes, this.actionRes);
 
     this.utilizationReport.patchValue({
       name: data.name,
@@ -297,32 +298,31 @@ export class UtilisationReportComponent implements OnInit {
         expDuringYr: data.grantPosition.expDuringYr,
         closingBal: data.grantPosition.closingBal,
       },
+      status: data.status,
     });
     this.totalclosingBal = data.grantPosition.closingBal;
     // if (!this.editable) this.utilizationReport.disable();
-
-
   }
 
   public initializeReport() {
-    let stName = sessionStorage.getItem('stateName');
-    let ulName = sessionStorage.getItem('ulbName');
-    console.log('12345', this.userLoggedInDetails.role)
-    if (this.userLoggedInDetails.role == 'ULB') {
+    let stName = sessionStorage.getItem("stateName");
+    let ulName = sessionStorage.getItem("ulbName");
+    console.log("12345", this.userLoggedInDetails.role);
+    if (this.userLoggedInDetails.role == "ULB") {
       this.utilizationForm = this.fb.group({
         stateName: new FormControl(
           this.states[this.userLoggedInDetails.state]?.name,
           Validators.required
         ),
-        ulb: new FormControl(this.userLoggedInDetails.name, Validators.required),
+        ulb: new FormControl(
+          this.userLoggedInDetails.name,
+          Validators.required
+        ),
         grantType: new FormControl("Tied", Validators.required),
       });
     } else {
       this.utilizationForm = this.fb.group({
-        stateName: new FormControl(
-          stName,
-          Validators.required
-        ),
+        stateName: new FormControl(stName, Validators.required),
         ulb: new FormControl(ulName, Validators.required),
         grantType: new FormControl("Tied", Validators.required),
       });
@@ -338,8 +338,8 @@ export class UtilisationReportComponent implements OnInit {
       projects: this.fb.array([
         this.fb.group({
           category: [null, Validators.required],
-          name: ['', [Validators.maxLength(50), Validators.required]],
-          description: ['', [Validators.maxLength(200), Validators.required]],
+          name: ["", [Validators.maxLength(50), Validators.required]],
+          description: ["", [Validators.maxLength(200), Validators.required]],
           // 'imgUpload' : new FormControl(''),
           photos: this.fb.array([
             // this.fb.group({
@@ -357,7 +357,7 @@ export class UtilisationReportComponent implements OnInit {
           // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
         }),
       ]),
-
+      status: [""],
       name: ["", [Validators.required, Validators.maxLength(50)]],
       designation: ["", [Validators.required, Validators.maxLength(50)]],
     });
@@ -398,7 +398,8 @@ export class UtilisationReportComponent implements OnInit {
       controlValue.toFixed(2);
     }
     if (
-      this.projectExp != this.utilizationReport.controls.grantPosition.value.expDuringYr
+      this.projectExp !=
+      this.utilizationReport.controls.grantPosition.value.expDuringYr
     ) {
       this.isSumEqual = true;
     } else {
@@ -481,7 +482,8 @@ export class UtilisationReportComponent implements OnInit {
       }
     }
     if (
-      this.projectExp != this.utilizationReport.controls.grantPosition.value.expDuringYr
+      this.projectExp !=
+      this.utilizationReport.controls.grantPosition.value.expDuringYr
     ) {
       this.isSumEqual = true;
     } else {
@@ -492,89 +494,93 @@ export class UtilisationReportComponent implements OnInit {
     this.submitted = true;
     console.log(this.utilizationReport);
     //  console.log(this.utilizationReport.value);
-    let user_data = JSON.parse(localStorage.getItem('userData'));
+    let user_data = JSON.parse(localStorage.getItem("userData"));
 
     this.fd = this.utilizationReport.value;
     this.fd.isDraft = true;
     this.fd.financialYear = this.financialYear;
     this.fd.designYear = this.designYear;
-    this.fd.grantType = 'Tied';
+    this.fd.grantType = "Tied";
     this.fd.grantPosition.closingBal = this.totalclosingBal;
     this.fd.ulb = user_data.ulb;
     console.log(this.fd);
     let len = this.tabelRows.length;
     for (let i = 0; i < len; i++) {
       const control = this.tabelRows.controls[i]["controls"]["photos"];
-      console.log('prk', control.length);
+      console.log("prk", control.length);
       if (control.length == 0) {
         this.fd.isDraft = true;
         i = len;
-
       } else {
         this.fd.isDraft = false;
       }
-
     }
 
-    if (fromChange)
-      return
+    if (fromChange) return;
 
-    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+    if (
+      this.utilizationReport.valid &&
+      this.totalclosingBal >= 0 &&
+      !this.isSumEqual
+    ) {
       // this.fd.isDraft = false;
-      console.log('if')
-      console.log('api data', this.fd)
+      console.log("if");
+      console.log("api data", this.fd);
       this.apiCall(this.fd);
-      sessionStorage.setItem("canNavigate", "true")
-      console.log('form submitted', this.fd);
-
+      sessionStorage.setItem("canNavigate", "true");
+      console.log("form submitted", this.fd);
     } else {
-
       this.fd.isDraft = true;
       this.apiCall(this.fd);
-      sessionStorage.setItem("canNavigate", "true")
+      sessionStorage.setItem("canNavigate", "true");
     }
   }
   onSubmit() {
     alert("Submit and Next?");
   }
-  helpData
+  helpData;
   onPreview() {
-    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+    if (
+      this.utilizationReport.valid &&
+      this.totalclosingBal >= 0 &&
+      !this.isSumEqual
+    ) {
       this.isDraft = false;
-    } else if (this.isDraft == 'fail') {
+    } else if (this.isDraft == "fail") {
       this.isDraft = null;
-    }
-    else {
+    } else {
       this.isDraft = true;
     }
-    let user_data = JSON.parse(localStorage.getItem('userData'));
+    let user_data = JSON.parse(localStorage.getItem("userData"));
     this.helpData = this.utilizationReport.value;
     this.helpData.isDraft = true;
     this.helpData.financialYear = this.financialYear;
     this.helpData.designYear = this.designYear;
-    this.helpData.grantType = 'Tied';
+    this.helpData.grantType = "Tied";
     this.helpData.grantPosition.closingBal = this.totalclosingBal;
     this.helpData.ulb = user_data.ulb;
     // this.helpData.utilForm = this.utilizationForm
-    if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
+    if (
+      this.utilizationReport.valid &&
+      this.totalclosingBal >= 0 &&
+      !this.isSumEqual
+    ) {
       // this.fd.isDraft = false;
-      console.log(this.utilizationReport)
+      console.log(this.utilizationReport);
       let len = this.tabelRows.length;
       for (let i = 0; i < len; i++) {
         const control = this.tabelRows.controls[i]["controls"]["photos"];
-        console.log('prk', control.length);
+        console.log("prk", control.length);
         if (control.length == 0) {
           this.helpData.isDraft = true;
           i = len;
-
         } else {
           this.helpData.isDraft = false;
         }
-
       }
     }
-    console.log(this.utilizationForm)
-    console.log(this.utilizationReport)
+    console.log(this.utilizationForm);
+    console.log(this.utilizationReport);
     let formdata = {
       useData: this.helpData,
       isDraft: this.isDraft,
@@ -634,22 +640,8 @@ export class UtilisationReportComponent implements OnInit {
     this.tabelRows.push(
       this.fb.group({
         category: [null, Validators.required],
-        name: [
-          "",
-          [
-            Validators.required,
-            Validators.maxLength(50)
-
-          ],
-        ],
-        description: [
-          "",
-          [
-            Validators.required,
-            Validators.maxLength(200),
-
-          ],
-        ],
+        name: ["", [Validators.required, Validators.maxLength(50)]],
+        description: ["", [Validators.required, Validators.maxLength(200)]],
         photos: this.fb.array([
           // this.fb.group({
           //   url: ['']
@@ -736,7 +728,7 @@ export class UtilisationReportComponent implements OnInit {
   //   console.log(this.utilizationReport);
   // }
   apiCall(fd) {
-    console.log(fd)
+    console.log(fd);
     this.UtiReportService.createAndStorePost(fd).subscribe(
       (res) => {
         swal("Record submitted successfully!");
@@ -751,52 +743,52 @@ export class UtilisationReportComponent implements OnInit {
       }
     );
   }
-  clickedSave = false
+  clickedSave = false;
   clickedSaveAndNext(template1) {
-    this.clickedSave = true
-    sessionStorage.setItem("canNavigate", "true")
-    if(this.ulbId == null){
-      this.saveAndNext(template1)
-    }else{
+    this.clickedSave = true;
+    sessionStorage.setItem("canNavigate", "true");
+    if (this.ulbId == null) {
+      this.saveAndNext(template1);
+    } else {
       this.stateActionSave();
     }
-
   }
-  stateActionSave(){
+  stateActionSave() {
     let stateData;
-        stateData  = this.utilizationReport.value;
+    stateData = this.utilizationReport.value;
 
-        stateData.financialYear = this.financialYear;
-        stateData.designYear = this.designYear;
-        stateData.grantType = 'Tied';
-        stateData.grantPosition.closingBal = this.totalclosingBal;
-        stateData.ulb = this.ulbId
-        stateData.status = this.ulbFormStaus
-        if(this.ulbFormStaus == 'APPROVED' || (this.ulbFormStaus == 'REJECTED' && this.ulbFormRejectR != null)){
-          stateData.isDraft = false;
-        }else{
-          stateData.isDraft = true;
-        }
-        stateData.rejectReason = this.ulbFormRejectR;
+    stateData.financialYear = this.financialYear;
+    stateData.designYear = this.designYear;
+    stateData.grantType = "Tied";
+    stateData.grantPosition.closingBal = this.totalclosingBal;
+    stateData.ulb = this.ulbId;
+    stateData.status = this.ulbFormStaus;
+    if (
+      this.ulbFormStaus == "APPROVED" ||
+      (this.ulbFormStaus == "REJECTED" && this.ulbFormRejectR != null)
+    ) {
+      stateData.isDraft = false;
+    } else {
+      stateData.isDraft = true;
+    }
+    stateData.rejectReason = this.ulbFormRejectR;
 
-        this.UtiReportService.stateActionPost(stateData).subscribe(
-          (res) => {
-            swal("Record submitted successfully!");
-            // const status = JSON.parse(sessionStorage.getItem("allStatus"));
-            // status.utilReport.isSubmit = res["isCompleted"];
-            // this._ulbformService.allStatus.next(status);
-          },
-          (error) => {
-            swal("An error occured!");
-            this.errMessage = error.message;
-            console.log(this.errMessage);
-          }
-        );
-
+    this.UtiReportService.stateActionPost(stateData).subscribe(
+      (res) => {
+        swal("Record submitted successfully!");
+        // const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        // status.utilReport.isSubmit = res["isCompleted"];
+        // this._ulbformService.allStatus.next(status);
+      },
+      (error) => {
+        swal("An error occured!");
+        this.errMessage = error.message;
+        console.log(this.errMessage);
+      }
+    );
   }
   saveAndNext(template1) {
-
-    let canNavigate = sessionStorage.getItem("canNavigate")
+    let canNavigate = sessionStorage.getItem("canNavigate");
     if (canNavigate === "true" && this.clickedSave == false) {
       this._router.navigate(["ulbform/annual_acc"]);
       return;
@@ -804,23 +796,27 @@ export class UtilisationReportComponent implements OnInit {
       this.submitted = true;
       console.log(this.utilizationReport);
       //  console.log(this.utilizationReport.value);
-      let user_data = JSON.parse(localStorage.getItem('userData'));
+      let user_data = JSON.parse(localStorage.getItem("userData"));
 
       this.fd = this.utilizationReport.value;
       this.fd.isDraft = true;
       this.fd.financialYear = this.financialYear;
       this.fd.designYear = this.designYear;
-      this.fd.grantType = 'Tied';
+      this.fd.grantType = "Tied";
       this.fd.grantPosition.closingBal = this.totalclosingBal;
       this.fd.ulb = user_data.ulb;
-      if (this.utilizationReport.valid && this.totalclosingBal >= 0 && !this.isSumEqual) {
-        console.log('entered valid form')
+      if (
+        this.utilizationReport.valid &&
+        this.totalclosingBal >= 0 &&
+        !this.isSumEqual
+      ) {
+        console.log("entered valid form");
         // this.fd.isDraft = false;
         console.log(this.fd);
         let len = this.tabelRows.length;
         for (let i = 0; i < len; i++) {
           const control = this.tabelRows.controls[i]["controls"]["photos"];
-          console.log('prk', control.length);
+          console.log("prk", control.length);
           if (control.length == 0) {
             this.fd.isDraft = true;
             i = len;
@@ -828,32 +824,29 @@ export class UtilisationReportComponent implements OnInit {
             this.fd.isDraft = false;
           }
         }
-        console.log('api data', this.fd)
+        console.log("api data", this.fd);
         this.apiCall(this.fd);
-        sessionStorage.setItem("canNavigate", "true")
-        console.log('form submitted', this.fd);
+        sessionStorage.setItem("canNavigate", "true");
+        console.log("form submitted", this.fd);
         this._router.navigate(["ulbform/annual_acc"]);
         return;
       } else {
-        console.log('entered invalid form')
+        console.log("entered invalid form");
         this.openDialogBox(template1);
-        return
+        return;
       }
-
     }
-
   }
 
   previewClicked() {
     this.onPreview();
   }
 
-  dialogReference
+  dialogReference;
   openDialogBox(template) {
     const dialogConfig = new MatDialogConfig();
     this.dialogReference = this._matDialog.open(template, dialogConfig);
   }
-
 
   stay() {
     this.dialogReference.close();
@@ -862,14 +855,13 @@ export class UtilisationReportComponent implements OnInit {
     }
   }
 
-
   async proceed() {
     await this._matDialog.closeAll();
     let canNavigate = sessionStorage.getItem("canNavigate");
     if (this.clickedSave) {
       await this.submitData();
-      sessionStorage.setItem("canNavigate", "true")
-      this._router.navigate(["ulbform/annual_acc"])
+      sessionStorage.setItem("canNavigate", "true");
+      this._router.navigate(["ulbform/annual_acc"]);
       return;
     }
     if (this.routerNavigate && canNavigate === "true") {
@@ -887,7 +879,7 @@ export class UtilisationReportComponent implements OnInit {
     console.log(this.fd);
     console.log("form submitted", this.fd);
     this.apiCall(this.fd);
-    sessionStorage.setItem("canNavigate", "true")
+    sessionStorage.setItem("canNavigate", "true");
     return this._router.navigate(["ulbform/annual_acc"]);
   }
   alertClose() {
@@ -1035,11 +1027,11 @@ export class UtilisationReportComponent implements OnInit {
             //     fileIndex
             //   );
             // });
-            swal('Photo uploaded successfully.');
+            swal("Photo uploaded successfully.");
           }
         },
         (err) => {
-          console.log(err)
+          console.log(err);
           this.fileUploadTracker[fileIndex].status = "FAILED";
         }
       );
@@ -1140,7 +1132,7 @@ export class UtilisationReportComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.setLocation = result
+      this.setLocation = result;
       if (this.setLocation !== null) {
         this.tabelRows.controls[index][
           "controls"
@@ -1152,8 +1144,8 @@ export class UtilisationReportComponent implements OnInit {
     });
   }
 
-  checkStatus(ev){
-    console.log('actionValues', ev);
+  checkStatus(ev) {
+    console.log("actionValues", ev);
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
   }
