@@ -55,7 +55,7 @@ td, th{
 
 .header-p {
   background-color: #047474;
-  height: 85px;
+  height: 75px;
   text-align: center;
 }
 .heading-p {
@@ -66,16 +66,16 @@ td, th{
 
 }
 .sub-h {
-font-weight: 600 !important;
-font-size: 14px;
+  font-weight: 700 !important;
+   font-size: 14px;
 }
 
 .form-h {
 font-size: 15px;
 font-weight: 700;
-margin-bottom: 1rem;
 text-align: center;
 }
+
 
 .h-ut{
   font-size: 10px !important;
@@ -233,7 +233,6 @@ width: 5% !important;
 .form-status-ut {
   font-size: 10px;
   margin-top: 10px;
-  margin-bottom: 30px;
 
 }
 .d-status{

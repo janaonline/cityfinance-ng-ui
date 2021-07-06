@@ -44,7 +44,7 @@ import { UtilreportListComponent } from './state-dashboard/utilreport-list/utilr
 import { PlansListComponent } from './state-dashboard/plans-list/plans-list.component';
 import { PfmsListComponent } from './state-dashboard/pfms-list/pfms-list.component';
 import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component';
-import { MohuaDashboardComponent } from './mohua-dashboard/mohua-dashboard.component';
+
 import { ChartsModule } from 'ng2-charts';
 @NgModule({
   entryComponents: [OverallListComponent],
@@ -81,7 +81,7 @@ import { ChartsModule } from 'ng2-charts';
     // UtilReportListComponent
     LinkPFMSComponent,
     PfmsPreviewComponent,
-    MohuaDashboardComponent,
+
 
   ],
   imports: [

@@ -63,7 +63,7 @@ export class PreviewSlbComponentComponent implements OnInit {
   USER_TYPES = USER_TYPE;
   Years = JSON.parse(localStorage.getItem("Years"));
   userDetails = new UserUtility().getLoggedInUserDetails();
-
+  userData = JSON.parse(localStorage.getItem("userData"));
   styleForPDF = `<style>
   :root {
     font-size: 14px;
@@ -77,6 +77,9 @@ export class PreviewSlbComponentComponent implements OnInit {
     font-weight: 700;
 
   }
+  .slb-pd {
+    padding: 2% 0% 2.5% 0%;
+}
   table tbody tr {
     border: 100px solid black;
   }
