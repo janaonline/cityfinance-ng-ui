@@ -53,30 +53,29 @@ export class UlbformComponent implements OnInit {
       } else {
       }
     });
-    this.takeStateAction = localStorage.getItem('takeStateAction');
+    this.takeStateAction = localStorage.getItem("takeStateAction");
     this.accessGrant();
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-     switch (this.userLoggedInDetails.role) {
-       case USER_TYPE.ULB:
-           this.backHeader = "15FC Grants for 2021-22";
-           this.backLink = "../fc-home-page";
-           break;
-       case USER_TYPE.STATE:
-           this.backHeader = "State Dashboard";
-           this.backLink = "../stateform/dashboard";
-           break;
-       case USER_TYPE.MoHUA:
-          this.backHeader = "MoHUA Dashboard";
-          this.backLink = "../mohua/dashboard";
-          break;
-        case USER_TYPE.ADMIN:
-          this.backHeader = "Admin Dashboard";
-          this.backLink = "../ulbAdmin";
-          break;
-        //case USER_TYPE.PARTNER:
-
+    switch (this.userLoggedInDetails.role) {
+      case USER_TYPE.ULB:
+        this.backHeader = "15FC Grants for 2021-22";
+        this.backLink = "../fc-home-page";
+        break;
+      case USER_TYPE.STATE:
+        this.backHeader = "State Dashboard";
+        this.backLink = "../stateform/dashboard";
+        break;
+      case USER_TYPE.MoHUA:
+        this.backHeader = "MoHUA Dashboard";
+        this.backLink = "../mohua/dashboard";
+        break;
+      case USER_TYPE.ADMIN:
+        this.backHeader = "Admin Dashboard";
+        this.backLink = "../ulbAdmin";
+        break;
+      //case USER_TYPE.PARTNER:
     }
   }
 
@@ -99,32 +98,24 @@ export class UlbformComponent implements OnInit {
 
   async ngOnInit() {
     this.ulbformService.allStatus.subscribe((status) => {
+      const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
       for (const key in status) {
         this.allStatus[key] = status[key];
-        // if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
-        //   this.allStatus[key].isSubmit = false;
-        // }
-        // if (
-        //   this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
-        //   this.userLoggedInDetails.role == "ULB"
-        // ) {
-        //   this.allStatus[key].isSubmit = true;
-        //   if(this.allStatus[key].status == "REJECTED")
-        //   this.allStatus[key].isSubmit = false;
-        // }
-        // if (
-        //   this.lastRoleInMasterForm == "MoHUA" &&
-        //   this.userLoggedInDetails.role == "STATE"
-        // ) {
-        //   this.allStatus[key].isSubmit = true;
-        // }
+        if (
+          (this.userLoggedInDetails.role == this.userTypes.STATE ||
+            this.userLoggedInDetails.role == this.userTypes.MoHUA) &&
+          eligibleForms.includes(key)
+        ) {
+          if (this.allStatus[key].status == "PENDING")
+            this.allStatus[key].isSubmit = false;
+        }
       }
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
       console.log("red this", this.allStatus);
       if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
       }
-      this.checkActionFinal();
+      if (!this.finalActionDis) this.checkActionFinal();
     });
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
@@ -155,14 +146,23 @@ export class UlbformComponent implements OnInit {
           this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
           this.userLoggedInDetails.role == "ULB"
         )
-          this.submitted = !this.submitted;
-        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
-        console.log("here");
+          localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        console.log("here", res["response"]);
 
-        // if(finalSubmit == true && res["response"].actionTakenByRole == 'STATE'
-        //  && (res["response"].status == 'APPROVED'|| res["response"].status =='REJECTED')){
-        //    this.finalActionDis = false;
-        //  }
+        if (
+          (res["response"].actionTakenByUserRole == "ULB" &&
+            res["response"].isSubmit == true) ||
+          (res["response"].actionTakenByUserRole == "STATE" &&
+            res["response"].isSubmit == false)
+        ) {
+          this.takeStateAction = "true";
+        }
+        localStorage.setItem("takeStateAction", this.takeStateAction);
+        if (
+          res["response"].isSubmit &&
+          res["response"].actionTakenByUserRole === this.userTypes.STATE
+        )
+          this.finalActionDis = true;
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -268,9 +268,7 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
-
     } else {
-
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
@@ -303,23 +301,11 @@ export class UlbformComponent implements OnInit {
     const dialogRef = this.dialog.open(UlbformPreviewComponent, {
       data: this.allFormsData,
       width: "85vw",
-      //   maxHeight: "95vh",
       height: "100%",
       panelClass: "no-padding-dialog",
     });
-    // this.hidden = false;
-    dialogRef.afterClosed().subscribe((result) => {
-      // console.log(`Dialog result: ${result}`);
-      //   this.hidden = true;
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
-  // this._matDialog.open(this.previewPopup, {
-  //   width: "85vw",
-  //   maxHeight: "95vh",
-  //   height: "fit-content",
-  //   panelClass: "XVfc-preview",
-  //   disableClose: false,
-  // });
   submitted = false;
   finalSubmit() {
     let data = {
@@ -415,12 +401,6 @@ export class UlbformComponent implements OnInit {
         actionStatus = "APPROVED";
       }
     }
-    // for (let key in this.currentActionStatus) {
-    //   if (this.currentActionStatus[key] == 'APPROVED') {
-    //     console.log('con if',this.currentActionStatus[key]);
-    //     this.finalActionDis = true;
-    //   }
-    // }
 
     let actionBody = {
       status: actionStatus,
@@ -434,6 +414,7 @@ export class UlbformComponent implements OnInit {
       (res) => {
         console.log(res);
         swal("Action Successfully Submitted");
+        this.finalActionDis = true;
       },
       (err) => {
         console.log(err);
