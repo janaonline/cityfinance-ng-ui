@@ -160,6 +160,7 @@ export class SlbsComponent implements OnInit {
   value;
   postSlbData(value) {
     console.log(value);
+    console.log('slb check........', value);
     this.value = value;
     let data = {
       design_year: this.Years["2021-22"],
@@ -386,7 +387,7 @@ export class SlbsComponent implements OnInit {
       waterPotability: {
         documents: {
           waterPotabilityPlan: [
-            this.statePostData.data[0].waterPotability.documents.waterPotabilityPlan
+            this.statePostData.data[0].waterPotability.documents.waterPotabilityPlan[0]
           ]
         }
       },

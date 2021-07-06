@@ -21,8 +21,6 @@ const swal: SweetAlert = require("sweetalert");
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   dialogRef;
-  finalSubmitStatus;
-  isDisabled = false;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
     public dialog: MatDialog,
@@ -33,16 +31,15 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   ) {
     super();
-    this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
-    switch (this.loggedInUserType) {
-      // case USER_TYPE.ULB:
-      case USER_TYPE.STATE:
-      case USER_TYPE.PARTNER:
-      case USER_TYPE.MoHUA:
-      case USER_TYPE.ADMIN:
-          this.isDisabled = true
-       break;
-    }
+    // switch (this.loggedInUserType) {
+    //   // case USER_TYPE.ULB:
+    //   case USER_TYPE.STATE:
+    //   case USER_TYPE.PARTNER:
+    //   case USER_TYPE.MoHUA:
+    //   case USER_TYPE.ADMIN:
+    //  this._router.navigate(["/fc-home-page"]);
+    //  break;
+
     this._router.events.subscribe(async (event: Event) => {
       if (!this.saveClicked && !this.backClicked) {
         if (event instanceof NavigationStart) {
@@ -73,7 +70,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   account = '';
   linked = '';
   routerNavigate = null
-
+  isDisabled = false;
   backClicked = false;
 
 
@@ -83,10 +80,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.backClicked = false;
     this.saveClicked = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
-    this.onLoad(ulb_id);
-    if (this.finalSubmitStatus == 'true') {
+    if (ulb_id != null) {
       this.isDisabled = true;
     }
+    this.onLoad(ulb_id);
 
 
   }
@@ -296,8 +293,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       "linked": this.fd.linked
     };
     this.gotData = {
-      "account": pfmsAccounts.response.account,
-      "linked": pfmsAccounts.response.linked
+      "account": pfmsAccounts?.response.account,
+      "linked": pfmsAccounts?.response.linked
     }
 
 
