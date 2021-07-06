@@ -24,6 +24,7 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./water-rejenuvation.component.scss"],
 })
 export class WaterRejenuvationComponent implements OnInit {
+  actionRes;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvationService,
@@ -209,6 +210,8 @@ export class WaterRejenuvationComponent implements OnInit {
           this.isDraft = res["data"].isDraft;
           this.storeData(res["data"]);
           this.showLoader = false;
+          console.log('water rej data', this.data);
+
           resolve("ss");
         },
         (err) => {
@@ -554,5 +557,8 @@ export class WaterRejenuvationComponent implements OnInit {
       projectRow.controls[val].invalid &&
       (projectRow.controls[val].dirty || projectRow.controls[val].touched)
     );
+  }
+  checkStatus(ev){
+   console.log('mohua action in state', ev)
   }
 }

@@ -27,6 +27,7 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
   dialogRef;
+  actionRes;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
     public dialog: MatDialog,
@@ -182,5 +183,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.data.isDraft = true;
     }
     this.checkDiff()
+  }
+  checkStatus(ev){
+    console.log('state pfms action', ev)
+
   }
 }
