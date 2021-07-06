@@ -231,7 +231,7 @@ export class GTCertificateComponent implements OnInit {
         pdfUrl: this.nonMillionUntiedFileUrl,
         pdfName: this.fileName_nonMillionUntied
       },
-      isCompleted: false
+      isDraft: true
     };
     let changeHappen = sessionStorage.getItem("changeInGTC")
     if (changeHappen == "false") {
@@ -243,7 +243,7 @@ export class GTCertificateComponent implements OnInit {
         this.nonMillionTiedFileUrl != '' &&
         this.nonMillionUntiedFileUrl != ''
       ) {
-        this.uploadedFiles.isCompleted = true
+        this.uploadedFiles.isDraft = false
         this.postsDataCall(this.uploadedFiles);
 
       }
@@ -443,7 +443,7 @@ export class GTCertificateComponent implements OnInit {
         pdfUrl: this.nonMillionUntiedFileUrl,
         pdfName: this.fileName_nonMillionUntied
       },
-      isCompleted: false
+      isDraft: true
     };
     const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
       {

@@ -4,8 +4,8 @@ import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-// import { ReviewUlbService } from './review-ulb.service'
-import { StateformsService } from '../../stateforms/stateforms.service'
+import { ReviewStateService } from './review-state.service'
+
 @Component({
   selector: 'app-review-state',
   templateUrl: './review-state.component.html',
@@ -31,9 +31,30 @@ export class ReviewStateComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
-  constructor() { }
+  formData
+  constructor(
+    private reviewStateService: ReviewStateService,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
+    this.onLoad();
+  }
+
+  onLoad() {
+    this.reviewStateService.getData().subscribe(
+      (res) => {
+        this.nodataFound = false;
+        if (res['data'].length == 0) {
+          this.nodataFound = true;
+        }
+        let resData: any = res
+        this.tabelData = resData.data;
+        console.log('tabelData', this.tabelData)
+      },
+      (err) => {
+        console.log(err)
+      })
   }
 
   setPage(pageNoClick: number) {
@@ -41,6 +62,35 @@ export class ReviewStateComponent implements OnInit {
     this.listFetchOption.skip =
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
+  }
+  historyData
+  noHistoryDataFound = false
+  viewHistory(template, formId) {
+    console.log(formId)
+    this.noHistoryDataFound = false
+    this.reviewStateService.getHistoryData(formId).subscribe(
+      (res) => {
+        this.historyData = res['data']
+        if (this.historyData.length == 0) {
+          this.noHistoryDataFound = true
+        }
+        console.log(this.historyData)
+      },
+      (err) => {
+        console.log(err.message)
+      })
+
+    this.openDialog(template)
+  }
+  openDialog(template) {
+
+    let dialogRef = this.dialog.open(template, {
+      height: "auto",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }
