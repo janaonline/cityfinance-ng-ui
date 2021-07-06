@@ -45,12 +45,12 @@ export class StateformsComponent implements OnInit {
       //   break;
         // case USER_TYPE.PARTNER:
         // case USER_TYPE.ADMIN:
-        case undefined:
-        case null:
-          return;
-        default:
-          this._router.navigate(["/home"]);
-          break;
+        // case undefined:
+        // case null:
+        //   return;
+        // default:
+        //   this._router.navigate(["/home"]);
+        //   break;
       }
     }
 
