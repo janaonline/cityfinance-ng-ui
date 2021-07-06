@@ -101,27 +101,27 @@ export class UlbformComponent implements OnInit {
     this.ulbformService.allStatus.subscribe((status) => {
       for (const key in status) {
         this.allStatus[key] = status[key];
-        if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
-          this.allStatus[key].isSubmit = false;
-        }
-        if (
-          this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
-          this.userLoggedInDetails.role == "ULB"
-        ) {
-          this.allStatus[key].isSubmit = true;
-          if(this.allStatus[key].status == "REJECTED")
-          this.allStatus[key].isSubmit = false;
-        }
-        if (
-          this.lastRoleInMasterForm == "MoHUA" &&
-          this.userLoggedInDetails.role == "STATE"
-        ) {
-          this.allStatus[key].isSubmit = true;
-        }
+        // if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
+        //   this.allStatus[key].isSubmit = false;
+        // }
+        // if (
+        //   this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
+        //   this.userLoggedInDetails.role == "ULB"
+        // ) {
+        //   this.allStatus[key].isSubmit = true;
+        //   if(this.allStatus[key].status == "REJECTED")
+        //   this.allStatus[key].isSubmit = false;
+        // }
+        // if (
+        //   this.lastRoleInMasterForm == "MoHUA" &&
+        //   this.userLoggedInDetails.role == "STATE"
+        // ) {
+        //   this.allStatus[key].isSubmit = true;
+        // }
       }
       sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
       console.log("red this", this.allStatus);
-      if(this.userLoggedInDetails.role === USER_TYPE.ULB){
+      if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
       }
       this.checkActionFinal();
@@ -129,7 +129,7 @@ export class UlbformComponent implements OnInit {
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
-      console.log('allformStatus', data)
+      console.log("allformStatus", data);
     });
     this.getStatus();
     this.getAllForm();
@@ -183,70 +183,82 @@ export class UlbformComponent implements OnInit {
       )
       .subscribe((res) => {
         this.ulbformService.allFormsData.next(res[0]);
-
       });
   }
-  checkActionFinal(){
-    const eligibleActionForms = JSON.parse(sessionStorage.getItem("eligibleActionForms"));
-    console.log('dcfe fvf', eligibleActionForms, this.allStatus);
+  checkActionFinal() {
+    const eligibleActionForms = JSON.parse(
+      sessionStorage.getItem("eligibleActionForms")
+    );
+    console.log("dcfe fvf", eligibleActionForms, this.allStatus);
     this.finalActionDis = true;
     eligibleActionForms.forEach((element) => {
       for (let key in this.allStatus) {
-       console.log('keygbnm', this.allStatus[key]['status']);
-        if(element === "Utilization Report" && key === "utilReport"){
-          if ( this.allStatus['utilReport']['isSubmit'] === true && this.allStatus['utilReport']['status'] != 'PENDING') {
-            console.log('0');
+        console.log("keygbnm", this.allStatus[key]["status"]);
+        if (element === "Utilization Report" && key === "utilReport") {
+          if (
+            this.allStatus["utilReport"]["isSubmit"] === true &&
+            this.allStatus["utilReport"]["status"] != "PENDING"
+          ) {
+            console.log("0");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
             this.finalActionDis = false;
             return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
-        }else if(element === "Annual Acconts" && key === "annualAccounts"){
-          if ( this.allStatus['annualAccounts']['isSubmit'] === true &&
-          this.allStatus['annualAccounts']['status'] != 'PENDING') {
-           console.log('1');
-           this.currentActionStatus[key] = this.allStatus[key]["status"];
+        } else if (element === "Annual Acconts" && key === "annualAccounts") {
+          if (
+            this.allStatus["annualAccounts"]["isSubmit"] === true &&
+            this.allStatus["annualAccounts"]["status"] != "PENDING"
+          ) {
+            console.log("1");
+            this.currentActionStatus[key] = this.allStatus[key]["status"];
             this.finalActionDis = false;
-            return
+            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
-        }
-        else if (element === "slbs" && key === "slbForWaterSupplyAndSanitation"){
-          if ( this.allStatus['slbForWaterSupplyAndSanitation']['isSubmit'] === true &&
-          this.allStatus['slbForWaterSupplyAndSanitation']['status'] != 'PENDING') {
-           // console.log('action form is submit',element, key['isSubmit'], key['status']);
-            console.log('2');
+        } else if (
+          element === "slbs" &&
+          key === "slbForWaterSupplyAndSanitation"
+        ) {
+          if (
+            this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
+              true &&
+            this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
+              "PENDING"
+          ) {
+            // console.log('action form is submit',element, key['isSubmit'], key['status']);
+            console.log("2");
             this.finalActionDis = false;
             this.currentActionStatus[key] = this.allStatus[key]["status"];
-            return
+            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
-        }
-        else if (element === "Plan water sanitation" && key === "plans") {
-          if ( this.allStatus['slbForWaterSupplyAndSanitation']['isSubmit'] === true &&
-           this.allStatus['slbForWaterSupplyAndSanitation']['status'] != 'PENDING') {
-           // console.log('action form is submit',element, key['isSubmit'], key['status']);
-           console.log('3');
-           this.currentActionStatus[key] = this.allStatus[key]["status"];
+        } else if (element === "Plan water sanitation" && key === "plans") {
+          if (
+            this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
+              true &&
+            this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
+              "PENDING"
+          ) {
+            // console.log('action form is submit',element, key['isSubmit'], key['status']);
+            console.log("3");
+            this.currentActionStatus[key] = this.allStatus[key]["status"];
             this.finalActionDis = false;
-            return
+            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
         }
-
       }
-    }
-    )
-    console.log('reqdddstatus', this.requiredActionStatus);
-    console.log('current st', this.currentActionStatus );
+    });
+    console.log("reqdddstatus", this.requiredActionStatus);
+    console.log("current st", this.currentActionStatus);
 
     for (let key in this.requiredActionStatus) {
-      if (this.requiredActionStatus[key] == 'PENDING') {
-        console.log('con if',this.requiredActionStatus[key]);
+      if (this.requiredActionStatus[key] == "PENDING") {
+        console.log("con if", this.requiredActionStatus[key]);
         this.finalActionDis = true;
       }
     }
-
   }
   public accessGrant() {
     this.ulbId = sessionStorage.getItem("ulb_id");
@@ -337,7 +349,6 @@ export class UlbformComponent implements OnInit {
   }
 
   checkValidationStatusOfAllForms() {
-
     const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
     this.validate = true;
     let requiredStatus = {};
@@ -394,24 +405,30 @@ export class UlbformComponent implements OnInit {
     console.log("validate", this.validate);
   }
   finalStateAction() {
-    let actionStatus = 'PENDING'
+    let actionStatus = "PENDING";
     for (let key in this.currentActionStatus) {
-      if (this.currentActionStatus[key] == 'REJECTED') {
-        console.log('con if',this.currentActionStatus[key]);
-        actionStatus =  'REJECTED'
+      if (this.currentActionStatus[key] == "REJECTED") {
+        console.log("con if", this.currentActionStatus[key]);
+        actionStatus = "REJECTED";
         break;
-      }else{
-        actionStatus =  'APPROVED'
+      } else {
+        actionStatus = "APPROVED";
       }
     }
+    // for (let key in this.currentActionStatus) {
+    //   if (this.currentActionStatus[key] == 'APPROVED') {
+    //     console.log('con if',this.currentActionStatus[key]);
+    //     this.finalActionDis = true;
+    //   }
+    // }
 
-   let actionBody =
-   {
-     "status" : actionStatus,
-     "isSubmit" : true,
-     "ulb" : this.ulbId
-    }
-    console.log('actionbody.....', actionBody);
+    let actionBody = {
+      status: actionStatus,
+      isSubmit: true,
+      ulb: this.ulbId,
+      design_year: this.design_year,
+    };
+    console.log("send", actionBody);
 
     this.ulbformService.postFinalActionByState(actionBody).subscribe(
       (res) => {
