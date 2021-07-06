@@ -77,6 +77,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.isDisabled = true;
     }
     this.onLoad(state_id);
+
   }
 
   saveAndNextValue(template1) {

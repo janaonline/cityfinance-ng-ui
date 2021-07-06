@@ -21,6 +21,8 @@ const swal: SweetAlert = require("sweetalert");
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   dialogRef;
+  finalSubmitStatus;
+  takeStateAction;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
     public dialog: MatDialog,
@@ -31,6 +33,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   ) {
     super();
+    this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
+    this.takeStateAction = localStorage.getItem("takeStateAction");
     // switch (this.loggedInUserType) {
     //   // case USER_TYPE.ULB:
     //   case USER_TYPE.STATE:
@@ -81,6 +85,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.saveClicked = false;
     let ulb_id = sessionStorage.getItem('ulb_id');
     if (ulb_id != null) {
+      this.isDisabled = true;
+    }
+    if((this.takeStateAction == 'true') || (this.finalSubmitStatus == 'true')){
       this.isDisabled = true;
     }
     this.onLoad(ulb_id);
