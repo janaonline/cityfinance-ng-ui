@@ -9,6 +9,8 @@ const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 @Component({
   selector: "app-grant-allocation",
@@ -16,6 +18,11 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
   styleUrls: ["./grant-allocation.component.scss"],
 })
 export class GrantAllocationComponent implements OnInit {
+
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
+  isDisabled = false;
   constructor(
     private dataEntryService: DataEntryService,
     private _gAservices: GAservicesService,
@@ -40,6 +47,14 @@ export class GrantAllocationComponent implements OnInit {
         }
       }
     });
+    switch (this.loggedInUserType) {
+      case USER_TYPE.ULB:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.ADMIN:
+      case USER_TYPE.MoHUA:
+        this.isDisabled = true;
+        break;
+    }
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;

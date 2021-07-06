@@ -393,7 +393,7 @@ export class SlbsComponent implements OnInit {
       waterPotability: {
         documents: {
           waterPotabilityPlan: [
-            this.statePostData.data[0].waterPotabilityPlan
+            this.statePostData.data[0].waterPotability.documents.waterPotabilityPlan
           ]
         }
       },

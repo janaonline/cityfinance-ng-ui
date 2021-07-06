@@ -34,6 +34,7 @@ export class UlbformComponent implements OnInit {
   finalActionDis = true;
   requiredActionStatus = {};
   currentActionStatus = {};
+  takeStateAction;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -52,6 +53,7 @@ export class UlbformComponent implements OnInit {
       } else {
       }
     });
+    this.takeStateAction = localStorage.getItem('takeStateAction');
     this.accessGrant();
     this.initializeUserType();
     this.fetchStateList();
