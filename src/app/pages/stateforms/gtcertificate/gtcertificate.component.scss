@@ -1,8 +1,8 @@
 .btnUpload {
-        background-color: #059b9a;
-        margin-left: 1pc;
-        margin-bottom: 1pc;
-        color: white; 
+    background-color: #059b9a;
+    margin-left: 1pc;
+    margin-bottom: 1pc;
+    color: white;
 }
 
 .btnUpload:hover {
@@ -67,4 +67,8 @@
 
 .pr-btn {
     width: 9rem;
+}
+
+a.anDisable {
+    pointer-events: none;
 }

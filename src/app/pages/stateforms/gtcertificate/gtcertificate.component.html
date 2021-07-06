@@ -27,12 +27,12 @@
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
 
                         <label for="cin">
-                            <a class=" btn btnUpload" (click)="uploadButtonClicked()">Upload Pdf
+                            <a class="btn btnUpload" (click)="uploadButtonClicked()" [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                         </label>
-                        <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')" accept=".pdf" />
+                        <input id="cin" name="cin" type="file" [disabled]="isDisabled" (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')" accept=".pdf" />
                     </div>
                 </div>
                 <span style="color: red;" *ngIf="millionTiedFileUrl == '' && submitted">
@@ -61,7 +61,7 @@
                                     <a href="{{ millionTiedFileUrl }}" target="_blank">
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                     </a>
-                                    <a (click)="clearFiles('fileName_millionTied')" style="margin-left: 4px;">
+                                    <a (click)="clearFiles('fileName_millionTied')" [ngClass]="{'anDisable': isDisabled }" style="margin-left: 4px;">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
@@ -81,12 +81,12 @@
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
 
                         <label for="cind">
-                            <a class="btn btnUpload" (click)="uploadButtonClicked()">Upload Pdf
+                            <a class="btn btnUpload" (click)="uploadButtonClicked()" [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                         </label>
-                        <input id="cind" name="cind" type="file" (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')" accept=".pdf" />
+                        <input id="cind" name="cind" type="file" [disabled]="isDisabled" (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')" accept=".pdf" />
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;">
+                                    <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
@@ -131,12 +131,12 @@
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
                         <label for="cinde">
-                            <a class="btn btnUpload" (click)="uploadButtonClicked()">Upload Pdf
+                            <a class="btn btnUpload" (click)="uploadButtonClicked()" [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                         </label>
-                        <input id="cinde" name="cinde" type="file" (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')" accept=".pdf" />
+                        <input id="cinde" [disabled]="isDisabled" name="cinde" type="file" (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')" accept=".pdf" />
                     </div>
                 </div>
 
@@ -164,7 +164,7 @@
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;">
+                                    <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
@@ -182,7 +182,7 @@
                 <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{change == 'true' ?
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)" [disabled]="isDisabled">{{change == 'true' ?
                     'SAVE AND
                     NEXT': 'NEXT'}}</button>
             </div>

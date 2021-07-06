@@ -26,9 +26,32 @@ export class StateformsComponent implements OnInit {
     private profileService: ProfileService,
     private _router: Router
     ) {
+
+
       this.initializeUserType();
       this.fetchStateList();
       this.initializeLoggedInUserDataFetch();
+      console.log('login,usertype',this.loggedInUserType, this.userTypes);
+      switch (this.loggedInUserType) {
+        case USER_TYPE.ULB:
+          this._router.navigate(["/home"]);
+        //  this._router.navigate(["/ulbform/overview"]);
+              break;
+       // case USER_TYPE.STATE:
+          //   this._router.navigate(["/stateform/dashboard"]);
+          // break;
+      //  case USER_TYPE.MoHUA:
+      //   this._router.navigate(["/mohua/dashboard"]);
+      //   break;
+        // case USER_TYPE.PARTNER:
+        // case USER_TYPE.ADMIN:
+        case undefined:
+        case null:
+          return;
+        default:
+          this._router.navigate(["/home"]);
+          break;
+      }
     }
 
   ngOnInit(): void {

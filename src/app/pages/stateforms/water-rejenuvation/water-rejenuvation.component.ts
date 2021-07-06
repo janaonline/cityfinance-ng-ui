@@ -15,7 +15,8 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
-
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",

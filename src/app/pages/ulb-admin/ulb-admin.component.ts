@@ -35,10 +35,12 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
       case USER_TYPE.STATE:
           this._router.navigate(["/stateform/dashboard"]);
         break;
+     case USER_TYPE.MoHUA:
+      this._router.navigate(["/mohua/dashboard"]);
+      break;
       // case USER_TYPE.PARTNER:
-      // case USER_TYPE.MoHUA:
-      // case USER_TYPE.ADMIN:
 
+      // case USER_TYPE.ADMIN:
       // case undefined:
       // case null:
       //   return;

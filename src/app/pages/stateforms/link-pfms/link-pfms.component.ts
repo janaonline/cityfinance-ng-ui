@@ -15,6 +15,9 @@ import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
+
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({

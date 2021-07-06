@@ -56,14 +56,26 @@ export class UlbformComponent implements OnInit {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-    //  switch (this.userLoggedInDetails.role) {
-    //    case USER_TYPE.ULB:
+     switch (this.userLoggedInDetails.role) {
+       case USER_TYPE.ULB:
+           this.backHeader = "15FC Grants for 2021-22";
+           this.backLink = "../fc-home-page";
+           break;
+       case USER_TYPE.STATE:
+           this.backHeader = "State Dashboard";
+           this.backLink = "../stateform/dashboard";
+           break;
+       case USER_TYPE.MoHUA:
+          this.backHeader = "MoHUA Dashboard";
+          this.backLink = "../mohua/dashboard";
+          break;
+        case USER_TYPE.ADMIN:
+          this.backHeader = "Admin Dashboard";
+          this.backLink = "../ulbAdmin";
+          break;
+        //case USER_TYPE.PARTNER:
 
-    //     case USER_TYPE.PARTNER:
-    //     case USER_TYPE.MoHUA:
-    //     case USER_TYPE.ADMIN:
-    //       this._router.navigate(["/fc-home-page"]);
-    // }
+    }
   }
 
   private fetchStateList() {
@@ -242,11 +254,9 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
-      this.backHeader = "15FC Grants for 2021-22";
-      this.backLink = "../fc-home-page";
+
     } else {
-      this.backHeader = "State Dashboard";
-      this.backLink = "../stateform/dashboard";
+
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
@@ -325,7 +335,7 @@ export class UlbformComponent implements OnInit {
   }
 
   checkValidationStatusOfAllForms() {
-    debugger
+
     const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
     this.validate = true;
     let requiredStatus = {};
