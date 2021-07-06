@@ -116,7 +116,8 @@ export class GTCertificateComponent implements OnInit {
     });
   }
 
-
+  disableAllForms = false;
+  isStateSubmittedForms = '';
   ngOnInit(): void {
 
     this.gtcService.getFiles()
@@ -146,6 +147,18 @@ export class GTCertificateComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "false")
     this.change = "false"
     this.submitted = false;
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
+      console.log('Gt Certificate Testing', submitted)
+      this.disableAllForms = true;
+
+    });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
   }
 
   uploadButtonClicked() {
@@ -207,6 +220,10 @@ export class GTCertificateComponent implements OnInit {
           // this._stateformsService.allStatus.next(status);
           sessionStorage.setItem("changeInGTC", "false")
           this.change = "false"
+          const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+          status.GTCertificate.isSubmit = !this.uploadedFiles.isDraft;
+          console.log(status)
+          this._stateformsService.allStatusStateForms.next(status);
           swal('Record Submitted Successfully!')
           resolve(res)
         },

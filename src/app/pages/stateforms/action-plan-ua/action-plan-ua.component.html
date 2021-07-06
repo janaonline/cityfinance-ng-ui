@@ -16,8 +16,8 @@
                         (click)="foldCard(projectIndex)">Select</button>
                 </h5>
             </div>
-            <app-ag-grid *ngIf="item.fold" [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
-                [rowData]="item">
+            <app-ag-grid *ngIf="item.fold" [disabled]="disableAllForms" [catList]="projectCategories"
+                (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList" [rowData]="item">
             </app-ag-grid>
         </div>
     </div>

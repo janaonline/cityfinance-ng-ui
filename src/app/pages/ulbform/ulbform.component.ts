@@ -58,24 +58,24 @@ export class UlbformComponent implements OnInit {
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-     switch (this.userLoggedInDetails.role) {
-       case USER_TYPE.ULB:
-           this.backHeader = "15FC Grants for 2021-22";
-           this.backLink = "../fc-home-page";
-           break;
-       case USER_TYPE.STATE:
-           this.backHeader = "State Dashboard";
-           this.backLink = "../stateform/dashboard";
-           break;
-       case USER_TYPE.MoHUA:
-          this.backHeader = "MoHUA Dashboard";
-          this.backLink = "../mohua/dashboard";
-          break;
-        case USER_TYPE.ADMIN:
-          this.backHeader = "Admin Dashboard";
-          this.backLink = "../ulbAdmin";
-          break;
-        //case USER_TYPE.PARTNER:
+    switch (this.userLoggedInDetails.role) {
+      case USER_TYPE.ULB:
+        this.backHeader = "15FC Grants for 2021-22";
+        this.backLink = "../fc-home-page";
+        break;
+      case USER_TYPE.STATE:
+        this.backHeader = "State Dashboard";
+        this.backLink = "../stateform/dashboard";
+        break;
+      case USER_TYPE.MoHUA:
+        this.backHeader = "MoHUA Dashboard";
+        this.backLink = "../mohua/dashboard";
+        break;
+      case USER_TYPE.ADMIN:
+        this.backHeader = "Admin Dashboard";
+        this.backLink = "../ulbAdmin";
+        break;
+      //case USER_TYPE.PARTNER:
 
     }
   }
@@ -159,10 +159,6 @@ export class UlbformComponent implements OnInit {
         localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here");
 
-        // if(finalSubmit == true && res["response"].actionTakenByRole == 'STATE'
-        //  && (res["response"].status == 'APPROVED'|| res["response"].status =='REJECTED')){
-        //    this.finalActionDis = false;
-        //  }
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -222,9 +218,9 @@ export class UlbformComponent implements OnInit {
         ) {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-              true &&
+            true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-              "PENDING"
+            "PENDING"
           ) {
             // console.log('action form is submit',element, key['isSubmit'], key['status']);
             console.log("2");
@@ -236,9 +232,9 @@ export class UlbformComponent implements OnInit {
         } else if (element === "Plan water sanitation" && key === "plans") {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-              true &&
+            true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-              "PENDING"
+            "PENDING"
           ) {
             // console.log('action form is submit',element, key['isSubmit'], key['status']);
             console.log("3");

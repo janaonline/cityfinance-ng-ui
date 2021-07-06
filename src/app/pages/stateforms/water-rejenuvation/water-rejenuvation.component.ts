@@ -17,6 +17,7 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { StateformsService } from '../stateforms.service'
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",
@@ -29,7 +30,8 @@ export class WaterRejenuvationComponent implements OnInit {
     private waterRejenuvationService: WaterRejenuvationService,
     private dialog: MatDialog,
     private dataEntryService: DataEntryService,
-    private _router: Router
+    private _router: Router,
+    public _stateformsService: StateformsService
   ) {
     this._router.events.subscribe(async (event: Event) => {
       if (!this.saveClicked) {
@@ -57,6 +59,9 @@ export class WaterRejenuvationComponent implements OnInit {
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     await this.loadData();
     this.initializeReport();
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
+      console.log('Water Rejuventation Testing', submitted)
+    });
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;
@@ -362,7 +367,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "500px",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   removePhotos(waterIndex, uaIndex) {
@@ -543,7 +548,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   checkErrorState(projectRow, val) {

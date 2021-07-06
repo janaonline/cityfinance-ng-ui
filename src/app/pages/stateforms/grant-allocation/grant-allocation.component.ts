@@ -11,7 +11,7 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
-
+import { StateformsService } from '../stateforms.service'
 @Component({
   selector: "app-grant-allocation",
   templateUrl: "./grant-allocation.component.html",
@@ -27,7 +27,8 @@ export class GrantAllocationComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _gAservices: GAservicesService,
     private dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    public stateformsService: StateformsService
   ) {
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
@@ -110,6 +111,10 @@ export class GrantAllocationComponent implements OnInit {
         console.log(errMes);
       }
     );
+
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
+      console.log('Grant Allocation Testing', submitted)
+    });
   }
 
   downloadSample() {
@@ -340,6 +345,10 @@ export class GrantAllocationComponent implements OnInit {
       (res) => {
         console.log(res);
         sessionStorage.setItem("ChangeInGrantAllocation", "false");
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.grantAllocation.isSubmit = !this.postData.isDraft;
+        console.log(status)
+        this.stateformsService.allStatusStateForms.next(status);
         swal("Record Submitted Successfully!");
 
         if (this.routerNavigate) {

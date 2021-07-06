@@ -59,7 +59,8 @@ export class ActionPlanUAComponent implements OnInit {
       }
     });
   }
-
+  disableAllForms = false;
+  isStateSubmittedForms = ''
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
     this.getUlbNames();
@@ -69,6 +70,19 @@ export class ActionPlanUAComponent implements OnInit {
       code += "/" + this.yearCode;
       this.uaCodes[key] = code;
     }
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
+      console.log('Action Plan Testing', submitted)
+      this.disableAllForms = true;
+
+    });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
+
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.userData.state).subscribe(
@@ -220,6 +234,10 @@ export class ActionPlanUAComponent implements OnInit {
           icon: "success",
         });
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.actionPlans.isSubmit = !this.data.isDraft;
+        console.log(status)
+        this.stateformsService.allStatusStateForms.next(status);
         if (this.routerNavigate) {
           this._router.navigate([this.routerNavigate.url]);
         }
@@ -328,7 +346,7 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 }
 

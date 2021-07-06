@@ -18,6 +18,7 @@ import { SweetAlert } from "sweetalert/typings/core";
 
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { StateformsService } from '../stateforms.service'
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -32,7 +33,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     public dialog: MatDialog,
     private modalService: BsModalService,
     private _router: Router,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    public stateformsService: StateformsService
   ) {
     super();
     this._router.events.subscribe(async (event: Event) => {
@@ -75,6 +77,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     if (state_id != null) {
       this.isDisabled = true;
     }
+
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
+      console.log('Linking PFMS Testing', submitted)
+    });
     this.onLoad(state_id);
   }
 
@@ -95,6 +101,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       (res) => {
         sessionStorage.setItem("changeInPFMSAccountState", "false");
         console.log(res);
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.linkPFMS.isSubmit = !this.data.isDraft;
+        console.log(status)
+        this.stateformsService.allStatusStateForms.next(status);
         swal("Record submitted successfully!");
         this._router.navigate(["stateform/water-supply"]);
       },

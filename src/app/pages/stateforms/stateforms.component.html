@@ -208,7 +208,18 @@
 
                 </div>
                 <div>
-                    <button class="btn subBtn">Submit</button>
+                    <div *ngIf="(loggedInUserType === userTypes.STATE)"
+                        matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted"
+                            (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
+                    </div>
+                    <!-- <div *ngIf="loggedInUserType === userTypes.MoHUA "
+                        matTooltip="Must submit all the Forms Status before Final Submit"
+                        [matTooltipDisabled]="validate">
+                        <button mat-raised-button class="subBtn" [disabled]="finalActionDis"
+                            (click)="finalStateAction()">
+                            Final Review Submit</button>
+                    </div> -->
                 </div>
             </div>
         </div>
