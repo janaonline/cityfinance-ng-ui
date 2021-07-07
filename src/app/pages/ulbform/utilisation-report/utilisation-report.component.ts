@@ -776,9 +776,9 @@ export class UtilisationReportComponent implements OnInit {
     this.UtiReportService.stateActionPost(stateData).subscribe(
       (res) => {
         swal("Record submitted successfully!");
-        // const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        // status.utilReport.isSubmit = res["isCompleted"];
-        // this._ulbformService.allStatus.next(status);
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.utilReport.status = res["newUtil"].status;
+        this._ulbformService.allStatus.next(status);
       },
       (error) => {
         swal("An error occured!");
