@@ -45,6 +45,7 @@ import { PfmsListComponent } from './state-dashboard/pfms-list/pfms-list.compone
 import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component';
 
 import { ChartsModule } from 'ng2-charts';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
   entryComponents: [OverallListComponent],
   declarations: [StateformsComponent,
@@ -99,7 +100,8 @@ import { ChartsModule } from 'ng2-charts';
     NgxPaginationModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    ChartsModule
+    ChartsModule,
+    ButtonsModule.forRoot()
 
   ]
 })

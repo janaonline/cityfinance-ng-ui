@@ -53,6 +53,16 @@ export class GTCertificateComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
+  actionRes;
+  stateActionA= '';
+  stateActionB= '';
+  stateActionC= '';
+  rejectReasonA = null;
+  rejectReasonB = null;
+  rejectReasonC = null;
+  actionData;
+  btnStyleA = false;
+  btnStyleR = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -468,6 +478,56 @@ export class GTCertificateComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
     });
+  }
+  checkStatusAp(qusCheck){
+    this.rejectReasonA = null;
+  this.rejectReasonB = null;
+  this.rejectReasonC = null;
+    if(qusCheck == 'millionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionTied'){
+      this.actionData = {
+        status: this.stateActionB,
+        rejectReason: this.rejectReasonB
+      }
+    }
+    if(qusCheck == 'nonMillionUntied'){
+      this.actionData = {
+        status: this.stateActionC,
+        rejectReason: this.rejectReasonC
+      }
+    }
+
+
+
+    console.log('stateAction', this.stateActionA, this.actionData)
+ //  this.actionValues.emit(this.actionData);
+  }
+  checkStatus(qusCheck){
+    if(qusCheck == 'millionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionUntied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    console.log('stateAction', this.stateActionA, this.actionData)
+  //  this.actionValues.emit(this.actionData);
   }
 
 }

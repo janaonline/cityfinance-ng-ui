@@ -14,11 +14,13 @@ export class CommFileUploadComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType;
+  takeStateAction;
   compDis;
   constructor(private dataEntryService: DataEntryService,
     ) {
       this.loggedInUserType =  this.loggedInUserDetails.role;
-      this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+      this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
+      this.takeStateAction = localStorage.getItem("takeStateAction");
       this.compDis = localStorage.getItem('stateActionComDis')
 
     }
@@ -53,7 +55,7 @@ export class CommFileUploadComponent implements OnInit {
   actionData;
   btnStyleA = false;
   btnStyleR = false;
-  finalSubmitUtiStatus;
+  finalSubmitStatus;
   ulbDisabled = false;
   actionCompDis = false;
   data = {
@@ -72,7 +74,7 @@ export class CommFileUploadComponent implements OnInit {
 
   ngOnInit(): void {
    console.log('an res status', this.statusResponse, this.dataFromParent);
-    if(this.finalSubmitUtiStatus == 'true') {
+    if(this.finalSubmitStatus == 'true') {
       this.isDisabled = true;
     }
     if(this.compDis == 'true') {
