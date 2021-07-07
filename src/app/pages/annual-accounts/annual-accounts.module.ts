@@ -20,6 +20,7 @@ import {
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgxPaginationModule } from "ngx-pagination";
 import { MatIconModule } from "@angular/material/icon";
+import {DateFormatPipe} from "./dateTimePipe"
 
 @NgModule({
   imports: [
@@ -40,7 +41,7 @@ import { MatIconModule } from "@angular/material/icon";
     MatTooltipModule,
     MatIconModule,
   ],
-  declarations: [AnnualAccountsCreateComponent],
+  declarations: [AnnualAccountsCreateComponent,DateFormatPipe],
   exports: [AnnualAccountsCreateComponent],
 })
 export class AnnualAccountsModule {}
