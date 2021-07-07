@@ -115,7 +115,7 @@ export class UlbformComponent implements OnInit {
       if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
       }
-      if (!this.finalActionDis) this.checkActionFinal();
+       this.checkActionFinal();
     });
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
@@ -145,8 +145,19 @@ export class UlbformComponent implements OnInit {
         if (
           this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
           this.userLoggedInDetails.role == "ULB"
-        )
+        ){
           localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        }
+        let stActionCheck = 'false'
+        if (
+          (res["response"].actionTakenByRole == "STATE")&&
+           (res["response"].isSubmit == true) && (res["response"].status != 'PENDING')
+        ){
+          stActionCheck = 'true'
+          console.log('final action completed.....');
+        }
+        localStorage.setItem("stateActionComDis", stActionCheck);
+
         console.log("here", res["response"]);
 
         if (

@@ -18,12 +18,19 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
   actionData;
   btnStyleA = false;
   btnStyleR = false;
+  compDis = 'false'
+  actionDisable = false;
 
   ngOnInit() {
-
+    this.compDis = localStorage.getItem('stateActionComDis')
+    console.log('stateActionRec', this.statusResponse, this.compDis)
+    if(this.compDis == 'true'){
+      this.actionDisable = true;
+      console.log('final action completed.....', this.compDis);
+}
   }
   ngOnChanges(){
-    console.log('stateActionRec', this.statusResponse)
+
     this.stateAction = this.statusResponse?.st;
     this.rejectReason = this.statusResponse?.rRes;
     if(this.stateAction == 'APPROVED'){
@@ -31,6 +38,7 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
     }else if(this.stateAction == 'REJECTED'){
       this.btnStyleR = true
     }
+
   }
   ngAfterViewChecked() {
 

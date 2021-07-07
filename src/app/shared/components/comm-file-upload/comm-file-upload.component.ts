@@ -14,10 +14,12 @@ export class CommFileUploadComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType;
+  compDis;
   constructor(private dataEntryService: DataEntryService,
     ) {
       this.loggedInUserType =  this.loggedInUserDetails.role;
       this.finalSubmitUtiStatus = localStorage.getItem('finalSubmitStatus');
+      this.compDis = localStorage.getItem('stateActionComDis')
 
     }
 
@@ -53,6 +55,7 @@ export class CommFileUploadComponent implements OnInit {
   btnStyleR = false;
   finalSubmitUtiStatus;
   ulbDisabled = false;
+  actionCompDis = false;
   data = {
     pdf: {
       file: null,
@@ -72,6 +75,10 @@ export class CommFileUploadComponent implements OnInit {
     if(this.finalSubmitUtiStatus == 'true') {
       this.isDisabled = true;
     }
+    if(this.compDis == 'true') {
+      this.actionCompDis = true;
+    }
+
     if (this.requiredBtn) {
       switch (this.requiredBtn) {
         case "pdf":
