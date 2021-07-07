@@ -189,6 +189,23 @@ export class UlbformComponent implements OnInit {
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
         }
+        let finalSubmit = this.submitted;
+        if (
+          this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
+          this.userLoggedInDetails.role == "ULB"
+        ){
+          localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        }
+        let stActionCheck = 'false'
+        if (
+          (res["response"].actionTakenByRole == "STATE")&&
+           (res["response"].isSubmit == true) && (res["response"].status != 'PENDING')
+        ){
+          stActionCheck = 'true'
+          console.log('final action completed.....');
+        }
+        localStorage.setItem("stateActionComDis", stActionCheck);
+
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);

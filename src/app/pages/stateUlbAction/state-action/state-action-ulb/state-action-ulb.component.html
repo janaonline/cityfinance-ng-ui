@@ -6,15 +6,15 @@
     <br>
     <!-- <form class="example-form" [formGroup]="approveRejForm" (ngSubmit)="onFormSubmit()" ngNativeValidate>  -->
     <div class="btn-group" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 2%; margin-top: 1rem;">
-        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button">Approve</label>
+        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" [disabled]="actionDisable" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button">Approve</label>
 
-        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px;">Reject</label>
+        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" [disabled]="actionDisable" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px;">Reject</label>
     </div>
     <div class="row" *ngIf="stateAction == 'REJECTED'">
         <div class="col-sm-6 col-lg-6 col-md-6" style="margin-left: 2%;">
             <span style="font-weight: 600; text-align: left">Reason for rejection</span>
             <div class="input-group" style="width: 100%">
-                <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus()" [(ngModel)]="rejectReason">
+                <textarea rows="3" style="width: 100%" class="form-control" [disabled]="actionDisable" (blur)="checkStatus()" [(ngModel)]="rejectReason">
 </textarea>
             </div>
         </div>
