@@ -55,7 +55,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     this.loggedInUserType = this.userLoggedInDetails.role;
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
-    this.compDis = localStorage.getItem('stateActionComDis')
+    this.compDis = localStorage.getItem("stateActionComDis");
     console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
     switch (this.loggedInUserType) {
       case USER_TYPE.STATE:
@@ -493,7 +493,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
       (res) => {
         swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.plans.status = res["newPlan"].status;
+        status.plans.status = body.status;
         this._ulbformService.allStatus.next(status);
       },
       (error) => {

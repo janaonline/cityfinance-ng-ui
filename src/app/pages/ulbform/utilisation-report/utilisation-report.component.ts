@@ -68,7 +68,7 @@ export class UtilisationReportComponent implements OnInit {
     let yearId = JSON.parse(localStorage.getItem("Years"));
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
-    this.compDis = localStorage.getItem('stateActionComDis')
+    this.compDis = localStorage.getItem("stateActionComDis");
     console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
 
     this.designYear = yearId["2021-22"];
@@ -779,7 +779,7 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.utilReport.status = res["newUtil"].status;
+        status.utilReport.status = stateData.status;
         this._ulbformService.allStatus.next(status);
       },
       (error) => {
