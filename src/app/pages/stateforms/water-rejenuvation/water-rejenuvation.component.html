@@ -8,11 +8,12 @@
         <div formArrayName="uaData" *ngFor="let uas of Uas; let projectIndex=index">
             <div class="card" style="margin-top: 1pc; margin-left: 0pc;">
                 <div [formGroupName]="projectIndex" class="card-body ">
-                    <div style="display: flex;">
-                        <div>
-                            <h5>UA{{projectIndex+1}}: {{uaIdToName(projectIndex)}}</h5>
+                    <div style="height: 40px;">
+                        <div style="display: inline-flex; float: left;">
+                            <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
+                            <h5 style="display: inline-block;">UA{{projectIndex+1}}: Urban Aggolmeration {{uaIdToName(projectIndex).split(' ')[0]}}</h5>
                         </div>
-                        <div style="margin-left: 85%;">
+                        <div style="display: inline-flex; float: right;">
                             <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
                         </div>
                     </div>
@@ -145,7 +146,7 @@
                             </table>
                             <!-- *ngIf="loggedInUserType === userTypes.STATE && utilizationReport &&
  (takeStateAction == 'true')" -->
-                            <div class="" style="background-color: #FFFFFF; overflow: hidden;">
+                            <div class="" style="background-color: #FFFFFF; overflow: hidden;" *ngIf="loggedInUserType === USER_TYPE.MoHUA">
                                 <div class="">
                                     <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-action-component>
                                 </div>

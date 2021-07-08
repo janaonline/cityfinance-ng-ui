@@ -6,7 +6,7 @@ import { ProfileService } from "../../users/profile/service/profile.service";
 import { IState } from "../../models/state/state";
 
 import { CommonService } from "src/app/shared/services/common.service";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-stateforms',
@@ -24,9 +24,15 @@ export class StateformsComponent implements OnInit {
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
-    private _router: Router
+    private _router: Router,
+    public activatedRoute: ActivatedRoute
     ) {
+      this.activatedRoute.params.subscribe((val) => {
+        console.log("vallllll", val);
+        const { url } = val;
+        console.log("vallllll", val, url);
 
+      });
 
       this.initializeUserType();
       this.fetchStateList();

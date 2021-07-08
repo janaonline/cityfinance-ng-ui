@@ -41,8 +41,7 @@
             </div>
 
             <div class="row link-div">
-                <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
-                    aria-controls="collapseBasic">
+                <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
@@ -119,55 +118,58 @@
                 </a>
             </div>
             <div class="row link-div">
-                <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
-                    aria-controls="collapseBasicSer">
-                    <div class="col-sm-1 col-xs-1 m-l">
-                        <mat-icon aria-hidden="false" style="margin-top: 3px;">
-                            <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
+                <!-- <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
+                    aria-controls="collapseBasicSer"> -->
+                <div class="col-sm-1 col-xs-1 m-l">
+                    <mat-icon aria-hidden="false" style="margin-top: 3px;">
+                        <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
+                    </mat-icon>
+                </div>
+                <div class="col-sm-9 col-xs-9 linktext pd">
+                    <!-- Service Level Indicators for UA: -->
+                    Million Plus Cities Challenge for UAs
+                </div>
+                <div class="col-sm-1 col-xs-1">
+
+                </div>
+                <!-- </a> -->
+            </div>
+            <!-- <div id="collapseBasicSer" [collapse]="isCollapsedSer"> -->
+            <div class="row link-div-u" routerLinkActive="active">
+                <a [routerLink]="['water-supply']">
+                    <div class="col-sm-1 col-xs-1 m-l-u">
+                        <mat-icon aria-hidden="false">
+                            <img src="../../../assets/stateform/suplywater.png">
                         </mat-icon>
                     </div>
-                    <div class="col-sm-9 col-xs-9 linktext pd">
-                        Service Level Indicators for UA:
+                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;  padding-left: 7px;">
+                        <!-- Water Supply and Sanitation -->
+                        Indicator for Water Supply and Sanitation
+                    </div>
+                    <div class="col-sm-1 col-xs-1 text-right">
+                        <!-- <mat-icon aria-hidden="false">
+                            <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
+                        </mat-icon> -->
+                    </div>
+                </a>
+            </div>
+            <div class="row link-div-u" routerLinkActive="active">
+                <a [routerLink]="['water-rejenuvation']">
+                    <div class="col-sm-1 col-xs-1 m-l-u">
+                        <mat-icon aria-hidden="false" style="margin-top: 4px;">
+                            <img src="../../../assets/stateform/water-cycle.svg">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 6px;">
+                        <!-- Water Rejenuvation and Recycling -->
+                        Indicator for Water Rejenuvation and Recycling
                     </div>
                     <div class="col-sm-1 col-xs-1">
 
                     </div>
                 </a>
             </div>
-            <div id="collapseBasicSer" [collapse]="isCollapsedSer">
-                <div class="row link-div-u" routerLinkActive="active">
-                    <a [routerLink]="['water-supply']">
-                        <div class="col-sm-1 col-xs-1 m-l-u">
-                            <mat-icon aria-hidden="false">
-                                <img src="../../../assets/stateform/suplywater.png">
-                            </mat-icon>
-                        </div>
-                        <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;  padding-left: 7px;">
-                            Water Supply and Sanitation
-                        </div>
-                        <div class="col-sm-1 col-xs-1 text-right">
-                            <!-- <mat-icon aria-hidden="false">
-                            <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
-                        </mat-icon> -->
-                        </div>
-                    </a>
-                </div>
-                <div class="row link-div-u" routerLinkActive="active">
-                    <a [routerLink]="['water-rejenuvation']">
-                        <div class="col-sm-1 col-xs-1 m-l-u">
-                            <mat-icon aria-hidden="false" style="margin-top: 4px;">
-                                <img src="../../../assets/stateform/water-cycle.svg">
-                            </mat-icon>
-                        </div>
-                        <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 6px;">
-                            Water Rejenuvation and Recycling
-                        </div>
-                        <div class="col-sm-1 col-xs-1">
-
-                        </div>
-                    </a>
-                </div>
-            </div>
+            <!-- </div> -->
             <div class="row link-div">
                 <a [routerLink]="['action-plan']">
                     <div class="col-sm-1 col-xs-1 m-l">
@@ -176,7 +178,8 @@
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
-                        Action Plan for UA Service Level Indicators
+                        <!-- Action Plan for UA Service Level Indicators -->
+                        Million Plus Cities Challenge for UAs
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right">
                         <!-- <mat-icon aria-hidden="false">
@@ -217,14 +220,14 @@
             <div class="row">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
-                        Welcome {{ userLoggedInDetails.name }},
+                        <!-- Welcome {{ userLoggedInDetails.name }},
                         <span *ngIf="
         loggedInUserType === userTypes.ADMIN ||
         loggedInUserType === userTypes.MoHUA ||
         loggedInUserType === userTypes.PARTNER
       ">
                             {{ userLoggedInDetails.role }}
-                        </span>
+                        </span> -->
                         <span *ngIf="
         states &&
         (loggedInUserType === userTypes.STATE ||

@@ -21,7 +21,7 @@
 </div>
 <!-- *ngIf="loggedInUserType === USER_TYPE.STATE &&
 (takeStateAction == 'true')" -->
-<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;">
+<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA">
     <div class="card-body">
         <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-action-component>
     </div>

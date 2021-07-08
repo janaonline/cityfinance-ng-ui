@@ -35,11 +35,11 @@ export class GrantTraCertiComponent implements OnInit {
 
         this.data.forEach((el) => {
           if (el['type'] === "million_tied") {
-            el['name'] = "Grant Transfer Certificate for Million Tied Grants"
+            el['name'] = "Million Plus Cities Grant for Water Supply and SWM"
           } else if (el['type'] === "nonmillion_tied") {
-            el['name'] = "Grant Transfer Certificate for Non-Million Tied Grants"
+            el['name'] = "Non-Million Plus Cities Tied Grant"
           } else if (el['type'] === "nonmillion_untied") {
-            el['name'] = "Grant Transfer Certificate for Million Untied Grants"
+            el['name'] = "Non-Million Plus Cities Untied Grant"
           }
         })
         console.log(this.data)
