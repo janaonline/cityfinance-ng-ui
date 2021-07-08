@@ -8,7 +8,7 @@
     <div class="btn-group" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 2%; margin-top: 1rem;">
         <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" [disabled]="actionDisable" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button">Approve</label>
 
-        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" [disabled]="actionDisable" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px;">Reject</label>
+        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" [disabled]="actionDisable" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px;">Return</label>
     </div>
     <div class="row" *ngIf="stateAction == 'REJECTED'">
         <div class="col-sm-6 col-lg-6 col-md-6" style="margin-left: 2%;">
