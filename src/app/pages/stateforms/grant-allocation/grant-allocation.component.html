@@ -19,9 +19,9 @@
             <span>(A) Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the
                 State?<span style="color: red;">*</span></span>
             <div>
-                <button class="btn btn-a" style="margin-left: 2rem;" (click)="onClickYes()" [ngStyle]="{'background-color':
+                <button class="btn btn-a" style="margin-left: 2rem;" [disabled]="isDisabled" (click)="onClickYes()" [ngStyle]="{'background-color':
               account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
-                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()" [ngStyle]="{'background-color':
+                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled" [ngStyle]="{'background-color':
           account === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
@@ -36,19 +36,18 @@
             <div class="card-body question">
                 <div class="row">
                     <div class="col-sm-9 col-lg-9 col-md-9" style="margin-top: 0.7rem;">
-                        (B) Please fill in the grant amounts in the given template and upload the excel.<span
-                            style="color: red;">*</span>
+                        (B) Please fill in the grant amounts in the given template and upload the excel.<span style="color: red;">*</span>
 
                     </div>
                     <div class="col-sm-3 col-lg-3 col-md-3 image-upload">
                         <!-- <button type="button" class="btn btn-pre" (click)="uploadButtonClicked()">Upload File</button> -->
                         <label for="cinde">
-                            <a class="btn btnUpload btn-pre">Upload Excel
+                            <a class="btn btnUpload btn-pre" [ngClass]="{'anDisable': isDisabled }">Upload Excel
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>
                             </a>
                         </label>
-                        <input id="cinde" name="cinde" type="file" (change)="fileChangeEvent($event)" accept=".xlsx" />
+                        <input id="cinde" name="cinde" [disabled]="isDisabled" type="file" (change)="fileChangeEvent($event)" accept=".xlsx" />
                     </div>
 
                 </div>
@@ -65,9 +64,7 @@
                             </div>
 
                             <div class="col-sm-5 col-lg-5 col-md-5" style="padding: 0;">
-                                <div class="progress-bar" *ngIf="progessType" role="progressbar"
-                                    attr.aria-valuenow="{{ progessType }}" aria-valuemin="0" aria-valuemax="100"
-                                    [ngStyle]="{ width: progessType + '%' }">
+                                <div class="progress-bar" *ngIf="progessType" role="progressbar" attr.aria-valuenow="{{ progessType }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: progessType + '%' }">
                                     {{ progessType }}%
                                 </div>
                             </div>
@@ -75,13 +72,11 @@
                             <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                 <ng-container *ngIf="gtFileUrl">
                                     <a href="{{ gtFileUrl }}" target="_blank">
-                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                            style="margin-left: 1px; height: 19px;">
+                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles()" style="margin-left: 3px;">
-                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                            style="height: 13px;">
+                                    <a (click)="clearFiles()" style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
+                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
                             </div>
@@ -98,7 +93,7 @@
         <a type="button" class="btn btn-back" [routerLink]="['../review-ulb-form']">BACK</a>
     </div>
     <div class="col-sm-6  text-right">
-        <button type="button" class="btn btn-next" (click)="saveForm()">SAVE AND
+        <button type="button" class="btn btn-next" (click)="saveForm()" [disabled]="isDisabled">SAVE AND
             NEXT</button>
     </div>
 </div>
@@ -120,8 +115,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -143,8 +137,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed</button>
         </div>
 
     </div>

@@ -34,6 +34,9 @@ export class UlbformComponent implements OnInit {
   finalActionDis = true;
   requiredActionStatus = {};
   currentActionStatus = {};
+  takeStateAction;
+  toolTipContentC = 'Submitted'
+  toolTipContentN = 'Not Submitted'
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -52,18 +55,30 @@ export class UlbformComponent implements OnInit {
       } else {
       }
     });
+    this.takeStateAction = localStorage.getItem("takeStateAction");
     this.accessGrant();
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
-    //  switch (this.userLoggedInDetails.role) {
-    //    case USER_TYPE.ULB:
-
-    //     case USER_TYPE.PARTNER:
-    //     case USER_TYPE.MoHUA:
-    //     case USER_TYPE.ADMIN:
-    //       this._router.navigate(["/fc-home-page"]);
-    // }
+    switch (this.userLoggedInDetails.role) {
+      case USER_TYPE.ULB:
+        this.backHeader = "15FC Grants for 2021-22";
+        this.backLink = "../fc-home-page";
+        break;
+      case USER_TYPE.STATE:
+        this.backHeader = "State Dashboard";
+        this.backLink = "../stateform/dashboard";
+        break;
+      case USER_TYPE.MoHUA:
+        this.backHeader = "MoHUA Dashboard";
+        this.backLink = "../mohua/dashboard";
+        break;
+      case USER_TYPE.ADMIN:
+        this.backHeader = "Admin Dashboard";
+        this.backLink = "../ulbAdmin";
+        break;
+      //case USER_TYPE.PARTNER:
+    }
   }
 
   private fetchStateList() {
@@ -84,35 +99,7 @@ export class UlbformComponent implements OnInit {
   };
 
   async ngOnInit() {
-    this.ulbformService.allStatus.subscribe((status) => {
-      for (const key in status) {
-        this.allStatus[key] = status[key];
-        // if (this.lastRoleInMasterForm != this.userLoggedInDetails.role) {
-        //   this.allStatus[key].isSubmit = false;
-        // }
-        // if (
-        //   this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
-        //   this.userLoggedInDetails.role == "ULB"
-        // ) {
-        //   this.allStatus[key].isSubmit = true;
-        //   if(this.allStatus[key].status == "REJECTED")
-        //   this.allStatus[key].isSubmit = false;
-        // }
-        // if (
-        //   this.lastRoleInMasterForm == "MoHUA" &&
-        //   this.userLoggedInDetails.role == "STATE"
-        // ) {
-        //   this.allStatus[key].isSubmit = true;
-        // }
-      }
-      sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
-
-      console.log("red this", this.allStatus);
-      if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
-        this.checkValidationStatusOfAllForms();
-      }
-      this.checkActionFinal();
-    });
+    this.subscribeStatus();
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
@@ -121,13 +108,75 @@ export class UlbformComponent implements OnInit {
     this.getStatus();
     this.getAllForm();
     this.submitted = false;
+  }
 
-    // let masterData = JSON.parse(sessionStorage.getItem("masterForm"))
-    // if (masterData) {
-    //   console.log(masterData)
-    //   this.submitted = masterData['isSubmit']
-    // }
-    // console.log("submitted", this.submitted)
+  subscribeStatus() {
+    this.ulbformService.allStatus.subscribe((status) => {
+      this.checkGreenRedTick(status);
+      sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
+      console.log("red this", this.allStatus);
+      if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
+        this.checkValidationStatusOfAllForms();
+      }
+      this.checkActionFinal();
+    });
+  }
+
+  checkGreenRedTick(status) {
+    const eligibleActionForms = JSON.parse(
+      sessionStorage.getItem("eligibleActionForms")
+    );
+
+    for (const key in status) {
+      this.allStatus[key] = status[key];
+      if (
+        this.userLoggedInDetails.role == this.userTypes.STATE ||
+        this.userLoggedInDetails.role == this.userTypes.MoHUA
+      ) {
+        switch (key) {
+          case "pfmsAccount":
+            if (
+              this.allStatus[key].status == "PENDING" &&
+              eligibleActionForms.includes("PFMS")
+            )
+              this.allStatus[key].isSubmit = false;
+            else this.allStatus[key].isSubmit = true;
+            break;
+          case "utilReport":
+            if (
+              this.allStatus[key].status == "PENDING" &&
+              eligibleActionForms.includes("Utilization Report")
+            )
+              this.allStatus[key].isSubmit = false;
+            else this.allStatus[key].isSubmit = true;
+            break;
+          case "annualAccounts":
+            if (
+              this.allStatus[key].status == "PENDING" &&
+              eligibleActionForms.includes("Annual Acconts")
+            )
+              this.allStatus[key].isSubmit = false;
+            else this.allStatus[key].isSubmit = true;
+            break;
+          case "slbForWaterSupplyAndSanitation":
+            if (
+              this.allStatus[key].status == "PENDING" &&
+              eligibleActionForms.includes("slbs")
+            )
+              this.allStatus[key].isSubmit = false;
+            else this.allStatus[key].isSubmit = true;
+            break;
+          case "plans":
+            if (
+              this.allStatus[key].status == "PENDING" &&
+              eligibleActionForms.includes("Plan water sanitation")
+            )
+              this.allStatus[key].isSubmit = false;
+            else this.allStatus[key].isSubmit = true;
+            break;
+        }
+      }
+    }
   }
 
   getStatus() {
@@ -137,19 +186,28 @@ export class UlbformComponent implements OnInit {
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
+        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        console.log("here", res["response"]);
+        if (res["response"].status != "PENDING") {
+          this.finalActionDis = true;
+        }
         let finalSubmit = this.submitted;
         if (
           this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
           this.userLoggedInDetails.role == "ULB"
-        )
-          this.submitted = !this.submitted;
-        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
-        console.log("here");
+        ){
+          localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        }
+        let stActionCheck = 'false'
+        if (
+          (res["response"].actionTakenByRole == "STATE")&&
+           (res["response"].isSubmit == true) && (res["response"].status != 'PENDING')
+        ){
+          stActionCheck = 'true'
+          console.log('final action completed.....');
+        }
+        localStorage.setItem("stateActionComDis", stActionCheck);
 
-        // if(finalSubmit == true && res["response"].actionTakenByRole == 'STATE'
-        //  && (res["response"].status == 'APPROVED'|| res["response"].status =='REJECTED')){
-        //    this.finalActionDis = false;
-        //  }
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -173,7 +231,8 @@ export class UlbformComponent implements OnInit {
       });
   }
   checkActionFinal() {
-    const eligibleActionForms = JSON.parse(
+    console.log(this.allStatus);
+    let eligibleActionForms = JSON.parse(
       sessionStorage.getItem("eligibleActionForms")
     );
     console.log("dcfe fvf", eligibleActionForms, this.allStatus);
@@ -189,7 +248,6 @@ export class UlbformComponent implements OnInit {
             console.log("0");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
             this.finalActionDis = false;
-            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
         } else if (element === "Annual Acconts" && key === "annualAccounts") {
@@ -200,7 +258,6 @@ export class UlbformComponent implements OnInit {
             console.log("1");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
             this.finalActionDis = false;
-            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
         } else if (
@@ -213,11 +270,9 @@ export class UlbformComponent implements OnInit {
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
               "PENDING"
           ) {
-            // console.log('action form is submit',element, key['isSubmit'], key['status']);
             console.log("2");
             this.finalActionDis = false;
             this.currentActionStatus[key] = this.allStatus[key]["status"];
-            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
         } else if (element === "Plan water sanitation" && key === "plans") {
@@ -227,11 +282,9 @@ export class UlbformComponent implements OnInit {
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
               "PENDING"
           ) {
-            // console.log('action form is submit',element, key['isSubmit'], key['status']);
             console.log("3");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
             this.finalActionDis = false;
-            return;
           }
           this.requiredActionStatus[key] = this.allStatus[key]["status"];
         }
@@ -246,6 +299,8 @@ export class UlbformComponent implements OnInit {
         this.finalActionDis = true;
       }
     }
+    let actionOnFroms = eligibleActionForms.length;
+    console.log(this.requiredActionStatus);
   }
   public accessGrant() {
     this.ulbId = sessionStorage.getItem("ulb_id");
@@ -255,11 +310,7 @@ export class UlbformComponent implements OnInit {
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
       console.log("ifbl", this.isMillionPlus, this.isUA);
-      this.backHeader = "15FC Grants for 2021-22";
-      this.backLink = "../fc-home-page";
     } else {
-      this.backHeader = "State Dashboard";
-      this.backLink = "../stateform/dashboard";
       this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
       this.isUA = sessionStorage.getItem("isUA");
       console.log("pk_elseblock", this.isMillionPlus, this.isUA);
@@ -271,7 +322,6 @@ export class UlbformComponent implements OnInit {
     console.log(this._router.url);
   }
   private initializeLoggedInUserDataFetch() {
-    //  = this.profileService.getUserLoggedInDetails();
     UserUtility.getUserLoggedInData().subscribe((data) => {
       this.userLoggedInDetails = data;
       console.log("hi", data);
@@ -292,23 +342,11 @@ export class UlbformComponent implements OnInit {
     const dialogRef = this.dialog.open(UlbformPreviewComponent, {
       data: this.allFormsData,
       width: "85vw",
-      //   maxHeight: "95vh",
       height: "100%",
       panelClass: "no-padding-dialog",
     });
-    // this.hidden = false;
-    dialogRef.afterClosed().subscribe((result) => {
-      // console.log(`Dialog result: ${result}`);
-      //   this.hidden = true;
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
-  // this._matDialog.open(this.previewPopup, {
-  //   width: "85vw",
-  //   maxHeight: "95vh",
-  //   height: "fit-content",
-  //   panelClass: "XVfc-preview",
-  //   disableClose: false,
-  // });
   submitted = false;
   finalSubmit() {
     let data = {
@@ -404,12 +442,6 @@ export class UlbformComponent implements OnInit {
         actionStatus = "APPROVED";
       }
     }
-    // for (let key in this.currentActionStatus) {
-    //   if (this.currentActionStatus[key] == 'APPROVED') {
-    //     console.log('con if',this.currentActionStatus[key]);
-    //     this.finalActionDis = true;
-    //   }
-    // }
 
     let actionBody = {
       status: actionStatus,
@@ -423,6 +455,7 @@ export class UlbformComponent implements OnInit {
       (res) => {
         console.log(res);
         swal("Action Successfully Submitted");
+        this.finalActionDis = true;
       },
       (err) => {
         console.log(err);

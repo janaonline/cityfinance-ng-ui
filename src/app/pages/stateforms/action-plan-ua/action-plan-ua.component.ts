@@ -6,6 +6,8 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { SweetAlert } from "sweetalert/typings/core";
 import { ActionplanspreviewComponent } from "./actionplanspreview/actionplanspreview.component";
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-action-plan-ua",
@@ -13,6 +15,10 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./action-plan-ua.component.scss"],
 })
 export class ActionPlanUAComponent implements OnInit {
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
+
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
   Year = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -28,7 +34,7 @@ export class ActionPlanUAComponent implements OnInit {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   dialogRefForNavigation;
-
+  actionRes;
   constructor(
     public stateformsService: StateformsService,
     public actionplanserviceService: ActionplanserviceService,
@@ -324,6 +330,10 @@ export class ActionPlanUAComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  checkStatus(ev){
+ console.log('action plan of UA', ev);
+
   }
 }
 

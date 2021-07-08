@@ -293,7 +293,7 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   gaugeChart1() {
-
+    this.values.annualAcc_provisional = 28
     let mainColor = '', complimentColor = '', borderColor = '';
     if (this.values.annualAcc_provisional < 25) {
       mainColor = '#FF7154';
@@ -389,6 +389,7 @@ export class StateDashboardComponent implements OnInit {
   }
   gaugeChart2() {
     let mainColor = '', complimentColor = '', borderColor = '';
+    this.values.annualAcc_audited = 20
     if (this.values.annualAcc_audited < 25) {
       mainColor = '#FF7154';
       complimentColor = '#ffcabf';

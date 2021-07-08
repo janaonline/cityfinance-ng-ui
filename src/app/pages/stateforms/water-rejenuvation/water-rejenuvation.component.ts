@@ -15,7 +15,8 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
-
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",
@@ -23,6 +24,10 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./water-rejenuvation.component.scss"],
 })
 export class WaterRejenuvationComponent implements OnInit {
+  actionRes;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvationService,
@@ -132,13 +137,15 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getUas() {
+    console.log('rejen heading...', this.data);
     return this.data.map((data) =>
+
       this.fb.group({
         ua: data.ua,
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
         foldCard: false,
-      })
+      }),
     );
   }
 
@@ -208,6 +215,8 @@ export class WaterRejenuvationComponent implements OnInit {
           this.isDraft = res["data"].isDraft;
           this.storeData(res["data"]);
           this.showLoader = false;
+          console.log('water rej data', this.data);
+
           resolve("ss");
         },
         (err) => {
@@ -553,5 +562,8 @@ export class WaterRejenuvationComponent implements OnInit {
       projectRow.controls[val].invalid &&
       (projectRow.controls[val].dirty || projectRow.controls[val].touched)
     );
+  }
+  checkStatus(ev){
+   console.log('mohua action in state', ev)
   }
 }

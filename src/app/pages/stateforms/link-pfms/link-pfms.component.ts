@@ -15,6 +15,9 @@ import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
+
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -24,6 +27,10 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
   dialogRef;
+  actionRes;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   constructor(
     private LinkPFMSAccount: LinkPFMSAccount,
     public dialog: MatDialog,
@@ -56,7 +63,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   routerNavigate = null;
   isDisabled = false;
   quesName =
-    "Please upload Expenditure Advance Transfer(EAT) Module Implemention Report";
+    "Please upload Expenditure Advance Transfer (EAT) Module Implemention Report";
   requiredBtn = "excel";
   Years = JSON.parse(localStorage.getItem("Years"));
   data = {
@@ -73,6 +80,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.isDisabled = true;
     }
     this.onLoad(state_id);
+
   }
 
   saveAndNextValue(template1) {
@@ -179,5 +187,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.data.isDraft = true;
     }
     this.checkDiff()
+  }
+  checkStatus(ev){
+    console.log('state pfms action', ev)
+
   }
 }

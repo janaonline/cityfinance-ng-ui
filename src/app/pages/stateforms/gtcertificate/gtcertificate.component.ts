@@ -9,7 +9,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
-
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 
 import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
 import { SweetAlert } from "sweetalert/typings/core";
@@ -48,6 +49,20 @@ export class GTCertificateComponent implements OnInit {
   err = '';
   submitted = false;
   routerDiff = {};
+  isDisabled = false;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
+  actionRes;
+  stateActionA= '';
+  stateActionB= '';
+  stateActionC= '';
+  rejectReasonA = null;
+  rejectReasonB = null;
+  rejectReasonC = null;
+  actionData;
+  btnStyleA = false;
+  btnStyleR = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -63,7 +78,14 @@ export class GTCertificateComponent implements OnInit {
     public _stateformsService: StateformsService
   ) {
     this.navigationCheck()
-
+    switch (this.loggedInUserType) {
+      case USER_TYPE.ULB:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.ADMIN:
+      case USER_TYPE.MoHUA:
+        this.isDisabled = true;
+        break;
+    }
 
   }
   @ViewChild("template1") template1;
@@ -456,6 +478,56 @@ export class GTCertificateComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
     });
+  }
+  checkStatusAp(qusCheck){
+    this.rejectReasonA = null;
+  this.rejectReasonB = null;
+  this.rejectReasonC = null;
+    if(qusCheck == 'millionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionTied'){
+      this.actionData = {
+        status: this.stateActionB,
+        rejectReason: this.rejectReasonB
+      }
+    }
+    if(qusCheck == 'nonMillionUntied'){
+      this.actionData = {
+        status: this.stateActionC,
+        rejectReason: this.rejectReasonC
+      }
+    }
+
+
+
+    console.log('stateAction', this.stateActionA, this.actionData)
+ //  this.actionValues.emit(this.actionData);
+  }
+  checkStatus(qusCheck){
+    if(qusCheck == 'millionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionUntied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    console.log('stateAction', this.stateActionA, this.actionData)
+  //  this.actionValues.emit(this.actionData);
   }
 
 }

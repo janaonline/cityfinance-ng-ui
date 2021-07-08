@@ -1,103 +1,3 @@
-<!-- <mat-drawer-container class="sideNav-container">
-    <mat-drawer class="sideNav" mode="side" [(opened)]="opened">
-        <ul class="heading" style="background-color: #124A55;">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon open-data-transfer-download (1).svg">
-            </mat-icon>
-            <h5>Entry Level Conditions</h5>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon awesome-network-wired.svg">
-            </mat-icon>
-            <a routerLink="entry-list">Linking of PFMS Account</a>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-
-                <img src="../../../assets/form-icon/Icon awesome-certificate.svg">
-
-            </mat-icon>
-            <a routerLink="entry-list1">Grant Transfer Certificate</a>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon awesome-file-alt.svg">
-            </mat-icon>
-            <a routerLink="entry-list2">Detailed Utilisation Report</a>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon material-supervisor-account.svg">
-            </mat-icon>
-            <a routerLink="entry-list3">Annual Accounts</a>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">library_books</mat-icon>
-            <a routerLink="entry-list4">Publication of SLBs</a>
-        </ul>
-        <ul class="heading" style="background-color: #124A55;">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon awesome-money-check.svg">
-            </mat-icon>
-            <h5> Municipal Challenge Fund</h5>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Group 13409.svg">
-            </mat-icon>
-
-            <a routerLink="entry-list5">Service Level Benchmarks (SLBs)</a>
-
-        </ul> -->
-
-<!-- <ul class="links">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Group 13408.svg">
-            </mat-icon>
-            <a routerLink="entry-list5">SLB's for Solid Waste Management</a>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon metro-water.png">
-            </mat-icon>
-            <a routerLink="entry-list5">SLB's for Water Conservation</a>
-        </ul> -->
-<!-- <ul class="heading" style="background-color: #124A55;">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/file_upload_white_18dp.svg">
-            </mat-icon>
-            <h5>Upload Plans</h5>
-        </ul>
-        <ul class="links" routerLinkActive="active">
-            <mat-icon aria-hidden="false">
-                <img src="../../../assets/form-icon/Icon awesome-file-alt.svg">
-            </mat-icon>
-            <a routerLink="entry-list5">Plans for Water and Sanitation</a>
-        </ul> -->
-<!--  <mat-menu #elCond="matMenu">
-            <ul><a routerLinkActive="active" routerLink="/">Grant Transfer Certificate</a></ul>
-            <ul><a routerLinkActive="active" routerLink="/">Plans for Water Rejuvination and Recycling</a></ul>
-            <ul><a routerLinkActive="active" routerLink="/">Action Plan for SLBs</a></ul>
-        </mat-menu> -->
-<!-- <div class="subBtnDiv" style="text-align: center;">
-            <div>
-                <button mat-raised-button class="subBtn">Submit</button>
-            </div>
-            <div>
-                <button mat-raised-button class="subBtn">Preview and download</button>
-            </div>
-        </div> -->
-
-
-<!-- </mat-drawer>
-    <mat-drawer-content style="background-color: #FFFFFF;">
-
-        <router-outlet></router-outlet>
-    </mat-drawer-content>
-</mat-drawer-container> -->
-
-
 <!-- ---------Using bootstrap-------------------- -->
 
 <div class="container-fluid">
@@ -170,11 +70,15 @@
 
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit && userLoggedInDetails.role == userTypes.ULB" [tooltip]="tolTemplateC" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit" [tooltip]="tolTemplateN" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/cancel.svg">
+                        </mat-icon>
+
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                     </div>
                 </div>
@@ -201,8 +105,12 @@
                 </mat-icon> -->
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
 
-                        <mat-icon *ngIf="allStatus" class="pull-right" aria-hidden="false">
-                            <img src="../../../assets/form-icon/cancel.svg">
+                        <mat-icon *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB" tooltip="No Submission Requrid" placement="right" class="pull-right" aria-hidden="false">
+                            <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                     </div>
                 </div>
@@ -220,10 +128,10 @@
                         </div>
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -244,10 +152,10 @@
                         </div>
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -269,8 +177,12 @@
                         <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon> -->
-                        <mat-icon *ngIf="allStatus" class="pull-right" aria-hidden="false">
-                            <img src="../../../assets/form-icon/cancel.svg">
+                        <mat-icon *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB" tooltip="No Submission Requrid" placement="right" class="pull-right" aria-hidden="false">
+                            <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                     </div>
                 </div>
@@ -285,7 +197,8 @@
                             </mat-icon>
                         </div>
                         <div class="col-sm-9 col-xs-9" style="padding-right: 3px;">
-                            Municipal Challenge Fund
+                            <!-- Municipal Challenge Fund -->
+                            Million Plus Cities Challenge Fund
                         </div>
                     </div>
                 </h5>
@@ -306,10 +219,10 @@
                     </a>
 
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -348,16 +261,17 @@
                         </div>
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
                 </div>
             </ul>
-
+            <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
+            <ng-template #tolTemplateN>{{toolTipContentN}}</ng-template>
             <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
                 <div>
                     <button mat-raised-button class="subBtn" (click)="ulbPreview()">Preview and download</button>
@@ -365,7 +279,7 @@
                 <div *ngIf="(loggedInUserType === userTypes.ULB)" matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
                     <button mat-raised-button class="subBtn" [disabled]="!validate || submitted" (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
                 </div>
-                <div *ngIf="loggedInUserType === userTypes.STATE" matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
+                <div *ngIf="loggedInUserType === userTypes.STATE && (takeStateAction == 'true')" matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
                     <button mat-raised-button class="subBtn" [disabled]="finalActionDis" (click)="finalStateAction()">
                     Final Review Submit</button>
                 </div>
@@ -380,7 +294,7 @@
             <div class="container-fluid">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
-                        Welcome {{ userLoggedInDetails.name }},
+                        {{ userLoggedInDetails.name }},
                         <span *ngIf="
             loggedInUserType === userTypes.ADMIN ||
             loggedInUserType === userTypes.MoHUA ||

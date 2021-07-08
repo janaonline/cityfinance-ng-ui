@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-mohuaform',
   templateUrl: './mohuaform.component.html',
@@ -7,7 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MohuaformComponent implements OnInit {
 
-  constructor() { }
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType;
+  constructor(
+    private _router: Router
+  ) {
+    this.loggedInUserType =  this.loggedInUserDetails.role;
+    switch (this.loggedInUserType) {
+      case USER_TYPE.ULB:
+          //  this._router.navigate(["/ulbform/overview"]);
+          this._router.navigate(["/home"]);
+            break;
+     case USER_TYPE.STATE:
+         // this._router.navigate(["/stateform/dashboard"]);
+         this._router.navigate(["/home"]);
+        break;
+    //  case USER_TYPE.MoHUA:
+    //   this._router.navigate(["/mohua/dashboard"]);
+    //   break;
+      // case USER_TYPE.PARTNER:
+      // case USER_TYPE.ADMIN:
+      // case undefined:
+      // case null:
+      //   return;
+      // default:
+      //   this._router.navigate(["/home"]);
+      //   break;
+    }
+  }
 
   ngOnInit(): void {
   }

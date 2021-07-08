@@ -20,19 +20,31 @@
 
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 8px;">
+                        <!-- Upload Signed Grant Transfer Certificate for Million Tied Grants  -->
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align: left;">
-                            (A) Upload Signed Grant Transfer Certificate for Million Tied Grants <span
+                            (A) Upload Signed Grant Transfer Certificate for Million Plus Cities Grant for Water Supply and SWM<span
                                 style="color: red;">*</span></label>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
-
-                        <label for="cin">
-                            <a class=" btn btnUpload" (click)="uploadButtonClicked()">Upload Pdf
+                    <div class="col-lg-5 col-md-5 col-sm-5" style="margin-left: 3rem; margin-top: 2px;">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <label for="cin">
+                            <a class="btn btnUpload" (click)="uploadButtonClicked()" [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                         </label>
-                        <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')" accept=".pdf" />
+                                <input id="cin" name="cin" type="file" [disabled]="isDisabled" (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')" accept=".pdf" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group" *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionA" style="margin-bottom: 1rem; padding: 0; text-align: right;">
+                                <div>
+                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp('millionTied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+
+                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus('millionTied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
+                                width: 82px;">Return</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <span style="color: red;" *ngIf="millionTiedFileUrl == '' && submitted">
@@ -61,12 +73,23 @@
                                     <a href="{{ millionTiedFileUrl }}" target="_blank">
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                     </a>
-                                    <a (click)="clearFiles('fileName_millionTied')" style="margin-left: 4px;">
+                                    <a (click)="clearFiles('fileName_millionTied')" [ngClass]="{'anDisable': isDisabled }" style="margin-left: 4px;">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="stateActionA == 'REJECTED'" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
+                        <div class="float-right">
+                            <span style="font-weight: 600; text-align: left">Reason for rejection</span>
+                            <div class="input-group" style="width: 100%">
+                                <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('millionTied')" [(ngModel)]="rejectReasonA">
+                  </textarea>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -74,20 +97,34 @@
 
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-6 col-md-6 col-sm-6">
+                        <!-- Upload Signed Grant Transfer Certificate for Non-Million Tied Grants -->
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align:left;">
-                            (B) Upload Signed Grant Transfer Certificate for Non-Million Tied Grants<span
+                            (B) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Tied Grant<span
                                 style="color: red;">*</span></label>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
-
-                        <label for="cind">
-                            <a class="btn btnUpload" (click)="uploadButtonClicked()">Upload Pdf
+                    <div class="col-lg-5 col-md-5 col-sm-5" style="margin-left: 3rem; margin-top: 2px;">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <label for="cind">
+                            <a class="btn btnUpload" (click)="uploadButtonClicked()"
+                            [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                         </label>
-                        <input id="cind" name="cind" type="file" (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')" accept=".pdf" />
+                                <input id="cind" name="cind" type="file" [disabled]="isDisabled" (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')" accept=".pdf" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group" *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionB" style="margin-bottom: 1rem; padding: 0; text-align: right;">
+                                <div>
+                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+
+                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
+                          width: 82px;">Return</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
                 <span style="color: red;" *ngIf="nonMillionTiedFileUrl == '' && submitted">
@@ -113,30 +150,54 @@
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;">
+                                    <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="stateActionB == 'REJECTED'" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
+                        <div class="float-right">
+                            <span style="font-weight: 600; text-align: left">Reason for rejection</span>
+                            <div class="input-group" style="width: 100%">
+                                <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('nonMillionTied')" [(ngModel)]="rejectReasonB">
+                  </textarea>
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <!-- 3rd Card -->
 
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-6 col-md-6 col-sm-6">
+                        <!-- Upload Signed Grant Transfer Certificate for Million Untied Grants -->
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align: left;">
-                            (C) Upload Signed Grant Transfer Certificate for Million Untied Grants<span
+                            (C) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Untied Grant<span
                                 style="color: red;">*</span></label>
                     </div>
-                    <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 5rem; margin-top: 2px;">
-                        <label for="cinde">
-                            <a class="btn btnUpload" (click)="uploadButtonClicked()">Upload Pdf
+                    <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 3rem; margin-top: 2px;">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <label for="cinde">
+                            <a class="btn btnUpload" (click)="uploadButtonClicked()" [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                     style="margin-left: 4px;">
                             </a>
                         </label>
-                        <input id="cinde" name="cinde" type="file" (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')" accept=".pdf" />
+                                <input id="cinde" [disabled]="isDisabled" name="cinde" type="file" (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')" accept=".pdf" />
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group" *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionC" style="margin-bottom: 1rem; padding: 0; text-align: right;">
+                                <div>
+                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+
+                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
+                        width: 82px;">Return</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -164,12 +225,23 @@
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;">
+                                    <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                     </a>
                                 </ng-container>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="stateActionC == 'REJECTED'" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
+                        <div class="float-right">
+                            <span style="font-weight: 600; text-align: left">Reason for rejection</span>
+                            <div class="input-group" style="width: 100%">
+                                <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('nonMillionUntied')" [(ngModel)]="rejectReasonC">
+                  </textarea>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -182,7 +254,7 @@
                 <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{change == 'true' ?
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)" [disabled]="isDisabled">{{change == 'true' ?
                     'SAVE AND
                     NEXT': 'NEXT'}}</button>
             </div>

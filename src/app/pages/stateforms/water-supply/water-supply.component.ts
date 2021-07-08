@@ -81,10 +81,10 @@ export class WaterSupplyComponent implements OnInit {
     })
 
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
-    console.log(this.benchmarks);
-    console.log('target', this.targets)
-    console.log('serv', this.services);
-    console.log('basline', this.focusTargetKey)
+    // console.log(this.benchmarks);
+    // console.log('target', this.targets)
+    // console.log('serv', this.services);
+    // console.log('basline', this.focusTargetKey)
     this.getwaterSuppyData()
 
   }
@@ -94,7 +94,11 @@ export class WaterSupplyComponent implements OnInit {
         console.log('response', res)
         let ulbdetails: any = res;
         this.detailsOfUa = ulbdetails.data;
-
+        console.log(this.detailsOfUa);
+        // let st = this.detailsOfUa[0].uaName;
+        // console.log('kuch ni', st);
+        // st = st.split(' ')
+        // console.log('kuch ni', st);
       })
   }
 
@@ -155,7 +159,7 @@ export class WaterSupplyComponent implements OnInit {
     this.uaDetails = uaDetails
     const dialogConfig = new MatDialogConfig();
     let dialogRef = this.dialog.open(template, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -166,7 +170,7 @@ export class WaterSupplyComponent implements OnInit {
     this.uaDetails = uaDetails
     const dialogConfig = new MatDialogConfig();
     let dialogRef = this.dialog.open(template1, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {

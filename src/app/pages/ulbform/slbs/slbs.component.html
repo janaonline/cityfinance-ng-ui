@@ -13,8 +13,8 @@
 </div>
 <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 
-<div class="card mt-1 mb-2" style="background-color: #F7F7F7;" *ngIf="loggedInUserType === USER_TYPE.STATE &&
-(takeStateAction == 'true')">
+<div class="card mt-1 mb-2" style="background-color: #F7F7F7;" *ngIf="(loggedInUserType === USER_TYPE.STATE &&
+(takeStateAction == 'true')) || (loggedInUserType === USER_TYPE.STATE && compDis == 'true')">
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
     </div>

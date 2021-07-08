@@ -6,6 +6,8 @@ import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service
 import { StateformsService } from '../stateforms.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReviewUlbFormService } from './review-ulb-form.service'
+import { UserUtility } from 'src/app/util/user/user';
+import { USER_TYPE } from 'src/app/models/user/userType';
 @Component({
   selector: 'app-review-ulb-form',
   templateUrl: './review-ulb-form.component.html',
@@ -51,12 +53,16 @@ export class ReviewUlbFormComponent implements OnInit {
   ngOnInit() {
     this.loadData();
   }
+  noHistorydataFound = false
   viewHistory(template, formId) {
     console.log(formId)
-
+    this.noHistorydataFound = false
     this.reviewUlbFormService.getData(formId).subscribe(
       (res) => {
         this.historyData = res['data']
+        if (this.historyData.length == 0) {
+          this.noHistorydataFound = true
+        }
         console.log(this.historyData)
       },
       (err) => {
@@ -68,7 +74,7 @@ export class ReviewUlbFormComponent implements OnInit {
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {
-      height: "500px",
+      height: "auto",
       width: "600px"
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -171,6 +177,14 @@ export class ReviewUlbFormComponent implements OnInit {
        this.takeStateAction = 'true'
     }
     localStorage.setItem('takeStateAction' , this.takeStateAction)
+    let stActionCheck = 'false'
+     if (
+          (resData.actionTakenByRole == "STATE")&&
+           (resData.isSubmit == true) && (resData.status != 'PENDING')
+        ){
+          stActionCheck = 'true'
+        }
+        localStorage.setItem("stateActionComDis", stActionCheck);
   }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;

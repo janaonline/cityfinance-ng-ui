@@ -53,6 +53,7 @@ import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/cust
 import { CommFileUploadComponent } from './components/comm-file-upload/comm-file-upload.component';
 import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ActionComponentComponent } from './components/action-component/action-component.component';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -107,6 +108,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     CustomizedHeaderComponent,
     CustomTooltipComponent,
     CommFileUploadComponent,
+    ActionComponentComponent,
 
   ],
   exports: [
@@ -135,6 +137,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     MatCheckboxModule,
     FcSlbComponent,
     CommFileUploadComponent,
+    ActionComponentComponent
   ],
   providers: [FinancialDataService],
 })
