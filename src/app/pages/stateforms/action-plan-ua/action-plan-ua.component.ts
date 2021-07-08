@@ -33,7 +33,7 @@ export class ActionPlanUAComponent implements OnInit {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   dialogRefForNavigation;
-
+  actionRes;
   constructor(
     public stateformsService: StateformsService,
     public actionplanserviceService: ActionplanserviceService,
@@ -329,6 +329,10 @@ export class ActionPlanUAComponent implements OnInit {
       panelClass: "no-padding-dialog",
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  checkStatus(ev){
+ console.log('action plan of UA', ev);
+
   }
 }
 
