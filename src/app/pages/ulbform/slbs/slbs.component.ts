@@ -162,7 +162,7 @@ export class SlbsComponent implements OnInit {
   value;
   postSlbData(value) {
     console.log(value);
-    console.log('slb check........', value);
+    console.log("slb check........", value);
     this.value = value;
     let data = {
       design_year: this.Years["2021-22"],
@@ -389,9 +389,10 @@ export class SlbsComponent implements OnInit {
       waterPotability: {
         documents: {
           waterPotabilityPlan: [
-            this.statePostData.data[0].waterPotability.documents.waterPotabilityPlan[0]
-          ]
-        }
+            this.statePostData.data[0].waterPotability.documents
+              .waterPotabilityPlan[0],
+          ],
+        },
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     };
@@ -399,6 +400,10 @@ export class SlbsComponent implements OnInit {
     this._ulbformService.postStateSlbActionSlb(data).subscribe(
       (res) => {
         swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.slbForWaterSupplyAndSanitation.status =
+          res["waterManagement"].status;
+        this._ulbformService.allStatus.next(status);
       },
       (error) => {
         swal("An error occured!");

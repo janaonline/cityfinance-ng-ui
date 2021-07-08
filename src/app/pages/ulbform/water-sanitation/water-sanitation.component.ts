@@ -492,9 +492,9 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     this.wsService.stateActionPost(body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
-        // const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        // status.utilReport.isSubmit = res["isCompleted"];
-        // this._ulbformService.allStatus.next(status);
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.plans.status = res["newPlan"].status;
+        this._ulbformService.allStatus.next(status);
       },
       (error) => {
         swal("An error occured!");
