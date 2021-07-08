@@ -12,6 +12,8 @@ import { PlansListComponent } from './plans-list/plans-list.component'
 import { SlbListComponent } from './slb-list/slb-list.component'
 import { UtilreportListComponent } from './utilreport-list/utilreport-list.component'
 import { AnnualaccListComponent } from './annualacc-list/annualacc-list.component'
+import { ActivatedRoute } from '@angular/router';
+import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
@@ -22,15 +24,28 @@ import * as JSC from "jscharting";
   templateUrl: "./state-dashboard.component.html",
   styleUrls: ["./state-dashboard.component.scss"],
 })
-export class StateDashboardComponent implements OnInit {
+export class StateDashboardComponent extends BaseComponent implements OnInit {
   constructor(
     public stateDashboardService: StateDashboardService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public activatedRoute: ActivatedRoute
 
+  ) {
+    super();
 
-  ) { }
+    this.activatedRoute.params.subscribe((val) => {
+      const { id } = val;
+      if (id) {
+        this.id = id;
+        console.log('state dashboard', id)
+        sessionStorage.setItem('state_id', id);
+      }
+    });
 
+  }
+  id
   ngOnInit(): void {
+
     this.onLoad();
 
   }
@@ -145,7 +160,7 @@ export class StateDashboardComponent implements OnInit {
   }
 
   getPlansData() {
-    this.stateDashboardService.getPlansData().subscribe(
+    this.stateDashboardService.getPlansData(this.id).subscribe(
       (res) => {
         console.log(res);
         this.plansDataApiRes = res
@@ -524,7 +539,7 @@ export class StateDashboardComponent implements OnInit {
     });
   }
   getCardData() {
-    this.stateDashboardService.getCardData().subscribe(
+    this.stateDashboardService.getCardData(this.id).subscribe(
       (res) => {
         console.log(res["data"]);
         let data = res["data"];
@@ -548,7 +563,7 @@ export class StateDashboardComponent implements OnInit {
     );
   }
   getFormData() {
-    this.stateDashboardService.getFormData().subscribe(
+    this.stateDashboardService.getFormData(this.id).subscribe(
       (res) => {
         console.log(res);
         this.formDataApiRes = res

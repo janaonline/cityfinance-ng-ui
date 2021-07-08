@@ -119,8 +119,8 @@ export class GTCertificateComponent implements OnInit {
   disableAllForms = false;
   isStateSubmittedForms = '';
   ngOnInit(): void {
-
-    this.gtcService.getFiles()
+    let id = sessionStorage.getItem("state_id")
+    this.gtcService.getFiles(id)
       .subscribe((res) => {
 
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
@@ -147,9 +147,12 @@ export class GTCertificateComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "false")
     this.change = "false"
     this.submitted = false;
-    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
-      console.log('Gt Certificate Testing', submitted)
-      this.disableAllForms = true;
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Gt Certificate Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
 
     });
 
@@ -220,10 +223,10 @@ export class GTCertificateComponent implements OnInit {
           // this._stateformsService.allStatus.next(status);
           sessionStorage.setItem("changeInGTC", "false")
           this.change = "false"
-          const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-          status.GTCertificate.isSubmit = !this.uploadedFiles.isDraft;
-          console.log(status)
-          this._stateformsService.allStatusStateForms.next(status);
+          const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+          form.steps.GTCertificate.isSubmit = !this.uploadedFiles.isDraft;
+          console.log(form)
+          this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
           resolve(res)
         },

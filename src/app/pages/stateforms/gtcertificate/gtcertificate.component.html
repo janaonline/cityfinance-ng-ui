@@ -30,7 +30,7 @@
                             <button [disabled]="disableAllForms" class="btn btnUpload" (click)="uploadButtonClicked()"
                                 [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                    style="margin-left: 4px;">
+                                    style="margin-left: 4px; position:relative; z-index:-1">
                             </button>
                         </label>
                         <input id="cin" name="cin" type="file" [disabled]="isDisabled"
@@ -68,8 +68,13 @@
                                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                             style="height: 19px;">
                                     </a>
-                                    <a (click)="clearFiles('fileName_millionTied')"
+                                    <a *ngIf="!disableAllForms" (click)="clearFiles('fileName_millionTied')"
                                         [ngClass]="{'anDisable': isDisabled }" style="margin-left: 4px;">
+                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                            style="height: 13px;">
+                                    </a>
+                                    <a *ngIf="disableAllForms" class="disabled" [ngClass]="{'anDisable': isDisabled }"
+                                        style="margin-left: 4px;">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                             style="height: 13px;">
                                     </a>
@@ -93,7 +98,7 @@
                             <button [disabled]="disableAllForms" class="btn btnUpload" (click)="uploadButtonClicked()"
                                 [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                    style="margin-left: 4px;">
+                                    style="margin-left: 4px; position:relative; z-index:-1">
                             </button>
                         </label>
                         <input id="cind" name="cind" type="file" [disabled]="isDisabled"
@@ -129,8 +134,13 @@
                                             style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
-                                        [ngClass]="{'anDisable': isDisabled }">
+                                    <a *ngIf="!disableAllForms" (click)="clearFiles('fileName_nonMillionTied')"
+                                        style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
+                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                            style="height: 13px;">
+                                    </a>
+                                    <a *ngIf="disableAllForms" class="disabled" [ngClass]="{'anDisable': isDisabled }"
+                                        style="margin-left: 4px;">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                             style="height: 13px;">
                                     </a>
@@ -152,7 +162,7 @@
                             <button [disabled]="disableAllForms" class="btn btnUpload" (click)="uploadButtonClicked()"
                                 [ngClass]="{'anDisable': isDisabled }">Upload Pdf
                                 <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
-                                    style="margin-left: 4px;">
+                                    style="margin-left: 4px; position:relative; z-index:-1">
                             </button>
                         </label>
                         <input id="cinde" [disabled]="isDisabled" name="cinde" type="file"
@@ -189,11 +199,17 @@
                                             style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;"
-                                        [ngClass]="{'anDisable': isDisabled }">
+                                    <a *ngIf="!disableAllForms" (click)="clearFiles('fileName_nonMillionUntied')"
+                                        style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                             style="height: 13px;">
                                     </a>
+                                    <a *ngIf="disableAllForms" class="disabled" [ngClass]="{'anDisable': isDisabled }"
+                                        style="margin-left: 4px;">
+                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                            style="height: 13px;">
+                                    </a>
+
                                 </ng-container>
                             </div>
                         </div>

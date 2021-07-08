@@ -15,9 +15,9 @@ export class GTCertificateService {
         return this.http.post(sendUrl, val)
 
     }
-    getFiles() {
+    getFiles(state_id) {
 
-        let getFilesUrl = environment.api.url + 'state/gtc/get/606aaf854dff55e6c075d219'
+        let getFilesUrl = environment.api.url + `state/gtc/get/606aaf854dff55e6c075d219?state_id=${state_id}`
         return this.http.get(getFilesUrl).pipe(catchError(error => {
             let errMes = 'An error occured.'
             console.log(error);

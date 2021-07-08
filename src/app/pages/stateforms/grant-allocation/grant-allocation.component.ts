@@ -89,12 +89,14 @@ export class GrantAllocationComponent implements OnInit {
     };
   } = {};
   filesAlreadyInProcess: number[] = [];
-
+  disableAllForms = false
+  isStateSubmittedForms = ''
   ngOnInit() {
     sessionStorage.setItem("ChangeInGrantAllocation", "false");
     this.state_name = localStorage.getItem("state_name");
+    let id = sessionStorage.getItem("state_id")
     //console.log('gaa', this.state_name);
-    this._gAservices.getFiles().subscribe(
+    this._gAservices.getFiles(id).subscribe(
       (res) => {
         console.log("gaResponse", res);
         let gAData: any = res;
@@ -112,9 +114,21 @@ export class GrantAllocationComponent implements OnInit {
       }
     );
 
-    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
-      console.log('Grant Allocation Testing', submitted)
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('grant allocation Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
+
     });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
   }
 
   downloadSample() {
@@ -345,10 +359,10 @@ export class GrantAllocationComponent implements OnInit {
       (res) => {
         console.log(res);
         sessionStorage.setItem("ChangeInGrantAllocation", "false");
-        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-        status.grantAllocation.isSubmit = !this.postData.isDraft;
-        console.log(status)
-        this.stateformsService.allStatusStateForms.next(status);
+        const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        form.steps.grantAllocation.isSubmit = !this.postData.isDraft;
+        console.log(form)
+        this.stateformsService.allStatusStateForms.next(form);
         swal("Record Submitted Successfully!");
 
         if (this.routerNavigate) {

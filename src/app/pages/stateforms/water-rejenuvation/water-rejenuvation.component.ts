@@ -54,14 +54,27 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     });
   }
-
+  disableAllForms = false;
+  isStateSubmittedForms = ''
   async ngOnInit() {
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     await this.loadData();
     this.initializeReport();
-    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
-      console.log('Water Rejuventation Testing', submitted)
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Water Rejuvenation Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
+
     });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;
@@ -207,7 +220,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
   loadData() {
     return new Promise((resolve, reject) => {
-      this.waterRejenuvationService.getData(this.Year["2021-22"]).subscribe(
+      let id = sessionStorage.getItem("state_id")
+      this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
         (res) => {
           this.errorOnload = true;
           this.data = res["data"]["uaData"];

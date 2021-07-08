@@ -15,7 +15,9 @@
     <div class="card-body" style="margin-top: 2pc;">
         <ng-container>
             <br>
-            <app-comm-file-upload [dataFromParent]="data.excel" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
+            <app-comm-file-upload [dataFromParent]="data.excel" [quesName]="quesName" [requiredBtn]="requiredBtn"
+                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)">
+            </app-comm-file-upload>
             <br>
         </ng-container>
     </div>
@@ -25,7 +27,7 @@
 
 
 <div class="row" style="margin-top: 5rem;">
-    <div [routerLink]="['../gtCertificate']" routerLinkActive="router-link-active"  class="col-sm-6 col-md-6 col-lg-6">
+    <div [routerLink]="['../gtCertificate']" routerLinkActive="router-link-active" class="col-sm-6 col-md-6 col-lg-6">
         <button class="backButton">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">

@@ -72,20 +72,21 @@
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByUserRole == 'MoHUA'))">
+                                            *ngIf="!((resData.isSubmit && resData.actionTakenByRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA'))">
 
 
-                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
-                            '/ulbform',  resData?._id ]">
+                                            <a (click)="viewStateForm(resData)" [routerLink]="[
+                            '/stateform/dashboard',  resData?.state_id ]">
+
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">
                                                 </mat-icon>
                                             </a>
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'STATE')
-                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'MoHUA')">
-                                            <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
-                                        '/ulbform/overview', resData?._id  ]">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByRole == 'STATE')
+                                             || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA')">
+                                            <a class="btn btn-action" (click)="viewStateForm(resData)" [routerLink]="[
+                                        '/stateform/dashboard', resData?.state_id  ]">
                                                 Take Action
                                             </a>
                                         </td>

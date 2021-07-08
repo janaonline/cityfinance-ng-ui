@@ -108,3 +108,14 @@ input::-webkit-inner-spin-button {
 .falseVal{
   border-color: red;
 }
+
+.disabled {
+  color: gray;
+  background-color: rgb(247, 247, 247) ;
+pointer-events: none
+}
+
+.cursor-not-allowed{
+  cursor: not-allowed;
+
+}

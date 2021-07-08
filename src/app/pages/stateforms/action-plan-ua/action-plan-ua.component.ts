@@ -63,6 +63,7 @@ export class ActionPlanUAComponent implements OnInit {
   isStateSubmittedForms = ''
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
+    this.state_id = sessionStorage.getItem("state_id")
     this.getUlbNames();
     for (const key in this.uasData) {
       let code = localStorage.getItem("state_code");
@@ -70,9 +71,12 @@ export class ActionPlanUAComponent implements OnInit {
       code += "/" + this.yearCode;
       this.uaCodes[key] = code;
     }
-    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((submitted) => {
-      console.log('Action Plan Testing', submitted)
-      this.disableAllForms = true;
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Action Plan Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
 
     });
 
@@ -85,7 +89,7 @@ export class ActionPlanUAComponent implements OnInit {
 
   }
   getUlbNames() {
-    this.actionplanserviceService.getUlbsByState(this.userData.state).subscribe(
+    this.actionplanserviceService.getUlbsByState(this.state_id).subscribe(
       (res) => {
         this.ulbNames = res["data"];
         this.getCategory();
@@ -110,9 +114,11 @@ export class ActionPlanUAComponent implements OnInit {
       }
     );
   }
-
+  state_id
   load() {
-    this.actionplanserviceService.getFormData().subscribe(
+
+    console.log(this.state_id)
+    this.actionplanserviceService.getFormData(this.state_id).subscribe(
       (res) => {
         this.showLoader = false;
         console.log(res["data"], "sss");
@@ -234,10 +240,10 @@ export class ActionPlanUAComponent implements OnInit {
           icon: "success",
         });
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
-        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-        status.actionPlans.isSubmit = !this.data.isDraft;
-        console.log(status)
-        this.stateformsService.allStatusStateForms.next(status);
+        const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        form.steps.actionPlans.isSubmit = !this.data.isDraft;
+        console.log(form)
+        this.stateformsService.allStatusStateForms.next(form);
         if (this.routerNavigate) {
           this._router.navigate([this.routerNavigate.url]);
         }

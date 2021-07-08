@@ -46,6 +46,7 @@ export class MohuaDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       try {
         this.mapGeoData = data;
@@ -293,7 +294,7 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   getPlansData() {
-    this.stateDashboardService.getPlansData().subscribe(
+    this.stateDashboardService.getPlansData('').subscribe(
       (res) => {
         console.log(res);
         this.plansDataApiRes = res
@@ -648,7 +649,7 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
   getCardData() {
-    this.stateDashboardService.getCardData().subscribe(
+    this.stateDashboardService.getCardData('').subscribe(
       (res) => {
         console.log(res["data"]);
         let data = res["data"];
@@ -672,7 +673,7 @@ export class MohuaDashboardComponent implements OnInit {
     );
   }
   getFormData() {
-    this.stateDashboardService.getFormData().subscribe(
+    this.stateDashboardService.getFormData('').subscribe(
       (res) => {
         console.log(res);
         this.formDataApiRes = res

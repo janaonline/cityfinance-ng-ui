@@ -92,5 +92,13 @@ export class ReviewStateComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  takeMoHUAAction = 'false'
+  viewStateForm(resData) {
+    if ((resData.actionTakenByRole == 'STATE' && resData.isSubmit == true) ||
+      (resData.actionTakenByRole == 'MoHUA' && resData.isSubmit == false)) {
+      this.takeMoHUAAction = 'true'
+    }
+    localStorage.setItem('takeMoHUAAction', this.takeMoHUAAction)
+  }
 
 }

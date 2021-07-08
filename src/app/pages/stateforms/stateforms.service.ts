@@ -9,6 +9,7 @@ import { Subject } from "rxjs";
 export class StateformsService {
   allStatus = new Subject<any>();
   allStatusStateForms = new Subject<any>();
+  allStateFormsData = new Subject<any>()
   disableAllFormsAfterStateFinalSubmit = new Subject<any>();
   getObservedStatus() {
     return this.allStatus;
@@ -26,14 +27,21 @@ export class StateformsService {
     return this.http.post(`${environment.api.url}stateMasterForm/finalSubmit`, data);
   }
 
+
+  getAllStateForms(design_year, state) {
+    return this.http.get(`${environment.api.url}stateMasterForm/getAllForms/${design_year}/${state}`)
+  }
+
+
   getStateForm(design_year, rowId) {
-    return this.http.get(`${environment.api.url}stateMasterForm/get/${design_year}`);
+    if (rowId != null) {
+      return this.http.get(`${environment.api.url}stateMasterForm/get/${design_year}/${rowId}`);
+    } else {
+      return this.http.get(`${environment.api.url}stateMasterForm/get/${design_year}`);
+    }
   }
 
   getulbDetails() {
-    // return this.http.get('https://democityfinanceapi.dhwaniris.in/api/v1/user/profile')
-
-    //https://democityfinanceapi.dhwaniris.in/api/v1/user/all?role=ULB&filter=%7B%7D&sort=%7B%7D&skip=0&limit=10
     return this.http.get(`${environment.api.url}user/all?role=ULB`);
   }
   getUlbReview() {

@@ -99,7 +99,12 @@
                         Grant Transfer Certificate
                     </div>
                     <div class="col-sm-1 col-xs-1">
-
+                        <mat-icon *ngIf=" gtc_greenTick " class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/checked.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="!gtc_greenTick " class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/cancel.svg">
+                        </mat-icon>
                     </div>
                 </a>
             </div>
@@ -114,7 +119,12 @@
                         Linking of PFMS Account
                     </div>
                     <div class="col-sm-1 col-xs-1">
-
+                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/checked.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/cancel.svg">
+                        </mat-icon>
                     </div>
                 </a>
             </div>
@@ -163,7 +173,12 @@
                             Water Rejenuvation and Recycling
                         </div>
                         <div class="col-sm-1 col-xs-1">
-
+                            <mat-icon *ngIf=" wr_greenTick" class="pull-right" aria-hidden="false">
+                                <img src="../../../assets/form-icon/checked.svg">
+                            </mat-icon>
+                            <mat-icon *ngIf="!wr_greenTick" class="pull-right" aria-hidden="false">
+                                <img src="../../../assets/form-icon/cancel.svg">
+                            </mat-icon>
                         </div>
                     </a>
                 </div>
@@ -179,9 +194,12 @@
                         Action Plan for UA Service Level Indicators
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right">
-                        <!-- <mat-icon aria-hidden="false">
-                            <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
-                        </mat-icon> -->
+                        <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/checked.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/cancel.svg">
+                        </mat-icon>
                     </div>
                 </a>
             </div>
@@ -196,13 +214,16 @@
                         Grant Allocation to ULBs
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right">
-                        <!-- <mat-icon aria-hidden="false">
-                            <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
-                        </mat-icon> -->
+                        <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/checked.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/cancel.svg">
+                        </mat-icon>
                     </div>
                 </a>
             </div>
-            <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
+            <div class="subBtnDiv text-center" style="margin-bottom: 40px;">.steps
                 <div>
                     <button class="btn subBtn">Preview and download</button>
 
