@@ -18,7 +18,6 @@ import { AnnualAccountsService } from "../annual-accounts.service";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { defaultDailogConfiuration } from "../../questionnaires/state/configs/common.config";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
-
 @Component({
   selector: "app-annual-accounts-create",
   templateUrl: "./annual-accounts-create.component.html",
@@ -53,7 +52,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
 
   styleForPDF = `<style>
   .container {
-    width: 95%;
+    width: 100% !important;
   font-size: 10px !important;
   }
   .mr{
@@ -61,6 +60,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   }
   </style>`;
 
+  date;
   validateForm!: FormGroup;
   stateList: IStateULBCovered[] = [];
   stateListName = {};
@@ -117,6 +117,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
   dialogRefForAlert;
   totalFiles = 8;
   ngOnInit() {
+    this.date = new Date();
     if (this.viewData != undefined) {
       this.viewMode = true;
     }
@@ -453,9 +454,14 @@ export class AnnualAccountsCreateComponent implements OnInit {
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
+    console.log(JSON.stringify(html));
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", "gtcertificate.pdf");
+        this.downloadFile(
+          res.slice(0),
+          "pdf",
+          "Acknowledgement_Annual Accounts.pdf"
+        );
       },
       (err) => {
         console.log(err);
@@ -473,17 +479,18 @@ export class AnnualAccountsCreateComponent implements OnInit {
     this.dialog.open(DialogComponent, { data: option });
   }
   private downloadFile(blob: any, type: string, filename: string): string {
-    const url = window.URL.createObjectURL(blob); // <-- work with blob directly
-
-    // create hidden dom element (so it works in all browsers)
+    const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.setAttribute("style", "display:none;");
     document.body.appendChild(a);
-
-    // create file, attach to hidden element and open hidden element
     a.href = url;
     a.download = filename;
     a.click();
     return url;
+  }
+
+  formatChange(yearInHistory) {
+    let temp = yearInHistory.split("_");
+    return `${temp[temp.length - 2]}-${temp[temp.length - 1]}`;
   }
 }

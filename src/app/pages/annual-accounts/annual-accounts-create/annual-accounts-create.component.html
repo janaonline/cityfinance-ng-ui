@@ -1,4 +1,4 @@
-<div class="container" >
+<div class="container">
   <div class="row mt-2">
     <div style="text-align: center; margin-bottom: 25px">
       <h3 *ngIf="!viewMode">Upload Annual Accounts</h3>
@@ -406,7 +406,7 @@
           <tr *ngFor="let item of historyYear ;let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ typeInHistory }}</td>
-            <td>{{ yearInHistory }}</td>
+            <td>{{ formatChange(yearInHistory) }}</td>
             <td><a target="_blank" href="{{getUrl(item)}}">{{getName(item)}}</a></td>
           </tr>
         </tbody>
@@ -427,9 +427,9 @@
       <h3>Thank You!</h3>
     </div>
     <p style="margin-bottom: 2pc;">You can Download your Acknowledgement of Submission from here..
-        <mat-icon class="cursor" style="margin-right: 2pc;" (click)="downloadAsPDF()" aria-hidden="false">
-            <img src="../../../../assets/images//file (1).png" >
-        </mat-icon>
+      <mat-icon class="cursor" style="margin-right: 2pc;" (click)="downloadAsPDF()" aria-hidden="false">
+        <img src="../../../../assets/images//file (1).png">
+      </mat-icon>
     </p>
     <div class="pull-right">
       <a [routerLink]="['/home']" (click)="alertClose()">Go to Home</a>
@@ -453,9 +453,18 @@
 
 <div class="container dwn" #prev2>
   <div class="row">
-    <h2 style="text-align: center;">Annual Accounts Acknowledgement</h2>
+    <a><img style="float: right; width: 30%;" src="https://staging.cityfinance.in/resource/cityFinanceLogoPdf.png"
+        alt="city-Finance-Logo-Pdf" border="0"></a>
   </div>
-  <br><br>
+  <br>
+  <br>
+  <div class="row">
+    <h2 style="text-align: center;">Cityfinance Annual Accounts Upload <br>
+      Acknowledgment Slip <br>
+      {{date| dateFormat}}
+    </h2>
+  </div>
+  <br>
   <div class="row">
     1. Name of the State
     <label style="float: right; width: 60%;">{{stateListName[validateForm.value.state]}}</label>
@@ -481,61 +490,69 @@
   <br>
   <div class="row">
     <div class="instructions-layout">
-      <h4 style="font-weight: 600;margin-top: 3%;">
-        Please read the following instructions and upload the documents:
+      <h4 style="font-weight: 600;margin-top: 3%;width: 90%;">
+        This is to confirm that we have received the following financial statements for XYZ ULB on {{date |
+        dateFormat}}.
       </h4>
-      <p style="line-break: strict;">
-        1. All the documents pertaining to a specific financial year should be
-        combined into a single document before uploading.
-        <br />2. Please use following format for naming the documents to be
-        uploaded: nameofthedocument_FY_ULB Name (Example: Name of the document
-        for annual audited accounts of Jaipur for 2015-16: Annual
-        accounts_15-16_Jaipur municipal corporation).<br />3. Please upload
-        the documents in PDF and Excel format according to type mentioned in
-        the question.<br />4. File size of the single document should not
-        exceed 50 MB. If it exceeds 50 MB the compress the file size using
-        https://pdfcompressor.com/.
-      </p>
     </div>
   </div>
   <br>
-  <div class="row">
-    Audited/Unaudited Annual Accounts for financial year 2015-16:- <br>
-    <div class="mr" ><label>PDF: <a
-          href="{{documents.financial_year_2015_16.pdf[0]?.url}}">{{
-          documents.financial_year_2015_16.pdf[0]?.name }}</a></label></div>
+  <div style="margin-left: 1em;">
+    <div class="row">
+      1) Audited/Unaudited Annual Accounts for financial year 2015-16:- <br>
+      <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a download="true" target="_blank"
+            href="{{documents.financial_year_2015_16.pdf[0]?.url}}">{{
+            documents.financial_year_2015_16.pdf[0]?.name }}</a></label></div>
+
+      <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
+            href="{{documents.financial_year_2015_16.excel[0]?.url}}">{{
+            documents.financial_year_2015_16.excel[0]?.name }}</a></label></div>
+    </div>
     <br>
-    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2015_16.excel[0]?.url}}">{{
-          documents.financial_year_2015_16.excel[0]?.name }}</a></label></div>
+    <div class="row">
+      2) Audited/Unaudited Annual Accounts for financial year 2016-17:- <br>
+      <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
+            href="{{documents.financial_year_2016_17.pdf[0]?.url}}">{{
+            documents.financial_year_2016_17.pdf[0]?.name }}</a></label></div>
+
+      <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
+            href="{{documents.financial_year_2016_17.excel[0]?.url}}">{{
+            documents.financial_year_2016_17.excel[0]?.name }}</a></label></div>
+    </div>
+    <br>
+    <div class="row">
+      3) Audited/Unaudited Annual Accounts for financial year 2017-18:- <br>
+      <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
+            href="{{documents.financial_year_2017_18.pdf[0]?.url}}">{{
+            documents.financial_year_2017_18.pdf[0]?.name }}</a></label></div>
+
+      <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
+            href="{{documents.financial_year_2017_18.excel[0]?.url}}">{{
+            documents.financial_year_2017_18.excel[0]?.name }}</a></label></div>
+    </div>
+    <br>
+    <div class="row">
+      4) Audited/Unaudited Annual Accounts for financial year 2018-19:- <br>
+      <div style="margin-left: 1em;margin-bottom: 1em;margin-top: 1em;"><label>a)PDF: <a target="_blank"
+            href="{{documents.financial_year_2018_19.pdf[0]?.url}}">{{
+            documents.financial_year_2018_19.pdf[0]?.name }}</a></label></div>
+
+      <div style="margin-left: 1em;"><label>b)Excel: <a target="_blank"
+            href="{{documents.financial_year_2018_19.excel[0]?.url}}">{{
+            documents.financial_year_2018_19.excel[0]?.name }}</a></label></div>
+    </div>
   </div>
   <br>
-  <div class="row">
-    Audited/Unaudited Annual Accounts for financial year 2016-17:- <br>
-    <div class="mr" ><label>PDF: <a
-          href="{{documents.financial_year_2016_17.pdf[0]?.url}}">{{
-          documents.financial_year_2016_17.pdf[0]?.name }}</a></label></div>
+  <p>The financial statements will be verified and standardized before being displayed under the "Financial Statements"
+    tab for analysis by the public.
+    <br><br>
+    We thank you for sharing the above information with us and for your contribution to keeping Indian cities
+    financially accountable and sustainable
+  </p>
+  <footer style="margin-top: 3em;">
+    <p style="text-align: center;">Note: This is a system generated report and does not require signature</p>
     <br>
-    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2016_17.excel[0]?.url}}">{{
-          documents.financial_year_2016_17.excel[0]?.name }}</a></label></div>
-  </div>
-  <br>
-  <div class="row">
-    Audited/Unaudited Annual Accounts for financial year 2017-18:- <br>
-    <div class="mr" ><label>PDF: <a
-          href="{{documents.financial_year_2017_18.pdf[0]?.url}}">{{
-          documents.financial_year_2017_18.pdf[0]?.name }}</a></label></div>
-    <br>
-    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2017_18.excel[0]?.url}}">{{
-          documents.financial_year_2017_18.excel[0]?.name }}</a></label></div>
-  </div>
-  <br>
-  <div class="row">
-    Audited/Unaudited Annual Accounts for financial year 2018-19:- <br>
-    <div class="mr" ><label>PDF: <a
-          href="{{documents.financial_year_2018_19.pdf[0]?.url}}">{{
-          documents.financial_year_2018_19.pdf[0]?.name }}</a></label></div>
-    <br>
-    <div class="mr" ><label>Excel: <a href="{{documents.financial_year_2018_19.excel[0]?.url}}">{{
-          documents.financial_year_2018_19.excel[0]?.name }}</a></label></div>
-  </div>
+    <p style="float: right;">Reach us at contact@cityfinance.in
+    </p>
+  </footer>
 </div>
