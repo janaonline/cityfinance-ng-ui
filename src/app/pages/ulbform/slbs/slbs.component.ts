@@ -40,6 +40,7 @@ export class SlbsComponent implements OnInit {
   finalSubmitStatus;
   takeStateAction;
   actionResSlb;
+  compDis;
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -51,6 +52,7 @@ export class SlbsComponent implements OnInit {
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
+    this.compDis = localStorage.getItem("stateActionComDis");
     this._router.events.subscribe(async (event: Event) => {
       if (!this.value?.saveData) {
         if (event instanceof NavigationStart) {
@@ -160,6 +162,7 @@ export class SlbsComponent implements OnInit {
   value;
   postSlbData(value) {
     console.log(value);
+    console.log("slb check........", value);
     this.value = value;
     let data = {
       design_year: this.Years["2021-22"],
@@ -386,9 +389,10 @@ export class SlbsComponent implements OnInit {
       waterPotability: {
         documents: {
           waterPotabilityPlan: [
-            this.statePostData.data[0].waterPotability.documents.waterPotabilityPlan
-          ]
-        }
+            this.statePostData.data[0].waterPotability.documents
+              .waterPotabilityPlan[0],
+          ],
+        },
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     };
@@ -396,6 +400,10 @@ export class SlbsComponent implements OnInit {
     this._ulbformService.postStateSlbActionSlb(data).subscribe(
       (res) => {
         swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.slbForWaterSupplyAndSanitation.status =
+          data["waterManagement"].status;
+        this._ulbformService.allStatus.next(status);
       },
       (error) => {
         swal("An error occured!");

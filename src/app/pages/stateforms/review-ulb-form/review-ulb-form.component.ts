@@ -177,6 +177,14 @@ export class ReviewUlbFormComponent implements OnInit {
        this.takeStateAction = 'true'
     }
     localStorage.setItem('takeStateAction' , this.takeStateAction)
+    let stActionCheck = 'false'
+     if (
+          (resData.actionTakenByRole == "STATE")&&
+           (resData.isSubmit == true) && (resData.status != 'PENDING')
+        ){
+          stActionCheck = 'true'
+        }
+        localStorage.setItem("stateActionComDis", stActionCheck);
   }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;

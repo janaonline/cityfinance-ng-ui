@@ -924,10 +924,13 @@ export class AnnualAccountsComponent implements OnInit {
     stateData.audited.provisional_data.auditor_report.rejectReason =
       this.AuditAct[4]?.rejectReason;
 
-    console.log(stateData);
+    console.log(stateData, "yvugbhijnok");
     this.annualAccountsService.postActionData(stateData).subscribe(
       (res) => {
         swal("Action submitted successfully.");
+        const status = JSON.parse(sessionStorage.getItem("allStatus"));
+        status.annualAccounts.status = res["newAnnualAccountData"].status;
+        this._ulbformService.allStatus.next(status);
       },
       (err) => {
         swal("Failed To Save Action");

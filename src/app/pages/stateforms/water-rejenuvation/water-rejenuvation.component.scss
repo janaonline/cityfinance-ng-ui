@@ -1,108 +1,110 @@
 .card-body {
-  padding: 5px 8px;
+    padding: 5px 8px;
 }
 
 .card {
-  border: 1px #00000029;
-  margin-left: 20px;
-  box-shadow: 1px 1px 1px 3px #00000029;
-  padding: 10px 10px;
+    border: 1px #00000029;
+    margin-left: 20px;
+    box-shadow: 1px 1px 1px 3px #00000029;
+    padding: 10px 10px;
 }
 
 .thHeader {
-  background-color: #058e91;
-  font-family: Roboto;
-  color: #ffffff;
-  font-size: 14px;
-  text-decoration: none;
+    background-color: #058e91;
+    font-family: Roboto;
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: none;
 }
 
-.table > tbody > tr > td,
-.table > tbody > tr > th,
-.table > tfoot > tr > td,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > thead > tr > th {
-  vertical-align: inherit;
-  text-align: center;
-  padding: 8px 2px;
+.table {
+    border: 2px solid #00000029;
 }
 
-.custom-position {
-  td {
-    position: relative;
-  }
-}
-
-.custom-position {
-  input {
-    position: relative;
-    width: 80%;
-    height: 4ch;
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    vertical-align: inherit;
     text-align: center;
-  }
+    padding: 8px 2px;
 }
 
 .custom-position {
-  select {
-    position: relative;
-  }
+    td {
+        position: relative;
+    }
 }
 
 .custom-position {
-  textarea {
-    height: 2pc;
-    vertical-align: bottom;
-    margin-right: 1pc;
-  }
+    input {
+        position: relative;
+        width: 80%;
+        height: 4ch;
+        text-align: center;
+    }
+}
 
-  .error {
-    border-color: red;
-  }
+.custom-position {
+    select {
+        position: relative;
+    }
+}
+
+.custom-position {
+    textarea {
+        height: 2pc;
+        vertical-align: bottom;
+        margin-right: 1pc;
+    }
+    .error {
+        border-color: red;
+    }
 }
 
 .saveBtn {
-  background-color: #114551;
-  color: #ffffff;
-  border-radius: 5px;
-  height: 32px;
-  padding-left: 2rem;
-  padding-right: 2rem;
+    background-color: #114551;
+    color: #ffffff;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .back {
-  background-color: #cfcfcf;
-  color: #ffffff;
-  border-radius: 5px;
-  height: 32px;
-  padding-left: 2rem;
-  padding-right: 2rem;
+    background-color: #cfcfcf;
+    color: #ffffff;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 .btn:hover {
-  background-color: #ffc500;
-  color: white;
+    background-color: #ffc500;
+    color: white;
 }
 
 .file:hover {
-  cursor: pointer;
-  background-color: #eaecee;
+    cursor: pointer;
+    background-color: #eaecee;
 }
 
 .selectBtn {
-  background-color: #ffc500;
-  color: white;
+    background-color: #ffc500;
+    color: white;
 }
 
 ::ng-deep .mat-tooltip {
-  background-color: black !important;
-  
+    background-color: black !important;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .falseVal{

@@ -299,7 +299,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log(this.cardsOverview)
     let eligibleForms = [];
     let eligibleActionForms = [];
-
     this.cardsOverview.forEach((element) => {
       if (element.label != 'Grant Transfer Certificate') {
         if (element.label != 'service-level') {
