@@ -8,20 +8,31 @@
         <mat-spinner></mat-spinner>
     </div>
     <div *ngFor="let item of data?.uaData;  let projectIndex=index">
-        <div class="mat-card">
+        <div class="mat-card" style="margin-bottom: 10px;">
             <div class="mat-card-title">
-                <h5 style="height: 3pc;margin-left: 1pc;">
+                <h5 style="height: 3pc;margin-left: 1pc; display: inline-block; padding-top: 15px;">
                     UA:{{projectIndex + 1}} {{item.name}}
-                    <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}" style="margin-right: 1pc;"
-                        (click)="foldCard(projectIndex)">Select</button>
                 </h5>
+                <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}"
+                    style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
+
             </div>
-            <app-ag-grid *ngIf="item.fold" [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
-                [rowData]="item">
-            </app-ag-grid>
+            <div *ngIf="item.fold">
+                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
+                    [rowData]="item">
+                </app-ag-grid>
+                <div class="card"
+                    style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
+                    <div class="card-body" style="margin-left: .8rem;">
+                        <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'>
+                        </app-action-component>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
-    <div class="footer">
+    <div class="footer" style="margin-top: 1rem;">
         <button class="btn saveBtn pull-right" (click)="submit()" type="button">
             {{saveBtnText}}
         </button>

@@ -33,7 +33,7 @@ export class ActionPlanUAComponent implements OnInit {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   dialogRefForNavigation;
-
+  actionRes;
   constructor(
     public stateformsService: StateformsService,
     public actionplanserviceService: ActionplanserviceService,
@@ -59,9 +59,11 @@ export class ActionPlanUAComponent implements OnInit {
       }
     });
   }
-
+  disableAllForms = false;
+  isStateSubmittedForms = ''
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
+    this.state_id = sessionStorage.getItem("state_id")
     this.getUlbNames();
     for (const key in this.uasData) {
       let code = localStorage.getItem("state_code");
@@ -69,9 +71,25 @@ export class ActionPlanUAComponent implements OnInit {
       code += "/" + this.yearCode;
       this.uaCodes[key] = code;
     }
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Action Plan Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
+
+    });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
+
   }
   getUlbNames() {
-    this.actionplanserviceService.getUlbsByState(this.userData.state).subscribe(
+    this.actionplanserviceService.getUlbsByState(this.state_id).subscribe(
       (res) => {
         this.ulbNames = res["data"];
         this.getCategory();
@@ -96,9 +114,11 @@ export class ActionPlanUAComponent implements OnInit {
       }
     );
   }
-
+  state_id
   load() {
-    this.actionplanserviceService.getFormData().subscribe(
+
+    console.log(this.state_id)
+    this.actionplanserviceService.getFormData(this.state_id).subscribe(
       (res) => {
         this.showLoader = false;
         console.log(res["data"], "sss");
@@ -220,6 +240,10 @@ export class ActionPlanUAComponent implements OnInit {
           icon: "success",
         });
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
+        const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        form.steps.actionPlans.isSubmit = !this.data.isDraft;
+        console.log(form)
+        this.stateformsService.allStatusStateForms.next(form);
         if (this.routerNavigate) {
           this._router.navigate([this.routerNavigate.url]);
         }
@@ -328,7 +352,11 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
+  }
+  checkStatus(ev){
+ console.log('action plan of UA', ev);
+
   }
 }
 

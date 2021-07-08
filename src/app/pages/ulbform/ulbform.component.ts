@@ -193,14 +193,14 @@ export class UlbformComponent implements OnInit {
         if (
           this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
           this.userLoggedInDetails.role == "ULB"
-        ){
+        ) {
           localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         }
         let stActionCheck = 'false'
         if (
-          (res["response"].actionTakenByRole == "STATE")&&
-           (res["response"].isSubmit == true) && (res["response"].status != 'PENDING')
-        ){
+          (res["response"].actionTakenByRole == "STATE") &&
+          (res["response"].isSubmit == true) && (res["response"].status != 'PENDING')
+        ) {
           stActionCheck = 'true'
           console.log('final action completed.....');
         }
@@ -264,9 +264,9 @@ export class UlbformComponent implements OnInit {
         ) {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-              true &&
+            true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-              "PENDING"
+            "PENDING"
           ) {
             console.log("2");
             this.finalActionDis = false;
@@ -276,9 +276,9 @@ export class UlbformComponent implements OnInit {
         } else if (element === "Plan water sanitation" && key === "plans") {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-              true &&
+            true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-              "PENDING"
+            "PENDING"
           ) {
             console.log("3");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
@@ -343,7 +343,7 @@ export class UlbformComponent implements OnInit {
       height: "100%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   submitted = false;
   finalSubmit() {

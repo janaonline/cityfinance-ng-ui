@@ -17,6 +17,7 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { StateformsService } from '../stateforms.service'
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",
@@ -30,7 +31,8 @@ export class WaterRejenuvationComponent implements OnInit {
     private waterRejenuvationService: WaterRejenuvationService,
     private dialog: MatDialog,
     private dataEntryService: DataEntryService,
-    private _router: Router
+    private _router: Router,
+    public _stateformsService: StateformsService
   ) {
     this._router.events.subscribe(async (event: Event) => {
       if (!this.saveClicked) {
@@ -53,11 +55,27 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     });
   }
-
+  disableAllForms = false;
+  isStateSubmittedForms = ''
   async ngOnInit() {
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     await this.loadData();
     this.initializeReport();
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Water Rejuvenation Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
+
+    });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;
@@ -203,7 +221,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
   loadData() {
     return new Promise((resolve, reject) => {
-      this.waterRejenuvationService.getData(this.Year["2021-22"]).subscribe(
+      let id = sessionStorage.getItem("state_id")
+      this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
         (res) => {
           this.errorOnload = true;
           this.data = res["data"]["uaData"];
@@ -365,7 +384,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "500px",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   removePhotos(waterIndex, uaIndex) {
@@ -546,7 +565,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   checkErrorState(projectRow, val) {

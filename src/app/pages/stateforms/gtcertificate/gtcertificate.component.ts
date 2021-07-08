@@ -53,6 +53,16 @@ export class GTCertificateComponent implements OnInit {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
+  actionRes;
+  stateActionA= '';
+  stateActionB= '';
+  stateActionC= '';
+  rejectReasonA = null;
+  rejectReasonB = null;
+  rejectReasonC = null;
+  actionData;
+  btnStyleA = false;
+  btnStyleR = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -116,10 +126,11 @@ export class GTCertificateComponent implements OnInit {
     });
   }
 
-
+  disableAllForms = false;
+  isStateSubmittedForms = '';
   ngOnInit(): void {
-
-    this.gtcService.getFiles()
+    let id = sessionStorage.getItem("state_id")
+    this.gtcService.getFiles(id)
       .subscribe((res) => {
 
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
@@ -146,6 +157,21 @@ export class GTCertificateComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "false")
     this.change = "false"
     this.submitted = false;
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Gt Certificate Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
+
+    });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
   }
 
   uploadButtonClicked() {
@@ -207,6 +233,10 @@ export class GTCertificateComponent implements OnInit {
           // this._stateformsService.allStatus.next(status);
           sessionStorage.setItem("changeInGTC", "false")
           this.change = "false"
+          const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+          form.steps.GTCertificate.isSubmit = !this.uploadedFiles.isDraft;
+          console.log(form)
+          this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
           resolve(res)
         },
@@ -243,7 +273,7 @@ export class GTCertificateComponent implements OnInit {
         pdfUrl: this.nonMillionUntiedFileUrl,
         pdfName: this.fileName_nonMillionUntied
       },
-      isCompleted: false
+      isDraft: true
     };
     let changeHappen = sessionStorage.getItem("changeInGTC")
     if (changeHappen == "false") {
@@ -255,7 +285,7 @@ export class GTCertificateComponent implements OnInit {
         this.nonMillionTiedFileUrl != '' &&
         this.nonMillionUntiedFileUrl != ''
       ) {
-        this.uploadedFiles.isCompleted = true
+        this.uploadedFiles.isDraft = false
         this.postsDataCall(this.uploadedFiles);
 
       }
@@ -455,7 +485,7 @@ export class GTCertificateComponent implements OnInit {
         pdfUrl: this.nonMillionUntiedFileUrl,
         pdfName: this.fileName_nonMillionUntied
       },
-      isCompleted: false
+      isDraft: true
     };
     const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
       {
@@ -468,6 +498,56 @@ export class GTCertificateComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result)
     });
+  }
+  checkStatusAp(qusCheck){
+    this.rejectReasonA = null;
+  this.rejectReasonB = null;
+  this.rejectReasonC = null;
+    if(qusCheck == 'millionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionTied'){
+      this.actionData = {
+        status: this.stateActionB,
+        rejectReason: this.rejectReasonB
+      }
+    }
+    if(qusCheck == 'nonMillionUntied'){
+      this.actionData = {
+        status: this.stateActionC,
+        rejectReason: this.rejectReasonC
+      }
+    }
+
+
+
+    console.log('stateAction', this.stateActionA, this.actionData)
+ //  this.actionValues.emit(this.actionData);
+  }
+  checkStatus(qusCheck){
+    if(qusCheck == 'millionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionTied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    if(qusCheck == 'nonMillionUntied'){
+      this.actionData = {
+        status: this.stateActionA,
+        rejectReason: this.rejectReasonA
+      }
+    }
+    console.log('stateAction', this.stateActionA, this.actionData)
+  //  this.actionValues.emit(this.actionData);
   }
 
 }

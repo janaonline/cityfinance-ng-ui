@@ -43,8 +43,9 @@ import { UtilreportListComponent } from './state-dashboard/utilreport-list/utilr
 import { PlansListComponent } from './state-dashboard/plans-list/plans-list.component';
 import { PfmsListComponent } from './state-dashboard/pfms-list/pfms-list.component';
 import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component';
-
+import { MatButtonModule } from '@angular/material/button';
 import { ChartsModule } from 'ng2-charts';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
   entryComponents: [OverallListComponent],
   declarations: [StateformsComponent,
@@ -99,7 +100,9 @@ import { ChartsModule } from 'ng2-charts';
     NgxPaginationModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    ChartsModule
+    ChartsModule,
+    MatButtonModule,
+    ButtonsModule.forRoot()
 
   ]
 })

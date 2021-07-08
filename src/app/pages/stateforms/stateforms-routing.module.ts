@@ -43,7 +43,10 @@ const routes: Routes = [
       },
       {
         path: "link-in-pfms", component: LinkPFMSComponent,
-      }
+      },
+      {
+        path: "dashboard/:id", component: StateDashboardComponent
+      },
     ]
   }
 ]
