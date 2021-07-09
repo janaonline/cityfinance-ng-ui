@@ -16,9 +16,9 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { PfmsPreviewComponent } from "./pfms-preview/pfms-preview.component";
 import { SweetAlert } from "sweetalert/typings/core";
 
-import { UserUtility } from 'src/app/util/user/user';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { StateformsService } from '../stateforms.service'
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { StateformsService } from "../stateforms.service";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -72,7 +72,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   };
   saveBtnTxt = "NEXT";
   disableAllForms = false;
-  isStateSubmittedForms = ''
+  isStateSubmittedForms = "";
+  excelDataOnLoad = null;
   ngOnInit() {
     sessionStorage.setItem("changeInPFMSAccountState", "false");
     let state_id = sessionStorage.getItem("state_id");
@@ -80,24 +81,25 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       this.isDisabled = true;
     }
 
-    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
-      console.log('link pfms Testing', role)
-      if (role === "STATE") {
-        this.disableAllForms = true;
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
+      (role) => {
+        console.log("link pfms Testing", role);
+        if (role === "STATE") {
+          this.disableAllForms = true;
+        }
       }
-
-
-    });
+    );
 
     if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      this.isStateSubmittedForms = sessionStorage.getItem(
+        "StateFormFinalSubmitByState"
+      );
       if (this.isStateSubmittedForms == "true") {
         this.disableAllForms = true;
       }
     }
 
     this.onLoad(state_id);
-
   }
 
   saveAndNextValue(template1) {
@@ -119,7 +121,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         console.log(res);
         const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
         form.steps.linkPFMS.isSubmit = !this.data.isDraft;
-        console.log(form)
+        console.log(form);
         this.stateformsService.allStatusStateForms.next(form);
         swal("Record submitted successfully!");
         this._router.navigate(["stateform/water-supply"]);
@@ -157,7 +159,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.LinkPFMSAccount.getData(this.Years["2021-22"], state_id).subscribe(
       (res) => {
         console.log(res);
-        this.data.excel = res['data'].excel
+        this.data.excel = res["data"].excel;
+        this.excelDataOnLoad = { excel: res["data"].excel };
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
       },
       (error) => {
@@ -207,10 +210,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     } else {
       this.data.isDraft = true;
     }
-    this.checkDiff()
+    this.checkDiff();
   }
-  checkStatus(ev){
-    console.log('state pfms action', ev)
-
+  checkStatus(ev) {
+    console.log("state pfms action", ev);
   }
 }

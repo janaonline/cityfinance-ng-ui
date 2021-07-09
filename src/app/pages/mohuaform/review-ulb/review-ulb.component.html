@@ -5,7 +5,6 @@
                 <div class="row">
                     <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
                         <button type="button" class="btn btn-d">DOWNLOAD</button>
-
                     </div>
                     <div class="col-sm-12">
                         <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
@@ -129,7 +128,7 @@
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB') || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
+                                            *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByUserRole == 'MoHUA'))">
 
                                             <a (click)="viewUlbForm(resData)" [routerLink]="[
                                           '/ulbform/overview', resData?._id  ]">
@@ -140,8 +139,8 @@
                                                 </mat-icon>
                                             </a>
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
-                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'STATE')
+                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'MoHUA')">
                                             <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
                                         '/ulbform/overview', resData?._id  ]">
                                                 Take Action
@@ -175,9 +174,17 @@
 
 <ng-template #template>
     <div class="modal-title">
-        <h3>Tracking</h3>
+        <div style=" display: flex; justify-content: flex-end;">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
+        </div>
+        <div>
+            <h3>Tracking</h3>
+        </div>
     </div>
-    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+    <div *ngIf="historyData" class="table-responsive" style="max-height: 50vh; overflow-y: auto">
         <table class="table tracking-history-table">
             <thead>
                 <tr>
@@ -195,10 +202,13 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ row.status }}</td>
                     <td>
-                        {{row.time}}
+                        {{row.time | date:'medium':'IST' }}
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center" *ngIf="historyData == null">
+        <h3>No History Available</h3>
     </div>
 </ng-template>

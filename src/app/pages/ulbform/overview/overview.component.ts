@@ -25,7 +25,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   constructor(private Overview: Overview,
     public activatedRoute: ActivatedRoute) {
     super();
-
     this.activatedRoute.params.subscribe((val) => {
       const { id } = val;
       if (id) {

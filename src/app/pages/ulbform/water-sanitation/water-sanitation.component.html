@@ -123,7 +123,7 @@
             </div>
         </div>
         <!--  -->
-        <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="(loggedInUserType === USER_TYPE.STATE && (takeStateAction == 'true')) || (loggedInUserType === USER_TYPE.STATE && compDis == 'true')">
+        <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="(loggedInUserType != USER_TYPE.ULB && (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
             <div class="card-body">
                 <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResW'> </app-state-action-ulb>
             </div>

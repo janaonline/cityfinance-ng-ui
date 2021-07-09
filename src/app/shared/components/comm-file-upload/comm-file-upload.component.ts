@@ -1,31 +1,26 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild, OnChanges } from "@angular/core";
 import { EventEmitter, Output } from "@angular/core";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
-import { UserUtility } from 'src/app/util/user/user';
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
 @Component({
   selector: "app-comm-file-upload",
   templateUrl: "./comm-file-upload.component.html",
   styleUrls: ["./comm-file-upload.component.scss"],
 })
-export class CommFileUploadComponent implements OnInit {
-
+export class CommFileUploadComponent implements OnInit, OnChanges {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType;
   takeStateAction;
   compDis;
-  constructor(private dataEntryService: DataEntryService,
-    ) {
-      this.loggedInUserType =  this.loggedInUserDetails.role;
-      this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
-      this.takeStateAction = localStorage.getItem("takeStateAction");
-      this.compDis = localStorage.getItem('stateActionComDis')
-
-    }
-
-
+  constructor(private dataEntryService: DataEntryService) {
+    this.loggedInUserType = this.loggedInUserDetails.role;
+    this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
+    this.takeStateAction = localStorage.getItem("takeStateAction");
+    this.compDis = localStorage.getItem("stateActionComDis");
+  }
 
   @Input()
   quesName;
@@ -45,12 +40,12 @@ export class CommFileUploadComponent implements OnInit {
 
   @Input() statusResponse;
 
-//  @Input() statusResponseUnA;
+  //  @Input() statusResponseUnA;
 
   showPdf = true;
   showExcel = true;
   actionRes;
-  stateAction= '';
+  stateAction = "";
   rejectReason = null;
   actionData;
   btnStyleA = false;
@@ -65,19 +60,18 @@ export class CommFileUploadComponent implements OnInit {
       name: null,
       error: null,
       progress: null,
-
     },
     excel: { file: null, url: null, name: null, error: null, progress: null },
     status: this.stateAction,
-    rejectReason: this.rejectReason
+    rejectReason: this.rejectReason,
   };
 
   ngOnInit(): void {
-   console.log('an res status', this.statusResponse, this.dataFromParent);
-    if(this.finalSubmitStatus == 'true') {
+    console.log("an res status", this.statusResponse, this.dataFromParent);
+    if (this.finalSubmitStatus == "true") {
       this.isDisabled = true;
     }
-    if(this.compDis == 'true') {
+    if (this.compDis == "true") {
       this.actionCompDis = true;
     }
 
@@ -96,21 +90,28 @@ export class CommFileUploadComponent implements OnInit {
       this.stateAction = this.data?.status;
       this.rejectReason = this.data?.rejectReason;
     }
-    console.log('isdddddd', this.isDisabled)
-    if(this.stateAction == 'APPROVED'){
-      this.btnStyleA = true
-    }else if(this.stateAction == 'REJECTED'){
-      this.btnStyleR = true
-
+    console.log("isdddddd", this.isDisabled);
+    if (this.stateAction == "APPROVED") {
+      this.btnStyleA = true;
+    } else if (this.stateAction == "REJECTED") {
+      this.btnStyleR = true;
     }
-    if(this.stateAction == 'REJECTED' &&  (this.loggedInUserType === USER_TYPE.ULB)){
+    if (
+      this.stateAction == "REJECTED" &&
+      this.loggedInUserType === USER_TYPE.ULB
+    ) {
       this.isDisabled = false;
     }
-    if( this.loggedInUserType === USER_TYPE.ULB){
+    if (this.loggedInUserType === USER_TYPE.ULB) {
       this.ulbDisabled = true;
     }
   }
 
+  ngOnChanges() {
+    if (this.dataFromParent) {
+      this.data = this.dataFromParent;
+    }
+  }
   async fileChangeEvent(event, fileType) {
     let files;
     if (typeof event != "boolean") files = event.target.files[0];
@@ -168,27 +169,29 @@ export class CommFileUploadComponent implements OnInit {
   }
 
   clearFile(fileType) {
+    if (this.isDisabled) {
+      return;
+    }
     for (const key in this.data[fileType]) {
       this.data[fileType][key] = null;
     }
     this.getFileUploadResult.emit(this.data);
   }
-  checkStatusAp(){
+  checkStatusAp() {
     this.rejectReason = null;
     this.actionData = {
       status: this.stateAction,
-      rejectReason: this.rejectReason
-    }
-    console.log('stateAction', this.stateAction, this.actionData)
-   this.actionValues.emit(this.actionData);
-  }
-  checkStatus(){
-    this.actionData = {
-      status: this.stateAction,
-      rejectReason: this.rejectReason
-    }
-    console.log('stateAction', this.stateAction, this.actionData)
+      rejectReason: this.rejectReason,
+    };
+    console.log("stateAction", this.stateAction, this.actionData);
     this.actionValues.emit(this.actionData);
   }
-
+  checkStatus() {
+    this.actionData = {
+      status: this.stateAction,
+      rejectReason: this.rejectReason,
+    };
+    console.log("stateAction", this.stateAction, this.actionData);
+    this.actionValues.emit(this.actionData);
+  }
 }

@@ -309,7 +309,8 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   onLoad() {
-    let ulbId = sessionStorage.getItem("ulb_id");
+    let ulbId = sessionStorage.getItem("ulb_id"),
+      takeStateAction = localStorage.getItem("takeStateAction");
     if (ulbId != null || this.finalSubmitUtiStatus == "true") {
       this.isDisabled = true;
     }
@@ -321,7 +322,14 @@ export class AnnualAccountsComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
-          console.log(res, "---------------");
+          if (
+            takeStateAction === "true" &&
+            this.userData.role === USER_TYPE.MoHUA &&
+            res["actionTakenByRole"] === USER_TYPE.STATE
+          ){
+            this.clearStatusAndRejectReason()
+          }
+            console.log(res, "---------------");
         },
         (err) => {
           const toStoreResponse = this.data;
@@ -332,6 +340,10 @@ export class AnnualAccountsComponent implements OnInit {
           console.error(err.message);
         }
       );
+  }
+
+  clearStatusAndRejectReason(){
+    
   }
 
   dataPopulate(res) {
