@@ -297,12 +297,12 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     console.log(this.fd);
     console.log(JSON.parse(sessionStorage.getItem("pfmsAccounts")))
     this.pageData = {
-      "account": this.fd.account,
-      "linked": this.fd.linked
+      "account": this.fd?.account,
+      "linked": this.fd?.linked
     };
     this.gotData = {
-      "account": pfmsAccounts?.response.account,
-      "linked": pfmsAccounts?.response.linked
+      "account": pfmsAccounts?.response?.account,
+      "linked": pfmsAccounts?.response?.linked
     }
 
 
