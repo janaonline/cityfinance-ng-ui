@@ -35,8 +35,8 @@ export class UlbformComponent implements OnInit {
   requiredActionStatus = {};
   currentActionStatus = {};
   takeStateAction;
-  toolTipContentC = 'Submitted'
-  toolTipContentN = 'Not Submitted'
+  toolTipContentC = ''
+  toolTipContentN = ''
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -66,14 +66,20 @@ export class UlbformComponent implements OnInit {
       case USER_TYPE.ULB:
         this.backHeader = "15FC Grants for 2021-22";
         this.backLink = "../fc-home-page";
+        this.toolTipContentC = 'Completed'
+        this.toolTipContentN = 'Not Completed'
         break;
       case USER_TYPE.STATE:
         this.backHeader = "State Dashboard";
         this.backLink = "../stateform/dashboard";
+        this.toolTipContentC = 'Reviewed'
+        this.toolTipContentN = 'Not Reviewed'
         break;
       case USER_TYPE.MoHUA:
         this.backHeader = "MoHUA Dashboard";
         this.backLink = "../mohua/dashboard";
+        this.toolTipContentC = 'Reviewed'
+        this.toolTipContentN = 'Not Reviewed'
         break;
       case USER_TYPE.ADMIN:
         this.backHeader = "Admin Dashboard";

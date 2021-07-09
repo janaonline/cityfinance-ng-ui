@@ -70,12 +70,10 @@
 
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit && userLoggedInDetails.role == userTypes.ULB"
-                            [tooltip]="tolTemplateC" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus.pfmsAccount.isSubmit && userLoggedInDetails.role == userTypes.ULB" [tooltip]="tolTemplateC" placement="right" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit && userLoggedInDetails.role == userTypes.ULB"
-                            [tooltip]="tolTemplateN" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!allStatus.pfmsAccount.isSubmit" [tooltip]="tolTemplateN" placement="right" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
 
@@ -133,12 +131,10 @@
                         </div>
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateC">
+                        <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -159,12 +155,10 @@
                         </div>
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateC">
+                        <mat-icon *ngIf="allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -230,12 +224,10 @@
                     </a>
 
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
-                            aria-hidden="false" [tooltip]="tolTemplateC">
+                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
-                            aria-hidden="false" [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -274,12 +266,10 @@
                         </div>
                     </a>
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateC">
+                        <mat-icon *ngIf="allStatus.plans.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!allStatus.plans.isSubmit" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>

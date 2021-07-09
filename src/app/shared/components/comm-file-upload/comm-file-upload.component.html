@@ -18,9 +18,9 @@
     <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')"
         type="file" accept=".xls, .xlsx" #file>
     <!-- </div> -->
-    <div class="btn-group float-right" *ngIf="loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 10%;">
-        <label class="btn btn-success" [disabled]="actionCompDis" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED"
-            (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+    <div class="btn-group float-right" *ngIf="loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms &&
+    (takeStateAction == 'true')" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 10%;">
+        <label class="btn btn-success" [disabled]="actionCompDis" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
         <label class="btn btn-danger" [disabled]="actionCompDis" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED"
             (click)="checkStatus()" uncheckable tabindex="0" role="button"
@@ -81,6 +81,7 @@
         </div>
     </div>
     <div class="row allupload" *ngIf="showExcel">
+
         <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 5px; ">
             <div class="row">
                 <div class="col-sm-5 col-lg-5 col-md-5">
