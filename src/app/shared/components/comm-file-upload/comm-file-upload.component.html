@@ -1,6 +1,6 @@
 <div class="col-md-12">
     <!-- <div class="float-left"> -->
-    <span class="" [ngClass]="{'col-sm-4': (loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) ||
+    <span class="" [ngClass]="{'col-sm-4': (loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms) ||
       (loggedInUserType === USER_TYPE.ULB && (btnStyleA || btnStyleR)),
      'col-sm-6': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
         <b>{{quesName}}<b class="text-danger">*</b></b></span>
@@ -37,7 +37,7 @@
 </div>
 <div class="float-left" style="display: inline-block;" [ngClass]="{'pfmsClass': FromLinkinPfms, 'ulbClass' : (loggedInUserType === USER_TYPE.ULB &&
 (btnStyleA == false && btnStyleR == false)),
-'stateActionClass': (loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) ||
+'stateActionClass': (loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms) ||
 (loggedInUserType === USER_TYPE.ULB && btnStyleA || btnStyleR)
 }">
     <div class="row allupload" *ngIf="showPdf">

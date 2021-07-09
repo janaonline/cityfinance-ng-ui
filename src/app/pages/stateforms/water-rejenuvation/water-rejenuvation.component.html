@@ -60,7 +60,7 @@
                                             <input formControlName="nameOfBody" matTooltipPosition="above"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}"
                                                 [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null"
-                                                type="number" min="0" />
+                                                type="text" min="0" />
                                         </td>
                                         <td>
                                             <input formControlName="area" type="number">

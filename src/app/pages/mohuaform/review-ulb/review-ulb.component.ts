@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ReviewUlbService } from './review-ulb.service'
-import { StateformsService } from '../../stateforms/stateforms.service'
+import { Component, OnInit } from "@angular/core";
+import { HttpErrorResponse } from "@angular/common/http";
+import { FormControl } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { UlbadminServiceService } from "../../ulb-admin/ulbadmin-service.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ReviewUlbService } from "./review-ulb.service";
+import { StateformsService } from "../../stateforms/stateforms.service";
 @Component({
-  selector: 'app-review-ulb',
-  templateUrl: './review-ulb.component.html',
-  styleUrls: ['./review-ulb.component.scss']
+  selector: "app-review-ulb",
+  templateUrl: "./review-ulb.component.html",
+  styleUrls: ["./review-ulb.component.scss"],
 })
 export class ReviewUlbComponent implements OnInit {
   tabelData: any;
@@ -26,102 +26,90 @@ export class ReviewUlbComponent implements OnInit {
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
+  takeStateAction = "false";
   loading = false;
   filterObject;
   fcFormListSubscription: Subscription;
   nodataFound = false;
-  errMessage = '';
+  errMessage = "";
   constructor(
     public reviewUlbService: ReviewUlbService,
     public ulbService: UlbadminServiceService,
     public dialog: MatDialog,
     public _stateformsService: StateformsService
-
-  ) { }
-  ulb_name_s = new FormControl('');
-  ulb_code_s = new FormControl('');
-  ulb_type_s = new FormControl('');
-  population_type_s = new FormControl('');
-  ua_name_s = new FormControl('');
-  status_s = new FormControl('');
+  ) {}
+  ulb_name_s = new FormControl("");
+  ulb_code_s = new FormControl("");
+  ulb_type_s = new FormControl("");
+  population_type_s = new FormControl("");
+  ua_name_s = new FormControl("");
+  status_s = new FormControl("");
   historyData;
   ngOnInit() {
     this.loadData();
   }
   viewHistory(template, formId) {
-    console.log(formId)
+    console.log(formId);
 
     this.reviewUlbService.getData(formId).subscribe(
       (res) => {
-        this.historyData = res['data']
-        console.log(this.historyData)
+        this.historyData = res["data"].length == 0 ? null : res["data"];
+        console.log(this.historyData);
+        this.openDialog(template);
       },
       (err) => {
-        console.log(err.message)
-      })
-
-    this.openDialog(template)
+        console.log(err.message);
+      }
+    );
   }
   openDialog(template) {
-
     let dialogRef = this.dialog.open(template, {
       height: "auto",
-      width: "600px"
+      width: "600px",
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
+  alertClose() {
+    this.dialog.closeAll();
+  }
   loadData() {
-    this._stateformsService.getUlbReview()
-      .subscribe((res) => {
-        console.log('profile', res);
-        let resData: any = res
+    this._stateformsService.getUlbReview().subscribe(
+      (res) => {
+        console.log("profile", res);
+        let resData: any = res;
         this.tabelData = resData.data;
-        console.log('tabelData', this.tabelData)
-
+        console.log("tabelData", this.tabelData);
       },
-        error => {
-          this.errMessage = error.message;
-          console.log(error, this.errMessage);
-        }
-      )
+      (error) => {
+        this.errMessage = error.message;
+        console.log(error, this.errMessage);
+      }
+    );
   }
   setLIstFetchOptions() {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
-        ulbType: this.ulb_type_s.value
-          ? this.ulb_type_s.value.trim()
-          : "",
+        state: "",
+        ulbType: this.ulb_type_s.value ? this.ulb_type_s.value.trim() : "",
         populationType: this.population_type_s.value
           ? this.population_type_s.value.trim()
           : "",
-        ulbName: this.ulb_name_s.value
-          ? this.ulb_name_s.value.trim()
-          : "",
-        censusCode: this.ulb_code_s.value
-          ? this.ulb_code_s.value.trim()
-          : "",
-        UA: this.ua_name_s.value
-          ? this.ua_name_s.value.trim()
-          : "",
-        status: this.status_s.value
-          ? this.status_s.value.trim()
-          : "",
-      }
-
-    }
+        ulbName: this.ulb_name_s.value ? this.ulb_name_s.value.trim() : "",
+        censusCode: this.ulb_code_s.value ? this.ulb_code_s.value.trim() : "",
+        UA: this.ua_name_s.value ? this.ua_name_s.value.trim() : "",
+        status: this.status_s.value ? this.status_s.value.trim() : "",
+      },
+    };
 
     return {
       ...this.listFetchOption,
       ...this.filterObject,
       //  ...config,
     };
-
   }
-
 
   stateData() {
     this.loading = true;
@@ -145,24 +133,37 @@ export class ReviewUlbComponent implements OnInit {
             this.nodataFound = false;
           }
           console.log(result);
-
         },
         (response: HttpErrorResponse) => {
           this.loading = false;
-          alert('Some Error Occurred')
-
+          alert("Some Error Occurred");
         }
       );
-
-
   }
+
   viewUlbForm(resData) {
-    console.log('review', resData);
-    sessionStorage.setItem('ulb_id', resData?.ulb)
-    sessionStorage.setItem('isMillionPlus', resData.isMillionPlus);
-    sessionStorage.setItem('isUA', resData.isUA);
-    sessionStorage.setItem('stateName', resData.state);
-    sessionStorage.setItem('ulbName', resData.ulbName);
+    console.log("review", resData);
+    sessionStorage.setItem("ulb_id", resData?.ulb);
+    sessionStorage.setItem("isMillionPlus", resData.isMillionPlus);
+    sessionStorage.setItem("isUA", resData.isUA);
+    sessionStorage.setItem("stateName", resData.state);
+    sessionStorage.setItem("ulbName", resData.ulbName);
+    if (
+      (resData.actionTakenByUserRole == "STATE" && resData.isSubmit == true) ||
+      (resData.actionTakenByUserRole == "MoHUA" && resData.isSubmit == false)
+    ) {
+      this.takeStateAction = "true";
+    }
+    localStorage.setItem("takeStateAction", this.takeStateAction);
+    let stActionCheck = "false";
+    if (
+      resData.actionTakenByRole == "MoHUA" &&
+      resData.isSubmit == true &&
+      resData.status != "PENDING"
+    ) {
+      stActionCheck = "true";
+    }
+    localStorage.setItem("stateActionComDis", stActionCheck);
   }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;
@@ -170,6 +171,4 @@ export class ReviewUlbComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
-
-
 }

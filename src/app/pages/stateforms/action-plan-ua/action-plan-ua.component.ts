@@ -6,8 +6,8 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { SweetAlert } from "sweetalert/typings/core";
 import { ActionplanspreviewComponent } from "./actionplanspreview/actionplanspreview.component";
-import { UserUtility } from 'src/app/util/user/user';
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 const swal: SweetAlert = require("sweetalert");
@@ -46,7 +46,7 @@ export class ActionPlanUAComponent implements OnInit {
     private dialog: MatDialog,
     private profileService: ProfileService
   ) {
-    this.initializeUserType()
+    this.initializeUserType();
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         if (event.url === "/" || event.url === "/login") {
@@ -67,10 +67,10 @@ export class ActionPlanUAComponent implements OnInit {
     });
   }
   disableAllForms = false;
-  isStateSubmittedForms = ''
+  isStateSubmittedForms = "";
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
-    this.state_id = sessionStorage.getItem("state_id")
+    this.state_id = sessionStorage.getItem("state_id");
     this.getUlbNames();
     for (const key in this.uasData) {
       let code = localStorage.getItem("state_code");
@@ -78,22 +78,23 @@ export class ActionPlanUAComponent implements OnInit {
       code += "/" + this.yearCode;
       this.uaCodes[key] = code;
     }
-    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
-      console.log('Action Plan Testing', role)
-      if (role === "STATE") {
-        this.disableAllForms = true;
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
+      (role) => {
+        console.log("Action Plan Testing", role);
+        if (role === "STATE") {
+          this.disableAllForms = true;
+        }
       }
-
-
-    });
+    );
 
     if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      this.isStateSubmittedForms = sessionStorage.getItem(
+        "StateFormFinalSubmitByState"
+      );
       if (this.isStateSubmittedForms == "true") {
         this.disableAllForms = true;
       }
     }
-
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.state_id).subscribe(
@@ -121,10 +122,9 @@ export class ActionPlanUAComponent implements OnInit {
       }
     );
   }
-  state_id
+  state_id;
   load() {
-
-    console.log(this.state_id)
+    console.log(this.state_id);
     this.actionplanserviceService.getFormData(this.state_id).subscribe(
       (res) => {
         this.showLoader = false;
@@ -253,7 +253,7 @@ export class ActionPlanUAComponent implements OnInit {
           sessionStorage.setItem("changeInActionPlans", "false");
           const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
           form.steps.actionPlans.isSubmit = !this.data.isDraft;
-          console.log(form)
+          console.log(form);
           this.stateformsService.allStatusStateForms.next(form);
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
@@ -273,15 +273,16 @@ export class ActionPlanUAComponent implements OnInit {
       }
 
     }
-
   }
   body = {};
   saveStateAction() {
     this.actionplanserviceService.postStateAction(this.data).subscribe(
       (res) => {
         swal("Record submitted successfully!");
-        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-        status.steps.actionPlans.status = this.body['status'];
+        const status = JSON.parse(
+          sessionStorage.getItem("allStatusStateForms")
+        );
+        status.steps.actionPlans.status = this.body["status"];
         status.steps.actionPlans.isSubmit = true;
         this.stateformsService.allStatusStateForms.next(status);
       },
@@ -398,20 +399,18 @@ export class ActionPlanUAComponent implements OnInit {
     console.log('before', this.data.uaData)
     this.data.uaData.forEach(el => {
       if (el.ua == ua_id) {
-
-        el['status'] = ev.status
-        el['rejectReason'] = ev.rejectReason
+        el["status"] = ev.status;
+        el["rejectReason"] = ev.rejectReason;
       }
-    })
-    console.log('after', this.data.uaData)
-
+    });
+    console.log("after", this.data.uaData);
   }
 }
 
 const input = {
   ua: { value: "", isEmpty: null, lastValidation: true },
-  status: { value: '' },
-  rejectReason: { value: '' },
+  status: { value: "PENDING" },
+  rejectReason: { value: null },
   name: { value: "", isEmpty: null, lastValidation: true },
   projectExecute: [
     {
@@ -470,8 +469,8 @@ const input = {
 
 const output = {
   ua: "",
-  status: '',
-  rejectReason: '',
+  status: "PENDING",
+  rejectReason: "",
   projectExecute: [
     {
       code: "",

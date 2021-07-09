@@ -278,8 +278,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.counterTimer = true;
     this.countDown = timer(0, this.tick).subscribe(() => {
-      console.log(this.tick);
-
       if (this.counter != 0) {
         --this.counter;
       } else {
