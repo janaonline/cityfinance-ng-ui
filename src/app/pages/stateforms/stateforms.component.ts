@@ -6,9 +6,11 @@ import { ProfileService } from "../../users/profile/service/profile.service";
 import { IState } from "../../models/state/state";
 import { StateformsService } from './stateforms.service'
 import { CommonService } from "src/app/shared/services/common.service";
-import { Router } from '@angular/router';
+
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-stateforms',
   templateUrl: './stateforms.component.html',
@@ -27,9 +29,15 @@ export class StateformsComponent implements OnInit {
     private _commonService: CommonService,
     private profileService: ProfileService,
     private _router: Router,
+    public activatedRoute: ActivatedRoute,
     public stateformsService: StateformsService
   ) {
+    this.activatedRoute.params.subscribe((val) => {
+      console.log("vallllll", val);
+      const { url } = val;
+      console.log("vallllll", val, url);
 
+    });
     this.takeMoHUAAction = localStorage.getItem('takeMoHUAAction');
     this.initializeUserType();
     this.fetchStateList();
@@ -330,6 +338,32 @@ export class StateformsComponent implements OnInit {
         console.log(err);
       }
     );
+
+  }
+  finalActionDis = false;
+  finalMoHUAAction() {
+    let data = {
+      design_year: this.design_year,
+      isSubmit: true,
+      actionTakenByRole: "MoHUA",
+    };
+    this.checkValidationStatusOfAllForms();
+    if (this.validate) {
+      this.stateformsService.finalReviewSubmitByMoHUA(data).subscribe(
+        (res) => {
+          this.finalActionDis = true;
+          this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.actionTakenByRole)
+          sessionStorage.setItem("StateFormFinalSubmitByState", "true")
+          swal(
+            "Forms Successfully Submitted to be Reviewed by State and MoHUA"
+          );
+        },
+        (err) => {
+          swal(
+            "Form Submission Failed"
+          );
+        })
+    }
 
   }
 

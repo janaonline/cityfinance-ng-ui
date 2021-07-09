@@ -48,7 +48,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   cardsOverview = [{
     label: "PFMS",
     link: '../pfms_acc',
-    title: 'Linking PFMS Account',
+    title: 'Linking of PFMS Account',
     tooltip: "tooltip",
     image: '../../../../assets//ulbform/lpa.svg',
     permittedAccounts: [""],
@@ -334,7 +334,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.val = 0;
       this.hover = true;
       this.i = 1;
-      this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+      this.message = `Each ULB's account for 15th FC Grants must be linked with Public Financial Management System
+       before 1 April 2021`;
       this.checkPos = true;
     }
     if (num == 1) {
@@ -342,7 +344,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.val = 1;
       this.hover = true;
       this.i = 2;
-      this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
+      // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
+     this.message = `State Governments to furnish Grant Transfer Certificate
+     for the previous installment of grants in the prescribed format.`
       this.checkPos = true;
     }
     if (num == 2) {
@@ -350,15 +354,20 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.val = 2;
       this.hover = true;
       this.i = 3;
-      this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-      this.checkPos = true;
+     // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
+     this.message =`ULBs are mandated to furnish Detailed Utilization Report as per
+      prescribed format for the previous installments of 15th FC grants`
+     this.checkPos = true;
     }
     if (num == 3) {
       //  this.p = (num+3)*112;
       this.val = 3;
       this.hover = true;
       this.i = 4;
-      this.message = "ULBs to upload provisional annual accounts for previous year and audited annual accounts for year previous year w.r.t. award year."
+   //  this.message = "ULBs to upload provisional annual accounts for
+   //    previous year and audited annual accounts for year previous year w.r.t. award year."
+   this.message = `ULBs to upload Provisional Annual Accounts for previous year
+    and Audited Annual Accounts for year before previous year with respect to the award year.`
       this.checkPos = true;
     }
     if (num == 4) {
@@ -366,15 +375,20 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.val = 4;
       this.hover = true;
       this.i = 5;
-      this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-      this.checkPos = true;
+    //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+     this.message =`ULBs to publish 28 Service Level Benchmarks pertaining to
+      Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`
+    this.checkPos = true;
+
     }
     if (num == 5) {
       // this.p = (num+3)*125;
       this.val = 5;
       this.hover = true;
       this.i = 6;
-      this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+   //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+   this.message = `Non-Million Plus Cities to select 1 Project for Water
+   and 1 Project for Sanitation with clear functional outcomes`
       this.checkPos = true;
     }
     if (num == 6) {
@@ -382,8 +396,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.val = 6;
       this.hover = true;
       this.i = 7;
-      this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-      this.checkPos = true;
+    //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+      this.message = `Million-plus Urban Agglomerations (UA) to meet performance criteria in addition to entry level conditions. State and UA to sign Memorandum of Understanding with Ministry of
+      Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`
+    this.checkPos = true;
     }
 
 

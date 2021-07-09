@@ -35,6 +35,8 @@ export class UlbformComponent implements OnInit {
   requiredActionStatus = {};
   currentActionStatus = {};
   takeStateAction;
+  toolTipContentC = 'Submitted'
+  toolTipContentN = 'Not Submitted'
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,

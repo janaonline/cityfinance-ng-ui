@@ -9,11 +9,13 @@ import { throwError } from 'rxjs';
 export class GTCertificateService {
 
     constructor(private http: HttpClient) { }
-
+    postStateAction(data) {
+        let utUrl = environment.api.url + 'state/gtc/action'
+        return this.http.post(utUrl, data)
+    }
     sendRequest(val) {
         let sendUrl = environment.api.url + 'state/gtc/create';
         return this.http.post(sendUrl, val)
-
     }
     getFiles(state_id) {
 

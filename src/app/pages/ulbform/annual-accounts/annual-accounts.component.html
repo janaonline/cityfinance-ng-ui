@@ -75,7 +75,8 @@
         <div *ngIf="data.unAudited.submit_annual_accounts" class="col-sm-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_standardized_data}">
-                    <span class="quesIn"><b>(B) Do you wish to submit financials in standardized format for {{dateShow}}
+
+                    <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
                             ?</b></span>
 
                 </div>
@@ -157,13 +158,20 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="row">
-                            <span class="text-primary">Self declaration by the Executive officer/Municipal Commissioner
+                            <!-- <span class="text-primary">Self declaration by the Executive officer/Municipal Commissioner
                                 of the ULB on the
                                 standardised financial statements uploaded above.
                                 I hereby confirm that I have verified the information uploaded in standardized template
                                 and
                                 it is true and correct. It is confirmed that this information can be made available for
-                                public consumption on the CityFinance portal.</span>
+                                public consumption on the CityFinance portal.</span> -->
+                            <span class="text-primary">
+                                 <b>Self declaration by the Executive officer/Municipal
+                                  Commissioner of the ULB on the standardised financial statements uploaded above.</b><br>
+                                  I hereby confirm that I have verified the information uploaded in
+                                   standardized template and it is true and correct.
+                                  It is confirmed that this information can be made available for public consumption on the CityFinance portal.
+                                </span>
                         </div>
                         <div class="row pull-left">
                             <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
@@ -211,7 +219,7 @@
         <div *ngIf="data.audited.submit_annual_accounts" class="col-md-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.audited.submit_standardized_data}">
-                    <span class="quesIn"><b>(B) Do you wish to submit financials in standardized format for {{dateShow}}
+                    <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
                             ?</b></span>
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_standardized_data}" style="margin-bottom: 2pc;">

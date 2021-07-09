@@ -20,29 +20,24 @@
 
     <div class="row">
         <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9">
-            <h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.uaName}}</h5>
+            <h5 style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}}</h5>
         </div>
         <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right">
-            <button type="button" class="btn btn-next" (click)="isCollapsed = !isCollapsed"
-                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
+            <button type="button" class="btn btn-next" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
             </button>
         </div>
     </div>
     <hr>
-    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses(i)"
-        (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded()">
+    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses(i)" (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded()">
         <div class="row" style="margin: 10px 0 0 0;">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                            style="border-right: 2px solid #70707030">
-                            <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">Total
-                                Number of ULBs in UA</h6>
+                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                            <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">Total Number of ULBs in UA</h6>
                             <h6 style="display: inline-flex;"> {{uaDetails.totalULBsInUA}}</h6>
                         </div>
-                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
-                            style="border-right: 2px solid #70707030">
+                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
                             <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
                             <a (click)="openDialog(template, uaDetails)">
                                 <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.totalCompletedUlb}}</h6>
@@ -50,8 +45,8 @@
                         </div>
                         <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
 
-                            <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
-                                Submission/Approval</h6>
+                            <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
+                            </h6>
 
                             <a (click)="openDialog2(template1, uaDetails)">
                                 <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.totalPendingUlb}}</h6>
@@ -87,8 +82,7 @@
                         <td>
                             <div class="input-group data-input">
 
-                                <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.baseline['2021']"
-                                    [id]="service.key + 'baseline'" class="form-control">
+                                <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
                                 <span class="input-group-addon"><em class="glyphicon">
                                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
@@ -97,8 +91,7 @@
                         <td *ngFor="let year of targets">
 
                             <div class="input-group data-input">
-                                <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.target[year.key]"
-                                    [id]="service.key + year.key" class="form-control">
+                                <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -116,8 +109,7 @@
                         </td>
                         <td>
                             <div class="input-group data-input ">
-                                <input type="text" disabled [value]="uaDetails.reduction.baseline['2021']"
-                                    [id]="service.key + 'baseline' " class="form-control ">
+                                <input type="text" disabled [value]="uaDetails.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -125,8 +117,7 @@
                         </td>
                         <td *ngFor="let year of targets ">
                             <div class="input-group data-input ">
-                                <input type="text " disabled [value]="uaDetails.reduction.target[year.key]"
-                                    [id]="service.key + year.key " class="form-control ">
+                                <input type="text " disabled [value]="uaDetails.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -144,9 +135,7 @@
                         </td>
                         <td>
                             <div class="input-group data-input ">
-                                <input type="text" disabled
-                                    [value]="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']"
-                                    [id]="service.key + 'baseline' " class="form-control ">
+                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -154,9 +143,7 @@
                         </td>
                         <td *ngFor="let year of targets ">
                             <div class="input-group data-input ">
-                                <input type="text" disabled
-                                    [value]="uaDetails.houseHoldCoveredWithSewerage.target[year.key]"
-                                    [id]="service.key + year.key " class="form-control ">
+                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -174,9 +161,7 @@
                         </td>
                         <td>
                             <div class="input-group data-input ">
-                                <input type="text" disabled
-                                    [value]="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']"
-                                    [id]="service.key + 'baseline' " class="form-control ">
+                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -184,9 +169,7 @@
                         </td>
                         <td *ngFor="let year of targets ">
                             <div class="input-group data-input ">
-                                <input type="text" disabled
-                                    [value]="uaDetails.houseHoldCoveredPipedSupply.target[year.key]"
-                                    [id]="service.key + year.key " class="form-control ">
+                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
                                         {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
                                     </em></span>
@@ -392,25 +375,21 @@
                                                     totalItems: tableDefaultOptions.totalCount
                                                   }; let tabelIndex=index">
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage
-                        -1) +
-                        tabelIndex+1}}</td>
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                    </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData['name']}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData['censusCode'] ? resData['censusCode']:
-                        resData['sbCode']}}
+                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode']}}
                     </td>
                 </tr>
             </tbody>
 
         </table>
-        <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data
-            Found!</div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
-            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
-            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!
+        </div>
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>
@@ -423,8 +402,8 @@
 <ng-template #template1>
 
 
-    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/
-        SUBMISSION</div>
+    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/ SUBMISSION
+    </div>
     <div class="table-responsive tracking-history-table" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
 
         <table class="table">
@@ -445,25 +424,21 @@
                                                     totalItems: tableDefaultOptions.totalCount
                                                   }; let tabelIndex=index">
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage
-                        -1) +
-                        tabelIndex+1}}</td>
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                    </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData['name']}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData['censusCode'] ? resData['censusCode']:
-                        resData['sbCode'] ? resData['sbCode'] : 'Not Available' }}
+                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode'] ? resData['sbCode'] : 'Not Available' }}
                     </td>
                 </tr>
             </tbody>
 
         </table>
-        <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data
-            Found!</div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
-            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
-            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!
+        </div>
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>

@@ -52,4 +52,8 @@ export class StateformsService {
 
   }
 
+  finalReviewSubmitByMoHUA(body) {
+    return this.http.post(`${environment.api.url}stateMasterForm/finalAction`, body);
+  }
+
 }

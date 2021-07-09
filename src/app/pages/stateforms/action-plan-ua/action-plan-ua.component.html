@@ -11,7 +11,8 @@
         <div class="mat-card" style="margin-bottom: 10px;">
             <div class="mat-card-title">
                 <h5 style="height: 3pc;margin-left: 1pc; display: inline-block; padding-top: 15px;">
-                    UA:{{projectIndex + 1}} {{item.name}}
+                    UA{{projectIndex + 1}}: Urban Aggolmeration {{item.name.split(' ')[0]}}
+                    <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
                 </h5>
                 <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}"
                     style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
@@ -21,10 +22,11 @@
                 <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
                     [rowData]="item">
                 </app-ag-grid>
-                <div class="card"
+                <div class="card" *ngIf="loggedInUserType === USER_TYPE.MoHUA"
                     style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
                     <div class="card-body" style="margin-left: .8rem;">
-                        <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'>
+                        <app-action-component (actionValues)="checkStatus($event,item.ua, item,data)"
+                            [statusResponse]='actionRes'>
                         </app-action-component>
                     </div>
                 </div>
