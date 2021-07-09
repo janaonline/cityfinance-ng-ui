@@ -169,6 +169,8 @@ export class StateformsComponent implements OnInit {
     this.id = sessionStorage.getItem("state_id");
     this.stateformsService.getStateForm(this.design_year, this.id).subscribe(
       (res) => {
+        console.log(this.userLoggedInDetails.role)
+        console.log(res)
         this.res = res
         if (res['data']['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "STATE") {
           if (res['data']['latestFinalResponse']['role'] === "MoHUA" && res['data']['actionTakenByRole'] === "STATE") {

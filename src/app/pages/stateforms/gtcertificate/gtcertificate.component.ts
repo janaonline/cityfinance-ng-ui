@@ -334,7 +334,14 @@ export class GTCertificateComponent implements OnInit {
         }
       }
     } else if (this.loggedInUserType === "MoHUA") {
-      this.saveStateAction()
+      let changeHappen = sessionStorage.getItem("changeInGTC")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/link-in-pfms"]);
+        return;
+      } else {
+        this.saveStateAction()
+      }
+
     }
   }
 
@@ -543,7 +550,7 @@ export class GTCertificateComponent implements OnInit {
   }
 
   checkStatusAp(qusCheck) {
-
+    sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
 
       this.actionData1 = {
@@ -572,6 +579,7 @@ export class GTCertificateComponent implements OnInit {
     //  this.actionValues.emit(this.actionData);
   }
   checkStatus(qusCheck) {
+    sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
       this.actionData1 = {
         status: this.stateActionA,

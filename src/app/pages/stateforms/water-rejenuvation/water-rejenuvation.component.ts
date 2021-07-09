@@ -383,7 +383,13 @@ export class WaterRejenuvationComponent implements OnInit {
           }
         );
     } else if (this.loggedInUserType === "MoHUA") {
-      this.saveStateAction()
+      let changeHappen = sessionStorage.getItem("changeInWaterRejenuvation")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/action-plan"]);
+        return;
+      } else {
+        this.saveStateAction()
+      }
     }
 
   }
@@ -622,6 +628,7 @@ export class WaterRejenuvationComponent implements OnInit {
     );
   }
   checkStatus(ev, ua_id) {
+    sessionStorage.setItem("changeInWaterRejenuvation", "true")
     console.log('mohua action in state', ev, ua_id)
     console.log('before', this.waterRejenuvation.value)
     this.waterRejenuvation.value.uaData.forEach(el => {

@@ -250,7 +250,7 @@ export class ActionPlanUAComponent implements OnInit {
             text: "Record submitted successfully!",
             icon: "success",
           });
-          sessionStorage.setItem("changeInWaterRejenuvation", "false");
+          sessionStorage.setItem("changeInActionPlans", "false");
           const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
           form.steps.actionPlans.isSubmit = !this.data.isDraft;
           console.log(form)
@@ -264,7 +264,14 @@ export class ActionPlanUAComponent implements OnInit {
         }
       );
     } else if (this.loggedInUserType === "MoHUA") {
-      this.saveStateAction()
+      let changeHappen = sessionStorage.getItem("changeInActionPlans")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/grant-allocation"]);
+        return;
+      } else {
+        this.saveStateAction()
+      }
+
     }
 
   }
@@ -386,6 +393,7 @@ export class ActionPlanUAComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => { });
   }
   checkStatus(ev, ua_id, a, b) {
+    sessionStorage.setItem("changeInActionPlans", "true")
     console.log('action plan of UA', ev, ua_id);
     console.log('before', this.data.uaData)
     this.data.uaData.forEach(el => {

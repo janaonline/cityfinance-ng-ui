@@ -124,7 +124,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         this._router.navigate(["stateform/water-supply"]);
       }
     } else if (this.loggedInUserType === "MoHUA") {
-      this.saveStateAction()
+      let changeHappen = sessionStorage.getItem("changeInPFMSAccountState")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/water-supply"]);
+        return;
+      } else {
+        this.saveStateAction()
+      }
     }
 
   }
@@ -254,6 +260,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   pfmsFormStatus = 'PENDING';
   pfmsFormRejectReason = null;
   checkStatus(ev) {
+    sessionStorage.setItem("changeInPFMSAccountState", "true")
     console.log('state pfms action', ev)
     this.pfmsFormStatus = ev.status;
     this.pfmsFormRejectReason = ev.rejectReason;

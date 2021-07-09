@@ -241,8 +241,8 @@
                     <div *ngIf="loggedInUserType === userTypes.MoHUA "
                         matTooltip="Must submit all the Forms Status before Final Submit"
                         [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="finalActionDis"
-                            (click)="finalMoHUAAction()">
+                        <button mat-raised-button class="subBtn" [disabled]="finalActionDis || !validate"
+                            (click)=" finalMoHUAAction()">
                             {{reviewSubmitted ? "Submitted Final Review" : "Submit Final Review"}}</button>
                     </div>
                 </div>
