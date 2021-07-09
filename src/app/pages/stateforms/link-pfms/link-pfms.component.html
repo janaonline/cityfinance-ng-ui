@@ -7,7 +7,8 @@
     </div>
 
     <div class="col-sm-4 col-lg-4 col-md-4  text-right">
-        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="openModal(template,true)">PREVIEW</button>
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn"
+            (click)="openModal(template,true)">PREVIEW</button>
     </div>
 </div>
 <div class="mat-card">
@@ -37,7 +38,7 @@
         <button class="backButton">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)="saveAndNextValue(template1)" [disabled]="isDisabled">{{saveBtnTxt}}</button>
+        <button class="save" (click)="saveAndNextValue(template1)">{{saveBtnTxt}}</button>
     </div>
 </div>
 <ng-template #template>
@@ -56,7 +57,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -78,7 +80,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>

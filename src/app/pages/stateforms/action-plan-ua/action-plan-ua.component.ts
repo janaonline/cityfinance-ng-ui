@@ -8,6 +8,8 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { ActionplanspreviewComponent } from "./actionplanspreview/actionplanspreview.component";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
+import { ProfileService } from "src/app/users/profile/service/profile.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-action-plan-ua",
@@ -15,6 +17,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./action-plan-ua.component.scss"],
 })
 export class ActionPlanUAComponent implements OnInit {
+  userLoggedInDetails: IUserLoggedInDetails;
+  loggedInUserType: USER_TYPE;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
 
@@ -38,8 +42,10 @@ export class ActionPlanUAComponent implements OnInit {
     public stateformsService: StateformsService,
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private profileService: ProfileService
   ) {
+    this.initializeUserType()
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         if (event.url === "/" || event.url === "/login") {
@@ -129,7 +135,7 @@ export class ActionPlanUAComponent implements OnInit {
           status: res["data"]["status"],
           isDraft: res["data"]["isDraft"],
         };
-        sessionStorage.setItem("actionPlans", this.data);
+        sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
         this.addKeys(this.data);
       },
       (err) => {
@@ -138,7 +144,10 @@ export class ActionPlanUAComponent implements OnInit {
       }
     );
   }
-
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this._router.url);
+  }
   addKeys(data) {
     data.uaData.forEach((element) => {
       for (let i = 0; i < element.projectExecute.length; i++) {
@@ -228,28 +237,49 @@ export class ActionPlanUAComponent implements OnInit {
   }
 
   submit(fromPrev = null) {
-    if (this.data.isDraft && !fromPrev) {
-      return this.openModal(this.template1);
-    }
-    let data = this.makeApiData();
-    this.actionplanserviceService.postFormData(data).subscribe(
-      (res) => {
-        swal({
-          title: "Submitted",
-          text: "Record submitted successfully!",
-          icon: "success",
-        });
-        sessionStorage.setItem("changeInWaterRejenuvation", "false");
-        const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-        form.steps.actionPlans.isSubmit = !this.data.isDraft;
-        console.log(form)
-        this.stateformsService.allStatusStateForms.next(form);
-        if (this.routerNavigate) {
-          this._router.navigate([this.routerNavigate.url]);
+    if (this.loggedInUserType === "STATE") {
+      if (this.data.isDraft && !fromPrev) {
+        return this.openModal(this.template1);
+      }
+      let data = this.makeApiData();
+      this.actionplanserviceService.postFormData(data).subscribe(
+        (res) => {
+          swal({
+            title: "Submitted",
+            text: "Record submitted successfully!",
+            icon: "success",
+          });
+          sessionStorage.setItem("changeInWaterRejenuvation", "false");
+          const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+          form.steps.actionPlans.isSubmit = !this.data.isDraft;
+          console.log(form)
+          this.stateformsService.allStatusStateForms.next(form);
+          if (this.routerNavigate) {
+            this._router.navigate([this.routerNavigate.url]);
+          }
+        },
+        (err) => {
+          console.log(err);
         }
+      );
+    } else if (this.loggedInUserType === "MoHUA") {
+      this.saveStateAction()
+    }
+
+  }
+  body = {};
+  saveStateAction() {
+    this.actionplanserviceService.postStateAction(this.data).subscribe(
+      (res) => {
+        swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.steps.actionPlans.status = this.body['status'];
+        status.steps.actionPlans.isSubmit = true;
+        this.stateformsService.allStatusStateForms.next(status);
       },
-      (err) => {
-        console.log(err);
+      (error) => {
+        swal("An error occured!");
+        console.log(error.message);
       }
     );
   }
@@ -354,14 +384,25 @@ export class ActionPlanUAComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
-  checkStatus(ev){
- console.log('action plan of UA', ev);
+  checkStatus(ev, ua_id, a, b) {
+    console.log('action plan of UA', ev, ua_id);
+    console.log('before', this.data.uaData)
+    this.data.uaData.forEach(el => {
+      if (el.ua == ua_id) {
+
+        el['status'] = ev.status
+        el['rejectReason'] = ev.rejectReason
+      }
+    })
+    console.log('after', this.data.uaData)
 
   }
 }
 
 const input = {
   ua: { value: "", isEmpty: null, lastValidation: true },
+  status: { value: '' },
+  rejectReason: { value: '' },
   name: { value: "", isEmpty: null, lastValidation: true },
   projectExecute: [
     {
@@ -420,6 +461,8 @@ const input = {
 
 const output = {
   ua: "",
+  status: '',
+  rejectReason: '',
   projectExecute: [
     {
       code: "",

@@ -2,28 +2,36 @@
     <!-- <div class="float-left"> -->
     <span class="" [ngClass]="{'col-sm-4': (loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) ||
       (loggedInUserType === USER_TYPE.ULB && (btnStyleA || btnStyleR)),
-     'col-sm-6': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b> <b>{{quesName}}<b class="text-danger">*</b></b></span>
+     'col-sm-6': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
+        <b>{{quesName}}<b class="text-danger">*</b></b></span>
     <button *ngIf="showPdf" (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
     </button>
-    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')" type="file" accept=".pdf" #file>
-    <button *ngIf="showExcel" (click)="bs_excel1.click()" [ngClass]="{linkinpfms: FromLinkinPfms}" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload
+    <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')"
+        type="file" accept=".pdf" #file>
+    <button *ngIf="showExcel" (click)="bs_excel1.click()" [ngClass]="{linkinpfms: FromLinkinPfms}"
+        class="col-md-2 btn btn2" [disabled]="isDisabled">Upload
         EXCEL
         <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
             data-height="16"></span>
     </button>
-    <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')" type="file" accept=".xls, .xlsx" #file>
+    <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')"
+        type="file" accept=".xls, .xlsx" #file>
     <!-- </div> -->
     <div class="btn-group float-right" *ngIf="loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms &&
      (btnStyleA || btnStyleR)" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 10%;">
-        <label class="btn btn-success" [disabled]="actionCompDis" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+        <label class="btn btn-success" [disabled]="actionCompDis" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED"
+            (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-        <label class="btn btn-danger" [disabled]="actionCompDis" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px; width: 82px;">Reject</label>
+        <label class="btn btn-danger" [disabled]="actionCompDis" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED"
+            (click)="checkStatus()" uncheckable tabindex="0" role="button"
+            style="margin-left: 10px; width: 82px;">Reject</label>
     </div>
     <!-- && (finalSubmitUtiStatus == 'true') -->
     <div class="btn-group float-right" *ngIf="loggedInUserType === USER_TYPE.ULB
      && !FromLinkinPfms && (btnStyleA || btnStyleR)" btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
-        <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">{{stateAction | titlecase}}</label>
+        <label class="btn btn-success" style="width: 82px;"
+            [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">{{stateAction | titlecase}}</label>
     </div>
 </div>
 <div class="float-left" style="display: inline-block;" [ngClass]="{'pfmsClass': FromLinkinPfms, 'ulbClass' : (loggedInUserType === USER_TYPE.ULB &&
@@ -36,10 +44,11 @@
             <div class="row">
                 <div class="col-sm-5 col-lg-5 col-md-5">
                     <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.pdf?.name">
-                    {{data.pdf?.name}}</label>
+                        {{data.pdf?.name}}</label>
                 </div>
                 <div class="col-sm-5 col-lg-5 col-md-5" *ngIf="data.pdf?.progress" style="padding: 0;">
-                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.pdf?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.pdf?.progress + '%' }">
+                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.pdf?.progress }}"
+                        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.pdf?.progress + '%' }">
                         {{ data.pdf?.progress }}%
                     </div>
                 </div>
@@ -48,7 +57,8 @@
                     <ng-container>
                         <div *ngIf="data.pdf?.url">
                             <a href="{{ data.pdf?.url }}" target="_blank">
-                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                    style="margin-left: 1px; height: 19px;">
 
                             </a>
                             <a [ngClass]="{cross: isDisabled}" (click)="clearFile('pdf')" style="margin-left: 3px;">
@@ -57,9 +67,11 @@
                         </div>
                         <div *ngIf="data.pdf?.error">
                             <a>
-                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                    style="margin-left: 1px; height: 19px;">
                             </a>
-                            <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'pdf')" style="margin-left: 3px;">
+                            <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'pdf')"
+                                style="margin-left: 3px;">
                                 <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
                             </a>
                         </div>
@@ -74,10 +86,11 @@
             <div class="row">
                 <div class="col-sm-5 col-lg-5 col-md-5">
                     <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.excel?.name">
-                    {{data.excel?.name}}</label>
+                        {{data.excel?.name}}</label>
                 </div>
                 <div class="col-sm-5 col-lg-5 col-md-5" *ngIf="data.excel?.progress" style="padding: 0;">
-                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.excel?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.excel?.progress + '%' }">
+                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.excel?.progress }}"
+                        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.excel?.progress + '%' }">
                         {{ data.excel?.progress }}%
                     </div>
                 </div>
@@ -86,7 +99,8 @@
                     <ng-container>
                         <div *ngIf="data.excel?.url">
                             <a href="{{ data.excel?.url }}" target="_blank">
-                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                    style="margin-left: 1px; height: 19px;">
 
                             </a>
                             <a [ngClass]="{cross: isDisabled}" (click)="clearFile('excel')" style="margin-left: 3px;">
@@ -95,9 +109,11 @@
                         </div>
                         <div *ngIf="data.excel?.error">
                             <a>
-                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                    style="margin-left: 1px; height: 19px;">
                             </a>
-                            <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'excel')" style="margin-left: 3px;">
+                            <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(true,'excel')"
+                                style="margin-left: 3px;">
                                 <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
                             </a>
                         </div>
@@ -108,11 +124,13 @@
     </div>
 </div>
 
-<div class="float-right" *ngIf="stateAction == 'REJECTED'" style="margin-bottom: 2rem; width: 40%; display: inline-block;">
+<div class="float-right" *ngIf="stateAction == 'REJECTED'"
+    style="margin-bottom: 2rem; width: 40%; display: inline-block;">
     <div class="col-sm-10 col-lg-10 col-md-10" style="margin-left: 5rem;">
         <span style="font-weight: 600; text-align: left">Reason for rejection</span>
         <div class="input-group" style="width: 100%">
-            <textarea rows="3" style="width: 100%" [disabled]="actionCompDis" class="form-control" (blur)="checkStatus()" [(ngModel)]="rejectReason" [disabled]="ulbDisabled">
+            <textarea rows="3" style="width: 100%" [disabled]="actionCompDis" class="form-control"
+                (blur)="checkStatus()" [(ngModel)]="rejectReason" [disabled]="ulbDisabled">
 </textarea>
         </div>
     </div>

@@ -23,6 +23,11 @@ export class ActionplanserviceService {
   }
 
   getUlbsByState(state_id) {
-    return this.http.get(`${environment.api.url}state/uas-ulb?state=${state_id}`);
+    return this.http.get(`${environment.api.url}state/uas-ulb?state_id=${state_id}`);
+  }
+
+  postStateAction(data) {
+    let utUrl = environment.api.url + 'ActionPlans/action'
+    return this.http.post(utUrl, data)
   }
 }

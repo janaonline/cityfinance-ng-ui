@@ -11,9 +11,11 @@ import { GTCertificateService } from './gtcertificate.service'
 import { StateformsService } from '../stateforms.service'
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
-
+import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
+import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { isNull } from '@angular/compiler/src/output/output_ast';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
@@ -21,6 +23,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./gtcertificate.component.scss']
 })
 export class GTCertificateComponent implements OnInit {
+  userLoggedInDetails: IUserLoggedInDetails;
+  loggedInUserType: USER_TYPE;
 
   modalRef: BsModalRef;
   filesToUpload: Array<File> = [];
@@ -52,15 +56,17 @@ export class GTCertificateComponent implements OnInit {
   isDisabled = false;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
-  loggedInUserType = this.loggedInUserDetails.role;
+
   actionRes;
-  stateActionA= '';
-  stateActionB= '';
-  stateActionC= '';
+  stateActionA = '';
+  stateActionB = '';
+  stateActionC = '';
   rejectReasonA = null;
   rejectReasonB = null;
   rejectReasonC = null;
-  actionData;
+  actionData1 = {};
+  actionData2 = {};
+  actionData3 = {};
   btnStyleA = false;
   btnStyleR = false;
   /* This is to keep track of which indexed which file is already either in data processing state
@@ -75,17 +81,12 @@ export class GTCertificateComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private gtcService: GTCertificateService,
     private dialog: MatDialog,
-    public _stateformsService: StateformsService
+    public _stateformsService: StateformsService,
+    private profileService: ProfileService,
   ) {
+    this.initializeUserType();
     this.navigationCheck()
-    switch (this.loggedInUserType) {
-      case USER_TYPE.ULB:
-      case USER_TYPE.PARTNER:
-      case USER_TYPE.ADMIN:
-      case USER_TYPE.MoHUA:
-        this.isDisabled = true;
-        break;
-    }
+
 
   }
   @ViewChild("template1") template1;
@@ -125,14 +126,17 @@ export class GTCertificateComponent implements OnInit {
 
     });
   }
-
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this._router.url);
+  }
   disableAllForms = false;
   isStateSubmittedForms = '';
   ngOnInit(): void {
     let id = sessionStorage.getItem("state_id")
     this.gtcService.getFiles(id)
       .subscribe((res) => {
-
+        sessionStorage.setItem("StateGTC", JSON.stringify(res));
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
           this.fileName_millionTied = res['data']['million_tied']['pdfName'];
           this.millionTiedFileUrl = res['data']['million_tied']['pdfUrl'];
@@ -224,6 +228,8 @@ export class GTCertificateComponent implements OnInit {
   }
 
   postsDataCall(uploadedFiles) {
+
+
     return new Promise((resolve, reject) => {
 
       this.gtcService.sendRequest(this.uploadedFiles)
@@ -249,51 +255,87 @@ export class GTCertificateComponent implements OnInit {
     })
 
   }
+  body = {};
+  saveStateAction() {
+
+    let data = JSON.parse(sessionStorage.getItem("StateGTC"))
+    console.log(data)
+    this.body['design_year'] = data.data['design_year']
+    this.body['isDraft'] = data.data['isDraft']
+    this.body['million_tied'] = data.data['million_tied']
+    this.body['nonmillion_tied'] = data.data['nonmillion_tied']
+    this.body['nonmillion_untied'] = data.data['nonmillion_untied']
+    this.body['million_tied']['status'] = this.actionData1['status']
+    this.body['million_tied']['rejectReason'] = this.actionData1['rejectReason']
+    this.body['nonmillion_tied']['status'] = this.actionData2['status']
+    this.body['nonmillion_tied']['rejectReason'] = this.actionData2['rejectReason']
+    this.body['nonmillion_untied']['status'] = this.actionData3['status']
+    this.body['nonmillion_untied']['rejectReason'] = this.actionData3['rejectReason']
+
+
+    this.gtcService.postStateAction(this.body).subscribe(
+      (res) => {
+        swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.steps.GTCertificate.status = this.body['status'];
+        status.steps.GTCertificate.isSubmit = true;
+        this._stateformsService.allStatusStateForms.next(status);
+      },
+      (error) => {
+        swal("An error occured!");
+        console.log(error.message);
+      }
+    );
+  }
 
   alertClose() {
     this.stay();
   }
 
   saveForm(template1) {
-    this.submitted = true;
-    this.uploadedFiles = {
-      design_year: "606aaf854dff55e6c075d219",
-      million_tied:
-      {
-        pdfUrl: this.millionTiedFileUrl,
-        pdfName: this.fileName_millionTied
-      },
-      nonmillion_tied:
-      {
-        pdfUrl: this.nonMillionTiedFileUrl,
-        pdfName: this.fileName_nonMillionTied
-      },
-      nonmillion_untied:
-      {
-        pdfUrl: this.nonMillionUntiedFileUrl,
-        pdfName: this.fileName_nonMillionUntied
-      },
-      isDraft: true
-    };
-    let changeHappen = sessionStorage.getItem("changeInGTC")
-    if (changeHappen == "false") {
-      this._router.navigate(["stateform/link-in-pfms"]);
-      return;
-    } else {
-      if (
-        this.millionTiedFileUrl != '' &&
-        this.nonMillionTiedFileUrl != '' &&
-        this.nonMillionUntiedFileUrl != ''
-      ) {
-        this.uploadedFiles.isDraft = false
-        this.postsDataCall(this.uploadedFiles);
+    console.log(this.loggedInUserType)
+    if (this.loggedInUserType === "STATE") {
+      this.submitted = true;
+      this.uploadedFiles = {
+        design_year: "606aaf854dff55e6c075d219",
+        million_tied:
+        {
+          pdfUrl: this.millionTiedFileUrl,
+          pdfName: this.fileName_millionTied
+        },
+        nonmillion_tied:
+        {
+          pdfUrl: this.nonMillionTiedFileUrl,
+          pdfName: this.fileName_nonMillionTied
+        },
+        nonmillion_untied:
+        {
+          pdfUrl: this.nonMillionUntiedFileUrl,
+          pdfName: this.fileName_nonMillionUntied
+        },
+        isDraft: true
+      };
+      let changeHappen = sessionStorage.getItem("changeInGTC")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/link-in-pfms"]);
+        return;
+      } else {
+        if (
+          this.millionTiedFileUrl != '' &&
+          this.nonMillionTiedFileUrl != '' &&
+          this.nonMillionUntiedFileUrl != ''
+        ) {
+          this.uploadedFiles.isDraft = false
+          this.postsDataCall(this.uploadedFiles);
 
+        }
+        else {
+          this.openModal(template1);
+        }
       }
-      else {
-        this.openModal(template1);
-      }
+    } else if (this.loggedInUserType === "MoHUA") {
+      this.saveStateAction()
     }
-
   }
 
   clearFiles(fileName) {
@@ -499,55 +541,57 @@ export class GTCertificateComponent implements OnInit {
       console.log(result)
     });
   }
-  checkStatusAp(qusCheck){
-    this.rejectReasonA = null;
-  this.rejectReasonB = null;
-  this.rejectReasonC = null;
-    if(qusCheck == 'millionTied'){
-      this.actionData = {
+
+  checkStatusAp(qusCheck) {
+
+    if (qusCheck == 'millionTied') {
+
+      this.actionData1 = {
+        status: "APPROVED",
+        rejectReason: null
+      }
+    }
+    if (qusCheck == 'nonMillionTied') {
+      this.actionData2['rejectReason'] = null;
+      this.actionData2 = {
+        status: "APPROVED",
+        rejectReason: null
+      }
+    }
+    if (qusCheck == 'nonMillionUntied') {
+      this.actionData3['rejectReason'] = null;
+      this.actionData3 = {
+        status: "APPROVED",
+        rejectReason: null
+      }
+    }
+
+
+
+    console.log('stateAction', this.stateActionA)
+    //  this.actionValues.emit(this.actionData);
+  }
+  checkStatus(qusCheck) {
+    if (qusCheck == 'millionTied') {
+      this.actionData1 = {
         status: this.stateActionA,
         rejectReason: this.rejectReasonA
       }
     }
-    if(qusCheck == 'nonMillionTied'){
-      this.actionData = {
+    if (qusCheck == 'nonMillionTied') {
+      this.actionData2 = {
         status: this.stateActionB,
         rejectReason: this.rejectReasonB
       }
     }
-    if(qusCheck == 'nonMillionUntied'){
-      this.actionData = {
+    if (qusCheck == 'nonMillionUntied') {
+      this.actionData3 = {
         status: this.stateActionC,
         rejectReason: this.rejectReasonC
       }
     }
-
-
-
-    console.log('stateAction', this.stateActionA, this.actionData)
- //  this.actionValues.emit(this.actionData);
-  }
-  checkStatus(qusCheck){
-    if(qusCheck == 'millionTied'){
-      this.actionData = {
-        status: this.stateActionA,
-        rejectReason: this.rejectReasonA
-      }
-    }
-    if(qusCheck == 'nonMillionTied'){
-      this.actionData = {
-        status: this.stateActionA,
-        rejectReason: this.rejectReasonA
-      }
-    }
-    if(qusCheck == 'nonMillionUntied'){
-      this.actionData = {
-        status: this.stateActionA,
-        rejectReason: this.rejectReasonA
-      }
-    }
-    console.log('stateAction', this.stateActionA, this.actionData)
-  //  this.actionValues.emit(this.actionData);
+    console.log('stateAction', this.stateActionA)
+    //  this.actionValues.emit(this.actionData);
   }
 
 }

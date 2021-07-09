@@ -332,6 +332,32 @@ export class StateformsComponent implements OnInit {
     );
 
   }
+  finalActionDis = false;
+  finalMoHUAAction() {
+    let data = {
+      design_year: this.design_year,
+      isSubmit: true,
+      actionTakenByRole: "MoHUA",
+    };
+    this.checkValidationStatusOfAllForms();
+    if (this.validate) {
+      this.stateformsService.finalReviewSubmitByMoHUA(data).subscribe(
+        (res) => {
+          this.finalActionDis = true;
+          this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.actionTakenByRole)
+          sessionStorage.setItem("StateFormFinalSubmitByState", "true")
+          swal(
+            "Forms Successfully Submitted to be Reviewed by State and MoHUA"
+          );
+        },
+        (err) => {
+          swal(
+            "Form Submission Failed"
+          );
+        })
+    }
+
+  }
 
   getAllStateForms() {
 
