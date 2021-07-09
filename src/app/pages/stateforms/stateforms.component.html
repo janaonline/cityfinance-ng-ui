@@ -185,19 +185,18 @@
                     </div>
                 </a>
             </div>
-            <!-- </div> -->
-            <div class="row link-div">
+            <div class="row link-div-u" routerLinkActive="active">
                 <a [routerLink]="['action-plan']">
-                    <div class="col-sm-1 col-xs-1 m-l">
+                    <div class="col-sm-1 col-xs-1 m-l-u">
                         <mat-icon aria-hidden="false" style="margin-top: 4px;">
-                            <img src="../../../assets/stateform/actionPlan.svg" class="svg-gt">
+                            <img src="../../../assets/stateform/actionPlan.svg" style="filter: invert(1);">
                         </mat-icon>
                     </div>
-                    <div class="col-sm-9 col-xs-9 linktext pd">
-                        <!-- Action Plan for UA Service Level Indicators -->
-                        Million Plus Cities Challenge for UAs
+                    <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 8px;">
+
+                        Action Plan for UA Service Level Indicators
                     </div>
-                    <div class="col-sm-1 col-xs-1 text-right">
+                    <div class="col-sm-1 col-xs-1">
                         <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
@@ -207,6 +206,29 @@
                     </div>
                 </a>
             </div>
+            <!-- </div> -->
+            <!-- <div class="row link-div">
+                <a [routerLink]="['action-plan']">
+                    <div class="col-sm-1 col-xs-1 m-l">
+                        <mat-icon aria-hidden="false" style="margin-top: 4px;">
+                            <img src="../../../assets/stateform/actionPlan.svg" class="svg-gt">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 col-xs-9 linktext pd">
+                        Action Plan for UA Service Level Indicators
+
+                    </div>
+                    <div class="col-sm-1 col-xs-1 text-right">
+                        <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/checked.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/form-icon/cancel.svg">
+                        </mat-icon>
+
+                    </div>
+                </a>
+            </div> -->
             <div class="row link-div" routerLinkActive="active">
                 <a [routerLink]="['grant-allocation']">
                     <div class="col-sm-1 col-xs-1 m-l">
