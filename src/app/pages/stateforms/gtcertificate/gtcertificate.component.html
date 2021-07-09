@@ -20,9 +20,10 @@
 
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 8px;">
+                        <!-- Upload Signed Grant Transfer Certificate for Million Tied Grants  -->
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align: left;">
-                            (A) Upload Signed Grant Transfer Certificate for Million Tied Grants <span
-                                style="color: red;">*</span></label>
+                            (A) Upload Signed Grant Transfer Certificate for Million Plus Cities Grant for Water Supply
+                            and SWM<span style="color: red;">*</span></label>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5" style="margin-left: 3rem; margin-top: 2px;">
                         <div class="row">
@@ -38,7 +39,8 @@
                                     (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')"
                                     accept=".pdf" />
                             </div>
-                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group" btnRadioGroup [(ngModel)]="stateActionA"
+                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionA"
                                 style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
                                     <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED"
@@ -48,7 +50,7 @@
                                     <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED"
                                         (click)="checkStatus('millionTied')" uncheckable tabindex="0" role="button"
                                         style="margin-left: 10px;
-                                width: 82px;">Reject</label>
+                                width: 82px;">Return</label>
                                 </div>
                             </div>
                         </div>
@@ -112,8 +114,9 @@
 
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-6 col-md-6 col-sm-6">
+                        <!-- Upload Signed Grant Transfer Certificate for Non-Million Tied Grants -->
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align:left;">
-                            (B) Upload Signed Grant Transfer Certificate for Non-Million Tied Grants<span
+                            (B) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Tied Grant<span
                                 style="color: red;">*</span></label>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5" style="margin-left: 3rem; margin-top: 2px;">
@@ -130,7 +133,8 @@
                                     (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')"
                                     accept=".pdf" />
                             </div>
-                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group" btnRadioGroup [(ngModel)]="stateActionB"
+                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionB"
                                 style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
                                     <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED"
@@ -140,7 +144,7 @@
                                     <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED"
                                         (click)="checkStatus('nonMillionTied')" uncheckable tabindex="0" role="button"
                                         style="margin-left: 10px;
-                          width: 82px;">Reject</label>
+                          width: 82px;">Return</label>
                                 </div>
                             </div>
                         </div>
@@ -202,8 +206,9 @@
 
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-6 col-md-6 col-sm-6">
+                        <!-- Upload Signed Grant Transfer Certificate for Million Untied Grants -->
                         <label for="" style="color: #022121; font-size: 15px; font-weight: bold; text-align: left;">
-                            (C) Upload Signed Grant Transfer Certificate for Million Untied Grants<span
+                            (C) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Untied Grant<span
                                 style="color: red;">*</span></label>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5 image-upload" style="margin-left: 3rem; margin-top: 2px;">
@@ -220,7 +225,8 @@
                                     (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')"
                                     accept=".pdf" />
                             </div>
-                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group" btnRadioGroup [(ngModel)]="stateActionC"
+                            <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionC"
                                 style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
                                     <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED"
@@ -230,7 +236,7 @@
                                     <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED"
                                         (click)="checkStatus('nonMillionUntied')" uncheckable tabindex="0" role="button"
                                         style="margin-left: 10px;
-                        width: 82px;">Reject</label>
+                        width: 82px;">Return</label>
                                 </div>
                             </div>
                         </div>

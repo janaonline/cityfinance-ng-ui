@@ -18,9 +18,10 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class ActionPlanUAComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
-  loggedInUserType: USER_TYPE;
+  // loggedInUserType: USER_TYPE;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
 
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
   Year = JSON.parse(localStorage.getItem("Years"));

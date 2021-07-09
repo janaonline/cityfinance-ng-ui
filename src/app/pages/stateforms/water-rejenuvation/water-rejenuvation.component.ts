@@ -28,8 +28,11 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class WaterRejenuvationComponent implements OnInit {
   userLoggedInDetails: IUserLoggedInDetails;
-  loggedInUserType: USER_TYPE;
+  // loggedInUserType: USER_TYPE;
   actionRes;
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   constructor(
     private fb: FormBuilder,
     private waterRejenuvationService: WaterRejenuvationService,
@@ -164,7 +167,9 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getUas() {
+    console.log('rejen heading...', this.data);
     return this.data.map((data) =>
+
       this.fb.group({
         ua: data.ua,
         status: '',
@@ -172,7 +177,7 @@ export class WaterRejenuvationComponent implements OnInit {
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
         foldCard: false,
-      })
+      }),
     );
   }
 
