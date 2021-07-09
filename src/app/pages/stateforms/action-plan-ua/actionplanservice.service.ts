@@ -6,11 +6,11 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class ActionplanserviceService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getFormData() {
+  getFormData(state_id) {
     return this.http.get(
-      `${environment.api.url}ActionPlans/606aaf854dff55e6c075d219`
+      `${environment.api.url}ActionPlans/606aaf854dff55e6c075d219?state_id=${state_id}`
     );
   }
   postFormData(body) {
@@ -22,7 +22,12 @@ export class ActionplanserviceService {
     return this.http.get(catUrl);
   }
 
-  getUlbsByState(state) {
-    return this.http.get(`${environment.api.url}state/uas-ulb?state=${state}`);
+  getUlbsByState(state_id) {
+    return this.http.get(`${environment.api.url}state/uas-ulb?state_id=${state_id}`);
+  }
+
+  postStateAction(data) {
+    let utUrl = environment.api.url + 'ActionPlans/action'
+    return this.http.post(utUrl, data)
   }
 }

@@ -43,7 +43,7 @@ import { UtilreportListComponent } from './state-dashboard/utilreport-list/utilr
 import { PlansListComponent } from './state-dashboard/plans-list/plans-list.component';
 import { PfmsListComponent } from './state-dashboard/pfms-list/pfms-list.component';
 import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component';
-
+import { MatButtonModule } from '@angular/material/button';
 import { ChartsModule } from 'ng2-charts';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
@@ -101,6 +101,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     MatProgressSpinnerModule,
     MatDialogModule,
     ChartsModule,
+    MatButtonModule,
     ButtonsModule.forRoot()
 
   ]

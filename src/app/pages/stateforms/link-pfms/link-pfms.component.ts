@@ -9,7 +9,6 @@ import {
 import { LinkPFMSAccount } from "./link-pfms.service";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { Router, NavigationStart, Event } from "@angular/router";
-
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -18,6 +17,8 @@ import { SweetAlert } from "sweetalert/typings/core";
 
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { StateformsService } from '../stateforms.service'
+import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -26,6 +27,9 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./link-pfms.component.scss"],
 })
 export class LinkPFMSComponent extends BaseComponent implements OnInit {
+  userLoggedInDetails: IUserLoggedInDetails;
+  // loggedInUserType: USER_TYPE;
+
   dialogRef;
   actionRes;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
@@ -36,9 +40,12 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     public dialog: MatDialog,
     private modalService: BsModalService,
     private _router: Router,
-    private _profileService: ProfileService
+    private profileService: ProfileService,
+    public stateformsService: StateformsService,
   ) {
+
     super();
+    this.initializeUserType();
     this._router.events.subscribe(async (event: Event) => {
       if (event instanceof NavigationStart) {
         if (event.url === "/" || event.url === "/login") {
@@ -72,27 +79,81 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     excel: null,
   };
   saveBtnTxt = "NEXT";
+  disableAllForms = false;
+  isStateSubmittedForms = ''
+  userRole;
+  excelDataOnLoad = null;
 
   ngOnInit() {
+
     sessionStorage.setItem("changeInPFMSAccountState", "false");
     let state_id = sessionStorage.getItem("state_id");
-    if (state_id != null) {
-      this.isDisabled = true;
+
+
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
+      (role) => {
+        console.log("link pfms Testing", role);
+        if (role === "STATE") {
+          this.disableAllForms = true;
+        }
+      }
+    );
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem(
+        "StateFormFinalSubmitByState"
+      );
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
     }
+
     this.onLoad(state_id);
+  }
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this._router.url);
+  }
+  saveAndNextValue(template1) {
+    console.log(this.loggedInUserType)
+    if (this.loggedInUserType === "STATE") {
+      if (sessionStorage.getItem("changeInPFMSAccountState") == "true") {
+        if (this.data.isDraft) {
+          this.openModal(template1);
+        } else {
+          this.postData();
+        }
+      } else {
+        this._router.navigate(["stateform/water-supply"]);
+      }
+    } else if (this.loggedInUserType === "MoHUA") {
+      this.saveStateAction()
+    }
 
   }
+  body = {};
+  saveStateAction() {
+    let data = JSON.parse(sessionStorage.getItem("pfmsAccounts"))
+    console.log(data)
+    this.body['design_year'] = data.data['design_year']
+    this.body['isDraft'] = data.data['isDraft']
+    this.body['excel'] = data.data['excel']
+    this.body['status'] = this.pfmsFormStatus
+    this.body['rejectReason'] = this.pfmsFormRejectReason
 
-  saveAndNextValue(template1) {
-    if (sessionStorage.getItem("changeInPFMSAccountState") == "true") {
-      if (this.data.isDraft) {
-        this.openModal(template1);
-      } else {
-        this.postData();
+    this.LinkPFMSAccount.postStateAction(this.body).subscribe(
+      (res) => {
+        swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.steps.linkPFMS.status = this.body['status'];
+        status.steps.linkPFMS.isSubmit = true;
+        this.stateformsService.allStatusStateForms.next(status);
+      },
+      (error) => {
+        swal("An error occured!");
+        console.log(error.message);
       }
-    } else {
-      this._router.navigate(["stateform/water-supply"]);
-    }
+    );
   }
 
   async postData() {
@@ -100,6 +161,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       (res) => {
         sessionStorage.setItem("changeInPFMSAccountState", "false");
         console.log(res);
+        const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        form.steps.linkPFMS.isSubmit = !this.data.isDraft;
+        console.log(form);
+        this.stateformsService.allStatusStateForms.next(form);
         swal("Record submitted successfully!");
         this._router.navigate(["stateform/water-supply"]);
       },
@@ -137,7 +202,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.LinkPFMSAccount.getData(this.Years["2021-22"], state_id).subscribe(
       (res) => {
         console.log(res);
-        this.data.excel = res['data'].excel
+        this.data.excel = res["data"].excel;
+        this.excelDataOnLoad = { excel: res["data"].excel };
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
       },
       (error) => {
@@ -187,10 +253,14 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     } else {
       this.data.isDraft = true;
     }
-    this.checkDiff()
+    this.checkDiff();
   }
-  checkStatus(ev){
-    console.log('state pfms action', ev)
 
+  pfmsFormStatus = 'PENDING';
+  pfmsFormRejectReason = null;
+  checkStatus(ev) {
+    console.log('state pfms action', ev)
+    this.pfmsFormStatus = ev.status;
+    this.pfmsFormRejectReason = ev.rejectReason;
   }
 }

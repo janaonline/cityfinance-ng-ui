@@ -55,6 +55,8 @@ export class UlbformComponent implements OnInit {
       } else {
       }
     });
+    this.subscribeStatus();
+
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.accessGrant();
     this.initializeUserType();
@@ -105,7 +107,6 @@ export class UlbformComponent implements OnInit {
   };
 
   async ngOnInit() {
-    this.subscribeStatus();
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
@@ -132,6 +133,17 @@ export class UlbformComponent implements OnInit {
     const eligibleActionForms = JSON.parse(
       sessionStorage.getItem("eligibleActionForms")
     );
+
+    // if (
+    //   this.userLoggedInDetails.role == this.userTypes.MoHUA &&
+    //   this.lastRoleInMasterForm != this.userTypes.MoHUA
+    // ) {
+    //   for (const key in status) {
+    //     this.allStatus[key] = status[key];
+    //     this.allStatus[key].isSubmit = false;
+    //   }
+    //   return;
+    // }
 
     for (const key in status) {
       this.allStatus[key] = status[key];
@@ -201,19 +213,20 @@ export class UlbformComponent implements OnInit {
         if (
           this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
           this.userLoggedInDetails.role == "ULB"
-        ){
+        ) {
           localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         }
-        let stActionCheck = 'false'
+        let stActionCheck = "false";
         if (
-          (res["response"].actionTakenByRole == "STATE")&&
-           (res["response"].isSubmit == true) && (res["response"].status != 'PENDING')
-        ){
-          stActionCheck = 'true'
-          console.log('final action completed.....');
+          res["response"].actionTakenByRole === this.userTypes.STATE &&
+          res["response"].isSubmit == true &&
+          res["response"].status != "PENDING" &&
+          this.loggedInUserType === this.userTypes.STATE
+        ) {
+          stActionCheck = "true";
+          console.log("final action completed.....");
         }
         localStorage.setItem("stateActionComDis", stActionCheck);
-
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);

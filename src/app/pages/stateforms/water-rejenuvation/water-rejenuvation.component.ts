@@ -17,6 +17,9 @@ import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import { StateformsService } from '../stateforms.service'
+import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
+import { ProfileService } from "src/app/users/profile/service/profile.service";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",
@@ -24,6 +27,8 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ["./water-rejenuvation.component.scss"],
 })
 export class WaterRejenuvationComponent implements OnInit {
+  userLoggedInDetails: IUserLoggedInDetails;
+  // loggedInUserType: USER_TYPE;
   actionRes;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
@@ -33,8 +38,12 @@ export class WaterRejenuvationComponent implements OnInit {
     private waterRejenuvationService: WaterRejenuvationService,
     private dialog: MatDialog,
     private dataEntryService: DataEntryService,
-    private _router: Router
+    private _router: Router,
+    public _stateformsService: StateformsService,
+    private profileService: ProfileService,
+
   ) {
+    this.initializeUserType();
     this._router.events.subscribe(async (event: Event) => {
       if (!this.saveClicked) {
         if (event instanceof NavigationStart) {
@@ -56,11 +65,32 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     });
   }
-
+  disableAllForms = false;
+  isStateSubmittedForms = ''
   async ngOnInit() {
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     await this.loadData();
     this.initializeReport();
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
+      console.log('Water Rejuvenation Testing', role)
+      if (role === "STATE") {
+        this.disableAllForms = true;
+      }
+
+
+    });
+
+    if (!this.disableAllForms) {
+      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      if (this.isStateSubmittedForms == "true") {
+        this.disableAllForms = true;
+      }
+    }
+  }
+
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+    console.log(this._router.url);
   }
   @ViewChild("template") template;
   @ViewChild("template1") template1;
@@ -142,6 +172,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
       this.fb.group({
         ua: data.ua,
+        status: '',
+        rejectReason: '',
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
         foldCard: false,
@@ -208,7 +240,8 @@ export class WaterRejenuvationComponent implements OnInit {
 
   loadData() {
     return new Promise((resolve, reject) => {
-      this.waterRejenuvationService.getData(this.Year["2021-22"]).subscribe(
+      let id = sessionStorage.getItem("state_id")
+      this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
         (res) => {
           this.errorOnload = true;
           this.data = res["data"]["uaData"];
@@ -321,32 +354,57 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   submit(fromPrev = null) {
-    this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
-    console.log(this.waterRejenuvation.controls);
-    if (this.saveBtnText == "NEXT") {
-      return; // router link
-    }
-    if (this.waterRejenuvation.value.isDraft && fromPrev == null) {
-      return this.openModal(this.template1);
-    }
-    this.waterRejenuvationService
-      .postData(this.waterRejenuvation.value)
-      .subscribe(
-        (res) => {
-          swal({
-            title: "Submitted",
-            text: "Record submitted successfully!",
-            icon: "success",
-          });
-          sessionStorage.setItem("changeInWaterRejenuvation", "false");
-          if (this.routerNavigate) {
-            this._router.navigate([this.routerNavigate.url]);
+    console.log(this.loggedInUserType)
+    if (this.loggedInUserType === "STATE") {
+      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
+      console.log(this.waterRejenuvation.controls);
+      if (this.saveBtnText == "NEXT") {
+        return; // router link
+      }
+      if (this.waterRejenuvation.value.isDraft && fromPrev == null) {
+        return this.openModal(this.template1);
+      }
+      this.waterRejenuvationService
+        .postData(this.waterRejenuvation.value)
+        .subscribe(
+          (res) => {
+            swal({
+              title: "Submitted",
+              text: "Record submitted successfully!",
+              icon: "success",
+            });
+            sessionStorage.setItem("changeInWaterRejenuvation", "false");
+            if (this.routerNavigate) {
+              this._router.navigate([this.routerNavigate.url]);
+            }
+          },
+          (err) => {
+            console.log(err);
           }
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+        );
+    } else if (this.loggedInUserType === "MoHUA") {
+      this.saveStateAction()
+    }
+
+  }
+  body = {};
+  saveStateAction() {
+
+    this.body = this.waterRejenuvation.value
+    console.log('this.body', this.body)
+    this.waterRejenuvationService.postStateAction(this.body).subscribe(
+      (res) => {
+        swal("Record submitted successfully!");
+        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        status.steps.waterRejuventation.status = this.body['status'];
+        status.steps.waterRejuventation.isSubmit = true;
+        this._stateformsService.allStatusStateForms.next(status);
+      },
+      (error) => {
+        swal("An error occured!");
+        console.log(error.message);
+      }
+    );
   }
 
   foldCard(index) {
@@ -370,7 +428,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "500px",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   removePhotos(waterIndex, uaIndex) {
@@ -551,7 +609,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   checkErrorState(projectRow, val) {
@@ -563,7 +621,16 @@ export class WaterRejenuvationComponent implements OnInit {
       (projectRow.controls[val].dirty || projectRow.controls[val].touched)
     );
   }
-  checkStatus(ev){
-   console.log('mohua action in state', ev)
+  checkStatus(ev, ua_id) {
+    console.log('mohua action in state', ev, ua_id)
+    console.log('before', this.waterRejenuvation.value)
+    this.waterRejenuvation.value.uaData.forEach(el => {
+      if (el.ua === ua_id) {
+        console.log(ev['status'], el.ua)
+        el['status'] = ev['status']
+        el['rejectReason'] = ev['rejectReason']
+      }
+    })
+    console.log('after', this.waterRejenuvation.value)
   }
 }
