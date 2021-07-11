@@ -4,13 +4,6 @@
     background-color: #FFFFFF;
 }
 
-.header1 {
-    font-family: Roboto, Medium;
-    color: #373737;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
 a.anDisable {
     pointer-events: none;
 }
@@ -19,10 +12,14 @@ a.anDisable {
     font-family: Roboto, Medium;
     color: #373737;
     font-size: 20px;
-    margin-top: 10px;
-    // margin-left: 1.70%;
-    margin-bottom: 8px;
-    font-weight: 500;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+.header3 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    margin-top: 1rem;
 }
 
 .m-ut-he {
@@ -150,7 +147,7 @@ label {
 
 .footerBtnDiv {
     margin-bottom: 1rem;
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .footerBtn {

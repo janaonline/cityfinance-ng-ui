@@ -77,8 +77,7 @@
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
 
-                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried"
-                            placement="right" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                     </div>
@@ -106,13 +105,11 @@
                 </mat-icon> -->
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
 
-                        <mat-icon *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB"
-                            tooltip="No Submission Requrid" placement="right" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB" tooltip="No Submission Requrid" placement="right" class="pull-right" aria-hidden="false">
                             <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried"
-                            placement="right" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                     </div>
@@ -180,13 +177,11 @@
                         <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon> -->
-                        <mat-icon *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB"
-                            tooltip="No Submission Requrid" placement="right" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB" tooltip="No Submission Requrid" placement="right" class="pull-right" aria-hidden="false">
                             <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried"
-                            placement="right" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                     </div>
@@ -281,13 +276,10 @@
                 <div>
                     <button mat-raised-button class="subBtn" (click)="ulbPreview()">Preview and download</button>
                 </div>
-                <div *ngIf="(loggedInUserType === userTypes.ULB)"
-                    matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
-                    <button mat-raised-button class="subBtn" [disabled]="!validate || submitted"
-                        (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
+                <div *ngIf="(loggedInUserType === userTypes.ULB)" matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
+                    <button mat-raised-button class="subBtn" [disabled]="!validate || submitted" (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
                 </div>
-                <div *ngIf="loggedInUserType != userTypes.ULB && (takeStateAction == 'true')"
-                    matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
+                <div *ngIf="loggedInUserType != userTypes.ULB && (takeStateAction == 'true')" matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
                     <button mat-raised-button class="subBtn" [disabled]="finalActionDis" (click)="finalStateAction()">
                         Final Review Submit</button>
                 </div>
@@ -297,34 +289,42 @@
 
 
         </div>
-        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9"
-            style="background-color: #FFFFFF; width: 82%; padding-right: 0;">
+        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" style="background-color: #FFFFFF; width: 82%; padding-right: 0;">
 
             <div class="container-fluid">
-                <div class="col header1">
-                    <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
-                        {{ userLoggedInDetails.name }},
-                        <span *ngIf="
+                <div class="row">
+                    <div class="col header1">
+                        <h3 class="text-center" style="text-align: center; margin-bottom: 5px; font-weight: 600;
+                        " *ngIf="loggedInUserType !== userTypes.USER;">
+                            <span *ngIf="loggedInUserType === userTypes.ULB">
+                    {{ userLoggedInDetails.name }}
+                   </span>
+                            <span *ngIf="
             loggedInUserType === userTypes.ADMIN ||
             loggedInUserType === userTypes.MoHUA ||
             loggedInUserType === userTypes.PARTNER
           ">
                             {{ userLoggedInDetails.role }}
                         </span>
-                        <span *ngIf="
+                            <span *ngIf="
             states &&
             (loggedInUserType === userTypes.STATE ||
               loggedInUserType === userTypes.ULB)
           ">
                             {{ states[userLoggedInDetails["state"]]?.name }}
                         </span>
-                    </h3>
-                    <!-- <h3>
+                        </h3>
+                        <!-- <h3>
             <ng-template #other_content>Welcome.....</ng-template>
         </h3> -->
+                    </div>
                 </div>
-                <router-outlet></router-outlet>
+                <div class="row">
+                    <router-outlet></router-outlet>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>

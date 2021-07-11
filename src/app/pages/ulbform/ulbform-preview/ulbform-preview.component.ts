@@ -48,7 +48,7 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
   ) {}
 
   styleForPDF = `<style>
-  .b-hide{
+  .b-hide {
     display: none;
   }
   .m-h {
@@ -60,7 +60,7 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
   padding-bottom: 1rem !important;
 }
 .sub-m-h{
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     text-align: center;
 }

@@ -28,6 +28,9 @@ export class UlbAdminComponent extends BaseComponent implements OnInit {
   }else{
     this.ulb_icon='../../../assets/ulbform/blue-ulb.png'
   }
+    if(!this.loggedInUserType){
+      this._router.navigate(["/home"]);
+    }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
         this._router.navigate(["/ulbform/overview"]);

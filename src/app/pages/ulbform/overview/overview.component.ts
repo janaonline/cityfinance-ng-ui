@@ -18,6 +18,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   percentage = 0;
   status = ''
   isMillionPlus;
+  USER_TYPE = USER_TYPE;
   isUA;
   id = null;
 //  sessionUlbId = null;
@@ -122,9 +123,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log('Height: ' + height);
   }
 
-
-
-
   public innerWidth: number;
   public onResize() {
     this.innerWidth = window.innerWidth;
@@ -152,13 +150,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log(this.itemsPerSlide)
   }
 
-
   async ngOnInit() {
     this.onResize();
     await this.getData();
     this.accessGrant();
-
-
   }
   getData() {
     return new Promise((resolve, reject) => {
@@ -285,17 +280,21 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     //}
     this.width = (this.row_width / this.numcard) - 8;
     this.percentage = this.count * this.factor;
+    console.log('ppercent', typeof(this.percentage));
+
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
-      this.status = ' Completed'
+      this.status = 'Completed'
+      console.log('ppercent', this.percentage);
     }
     if (this.percentage > 0 && this.percentage < 100) {
-      this.status = ' In Progress'
-    } else {
-      this.status = ' Not Started'
+      this.status = 'In Progress'
+      console.log('ppercent', this.percentage);
     }
-
-    console.log(this.cardsOverview)
+    if (this.percentage == 0){
+      this.status = 'Not Started'
+      console.log('ppercent', this.percentage);
+    }
     let eligibleForms = [];
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
@@ -307,12 +306,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
             eligibleActionForms.push(element.label)
           }
         }
-
       }
-
     })
-
-
     sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms))
     sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms))
   }
@@ -328,7 +323,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
   onHover(num) {
     console.log('index-num', num);
-
     if (num == 0) {
       //   this.p = (num+1)*80;
       this.val = 0;
@@ -401,9 +395,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`
     this.checkPos = true;
     }
-
-
-    console.log('val', this.val, num)
   }
 
 

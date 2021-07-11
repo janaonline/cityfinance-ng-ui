@@ -1,9 +1,7 @@
-<div class="container-fluid" style="position:relative" [ngStyle]="{'z-index': clicked === true ? '1' : '3'}"
-    id="pfmsPre" #pfmsPre>
+<div class="container-fluid" style="position:relative" [ngStyle]="{'z-index': clicked === true ? '1' : '3'}" id="pfmsPre" #pfmsPre>
     <div class="row">
         <div class="col-sm-12 header-p">
-            <a *ngIf="!parentData" (click)="close()" class="h-cls"
-                style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+            <a *ngIf="!parentData" (click)="close()" class="h-cls" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
@@ -11,7 +9,7 @@
 
             <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
                 <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
-                <br *ngIf="!parentData"><b class="sub-h">{{ulbName}},{{stateName}}</b>
+                <br *ngIf="!parentData"><b class="sub-h">{{stateName}}</b>
 
             </div>
 
@@ -21,8 +19,7 @@
         <p class="form-status" style="margin: 0;">
             <b>Form Current Status:</b> {{ formStatusCheck }}
         </p>
-        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%"
-            class="btn btn-primary btn-upload h-cls" (click)="clickedDownloadAsPDF(template)">
+        <button *ngIf="!parentData" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload h-cls" (click)="clickedDownloadAsPDF(template)">
             Download as PDF
         </button>
     </div>
@@ -37,7 +34,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 qus-h">
-                          (A) Please upload Expenditure Advance Transfer(EAT) Module Implemention Report
+                            (A) Please upload Expenditure Advance Transfer(EAT) Module Implemention Report
                         </div>
                         <div *ngIf="data?.excel.name" class="col-sm-6 ans-h">
                             Excel-
@@ -68,8 +65,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 

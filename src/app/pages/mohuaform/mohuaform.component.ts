@@ -16,6 +16,9 @@ export class MohuaformComponent implements OnInit {
     private _router: Router
   ) {
     this.loggedInUserType =  this.loggedInUserDetails.role;
+    if(!this.loggedInUserType){
+      this._router.navigate(["/home"]);
+    }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
           //  this._router.navigate(["/ulbform/overview"]);

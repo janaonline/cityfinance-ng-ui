@@ -247,19 +247,23 @@
 }
 
 .footerBtn {
-    width: 135px;
-    height: 36px;
+    width: auto;
+    height: 32px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
     font-size: 12px;
+    padding-left: 4%;
+    padding-right: 4%;
 }
 
 .backbtn {
     background-color: #CFCFCF;
     color: #FFFFFF;
-    width: 106px;
-    height: 36px;
+    width: auto;
+    height: 32px;
+    padding-left: 4%;
+    padding-right: 4%;
 }
 
 .d-none {
