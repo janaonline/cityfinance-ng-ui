@@ -380,8 +380,9 @@ export class WaterRejenuvationComponent implements OnInit {
             let status = JSON.parse(
               sessionStorage.getItem("allStatusStateForms")
             );
-            status.steps.waterRejuventation.status = this.waterRejenuvation.value['status'];
+            status.steps.waterRejuventation.status = 'PENDING';
             status.steps.waterRejuventation.isSubmit = !this.waterRejenuvation.value["isDraft"];
+            status.actionTakenByRole = 'STATE'
             this._stateformsService.allStatusStateForms.next(status);
             if (this.routerNavigate) {
               this._router.navigate([this.routerNavigate.url]);
@@ -414,7 +415,8 @@ export class WaterRejenuvationComponent implements OnInit {
           sessionStorage.getItem("allStatusStateForms")
         );
         status.steps.waterRejuventation.status = this.body["status"];
-        status.steps.waterRejuventation.isSubmit = true;
+        status.steps.waterRejuventation.isSubmit = !this.body["isDraft"];
+        status.actionTakenByRole = 'MoHUA'
         this._stateformsService.allStatusStateForms.next(status);
         sessionStorage.setItem("changeInWaterRejenuvation", "false")
         this._router.navigate(["stateform/action-plan"]);
@@ -652,6 +654,13 @@ export class WaterRejenuvationComponent implements OnInit {
         console.log(ev["status"], el.ua);
         el["status"] = ev["status"];
         el["rejectReason"] = ev["rejectReason"];
+      }
+    });
+    this.waterRejenuvation.value.uaData.forEach(element => {
+      if (element['status'] === 'REJECTED') {
+        this.waterRejenuvation.value['status'] = 'REJECTED'
+      } else {
+        this.waterRejenuvation.value['status'] = 'APPROVED'
       }
     });
     console.log("after", this.waterRejenuvation.value);

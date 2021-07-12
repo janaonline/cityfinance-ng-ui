@@ -361,6 +361,7 @@ export class GrantAllocationComponent implements OnInit {
         sessionStorage.setItem("ChangeInGrantAllocation", "false");
         const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
         form.steps.grantAllocation.isSubmit = !this.postData.isDraft;
+        form.actionTakenByRole = 'STATE'
         console.log(form)
         this.stateformsService.allStatusStateForms.next(form);
         swal("Record Submitted Successfully!");

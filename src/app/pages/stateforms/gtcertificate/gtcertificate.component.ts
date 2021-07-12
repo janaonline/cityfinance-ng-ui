@@ -242,6 +242,8 @@ export class GTCertificateComponent implements OnInit {
           this.change = "false"
           const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
           form.steps.GTCertificate.isSubmit = !this.uploadedFiles.isDraft;
+          form.steps.GTCertificate.status = 'PENDING';
+          form.actionTakenByRole = 'STATE'
           console.log(form)
           this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
@@ -274,14 +276,20 @@ export class GTCertificateComponent implements OnInit {
     this.body['nonmillion_tied']['rejectReason'] = this.actionData2['rejectReason']
     this.body['nonmillion_untied']['status'] = this.actionData3['status']
     this.body['nonmillion_untied']['rejectReason'] = this.actionData3['rejectReason']
+    if (this.actionData1['status'] === 'REJECTED' || this.actionData2['status'] === 'REJECTED' || this.actionData3['status'] === 'REJECTED') {
+      this.body['status'] = 'REJECTED'
 
+    } else {
+      this.body['status'] = 'APPROVED'
+    }
 
     this.gtcService.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
         status.steps.GTCertificate.status = this.body['status'];
-        status.steps.GTCertificate.isSubmit = true;
+        status.steps.GTCertificate.isSubmit = !this.body['isDraft'];
+        status.actionTakenByRole = 'MoHUA'
         this._stateformsService.allStatusStateForms.next(status);
         sessionStorage.setItem("changeInGTC", "false")
         this._router.navigate(["stateform/link-in-pfms"]);
