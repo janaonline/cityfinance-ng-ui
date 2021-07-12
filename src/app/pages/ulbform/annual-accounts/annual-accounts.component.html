@@ -3,7 +3,8 @@
         <span>Annual Accounts</span>
     </div>
     <div class="col-sm-4 col-lg-4 col-md-4  text-right">
-        <button type="button" class="btn  pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="clickedPreview(templateAnnual)">PREVIEW</button>
+        <button type="button" class="btn  pr-btn" style="margin-top: 1rem;" id="prevBtn"
+            (click)="clickedPreview(templateAnnual)">PREVIEW</button>
     </div>
 </div>
 
@@ -38,12 +39,19 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': data.unAudited.submit_annual_accounts}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
-                        <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [disabled]="isDisabled" [checked]="data.unAudited.submit_annual_accounts" (change)="answer('q1',true)" />
-                        <label class="btn" [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts, 'qbtn2':data.unAudited.submit_annual_accounts, 'cross':isDisabled}" for="btnUnaudit">
+                        <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [disabled]="isDisabled"
+                            [checked]="data.unAudited.submit_annual_accounts" (change)="answer('q1',true)" />
+                        <label class="btn"
+                            [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts, 'qbtn2':data.unAudited.submit_annual_accounts, 'cross':isDisabled}"
+                            for="btnUnaudit">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data.unAudited.submit_annual_accounts == false" [disabled]="isDisabled" (change)="answer('q1',false)" />
-                        <label class="btn " [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts,'qbtn2':data.unAudited.submit_annual_accounts, 'cross':isDisabled}" style="margin-left: 7pc;" for="btnUnaudit2">
+                        <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2"
+                            [checked]="data.unAudited.submit_annual_accounts == false" [disabled]="isDisabled"
+                            (change)="answer('q1',false)" />
+                        <label class="btn "
+                            [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts,'qbtn2':data.unAudited.submit_annual_accounts, 'cross':isDisabled}"
+                            style="margin-left: 7pc;" for="btnUnaudit2">
                             No
                         </label>
                     </div>
@@ -53,7 +61,10 @@
                 <div *ngIf="data.unAudited.submit_annual_accounts">
                     <div *ngFor="let item of unAuditQues ; let quesIndex=index">
                         <ng-container>
-                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)" (actionValues)="checkStatusUnA($event, quesIndex)" [statusResponse]='actionResAn' [quesName]="item.name">
+                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data"
+                                (getFileUploadResult)="getUploadFileData($event,'unAudited',item.name,quesIndex)"
+                                (actionValues)="checkStatusUnA($event, quesIndex)" [statusResponse]='actionResAn'
+                                [quesName]="item.name">
                             </app-comm-file-upload>
                         </ng-container>
                         <!-- <div class="row" style="margin-left: 2pc;">
@@ -82,12 +93,19 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': data.unAudited.submit_standardized_data}" style="margin-bottom: 2pc;">
                     <div id="checkboxes2">
-                        <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [disabled]="isDisabled" [checked]="data.unAudited.submit_standardized_data" (change)="answer('q2',true)" />
-                        <label class="btn " [ngClass]="{'qbtn': !data.unAudited.submit_standardized_data, 'qbtn2':data.unAudited.submit_standardized_data, 'cross':isDisabled}" for="btnUnauditB">
+                        <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [disabled]="isDisabled"
+                            [checked]="data.unAudited.submit_standardized_data" (change)="answer('q2',true)" />
+                        <label class="btn "
+                            [ngClass]="{'qbtn': !data.unAudited.submit_standardized_data, 'qbtn2':data.unAudited.submit_standardized_data, 'cross':isDisabled}"
+                            for="btnUnauditB">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoUnaudit2" value="2" [disabled]="isDisabled" [checked]="data.unAudited.submit_standardized_data == false" (change)="answer('q2',false)" id="btnUnauditB2" />
-                        <label class="btn " [ngClass]="{'qbtn': !data.unAudited.submit_standardized_data, 'qbtn2':data.unAudited.submit_standardized_data, 'cross':isDisabled}" style="margin-left: 7pc;" for="btnUnauditB2">
+                        <input type="radio" name="btnYesNoUnaudit2" value="2" [disabled]="isDisabled"
+                            [checked]="data.unAudited.submit_standardized_data == false" (change)="answer('q2',false)"
+                            id="btnUnauditB2" />
+                        <label class="btn "
+                            [ngClass]="{'qbtn': !data.unAudited.submit_standardized_data, 'qbtn2':data.unAudited.submit_standardized_data, 'cross':isDisabled}"
+                            style="margin-left: 7pc;" for="btnUnauditB2">
                             No
                         </label>
                     </div>
@@ -96,7 +114,9 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.unAudited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                        <a class="btn btn22"
+                            href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx"
+                            target="_blank">
                             Download Template
                         </a>
                     </div>
@@ -106,13 +126,15 @@
                             <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                 data-height="16"></span>
                         </button>
-                        <input #ques21 style="display: none;" onclick="this.value=null;" [disabled]="isDisabled" (change)="fileChangeEvent($event,'unAudited')" type="file" accept=".xls, .xlsx" #file>
+                        <input #ques21 style="display: none;" onclick="this.value=null;" [disabled]="isDisabled"
+                            (change)="fileChangeEvent($event,'unAudited')" type="file" accept=".xls, .xlsx" #file>
                     </div>
                     <div class="row allupload">
                         <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
                             <div class="row">
                                 <div class="col-sm-6 col-lg-6 col-md-6">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
+                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;"
+                                        *ngIf="uploadErrors.unAudited.standardized_data.error">
                                         {{uploadErrors.unAudited.standardized_data.error}}</label>
                                 </div>
                             </div>
@@ -122,11 +144,16 @@
                         <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.unAudited.standardized_data.excel.name">
+                                    <label for="" style="margin-right: 5px; font-weight: normal;"
+                                        *ngIf="data.unAudited.standardized_data.excel.name">
                                         {{data.unAudited.standardized_data.excel.name}}</label>
                                 </div>
-                                <div *ngIf="uploadErrors.unAudited.standardized_data.progress" class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
+                                <div *ngIf="uploadErrors.unAudited.standardized_data.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
+                                        attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}"
+                                        aria-valuemin="0" aria-valuemax="100"
+                                        [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
                                         {{ uploadErrors.unAudited.standardized_data.progress }}%
                                     </div>
                                 </div>
@@ -135,20 +162,27 @@
                                     <ng-container>
                                         <div *ngIf="data.unAudited.standardized_data.excel.url">
                                             <a href="{{ data.unAudited.standardized_data.excel.url }}" target="_blank">
-                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
                                             </a>
-                                            <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            <a [ngClass]="{cross: isDisabled}" (click)="clearFile('unAudited')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
                                             </a>
                                         </div>
 
                                         <div *ngIf="uploadErrors.unAudited.standardized_data.error">
                                             <a>
-                                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
                                             </a>
-                                            <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
                                             </a>
                                         </div>
                                     </ng-container>
@@ -166,15 +200,19 @@
                                 it is true and correct. It is confirmed that this information can be made available for
                                 public consumption on the CityFinance portal.</span> -->
                             <span class="text-primary">
-                                 <b>Self declaration by the Executive officer/Municipal
-                                  Commissioner of the ULB on the standardised financial statements uploaded above.</b><br>
-                                  I hereby confirm that I have verified the information uploaded in
-                                   standardized template and it is true and correct.
-                                  It is confirmed that this information can be made available for public consumption on the CityFinance portal.
-                                </span>
+                                <b>Self declaration by the Executive officer/Municipal
+                                    Commissioner of the ULB on the standardised financial statements uploaded
+                                    above.</b><br>
+                                I hereby confirm that I have verified the information uploaded in
+                                standardized template and it is true and correct.
+                                It is confirmed that this information can be made available for public consumption on
+                                the CityFinance portal.
+                            </span>
                         </div>
                         <div class="row pull-left">
-                            <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
+                            <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration"
+                                [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)"
+                                name="agree" value=true>
                             <label style="margin-left: 1ch;" for="agree"> I Agree</label>
                         </div>
                     </div>
@@ -191,12 +229,19 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_annual_accounts}" style="margin-bottom: 2pc;">
                     <div id="checkboxes2">
-                        <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [disabled]="isDisabled" [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
-                        <label class="btn" [ngClass]="{'qbtn': !data.audited.submit_annual_accounts, 'qbtn2':data.audited.submit_annual_accounts, 'cross':isDisabled}" for="btnAudit">
+                        <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [disabled]="isDisabled"
+                            [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
+                        <label class="btn"
+                            [ngClass]="{'qbtn': !data.audited.submit_annual_accounts, 'qbtn2':data.audited.submit_annual_accounts, 'cross':isDisabled}"
+                            for="btnAudit">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [disabled]="isDisabled" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1',false,true)" />
-                        <label class="btn" [ngClass]="{'qbtn': !data.audited.submit_annual_accounts, 'qbtn2':data.audited.submit_annual_accounts, 'cross':isDisabled}" style="margin-left: 7pc;" for="btnAudit2">
+                        <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [disabled]="isDisabled"
+                            [checked]="data.audited.submit_annual_accounts == false"
+                            (change)="answer('q1',false,true)" />
+                        <label class="btn"
+                            [ngClass]="{'qbtn': !data.audited.submit_annual_accounts, 'qbtn2':data.audited.submit_annual_accounts, 'cross':isDisabled}"
+                            style="margin-left: 7pc;" for="btnAudit2">
                             No
                         </label>
                     </div>
@@ -205,7 +250,10 @@
                 <div *ngIf="data.audited.submit_annual_accounts">
                     <div *ngFor="let item of auditQues; let quesIndex=index">
                         <ng-container>
-                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)" [statusResponse]="actionResAn" [quesName]="item.name" (actionValues)="checkStatusAu($event, quesIndex)"></app-comm-file-upload>
+                            <app-comm-file-upload [isDisabled]="isDisabled" [dataFromParent]="item.data"
+                                (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)"
+                                [statusResponse]="actionResAn" [quesName]="item.name"
+                                (actionValues)="checkStatusAu($event, quesIndex)"></app-comm-file-upload>
                         </ng-container>
                         <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
                             <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
@@ -224,12 +272,19 @@
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_standardized_data}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
-                        <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [disabled]="isDisabled" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
-                        <label class="btn " [ngClass]="{'qbtn': !data.audited.submit_standardized_data, 'qbtn2':data.audited.submit_standardized_data, 'cross':isDisabled}" for="btnAuditB">
+                        <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [disabled]="isDisabled"
+                            [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
+                        <label class="btn "
+                            [ngClass]="{'qbtn': !data.audited.submit_standardized_data, 'qbtn2':data.audited.submit_standardized_data, 'cross':isDisabled}"
+                            for="btnAuditB">
                             Yes
                         </label>
-                        <input type="radio" name="btnYesNoAudit2" value="2" [disabled]="isDisabled" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',false,true)" id="btnAuditB2" />
-                        <label class="btn " [ngClass]="{'qbtn': !data.audited.submit_standardized_data, 'qbtn2':data.audited.submit_standardized_data, 'cross':isDisabled}" style="margin-left: 7pc;" for="btnAuditB2">
+                        <input type="radio" name="btnYesNoAudit2" value="2" [disabled]="isDisabled"
+                            [checked]="data.audited.submit_standardized_data == false"
+                            (change)="answer('q2',false,true)" id="btnAuditB2" />
+                        <label class="btn "
+                            [ngClass]="{'qbtn': !data.audited.submit_standardized_data, 'qbtn2':data.audited.submit_standardized_data, 'cross':isDisabled}"
+                            style="margin-left: 7pc;" for="btnAuditB2">
                             No
                         </label>
                     </div>
@@ -238,7 +293,9 @@
                 </div>
                 <div class="col-sm-12" *ngIf="data.audited.submit_standardized_data">
                     <div class="col-sm-2 center" style="padding: 0;">
-                        <a class="btn btn22" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                        <a class="btn btn22"
+                            href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx"
+                            target="_blank">
                             Download Template
                         </a>
                     </div>
@@ -247,13 +304,15 @@
                             <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                 data-height="16"></span>
                         </button>
-                        <input #ques2 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'audited')" type="file" accept=".xls, .xlsx" #file>
+                        <input #ques2 style="display: none;" onclick="this.value=null;"
+                            (change)="fileChangeEvent($event,'audited')" type="file" accept=".xls, .xlsx" #file>
                     </div>
                     <div class="row allupload">
                         <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
                             <div class="row">
                                 <div class="col-sm-6 col-lg-6 col-md-6">
-                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.audited.standardized_data.error">
+                                    <label class='text-danger' style="margin-right: 5px; font-weight: normal;"
+                                        *ngIf="uploadErrors.audited.standardized_data.error">
                                         {{uploadErrors.audited.standardized_data.error}}</label>
                                 </div>
                             </div>
@@ -263,11 +322,16 @@
                         <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.audited.standardized_data.excel.name">
+                                    <label for="" style="margin-right: 5px; font-weight: normal;"
+                                        *ngIf="data.audited.standardized_data.excel.name">
                                         {{data.audited.standardized_data.excel.name}}</label>
                                 </div>
-                                <div *ngIf="uploadErrors.audited.standardized_data.progress" class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.audited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.audited.standardized_data.progress + '%' }">
+                                <div *ngIf="uploadErrors.audited.standardized_data.progress"
+                                    class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                    <div class="progress-bar" role="progressbar"
+                                        attr.aria-valuenow="{{ uploadErrors.audited.standardized_data.progress }}"
+                                        aria-valuemin="0" aria-valuemax="100"
+                                        [ngStyle]="{ width: uploadErrors.audited.standardized_data.progress + '%' }">
                                         {{ uploadErrors.audited.standardized_data.progress }}%
                                     </div>
                                 </div>
@@ -276,19 +340,26 @@
                                     <ng-container>
                                         <div *ngIf="data.audited.standardized_data.excel.url">
                                             <a href="{{ data.audited.standardized_data.excel.url }}" target="_blank">
-                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
 
                                             </a>
-                                            <a [ngClass]="{cross: isDisabled}" (click)="clearFile('audited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                            <a [ngClass]="{cross: isDisabled}" (click)="clearFile('audited')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
                                             </a>
                                         </div>
                                         <div *ngIf="uploadErrors.audited.standardized_data.error">
                                             <a>
-                                                <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                <img src="../../../../assets/form-icon/warning.png" alt=""
+                                                    style="margin-left: 1px; height: 19px;">
                                             </a>
-                                            <a [ngClass]="{cross: isDisabled}" (click)="fileChangeEvent(uploadErrors.audited.standardized_data.file,'audited')" style="margin-left: 3px;">
-                                                <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                            <a [ngClass]="{cross: isDisabled}"
+                                                (click)="fileChangeEvent(uploadErrors.audited.standardized_data.file,'audited')"
+                                                style="margin-left: 3px;">
+                                                <img src="../../../../assets/form-icon/refresh.png" alt=""
+                                                    style="height: 13px;">
                                             </a>
                                         </div>
                                     </ng-container>
@@ -307,7 +378,9 @@
                                 public consumption on the CityFinance portal.</span>
                         </div>
                         <div class="row pull-left">
-                            <input type="checkbox" id="agree2" name="agree2" [disabled]="isDisabled" [checked]="data.audited.standardized_data.declaration" (change)="declareCheck(data.audited.standardized_data)" value=true>
+                            <input type="checkbox" id="agree2" name="agree2" [disabled]="isDisabled"
+                                [checked]="data.audited.standardized_data.declaration"
+                                (change)="declareCheck(data.audited.standardized_data)" value=true>
                             <label style="margin-left: 1ch;" for="agree2"> I Agree</label>
                         </div>
                     </div>
@@ -320,7 +393,9 @@
 (loggedInUserType === USER_TYPE.ULB)">
     <div class="card-body">
         <p style="padding-top: 2rem; padding-left: .5rem;"><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
-        <br>
+        <p style="padding-left: .5rem;" *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
+                Status :</b>
+            {{ulbFormStatusMoHUA | titlecase}}</p>
         <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
         </p> -->
@@ -329,10 +404,12 @@
 </div>
 <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-        <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active" class="btn btn-secondary backbtn">BACK</button>
+        <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active"
+            class="btn btn-secondary backbtn">BACK</button>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-        <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)" id="saveNext">SAVE AND NEXT</button>
+        <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)"
+            id="saveNext">SAVE AND NEXT</button>
     </div>
 </div>
 
@@ -349,11 +426,11 @@
 
         <p style="margin-top: 8px;">
             {{alertError}}
-            <div>
-                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
                 Proceed</button>
-            </div>
+        </div>
 
     </div>
 </ng-template>
@@ -374,7 +451,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>

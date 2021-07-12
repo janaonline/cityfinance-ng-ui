@@ -60,17 +60,23 @@ export class ReviewUlbFormComponent implements OnInit {
     this.reviewUlbFormService.getData(formId).subscribe(
       (res) => {
         this.historyData = res['data']
+        this.historyData.reverse()
         if (this.historyData.length == 0) {
           this.noHistorydataFound = true
         }
         console.log(this.historyData)
+        this.openDialog(template)
       },
       (err) => {
         console.log(err.message)
       })
-
-    this.openDialog(template)
   }
+
+  alertClose() {
+    this.dialog.closeAll();
+  }
+  
+  
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {

@@ -74,14 +74,20 @@ export class ReviewStateComponent implements OnInit {
         if (this.historyData.length == 0) {
           this.noHistoryDataFound = true
         }
+        this.historyData.reverse()
         console.log(this.historyData)
+        this.openDialog(template)
       },
       (err) => {
         console.log(err.message)
       })
 
-    this.openDialog(template)
   }
+
+  alertClose() {
+    this.dialog.closeAll();
+  }
+  
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {
