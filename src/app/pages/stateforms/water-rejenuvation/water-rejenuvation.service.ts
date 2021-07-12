@@ -16,6 +16,9 @@ export class WaterRejenuvationService {
     return this.http.post(utUrl, data)
   }
   getData(design_year, state_id) {
-    return this.http.get(`${environment.api.url}WaterRejenuvation/${design_year}?state_id=${state_id}`)
+    if (state_id) {
+      return this.http.get(`${environment.api.url}WaterRejenuvation/${design_year}?state_id=${state_id}`)
+    }
+    return this.http.get(`${environment.api.url}WaterRejenuvation/${design_year}`)
   }
 }

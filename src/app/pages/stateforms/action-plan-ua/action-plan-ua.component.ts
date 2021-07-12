@@ -257,6 +257,8 @@ export class ActionPlanUAComponent implements OnInit {
           this.stateformsService.allStatusStateForms.next(form);
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
+          } else {
+            this._router.navigate(["stateform/grant-allocation"]);
           }
         },
         (err) => {
@@ -276,15 +278,17 @@ export class ActionPlanUAComponent implements OnInit {
   }
   body = {};
   saveStateAction() {
-    this.actionplanserviceService.postStateAction(this.data).subscribe(
+    this.actionplanserviceService.postStateAction(this.finalActionData).subscribe(
       (res) => {
         swal("Record submitted successfully!");
         const status = JSON.parse(
           sessionStorage.getItem("allStatusStateForms")
         );
-        status.steps.actionPlans.status = this.body["status"];
+        // status.steps.actionPlans.status = this.body["status"];
         status.steps.actionPlans.isSubmit = true;
         this.stateformsService.allStatusStateForms.next(status);
+        sessionStorage.setItem("changeInActionPlans", "false")
+        this._router.navigate(["stateform/grant-allocation"]);
       },
       (error) => {
         swal("An error occured!");
@@ -393,17 +397,23 @@ export class ActionPlanUAComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => { });
   }
+  finalActionData
   checkStatus(ev, ua_id, a, b) {
     sessionStorage.setItem("changeInActionPlans", "true")
     console.log('action plan of UA', ev, ua_id);
     console.log('before', this.data.uaData)
-    this.data.uaData.forEach(el => {
+    if (!this.finalActionData) {
+      this.finalActionData = this.makeApiData()
+    }
+
+    console.log(this.finalActionData)
+    this.finalActionData.uaData.forEach(el => {
       if (el.ua == ua_id) {
         el["status"] = ev.status;
         el["rejectReason"] = ev.rejectReason;
       }
     });
-    console.log("after", this.data.uaData);
+    console.log("after", this.finalActionData);
   }
 }
 

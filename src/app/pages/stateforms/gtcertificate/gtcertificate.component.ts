@@ -132,9 +132,10 @@ export class GTCertificateComponent implements OnInit {
   }
   disableAllForms = false;
   isStateSubmittedForms = '';
+  state_id;
   ngOnInit(): void {
-    let id = sessionStorage.getItem("state_id")
-    this.gtcService.getFiles(id)
+    this.state_id = sessionStorage.getItem("state_id")
+    this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {
         sessionStorage.setItem("StateGTC", JSON.stringify(res));
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
@@ -244,6 +245,7 @@ export class GTCertificateComponent implements OnInit {
           console.log(form)
           this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
+          this._router.navigate(["stateform/link-in-pfms"]);
           resolve(res)
         },
           error => {
@@ -262,6 +264,7 @@ export class GTCertificateComponent implements OnInit {
     console.log(data)
     this.body['design_year'] = data.data['design_year']
     this.body['isDraft'] = data.data['isDraft']
+    this.body['state'] = this.state_id
     this.body['million_tied'] = data.data['million_tied']
     this.body['nonmillion_tied'] = data.data['nonmillion_tied']
     this.body['nonmillion_untied'] = data.data['nonmillion_untied']
@@ -280,6 +283,8 @@ export class GTCertificateComponent implements OnInit {
         status.steps.GTCertificate.status = this.body['status'];
         status.steps.GTCertificate.isSubmit = true;
         this._stateformsService.allStatusStateForms.next(status);
+        sessionStorage.setItem("changeInGTC", "false")
+        this._router.navigate(["stateform/link-in-pfms"]);
       },
       (error) => {
         swal("An error occured!");

@@ -133,7 +133,7 @@
             <tbody>
                 <tr *ngFor="let row of historyData; let i = index">
                     <td class="text-center">
-                        <em *ngIf="row['status'] === 'Approved by MoHUA'" class="fa fa-check-circle text-success"></em>
+                        <em *ngIf="row['status'] === 'Approval Completed'" class="fa fa-check-circle text-success"></em>
                     </td>
                     <td>{{ i + 1 }}</td>
                     <td>{{ row.status }}</td>

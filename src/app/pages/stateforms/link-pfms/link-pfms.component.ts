@@ -83,11 +83,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   isStateSubmittedForms = ''
   userRole;
   excelDataOnLoad = null;
-
+  state_id
   ngOnInit() {
 
     sessionStorage.setItem("changeInPFMSAccountState", "false");
-    let state_id = sessionStorage.getItem("state_id");
+    this.state_id = sessionStorage.getItem("state_id");
 
 
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
@@ -108,7 +108,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       }
     }
 
-    this.onLoad(state_id);
+    this.onLoad();
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -145,6 +145,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.body['isDraft'] = data.data['isDraft']
     this.body['excel'] = data.data['excel']
     this.body['status'] = this.pfmsFormStatus
+    this.body['state'] = this.state_id
     this.body['rejectReason'] = this.pfmsFormRejectReason
 
     this.LinkPFMSAccount.postStateAction(this.body).subscribe(
@@ -154,6 +155,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         status.steps.linkPFMS.status = this.body['status'];
         status.steps.linkPFMS.isSubmit = true;
         this.stateformsService.allStatusStateForms.next(status);
+        sessionStorage.setItem("changeInPFMSAccountState", "false")
+        this._router.navigate(["stateform/water-supply"]);
       },
       (error) => {
         swal("An error occured!");
@@ -203,9 +206,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     await this.dialogRef.close(true);
   }
 
-  onLoad(state_id) {
+  onLoad() {
 
-    this.LinkPFMSAccount.getData(this.Years["2021-22"], state_id).subscribe(
+    this.LinkPFMSAccount.getData(this.Years["2021-22"], this.state_id).subscribe(
       (res) => {
         console.log(res);
         this.data.excel = res["data"].excel;

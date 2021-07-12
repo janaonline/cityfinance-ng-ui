@@ -99,10 +99,10 @@
                         Grant Transfer Certificate
                     </div>
                     <div class="col-sm-1 col-xs-1">
-                        <mat-icon *ngIf=" gtc_greenTick " class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!gtc_greenTick " class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -196,7 +196,7 @@
 
                         Action Plan for UA Service Level Indicators
                     </div>
-                    <div class="col-sm-1 col-xs-1">
+                    <div class="co2-sm-2 col-xs-2 text-right">
                         <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
@@ -257,15 +257,17 @@
                 <div>
                     <div *ngIf="(loggedInUserType === userTypes.STATE)"
                         matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted"
+
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted "
                             (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
                     </div>
                     <div *ngIf="loggedInUserType === userTypes.MoHUA "
                         matTooltip="Must submit all the Forms Status before Final Submit"
                         [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="finalActionDis || !validate"
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || reviewSubmitted"
                             (click)=" finalMoHUAAction()">
-                            {{reviewSubmitted ? "Submitted Final Review" : "Submit Final Review"}}</button>
+                            {{reviewSubmitted || res['latestFinalResponse']['role'] === 'MoHUA' ? "Submitted Final
+                            Review" : "Submit Final Review"}}</button>
                     </div>
                 </div>
             </div>

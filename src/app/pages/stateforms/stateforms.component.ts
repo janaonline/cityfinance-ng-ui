@@ -114,8 +114,8 @@ export class StateformsComponent implements OnInit {
       },
       "grantAllocation": {
         "isSubmit": false
-      },
-      "role": ""
+      }
+
     },
     "actionTakenByRole": "",
     "status": "",
@@ -125,23 +125,202 @@ export class StateformsComponent implements OnInit {
   allStateFormsData
   ngOnInit(): void {
     this.submitted = false;
-
+    this.checkValidationStatusOfAllForms();
     sessionStorage.setItem("StateFormFinalSubmitByState", "false")
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
       if (role === "STATE") {
         sessionStorage.setItem("StateFormFinalSubmitByState", "true")
       }
     })
-    this.stateformsService.allStatusStateForms.subscribe((form) => {
-      console.log('inside on init of state form')
+    this.stateformsService.allStatusStateForms.subscribe((res) => {
+      console.log('triggered')
 
-      this.allStatusStateForms = form;
-
-      sessionStorage.setItem("allStatusStateForms", JSON.stringify(this.allStatusStateForms));
-      console.log('Status of ALl State Forms', this.allStatusStateForms)
-      if (this.userLoggedInDetails.role === USER_TYPE.STATE) {
+      this.allStatusStateForms = res;
+      if (this.userLoggedInDetails.role === USER_TYPE.STATE || this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
         this.checkValidationStatusOfAllForms();
       }
+      this.reviewSubmitted = false;
+      if (this.allStatusStateForms['latestFinalResponse']['role'] === "MoHUA") {
+        this.reviewSubmitted = true;
+      }
+      sessionStorage.setItem("allStatusStateForms", JSON.stringify(this.allStatusStateForms));
+      console.log('Status of ALl State Forms', this.allStatusStateForms)
+
+      this.res = res
+      if (res['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "STATE") {
+        console.log('1')
+        if (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE") {
+          if (res['steps']['linkPFMS']['isSubmit']) {
+            this.pfms_greenTick = true;
+          } else {
+            this.pfms_greenTick = false;
+          }
+          if (res['steps']['GTCertificate']['isSubmit']) {
+            this.gtc_greenTick = true;
+          } else {
+            this.gtc_greenTick = false;
+          }
+          if (res['steps']['waterRejuventation']['isSubmit']) {
+            this.wr_greenTick = true;
+          } {
+            this.wr_greenTick = false;
+          }
+          if (res['steps']['actionPlans']['isSubmit']) {
+            this.ap_greenTick = true;
+          } else {
+            this.ap_greenTick = false;
+          }
+          if (res['steps']['grantAllocation']['isSubmit']) {
+            this.ga_greenTick = true;
+          } else {
+            this.ga_greenTick = false;
+          }
+
+
+        } else if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "STATE")
+          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA") ||
+          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")) {
+
+
+          if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
+            this.pfms_greenTick = true;
+          } else if ((!res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
+            this.pfms_greenTick = false;
+          }
+
+          if ((res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
+            this.gtc_greenTick = true;
+          } else if ((!res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
+            this.gtc_greenTick = false;
+          }
+
+          if ((res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
+            this.wr_greenTick = true;
+          } else if ((!res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
+            this.wr_greenTick = false;
+          }
+
+          if ((res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
+            this.ap_greenTick = true;
+          } else if ((!res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
+            this.ap_greenTick = false;
+          }
+
+          if (res['latestFinalResponse']['grantAllocation']['isSubmit']) {
+            this.ga_greenTick = true;
+          } else {
+            this.ga_greenTick = false;
+          }
+        }
+      } else if (res['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "MoHUA") {
+        console.log('2')
+        if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "STATE")
+          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA")) {
+          if (res['steps']['linkPFMS']['isSubmit']) {
+            this.pfms_greenTick = true;
+          }
+          if (res['steps']['GTCertificate']['isSubmit']) {
+            this.gtc_greenTick = true;
+          }
+          if (res['steps']['waterRejuventation']['isSubmit']) {
+            this.wr_greenTick = true;
+          }
+          if (res['steps']['actionPlans']['isSubmit']) {
+            this.ap_greenTick = true;
+          }
+          if (res['steps']['grantAllocation']['isSubmit']) {
+            this.ga_greenTick = true;
+          }
+
+
+        } else if (
+          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE")
+          || (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")
+        ) {
+          if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
+            this.pfms_greenTick = true;
+          } else if ((!res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
+            this.pfms_greenTick = false;
+          }
+
+          if ((res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
+            this.gtc_greenTick = true;
+          } else if ((!res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
+            this.gtc_greenTick = false;
+          }
+
+          if ((res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
+            this.wr_greenTick = true;
+          } else if ((!res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
+            this.wr_greenTick = false;
+          }
+
+          if ((res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
+            this.ap_greenTick = true;
+          } else if ((!res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+            || (res['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
+            this.ap_greenTick = false;
+          }
+
+          if (res['latestFinalResponse']['grantAllocation']['isSubmit']) {
+            this.ga_greenTick = true;
+          } else {
+            this.ga_greenTick = false;
+          }
+
+        }
+
+      } else if (!res['latestFinalResponse'].hasOwnProperty('role') || res['latestFinalResponse']['role'] == '') {
+        console.log('3')
+        if (res['steps']['linkPFMS']['isSubmit']) {
+          this.pfms_greenTick = true;
+        }
+        if (res['steps']['GTCertificate']['isSubmit']) {
+          this.gtc_greenTick = true;
+        }
+        if (res['steps']['waterRejuventation']['isSubmit']) {
+          this.wr_greenTick = true;
+        }
+        if (res['steps']['actionPlans']['isSubmit']) {
+          this.ap_greenTick = true;
+        }
+        if (res['steps']['grantAllocation']['isSubmit']) {
+          this.ga_greenTick = true;
+        }
+      }
+
+
       // this.checkActionFinal();
     });
     this.stateformsService.allStateFormsData.subscribe((data) => {
@@ -166,171 +345,32 @@ export class StateformsComponent implements OnInit {
   res;
   getStatus() {
     console.log('Please check user role', this.userLoggedInDetails.role)
-    this.id = sessionStorage.getItem("state_id");
+    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
+      this.id = sessionStorage.getItem("state_id");
+    }
+
     this.stateformsService.getStateForm(this.design_year, this.id).subscribe(
       (res) => {
         console.log(this.userLoggedInDetails.role)
         console.log(res)
-        this.res = res
-        if (res['data']['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "STATE") {
-          if (res['data']['latestFinalResponse']['role'] === "MoHUA" && res['data']['actionTakenByRole'] === "STATE") {
-            if (res['data']['steps']['linkPFMS']['isSubmit']) {
-              this.pfms_greenTick = true;
-            }
-            if (res['data']['steps']['GTCertificate']['isSubmit']) {
-              this.gtc_greenTick = true;
-            }
-            if (res['data']['steps']['waterRejuventation']['isSubmit']) {
-              this.wr_greenTick = true;
-            }
-            if (res['data']['steps']['actionPlans']['isSubmit']) {
-              this.ap_greenTick = true;
-            }
-            if (res['data']['steps']['grantAllocation']['isSubmit']) {
-              this.ga_greenTick = true;
-            }
-
-
-          } else if ((res['data']['latestFinalResponse']['role'] === "STATE" && res['data']['actionTakenByRole'] === "STATE")
-            || (res['data']['latestFinalResponse']['role'] === "STATE" && res['data']['actionTakenByRole'] === "MoHUA") ||
-            (res['data']['latestFinalResponse']['role'] === "MoHUA" && res['data']['actionTakenByRole'] === "MoHUA")) {
-
-
-            if ((res['data']['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-              res['data']['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
-              this.pfms_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-              res['data']['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
-              this.pfms_greenTick = false;
-            }
-
-            if ((res['data']['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-              res['data']['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
-              this.gtc_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-              res['data']['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
-              this.gtc_greenTick = false;
-            }
-
-            if ((res['data']['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-              res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
-              this.wr_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-              res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
-              this.wr_greenTick = false;
-            }
-
-            if ((res['data']['latestFinalResponse']['actionPlans']['isSubmit'] &&
-              res['data']['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
-              this.ap_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['actionPlans']['isSubmit'] &&
-              res['data']['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
-              this.ap_greenTick = false;
-            }
-
-            if (res['data']['latestFinalResponse']['grantAllocation']['isSubmit']) {
-              this.ga_greenTick = true;
-            } else {
-              this.ga_greenTick = false;
-            }
-          }
-        } else if (res['data']['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "MoHUA") {
-          if ((res['data']['latestFinalResponse']['role'] === "STATE" && res['data']['actionTakenByRole'] === "STATE")
-            || (res['data']['latestFinalResponse']['role'] === "STATE" && res['data']['actionTakenByRole'] === "MoHUA")) {
-            if (res['data']['steps']['linkPFMS']['isSubmit']) {
-              this.pfms_greenTick = true;
-            }
-            if (res['data']['steps']['GTCertificate']['isSubmit']) {
-              this.gtc_greenTick = true;
-            }
-            if (res['data']['steps']['waterRejuventation']['isSubmit']) {
-              this.wr_greenTick = true;
-            }
-            if (res['data']['steps']['actionPlans']['isSubmit']) {
-              this.ap_greenTick = true;
-            }
-            if (res['data']['steps']['grantAllocation']['isSubmit']) {
-              this.ga_greenTick = true;
-            }
-
-
-          } else if (
-            (res['data']['latestFinalResponse']['role'] === "MoHUA" && res['data']['actionTakenByRole'] === "STATE")
-            || (res['data']['latestFinalResponse']['role'] === "MoHUA" && res['data']['actionTakenByRole'] === "MoHUA")
-          ) {
-            if ((res['data']['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-              res['data']['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
-              this.pfms_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-              res['data']['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
-              this.pfms_greenTick = false;
-            }
-
-            if ((res['data']['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-              res['data']['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
-              this.gtc_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-              res['data']['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
-              this.gtc_greenTick = false;
-            }
-
-            if ((res['data']['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-              res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
-              this.wr_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-              res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
-              this.wr_greenTick = false;
-            }
-
-            if ((res['data']['latestFinalResponse']['actionPlans']['isSubmit'] &&
-              res['data']['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
-              this.ap_greenTick = true;
-            } else if ((!res['data']['latestFinalResponse']['actionPlans']['isSubmit'] &&
-              res['data']['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-              || (res['data']['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
-              this.ap_greenTick = false;
-            }
-
-            if (res['data']['latestFinalResponse']['grantAllocation']['isSubmit']) {
-              this.ga_greenTick = true;
-            } else {
-              this.ga_greenTick = false;
-            }
-
-          }
-
-        }
         console.log('inside res of getStatus')
         this.lastRoleInMasterForm = res["data"]['actionTakenByRole'];
 
-        this.stateformsService.allStatusStateForms.next(res["data"]);
+        this.stateformsService.allStatusStateForms.next(res['data']);
         this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
         this.role = res["data"]["latestFinalResponse"]['role'];
         if (this.role === "STATE") {
           this.submitted = true;
+        } else {
+          this.submitted = false;
         }
         let finalSubmit = this.submitted;
-        if (
-          this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
-          this.userLoggedInDetails.role == "STATE"
-        )
-          this.submitted = !this.submitted;
-        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        // if (
+        //   this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
+        //   this.userLoggedInDetails.role == "STATE"
+        // )
+        //   this.submitted = !this.submitted;
+        // localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here");
 
       },
@@ -343,7 +383,9 @@ export class StateformsComponent implements OnInit {
 
   }
   finalActionDis = false;
+  reviewSubmitted = false;
   finalMoHUAAction() {
+    this.reviewSubmitted = true
     let data = {
       design_year: this.design_year,
       isSubmit: true,
@@ -351,13 +393,13 @@ export class StateformsComponent implements OnInit {
     };
     this.checkValidationStatusOfAllForms();
     if (this.validate) {
-      this.stateformsService.finalReviewSubmitByMoHUA(data).subscribe(
+      this.stateformsService.finalReviewSubmitByMoHUA(data, this.id).subscribe(
         (res) => {
-          this.finalActionDis = true;
+          this.validate = false;
           this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.actionTakenByRole)
           sessionStorage.setItem("StateFormFinalSubmitByState", "true")
           swal(
-            "Forms Successfully Submitted to be Reviewed by State and MoHUA"
+            "Forms Successfully Submitted by MoHUA"
           );
         },
         (err) => {
@@ -370,50 +412,53 @@ export class StateformsComponent implements OnInit {
   }
 
   getAllStateForms() {
-
-    this.id = sessionStorage.getItem("state_id");
+    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
+      this.id = sessionStorage.getItem("state_id");
+    }
     this.stateformsService
       .getAllStateForms(this.design_year, this.id)
       .subscribe((res) => {
         this.stateformsService.allStateFormsData.next(res['data']);
       });
   }
-  validate
+  validate = true
   checkValidationStatusOfAllForms() {
     this.validate = true;
     let requiredStatus = {};
+    console.log(this.allStatusStateForms['steps'])
+    console.log(this.allStatusStateForms['steps'])
     for (let key in this.allStatusStateForms['steps']) {
       if (key === "GTCertificate") {
         let change = sessionStorage.getItem("changeInGTC");
-        if (change === "true") {
+        if (change && change === "true") {
           this.validate = false;
           return;
         }
         requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
       } else if (key === "actionPlans") {
         let change = sessionStorage.getItem("changeInActionPlans");
-        if (change === "true") {
+        if (change && change === "true") {
           this.validate = false;
           return;
         }
         requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
       } else if (key === "grantAllocation") {
         let change = sessionStorage.getItem("ChangeInGrantAllocation");
-        if (change === "true") {
+        if (change && change === "true") {
           this.validate = false;
           return;
         }
         requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
       } else if (key === "linkPFMS") {
         let change = sessionStorage.getItem("changeInPFMSAccount");
-        if (change === "true") {
+        if (change && change === "true") {
           this.validate = false;
           return;
         }
         requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
       } else if (key === "waterRejuventation") {
         let change = sessionStorage.getItem("changeInWaterRejenuvation");
-        if (change === "true") {
+        if (change && change === "true") {
           this.validate = false;
           return;
         }
@@ -456,7 +501,7 @@ export class StateformsComponent implements OnInit {
           this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.actionTakenByRole)
           sessionStorage.setItem("StateFormFinalSubmitByState", "true")
           swal(
-            "Forms Successfully Submitted to be Reviewed by State and MoHUA"
+            "Forms Successfully Submitted by State "
           );
         },
         (err) => {
