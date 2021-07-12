@@ -1,15 +1,13 @@
 <!-- <div (window:resize)="onResize($event)"></div> -->
-<h4 style="font-size: 22px; text-align: center; font-weight: 600; margin-top: 0;">
+<h4 style="font-size: 20px; text-align: center; font-weight: 500; margin-top: 0;">
+
+    <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
+      <span *ngIf="loggedInUserType === USER_TYPE.STATE">ULB: </span>{{ulbName}}</span>
     <span *ngIf="loggedInUserType === USER_TYPE.ADMIN ||
   loggedInUserType === USER_TYPE.MoHUA ||
-  loggedInUserType === USER_TYPE.PARTNER">
-    State: {{stateName}}
-  </span><br *ngIf="loggedInUserType === USER_TYPE.ADMIN ||
-  loggedInUserType === USER_TYPE.MoHUA ||
-  loggedInUserType === USER_TYPE.PARTNER">
-    <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
-    ULB: {{ulbName}}
-  </span>
+  loggedInUserType === USER_TYPE.PARTNER">,{{stateName}}
+    </span>
+
 </h4>
 <!-- <div class="row">
     <div class="col-sm-6">
@@ -19,15 +17,15 @@
     loggedInUserType === USER_TYPE.PARTNER">
       State: {{stateName}}
     </span>
-        </h4>
-    </div>
-    <div class="col-sm-6" style="padding-left: 0;">
-        <h4 style="font-size: 22px; text-align: right; font-weight: 600; margin-top: 0;">
-            <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
+</h4>
+</div>
+<div class="col-sm-6" style="padding-left: 0;">
+    <h4 style="font-size: 22px; text-align: right; font-weight: 600; margin-top: 0;">
+        <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
       ULB: {{ulbName}}
     </span>
-        </h4>
-    </div>
+    </h4>
+</div>
 </div> -->
 <div class="container-fluid">
     <div class="row header1">

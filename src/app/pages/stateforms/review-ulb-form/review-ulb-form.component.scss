@@ -7,6 +7,15 @@
     font-size: 12px;
 }
 
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 .p-s {
     padding-left: 20px;
 }
@@ -36,21 +45,27 @@
 }
 
 .btn-next {
-    background-color: #059B9A;
-    color: #FFFFFF;
-    border-radius: 5px;
+    background-color: #059b9a;
+    color: #ffffff;
+    border-radius: 4px;
     height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 3%;
+    padding-right: 3%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
 }
 
 .btn-back {
     background-color: #CFCFCF;
-    color: #FFFFFF;
-    border-radius: 5px;
+    color: #ffffff;
+    border-radius: 4px;
     height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 3%;
+    padding-right: 3%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
 }
 
 .btn-action {
@@ -70,13 +85,13 @@
     margin-right: 5px;
     padding-top: 2px;
 }
+
 .tracking-history-table {
     thead tr th {
-      background: #047474;
-      color: white;
+        background: #047474;
+        color: white;
     }
     tbody tr:nth-child(even) {
-      background: #dbdbdb;
+        background: #dbdbdb;
     }
-  }
-  
+}
