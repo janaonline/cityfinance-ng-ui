@@ -74,7 +74,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   previous = new EventEmitter<WaterManagement>();
   @Input() waterPotability: any = {}
   @Input() actionStatus;
-  uploadQuestion: string = 'Have you published Water Potability Index?';
+  uploadQuestion: string = 'Have you published Water Potability Index ?';
   uploadDocumentText: string = 'Upload the published document';
 
 

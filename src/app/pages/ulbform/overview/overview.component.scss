@@ -18,19 +18,18 @@
 }
 
 .header1 {
-    margin-top: 40px;
+    margin-top: 10px;
     width: 100%;
     // background-color: rgb(235, 235, 235);
     box-shadow: 2px 4px 5px #cecece;
     background-color: #B5EAEA;
     border-radius: 4px;
     padding: 40px 50px;
-    font-weight: 500;
-    // color: rgb(0, 87, 80);
     color: #03506F;
     text-align: center;
     font-size: 20px;
-    line-height: 35px;
+    font-weight: 500;
+    // line-height: 35px;
 }
 
 .header2 {
@@ -39,7 +38,7 @@
     background-color: #FFFFFF;
     box-shadow: 2px 4px 5px 3px #cecece;
     border-radius: 4px;
-    padding: 20px 35px;
+    padding: 10px 20px;
 }
 
 .header3 {
@@ -48,7 +47,7 @@
     background-color: #FFFFFF;
     box-shadow: 2px 4px 5px 3px #cecece;
     border-radius: 4px;
-    padding: 20px 35px;
+    padding: 10px 20px;
 }
 
 a {
@@ -61,11 +60,11 @@ a {
     font-size: 20px;
     margin-top: 14px;
     margin-bottom: 5px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .progressBar {
-    margin: 25px auto;
+    margin: 10px auto;
     font-weight: bolder;
 }
 
