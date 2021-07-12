@@ -48,6 +48,7 @@ export class UtilisationReportComponent implements OnInit {
   isSumEqual = false;
   draft = true;
   ulbFormStaus = "PENDING";
+  ulbFormStatusMoHUA;
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
   takeStateAction;
@@ -285,6 +286,20 @@ export class UtilisationReportComponent implements OnInit {
     };
     if (data?.status != "NA") {
       this.ulbFormStaus = data?.status;
+      if (
+        data.actionTakenByRole === USER_TYPE.MoHUA &&
+        this.finalSubmitUtiStatus == "true"
+      ) {
+        this.ulbFormStatusMoHUA = data.status;
+        this.ulbFormStaus = "APPROVED";
+      }
+      if (
+        data.actionTakenByRole === USER_TYPE.STATE &&
+        this.finalSubmitUtiStatus == "true" &&
+        this.ulbFormStaus == "APPROVED"
+      ) {
+        this.ulbFormStatusMoHUA = "PENDING";
+      }
     }
 
     this.ulbFormRejectR = data?.rejectReason;

@@ -140,6 +140,8 @@ export class SlbsComponent implements OnInit {
         let actRes = {
           st: this.statePostData.data[0]?.waterManagement["status"],
           rRes: this.statePostData.data[0]?.waterManagement["rejectReason"],
+          actionTakenByRole: res["data"][0]?.actionTakenByRole,
+          finalSubmitStatus: this.finalSubmitStatus,
         };
         if (this.statePostData.data[0]?.waterManagement["status"] != "NA") {
           this.ulbFormStaus =
