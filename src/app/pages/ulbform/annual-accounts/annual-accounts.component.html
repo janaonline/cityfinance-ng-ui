@@ -35,7 +35,9 @@
         <div class="col-sm-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_annual_accounts}">
-                    <span class="quesIn"><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?</b></span>
+                    <span class="quesIn"><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ? <span style="color: red;">*</span>
+                    </b>
+                    </span>
                 </div>
                 <div [ngClass]="{'col-sm-6': data.unAudited.submit_annual_accounts}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
@@ -88,7 +90,8 @@
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_standardized_data}">
 
                     <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                            ?</b></span>
+                            ? <span style="color: red;">*</span></b>
+                    </span>
 
                 </div>
                 <div [ngClass]="{'col-sm-6': data.unAudited.submit_standardized_data}" style="margin-bottom: 2pc;">
@@ -225,7 +228,8 @@
         <div class="col-md-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.audited.submit_annual_accounts}">
-                    <span class="quesIn"><b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?</b></span>
+                    <span class="quesIn"><b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ? <span style="color: red;">*</span></b>
+                    </span>
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_annual_accounts}" style="margin-bottom: 2pc;">
                     <div id="checkboxes2">
@@ -268,7 +272,8 @@
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.audited.submit_standardized_data}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                            ?</b></span>
+                            ? <span style="color: red;">*</span></b>
+                    </span>
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_standardized_data}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
@@ -389,7 +394,8 @@
         </div>
     </div>
 </div>
-<div class="card" style="background-color: #F7F7F7;" *ngIf="(finalSubmitUtiStatus == 'true') &&
+<div class="row">
+    <div class="col-sm-12 mat-card card-body" style="background-color: #F7F7F7;" *ngIf="(finalSubmitUtiStatus == 'true') &&
 (loggedInUserType === USER_TYPE.ULB)">
     <div class="card-body">
         <p style="padding-top: 2rem; padding-left: .5rem;"><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
@@ -399,20 +405,20 @@
         <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
         </p> -->
+        </div>
 
     </div>
 </div>
-<div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
-    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-        <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active"
-            class="btn btn-secondary backbtn">BACK</button>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-        <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)"
-            id="saveNext">SAVE AND NEXT</button>
+<div class="row" style="margin-left: -7px; margin-right: 0;">
+    <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active" class="btn btn-secondary backbtn">BACK</button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
+            <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)" id="saveNext">SAVE AND NEXT</button>
+        </div>
     </div>
 </div>
-
 <ng-template #templateAnnual>
     <div class="modal-body text-center">
         <div class="modal-header">

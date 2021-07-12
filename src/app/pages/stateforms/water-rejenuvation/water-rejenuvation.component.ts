@@ -345,8 +345,9 @@ export class WaterRejenuvationComponent implements OnInit {
         delete element._id;
       });
     });
+    let state_id = sessionStorage.getItem("state_id")
     let toStore = {
-      state: data.state,
+      state: state_id,
       design_year: data.design_year,
       uaData: data.uaData,
       status: data.status,
@@ -376,8 +377,16 @@ export class WaterRejenuvationComponent implements OnInit {
               icon: "success",
             });
             sessionStorage.setItem("changeInWaterRejenuvation", "false");
+            let status = JSON.parse(
+              sessionStorage.getItem("allStatusStateForms")
+            );
+            status.steps.waterRejuventation.status = this.waterRejenuvation.value['status'];
+            status.steps.waterRejuventation.isSubmit = !this.waterRejenuvation.value["isDraft"];
+            this._stateformsService.allStatusStateForms.next(status);
             if (this.routerNavigate) {
               this._router.navigate([this.routerNavigate.url]);
+            } else {
+              this._router.navigate(["stateform/action-plan"]);
             }
           },
           (err) => {
@@ -385,7 +394,13 @@ export class WaterRejenuvationComponent implements OnInit {
           }
         );
     } else if (this.loggedInUserType === "MoHUA") {
-      this.saveStateAction();
+      let changeHappen = sessionStorage.getItem("changeInWaterRejenuvation")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/action-plan"]);
+        return;
+      } else {
+        this.saveStateAction()
+      }
     }
   }
   body = {};
@@ -395,12 +410,15 @@ export class WaterRejenuvationComponent implements OnInit {
     this.waterRejenuvationService.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
-        const status = JSON.parse(
+        let status = JSON.parse(
           sessionStorage.getItem("allStatusStateForms")
         );
         status.steps.waterRejuventation.status = this.body["status"];
         status.steps.waterRejuventation.isSubmit = true;
         this._stateformsService.allStatusStateForms.next(status);
+        sessionStorage.setItem("changeInWaterRejenuvation", "false")
+        this._router.navigate(["stateform/action-plan"]);
+
       },
       (error) => {
         swal("An error occured!");
@@ -430,7 +448,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "500px",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   removePhotos(waterIndex, uaIndex) {
@@ -611,7 +629,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   checkErrorState(projectRow, val) {
@@ -625,7 +643,10 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   checkStatus(ev, ua_id) {
     console.log("mohua action in state", ev, ua_id);
+    sessionStorage.setItem("changeInWaterRejenuvation", "true")
     console.log("before", this.waterRejenuvation.value);
+    let state_id = sessionStorage.getItem("state_id")
+    this.waterRejenuvation.value.state = state_id
     this.waterRejenuvation.value.uaData.forEach((el) => {
       if (el.ua === ua_id) {
         console.log(ev["status"], el.ua);

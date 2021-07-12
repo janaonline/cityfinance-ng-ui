@@ -101,9 +101,9 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     "Audited Accounts for 2019-20",
   ];
   questions = [
-    '(A) Does the ULB have separate Account for 15th Finance Commission Grants?',
+    '(A) Does the ULB have separate Account for 15th Finance Commission Grants ?',
     // '(B) Has the ULB Linked the account with PFMS?'
-    '(B) Has the ULB Linked the account with Public Financial Management System (PFMS)?',
+    '(B) Has the ULB Linked the account with Public Financial Management System (PFMS) ?',
 
   ]
 

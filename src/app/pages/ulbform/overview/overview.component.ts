@@ -24,6 +24,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   percentage = 0;
   status = "";
   isMillionPlus;
+  USER_TYPE = USER_TYPE;
   isUA;
   id = null;
   //  sessionUlbId = null;
@@ -38,8 +39,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log("stid", id);
-        sessionStorage.setItem("row_id", id);
+        console.log('stid', id)
+        sessionStorage.setItem('row_id', this.id);
+      }else{
+        this.id = sessionStorage.getItem('row_id')
       }
     });
   }
@@ -160,6 +163,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     this.accessGrant();
   }
   getData() {
+    console.log('.......id', this.id)
     return new Promise((resolve, reject) => {
       this.Overview.getData("606aaf854dff55e6c075d219", this.id).subscribe(
         (res) => {
@@ -290,17 +294,21 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     //}
     this.width = this.row_width / this.numcard - 8;
     this.percentage = this.count * this.factor;
+    console.log('ppercent', typeof(this.percentage));
+
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
-      this.status = " Completed";
+      this.status = 'Completed'
+      console.log('ppercent', this.percentage);
     }
     if (this.percentage > 0 && this.percentage < 100) {
-      this.status = " In Progress";
-    } else {
-      this.status = " Not Started";
+      this.status = 'In Progress'
+      console.log('ppercent', this.percentage);
     }
-
-    console.log(this.cardsOverview);
+    if (this.percentage == 0){
+      this.status = 'Not Started'
+      console.log('ppercent', this.percentage);
+    }
     let eligibleForms = [];
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
@@ -333,8 +341,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   }
 
   onHover(num) {
-    console.log("index-num", num);
-
+    console.log('index-num', num);
     if (num == 0) {
       //   this.p = (num+1)*80;
       this.val = 0;
@@ -406,7 +413,5 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
       this.checkPos = true;
     }
-
-    console.log("val", this.val, num);
   }
 }

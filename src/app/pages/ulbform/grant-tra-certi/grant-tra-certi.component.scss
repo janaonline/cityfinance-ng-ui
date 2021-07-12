@@ -5,8 +5,10 @@
 
 h4 {
     font-size: 20px;
+    margin-top: 2rem;
     color: #124E58;
     font-family: Roboto;
+    font-weight: 600;
 }
 
 .list1-card {
@@ -18,26 +20,25 @@ h4 {
 .mat-card-image:first-child {
     margin-top: 0;
 }
-.ng2-pdf-viewer-container[_ngcontent-efj-c276]{
+
+.ng2-pdf-viewer-container[_ngcontent-efj-c276] {
     overflow-x: auto;
     position: relative;
     height: 100%;
     width: 200px;
-    margin-left:0;
-    margin-right:0;
-}
-
-.pdfViewer[_nghost-hjj-c276]{
-    margin-left: 0;
-    margin-right: 0;
-}
-.removePageBorders[_nghost-hjj-c276]{
     margin-left: 0;
     margin-right: 0;
 }
 
+.pdfViewer[_nghost-hjj-c276] {
+    margin-left: 0;
+    margin-right: 0;
+}
 
-
+.removePageBorders[_nghost-hjj-c276] {
+    margin-left: 0;
+    margin-right: 0;
+}
 
 .individualResource {
     margin: 25px 10px 30px 10px;
@@ -46,34 +47,30 @@ h4 {
     box-shadow: 3px 2px 2px 2px #cecece;
     height: 380px;
     width: 260px;
-   
     text-align: center;
     padding: 20px 3px 30px 6px;
     color: rgb(0, 87, 80);
     background-color: #f7f7f7;
-    overflow-wrap:unset;
+    overflow-wrap: unset;
     justify-content: start
-   
 }
 
 .percent-49 {
     width: 49%;
     float: left;
-  }
+}
+
 .resourceCards {
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
-  
 }
-
 
 .individualResource:hover {
     margin: 22px 15px 25px 15px;
     transition-timing-function: linear;
     box-shadow: 5px 5px 5px #cecece;
 }
-
 
 .img1 {
     margin: 0 12%;
