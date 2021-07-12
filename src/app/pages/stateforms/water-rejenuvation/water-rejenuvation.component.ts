@@ -15,9 +15,9 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { WaterRejenuvationPreviewComponent } from "./water-rejenuvation-preview/water-rejenuvation-preview.component";
-import { UserUtility } from 'src/app/util/user/user';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { StateformsService } from '../stateforms.service'
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { StateformsService } from "../stateforms.service";
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 const swal: SweetAlert = require("sweetalert");
@@ -40,8 +40,7 @@ export class WaterRejenuvationComponent implements OnInit {
     private dataEntryService: DataEntryService,
     private _router: Router,
     public _stateformsService: StateformsService,
-    private profileService: ProfileService,
-
+    private profileService: ProfileService
   ) {
     this.initializeUserType();
     this._router.events.subscribe(async (event: Event) => {
@@ -66,22 +65,24 @@ export class WaterRejenuvationComponent implements OnInit {
     });
   }
   disableAllForms = false;
-  isStateSubmittedForms = ''
+  isStateSubmittedForms = "";
   async ngOnInit() {
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     await this.loadData();
     this.initializeReport();
-    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
-      console.log('Water Rejuvenation Testing', role)
-      if (role === "STATE") {
-        this.disableAllForms = true;
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
+      (role) => {
+        console.log("Water Rejuvenation Testing", role);
+        if (role === "STATE") {
+          this.disableAllForms = true;
+        }
       }
-
-
-    });
+    );
 
     if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
+      this.isStateSubmittedForms = sessionStorage.getItem(
+        "StateFormFinalSubmitByState"
+      );
       if (this.isStateSubmittedForms == "true") {
         this.disableAllForms = true;
       }
@@ -106,6 +107,7 @@ export class WaterRejenuvationComponent implements OnInit {
   errorPhotosArray = [];
   dialogRefForNavigation;
   isDraft = null;
+  totalStatus = "PENDING";
   errorOnload = false;
   formStatus;
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -117,7 +119,7 @@ export class WaterRejenuvationComponent implements OnInit {
       state: this.fb.control(this.userData["state"], [Validators.required]),
       design_year: this.fb.control(this.Year["2021-22"], [Validators.required]),
       uaData: this.fb.array(this.getUas()),
-      status: this.fb.control("NA", []),
+      status: this.fb.control(this.totalStatus, []),
       isDraft: this.fb.control(this.isDraft, []),
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
@@ -167,17 +169,16 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   getUas() {
-    console.log('rejen heading...', this.data);
+    console.log("rejen heading...", this.data);
     return this.data.map((data) =>
-
       this.fb.group({
         ua: data.ua,
-        status: '',
-        rejectReason: '',
+        status: data?.status ?? "PENDING",
+        rejectReason: data?.status ?? null,
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
         foldCard: false,
-      }),
+      })
     );
   }
 
@@ -240,15 +241,16 @@ export class WaterRejenuvationComponent implements OnInit {
 
   loadData() {
     return new Promise((resolve, reject) => {
-      let id = sessionStorage.getItem("state_id")
+      let id = sessionStorage.getItem("state_id");
       this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
         (res) => {
           this.errorOnload = true;
           this.data = res["data"]["uaData"];
           this.isDraft = res["data"].isDraft;
+          this.totalStatus = res["data"].status;
           this.storeData(res["data"]);
           this.showLoader = false;
-          console.log('water rej data', this.data);
+          console.log("water rej data", this.data);
 
           resolve("ss");
         },
@@ -343,8 +345,9 @@ export class WaterRejenuvationComponent implements OnInit {
         delete element._id;
       });
     });
+    let state_id = sessionStorage.getItem("state_id")
     let toStore = {
-      state: data.state,
+      state: state_id,
       design_year: data.design_year,
       uaData: data.uaData,
       status: data.status,
@@ -354,7 +357,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   submit(fromPrev = null) {
-    console.log(this.loggedInUserType)
+    console.log(this.loggedInUserType);
     if (this.loggedInUserType === "STATE") {
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
       console.log(this.waterRejenuvation.controls);
@@ -374,8 +377,16 @@ export class WaterRejenuvationComponent implements OnInit {
               icon: "success",
             });
             sessionStorage.setItem("changeInWaterRejenuvation", "false");
+            let status = JSON.parse(
+              sessionStorage.getItem("allStatusStateForms")
+            );
+            status.steps.waterRejuventation.status = this.waterRejenuvation.value['status'];
+            status.steps.waterRejuventation.isSubmit = !this.waterRejenuvation.value["isDraft"];
+            this._stateformsService.allStatusStateForms.next(status);
             if (this.routerNavigate) {
               this._router.navigate([this.routerNavigate.url]);
+            } else {
+              this._router.navigate(["stateform/action-plan"]);
             }
           },
           (err) => {
@@ -383,22 +394,31 @@ export class WaterRejenuvationComponent implements OnInit {
           }
         );
     } else if (this.loggedInUserType === "MoHUA") {
-      this.saveStateAction()
+      let changeHappen = sessionStorage.getItem("changeInWaterRejenuvation")
+      if (changeHappen == "false") {
+        this._router.navigate(["stateform/action-plan"]);
+        return;
+      } else {
+        this.saveStateAction()
+      }
     }
-
   }
   body = {};
   saveStateAction() {
-
-    this.body = this.waterRejenuvation.value
-    console.log('this.body', this.body)
+    this.body = this.waterRejenuvation.value;
+    console.log("this.body", this.body);
     this.waterRejenuvationService.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
-        const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-        status.steps.waterRejuventation.status = this.body['status'];
+        let status = JSON.parse(
+          sessionStorage.getItem("allStatusStateForms")
+        );
+        status.steps.waterRejuventation.status = this.body["status"];
         status.steps.waterRejuventation.isSubmit = true;
         this._stateformsService.allStatusStateForms.next(status);
+        sessionStorage.setItem("changeInWaterRejenuvation", "false")
+        this._router.navigate(["stateform/action-plan"]);
+
       },
       (error) => {
         swal("An error occured!");
@@ -622,15 +642,18 @@ export class WaterRejenuvationComponent implements OnInit {
     );
   }
   checkStatus(ev, ua_id) {
-    console.log('mohua action in state', ev, ua_id)
-    console.log('before', this.waterRejenuvation.value)
-    this.waterRejenuvation.value.uaData.forEach(el => {
+    console.log("mohua action in state", ev, ua_id);
+    sessionStorage.setItem("changeInWaterRejenuvation", "true")
+    console.log("before", this.waterRejenuvation.value);
+    let state_id = sessionStorage.getItem("state_id")
+    this.waterRejenuvation.value.state = state_id
+    this.waterRejenuvation.value.uaData.forEach((el) => {
       if (el.ua === ua_id) {
-        console.log(ev['status'], el.ua)
-        el['status'] = ev['status']
-        el['rejectReason'] = ev['rejectReason']
+        console.log(ev["status"], el.ua);
+        el["status"] = ev["status"];
+        el["rejectReason"] = ev["rejectReason"];
       }
-    })
-    console.log('after', this.waterRejenuvation.value)
+    });
+    console.log("after", this.waterRejenuvation.value);
   }
 }

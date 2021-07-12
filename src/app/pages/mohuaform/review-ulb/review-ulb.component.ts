@@ -54,6 +54,7 @@ export class ReviewUlbComponent implements OnInit {
     this.reviewUlbService.getData(formId).subscribe(
       (res) => {
         this.historyData = res["data"].length == 0 ? null : res["data"];
+        this.historyData.reverse()
         console.log(this.historyData);
         this.openDialog(template);
       },

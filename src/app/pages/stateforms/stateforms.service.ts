@@ -52,8 +52,8 @@ export class StateformsService {
 
   }
 
-  finalReviewSubmitByMoHUA(body) {
-    return this.http.post(`${environment.api.url}stateMasterForm/finalAction`, body);
+  finalReviewSubmitByMoHUA(body, state_id) {
+    return this.http.post(`${environment.api.url}stateMasterForm/finalAction?state_id=${state_id}`, body);
   }
 
 }

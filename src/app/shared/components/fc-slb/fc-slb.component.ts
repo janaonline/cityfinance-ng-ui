@@ -1,36 +1,52 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { UserUtility } from 'src/app/util/user/user';
-import { UPLOAD_STATUS } from 'src/app/util/enums';
-import { JSONUtility } from 'src/app/util/jsonUtil';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from "@angular/core";
+import { AbstractControl, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { UserUtility } from "src/app/util/user/user";
+import { UPLOAD_STATUS } from "src/app/util/enums";
+import { JSONUtility } from "src/app/util/jsonUtil";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { IFinancialData, WaterManagement } from '../../../users/data-upload/models/financial-data.interface';
-import { services, targets } from '../../../users/data-upload/components/configs/water-waste-management';
-import { HttpEventType } from '@angular/common/http';
+import {
+  IFinancialData,
+  WaterManagement,
+} from "../../../users/data-upload/models/financial-data.interface";
+import {
+  services,
+  targets,
+} from "../../../users/data-upload/components/configs/water-waste-management";
+import { HttpEventType } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
-import { controllers } from 'chart.js';
+import { controllers } from "chart.js";
 @Component({
-  selector: 'app-fc-slb',
-  templateUrl: './fc-slb.component.html',
-  styleUrls: ['./fc-slb.component.scss']
+  selector: "app-fc-slb",
+  templateUrl: "./fc-slb.component.html",
+  styleUrls: ["./fc-slb.component.scss"],
 })
 export class FcSlbComponent implements OnInit, OnChanges {
   @ViewChild("template1") template1;
   modalRef: BsModalRef;
-  publishedFileUrl: string = '';
-  publishedFileName: string = '';
+  publishedFileUrl: string = "";
+  publishedFileName: string = "";
   publishedProgress: number;
   isDisabled = false;
   finalSubmitStatus;
-  ulbFormStaus = 'PENDING'
+  ulbFormStaus = "PENDING";
+  ulbFormStatusMoHUA;
   ulbFormRejectR = null;
   ulb_id;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
-  loggedInUserType = this.loggedInUserDetails.role
+  loggedInUserType = this.loggedInUserDetails.role;
   constructor(
     private _router: Router,
     private modalService: BsModalService,
@@ -38,12 +54,12 @@ export class FcSlbComponent implements OnInit, OnChanges {
     protected _dialog: MatDialog
   ) {
     // super(dataEntryService, _dialog);
-    this.ulb_id = sessionStorage.getItem('ulb_id');
-    this.finalSubmitStatus = localStorage.getItem('finalSubmitStatus');
+    this.ulb_id = sessionStorage.getItem("ulb_id");
+    this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
   }
 
-  focusTargetKey: any = {}
-  focusTargetKeyForErrorMessages: any = {}
+  focusTargetKey: any = {};
+  focusTargetKeyForErrorMessages: any = {};
 
   @Input()
   form: FormGroup;
@@ -72,7 +88,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   showNext = new EventEmitter<any>();
   @Output()
   previous = new EventEmitter<WaterManagement>();
-  @Input() waterPotability: any = {}
+  @Input() waterPotability: any = {};
   @Input() actionStatus;
   uploadQuestion: string = 'Have you published Water Potability Index ?';
   uploadDocumentText: string = 'Upload the published document';
@@ -88,7 +104,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
   };
 
   targets = targets;
-
 
   services: {
     key: keyof WaterManagement;
@@ -122,40 +137,39 @@ export class FcSlbComponent implements OnInit, OnChanges {
   submitted = false;
   showPublishedUpload: boolean;
   invalidWhole = false;
-  benchmarks = []
+  benchmarks = [];
   changeInData = false;
   ngOnInit() {
     this.changeInData = false;
     // if (this.ulb_id != null) {
     //   this.isDisabled = true;
     // }
-   // console.log(this.services)
-    this.services.forEach(data => {
-      this.focusTargetKey[data.key + 'baseline'] = false
-      this.targets.forEach(item => {
-        this.focusTargetKey[data.key + item.key] = false
-      })
-    })
-    this.services.forEach(data => {
-      this.focusTargetKeyForErrorMessages[data.key + 'baseline'] = false
-      this.targets.forEach(item => {
-        this.focusTargetKeyForErrorMessages[data.key + item.key] = false
-      })
-    })
+    // console.log(this.services)
+    this.services.forEach((data) => {
+      this.focusTargetKey[data.key + "baseline"] = false;
+      this.targets.forEach((item) => {
+        this.focusTargetKey[data.key + item.key] = false;
+      });
+    });
+    this.services.forEach((data) => {
+      this.focusTargetKeyForErrorMessages[data.key + "baseline"] = false;
+      this.targets.forEach((item) => {
+        this.focusTargetKeyForErrorMessages[data.key + item.key] = false;
+      });
+    });
 
-    this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
- //   console.log(this.benchmarks)
- //   console.log("tt", this.form, this.focusTargetKey)
+    this.benchmarks = this.services.map((el) => parseInt(el.benchmark));
+    //   console.log(this.benchmarks)
+    //   console.log("tt", this.form, this.focusTargetKey)
     // this.checkAutoValidCustom();
   }
 
-  setFocusTarget(focusTarget = '') {
+  setFocusTarget(focusTarget = "") {
     // this.focusTargetKey[focusTarget] =true
-   // console.log('Focus target inside set focus target function', focusTarget)
+    // console.log('Focus target inside set focus target function', focusTarget)
     for (let obj in this.focusTargetKey) {
-
       if (obj == focusTarget) {
-     //   console.log(obj)
+        //   console.log(obj)
         this.focusTargetKey[obj] = true;
       } else {
         this.focusTargetKey[obj] = false;
@@ -165,11 +179,28 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    console.log('changes ........', changes, this.form)
-    console.log('action.........', this.actionStatus);
-    this.ulbFormStaus = this.actionStatus.st;
-    if(this.actionStatus.rRes != null){
+    console.log("changes ........", changes, this.form);
+    console.log("action.........", this.actionStatus);
+    // this.ulbFormStaus = this.actionStatus.st;
+    if (this.actionStatus.rRes != null) {
       this.ulbFormRejectR = this.actionStatus.rRes;
+    }
+    if (this.actionStatus.st != null) {
+      this.ulbFormStaus = this.actionStatus.st;
+      if (
+        this.actionStatus.actionTakenByRole === USER_TYPE.MoHUA &&
+        this.actionStatus.finalSubmitStatus == "true"
+      ) {
+        this.ulbFormStatusMoHUA = this.actionStatus.st;
+        this.ulbFormStaus = "APPROVED";
+      }
+      if (
+        this.actionStatus.actionTakenByRole === USER_TYPE.STATE &&
+        this.actionStatus.finalSubmitStatus == "true" &&
+        this.ulbFormStaus == "APPROVED"
+      ) {
+        this.ulbFormStatusMoHUA = "PENDING";
+      }
     }
 
     this.invalidWhole = false;
@@ -179,68 +210,87 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.populateFormDatas();
     }
     if (changes.form && changes.form.currentValue)
-      // this.form = changes.form.currentValue
-
       if (changes.waterPotability && changes.waterPotability.currentValue) {
-        if (changes.waterPotability.currentValue.hasOwnProperty('name')) {
+        // this.form = changes.form.currentValue
+
+        if (changes.waterPotability.currentValue.hasOwnProperty("name")) {
           this.publishedFileName = changes.waterPotability.currentValue.name;
           this.publishedFileUrl = changes.waterPotability.currentValue.url;
           if (this.publishedFileUrl != "") {
             this.showPublishedUpload = true;
           }
 
-          this.publishedProgress
+          this.publishedProgress;
         }
-        this.publishedFileUrl = changes.waterPotability.currentValue.hasOwnProperty('url') ? changes.waterPotability.currentValue.url : ''
+        this.publishedFileUrl =
+          changes.waterPotability.currentValue.hasOwnProperty("url")
+            ? changes.waterPotability.currentValue.url
+            : "";
       }
     // if (this.form) this.initializeForm();
-    console.log('onChanges values', this.form)
+    console.log("onChanges values", this.form);
 
     let FORM = this.form;
-    console.log('this.form', this.form)
+    console.log("this.form", this.form);
     if (this.form) {
-      for (let key in this.form['controls']) {
-        console.log(key)
-        for (let key2 in this.form['controls'][key]['controls']['target'].controls) {
-        //  console.log(key2)
-          let textValue = this.form.controls[key]['controls']['target']['controls'][key2]
-          let currentControlKey = key2
-          let controlValue = this.form.controls[key].value.target
+      for (let key in this.form["controls"]) {
+        console.log(key);
+        for (let key2 in this.form["controls"][key]["controls"]["target"]
+          .controls) {
+          //  console.log(key2)
+          let textValue =
+            this.form.controls[key]["controls"]["target"]["controls"][key2];
+          let currentControlKey = key2;
+          let controlValue = this.form.controls[key].value.target;
           let increase;
-          if (key == 'reduction') {
+          if (key == "reduction") {
             increase = false;
           } else {
             increase = true;
           }
-          let serviceKey = key
-          let actualData = parseFloat(this.form.controls[key]['controls']['baseline']['value']['2021'])
-          let control = this.form['controls'][key]['controls']['target'].controls[key2]
-          let formValue = this.form['controls'][key]['controls']['target']
+          let serviceKey = key;
+          let actualData = parseFloat(
+            this.form.controls[key]["controls"]["baseline"]["value"]["2021"]
+          );
+          let control =
+            this.form["controls"][key]["controls"]["target"].controls[key2];
+          let formValue = this.form["controls"][key]["controls"]["target"];
 
-
-
-         // console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
-          if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey, actualData)) {
-            this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
+          // console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
+          if (
+            this.checkIncreaseValidation(
+              textValue.value,
+              currentControlKey,
+              controlValue,
+              increase,
+              serviceKey,
+              actualData
+            )
+          ) {
+            this.form.controls[serviceKey]["controls"]["target"].controls[
+              currentControlKey
+            ].status = "INVALID";
             //true means the entered value is not as per the desired logic
           } else {
-            this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
+            this.form.controls[serviceKey]["controls"]["target"].controls[
+              currentControlKey
+            ].status = "VALID";
           }
-
         }
-
       }
     }
-    if (this.ulb_id != null || this.finalSubmitStatus == 'true') {
+    if (this.ulb_id != null || this.finalSubmitStatus == "true") {
       this.isDisabled = true;
       this.form?.disable();
     }
-    if(this.actionStatus.st == 'REJECTED' && this.loggedInUserType === USER_TYPE.ULB){
+    if (
+      this.actionStatus.st == "REJECTED" &&
+      this.loggedInUserType === USER_TYPE.ULB
+    ) {
       this.isDisabled = false;
       this.form?.enable();
     }
   }
-
 
   openModal(template1: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template1, { class: "modal-md" });
@@ -282,7 +332,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
   //   this.emitValues(this.form.getRawValue());
   // }
 
-
   private populateFormDatas() {
     if (!this.isDataPrefilled) return;
     // this.prefilledDocuments = {
@@ -293,11 +342,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   saveNext(template1) {
-
     // if (this.showPublishedUpload && !this.publishedFileUrl)
     //   return true
-
-
 
     this.emitValues(this.form.getRawValue(), true);
     // console.log(this.showPublishedUpload)
@@ -305,7 +351,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // } else {
     //   this.openModal(template1);
     // }
-
   }
 
   emitOnDocChange() {
@@ -313,7 +358,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   private emitValues(values: IFinancialData["waterManagement"], next = false) {
-   // console.log("emitvalues called", values, next)
+    // console.log("emitvalues called", values, next)
     // if (values) {
     //   if (
     //     values.documents.wasteWaterPlan &&
@@ -323,21 +368,20 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   }
     // }
     // console.log("value emitting by waste water", values);
-    let fileName = this.showPublishedUpload ? this.publishedFileName : '';
-    let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : '';
-    this.invalidWhole = false
+    let fileName = this.showPublishedUpload ? this.publishedFileName : "";
+    let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : "";
+    this.invalidWhole = false;
     this.checkAutoValidCustom();
     let outputValues = {
       waterManagement: values,
       waterPotabilityPlan: {
         name: fileName,
-        url: fileUrl
+        url: fileUrl,
       },
       saveData: next,
       water_index: this.showPublishedUpload,
-      isFormInvalid: this.invalidWhole
-
-    }
+      isFormInvalid: this.invalidWhole,
+    };
 
     this.outputValues.emit(outputValues);
   }
@@ -360,10 +404,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
     // console.log(this.filesToUpload);
 
-
     this.upload(progessType, fileName);
     // this.emitValues(this.form.getRawValue());
-
   }
   resetFileTracker() {
     this.filesToUpload = [];
@@ -377,14 +419,18 @@ export class FcSlbComponent implements OnInit, OnChanges {
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
-      if (fileExtension === "pdf" || fileExtension === "xlsx" || fileExtension == "png"
-        || fileExtension == "jpg" || fileExtension == "jpeg") {
+      if (
+        fileExtension === "pdf" ||
+        fileExtension === "xlsx" ||
+        fileExtension == "png" ||
+        fileExtension == "jpg" ||
+        fileExtension == "jpeg"
+      ) {
         validFiles.push(file);
       }
     }
     return validFiles;
   }
-
 
   async upload(progessType, fileName) {
     // this.submitted = true;
@@ -401,11 +447,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.filesAlreadyInProcess.push(i);
       this.uploadFile(files[i], i, progessType, fileName);
     }
-
-
-
   }
-
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     // console.log('percentage',this.fileUploadTracker[''][file.name]?.percentage)
@@ -419,19 +461,11 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
           const s3URL = s3Response["data"][0].url;
 
-          this.uploadFileToS3(
-            file,
-            s3URL,
-            fileAlias,
-            fileIndex,
-            progessType
-
-          );
-          resolve("success")
+          this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
+          resolve("success");
 
           // console.log('file url', fileAlias)
           this.emitOnDocChange();
-
         },
         (err) => {
           if (!this.fileUploadTracker[fileIndex]) {
@@ -443,7 +477,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
           }
         }
       );
-    })
+    });
   }
 
   private uploadFileToS3(
@@ -452,7 +486,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     fileAlias: string,
     //  financialYear: string,
     fileIndex: number,
-    progressType: string = ''
+    progressType: string = ""
   ) {
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
@@ -467,7 +501,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
 
-            if (progressType == 'publishedProgress') {
+            if (progressType == "publishedProgress") {
               this.publishedFileUrl = fileAlias;
             }
 
@@ -491,32 +525,36 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   clearFiles(fileName) {
-    if (fileName == 'publishedFileName') {
+    if (fileName == "publishedFileName") {
       this.publishedProgress = 0;
-      this.publishedFileName = '';
-      this.publishedFileUrl = ''
+      this.publishedFileName = "";
+      this.publishedFileUrl = "";
     }
   }
 
-  previousValue = '';
-  afterValue = '';
+  previousValue = "";
+  afterValue = "";
 
-  setFocusTargetForErrorMessages(focusTarget = '') {
-   // console.log('mouseover on', focusTarget)
+  setFocusTargetForErrorMessages(focusTarget = "") {
+    // console.log('mouseover on', focusTarget)
     for (let obj in this.focusTargetKey) {
-
       if (obj == focusTarget) {
-       // console.log(obj)
+        // console.log(obj)
         this.focusTargetKeyForErrorMessages[obj] = true;
       } else {
         this.focusTargetKeyForErrorMessages[obj] = false;
       }
     }
-   // console.log('focusTargetKey', this.focusTargetKey)
+    // console.log('focusTargetKey', this.focusTargetKey)
   }
 
-
-  onBlur(control: AbstractControl, formValue = '', currentControlKey = '', serviceKey = '', increase = true) {
+  onBlur(
+    control: AbstractControl,
+    formValue = "",
+    currentControlKey = "",
+    serviceKey = "",
+    increase = true
+  ) {
     this.changeInData = true;
     // console.log('individual input field', control)
     // console.log('individual service field', formValue)
@@ -524,7 +562,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // console.log('current Control Key', currentControlKey)
     // console.log('service Key', serviceKey)
     // console.log('increase', increase)
-    let actualData = parseFloat(this.form?.controls[serviceKey]['controls']['baseline']?.controls['2021']?.value)
+    let actualData = parseFloat(
+      this.form?.controls[serviceKey]["controls"]["baseline"]?.controls["2021"]
+        ?.value
+    );
     // this.setFocusTarget()
     // console.log('focusTargetKey', this.focusTargetKey)
     // if (this.form['controls'][serviceKey]['controls']['baseline']['controls']['2021'].touched === true) {
@@ -532,129 +573,179 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   this.emitValues(this.form.getRawValue());
     // }
 
-
-
-    this.services.forEach(data => {
-      this.focusTargetKey[data.key + 'baseline'] = false
-      this.targets.forEach(item => {
-        this.focusTargetKey[data.key + item.key] = false
-      })
-    })
+    this.services.forEach((data) => {
+      this.focusTargetKey[data.key + "baseline"] = false;
+      this.targets.forEach((item) => {
+        this.focusTargetKey[data.key + item.key] = false;
+      });
+    });
     // console.log('previousvalue', this.previousValue)
     // console.log('aftervalue', this.afterValue)
 
     if (!control) return;
 
-
     const newValue = this.jsonUtil.convert(control.value);
     control.patchValue(newValue);
-    let benchmarkValue
-    if (serviceKey == 'waterSuppliedPerDay') {
-      benchmarkValue = this.benchmarks[0]
-    } else if (serviceKey == 'reduction') {
-      benchmarkValue = this.benchmarks[1]
-    } else if (serviceKey == 'houseHoldCoveredWithSewerage') {
-      benchmarkValue = this.benchmarks[2]
-    } else if (serviceKey == 'houseHoldCoveredPipedSupply') {
-      benchmarkValue = this.benchmarks[3]
+    let benchmarkValue;
+    if (serviceKey == "waterSuppliedPerDay") {
+      benchmarkValue = this.benchmarks[0];
+    } else if (serviceKey == "reduction") {
+      benchmarkValue = this.benchmarks[1];
+    } else if (serviceKey == "houseHoldCoveredWithSewerage") {
+      benchmarkValue = this.benchmarks[2];
+    } else if (serviceKey == "houseHoldCoveredPipedSupply") {
+      benchmarkValue = this.benchmarks[3];
     }
     // this.previousValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) - 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) - 101)].value : null
     // this.afterValue = this.form.controls[serviceKey]['controls']['target']?.controls[String(parseInt(currentControlKey) + 101)]?.value ? this.form.controls[serviceKey]['controls']['target'].controls[String(parseInt(currentControlKey) + 101)].value : null
-    if (formValue || currentControlKey == 'actual') {
-     // console.log('inside if FormValue')
+    if (formValue || currentControlKey == "actual") {
+      // console.log('inside if FormValue')
       if (formValue) {
-        if ((increase && control.value >= benchmarkValue) || (!increase && control.value <= benchmarkValue)) {
+        if (
+          (increase && control.value >= benchmarkValue) ||
+          (!increase && control.value <= benchmarkValue)
+        ) {
           this.checkAutoValidCustom();
           this.emitValues(this.form.getRawValue());
-          return
+          return;
         }
       }
 
-      for (let el in this.form?.controls[serviceKey]['controls']['target']?.controls) {
+      for (let el in this.form?.controls[serviceKey]["controls"]["target"]
+        ?.controls) {
         if (increase)
-         // console.log(serviceKey + el)
-        this.setFocusTarget(serviceKey + el)
+          // console.log(serviceKey + el)
+          this.setFocusTarget(serviceKey + el);
         //console.log('focus target key after on blur', this.focusTargetKey)
         //console.log(el)
         //console.log(this.form?.controls[serviceKey]['controls']['target']?.controls)
-        let currentValue = this.form?.controls[serviceKey]['controls']['target']?.controls[el];
-      //  console.log('current Value', currentValue)
-        this.onKeyUp(currentValue, formValue, el, serviceKey, increase, actualData)
+        let currentValue =
+          this.form?.controls[serviceKey]["controls"]["target"]?.controls[el];
+        //  console.log('current Value', currentValue)
+        this.onKeyUp(
+          currentValue,
+          formValue,
+          el,
+          serviceKey,
+          increase,
+          actualData
+        );
         //currentValue is the details of that particular input field which is in focus
         //formValue is the details of entire service field
         //el - 2122,2223,2324,2425
       }
-
-
     }
-    console.log('final Form after validations', this.form)
-   // this.checkAutoValidCustom();
+    console.log("final Form after validations", this.form);
+    // this.checkAutoValidCustom();
     // this.form['isFormInvalid'] = this.invalidWhole
     this.emitValues(this.form.getRawValue());
   }
 
   messages = [
-    'Please Enter a Value',
-    'Value must be Greater than Previous Year Target & Actual Figures',
-    'Value must be Less than Previous Year Target & Actual Figures'
+    "Please Enter a Value",
+    "Value must be Greater than Previous Year Target & Actual Figures",
+    "Value must be Less than Previous Year Target & Actual Figures",
   ];
-  onKeyUp(textValue, formValue, currentControlKey, serviceKey = '', increase = true, actualData) {
+  onKeyUp(
+    textValue,
+    formValue,
+    currentControlKey,
+    serviceKey = "",
+    increase = true,
+    actualData
+  ) {
     //textValue - info about the particular field
     //formvalue -> info about the particular service field
     //currentCOntrol Key - 2122,2223,2324,2425
-   // console.log("estblished", textValue, formValue, currentControlKey, increase, actualData)
-    let controlValue = this.form?.value[serviceKey]?.target
+    // console.log("estblished", textValue, formValue, currentControlKey, increase, actualData)
+    let controlValue = this.form?.value[serviceKey]?.target;
     //control value contains value filled in every input of the service yearwise
     //logic should be that whever a user enter a value, then all the input field of that service should be checked again
 
-    if (this.checkIncreaseValidation(textValue.value, currentControlKey, controlValue, increase, serviceKey, actualData)) {
+    if (
+      this.checkIncreaseValidation(
+        textValue.value,
+        currentControlKey,
+        controlValue,
+        increase,
+        serviceKey,
+        actualData
+      )
+    ) {
       //true means the entered value is not as per the desired logic
-      this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "INVALID"
-
+      this.form.controls[serviceKey]["controls"]["target"].controls[
+        currentControlKey
+      ].status = "INVALID";
     } else {
-      this.form.controls[serviceKey]['controls']['target'].controls[currentControlKey].status = "VALID"
-
+      this.form.controls[serviceKey]["controls"]["target"].controls[
+        currentControlKey
+      ].status = "VALID";
     }
-
   }
 
-  checkIncreaseValidation(value, controlKey, controlValue, increse = true, serviceKey, actualData) {
+  checkIncreaseValidation(
+    value,
+    controlKey,
+    controlValue,
+    increse = true,
+    serviceKey,
+    actualData
+  ) {
     //value -> value entered in the input
     //controlKey ->2122,2223,2324,,2425
     //control value contains value filled in every input of the service yearwise
-  //  console.log("increasevalidation called", value, controlKey, controlValue, increse)
+    //  console.log("increasevalidation called", value, controlKey, controlValue, increse)
     let before = true;
     let invalid = false;
     let upperLimit = 101;
-    let benchmarkValue
-    if (serviceKey == 'waterSuppliedPerDay') {
-      benchmarkValue = this.benchmarks[0]
-    } else if (serviceKey == 'reduction') {
-      benchmarkValue = this.benchmarks[1]
-    } else if (serviceKey == 'houseHoldCoveredWithSewerage') {
-      benchmarkValue = this.benchmarks[2]
-    } else if (serviceKey == 'houseHoldCoveredPipedSupply') {
-      benchmarkValue = this.benchmarks[3]
+    let benchmarkValue;
+    if (serviceKey == "waterSuppliedPerDay") {
+      benchmarkValue = this.benchmarks[0];
+    } else if (serviceKey == "reduction") {
+      benchmarkValue = this.benchmarks[1];
+    } else if (serviceKey == "houseHoldCoveredWithSewerage") {
+      benchmarkValue = this.benchmarks[2];
+    } else if (serviceKey == "houseHoldCoveredPipedSupply") {
+      benchmarkValue = this.benchmarks[3];
     }
-    if (serviceKey === 'waterSuppliedPerDay') {
+    if (serviceKey === "waterSuppliedPerDay") {
       upperLimit = 1000000000000000;
     }
-    if ((increse && value >= benchmarkValue && serviceKey === "waterSuppliedPerDay") || (!increse && value <= benchmarkValue)) {
+    if (
+      (increse &&
+        value >= benchmarkValue &&
+        serviceKey === "waterSuppliedPerDay") ||
+      (!increse && value <= benchmarkValue)
+    ) {
       return false;
     }
     for (let obj in controlValue) {
-      if ((increse && parseFloat(value) >= actualData && actualData) || (!increse && parseFloat(value) <= actualData && actualData) || !actualData) {
+      if (
+        (increse && parseFloat(value) >= actualData && actualData) ||
+        (!increse && parseFloat(value) <= actualData && actualData) ||
+        !actualData
+      ) {
         if (parseInt(obj) == parseInt(controlKey)) {
-          before = false
+          before = false;
           return false;
         } else {
           if (before) {
-            let otherValue = parseFloat(controlValue[obj])
-            let mainValue = parseFloat(value)
+            let otherValue = parseFloat(controlValue[obj]);
+            let mainValue = parseFloat(value);
 
             if (controlValue[obj] != "") {
-             // console.log(mainValue, actualData)
-              invalid = increse ? !(mainValue > 0 && mainValue < upperLimit && mainValue >= otherValue) : !(mainValue > 0 && mainValue < upperLimit && mainValue <= otherValue)
+              // console.log(mainValue, actualData)
+              invalid = increse
+                ? !(
+                    mainValue > 0 &&
+                    mainValue < upperLimit &&
+                    mainValue >= otherValue
+                  )
+                : !(
+                    mainValue > 0 &&
+                    mainValue < upperLimit &&
+                    mainValue <= otherValue
+                  );
               // console.log(value > controlValue[obj])
               // console.log("if", value, controlValue[obj], controlKey, obj)
               // console.log(invalid)
@@ -664,38 +755,36 @@ export class FcSlbComponent implements OnInit, OnChanges {
             }
           }
         }
-
       } else {
-        return true
+        return true;
       }
-
-
     }
     return invalid;
-
   }
 
-
   checkAutoValidCustom() {
-
     for (let key in this.form?.controls) {
-      if (this.form?.controls[key]['controls']['baseline']?.controls['2021']['status'] === 'INVALID') {
-
+      if (
+        this.form?.controls[key]["controls"]["baseline"]?.controls["2021"][
+          "status"
+        ] === "INVALID"
+      ) {
         this.invalidWhole = true;
       }
     }
 
-    for (let key in this.form['controls']) {
-      for (let key2 in this.form['controls'][key]['controls']['target']['controls']) {
-        if (this.form['controls'][key]['controls']['target']['controls'][key2]['status'] === 'INVALID')
+    for (let key in this.form["controls"]) {
+      for (let key2 in this.form["controls"][key]["controls"]["target"][
+        "controls"
+      ]) {
+        if (
+          this.form["controls"][key]["controls"]["target"]["controls"][key2][
+            "status"
+          ] === "INVALID"
+        )
           this.invalidWhole = true;
       }
     }
-  //  console.log(this.invalidWhole)
+    //  console.log(this.invalidWhole)
   }
-
 }
-
-
-
-

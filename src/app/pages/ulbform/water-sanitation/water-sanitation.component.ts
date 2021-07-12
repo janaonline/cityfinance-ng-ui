@@ -35,6 +35,7 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   waterToolTip;
   isDisabled = false;
   ulbFormStaus = "PENDING";
+  ulbFormStatusMoHUA;
   ulbFormRejectR = null;
   finalSubmitUtiStatus;
   takeStateAction;
@@ -202,6 +203,20 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
         };
         if (waterSres?.status != "NA") {
           this.ulbFormStaus = waterSres?.status;
+          if (
+            waterSres.actionTakenByRole === USER_TYPE.MoHUA &&
+            this.finalSubmitUtiStatus == "true"
+          ) {
+            this.ulbFormStatusMoHUA = waterSres?.status;
+            this.ulbFormStaus = "APPROVED";
+          }
+          if (
+            waterSres.actionTakenByRole === USER_TYPE.STATE &&
+            this.finalSubmitUtiStatus == "true" &&
+            this.ulbFormStaus == "APPROVED"
+          ) {
+            this.ulbFormStatusMoHUA = "PENDING";
+          }
         }
         this.ulbFormRejectR = waterSres?.rejectReason;
         this.actionResW = actRes;

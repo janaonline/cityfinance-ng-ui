@@ -23,6 +23,9 @@ export class ActionplanserviceService {
   }
 
   getUlbsByState(state_id) {
+    if (state_id) {
+      return this.http.get(`${environment.api.url}state/uas-ulb`);
+    }
     return this.http.get(`${environment.api.url}state/uas-ulb?state_id=${state_id}`);
   }
 
