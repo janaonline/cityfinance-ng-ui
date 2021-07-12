@@ -15,7 +15,7 @@ export class Overview {
 
     getData(design_year, rowId) {
       let catUrl;
-      if(rowId != ''){
+      if(rowId){
         console.log('rid', rowId)
          catUrl = environment.api.url + `masterForm/get/${design_year}/${rowId}`;
       }else{

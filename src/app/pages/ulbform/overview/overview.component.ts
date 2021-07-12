@@ -27,11 +27,14 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     public activatedRoute: ActivatedRoute) {
     super();
     this.activatedRoute.params.subscribe((val) => {
+      debugger
       const { id } = val;
       if (id) {
         this.id = id;
         console.log('stid', id)
-        sessionStorage.setItem('row_id', id);
+        sessionStorage.setItem('row_id', this.id);
+      }else{
+        this.id = sessionStorage.getItem('row_id')
       }
     });
 
@@ -156,6 +159,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     this.accessGrant();
   }
   getData() {
+    console.log('.......id', this.id)
     return new Promise((resolve, reject) => {
       this.Overview.getData('606aaf854dff55e6c075d219', this.id)
         .subscribe((res) => {

@@ -4,7 +4,9 @@
   loggedInUserType === USER_TYPE.MoHUA ||
   loggedInUserType === USER_TYPE.PARTNER">
     State: {{stateName}}
-  </span><br>
+  </span><br *ngIf="loggedInUserType === USER_TYPE.ADMIN ||
+  loggedInUserType === USER_TYPE.MoHUA ||
+  loggedInUserType === USER_TYPE.PARTNER">
     <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
     ULB: {{ulbName}}
   </span>
