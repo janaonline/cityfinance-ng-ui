@@ -3,7 +3,7 @@
     <span class="" [ngClass]="{'col-sm-4': (loggedInUserType != USER_TYPE.ULB && !FromLinkinPfms) ||
       (loggedInUserType === USER_TYPE.ULB && (btnStyleA || btnStyleR)),
      'col-sm-6': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
-        <b>{{quesName}} </b> <span style="color: red;">*</span></span>
+        <b>{{quesName}}</b><span style="color: red;">*</span></span>
     <button *ngIf="showPdf" (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
     </button>
@@ -16,10 +16,8 @@
     <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')" type="file" accept=".xls, .xlsx" #file>
     <!-- </div> -->
     <div class="btn-group float-right" *ngIf="loggedInUserType !== USER_TYPE.ULB && !FromLinkinPfms &&
-    (takeStateAction == 'true')" btnRadioGroup [(ngModel)]="stateAction"
-        style="margin-bottom: 1rem; margin-left: 10%;">
-        <label class="btn btn-success" [disabled]="actionCompDis" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED"
-            (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+    (takeStateAction == 'true')" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 10%;">
+        <label class="btn btn-success" [disabled]="actionCompDis" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
         <label class="btn btn-danger" [disabled]="actionCompDis" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px; width: 82px;">Return</label>
     </div>
