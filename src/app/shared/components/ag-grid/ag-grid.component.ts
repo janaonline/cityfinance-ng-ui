@@ -806,6 +806,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
 
     this.gridData.emit(this.rowData);
   }
+
 }
 
 const fundAutoFill = [

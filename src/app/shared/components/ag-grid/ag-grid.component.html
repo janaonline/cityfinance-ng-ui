@@ -1,21 +1,22 @@
 <div style="margin-left: 1pc; margin-right: 1pc;">
-    <h5>List of Projects to be Executed with 15th FC Grants</h5>
-    <ag-grid-angular #agGrid1 [tooltipMouseTrack]="true" [tooltipShowDelay]="0"
-        (cellEditingStopped)="cellValueChanged($event)" style="width: 100%; height: 300px;" class="ag-theme-alpine"
-        [frameworkComponents]="frameworkComponents" [rowData]="rowData.projectExecute" [columnDefs]="project">
+    <h5 class="ag-tb-h">List of Projects to be Executed with 15th FC Grants<span style="color: red;">*</span></h5>
+    <ag-grid-angular #agGrid1 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" (cellEditingStopped)="cellValueChanged($event)" style="width: 100%; height: 300px;" class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.projectExecute"
+        [columnDefs]="project">
     </ag-grid-angular>
-    <button (click)="addRow()" class="btn pull-right btn-primary">add row</button>
+    <button style="margin-top: 10px; font-size: 12px;" (click)="addRow()" class="btn pull-right btn-success">
+      <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
+        add_circle_outline
+    </span>Add row</button>
     <br>
-    <h5>Project List and Source of Funds</h5>
-    <ag-grid-angular #agGrid2 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;"
-        (cellEditingStopped)="fundValueChanges($event)" class="ag-theme-alpine"
-        [frameworkComponents]="frameworkComponents" [rowData]="rowData.sourceFund" [columnDefs]="fund">
+    <br>
+    <h5 class="ag-tb-h">Project List and Source of Funds<span style="color: red;">*</span></h5>
+    <ag-grid-angular #agGrid2 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;" (cellEditingStopped)="fundValueChanges($event)" class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.sourceFund"
+        [columnDefs]="fund">
     </ag-grid-angular>
     <br>
-    <h5>Year-wise Outlay for 15th FC Grants:</h5>
-    <ag-grid-angular #agGrid3 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;"
-        (cellEditingStopped)="yearValueChanges($event)" class="ag-theme-alpine"
-        [frameworkComponents]="frameworkComponents" [rowData]="rowData.yearOutlay" [columnDefs]="year">
+    <h5 class="ag-tb-h">Year-wise Outlay for 15th FC Grants<span style="color: red;">*</span></h5>
+    <ag-grid-angular #agGrid3 [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;" (cellEditingStopped)="yearValueChanges($event)" class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.yearOutlay"
+        [columnDefs]="year">
     </ag-grid-angular>
     <br>
 </div>
