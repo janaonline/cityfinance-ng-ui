@@ -1,16 +1,18 @@
 <div class="mat-card" id="ulbformPre" #ulbformPre>
     <div class="mat-card-title text-center m-h-mr">
-        <div class="pull-right b-hide">
+        <div class=" b-hide" style="text-align: right;">
             <a mat-dialog-close>
                 <img src="https://img.icons8.com/metro/26/000000/multiply.png" />
             </a>
         </div>
-        <h2 class="m-h" style="line-height: normal; margin: 0;"> Submissions for 15th FC Grants for FY 2021-22</h2>
-        <h3 class="sub-m-h" style="line-height: normal; margin: 0;">{{ userData.name }},{{userData.stateName}}</h3>
-        <!-- <h2 class="m-h">15th FC Form</h2>
+        <div>
+            <h2 class="m-h" style="line-height: normal; margin: 0;"> Submissions for 15th FC Grants for FY 2021-22</h2>
+            <h3 class="sub-m-h" style="line-height: normal; margin: 0;">{{ userData.name }},{{userData.stateName}}</h3>
+            <!-- <h2 class="m-h">15th FC Form</h2>
         <h3 class="m-h">
             {{ userData.name }}
         </h3> -->
+        </div>
         <div class="pull-right b-hide">
             <button id="donwloadButton" style="right: 0%;
       outline: none; margin-right: 2% ;margin-bottom: 1pc; position: relative; z-index:4" (click)="openModal()" class="btn btn-primary btn-upload">

@@ -1,8 +1,8 @@
 <div col-sm-12 mb-2>
-    <h3 style="position: relative; text-align: center">
+    <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600;">
         <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
-        <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
-      ULB: {{ financialData?.ulbName }}</span>
+        <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+      ULB: {{ financialData?.ulbName }}</span> -->
 
         <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
@@ -13,8 +13,8 @@
 </div>
 <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 
-<div class="card mt-1 mb-2" style="background-color: #F7F7F7;" *ngIf="(loggedInUserType === USER_TYPE.STATE &&
-(takeStateAction == 'true')) || (loggedInUserType === USER_TYPE.STATE && compDis == 'true')">
+<div class="card mt-1 mb-2" style="background-color: #F7F7F7;" *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
     </div>

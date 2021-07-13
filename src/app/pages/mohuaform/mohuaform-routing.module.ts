@@ -4,10 +4,12 @@ import { MohuaDashboardComponent } from './mohua-dashboard/mohua-dashboard.compo
 import { MohuaformComponent } from './mohuaform.component'
 import { ReviewUlbComponent } from './review-ulb/review-ulb.component'
 import { ReviewStateComponent } from './review-state/review-state.component'
+import { AuthMohuaGuard } from './auth-mohua.guard';
 const routes: Routes = [
   {
     path: "",
     component: MohuaformComponent,
+    canActivate: [AuthMohuaGuard],
     children: [
       {
         path: "dashboard", component: MohuaDashboardComponent

@@ -10,12 +10,14 @@ import { WaterRejenuvationComponent } from "./water-rejenuvation/water-rejenuvat
 import { ActionPlanUAComponent } from "./action-plan-ua/action-plan-ua.component"
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { LinkPFMSComponent } from "./link-pfms/link-pfms.component"
+import { AuthStateGuard } from './auth-state.guard';
 
 
 const routes: Routes = [
   {
     path: "",
     component: StateformsComponent,
+    canActivate: [AuthStateGuard],
     children: [
       {
         path: "dashboard", component: StateDashboardComponent
@@ -43,7 +45,10 @@ const routes: Routes = [
       },
       {
         path: "link-in-pfms", component: LinkPFMSComponent,
-      }
+      },
+      {
+        path: "dashboard/:id", component: StateDashboardComponent
+      },
     ]
   }
 ]

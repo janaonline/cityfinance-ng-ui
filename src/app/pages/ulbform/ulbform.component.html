@@ -279,9 +279,9 @@
                 <div *ngIf="(loggedInUserType === userTypes.ULB)" matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
                     <button mat-raised-button class="subBtn" [disabled]="!validate || submitted" (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
                 </div>
-                <div *ngIf="loggedInUserType === userTypes.STATE && (takeStateAction == 'true')" matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
+                <div *ngIf="loggedInUserType != userTypes.ULB && (takeStateAction == 'true')" matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
                     <button mat-raised-button class="subBtn" [disabled]="finalActionDis" (click)="finalStateAction()">
-                    Final Review Submit</button>
+                        Final Review Submit</button>
                 </div>
 
             </div>
@@ -292,30 +292,39 @@
         <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" style="background-color: #FFFFFF; width: 82%; padding-right: 0;">
 
             <div class="container-fluid">
-                <div class="col header1">
-                    <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
-                        {{ userLoggedInDetails.name }},
-                        <span *ngIf="
+                <div class="row">
+                    <div class="col header1">
+                        <h3 class="text-center" style="text-align: center; margin-bottom: 5px; font-weight: 600;
+                        " *ngIf="loggedInUserType !== userTypes.USER;">
+                            <span *ngIf="loggedInUserType === userTypes.ULB">
+                    {{ userLoggedInDetails.name }}
+                   </span>
+                            <span *ngIf="
             loggedInUserType === userTypes.ADMIN ||
             loggedInUserType === userTypes.MoHUA ||
             loggedInUserType === userTypes.PARTNER
           ">
                             {{ userLoggedInDetails.role }}
                         </span>
-                        <span *ngIf="
+                            <span *ngIf="
             states &&
             (loggedInUserType === userTypes.STATE ||
               loggedInUserType === userTypes.ULB)
           ">
                             {{ states[userLoggedInDetails["state"]]?.name }}
                         </span>
-                    </h3>
-                    <!-- <h3>
+                        </h3>
+                        <!-- <h3>
             <ng-template #other_content>Welcome.....</ng-template>
         </h3> -->
+                    </div>
                 </div>
-                <router-outlet></router-outlet>
+                <div class="row">
+                    <router-outlet></router-outlet>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>

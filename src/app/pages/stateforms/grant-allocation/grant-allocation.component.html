@@ -16,12 +16,13 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class="question" style="margin-top: .5rem;">
-            <span>(A) Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the
-                State?<span style="color: red;">*</span></span>
+            <span style="font-weight: 500;">(A) Do you wish to submit the detailed allocation of grants distributed
+              amongst ULBs in the
+                State ?<span style="color: red;"> *</span></span>
             <div>
-                <button class="btn btn-a" style="margin-left: 2rem;" [disabled]="isDisabled" (click)="onClickYes()" [ngStyle]="{'background-color':
+                <button class="btn btn-a" style="margin-left: 2rem;" [disabled]="isDisabled || disableAllForms" (click)="onClickYes()" [ngStyle]="{'background-color':
               account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
-                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled" [ngStyle]="{'background-color':
+                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled || disableAllForms" [ngStyle]="{'background-color':
           account === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
@@ -35,19 +36,30 @@
         <div class="card">
             <div class="card-body question">
                 <div class="row">
-                    <div class="col-sm-9 col-lg-9 col-md-9" style="margin-top: 0.7rem;">
-                        (B) Please fill in the grant amounts in the given template and upload the excel.<span style="color: red;">*</span>
+                    <div class="col-sm-9 col-lg-9 col-md-9" style="margin-top: 0.7rem; font-weight: 500;">
+                        (B) Please fill in the grant amounts in the given template and upload the excel. <span style="color: red;">*</span>
 
                     </div>
                     <div class="col-sm-3 col-lg-3 col-md-3 image-upload">
                         <!-- <button type="button" class="btn btn-pre" (click)="uploadButtonClicked()">Upload File</button> -->
-                        <label for="cinde">
-                            <a class="btn btnUpload btn-pre" [ngClass]="{'anDisable': isDisabled }">Upload Excel
+                        <label for="cinde" [ngClass]="{'disabled': disableAllForms }">
+                            <a *ngIf="!disableAllForms" class="btn btnUpload btn-pre"
+                                [ngClass]="{'anDisable': isDisabled }">Upload Excel
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>
                             </a>
+                            <a *ngIf="disableAllForms" class="btn btn-pre disabled ">Upload
+                                Excel
+                                <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+                                    data-height="16"></span>
+                            </a>
+
                         </label>
-                        <input id="cinde" name="cinde" [disabled]="isDisabled" type="file" (change)="fileChangeEvent($event)" accept=".xlsx" />
+
+
+
+
+                        <input id="cinde" name="cinde" [disabled]="isDisabled || disableAllForms" [ngClass]="{'disabled': disableAllForms }" type="file" (change)="fileChangeEvent($event)" accept=".xlsx" />
                     </div>
 
                 </div>

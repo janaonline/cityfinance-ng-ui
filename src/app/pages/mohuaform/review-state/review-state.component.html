@@ -48,7 +48,7 @@
 
                                 </thead> -->
 
-                                <!-- <tbody>
+                                <tbody>
                                     <tr *ngFor="let resData of tabelData | paginate
                                     : {
                                         id: 'foo',
@@ -60,42 +60,38 @@
                                             {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                             tabelIndex+1}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
                                         <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.censusCode || resData.sbCode }}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
-                                        </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.populationType}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
+                                            {{resData.numberOfUas}}</td>
+
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
                                             <a
-                                                (click)="viewHistory(template, resData['_id'])">{{resData.printStatus}}</a>
+                                                (click)="viewHistory(template, resData['_id'])">{{resData.formStatus}}</a>
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB') || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
+                                            *ngIf="!((resData.isSubmit && resData.actionTakenByRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA'))">
 
-                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
-                                          '/ulbform/overview', resData?._id  ]">
-                                                <!-- <a (click)="viewUlbForm(resData)" [routerLink]="[
-                            '/ulbform',  resData?._id ]"> -->
-                                <!-- <mat-icon aria-hidden="false">
+
+                                            <a (click)="viewStateForm(resData)" [routerLink]="[
+                            '/stateform/dashboard',  resData?.state_id ]">
+
+                                                <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">
                                                 </mat-icon>
                                             </a>
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
-                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
-                                            <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
-                                        '/ulbform/overview', resData?._id  ]">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByRole == 'STATE')
+                                             || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA')">
+                                            <a class="btn btn-action" (click)="viewStateForm(resData)" [routerLink]="[
+                                        '/stateform/dashboard', resData?.state_id  ]">
                                                 Take Action
                                             </a>
                                         </td>
                                     </tr>
-                                </tbody>  -->
+                                </tbody>
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
@@ -137,7 +133,7 @@
             <tbody>
                 <tr *ngFor="let row of historyData; let i = index">
                     <td class="text-center">
-                        <em *ngIf="row['status'] === 'Approved by MoHUA'" class="fa fa-check-circle text-success"></em>
+                        <em *ngIf="row['status'] === 'Approval Completed'" class="fa fa-check-circle text-success"></em>
                     </td>
                     <td>{{ i + 1 }}</td>
                     <td>{{ row.status }}</td>
@@ -147,5 +143,6 @@
                 </tr>
             </tbody>
         </table>
+        <div class="text-center alert" style="color: red;" *ngIf="noHistoryDataFound">No Data Found!</div>
     </div>
 </ng-template>

@@ -5,19 +5,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UlbGaurdGuard implements CanActivate {
+export class AuthStateGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let ulbRecord = JSON.parse(localStorage.getItem('userData'));
-      let isUlb = ulbRecord.role;
-      if(isUlb == 'ULB'){
+      let userType = ulbRecord.role;
+      if(userType == 'MoHUA' || userType == 'STATE'){
         return true;
       }
       return false;
-}
-
-
   }
 
-
+}
