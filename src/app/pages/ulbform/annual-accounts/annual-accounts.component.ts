@@ -33,8 +33,12 @@ export class AnnualAccountsComponent implements OnInit {
   ) {
     this.navigationCheck();
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
+    this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
+    this.masterFormStatus = localStorage.getItem("masterFormStatus");
     this.loggedInUserType = this.loggedInUserDetails.role;
   }
+  lastRoleInMasterForm;
+  masterFormStatus;
   @ViewChild("templateAnnual") template;
   @ViewChild("template1") template1;
   fromPreview = null;
@@ -382,16 +386,42 @@ export class AnnualAccountsComponent implements OnInit {
     //   rRes : data?.rejectReason
     // }
     if (this.data["status"] != "NA") {
-      this.anFormStaus = this.data["status"];
+      this.anFormStaus = this.data["status"] ? this.data["status"] : "PENDING";
+
+      if (this.data['actionTakenByRole'] == USER_TYPE.STATE) {
+        if (
+          ((this.data?.status == "REJECTED" &&
+            this.masterFormStatus != "REJECTED") ||
+            (this.data?.status == "APPROVED" &&
+              this.masterFormStatus != "APPROVED")) &&
+          this.lastRoleInMasterForm == USER_TYPE.ULB
+        ) {
+          this.anFormStaus = "PENDING";
+        }
+      }
+      if (this.data['actionTakenByRole'] == USER_TYPE.MoHUA) {
+        this.anFormStaus = "APPROVED";
+        if (
+          ((this.data?.status == "REJECTED" &&
+            this.masterFormStatus != "REJECTED") ||
+            (this.data?.status == "APPROVED" &&
+              this.masterFormStatus != "APPROVED")) &&
+          this.lastRoleInMasterForm == USER_TYPE.STATE
+        ) {
+          this.ulbFormStatusMoHUA = "PENDING";
+        }
+      }
+
+
       if (
-        this.data["actionTakenByRole"] === USER_TYPE.MoHUA &&
+        this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
         this.finalSubmitUtiStatus == "true"
       ) {
         this.ulbFormStatusMoHUA = this.data["status"];
         this.anFormStaus = this.data["status"];
       }
       if (
-        this.data["actionTakenByRole"] === USER_TYPE.STATE &&
+        this.lastRoleInMasterForm === USER_TYPE.STATE &&
         this.finalSubmitUtiStatus == "true" &&
         this.anFormStaus == "APPROVED"
       ) {

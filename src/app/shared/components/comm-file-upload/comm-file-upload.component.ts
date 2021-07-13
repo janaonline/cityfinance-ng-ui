@@ -15,11 +15,15 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   loggedInUserType;
   takeStateAction;
   compDis;
+  lastRoleInMasterForm;
+  masterFormStatus;
   constructor(private dataEntryService: DataEntryService) {
     this.loggedInUserType = this.loggedInUserDetails.role;
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
+    this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
+    this.masterFormStatus = localStorage.getItem("masterFormStatus");
   }
 
   @Input()
@@ -97,8 +101,11 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
       this.btnStyleR = true;
     }
     if (
-      this.stateAction == "REJECTED" &&
-      this.loggedInUserType === USER_TYPE.ULB
+      this.masterFormStatus == "REJECTED" &&
+      this.loggedInUserType == USER_TYPE.ULB &&
+      this.finalSubmitStatus == "true" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB &&
+      this.dataFromParent.status =="REJECTED"
     ) {
       this.isDisabled = false;
     }

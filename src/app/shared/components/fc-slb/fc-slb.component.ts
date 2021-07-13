@@ -40,7 +40,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
   publishedProgress: number;
   isDisabled = false;
   finalSubmitStatus;
+  lastRoleInMasterForm;
   ulbFormStaus = "PENDING";
+  masterFormStatus;
   ulbFormStatusMoHUA;
   ulbFormRejectR = null;
   ulb_id;
@@ -56,6 +58,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // super(dataEntryService, _dialog);
     this.ulb_id = sessionStorage.getItem("ulb_id");
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
+    this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
+    this.masterFormStatus = localStorage.getItem("masterFormStatus");
   }
 
   focusTargetKey: any = {};
@@ -90,10 +94,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
   previous = new EventEmitter<WaterManagement>();
   @Input() waterPotability: any = {};
   @Input() actionStatus;
-  uploadQuestion: string = 'Have you published Water Potability Index ?';
-  uploadDocumentText: string = 'Upload the published document';
-
-
+  uploadQuestion: string = "Have you published Water Potability Index ?";
+  uploadDocumentText: string = "Upload the published document";
 
   approveAction = UPLOAD_STATUS.APPROVED;
   rejectAction = UPLOAD_STATUS.REJECTED;
@@ -187,15 +189,40 @@ export class FcSlbComponent implements OnInit, OnChanges {
     }
     if (this.actionStatus.st != null) {
       this.ulbFormStaus = this.actionStatus.st;
+
+      if (this.actionStatus["actionTakenByRole"] == USER_TYPE.STATE) {
+        if (
+          ((this.actionStatus?.st == "REJECTED" &&
+            this.masterFormStatus != "REJECTED") ||
+            (this.actionStatus?.st == "APPROVED" &&
+              this.masterFormStatus != "APPROVED")) &&
+          this.lastRoleInMasterForm == USER_TYPE.ULB
+        ) {
+          this.ulbFormStaus = "PENDING";
+        }
+      }
+      if (this.actionStatus["actionTakenByRole"] == USER_TYPE.MoHUA) {
+        this.ulbFormStaus = "APPROVED";
+        if (
+          ((this.actionStatus?.st == "REJECTED" &&
+            this.masterFormStatus != "REJECTED") ||
+            (this.actionStatus?.st == "APPROVED" &&
+              this.masterFormStatus != "APPROVED")) &&
+          this.lastRoleInMasterForm == USER_TYPE.STATE
+        ) {
+          this.ulbFormStatusMoHUA = "PENDING";
+        }
+      }
+
       if (
-        this.actionStatus.actionTakenByRole === USER_TYPE.MoHUA &&
+        this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
         this.actionStatus.finalSubmitStatus == "true"
       ) {
         this.ulbFormStatusMoHUA = this.actionStatus.st;
         this.ulbFormStaus = "APPROVED";
       }
       if (
-        this.actionStatus.actionTakenByRole === USER_TYPE.STATE &&
+        this.lastRoleInMasterForm === USER_TYPE.STATE &&
         this.actionStatus.finalSubmitStatus == "true" &&
         this.ulbFormStaus == "APPROVED"
       ) {
@@ -284,8 +311,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.form?.disable();
     }
     if (
-      this.actionStatus.st == "REJECTED" &&
-      this.loggedInUserType === USER_TYPE.ULB
+      this.masterFormStatus == "REJECTED" &&
+      this.loggedInUserType == USER_TYPE.ULB &&
+      this.finalSubmitStatus == "true" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
     ) {
       this.isDisabled = false;
       this.form?.enable();
