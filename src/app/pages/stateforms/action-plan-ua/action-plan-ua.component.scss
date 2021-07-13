@@ -1,32 +1,57 @@
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 .saveBtn {
-  background-color: #114551;
-  color: #ffffff;
-  border-radius: 5px;
-  height: 32px;
-  padding-left: 2rem;
-  padding-right: 2rem;
+    background-color: #059b9a;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-pre {
+    background-color: #059b9a;
+    color: #FFFFFF;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    font-size: 12px;
+    padding-right: 2rem;
 }
 
 .back {
-  background-color: #cfcfcf;
-  color: #ffffff;
-  border-radius: 5px;
-  height: 32px;
-  padding-left: 2rem;
-  padding-right: 2rem;
+    width: auto;
+    background-color: #cfcfcf;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: 12px;
+    font-weight: normal;
 }
 
 .btn:hover {
-  background-color: #ffc500;
-  color: white;
+    background-color: #ffc500;
+    color: white;
 }
 
 .selectBtn {
-  background-color: #ffc500;
-  color: white;
+    background-color: #ffc500;
+    color: white;
 }
 
-.grid{
+.grid {
     margin-left: 1pc !important;
     margin-right: 1pc !important;
 }

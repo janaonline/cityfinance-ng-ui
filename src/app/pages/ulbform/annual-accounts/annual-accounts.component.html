@@ -34,7 +34,7 @@
         <div class="col-sm-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_annual_accounts}">
-                    <span class="quesIn"><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ? <span style="color: red;">*</span>
+                    <span class="quesIn"><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?<span style="color: red;">*</span>
                     </b>
                     </span>
                 </div>
@@ -79,7 +79,7 @@
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_standardized_data}">
 
                     <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                            ? <span style="color: red;">*</span></b>
+                            ?<span style="color: red;">*</span></b>
                     </span>
 
                 </div>
@@ -169,12 +169,14 @@
                                 it is true and correct. It is confirmed that this information can be made available for
                                 public consumption on the CityFinance portal.</span> -->
                             <span class="text-primary">
-                                 <b>Self declaration by the Executive officer/Municipal
-                                  Commissioner of the ULB on the standardised financial statements uploaded above.</b><br>
-                                  I hereby confirm that I have verified the information uploaded in
-                                   standardized template and it is true and correct.
-                                  It is confirmed that this information can be made available for public consumption on the CityFinance portal.
-                                </span>
+                                <b>Self declaration by the Executive officer/Municipal
+                                    Commissioner of the ULB on the standardised financial statements uploaded
+                                    above.</b><br>
+                                I hereby confirm that I have verified the information uploaded in
+                                standardized template and it is true and correct.
+                                It is confirmed that this information can be made available for public consumption on
+                                the CityFinance portal.
+                            </span>
                         </div>
                         <div class="row pull-left">
                             <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
@@ -190,7 +192,7 @@
         <div class="col-md-12 mat-card card-body">
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.audited.submit_annual_accounts}">
-                    <span class="quesIn"><b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ? <span style="color: red;">*</span></b>
+                    <span class="quesIn"><b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span></b>
                     </span>
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_annual_accounts}" style="margin-bottom: 2pc;">
@@ -224,7 +226,7 @@
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.audited.submit_standardized_data}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                            ? <span style="color: red;">*</span></b>
+                            ?<span style="color: red;">*</span></b>
                     </span>
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_standardized_data}" style="margin-bottom: 2pc;">
@@ -324,9 +326,10 @@
 <div class="row">
     <div class="col-sm-12 mat-card card-body" style="background-color: #F7F7F7;" *ngIf="(finalSubmitUtiStatus == 'true') &&
 (loggedInUserType === USER_TYPE.ULB)">
-        <div class="mat-card-content">
+        <div class="card-body">
             <p style="padding-top: 2rem; padding-left: .5rem;"><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
-            <br>
+            <p style="padding-left: .5rem;" *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
+                Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
             <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
         </p> -->

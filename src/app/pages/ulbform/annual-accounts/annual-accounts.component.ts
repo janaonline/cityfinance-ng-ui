@@ -40,6 +40,7 @@ export class AnnualAccountsComponent implements OnInit {
   fromPreview = null;
   finalSubmitUtiStatus;
   anFormStaus = "PENDING";
+  ulbFormStatusMoHUA;
   ulbFormRejectR = null;
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null },
@@ -322,14 +323,8 @@ export class AnnualAccountsComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
-          if (
-            takeStateAction === "true" &&
-            this.userData.role === USER_TYPE.MoHUA &&
-            res["actionTakenByRole"] === USER_TYPE.STATE
-          ){
-            this.clearStatusAndRejectReason()
-          }
-            console.log(res, "---------------");
+
+          console.log(res, "---------------");
         },
         (err) => {
           const toStoreResponse = this.data;
@@ -340,10 +335,6 @@ export class AnnualAccountsComponent implements OnInit {
           console.error(err.message);
         }
       );
-  }
-
-  clearStatusAndRejectReason(){
-    
   }
 
   dataPopulate(res) {
@@ -392,6 +383,20 @@ export class AnnualAccountsComponent implements OnInit {
     // }
     if (this.data["status"] != "NA") {
       this.anFormStaus = this.data["status"];
+      if (
+        this.data["actionTakenByRole"] === USER_TYPE.MoHUA &&
+        this.finalSubmitUtiStatus == "true"
+      ) {
+        this.ulbFormStatusMoHUA = this.data["status"];
+        this.anFormStaus = this.data["status"];
+      }
+      if (
+        this.data["actionTakenByRole"] === USER_TYPE.STATE &&
+        this.finalSubmitUtiStatus == "true" &&
+        this.anFormStaus == "APPROVED"
+      ) {
+        this.ulbFormStatusMoHUA = "PENDING";
+      }
     }
 
     // this.ulbFormRejectR = data?.rejectReason;

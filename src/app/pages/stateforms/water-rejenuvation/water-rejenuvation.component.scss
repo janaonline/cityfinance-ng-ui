@@ -2,10 +2,19 @@
     padding: 5px 8px;
 }
 
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 .card {
     border: 1px #00000029;
     margin-left: 20px;
-    box-shadow: 1px 1px 1px 3px #00000029;
+    box-shadow: 1px 1px 1px 1px #00000029;
     padding: 10px 10px;
 }
 
@@ -65,21 +74,37 @@
 }
 
 .saveBtn {
-    background-color: #114551;
+    background-color: #059b9a;
     color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-pre {
+    background-color: #059b9a;
+    color: #FFFFFF;
     border-radius: 5px;
     height: 32px;
     padding-left: 2rem;
+    font-size: 12px;
     padding-right: 2rem;
 }
 
 .back {
+    width: auto;
     background-color: #cfcfcf;
     color: #ffffff;
-    border-radius: 5px;
+    border-radius: 4px;
     height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: 12px;
+    font-weight: normal;
 }
 
 .btn:hover {
@@ -107,17 +132,16 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-.falseVal{
-  border-color: red;
+.falseVal {
+    border-color: red;
 }
 
 .disabled {
-  color: gray;
-  background-color: rgb(247, 247, 247) ;
-pointer-events: none
+    color: gray;
+    background-color: rgb(247, 247, 247);
+    pointer-events: none
 }
 
-.cursor-not-allowed{
-  cursor: not-allowed;
-
+.cursor-not-allowed {
+    cursor: not-allowed;
 }

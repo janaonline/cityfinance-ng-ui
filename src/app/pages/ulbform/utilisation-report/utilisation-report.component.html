@@ -75,7 +75,7 @@
     <div class="form-group">
         <div class="card" style="background-color: #F7F7F7;">
             <div class="card-body" formGroupName="grantPosition">
-                <p style="margin-left: 5px; font-weight: 500;">15th FC Tied Grant Position during the year <span style="color: red;">*</span></p>
+                <p style="margin-left: 5px; font-weight: 500;">15th FC Tied Grant Position during the year<span style="color: red;">*</span></p>
 
                 <div class="row">
                     <div class="col-lg-6">
@@ -152,7 +152,7 @@
         <div class="card" style="background-color: #F7F7F7;">
 
             <div class="card-body" style="margin-bottom: 20px;">
-                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilization of Tied grants <span style="color: red;">*</span></p>
+                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilization of Tied grants<span style="color: red;">*</span></p>
                 <div class="table-responsive">
                     <table class="table custom-position">
                         <thead>
@@ -433,6 +433,8 @@
     <div class="card-body">
         <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
         <br>
+        <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
+        <br>
         <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
         </p>
@@ -445,7 +447,8 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">SAVE AND NEXT</button>
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">SAVE AND
+            NEXT</button>
     </div>
 </div>
 

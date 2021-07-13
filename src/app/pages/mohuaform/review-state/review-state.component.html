@@ -118,7 +118,15 @@
 
 <ng-template #template>
     <div class="modal-title">
-        <h3>Tracking</h3>
+        <div style=" display: flex; justify-content: flex-end;">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
+        </div>
+        <div>
+            <h3>Tracking</h3>
+        </div>
     </div>
     <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
         <table class="table tracking-history-table">
@@ -138,7 +146,7 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ row.status }}</td>
                     <td>
-                        {{row.time}}
+                        {{row.time | date:'medium':'IST'}}
                     </td>
                 </tr>
             </tbody>

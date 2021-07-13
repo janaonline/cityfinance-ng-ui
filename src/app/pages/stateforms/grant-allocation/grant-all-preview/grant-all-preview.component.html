@@ -31,8 +31,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-10 qus-h">
-                            (A) Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the
-                            State?
+                            (A) Do you wish to submit the detailed allocation of grants distributed amongst ULBs in the State ?
                         </div>
                         <div class="col-sm-2 qus-h m-l" *ngIf="data.answer != ''; else naDiv">
                             {{data.answer | titlecase}}
@@ -52,8 +51,7 @@
                             </div>
                         </ng-template>
 
-                        <div class=" col-sm-5 a-h text-right"
-                            *ngIf="(data.fileName !='' || data.answer == 'no') ; else nadiv ">
+                        <div class=" col-sm-5 a-h text-right" *ngIf="(data.fileName !='' || data.answer == 'no') ; else nadiv ">
                             <a href="{{data.url}} " target="_blank ">{{ data.fileName}}</a>
                         </div>
 
@@ -79,11 +77,11 @@
 
         <p style="margin-top: 8px; ">
             Are you sure you want to proceed?
-        <div>
-            <button type="button " class="btn btn-primary m-btn " (click)="stay() ">Stay</button>
-            <button type="button " class="btn btn-success m-btn " style="margin-left: 6px; " (click)="proceed() ">Save &
+            <div>
+                <button type="button " class="btn btn-primary m-btn " (click)="stay() ">Stay</button>
+                <button type="button " class="btn btn-success m-btn " style="margin-left: 6px; " (click)="proceed() ">Save &
                 Proceed</button>
-        </div>
+            </div>
 
     </div>
 </ng-template>

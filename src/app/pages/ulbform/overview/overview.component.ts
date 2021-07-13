@@ -1,33 +1,41 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Overview } from './overview.service'
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { ProfileService } from 'src/app/users/profile/service/profile.service';
-import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Overview } from "./overview.service";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { ProfileService } from "src/app/users/profile/service/profile.service";
+import { BaseComponent } from "src/app/util/BaseComponent/base_component";
+import { UlbformService } from "../ulbform.service";
+
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: "app-overview",
+  templateUrl: "./overview.component.html",
+  styleUrls: ["./overview.component.scss"],
 })
-
 export class OverviewComponent extends BaseComponent implements OnInit {
-
-  errMessage = ''
-  forms = []
-  count = 0
+  errMessage = "";
+  forms = [];
+  count = 0;
   percentage = 0;
-  status = ''
+  status = "";
   isMillionPlus;
   USER_TYPE = USER_TYPE;
   isUA;
   id = null;
-//  sessionUlbId = null;
+  //  sessionUlbId = null;
   checkPos = true;
-  constructor(private Overview: Overview,
-    public activatedRoute: ActivatedRoute) {
+  constructor(
+    private Overview: Overview,
+    public activatedRoute: ActivatedRoute,
+    public ulbformService: UlbformService
+  ) {
     super();
     this.activatedRoute.params.subscribe((val) => {
-      debugger
       const { id } = val;
       if (id) {
         this.id = id;
@@ -37,10 +45,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
         this.id = sessionStorage.getItem('row_id')
       }
     });
-
   }
-  stateName = '';
-  ulbName = '';
+  stateName = "";
+  ulbName = "";
   formValue = 0;
   factor = 0;
 
@@ -49,87 +56,88 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   noWrap = true;
   val = 0;
   cardFit = false;
-  cardsOverview = [{
-    label: "PFMS",
-    link: '../pfms_acc',
-    title: 'Linking of PFMS Account',
-    tooltip: "tooltip",
-    image: '../../../../assets//ulbform/lpa.svg',
-    permittedAccounts: [""],
-    display: ['']
-  },
-  {
-    label: "Grant Transfer Certificate",
-    link: '../grant-tra-certi',
-    title: "Grant Transfer Certificate",
-    tooltip: "tooltip",
-    image: '../../../../assets//ulbform/gtc.svg',
-    permittedAccounts: [""],
-    display: ['']
-  },
-  {
-    label: "Utilization Report",
-    link: '../utilisation-report',
-    title: "Detailed Utilization Report",
-    tooltip: "tooltip",
-    image: '../../../../assets/ulbform/dur.svg',
-    permittedAccounts: [""],
-    display: ['']
-  },
-  {
-    label: "Annual Acconts",
-    link: '../annual_acc',
-    title: "Annual Accounts",
-    tooltip: "tooltip",
-    image: '../../../../assets/ulbform/aa.svg',
-    permittedAccounts: [""],
-    display: ['']
-  },
-  {
-    label: "service-level",
-    link: '../service-level',
-    title: "Service Level Benchmarks",
-    tooltip: "tooltip",
-    image: '../../../../assets/ulbform/slb.svg',
-    permittedAccounts: [""],
-    display: ['']
-  },
-  {
-    label: "slbs",
-    link: '../slbs',
-    title: "Million Plus City Challenge Fund",
-    tooltip: "tooltip",
-    image: '../../../../assets/ulbform/mpccf.svg',
-    permittedAccounts: ["Yes"],
-    display: ["None"]
-  },
-  {
-    label: "Plan water sanitation",
-    link: '../water-sanitation',
-    title: "Plans for Water and Sanitation",
-    tooltip: "tooltip",
-    image: '../../../../assets/ulbform/plan for water and sanitation.svg',
-    permittedAccounts: ["No"],
-    display: ["None"]
-  },
-  ]
+  cardsOverview = [
+    {
+      label: "PFMS",
+      link: "../pfms_acc",
+      title: "Linking of PFMS Account",
+      tooltip: "tooltip",
+      image: "../../../../assets//ulbform/lpa.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Grant Transfer Certificate",
+      link: "../grant-tra-certi",
+      title: "Grant Transfer Certificate",
+      tooltip: "tooltip",
+      image: "../../../../assets//ulbform/gtc.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Utilization Report",
+      link: "../utilisation-report",
+      title: "Detailed Utilization Report",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/dur.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Annual Acconts",
+      link: "../annual_acc",
+      title: "Annual Accounts",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/aa.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "service-level",
+      link: "../service-level",
+      title: "Service Level Benchmarks",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/slb.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "slbs",
+      link: "../slbs",
+      title: "Million Plus City Challenge Fund",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/mpccf.svg",
+      permittedAccounts: ["Yes"],
+      display: ["None"],
+    },
+    {
+      label: "Plan water sanitation",
+      link: "../water-sanitation",
+      title: "Plans for Water and Sanitation",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+      permittedAccounts: ["No"],
+      display: ["None"],
+    },
+  ];
   width;
   row_width;
   messWidth;
-  @ViewChild('myIdentifier')
+  @ViewChild("myIdentifier")
   myIdentifier: ElementRef;
   ngAfterViewInit() {
     this.row_width = this.myIdentifier.nativeElement.offsetWidth;
     var height = this.myIdentifier.nativeElement.offsetHeight;
     this.messWidth = this.row_width - 42;
-    console.log('Width:' + this.row_width);
-    console.log('Height: ' + height);
+    console.log("Width:" + this.row_width);
+    console.log("Height: " + height);
   }
 
   public innerWidth: number;
   public onResize() {
     this.innerWidth = window.innerWidth;
-    console.log('pk agr', this.innerWidth)
+    console.log("pk agr", this.innerWidth);
     if (this.innerWidth < 1200) {
       this.itemsPerSlide = 7;
       this.cardFit = true;
@@ -137,20 +145,16 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     if (this.innerWidth > 1000) {
       // console.log('800px')
       this.itemsPerSlide = 5;
-    }
-    else if (this.innerWidth > 750) {
+    } else if (this.innerWidth > 750) {
       this.itemsPerSlide = 3;
-    }
-    else if (this.innerWidth > 600) {
+    } else if (this.innerWidth > 600) {
       this.itemsPerSlide = 2;
-    }
-    else if (this.innerWidth < 500) {
+    } else if (this.innerWidth < 500) {
       this.itemsPerSlide = 2;
-    }
-    else {
+    } else {
       this.itemsPerSlide = 5;
     }
-    console.log(this.itemsPerSlide)
+    console.log(this.itemsPerSlide);
   }
 
   async ngOnInit() {
@@ -161,20 +165,21 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   getData() {
     console.log('.......id', this.id)
     return new Promise((resolve, reject) => {
-      this.Overview.getData('606aaf854dff55e6c075d219', this.id)
-        .subscribe((res) => {
-          console.log('overviewRes', res['response']);
-          sessionStorage.setItem("masterForm", JSON.stringify(res['response']))
-       //   this.sessionUlbId = res['response']['ulb'];
+      this.Overview.getData("606aaf854dff55e6c075d219", this.id).subscribe(
+        (res) => {
+          console.log("overviewRes", res["response"]);
+          sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
+          //   this.sessionUlbId = res['response']['ulb'];
           // this.isMillionPlus = res['response']['isMillionPlus'];
           // this.isUA = res['response']['isUA'];
-          this.stateName = res['response']['stateName'];
-          this.ulbName = res['response']['ulbName'];
-          this.forms[0] = res['response']?.steps?.annualAccounts?.isSubmit
-          this.forms[1] = res['response']?.steps?.pfmsAccount?.isSubmit
-          this.forms[2] = res['response']?.steps?.plans?.isSubmit
-          this.forms[3] = res['response']?.steps?.slbForWaterSupplyAndSanitation?.isSubmit
-          this.forms[4] = res['response']?.steps?.utilReport?.isSubmit
+          this.stateName = res["response"]["stateName"];
+          this.ulbName = res["response"]["ulbName"];
+          this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
+          this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
+          this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
+          this.forms[3] =
+            res["response"]?.steps?.slbForWaterSupplyAndSanitation?.isSubmit;
+          this.forms[4] = res["response"]?.steps?.utilReport?.isSubmit;
           // switch (this.loggedInUserType) {
           //   case USER_TYPE.STATE:
           //   case USER_TYPE.PARTNER:
@@ -189,38 +194,39 @@ export class OverviewComponent extends BaseComponent implements OnInit {
               this.count = this.count + key;
             }
           }
-          resolve('Success')
+          resolve("Success");
         },
-          error => {
-            this.errMessage = error.error;
-            console.log(this.errMessage);
-            resolve('Success')
-          });
-    })
+        (error) => {
+          this.errMessage = error.error;
+          console.log(this.errMessage);
+          resolve("Success");
+        }
+      );
+    });
   }
   headertext = `The 15th Finance Commission Grants Management System
   facilitates seamless submission and flow of required information
    between Urban Local Bodies, State Governments and Ministry
-  of Housing and Urban Affairs for the purposes of availing ULB Grants between 2021-26.`
+  of Housing and Urban Affairs for the purposes of availing ULB Grants between 2021-26.`;
   numcard = 0;
   p = 60;
   position = 0;
   resourceNames = [
-    '15th Finance Commission Report',
-    'Operational Guidelines',
-    'User Manual for ULBs',
-    'Detailed Utilization Report Format',
-    'National Municipal Accounting Manual'
-  ]
+    "15th Finance Commission Report",
+    "Operational Guidelines",
+    "User Manual for ULBs",
+    "Detailed Utilization Report Format",
+    "National Municipal Accounting Manual",
+  ];
   colors = [
-    '#73C557, #3A632C',
-    '#42C9F6, #21657B',
-    '#F16831, #793419',
-    '#549D5E, #2A4F2F',
-    '#FDCB2E, #7F6617',
-    '#E71368, #740A34',
-    '#9D198B, #4F0D46',
-  ]
+    "#73C557, #3A632C",
+    "#42C9F6, #21657B",
+    "#F16831, #793419",
+    "#549D5E, #2A4F2F",
+    "#FDCB2E, #7F6617",
+    "#E71368, #740A34",
+    "#9D198B, #4F0D46",
+  ];
 
   imageUrls = [
     "../../../../assets/ulbform/overview/Picture1.png",
@@ -228,52 +234,56 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     "../../../../assets/ulbform/overview/Picture3.png",
     "../../../../assets/ulbform/overview/Picture4.png",
     "../../../../assets/ulbform/overview/Picture5.png",
-  ]
-  message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-  hover = false
-  i = 8098987
+  ];
+  message =
+    "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+  hover = false;
+  i = 8098987;
 
   public accessGrant() {
     if (this.id == null) {
-      console.log('abc', this.id)
-      let userData = JSON.parse(localStorage.getItem('userData'));
+      console.log("abc", this.id);
+      let userData = JSON.parse(localStorage.getItem("userData"));
       this.isMillionPlus = userData.isMillionPlus;
       this.isUA = userData.isUA;
-      console.log('12if', this.isMillionPlus, this.isUA)
+      console.log("12if", this.isMillionPlus, this.isUA);
     } else {
-      this.isMillionPlus = sessionStorage.getItem('isMillionPlus');
-      this.isUA = sessionStorage.getItem('isUA')
-      console.log('12elseblock', this.isMillionPlus, this.isUA)
+      this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
+      this.isUA = sessionStorage.getItem("isUA");
+      console.log("12elseblock", this.isMillionPlus, this.isUA);
     }
-    console.log('overview', this.isUA, this.isMillionPlus)
-    if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
+    console.log("overview", this.isUA, this.isMillionPlus);
+    if (this.isUA == "Yes" && this.isMillionPlus == "No") {
       this.cardsOverview = this.cardsOverview;
       this.formValue = 5;
       this.factor = 100 / this.formValue;
       this.numcard = 7;
-    }
-    else if (this.isUA == 'No' && this.isMillionPlus == 'No') {
+    } else if (this.isUA == "No" && this.isMillionPlus == "No") {
       this.formValue = 4;
       let userType = "Yes";
-      this.cardsOverview = this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
-      this.factor = 100 / (+this.formValue);
+      this.cardsOverview = this.cardsOverview.filter(
+        (item) => !item.permittedAccounts.includes(userType)
+      );
+      this.factor = 100 / +this.formValue;
       this.numcard = 6;
-      console.log('no. no', this.factor)
-    }
-    else if (this.isUA == 'No' && this.isMillionPlus == 'Yes') {
-      let userType = "None"
-      this.cardsOverview = this.cardsOverview.filter(item => !item.display.includes(userType));
+      console.log("no. no", this.factor);
+    } else if (this.isUA == "No" && this.isMillionPlus == "Yes") {
+      let userType = "None";
+      this.cardsOverview = this.cardsOverview.filter(
+        (item) => !item.display.includes(userType)
+      );
       this.formValue = 3;
       this.factor = Math.floor(100 / this.formValue);
       this.numcard = 5;
-    }
-    else if (this.isUA == 'Yes' && this.isMillionPlus == 'Yes') {
+    } else if (this.isUA == "Yes" && this.isMillionPlus == "Yes") {
       this.formValue = 4;
       let userType = "No";
-      this.cardsOverview = this.cardsOverview.filter(item => !item.permittedAccounts.includes(userType))
-      this.factor = 100 / (+this.formValue);
+      this.cardsOverview = this.cardsOverview.filter(
+        (item) => !item.permittedAccounts.includes(userType)
+      );
+      this.factor = 100 / +this.formValue;
       this.numcard = 6;
-      console.log('no. no', this.factor)
+      console.log("no. no", this.factor);
     }
     // else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
     //   this.cardsOverview = this.cardsOverview;
@@ -282,7 +292,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     //   this.numcard = 7;
 
     //}
-    this.width = (this.row_width / this.numcard) - 8;
+    this.width = this.row_width / this.numcard - 8;
     this.percentage = this.count * this.factor;
     console.log('ppercent', typeof(this.percentage));
 
@@ -302,32 +312,37 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     let eligibleForms = [];
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
-      if (element.label != 'Grant Transfer Certificate') {
-        if (element.label != 'service-level') {
-          eligibleForms.push(element.label)
-          console.log(element.label)
-          if (element.label != 'PFMS') {
-            eligibleActionForms.push(element.label)
+      if (element.label != "Grant Transfer Certificate") {
+        if (element.label != "service-level") {
+          eligibleForms.push(element.label);
+          console.log(element.label);
+          if (element.label != "PFMS") {
+            eligibleActionForms.push(element.label);
           }
         }
       }
-    })
-    sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms))
-    sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms))
+    });
+
+    sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms));
+    sessionStorage.setItem(
+      "eligibleActionForms",
+      JSON.stringify(eligibleActionForms)
+    );
+    this.ulbformService.setForms.next(true);
   }
   // storeUlbId() {
   //   sessionStorage.setItem('ulb_id', this.sessionUlbId);
   //   console.log('ulb_id', this.sessionUlbId)
   // }
   onUnhover(num) {
-    this.hover = false
+    this.hover = false;
     this.val = num;
-    console.log('val', this.val, num)
+    console.log("val", this.val, num);
   }
 
-  onHover(num) {
-    console.log('index-num', num);
-    if (num == 0) {
+  onHover(num, title) {
+    console.log('index-num', num, title);
+    if (title == 'Linking of PFMS Account') {
       //   this.p = (num+1)*80;
       this.val = 0;
       this.hover = true;
@@ -337,69 +352,73 @@ export class OverviewComponent extends BaseComponent implements OnInit {
        before 1 April 2021`;
       this.checkPos = true;
     }
-    if (num == 1) {
+    if (title == 'Grant Transfer Certificate') {
       //  this.p = (num+1)*135;
       this.val = 1;
       this.hover = true;
       this.i = 2;
       // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
-     this.message = `State Governments to furnish Grant Transfer Certificate
-     for the previous installment of grants in the prescribed format.`
+      this.message = `State Governments to furnish Grant Transfer Certificate
+     for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
-    if (num == 2) {
+    if (title == "Detailed Utilization Report") {
       //  this.p = (num+2)*120;
       this.val = 2;
       this.hover = true;
       this.i = 3;
-     // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-     this.message =`ULBs are mandated to furnish Detailed Utilization Report as per
-      prescribed format for the previous installments of 15th FC grants`
-     this.checkPos = true;
+      // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
+      this.message = `ULBs are mandated to furnish Detailed Utilization Report as per
+      prescribed format for the previous installments of 15th FC grants`;
+      this.checkPos = true;
     }
-    if (num == 3) {
+    if (title == 'Annual Accounts') {
       //  this.p = (num+3)*112;
       this.val = 3;
       this.hover = true;
       this.i = 4;
-   //  this.message = "ULBs to upload provisional annual accounts for
-   //    previous year and audited annual accounts for year previous year w.r.t. award year."
-   this.message = `ULBs to upload Provisional Annual Accounts for previous year
-    and Audited Annual Accounts for year before previous year with respect to the award year.`
+      //  this.message = "ULBs to upload provisional annual accounts for
+      //    previous year and audited annual accounts for year previous year w.r.t. award year."
+      this.message = `ULBs to upload Provisional Annual Accounts for previous year
+    and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
-    if (num == 4) {
+    if (title == 'Service Level Benchmarks') {
       //  this.p = (num+3)*125;
       this.val = 4;
       this.hover = true;
       this.i = 5;
-    //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-     this.message =`ULBs to publish 28 Service Level Benchmarks pertaining to
-      Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`
-    this.checkPos = true;
-
+      //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+      this.message = `ULBs to publish 28 Service Level Benchmarks pertaining to
+      Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`;
+      this.checkPos = true;
     }
-    if (num == 5) {
+    if (title == 'Million Plus City Challenge Fund') {
       // this.p = (num+3)*125;
       this.val = 5;
       this.hover = true;
       this.i = 6;
-   //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-   this.message = `Non-Million Plus Cities to select 1 Project for Water
-   and 1 Project for Sanitation with clear functional outcomes`
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      this.message = `Million-plus Urban Agglomerations (UA) to meet performance criteria in addition to entry level conditions. State and UA to sign Memorandum of Understanding with Ministry of
+      Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
       this.checkPos = true;
     }
-    if (num == 6) {
+    if (title == 'Plans for Water and Sanitation') {
       //  this.p = (num+3)*120;
-      this.val = 6;
+
       this.hover = true;
-      this.i = 7;
-    //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-      this.message = `Million-plus Urban Agglomerations (UA) to meet performance criteria in addition to entry level conditions. State and UA to sign Memorandum of Understanding with Ministry of
-      Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`
-    this.checkPos = true;
+      if(num == 5){
+         this.i = 6;
+         this.val = 5;
+      }
+      else{
+        this.i = 7;
+        this.val = 6;
+      }
+      //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+      this.message = `Non-Million Plus Cities to select 1 Project for Water
+   and 1 Project for Sanitation with clear functional outcomes`;
+      this.checkPos = true;
     }
   }
-
-
 }

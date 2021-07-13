@@ -1,5 +1,15 @@
 <div class="row" style="margin-bottom: 1rem;">
-    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+        <h4 class="form-header">
+            Indicator for Water Supply and Sanitation
+        </h4>
+    </div>
+    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
+        <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
+    </div>
+</div>
+<div class="row">
+    <!-- <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
         <h5 style="margin: 0;">Name of State: <span *ngIf="
           states &&
           (loggedInUserType === userTypes.STATE ||
@@ -7,27 +17,29 @@
         ">
                 {{ states[userLoggedInDetails["state"]]?.name }}
             </span></h5>
-    </div>
+    </div> -->
+
 
     <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
         <p>The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
     </div>
-    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
+    <!-- <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
         <button type="button" class="btn  btn-pre" (click)="onPreview()">PREVIEW</button>
-    </div>
+    </div> -->
 </div>
-<div *ngFor="let uaDetails of detailsOfUa; let i=index">
+<div class="row" *ngFor="let uaDetails of detailsOfUa; let i=index" style="margin: 0; padding: 15px 10px;
+ box-shadow: 1px 1px 1px 2px #00000029;">
 
     <div class="row">
-        <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9">
+        <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9" style="margin: 0; padding-top: 6px;">
             <h5 style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}}</h5>
         </div>
         <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right">
-            <button type="button" class="btn btn-next" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
+            <button type="button" class="btn" style="height: 2pc;" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
             </button>
         </div>
     </div>
-    <hr>
+    <!-- <hr> -->
     <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses(i)" (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded()">
         <div class="row" style="margin: 10px 0 0 0;">
             <div class="card">
@@ -188,165 +200,12 @@
 
 
 
-<!-- <div *ngFor="let uaDetails of detailsOfUa; let i=index">
-    <div class="row">
-        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-            <h5 style="margin: 0;">UA{{i+1}}: {{uaDetails.uaName}}</h5>
-        </div>
-    </div>
-    <div class="row" style="margin: 10px 0 0 0;">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
-                        <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">Total Number of ULBs in UA</h6>
-                        <h6 style="display: inline-flex;"> {{uaDetails.data.totalULBsInUA}}</h6>
-                    </div>
-                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
-                        <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
-                        <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.data.totalCompletedUlb}}</h6>
-                    </div>
-                    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
-                        <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval</h6>
-                        <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.data.totalPendingUlb}}</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow">
-        <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%">
-            <thead>
-                <th scope="col">Service Level Indicators</th>
-                <th scope="col">Benchmark</th>
-                <th scope="col">
-                    Actual Figures<br /> 2020-21
-                </th>
-
-                <th *ngFor="let column of targets" scope="col">
-                    <span [innerHTML]="column.name"></span>
-                </th>
-            </thead>
-
-            <tbody>
-                <tr *ngIf="services[0] as service">
-                    <td>
-                        <span class="service-name">{{ service.name }}
-                <span  class="mandatory">*</span></span>
-                    </td>
-                    <td>
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
-                    </td>
-                    <td>
-                        <div class="input-group data-input">
-
-                            <input type="text" disabled [value]="uaDetails.data.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
-                            <span class="input-group-addon"><em class="glyphicon">
-                          {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                        </em></span>
-                        </div>
-                    </td>
-                    <td *ngFor="let year of targets">
-
-                        <div class="input-group data-input">
-                            <input type="text" disabled [value]="uaDetails.data.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                      {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-                    </em></span>
-                        </div>
-
-                    </td>
-                </tr>
-                <tr *ngIf="services[1] as service ">
-                    <td>
-                        <span class="service-name ">{{ service.name }}
-              <span  class="mandatory ">*</span></span>
-                    </td>
-                    <td>
-                        <span class="benchamark-cell ">{{ service.benchmark }}</span>
-                    </td>
-                    <td>
-                        <div class="input-group data-input ">
-                            <input type="text" disabled [value]="uaDetails.data.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-                      </em></span>
-                        </div>
-                    </td>
-                    <td *ngFor="let year of targets ">
-                        <div class="input-group data-input ">
-                            <input type="text " disabled [value]="uaDetails.data.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                    {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-                  </em></span>
-                        </div>
-
-                    </td>
-                </tr>
-                <tr *ngIf="services[2] as service ">
-                    <td>
-                        <span class="service-name ">{{ service.name }}
-            <span  class="mandatory ">*</span></span>
-                    </td>
-                    <td>
-                        <span class="benchamark-cell">{{ service.benchmark }}</span>
-                    </td>
-                    <td>
-                        <div class="input-group data-input ">
-                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                      {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-                    </em></span>
-                        </div>
-                    </td>
-                    <td *ngFor="let year of targets ">
-                        <div class="input-group data-input ">
-                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                  {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-                </em></span>
-                        </div>
-
-                    </td>
-                </tr>
-                <tr *ngIf="services[3] as service ">
-                    <td>
-                        <span class="service-name ">{{ service.name }}
-          <span  class="mandatory ">*</span></span>
-                    </td>
-                    <td>
-                        <span class="benchamark-cell ">{{ service.benchmark }}</span>
-                    </td>
-                    <td>
-                        <div class="input-group data-input ">
-                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                    {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-                  </em></span>
-                        </div>
-                    </td>
-                    <td *ngFor="let year of targets ">
-                        <div class="input-group data-input ">
-                            <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
-                            <span class="input-group-addon "><em class="glyphicon ">
-                {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
-              </em></span>
-                        </div>
-
-                    </td>
-                </tr>
-
-
-            </tbody>
-        </table>
-    </div>
-</div> -->
-<div class="row " style="margin-left: 0; margin-right: 0; margin-bottom: 2rem; ">
+<div class="row " style="margin-top: 2rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6 ">
-        <button type="button " class="btn btn-back" [routerLink]="[ '../gtCertificate']">BACK</button>
+        <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right ">
-        <button type="button " class="btn btn-next" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
+        <button type="button " class="btn saveBtn" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
     </div>
 </div>
 

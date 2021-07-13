@@ -184,7 +184,7 @@
             <h3>Tracking</h3>
         </div>
     </div>
-    <div *ngIf="historyData" class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
         <table class="table tracking-history-table">
             <thead>
                 <tr>
@@ -197,10 +197,12 @@
             <tbody>
                 <tr *ngFor="let row of historyData; let i = index">
                     <td class="text-center">
-                        <em *ngIf="row['status'] === 'Approved by MoHUA'" class="fa fa-check-circle text-success"></em>
+                        <em *ngIf="row['status'] == 'Approved By MoHUA'" class="fa fa-check-circle text-success"></em>
                     </td>
                     <td>{{ i + 1 }}</td>
-                    <td>{{ row.status }}</td>
+                    <td>
+                        <div >{{ row.status }}</div>
+                    </td>
                     <td>
                         {{row.time | date:'medium':'IST' }}
                     </td>
@@ -208,7 +210,6 @@
             </tbody>
         </table>
     </div>
-    <div class="text-center" *ngIf="historyData == null">
-        <h3>No History Available</h3>
-    </div>
+    <div *ngIf="!historyData" class="text-center alert" style="color: red;">No Data Found!</div>
+
 </ng-template>

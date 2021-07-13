@@ -1,15 +1,13 @@
 <!-- <div (window:resize)="onResize($event)"></div> -->
-<h4 style="font-size: 22px; text-align: center; font-weight: 600; margin-top: 0;">
+<h4 style="font-size: 20px; text-align: center; font-weight: 500; margin-top: 0;">
+
+    <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
+      <span *ngIf="loggedInUserType === USER_TYPE.STATE">ULB: </span>{{ulbName}}</span>
     <span *ngIf="loggedInUserType === USER_TYPE.ADMIN ||
   loggedInUserType === USER_TYPE.MoHUA ||
-  loggedInUserType === USER_TYPE.PARTNER">
-    State: {{stateName}}
-  </span><br *ngIf="loggedInUserType === USER_TYPE.ADMIN ||
-  loggedInUserType === USER_TYPE.MoHUA ||
-  loggedInUserType === USER_TYPE.PARTNER">
-    <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
-    ULB: {{ulbName}}
-  </span>
+  loggedInUserType === USER_TYPE.PARTNER">,{{stateName}}
+    </span>
+
 </h4>
 <!-- <div class="row">
     <div class="col-sm-6">
@@ -19,15 +17,15 @@
     loggedInUserType === USER_TYPE.PARTNER">
       State: {{stateName}}
     </span>
-        </h4>
-    </div>
-    <div class="col-sm-6" style="padding-left: 0;">
-        <h4 style="font-size: 22px; text-align: right; font-weight: 600; margin-top: 0;">
-            <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
+</h4>
+</div>
+<div class="col-sm-6" style="padding-left: 0;">
+    <h4 style="font-size: 22px; text-align: right; font-weight: 600; margin-top: 0;">
+        <span *ngIf="loggedInUserType !== USER_TYPE.ULB">
       ULB: {{ulbName}}
     </span>
-        </h4>
-    </div>
+    </h4>
+</div>
 </div> -->
 <div class="container-fluid">
     <div class="row header1">
@@ -59,7 +57,7 @@
                     <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="singleSlideOffset" [interval]="false" [showIndicators]="false">
                         <slide *ngFor="let slide of cardsOverview; let index=index">
                             <a routerLink="{{slide['link']}}">
-                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
       index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
       'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
       index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -68,7 +66,7 @@
                                     <img [src]="slide.image" height="22" width="27" />
                                     <div class="card-body">
 
-                                        <h5 class="card-title"> {{slide['title']}} </h5>
+                                        <h5 class="card-title"> {{slide['title']}}</h5>
 
                                     </div>
                                 </div>
@@ -94,7 +92,7 @@
                             <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
                             <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
                             <a routerLink="{{slide['link']}}">
-                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
 index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
 'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
 index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -198,7 +196,9 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
         </div>
 
         <div class="col-sm-12" [ngStyle]="{'width': messWidth +'px'}">
-            <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)': i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ? 'linear-gradient(#549D5E, #2A4F2F)' : i==5?
+            <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)':
+            i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ?
+            'linear-gradient(#549D5E, #2A4F2F)' : i==5?
             'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
                 {{message}}
             </div>

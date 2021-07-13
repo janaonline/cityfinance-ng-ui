@@ -35,8 +35,8 @@ export class UlbformComponent implements OnInit {
   requiredActionStatus = {};
   currentActionStatus = {};
   takeStateAction;
-  toolTipContentC = ''
-  toolTipContentN = ''
+  toolTipContentC = "";
+  toolTipContentN = "";
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -56,7 +56,9 @@ export class UlbformComponent implements OnInit {
       }
     });
     this.subscribeStatus();
-
+    this.ulbformService.setForms.subscribe((value) => {
+      this.ulbformService.allStatus.next(this.allStatus);
+    });
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.accessGrant();
     this.initializeUserType();
@@ -66,24 +68,26 @@ export class UlbformComponent implements OnInit {
       case USER_TYPE.ULB:
         this.backHeader = "15FC Grants for 2021-22";
         this.backLink = "../fc-home-page";
-        this.toolTipContentC = 'Completed'
-        this.toolTipContentN = 'Not Completed'
+        this.toolTipContentC = "Completed";
+        this.toolTipContentN = "Not Completed";
         break;
       case USER_TYPE.STATE:
         this.backHeader = "State Dashboard";
         this.backLink = "../stateform/dashboard";
-        this.toolTipContentC = 'Reviewed'
-        this.toolTipContentN = 'Not Reviewed'
+        this.toolTipContentC = "Reviewed";
+        this.toolTipContentN = "Not Reviewed";
         break;
       case USER_TYPE.MoHUA:
         this.backHeader = "MoHUA Dashboard";
         this.backLink = "../mohua/dashboard";
-        this.toolTipContentC = 'Reviewed'
-        this.toolTipContentN = 'Not Reviewed'
+        this.toolTipContentC = "Reviewed";
+        this.toolTipContentN = "Not Reviewed";
         break;
       case USER_TYPE.ADMIN:
         this.backHeader = "Admin Dashboard";
         this.backLink = "../ulbAdmin";
+        this.toolTipContentC = "Completed";
+        this.toolTipContentN = "Not Completed";
         break;
       //case USER_TYPE.PARTNER:
     }
@@ -120,7 +124,7 @@ export class UlbformComponent implements OnInit {
   subscribeStatus() {
     this.ulbformService.allStatus.subscribe((status) => {
       this.checkGreenRedTick(status);
-      sessionStorage.setItem("allStatus", JSON.stringify(this.allStatus));
+      sessionStorage.setItem("allStatus", JSON.stringify(status));
       console.log("red this", this.allStatus);
       if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
@@ -134,16 +138,12 @@ export class UlbformComponent implements OnInit {
       sessionStorage.getItem("eligibleActionForms")
     );
 
-    // if (
-    //   this.userLoggedInDetails.role == this.userTypes.MoHUA &&
-    //   this.lastRoleInMasterForm != this.userTypes.MoHUA
-    // ) {
-    //   for (const key in status) {
-    //     this.allStatus[key] = status[key];
-    //     this.allStatus[key].isSubmit = false;
-    //   }
-    //   return;
-    // }
+    if (eligibleActionForms == null) {
+      for (const key in status) {
+        this.allStatus[key] = status[key];
+      }
+      return;
+    }
 
     for (const key in status) {
       this.allStatus[key] = status[key];
@@ -254,6 +254,11 @@ export class UlbformComponent implements OnInit {
     let eligibleActionForms = JSON.parse(
       sessionStorage.getItem("eligibleActionForms")
     );
+
+    if (eligibleActionForms == null) {
+      return;
+    }
+
     console.log("dcfe fvf", eligibleActionForms, this.allStatus);
     this.finalActionDis = true;
     eligibleActionForms.forEach((element) => {
@@ -399,6 +404,9 @@ export class UlbformComponent implements OnInit {
     this.validate = true;
     let requiredStatus = {};
     //checking the status of each form
+    if (eligibleForms == null) {
+      return;
+    }
     eligibleForms.forEach((element) => {
       for (let key in this.allStatus) {
         if (element === "PFMS" && key === "pfmsAccount") {

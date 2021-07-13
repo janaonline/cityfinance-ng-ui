@@ -17,7 +17,7 @@
             <div class="card-body ">
                 <div class="table-responsive">
                     <div>
-                        <h4 style="font-weight: 500; font-size: 16px;">(A) Details of Proposed Project to Improve Service Level Indicators related to Water Supply <span style="color: red;">*</span>
+                        <h4 style="font-weight: 500; font-size: 16px;">(A) Details of Proposed Project to Improve Service Level Indicators related to Water Supply<span style="color: red;">*</span>
                         </h4>
                     </div>
                     <table class="table custom-position">
@@ -69,7 +69,7 @@
                         </tbody>
                     </table>
                     <div>
-                        <h4 style="font-weight: 500; font-size: 16px;">(B) Details of Proposed Project to Improve Service Level Indicators related to Sanitation <span style="color: red;">*</span>
+                        <h4 style="font-weight: 500; font-size: 16px;">(B) Details of Proposed Project to Improve Service Level Indicators related to Sanitation<span style="color: red;">*</span>
                         </h4>
                     </div>
                     <table class="table custom-position">
@@ -125,14 +125,15 @@
         <!--  -->
         <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="(loggedInUserType != USER_TYPE.ULB && (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
             <div class="card-body">
-                <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResW'> </app-state-action-ulb>
+                <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResW'>
+                </app-state-action-ulb>
             </div>
         </div>
         <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="
              (loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true')">
             <div class="card-body">
                 <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
-
+                <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
                 <p *ngIf="ulbFormStaus == 'REJECTED'">
                     <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
                 </p>
