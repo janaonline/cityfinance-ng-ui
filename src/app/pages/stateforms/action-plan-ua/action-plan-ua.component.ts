@@ -253,7 +253,8 @@ export class ActionPlanUAComponent implements OnInit {
           sessionStorage.setItem("changeInActionPlans", "false");
           const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
           form.steps.actionPlans.isSubmit = !this.data.isDraft;
-          console.log(form);
+          form.steps.actionPlans.status = 'PENDING';
+          form.actionTakenByRole = 'STATE';
           this.stateformsService.allStatusStateForms.next(form);
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
@@ -286,6 +287,8 @@ export class ActionPlanUAComponent implements OnInit {
         );
         // status.steps.actionPlans.status = this.body["status"];
         status.steps.actionPlans.isSubmit = true;
+        status.steps.actionPlans.status = this.finalActionData['status'];
+        status.actionTakenByRole = 'MoHUA'
         this.stateformsService.allStatusStateForms.next(status);
         sessionStorage.setItem("changeInActionPlans", "false")
         this._router.navigate(["stateform/grant-allocation"]);
@@ -411,6 +414,14 @@ export class ActionPlanUAComponent implements OnInit {
       if (el.ua == ua_id) {
         el["status"] = ev.status;
         el["rejectReason"] = ev.rejectReason;
+      }
+    });
+
+    this.finalActionData.uaData.forEach(element => {
+      if (element['status'] === 'REJECTED') {
+        this.finalActionData['status'] = 'REJECTED'
+      } else {
+        this.finalActionData['status'] = 'APPROVED'
       }
     });
     console.log("after", this.finalActionData);
