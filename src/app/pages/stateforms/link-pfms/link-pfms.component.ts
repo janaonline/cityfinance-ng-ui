@@ -153,7 +153,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
         status.steps.linkPFMS.status = this.body['status'];
-        status.steps.linkPFMS.isSubmit = true;
+        status.steps.linkPFMS.isSubmit = !this.body['isDraft'];
+        status.actionTakenByRole = 'MoHUA'
         this.stateformsService.allStatusStateForms.next(status);
         sessionStorage.setItem("changeInPFMSAccountState", "false")
         this._router.navigate(["stateform/water-supply"]);
@@ -172,6 +173,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         console.log(res);
         const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
         form.steps.linkPFMS.isSubmit = !this.data.isDraft;
+        form.steps.linkPFMS.status = 'PENDING';
+        form.actionTakenByRole = 'STATE'
         console.log(form);
         this.stateformsService.allStatusStateForms.next(form);
         swal("Record submitted successfully!");

@@ -138,6 +138,7 @@ export class StateformsComponent implements OnInit {
       this.allStatusStateForms = res;
       if (this.userLoggedInDetails.role === USER_TYPE.STATE || this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
         this.checkValidationStatusOfAllForms();
+        console.log(this.validate)
       }
       this.reviewSubmitted = false;
       if (this.allStatusStateForms['latestFinalResponse']['role'] === "MoHUA") {
@@ -150,22 +151,33 @@ export class StateformsComponent implements OnInit {
       if (res['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "STATE") {
         console.log('1')
         if (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE") {
-          if (res['steps']['linkPFMS']['isSubmit']) {
+          console.log('inside state mohua')
+          if ((res['steps']['linkPFMS']['isSubmit']
+            && res['steps']['linkPFMS']['status'] === 'PENDING')
+            || (res['steps']['linkPFMS']['status'] === 'APPROVED')) {
             this.pfms_greenTick = true;
           } else {
             this.pfms_greenTick = false;
           }
-          if (res['steps']['GTCertificate']['isSubmit']) {
+          if ((res['steps']['GTCertificate']['isSubmit'] &&
+            res['steps']['GTCertificate']['status'] === 'PENDING')
+            || (res['steps']['GTCertificate']['status'] === 'APPROVED')) {
             this.gtc_greenTick = true;
           } else {
             this.gtc_greenTick = false;
           }
-          if (res['steps']['waterRejuventation']['isSubmit']) {
+          if ((res['steps']['waterRejuventation']['isSubmit'] &&
+            res['steps']['waterRejuventation']['status'] === 'PENDING')
+            || (res['steps']['waterRejuventation']['status'] === 'APPROVED')) {
+            console.log('green tick')
             this.wr_greenTick = true;
-          } {
+          } else {
+
             this.wr_greenTick = false;
           }
-          if (res['steps']['actionPlans']['isSubmit']) {
+          if ((res['steps']['actionPlans']['isSubmit'] &&
+            res['steps']['actionPlans']['status'] === 'PENDING')
+            || (res['steps']['actionPlans']['status'] === 'APPROVED')) {
             this.ap_greenTick = true;
           } else {
             this.ap_greenTick = false;
@@ -232,16 +244,24 @@ export class StateformsComponent implements OnInit {
         console.log('2')
         if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "STATE")
           || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA")) {
-          if (res['steps']['linkPFMS']['isSubmit']) {
+          if (res['steps']['linkPFMS']['status'] === 'PENDING') {
+            this.pfms_greenTick = false;
+          } else {
             this.pfms_greenTick = true;
           }
-          if (res['steps']['GTCertificate']['isSubmit']) {
+          if (res['steps']['GTCertificate']['status'] === 'PENDING') {
+            this.gtc_greenTick = false;
+          } else {
             this.gtc_greenTick = true;
           }
-          if (res['steps']['waterRejuventation']['isSubmit']) {
+          if (res['steps']['waterRejuventation']['status'] === 'PENDING') {
+            this.wr_greenTick = false;
+          } else {
             this.wr_greenTick = true;
           }
-          if (res['steps']['actionPlans']['isSubmit']) {
+          if (res['steps']['actionPlans']['status'] === 'PENDING') {
+            this.ap_greenTick = false;
+          } else {
             this.ap_greenTick = true;
           }
           if (res['steps']['grantAllocation']['isSubmit']) {
@@ -423,9 +443,31 @@ export class StateformsComponent implements OnInit {
   }
   validate = true
   checkValidationStatusOfAllForms() {
+
     this.validate = true;
-    let requiredStatus = {};
-    console.log(this.allStatusStateForms['steps'])
+    let requiredStatus = {
+      "GTCertificate": {
+        "isSubmit": false,
+        "status": ''
+      },
+      "actionPlans": {
+        "isSubmit": false,
+        "status": ''
+      },
+      "grantAllocation": {
+        "isSubmit": false
+      },
+      "linkPFMS": {
+        "isSubmit": false,
+        "status": ''
+      },
+      "waterRejuventation": {
+        "isSubmit": false,
+        "status": ''
+      },
+
+
+    };
     console.log(this.allStatusStateForms['steps'])
     for (let key in this.allStatusStateForms['steps']) {
       if (key === "GTCertificate") {
@@ -434,44 +476,63 @@ export class StateformsComponent implements OnInit {
           this.validate = false;
           return;
         }
-        requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['isSubmit'] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['status'] = this.allStatusStateForms['steps'][key]["status"];
       } else if (key === "actionPlans") {
         let change = sessionStorage.getItem("changeInActionPlans");
         if (change && change === "true") {
           this.validate = false;
           return;
         }
-        requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['isSubmit'] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['status'] = this.allStatusStateForms['steps'][key]["status"];
       } else if (key === "grantAllocation") {
         let change = sessionStorage.getItem("ChangeInGrantAllocation");
         if (change && change === "true") {
           this.validate = false;
           return;
         }
-        requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['isSubmit'] = this.allStatusStateForms['steps'][key]["isSubmit"];
       } else if (key === "linkPFMS") {
         let change = sessionStorage.getItem("changeInPFMSAccount");
         if (change && change === "true") {
           this.validate = false;
           return;
         }
-        requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['isSubmit'] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['status'] = this.allStatusStateForms['steps'][key]["status"];
       } else if (key === "waterRejuventation") {
         let change = sessionStorage.getItem("changeInWaterRejenuvation");
         if (change && change === "true") {
           this.validate = false;
           return;
         }
-        requiredStatus[key] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['isSubmit'] = this.allStatusStateForms['steps'][key]["isSubmit"];
+        requiredStatus[key]['status'] = this.allStatusStateForms['steps'][key]["status"];
       }
     }
-
+    console.log(requiredStatus)
     for (let key in requiredStatus) {
-      if (!requiredStatus[key]) {
+      if (key == 'grantAllocation' && !requiredStatus[key]['isSubmit']) {
         this.validate = false;
+        return
       }
+      if (this.userLoggedInDetails.role === "STATE") {
+        if (!(requiredStatus[key]['isSubmit'] && (requiredStatus[key]['status'] === 'PENDING' || requiredStatus[key]['status'] === 'APPROVED')) && key != 'grantAllocation') {
+          this.validate = false;
+          return;
+        }
+      } else if (this.userLoggedInDetails.role === "MoHUA") {
+        if (!(requiredStatus[key]['isSubmit'] && (requiredStatus[key]['status'] != 'PENDING' || requiredStatus[key]['status'] === 'APPROVED')) && key != 'grantAllocation') {
+          this.validate = false;
+          return;
+        }
+      }
+
     }
     console.log(this.validate)
+
+
   }
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {

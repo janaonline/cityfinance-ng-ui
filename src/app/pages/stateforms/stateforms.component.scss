@@ -37,8 +37,8 @@ div.active {
     filter: invert(1);
 }
 
-.mat-icon {
-    color: red;
+.material-icons {
+    vertical-align: middle;
 }
 
 .link-div:hover {
@@ -108,6 +108,7 @@ div.active {
     margin-bottom: 20px;
     margin-top: 30px;
 }
+
 .mat-icon {
     width: 20px;
     height: 0px;
@@ -118,7 +119,7 @@ div.active {
 }
 
 .pull-right {
-    margin-top:9px;
+    margin-top: 9px;
     width: 18px;
     margin-right: .5rem;
 }

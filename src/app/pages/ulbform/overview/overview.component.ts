@@ -340,9 +340,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log("val", this.val, num);
   }
 
-  onHover(num) {
-    console.log('index-num', num);
-    if (num == 0) {
+  onHover(num, title) {
+    console.log('index-num', num, title);
+    if (title == 'Linking of PFMS Account') {
       //   this.p = (num+1)*80;
       this.val = 0;
       this.hover = true;
@@ -352,7 +352,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
        before 1 April 2021`;
       this.checkPos = true;
     }
-    if (num == 1) {
+    if (title == 'Grant Transfer Certificate') {
       //  this.p = (num+1)*135;
       this.val = 1;
       this.hover = true;
@@ -362,7 +362,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
      for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
-    if (num == 2) {
+    if (title == "Detailed Utilization Report") {
       //  this.p = (num+2)*120;
       this.val = 2;
       this.hover = true;
@@ -372,7 +372,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       prescribed format for the previous installments of 15th FC grants`;
       this.checkPos = true;
     }
-    if (num == 3) {
+    if (title == 'Annual Accounts') {
       //  this.p = (num+3)*112;
       this.val = 3;
       this.hover = true;
@@ -383,7 +383,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
-    if (num == 4) {
+    if (title == 'Service Level Benchmarks') {
       //  this.p = (num+3)*125;
       this.val = 4;
       this.hover = true;
@@ -393,24 +393,31 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`;
       this.checkPos = true;
     }
-    if (num == 5) {
+    if (title == 'Million Plus City Challenge Fund') {
       // this.p = (num+3)*125;
       this.val = 5;
       this.hover = true;
       this.i = 6;
       //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
-      this.message = `Non-Million Plus Cities to select 1 Project for Water
-   and 1 Project for Sanitation with clear functional outcomes`;
-      this.checkPos = true;
-    }
-    if (num == 6) {
-      //  this.p = (num+3)*120;
-      this.val = 6;
-      this.hover = true;
-      this.i = 7;
-      //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
       this.message = `Million-plus Urban Agglomerations (UA) to meet performance criteria in addition to entry level conditions. State and UA to sign Memorandum of Understanding with Ministry of
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
+      this.checkPos = true;
+    }
+    if (title == 'Plans for Water and Sanitation') {
+      //  this.p = (num+3)*120;
+
+      this.hover = true;
+      if(num == 5){
+         this.i = 6;
+         this.val = 5;
+      }
+      else{
+        this.i = 7;
+        this.val = 6;
+      }
+      //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+      this.message = `Non-Million Plus Cities to select 1 Project for Water
+   and 1 Project for Sanitation with clear functional outcomes`;
       this.checkPos = true;
     }
   }
