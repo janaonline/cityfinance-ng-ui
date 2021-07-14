@@ -126,20 +126,20 @@ export class StateformsComponent implements OnInit {
   ngOnInit(): void {
     this.submitted = false;
     this.checkValidationStatusOfAllForms();
-    sessionStorage.setItem("StateFormFinalSubmitByState", "false")
-    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
-      if (role === "STATE") {
-        sessionStorage.setItem("StateFormFinalSubmitByState", "true")
+
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((flag) => {
+      if (flag) {
+        // sessionStorage.setItem("disableAllForms")
       }
     })
     this.stateformsService.allStatusStateForms.subscribe((res) => {
       console.log('triggered')
 
       this.allStatusStateForms = res;
-      if (this.userLoggedInDetails.role === USER_TYPE.STATE || this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
-        this.checkValidationStatusOfAllForms();
-        console.log(this.validate)
-      }
+
+      this.checkValidationStatusOfAllForms();
+      console.log(this.validate)
+
       this.reviewSubmitted = false;
       if (this.allStatusStateForms['latestFinalResponse']['role'] === "MoHUA") {
         this.reviewSubmitted = true;
@@ -416,8 +416,6 @@ export class StateformsComponent implements OnInit {
       this.stateformsService.finalReviewSubmitByMoHUA(data, this.id).subscribe(
         (res) => {
           this.validate = false;
-          this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.actionTakenByRole)
-          sessionStorage.setItem("StateFormFinalSubmitByState", "true")
           swal(
             "Forms Successfully Submitted by MoHUA"
           );
@@ -494,7 +492,7 @@ export class StateformsComponent implements OnInit {
         }
         requiredStatus[key]['isSubmit'] = this.allStatusStateForms['steps'][key]["isSubmit"];
       } else if (key === "linkPFMS") {
-        let change = sessionStorage.getItem("changeInPFMSAccount");
+        let change = sessionStorage.getItem("changeInPFMSAccountState");
         if (change && change === "true") {
           this.validate = false;
           return;
@@ -517,22 +515,18 @@ export class StateformsComponent implements OnInit {
         this.validate = false;
         return
       }
-      if (this.userLoggedInDetails.role === "STATE") {
-        if (!(requiredStatus[key]['isSubmit'] && (requiredStatus[key]['status'] === 'PENDING' || requiredStatus[key]['status'] === 'APPROVED')) && key != 'grantAllocation') {
+      if (this.userLoggedInDetails.role === "STATE" && key != 'grantAllocation') {
+        if (!(requiredStatus[key]['isSubmit'] && (requiredStatus[key]['status'] === 'PENDING' || requiredStatus[key]['status'] === 'APPROVED'))) {
           this.validate = false;
           return;
         }
-      } else if (this.userLoggedInDetails.role === "MoHUA") {
-        if (!(requiredStatus[key]['isSubmit'] && (requiredStatus[key]['status'] != 'PENDING' || requiredStatus[key]['status'] === 'APPROVED')) && key != 'grantAllocation') {
+      } else if (this.userLoggedInDetails.role === "MoHUA" && key != 'grantAllocation') {
+        if (!(requiredStatus[key]['isSubmit'] && (requiredStatus[key]['status'] != 'PENDING' || requiredStatus[key]['status'] === 'APPROVED'))) {
           this.validate = false;
           return;
         }
       }
-
     }
-    console.log(this.validate)
-
-
   }
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
@@ -559,8 +553,8 @@ export class StateformsComponent implements OnInit {
         (res) => {
           console.log(res);
           this.submitted = true;
-          this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.actionTakenByRole)
-          sessionStorage.setItem("StateFormFinalSubmitByState", "true")
+          this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(data.isSubmit)
+
           swal(
             "Forms Successfully Submitted by State "
           );

@@ -30,16 +30,17 @@
                             <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                 <label for="cin">
                                     <a class="btn btnUpload" (click)="uploadButtonClicked()"
-                                        [ngClass]="{'anDisable': isDisabled }">Upload Pdf
+                                        [ngClass]="{'anDisable': formDisable }">Upload Pdf
                                         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                             style="margin-left: 4px;">
                                     </a>
                                 </label>
-                                <input id="cin" name="cin" type="file" [disabled]="isDisabled"
+                                <input id="cin" name="cin" type="file" [disabled]="formDisable"
                                     (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')"
                                     accept=".pdf" />
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                [ngClass]="{'anDisable': actionFormDisableA}"
                                 *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionA"
                                 style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
@@ -53,6 +54,9 @@
                                 width: 82px;">Return</label>
                                 </div>
                             </div>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -87,7 +91,7 @@
                                             style="height: 19px;">
                                     </a>
                                     <a (click)="clearFiles('fileName_millionTied')"
-                                        [ngClass]="{'anDisable': isDisabled }" style="margin-left: 4px;">
+                                        [ngClass]="{'anDisable': formDisable }" style="margin-left: 4px;">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                             style="height: 13px;">
                                     </a>
@@ -95,13 +99,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="stateActionA == 'REJECTED'"
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionA =='REJECTED')
+                        || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
+                        && stateActionA == 'REJECTED') "
                         style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right">
                             <span style="font-weight: 600; text-align: left">Reason for rejection</span>
                             <div class="input-group" style="width: 100%">
                                 <textarea rows="3" style="width: 100%" class="form-control"
-                                    (blur)="checkStatus('millionTied')" [(ngModel)]="rejectReasonA">
+                                    (blur)="checkStatus('millionTied')" [(ngModel)]="rejectReasonA">{{rejectReasonA ? rejectReasonA: null}}
                   </textarea>
 
                             </div>
@@ -124,16 +130,17 @@
                             <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                 <label for="cind">
                                     <a class="btn btnUpload" (click)="uploadButtonClicked()"
-                                        [ngClass]="{'anDisable': isDisabled }">Upload Pdf
+                                        [ngClass]="{'anDisable': formDisable }">Upload Pdf
                                         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                             style="margin-left: 4px;">
                                     </a>
                                 </label>
-                                <input id="cind" name="cind" type="file" [disabled]="isDisabled"
+                                <input id="cind" name="cind" type="file" [disabled]="formDisable"
                                     (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')"
                                     accept=".pdf" />
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                [ngClass]="{'anDisable': actionFormDisableB}"
                                 *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionB"
                                 style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
@@ -180,7 +187,7 @@
 
                                     </a>
                                     <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
-                                        [ngClass]="{'anDisable': isDisabled }">
+                                        [ngClass]="{'anDisable': formDisable }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                             style="height: 13px;">
                                     </a>
@@ -188,13 +195,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="stateActionB == 'REJECTED'"
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
+                    || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
+                    && stateActionB == 'REJECTED')"
                         style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right">
                             <span style="font-weight: 600; text-align: left">Reason for rejection</span>
                             <div class="input-group" style="width: 100%">
                                 <textarea rows="3" style="width: 100%" class="form-control"
-                                    (blur)="checkStatus('nonMillionTied')" [(ngModel)]="rejectReasonB">
+                                    (blur)="checkStatus('nonMillionTied')" [(ngModel)]="rejectReasonB">{{rejectReasonB ? rejectReasonB : null }}
                   </textarea>
 
                             </div>
@@ -216,16 +225,17 @@
                             <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                 <label for="cinde">
                                     <a class="btn btnUpload" (click)="uploadButtonClicked()"
-                                        [ngClass]="{'anDisable': isDisabled }">Upload Pdf
+                                        [ngClass]="{'anDisable': formDisable }">Upload Pdf
                                         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                             style="margin-left: 4px;">
                                     </a>
                                 </label>
-                                <input id="cinde" [disabled]="isDisabled" name="cinde" type="file"
+                                <input id="cinde" [disabled]="formDisable" name="cinde" type="file"
                                     (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')"
                                     accept=".pdf" />
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                [ngClass]="{'anDisable': actionFormDisableC}"
                                 *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionC"
                                 style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
@@ -272,7 +282,7 @@
 
                                     </a>
                                     <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;"
-                                        [ngClass]="{'anDisable': isDisabled }">
+                                        [ngClass]="{'anDisable': formDisable }">
                                         <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                             style="height: 13px;">
                                     </a>
@@ -280,14 +290,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="stateActionC == 'REJECTED'"
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionC =='REJECTED')
+                    || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
+                    && stateActionC == 'REJECTED')"
                         style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right">
                             <span style="font-weight: 600; text-align: left">Reason for rejection</span>
                             <div class="input-group" style="width: 100%">
                                 <textarea rows="3" style="width: 100%" class="form-control"
                                     (blur)="checkStatus('nonMillionUntied')" [(ngModel)]="rejectReasonC">
-                  </textarea>
+                                    {{rejectReasonC ? rejectReasonC  : null}}
+              </textarea>
 
                             </div>
                         </div>
@@ -299,13 +312,19 @@
             </div>
 
         </div>
-        <div class="row" style="margin-top: 20px; margin-left: 10px;">
+        <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
+    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'MoHUA'))">
+            <div class="card-body">
+                <p><b>MoHUA Review Status :</b> {{getStatus | titlecase}}</p>
+            </div>
+        </div>
+        <div class=" row" style="margin-top: 20px; margin-left: 10px;">
             <div class="col-sm-6" style="text-align: left;">
                 <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)" [disabled]="isDisabled">{{change
-                    == 'true' ?
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{change
+                    == 'true' && !formDisable ?
                     'SAVE AND
                     NEXT': 'NEXT'}}</button>
             </div>
@@ -314,7 +333,7 @@
     </div>
 </div>
 <ng-template #template>
-    <div class="modal-body text-center">
+    <div class=" modal-body text-center">
         <div class="modal-header">
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
@@ -351,7 +370,8 @@
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed</button>
+                (click)="proceed()">Save &
+                Proceed</button>
         </div>
 
     </div>

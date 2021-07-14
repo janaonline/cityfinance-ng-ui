@@ -70,10 +70,12 @@ h5 {
 
 a.anDisable {
     pointer-events: none;
+    opacity: 0.5;
 }
 
 .disabled {
    
-    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
  
 }

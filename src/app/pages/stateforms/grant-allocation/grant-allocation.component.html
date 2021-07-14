@@ -17,12 +17,14 @@
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class="question" style="margin-top: .5rem;">
             <span style="font-weight: 500;">(A) Do you wish to submit the detailed allocation of grants distributed
-              amongst ULBs in the
+                amongst ULBs in the
                 State ?<span style="color: red;"> *</span></span>
             <div>
-                <button class="btn btn-a" style="margin-left: 2rem;" [disabled]="isDisabled || disableAllForms" (click)="onClickYes()" [ngStyle]="{'background-color':
+                <button class="btn btn-a" style="margin-left: 2rem;" [disabled]="isDisabled || formDisable"
+                    (click)="onClickYes()" [ngStyle]="{'background-color':
               account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
-                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled || disableAllForms" [ngStyle]="{'background-color':
+                <button class="btn btn-a" style="margin-left: 5rem;" (click)="onClickNo()"
+                    [disabled]="isDisabled || formDisable" [ngStyle]="{'background-color':
           account === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
             </div>
         </div>
@@ -37,18 +39,19 @@
             <div class="card-body question">
                 <div class="row">
                     <div class="col-sm-9 col-lg-9 col-md-9" style="margin-top: 0.7rem; font-weight: 500;">
-                        (B) Please fill in the grant amounts in the given template and upload the excel. <span style="color: red;">*</span>
+                        (B) Please fill in the grant amounts in the given template and upload the excel. <span
+                            style="color: red;">*</span>
 
                     </div>
                     <div class="col-sm-3 col-lg-3 col-md-3 image-upload">
                         <!-- <button type="button" class="btn btn-pre" (click)="uploadButtonClicked()">Upload File</button> -->
-                        <label for="cinde" [ngClass]="{'disabled': disableAllForms }">
-                            <a *ngIf="!disableAllForms" class="btn btnUpload btn-pre"
-                                [ngClass]="{'anDisable': isDisabled }">Upload Excel
+                        <label for="cinde" [ngClass]="{'disabled': formDisable }">
+                            <a *ngIf="!formDisable" class="btn btnUpload btn-pre"
+                                [ngClass]="{'anDisable': formDisable }">Upload Excel
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>
                             </a>
-                            <a *ngIf="disableAllForms" class="btn btn-pre disabled ">Upload
+                            <a *ngIf="formDisable" class="btn btn-pre disabled ">Upload
                                 Excel
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>
@@ -59,7 +62,9 @@
 
 
 
-                        <input id="cinde" name="cinde" [disabled]="isDisabled || disableAllForms" [ngClass]="{'disabled': disableAllForms }" type="file" (change)="fileChangeEvent($event)" accept=".xlsx" />
+                        <input id="cinde" name="cinde" [disabled]="isDisabled || formDisable"
+                            [ngClass]="{'disabled': formDisable }" type="file" (change)="fileChangeEvent($event)"
+                            accept=".xlsx" />
                     </div>
 
                 </div>
@@ -76,7 +81,9 @@
                             </div>
 
                             <div class="col-sm-5 col-lg-5 col-md-5" style="padding: 0;">
-                                <div class="progress-bar" *ngIf="progessType" role="progressbar" attr.aria-valuenow="{{ progessType }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: progessType + '%' }">
+                                <div class="progress-bar" *ngIf="progessType" role="progressbar"
+                                    attr.aria-valuenow="{{ progessType }}" aria-valuemin="0" aria-valuemax="100"
+                                    [ngStyle]="{ width: progessType + '%' }">
                                     {{ progessType }}%
                                 </div>
                             </div>
@@ -84,11 +91,14 @@
                             <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                 <ng-container *ngIf="gtFileUrl">
                                     <a href="{{ gtFileUrl }}" target="_blank">
-                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+                                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                            style="margin-left: 1px; height: 19px;">
 
                                     </a>
-                                    <a (click)="clearFiles()" style="margin-left: 3px;" [ngClass]="{'anDisable': isDisabled }">
-                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                    <a (click)="clearFiles()" style="margin-left: 3px;"
+                                        [ngClass]="{'anDisable': formDisable }">
+                                        <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                            style="height: 13px;">
                                     </a>
                                 </ng-container>
                             </div>
@@ -127,7 +137,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -149,7 +160,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Save & Proceed</button>
         </div>
 
     </div>

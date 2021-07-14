@@ -69,8 +69,10 @@
     width: 9rem;
 }
 
-a.anDisable {
+.anDisable {
     pointer-events: none;
+    cursor: not-allowed;
+    opacity:0.5;
 }
 
 .disabled {

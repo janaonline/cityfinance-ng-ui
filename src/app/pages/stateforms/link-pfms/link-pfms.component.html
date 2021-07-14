@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="mat-card">
-    <div class="card-body" style="margin-top: 2pc;">
+    <div class="card-body" style="margin-top: 2pc;" [ngClass]="{'anDisable': formDisable }">
         <ng-container>
             <br>
             <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn"
@@ -22,11 +22,21 @@
         </ng-container>
     </div>
 </div>
-<!-- *ngIf="loggedInUserType === USER_TYPE.STATE &&
-(takeStateAction == 'true')" -->
-<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA">
+
+<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;"
+    *ngIf="loggedInUserType === USER_TYPE.MoHUA">
     <div class="card-body">
         <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-action-component>
+    </div>
+</div>
+<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
+    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'MoHUA'))">
+    <div class="card-body">
+        <p><b>MoHUA Review Status :</b> {{getStatus | titlecase}}</p>
+        <p *ngIf="getStatus == 'REJECTED'">
+            <b style="font-weight: 600;">Reason for rejection :</b> {{getrejectReason}}
+        </p>
+
     </div>
 </div>
 
