@@ -256,7 +256,8 @@
                 <div>
                     <div *ngIf="(loggedInUserType === userTypes.STATE)" matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
 
-                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted " (click)="finalSubmit()">{{submitted ? "Submitted" : "Submit"}}</button>
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted || allStatusStateForms['status'] == 'APPROVED'  " (click)="finalSubmit()">{{submitted ? "Submitted" : allStatusStateForms['status'] ==
+                            'APPROVED' ? "Approval Completed" : "Submit"}}</button>
                     </div>
                     <div *ngIf="loggedInUserType === userTypes.MoHUA " matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
                         <button mat-raised-button class="subBtn" [disabled]="!validate || reviewSubmitted" (click)=" finalMoHUAAction()">

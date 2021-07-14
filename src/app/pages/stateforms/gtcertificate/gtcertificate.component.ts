@@ -133,8 +133,33 @@ export class GTCertificateComponent implements OnInit {
   disableAllForms = false;
   isStateSubmittedForms = '';
   state_id;
+
+  allStatus;
+  getStatus;
+  formDisable = false;
+  actionFormDisableA = false;
+  actionFormDisableB = false;
+  actionFormDisableC = false;
   ngOnInit(): void {
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.state_id = sessionStorage.getItem("state_id")
+    if (this.loggedInUserType == 'MoHUA') {
+      this.formDisable = true;
+    } else if (this.loggedInUserType == 'STATE') {
+      if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+        if (this.allStatus['steps']['GTCertificate']['isSubmit'] &&
+          (this.allStatus['steps']['GTCertificate']['status'] == 'PENDING'
+            || this.allStatus['steps']['GTCertificate']['status'] == 'APPROVED')) {
+          this.formDisable = true;
+        }
+      } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+        if (this.allStatus['steps']['GTCertificate']['status'] == 'APPROVED') {
+          this.formDisable = true
+        }
+      }
+    }
+
+
     this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {
         sessionStorage.setItem("StateGTC", JSON.stringify(res));
@@ -152,6 +177,42 @@ export class GTCertificateComponent implements OnInit {
         }
 
         console.log(this.fileName_nonMillionUntied, this.fileName_nonMillionTied, this.fileName_millionTied)
+
+        const masterForm = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
+        if (masterForm['latestFinalResponse']['role'] === 'MoHUA') {
+          this.stateActionA = res['data']['million_tied']['status']
+          this.stateActionB = res['data']['nonmillion_tied']['status']
+          this.stateActionC = res['data']['nonmillion_untied']['status']
+          this.getStatus = res['data']['status']
+          if (res['data']['million_tied']['rejectReason']) {
+
+            this.rejectReasonA = res['data']['million_tied']['rejectReason']
+          }
+          if (res['data']['nonmillion_tied']['rejectReason']) {
+            this.rejectReasonB = res['data']['nonmillion_tied']['rejectReason']
+          }
+          if (res['data']['nonmillion_untied']['rejectReason']) {
+            this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
+          }
+
+          if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+            if (this.stateActionA != 'PENDING') {
+              this.actionFormDisableA = true
+            }
+            if (this.stateActionB != 'PENDING') {
+              this.actionFormDisableB = true
+            }
+            if (this.stateActionC != 'PENDING') {
+              this.actionFormDisableC = true
+            }
+          } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+            this.actionFormDisableA = true
+            this.actionFormDisableB = true
+            this.actionFormDisableC = true
+          }
+
+
+        }
       },
         errMes => {
           // alert(errMes)
@@ -171,12 +232,7 @@ export class GTCertificateComponent implements OnInit {
 
     });
 
-    if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
-      if (this.isStateSubmittedForms == "true") {
-        this.disableAllForms = true;
-      }
-    }
+
   }
 
   uploadButtonClicked() {
@@ -286,12 +342,13 @@ export class GTCertificateComponent implements OnInit {
     this.gtcService.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
+        sessionStorage.setItem("changeInGTC", "false")
         const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
         status.steps.GTCertificate.status = this.body['status'];
         status.steps.GTCertificate.isSubmit = !this.body['isDraft'];
         status.actionTakenByRole = 'MoHUA'
         this._stateformsService.allStatusStateForms.next(status);
-        sessionStorage.setItem("changeInGTC", "false")
+
         this._router.navigate(["stateform/link-in-pfms"]);
       },
       (error) => {

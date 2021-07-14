@@ -83,13 +83,30 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   isStateSubmittedForms = ''
   userRole;
   excelDataOnLoad = null;
-  state_id
+  state_id;
+  formDisable = false;
   ngOnInit() {
 
     sessionStorage.setItem("changeInPFMSAccountState", "false");
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+
     this.state_id = sessionStorage.getItem("state_id");
 
-
+    if (this.loggedInUserType == 'MoHUA') {
+      this.formDisable = true;
+    } else if (this.loggedInUserType == 'STATE') {
+      if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+        if (this.allStatus['steps']['linkPFMS']['isSubmit'] &&
+          (this.allStatus['steps']['linkPFMS']['status'] == 'PENDING'
+            || this.allStatus['steps']['linkPFMS']['status'] == 'APPROVED')) {
+          this.formDisable = true;
+        }
+      } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+        if (this.allStatus['steps']['linkPFMS']['status'] == 'APPROVED') {
+          this.formDisable = true
+        }
+      }
+    }
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
       (role) => {
         console.log("link pfms Testing", role);
@@ -99,14 +116,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       }
     );
 
-    if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem(
-        "StateFormFinalSubmitByState"
-      );
-      if (this.isStateSubmittedForms == "true") {
-        this.disableAllForms = true;
-      }
-    }
+
 
     this.onLoad();
   }
@@ -138,6 +148,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   }
   body = {};
+  allStatus;
   saveStateAction() {
     let data = JSON.parse(sessionStorage.getItem("pfmsAccounts"))
     console.log(data)
@@ -152,11 +163,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
       (res) => {
         swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+        sessionStorage.setItem("changeInPFMSAccountState", "false")
+        this.allStatus = status;
         status.steps.linkPFMS.status = this.body['status'];
         status.steps.linkPFMS.isSubmit = !this.body['isDraft'];
         status.actionTakenByRole = 'MoHUA'
         this.stateformsService.allStatusStateForms.next(status);
-        sessionStorage.setItem("changeInPFMSAccountState", "false")
+
         this._router.navigate(["stateform/water-supply"]);
       },
       (error) => {
@@ -208,7 +221,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     await this.dialogRef.close(true);
   }
-
+  getStatus;
+  getrejectReason;
   onLoad() {
 
     this.LinkPFMSAccount.getData(this.Years["2021-22"], this.state_id).subscribe(
@@ -216,6 +230,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         console.log(res);
         this.data.excel = res["data"].excel;
         this.excelDataOnLoad = { excel: res["data"].excel };
+        this.getStatus = res["data"]['status']
+        this.getrejectReason = res["data"]['rejectReason']
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
       },
       (error) => {
