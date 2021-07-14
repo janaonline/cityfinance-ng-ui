@@ -123,7 +123,6 @@ export class WaterRejenuvationComponent implements OnInit {
       isDraft: this.fb.control(this.isDraft, []),
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
-      console.log(1);
 
       let data = sessionStorage.getItem("waterRejenuvationData");
       change.uaData.forEach((element) => {
@@ -616,6 +615,9 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   onPreview() {
+    
+    let change = sessionStorage.getItem("changeInWaterRejenuvation")
+    if(change == 'true')
     this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
 
     let data = this.waterRejenuvation.value;
