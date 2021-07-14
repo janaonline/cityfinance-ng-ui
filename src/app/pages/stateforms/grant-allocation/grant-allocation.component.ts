@@ -74,6 +74,8 @@ export class GrantAllocationComponent implements OnInit {
   gtFileUrl = "";
   fileName = "";
   progessType;
+  formDisable = false;
+  allStatus;
   fileUploadTracker: {
     [fileIndex: number]: {
       alias?: string;
@@ -93,6 +95,7 @@ export class GrantAllocationComponent implements OnInit {
   isStateSubmittedForms = ''
   ngOnInit() {
     sessionStorage.setItem("ChangeInGrantAllocation", "false");
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.state_name = localStorage.getItem("state_name");
     let id = sessionStorage.getItem("state_id")
     //console.log('gaa', this.state_name);
@@ -114,21 +117,18 @@ export class GrantAllocationComponent implements OnInit {
       }
     );
 
-    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
-      console.log('grant allocation Testing', role)
-      if (role === "STATE") {
-        this.disableAllForms = true;
-      }
-
-
-    });
-
-    if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem("StateFormFinalSubmitByState")
-      if (this.isStateSubmittedForms == "true") {
-        this.disableAllForms = true;
+    if (this.loggedInUserType == 'MoHUA') {
+      this.formDisable = true;
+    } else if (this.loggedInUserType == 'STATE') {
+      if (this.allStatus['latestFinalResponse']['role']) {
+        if (this.allStatus['steps']['grantAllocation']['isSubmit']) {
+          this.formDisable = true;
+        }
       }
     }
+    console.log('formDisable', this.formDisable)
+
+
   }
 
   downloadSample() {

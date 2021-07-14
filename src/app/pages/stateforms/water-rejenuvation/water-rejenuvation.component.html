@@ -161,6 +161,18 @@
                                     <app-action-component (actionValues)="checkStatus($event, uas.value.ua)" [statusResponse]='actionRes'> </app-action-component>
                                 </div>
                             </div>
+
+                            <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
+    loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA')">
+                                <div class="card-body">
+                                    <p><b>MoHUA Review Status :</b> {{uas.value.status | titlecase}}</p>
+                                    <p *ngIf="uas.value.status == 'REJECTED'">
+                                        <b style="font-weight: 600;">Reason for rejection :</b>
+                                        {{uas.value.rejectReason }}
+                                    </p>
+
+                                </div>
+                            </div>
                             <!-- (ulbFormStaus !== 'NA') -->
                             <!-- <div class="card" style="background-color: #F7F7F7;" *ngIf="utilizationReport &&
 (loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true')">
