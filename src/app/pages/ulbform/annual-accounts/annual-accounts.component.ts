@@ -921,6 +921,13 @@ export class AnnualAccountsComponent implements OnInit {
     this.AuditAct[index] = e;
     console.log(this.AuditAct);
   }
+  checkAuditReport(item){
+    if(item.name == 'Auditor Report'){
+      return 'pdf'
+    }else{
+      return null
+    }
+  }
 
   saveStateActionData() {
     console.log("checkStatus", this.data);
