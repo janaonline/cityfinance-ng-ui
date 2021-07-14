@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { CarouselConfig } from 'ngx-bootstrap/carousel';
-import { interval } from 'rxjs';
-
+import { Component, OnInit } from "@angular/core";
+import { CarouselConfig } from "ngx-bootstrap/carousel";
+import { interval } from "rxjs";
+import { Router } from "@angular/router";
 interface Link {
   text: string;
   link?: string;
@@ -149,24 +149,31 @@ export class HomeComponent implements OnInit {
     { text: "XBRL for input of data directly by ULBs/States" },
   ];
 
-  constructor() {}
+  constructor(public _router: Router) {}
 
   ngOnInit() {
     setTimeout(() => {
       const aboutElement = document
         .getElementById("about-heading")
         .getBoundingClientRect();
-      const quoteBox = document
-        .getElementById("quotes-box")
-        .getBoundingClientRect();
+      const quoteBox = document.getElementById("quotes-box")
+        ? document.getElementById("quotes-box").getBoundingClientRect()
+        : "";
+      if (aboutElement == undefined || quoteBox == undefined) {
+        return;
+      }
       const height =
-        quoteBox.top -
+        quoteBox["top"] -
         aboutElement.bottom +
         aboutElement.height / 2 +
-        quoteBox.height;
+        quoteBox["height"];
       console.log(height);
 
       document.getElementById("quotes-box").style.height = `${height}px`;
     });
+  }
+
+  navigateToAnnual() {
+    return this._router.navigate(["upload-annual-accounts"]);
   }
 }
