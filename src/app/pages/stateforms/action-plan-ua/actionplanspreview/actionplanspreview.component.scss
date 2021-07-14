@@ -1,107 +1,122 @@
 .card-body {
     padding: 5px 8px;
-  }
-  
-  .card {
+}
+
+.header-p {
+    background-color: #047474;
+    height: 90px;
+    text-align: center;
+}
+
+.heading-p {
+    color: #FFFFFF;
+    font-size: 22px;
+    margin-top: 2rem;
+    font-weight: 700;
+}
+
+.sub-h {
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.st-d {
+    margin-top: 1.5rem;
+}
+
+.form-h {
+    font-size: 21px;
+    font-weight: 700;
+    //  margin-bottom: 1rem;
+}
+
+.card {
     border: 1px #00000029;
     margin-left: 20px;
     box-shadow: 1px 1px 1px 3px #00000029;
     padding: 10px 10px;
-  }
-  
-  .thHeader {
+}
+
+.thHeader {
     background-color: #058e91;
     font-family: Roboto;
     color: #ffffff;
     font-size: 14px;
     text-decoration: none;
-  }
-  
-  .table > tbody > tr > td,
-  .table > tbody > tr > th,
-  .table > tfoot > tr > td,
-  .table > tfoot > tr > th,
-  .table > thead > tr > td,
-  .table > thead > tr > th {
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
     vertical-align: inherit;
     text-align: center;
     padding: 8px 2px;
-  }
-  
-  .custom-position {
+}
+
+.custom-position {
     td {
-      position: relative;
+        position: relative;
     }
-  }
-  
-  .custom-position {
+}
+
+.custom-position {
     input {
-      position: relative;
-      width: 80%;
-      height: 4ch;
-      text-align: center;
+        position: relative;
+        width: 80%;
+        height: 4ch;
+        text-align: center;
     }
-  }
-  
-  .custom-position {
+}
+
+.custom-position {
     select {
-      position: relative;
+        position: relative;
     }
-  }
-  
-  .custom-position {
+}
+
+.custom-position {
     textarea {
-      height: 2pc;
-      vertical-align: bottom;
-      margin-right: 1pc;
+        height: 2pc;
+        vertical-align: bottom;
+        margin-right: 1pc;
     }
-  
     .error {
-      border-color: red;
+        border-color: red;
     }
-  }
-  
-  .saveBtn {
+}
+
+.saveBtn {
     background-color: #114551;
     color: #ffffff;
     border-radius: 5px;
     height: 32px;
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-  
-  .back {
+}
+
+.back {
     background-color: #cfcfcf;
     color: #ffffff;
     border-radius: 5px;
     height: 32px;
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     background-color: #ffc500;
     color: white;
-  }
-  
-  .file:hover {
+}
+
+.file:hover {
     cursor: pointer;
     background-color: #eaecee;
-  }
-  
-  .selectBtn {
+}
+
+.selectBtn {
     background-color: #ffc500;
     color: white;
-  }
-  
-  .heading-p {
-    color: #FFFFFF;
-    font-size: 22px;
-    margin-top: 3rem;
-    font-weight: 700;
-}
-.header-p {
-  background-color: #047474;
-  height: 90px;
-  text-align: center;
 }
