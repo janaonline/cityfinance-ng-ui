@@ -33,6 +33,26 @@ export class WaterSupplyPreviewComponent implements OnInit {
   :root {
     font-size: 14px;
   }
+  .sub-h-font{
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+  .heading-font{
+    font-size: 18px !important;
+    font-weight: 700;
+
+  }
+  .slb-pd {
+    padding: 2% 0% 2.5% 0%;
+}
+
+
+.form-h {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
   table tbody tr {
     border: 100px solid black;
@@ -139,8 +159,12 @@ h5{
     benchmark: string;
   }[] = services;
   detailsOfUa;
+  ulbName;
+  stateName;
   ngOnInit() {
-
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbName = userData["name"];
+    this.stateName = userData["stateName"];
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {

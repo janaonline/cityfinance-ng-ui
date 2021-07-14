@@ -67,7 +67,9 @@ export class PfmsPreviewComponent implements OnInit {
     margin-bottom: 1rem;
     text-align: center;
 }
-
+.st-d {
+  margin-top: 10px !important;
+}
   .card {
       margin-top: 10px !important;
       padding: 5px 10px;
