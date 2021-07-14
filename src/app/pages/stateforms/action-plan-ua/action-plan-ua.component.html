@@ -39,6 +39,17 @@
                         </app-action-component>
                     </div>
                 </div>
+                <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
+    loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA')">
+                    <div class="card-body">
+                        <p><b>MoHUA Review Status :</b> {{item.status | titlecase}}</p>
+                        <p *ngIf="item.status == 'REJECTED'">
+                            <b style="font-weight: 600;">Reason for rejection :</b>
+                            {{item.rejectReason }}
+                        </p>
+
+                    </div>
+                </div>
             </div>
         </div>
 

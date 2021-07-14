@@ -10,6 +10,7 @@ import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
+import { FasDirective } from "angular-bootstrap-md";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-action-plan-ua",
@@ -67,10 +68,43 @@ export class ActionPlanUAComponent implements OnInit {
     });
   }
   disableAllForms = false;
+  actionFormDisable = false;
   isStateSubmittedForms = "";
+  allStatus;
+  formDisable = false;
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
     this.state_id = sessionStorage.getItem("state_id");
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
+
+    if (this.loggedInUserType == 'MoHUA') {
+      this.formDisable = true;
+    } else if (this.loggedInUserType == 'STATE') {
+      if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+        if (this.allStatus['latestFinalResponse']['actionPlans']['isSubmit'] &&
+          (this.allStatus['latestFinalResponse']['actionPlans']['status'] == 'PENDING'
+            || this.allStatus['latestFinalResponse']['actionPlans']['status'] == 'APPROVED')) {
+          this.formDisable = true;
+        }
+      } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+        if (this.allStatus['latestFinalResponse']['actionPlans']['status'] == 'APPROVED') {
+          this.formDisable = true
+        }
+      }
+    }
+
+    if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+      if (this.allStatus['latestFinalResponse']['actionPlans']['status'] != 'PENDING') {
+        this.actionFormDisable = true
+      }
+    } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+      this.actionFormDisable = true
+    }
+
+
+
+
+
     this.getUlbNames();
     for (const key in this.uasData) {
       let code = localStorage.getItem("state_code");
@@ -81,20 +115,9 @@ export class ActionPlanUAComponent implements OnInit {
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
       (role) => {
         console.log("Action Plan Testing", role);
-        if (role === "STATE") {
-          this.disableAllForms = true;
-        }
-      }
-    );
-
-    if (!this.disableAllForms) {
-      this.isStateSubmittedForms = sessionStorage.getItem(
-        "StateFormFinalSubmitByState"
-      );
-      if (this.isStateSubmittedForms == "true") {
         this.disableAllForms = true;
       }
-    }
+    );
   }
   getUlbNames() {
     this.actionplanserviceService.getUlbsByState(this.state_id).subscribe(
@@ -286,11 +309,12 @@ export class ActionPlanUAComponent implements OnInit {
           sessionStorage.getItem("allStatusStateForms")
         );
         // status.steps.actionPlans.status = this.body["status"];
+        sessionStorage.setItem("changeInActionPlans", "false")
         status.steps.actionPlans.isSubmit = true;
         status.steps.actionPlans.status = this.finalActionData['status'];
         status.actionTakenByRole = 'MoHUA'
         this.stateformsService.allStatusStateForms.next(status);
-        sessionStorage.setItem("changeInActionPlans", "false")
+
         this._router.navigate(["stateform/grant-allocation"]);
       },
       (error) => {
