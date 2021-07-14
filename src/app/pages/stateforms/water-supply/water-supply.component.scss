@@ -16,6 +16,49 @@ p {
     font-weight: 500;
 }
 
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.saveBtn {
+    background-color: #059b9a;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 3%;
+    padding-right: 3%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-pre {
+    background-color: #059b9a;
+    color: #FFFFFF;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    font-size: 12px;
+    padding-right: 2rem;
+}
+
+.back {
+    width: auto;
+    background-color: #cfcfcf;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 3%;
+    padding-right: 3%;
+    font-size: 12px;
+    font-weight: normal;
+}
+
 .card {
     box-shadow: 0px 3px 6px #00000029;
     border: 1px solid #70707030;
@@ -26,6 +69,11 @@ p {
 
 table {
     width: 100%;
+}
+
+.selectBtn {
+    background-color: #ffc500;
+    color: white;
 }
 
 th {
@@ -244,24 +292,6 @@ table {
     padding-right: 2rem;
 }
 
-.btn-back {
-    background-color: #CFCFCF;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-.btn-pre {
-    background-color: #059b9a;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
 .s-th {
     border-radius: 4px;
     width: 96px;
@@ -299,24 +329,6 @@ table {
     border: none;
 }
 
-.btn-next {
-    background-color: #059B9A;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-.btn-back {
-    background-color: #CFCFCF;
-    color: #FFFFFF;
-    border-radius: 5px;
-    height: 32px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
 .btn-action {
     background-color: #059B9A;
     color: #FFFFFF;
@@ -326,14 +338,12 @@ table {
     width: 85px;
 }
 
-
 .tracking-history-table {
     thead tr th {
-      background: #047474;
-      color: white;
+        background: #047474;
+        color: white;
     }
     tbody tr:nth-child(even) {
-      background: #dbdbdb;
+        background: #dbdbdb;
     }
-  }
-  
+}

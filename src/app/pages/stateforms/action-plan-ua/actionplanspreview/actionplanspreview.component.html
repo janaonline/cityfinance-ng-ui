@@ -27,7 +27,9 @@
             <div class="card-body ">
                 <div style="display: flex;">
                     <div>
-                        <h4> UA{{projectIndex+1}}: {{uasData[uas.ua].name}}</h4>
+                        <!-- UA{{projectIndex+1}}: {{uasData[uas.ua].name}} -->
+                        <h4>UA{{projectIndex + 1}}: Urban Aggolmeration {{uasData[uas.ua].name.split(' ')[0]}}
+                        </h4>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -245,11 +247,11 @@
 
         <p style="margin-top: 8px;">
             Are you sure you want to proceed?
-        <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
                 Proceed</button>
-        </div>
+            </div>
 
     </div>
 </ng-template>

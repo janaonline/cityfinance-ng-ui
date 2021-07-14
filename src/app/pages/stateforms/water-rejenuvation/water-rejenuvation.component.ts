@@ -20,6 +20,7 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { StateformsService } from "../stateforms.service";
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
+import { stateWiseReportMain } from "src/app/shared/components/home-header/tableHeaders";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-water-rejenuvations",
@@ -131,15 +132,17 @@ export class WaterRejenuvationComponent implements OnInit {
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
 
   public initializeReport() {
+    let state = this.userData['state'] ?? sessionStorage.getItem("state_id")
+
     this.waterRejenuvation = this.fb.group({
-      state: this.fb.control(this.userData["state"], [Validators.required]),
+      state: this.fb.control(state, [Validators.required]),
       design_year: this.fb.control(this.Year["2021-22"], [Validators.required]),
       uaData: this.fb.array(this.getUas()),
       status: this.fb.control(this.totalStatus, []),
       isDraft: this.fb.control(this.isDraft, []),
     });
     this.waterRejenuvation.valueChanges.subscribe((change) => {
-      debugger;
+
       console.log(1);
 
       let data = sessionStorage.getItem("waterRejenuvationData");
@@ -192,7 +195,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.fb.group({
         ua: data.ua,
         status: data?.status ?? "PENDING",
-        rejectReason: data?.status ?? null,
+        rejectReason: data?.rejectReason ?? null,
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
         foldCard: false,
@@ -365,7 +368,7 @@ export class WaterRejenuvationComponent implements OnInit {
     });
     let state_id = sessionStorage.getItem("state_id")
     let toStore = {
-      // state: state_id,
+      state: data.state,
       design_year: data.design_year,
       uaData: data.uaData,
       status: data.status,

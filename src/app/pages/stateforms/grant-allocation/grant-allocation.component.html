@@ -1,13 +1,10 @@
 <div class="row">
     <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
-        <h5 style="margin-top: 1rem;">Name of State: {{state_name}}<span>
-                <!-- *ngIf="
-        states &&
-        (loggedInUserType === userTypes.STATE ||
-          loggedInUserType === userTypes.ULB)
-      " -->
-                <!-- {{ states[userLoggedInDetails["state"]]?.name }} -->
-            </span></h5>
+        <!-- <h5 style="margin-top: 1rem;">Name of State: {{state_name}}<span>
+            </span></h5> -->
+        <h4 class="form-header">
+            Grant Allocation to ULBs
+        </h4>
     </div>
     <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
         <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
@@ -18,7 +15,7 @@
         <div class="question" style="margin-top: .5rem;">
             <span style="font-weight: 500;">(A) Do you wish to submit the detailed allocation of grants distributed
                 amongst ULBs in the
-                State ?<span style="color: red;"> *</span></span>
+                State ?<span style="color: red;">*</span></span>
             <div>
                 <button class="btn btn-a" style="margin-left: 2rem;" [disabled]="isDisabled || formDisable"
                     (click)="onClickYes()" [ngStyle]="{'background-color':
@@ -39,8 +36,12 @@
             <div class="card-body question">
                 <div class="row">
                     <div class="col-sm-9 col-lg-9 col-md-9" style="margin-top: 0.7rem; font-weight: 500;">
-                        (B) Please fill in the grant amounts in the given template and upload the excel. <span
-                            style="color: red;">*</span>
+                        <<<<<<< HEAD (B) Please fill in the grant amounts in the given template and upload the excel.
+                            <span style="color: red;">*</span>
+                            =======
+                            Please fill in the grant amounts in the given template and upload the excel<span
+                                style="color: red;">*</span>
+                            >>>>>>> 62bfd63e552d6e64ff1c83ef6efa8b91c5b6b55d
 
                     </div>
                     <div class="col-sm-3 col-lg-3 col-md-3 image-upload">
