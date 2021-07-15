@@ -12,11 +12,12 @@
     </div>
 </div>
 <div class="mat-card">
-    <div class="card-body" style="margin-top: 2pc;" [ngClass]="{'anDisable': formDisable }">
+    <div class="card-body" style="margin-top: 2pc;">
         <ng-container>
             <br>
             <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn"
-                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)">
+                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled] = "formDisable"
+                >
             </app-comm-file-upload>
             <br>
         </ng-container>
