@@ -34,9 +34,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   gridData = new EventEmitter();
 
   frameworkComponents;
-  yearErrorMsg = "Value should be a number / Greater than 0 / less than amount";
-  fundErrorMsg =
-    "Value should be a number / Greater than 0 / less than project cost";
+  yearErrorMsg = "All years value sum should be equal to amount";
+  fundErrorMsg = "All years value sum should be equal to project cost";
 
   project = [
     {
@@ -705,8 +704,8 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.rowData.projectExecute.forEach((element) => {
       if (element.exAgency.value == "Parastatal Agency") {
         this.project[6].hide = false;
-      }else{
-        element.paraAgency.value = "N/A"
+      } else {
+        element.paraAgency.value = "N/A";
       }
     });
 
@@ -736,6 +735,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   fundValueChanges(e) {
+    this.checkValidYearSum(e, this.agGrid2.api, "cost");
+
     if (e.colDef.field == "fc") {
       this.autoSetNames(e, true);
     }
@@ -758,8 +759,33 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.gridData.emit(this.rowData);
   }
 
-  yearValueChanges(e) {
+  yearValueChanges(param) {
+    this.checkValidYearSum(param, this.agGrid3.api, "ammount");
     this.gridData.emit(this.rowData);
+  }
+
+  checkValidYearSum(param, api, rowName) {
+    let data = param.data;
+    let val = 0;
+    for (const key in data) {
+      if (years.includes(key)) {
+        if (!isNaN(data[key].value) && typeof data[key].value == "number") {
+          val += data[key].value;
+        }
+      }
+    }
+    let cost = param.data[rowName]?.value;
+    if (cost == val) {
+      for (const key in data) {
+        if (years.includes(key)) {
+          if (!isNaN(data[key].value) && typeof data[key].value == "number") {
+            data[key].lastValidation = true;
+          }
+        }
+      }
+      api.applyTransaction({ update: [param.data] });
+      api.redrawRows(param);
+    }
   }
 
   autoSetNames(e, fromFund = null) {
@@ -811,7 +837,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.gridData.emit(this.rowData);
   }
 
-  async removeRow() {
+  removeRow() {
     let lastElement = this.rowData.projectExecute.pop();
     this.agGrid1.api.applyTransaction({ remove: [lastElement] });
     lastElement = this.rowData.sourceFund.pop();
@@ -927,7 +953,7 @@ const checkYear = (x, param) => {
     if (years.includes(key)) {
       if (
         !isNaN(data[key].value) &&
-        data[key].value != "" &&
+        typeof data[key].value == "number" &&
         param.colDef.field != key
       ) {
         count++;
@@ -951,7 +977,7 @@ const checkYear2 = (x, param) => {
     if (years.includes(key)) {
       if (
         !isNaN(data[key].value) &&
-        data[key].value != "" &&
+        typeof data[key].value == "number" &&
         param.colDef.field != key
       ) {
         count++;
