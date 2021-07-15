@@ -6,6 +6,7 @@ import { UlbadminServiceService } from "../../ulb-admin/ulbadmin-service.service
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ReviewUlbService } from "./review-ulb.service";
 import { StateformsService } from "../../stateforms/stateforms.service";
+import { USER_TYPE } from "src/app/models/user/userType";
 @Component({
   selector: "app-review-ulb",
   templateUrl: "./review-ulb.component.html",
@@ -45,6 +46,7 @@ export class ReviewUlbComponent implements OnInit {
   ua_name_s = new FormControl("");
   status_s = new FormControl("");
   historyData;
+  loggedInUser = JSON.parse(localStorage.getItem("userData"));
   ngOnInit() {
     this.loadData();
   }
@@ -54,7 +56,7 @@ export class ReviewUlbComponent implements OnInit {
     this.reviewUlbService.getData(formId).subscribe(
       (res) => {
         this.historyData = res["data"].length == 0 ? null : res["data"];
-        this.historyData.reverse()
+        this.historyData.reverse();
         console.log(this.historyData);
         this.openDialog(template);
       },
@@ -142,6 +144,48 @@ export class ReviewUlbComponent implements OnInit {
       );
   }
 
+  setActionBtnIcon(resData, type) {
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.STATE &&
+      resData.isSubmit &&
+      resData.status == "APPROVED" &&
+      type == "action"
+    ) {
+      return true;
+    }
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
+      !resData.isSubmit &&
+      type == "action"
+    ) {
+      return true;
+    }
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.STATE &&
+      resData.isSubmit &&
+      resData.status == "APPROVED" &&
+      type == "eye"
+    ) {
+      return false;
+    }
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
+      !resData.isSubmit &&
+      type == "eye"
+    ) {
+      return true;
+    }
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
+      resData.isSubmit &&
+      type == "eye" &&
+      resData.status != "PENDING"
+    ) {
+      return true;
+    }
+    if (type == "eye") return true;
+  }
+
   viewUlbForm(resData) {
     console.log("review", resData);
     sessionStorage.setItem("ulb_id", resData?.ulb);
@@ -149,16 +193,34 @@ export class ReviewUlbComponent implements OnInit {
     sessionStorage.setItem("isUA", resData.isUA);
     sessionStorage.setItem("stateName", resData.state);
     sessionStorage.setItem("ulbName", resData.ulbName);
+
     if (
-      (resData.actionTakenByUserRole == "STATE" && resData.isSubmit == true) ||
-      (resData.actionTakenByUserRole == "MoHUA" && resData.isSubmit == false)
+      resData.actionTakenByUserRole == USER_TYPE.STATE &&
+      resData.isSubmit == true &&
+      resData.status == "APPROVED"
     ) {
       this.takeStateAction = "true";
     }
+
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
+      resData.isSubmit == false
+    ) {
+      this.takeStateAction = "true";
+    }
+
+    if (
+      resData.actionTakenByUserRole == "MoHUA" &&
+      resData.isSubmit == true &&
+      resData.status != "PENDING"
+    ) {
+      this.takeStateAction = "false";
+    }
+
     localStorage.setItem("takeStateAction", this.takeStateAction);
     let stActionCheck = "false";
     if (
-      resData.actionTakenByRole == "MoHUA" &&
+      resData.actionTakenByUserRole == "MoHUA" &&
       resData.isSubmit == true &&
       resData.status != "PENDING"
     ) {

@@ -638,6 +638,9 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   onPreview() {
+    
+    let change = sessionStorage.getItem("changeInWaterRejenuvation")
+    if(change == 'true')
     this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
 
     let data = this.waterRejenuvation.value;

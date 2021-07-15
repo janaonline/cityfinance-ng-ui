@@ -70,6 +70,8 @@ export class UtilisationReportComponent implements OnInit {
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
+    this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
+    this.masterFormStatus = localStorage.getItem("masterFormStatus");
     console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
 
     this.designYear = yearId["2021-22"];
@@ -92,6 +94,8 @@ export class UtilisationReportComponent implements OnInit {
   projectExp = 0;
   selectedFile;
   categories;
+  lastRoleInMasterForm;
+  masterFormStatus;
   // editable;
   photoUrl: any = [];
   fd;
@@ -116,7 +120,19 @@ export class UtilisationReportComponent implements OnInit {
       this.states = {};
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
-      if (this.finalSubmitUtiStatus == "true") {
+      if (
+        this.finalSubmitUtiStatus == "true" &&
+        this.lastRoleInMasterForm == this.userTypes.ULB
+      ) {
+        this.isDisabled = true;
+        this.utilizationReport.disable();
+        this.utilizationReport.controls.projects.disable();
+      }
+      if (
+        this.finalSubmitUtiStatus == "true" &&
+        this.lastRoleInMasterForm != this.userTypes.ULB &&
+        this.masterFormStatus != "REJECTED"
+      ) {
         this.isDisabled = true;
         this.utilizationReport.disable();
         this.utilizationReport.controls.projects.disable();
@@ -256,11 +272,6 @@ export class UtilisationReportComponent implements OnInit {
     res.projects.forEach((project) => {
       this.addPreFilledRow(project);
     });
-    if (this.finalSubmitUtiStatus == "true") {
-      this.isDisabled = true;
-      this.utilizationReport.disable();
-      this.utilizationReport.controls.projects.disable();
-    }
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
@@ -272,7 +283,9 @@ export class UtilisationReportComponent implements OnInit {
     }
     if (
       this.ulbFormStaus == "REJECTED" &&
-      this.userLoggedInDetails.role === USER_TYPE.ULB
+      this.userLoggedInDetails.role === USER_TYPE.ULB &&
+      this.finalSubmitUtiStatus == "true" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
     ) {
       this.utilizationReport.enable();
       this.isDisabled = false;
@@ -284,17 +297,42 @@ export class UtilisationReportComponent implements OnInit {
       st: data?.status,
       rRes: data?.rejectReason,
     };
+
     if (data?.status != "NA") {
-      this.ulbFormStaus = data?.status;
+      this.ulbFormStaus = data.status != "" ? data.status : "PENDING";
+      if (data.actionTakenByRole == this.userTypes.STATE) {
+        if (
+          ((data?.status == "REJECTED" &&
+            this.masterFormStatus != "REJECTED") ||
+            (data?.status == "APPROVED" &&
+              this.masterFormStatus != "APPROVED")) &&
+          this.lastRoleInMasterForm == this.userTypes.ULB
+        ) {
+          this.ulbFormStaus = "PENDING";
+        }
+      }
+      if (data.actionTakenByRole == this.userTypes.MoHUA) {
+        this.ulbFormStaus = "APPROVED";
+        if (
+          ((data?.status == "REJECTED" &&
+            this.masterFormStatus != "REJECTED") ||
+            (data?.status == "APPROVED" &&
+              this.masterFormStatus != "APPROVED")) &&
+          this.lastRoleInMasterForm == this.userTypes.STATE
+        ) {
+          this.ulbFormStatusMoHUA = "PENDING";
+        }
+      }
+
       if (
-        data.actionTakenByRole === USER_TYPE.MoHUA &&
+        this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
         this.finalSubmitUtiStatus == "true"
       ) {
         this.ulbFormStatusMoHUA = data.status;
         this.ulbFormStaus = "APPROVED";
       }
       if (
-        data.actionTakenByRole === USER_TYPE.STATE &&
+        this.lastRoleInMasterForm === USER_TYPE.STATE &&
         this.finalSubmitUtiStatus == "true" &&
         this.ulbFormStaus == "APPROVED"
       ) {

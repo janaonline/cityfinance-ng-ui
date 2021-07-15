@@ -128,7 +128,7 @@
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByUserRole == 'MoHUA'))">
+                                            *ngIf="setActionBtnIcon(resData,'eye')">
 
                                             <a (click)="viewUlbForm(resData)" [routerLink]="[
                                           '/ulbform/overview', resData?._id  ]">
@@ -139,8 +139,8 @@
                                                 </mat-icon>
                                             </a>
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'STATE')
-                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'MoHUA')">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
+                                            *ngIf="setActionBtnIcon(resData,'action')">
                                             <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
                                         '/ulbform/overview', resData?._id  ]">
                                                 Take Action
@@ -201,7 +201,7 @@
                     </td>
                     <td>{{ i + 1 }}</td>
                     <td>
-                        <div >{{ row.status }}</div>
+                        <div>{{ row.status }}</div>
                     </td>
                     <td>
                         {{row.time | date:'medium':'IST' }}

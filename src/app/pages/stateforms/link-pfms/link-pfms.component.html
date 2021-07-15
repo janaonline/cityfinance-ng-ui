@@ -12,11 +12,11 @@
     </div>
 </div>
 <div class="mat-card">
-    <div class="card-body" style="margin-top: 2pc;" [ngClass]="{'anDisable': formDisable }">
+    <div class="card-body" style="margin-top: 2pc;">
         <ng-container>
             <br>
             <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn"
-                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)">
+                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable">
             </app-comm-file-upload>
             <br>
         </ng-container>
@@ -25,8 +25,9 @@
 
 <div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;"
     *ngIf="loggedInUserType === USER_TYPE.MoHUA">
-    <div class="card-body">
-        <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-action-component>
+    <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
+        <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
+        </app-action-component>
     </div>
 </div>
 <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
@@ -37,6 +38,12 @@
             <b style="font-weight: 600;">Reason for rejection :</b> {{getrejectReason}}
         </p>
 
+    </div>
+</div>
+<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
+    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'STATE'))">
+    <div class="card-body">
+        <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
     </div>
 </div>
 

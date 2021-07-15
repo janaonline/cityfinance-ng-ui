@@ -19,14 +19,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginDetails = [
     {
       role: "ULB",
-      loginName: "Please Enter Census Code/ULB Code",
-      loginPlaceHolder: "Please Enter Census Code/ULB Code",
+      loginName: "Census Code/ULB Code",
+      loginPlaceHolder: "Census Code/ULB Code",
       loginValidation: "censusValidation",
     },
     {
       role: "USER",
-      loginName: "Please Enter Email",
-      loginPlaceHolder: "Please Enter Email",
+      loginName: "Email",
+      loginPlaceHolder: "Email",
       loginValidation: "emailValidation",
     },
   ];
