@@ -223,6 +223,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   }
   getStatus;
   getrejectReason;
+  actionFormDisable = false;
   onLoad() {
 
     this.LinkPFMSAccount.getData(this.Years["2021-22"], this.state_id).subscribe(
@@ -233,6 +234,15 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         this.getStatus = res["data"]['status']
         this.getrejectReason = res["data"]['rejectReason']
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
+
+        if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+          if (this.getStatus != 'PENDING') {
+            this.actionFormDisable = true
+          }
+        } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+          this.actionFormDisable = true
+
+        }
       },
       (error) => {
         console.log(error.message);

@@ -25,8 +25,9 @@
 
 <div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;"
     *ngIf="loggedInUserType === USER_TYPE.MoHUA">
-    <div class="card-body">
-        <app-action-component (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-action-component>
+    <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
+        <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
+        </app-action-component>
     </div>
 </div>
 <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
