@@ -137,6 +137,9 @@ export class GTCertificateComponent implements OnInit {
   allStatus;
   getStatus;
   formDisable = false;
+  formDisableA = false;
+  formDisableB = false;
+  formDisableC = false;
   actionFormDisableA = false;
   actionFormDisableB = false;
   actionFormDisableC = false;
@@ -179,30 +182,31 @@ export class GTCertificateComponent implements OnInit {
         console.log(this.fileName_nonMillionUntied, this.fileName_nonMillionTied, this.fileName_millionTied)
 
         const masterForm = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
-        if (masterForm['latestFinalResponse']['role'] === 'MoHUA') {
-          this.stateActionA = res['data']['million_tied']['status']
-          this.stateActionB = res['data']['nonmillion_tied']['status']
-          this.stateActionC = res['data']['nonmillion_untied']['status']
-          this.getStatus = res['data']['status']
-          if (res['data']['million_tied']['rejectReason']) {
+        console.log(masterForm)
 
-            this.rejectReasonA = res['data']['million_tied']['rejectReason']
-          }
-          if (res['data']['nonmillion_tied']['rejectReason']) {
-            this.rejectReasonB = res['data']['nonmillion_tied']['rejectReason']
-          }
-          if (res['data']['nonmillion_untied']['rejectReason']) {
-            this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
-          }
+        this.stateActionA = res['data']['million_tied']['status']
+        this.stateActionB = res['data']['nonmillion_tied']['status']
+        this.stateActionC = res['data']['nonmillion_untied']['status']
+        this.getStatus = res['data']['status']
+        if (res['data']['million_tied']['rejectReason']) {
 
+          this.rejectReasonA = res['data']['million_tied']['rejectReason']
+        }
+        if (res['data']['nonmillion_tied']['rejectReason']) {
+          this.rejectReasonB = res['data']['nonmillion_tied']['rejectReason']
+        }
+        if (res['data']['nonmillion_untied']['rejectReason']) {
+          this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
+        }
+        if (this.loggedInUserType === "MoHUA") {
           if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
-            if (this.stateActionA != 'PENDING') {
+            if (this.stateActionA != 'PENDING' && this.stateActionA) {
               this.actionFormDisableA = true
             }
-            if (this.stateActionB != 'PENDING') {
+            if (this.stateActionB != 'PENDING' && this.stateActionB) {
               this.actionFormDisableB = true
             }
-            if (this.stateActionC != 'PENDING') {
+            if (this.stateActionC != 'PENDING' && this.stateActionC) {
               this.actionFormDisableC = true
             }
           } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
@@ -210,9 +214,30 @@ export class GTCertificateComponent implements OnInit {
             this.actionFormDisableB = true
             this.actionFormDisableC = true
           }
-
-
         }
+
+        if (this.loggedInUserType == 'MoHUA') {
+          this.formDisable = true;
+        } else if (this.loggedInUserType == 'STATE') {
+          if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+            this.formDisableA = true;
+            this.formDisableB = true;
+            this.formDisableC = true;
+          } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+            if (this.stateActionA == 'APPROVED') {
+              this.formDisableA = true
+            } if (this.stateActionB == 'APPROVED') {
+              this.formDisableB = true
+            } if (this.stateActionC == 'APPROVED') {
+              this.formDisableC = true
+            }
+          }
+        }
+
+
+
+
+
       },
         errMes => {
           // alert(errMes)
