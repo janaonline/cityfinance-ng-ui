@@ -16,7 +16,7 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   templateUrl: "./ag-grid.component.html",
   styleUrls: ["./ag-grid.component.scss"],
 })
-export class AgGridComponent implements OnInit, OnChanges {k
+export class AgGridComponent implements OnInit, OnChanges {
   constructor() {}
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
@@ -27,11 +27,16 @@ export class AgGridComponent implements OnInit, OnChanges {k
   ulbList;
   @Input()
   catList;
+  @Input()
+  isDisabled;
 
   @Output()
   gridData = new EventEmitter();
 
   frameworkComponents;
+  yearErrorMsg = "Value should be a number / Greater than 0 / less than amount";
+  fundErrorMsg =
+    "Value should be a number / Greater than 0 / less than project cost";
 
   project = [
     {
@@ -78,8 +83,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "cost",
       valueParser: "Number(newValue)",
@@ -257,8 +261,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Name less than 50 charValue should be number & Greater than 0",
+        errorMsg: "should be number & Greater than 0",
       },
       field: "cost",
       valueParser: "Number(newValue)",
@@ -274,8 +277,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "fc",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "fc",
       valueParser: "Number(newValue)",
@@ -292,8 +294,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "jjm",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "jjm",
       valueParser: "Number(newValue)",
@@ -310,8 +311,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "sbm",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "sbm",
       valueParser: "Number(newValue)",
@@ -330,8 +330,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "centalScheme",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "centalScheme",
       valueParser: "Number(newValue)",
@@ -350,8 +349,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "stateScheme",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "stateScheme",
       valueParser: "Number(newValue)",
@@ -370,8 +368,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "stateGrant",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "stateGrant",
       valueParser: "Number(newValue)",
@@ -388,8 +385,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "ulb",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "ulb",
       valueParser: "Number(newValue)",
@@ -406,8 +402,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "other",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "other",
       valueParser: "Number(newValue)",
@@ -442,8 +437,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2021-22",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "2021-22",
     },
@@ -461,8 +455,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2022-23",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "2022-23",
     },
@@ -480,8 +473,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2023-24",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "2023-24",
     },
@@ -499,8 +491,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2024-25",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "2024-25",
     },
@@ -518,8 +509,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.fundErrorMsg,
       },
       field: "2025-26",
     },
@@ -575,8 +565,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.yearErrorMsg,
       },
       field: "cost",
     },
@@ -622,8 +611,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2021-22",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.yearErrorMsg,
       },
       field: "2021-22",
     },
@@ -641,8 +629,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2022-23",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.yearErrorMsg,
       },
       field: "2022-23",
     },
@@ -660,8 +647,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2023-24",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.yearErrorMsg,
       },
       field: "2023-24",
     },
@@ -679,8 +665,7 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2024-25",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.yearErrorMsg,
       },
       field: "2024-25",
     },
@@ -698,14 +683,33 @@ export class AgGridComponent implements OnInit, OnChanges {k
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
-        errorMsg:
-          "Value should be a number / Greater than 0 / less than project cost",
+        errorMsg: this.yearErrorMsg,
       },
       field: "2025-26",
     },
   ];
 
   ngOnInit(): void {
+    if (this.isDisabled) {
+      this.project.forEach((element) => {
+        element.editable = false;
+      });
+      this.fund.forEach((element) => {
+        element.editable = false;
+      });
+      this.year.forEach((element) => {
+        element.editable = false;
+      });
+    }
+
+    this.rowData.projectExecute.forEach((element) => {
+      if (element.exAgency.value == "Parastatal Agency") {
+        this.project[6].hide = false;
+      }else{
+        element.paraAgency.value = "N/A"
+      }
+    });
+
     if (!this.ulbList.includes("Parastatal Agency"))
       this.ulbList.push("Parastatal Agency");
     this.project[5].cellEditorParams.values = this.ulbList;
@@ -807,6 +811,15 @@ export class AgGridComponent implements OnInit, OnChanges {k
     this.gridData.emit(this.rowData);
   }
 
+  async removeRow() {
+    let lastElement = this.rowData.projectExecute.pop();
+    this.agGrid1.api.applyTransaction({ remove: [lastElement] });
+    lastElement = this.rowData.sourceFund.pop();
+    this.agGrid2.api.applyTransaction({ remove: [lastElement] });
+    lastElement = this.rowData.yearOutlay.pop();
+    this.agGrid3.api.applyTransaction({ remove: [lastElement] });
+    this.gridData.emit(this.rowData);
+  }
 }
 
 const fundAutoFill = [
