@@ -1,1 +1,51 @@
-<p>state-all-preview works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 text-right b-hide">
+            <a mat-dialog-close>
+                <img src="https://img.icons8.com/metro/26/000000/multiply.png" />
+            </a>
+        </div>
+        <div class="col-sm-12">
+            <h2 class="m-h" style="line-height: normal; margin: 0;"> Submissions for 15th FC Grants for FY 2021-22</h2>
+            <h3 class="sub-m-h" style="line-height: normal; margin: 0;">{{userData.stateName}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-right b-hide">
+            <button id="donwloadButton" (click)="openModal()" class="btn btn-primary btn-upload">
+          Download as PDF
+      </button>
+        </div>
+
+    </div>
+    <div class="row" *ngIf="gtcData">
+        <div class="col-sm-12">
+            <app-gtcertificate-preview [changeFromOutSide]="changeTrigger.changeIngtcData" [parentData]="gtcData"></app-gtcertificate-preview>
+        </div>
+    </div>
+    <div class="row" *ngIf="pfmsStateData">
+        <div class="col-sm-12">
+            <app-pfms-preview [changeFromOutSide]="changeTrigger.changeInpfmsStateData" [parentData]="pfmsStateData"></app-pfms-preview>
+        </div>
+    </div>
+    <div class="row" *ngIf="stateSlbData">
+        <div class="col-sm-12">
+            <app-water-supply-preview [changeFromOutSide]="changeTrigger.changeInstateSlbData" [parentData]="stateSlbData"></app-water-supply-preview>
+        </div>
+    </div>
+    <div class="row" *ngIf="waterRejData">
+        <div class="col-sm-12">
+            <app-water-rejenuvation-preview [changeFromOutSide]="changeTrigger.changeInWaterRejData" [parentData]="waterRejData"></app-water-rejenuvation-preview>
+        </div>
+    </div>
+    <div class="row" *ngIf="actionPlanData">
+        <div class="col-sm-12">
+            <app-actionplanspreview [changeFromOutSide]="changeTrigger.changeInActionPlanData" [parentData]="actionPlanData"></app-actionplanspreview>
+        </div>
+    </div>
+    <div class="row" *ngIf="gAllData">
+        <div class="col-sm-12">
+            <app-grant-all-preview [changeFromOutSide]="changeTrigger.changeIngAllData" [parentData]="gAllData"></app-grant-all-preview>
+        </div>
+    </div>
+</div>

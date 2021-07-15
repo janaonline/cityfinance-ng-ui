@@ -25,6 +25,10 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
   styleUrls: ["./actionplanspreview.component.scss"],
 })
 export class ActionplanspreviewComponent implements OnInit {
+
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,

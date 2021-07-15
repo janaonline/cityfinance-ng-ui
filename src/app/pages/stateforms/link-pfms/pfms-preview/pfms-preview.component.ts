@@ -28,6 +28,8 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class PfmsPreviewComponent implements OnInit {
   @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   modalRef: BsModalRef;
   @ViewChild("pfmsPre") _html: ElementRef;
   showLoader;
