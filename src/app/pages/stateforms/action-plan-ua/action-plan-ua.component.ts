@@ -336,6 +336,8 @@ export class ActionPlanUAComponent implements OnInit {
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
+          }else{
+            this.data.isDraft = false;
           }
         }
         temp.push(pro);
@@ -348,6 +350,8 @@ export class ActionPlanUAComponent implements OnInit {
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
+          }else{
+            this.data.isDraft = false;
           }
         }
         temp.push(pro);
@@ -360,6 +364,8 @@ export class ActionPlanUAComponent implements OnInit {
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
+          }else{
+            this.data.isDraft = false;
           }
         }
         temp.push(pro);

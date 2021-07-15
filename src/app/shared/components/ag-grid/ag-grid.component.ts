@@ -727,7 +727,6 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   cellValueChanged(e) {
-    debugger
     if (e.colDef.field == "exAgency") {
       for (let index = 0; index < this.rowData.projectExecute.length; index++) {
         const element = this.rowData.projectExecute[index];
@@ -746,7 +745,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   fundValueChanges(e) {
-    this.checkValidYearSum(e, this.agGrid2.api, "cost");
+    if (years.includes(e.colDef.field))
+      this.checkValidYearSum(e, this.agGrid2.api, "cost");
 
     if (e.colDef.field == "fc") {
       this.autoSetNames(e, true);
@@ -771,7 +771,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   yearValueChanges(param) {
-    this.checkValidYearSum(param, this.agGrid3.api, "amount");
+    if (years.includes(param.colDef.field))
+      this.checkValidYearSum(param, this.agGrid3.api, "amount");
     this.gridData.emit(this.rowData);
   }
 
