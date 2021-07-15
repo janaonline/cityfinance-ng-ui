@@ -84,12 +84,13 @@ export class UlbformComponent implements OnInit {
         this.toolTipContentN = "Not Reviewed";
         break;
       case USER_TYPE.ADMIN:
+      case USER_TYPE.PARTNER:
         this.backHeader = "Admin Dashboard";
         this.backLink = "../ulbAdmin";
-        this.toolTipContentC = "Completed";
-        this.toolTipContentN = "Not Completed";
+        this.toolTipContentC = "Reviewed";
+        this.toolTipContentN = "Not Reviewed";
         break;
-      //case USER_TYPE.PARTNER:
+
     }
   }
 

@@ -28,11 +28,11 @@
     </div> -->
 </div>
 <div class="row" *ngFor="let uaDetails of detailsOfUa; let i=index" style="margin: 0; padding: 15px 10px;
- box-shadow: 1px 1px 1px 1px #00000029; border: 1px #00000029; height: 65px;">
+ box-shadow: 1px 1px 1px 1px #00000029; border: 1px #00000029;">
 
     <div class="row">
         <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9" style="margin: 0; padding-top: 6px;">
-            <h5 style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}}</h5>
+            <h5 style="margin: 0; font-size: 15px; font-weight: 500;">UA{{i+1}}: Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}}</h5>
         </div>
         <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right">
             <button type="button" class="btn" style="height: 2pc;" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
@@ -105,7 +105,8 @@
                             <div class="input-group data-input">
                                 <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
 
@@ -123,7 +124,7 @@
                             <div class="input-group data-input ">
                                 <input type="text" disabled [value]="uaDetails.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
                         </td>
@@ -131,7 +132,7 @@
                             <div class="input-group data-input ">
                                 <input type="text " disabled [value]="uaDetails.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
 
@@ -149,7 +150,7 @@
                             <div class="input-group data-input ">
                                 <input type="text" disabled [value]="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
                         </td>
@@ -157,7 +158,7 @@
                             <div class="input-group data-input ">
                                 <input type="text" disabled [value]="uaDetails.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
 
@@ -175,7 +176,7 @@
                             <div class="input-group data-input ">
                                 <input type="text" disabled [value]="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
                         </td>
@@ -183,7 +184,7 @@
                             <div class="input-group data-input ">
                                 <input type="text" disabled [value]="uaDetails.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
                                 <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                     </em></span>
                             </div>
 
@@ -200,7 +201,7 @@
 
 
 
-<div class="row " style="margin-top: 2rem; margin-bottom: 1rem;">
+<div class="row " style="margin-top: 3rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6 ">
         <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>

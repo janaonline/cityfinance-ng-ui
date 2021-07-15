@@ -24,7 +24,8 @@
     <!-- && (finalSubmitUtiStatus == 'true') -->
     <div class="btn-group float-right" *ngIf="loggedInUserType === USER_TYPE.ULB
      && !FromLinkinPfms && (btnStyleA || btnStyleR)" btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
-        <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">{{stateAction | titlecase}}</label>
+        <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
+          {{stateAction | titlecase}}</label>
     </div>
 </div>
 <div class="float-left" style="display: inline-block;" [ngClass]="{'pfmsClass': FromLinkinPfms, 'ulbClass' : (loggedInUserType === USER_TYPE.ULB &&

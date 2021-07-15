@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
@@ -13,7 +13,9 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./gtcertificate-preview.component.scss']
 })
 export class GtcertificatePreviewComponent implements OnInit {
-
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
@@ -26,19 +28,35 @@ export class GtcertificatePreviewComponent implements OnInit {
   @ViewChild("template") template;
   showLoader;
   styleForPDF = `<style>
-    .header-p {
-      background-color: #047474;
-      height: 70px;
-      text-align: center;
-  }
-  .heading-p {
-      color: #FFFFFF;
-      font-size: 18px;
-      padding-top: 1.6rem !important;
-      font-weight: 700;
+  .header-p {
+    background-color: #047474;
+    height: 75px;
+    text-align: center;
+}
+.heading-p {
+    color: #FFFFFF;
+    font-size: 18px;
+    padding-top: 1rem !important;
+    font-weight: 700;
 
-  }
+}
+.sub-h {
+  font-weight: 600 !important;
+  font-size: 14px;
+}
 
+.form-h {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.m-d{
+  margin-top: 10px !important;
+}
+.form-status {
+  font-size: 10px;
+}
   .card {
       margin-top: 10px !important;
       padding: 5px 10px;
@@ -70,9 +88,14 @@ export class GtcertificatePreviewComponent implements OnInit {
       }
 
     </style>`
-
+    ulbName;
+    stateName;
+    status;
   ngOnInit() {
     console.log('preData', this.data)
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbName = userData["name"];
+    this.stateName = userData["stateName"];
   }
 
   clickedDownloadAsPDF() {
