@@ -54,7 +54,7 @@
                                 <th style="width: 10%;" scope="col">Project Cost</th>
                                 <th style="width: 10%;" scope="col">Project Details</th>
                                 <th style="width: 10%;" scope="col">Executing Agency</th>
-                                <th *ngIf="uas.projectExecute[0]?.paraAgency" style="width: 10%;" scope="col">Name of Parastatal Agency</th>
+                                <th *ngIf="includeParaAgency(uas)" style="width: 10%;" scope="col">Name of Parastatal Agency</th>
                                 <th style="width: 7%;" scope="col">Sector</th>
                                 <th style="width: 10%;" scope="col">Project Type</th>
                                 <th style="width: 7%;" scope="col">Estimated OutCome</th>
@@ -80,7 +80,7 @@
                                 <td>
                                     {{projectExecute.exAgency}}
                                 </td>
-                                <td *ngIf="uas.projectExecute?.paraAgency">
+                                <td *ngIf="projectExecute.paraAgency != ''">
                                     {{projectExecute.paraAgency}}
                                 </td>
                                 <td>
