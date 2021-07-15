@@ -25,6 +25,10 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
   styleUrls: ["./water-rejenuvation-preview.component.scss"],
 })
 export class WaterRejenuvationPreviewComponent implements OnInit {
+
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,

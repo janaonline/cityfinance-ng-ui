@@ -40,6 +40,7 @@ export class WaterSupplyComponent implements OnInit {
   filterObject;
   // fcFormListSubscription: Subscription;
   nodataFound = false;
+  apiData = false;
   errMessage = '';
   constructor(
     private _commonService: CommonService,
@@ -65,7 +66,12 @@ export class WaterSupplyComponent implements OnInit {
     benchmark: string;
   }[] = services;
   detailsOfUa;
+  uasList;
   ngOnInit() {
+    this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
+    console.log(this.uasList)
+
+
 
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
@@ -85,7 +91,8 @@ export class WaterSupplyComponent implements OnInit {
     // console.log('target', this.targets)
     // console.log('serv', this.services);
     // console.log('basline', this.focusTargetKey)
-    this.getwaterSuppyData()
+    this.getwaterSuppyData();
+
 
   }
   getwaterSuppyData() {
@@ -95,10 +102,19 @@ export class WaterSupplyComponent implements OnInit {
         let ulbdetails: any = res;
         this.detailsOfUa = ulbdetails.data;
         console.log(this.detailsOfUa);
-        // let st = this.detailsOfUa[0].uaName;
-        // console.log('kuch ni', st);
-        // st = st.split(' ')
-        // console.log('kuch ni', st);
+
+        this.uasList.forEach(el => {
+          this.detailsOfUa.forEach(el2 => {
+            if (el.name == el2.uaName) {
+              console.log('match', el.name)
+              el['data'] = el2;
+            } else {
+              el['data'] = null;
+            }
+          })
+
+        })
+        console.log(this.uasList)
       })
   }
 
@@ -134,6 +150,7 @@ export class WaterSupplyComponent implements OnInit {
         return this.fetchStateList();
     }
   }
+
   isCollapsed = true;
   message = 'expanded';
 

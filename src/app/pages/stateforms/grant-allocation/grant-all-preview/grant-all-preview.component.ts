@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
   TemplateRef,
+  Input,
 } from "@angular/core";
 import {
   MatDialog,
@@ -23,6 +24,9 @@ import { GAservicesService } from "../g-aservices.service";
   styleUrls: ["./grant-all-preview.component.scss"],
 })
 export class GrantAllPreviewComponent implements OnInit {
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   @ViewChild("gtallocation") _html: ElementRef;
   @ViewChild("template") template;
   showLoader;

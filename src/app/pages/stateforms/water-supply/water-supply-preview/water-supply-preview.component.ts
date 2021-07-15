@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { services, targets } from '../../../../users/data-upload/components/configs/water-waste-management';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -27,6 +27,10 @@ export class WaterSupplyPreviewComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
   showLoader;
+
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   @ViewChild("waterSani") _html: ElementRef;
   @ViewChild("template") template;
   styleForPDF = `<style>

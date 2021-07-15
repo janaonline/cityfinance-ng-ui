@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
@@ -13,7 +13,9 @@ const swal: SweetAlert = require("sweetalert");
   styleUrls: ['./gtcertificate-preview.component.scss']
 })
 export class GtcertificatePreviewComponent implements OnInit {
-
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
