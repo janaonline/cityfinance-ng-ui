@@ -148,7 +148,7 @@ export class PfmsPreviewComponent implements OnInit {
   clicked = false;
 
   clickedDownloadAsPDF(template) {
-    let changeHappen = sessionStorage.getItem("changeInPFMSAccount");
+    let changeHappen = sessionStorage.getItem("changeInPFMSAccountState");
     this.clicked = true;
     if (changeHappen === "true") {
       this.openDialog(template);
@@ -201,14 +201,12 @@ export class PfmsPreviewComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     this.dialogRef.close();
-    console.log("Check this value", this.data);
-    sessionStorage.setItem("changeInPFMSAccount", "false");
     console.log(this.data);
     this.LinkPFMSAccount.postData(this.data).subscribe(
       (res) => {
         console.log(res);
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.pfmsAccount.isSubmit = res["isCompleted"];
+        if (status) status.pfmsAccount.isSubmit = res["isCompleted"];
         console.log(res);
         if (res["isCompleted"] == true) {
           console.log("true");
@@ -217,6 +215,7 @@ export class PfmsPreviewComponent implements OnInit {
           console.log("entered else, in progress");
           this.formStatusCheck = "In Progress";
         }
+        sessionStorage.setItem("changeInPFMSAccountState", "false");
         swal("Record submitted successfully!");
       },
       (error) => {

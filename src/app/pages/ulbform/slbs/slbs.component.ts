@@ -138,14 +138,19 @@ export class SlbsComponent implements OnInit {
         console.log("slbResponse", res["data"]);
         this.statePostData = res;
         let actRes = {
-          st: this.statePostData.data[0]?.waterManagement["status"],
+          st:
+            this.statePostData.data[0]?.waterManagement["status"] != ""
+              ? this.statePostData.data[0]?.waterManagement["status"]
+              : "PENDING",
           rRes: this.statePostData.data[0]?.waterManagement["rejectReason"],
           actionTakenByRole: res["data"][0]?.actionTakenByRole,
           finalSubmitStatus: this.finalSubmitStatus,
         };
         if (this.statePostData.data[0]?.waterManagement["status"] != "NA") {
           this.ulbFormStaus =
-            this.statePostData.data[0]?.waterManagement["status"];
+            this.statePostData.data[0]?.waterManagement["status"] != ""
+              ? this.statePostData.data[0]?.waterManagement["status"]
+              : "PENDING";
           console.log("slb Status", this.ulbFormStaus);
         }
 
