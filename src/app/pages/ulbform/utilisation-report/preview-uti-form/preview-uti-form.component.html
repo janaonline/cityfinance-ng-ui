@@ -117,8 +117,9 @@
 
                         </td>
                         <td>
-                            <label for="" class="bor-in-l">Lat :&nbsp; <span>{{data.projects[i].location.lat}}</span></label> <br>
-                            <label for="" class="bor-in-l long">Long :&nbsp;<span>{{data.projects[i].location.long}}</span> </label>
+                            <label for="" class="bor-in-l"><span *ngIf="(data.projects[i].location.lat != '')">Lat :&nbsp; {{data.projects[i].location.lat}}</span></label> <br>
+                            <label for="" class="bor-in-l long"><span *ngIf="(data.projects[i].location.long != '')">Long :&nbsp;
+                              {{data.projects[i].location.long}}</span> </label>
 
                         </td>
                         <td> <label class="bor-in-l" for="">{{data.projects[i].cost}}</label></td>

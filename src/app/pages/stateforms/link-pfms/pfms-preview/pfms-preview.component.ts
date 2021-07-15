@@ -28,6 +28,8 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class PfmsPreviewComponent implements OnInit {
   @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   modalRef: BsModalRef;
   @ViewChild("pfmsPre") _html: ElementRef;
   showLoader;
@@ -67,7 +69,9 @@ export class PfmsPreviewComponent implements OnInit {
     margin-bottom: 1rem;
     text-align: center;
 }
-
+.st-d {
+  margin-top: 10px !important;
+}
   .card {
       margin-top: 10px !important;
       padding: 5px 10px;

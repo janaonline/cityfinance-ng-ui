@@ -25,6 +25,10 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
   styleUrls: ["./actionplanspreview.component.scss"],
 })
 export class ActionplanspreviewComponent implements OnInit {
+
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
@@ -35,17 +39,30 @@ export class ActionplanspreviewComponent implements OnInit {
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
-    height: 70px;
+    height: 75px;
     text-align: center;
 }
 .heading-p {
     color: #FFFFFF;
     font-size: 18px;
-    padding-top: 1.6rem !important;
+    padding-top: 1rem !important;
     font-weight: 700;
 
 }
+.sub-h {
+  font-weight: 600 !important;
+  font-size: 14px;
+}
 
+.form-h {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.form-status {
+  font-size: 10px;
+}
 .card {
     margin-top: 10px !important;
     padding: 5px 10px;
@@ -83,9 +100,14 @@ margin-bottom: 1.5rem !important;
   dialogRef;
   err = "";
   status;
+  stateName;
+  ulbName;
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
 
   ngOnInit(): void {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbName = userData["name"];
+    this.stateName = userData["stateName"];
     this.setStatus();
     console.log(this.data);
   }

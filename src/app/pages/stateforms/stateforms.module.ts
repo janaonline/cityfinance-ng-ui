@@ -46,6 +46,7 @@ import { SlbListComponent } from './state-dashboard/slb-list/slb-list.component'
 import { MatButtonModule } from '@angular/material/button';
 import { ChartsModule } from 'ng2-charts';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
 @NgModule({
   entryComponents: [OverallListComponent],
   declarations: [StateformsComponent,
@@ -80,6 +81,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     // UtilReportListComponent
     LinkPFMSComponent,
     PfmsPreviewComponent,
+    StateAllPreviewComponent,
 
 
   ],

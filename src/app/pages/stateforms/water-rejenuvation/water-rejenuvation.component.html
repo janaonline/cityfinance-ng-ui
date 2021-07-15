@@ -4,7 +4,7 @@
             PREVIEW
         </button>
     </div> -->
-    <div class="row">
+    <div class="row" style="margin-bottom: 5px;">
         <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
             <h4 class="form-header">
                 Indicator for Water Rejenuvation and Recycling
@@ -21,7 +21,8 @@
                     <div style="height: 40px;">
                         <div style="display: inline-flex; float: left;">
                             <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
-                            <h5 style="display: inline-block;">UA{{projectIndex+1}}: Urban Aggolmeration {{uaIdToName(projectIndex).split(' ')[0]}}</h5>
+                            <h5 style="display: inline-block; font-size: 15px; font-weight: 500;">
+                                UA{{projectIndex+1}}: Urban Aggolmeration {{uaIdToName(projectIndex).split(' ')[0]}}</h5>
                         </div>
                         <div style="display: inline-flex; float: right;">
                             <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
@@ -30,7 +31,7 @@
                     <div *ngIf="checkCard(projectIndex)">
                         <div class="table-responsive">
                             <div>
-                                <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
+                                <h5 style="font-size: 14; font-weight: 500;">Fill Details of Project for Rejuvenation of Water Bodies<span style="color: red;">*</span></h5>
                             </div>
                             <table class="table custom-position">
                                 <thead>
@@ -113,7 +114,7 @@
                                 </tbody>
                             </table>
                             <div>
-                                <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
+                                <h5 style="font-size: 14px; font-weight: 500;">Fill Details of Projects for Recycling and Reuse of Water<span style="color: red;">*</span></h5>
                             </div>
                             <table class="table custom-position">
                                 <thead>
@@ -191,7 +192,7 @@
             </div>
 
         </div>
-        <div class="card-footer">
+        <div class="card-footer" style="margin-top: 3rem;">
             <button class="btn saveBtn pull-right" (click)="submit()" type="button">
                 {{saveBtnText}}
             </button>

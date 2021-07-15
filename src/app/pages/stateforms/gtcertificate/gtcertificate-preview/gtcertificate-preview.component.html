@@ -6,22 +6,35 @@
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
-            <div class="col-sm-12 heading-p">
+            <!-- <div class="col-sm-12 heading-p">
                 Grant Transfer Certificate
+            </div> -->
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top': stateName  ? '' : '1.5rem'}">
+                <span> Submissions for 15th FC Grants for FY 2021-22</span>
+                <br><b class="sub-h">{{stateName}}</b>
             </div>
         </div>
     </div>
-    <div class=" row h-cls" style="margin-top: 1.5rem;">
-        <div class="col-sm-12 text-right">
+    <div class=" row st-d" style="">
+        <div class="col-sm-6 form-status">
+            <b>Form Current Status:</b> {{status}}
+        </div>
+        <div class="col-sm-6 text-right h-cls">
             <button id="donwloadButton" style="right: 0%;
     outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
                 Download as PDF
             </button>
         </div>
+
     </div>
 
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
+        <div class="col-sm-12 col-md-12 col-lg-12 m-d" style="margin-top: 0; margin-bottom: 20px;">
+            <div class="row">
+                <div class="col-sm-12 text-center form-h">
+                    Grant Transfer Certificate
+                </div>
+            </div>
             <div class="card">
                 <div class="card-body">
                     <div class="row">

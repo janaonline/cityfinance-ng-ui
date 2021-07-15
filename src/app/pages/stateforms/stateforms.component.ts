@@ -10,6 +10,8 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 import { ActivatedRoute, Router } from '@angular/router';
+import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stateforms',
@@ -29,6 +31,7 @@ export class StateformsComponent implements OnInit {
     private _commonService: CommonService,
     private profileService: ProfileService,
     private _router: Router,
+    public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
     public stateformsService: StateformsService
   ) {
@@ -585,4 +588,16 @@ export class StateformsComponent implements OnInit {
         return this.fetchStateList();
     }
   }
+  allFormsData;
+  statePreview() {
+    console.log("hello", this.allFormsData);
+    const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+      data: this.allFormsData,
+      width: "85vw",
+      height: "100%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
 }

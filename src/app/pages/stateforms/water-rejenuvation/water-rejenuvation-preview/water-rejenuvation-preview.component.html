@@ -6,14 +6,18 @@
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
-            <div class="col-sm-12 heading-p">
+            <!-- <div class="col-sm-12 heading-p">
                 Indicator for Water Rejenuvation and Recycling
+            </div> -->
+            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top': stateName  ? '' : '1.5rem'}">
+                <span> Submissions for 15th FC Grants for FY 2021-22</span>
+                <br><b class="sub-h">{{stateName}}</b>
             </div>
         </div>
     </div>
-    <div class="row form-status" style="margin-top: 1.5rem;">
-        <div class="col-sm-6">
-            Form Current Status: {{status}}
+    <div class="row st-d">
+        <div class="col-sm-6 form-status">
+            <b>Form Current Status:</b> {{status}}
         </div>
         <div class="col-sm-6 text-right">
             <button id="donwloadButton" style="right: 0%;
@@ -22,8 +26,13 @@
             </button>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12 text-center form-h">
+            Indicator for Water Rejenuvation and Recycling
+        </div>
+    </div>
     <div *ngFor="let uas of data.uaData; let projectIndex=index">
-        <div class="card" style="margin-top: 1pc; margin-left: 0pc;">
+        <div class="card" style="margin-top: 5px; margin-left: 0pc;">
             <div class="card-body ">
                 <div style="display: flex;">
                     <div>
@@ -76,7 +85,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    Lat- {{waterBodies.lat}} <br> Long- {{waterBodies.long}}
+                                    <span *ngIf="waterBodies.lat">Lat-</span> {{waterBodies.lat}} <br>
+                                    <span *ngIf="waterBodies.long">Long-</span> {{waterBodies.long}}
                                 </td>
                                 <td>
                                     {{waterBodies.bod}}
@@ -127,7 +137,9 @@
                                     {{waterReuse.treatmentPlant}}
                                 </td>
                                 <td>
-                                    Lat- {{waterReuse.lat}} Long- {{waterReuse.long}}
+                                    <span *ngIf="waterReuse.lat">Lat-</span> {{waterReuse.lat}} <br>
+                                    <span *ngIf="waterReuse.long">Long-</span> {{waterReuse.long}}
+                                    <!-- Lat- {{waterReuse.lat}} Long- {{waterReuse.long}} -->
                                 </td>
                                 <td>
                                     {{waterReuse.stp}}

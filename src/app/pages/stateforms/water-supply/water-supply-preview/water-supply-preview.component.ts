@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { services, targets } from '../../../../users/data-upload/components/configs/water-waste-management';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -27,12 +27,36 @@ export class WaterSupplyPreviewComponent implements OnInit {
   loggedInUserType: USER_TYPE;
   userTypes = USER_TYPE;
   showLoader;
+
+  @Input() parentData: any;
+  @Input()
+  changeFromOutSide: any;
   @ViewChild("waterSani") _html: ElementRef;
   @ViewChild("template") template;
   styleForPDF = `<style>
   :root {
     font-size: 14px;
   }
+  .sub-h-font{
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+  .heading-font{
+    font-size: 18px !important;
+    font-weight: 700;
+
+  }
+  .slb-pd {
+    padding: 2% 0% 2.5% 0%;
+}
+
+
+.form-h {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
   table tbody tr {
     border: 100px solid black;
@@ -139,8 +163,12 @@ h5{
     benchmark: string;
   }[] = services;
   detailsOfUa;
+  ulbName;
+  stateName;
   ngOnInit() {
-
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    this.ulbName = userData["name"];
+    this.stateName = userData["stateName"];
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {
