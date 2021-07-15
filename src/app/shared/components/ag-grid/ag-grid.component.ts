@@ -728,15 +728,41 @@ export class AgGridComponent implements OnInit, OnChanges {
 
   cellValueChanged(e) {
     if (e.colDef.field == "exAgency") {
-      for (let index = 0; index < this.rowData.projectExecute.length; index++) {
-        const element = this.rowData.projectExecute[index];
-        if (element.exAgency.value == "Parastatal Agency") {
-          return;
+      this.agGrid1.api.forEachNode((param, index) => {
+        if (
+          param.data.exAgency.value != "Parastatal Agency" &&
+          param.data.exAgency.value != ""
+        ) {
+          param.data.paraAgency.value = "N/A";
+        }
+        if (e.node.id == index && e.value != "Parastatal Agency") {
+          param.data.paraAgency.value = "N/A";
+        } else if (e.node.id == index) {
+          param.data.paraAgency.value = "";
+        }
+        this.agGrid1.api.applyTransaction({ update: [param.data] });
+      });
+
+      if (e.value != "Parastatal Agency") {
+        for (
+          let index = 0;
+          index < this.rowData.projectExecute.length;
+          index++
+        ) {
+          const element = this.rowData.projectExecute[index];
+          if (
+            element.exAgency.value == "Parastatal Agency" &&
+            e.node.id != index
+          ) {
+            return;
+          }
         }
       }
-      if (e.value == "Parastatal Agency")
+      if (e.value == "Parastatal Agency") {
         this.agGrid1.columnApi.setColumnVisible("paraAgency", true);
-      else this.agGrid1.columnApi.setColumnVisible("paraAgency", false);
+      } else {
+        this.agGrid1.columnApi.setColumnVisible("paraAgency", false);
+      }
     }
     if (e.colDef.field == "cost" || e.colDef.field == "name") {
       this.autoSetNames(e);
