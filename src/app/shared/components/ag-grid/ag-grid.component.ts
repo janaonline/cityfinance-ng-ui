@@ -43,6 +43,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["index"].value != null ? params.data["index"].value : "",
       headerName: "S No",
+      pinned: true,
       width: 50,
       field: "index",
     },
@@ -51,6 +52,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["code"].value != null ? params.data["code"].value : "",
       headerName: "Project Code",
+      pinned: true,
       width: 180,
       editable: false,
       tooltipField: "code",
@@ -63,6 +65,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["name"].value != null ? params.data["name"].value : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
+      pinned: true,
       width: 120,
       editable: true,
       tooltipField: "name",
@@ -78,6 +81,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 100,
+      pinned: true,
       editable: true,
       tooltipField: "cost",
       tooltipComponent: "customTooltip",
@@ -723,7 +727,14 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   cellValueChanged(e) {
+    debugger
     if (e.colDef.field == "exAgency") {
+      for (let index = 0; index < this.rowData.projectExecute.length; index++) {
+        const element = this.rowData.projectExecute[index];
+        if (element.exAgency.value == "Parastatal Agency") {
+          return;
+        }
+      }
       if (e.value == "Parastatal Agency")
         this.agGrid1.columnApi.setColumnVisible("paraAgency", true);
       else this.agGrid1.columnApi.setColumnVisible("paraAgency", false);
@@ -760,7 +771,7 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   yearValueChanges(param) {
-    this.checkValidYearSum(param, this.agGrid3.api, "ammount");
+    this.checkValidYearSum(param, this.agGrid3.api, "amount");
     this.gridData.emit(this.rowData);
   }
 
@@ -919,7 +930,12 @@ const input = {
   code: { value: "", isEmpty: true, lastValidation: true },
 };
 
-const Area = (x) => x.length < 201;
+const Area = (x) => {
+  if (typeof x == "string") {
+    return x.length < 201;
+  }
+  return false;
+};
 const Total = (x, param) => {
   if (param.data.cost.value == "") {
     param.data.cost.value = 0;
