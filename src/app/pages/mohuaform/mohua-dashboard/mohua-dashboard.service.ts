@@ -21,16 +21,16 @@ export class MohuaDashboardService {
   }
   getFormData(state_id) {
     if (state_id) {
-      return this.http.get(`${environment.api.url}mohua/forms?state_id=${state_id}`);
+      return this.http.get(`${environment.api.url}mohua/forms/606aaf854dff55e6c075d219?state_id=${state_id}`);
     } else {
-      return this.http.get(`${environment.api.url}mohua/forms`);
+      return this.http.get(`${environment.api.url}mohua/forms/606aaf854dff55e6c075d219`);
     }
   }
   getTableData(state_id) {
     if (state_id) {
-      return this.http.get(`${environment.api.url}masterForm/stateUlb?state_id=${state_id}`);
+      return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219&state_id=${state_id}`);
     } else {
-      return this.http.get(`${environment.api.url}masterForm/stateUlb`);
+      return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219`);
     }
   }
 
