@@ -16,8 +16,7 @@
         <ng-container>
             <br>
             <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn"
-                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled] = "formDisable"
-                >
+                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable">
             </app-comm-file-upload>
             <br>
         </ng-container>
@@ -39,6 +38,12 @@
             <b style="font-weight: 600;">Reason for rejection :</b> {{getrejectReason}}
         </p>
 
+    </div>
+</div>
+<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
+    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'STATE'))">
+    <div class="card-body">
+        <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
     </div>
 </div>
 
