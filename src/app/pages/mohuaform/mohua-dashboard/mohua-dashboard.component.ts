@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Chart } from "chart.js";
 import { pipe } from "rxjs";
 import { StateDashboardService } from "../../stateforms/state-dashboard/state-dashboard.service";
-import { MohuaDashboardService } from './mohua-dashboard.service'
+import { MohuaDashboardService } from "./mohua-dashboard.service";
 import { OverallListComponent } from "../../stateforms/state-dashboard/overall-list/overall-list.component";
 import {
   FormBuilder,
@@ -48,7 +48,8 @@ export class MohuaDashboardComponent implements OnInit {
     protected geoService: GeographicalService,
     protected _activateRoute: ActivatedRoute,
     public mohuaDashboardService: MohuaDashboardService
-  ) { }
+  ) {}
+  @ViewChild("stateTable") stateTable;
 
   ngOnInit(): void {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
@@ -88,7 +89,6 @@ export class MohuaDashboardComponent implements OnInit {
   statesLayer: L.GeoJSON<any>;
   tabelData;
   currentSort = 1;
-
 
   takeStateAction = "false";
   loading = false;
@@ -149,7 +149,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.mainDonughtChart();
     this.gaugeChart1();
     this.constChart();
-    this.constChart1()
+    this.constChart1();
     this.gaugeChart2();
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
@@ -176,15 +176,15 @@ export class MohuaDashboardComponent implements OnInit {
 
   }
   getTableData() {
-    this.mohuaDashboardService.getTableData('').subscribe(
+    this.mohuaDashboardService.getTableData("").subscribe(
       (res) => {
 
         this.tabelData = res['data']
         console.log(this.tabelData)
 
       },
-      (err) => { }
-    )
+      (err) => {}
+    );
   }
   calculateVH(vh: number) {
     const h = Math.max(
@@ -218,7 +218,12 @@ export class MohuaDashboardComponent implements OnInit {
 
     return zoom;
   }
-  createNationalLevelMap(
+
+  addIdInGeoData(data) {
+    return new Promise((res, rej) => {});
+  }
+
+  async createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
       {
@@ -228,7 +233,7 @@ export class MohuaDashboardComponent implements OnInit {
     containerId: string
   ) {
     const zoom = this.calculateMapZoomLevel();
-
+    // geoData = await this.addIdInGeoData(geoData);
     const configuration = {
       containerId,
       geoData,
@@ -252,47 +257,49 @@ export class MohuaDashboardComponent implements OnInit {
       (layer as any).bringToBack();
       (layer as any).on({
         click: (args: ILeafletStateClickEvent) => {
-          // this.onClickingStateOnMap(args);
+          this.onClickingStateOnMap(args);
         },
       });
     });
   }
-  // onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
-  //   const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
-  //   // const stateList = this.slides[this.currentSlideIndex].states;
-  //   const list = this.slides.find((slide) => {
-  //     const slideHasState = !!slide.states.find(
-  //       (name) => name.toLowerCase() === stateName
-  //     );
-  //     return slideHasState;
-  //   });
+  onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
+    console.log("stateLayer", stateLayer);
+    const stateName = MapUtil.getStateCode(stateLayer).toLowerCase();
+    // MapUtil.colorStateLayer(stateLayer, "#E5E5E5");
+    console.log(this.stateTable.nativeElement.rows);
+    for (
+      let index = 0;
+      index < this.stateTable.nativeElement.rows.length;
+      index++
+    ) {
+      const element = this.stateTable.nativeElement.rows[index];
+      let tableState = element.children[7]?.textContent.toLowerCase().trim();
+      let mapState = stateName.toLowerCase().trim();
+      console.log(tableState, mapState, "equality", tableState == mapState);
+      if (tableState == mapState) {
+        element.focus();
+        break;
+      }
+    }
+  }
 
-  //   if (!list) {
-  //     return;
-  //   }
-
-  //   // const stateFound = !!stateList.find(
-  //   //   (name) => name.toLowerCase() == stateName
-  //   // );
-
-  //   this.showStateGroup({ states: list.states }, stateName);
-  // }
-  // showStateGroup(item, stateToShow?: string) {
-  //   const stateList = item.states;
-  //   this.selectedStates = ["criteria"];
-
-  //   this.states.forEach((state) => {
-  //     if (
-  //       stateList.indexOf(state.name.toLowerCase()) > -1 &&
-  //       (stateToShow ? stateToShow == state.name.toLowerCase() : true)
-  //     ) {
-  //       this.addToCompare(state);
-  //     } else {
-  //       state.selected = false;
-  //     }
-  //   });
-  //   this.showComparisionPage();
-  // }
+  onClickingStateTab(event) {
+    const stateName = event.target.value;
+    for (
+      let index = 0;
+      index < this.stateTable.nativeElement.rows.length;
+      index++
+    ) {
+      const element = this.stateTable.nativeElement.rows[index];
+      let tableState = element.children[7]?.textContent.toLowerCase().trim();
+      let mapState = stateName.toLowerCase().trim();
+      console.log(tableState, mapState, "equality", tableState == mapState);
+      if (tableState == mapState) {
+        element.focus();
+        break;
+      }
+    }
+  }
 
   openDialogAnnual() {
     const dialogRef = this.dialog.open(AnnualaccListComponent);
@@ -358,162 +365,144 @@ export class MohuaDashboardComponent implements OnInit {
         'Not Registered',
         'Pending Response'
       ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.pfms_registered,
-          this.values.pfms_notRegistered,
-          this.values.pfms_pendingResponse],
-        backgroundColor: [
-          '#67DF7B',
-          '#DBDBDB',
-          '#FF7154',
-
-        ],
-        hoverOffset: 4
-      }]
     };
-    const canvas = <HTMLCanvasElement>document.getElementById('pfms');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("pfms");
+    const ctx = canvas.getContext("2d");
     this.pfmsdonughtChart = new Chart(ctx, {
-      type: 'doughnut',
+      type: "doughnut",
       data: data,
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: 'left',
-          align: 'start',
+          position: "left",
+          align: "start",
           labels: {
             fontSize: 13,
-            fontColor: 'black',
+            fontColor: "black",
             usePointStyle: true,
             padding: 25,
-          }
-        }
-      }
-
+          },
+        },
+      },
     });
   }
 
   utilReportDonughtChart() {
     const data = {
       labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '213 - Under State Review',
-        '213 - Approved by State'
+        "103 - Pending Completion",
+        "213 - Completed and Pending Submission",
+        "213 - Under State Review",
+        "213 - Approved by State",
       ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.util_pendingCompletion,
-          this.values.util_completedAndPendingSubmission,
-          this.values.util_underStateReview,
-          this.values.util_approvedbyState],
-        backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
-        ],
-        hoverOffset: 4
-      }]
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [
+            this.values.util_pendingCompletion,
+            this.values.util_completedAndPendingSubmission,
+            this.values.util_underStateReview,
+            this.values.util_approvedbyState,
+          ],
+          backgroundColor: ["#F95151", "#FF9E30", "#DBDBDB", "#67DF7B"],
+          hoverOffset: 4,
+        },
+      ],
     };
-    const canvas = <HTMLCanvasElement>document.getElementById('utilReport');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("utilReport");
+    const ctx = canvas.getContext("2d");
     this.utilreportDonughtChart = new Chart(ctx, {
-      type: 'doughnut',
+      type: "doughnut",
       data: data,
 
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: 'left',
-          align: 'start',
+          position: "left",
+          align: "start",
           labels: {
             fontSize: 13,
-            fontColor: 'black',
+            fontColor: "black",
             usePointStyle: true,
             padding: 22,
-          }
-        }
-      }
-
+          },
+        },
+      },
     });
   }
   slbDonughtChart() {
     const data = {
       labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '213 - Under State Review',
-        '213 - Approved by State'
+        "103 - Pending Completion",
+        "213 - Completed and Pending Submission",
+        "213 - Under State Review",
+        "213 - Approved by State",
       ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.slb_pendingCompletion,
-          this.values.slb_completedAndPendingSubmission,
-          this.values.slb_underStateReview,
-          this.values.slb_approvedbyState],
-        backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
-        ],
-        hoverOffset: 4
-      }]
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [
+            this.values.slb_pendingCompletion,
+            this.values.slb_completedAndPendingSubmission,
+            this.values.slb_underStateReview,
+            this.values.slb_approvedbyState,
+          ],
+          backgroundColor: ["#F95151", "#FF9E30", "#DBDBDB", "#67DF7B"],
+          hoverOffset: 4,
+        },
+      ],
     };
-    const canvas = <HTMLCanvasElement>document.getElementById('slb');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("slb");
+    const ctx = canvas.getContext("2d");
     this.slbdonughtChart = new Chart(ctx, {
-      type: 'doughnut',
+      type: "doughnut",
       data: data,
       options: {
         maintainAspectRatio: false,
         legend: {
-
-          position: 'left',
-          align: 'start',
+          position: "left",
+          align: "start",
           labels: {
             fontSize: 13,
-            fontColor: 'black',
+            fontColor: "black",
             usePointStyle: true,
             padding: 22,
-          }
-        }
-      }
-
+          },
+        },
+      },
     });
   }
   gaugeChart1() {
-    this.values.annualAcc_provisional = 28
-    let mainColor = '', complimentColor = '', borderColor = '';
+    this.values.annualAcc_provisional = 28;
+    let mainColor = "",
+      complimentColor = "",
+      borderColor = "";
     if (this.values.annualAcc_provisional < 25) {
-      mainColor = '#FF7154';
-      complimentColor = '#ffcabf';
-      borderColor = '#FF7154'
+      mainColor = "#FF7154";
+      complimentColor = "#ffcabf";
+      borderColor = "#FF7154";
     } else {
-      mainColor = "#09C266"
-      complimentColor = "#C6FBE0"
-      borderColor = '#09C266';
+      mainColor = "#09C266";
+      complimentColor = "#C6FBE0";
+      borderColor = "#09C266";
     }
-    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("chartDiv");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
-            data: [this.values.annualAcc_provisional, 100 - this.values.annualAcc_provisional],
+            data: [
+              this.values.annualAcc_provisional,
+              100 - this.values.annualAcc_provisional,
+            ],
             backgroundColor: [mainColor, complimentColor],
             borderColor: [borderColor],
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -523,25 +512,23 @@ export class MohuaDashboardComponent implements OnInit {
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
-
   }
   constChart() {
-    const canvas = <HTMLCanvasElement>document.getElementById('meter');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("meter");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
             data: [25, 75],
             backgroundColor: ["#FF7154", "#67DF7B"],
-          }
-        ]
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -551,24 +538,23 @@ export class MohuaDashboardComponent implements OnInit {
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
   }
   constChart1() {
-    const canvas = <HTMLCanvasElement>document.getElementById('meter1');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("meter1");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
             data: [25, 75],
             backgroundColor: ["#FF7154", "#67DF7B"],
-          }
-        ]
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -578,37 +564,41 @@ export class MohuaDashboardComponent implements OnInit {
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
   }
   gaugeChart2() {
-    let mainColor = '', complimentColor = '', borderColor = '';
-    this.values.annualAcc_audited = 20
+    let mainColor = "",
+      complimentColor = "",
+      borderColor = "";
+    this.values.annualAcc_audited = 20;
     if (this.values.annualAcc_audited < 25) {
-      mainColor = '#FF7154';
-      complimentColor = '#ffcabf';
-      borderColor = '#FF7154'
+      mainColor = "#FF7154";
+      complimentColor = "#ffcabf";
+      borderColor = "#FF7154";
     } else {
-      mainColor = "#09C266"
-      complimentColor = "#C6FBE0"
-      borderColor = '#09C266';
+      mainColor = "#09C266";
+      complimentColor = "#C6FBE0";
+      borderColor = "#09C266";
     }
-    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv2');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("chartDiv2");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
-            data: [this.values.annualAcc_audited, 100 - this.values.annualAcc_audited],
+            data: [
+              this.values.annualAcc_audited,
+              100 - this.values.annualAcc_audited,
+            ],
             backgroundColor: [mainColor, complimentColor],
             borderColor: [borderColor],
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -618,8 +608,8 @@ export class MohuaDashboardComponent implements OnInit {
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
   }
   mainDonughtChart() {
@@ -726,7 +716,6 @@ export class MohuaDashboardComponent implements OnInit {
   submitted_ulbsInMillionPlusUlbs = 0;
   ulbsInMillionPlusUlbs = 0;
   getCardData() {
-
     this.mohuaDashboardService.getCardData("").subscribe(
       (res) => {
         console.log(res["data"]);
@@ -738,7 +727,8 @@ export class MohuaDashboardComponent implements OnInit {
         this.nonMillion = data["nonMillion"];
         this.submitted_millionPlusUA = data["submitted_millionPlusUA"];
         this.millionPlusUA = data["millionPlusUA"];
-        this.submitted_ulbsInMillionPlusUlbs = data["submitted_ulbsInMillionPlusUlbs"];
+        this.submitted_ulbsInMillionPlusUlbs =
+          data["submitted_ulbsInMillionPlusUlbs"];
         this.ulbsInMillionPlusUlbs = data["ulbsInMillionPlusUlbs"];
 
         let newList = {};

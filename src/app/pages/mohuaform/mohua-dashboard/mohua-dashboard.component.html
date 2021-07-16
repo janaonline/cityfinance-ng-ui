@@ -1,9 +1,8 @@
 <div class="container-fluid row" style="margin-bottom:30px;display:flex; line-height: 38px; justify-content: center;">
     <span style="font-size: 32px; margin-right:15px">Dashboard for 15th FC 2021-22 </span>
-    <select class="dropdown" style="width: 150px !important; height:35px;">
+    <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;">
         <option value="0">-Select-</option>
-        <option *ngFor="let item of states">{{item.name}}</option>
-
+        <option *ngFor="let resData of states ; let tabelIndex=index" value="{{resData.code}}">{{resData.name}}</option>
     </select>
 </div>
 <div class="container-fluid row">
@@ -69,7 +68,7 @@
 
                     <div class="table-responsive"
                         style="border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
-                        <table class="table">
+                        <table #stateTable class="table my_table">
                             <thead style="position:sticky; top:0">
                                 <tr style="background-color: #047474; color: #FFFFFF;">
                                     <th scope="col" style="width: 1%; position:sticky; top:0" class="tableHeadText">S.No
@@ -97,7 +96,8 @@
 
 
                             <tbody>
-                                <tr *ngFor="let resData of tabelData ; let tabelIndex=index" class="tableHeadText">
+                                <tr *ngFor="let resData of tabelData ; let tabelIndex=index" tabindex="{{tabelIndex}}"
+                                    class="tableHeadText">
                                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                         {{
                                         tabelIndex+1}}
@@ -120,9 +120,9 @@
                                         {{resData.withState/resData.totalULBs * 100 ?
                                         (resData.withState/resData.totalULBs * 100).toFixed(2) : 0 }}<small>%</small>
                                     </td>
-
-
-
+                                    <td style="display: none;">
+                                        {{resData.code}}
+                                    </td>
                                 </tr>
                             </tbody>
 
