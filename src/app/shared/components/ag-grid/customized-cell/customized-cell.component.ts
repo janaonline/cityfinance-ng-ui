@@ -21,6 +21,12 @@ export class CustomizedCellComponent
       this.noEditable = true;
     }
     this.cellvalue = params.value;
+    if (
+      params.colDef.headerName != "S No" &&
+      params.colDef.headerName != "Project Code" &&
+      params.value != ""
+    )
+      params.setValue(params.value);
     this.checkError(params);
   }
 
@@ -32,7 +38,7 @@ export class CustomizedCellComponent
 
   checkError(params) {
     let field = params.colDef.field;
-    if (params.data[field].lastValidation != true) {
+    if (params.data[field].lastValidation != true && field != "") {
       this.notValid = true;
       this.noEditable = false;
     } else {

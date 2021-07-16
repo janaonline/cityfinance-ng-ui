@@ -45,6 +45,8 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
   loggedInUserType;
   userTypes = USER_TYPE;
   ulbId = null;
+  lastRoleInMasterForm;
+  masterFormStatus;
 
   constructor(
     private _router: Router,
@@ -57,6 +59,8 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
+    this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
+    this.masterFormStatus = localStorage.getItem("masterFormStatus");
     console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
     switch (this.loggedInUserType) {
       case USER_TYPE.STATE:
@@ -65,7 +69,17 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
       case USER_TYPE.ADMIN:
         this.isDisabled = true;
     }
-    if (this.finalSubmitUtiStatus == "true") {
+    if (
+      this.finalSubmitUtiStatus == "true" &&
+      this.lastRoleInMasterForm == this.userTypes.ULB
+    ) {
+      this.isDisabled = true;
+    }
+    if (
+      this.finalSubmitUtiStatus == "true" &&
+      this.lastRoleInMasterForm != this.userTypes.ULB &&
+      this.masterFormStatus != "REJECTED"
+    ) {
       this.isDisabled = true;
     }
     this.errorSet.subscribe((res) => {
@@ -202,16 +216,41 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
           rRes: waterSres?.rejectReason,
         };
         if (waterSres?.status != "NA") {
-          this.ulbFormStaus = waterSres?.status;
+          this.ulbFormStaus =
+            waterSres?.status != "" ? waterSres?.status : "PENDING";
+          if (waterSres.actionTakenByRole == this.userTypes.STATE) {
+            if (
+              ((waterSres?.status == "REJECTED" &&
+                this.masterFormStatus != "REJECTED") ||
+                (waterSres?.status == "APPROVED" &&
+                  this.masterFormStatus != "APPROVED")) &&
+              this.lastRoleInMasterForm == this.userTypes.ULB
+            ) {
+              this.ulbFormStaus = "PENDING";
+            }
+          }
+          if (waterSres.actionTakenByRole == this.userTypes.MoHUA) {
+            this.ulbFormStaus = "APPROVED";
+            if (
+              ((waterSres?.status == "REJECTED" &&
+                this.masterFormStatus != "REJECTED") ||
+                (waterSres?.status == "APPROVED" &&
+                  this.masterFormStatus != "APPROVED")) &&
+              this.lastRoleInMasterForm == this.userTypes.STATE
+            ) {
+              this.ulbFormStatusMoHUA = "PENDING";
+            }
+          }
+
           if (
-            waterSres.actionTakenByRole === USER_TYPE.MoHUA &&
+            this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
             this.finalSubmitUtiStatus == "true"
           ) {
             this.ulbFormStatusMoHUA = waterSres?.status;
             this.ulbFormStaus = "APPROVED";
           }
           if (
-            waterSres.actionTakenByRole === USER_TYPE.STATE &&
+            this.lastRoleInMasterForm === USER_TYPE.STATE &&
             this.finalSubmitUtiStatus == "true" &&
             this.ulbFormStaus == "APPROVED"
           ) {
@@ -227,10 +266,11 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
         this.diffCheck();
         this.onLoadDataCheck(this.waterAndSanitation);
         this.isDraft = res["isDraft"];
-        console.log("ddddddddd", this.loggedInUserType, this.USER_TYPE);
         if (
           this.ulbFormStaus == "REJECTED" &&
-          this.loggedInUserType == USER_TYPE.ULB
+          this.loggedInUserType == USER_TYPE.ULB &&
+          this.finalSubmitUtiStatus == "true" &&
+          this.lastRoleInMasterForm != USER_TYPE.ULB
         ) {
           this.isDisabled = false;
         }

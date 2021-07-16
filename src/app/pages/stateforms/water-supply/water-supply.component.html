@@ -27,181 +27,208 @@
         <button type="button" class="btn  btn-pre" (click)="onPreview()">PREVIEW</button>
     </div> -->
 </div>
-<div class="row" *ngFor="let uaDetails of detailsOfUa; let i=index" style="margin: 0; padding: 15px 10px;
- box-shadow: 1px 1px 1px 1px #00000029; border: 1px #00000029;">
+<div class="row" *ngFor="let uaDetails of uasList; let i=index" style="margin: 0; padding: 15px 10px;
+ box-shadow: 1px 1px 1px 1px #00000029; border: 1px #00000029; height: 65px;">
 
     <div class="row">
         <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9" style="margin: 0; padding-top: 6px;">
-            <h5 style="margin: 0; font-size: 15px; font-weight: 500;">UA{{i+1}}: Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}}</h5>
+            <h5 style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{uaDetails.name.split(' ')[0]}}</h5>
         </div>
         <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right">
-            <button type="button" class="btn" style="height: 2pc;" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
+            <button type="button" class="btn" style="height: 2pc;" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseEvent">Select
             </button>
         </div>
     </div>
     <!-- <hr> -->
-    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses(i)" (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded()">
-        <div class="row" style="margin: 10px 0 0 0;">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
-                            <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">Total Number of ULBs in UA</h6>
-                            <h6 style="display: inline-flex;"> {{uaDetails.totalULBsInUA}}</h6>
-                        </div>
-                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
-                            <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
-                            <a (click)="openDialog(template, uaDetails)">
-                                <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.totalCompletedUlb}}</h6>
-                            </a>
-                        </div>
-                        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+    <div id="collapseEvent" [isAnimated]="true" [collapse]="isCollapsed" (collapses)="collapses(i)"
+        (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded(i)">
+        <div *ngIf="uaDetails.data">
+            <div class="row" style="margin: 10px 0 0 0;">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                style="border-right: 2px solid #70707030">
+                                <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
+                                    Total
+                                    Number of ULBs in UA</h6>
+                                <h6 style="display: inline-flex;"> {{uaDetails.data.totalULBsInUA}}</h6>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                style="border-right: 2px solid #70707030">
+                                <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
+                                <a (click)="openDialog(template, uaDetails.data)">
+                                    <h6 style="display: inline-flex; color: #337AB7;">
+                                        {{uaDetails.data.totalCompletedUlb}}
+                                    </h6>
+                                </a>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
 
-                            <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
-                            </h6>
+                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
+                                    Submission/Approval
+                                </h6>
 
-                            <a (click)="openDialog2(template1, uaDetails)">
-                                <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.totalPendingUlb}}</h6>
-                            </a>
+                                <a (click)="openDialog2(template1, uaDetails.data)">
+                                    <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.data.totalPendingUlb}}
+                                    </h6>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow">
+                <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%">
+                    <thead>
+                        <th scope="col">Service Level Indicators</th>
+                        <th scope="col">Benchmark</th>
+                        <th scope="col">
+                            Actual Figures<br /> 2020-21
+                        </th>
+
+                        <th *ngFor="let column of targets" scope="col">
+                            <span [innerHTML]="column.name"></span>
+                        </th>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngIf="services[0] as service">
+                            <td>
+                                <span class="service-name">{{ service.name }}
+                                    <span class="mandatory">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
+                            <td>
+                                <div class="input-group data-input">
+
+                                    <input type="text" disabled
+                                        [value]="uaDetails.data.waterSuppliedPerDay.baseline['2021']"
+                                        [id]="service.key + 'baseline'" class="form-control">
+                                    <span class="input-group-addon"><em class="glyphicon">
+                                            {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                        </em></span>
+                                </div>
+                            </td>
+                            <td *ngFor="let year of targets">
+
+                                <div class="input-group data-input">
+                                    <input type="text" disabled
+                                        [value]="uaDetails.data.waterSuppliedPerDay.target[year.key]"
+                                        [id]="service.key + year.key" class="form-control">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="services[1] as service ">
+                            <td>
+                                <span class="service-name ">{{ service.name }}
+                                    <span class="mandatory ">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell ">{{ service.benchmark }}</span>
+                            </td>
+                            <td>
+                                <div class="input-group data-input ">
+                                    <input type="text" disabled [value]="uaDetails.data.reduction.baseline['2021']"
+                                        [id]="service.key + 'baseline' " class="form-control ">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+                            </td>
+                            <td *ngFor="let year of targets ">
+                                <div class="input-group data-input ">
+                                    <input type="text " disabled [value]="uaDetails.data.reduction.target[year.key]"
+                                        [id]="service.key + year.key " class="form-control ">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="services[2] as service ">
+                            <td>
+                                <span class="service-name ">{{ service.name }}
+                                    <span class="mandatory ">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
+                            <td>
+                                <div class="input-group data-input ">
+                                    <input type="text" disabled
+                                        [value]="uaDetails.data.houseHoldCoveredWithSewerage.baseline['2021']"
+                                        [id]="service.key + 'baseline' " class="form-control ">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+                            </td>
+                            <td *ngFor="let year of targets ">
+                                <div class="input-group data-input ">
+                                    <input type="text" disabled
+                                        [value]="uaDetails.data.houseHoldCoveredWithSewerage.target[year.key]"
+                                        [id]="service.key + year.key " class="form-control ">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="services[3] as service ">
+                            <td>
+                                <span class="service-name ">{{ service.name }}
+                                    <span class="mandatory ">*</span></span>
+                            </td>
+                            <td>
+                                <span class="benchamark-cell ">{{ service.benchmark }}</span>
+                            </td>
+                            <td>
+                                <div class="input-group data-input ">
+                                    <input type="text" disabled
+                                        [value]="uaDetails.data.houseHoldCoveredPipedSupply.baseline['2021']"
+                                        [id]="service.key + 'baseline' " class="form-control ">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+                            </td>
+                            <td *ngFor="let year of targets ">
+                                <div class="input-group data-input ">
+                                    <input type="text" disabled
+                                        [value]="uaDetails.data.houseHoldCoveredPipedSupply.target[year.key]"
+                                        [id]="service.key + year.key " class="form-control ">
+                                    <span class="input-group-addon "><em class="glyphicon ">
+                                            {{ service.key === "waterSuppliedPerDay " ? "LPCD " : "% " }}
+                                        </em></span>
+                                </div>
+
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-        <div class="card col-sm-12 mb-2 mt-1 p-1 box-shadow">
-            <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%">
-                <thead>
-                    <th scope="col">Service Level Indicators</th>
-                    <th scope="col">Benchmark</th>
-                    <th scope="col">
-                        Actual Figures<br /> 2020-21
-                    </th>
-
-                    <th *ngFor="let column of targets" scope="col">
-                        <span [innerHTML]="column.name"></span>
-                    </th>
-                </thead>
-
-                <tbody>
-                    <tr *ngIf="services[0] as service">
-                        <td>
-                            <span class="service-name">{{ service.name }}
-                                <span class="mandatory">*</span></span>
-                        </td>
-                        <td>
-                            <span class="benchamark-cell">{{ service.benchmark }}</span>
-                        </td>
-                        <td>
-                            <div class="input-group data-input">
-
-                                <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
-                                <span class="input-group-addon"><em class="glyphicon">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-                        </td>
-                        <td *ngFor="let year of targets">
-
-                            <div class="input-group data-input">
-                                <input type="text" disabled [value]="uaDetails.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
-                                <span class="input-group-addon "><em class="glyphicon ">
-
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr *ngIf="services[1] as service ">
-                        <td>
-                            <span class="service-name ">{{ service.name }}
-                                <span class="mandatory ">*</span></span>
-                        </td>
-                        <td>
-                            <span class="benchamark-cell ">{{ service.benchmark }}</span>
-                        </td>
-                        <td>
-                            <div class="input-group data-input ">
-                                <input type="text" disabled [value]="uaDetails.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
-                                <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-                        </td>
-                        <td *ngFor="let year of targets ">
-                            <div class="input-group data-input ">
-                                <input type="text " disabled [value]="uaDetails.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
-                                <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr *ngIf="services[2] as service ">
-                        <td>
-                            <span class="service-name ">{{ service.name }}
-                                <span class="mandatory ">*</span></span>
-                        </td>
-                        <td>
-                            <span class="benchamark-cell">{{ service.benchmark }}</span>
-                        </td>
-                        <td>
-                            <div class="input-group data-input ">
-                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
-                                <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-                        </td>
-                        <td *ngFor="let year of targets ">
-                            <div class="input-group data-input ">
-                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
-                                <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr *ngIf="services[3] as service ">
-                        <td>
-                            <span class="service-name ">{{ service.name }}
-                                <span class="mandatory ">*</span></span>
-                        </td>
-                        <td>
-                            <span class="benchamark-cell ">{{ service.benchmark }}</span>
-                        </td>
-                        <td>
-                            <div class="input-group data-input ">
-                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
-                                <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-                        </td>
-                        <td *ngFor="let year of targets ">
-                            <div class="input-group data-input ">
-                                <input type="text" disabled [value]="uaDetails.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
-                                <span class="input-group-addon "><em class="glyphicon ">
-                                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                                    </em></span>
-                            </div>
-
-                        </td>
-                    </tr>
-
-
-                </tbody>
-            </table>
-        </div>
-
+        <div *ngIf="uaDetails.data==null">No Data Found</div>
     </div>
 </div>
 
 
 
-<div class="row " style="margin-top: 3rem; margin-bottom: 1rem;">
+
+<div class=" row " style=" margin-top: 2rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6 ">
         <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>
@@ -214,7 +241,8 @@
 <ng-template #template>
 
 
-    <div style="font-size: 18px; line-height: 30px; text-align: left; font-weight: bold"> APPROVED BY STATE</div>
+    <div style="font-size: 18px; line-height: 30px; text-align: left; font-weight: bold"> APPROVED BY STATE
+    </div>
     <div class="table-responsive tracking-history-table " style="border: 1px solid  #00000029; margin-bottom: 1rem;">
 
         <table class="table ">
@@ -227,7 +255,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let resData of uaDetails['approvedUlbs'] | paginate
+                <tr *ngFor="let resData of uaDetails.data['approvedUlbs'] | paginate
                                                 : {
                                                     id: 'foo',
                                                     itemsPerPage: tableDefaultOptions.itemPerPage,
@@ -235,7 +263,8 @@
                                                     totalItems: tableDefaultOptions.totalCount
                                                   }; let tabelIndex=index">
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                        tabelIndex+1}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData['name']}}
@@ -249,7 +278,9 @@
         </table>
         <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!
         </div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
+            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>
@@ -262,7 +293,8 @@
 <ng-template #template1>
 
 
-    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/ SUBMISSION
+    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/
+        SUBMISSION
     </div>
     <div class="table-responsive tracking-history-table" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
 
@@ -276,7 +308,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let resData of uaDetails['pendingUlbs'] | paginate
+                <tr *ngFor="let resData of uaDetails.data['pendingUlbs'] | paginate
                                                 : {
                                                     id: 'foo',
                                                     itemsPerPage: tableDefaultOptions.itemPerPage,
@@ -284,13 +316,16 @@
                                                     totalItems: tableDefaultOptions.totalCount
                                                   }; let tabelIndex=index">
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                        {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                        tabelIndex+1}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                         {{resData['name']}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode'] ? resData['sbCode'] : 'Not Available' }}
+                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode'] ? resData['sbCode'] :
+                        'Not
+                        Available' }}
                     </td>
                 </tr>
             </tbody>
@@ -298,7 +333,9 @@
         </table>
         <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!
         </div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
+            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>

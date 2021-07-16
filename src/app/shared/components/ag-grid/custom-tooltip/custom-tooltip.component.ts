@@ -29,9 +29,9 @@ export class CustomTooltipComponent implements IToolPanelAngularComp {
     let field = params.colDef.field;
     if (params.data[field].lastValidation != true) {
       this.type = "danger";
-      this.noEditMsg = params.colDef.tooltipComponentParams.errorMsg;
+      this.noEditMsg = params.colDef.tooltipComponentParams?.errorMsg;
       this.showTootip = true;
-      this.lastValue = params.data[field].lastValidation;
+      this.lastValue = params.data[field]?.lastValidation;
     }
   }
 }

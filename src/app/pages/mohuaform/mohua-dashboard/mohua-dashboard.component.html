@@ -24,7 +24,7 @@
                     <div class="col-sm-3 card ">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{totalUlbs }}</div>
+                                <div class="card-number">{{submitted_totalUlbs}} / {{totalUlbs }}</div>
                                 <div class="card-text">Total ULBs</div>
                             </div>
 
@@ -33,7 +33,7 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{nonMillionCities}}</div>
+                                <div class="card-number">{{submitted_nonMillion}} / {{nonMillion}}</div>
                                 <div class="card-text">Non Million Cities</div>
                             </div>
 
@@ -42,7 +42,7 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{millionPlusUAs}}</div>
+                                <div class="card-number">{{submitted_millionPlusUA}} / {{millionPlusUA}}</div>
                                 <div class="card-text">Million-Plus UAs</div>
                             </div>
 
@@ -51,7 +51,8 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{UlbInMillionPlusUA}}</div>
+                                <div class="card-number">{{submitted_ulbsInMillionPlusUlbs}} / {{ulbsInMillionPlusUlbs}}
+                                </div>
                                 <div class="card-text">ULBs in Million-Plus UAs</div>
                             </div>
 
@@ -61,6 +62,73 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-sm-12 col-lg-12 col-md-12">
+
+                <div class="row">
+
+
+                    <div class="table-responsive"
+                        style="border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                        <table class="table">
+                            <thead>
+                                <tr style="background-color: #047474; color: #FFFFFF;">
+                                    <th scope="col" style="width: 1%;" class="tableHeadText">S.No</th>
+
+                                    <th scope="col" class="tableHeadText">State </th>
+                                    <th scope="col" class="tableHeadText" style="width: 11%;">Total ULB's in State</th>
+                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and data is
+                                        approved by
+                                        State</th>
+                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and under review
+                                        by State
+                                    </th>
+                                    <th scope="col" class="tableHeadText">Number of ULBs not submitted data</th>
+                                    <th scope="col" class="tableHeadText">Percentage Completed</th>
+
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                <tr *ngFor="let resData of tabelData ; let tabelIndex=index" class="tableHeadText">
+                                    <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        {{
+                                        tabelIndex+1}}
+                                    </td>
+                                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        {{resData.name}}
+                                    </td>
+                                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        {{resData.totalULBs}}
+                                    </td>
+                                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        {{resData.withState}}
+                                    </td>
+                                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        {{resData.submittedForm}}</td>
+                                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        {{resData.notSubmittedForm}}
+                                    </td>
+                                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
+                                        {{resData.withState/resData.totalULBs * 100 ?
+                                        resData.withState/resData.totalULBs * 100 : 0 }}<small>%</small>
+                                    </td>
+
+
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- <div class="row">
             <div class="col-sm-6">
                 <div class="row" style="font-size: 18px; font-weight: bold;">
                     Grant Transfer Certificate Status
@@ -294,13 +362,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </div>
-<div class="container-fluid row" style="margin-bottom:40px">
+<div class="container-fluid row" style="margin-bottom:15px">
     <div class=" statusArea">
-        <div class="col-sm-3 firstColumn">
+        <!-- <div class="col-sm-3 firstColumn">
             <div class="row"
                 style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
                 ULB
@@ -313,7 +381,7 @@
             <div class="viewListBtn">
                 <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
-        </div>
+        </div> -->
         <div class="col-sm-3 secondColumn">
 
             <div class="row"
@@ -328,7 +396,33 @@
                 </div>
 
                 <div class="gaugeSize">
-                    <div id="chartDiv" style="max-width: 740px;height: 180px;margin: 0px auto; padding-left:20px">
+                    <div style="height: 169px; width: 100%;position:absolute">
+                        <canvas id="meter"></canvas>
+                    </div>
+
+                    <div style="height: 162px;
+                    width: 100%;
+                    position: relative;
+                    z-index: 2;
+                    margin-top: 3px;
+                    margin-left: 4px;
+                    padding-top: 12px;">
+                        <canvas id="chartDiv"></canvas>
+
+                    </div>
+                    <div style="position: relative;
+                    z-index: 2;
+                    font-size: 37px;
+                    font-weight: bold;
+                
+                    bottom: 94px;
+                    width: 100%;
+                    text-align: center;
+                    margin-left: 13px;">
+                        {{values.annualAcc_audited}}<small>%</small>
+                        <div style="font-size: 18px;
+                        margin-left: -14px;">Completed
+                        </div>
                     </div>
                 </div>
 
@@ -342,7 +436,33 @@
                     Audited Account: 2019-2020
                 </div>
                 <div class="gaugeSize">
-                    <div id="chartDiv2" style="max-width: 740px; padding-left:20px;height: 180px;margin: 0px auto">
+                    <div style="height: 169px; width: 100%;position:absolute">
+                        <canvas id="meter1"></canvas>
+                    </div>
+
+                    <div style="height: 162px;
+                    width: 100%;
+                    position: relative;
+                    z-index: 2;
+                    margin-top: 3px;
+                    margin-left: 4px;
+                    padding-top: 12px;">
+                        <canvas id="chartDiv2"></canvas>
+
+                    </div>
+                    <div style="position: relative;
+                    z-index: 2;
+                    font-size: 37px;
+                    font-weight: bold;
+                
+                    bottom: 94px;
+                    width: 100%;
+                    text-align: center;
+                    margin-left: 13px;">
+                        {{values.annualAcc_provisional}}<small>%</small>
+                        <div style="font-size: 18px;
+                        margin-left: -14px;">Completed
+                        </div>
                     </div>
                 </div>
                 <div

@@ -25,7 +25,6 @@ import { QuestionnaireService } from "src/app/pages/questionnaires/service/quest
   styleUrls: ["./actionplanspreview.component.scss"],
 })
 export class ActionplanspreviewComponent implements OnInit {
-
   @Input() parentData: any;
   @Input()
   changeFromOutSide: any;
@@ -216,5 +215,15 @@ margin-bottom: 1.5rem !important;
     } else if (!this.data.isDraft) {
       this.status = "Completed but Not Submitted";
     }
+  }
+
+  includeParaAgency(data) {
+    for (let index = 0; index < data.projectExecute.length; index++) {
+      const element = data.projectExecute[index];
+      if (element.paraAgency != "") {
+        return true;
+      }
+    }
+    return false;
   }
 }

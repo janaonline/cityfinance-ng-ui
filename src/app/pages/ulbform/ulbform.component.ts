@@ -210,13 +210,6 @@ export class UlbformComponent implements OnInit {
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
         }
-        let finalSubmit = this.submitted;
-        if (
-          this.lastRoleInMasterForm != this.userLoggedInDetails.role &&
-          this.userLoggedInDetails.role == "ULB"
-        ) {
-          localStorage.setItem("finalSubmitStatus", this.submitted.toString());
-        }
         let stActionCheck = "false";
         if (
           res["response"].actionTakenByRole === this.userTypes.STATE &&
@@ -227,7 +220,16 @@ export class UlbformComponent implements OnInit {
           stActionCheck = "true";
           console.log("final action completed.....");
         }
+        localStorage.setItem("lastRoleInMasterForm", this.lastRoleInMasterForm);
         localStorage.setItem("stateActionComDis", stActionCheck);
+        localStorage.setItem("masterFormStatus", res["response"].status);
+        if (
+          this.lastRoleInMasterForm != USER_TYPE.ULB &&
+          this.submitted &&
+          res["response"].status == "REJECTED"
+        ) {
+          this.submitted = false;
+        }
       },
       (err) => {
         this.ulbformService.allStatus.next(this.allStatus);
@@ -324,7 +326,6 @@ export class UlbformComponent implements OnInit {
         this.finalActionDis = true;
       }
     }
-    let actionOnFroms = eligibleActionForms.length;
     console.log(this.requiredActionStatus);
   }
   public accessGrant() {
@@ -391,6 +392,7 @@ export class UlbformComponent implements OnInit {
           swal(
             "Forms Successfully Submitted to be Reviewed by State and MoHUA"
           );
+          localStorage.setItem("finalSubmitStatus", 'true');
         },
         (err) => {
           console.log(err);
