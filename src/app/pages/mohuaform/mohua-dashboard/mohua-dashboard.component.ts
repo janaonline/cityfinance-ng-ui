@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Chart } from "chart.js";
 import { pipe } from "rxjs";
 import { StateDashboardService } from "../../stateforms/state-dashboard/state-dashboard.service";
+import { MohuaDashboardService } from './mohua-dashboard.service'
 import { OverallListComponent } from "../../stateforms/state-dashboard/overall-list/overall-list.component";
 import {
   FormBuilder,
@@ -45,8 +46,9 @@ export class MohuaDashboardComponent implements OnInit {
     protected commonService: CommonService,
     protected _snackbar: MatSnackBar,
     protected geoService: GeographicalService,
-    protected _activateRoute: ActivatedRoute
-  ) {}
+    protected _activateRoute: ActivatedRoute,
+    public mohuaDashboardService: MohuaDashboardService
+  ) { }
 
   ngOnInit(): void {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
@@ -84,7 +86,26 @@ export class MohuaDashboardComponent implements OnInit {
   nationalLevelMap: L.Map;
 
   statesLayer: L.GeoJSON<any>;
-
+  tabelData;
+  currentSort = 1;
+  tableDefaultOptions = {
+    itemPerPage: 10,
+    currentPage: 1,
+    totalCount: null,
+  };
+  listFetchOption = {
+    filter: null,
+    sort: null,
+    role: null,
+    skip: 0,
+    limit: this.tableDefaultOptions.itemPerPage,
+  };
+  takeStateAction = "false";
+  loading = false;
+  filterObject;
+  // fcFormListSubscription: Subscription;
+  nodataFound = false;
+  errMessage = "";
   values = {
     overall_approvedByState: 0,
     overall_pendingForSubmission: 0,
@@ -133,7 +154,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
-    this.pieChart();
+    // this.pieChart();
     this.getCardData();
     this.getFormData();
     this.getPlansData();
@@ -641,16 +662,28 @@ export class MohuaDashboardComponent implements OnInit {
       },
     });
   }
+  submitted_totalUlbs = 0;
+  submitted_nonMillion = 0;
+  nonMillion = 0;
+  submitted_millionPlusUA = 0;
+  millionPlusUA = 0;
+  submitted_ulbsInMillionPlusUlbs = 0;
+  ulbsInMillionPlusUlbs = 0;
   getCardData() {
-    this.stateDashboardService.getCardData("").subscribe(
+
+    this.mohuaDashboardService.getCardData("").subscribe(
       (res) => {
         console.log(res["data"]);
         let data = res["data"];
 
-        this.totalUlbs = data["totalUlb"];
-        this.nonMillionCities = data["totalUlbNonMil"];
-        this.millionPlusUAs = data["totalUa"];
-        this.UlbInMillionPlusUA = data["totalUlbInUas"];
+        this.submitted_totalUlbs = data["submitted_totalUlbs"];
+        this.totalUlbs = data["totalUlbs"];
+        this.submitted_nonMillion = data["submitted_nonMillion"];
+        this.nonMillion = data["nonMillion"];
+        this.submitted_millionPlusUA = data["submitted_millionPlusUA"];
+        this.millionPlusUA = data["millionPlusUA"];
+        this.submitted_ulbsInMillionPlusUlbs = data["submitted_ulbsInMillionPlusUlbs"];
+        this.ulbsInMillionPlusUlbs = data["ulbsInMillionPlusUlbs"];
 
         let newList = {};
         res["data"]["uaList"].forEach((element) => {
