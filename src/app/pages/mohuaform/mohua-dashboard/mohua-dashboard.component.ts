@@ -113,6 +113,10 @@ export class MohuaDashboardComponent implements OnInit {
     util_underStateReview: 0,
     annualAcc_audited: 0,
     annualAcc_provisional: 0,
+    plans_approvedbyState: 0,
+    plans_completedAndPendingSubmission: 0,
+    plans_pendingCompletion: 0,
+    plans_underStateReview: 0,
   };
   // errMessage = "";
   totalUlbs = 0;
@@ -138,7 +142,11 @@ export class MohuaDashboardComponent implements OnInit {
   piechart;
 
   onLoad() {
-    // this.mainDonughtChart();
+    this.getCardData();
+    this.getTableData();
+    this.getFormData();
+    this.getPlansData();
+    this.mainDonughtChart();
     this.gaugeChart1();
     this.constChart();
     this.constChart1()
@@ -146,19 +154,34 @@ export class MohuaDashboardComponent implements OnInit {
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
-    // this.pieChart();
-    this.getCardData();
-    this.getTableData();
-    this.getFormData();
-    this.getPlansData();
-  }
+    this.pieChart();
 
+  }
+  selected() {
+    // this.maindonughtChart?.destroy();
+    // this.utilreportDonughtChart?.destroy();
+    // this.slbdonughtChart?.destroy();
+    // this.pfmsdonughtChart?.destroy();
+    // this.piechart?.destroy();
+
+
+
+    console.log(this.formDataApiRes)
+    let data = this.formDataApiRes
+
+    this.mapValues(data[0]);
+    this.updateCharts();
+
+
+
+  }
   getTableData() {
     this.mohuaDashboardService.getTableData('').subscribe(
       (res) => {
 
         this.tabelData = res['data']
         console.log(this.tabelData)
+
       },
       (err) => { }
     )
@@ -333,7 +356,7 @@ export class MohuaDashboardComponent implements OnInit {
       labels: [
         'Registered',
         'Not Registered',
-        'Pending Response                                                '
+        'Pending Response'
       ],
       datasets: [{
         label: 'My First Dataset',
@@ -496,7 +519,7 @@ export class MohuaDashboardComponent implements OnInit {
         maintainAspectRatio: false,
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
+        cutoutPercentage: 68,
 
         onClick(...args) {
           console.log(args);
@@ -591,7 +614,7 @@ export class MohuaDashboardComponent implements OnInit {
         maintainAspectRatio: false,
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
+        cutoutPercentage: 68,
 
         onClick(...args) {
           console.log(args);
@@ -644,49 +667,55 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
   pieChart() {
+
+
     const data = {
       labels: [
-        "103 - Pending Completion",
-        "213 - Completed and Pending Submission",
-        "76 - Under State Review",
-        "213 - Approved by State",
-      ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [300, 50, 100, 30],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-            "rgb(155, 215, 86)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '76 - Under State Review',
+        '213 - Approved by State'],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [
+          this.values.plans_pendingCompletion,
+          this.values.plans_completedAndPendingSubmission,
+          this.values.plans_underStateReview,
+          this.values.plans_approvedbyState],
+        backgroundColor: [
+          '#F95151',
+          '#FF9E30',
+          '#DBDBDB',
+          '#67DF7B'
+
+        ],
+        hoverOffset: 4
+      }],
+
     };
 
-    const canvas = <HTMLCanvasElement>document.getElementById("pfm");
-    let ctx;
-    if (canvas) ctx = canvas.getContext("2d");
+
+    const canvas = <HTMLCanvasElement>document.getElementById('pfm');
+    const ctx = canvas.getContext('2d');
     this.piechart = new Chart(ctx, {
-      type: "pie",
+      type: 'pie',
       data: data,
       options: {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-          position: "left",
-          align: "start",
+
+          position: 'left',
+          align: 'start',
           labels: {
             fontSize: 13,
-            fontColor: "black",
+            fontColor: 'black',
             usePointStyle: true,
 
-            padding: 18,
-          },
-        },
-      },
+            padding: 22,
+          }
+        }
+      }
     });
   }
   submitted_totalUlbs = 0;
@@ -726,10 +755,11 @@ export class MohuaDashboardComponent implements OnInit {
     );
   }
   getFormData() {
-    this.stateDashboardService.getFormData("").subscribe(
+    this.mohuaDashboardService.getFormData("").subscribe(
       (res) => {
         console.log(res);
-        this.formDataApiRes = res;
+        this.formDataApiRes = res['data'];
+        this.selected();
       },
       (err) => {
         console.log(err);
@@ -746,28 +776,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.slbDonughtChart();
     this.pieChart();
   }
-  selected() {
-    this.maindonughtChart.destroy();
-    this.utilreportDonughtChart.destroy();
-    this.slbdonughtChart.destroy();
-    this.pfmsdonughtChart.destroy();
-    this.piechart.destroy();
-    console.log(this.selectedLevel);
-    if (this.selectedLevel === "allUlbs") {
-      let data = this.formDataApiRes["data"][0];
 
-      this.mapValues(data);
-      this.updateCharts();
-    } else if (this.selectedLevel === "ulbsInMillionPlusUa") {
-      let data = this.formDataApiRes["data"][1];
-      this.mapValues(data);
-      this.updateCharts();
-    } else if (this.selectedLevel === "NonMillionPlusULBs") {
-      let data = this.formDataApiRes["data"][2];
-      this.mapValues(data);
-      this.updateCharts();
-    }
-  }
   selectedUA() {
     console.log("selectedUA", this.selectUa);
     this.ulbs = 0;
@@ -806,30 +815,25 @@ export class MohuaDashboardComponent implements OnInit {
     }
   }
   mapValues(data) {
-    (this.values.overall_approvedByState =
-      data["overallFormStatus"]["approvedByState"]),
-      (this.values.overall_pendingForSubmission =
-        data["overallFormStatus"]["pendingForSubmission"]),
-      (this.values.overall_underReviewByState =
-        data["overallFormStatus"]["underReviewByState"]),
-      (this.values.pfms_notRegistered = data["pfms"]["notRegistered"]),
-      (this.values.pfms_pendingResponse = data["pfms"]["pendingResponse"]),
-      (this.values.pfms_registered = data["pfms"]["registered"]),
-      (this.values.slb_approvedbyState = data["slb"]["approvedbyState"]),
-      (this.values.slb_completedAndPendingSubmission =
-        data["slb"]["completedAndPendingSubmission"]),
-      (this.values.slb_pendingCompletion = data["slb"]["pendingCompletion"]),
-      (this.values.slb_underStateReview = data["slb"]["underStateReview"]),
-      (this.values.util_approvedbyState =
-        data["utilReport"]["approvedbyState"]),
-      (this.values.util_completedAndPendingSubmission =
-        data["utilReport"]["completedAndPendingSubmission"]),
-      (this.values.util_pendingCompletion =
-        data["utilReport"]["pendingCompletion"]),
-      (this.values.util_underStateReview =
-        data["utilReport"]["underStateReview"]),
-      (this.values.annualAcc_audited = data["annualAccounts"]["audited"]),
-      (this.values.annualAcc_provisional =
-        data["annualAccounts"]["provisional"]);
+    this.values.overall_approvedByState = data['overallFormStatus']['approvedByState'],
+      this.values.overall_pendingForSubmission = data['overallFormStatus']['pendingForSubmission'],
+      this.values.overall_underReviewByState = data['overallFormStatus']['underReviewByState'],
+      this.values.pfms_notRegistered = data['pfms']['notRegistered'],
+      this.values.pfms_pendingResponse = data['pfms']['pendingResponse'],
+      this.values.pfms_registered = data['pfms']['registered'],
+      this.values.slb_approvedbyState = data['slb']['approvedbyState'],
+      this.values.slb_completedAndPendingSubmission = data['slb']['completedAndPendingSubmission'],
+      this.values.slb_pendingCompletion = data['slb']['pendingCompletion'],
+      this.values.slb_underStateReview = data['slb']['underStateReview'],
+      this.values.util_approvedbyState = data['utilReport']['approvedbyState'],
+      this.values.util_completedAndPendingSubmission = data['utilReport']['completedAndPendingSubmission'],
+      this.values.util_pendingCompletion = data['utilReport']['pendingCompletion'],
+      this.values.util_underStateReview = data['utilReport']['underStateReview'],
+      this.values.plans_approvedbyState = data['plans']['approvedbyState'],
+      this.values.plans_completedAndPendingSubmission = data['plans']['completedAndPendingSubmission'],
+      this.values.plans_pendingCompletion = data['plans']['pendingCompletion'],
+      this.values.plans_underStateReview = data['plans']['underStateReview'],
+      this.values.annualAcc_audited = data['annualAccounts']['audited'],
+      this.values.annualAcc_provisional = data['annualAccounts']['provisional']
   }
 }

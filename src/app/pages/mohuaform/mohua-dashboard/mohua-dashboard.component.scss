@@ -156,7 +156,7 @@ color:black;
 
 .gaugeSize{
     height:150px;
-    width:100%;
+    width:98%;
 }
 
 .textInThirdColumn{
@@ -194,10 +194,10 @@ color:black;
 .Card1{
     
     border-radius: 4px;
-    height: 100px;
-    width:95%;
+    height: 70px;
+    width:88%;
     text-align: center;
-    margin:13px 6px 1px 2px;
+    margin:4px 6px 5px 5%;
     padding:3px 16px 3px 0px;
 }
 .Card2{
@@ -248,7 +248,14 @@ rect {
  .tapImage{
     position:relative;
     z-index:2;
+    width:31px;
  }
+
+ .dropImage{
+  position:relative;
+  z-index:2;
+  width:27px;
+}
  
  #brandingLogo{
      opacity:0
