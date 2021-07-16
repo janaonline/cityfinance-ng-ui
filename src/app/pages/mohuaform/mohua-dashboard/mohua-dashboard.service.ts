@@ -28,9 +28,9 @@ export class MohuaDashboardService {
   }
   getTableData(state_id) {
     if (state_id) {
-      return this.http.get(`${environment.api.url}mohua/table?state_id=${state_id}`);
+      return this.http.get(`${environment.api.url}masterForm/stateUlb?state_id=${state_id}`);
     } else {
-      return this.http.get(`${environment.api.url}mohua/table`);
+      return this.http.get(`${environment.api.url}masterForm/stateUlb`);
     }
   }
 

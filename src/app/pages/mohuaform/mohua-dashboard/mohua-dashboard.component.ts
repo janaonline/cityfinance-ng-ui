@@ -88,18 +88,8 @@ export class MohuaDashboardComponent implements OnInit {
   statesLayer: L.GeoJSON<any>;
   tabelData;
   currentSort = 1;
-  tableDefaultOptions = {
-    itemPerPage: 10,
-    currentPage: 1,
-    totalCount: null,
-  };
-  listFetchOption = {
-    filter: null,
-    sort: null,
-    role: null,
-    skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
-  };
+
+
   takeStateAction = "false";
   loading = false;
   filterObject;
@@ -124,7 +114,7 @@ export class MohuaDashboardComponent implements OnInit {
     annualAcc_audited: 0,
     annualAcc_provisional: 0,
   };
-  errMessage = "";
+  // errMessage = "";
   totalUlbs = 0;
   nonMillionCities = 0;
   millionPlusUAs = 0;
@@ -148,16 +138,30 @@ export class MohuaDashboardComponent implements OnInit {
   piechart;
 
   onLoad() {
-    this.mainDonughtChart();
+    // this.mainDonughtChart();
     this.gaugeChart1();
+    this.constChart();
+    this.constChart1()
     this.gaugeChart2();
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
     // this.pieChart();
     this.getCardData();
+    this.getTableData();
     this.getFormData();
     this.getPlansData();
+  }
+
+  getTableData() {
+    this.mohuaDashboardService.getTableData('').subscribe(
+      (res) => {
+
+        this.tabelData = res['data']
+        console.log(this.tabelData)
+      },
+      (err) => { }
+    )
   }
   calculateVH(vh: number) {
     const h = Math.max(
@@ -327,249 +331,272 @@ export class MohuaDashboardComponent implements OnInit {
   pfmsDonughtChart() {
     const data = {
       labels: [
-        "Registered",
-        "Not Registered",
-        "Pending Response                                                ",
+        'Registered',
+        'Not Registered',
+        'Pending Response                                                '
       ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [
-            this.values.pfms_registered,
-            this.values.pfms_notRegistered,
-            this.values.pfms_pendingResponse,
-          ],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [
+          this.values.pfms_registered,
+          this.values.pfms_notRegistered,
+          this.values.pfms_pendingResponse],
+        backgroundColor: [
+          '#67DF7B',
+          '#DBDBDB',
+          '#FF7154',
+
+        ],
+        hoverOffset: 4
+      }]
     };
-    const canvas = <HTMLCanvasElement>document.getElementById("pfms");
-    const ctx = canvas.getContext("2d");
+    const canvas = <HTMLCanvasElement>document.getElementById('pfms');
+    const ctx = canvas.getContext('2d');
     this.pfmsdonughtChart = new Chart(ctx, {
-      type: "doughnut",
+      type: 'doughnut',
       data: data,
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: "left",
-          align: "start",
+          position: 'left',
+          align: 'start',
           labels: {
             fontSize: 13,
-            fontColor: "black",
+            fontColor: 'black',
             usePointStyle: true,
             padding: 25,
-          },
-        },
-      },
+          }
+        }
+      }
+
     });
   }
 
   utilReportDonughtChart() {
     const data = {
       labels: [
-        "103 - Pending Completion",
-        "213 - Completed and Pending Submission",
-        "213 - Under State Review",
-        "213 - Approved by State",
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '213 - Under State Review',
+        '213 - Approved by State'
       ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [
-            this.values.util_pendingCompletion,
-            this.values.util_completedAndPendingSubmission,
-            this.values.util_underStateReview,
-            this.values.util_approvedbyState,
-          ],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-            "rgb(155, 215, 86)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [
+          this.values.util_pendingCompletion,
+          this.values.util_completedAndPendingSubmission,
+          this.values.util_underStateReview,
+          this.values.util_approvedbyState],
+        backgroundColor: [
+          '#F95151',
+          '#FF9E30',
+          '#DBDBDB',
+          '#67DF7B'
+        ],
+        hoverOffset: 4
+      }]
     };
-    const canvas = <HTMLCanvasElement>document.getElementById("utilReport");
-    const ctx = canvas.getContext("2d");
+    const canvas = <HTMLCanvasElement>document.getElementById('utilReport');
+    const ctx = canvas.getContext('2d');
     this.utilreportDonughtChart = new Chart(ctx, {
-      type: "doughnut",
+      type: 'doughnut',
       data: data,
 
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: "left",
-          align: "start",
+          position: 'left',
+          align: 'start',
           labels: {
             fontSize: 13,
-            fontColor: "black",
+            fontColor: 'black',
             usePointStyle: true,
-            padding: 15,
-          },
-        },
-      },
+            padding: 22,
+          }
+        }
+      }
+
     });
   }
   slbDonughtChart() {
     const data = {
       labels: [
-        "103 - Pending Completion",
-        "213 - Completed and Pending Submission",
-        "213 - Under State Review",
-        "213 - Approved by State",
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '213 - Under State Review',
+        '213 - Approved by State'
       ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [
-            this.values.slb_pendingCompletion,
-            this.values.slb_completedAndPendingSubmission,
-            this.values.slb_underStateReview,
-            this.values.slb_approvedbyState,
-          ],
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-            "rgb(155, 215, 86)",
-          ],
-          hoverOffset: 4,
-        },
-      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [
+          this.values.slb_pendingCompletion,
+          this.values.slb_completedAndPendingSubmission,
+          this.values.slb_underStateReview,
+          this.values.slb_approvedbyState],
+        backgroundColor: [
+          '#F95151',
+          '#FF9E30',
+          '#DBDBDB',
+          '#67DF7B'
+        ],
+        hoverOffset: 4
+      }]
     };
-    const canvas = <HTMLCanvasElement>document.getElementById("slb");
-    const ctx = canvas.getContext("2d");
+    const canvas = <HTMLCanvasElement>document.getElementById('slb');
+    const ctx = canvas.getContext('2d');
     this.slbdonughtChart = new Chart(ctx, {
-      type: "doughnut",
+      type: 'doughnut',
       data: data,
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: "left",
-          align: "start",
+
+          position: 'left',
+          align: 'start',
           labels: {
             fontSize: 13,
-            fontColor: "black",
+            fontColor: 'black',
             usePointStyle: true,
-            padding: 15,
-          },
-        },
-      },
+            padding: 22,
+          }
+        }
+      }
+
     });
   }
   gaugeChart1() {
-    var chart = JSC.chart("chartDiv", {
-      debug: true,
-      legend_visible: false,
-      defaultTooltip_enabled: false,
-      xAxis_spacingPercentage: 0.4,
-      yAxis: [
-        {
-          id: "ax1",
-          defaultTick: { padding: 10, enabled: false },
-          customTicks: [0, 40, 60, 80, 100],
-          line: {
-            width: 3,
+    this.values.annualAcc_provisional = 28
+    let mainColor = '', complimentColor = '', borderColor = '';
+    if (this.values.annualAcc_provisional < 25) {
+      mainColor = '#FF7154';
+      complimentColor = '#ffcabf';
+      borderColor = '#FF7154'
+    } else {
+      mainColor = "#09C266"
+      complimentColor = "#C6FBE0"
+      borderColor = '#09C266';
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
 
-            /*Defining the option will enable it.*/
-            breaks: {},
-
-            /*Palette is defined at series level with an ID referenced here.*/
-            color: "smartPalette:pal1",
-          },
-          scale_range: [0, 100],
-        },
-      ],
-      defaultSeries: {
-        type: "gauge column roundcaps",
-        shape: {
-          label: {
-            text: "%value%",
-            align: "center",
-            verticalAlign: "middle",
-          },
-        },
+            data: [this.values.annualAcc_provisional, 100 - this.values.annualAcc_provisional],
+            backgroundColor: [mainColor, complimentColor],
+            borderColor: [borderColor],
+            borderWidth: 1
+          }
+        ]
       },
-      series: [
-        {
-          type: "column roundcaps",
-          name: "Temperatures",
-          yAxis: "ax1",
-          palette: {
-            id: "pal1",
-            pointValue: "ff",
-            ranges: [
-              { value: 0, color: "#FF5353" },
-              { value: 40, color: "#FFD221" },
-              { value: 60, color: "#77E6B4" },
-              { value: [80, 100], color: "#21D683" },
-            ],
-          },
-          shape_label: { style: { fontSize: 22 } },
-          points: [["x", [0, this.values.annualAcc_provisional]]],
-        },
-      ],
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 64,
+
+        onClick(...args) {
+          console.log(args);
+        }
+      }
+    });
+
+  }
+  constChart() {
+    const canvas = <HTMLCanvasElement>document.getElementById('meter');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
+
+            data: [25, 75],
+            backgroundColor: ["#FF7154", "#67DF7B"],
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 94,
+
+        onClick(...args) {
+          console.log(args);
+        }
+      }
+    });
+  }
+  constChart1() {
+    const canvas = <HTMLCanvasElement>document.getElementById('meter1');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
+
+            data: [25, 75],
+            backgroundColor: ["#FF7154", "#67DF7B"],
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 94,
+
+        onClick(...args) {
+          console.log(args);
+        }
+      }
     });
   }
   gaugeChart2() {
-    var chart = JSC.chart("chartDiv2", {
-      debug: true,
-      legend_visible: false,
-      defaultTooltip_enabled: false,
-      xAxis_spacingPercentage: 0.4,
-      yAxis: [
-        {
-          id: "ax1",
-          defaultTick: { padding: 10, enabled: false },
-          customTicks: [0, 40, 60, 80, 100],
-          line: {
-            width: 3,
+    let mainColor = '', complimentColor = '', borderColor = '';
+    this.values.annualAcc_audited = 20
+    if (this.values.annualAcc_audited < 25) {
+      mainColor = '#FF7154';
+      complimentColor = '#ffcabf';
+      borderColor = '#FF7154'
+    } else {
+      mainColor = "#09C266"
+      complimentColor = "#C6FBE0"
+      borderColor = '#09C266';
+    }
+    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv2');
+    const ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: [],
+        datasets: [
+          {
 
-            /*Defining the option will enable it.*/
-            breaks: {},
-
-            /*Palette is defined at series level with an ID referenced here.*/
-            color: "smartPalette:pal1",
-          },
-          scale_range: [0, 100],
-        },
-      ],
-      defaultSeries: {
-        type: "gauge column roundcaps",
-        shape: {
-          label: {
-            text: "%value%",
-            align: "center",
-            verticalAlign: "middle",
-          },
-        },
+            data: [this.values.annualAcc_audited, 100 - this.values.annualAcc_audited],
+            backgroundColor: [mainColor, complimentColor],
+            borderColor: [borderColor],
+            borderWidth: 1
+          }
+        ]
       },
-      series: [
-        {
-          type: "column roundcaps",
-          name: "Temperatures",
-          yAxis: "ax1",
-          palette: {
-            id: "pal1",
-            pointValue: "ff",
-            ranges: [
-              { value: 0, color: "#FF5353" },
-              { value: 40, color: "#FFD221" },
-              { value: 60, color: "#77E6B4" },
-              { value: [80, 100], color: "#21D683" },
-            ],
-          },
-          shape_label: { style: { fontSize: 22 } },
-          points: [["x", [0, this.values.annualAcc_audited]]],
-        },
-      ],
+      options: {
+        maintainAspectRatio: false,
+        circumference: Math.PI + 1,
+        rotation: -Math.PI - 0.5,
+        cutoutPercentage: 64,
+
+        onClick(...args) {
+          console.log(args);
+        }
+      }
     });
   }
   mainDonughtChart() {
