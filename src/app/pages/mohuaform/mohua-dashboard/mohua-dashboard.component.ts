@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Chart } from "chart.js";
 import { pipe } from "rxjs";
 import { StateDashboardService } from "../../stateforms/state-dashboard/state-dashboard.service";
@@ -49,7 +49,7 @@ export class MohuaDashboardComponent implements OnInit {
     protected _activateRoute: ActivatedRoute,
     public mohuaDashboardService: MohuaDashboardService
   ) { }
-
+  @ViewChild("stateTable") stateTable;
   ngOnInit(): void {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       try {
@@ -258,6 +258,25 @@ export class MohuaDashboardComponent implements OnInit {
         },
       });
     });
+  }
+
+
+  onClickingStateTab(event) {
+    const stateName = event.target.value;
+    for (
+      let index = 0;
+      index < this.stateTable.nativeElement.rows.length;
+      index++
+    ) {
+      const element = this.stateTable.nativeElement.rows[index];
+      let tableState = element.children[7]?.textContent.toLowerCase().trim();
+      let mapState = stateName.toLowerCase().trim();
+      console.log(tableState, mapState, "equality", tableState == mapState);
+      if (tableState == mapState) {
+        element.focus();
+        break;
+      }
+    }
   }
   // onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
   //   const stateName = MapUtil.getStateName(stateLayer).toLowerCase();
