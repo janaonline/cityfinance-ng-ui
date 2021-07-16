@@ -378,7 +378,7 @@ rect {
   }
   
   #finance-law-map {
-    margin-top: 4%;
+    // margin-top: 4%;
     border-radius: inherit;
     left: 5px;
     bottom: 0px;
@@ -464,3 +464,12 @@ rect {
   }
   
 
+  ::ng-deep .ml-0 {
+    max-width: 140px;
+    transform: translateX(-3%);
+    margin-bottom: 3vh !important;
+    overflow: visible;
+    margin-left: 0pc !important;
+    margin-bottom: 0pc !important;
+    // font-size: 0.6vw;
+  }
