@@ -55,7 +55,9 @@ export class MohuaDashboardComponent implements OnInit {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       try {
         this.mapGeoData = data;
-        setTimeout(() => {
+        setTimeout(async () => {
+          await this.getTableData();
+
           this.createNationalLevelMap(data, "finance-law-map");
           // this.loadSlides();
         }, 1);
@@ -79,13 +81,26 @@ export class MohuaDashboardComponent implements OnInit {
   list = [];
   selectedStates = ["criteria"];
   stateName = "";
-
+  stateSelected;
+  previousStateLayer;
   stateColors = {
     unselected: "#E5E5E5",
     selected: "#059b9a",
   };
   nationalLevelMap: L.Map;
-
+  StyleForSelectedState = {
+    weight: 2,
+    color: "black",
+    fillOpacity: 1,
+  };
+  defaultStateLayerColorOption = {
+    fillColor: "#efefef",
+    weight: 1,
+    opacity: 1,
+    color: "#403f3f",
+    fillOpacity: 1,
+  };
+  stateDatasForMapColoring = [];
   statesLayer: L.GeoJSON<any>;
   tabelData;
   currentSort = 1;
@@ -143,7 +158,6 @@ export class MohuaDashboardComponent implements OnInit {
 
   onLoad() {
     this.getCardData();
-    this.getTableData();
     this.getFormData();
     this.getPlansData();
     this.mainDonughtChart();
@@ -155,7 +169,6 @@ export class MohuaDashboardComponent implements OnInit {
     this.utilReportDonughtChart();
     this.slbDonughtChart();
     this.pieChart();
-
   }
   selected() {
     // this.maindonughtChart?.destroy();
@@ -164,27 +177,24 @@ export class MohuaDashboardComponent implements OnInit {
     // this.pfmsdonughtChart?.destroy();
     // this.piechart?.destroy();
 
-
-
-    console.log(this.formDataApiRes)
-    let data = this.formDataApiRes
+    console.log(this.formDataApiRes);
+    let data = this.formDataApiRes;
 
     this.mapValues(data[0]);
     this.updateCharts();
-
-
-
   }
   getTableData() {
-    this.mohuaDashboardService.getTableData("").subscribe(
-      (res) => {
-
-        this.tabelData = res['data']
-        console.log(this.tabelData)
-
-      },
-      (err) => { }
-    );
+    return new Promise((resolve, rej) => {
+      this.mohuaDashboardService.getTableData("").subscribe(
+        (res) => {
+          this.tabelData = res["data"];
+          this.stateDatasForMapColoring = res["data"];
+          console.log(this.tabelData);
+          resolve("success");
+        },
+        (err) => { }
+      );
+    });
   }
   calculateVH(vh: number) {
     const h = Math.max(
@@ -252,20 +262,107 @@ export class MohuaDashboardComponent implements OnInit {
       MapUtil.createDefaultNationalMap(configuration));
 
     this.nationalLevelMap = map;
+    this.createLegendsForNationalLevelMap();
 
     this.statesLayer.eachLayer((layer) => {
+      const stateCode = MapUtil.getStateCode(layer);
+
+      if (!stateCode) {
+        return;
+      }
+
+      const stateFound = this.stateDatasForMapColoring.find(
+        (state) => state.code === stateCode
+      );
+
+      if (!stateFound) {
+        return;
+      }
+
+      const color = this.getColorBasedOnPercentage(
+        stateFound
+          ? parseInt(
+            ((stateFound.withState / stateFound.totalULBs) * 100).toFixed(2)
+          )
+          : 0
+      );
+      MapUtil.colorStateLayer(layer, color);
       (layer as any).bringToBack();
       (layer as any).on({
+        mouseover: () => {
+          this.createTooltip(layer);
+        },
         click: (args: ILeafletStateClickEvent) => {
           this.onClickingStateOnMap(args);
         },
       });
     });
   }
+
+  private createLegendsForNationalLevelMap() {
+    const arr = [
+      { color: "#216278", text: "76%-100%" },
+      { color: "#059b9a", text: "51%-75%" },
+      { color: "#8BD2F0", text: "26%-50%" },
+      { color: "#D0EDF9", text: "1%-25%" },
+      { color: "#E5E5E5", text: "0%" },
+    ];
+    const legend = new L.Control({ position: "bottomleft" });
+    const labels = [
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability <br> on Cityfinance.in</span>`,
+    ];
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create("div", "info legend ml-0");
+      div.id = "legendContainer";
+      div.style.width = "100%";
+      arr.forEach((value) => {
+        labels.push(
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
+        );
+      });
+      div.innerHTML = labels.join(``);
+      return div;
+    };
+
+    legend.addTo(this.nationalLevelMap);
+  }
+
+  private getColorBasedOnPercentage(value: number) {
+    if (value > 75) {
+      return "#216278";
+    }
+    if (value > 50) {
+      return "#059b9a";
+    }
+    if (value > 25) {
+      return "#8BD2F0";
+    }
+    if (value > 0) {
+      return `#D0EDF9`;
+    }
+    return "#E5E5E5";
+  }
+
+  private createTooltip(layer: L.Layer) {
+    const stateCode = MapUtil.getStateCode(layer);
+    const stateFound = this.states.find((state) => state.code === stateCode);
+    if (!stateFound) {
+      return;
+    }
+
+    const option: L.TooltipOptions = {
+      sticky: true,
+      offset: new L.Point(15, -8),
+      zoomAnimation: true,
+    };
+
+    layer.bindTooltip("<b>" + stateFound.name + "</b>", option);
+    layer.toggleTooltip();
+  }
+
   onClickingStateOnMap(stateLayer: ILeafletStateClickEvent) {
     console.log("stateLayer", stateLayer);
-    const stateName = MapUtil.getStateCode(stateLayer).toLowerCase();
-    // MapUtil.colorStateLayer(stateLayer, "#E5E5E5");
+    const stateCode = MapUtil.getStateCode(stateLayer);
     console.log(this.stateTable.nativeElement.rows);
     for (
       let index = 0;
@@ -274,17 +371,52 @@ export class MohuaDashboardComponent implements OnInit {
     ) {
       const element = this.stateTable.nativeElement.rows[index];
       let tableState = element.children[7]?.textContent.toLowerCase().trim();
-      let mapState = stateName.toLowerCase().trim();
-      console.log(tableState, mapState, "equality", tableState == mapState);
+      let mapState = stateCode.toLowerCase().trim();
       if (tableState == mapState) {
+        this.stateSelected = mapState;
         element.focus();
         break;
       }
     }
+    this.selectStateOnMap(stateCode);
+  }
+
+  private resetStateLayer(layer) {
+    layer.setStyle({
+      color: this.defaultStateLayerColorOption.color,
+      weight: this.defaultStateLayerColorOption.weight,
+    });
+    layer.closeTooltip();
+  }
+
+  private selectStateOnMap(code) {
+    if (this.previousStateLayer) {
+      this.resetStateLayer(this.previousStateLayer);
+      this.previousStateLayer = null;
+    }
+    if (!code) {
+      return;
+    }
+
+    this.statesLayer.eachLayer((layer) => {
+      const layerCode = MapUtil.getStateCode(layer);
+      if (layerCode !== code) {
+        return;
+      }
+      this.higlightClickedState(layer);
+      this.previousStateLayer = layer;
+    });
+  }
+
+  private higlightClickedState(stateLayer) {
+    stateLayer.setStyle(this.StyleForSelectedState);
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+      stateLayer.bringToFront();
+    }
   }
 
   onClickingStateTab(event) {
-    const stateName = event.target.value;
+    const stateCode = event.target.value;
     for (
       let index = 0;
       index < this.stateTable.nativeElement.rows.length;
@@ -292,13 +424,14 @@ export class MohuaDashboardComponent implements OnInit {
     ) {
       const element = this.stateTable.nativeElement.rows[index];
       let tableState = element.children[7]?.textContent.toLowerCase().trim();
-      let mapState = stateName.toLowerCase().trim();
-      console.log(tableState, mapState, "equality", tableState == mapState);
+      let mapState = stateCode.toLowerCase().trim();
       if (tableState == mapState) {
+        this.stateSelected = mapState;
         element.focus();
         break;
       }
     }
+    this.selectStateOnMap(stateCode);
   }
 
   openDialogAnnual() {
@@ -360,11 +493,7 @@ export class MohuaDashboardComponent implements OnInit {
   }
   pfmsDonughtChart() {
     const data = {
-      labels: [
-        'Registered',
-        'Not Registered',
-        'Pending Response'
-      ],
+      labels: ["Registered", "Not Registered", "Pending Response"],
     };
     const canvas = <HTMLCanvasElement>document.getElementById("pfms");
     const ctx = canvas.getContext("2d");
@@ -657,55 +786,48 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
   pieChart() {
-
-
     const data = {
       labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '76 - Under State Review',
-        '213 - Approved by State'],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.plans_pendingCompletion,
-          this.values.plans_completedAndPendingSubmission,
-          this.values.plans_underStateReview,
-          this.values.plans_approvedbyState],
-        backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
-
-        ],
-        hoverOffset: 4
-      }],
-
+        "103 - Pending Completion",
+        "213 - Completed and Pending Submission",
+        "76 - Under State Review",
+        "213 - Approved by State",
+      ],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [
+            this.values.plans_pendingCompletion,
+            this.values.plans_completedAndPendingSubmission,
+            this.values.plans_underStateReview,
+            this.values.plans_approvedbyState,
+          ],
+          backgroundColor: ["#F95151", "#FF9E30", "#DBDBDB", "#67DF7B"],
+          hoverOffset: 4,
+        },
+      ],
     };
 
-
-    const canvas = <HTMLCanvasElement>document.getElementById('pfm');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("pfm");
+    const ctx = canvas.getContext("2d");
     this.piechart = new Chart(ctx, {
-      type: 'pie',
+      type: "pie",
       data: data,
       options: {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-
-          position: 'left',
-          align: 'start',
+          position: "left",
+          align: "start",
           labels: {
             fontSize: 13,
-            fontColor: 'black',
+            fontColor: "black",
             usePointStyle: true,
 
             padding: 22,
-          }
-        }
-      }
+          },
+        },
+      },
     });
   }
   submitted_totalUlbs = 0;
@@ -748,7 +870,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.mohuaDashboardService.getFormData("").subscribe(
       (res) => {
         console.log(res);
-        this.formDataApiRes = res['data'];
+        this.formDataApiRes = res["data"];
         this.selected();
       },
       (err) => {
@@ -805,25 +927,36 @@ export class MohuaDashboardComponent implements OnInit {
     }
   }
   mapValues(data) {
-    this.values.overall_approvedByState = data['overallFormStatus']['approvedByState'],
-      this.values.overall_pendingForSubmission = data['overallFormStatus']['pendingForSubmission'],
-      this.values.overall_underReviewByState = data['overallFormStatus']['underReviewByState'],
-      this.values.pfms_notRegistered = data['pfms']['notRegistered'],
-      this.values.pfms_pendingResponse = data['pfms']['pendingResponse'],
-      this.values.pfms_registered = data['pfms']['registered'],
-      this.values.slb_approvedbyState = data['slb']['approvedbyState'],
-      this.values.slb_completedAndPendingSubmission = data['slb']['completedAndPendingSubmission'],
-      this.values.slb_pendingCompletion = data['slb']['pendingCompletion'],
-      this.values.slb_underStateReview = data['slb']['underStateReview'],
-      this.values.util_approvedbyState = data['utilReport']['approvedbyState'],
-      this.values.util_completedAndPendingSubmission = data['utilReport']['completedAndPendingSubmission'],
-      this.values.util_pendingCompletion = data['utilReport']['pendingCompletion'],
-      this.values.util_underStateReview = data['utilReport']['underStateReview'],
-      this.values.plans_approvedbyState = data['plans']['approvedbyState'],
-      this.values.plans_completedAndPendingSubmission = data['plans']['completedAndPendingSubmission'],
-      this.values.plans_pendingCompletion = data['plans']['pendingCompletion'],
-      this.values.plans_underStateReview = data['plans']['underStateReview'],
-      this.values.annualAcc_audited = data['annualAccounts']['audited'],
-      this.values.annualAcc_provisional = data['annualAccounts']['provisional']
+    (this.values.overall_approvedByState =
+      data["overallFormStatus"]["approvedByState"]),
+      (this.values.overall_pendingForSubmission =
+        data["overallFormStatus"]["pendingForSubmission"]),
+      (this.values.overall_underReviewByState =
+        data["overallFormStatus"]["underReviewByState"]),
+      (this.values.pfms_notRegistered = data["pfms"]["notRegistered"]),
+      (this.values.pfms_pendingResponse = data["pfms"]["pendingResponse"]),
+      (this.values.pfms_registered = data["pfms"]["registered"]),
+      (this.values.slb_approvedbyState = data["slb"]["approvedbyState"]),
+      (this.values.slb_completedAndPendingSubmission =
+        data["slb"]["completedAndPendingSubmission"]),
+      (this.values.slb_pendingCompletion = data["slb"]["pendingCompletion"]),
+      (this.values.slb_underStateReview = data["slb"]["underStateReview"]),
+      (this.values.util_approvedbyState =
+        data["utilReport"]["approvedbyState"]),
+      (this.values.util_completedAndPendingSubmission =
+        data["utilReport"]["completedAndPendingSubmission"]),
+      (this.values.util_pendingCompletion =
+        data["utilReport"]["pendingCompletion"]),
+      (this.values.util_underStateReview =
+        data["utilReport"]["underStateReview"]),
+      (this.values.plans_approvedbyState = data["plans"]["approvedbyState"]),
+      (this.values.plans_completedAndPendingSubmission =
+        data["plans"]["completedAndPendingSubmission"]),
+      (this.values.plans_pendingCompletion =
+        data["plans"]["pendingCompletion"]),
+      (this.values.plans_underStateReview = data["plans"]["underStateReview"]),
+      (this.values.annualAcc_audited = data["annualAccounts"]["audited"]),
+      (this.values.annualAcc_provisional =
+        data["annualAccounts"]["provisional"]);
   }
 }
