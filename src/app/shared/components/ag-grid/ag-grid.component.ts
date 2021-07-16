@@ -34,9 +34,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   gridData = new EventEmitter();
 
   frameworkComponents;
-  yearErrorMsg = "Value should be a number / Greater than 0 / less than amount";
-  fundErrorMsg =
-    "Value should be a number / Greater than 0 / less than project cost";
+  yearErrorMsg = "All years value sum should be equal to amount";
+  fundErrorMsg = "All years value sum should be equal to project cost";
 
   project = [
     {
@@ -44,6 +43,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["index"].value != null ? params.data["index"].value : "",
       headerName: "S No",
+      pinned: true,
       width: 50,
       field: "index",
     },
@@ -52,6 +52,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["code"].value != null ? params.data["code"].value : "",
       headerName: "Project Code",
+      pinned: true,
       width: 180,
       editable: false,
       tooltipField: "code",
@@ -64,6 +65,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["name"].value != null ? params.data["name"].value : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
+      pinned: true,
       width: 120,
       editable: true,
       tooltipField: "name",
@@ -79,6 +81,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 100,
+      pinned: true,
       editable: true,
       tooltipField: "cost",
       tooltipComponent: "customTooltip",
@@ -705,8 +708,8 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.rowData.projectExecute.forEach((element) => {
       if (element.exAgency.value == "Parastatal Agency") {
         this.project[6].hide = false;
-      }else{
-        element.paraAgency.value = "N/A"
+      } else {
+        element.paraAgency.value = "N/A";
       }
     });
 
@@ -725,9 +728,41 @@ export class AgGridComponent implements OnInit, OnChanges {
 
   cellValueChanged(e) {
     if (e.colDef.field == "exAgency") {
-      if (e.value == "Parastatal Agency")
+      this.agGrid1.api.forEachNode((param, index) => {
+        if (
+          param.data.exAgency.value != "Parastatal Agency" &&
+          param.data.exAgency.value != ""
+        ) {
+          param.data.paraAgency.value = "N/A";
+        }
+        if (e.node.id == index && e.value != "Parastatal Agency") {
+          param.data.paraAgency.value = "N/A";
+        } else if (e.node.id == index) {
+          param.data.paraAgency.value = "";
+        }
+        this.agGrid1.api.applyTransaction({ update: [param.data] });
+      });
+
+      if (e.value != "Parastatal Agency") {
+        for (
+          let index = 0;
+          index < this.rowData.projectExecute.length;
+          index++
+        ) {
+          const element = this.rowData.projectExecute[index];
+          if (
+            element.exAgency.value == "Parastatal Agency" &&
+            e.node.id != index
+          ) {
+            return;
+          }
+        }
+      }
+      if (e.value == "Parastatal Agency") {
         this.agGrid1.columnApi.setColumnVisible("paraAgency", true);
-      else this.agGrid1.columnApi.setColumnVisible("paraAgency", false);
+      } else {
+        this.agGrid1.columnApi.setColumnVisible("paraAgency", false);
+      }
     }
     if (e.colDef.field == "cost" || e.colDef.field == "name") {
       this.autoSetNames(e);
@@ -736,6 +771,9 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   fundValueChanges(e) {
+    if (years.includes(e.colDef.field))
+      this.checkValidYearSum(e, this.agGrid2.api, "cost");
+
     if (e.colDef.field == "fc") {
       this.autoSetNames(e, true);
     }
@@ -758,8 +796,34 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.gridData.emit(this.rowData);
   }
 
-  yearValueChanges(e) {
+  yearValueChanges(param) {
+    if (years.includes(param.colDef.field))
+      this.checkValidYearSum(param, this.agGrid3.api, "amount");
     this.gridData.emit(this.rowData);
+  }
+
+  checkValidYearSum(param, api, rowName) {
+    let data = param.data;
+    let val = 0;
+    for (const key in data) {
+      if (years.includes(key)) {
+        if (!isNaN(data[key].value) && typeof data[key].value == "number") {
+          val += data[key].value;
+        }
+      }
+    }
+    let cost = param.data[rowName]?.value;
+    if (cost == val) {
+      for (const key in data) {
+        if (years.includes(key)) {
+          if (!isNaN(data[key].value) && typeof data[key].value == "number") {
+            data[key].lastValidation = true;
+          }
+        }
+      }
+      api.applyTransaction({ update: [param.data] });
+      api.redrawRows(param);
+    }
   }
 
   autoSetNames(e, fromFund = null) {
@@ -811,7 +875,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.gridData.emit(this.rowData);
   }
 
-  async removeRow() {
+  removeRow() {
     let lastElement = this.rowData.projectExecute.pop();
     this.agGrid1.api.applyTransaction({ remove: [lastElement] });
     lastElement = this.rowData.sourceFund.pop();
@@ -893,7 +957,12 @@ const input = {
   code: { value: "", isEmpty: true, lastValidation: true },
 };
 
-const Area = (x) => x.length < 201;
+const Area = (x) => {
+  if (typeof x == "string") {
+    return x.length < 201;
+  }
+  return false;
+};
 const Total = (x, param) => {
   if (param.data.cost.value == "") {
     param.data.cost.value = 0;
@@ -927,7 +996,7 @@ const checkYear = (x, param) => {
     if (years.includes(key)) {
       if (
         !isNaN(data[key].value) &&
-        data[key].value != "" &&
+        typeof data[key].value == "number" &&
         param.colDef.field != key
       ) {
         count++;
@@ -951,7 +1020,7 @@ const checkYear2 = (x, param) => {
     if (years.includes(key)) {
       if (
         !isNaN(data[key].value) &&
-        data[key].value != "" &&
+        typeof data[key].value == "number" &&
         param.colDef.field != key
       ) {
         count++;
