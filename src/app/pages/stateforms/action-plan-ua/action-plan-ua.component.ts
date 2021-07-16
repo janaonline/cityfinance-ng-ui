@@ -75,35 +75,41 @@ export class ActionPlanUAComponent implements OnInit {
   ngOnInit(): void {
     sessionStorage.setItem("changeInActionPlans", "false");
     this.state_id = sessionStorage.getItem("state_id");
-    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
 
-    if (this.loggedInUserType == 'MoHUA') {
+    if (this.loggedInUserType == "MoHUA") {
       this.formDisable = true;
-    } else if (this.loggedInUserType == 'STATE') {
-      if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
-        if (this.allStatus['latestFinalResponse']['actionPlans']['isSubmit'] &&
-          (this.allStatus['latestFinalResponse']['actionPlans']['status'] == 'PENDING'
-            || this.allStatus['latestFinalResponse']['actionPlans']['status'] == 'APPROVED')) {
+    } else if (this.loggedInUserType == "STATE") {
+      if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
+        if (
+          this.allStatus["latestFinalResponse"]["actionPlans"]["isSubmit"] &&
+          (this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
+            "PENDING" ||
+            this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
+              "APPROVED")
+        ) {
           this.formDisable = true;
         }
-      } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
-        if (this.allStatus['latestFinalResponse']['actionPlans']['status'] == 'APPROVED') {
-          this.formDisable = true
+      } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
+        if (
+          this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
+          "APPROVED"
+        ) {
+          this.formDisable = true;
         }
       }
     }
 
-    if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
-      if (this.allStatus['latestFinalResponse']['actionPlans']['status'] != 'PENDING') {
-        this.actionFormDisable = true
+    if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
+      if (
+        this.allStatus["latestFinalResponse"]["actionPlans"]["status"] !=
+        "PENDING"
+      ) {
+        this.actionFormDisable = true;
       }
-    } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
-      this.actionFormDisable = true
+    } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
+      this.actionFormDisable = true;
     }
-
-
-
-
 
     this.getUlbNames();
     for (const key in this.uasData) {
@@ -274,10 +280,12 @@ export class ActionPlanUAComponent implements OnInit {
             icon: "success",
           });
           sessionStorage.setItem("changeInActionPlans", "false");
-          const form = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+          const form = JSON.parse(
+            sessionStorage.getItem("allStatusStateForms")
+          );
           form.steps.actionPlans.isSubmit = !this.data.isDraft;
-          form.steps.actionPlans.status = 'PENDING';
-          form.actionTakenByRole = 'STATE';
+          form.steps.actionPlans.status = "PENDING";
+          form.actionTakenByRole = "STATE";
           this.stateformsService.allStatusStateForms.next(form);
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
@@ -290,38 +298,39 @@ export class ActionPlanUAComponent implements OnInit {
         }
       );
     } else if (this.loggedInUserType === "MoHUA") {
-      let changeHappen = sessionStorage.getItem("changeInActionPlans")
+      let changeHappen = sessionStorage.getItem("changeInActionPlans");
       if (changeHappen == "false") {
         this._router.navigate(["stateform/grant-allocation"]);
         return;
       } else {
-        this.saveStateAction()
+        this.saveStateAction();
       }
-
     }
   }
   body = {};
   saveStateAction() {
-    this.actionplanserviceService.postStateAction(this.finalActionData).subscribe(
-      (res) => {
-        swal("Record submitted successfully!");
-        const status = JSON.parse(
-          sessionStorage.getItem("allStatusStateForms")
-        );
-        // status.steps.actionPlans.status = this.body["status"];
-        sessionStorage.setItem("changeInActionPlans", "false")
-        status.steps.actionPlans.isSubmit = true;
-        status.steps.actionPlans.status = this.finalActionData['status'];
-        status.actionTakenByRole = 'MoHUA'
-        this.stateformsService.allStatusStateForms.next(status);
+    this.actionplanserviceService
+      .postStateAction(this.finalActionData)
+      .subscribe(
+        (res) => {
+          swal("Record submitted successfully!");
+          const status = JSON.parse(
+            sessionStorage.getItem("allStatusStateForms")
+          );
+          // status.steps.actionPlans.status = this.body["status"];
+          sessionStorage.setItem("changeInActionPlans", "false");
+          status.steps.actionPlans.isSubmit = true;
+          status.steps.actionPlans.status = this.finalActionData["status"];
+          status.actionTakenByRole = "MoHUA";
+          this.stateformsService.allStatusStateForms.next(status);
 
-        this._router.navigate(["stateform/grant-allocation"]);
-      },
-      (error) => {
-        swal("An error occured!");
-        console.log(error.message);
-      }
-    );
+          this._router.navigate(["stateform/grant-allocation"]);
+        },
+        (error) => {
+          swal("An error occured!");
+          console.log(error.message);
+        }
+      );
   }
 
   makeApiData() {
@@ -333,12 +342,15 @@ export class ActionPlanUAComponent implements OnInit {
       element.projectExecute.forEach((e) => {
         let pro = JSON.parse(JSON.stringify(Uas.projectExecute[0]));
         for (const key in e) {
-          if(key == 'index') continue;
+          if (key == "index") continue;
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
-          }else{
+          } else {
             this.data.isDraft = false;
+          }
+          if (!e[key]["value"]) {
+            this.data.isDraft = true;
           }
         }
         temp.push(pro);
@@ -348,12 +360,15 @@ export class ActionPlanUAComponent implements OnInit {
       element.sourceFund.forEach((e) => {
         let pro = JSON.parse(JSON.stringify(Uas.sourceFund[0]));
         for (const key in e) {
-          if(key == 'index') continue;
+          if (key == "index") continue;
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
-          }else{
+          } else {
             this.data.isDraft = false;
+          }
+          if (!e[key]["value"]) {
+            this.data.isDraft = true;
           }
         }
         temp.push(pro);
@@ -363,12 +378,15 @@ export class ActionPlanUAComponent implements OnInit {
       element.yearOutlay.forEach((e) => {
         let pro = JSON.parse(JSON.stringify(Uas.yearOutlay[0]));
         for (const key in e) {
-          if(key == 'index') continue;
+          if (key == "index") continue;
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
-          }else{
+          } else {
             this.data.isDraft = false;
+          }
+          if (!e[key]["value"]) {
+            this.data.isDraft = true;
           }
         }
         temp.push(pro);
@@ -383,9 +401,10 @@ export class ActionPlanUAComponent implements OnInit {
 
   getDataFromGrid(data, index) {
     let temp = sessionStorage.getItem("actionPlans");
-    let allData = this.makeApiData();    
-    console.log(JSON.stringify(allData),"xxxxxxxxxxx",temp);
-    if (!deepEqual(allData,JSON.parse(temp))) {
+    let allData = this.makeApiData();
+    console.log(JSON.stringify(allData), "xxxxxxxxxxx", temp);
+    debugger;
+    if (!deepEqual(allData, JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
     } else {
       sessionStorage.setItem("changeInActionPlans", "false");
@@ -431,30 +450,30 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
-  finalActionData
+  finalActionData;
   checkStatus(ev, ua_id, a, b) {
-    sessionStorage.setItem("changeInActionPlans", "true")
-    console.log('action plan of UA', ev, ua_id);
-    console.log('before', this.data.uaData)
+    sessionStorage.setItem("changeInActionPlans", "true");
+    console.log("action plan of UA", ev, ua_id);
+    console.log("before", this.data.uaData);
     if (!this.finalActionData) {
-      this.finalActionData = this.makeApiData()
+      this.finalActionData = this.makeApiData();
     }
 
-    console.log(this.finalActionData)
-    this.finalActionData.uaData.forEach(el => {
+    console.log(this.finalActionData);
+    this.finalActionData.uaData.forEach((el) => {
       if (el.ua == ua_id) {
         el["status"] = ev.status;
         el["rejectReason"] = ev.rejectReason;
       }
     });
 
-    this.finalActionData.uaData.forEach(element => {
-      if (element['status'] === 'REJECTED') {
-        this.finalActionData['status'] = 'REJECTED'
+    this.finalActionData.uaData.forEach((element) => {
+      if (element["status"] === "REJECTED") {
+        this.finalActionData["status"] = "REJECTED";
       } else {
-        this.finalActionData['status'] = 'APPROVED'
+        this.finalActionData["status"] = "APPROVED";
       }
     });
     console.log("after", this.finalActionData);
