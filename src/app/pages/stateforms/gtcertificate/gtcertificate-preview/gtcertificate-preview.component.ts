@@ -96,6 +96,8 @@ export class GtcertificatePreviewComponent implements OnInit {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
+    if(this.parentData)
+    this.data = this.parentData;
   }
 
   clickedDownloadAsPDF() {

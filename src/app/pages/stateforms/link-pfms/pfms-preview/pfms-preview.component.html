@@ -9,7 +9,8 @@
 
             <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
                 <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
-                <br *ngIf="!parentData"><b class="sub-h">{{stateName}}</b>
+                <span *ngIf="!parentData">Linking of PFMS Account</span>
+                <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
 
             </div>
 

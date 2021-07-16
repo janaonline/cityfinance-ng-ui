@@ -108,8 +108,12 @@ margin-bottom: 1.5rem !important;
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
+    if(this.parentData){
+    this.data = this.parentData;
+  }
     this.setStatus();
     console.log(this.data);
+
   }
 
   clickedDownloadAsPDF() {

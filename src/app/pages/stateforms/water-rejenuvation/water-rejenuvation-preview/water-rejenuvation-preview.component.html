@@ -10,8 +10,9 @@
                 Indicator for Water Rejenuvation and Recycling
             </div> -->
             <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top': stateName  ? '' : '1.5rem'}">
-                <span> Submissions for 15th FC Grants for FY 2021-22</span>
-                <br><b class="sub-h">{{stateName}}</b>
+                <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
+                <span *ngIf="parentData">Indicator for Water Rejenuvation and Recycling</span>
+                <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
             </div>
         </div>
     </div>
@@ -26,7 +27,7 @@
             </button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!parentData">
         <div class="col-sm-12 text-center form-h">
             Indicator for Water Rejenuvation and Recycling
         </div>
@@ -37,7 +38,8 @@
                 <div style="display: flex;">
                     <div>
                         <!-- UA{{projectIndex+1}}: {{uas.name}} -->
-                        <h4>UA{{projectIndex+1}}: Urban Aggolmeration {{uas.name.split(' ')[0]}}</h4>
+                        <h4>UA{{projectIndex + 1}}: Urban Aggolmeration {{uasData[uas.ua].name.split(' ')[0]}}</h4>
+                        <!-- <h4>UA{{projectIndex+1}}: Urban Aggolmeration {{uas.name.split(' ')[0]}}</h4> -->
 
                     </div>
                 </div>

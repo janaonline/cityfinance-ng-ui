@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-state-all-preview',
@@ -6,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./state-all-preview.component.scss']
 })
 export class StateAllPreviewComponent implements OnInit {
+  uasData;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _matDialog: MatDialog,
+  ) {
+    this.uasData = JSON.parse(sessionStorage.getItem("UasList"));
 
-  constructor() { }
+  }
   gtcData = null;
   pfmsStateData = null;
   stateSlbData = null;
@@ -122,8 +129,30 @@ grantAllError : {
       url : null
   }
 };
-  ngOnInit(): void {
+allFormRes = {};
+  ngOnInit() {
+    console.log('previewData', this.data, this.data[0]);
+    this.allFormRes = this.data[0]
+     this.gtcError.data = this.data[0]['stategtcertificates'][0];
+     this.pfmsStateError = this.data[0]['linkpfmsstates'][0];
+     this.waterRejError = this.data[0]['waterrejenuvationrecyclings'][0];
+     this.actionPlanError = this.data[0]['actionplans'][0];
+     this.grantAllError = this.data[0]['grantdistributions'][0];
+
+    //  for (let index = 0; index < this.waterRejError[0].uaData.length; index++) {
+    //   this.waterRejError[0].uaData[index].name = this.uasData[this.waterRejError[0].uaData[index].ua].name;
+    // }
+     console.log('all single form',this.actionPlanError, this.data[0]['actionplans'][0]);
+     this.gtcData = this.gtcError.data;
+    this.pfmsStateData = this.pfmsStateError;
+    this.waterRejData = this.waterRejError;
+    this.actionPlanData = this.actionPlanError
+    this.gAllData = this.grantAllError;
+     //pfmsStateError
+
+
   }
+
   openModal(){
 
   }
