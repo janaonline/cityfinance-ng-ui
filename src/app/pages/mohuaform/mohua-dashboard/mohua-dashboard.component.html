@@ -7,9 +7,13 @@
 </div>
 <div class="container-fluid row">
 
-    <div class="col-sm-5 p-0" style="min-height: 50vh;">
+    <div class="col-sm-5 mt-2" style="min-height: 50vh;">
+
         <div id="finance-law-map" style="position:initial">
+
         </div>
+
+
     </div>
 
     <div class="col-sm-7">
@@ -62,7 +66,7 @@
                 <div class="row">
 
 
-                    <div *ngIf="tabelData" class="table-responsive"
+                    <div class="table-responsive"
                         style="border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
                         <table #stateTable class="table my_table">
                             <thead style="position:sticky; top:0">
@@ -105,19 +109,42 @@
                                         {{resData.totalULBs}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                        {{resData.withState}}
+                                        {{resData.submittedForm}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                        {{resData.submittedForm}}</td>
+                                        {{resData.withState}}</td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                         {{resData.notSubmittedForm}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
-                                        {{resData.withState/resData.totalULBs * 100 ?
-                                        (resData.withState/resData.totalULBs * 100).toFixed(2) : 0 }}<small>%</small>
+                                        {{resData.submittedForm/resData.totalULBs * 100 ?
+                                        (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0
+                                        }}<small>%</small>
                                     </td>
-                                    <td style="display: none;">
-                                        {{resData.code}}
+
+                                </tr>
+                                <tr class="tableHeadText" style="background-color: skyblue; font-weight: bold;">
+                                    <td style="width: 1%;">
+
+                                    </td>
+                                    <td>
+                                        TOTAL
+                                    </td>
+                                    <td>
+                                        {{total_totalULBs}}
+                                    </td>
+                                    <td>
+                                        {{total_submittedForm}}
+                                    </td>
+                                    <td>
+                                        {{total_withState}}</td>
+                                    <td>
+                                        {{total_notSubmittedForm}}
+                                    </td>
+                                    <td style="font-weight: bold;">
+                                        {{total_submittedForm/total_totalULBs * 100 ?
+                                        (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0
+                                        }}<small>%</small>
                                     </td>
                                 </tr>
                             </tbody>
@@ -170,7 +197,7 @@
                     </div>
 
                     <div style="height: 151px;
-                    width: 100%;
+                    width: 99%;
                     position: relative;
                     z-index: 2;
                     margin-top: 3px;
@@ -187,7 +214,7 @@
                     bottom: 94px;
                     width: 100%;
                     text-align: center;
-                    margin-left: 13px;">
+                    margin-left: 11px;">
                         {{values.annualAcc_audited}}<small>%</small>
                         <div style="font-size: 18px;
                         margin-left: -14px;">Completed
@@ -305,7 +332,7 @@
             margin-left: 10px;
             font-size: 18px;
             font-weight: bold;
-            margin-top: 8px;">ULB Water Supply and Sanitation Indicators</span>
+            margin-top: 8px;">Plans for Water Supply and Sanitation Indicators</span>
             <a (click)="openDialogPlans()" style="margin-left:30px">
                 <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
             </a>
@@ -318,7 +345,7 @@
                 <div class="Card1">
                     <div class="row" style="height: 70%;">
                         <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                            <span style="color: #12505A; font-size: 41px;">{{plans}}<small>% </small></span>
+                            <span style="color: #12505A; font-size: 41px;">{{percentage}}<small>% </small></span>
                             <span>ULBs in Million Plus UA</span>
 
                         </div>
@@ -343,7 +370,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        Water Supply and Sanitation Indicators compiled for <b> {{ulbs}}
+                        Water Supply and Sanitation Indicators compiled for <b> {{compiledFor}}
                             ULBs</b>
                     </div>
                 </div>
