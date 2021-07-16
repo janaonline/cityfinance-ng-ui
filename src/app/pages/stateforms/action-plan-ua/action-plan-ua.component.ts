@@ -156,7 +156,7 @@ export class ActionPlanUAComponent implements OnInit {
           state: res["data"].state,
           design_year: res["data"]["design_year"],
           uaData: res["data"]["uaData"],
-          status: res["data"]["status"],
+          status: res["data"]["status"] ?? "PENDING",
           isDraft: res["data"]["isDraft"],
         };
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
@@ -333,6 +333,7 @@ export class ActionPlanUAComponent implements OnInit {
       element.projectExecute.forEach((e) => {
         let pro = JSON.parse(JSON.stringify(Uas.projectExecute[0]));
         for (const key in e) {
+          if(key == 'index') continue;
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
@@ -347,6 +348,7 @@ export class ActionPlanUAComponent implements OnInit {
       element.sourceFund.forEach((e) => {
         let pro = JSON.parse(JSON.stringify(Uas.sourceFund[0]));
         for (const key in e) {
+          if(key == 'index') continue;
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
@@ -361,6 +363,7 @@ export class ActionPlanUAComponent implements OnInit {
       element.yearOutlay.forEach((e) => {
         let pro = JSON.parse(JSON.stringify(Uas.yearOutlay[0]));
         for (const key in e) {
+          if(key == 'index') continue;
           pro[key] = e[key]["value"];
           if (e[key]["lastValidation"] != true) {
             this.data.isDraft = true;
@@ -380,11 +383,9 @@ export class ActionPlanUAComponent implements OnInit {
 
   getDataFromGrid(data, index) {
     let temp = sessionStorage.getItem("actionPlans");
-    let t = this.makeApiData();
-    console.log("DATA FROM GRID" , t);
-    
-
-    if (JSON.stringify(t) != temp) {
+    let allData = this.makeApiData();    
+    console.log(JSON.stringify(allData),"xxxxxxxxxxx",temp);
+    if (!deepEqual(allData,JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
     } else {
       sessionStorage.setItem("changeInActionPlans", "false");
@@ -573,3 +574,13 @@ const output = {
     },
   ],
 };
+
+function deepEqual(x, y) {
+  const ok = Object.keys,
+    tx = typeof x,
+    ty = typeof y;
+  return x && y && tx === "object" && tx === ty
+    ? ok(x).length === ok(y).length &&
+        ok(x).every((key) => deepEqual(x[key], y[key]))
+    : x === y;
+}
