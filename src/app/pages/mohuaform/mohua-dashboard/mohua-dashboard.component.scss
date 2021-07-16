@@ -159,6 +159,11 @@ color:black;
     width:100%;
 }
 
+.my_table tbody tr:focus {
+  background-color: #FFC500;
+  outline: 0; /*remove outline*/
+}
+
 .textInThirdColumn{
     line-height: 40px; 
     text-align: left;

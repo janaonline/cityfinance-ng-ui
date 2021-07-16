@@ -403,7 +403,6 @@ export class ActionPlanUAComponent implements OnInit {
     let temp = sessionStorage.getItem("actionPlans");
     let allData = this.makeApiData();
     console.log(JSON.stringify(allData), "xxxxxxxxxxx", temp);
-    debugger;
     if (!deepEqual(allData, JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
     } else {
