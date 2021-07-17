@@ -1,6 +1,6 @@
 <div class="container-fluid " id="gtcpre" #gtcpre>
     <div class="row">
-        <div class="col-sm-12 header-p">
+        <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
             <a *ngIf="!parentData" (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
@@ -9,7 +9,7 @@
             <!-- <div class="col-sm-12 heading-p">
                 Grant Transfer Certificate
             </div> -->
-            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top': stateName  ? '' : '1.5rem'}">
+            <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
                 <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
                 <span *ngIf="parentData">Grant Transfer Certificate </span>
                 <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>

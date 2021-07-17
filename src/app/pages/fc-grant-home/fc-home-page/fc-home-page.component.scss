@@ -8,11 +8,16 @@
 
 .container-fluid {
     margin-top: 2px;
+    background-image: url('../../../../assets/ulbform/landingp2.png');
     background-repeat: no-repeat;
     background-size: cover;
     height: 60rem;
     font-size: 35px;
     image-resolution: 50px;
+}
+
+.bg-img {
+    background-image: url('../../../../assets/ulbform/landingpage1.png');
 }
 
 h3 {

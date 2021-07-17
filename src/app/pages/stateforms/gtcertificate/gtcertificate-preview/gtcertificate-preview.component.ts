@@ -86,6 +86,12 @@ export class GtcertificatePreviewComponent implements OnInit {
         font-size: 10px;
         margin-top: 10px;
       }
+      td, th{
+        word-break: break-all;
+        font-size: 9px !important;
+        padding: 5px 1px !important;
+      }
+
 
     </style>`
     ulbName;

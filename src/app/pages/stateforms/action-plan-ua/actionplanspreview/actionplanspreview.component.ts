@@ -59,15 +59,47 @@ export class ActionplanspreviewComponent implements OnInit {
   margin-bottom: 1rem;
   text-align: center;
 }
+.d-m {
+  margin-bottom: .7rem;
+}
 .form-status {
   font-size: 10px;
 }
+.st-d {
+  margin-top: 7px !important;
+  margin-bottom: 7px !important;
+}
+.sub-m-h{
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+}
+.header-u-p {
+  background-color: #047474;
+  text-align: center;
+  height: 60px;
+}
+
+.heading-u-p {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 700;
+  padding-top: 1.3rem !important;
+}
+.slb-pd-t {
+  background-color: #047474;
+  text-align: center;
+  height: 60px;
+}
+.slb-h{
+  font-size: 18px;
+  padding-top: 1.3rem !important;
+  font-weight: 700;
+}
 .card {
-    margin-top: 10px !important;
     padding: 5px 10px;
     background-color: #EBF5F5;
 }
-
 .qus-h {
     margin-bottom: .5rem;
     margin-top: .5rem;
@@ -80,20 +112,284 @@ export class ActionplanspreviewComponent implements OnInit {
     margin-top: .5rem;
     font-size: 10px !important;
 }
-.m-r{
-margin-bottom: 1.5rem !important;
-}
 
 .h-cls{
       display: none;
     }
-.form-status {
-      font-size: 10px;
-      margin-top: 10px;
-    }
 
+    .qus-h-an {
+      margin-bottom: .5rem;
+      margin-top: 1rem;
+      font-size: 10px;
+  }
+
+  .ans-h-an {
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      font-size: 10px;
+  }
+  @media print {
+    .page-break {
+        page-break-before: always;
+    }
+  }
+  .h-font {
+    display: inline-block;
+    font-size: 12px !important;
+  }
+  .f-r {
+    margin-left: 30px;
+  }
+  .ans-h-an{
+    margin-left : .5rem !important;
+  }
+  .ans-h-na{
+    margin-left : 1rem !important;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    font-size: 10px !important;
+  }
+  .hi{
+    display:none
+  }
+  .qus-h-an-ex {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    font-size: 10px;
+    margin-left : .5rem !important;
+  }
+  .ans-h-an-b {
+      margin-bottom: .5rem;
+      margin-top: .5rem;
+      margin-left : 1rem !important;
+      font-size: 10px;
+  }
+  .form-status {
+    font-size: 10px;
+    margin-top: 10px;
+  }
+
+.m-h{
+  text-align: center;
+}
+.cont {
+  width: 794px;
+  background-color: #FFFFFF;
+  display: inline-block;
+}
+
+.container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.header-p{
+  word-break: break-all;
+}
+
+td, th{
+  word-break: break-all;
+  font-size: 9px !important;
+  padding: 5px 1px !important;
+}
+
+
+.thHeader {
+  background-color: #E9E9E9;
+  color: #047474;
+  font-size: 15px;
+  font-weight: normal;
+}
+th {
+  font-weight: normal;
+  vertical-align: middle;
+  text-align: center;
+}
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+  vertical-align: middle;
+  padding: 10px 6px;
+}
+.bor-in-l {
+  word-break: break-all;
+}
+.tableFooterDiv {
+  background-color: #E7E7E7;
+  color: #000000;
+  font-size: 16px;
+}
+.f-d-n {
+  background-color: #CFCFCF;
+  width: 235px;
+  height: 35px;
+  padding: 7px 8px;
+  height: 15px !important;
+}
+.d-none {
+  display: none;
+}
+label{
+  font-size: 9px !important;
+}
+
+@media print {
+  .page-break {page-break-before: always;}
+}
+:root {
+  font-size: 14px;
+}
+table tbody tr {
+  border: 100px solid black;
+}
+  table tbody tr:nth-child(even) {
+  background: #d7ebeb;
+}
+ table tbody tr:nth-child(even) td {
+  border:1px solid #d7ebeb;
+}
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: .9rem;
+  }
+
+   h4 {
+    font-size: .7rem;
+  }
+     h5 {
+    font-size: .5rem;
+  }
+
+  table thead th {
+    font-size: .5rem
+  }
+
+  table tbody td, li {
+    font-size: .5rem
+  }
+
+  .td-width {
+    width: 25%;
+  }
+
+  button {
+    display: none;
+  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+.form-status {
+  font-size: 10px;
+  margin-top: 10px;
+
+}
+
+.fa-times {
+  display: none;
+}
+.qus-slb {
+  margin-left: 2%;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.ans-slb {
+  margin-left: 1rem;
+  font-weight: normal;
+  font-size: 12px;
+}
+.qus-h-an {
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  font-size: 10px;
+}
+
+.ans-h-an {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  font-size: 10px;
+}
+@media print {
+.page-break {
+    page-break-before: always;
+}
+}
+.h-font {
+display: inline-block;
+font-size: 12px !important;
+}
+.f-r {
+margin-left: 30px;
+}
+.ans-h-an{
+margin-left : .5rem !important;
+}
+.hi{
+display:none
+}
+.qus-h-an-ex {
+margin-bottom: .5rem;
+margin-top: .5rem;
+font-size: 10px;
+margin-left : .5rem !important;
+}
+.ans-h-an-b {
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+  margin-left : 1rem !important;
+  font-size: 10px;
+}
+
+.ans-slb-a {
+  margin-left: 5.8rem;
+  font-weight: normal !important;
+  font-size: 10px !important;
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  vertical-align: inherit;
+  text-align: center;
+}
+
+.fa-times {
+  display: none;
+}
+.qus-slb {
+  margin-left: 2%;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+#donwloadButton{
+display: none;
+}
+h5{
+display: inline-flex;
+}
+.d-i{
+display: inline-flex;
+width : 33.33%;
+}
+.mr-l{
+margin-left: 22%;
+}
   </style>`;
-  @ViewChild("waterRe") _html: ElementRef;
+  @ViewChild("actionP") _html: ElementRef;
   @ViewChild("template") template;
   showLoader;
   dialogRef;
@@ -134,7 +430,7 @@ margin-bottom: 1.5rem !important;
     this.showLoader = true;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", "gtcertificate.pdf");
+        this.downloadFile(res.slice(0), "pdf", "actionPlan.pdf");
         this.showLoader = false;
       },
       (err) => {

@@ -1,7 +1,7 @@
 <div class="container-fluid" style="margin-bottom: 1pc;" id="waterRe" #waterRe>
     <div class="row">
-        <div class="col-sm-12 header-p">
-            <a (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+        <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
+            <a *ngIf="!parentData" (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
@@ -9,7 +9,7 @@
             <!-- <div class="col-sm-12 heading-p">
                 Indicator for Water Rejenuvation and Recycling
             </div> -->
-            <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top': stateName  ? '' : '1.5rem'}">
+            <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
                 <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
                 <span *ngIf="parentData">Indicator for Water Rejenuvation and Recycling</span>
                 <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
@@ -20,7 +20,7 @@
         <div class="col-sm-6 form-status">
             <b>Form Current Status:</b> {{status}}
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-6 text-right" *ngIf="!parentData">
             <button id="donwloadButton" style="right: 0%;
     outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
                 Download as PDF

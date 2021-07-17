@@ -66,7 +66,7 @@ export class PfmsPreviewComponent implements OnInit {
 .form-h {
     font-size: 15px;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: .3rem !important;
     text-align: center;
 }
 .st-d {
