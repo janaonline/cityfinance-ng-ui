@@ -588,16 +588,28 @@ export class StateformsComponent implements OnInit {
         return this.fetchStateList();
     }
   }
-  allFormsData;
+  allStateFormsRes;
   statePreview() {
-    console.log("hello", this.allFormsData);
-    const dialogRef = this.dialog.open(StateAllPreviewComponent, {
-      data: this.allFormsData,
-      width: "85vw",
-      height: "100%",
-      panelClass: "no-padding-dialog",
-    });
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    let st_id = userData.state;
+    console.log('state user data',userData, st_id)
+    this.stateformsService.allStateFormData(st_id).subscribe((res) => {
+        console.log('previewResPonce', res)
+        this.allStateFormsRes = res['data'];
+        console.log("hello", this.allStateFormsRes);
+        const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+        data: this.allStateFormsRes,
+        width: "85vw",
+        height: "100%",
+        panelClass: "no-padding-dialog",
+       });
     dialogRef.afterClosed().subscribe((result) => {});
+    },
+    (err) => {
+        console.log(err);
+
+    })
+
   }
 
 }
