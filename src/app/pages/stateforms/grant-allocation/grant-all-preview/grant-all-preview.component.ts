@@ -118,6 +118,9 @@ margin-left: 1.2rem !important;
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
     this.setStatus()
+    if (this.parentData) {
+      this.data = this.parentData;
+    }
   }
   close() {
     this._matDialog.closeAll();
