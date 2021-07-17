@@ -72,10 +72,14 @@
                                             <input formControlName="nameOfBody" matTooltipPosition="above"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}"
                                                 [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null"
-                                                type="text" min="0" />
+                                                type="text" min="1" />
                                         </td>
                                         <td>
-                                            <input formControlName="area" type="number">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}"
+                                                formControlName="area" oninput="this.value = Math.abs(this.value)"
+                                                type="number">
                                         </td>
                                         <td>
                                             <div class="image-upload" style="display: inline-block;">
@@ -103,9 +107,16 @@
                                                 </span></a>
                                         </td>
                                         <td style="display: inline-flex;">
-                                            <input formControlName="lat" type="number" min="0" appSixDigitDecimaNumber>
-                                            <input formControlName="long" style="margin-left: 1ch;" type="number"
-                                                min="0" appSixDigitDecimaNumber>
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}"
+                                                (blur)="latLong($event.target.value,projectRow,'lat')"
+                                                formControlName="lat" type="text" min="1">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
+                                                (blur)="latLong($event.target.value,projectRow,'long')"
+                                                formControlName="long" style="margin-left: 1ch;" type="text" min="1">
                                             <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -113,19 +124,39 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <input formControlName="bod" type="number" min="0">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}"
+                                                formControlName="bod" type="number"
+                                                oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input formControlName="cod" type="number" min="0">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}"
+                                                formControlName="cod" type="number"
+                                                oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input formControlName="do" type="number" min="0">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}"
+                                                formControlName="do" type="number"
+                                                oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input formControlName="tds" type="number" min="0">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}"
+                                                formControlName="tds" type="number"
+                                                oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input formControlName="turbidity" type="number" min="0">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}"
+                                                formControlName="turbidity" type="number"
+                                                oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
                                             <input formControlName="details"
@@ -173,9 +204,18 @@
                                                 type="text">
                                         </td>
                                         <td style="display: inline-flex;">
-                                            <input formControlName="lat" type="number" min="0" appSixDigitDecimaNumber>
-                                            <input formControlName="long" style="margin-left: 1pc;" type="number"
-                                                min="0" appSixDigitDecimaNumber>
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}"
+                                                formControlName="lat"
+                                                (blur)="latLong($event.target.value,projectRow,'lat')" type="text"
+                                                min="1">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
+                                                formControlName="long"
+                                                (blur)="latLong($event.target.value,projectRow,'long')"
+                                                style="margin-left: 1pc;" type="text" min="1">
                                             <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -183,7 +223,11 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <input formControlName="stp" type="number" min="0">
+                                            <input matTooltipPosition="above"
+                                                [matTooltip]="checkErrorState(projectRow,'stp') ? 'Min value 1' : null"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}"
+                                                formControlName="stp" type="number"
+                                                oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -238,7 +282,7 @@
             <button class="btn saveBtn pull-right" (click)="submit()" type="button">
                 {{saveBtnText}}
             </button>
-            <button class="btn back pull-left">
+            <button [routerLink]="['../water-supply']" class="btn back pull-left">
                 Back
             </button>
         </div>
