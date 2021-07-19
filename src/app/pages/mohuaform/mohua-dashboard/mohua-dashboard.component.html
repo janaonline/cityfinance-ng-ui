@@ -67,8 +67,7 @@
                 <div class="row">
 
 
-                    <div class="table-responsive"
-                        style="border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                    <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
                         <table class="table">
                             <thead>
                                 <tr style="background-color: #047474; color: #FFFFFF;">
@@ -76,11 +75,9 @@
 
                                     <th scope="col" class="tableHeadText">State </th>
                                     <th scope="col" class="tableHeadText" style="width: 11%;">Total ULB's in State</th>
-                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and data is
-                                        approved by
-                                        State</th>
-                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and under review
-                                        by State
+                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and data is approved by State
+                                    </th>
+                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and under review by State
                                     </th>
                                     <th scope="col" class="tableHeadText">Number of ULBs not submitted data</th>
                                     <th scope="col" class="tableHeadText">Percentage Completed</th>
@@ -92,8 +89,7 @@
                             <tbody>
                                 <tr *ngFor="let resData of tabelData ; let tabelIndex=index" class="tableHeadText">
                                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                        {{
-                                        tabelIndex+1}}
+                                        {{ tabelIndex+1}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                         {{resData.name}}
@@ -110,8 +106,7 @@
                                         {{resData.notSubmittedForm}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
-                                        {{resData.withState/resData.totalULBs * 100 ?
-                                        resData.withState/resData.totalULBs * 100 : 0 }}<small>%</small>
+                                        {{resData.withState/resData.totalULBs * 100 ? resData.withState/resData.totalULBs * 100 : 0 }}<small>%</small>
                                     </td>
 
 
@@ -384,9 +379,9 @@
         </div> -->
         <div class="col-sm-3 secondColumn">
 
-            <div class="row"
-                style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
-                ULB Annual Accounts Status <a (click)="openDialogAnnual()" style="margin-left:5px">
+            <div class="row" style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                ULB Annual Accounts Status
+                <a (click)="openDialogAnnual()" style="margin-left:5px">
                     <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
                 </a>
             </div>
@@ -414,7 +409,7 @@
                     z-index: 2;
                     font-size: 37px;
                     font-weight: bold;
-                
+
                     bottom: 94px;
                     width: 100%;
                     text-align: center;
@@ -426,8 +421,7 @@
                     </div>
                 </div>
 
-                <div
-                    style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                <div style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                     Target for 15th FC - 25%
                 </div>
             </div>
@@ -454,7 +448,7 @@
                     z-index: 2;
                     font-size: 37px;
                     font-weight: bold;
-                
+
                     bottom: 94px;
                     width: 100%;
                     text-align: center;
@@ -465,8 +459,7 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                <div style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                     Target for 15th FC - 25%
                 </div>
             </div>

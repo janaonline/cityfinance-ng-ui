@@ -11,7 +11,7 @@ export class AuthMohuaGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let ulbRecord = JSON.parse(localStorage.getItem('userData'));
       let userType = ulbRecord.role;
-      if(userType == 'MoHUA'){
+      if(userType == 'MoHUA' || userType == 'ADMIN' || userType == 'PARTNER' || userType == 'STATE' || userType == 'ULB'){
         return true;
       }
       return false;

@@ -151,7 +151,7 @@ export class WaterSupplyComponent implements OnInit {
     }
   }
 
-  isCollapsed = true;
+  public isCollapsed: boolean[] = [];
   message = 'expanded';
 
   collapsed(i): void {
@@ -204,8 +204,17 @@ export class WaterSupplyComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  foldCard(i) {
-    this.detailsOfUa.uaData[i].fold = !this.detailsOfUa.uaData[i].fold;
+  foldCard(index){
+    this.isCollapsed[index] = !this.isCollapsed[index];
+    console.log(this.isCollapsed.length, this.uasList);
+
+    for(let i =0; i <= this.uasList.length; i++){
+      console.log(i);
+      if(i != index){
+        this.isCollapsed[i] = false;
+      }
+    }
+
   }
 
 }
