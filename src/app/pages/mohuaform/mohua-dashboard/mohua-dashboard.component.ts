@@ -155,11 +155,12 @@ export class MohuaDashboardComponent implements OnInit {
   utilreportDonughtChart;
   slbdonughtChart;
   piechart;
-
+  waterRejCardData;
   onLoad() {
-    this.getCardData();
-    this.getFormData();
-    this.getPlansData();
+    this.getCardData('');
+    this.getFormData('');
+    this.getPlansData('');
+    this.getWaterRejCardData('');
     this.mainDonughtChart();
     this.gaugeChart1();
     this.constChart();
@@ -169,6 +170,14 @@ export class MohuaDashboardComponent implements OnInit {
     this.utilReportDonughtChart();
     this.slbDonughtChart();
     this.pieChart();
+  }
+  getWaterRejCardData(state_id) {
+    this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
+      (res) => {
+
+        this.waterRejCardData = res['data']
+      },
+      (err) => { })
   }
   selected() {
     this.maindonughtChart?.destroy();
@@ -426,9 +435,21 @@ export class MohuaDashboardComponent implements OnInit {
       stateLayer.bringToFront();
     }
   }
+  callAllApis(state_id) {
+    this.getCardData(state_id);
+    this.getFormData(state_id)
+    this.getPlansData(state_id);
+    this.getWaterRejCardData(state_id);
 
+  }
   onClickingStateTab(event) {
-    const stateCode = event.target.value;
+    console.log('Hi')
+    const stateCode = event.target.value.split(' ')[0];
+    let state_id = event.target.value.split(' ')[2];
+    if (stateCode == 'India') {
+      state_id = ''
+    }
+    console.log(stateCode, state_id)
     for (
       let index = 0;
       index < this.stateTable.nativeElement.rows.length;
@@ -437,6 +458,7 @@ export class MohuaDashboardComponent implements OnInit {
       const element = this.stateTable.nativeElement.rows[index];
       let tableState = element.children[7]?.textContent.toLowerCase().trim();
       let mapState = stateCode.toLowerCase().trim();
+      console.log('Please work!', tableState, mapState, tableState == mapState)
       if (tableState == mapState) {
         this.stateSelected = mapState;
         element.focus();
@@ -444,6 +466,7 @@ export class MohuaDashboardComponent implements OnInit {
       }
     }
     this.selectStateOnMap(stateCode);
+    this.callAllApis(state_id);
   }
 
   openDialogAnnual() {
@@ -494,18 +517,27 @@ export class MohuaDashboardComponent implements OnInit {
   ulbCount = 0;
   percentage;
   compiledFor = 0
-  getPlansData() {
-    this.mohuaDashboardService.getPlansData("").subscribe(
+  getPlansData(state_id) {
+
+    this.mohuaDashboardService.getPlansData(state_id).subscribe(
       (res) => {
-        console.log(res);
-        this.compiledFor = res['data']['ulbs'];
-        this.ulbCount = res['data']['ulbCount'];
-        this.percentage = ((this.ulbCount / this.compiledFor) * 100).toFixed(2)
+        if (state_id == '') {
+          console.log(res);
+          this.compiledFor = res['data']['ulbs'];
+          this.ulbCount = res['data']['ulbCount'];
+          this.percentage = ((this.ulbCount / this.compiledFor) * 100).toFixed(2)
+        } else {
+
+
+        };
+
       },
       (err) => {
         console.log(err);
       }
     );
+
+
   }
   pfmsDonughtChart() {
     const data = {
@@ -872,8 +904,8 @@ export class MohuaDashboardComponent implements OnInit {
   millionPlusUA = 0;
   submitted_ulbsInMillionPlusUlbs = 0;
   ulbsInMillionPlusUlbs = 0;
-  getCardData() {
-    this.mohuaDashboardService.getCardData("").subscribe(
+  getCardData(state_id) {
+    this.mohuaDashboardService.getCardData(state_id).subscribe(
       (res) => {
         console.log(res["data"]);
         let data = res["data"];
@@ -901,8 +933,8 @@ export class MohuaDashboardComponent implements OnInit {
       }
     );
   }
-  getFormData() {
-    this.mohuaDashboardService.getFormData("").subscribe(
+  getFormData(state_id) {
+    this.mohuaDashboardService.getFormData(state_id).subscribe(
       (res) => {
         console.log(res);
         this.formDataApiRes = res["data"];
@@ -926,7 +958,7 @@ export class MohuaDashboardComponent implements OnInit {
 
 
 
-  calculateValue() {
+  calculateValue = () => {
     if (this.plans <= 25) {
       this.width1 = String(33 - (16 / 12.5) * this.plans) + "px";
       this.width2 = "33px";

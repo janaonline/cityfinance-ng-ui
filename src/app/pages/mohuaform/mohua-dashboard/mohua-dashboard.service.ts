@@ -13,15 +13,15 @@ export class MohuaDashboardService {
 
   getCardData(state_id) {
     if (state_id) {
-      return this.http.get(`${environment.api.url}mohua/cards?state_id=${state_id}`);
+      return this.http.get(`${environment.api.url}mohua/cards?state_id=${state_id}&design_year=606aaf854dff55e6c075d219`);
     } else {
-      return this.http.get(`${environment.api.url}mohua/cards`);
+      return this.http.get(`${environment.api.url}mohua/cards?design_year=606aaf854dff55e6c075d219`);
     }
 
   }
   getFormData(state_id) {
     if (state_id) {
-      return this.http.get(`${environment.api.url}mohua/forms/606aaf854dff55e6c075d219?state_id=${state_id}`);
+      return this.http.get(`${environment.api.url}masterForm/state-dashboard/606aaf854dff55e6c075d219?state_id=${state_id}`);
     } else {
       return this.http.get(`${environment.api.url}mohua/forms/606aaf854dff55e6c075d219`);
     }
@@ -39,6 +39,15 @@ export class MohuaDashboardService {
       return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219&state_id=${state_id}`);
     } else {
       return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219`);
+    }
+  }
+
+
+  getWaterRejCardData(state_id) {
+    if (state_id) {
+      return this.http.get(`${environment.api.url}stateMasterForm/waterRej-action-card?design_year=606aaf854dff55e6c075d219&state_id=${state_id}`);
+    } else {
+      return this.http.get(`${environment.api.url}stateMasterForm/waterRej-action-card?design_year=606aaf854dff55e6c075d219`);
     }
   }
 
