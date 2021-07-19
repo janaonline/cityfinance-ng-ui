@@ -288,15 +288,17 @@ export class AnnualAccountsComponent implements OnInit {
     if (!prevData.audited.submit_annual_accounts) {
       delete prevData.audited.standardized_data;
       delete prevData.audited.provisional_data;
-    } else if (!prevData.audited.submit_standardized_data) {
+    }
+    if (!prevData.audited.submit_standardized_data) {
       delete prevData.audited.provisional_data;
     }
 
     if (!prevData.unAudited.submit_annual_accounts) {
       delete prevData.unAudited.standardized_data;
       delete prevData.unAudited.provisional_data;
-    } else if (!prevData.unAudited.submit_standardized_data) {
-      delete prevData.unAudited.provisional_data;
+    }
+    if (!prevData.unAudited.submit_standardized_data) {
+      delete prevData.unAudited.standardized_data;
     }
     return prevData;
   }
@@ -675,7 +677,6 @@ export class AnnualAccountsComponent implements OnInit {
         } else {
           this.data[status].submit_annual_accounts = val;
         }
-        this.checkDiff();
         break;
       default:
         this.answerError[status].submit_standardized_data = false;
@@ -684,9 +685,9 @@ export class AnnualAccountsComponent implements OnInit {
         } else {
           this.data[status].submit_standardized_data = val;
         }
-        this.checkDiff();
         break;
-    }
+      }
+      this.checkDiff();
   }
 
   clearFile(fileType) {

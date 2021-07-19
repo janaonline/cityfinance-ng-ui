@@ -68,7 +68,7 @@
         <button class="btn saveBtn pull-right" (click)="submit()" type="button">
             {{saveBtnText}}
         </button>
-        <button class="btn back pull-left">
+        <button [routerLink]="['../water-rejenuvation']" routerLinkActive="router-link-active"  class="btn back pull-left">
             BACK
         </button>
     </div>
