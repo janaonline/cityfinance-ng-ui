@@ -204,6 +204,9 @@ export class WaterSupplyComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  foldCard(i) {
+    this.detailsOfUa.uaData[i].fold = !this.detailsOfUa.uaData[i].fold;
+  }
 
 }
 

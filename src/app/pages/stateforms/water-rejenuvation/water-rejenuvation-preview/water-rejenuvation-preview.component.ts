@@ -172,13 +172,17 @@ h5{
   status;
   stateName;
   ulbName;
+  uasData = JSON.parse(sessionStorage.getItem("UasList"));
 
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
     this.setStatus();
-    console.log(this.data);
+    console.log('pre rej', this.data);
+    if (this.parentData) {
+      this.data = this.parentData;
+    }
   }
 
   clickedDownloadAsPDF() {
