@@ -212,21 +212,42 @@ export class WaterRejenuvationComponent implements OnInit {
           Validators.required,
           Validators.maxLength(25),
         ]),
-        area: this.fb.control(data.area, [Validators.required]),
+        area: this.fb.control(data.area, [
+          Validators.required,
+          Validators.min(1),
+        ]),
         nameOfBody: this.fb.control(data.nameOfBody, [
           Validators.required,
           Validators.maxLength(25),
         ]),
-        lat: this.fb.control(data.lat, [Validators.required]),
-        long: this.fb.control(data.long, [Validators.required]),
+        lat: this.fb.control(data.lat, [
+          Validators.required,
+          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+        ]),
+        long: this.fb.control(data.long, [
+          Validators.required,
+          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+        ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
           Validators.required,
         ]),
-        bod: this.fb.control(data.bod, [Validators.required]),
-        cod: this.fb.control(data.cod, [Validators.required]),
-        do: this.fb.control(data.do, [Validators.required]),
-        tds: this.fb.control(data.tds, [Validators.required]),
-        turbidity: this.fb.control(data.tds, [Validators.required]),
+        bod: this.fb.control(data.bod, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        cod: this.fb.control(data.cod, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        do: this.fb.control(data.do, [Validators.required, Validators.min(1)]),
+        tds: this.fb.control(data.tds, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        turbidity: this.fb.control(data.turbidity, [
+          Validators.required,
+          Validators.min(1),
+        ]),
         details: this.fb.control(data.details, [
           Validators.required,
           Validators.maxLength(200),
@@ -255,9 +276,18 @@ export class WaterRejenuvationComponent implements OnInit {
           Validators.required,
           Validators.maxLength(25),
         ]),
-        lat: this.fb.control(data.lat, [Validators.required]),
-        long: this.fb.control(data.long, [Validators.required]),
-        stp: this.fb.control(data.stp, [Validators.required]),
+        lat: this.fb.control(data.lat, [
+          Validators.required,
+          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+        ]),
+        long: this.fb.control(data.long, [
+          Validators.required,
+          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+        ]),
+        stp: this.fb.control(data.stp, [
+          Validators.required,
+          Validators.min(1),
+        ]),
       })
     );
   }
@@ -385,7 +415,7 @@ export class WaterRejenuvationComponent implements OnInit {
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
       console.log(this.waterRejenuvation.controls);
       if (this.saveBtnText == "NEXT") {
-        return; // router link
+        return this._router.navigate(['stateform/action-plan'])
       }
       if (this.waterRejenuvation.value.isDraft && fromPrev == null) {
         return this.openModal(this.template1);
@@ -688,6 +718,15 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     });
     console.log("after", this.waterRejenuvation.value);
+  }
+
+  latLong(value, event, type) {
+    let val = parseInt(value);
+    if (isNaN(val)) {
+      event.controls[type].patchValue(0);
+      return;
+    }
+    event.controls[type].patchValue(Number(value).toFixed(6));
   }
 }
 

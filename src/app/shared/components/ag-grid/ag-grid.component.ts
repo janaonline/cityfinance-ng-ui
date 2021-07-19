@@ -579,7 +579,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["funding"].value
           : "",
       valueSetter: syncValueSetter(number),
-      valueParser: "Number(newValue)",
+      // valueParser: "Number(newValue)",
       headerName: "% Funding",
       width: 85,
       editable: false,
@@ -821,8 +821,11 @@ export class AgGridComponent implements OnInit, OnChanges {
           }
         }
       }
-      api.applyTransaction({ update: [param.data] });
-      api.redrawRows(param);
+      setTimeout(() => {
+        api.applyTransaction({ update: [param.data] });
+        api.redrawRows(param);
+      }, 0);
+      api.stopEditing();
     }
   }
 
@@ -981,14 +984,18 @@ const name = async (x) => {
 };
 
 const number = (x, params) => {
-  if (typeof x == "number" && x >= 0 && x < 999999999) {
+  x = parseInt(x);
+  if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "cost") return true;
-    return x < params.data.cost.value;
+    return x / 100 < params.data.cost.value;
   }
   return false;
 };
 
 const checkYear = (x, param) => {
+  if(x <= 0){
+    return false
+  }
   let data = param.data;
   let val = 0;
   let count = 0;
@@ -1013,6 +1020,9 @@ const checkYear = (x, param) => {
 };
 
 const checkYear2 = (x, param) => {
+  if(x <= 0){
+    return false
+  }
   let data = param.data;
   let val = 0;
   let count = 0;
