@@ -473,3 +473,11 @@ rect {
     margin-bottom: 0pc !important;
     // font-size: 0.6vw;
   }
+
+  ::ng-deep .leaflet-bottom {
+    z-index: 2 !important;
+  }
+
+  ::ng-deep .leaflet-pane {
+    z-index: 2 !important;
+  }
