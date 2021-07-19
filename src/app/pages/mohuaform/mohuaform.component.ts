@@ -21,16 +21,19 @@ export class MohuaformComponent implements OnInit {
     }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
-          //  this._router.navigate(["/ulbform/overview"]);
-          this._router.navigate(["/home"]);
+           this._router.navigate(["/ulbform/overview"]);
+         // this._router.navigate(["/home"]);
             break;
      case USER_TYPE.STATE:
-         // this._router.navigate(["/stateform/dashboard"]);
-         this._router.navigate(["/home"]);
+          this._router.navigate(["/stateform/dashboard"]);
+       //  this._router.navigate(["/home"]);
         break;
-    //  case USER_TYPE.MoHUA:
-    //   this._router.navigate(["/mohua/dashboard"]);
-    //   break;
+     case USER_TYPE.MoHUA:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.ADMIN:
+      this._router.navigate(["/mohua/dashboard"]);
+      break;
+    //
       // case USER_TYPE.PARTNER:
       // case USER_TYPE.ADMIN:
       // case undefined:
