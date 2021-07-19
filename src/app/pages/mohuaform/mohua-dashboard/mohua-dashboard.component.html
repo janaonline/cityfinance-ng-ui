@@ -70,21 +70,17 @@
 
                     <div class="table-responsive"
                         style="border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
-                        <table #stateTable class="table my_table">
-                            <thead style="position:sticky; top:0">
+                        <table class="table">
+                            <thead>
                                 <tr style="background-color: #047474; color: #FFFFFF;">
-                                    <th scope="col" style="width: 1%; position:sticky; top:0" class="tableHeadText">S.No
-                                    </th>
+                                    <th scope="col" style="width: 1%;" class="tableHeadText">S.No</th>
 
-                                    <th scope="col" class="tableHeadText" style="position:sticky; top:0">State </th>
-                                    <th scope="col" class="tableHeadText" style="width: 11%;position:sticky; top:0">
-                                        Total ULBs
+                                    <th scope="col" class="tableHeadText">State </th>
+                                    <th scope="col" class="tableHeadText" style="width: 11%;">Total ULB's in State</th>
+                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and data is
+                                        approved by State
                                     </th>
-                                    <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Data
-                                        Submitted &
-                                        Approved</th>
-                                    <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Data Under
-                                        Review
+                                    <th scope="col" class="tableHeadText">Number of ULBs Submitted data and under review
                                         by State
                                     </th>
                                     <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not
@@ -101,8 +97,7 @@
                                 <tr *ngFor="let resData of tabelData ; let tabelIndex=index" tabindex="{{tabelIndex}}"
                                     class="tableHeadText">
                                     <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                        {{
-                                        tabelIndex+1}}
+                                        {{ tabelIndex+1}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                         {{resData.name}}
@@ -119,9 +114,8 @@
                                         {{resData.notSubmittedForm}}
                                     </td>
                                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
-                                        {{resData.submittedForm/resData.totalULBs * 100 ?
-                                        (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0
-                                        }}<small>%</small>
+                                        {{resData.withState/resData.totalULBs * 100 ?
+                                        resData.withState/resData.totalULBs * 100 : 0 }}<small>%</small>
                                     </td>
 
                                 </tr>
@@ -184,7 +178,8 @@
 
             <div class="row"
                 style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
-                ULB Annual Accounts Status <a (click)="openDialogAnnual()" style="margin-left:5px">
+                ULB Annual Accounts Status
+                <a (click)="openDialogAnnual()" style="margin-left:5px">
                     <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
                 </a>
             </div>
@@ -212,7 +207,7 @@
                     z-index: 2;
                     font-size: 34px;
                     font-weight: bold;
-                
+
                     bottom: 94px;
                     width: 100%;
                     text-align: center;
@@ -252,7 +247,7 @@
                     z-index: 2;
                     font-size: 34px;
                     font-weight: bold;
-                
+
                     bottom: 94px;
                     width: 100%;
                     text-align: center;
@@ -313,112 +308,4 @@
 
         </div>
     </div>
-</div>
-<div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
-    <div class="header">
-        <div class="col-sm-6"
-            style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
-            <div class="row">
-                <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
-                <div class="col-sm-5">
-
-                </div>
-
-            </div>
-
-
-        </div>
-        <div class="col-sm-6" style="font-weight: 450; text-align: left; padding-right:40px;">
-            <span style="line-height: 40px;
-            text-align: left;
-            margin-left: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 8px;">Plans for Water Supply and Sanitation Indicators</span>
-            <a (click)="openDialogPlans()" style="margin-left:30px">
-                <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-            </a>
-        </div>
-    </div>
-    <div style="height:244px;">
-        <div class="col-sm-6" style="display: block;text-align: center;">
-
-            <div style="color:#000000C4">
-                <div class="Card1">
-                    <div class="row" style="height: 70%;">
-                        <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                            <span style="color: #12505A; font-size: 41px;">{{percentage}}<small>% </small></span>
-                            <span>ULBs in Million Plus UA</span>
-
-                        </div>
-                        <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-
-                            <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-
-                            <div class="opacity_div" style=" z-index:2;right:29px;margin-right:147px;"
-                                [style.width]="width1">
-                            </div>
-                            <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                            <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:147px;"
-                                [style.width]="width2">
-                            </div>
-                            <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                            <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;"
-                                [style.width]="width3"></div>
-                            <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                            <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;"
-                                [style.width]="width4"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        Water Supply and Sanitation Indicators compiled for <b> {{compiledFor}}
-                            ULBs</b>
-                    </div>
-                </div>
-                <div class="Card2">
-                    <div class="row" style="height: 70%;">
-                        <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                            <span style="color: #12505A; font-size: 41px;"
-                                *ngIf="waterRejCardData.hasOwnProperty('stateCount')">
-                                {{waterRejCardData?.stateCount}}/
-                                {{waterRejCardData?.eligibleState}}
-                            </span>
-                            <span *ngIf="waterRejCardData.hasOwnProperty('stateCount')">States</span>
-                            <span style="color: #12505A; font-size: 41px;"
-                                *ngIf="waterRejCardData.hasOwnProperty('stateAnswer')">
-                                {{waterRejCardData?.stateAnswer | titlecase}}
-                            </span>
-
-
-                        </div>
-
-                        <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-                            <img src="../../../../assets/stateform/nature.svg">
-                            <img src="../../../../assets/stateform/nature.svg">
-                            <img src="../../../../assets/stateform/nature.svg">
-                            <img src="../../../../assets/stateform/nature.svg">
-
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        Submission of Water Rejuvenation, Water Recycling and
-                        Action Plans
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6" style="color:#000000C4;height:inherit; border-left:1px solid #0000001A;">
-
-
-            <div class="row pieChart">
-                <div style="height:190px; width:100%; margin-left:50px; margin-top:24px ;">
-                    <canvas id="pfm"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
