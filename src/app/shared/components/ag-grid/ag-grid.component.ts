@@ -821,9 +821,11 @@ export class AgGridComponent implements OnInit, OnChanges {
           }
         }
       }
-
-      api.applyTransaction({ update: [param.data] });
-      api.redrawRows(param);
+      setTimeout(() => {
+        api.applyTransaction({ update: [param.data] });
+        api.redrawRows(param);
+      }, 0);
+      api.stopEditing();
     }
   }
 
