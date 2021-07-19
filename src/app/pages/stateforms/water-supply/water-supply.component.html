@@ -210,7 +210,7 @@
 
 <div class=" row" style="margin-top: 2rem; margin-bottom: 1rem; margin-left: 0; margin-right: 0;">
     <div class="col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
-        <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
+        <button type="button " class="btn back" [routerLink]="[ '../link-in-pfms']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="padding: 0;">
         <button type="button " class="btn saveBtn" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
@@ -235,7 +235,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let resData of uaDetails.data['approvedUlbs'] | paginate
+                <tr *ngFor="let resData of uaDetails.approvedUlbs | paginate
                                                 : {
                                                     id: 'foo',
                                                     itemsPerPage: tableDefaultOptions.itemPerPage,
@@ -284,7 +284,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let resData of uaDetails.data['pendingUlbs'] | paginate
+                <tr *ngFor="let resData of uaDetails.pendingUlbs | paginate
                                                 : {
                                                     id: 'foo',
                                                     itemsPerPage: tableDefaultOptions.itemPerPage,
