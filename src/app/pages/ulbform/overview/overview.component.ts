@@ -169,9 +169,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
         (res) => {
           console.log("overviewRes", res["response"]);
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
-          //   this.sessionUlbId = res['response']['ulb'];
-          // this.isMillionPlus = res['response']['isMillionPlus'];
-          // this.isUA = res['response']['isUA'];
           this.stateName = res["response"]["stateName"];
           this.ulbName = res["response"]["ulbName"];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
