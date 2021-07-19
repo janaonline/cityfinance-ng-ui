@@ -213,6 +213,8 @@ export class MohuaDashboardComponent implements OnInit {
       const valueOf1vh = this.calculateVH(1);
       if (valueOf1vh < 5) zoom = 3;
       else if (valueOf1vh < 7) zoom = zoom - 0.2;
+      console.log("Zoom",zoom);
+      
       return zoom;
     }
 
@@ -226,7 +228,7 @@ export class MohuaDashboardComponent implements OnInit {
       zoom = defaultZoomLevel;
     }
 
-    return zoom;
+    return zoom + .5;
   }
 
   addIdInGeoData(data) {
@@ -243,6 +245,8 @@ export class MohuaDashboardComponent implements OnInit {
     containerId: string
   ) {
     const zoom = this.calculateMapZoomLevel();
+    console.log("Zoom create",zoom);
+    
     // geoData = await this.addIdInGeoData(geoData);
     const configuration = {
       containerId,

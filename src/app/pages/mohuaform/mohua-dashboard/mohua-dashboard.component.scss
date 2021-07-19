@@ -475,9 +475,9 @@ rect {
   }
 
   ::ng-deep .leaflet-bottom {
-    z-index: 2 !important;
+    z-index: 0 !important;
   }
 
   ::ng-deep .leaflet-pane {
-    z-index: 2 !important;
+    z-index: 0 !important;
   }
