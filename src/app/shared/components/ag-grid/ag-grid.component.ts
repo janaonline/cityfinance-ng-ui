@@ -993,6 +993,9 @@ const number = (x, params) => {
 };
 
 const checkYear = (x, param) => {
+  if(x <= 0){
+    return false
+  }
   let data = param.data;
   let val = 0;
   let count = 0;
@@ -1017,6 +1020,9 @@ const checkYear = (x, param) => {
 };
 
 const checkYear2 = (x, param) => {
+  if(x <= 0){
+    return false
+  }
   let data = param.data;
   let val = 0;
   let count = 0;
