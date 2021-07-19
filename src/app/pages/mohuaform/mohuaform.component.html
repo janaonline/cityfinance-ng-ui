@@ -1,4 +1,5 @@
-<div class="container-fluid" style="padding: 0; overflow-x: hidden;">
+<div class="container-fluid" style="padding: 0; overflow-x: hidden;" *ngIf="loggedInUserType == USER_TYPE.ADMIN ||
+loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
     <div class="row" style="position: relative; display: block;">
         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar sticky-top" style="margin-top: 1px;">
             <div class="row" style="background-color: #FFC500; ">
@@ -23,7 +24,7 @@
                 <a [routerLink]="['dashboard']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                            <img src="../../../assets/ulbform/dh.png" class="svg-gt">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
@@ -38,7 +39,7 @@
                 <a [routerLink]="['review-state']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                            <img src="../../../assets//stateform/review.svg" class="svg-gt">
                         </mat-icon>
                     </div>
                     <div class="col-sm-9 col-xs-9 linktext pd">
