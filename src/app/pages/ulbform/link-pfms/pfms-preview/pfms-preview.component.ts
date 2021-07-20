@@ -127,7 +127,7 @@ export class PfmsPreviewComponent implements OnInit {
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
     let getData = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
-    this.modiDate = getData.response.modifiedAt;
+    this.modiDate = getData?.response.modifiedAt;
     this.subParentForModal = this.LinkPFMSAccount.OpenModalTrigger.subscribe(
       (change) => {
         if (this.changeFromOutSide) {
