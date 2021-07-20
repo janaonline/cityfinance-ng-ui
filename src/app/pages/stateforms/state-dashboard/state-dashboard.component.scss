@@ -1,215 +1,211 @@
-.card{
-    height:120px;
-    width:267px;
-    background-color:#12505A;
-    border-radius:5px;
-margin-right:20px;
-
+.card {
+    height: 120px;
+    width: 267px;
+    background-color: #12505A;
+    border-radius: 5px;
+    margin-right: 2%;
 }
 
-.card:hover{
+.card:hover {
     box-shadow: 4px 4px 10px 3px #c7c7c7;
     margin-top: -3px;
-    background-color: #083d44 ;
+    background-color: #083d44;
     // width:269px;
-    height:123px;
-    
- transition: height ;
- transition-duration: 150ms;
- transition-timing-function: linear;
+    height: 123px;
+    transition: height;
+    transition-duration: 150ms;
+    transition-timing-function: linear;
 }
 
-.cards{
-    display:flex;
+.cards {
+    display: flex;
     justify-content: space-around;
 }
 
-.card-number{
-    color:#ffffff;
+.card-number {
+    color: #ffffff;
     font-size: 32px;
-    margin-top:30px;
-    margin-right:30px;
+    margin-top: 30px;
+    margin-right: 30px;
     font-weight: 450;
 }
-.card-text{
-    color:#ffffff;
+
+.card-text {
+    color: #ffffff;
     font-size: 15px;
-    margin-top:15px;
-    margin-left:3px;
+    margin-top: 15px;
+    margin-left: 3px;
 }
 
-.search-bar{
-border: 1px solid #0000001A;
-border-radius: 5px;
-width:inherit;
-height: 63px;
-line-height: 63px;
-  text-align: center;
-margin-top:16px;
-margin-bottom:17px;
-text-align: left;
-padding-left: 30px;
+.search-bar {
+    border: 1px solid #0000001A;
+    border-radius: 5px;
+    width: inherit;
+    height: 63px;
+    line-height: 63px;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 17px;
+    text-align: left;
+    padding-left: 20px;
+    margin-left: 10px;
+    margin-right: 3px;
 }
 
-
-.dropdown{
+.dropdown {
     border-radius: 4px;
-    width:200px;
+    width: 200px;
     height: 30px;
     margin-left: 3px;
 }
 
-.searchButton{
-    height:31px;
+.searchButton {
+    height: 31px;
     width: 89px;
-    background-color: #059B9A ;
-    color:#ffffff ;
+    background-color: #059B9A;
+    color: #ffffff;
     padding: 2px 1px 2px 1px;
     margin-left: 5px;
     border-radius: 4px;
-    border:1px solid transparent;
-    
-
-}
-.searchButton:hover{
-background-color: #FFC500;
+    border: 1px solid transparent;
 }
 
-
-.btn{
-margin-left: 16px;
-margin-bottom: 5px;
-width:100px
+.searchButton:hover {
+    background-color: #FFC500;
 }
 
-.firstColumn{
-    background-color: #12505A ;
-    color:#ffffff;
-    height:100%;
+.btn {
+    margin-left: 16px;
+    margin-bottom: 5px;
+    width: 100px
+}
+
+.firstColumn {
+    background-color: #12505A;
+    color: #ffffff;
+    height: 100%;
     border-radius: 4px;
     border: 1px solid #0000001A;
 }
 
-.secondColumn{
-    color:black;
-    background-color:#ffffff;
-    height:100%;
-    border-radius: 4px;
-    border: 1px solid #0000001A;
-}
-.thirdColumn{
-    color:black;
-    background-color:#ffffff;
-    height:100%;
+.secondColumn {
+    color: black;
+    background-color: #ffffff;
+    height: 100%;
     border-radius: 4px;
     border: 1px solid #0000001A;
 }
 
-.statusArea{
-    height:500px;
-    width:100%;
-    margin-left:inherit
+.thirdColumn {
+    color: black;
+    background-color: #ffffff;
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid #0000001A;
 }
 
-.mainDonutChart{
-height:275px;
-width:275px;
-margin-top:40px;
-margin-left:auto;
-margin-right:auto;
-}
-.pieChart{
-height:246px;
-width:100%;
-// margin-left:auto;
-// margin-right:auto;
-
+.statusArea {
+    height: 500px;
+    width: 100%;
+    margin-left: inherit
 }
 
-.smallDonuts{
-    height:120px;
-    width:100%;
+.mainDonutChart {
+    height: 275px;
+    width: 275px;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.viewListBtn{
+.pieChart {
+    height: 246px;
+    width: 100%;
+    // margin-left:auto;
+    // margin-right:auto;
+}
+
+.smallDonuts {
+    height: 120px;
+    width: 100%;
+}
+
+.viewListBtn {
     margin-top: 90px;
     text-align: center;
-    margin-right:10px;
+    margin-right: 10px;
 }
 
-.iconImage{
+.iconImage {
     margin-top: 30px;
     text-align: right;
     padding-right: 25px;
-
 }
 
-.gauge{
-    height:190px;
-
-}
-.formDonutCharts{
-    height:167px;
-    border-bottom:1px solid #0000001A;
-color:black;
+.gauge {
+    height: 190px;
 }
 
-.gaugeSize{
-    height:175px;
-    width:98%;
+.formDonutCharts {
+    height: 167px;
+    border-bottom: 1px solid #0000001A;
+    color: black;
 }
 
-.textInThirdColumn{
-    line-height: 40px; 
+.gaugeSize {
+    height: 175px;
+    width: 98%;
+}
+
+.textInThirdColumn {
+    line-height: 40px;
     text-align: left;
     margin-left: 20px;
-     font-size: 18px; 
-     font-weight: bold; 
-     margin-top:8px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 8px;
 }
 
-.bottomPart{
-    border:1px solid #0000001A;
+.bottomPart {
+    border: 1px solid #0000001A;
     border-radius: 4px;
-    width:inherit;
+    width: inherit;
     // margin-bottom: 50px;
-    height:297px
+    height: 297px
 }
 
-.header{
-    border-bottom: 1px solid #0000001A ;
+.header {
+    border-bottom: 1px solid #0000001A;
     line-height: 50px;
     text-align: left;
-    width:100%;
-    height:52px;
-
-    
+    width: 100%;
+    height: 52px;
 }
 
-.millionPlus{
-   height:120px;
-   
+.millionPlus {
+    height: 120px;
 }
 
-.Card1{
+.Card1 {
     background-color: #f5fbff;
     border: 1px solid #BAE8FF;
     border-radius: 4px;
     height: 100px;
-    width:100%;
+    width: 100%;
     text-align: center;
-    margin:15px 6px 15px 2px;
-    padding:3px 16px 3px 16px;
+    margin: 15px 6px 15px 2px;
+    padding: 3px 16px 3px 16px;
 }
-.Card2{
+
+.Card2 {
     background-color: #E4FED8;
     border: 1px solid #A6F284;
     border-radius: 4px;
     height: 100px;
-    width:100%;
+    width: 100%;
     text-align: center;
-    margin:15px 6px 15px 2px;
-    padding:3px 16px 3px 16px;
+    margin: 15px 6px 15px 2px;
+    padding: 3px 16px 3px 16px;
 }
 
 svg {
@@ -224,7 +220,7 @@ text {
     fill: orange;
     text-anchor: left;
     font-size: 12px;
-    font-family: sans-serif,Helvetica,Arial;
+    font-family: sans-serif, Helvetica, Arial;
     font-weight: bold;
 }
 
@@ -232,26 +228,49 @@ rect {
     fill: #555555;
 }
 
-.parent{
-    position:relative;
+.parent {
+    position: relative;
+}
 
- }
- .opacity_div{
-    background:#fff;
-    height:100%;
-    width:33px;
-    position:absolute;
-//   border:1px solid red;
-    opacity:0.6; /* manipulate to desired opacity */
- }
- 
+.opacity_div {
+    background: #fff;
+    height: 100%;
+    width: 33px;
+    position: absolute;
+    //   border:1px solid red;
+    opacity: 0.6;
+    /* manipulate to desired opacity */
+}
 
- .tapImage{
-    position:relative;
-    z-index:2;
- }
- 
- #brandingLogo{
-     opacity:0
- }
+.tapImage {
+    position: relative;
+    z-index: 2;
+}
 
+#brandingLogo {
+    opacity: 0
+}
+
+.btn-next {
+    background-color: #059b9a;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 3%;
+    padding-right: 3%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-back {
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 3%;
+    padding-right: 3%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
+}

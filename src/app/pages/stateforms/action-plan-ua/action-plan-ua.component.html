@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin-bottom: 1pc;">
+<div class="container-fluid" style="margin-bottom: 1pc; margin-right: 15px;">
     <!-- <div class="header" style="margin-bottom: 3pc;">
         <div>
             Action Plan for UA Service Level Indicators
@@ -23,23 +23,18 @@
     <div *ngFor="let item of data?.uaData;  let projectIndex=index">
         <div class="mat-card" style="margin-bottom: 10px;">
             <div class="mat-card-title" style="height: 70px;">
-                <h5
-                    style="margin-left: 1pc; display: inline-block; padding-top: 15px; font-size: 15px; margin-bottom: 0;">
+                <h5 style="margin-left: 1pc; display: inline-block; padding-top: 15px; font-size: 15px; margin-bottom: 0;">
                     UA{{projectIndex + 1}}: Urban Aggolmeration {{item.name.split(' ')[0]}}
                     <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
                 </h5>
-                <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}"
-                    style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
+                <button class="btn pull-right" [ngClass]="{'selectBtn': item.fold}" style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
             </div>
             <div *ngIf="item.fold">
-                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList"
-                    [rowData]="item">
+                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [ulbList]="item.ulbList" [rowData]="item">
                 </app-ag-grid>
-                <div class="card" *ngIf="loggedInUserType === USER_TYPE.MoHUA"
-                    style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
+                <div class="card" *ngIf="loggedInUserType === USER_TYPE.MoHUA" style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
                     <div class="card-body" style="margin-left: .8rem;">
-                        <app-action-component (actionValues)="checkStatus($event,item.ua, projectIndex)"
-                            [statusResponse]='actionRes'>
+                        <app-action-component (actionValues)="checkStatus($event,item.ua, projectIndex)" [statusResponse]='actionRes'>
                         </app-action-component>
                     </div>
                 </div>
@@ -48,8 +43,7 @@
                     <div class="card-body">
                         <p><b>MoHUA Review Status :</b> {{item.status | titlecase}}</p>
                         <p *ngIf="item.status == 'REJECTED'">
-                            <b style="font-weight: 600;">Reason for rejection :</b>
-                            {{item.rejectReason }}
+                            <b style="font-weight: 600;">Reason for rejection :</b> {{item.rejectReason }}
                         </p>
 
                     </div>
@@ -68,7 +62,7 @@
         <button class="btn saveBtn pull-right" (click)="submit()" type="button">
             {{saveBtnText}}
         </button>
-        <button [routerLink]="['../water-rejenuvation']" routerLinkActive="router-link-active"  class="btn back pull-left">
+        <button [routerLink]="['../water-rejenuvation']" routerLinkActive="router-link-active" class="btn back pull-left">
             BACK
         </button>
     </div>
@@ -90,8 +84,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -113,8 +106,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed</button>
         </div>
 
     </div>
