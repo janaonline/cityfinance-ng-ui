@@ -81,15 +81,16 @@ export class ActionPlanUAComponent implements OnInit {
       this.formDisable = true;
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
-        if (
-          this.allStatus["latestFinalResponse"]["actionPlans"]["isSubmit"] &&
-          (this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-            "PENDING" ||
-            this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-              "APPROVED")
-        ) {
-          this.formDisable = true;
-        }
+        // if (
+        //   this.allStatus["latestFinalResponse"]["actionPlans"]["isSubmit"] &&
+        //   (this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
+        //     "PENDING" ||
+        //     this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
+        //       "APPROVED")
+        // ) {
+        //   this.formDisable = true;
+        // }
+        this.formDisable = true;
       } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
         if (
           this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
@@ -449,7 +450,7 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   finalActionData;
   checkStatus(ev, ua_id, a, b) {
@@ -599,6 +600,6 @@ function deepEqual(x, y) {
     ty = typeof y;
   return x && y && tx === "object" && tx === ty
     ? ok(x).length === ok(y).length &&
-        ok(x).every((key) => deepEqual(x[key], y[key]))
+    ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }

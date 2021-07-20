@@ -308,60 +308,62 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     });
   }
   gaugeChart1() {
-    this.values.annualAcc_provisional = 28
-    let mainColor = '', complimentColor = '', borderColor = '';
+
+    let mainColor = "",
+      complimentColor = "",
+      borderColor = "";
     if (this.values.annualAcc_provisional < 25) {
-      mainColor = '#FF7154';
-      complimentColor = '#ffcabf';
-      borderColor = '#FF7154'
+      mainColor = "#FF7154";
+      complimentColor = "#ffcabf";
+      borderColor = "#FF7154";
     } else {
-      mainColor = "#09C266"
-      complimentColor = "#C6FBE0"
-      borderColor = '#09C266';
+      mainColor = "#09C266";
+      complimentColor = "#C6FBE0";
+      borderColor = "#09C266";
     }
-    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("chartDiv");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
-            data: [this.values.annualAcc_provisional, 100 - this.values.annualAcc_provisional],
+            data: [
+              this.values.annualAcc_provisional,
+              100 - this.values.annualAcc_provisional,
+            ],
             backgroundColor: [mainColor, complimentColor],
             borderColor: [borderColor],
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
+        cutoutPercentage: 68,
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
-
   }
   constChart() {
-    const canvas = <HTMLCanvasElement>document.getElementById('meter');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("meter");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
             data: [25, 75],
             backgroundColor: ["#FF7154", "#67DF7B"],
-          }
-        ]
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -371,24 +373,23 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
   }
   constChart1() {
-    const canvas = <HTMLCanvasElement>document.getElementById('meter1');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("meter1");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
             data: [25, 75],
             backgroundColor: ["#FF7154", "#67DF7B"],
-          }
-        ]
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -398,48 +399,52 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
   }
   gaugeChart2() {
-    let mainColor = '', complimentColor = '', borderColor = '';
-    this.values.annualAcc_audited = 20
+    let mainColor = "",
+      complimentColor = "",
+      borderColor = "";
+
     if (this.values.annualAcc_audited < 25) {
-      mainColor = '#FF7154';
-      complimentColor = '#ffcabf';
-      borderColor = '#FF7154'
+      mainColor = "#FF7154";
+      complimentColor = "#ffcabf";
+      borderColor = "#FF7154";
     } else {
-      mainColor = "#09C266"
-      complimentColor = "#C6FBE0"
-      borderColor = '#09C266';
+      mainColor = "#09C266";
+      complimentColor = "#C6FBE0";
+      borderColor = "#09C266";
     }
-    const canvas = <HTMLCanvasElement>document.getElementById('chartDiv2');
-    const ctx = canvas.getContext('2d');
+    const canvas = <HTMLCanvasElement>document.getElementById("chartDiv2");
+    const ctx = canvas.getContext("2d");
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
         datasets: [
           {
-
-            data: [this.values.annualAcc_audited, 100 - this.values.annualAcc_audited],
+            data: [
+              this.values.annualAcc_audited,
+              100 - this.values.annualAcc_audited,
+            ],
             backgroundColor: [mainColor, complimentColor],
             borderColor: [borderColor],
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
-        cutoutPercentage: 64,
+        cutoutPercentage: 68,
 
         onClick(...args) {
           console.log(args);
-        }
-      }
+        },
+      },
     });
   }
   mainDonughtChart() {

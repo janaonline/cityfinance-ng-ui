@@ -25,7 +25,7 @@
                     <div class="col-sm-3 card ">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{submitted_totalUlbs}} / {{totalUlbs }}</div>
+                                <div class="card-number">{{submitted_totalUlbs}}/{{totalUlbs }}</div>
                                 <div class="card-text">Total ULBs</div>
                             </div>
 
@@ -34,7 +34,7 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{submitted_nonMillion}} / {{nonMillion}}</div>
+                                <div class="card-number">{{submitted_nonMillion}}/{{nonMillion}}</div>
                                 <div class="card-text">Non Million Cities</div>
                             </div>
 
@@ -43,7 +43,9 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{submitted_millionPlusUA}} / {{millionPlusUA}}</div>
+                                <div class="card-number" *ngIf="millionPlusUA">
+                                    {{submitted_millionPlusUA}}/{{millionPlusUA}}</div>
+                                <div class="card-number" *ngIf="!millionPlusUA">NA</div>
                                 <div class="card-text">Million-Plus UAs</div>
                             </div>
 
@@ -52,7 +54,10 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{submitted_ulbsInMillionPlusUlbs}} / {{ulbsInMillionPlusUlbs}}
+                                <div class="card-number" *ngIf="ulbsInMillionPlusUlbs">
+                                    {{submitted_ulbsInMillionPlusUlbs}}/{{ulbsInMillionPlusUlbs}}
+                                </div>
+                                <div class="card-number" *ngIf="!ulbsInMillionPlusUlbs">NA
                                 </div>
                                 <div class="card-text">ULBs in Million-Plus UAs</div>
                             </div>
