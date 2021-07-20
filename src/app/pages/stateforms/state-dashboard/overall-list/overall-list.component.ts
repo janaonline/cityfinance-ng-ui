@@ -51,14 +51,14 @@ export class OverallListComponent implements OnInit {
   status_util = new FormControl('');
   status_slb = new FormControl('');
   status_plans = new FormControl('');
-
+  state_id
   ngOnInit() {
     console.log(this.data)
-    let state_id = this.data
-    this.loadData(state_id);
+    this.state_id = this.data
+    this.loadData();
   }
-  loadData(state_id) {
-    this.overallListService.getData(state_id)
+  loadData() {
+    this.overallListService.getData(this.state_id)
       .subscribe((res) => {
 
         let resData: any = res
