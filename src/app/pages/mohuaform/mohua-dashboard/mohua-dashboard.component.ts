@@ -398,12 +398,20 @@ export class MohuaDashboardComponent implements OnInit {
       let tableState = element.children[7]?.textContent.toLowerCase().trim();
       let mapState = stateCode.toLowerCase().trim();
       if (tableState == mapState) {
-        this.stateSelected = mapState;
+        let state_id = element.children[8]?.textContent.toLowerCase().trim()
+        this.stateSelected = state_id;
+        this.callAllApis(state_id);
         element.focus();
         break;
       }
     }
     this.selectStateOnMap(stateCode);
+  }
+
+  isSelected(value){
+    if(this.stateSelected && value._id == this.stateSelected){
+      return true
+    }
   }
 
   private resetStateLayer(layer) {

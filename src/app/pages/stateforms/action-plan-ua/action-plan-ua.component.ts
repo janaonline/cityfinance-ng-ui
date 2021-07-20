@@ -344,13 +344,10 @@ export class ActionPlanUAComponent implements OnInit {
         for (const key in e) {
           if (key == "index") continue;
           pro[key] = e[key]["value"];
-          if (e[key]["lastValidation"] != true) {
+          if (e[key]["lastValidation"] != true || e[key]["value"] === '') {
             this.data.isDraft = true;
           } else {
             this.data.isDraft = false;
-          }
-          if (!e[key]["value"]) {
-            this.data.isDraft = true;
           }
         }
         temp.push(pro);
@@ -362,13 +359,10 @@ export class ActionPlanUAComponent implements OnInit {
         for (const key in e) {
           if (key == "index") continue;
           pro[key] = e[key]["value"];
-          if (e[key]["lastValidation"] != true) {
+          if (e[key]["lastValidation"] != true || e[key]["value"] === '') {
             this.data.isDraft = true;
           } else {
             this.data.isDraft = false;
-          }
-          if (!e[key]["value"]) {
-            this.data.isDraft = true;
           }
         }
         temp.push(pro);
@@ -380,13 +374,10 @@ export class ActionPlanUAComponent implements OnInit {
         for (const key in e) {
           if (key == "index") continue;
           pro[key] = e[key]["value"];
-          if (e[key]["lastValidation"] != true) {
+          if (e[key]["lastValidation"] != true || e[key]["value"] === '') {
             this.data.isDraft = true;
           } else {
             this.data.isDraft = false;
-          }
-          if (!e[key]["value"]) {
-            this.data.isDraft = true;
           }
         }
         temp.push(pro);
@@ -602,3 +593,4 @@ function deepEqual(x, y) {
         ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
+
