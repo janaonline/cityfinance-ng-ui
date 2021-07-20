@@ -88,7 +88,7 @@
                         || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                         && stateActionA == 'REJECTED') " style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE }">
-                            <span style="font-weight: 600; text-align: left">Reason for rejection</span>
+                            <span style="font-weight: 600; text-align: left">Reason for return</span>
                             <div class="input-group" style="width: 100%">
                                 <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('millionTied')" [(ngModel)]="rejectReasonA">{{rejectReasonA ? rejectReasonA: null}}
                   </textarea>
@@ -168,7 +168,7 @@
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionB == 'REJECTED')" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE }">
-                            <span style="font-weight: 600; text-align: left">Reason for rejection</span>
+                            <span style="font-weight: 600; text-align: left">Reason for return</span>
                             <div class="input-group" style="width: 100%">
                                 <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('nonMillionTied')" [(ngModel)]="rejectReasonB">{{rejectReasonB ? rejectReasonB : null }}
                   </textarea>
@@ -246,7 +246,7 @@
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionC == 'REJECTED')" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE }">
-                            <span style="font-weight: 600; text-align: left">Reason for rejection</span>
+                            <span style="font-weight: 600; text-align: left">Reason for return</span>
                             <div class="input-group" style="width: 100%">
                                 <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('nonMillionUntied')" [(ngModel)]="rejectReasonC">
                                     {{rejectReasonC ? rejectReasonC  : null}}

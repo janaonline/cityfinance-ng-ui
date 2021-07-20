@@ -11,8 +11,6 @@ export class Overview {
 
     }
 
-
-
     getData(design_year, rowId) {
       let catUrl;
       if(rowId){

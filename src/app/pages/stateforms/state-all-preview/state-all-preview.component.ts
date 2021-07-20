@@ -481,6 +481,10 @@ grantAllError : {
   }
 };
 allFormRes = {};
+account =''
+fileName ='';
+gtFileUrl = '';
+
   ngOnInit() {
     console.log('previewData', this.data, this.data[0]);
     this.allFormRes = this.data[0]
@@ -489,16 +493,28 @@ allFormRes = {};
      this.waterRejError = this.data[0]['waterrejenuvationrecyclings'][0];
      this.actionPlanError = this.data[0]['actionplans'][0];
      this.grantAllError = this.data[0]['grantdistributions'][0];
+     console.log('g-all-data', this.grantAllError, this.data[0]['grantdistributions'][0]);
+
 
     //  for (let index = 0; index < this.waterRejError[0].uaData.length; index++) {
     //   this.waterRejError[0].uaData[index].name = this.uasData[this.waterRejError[0].uaData[index].ua].name;
     // }
-     console.log('all single form',this.actionPlanError, this.data[0]['actionplans'][0]);
+
      this.gtcData = this.gtcError.data;
     this.pfmsStateData = this.pfmsStateError;
     this.waterRejData = this.waterRejError;
     this.actionPlanData = this.actionPlanError
     this.gAllData = this.grantAllError;
+    console.log('all single form', this.gAllData);
+    if (this.gAllData.answer == true) {
+      console.log('dsvfdbad', this.gAllData.answer);
+
+      this.gAllData.answer = "yes";
+     // this.fileName = this.gAllData.fileName;
+     // this.gtFileUrl = this.gAllData.url;
+    } else if (this.gAllData.answer == false) {
+      this.account = "no";
+    }
      //pfmsStateError
 
 

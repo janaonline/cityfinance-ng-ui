@@ -208,6 +208,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             padding: 25,
           }
         }
+
       }
 
     });

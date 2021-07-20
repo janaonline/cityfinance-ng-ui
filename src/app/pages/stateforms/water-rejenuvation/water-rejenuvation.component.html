@@ -174,7 +174,7 @@
                                 <div class="card-body">
                                     <p><b>MoHUA Review Status :</b> {{uas.value.status | titlecase}}</p>
                                     <p *ngIf="uas.value.status == 'REJECTED'">
-                                        <b style="font-weight: 600;">Reason for rejection :</b> {{uas.value.rejectReason }}
+                                        <b style="font-weight: 600;">Reason for return :</b> {{uas.value.rejectReason }}
                                     </p>
 
                                 </div>
@@ -192,7 +192,7 @@
       <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
       <br>
       <p *ngIf="ulbFormStaus == 'REJECTED'">
-          <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
+          <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
       </p>
 
   </div>
