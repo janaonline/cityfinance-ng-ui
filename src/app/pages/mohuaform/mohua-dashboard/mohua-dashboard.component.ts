@@ -454,14 +454,15 @@ export class MohuaDashboardComponent implements OnInit {
     this.getWaterRejCardData(state_id);
 
   }
+  state_id;
   onClickingStateTab(event) {
     console.log('Hi')
     const stateCode = event.target.value.split(' ')[0];
-    let state_id = event.target.value.split(' ')[2];
+    this.state_id = event.target.value.split(' ')[2];
     if (stateCode == 'India') {
-      state_id = ''
+      this.state_id = ''
     }
-    console.log(stateCode, state_id)
+    console.log(stateCode, this.state_id)
     for (
       let index = 0;
       index < this.stateTable.nativeElement.rows.length;
@@ -478,7 +479,7 @@ export class MohuaDashboardComponent implements OnInit {
       }
     }
     this.selectStateOnMap(stateCode);
-    this.callAllApis(state_id);
+    this.callAllApis(this.state_id);
   }
 
   openDialogAnnual() {
@@ -520,6 +521,9 @@ export class MohuaDashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(OverallListComponent, {
       height: "1000px",
       width: "1600px",
+      data: {
+        state_id: this.state_id
+      }
     });
 
     dialogRef.afterClosed().subscribe((result) => {

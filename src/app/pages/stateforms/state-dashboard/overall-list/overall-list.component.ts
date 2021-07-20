@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { OverallListService } from './overall-list.service'
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-overall-list',
   templateUrl: './overall-list.component.html',
@@ -33,6 +35,7 @@ export class OverallListComponent implements OnInit {
   constructor(
     private overallListService: OverallListService,
     public ulbService: UlbadminServiceService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
 
@@ -50,10 +53,12 @@ export class OverallListComponent implements OnInit {
   status_plans = new FormControl('');
 
   ngOnInit() {
-    this.loadData();
+    console.log(this.data)
+    let state_id = this.data
+    this.loadData(state_id);
   }
-  loadData() {
-    this.overallListService.getData()
+  loadData(state_id) {
+    this.overallListService.getData(state_id)
       .subscribe((res) => {
 
         let resData: any = res
