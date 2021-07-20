@@ -76,6 +76,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     design_year: this.Years["2021-22"],
     isDraft: null,
     excel: null,
+    status: "PENDING"
   };
   saveBtnTxt = "NEXT";
   disableAllForms = false;
@@ -238,6 +239,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
 
         if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
+          console.log(this.allStatus["latestFinalResponse"]["role"], this.getStatus)
           if (this.getStatus != "PENDING") {
             this.actionFormDisable = true;
           }
