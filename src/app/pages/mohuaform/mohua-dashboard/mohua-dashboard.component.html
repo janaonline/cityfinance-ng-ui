@@ -1,9 +1,8 @@
 <div class="container-fluid row" style="margin-bottom:30px;display:flex; line-height: 38px; justify-content: center;">
     <span style="font-size: 32px; margin-right:15px">Dashboard for 15th FC 2021-22 </span>
     <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;">
-
         <option selected>India</option>
-        <option *ngFor="let resData of states ; let tabelIndex=index" value="{{resData.code}} and {{resData._id}}">
+        <option  [selected]="isSelected(resData)" *ngFor="let resData of states ; let tabelIndex=index" value="{{resData.code}} and {{resData._id}}">
             {{resData.name}}</option>
     </select>
 </div>
@@ -129,6 +128,9 @@
                                     </td>
                                     <td style="display: none;">
                                         {{resData.code}}
+                                    </td>
+                                    <td style="display: none;">
+                                        {{resData.id}}
                                     </td>
                                 </tr>
                                 <tr class="tableHeadText" style="background-color: skyblue; font-weight: bold;">

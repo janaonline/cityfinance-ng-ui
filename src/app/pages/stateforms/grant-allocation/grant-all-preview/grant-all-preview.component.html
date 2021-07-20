@@ -51,11 +51,11 @@
                             </div>
                         </ng-template>
 
-                        <div class="a-h ans-h" [ngClass]="{'col-sm-10': data.fileName =='', 'col-sm-6': data.fileName !=''}" *ngIf="data.answer != 'no'">
-                            Please fill in the grant amounts in the given template and upload the excel
+                        <div class="qus-h" [ngClass]="{'col-sm-10': data.fileName =='', 'col-sm-6': data.fileName !=''}" *ngIf="data.answer != 'no'">
+                            (B) Please fill in the grant amounts in the given template and upload the excel
                         </div>
                         <ng-template #nadiv>
-                            <div class="col-sm-2 m-l" [ngClass]="{'qus-h':!parentData, 'ans-h' : parentData }" style="margin-top: 0;">
+                            <div class="col-sm-2 m-l" [ngClass]="{'qus-h':!parentData, 'ans-h' : parentData }">
                                 N/A
                             </div>
                         </ng-template>

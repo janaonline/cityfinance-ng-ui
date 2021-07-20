@@ -1,4 +1,4 @@
-<div class="row" style="margin-bottom: 1rem; margin-left: 0; margin-right: 0;">
+<div class="row" style="margin-bottom: 1rem; margin-left: 15px; margin-right: 25px;">
     <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
         <h4 class="form-header">
             Indicator for Water Supply and Sanitation
@@ -8,7 +8,7 @@
         <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
     </div>
 </div>
-<div class="row" style="margin: 0;">
+<div class="row" style="margin-left: 15px; margin-right: 25px;">
     <!-- <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
         <h5 style="margin: 0;">Name of State: <span *ngIf="
           states &&
@@ -27,7 +27,7 @@
         <button type="button" class="btn  btn-pre" (click)="onPreview()">PREVIEW</button>
     </div> -->
 </div>
-<div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index" style="margin-left: 0; margin-right: 0; margin-bottom: 10px;">
+<div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index" style="margin-left: 15px; margin-right: 25px; margin-bottom: 10px;">
     <!-- <div class="card" style="margin-bottom: 10px;  box-shadow: 0; border-radius: 0;">
         <div class="card-body"> -->
     <div class="row" style=" padding-top: 0px">
@@ -45,7 +45,7 @@
      (collapses)="collapses(i)" (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded(i)"> -->
     <div *ngIf="isCollapsed[i]">
         <div *ngIf="uaDetails.data">
-            <div class="row" style="margin: 10px 0 0 0;">
+            <div class="row" style="margin-top: 10px; margin-left: 15px; margin-right: 25px;">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -208,7 +208,7 @@
 
 
 
-<div class=" row" style="margin-top: 2rem; margin-bottom: 1rem; margin-left: 0; margin-right: 0;">
+<div class=" row" style="margin-top: 2rem; margin-bottom: 1rem; margin-left: 15px; margin-right: 25px;">
     <div class="col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
         <button type="button " class="btn back" [routerLink]="[ '../link-in-pfms']">BACK</button>
     </div>

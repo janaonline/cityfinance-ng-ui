@@ -245,7 +245,7 @@ export class WaterRejenuvationComponent implements OnInit {
           Validators.required,
           Validators.min(1),
         ]),
-        turbidity: this.fb.control(data.tds, [
+        turbidity: this.fb.control(data.turbidity, [
           Validators.required,
           Validators.min(1),
         ]),

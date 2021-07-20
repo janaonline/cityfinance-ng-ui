@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin-bottom: 1pc;">
+<div class="container-fluid" style="margin-bottom: 1pc; margin-right: 15px;">
     <!-- <div class="header" style="margin-bottom: 3pc;">
         <div>
             Action Plan for UA Service Level Indicators
@@ -48,8 +48,7 @@
                     <div class="card-body">
                         <p><b>MoHUA Review Status :</b> {{item.status | titlecase}}</p>
                         <p *ngIf="item.status == 'REJECTED'">
-                            <b style="font-weight: 600;">Reason for rejection :</b>
-                            {{item.rejectReason }}
+                            <b style="font-weight: 600;">Reason for rejection :</b> {{item.rejectReason }}
                         </p>
 
                     </div>
