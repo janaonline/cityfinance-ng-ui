@@ -1,5 +1,5 @@
 .card{
-    height:120px;
+    height:140px;
     width:267px;
     background-color:#12505A;
     border-radius:5px;
@@ -12,7 +12,7 @@ margin-right:20px;
     margin-top: -3px;
     background-color: #083d44 ;
     // width:269px;
-    height:122px;
+    height:142px;
     
  transition: height ;
  transition-duration: 150ms;
@@ -190,6 +190,15 @@ color:black;
 
     
 }
+.tracking-history-table {
+    thead tr th {
+      background: #12505A;
+      color: white;
+    }
+    tbody tr:nth-child(even) {
+      background: #dbdbdb;
+    }
+  }
 
 .millionPlus{
    height:120px;

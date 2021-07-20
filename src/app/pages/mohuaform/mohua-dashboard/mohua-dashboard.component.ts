@@ -234,13 +234,13 @@ export class MohuaDashboardComponent implements OnInit {
       const valueOf1vh = this.calculateVH(1);
       if (valueOf1vh < 5) zoom = 3;
       else if (valueOf1vh < 7) zoom = zoom - 0.2;
-      console.log("Zoom",zoom);
-      
+      console.log("Zoom", zoom);
+
       return zoom;
     }
 
     const defaultZoomLevel =
-      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 3.7;
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")
@@ -266,8 +266,8 @@ export class MohuaDashboardComponent implements OnInit {
     containerId: string
   ) {
     const zoom = this.calculateMapZoomLevel();
-    console.log("Zoom create",zoom);
-    
+    console.log("Zoom create", zoom);
+
     // geoData = await this.addIdInGeoData(geoData);
     const configuration = {
       containerId,
@@ -408,8 +408,8 @@ export class MohuaDashboardComponent implements OnInit {
     this.selectStateOnMap(stateCode);
   }
 
-  isSelected(value){
-    if(this.stateSelected && value._id == this.stateSelected){
+  isSelected(value) {
+    if (this.stateSelected && value._id == this.stateSelected) {
       return true
     }
   }
