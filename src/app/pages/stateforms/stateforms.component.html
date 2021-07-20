@@ -1,6 +1,7 @@
-<div class="container-fluid" style="padding: 0; overflow-x: hidden;">
+<div class="container-fluid" style="padding: 0; overflow-x: hidden; overflow-y: hidden;">
     <div class="row" style="position: relative; display: block;">
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" style="margin-top: 1px; width: 18%;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" style="margin-top: 1px; width: 18%; padding-left: 15px;
+        padding-right: 3px;">
             <div class="row" style="background-color: #114551; height: 20px;">
 
             </div>
@@ -94,10 +95,10 @@
                             <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
                         </mat-icon>
                     </div>
-                    <div class="col-sm-9 col-xs-9 linktext pd">
+                    <div class="col-sm-8 col-xs-8 linktext pd">
                         Grant Transfer Certificate
                     </div>
-                    <div class="col-sm-1 col-xs-1">
+                    <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
                         <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
@@ -111,13 +112,13 @@
                 <a [routerLink]="['link-in-pfms']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                            <img src="../../../assets/stateform/lnPfms.svg" class="svg-gl">
                         </mat-icon>
                     </div>
-                    <div class="col-sm-9 col-xs-9 linktext pd">
+                    <div class="col-sm-8 col-xs-8 linktext pd">
                         Linking of PFMS Account
                     </div>
-                    <div class="col-sm-1 col-xs-1">
+                    <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
                         <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
@@ -235,10 +236,10 @@
                             <img src="../../../assets/stateform/surface1 (2).svg">
                         </mat-icon>
                     </div>
-                    <div class="col-sm-9 col-xs-9 linktext pd">
+                    <div class="col-sm-8 col-xs-8 linktext pd">
                         Grant Allocation to ULBs
                     </div>
-                    <div class="col-sm-1 col-xs-1 text-right">
+                    <div class="col-sm-1 col-xs-1 text-right" style="margin-left: 2rem;">
                         <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
@@ -268,7 +269,7 @@
             </div>
         </div>
 
-        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" style="margin-top: 1.5rem; width: 80%;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" style="margin-top: 1.5rem; width: 82%;">
             <div class="row">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">

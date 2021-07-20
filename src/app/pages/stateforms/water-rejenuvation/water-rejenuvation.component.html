@@ -1,4 +1,4 @@
-<div *ngIf="waterRejenuvation" class="container-fluid" style="margin-bottom: 1pc;">
+<div *ngIf="waterRejenuvation" class="container-fluid" style="margin-bottom: 1pc; margin-right: 15px;">
     <!-- <div class="card-header">
         <button class="btn btn-pre pull-right" (click)="onPreview()">
             PREVIEW
@@ -26,15 +26,13 @@
                             </h5>
                         </div>
                         <div style="display: inline-flex; float: right;">
-                            <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}"
-                                (click)="foldCard(projectIndex)">Select</button>
+                            <button class="btn" style="height: 2pc;" [ngClass]="{'selectBtn': checkCard(projectIndex)}" (click)="foldCard(projectIndex)">Select</button>
                         </div>
                     </div>
                     <div *ngIf="checkCard(projectIndex)">
                         <div class="table-responsive">
                             <div>
-                                <h5 style="font-size: 14; font-weight: 500;">Fill Details of Project for Rejuvenation of
-                                    Water Bodies<span style="color: red;">*</span></h5>
+                                <h5 style="font-size: 14; font-weight: 500;">Fill Details of Project for Rejuvenation of Water Bodies<span style="color: red;">*</span></h5>
                             </div>
                             <table class="table custom-position">
                                 <thead>
@@ -56,30 +54,19 @@
                                         <th style="width: 14%;" scope="col">Project Details</th>
                                     </tr>
                                 </thead>
-                                <tbody formArrayName="waterBodies"
-                                    *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
+                                <tbody formArrayName="waterBodies" *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
                                     <tr [formGroupName]="waterBodiesIndex">
                                         <td class="t-i">
                                             <span>{{1+waterBodiesIndex}}</span>
                                         </td>
                                         <td>
-                                            <input formControlName="name" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
-                                                [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
-                                                type="text" />
+                                            <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
                                         </td>
                                         <td>
-                                            <input formControlName="nameOfBody" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}"
-                                                [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null"
-                                                type="text" min="1" />
+                                            <input formControlName="nameOfBody" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}" [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null" type="text" min="1" />
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}"
-                                                formControlName="area" oninput="this.value = Math.abs(this.value)"
-                                                type="number">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}" formControlName="area" oninput="this.value = Math.abs(this.value)" type="number">
                                         </td>
                                         <td>
                                             <div class="image-upload" style="display: inline-block;">
@@ -87,36 +74,21 @@
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                                 </label>
-                                                <input style="display: none;" [attr.id]="waterBodiesIndex" type="file"
-                                                    [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
-                                                    (change)="onFileChange($event,waterBodiesIndex,projectIndex)"
-                                                    required multiple />
+                                                <input style="display: none;" [attr.id]="waterBodiesIndex" type="file" [disabled]="isDisabled" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required multiple />
                                             </div>
-                                            <a style="margin-left: 1ch;"
-                                                (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span
-                                                    class="material-icons file"
-                                                    style="font-size: 14px; padding-left:2px; vertical-align: middle;">
+                                            <a style="margin-left: 1ch;" (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
                                                     collections
                                                 </span></a>
-                                            <a style="margin-left: 1ch;"
-                                                (click)="removePhotos(waterBodiesIndex,projectIndex)"
-                                                [ngClass]="{'anDisable': isDisabled }">
-                                                <span class="material-icons file"
-                                                    style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
+                                            <a style="margin-left: 1ch;" (click)="removePhotos(waterBodiesIndex,projectIndex)" [ngClass]="{'anDisable': isDisabled }">
+                                                <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
                                                     delete_forever
                                                 </span></a>
                                         </td>
                                         <td style="display: inline-flex;">
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}"
-                                                (blur)="latLong($event.target.value,projectRow,'lat')"
-                                                formControlName="lat" type="text" min="1">
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
-                                                (blur)="latLong($event.target.value,projectRow,'long')"
-                                                formControlName="long" style="margin-left: 1ch;" type="text" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}" (blur)="latLong($event.target.value,projectRow,'lat')" formControlName="lat" type="text"
+                                                min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}" (blur)="latLong($event.target.value,projectRow,'long')" formControlName="long"
+                                                style="margin-left: 1ch;" type="text" min="1">
                                             <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
@@ -124,53 +96,29 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}"
-                                                formControlName="bod" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}" formControlName="bod" type="number" oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}"
-                                                formControlName="cod" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}" formControlName="cod" type="number" oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}"
-                                                formControlName="do" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}" formControlName="do" type="number" oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}"
-                                                formControlName="tds" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}" formControlName="tds" type="number" oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}"
-                                                formControlName="turbidity" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}" formControlName="turbidity" type="number" oninput="this.value = Math.abs(this.value)"
+                                                min="1">
                                         </td>
                                         <td>
-                                            <input formControlName="details"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}"
-                                                matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null"
-                                                type="text" />
+                                            <input formControlName="details" [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}" matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null" type="text" />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div>
-                                <h5 style="font-size: 14px; font-weight: 500;">Fill Details of Projects for Recycling
-                                    and Reuse of Water<span style="color: red;">*</span></h5>
+                                <h5 style="font-size: 14px; font-weight: 500;">Fill Details of Projects for Recycling and Reuse of Water<span style="color: red;">*</span></h5>
                             </div>
                             <table class="table custom-position">
                                 <thead>
@@ -185,36 +133,21 @@
                                         <th style="width: 23%;" scope="col">Proposed capacity</th>
                                     </tr>
                                 </thead>
-                                <tbody formArrayName="reuseWater"
-                                    *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
+                                <tbody formArrayName="reuseWater" *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
                                     <tr [formGroupName]="reuseWaterIndex">
                                         <td class="t-i">
                                             <span>{{1+reuseWaterIndex}}</span>
                                         </td>
                                         <td>
-                                            <input formControlName="name" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
-                                                [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
-                                                type="text" />
+                                            <input formControlName="name" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}" [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null" type="text" />
                                         </td>
                                         <td>
-                                            <input formControlName="treatmentPlant" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}"
-                                                [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null"
-                                                type="text">
+                                            <input formControlName="treatmentPlant" matTooltipPosition="above" [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}" [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null" type="text">
                                         </td>
                                         <td style="display: inline-flex;">
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}"
-                                                formControlName="lat"
-                                                (blur)="latLong($event.target.value,projectRow,'lat')" type="text"
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}" formControlName="lat" (blur)="latLong($event.target.value,projectRow,'lat')" type="text"
                                                 min="1">
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
-                                                formControlName="long"
-                                                (blur)="latLong($event.target.value,projectRow,'long')"
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}" formControlName="long" (blur)="latLong($event.target.value,projectRow,'long')"
                                                 style="margin-left: 1pc;" type="text" min="1">
                                             <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                                 <mat-icon aria-hidden="false">
@@ -223,22 +156,16 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'stp') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}"
-                                                formControlName="stp" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <input matTooltipPosition="above" [matTooltip]="checkErrorState(projectRow,'stp') ? 'Min value 1' : null" [ngClass]="{'falseVal': checkErrorState(projectRow,'stp')}" formControlName="stp" type="number" oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <!-- *ngIf="loggedInUserType === userTypes.STATE && utilizationReport &&
  (takeStateAction == 'true')" -->
-                            <div class="" style="background-color: #FFFFFF; overflow: hidden;"
-                                *ngIf="loggedInUserType === USER_TYPE.MoHUA">
+                            <div class="" style="background-color: #FFFFFF; overflow: hidden;" *ngIf="loggedInUserType === USER_TYPE.MoHUA">
                                 <div class="">
-                                    <app-action-component (actionValues)="checkStatus($event, uas.value.ua)"
-                                        [statusResponse]='actionRes'> </app-action-component>
+                                    <app-action-component (actionValues)="checkStatus($event, uas.value.ua)" [statusResponse]='actionRes'> </app-action-component>
                                 </div>
                             </div>
 
@@ -247,14 +174,12 @@
                                 <div class="card-body">
                                     <p><b>MoHUA Review Status :</b> {{uas.value.status | titlecase}}</p>
                                     <p *ngIf="uas.value.status == 'REJECTED'">
-                                        <b style="font-weight: 600;">Reason for rejection :</b>
-                                        {{uas.value.rejectReason }}
+                                        <b style="font-weight: 600;">Reason for rejection :</b> {{uas.value.rejectReason }}
                                     </p>
 
                                 </div>
                             </div>
-                            <div class="card" style="background-color: hsl(0, 0%, 97%);"
-                                *ngIf="(
+                            <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
                                 (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'STATE'))">
                                 <div class="card-body">
                                     <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
@@ -305,8 +230,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -328,8 +252,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed</button>
         </div>
 
     </div>
