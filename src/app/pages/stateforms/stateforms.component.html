@@ -99,10 +99,10 @@
                         Grant Transfer Certificate
                     </div>
                     <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                        <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -119,10 +119,10 @@
                         Linking of PFMS Account
                     </div>
                     <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -176,10 +176,10 @@
                         Indicator for Water Rejenuvation and Recycling
                     </div>
                     <div class="col-sm-2 col-xs-2 text-right">
-                        <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -197,10 +197,10 @@
                         Action Plan for UA Service Level Indicators
                     </div>
                     <div class="co2-sm-2 col-xs-2 text-right">
-                        <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -240,15 +240,17 @@
                         Grant Allocation to ULBs
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right" style="margin-left: 2rem;">
-                        <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
                 </a>
             </div>
+            <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
+            <ng-template #tolTemplateN>{{toolTipContentN}}</ng-template>
             <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
                 <div>
                     <button class="btn subBtn" (click)="statePreview()">Preview and download</button>

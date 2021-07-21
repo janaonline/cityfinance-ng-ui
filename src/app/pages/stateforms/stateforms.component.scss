@@ -133,3 +133,10 @@ div.active {
     width: 14px;
     margin-right: .5rem;
 }
+
+::ng-deep .tooltip {
+    //  background-color: #009688;
+    color: #FFFFFF;
+    z-index: 3;
+    width: 150px;
+}

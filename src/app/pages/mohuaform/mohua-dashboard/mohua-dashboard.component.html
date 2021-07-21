@@ -1,17 +1,18 @@
 <div style="overflow-y: hidden;overflow-x: hidden;">
-    <div class="container-fluid row"
-        style="margin-bottom:30px;display:flex; line-height: 38px; justify-content: center;">
-        <span style="font-size: 32px; margin-right:15px">Dashboard for 15th FC 2021-22 </span>
-        <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;">
+    <div class="container-fluid row" style="margin-bottom:30px;display:flex; line-height: 38px; justify-content: center;">
+        <span style="font-size: 30px; font-weight: 600; margin-right:15px">Dashboard for 15th FC 2021-22 </span>
+        <!-- text-align-last:center; -->
+        <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;
+        text-align-last: center; font-size: 20px; border: 2px solid #333;">
             <option selected>India</option>
             <option [selected]="isSelected(resData)" *ngFor="let resData of states ; let tabelIndex=index"
                 value="{{resData.code}} and {{resData._id}}">
                 {{resData.name}}</option>
         </select>
     </div>
-    <div class="container-fluid row">
+    <div class="container-fluid row" style="padding-left: 0; padding-right: 0;">
 
-        <div class="col-sm-6 " style="min-height: 50vh; margin-bottom: 1.5%;">
+        <div class="col-sm-5" style="min-height: 50vh; margin-bottom: 1.5%;">
             <div class="row">
                 <div id="finance-law-map" style="position:initial">
                 </div>
@@ -20,75 +21,85 @@
 
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <div class="row" style="margin-bottom: 20px;">
-                <div class="container-fluid">
-                    <div class="cards">
-                        <div class="col-sm-3 card ">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align: center;">
-                                    <div class="card-number">{{submitted_totalUlbs}}</div>
-                                    <div class="card-text" style="font-size:13px ; margin-top:10px">ULBs Approved</div>
 
-                                    <div class="card-text" style="font-size:13px">Out Of {{totalUlbs}} </div>
-                                </div>
+                <div class="cards">
+                    <div class="col-sm-3 card ">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <div class="card-number"><b>{{submitted_totalUlbs}}</b> </div>
+                                <div class="card-text" style="font-size:13px ; margin-top:10px">ULBs Approved / </div>
 
+                                <div class="card-text" style="font-size:13px"><span style="font-size: 16px;
+                                  font-weight: 600;">{{totalUlbs}}</span> Total ULBs</div>
                             </div>
+
                         </div>
-                        <div class="col-sm-3 card">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align: center;">
-                                    <div class="card-number">{{submitted_nonMillion}}</div>
-                                    <div class="card-text" style="font-size:13px">Non Million Cities Approved</div>
-                                    <div class="card-text" style="font-size:13px">Out Of {{nonMillion}} </div>
-
-                                </div>
+                    </div>
+                    <div class="col-sm-3 card">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <!-- <div class="card-number">{{submitted_nonMillion}}</div>
+                                <div class="card-text" style="font-size:13px">Non Million Cities Approved</div>
+                                <div class="card-text" style="font-size:13px">Out Of {{nonMillion}} </div> -->
+                                <div class="card-number">{{submitted_nonMillion}}</div>
+                                <div class="card-text" style="font-size:13px"> ULBs Approved /</div>
+                                <div class="card-text" style="font-size:13px"> <span style="font-size: 16px;
+                                  font-weight: 600;">{{nonMillion}}</span> Total Non Million Plus ULBs</div>
 
                             </div>
+
                         </div>
-                        <div class="col-sm-3 card">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align: center;">
-                                    <div class="card-number">{{submitted_millionPlusUA ? submitted_millionPlusUA : 0
-                                        }}</div>
-                                    <div class="card-text" style="font-size:13px">Million-Plus UAs
-                                        Approved</div>
-                                    <div class="card-text" style="font-size:13px">Out Of
-                                        {{millionPlusUA ? millionPlusUA : '0' }} </div>
-                                    <!-- <div class="card-number" *ngIf="!millionPlusUA">NA</div> -->
-
+                    </div>
+                    <div class="col-sm-3 card">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <div class="card-number">{{submitted_millionPlusUA ? submitted_millionPlusUA : 0 }}
                                 </div>
+                                <div class="card-text" style="font-size:13px">UA Approved /
+                                    <!-- Million-Plus UAs Approved -->
+                                </div>
+                                <div class="card-text" style="font-size:13px">
+                                    <span style="font-size: 16px;
+                                    font-weight: 600;">{{millionPlusUA ? millionPlusUA : '0' }}</span> Million Plus UAs</div>
+                                <!-- <div class="card-number" *ngIf="!millionPlusUA">NA</div> -->
 
                             </div>
+
                         </div>
-                        <div class="col-sm-3 card">
-                            <div class="row">
-                                <div class="col-sm-12"
-                                    style="text-align: center;padding-right: 6px; padding-left: 6px; ">
-                                    <div class="card-number">
-                                        {{submitted_ulbsInMillionPlusUlbs}}</div>
-                                    <div class="card-text" style="font-size:13px">ULBs in
-                                        Million-Plus UAs
-                                        Approved</div>
-                                    <div class="card-text" style="font-size:13px">Out Of
-                                        {{ulbsInMillionPlusUlbs}} </div>
-                                    <!-- <div class="card-number" *ngIf="!ulbsInMillionPlusUlbs">NA</div> -->
+                    </div>
+                    <div class="col-sm-3 card">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center;padding-right: 6px; padding-left: 6px; ">
+                                <div class="card-number">
+                                    {{submitted_ulbsInMillionPlusUlbs}}</div>
+                                <div class="card-text" style="font-size:13px">ULB Approved /
+                                    <!-- ULBs in Million-Plus UAs Approved -->
                                 </div>
-
+                                <div class="card-text" style="font-size:13px">
+                                    <span style="font-size: 16px;
+                                    font-weight: 600;">{{ulbsInMillionPlusUlbs}}</span> ULBs in Million Plus UAs</div>
+                                <!-- <div class="card-number" *ngIf="!ulbsInMillionPlusUlbs">NA</div> -->
                             </div>
+
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-sm-12 col-lg-12 col-md-12">
-
-                    <div class="row">
-
-
-                        <div class="table-responsive"
-                            style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
-                            <table #stateTable class="table tracking-history-table my_table  ">
+                    <a>
+                        <div class="text-right" style="padding-right: 5px;">
+                            <mat-icon class="mat-i" aria-hidden="false" matTooltip="Click here to download data.">
+                                <img src="../../../../assets/mohua/cloud_download_white_24dp.svg" class="svg-gt">
+                            </mat-icon>
+                        </div>
+                    </a>
+                    <div class="row" style="margin-right: 0;">
+                        <div class="table-responsive" style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                            <table #stateTable class="table tracking-history-table my_table" style="margin-bottom: 0;">
                                 <thead style="position:sticky; top:0">
                                     <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col" style="width: 1%; position:sticky; top:0" class="tableHeadText">
@@ -99,16 +110,12 @@
                                         <th scope="col" class="tableHeadText" style="width: 11%;position:sticky; top:0">
                                             Total ULBs
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs
-                                            Submitted &
-                                            Approved</th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Under
-                                            Review
-                                            by State
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Submitted & Approved
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not
-                                            Submitted
-                                            Data</th>
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Under Review by State
+                                        </th>
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not Submitted Data
+                                        </th>
                                         <th scope="col" class="tableHeadText" style="position:sticky; top:0">
                                             Completed & Approved Forms (%)</th>
 
@@ -117,8 +124,7 @@
 
 
                                 <tbody>
-                                    <tr *ngFor="let resData of tabelData ; let tabelIndex=index"
-                                        tabindex="{{tabelIndex}}" class="tableHeadText">
+                                    <tr *ngFor="let resData of tabelData ; let tabelIndex=index" tabindex="{{tabelIndex}}" class="tableHeadText">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{ tabelIndex+1}}
                                         </td>
@@ -136,11 +142,9 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.notSubmittedForm}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            style="font-weight: bold;">
-                                            {{resData.submittedForm/resData.totalULBs * 100 ?
-                                            (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0
-                                            }}<small>%</small>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
+                                            {{resData.submittedForm/resData.totalULBs * 100 ? (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0 }}
+                                            <small>%</small>
                                         </td>
                                         <td style="display: none;">
                                             {{resData.code}}
@@ -149,8 +153,7 @@
                                             {{resData.id}}
                                         </td>
                                     </tr>
-                                    <tr class="tableHeadText"
-                                        style="background-color: skyblue; font-weight: bold; position:sticky; bottom:0">
+                                    <tr class="tableHeadText" style="background-color: skyblue; font-weight: bold; position:sticky; bottom:0">
                                         <td style="width: 1%;">
 
                                         </td>
@@ -169,9 +172,8 @@
                                             {{total_notSubmittedForm}}
                                         </td>
                                         <td style="font-weight: bold;">
-                                            {{total_submittedForm/total_totalULBs * 100 ?
-                                            (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0
-                                            }}<small>%</small>
+                                            {{total_submittedForm/total_totalULBs * 100 ? (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0 }}
+                                            <small>%</small>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -188,14 +190,11 @@
         </div>
 
     </div>
-    <div class="container-fluid row" style="margin-bottom:15px">
+    <div class="container-fluid row" style="margin-bottom:15px; padding-left: 0; padding-right: 0;">
         <div class=" statusArea">
             <div class="col-sm-3 firstColumn">
-                <div class="row"
-                    style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
-                    ULB
-                    Form
-                    Status
+                <div class="row" style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                    ULB Form Status
                 </div>
                 <div class="row mainDonutChart">
                     <canvas id="myChart" style="width:400px ; height:400px"></canvas>
@@ -206,8 +205,7 @@
             </div>
             <div class="col-sm-3 secondColumn">
 
-                <div class="row"
-                    style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                <div class="row" style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
                     ULB Annual Accounts Status
                     <a (click)="openDialogAnnual()" style="margin-left:5px">
                         <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
@@ -249,8 +247,7 @@
                         </div>
                     </div>
 
-                    <div
-                        style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                    <div style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                         Target for 15th FC - 25%
                     </div>
                 </div>
@@ -288,8 +285,7 @@
                             </div>
                         </div>
                     </div>
-                    <div
-                        style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                    <div style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                         Target for 15th FC - 25%
                     </div>
                 </div>
@@ -341,8 +337,7 @@
     </div>
     <div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
         <div class="header">
-            <div class="col-sm-6"
-                style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
+            <div class="col-sm-6" style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
                 <div class="row">
                     <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
                     <div class="col-sm-5">
@@ -381,19 +376,15 @@
 
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:147px;"
-                                    [style.width]="width1">
+                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:147px;" [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:147px;"
-                                    [style.width]="width2">
+                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:147px;" [style.width]="width2">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;"
-                                    [style.width]="width3"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;" [style.width]="width3"></div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;"
-                                    [style.width]="width4"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;" [style.width]="width4"></div>
                             </div>
                         </div>
                         <div class="row">
@@ -427,8 +418,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            Submission of Water Rejuvenation, Water Recycling and
-                            Action Plans
+                            Submission of Water Rejuvenation, Water Recycling and Action Plans
                         </div>
                     </div>
                 </div>

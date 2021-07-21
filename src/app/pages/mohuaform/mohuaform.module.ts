@@ -37,6 +37,7 @@ import { ReviewStateComponent } from './review-state/review-state.component';
     MatTooltipModule,
     SharedModule,
     TooltipModule.forRoot(),
+
     FormsModule,
     CollapseModule.forRoot(),
     PaginationModule.forRoot(),

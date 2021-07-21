@@ -27,6 +27,8 @@ export class StateformsComponent implements OnInit {
   isCollapsed = true;
   isCollapsedSer = true;
   takeMoHUAAction = 'false';
+  tolTemplateN = '';
+  tolTemplateC = '';
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -47,16 +49,23 @@ export class StateformsComponent implements OnInit {
     this.initializeLoggedInUserDataFetch();
     console.log('login,usertype', this.loggedInUserType, this.userTypes);
     switch (this.loggedInUserType) {
+
       case USER_TYPE.ULB:
         this._router.navigate(["/home"]);
-        //  this._router.navigate(["/ulbform/overview"]);
         break;
-      // case USER_TYPE.STATE:
-      //   this._router.navigate(["/stateform/dashboard"]);
-      // break;
-      //  case USER_TYPE.MoHUA:
+      case USER_TYPE.STATE:
+        this.tolTemplateC = 'Completed'
+        this.tolTemplateN = 'Not Completed'
+        console.log('state --- tooltip', this.tolTemplateC, this.tolTemplateN);
+        break;
+       case USER_TYPE.MoHUA:
+       case USER_TYPE.PARTNER:
+       case USER_TYPE.ADMIN:
+         this.tolTemplateC = 'Reviewed'
+         this.tolTemplateN = 'Not Reviewed'
+         console.log('mohua --- tooltip', this.tolTemplateC, this.tolTemplateN);
       //   this._router.navigate(["/mohua/dashboard"]);
-      //   break;
+         break;
       // case USER_TYPE.PARTNER:
       // case USER_TYPE.ADMIN:
       // case undefined:

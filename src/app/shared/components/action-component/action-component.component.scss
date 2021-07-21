@@ -1,12 +1,23 @@
+.btn-success {
+    background-color: #CFCFCF;
+    color: #333;
+    border-color: transparent;
+}
+
+.btn-danger {
+    background-color: #CFCFCF;
+    border-color: transparent;
+    color: #333;
+}
+
 .btn-r {
-    border: 2px solid red;
-    background-color: rgb(245, 143, 143);
+    background-color: red;
+    color: #FFFFFF;
 }
 
 .btn-a {
-    border: 2px solid green;
-    background-color: rgb(203, 248, 136);
-    color: green;
+    background-color: green;
+    color: #FFFFFF;
 }
 
 .btn {

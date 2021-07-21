@@ -186,6 +186,8 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   }
   checkStatusAp() {
     this.rejectReason = null;
+    this.btnStyleA = true;
+    this.btnStyleR = false;
     this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason,
@@ -194,6 +196,8 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     this.actionValues.emit(this.actionData);
   }
   checkStatus() {
+    this.btnStyleA = false;
+    this.btnStyleR = true;
     this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason,
