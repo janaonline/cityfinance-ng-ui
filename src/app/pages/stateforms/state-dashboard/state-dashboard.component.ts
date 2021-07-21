@@ -205,11 +205,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 25,
+            padding: 22,
           }
-        }
+        },
+       responsive : true,
 
       }
+
 
     });
   }
@@ -255,9 +257,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 22,
+            padding: 20,
           }
-        }
+        },
+        responsive: true
       }
 
     });
@@ -301,9 +304,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 22,
+            padding: 20,
           }
-        }
+        },
+        responsive : true
       }
 
     });
