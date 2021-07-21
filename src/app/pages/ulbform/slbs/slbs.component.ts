@@ -39,7 +39,7 @@ export class SlbsComponent implements OnInit {
   ulbFormRejectR = null;
   finalSubmitStatus;
   takeStateAction;
-  actionResSlb;
+  actionResSlb; 
   compDis;
   constructor(
     private _matDialog: MatDialog,
