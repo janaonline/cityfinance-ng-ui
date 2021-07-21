@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { UtilreportListService } from './utilreport-list.service'
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-utilreport-list',
   templateUrl: './utilreport-list.component.html',
@@ -31,11 +32,12 @@ export class UtilreportListComponent implements OnInit {
   errMessage = '';
   constructor(
     private utilreportListService: UtilreportListService,
-    public ulbService: UlbadminServiceService
+    public ulbService: UlbadminServiceService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
-    this.utilreportListService.getData()
+    this.utilreportListService.getData(this.data.state_id)
       .subscribe((res) => {
 
         let resData: any = res

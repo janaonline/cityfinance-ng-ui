@@ -258,7 +258,8 @@
                     <div class="Card1">
                         <div class="row" style="height: 70%;">
                             <div class="col-sm-7" style="text-align: left;">
-                                <span style="color: #12505A; font-size: 41px;">{{plans}}<small>% </small></span>
+                                <span style="color: #12505A; font-size: 41px;">{{(filledULBs/totalULBs *
+                                    100).toFixed(2)}}<small>% </small></span>
                                 <span>ULBs in Million Plus UA</span>
 
                             </div>
@@ -283,7 +284,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            Water Supply and Sanitation Indicators compiled for <b> {{ulbs}}
+                            Water Supply and Sanitation Indicators compiled for <b> {{totalULBs}}
                                 ULBs</b>
                         </div>
                     </div>

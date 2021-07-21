@@ -483,43 +483,64 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   openDialogAnnual() {
-    const dialogRef = this.dialog.open(AnnualaccListComponent);
+    const dialogRef = this.dialog.open(AnnualaccListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogSlb() {
-    const dialogRef = this.dialog.open(SlbListComponent);
+    const dialogRef = this.dialog.open(SlbListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogPlans() {
-    const dialogRef = this.dialog.open(PlansListComponent);
+    const dialogRef = this.dialog.open(PlansListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogPfms() {
-    const dialogRef = this.dialog.open(PfmsListComponent);
+    const dialogRef = this.dialog.open(PfmsListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogUtil() {
-    const dialogRef = this.dialog.open(UtilreportListComponent);
+    const dialogRef = this.dialog.open(UtilreportListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialog() {
+    console.log(this.state_id)
     const dialogRef = this.dialog.open(OverallListComponent, {
-      height: "1000px",
+      height: "800px",
       width: "1600px",
       data: {
         state_id: this.state_id
@@ -533,20 +554,16 @@ export class MohuaDashboardComponent implements OnInit {
   ulbCount = 0;
   percentage;
   compiledFor = 0
+  filledULBs = 0;
+  totalULBs = 0;
   getPlansData(state_id) {
 
     this.mohuaDashboardService.getPlansData(state_id).subscribe(
       (res) => {
-        if (state_id == '') {
-          console.log(res);
-          this.compiledFor = res['data']['ulbs'];
-          this.ulbCount = res['data']['ulbCount'];
-          this.percentage = ((this.ulbCount / this.compiledFor) * 100).toFixed(2)
-        } else {
-
-
-        };
-
+        console.log(res);
+        this.filledULBs = res['data']['filledULBs'];
+        this.totalULBs = res['data']['totalULBs'];
+        this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2)
       },
       (err) => {
         console.log(err);

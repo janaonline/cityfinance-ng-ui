@@ -28,9 +28,9 @@ export class MohuaDashboardService {
   }
   getPlansData(state_id) {
     if (state_id) {
-      return this.http.get(`${environment.api.url}mohua/plans/606aaf854dff55e6c075d219&state_id=${state_id}`);
+      return this.http.get(`${environment.api.url}masterForm/dashboard-plansData/606aaf854dff55e6c075d219?state_id=${state_id}`);
     } else {
-      return this.http.get(`${environment.api.url}mohua/plans/606aaf854dff55e6c075d219`);
+      return this.http.get(`${environment.api.url}masterForm/dashboard-plansData/606aaf854dff55e6c075d219`);
     }
   }
 
