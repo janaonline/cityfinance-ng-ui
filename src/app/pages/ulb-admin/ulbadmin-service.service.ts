@@ -97,6 +97,8 @@ export class UlbadminServiceService {
     }
     return this.http.get(url, {
       params: queryParams,
+      responseType: 'blob'
+
     });
   }
   fetchEditDataList(params = {}, body = {}) {

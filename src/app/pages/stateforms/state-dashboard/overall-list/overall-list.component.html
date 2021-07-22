@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
-                        <button type="button" class="btn btn-d">DOWNLOAD</button>
+                        <button type="button" (click)="stateData(true)" class="btn btn-d">DOWNLOAD</button>
 
                     </div>
                     <div class="col-sm-12">
@@ -36,16 +36,16 @@
                                             <!-- <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
-                                                style="width:75px" (keyup.enter)="stateData()">
+                                                style="width:75px" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
                                             <!-- <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
                                             <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
-                                                style="width:75px" (keyup.enter)="stateData()">
+                                                style="width:75px" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="ulb_type_s" (change)="stateData()"
+                                            <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)"
                                                 style="width:auto">
                                                 <option selected value="">ULB Type</option>
                                                 <option value="Municipality">Municipality</option>
@@ -58,7 +58,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
                                                 <option selected value="">Population Type</option>
                                                 <option value="Million Plus">Million Plus</option>
                                                 <option value="Non Million">Non Million</option>
@@ -70,11 +70,11 @@
                                         <th class="filter">
 
                                             <input type="text" [formControl]="ua_name_s" class="s-th p-s"
-                                                style="width: 76px;" (change)="stateData()">
+                                                style="width: 76px;" (change)="stateData(false)">
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_s" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -88,7 +88,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_pfms" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
                                                 <option value="In Progess">In Progess</option>
@@ -98,7 +98,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_audited" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -111,7 +111,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_unaudited" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -124,7 +124,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_util" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -135,7 +135,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_slb" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -146,7 +146,7 @@
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_plans" style="width: 71px;"
-                                                (change)="stateData()">
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>

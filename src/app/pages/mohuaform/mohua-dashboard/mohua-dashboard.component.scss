@@ -160,7 +160,7 @@ color:black;
 }
 
 .my_table tbody tr:focus {
-  background-color: #FFC500;
+  background-color: #FFC500 !important;
   outline: 0; /*remove outline*/
 }
 

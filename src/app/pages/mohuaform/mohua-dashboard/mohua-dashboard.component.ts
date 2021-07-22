@@ -240,7 +240,7 @@ export class MohuaDashboardComponent implements OnInit {
     }
 
     const defaultZoomLevel =
-      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 3.7;
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")
@@ -249,7 +249,7 @@ export class MohuaDashboardComponent implements OnInit {
       zoom = defaultZoomLevel;
     }
 
-    return zoom + .5;
+    return zoom + .3;
   }
 
   addIdInGeoData(data) {
