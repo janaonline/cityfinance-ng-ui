@@ -493,7 +493,7 @@ table {
     margin-bottom: 3vh !important;
     overflow: visible;
     margin-left: 0pc !important;
-    margin-bottom: 4pc !important;
+    margin-bottom: 2pc !important;
     // font-size: 0.6vw;
 }
 
@@ -503,4 +503,9 @@ table {
 
  ::ng-deep .leaflet-pane {
     z-index: 0 !important;
+}
+
+.btn-d {
+    background-color: #059B9A;
+    color: #FFFFFF;
 }
