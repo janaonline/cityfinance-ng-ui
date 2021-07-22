@@ -37,6 +37,8 @@ export class ActionComponentComponent implements OnInit, AfterViewChecked, OnCha
   }
   checkStatusAp(){
     this.rejectReason = null;
+    this.btnStyleA = true;
+    this.btnStyleR = false;
     this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason
@@ -45,6 +47,8 @@ export class ActionComponentComponent implements OnInit, AfterViewChecked, OnCha
     this.actionValues.emit(this.actionData);
   }
   checkStatus(){
+    this.btnStyleA = false;
+    this.btnStyleR = true;
     this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason

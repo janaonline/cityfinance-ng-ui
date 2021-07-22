@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild,AfterViewInit, } from '@angular/core';
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { Router } from '@angular/router';
@@ -7,11 +7,14 @@ import { Router } from '@angular/router';
   templateUrl: './mohuaform.component.html',
   styleUrls: ['./mohuaform.component.scss']
 })
-export class MohuaformComponent implements OnInit {
+export class MohuaformComponent implements OnInit, AfterViewInit {
 
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType;
+  sticky: boolean = false;
+  elementPosition: any;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
     private _router: Router
   ) {
@@ -47,5 +50,18 @@ export class MohuaformComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  ngAfterViewInit(){
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      if(windowScroll >= this.elementPosition){
+        this.sticky = true;
+      } else {
+        this.sticky = false;
+      }
+    }
 
 }

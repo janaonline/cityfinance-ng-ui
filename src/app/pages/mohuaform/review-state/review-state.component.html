@@ -1,11 +1,22 @@
 <div class="row">
+    <div class="col-sm-12 col-lg-12 col-md-12 text-center">
+        <h4 style="font-size: 24px; font-weight: 700;">
+            {{loggedInUser?.role}}
+        </h4>
+    </div>
+</div>
+<div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
+                    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+                        <h4 class="form-header">
+                            Review State Forms
+                        </h4>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2 text-right" style="margin-bottom: 1rem;">
                         <button type="button" class="btn btn-d">DOWNLOAD</button>
-
                     </div>
                     <div class="col-sm-12">
                         <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
@@ -57,8 +68,7 @@
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
-                                            tabelIndex+1}}
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
@@ -67,12 +77,10 @@
 
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
-                                            <a
-                                                (click)="viewHistory(template, resData['_id'])">{{resData.formStatus}}</a>
+                                            <a (click)="viewHistory(template, resData['_id'])">{{resData.formStatus}}</a>
                                         </td>
 
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA'))">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA'))">
 
 
                                             <a (click)="viewStateForm(resData)" [routerLink]="[
@@ -95,10 +103,8 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo"
-                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
-                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
-                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
                         </div>
                     </div>
@@ -119,8 +125,7 @@
 <ng-template #template>
     <div class="modal-title">
         <div style=" display: flex; justify-content: flex-end;">
-            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
-                type="button" data-dismiss="modal" aria-label="Close">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
         </div>

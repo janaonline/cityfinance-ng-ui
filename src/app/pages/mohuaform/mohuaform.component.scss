@@ -108,3 +108,14 @@ div.active {
     margin-bottom: 20px;
     margin-top: 30px;
 }
+
+.sticky {
+    position: fixed;
+    top: 9%;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.stickyMain {
+    margin-left: 16.6667%;
+}
