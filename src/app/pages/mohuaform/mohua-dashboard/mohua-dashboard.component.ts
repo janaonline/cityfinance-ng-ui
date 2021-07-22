@@ -564,6 +564,7 @@ export class MohuaDashboardComponent implements OnInit {
         this.filledULBs = res['data']['filledULBs'];
         this.totalULBs = res['data']['totalULBs'];
         this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2)
+        this.calculateValue()
       },
       (err) => {
         console.log(err);
@@ -992,26 +993,26 @@ export class MohuaDashboardComponent implements OnInit {
 
 
   calculateValue = () => {
-    if (this.plans <= 25) {
-      this.width1 = String(33 - (16 / 12.5) * this.plans) + "px";
+    if (this.percentage <= 25) {
+      this.width1 = String(33 - (16 / 12.5) * this.percentage) + "px";
       this.width2 = "33px";
       this.width3 = "33px";
       this.width4 = "33px";
-    } else if (this.plans <= 50 && this.plans > 25) {
+    } else if (this.percentage <= 50 && this.percentage > 25) {
       this.width1 = "0px";
-      this.width2 = String(33 - (16 / 12.5) * (this.plans - 25)) + "px";
+      this.width2 = String(33 - (16 / 12.5) * (this.percentage - 25)) + "px";
       this.width3 = "33px";
       this.width4 = "33px";
-    } else if (this.plans <= 75 && this.plans > 50) {
+    } else if (this.percentage <= 75 && this.percentage > 50) {
       this.width1 = "0px";
       this.width2 = "0px";
-      this.width3 = String(33 - (16 / 12.5) * (this.plans - 50)) + "px";
+      this.width3 = String(33 - (16 / 12.5) * (this.percentage - 50)) + "px";
       this.width4 = "33px";
-    } else if (this.plans <= 100 && this.plans > 75) {
+    } else if (this.percentage <= 100 && this.percentage > 75) {
       this.width1 = "0px";
       this.width2 = "0px";
       this.width3 = "0px";
-      this.width4 = String(33 - (16 / 12.5) * (this.plans - 75)) + "px";
+      this.width4 = String(33 - (16 / 12.5) * (this.percentage - 75)) + "px";
     }
   }
   mapValues(data) {

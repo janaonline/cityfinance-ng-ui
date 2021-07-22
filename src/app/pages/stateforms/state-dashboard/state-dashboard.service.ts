@@ -16,8 +16,11 @@ export class StateDashboardService {
     getFormData(state_id) {
         return this.http.get(`${environment.api.url}masterForm/state-dashboard/606aaf854dff55e6c075d219?state_id=${state_id}`);
     }
-    getPlansData(state_id) {
-        return this.http.get(`${environment.api.url}masterForm/dashboard-plansData/606aaf854dff55e6c075d219?state_id=${state_id}`);
+    getPlansData(ua_id) {
+        return this.http.get(`${environment.api.url}masterForm/dashboard-plansData/state/606aaf854dff55e6c075d219?ua_id=${ua_id}`);
+    }
+    getUAList() {
+        return this.http.get(`${environment.api.url}masterForm/UAList`);
     }
 
 

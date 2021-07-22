@@ -229,7 +229,7 @@
                             <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown"
                                 style="width: 150px !important;">
                                 <option value="0">-Select-</option>
-                                <option *ngFor="let item of UANames">{{item}}</option>
+                                <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
 
                             </select>
                         </span>
@@ -258,8 +258,7 @@
                     <div class="Card1">
                         <div class="row" style="height: 70%;">
                             <div class="col-sm-7" style="text-align: left;">
-                                <span style="color: #12505A; font-size: 41px;">{{(filledULBs/totalULBs *
-                                    100).toFixed(2)}}<small>% </small></span>
+                                <span style="color: #12505A; font-size: 41px;">{{percentage}}<small>% </small></span>
                                 <span>ULBs in Million Plus UA</span>
 
                             </div>
