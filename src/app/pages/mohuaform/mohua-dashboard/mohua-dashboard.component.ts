@@ -234,13 +234,13 @@ export class MohuaDashboardComponent implements OnInit {
       const valueOf1vh = this.calculateVH(1);
       if (valueOf1vh < 5) zoom = 3;
       else if (valueOf1vh < 7) zoom = zoom - 0.2;
-      console.log("Zoom",zoom);
-      
+      console.log("Zoom", zoom);
+
       return zoom;
     }
 
     const defaultZoomLevel =
-      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 3.7;
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")
@@ -266,8 +266,8 @@ export class MohuaDashboardComponent implements OnInit {
     containerId: string
   ) {
     const zoom = this.calculateMapZoomLevel();
-    console.log("Zoom create",zoom);
-    
+    console.log("Zoom create", zoom);
+
     // geoData = await this.addIdInGeoData(geoData);
     const configuration = {
       containerId,
@@ -408,8 +408,8 @@ export class MohuaDashboardComponent implements OnInit {
     this.selectStateOnMap(stateCode);
   }
 
-  isSelected(value){
-    if(this.stateSelected && value._id == this.stateSelected){
+  isSelected(value) {
+    if (this.stateSelected && value._id == this.stateSelected) {
       return true
     }
   }
@@ -454,14 +454,15 @@ export class MohuaDashboardComponent implements OnInit {
     this.getWaterRejCardData(state_id);
 
   }
+  state_id;
   onClickingStateTab(event) {
     console.log('Hi')
     const stateCode = event.target.value.split(' ')[0];
-    let state_id = event.target.value.split(' ')[2];
+    this.state_id = event.target.value.split(' ')[2];
     if (stateCode == 'India') {
-      state_id = ''
+      this.state_id = ''
     }
-    console.log(stateCode, state_id)
+    console.log(stateCode, this.state_id)
     for (
       let index = 0;
       index < this.stateTable.nativeElement.rows.length;
@@ -478,48 +479,72 @@ export class MohuaDashboardComponent implements OnInit {
       }
     }
     this.selectStateOnMap(stateCode);
-    this.callAllApis(state_id);
+    this.callAllApis(this.state_id);
   }
 
   openDialogAnnual() {
-    const dialogRef = this.dialog.open(AnnualaccListComponent);
+    const dialogRef = this.dialog.open(AnnualaccListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogSlb() {
-    const dialogRef = this.dialog.open(SlbListComponent);
+    const dialogRef = this.dialog.open(SlbListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogPlans() {
-    const dialogRef = this.dialog.open(PlansListComponent);
+    const dialogRef = this.dialog.open(PlansListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogPfms() {
-    const dialogRef = this.dialog.open(PfmsListComponent);
+    const dialogRef = this.dialog.open(PfmsListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogUtil() {
-    const dialogRef = this.dialog.open(UtilreportListComponent);
+    const dialogRef = this.dialog.open(UtilreportListComponent, {
+      data: {
+        state_id: this.state_id
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialog() {
+    console.log(this.state_id)
     const dialogRef = this.dialog.open(OverallListComponent, {
-      height: "1000px",
+      height: "800px",
       width: "1600px",
+      data: {
+        state_id: this.state_id
+      }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -529,20 +554,17 @@ export class MohuaDashboardComponent implements OnInit {
   ulbCount = 0;
   percentage;
   compiledFor = 0
+  filledULBs = 0;
+  totalULBs = 0;
   getPlansData(state_id) {
 
     this.mohuaDashboardService.getPlansData(state_id).subscribe(
       (res) => {
-        if (state_id == '') {
-          console.log(res);
-          this.compiledFor = res['data']['ulbs'];
-          this.ulbCount = res['data']['ulbCount'];
-          this.percentage = ((this.ulbCount / this.compiledFor) * 100).toFixed(2)
-        } else {
-
-
-        };
-
+        console.log(res);
+        this.filledULBs = res['data']['filledULBs'];
+        this.totalULBs = res['data']['totalULBs'];
+        this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2)
+        this.calculateValue()
       },
       (err) => {
         console.log(err);
@@ -971,26 +993,26 @@ export class MohuaDashboardComponent implements OnInit {
 
 
   calculateValue = () => {
-    if (this.plans <= 25) {
-      this.width1 = String(33 - (16 / 12.5) * this.plans) + "px";
+    if (this.percentage <= 25) {
+      this.width1 = String(33 - (16 / 12.5) * this.percentage) + "px";
       this.width2 = "33px";
       this.width3 = "33px";
       this.width4 = "33px";
-    } else if (this.plans <= 50 && this.plans > 25) {
+    } else if (this.percentage <= 50 && this.percentage > 25) {
       this.width1 = "0px";
-      this.width2 = String(33 - (16 / 12.5) * (this.plans - 25)) + "px";
+      this.width2 = String(33 - (16 / 12.5) * (this.percentage - 25)) + "px";
       this.width3 = "33px";
       this.width4 = "33px";
-    } else if (this.plans <= 75 && this.plans > 50) {
+    } else if (this.percentage <= 75 && this.percentage > 50) {
       this.width1 = "0px";
       this.width2 = "0px";
-      this.width3 = String(33 - (16 / 12.5) * (this.plans - 50)) + "px";
+      this.width3 = String(33 - (16 / 12.5) * (this.percentage - 50)) + "px";
       this.width4 = "33px";
-    } else if (this.plans <= 100 && this.plans > 75) {
+    } else if (this.percentage <= 100 && this.percentage > 75) {
       this.width1 = "0px";
       this.width2 = "0px";
       this.width3 = "0px";
-      this.width4 = String(33 - (16 / 12.5) * (this.plans - 75)) + "px";
+      this.width4 = String(33 - (16 / 12.5) * (this.percentage - 75)) + "px";
     }
   }
   mapValues(data) {

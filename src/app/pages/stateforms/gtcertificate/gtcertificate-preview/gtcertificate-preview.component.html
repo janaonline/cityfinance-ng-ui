@@ -1,7 +1,8 @@
 <div class="container-fluid " id="gtcpre" #gtcpre>
     <div class="row">
         <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
-            <a *ngIf="!parentData" (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+            <a *ngIf="!parentData" (click)="close()"
+                style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
@@ -18,7 +19,7 @@
     </div>
     <div class=" row st-d">
         <div class="col-sm-6 form-status">
-            <b>Form Current Status:</b> {{status}}
+            <b>Form Current Status:</b> {{formStatusCheck}}
         </div>
         <div class="col-sm-6 text-right h-cls" *ngIf="!parentData">
             <button id="donwloadButton" style="right: 0%;
@@ -40,7 +41,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 qus-h">
-                            (A) Upload Signed Grant Transfer Certificate for Million Plus Cities Grant for Water Supply and SWM
+                            (A) Upload Signed Grant Transfer Certificate for Million Plus Cities Grant for Water Supply
+                            and SWM
                         </div>
                         <div class="col-sm-6 ans-h m-r">
                             <a href="{{data.million_tied.pdfUrl}}" target="_blank">{{data.million_tied.pdfName ?
@@ -83,11 +85,11 @@
 
         <p style="margin-top: 8px;">
             Are you sure you want to proceed?
-            <div>
-                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
                 Proceed</button>
-            </div>
+        </div>
 
     </div>
 </ng-template>

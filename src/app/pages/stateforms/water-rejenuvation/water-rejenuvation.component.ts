@@ -78,15 +78,16 @@ export class WaterRejenuvationComponent implements OnInit {
       this.formDisable = true;
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
-        if (
-          this.allStatus["steps"]["waterRejuventation"]["isSubmit"] &&
-          (this.allStatus["steps"]["waterRejuventation"]["status"] ==
-            "PENDING" ||
-            this.allStatus["steps"]["waterRejuventation"]["status"] ==
-              "APPROVED")
-        ) {
-          this.formDisable = true;
-        }
+        // if (
+        //   this.allStatus["steps"]["waterRejuventation"]["isSubmit"] &&
+        //   (this.allStatus["steps"]["waterRejuventation"]["status"] ==
+        //     "PENDING" ||
+        //     this.allStatus["steps"]["waterRejuventation"]["status"] ==
+        //       "APPROVED")
+        // ) {
+        //   this.formDisable = true;
+        // }
+        this.formDisable = true;
       } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
         if (
           this.allStatus["steps"]["waterRejuventation"]["status"] == "APPROVED"
@@ -501,7 +502,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "500px",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   removePhotos(waterIndex, uaIndex) {
@@ -684,7 +685,7 @@ export class WaterRejenuvationComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
 
   checkErrorState(projectRow, val) {
@@ -736,6 +737,6 @@ function deepEqual(x, y) {
     ty = typeof y;
   return x && y && tx === "object" && tx === ty
     ? ok(x).length === ok(y).length &&
-        ok(x).every((key) => deepEqual(x[key], y[key]))
+    ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
