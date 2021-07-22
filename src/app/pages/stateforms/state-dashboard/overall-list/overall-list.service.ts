@@ -10,7 +10,11 @@ export class OverallListService {
 
   constructor(private http: HttpClient) { }
 
-  getData() {
+  getData(state_id) {
+    if (state_id) {
+      let sendUrl = environment.api.url + `masterForm/dashboard-viewList/606aaf854dff55e6c075d219?state_id=${state_id}`;
+      return this.http.get(sendUrl)
+    }
     let sendUrl = environment.api.url + 'masterForm/dashboard-viewList/606aaf854dff55e6c075d219';
     return this.http.get(sendUrl)
 

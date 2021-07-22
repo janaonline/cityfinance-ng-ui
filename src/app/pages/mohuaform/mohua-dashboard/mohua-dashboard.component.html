@@ -372,32 +372,34 @@
                     <div class="Card1">
                         <div class="row" style="height: 70%;">
                             <div class="col-sm-7" style="text-align: left; padding-left: 60px;">
-                                <span style="color: #12505A; font-size: 41px;">{{percentage}}<small>% </small></span>
+                                <span style="color: #12505A; font-size: 41px;">{{percentage ? percentage :
+                                    '0.00'}}<small>% </small></span>
                                 <span>ULBs in Million Plus UA</span>
 
                             </div>
                             <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:147px;"
+                                <div class="opacity_div" style=" z-index:2;right:13%;margin-right:61%;"
                                     [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:147px;"
+                                <div class="opacity_div" style=" z-index:2;right:-8%;margin-right:61%;"
                                     [style.width]="width2">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;"
+                                <div class="opacity_div" style=" z-index:2;right:-28%;margin-right:61%;"
                                     [style.width]="width3"></div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;"
+                                <div class="opacity_div" style=" z-index:2;right:-48%;margin-right:61%;"
                                     [style.width]="width4"></div>
+
                             </div>
+
                         </div>
                         <div class="row">
-                            Water Supply and Sanitation Indicators compiled for <b> {{compiledFor}}
+                            Water Supply and Sanitation Indicators compiled for <b> {{totalULBs}}
                                 ULBs</b>
                         </div>
                     </div>
@@ -445,4 +447,5 @@
         </div>
 
     </div>
+
 </div>

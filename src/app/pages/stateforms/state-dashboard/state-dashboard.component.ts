@@ -99,11 +99,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.getCardData();
     this.getFormData()
     this.getPlansData();
+    this.getUAList();
     this.mainDonughtChart();
     this.gaugeChart1();
     this.constChart();
     this.constChart1()
     this.gaugeChart2();
+
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
@@ -111,6 +113,18 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.getFormData()
     this.getPlansData();
 
+  }
+  UAs;
+  getUAList() {
+    this.stateDashboardService.getUAList().subscribe(
+      (res) => {
+        this.UAs = res['data']
+
+      },
+      (err) => {
+        console.log(err.message)
+      }
+    )
   }
   openDialogAnnual() {
     const dialogRef = this.dialog.open(AnnualaccListComponent);
@@ -614,43 +628,48 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
 
   }
+  filledULBs = 0;
+  totalULBs = 0;
+  percentage;
   selectedUA() {
 
     console.log('selectedUA', this.selectUa)
-    this.ulbs = 0;
-    this.plans = 0;
-    this.plansDataApiRes['data'].forEach(element => {
-      if (element.UA === this.selectUa) {
-        this.ulbs = element.ulbs;
-        this.plans = element.ulbCount;
-        this.rejuvenationPlans = element.submissionOfPlans
-      }
 
-    });
-    this.calculateValue();
+    this.stateDashboardService.getPlansData(this.selectUa).subscribe(
+      (res) => {
+        this.filledULBs = res['data']['filledULBs']
+        this.totalULBs = res['data']['totalULBs']
+        this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2);
+        this.calculateValue();
+      },
+      (err) => {
+
+      }
+    )
+
   }
 
   calculateValue() {
-    if (this.plans <= 25) {
-      this.width1 = String(33 - ((16 / 12.5) * this.plans)) + 'px';
+    if (this.percentage <= 25) {
+      this.width1 = String(33 - ((16 / 12.5) * this.percentage)) + 'px';
       this.width2 = '33px';
       this.width3 = '33px';
       this.width4 = '33px';
-    } else if (this.plans <= 50 && this.plans > 25) {
+    } else if (this.percentage <= 50 && this.percentage > 25) {
       this.width1 = '0px';
-      this.width2 = String(33 - ((16 / 12.5) * (this.plans - 25))) + 'px';
+      this.width2 = String(33 - ((16 / 12.5) * (this.percentage - 25))) + 'px';
       this.width3 = '33px';
       this.width4 = '33px';
-    } else if (this.plans <= 75 && this.plans > 50) {
+    } else if (this.percentage <= 75 && this.percentage > 50) {
       this.width1 = '0px';
       this.width2 = '0px';
-      this.width3 = String(33 - ((16 / 12.5) * (this.plans - 50))) + 'px';
+      this.width3 = String(33 - ((16 / 12.5) * (this.percentage - 50))) + 'px';
       this.width4 = '33px';
-    } else if (this.plans <= 100 && this.plans > 75) {
+    } else if (this.percentage <= 100 && this.percentage > 75) {
       this.width1 = '0px';
       this.width2 = '0px';
       this.width3 = '0px';
-      this.width4 = String(33 - ((16 / 12.5) * (this.plans - 75))) + 'px';
+      this.width4 = String(33 - ((16 / 12.5) * (this.percentage - 75))) + 'px';
 
     }
 

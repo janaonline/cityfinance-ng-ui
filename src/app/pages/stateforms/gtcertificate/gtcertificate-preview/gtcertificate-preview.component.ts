@@ -94,16 +94,65 @@ export class GtcertificatePreviewComponent implements OnInit {
 
 
     </style>`
-    ulbName;
-    stateName;
-    status;
+  ulbName;
+  stateName;
+  status;
+  formStatusCheck = ''
+  statusArray = [
+    'Not Started',
+    'Under Review By State',
+    'Completed',
+    'In Progress'
+  ]
   ngOnInit() {
     console.log('preData', this.data)
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
-    if(this.parentData)
-    this.data = this.parentData;
+    if (this.parentData)
+      this.data = this.parentData;
+    this.previewStatusSet();
+  }
+  previewStatusSet() {
+    console.log(this.data)
+    let GTCData = JSON.parse(sessionStorage.getItem("StateGTC"))
+    console.log(GTCData)
+    if (GTCData['data']) {
+      console.log('1')
+      let change = sessionStorage.getItem("changeInGTC");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        console.log('2')
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+
+      }
+    } else {
+      console.log('3')
+      let change = sessionStorage.getItem("changeInGTC");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        console.log('4')
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
+    }
+
+
   }
 
   clickedDownloadAsPDF() {

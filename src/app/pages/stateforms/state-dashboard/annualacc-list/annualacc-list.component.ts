@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AnnualaccListService } from './annualacc-list.service'
 import { Subscription } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-annualacc-list',
   templateUrl: './annualacc-list.component.html',
@@ -33,10 +34,11 @@ export class AnnualaccListComponent implements OnInit {
   constructor(
     private annualaccListService: AnnualaccListService,
     public ulbService: UlbadminServiceService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
-    this.annualaccListService.getData()
+    this.annualaccListService.getData(this.data.state_id)
       .subscribe((res) => {
 
         let resData: any = res

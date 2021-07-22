@@ -1,9 +1,10 @@
 import { PfmsListService } from './pfms-list.service'
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-pfms-list',
   templateUrl: './pfms-list.component.html',
@@ -32,6 +33,7 @@ export class PfmsListComponent implements OnInit {
   constructor(
     private pfmsListService: PfmsListService,
     public ulbService: UlbadminServiceService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ulb_name_s = new FormControl('');
@@ -44,7 +46,8 @@ export class PfmsListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.pfmsListService.getData()
+
+    this.pfmsListService.getData(this.data.state_id)
       .subscribe((res) => {
 
         let resData: any = res
