@@ -80,6 +80,9 @@ text-align: center;
     margin-top: .5rem;
     font-size: 10px;
 }
+.dec-h {
+  font-weight: 500 !important;
+}
 @media print {
   .page-break {
       page-break-before: always;

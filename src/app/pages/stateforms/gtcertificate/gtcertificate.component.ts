@@ -645,6 +645,8 @@ export class GTCertificateComponent implements OnInit {
   }
 
   checkStatusAp(qusCheck) {
+    this.btnStyleA = true;
+    this.btnStyleR = false;
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
 
@@ -674,6 +676,8 @@ export class GTCertificateComponent implements OnInit {
     //  this.actionValues.emit(this.actionData);
   }
   checkStatus(qusCheck) {
+    this.btnStyleA = false;
+    this.btnStyleR = true;
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
       this.actionData1 = {

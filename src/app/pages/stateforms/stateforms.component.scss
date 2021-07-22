@@ -1,11 +1,10 @@
-// .sidebar {
-//     position: fixed;
-//     // top: 100px;
-//     left: 0;
-//     bottom: 0;
-//     overflow-y: scroll;
-//     //  max-height: 70%;
-// }
+.sidebar {
+    margin-top: 1px;
+    width: 18%;
+    padding-left: 15px;
+    padding-right: 3px;
+}
+
 // .main {
 //     position: relative;
 //     top: 0;
@@ -132,4 +131,25 @@ div.active {
     margin-top: 9px;
     width: 14px;
     margin-right: .5rem;
+}
+
+::ng-deep .tooltip {
+    //  background-color: #009688;
+    color: #FFFFFF;
+    z-index: 3;
+    width: 150px;
+}
+
+.sticky {
+    position: fixed;
+    top: 9%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 10;
+    height: 69%;
+    width: 20%;
+}
+
+.stickyMain {
+    margin-left: 18%;
 }
