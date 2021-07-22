@@ -8,9 +8,15 @@ export class UtilreportListService {
 
   constructor(private http: HttpClient) { }
 
-  getData() {
-    let sendUrl = environment.api.url + 'masterForm/dashboard-viewList/606aaf854dff55e6c075d219/utilReport';
-    return this.http.get(sendUrl)
+  getData(state_id) {
+    if (state_id) {
+      let sendUrl = environment.api.url + `masterForm/dashboard-viewList/606aaf854dff55e6c075d219/utilReport?state_id=${state_id}`;
+      return this.http.get(sendUrl)
+    } else {
+      let sendUrl = environment.api.url + 'masterForm/dashboard-viewList/606aaf854dff55e6c075d219/utilReport';
+      return this.http.get(sendUrl)
+    }
+
 
   }
 }

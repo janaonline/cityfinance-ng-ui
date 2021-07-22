@@ -629,7 +629,7 @@ export class GTCertificateComponent implements OnInit {
         pdfUrl: this.nonMillionUntiedFileUrl,
         pdfName: this.fileName_nonMillionUntied
       },
-      isDraft: true
+      isDraft: (this.millionTiedFileUrl != '' && this.nonMillionTiedFileUrl != '' && this.nonMillionUntiedFileUrl != '') ? false : true
     };
     const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
       {

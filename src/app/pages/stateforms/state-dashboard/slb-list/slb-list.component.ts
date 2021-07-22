@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { SlbListService } from './slb-list.service'
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-slb-list',
   templateUrl: './slb-list.component.html',
@@ -32,6 +33,7 @@ export class SlbListComponent implements OnInit {
   constructor(
     private slbListService: SlbListService,
     public ulbService: UlbadminServiceService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ulb_name_s = new FormControl('');
@@ -43,7 +45,7 @@ export class SlbListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.slbListService.getData()
+    this.slbListService.getData(this.data.state_id)
       .subscribe((res) => {
 
         let resData: any = res

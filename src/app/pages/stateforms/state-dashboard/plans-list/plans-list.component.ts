@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { PlansListService } from './plans-list.service'
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-plans-list',
   templateUrl: './plans-list.component.html',
@@ -32,6 +33,7 @@ export class PlansListComponent implements OnInit {
   constructor(
     private plansListService: PlansListService,
     public ulbService: UlbadminServiceService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
   ulb_name_s = new FormControl('');
   ulb_code_s = new FormControl('');
@@ -41,7 +43,7 @@ export class PlansListComponent implements OnInit {
   status_plans = new FormControl('');
 
   ngOnInit(): void {
-    this.plansListService.getData()
+    this.plansListService.getData(this.data.state_id)
       .subscribe((res) => {
 
         let resData: any = res
