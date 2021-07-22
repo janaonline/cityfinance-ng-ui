@@ -36,7 +36,7 @@ export class ReviewStateComponent implements OnInit {
     private reviewStateService: ReviewStateService,
     public dialog: MatDialog,
   ) { }
-
+  loggedInUser = JSON.parse(localStorage.getItem("userData"));
   ngOnInit(): void {
     this.onLoad();
   }
@@ -87,7 +87,7 @@ export class ReviewStateComponent implements OnInit {
   alertClose() {
     this.dialog.closeAll();
   }
-  
+
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {

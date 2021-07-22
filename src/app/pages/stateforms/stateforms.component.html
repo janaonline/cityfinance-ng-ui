@@ -1,7 +1,6 @@
 <div class="container-fluid" style="padding: 0; overflow-x: hidden; overflow-y: hidden;">
     <div class="row" style="position: relative; display: block;">
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" style="margin-top: 1px; width: 18%; padding-left: 15px;
-        padding-right: 3px;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar tabs is-centered is-fullwidth" #stickyMenu [class.sticky]="sticky" style="">
             <div class="row" style="background-color: #114551; height: 20px;">
 
             </div>
@@ -99,10 +98,10 @@
                         Grant Transfer Certificate
                     </div>
                     <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                        <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                        <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -119,10 +118,10 @@
                         Linking of PFMS Account
                     </div>
                     <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -176,10 +175,10 @@
                         Indicator for Water Rejenuvation and Recycling
                     </div>
                     <div class="col-sm-2 col-xs-2 text-right">
-                        <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                        <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                        <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -197,10 +196,10 @@
                         Action Plan for UA Service Level Indicators
                     </div>
                     <div class="co2-sm-2 col-xs-2 text-right">
-                        <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                        <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -240,17 +239,20 @@
                         Grant Allocation to ULBs
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right" style="margin-left: 2rem;">
-                        <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                        <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                        <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
                 </a>
             </div>
+
             <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
             <ng-template #tolTemplateN>{{toolTipContentN}}</ng-template>
+
+
             <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
                 <div>
                     <button class="btn subBtn" (click)="statePreview()">Preview and download</button>
@@ -271,7 +273,7 @@
             </div>
         </div>
 
-        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" style="margin-top: 1.5rem; width: 82%;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" [ngClass]="{'stickyMain' : sticky}" style="margin-top: 1.5rem; width: 82%;">
             <div class="row">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">

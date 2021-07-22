@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { IUserLoggedInDetails } from "../../models/login/userLoggedInDetails";
 import { USER_TYPE } from "../../models/user/userType";
 import { UserUtility } from "../../util/user/user";
@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './stateforms.component.html',
   styleUrls: ['./stateforms.component.scss']
 })
-export class StateformsComponent implements OnInit {
+export class StateformsComponent implements OnInit, AfterViewInit {
 
   states: { [staeId: string]: IState };
   userLoggedInDetails: IUserLoggedInDetails;
@@ -27,8 +27,11 @@ export class StateformsComponent implements OnInit {
   isCollapsed = true;
   isCollapsedSer = true;
   takeMoHUAAction = 'false';
-  tolTemplateN = '';
-  tolTemplateC = '';
+  toolTipContentN = '';
+  toolTipContentC = '';
+  sticky: boolean = false;
+  elementPosition: any;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -54,16 +57,16 @@ export class StateformsComponent implements OnInit {
         this._router.navigate(["/home"]);
         break;
       case USER_TYPE.STATE:
-        this.tolTemplateC = 'Completed'
-        this.tolTemplateN = 'Not Completed'
-        console.log('state --- tooltip', this.tolTemplateC, this.tolTemplateN);
+        this.toolTipContentC = 'Completed'
+        this.toolTipContentN = 'Not Completed'
+
         break;
        case USER_TYPE.MoHUA:
        case USER_TYPE.PARTNER:
        case USER_TYPE.ADMIN:
-         this.tolTemplateC = 'Reviewed'
-         this.tolTemplateN = 'Not Reviewed'
-         console.log('mohua --- tooltip', this.tolTemplateC, this.tolTemplateN);
+        this.toolTipContentC = 'Reviewed'
+         this.toolTipContentN = 'Not Reviewed'
+
       //   this._router.navigate(["/mohua/dashboard"]);
          break;
       // case USER_TYPE.PARTNER:
@@ -620,5 +623,18 @@ export class StateformsComponent implements OnInit {
     })
 
   }
+  ngAfterViewInit(){
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      if(windowScroll >= this.elementPosition){
+        this.sticky = true;
+      } else {
+        this.sticky = false;
+      }
+    }
 
 }
