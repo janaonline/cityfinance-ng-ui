@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as fileSaver from "file-saver";
 @Component({
   selector: 'app-annualacc-list',
   templateUrl: './annualacc-list.component.html',
@@ -22,6 +23,7 @@ export class AnnualaccListComponent implements OnInit {
     filter: null,
     sort: null,
     role: null,
+    csv: false,
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
@@ -134,7 +136,7 @@ export class AnnualaccListComponent implements OnInit {
 
   }
 
-  stateData() {
+  stateData(csv) {
     this.loading = true;
     this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
@@ -143,19 +145,28 @@ export class AnnualaccListComponent implements OnInit {
     if (this.fcFormListSubscription) {
       this.fcFormListSubscription.unsubscribe();
     }
-
+    this.listFetchOption.csv = csv;
     this.fcFormListSubscription = this.ulbService
       .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'annualaccount')
       .subscribe(
         (result) => {
-          let res: any = result;
-          this.tabelData = res.data;
-          if (res.data.length == 0) {
-            this.nodataFound = true;
+          if (this.listFetchOption.csv) {
+            let blob: any = new Blob([result], {
+              type: "text/json; charset=utf-8",
+            });
+            const url = window.URL.createObjectURL(blob);
+            fileSaver.saveAs(blob, "Annual Accounts Status List.xlsx");
           } else {
-            this.nodataFound = false;
+            let res: any = result;
+            this.tabelData = res.data;
+            if (res.data.length == 0) {
+              this.nodataFound = true;
+            } else {
+              this.nodataFound = false;
+            }
+            console.log(result);
           }
-          console.log(result);
+
 
         },
         (response: HttpErrorResponse) => {

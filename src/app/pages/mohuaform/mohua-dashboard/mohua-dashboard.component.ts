@@ -33,6 +33,7 @@ import { GeographicalService } from "src/app/shared/services/geographical/geogra
 import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { UserUtility } from "src/app/util/user/user";
+import * as fileSaver from "file-saver";
 
 @Component({
   selector: "app-mohua-dashboard",
@@ -67,6 +68,7 @@ export class MohuaDashboardComponent implements OnInit {
     });
     this.commonService.states.subscribe((res) => {
       this.states = res;
+      sessionStorage.setItem("statesData", JSON.stringify(res))
     });
     this.commonService.loadStates(true);
     this.onLoad();
@@ -199,7 +201,7 @@ export class MohuaDashboardComponent implements OnInit {
   total_totalULBs = 0;
   getTableData() {
     return new Promise((resolve, rej) => {
-      this.mohuaDashboardService.getTableData("").subscribe(
+      this.mohuaDashboardService.getTableData('', null).subscribe(
         (res) => {
           this.tabelData = res["data"];
           this.stateDatasForMapColoring = res["data"];
@@ -225,6 +227,21 @@ export class MohuaDashboardComponent implements OnInit {
     return (vh * h) / 100;
   }
 
+  downloadTableData() {
+    this.mohuaDashboardService.getTableData('', true).subscribe(
+      (result: any) => {
+        let blob: any = new Blob([result], {
+          type: "text/json; charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(blob);
+        fileSaver.saveAs(blob, "Table Data.xlsx");
+      },
+      (err) => {
+        console.log(err.message)
+      }
+    )
+  }
+
   calculateMapZoomLevel() {
     let zoom: number;
     const userUtil = new UserUtility();
@@ -240,7 +257,7 @@ export class MohuaDashboardComponent implements OnInit {
     }
 
     const defaultZoomLevel =
-      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 3.7;
+      (Math.max(document.documentElement.clientWidth) - 1366) / 1366 + 4;
     try {
       zoom = localStorage.getItem("mapZoomLevel")
         ? +localStorage.getItem("mapZoomLevel")
@@ -249,7 +266,7 @@ export class MohuaDashboardComponent implements OnInit {
       zoom = defaultZoomLevel;
     }
 
-    return zoom + .5;
+    return zoom + .3;
   }
 
   addIdInGeoData(data) {

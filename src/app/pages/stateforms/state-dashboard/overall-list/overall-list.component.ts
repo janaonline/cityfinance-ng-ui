@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { OverallListService } from './overall-list.service'
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import * as fileSaver from "file-saver";
 @Component({
   selector: 'app-overall-list',
   templateUrl: './overall-list.component.html',
@@ -25,6 +25,7 @@ export class OverallListComponent implements OnInit {
     sort: null,
     role: null,
     skip: 0,
+    csv: false,
     limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
@@ -219,9 +220,12 @@ export class OverallListComponent implements OnInit {
     };
 
   }
-  stateData() {
+
+
+  stateData(csv) {
     this.loading = true;
     this.listFetchOption.skip = 0;
+
     this.tableDefaultOptions.currentPage = 1;
     this.listFetchOption = this.setLIstFetchOptions();
     const { skip } = this.listFetchOption;
@@ -229,25 +233,37 @@ export class OverallListComponent implements OnInit {
       this.fcFormListSubscription.unsubscribe();
     }
 
-    this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, null)
+    this.listFetchOption.csv = csv
+    this.fcFormListSubscription = this.ulbService.fetchAllFormStatusList({ skip }, this.listFetchOption, null)
       .subscribe(
         (result) => {
-          let res: any = result;
-          this.tabelData = res.data;
-          if (res.data.length == 0) {
-            this.nodataFound = true;
+          console.log(result)
+          if (this.listFetchOption.csv) {
+            let blob: any = new Blob([result], {
+              type: "text/json; charset=utf-8",
+            });
+            const url = window.URL.createObjectURL(blob);
+            fileSaver.saveAs(blob, "Overall Form Status List.xlsx");
           } else {
-            this.nodataFound = false;
+            let res: any = result;
+            this.tabelData = res.data;
+            if (res.data.length == 0) {
+              this.nodataFound = true;
+            } else {
+              this.nodataFound = false;
+            }
+            console.log(result);
           }
-          console.log(result);
+
+
+
+
 
         },
-        (response: HttpErrorResponse) => {
-          this.loading = false;
-          alert('Some Error Occurred')
+        (err) => {
 
         }
+
       );
 
 
