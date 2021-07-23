@@ -167,8 +167,9 @@
 }
 
 .my_table tbody tr:focus {
-  background-color: #FFC500 !important;
-  outline: 0; /*remove outline*/
+    background-color: #FFC500 !important;
+    outline: 0;
+    /*remove outline*/
 }
 
 .textInThirdColumn {
@@ -492,7 +493,7 @@ table {
     margin-bottom: 3vh !important;
     overflow: visible;
     margin-left: 0pc !important;
-    margin-bottom: 3pc !important;
+    margin-bottom: 2pc !important;
     // font-size: 0.6vw;
 }
 
@@ -510,5 +511,5 @@ table {
 }
 
 ::ng-deep .leaflet-map-pane {
-    transform: translate3d(-26px, 2px, 0px) !important;
+    transform: translate3d(-26px, 7px, 0px) !important;
 }
