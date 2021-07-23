@@ -38,7 +38,8 @@
                 <div style="display: flex;">
                     <div>
                         <!-- UA{{projectIndex+1}}: {{uasData[uas.ua].name}} -->
-                        <h4>UA{{projectIndex + 1}}: Urban Aggolmeration {{uasData[uas.ua].name.split(' ')[0]}}
+                        <h4>UA{{projectIndex + 1}}: Urban Aggolmeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}
+                            <!-- {{uasData[uas.ua].name.split(' ')[0]}} -->
                         </h4>
                     </div>
                 </div>
