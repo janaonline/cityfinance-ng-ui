@@ -38,6 +38,7 @@ export class PlansListComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
   ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
@@ -126,7 +127,7 @@ export class PlansListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'plans')
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'plans', this.data.state_id)
       .subscribe(
         (result) => {
           if (this.listFetchOption.csv) {

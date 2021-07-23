@@ -41,6 +41,7 @@ export class OverallListComponent implements OnInit {
 
 
   ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
@@ -234,7 +235,7 @@ export class OverallListComponent implements OnInit {
     }
 
     this.listFetchOption.csv = csv
-    this.fcFormListSubscription = this.ulbService.fetchAllFormStatusList({ skip }, this.listFetchOption, null)
+    this.fcFormListSubscription = this.ulbService.fetchAllFormStatusList({ skip }, this.listFetchOption, null, this.data.state_id)
       .subscribe(
         (result) => {
           console.log(result)

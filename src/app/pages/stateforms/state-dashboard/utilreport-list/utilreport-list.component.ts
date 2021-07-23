@@ -60,6 +60,7 @@ export class UtilreportListComponent implements OnInit {
     // this.searchUsersBy(this.filterForm.value);
   }
   ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
@@ -127,7 +128,7 @@ export class UtilreportListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'utilReport')
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'utilReport', this.data.state_id)
       .subscribe(
         (result) => {
           if (this.listFetchOption.csv) {

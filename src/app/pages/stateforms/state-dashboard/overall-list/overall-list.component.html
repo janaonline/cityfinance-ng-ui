@@ -3,18 +3,23 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
-                        <button type="button" (click)="stateData(true)" class="btn btn-d">DOWNLOAD</button>
+                    <div class="col-sm-12 col-lg-12 col-md-12 "
+                        style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
+                        <span class="text-left" style="font-size: 20px; font-weight: bold;text-align: left;">Overall
+                            Form
+                            Status</span>
+                        <button type="button" (click)="stateData(true)" class="btn btn-d text-right">DOWNLOAD</button>
 
                     </div>
                     <div class="col-sm-12">
-                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem; ">
                             <table class="table">
                                 <thead>
 
                                     <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col">S.No</th>
                                         <th scope="col">ULB Name </th>
+                                        <th scope="col">State Name </th>
                                         <th scope="col">ULB Census Code/ ULB Code </th>
                                         <th scope="col">ULB Type</th>
                                         <th scope="col">Population Type</th>
@@ -36,6 +41,12 @@
                                             <!-- <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
+                                                style="width:75px" (keyup.enter)="stateData(false)">
+                                        </th>
+                                        <th class="filter">
+                                            <!-- <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
+                                            <input type="text" class="s-th p-s" [formControl]="state_name"
                                                 style="width:75px" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
@@ -155,14 +166,7 @@
                                                 <option value="Not Applicable">Not Applicable</option>
                                             </select>
                                         </th>
-                                        <th class="filter">
 
-                                            <a (click)="loadData()">
-                                                <mat-icon aria-hidden="false">
-                                                    <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
-                                                </mat-icon>
-                                            </a>
-                                        </th>
                                     </tr>
 
                                 </thead>
@@ -179,6 +183,8 @@
                                             {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                             tabelIndex+1}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode ||
                                             resData.sbCode }}</td>
