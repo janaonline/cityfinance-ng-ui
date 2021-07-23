@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { IUserLoggedInDetails } from "../../models/login/userLoggedInDetails";
 import { USER_TYPE } from "../../models/user/userType";
@@ -37,6 +37,11 @@ export class UlbformComponent implements OnInit {
   takeStateAction;
   toolTipContentC = "";
   toolTipContentN = "";
+  sticky: boolean = false;
+  stiHieght: boolean = false;
+  elementPosition: any;
+  public screenHeight: any;
+  @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -493,4 +498,27 @@ export class UlbformComponent implements OnInit {
       }
     );
   }
+  ngAfterViewInit(){
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      console.log('scrolllllll', windowScroll, this.elementPosition);
+
+      if(windowScroll >= this.elementPosition){
+        this.sticky = true;
+        // if(windowScroll < 500) {
+        //  this.stiHieght = true;
+        //   this.sticky = false;
+        // }else{
+        //   this.sticky = true;
+        //   this.stiHieght = false;
+        // }
+      } else {
+        this.sticky = false;
+        //this.stiHieght = false;
+      }
+    }
 }

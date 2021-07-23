@@ -3,6 +3,9 @@
     width: 18%;
     padding-left: 15px;
     padding-right: 3px;
+    height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 // .main {
@@ -147,6 +150,16 @@ div.active {
     overflow-y: auto;
     z-index: 10;
     height: 69%;
+    width: 20%;
+}
+
+.sticky-se {
+    position: fixed;
+    top: 9%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 10;
+    height: 90%;
     width: 20%;
 }
 
