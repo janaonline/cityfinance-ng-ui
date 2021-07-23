@@ -237,7 +237,7 @@ export class OverallListComponent implements OnInit {
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService.fetchAllFormStatusList({ skip }, this.listFetchOption, null, this.data.state_id)
       .subscribe(
-        (result) => {
+        (result: any) => {
           console.log(result)
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {

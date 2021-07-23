@@ -129,7 +129,7 @@ export class PlansListComponent implements OnInit {
     this.fcFormListSubscription = this.ulbService
       .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'plans', this.data.state_id)
       .subscribe(
-        (result) => {
+        (result: any) => {
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
               type: "text/json; charset=utf-8",

@@ -103,7 +103,7 @@ export class UlbadminServiceService {
         url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219`
       }
     }
-    if (body.csv) {
+    if (body['csv']) {
       return this.http.get(url, {
         params: queryParams,
         responseType: 'blob'
