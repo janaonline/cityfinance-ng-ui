@@ -21,11 +21,12 @@ import { MatTableModule } from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReviewUlbComponent } from './review-ulb/review-ulb.component';
 import { ReviewStateComponent } from './review-state/review-state.component';
+import { GrantTransferMohuaComponent } from './grant-transfer-mohua/grant-transfer-mohua.component';
 
 
 
 @NgModule({
-  declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent],
+  declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent, GrantTransferMohuaComponent],
   imports: [
     CommonModule,
     MohuaformRoutingModule,

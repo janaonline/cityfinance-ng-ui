@@ -1,0 +1,25 @@
+.save {
+  // margin-right: 15px;
+  width: auto;
+  height: 32px;
+  background-color: #26a1a1;
+  color: #ffffff;
+  font-weight: normal;
+  font-size: 12px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-block;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+.save:hover {
+  background-color: #ffc500;
+  font-weight: bold;
+}
+
+.upload {
+  width: 13em !important;
+}
