@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ReviewUlbService } from "./review-ulb.service";
 import { StateformsService } from "../../stateforms/stateforms.service";
 import { USER_TYPE } from "src/app/models/user/userType";
+import * as fileSaver from "file-saver";
 @Component({
   selector: "app-review-ulb",
   templateUrl: "./review-ulb.component.html",
@@ -38,7 +39,7 @@ export class ReviewUlbComponent implements OnInit {
     public ulbService: UlbadminServiceService,
     public dialog: MatDialog,
     public _stateformsService: StateformsService
-  ) {}
+  ) { }
   ulb_name_s = new FormControl("");
   ulb_code_s = new FormControl("");
   ulb_type_s = new FormControl("");
@@ -93,6 +94,22 @@ export class ReviewUlbComponent implements OnInit {
       }
     );
   }
+
+  downloadFile() {
+    this.reviewUlbService.downloadData().subscribe(
+      (result) => {
+        let blob: any = new Blob([result], {
+          type: "text/json; charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(blob);
+        fileSaver.saveAs(blob, "Review ULB Data.xlsx");
+      },
+      (err) => {
+        console.log(err.message)
+      }
+    )
+  }
+
   setLIstFetchOptions() {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {

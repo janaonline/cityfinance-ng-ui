@@ -34,12 +34,23 @@ export class MohuaDashboardService {
     }
   }
 
-  getTableData(state_id) {
-    if (state_id) {
-      return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219&state_id=${state_id}`);
+  getTableData(state_id, csv) {
+    if (csv) {
+      if (state_id) {
+        return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219&state_id=${state_id}&csv=true`,
+          { responseType: 'blob' });
+      } else {
+        return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219&csv=true`,
+          { responseType: 'blob' });
+      }
     } else {
-      return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219`);
+      if (state_id) {
+        return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219&state_id=${state_id}`);
+      } else {
+        return this.http.get(`${environment.api.url}masterForm/stateUlb?design_year=606aaf854dff55e6c075d219`);
+      }
     }
+
   }
 
 

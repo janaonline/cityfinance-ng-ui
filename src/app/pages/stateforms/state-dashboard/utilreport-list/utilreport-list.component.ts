@@ -127,7 +127,7 @@ export class UtilreportListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'util')
+      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'utilReport')
       .subscribe(
         (result) => {
           if (this.listFetchOption.csv) {

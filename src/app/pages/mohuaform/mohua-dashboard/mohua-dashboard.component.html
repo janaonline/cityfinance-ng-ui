@@ -1,5 +1,6 @@
 <div style="overflow-y: hidden;overflow-x: hidden;">
-    <div class="container-fluid row" style="margin-bottom: 15px;display:flex; line-height: 38px; justify-content: center;">
+    <div class="container-fluid row"
+        style="margin-bottom: 15px;display:flex; line-height: 38px; justify-content: center;">
         <span style="font-size: 30px; font-weight: 600; margin-right:15px">Dashboard for 15th FC 2021-22 </span>
         <!-- text-align-last:center; -->
         <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;
@@ -63,7 +64,8 @@
                                 </div>
                                 <div class="card-text" style="font-size:13px">
                                     <span style="font-size: 16px;
-                                    font-weight: 600;">{{millionPlusUA ? millionPlusUA : '0' }}</span> Million Plus UAs</div>
+                                    font-weight: 600;">{{millionPlusUA ? millionPlusUA : '0' }}</span> Million Plus UAs
+                                </div>
                                 <!-- <div class="card-number" *ngIf="!millionPlusUA">NA</div> -->
 
                             </div>
@@ -80,7 +82,8 @@
                                 </div>
                                 <div class="card-text" style="font-size:13px">
                                     <span style="font-size: 16px;
-                                    font-weight: 600;">{{ulbsInMillionPlusUlbs}}</span> ULBs in Million Plus UAs</div>
+                                    font-weight: 600;">{{ulbsInMillionPlusUlbs}}</span> ULBs in Million Plus UAs
+                                </div>
                                 <!-- <div class="card-number" *ngIf="!ulbsInMillionPlusUlbs">NA</div> -->
                             </div>
 
@@ -97,12 +100,13 @@
                                 <img src="../../../../assets/mohua/cloud_download_white_24dp.svg" class="svg-gt">
 
                             </mat-icon> -->
-                            <button type="button" class="btn btn-d" style="margin-bottom: 4px; font-size: 12px;
+                            <button type="button" class="btn btn-d" (click)="downloadTableData()" style="margin-bottom: 4px; font-size: 12px;
                              padding: 2px; height: 25px;">DOWNLOAD</button>
                         </div>
                     </a>
                     <div class="row" style="margin-right: 0;">
-                        <div class="table-responsive" style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                        <div class="table-responsive"
+                            style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
                             <table #stateTable class="table tracking-history-table my_table" style="margin-bottom: 0;">
                                 <thead style="position:sticky; top:0">
                                     <tr style="background-color: #047474; color: #FFFFFF;">
@@ -114,11 +118,14 @@
                                         <th scope="col" class="tableHeadText" style="width: 11%;position:sticky; top:0">
                                             Total ULBs
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Submitted & Approved
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs
+                                            Submitted & Approved
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Under Review by State
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Under
+                                            Review by State
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not Submitted Data
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not
+                                            Submitted Data
                                         </th>
                                         <th scope="col" class="tableHeadText" style="position:sticky; top:0">
                                             Completed & Approved Forms (%)</th>
@@ -128,7 +135,8 @@
 
 
                                 <tbody>
-                                    <tr *ngFor="let resData of tabelData ; let tabelIndex=index" tabindex="{{tabelIndex}}" class="tableHeadText">
+                                    <tr *ngFor="let resData of tabelData ; let tabelIndex=index"
+                                        tabindex="{{tabelIndex}}" class="tableHeadText">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{ tabelIndex+1}}
                                         </td>
@@ -146,8 +154,10 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.notSubmittedForm}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
-                                            {{resData.submittedForm/resData.totalULBs * 100 ? (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0 }}
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
+                                            style="font-weight: bold;">
+                                            {{resData.submittedForm/resData.totalULBs * 100 ?
+                                            (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0 }}
                                             <small>%</small>
                                         </td>
                                         <td style="display: none;">
@@ -157,7 +167,8 @@
                                             {{resData.id}}
                                         </td>
                                     </tr>
-                                    <tr class="tableHeadText" style="background-color: skyblue; font-weight: bold; position:sticky; bottom:0">
+                                    <tr class="tableHeadText"
+                                        style="background-color: skyblue; font-weight: bold; position:sticky; bottom:0">
                                         <td style="width: 1%;">
 
                                         </td>
@@ -176,7 +187,8 @@
                                             {{total_notSubmittedForm}}
                                         </td>
                                         <td style="font-weight: bold;">
-                                            {{total_submittedForm/total_totalULBs * 100 ? (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0 }}
+                                            {{total_submittedForm/total_totalULBs * 100 ?
+                                            (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0 }}
                                             <small>%</small>
                                         </td>
                                     </tr>
@@ -197,7 +209,8 @@
     <div class="container-fluid row" style="margin-bottom:15px; padding-left: 0; padding-right: 0;">
         <div class=" statusArea">
             <div class="col-sm-3 firstColumn">
-                <div class="row" style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                <div class="row"
+                    style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
                     ULB Form Status
                 </div>
                 <div class="row mainDonutChart">
@@ -209,7 +222,8 @@
             </div>
             <div class="col-sm-3 secondColumn">
 
-                <div class="row" style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                <div class="row"
+                    style="font-size: 18px; text-align: center;font-weight:bold; line-height: 31px; margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
                     ULB Annual Accounts Status
                     <a (click)="openDialogAnnual()" style="margin-left:5px">
                         <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
@@ -251,7 +265,8 @@
                         </div>
                     </div>
 
-                    <div style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                    <div
+                        style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                         Target for 15th FC - 25%
                     </div>
                 </div>
@@ -289,7 +304,8 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                    <div
+                        style="margin-top:3px;text-align: center; position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
                         Target for 15th FC - 25%
                     </div>
                 </div>
@@ -341,7 +357,8 @@
     </div>
     <div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
         <div class="header">
-            <div class="col-sm-6" style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
+            <div class="col-sm-6"
+                style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
                 <div class="row">
                     <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
                     <div class="col-sm-5">
@@ -380,15 +397,19 @@
 
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:2;right:13%;margin-right:61%;" [style.width]="width1">
+                                <div class="opacity_div" style=" z-index:2;right:13%;margin-right:61%;"
+                                    [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-8%;margin-right:61%;" [style.width]="width2">
+                                <div class="opacity_div" style=" z-index:2;right:-8%;margin-right:61%;"
+                                    [style.width]="width2">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-28%;margin-right:61%;" [style.width]="width3"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-28%;margin-right:61%;"
+                                    [style.width]="width3"></div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-48%;margin-right:61%;" [style.width]="width4"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-48%;margin-right:61%;"
+                                    [style.width]="width4"></div>
 
                             </div>
 
