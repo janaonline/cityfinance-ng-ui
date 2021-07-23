@@ -97,6 +97,34 @@ export class UlbadminServiceService {
     }
     return this.http.get(url, {
       params: queryParams,
+      responseType: 'blob'
+
+    });
+  }
+  fetchReviewStateList = (params = {}, body = {}) => {
+    let queryParams = new HttpParams();
+    for (const key in params) {
+      queryParams = queryParams.set(
+        key,
+        typeof params[key] === "string" ? params[key].trim() : params[key]
+      );
+    }
+    for (const key in body) {
+      queryParams = queryParams.set(
+        key,
+        JSON.stringify(
+          typeof body[key] === "string" ? body[key].trim() : body[key]
+        )
+      );
+    }
+    let url;
+
+    url = `${environment.api.url}stateMasterForm/getAll/606aaf854dff55e6c075d219`
+
+    return this.http.get(url, {
+      params: queryParams,
+      responseType: 'blob'
+
     });
   }
   fetchEditDataList(params = {}, body = {}) {

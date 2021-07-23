@@ -15,4 +15,5 @@ export class ReviewStateService {
   getHistoryData(formId) {
     return this.http.get(`${environment.api.url}stateMasterForm/history/${formId}`);
   }
+
 }

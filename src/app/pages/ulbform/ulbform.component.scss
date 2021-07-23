@@ -21,7 +21,8 @@
 
     .sideNav {
         background-color: #F2F2F2;
-        //  margin-left: 8px;
+        height: 600px;
+        overflow-y: scroll;
     }
 
     h5 {
@@ -127,7 +128,26 @@
         width: 150px;
     }
 
-    // ::ng-deep .tooltip.top .tooltip-arrow:before,
-    // ::ng-deep .tooltip.top .tooltip-arrow {
-    //     border-top-color: #009688 !important;
-    // }
+    .sticky {
+        position: fixed;
+        top: 9%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 10;
+        height: 69%;
+        //  width: 20%;
+    }
+
+    .sticky-se {
+        position: fixed;
+        top: 9%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 10;
+        height: 90%;
+        width: 20%;
+    }
+
+    .stickyMain {
+        margin-left: 16.6667%;
+    }

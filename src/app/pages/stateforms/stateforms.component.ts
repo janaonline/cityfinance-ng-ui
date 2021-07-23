@@ -30,7 +30,9 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   toolTipContentN = '';
   toolTipContentC = '';
   sticky: boolean = false;
+  stiHieght: boolean = false;
   elementPosition: any;
+  public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
     private _commonService: CommonService,
@@ -139,6 +141,9 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   };
   allStateFormsData
   ngOnInit(): void {
+    this.screenHeight = window.innerHeight;
+    console.log('screennnnnHieght', this.screenHeight);
+
     this.submitted = false;
     this.checkValidationStatusOfAllForms();
 
@@ -630,10 +635,20 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   @HostListener('window:scroll', ['$event'])
     handleScroll(){
       const windowScroll = window.pageYOffset;
+      console.log('scrolllllll', windowScroll, this.elementPosition);
+
       if(windowScroll >= this.elementPosition){
         this.sticky = true;
+        // if(windowScroll < 500) {
+        //  this.stiHieght = true;
+        //   this.sticky = false;
+        // }else{
+        //   this.sticky = true;
+        //   this.stiHieght = false;
+        // }
       } else {
         this.sticky = false;
+        //this.stiHieght = false;
       }
     }
 

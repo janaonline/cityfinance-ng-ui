@@ -22,7 +22,8 @@
                         <div style="display: inline-flex; float: left;">
                             <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
                             <h5 style="display: inline-block; font-size: 15px; font-weight: 500;">
-                                UA{{projectIndex+1}}: Urban Aggolmeration {{uaIdToName(projectIndex).split(' ')[0]}}
+                                <!-- {{uaIdToName(projectIndex).split(' ')[0]}} -->
+                                UA{{projectIndex+1}}: Urban Aggolmeration {{ uaIdToName(projectIndex).substring(0, uaIdToName(projectIndex).lastIndexOf(" ")) }}
                             </h5>
                         </div>
                         <div style="display: inline-flex; float: right;">
