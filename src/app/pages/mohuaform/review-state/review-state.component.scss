@@ -11,6 +11,15 @@
     padding-left: 20px;
 }
 
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 .table>tbody>tr>td,
 .table>tbody>tr>th,
 .table>tfoot>tr>td,
@@ -70,13 +79,13 @@
     margin-right: 5px;
     padding-top: 2px;
 }
+
 .tracking-history-table {
     thead tr th {
-      background: #047474;
-      color: white;
+        background: #047474;
+        color: white;
     }
     tbody tr:nth-child(even) {
-      background: #dbdbdb;
+        background: #dbdbdb;
     }
-  }
-  
+}

@@ -429,7 +429,9 @@ h6 {
   margin-top: 1rem;
   font-size: 10px;
 }
-
+.dec-h {
+  font-weight: 500 !important;
+}
 .ans-h-an {
   margin-bottom: .5rem;
   margin-top: .5rem;

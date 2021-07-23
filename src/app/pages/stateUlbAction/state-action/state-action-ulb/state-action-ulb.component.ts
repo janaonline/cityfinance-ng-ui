@@ -44,6 +44,8 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
 
   }
   checkStatusAp(){
+    this.btnStyleA = true;
+    this.btnStyleR = false;
     this.rejectReason = null;
     this.actionData = {
       status: this.stateAction,
@@ -53,6 +55,8 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
     this.actionValues.emit(this.actionData);
   }
   checkStatus(){
+    this.btnStyleA = false;
+    this.btnStyleR = true;
     this.actionData = {
       status: this.stateAction,
       rejectReason: this.rejectReason

@@ -49,6 +49,8 @@ export class ReviewUlbComponent implements OnInit {
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
   ngOnInit() {
     this.loadData();
+    console.log('user', this.loggedInUser);
+
   }
   viewHistory(template, formId) {
     console.log(formId);

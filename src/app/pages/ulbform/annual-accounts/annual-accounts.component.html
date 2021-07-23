@@ -211,10 +211,7 @@
                 <div *ngIf="data.audited.submit_annual_accounts">
                     <div *ngFor="let item of auditQues; let quesIndex=index">
                         <ng-container>
-                            <app-comm-file-upload [requiredBtn]="checkAuditReport(item)" [isDisabled]="isDisabled" [dataFromParent]="item.data"
-                                (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)"
-                                [statusResponse]="actionResAn" [quesName]="item.name"
-                                (actionValues)="checkStatusAu($event, quesIndex)"></app-comm-file-upload>
+                            <app-comm-file-upload [requiredBtn]="checkAuditReport(item)" [isDisabled]="isDisabled" [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event,'audited',item.name,quesIndex)" [statusResponse]="actionResAn" [quesName]="item.name" (actionValues)="checkStatusAu($event, quesIndex)"></app-comm-file-upload>
                         </ng-container>
                         <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
                             <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
@@ -308,13 +305,20 @@
                     </div>
                     <div class="col-sm-12 center">
                         <div class="row">
-                            <span class="text-primary">Self declaration by the Executive officer/Municipal Commissioner
+                            <span class="text-primary">   <!-- Self declaration by the Executive officer/Municipal Commissioner
                                 of the ULB on the
                                 standardised financial statements uploaded above.
                                 I hereby confirm that I have verified the information uploaded in standardized template
                                 and
                                 it is true and correct. It is confirmed that this information can be made available for
-                                public consumption on the CityFinance portal.</span>
+                                public consumption on the CityFinance portal. -->
+                                <b>Self declaration by the Executive officer/Municipal
+                                  Commissioner of the ULB on the standardised financial statements uploaded
+                                  above.</b><br>
+                              I hereby confirm that I have verified the information uploaded in
+                              standardized template and it is true and correct.
+                              It is confirmed that this information can be made available for public consumption on
+                              the CityFinance portal.</span>
                         </div>
                         <div class="row pull-left">
                             <input type="checkbox" id="agree2" name="agree2" [disabled]="isDisabled" [checked]="data.audited.standardized_data.declaration" (change)="declareCheck(data.audited.standardized_data)" value=true>
@@ -334,7 +338,7 @@
             <p style="padding-left: .5rem;" *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
                 Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
             <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
-            <b style="font-weight: 600;">Reason for rejection :</b> {{ulbFormRejectR}}
+            <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
         </p> -->
         </div>
 
