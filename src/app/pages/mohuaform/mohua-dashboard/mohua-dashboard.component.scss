@@ -489,11 +489,11 @@ table {
 
  ::ng-deep .ml-0 {
     max-width: 140px;
-    transform: translateX(-3%);
+    transform: translateX(14%);
     margin-bottom: 3vh !important;
     overflow: visible;
     margin-left: 0pc !important;
-    margin-bottom: 2pc !important;
+    margin-bottom: 3pc !important;
     // font-size: 0.6vw;
 }
 
@@ -508,4 +508,8 @@ table {
 .btn-d {
     background-color: #059B9A;
     color: #FFFFFF;
+}
+
+::ng-deep .leaflet-map-pane {
+    transform: translate3d(-26px, 2px, 0px) !important;
 }
