@@ -449,7 +449,9 @@ width: 5% !important;
       this.copyData["projects"][i]["CatName"] =
         this.copyData["namedProjects"][i]["category"];
     }
-
+    this.copyData.projects.forEach(element => {
+      element.category = element.category_id
+    });
     console.log("copy Data", this.copyData);
     this.UtiReportService.createAndStorePost(this.copyData).subscribe(
       (res) => {
