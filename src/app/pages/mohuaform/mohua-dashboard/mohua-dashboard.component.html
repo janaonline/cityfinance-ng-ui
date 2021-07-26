@@ -474,20 +474,18 @@
             <mat-card-actions class="pull-right">
                 <mat-label>Year </mat-label>
                 <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
-                    <option [selected]="dateSelect" value=",date">None</option>
-                    <option value="2020-21,date">2020-21</option>
+                    <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
                     <option value="2021-22,date">2021-22</option>
                 </select>
                 <mat-label class="m-1">Installment</mat-label>
                 <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
-                    <option [selected]="installmentSelect" value=",installment">None</option>
+                    <option [selected]="installmentSelect" value="2,installment">2</option>
                     <option value="1,installment">1</option>
-                    <option value="2,installment">2</option>
                 </select>
-                <mat-icon class="m-1" style="cursor: pointer;" aria-hidden="false">
+                <!-- <mat-icon class="m-1" style="cursor: pointer;" aria-hidden="false">
                     <img (click)="clearGrantTransferFillter()" style="vertical-align: sub;"
                         src="../../../../assets/homeIcon/refresh_black_24dp.svg">
-                </mat-icon>
+                </mat-icon> -->
             </mat-card-actions>
             <mat-card-header>
                 <mat-card-title>Grant Transfer Status</mat-card-title>
@@ -498,18 +496,52 @@
                     [selectedIndex]="tabIndex" class="mt-2" animationDuration="100ms">
                     <mat-tab label="Grant Transfer Certificate Status">
                         <ng-template matTabContent>
-                            <div class="col-sm-10 col-md-10" *ngIf="tabIndex === 0">
-                                <div class="Card2">
-                                    Million Plus Grants for Water Supply and SWM
-                                    <br>
-                                    <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
-                                        {{grantTransferCardData.start}}/{{grantTransferCardData.statesWithMillPlusUlbsCount}}
-                                    </strong>
-                                    <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-number2">
-                                        {{grantTransferCardData.start}}
-                                    </strong>
-                                    <br>
-                                    States
+                            <div class="col-sm-12 col-md-12" *ngIf="tabIndex === 0">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="Card2">
+                                            Million Plus Grants for Water Supply and SWM
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.mill.start}}/{{grantTransferCardData.statesWithMillPlusUlbsCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.mill.start}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="Card2">
+                                            Non Million Plus Tied
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.NonMillTied.mid}}/{{grantTransferCardData.statesCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.NonMillTied.mid}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5" style="margin-left: 20%;">
+                                        <div class="Card2">
+                                            Non-Million Plus Untied
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.NonMillUntied.complete}}/{{grantTransferCardData.statesCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.NonMillUntied.complete}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </ng-template>
@@ -517,18 +549,52 @@
 
                     <mat-tab [label]="'Grant Recommendation Sent to MoF'">
                         <ng-template matTabContent>
-                            <div class="col-sm-10 col-md-10 " *ngIf="tabIndex === 1">
-                                <div class="Card2">
-                                    Non Million Plus Tied
-                                    <br>
-                                    <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
-                                        {{grantTransferCardData.mid}}/{{grantTransferCardData.statesCount}}
-                                    </strong>
-                                    <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-number2">
-                                        {{grantTransferCardData.mid}}
-                                    </strong>
-                                    <br>
-                                    States
+                            <div class="col-sm-12 col-md-12" *ngIf="tabIndex === 1">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="Card2">
+                                            Million Plus Grants for Water Supply and SWM
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.mill.start}}/{{grantTransferCardData.statesWithMillPlusUlbsCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.mill.start}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="Card2">
+                                            Non Million Plus Tied
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.NonMillTied.mid}}/{{grantTransferCardData.statesCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.NonMillTied.mid}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5" style="margin-left: 20%;">
+                                        <div class="Card2">
+                                            Non-Million Plus Untied
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.NonMillUntied.complete}}/{{grantTransferCardData.statesCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.NonMillUntied.complete}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </ng-template>
@@ -536,18 +602,52 @@
 
                     <mat-tab [label]="'15TH FC Grants Disbursed'">
                         <ng-template matTabContent>
-                            <div class="col-sm-10 col-md-10 " *ngIf="tabIndex === 2">
-                                <div class="Card2">
-                                    Non-Million Plus Untied
-                                    <br>
-                                    <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
-                                        {{grantTransferCardData.complete}}/{{grantTransferCardData.statesCount}}
-                                    </strong>
-                                    <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-number2">
-                                        {{grantTransferCardData.complete}}
-                                    </strong>
-                                    <br>
-                                    States
+                            <div class="col-sm-12 col-md-12" *ngIf="tabIndex === 2">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="Card2">
+                                            Million Plus Grants for Water Supply and SWM
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.mill.start}}/{{grantTransferCardData.statesWithMillPlusUlbsCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.mill.start}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="Card2">
+                                            Non Million Plus Tied
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.NonMillTied.mid}}/{{grantTransferCardData.statesCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.NonMillTied.mid}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5" style="margin-left: 20%;">
+                                        <div class="Card2">
+                                            Non-Million Plus Untied
+                                            <br>
+                                            <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                                {{grantTransferCardData.NonMillUntied.complete}}/{{grantTransferCardData.statesCount}}
+                                            </strong>
+                                            <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-text-1">
+                                                {{grantTransferCardData.NonMillUntied.complete}}
+                                            </strong>
+                                            <br>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </ng-template>
