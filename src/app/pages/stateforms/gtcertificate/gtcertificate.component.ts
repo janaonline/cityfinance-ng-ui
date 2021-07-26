@@ -116,6 +116,7 @@ export class GTCertificateComponent implements OnInit {
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
             this.routerNavigate = event
+
             this.openModal(this.template);
           } else {
             this.change = "false"
@@ -165,6 +166,8 @@ export class GTCertificateComponent implements OnInit {
 
     this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {
+        console.log('gtc responce', res);
+
         sessionStorage.setItem("StateGTC", JSON.stringify(res));
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
           this.fileName_millionTied = res['data']['million_tied']['pdfName'];
@@ -458,6 +461,7 @@ export class GTCertificateComponent implements OnInit {
       this.fileName_nonMillionUntied = '';
       this.nonMillionUntiedFileUrl = ''
     }
+    this.checkDiff();
   }
 
   fileChangeEvent(event, progessType, fileName) {
@@ -559,6 +563,7 @@ export class GTCertificateComponent implements OnInit {
               this.nonMillionUntiedFileUrl = fileAlias;
             }
             console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
+            this.checkDiff();
           }
         },
         (err) => {
@@ -610,7 +615,34 @@ export class GTCertificateComponent implements OnInit {
         }
       );
   }
+  checkDiff(){
+    let preData = {
+      million_tied:
+      {
+        pdfUrl: this.millionTiedFileUrl,
+        pdfName: this.fileName_millionTied
+      },
+      nonmillion_tied:
+      {
+        pdfUrl: this.nonMillionTiedFileUrl,
+        pdfName: this.fileName_nonMillionTied
+      },
+      nonmillion_untied:
+      {
+        pdfUrl: this.nonMillionUntiedFileUrl,
+        pdfName: this.fileName_nonMillionUntied
+      },
+      isDraft: (this.millionTiedFileUrl != '' && this.nonMillionTiedFileUrl != '' && this.nonMillionUntiedFileUrl != '') ? false : true
+    };
 
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in grant all..', allFormData,  preData);
+
+    if (allFormData) {
+      allFormData[0].stategtcertificates[0] = preData
+      this._stateformsService.allFormsPreData.next(allFormData)
+    }
+  }
   onPreview() {
     let PreviewFiles = {
       design_year: "606aaf854dff55e6c075d219",

@@ -7,7 +7,7 @@ import { Subject } from "rxjs";
 })
 export class ActionplanserviceService {
   constructor(private http: HttpClient) { }
-
+  OpenModalTrigger = new Subject<any>();
   getFormData(state_id) {
     return this.http.get(
       `${environment.api.url}ActionPlans/606aaf854dff55e6c075d219?state_id=${state_id}`

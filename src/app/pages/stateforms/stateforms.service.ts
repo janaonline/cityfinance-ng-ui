@@ -9,7 +9,9 @@ import { Subject } from "rxjs";
 export class StateformsService {
   allStatus = new Subject<any>();
   allStatusStateForms = new Subject<any>();
+  initiateDownload = new Subject<any>();
   allStateFormsData = new Subject<any>()
+  allFormsPreData = new Subject<any>();
   disableAllFormsAfterStateFinalSubmit = new Subject<any>();
   getObservedStatus() {
     return this.allStatus;

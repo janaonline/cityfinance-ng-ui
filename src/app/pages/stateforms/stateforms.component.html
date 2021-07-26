@@ -161,6 +161,13 @@
                         <!-- <mat-icon aria-hidden="false">
                             <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
                         </mat-icon> -->
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Submission Requried" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="userLoggedInDetails.role != userTypes.STATE" tooltip="No Action Requried" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+
                     </div>
                 </a>
             </div>

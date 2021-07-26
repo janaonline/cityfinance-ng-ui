@@ -34,6 +34,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   elementPosition: any;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
+
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -369,6 +370,13 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       console.log("allStateformStatus", data);
     });
 
+    this.stateformsService.allFormsPreData.subscribe((data) => {
+      this.allStateFormsRes = data;
+      sessionStorage.setItem("allFormsPreData", JSON.stringify(data));
+   //   console.log('sesionnnnn data', sessionStorage.getItem("allFormsPreData"));
+    //  console.log("allformdata.................", data);
+    });
+
     this.getStatus();
     this.getAllStateForms();
   }
@@ -383,6 +391,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   ap_greenTick = false;
   ga_greenTick = false;
   res;
+
   getStatus() {
     console.log('Please check user role', this.userLoggedInDetails.role)
     if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
@@ -424,6 +433,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   }
   finalActionDis = false;
   reviewSubmitted = false;
+
   finalMoHUAAction() {
     this.reviewSubmitted = true
     let data = {
@@ -452,11 +462,21 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   getAllStateForms() {
     if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
       this.id = sessionStorage.getItem("state_id");
+    }else {
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      this.id = userData.state;
     }
     this.stateformsService
       .getAllStateForms(this.design_year, this.id)
       .subscribe((res) => {
         this.stateformsService.allStateFormsData.next(res['data']);
+      });
+
+      this.stateformsService
+      .allStateFormData(this.id)
+      .subscribe((res) => {
+        console.log('inside next......', res);
+        this.stateformsService.allFormsPreData.next(res['data']);
       });
   }
   validate = true
@@ -607,27 +627,38 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   }
   allStateFormsRes;
   statePreview() {
-    let userData = JSON.parse(localStorage.getItem("userData"));
-    let st_id = userData.state;
-    console.log('state user data',userData, st_id)
-    this.stateformsService.allStateFormData(st_id).subscribe((res) => {
-        console.log('previewResPonce', res)
-        this.allStateFormsRes = res['data'];
-        console.log("hello", this.allStateFormsRes);
-        const dialogRef = this.dialog.open(StateAllPreviewComponent, {
-        data: this.allStateFormsRes,
-        width: "85vw",
-        height: "100%",
-        panelClass: "no-padding-dialog",
-       });
+    // let userData = JSON.parse(localStorage.getItem("userData"));
+    // let st_id = userData.state;
+    console.log("hello", this.allStateFormsRes);
+    const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+      data: this.allStateFormsRes,
+      width: "85vw",
+      height: "100%",
+      panelClass: "no-padding-dialog",
+    });
     dialogRef.afterClosed().subscribe((result) => {});
-    },
-    (err) => {
-        console.log(err);
+    // let userData = JSON.parse(localStorage.getItem("userData"));
+    // let st_id = userData.state;
+    // console.log('state user data',userData, st_id)
+    // this.stateformsService.allStateFormData(st_id).subscribe((res) => {
+    //     console.log('previewResPonce', res)
+    //     this.allStateFormsRes = res['data'];
+    //     console.log("hello", this.allStateFormsRes);
+    //     const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+    //     data: this.allStateFormsRes,
+    //     width: "85vw",
+    //     height: "100%",
+    //     panelClass: "no-padding-dialog",
+    //    });
+    // dialogRef.afterClosed().subscribe((result) => {});
+    // },
+    // (err) => {
+    //     console.log(err);
 
-    })
+    // })
 
   }
+
   ngAfterViewInit(){
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }

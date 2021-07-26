@@ -256,6 +256,15 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   checkDiff() {
     this.saveBtnTxt = "SAVE AND NEXT";
     sessionStorage.setItem("changeInPFMSAccountState", "true");
+    let preData = this.data;
+
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in linkPfms', allFormData, this.data, preData);
+
+    if (allFormData) {
+      allFormData[0].linkpfmsstates[0] = preData
+      this.stateformsService.allFormsPreData.next(allFormData)
+    }
   }
 
   async proceed(uploadedFiles) {

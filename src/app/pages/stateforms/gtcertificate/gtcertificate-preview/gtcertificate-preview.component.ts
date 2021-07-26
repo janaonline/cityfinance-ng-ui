@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild, TemplateRef, Input, OnDestroy } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
@@ -6,13 +6,14 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';
 import { GTCertificateService } from '../gtcertificate.service'
 import { SweetAlert } from "sweetalert/typings/core";
+import { StateformsService } from '../../stateforms.service';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate-preview',
   templateUrl: './gtcertificate-preview.component.html',
   styleUrls: ['./gtcertificate-preview.component.scss']
 })
-export class GtcertificatePreviewComponent implements OnInit {
+export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
   @Input() parentData: any;
   @Input()
   changeFromOutSide: any;
@@ -21,6 +22,7 @@ export class GtcertificatePreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
     private gtcService: GTCertificateService,
+    public stateformsService: StateformsService
 
 
   ) { }
@@ -104,14 +106,26 @@ export class GtcertificatePreviewComponent implements OnInit {
     'Completed',
     'In Progress'
   ]
+  subParentForModal;
   ngOnInit() {
     console.log('preData', this.data)
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
-    if (this.parentData)
+    if (this.parentData){
       this.data = this.parentData;
+    }
+      this.subParentForModal = this.gtcService.OpenModalTrigger.subscribe(
+        (change) => {
+          if (this.changeFromOutSide) {
+            this.openModal(this.template);
+          }
+        }
+      );
     this.previewStatusSet();
+  }
+  ngOnDestroy(): void {
+    if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
   previewStatusSet() {
     console.log(this.data)
@@ -237,7 +251,9 @@ export class GtcertificatePreviewComponent implements OnInit {
 
     this.postsDataCall(uploadedFiles);
     sessionStorage.setItem("changeInGTC", "false")
-    this.downloadAsPDF();
+    if (this.changeFromOutSide) {
+      this.stateformsService.initiateDownload.next(true);
+    } else this.downloadAsPDF();
     return;
   }
   err = ''

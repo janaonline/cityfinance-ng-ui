@@ -432,7 +432,15 @@ export class ActionPlanUAComponent implements OnInit {
       this.routerNavigate = null;
     }
   }
-
+  checkDiff() {
+    let preData = this.makeApiData();
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in actionPlan', allFormData, preData);
+    if (allFormData) {
+      allFormData[0].actionplans[0] = preData
+      this.stateformsService.allFormsPreData.next(allFormData)
+    }
+  }
   onPreview() {
     let data = this.makeApiData();
     let dialogRef = this.dialog.open(ActionplanspreviewComponent, {

@@ -156,7 +156,10 @@ export class WaterRejenuvationComponent implements OnInit {
 
       if (!deepEqual(change, JSON.parse(data))) {
         this.saveBtnText = "SAVE AND NEXT";
+        console.log('pkkkkkkkkkkkkkk',data);
+
         sessionStorage.setItem("changeInWaterRejenuvation", "true");
+
       } else {
         this.saveBtnText = "NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "false");
@@ -664,6 +667,25 @@ export class WaterRejenuvationComponent implements OnInit {
     this.dialogRefForNavigation.close(true);
     if (this.routerNavigate) {
       this.routerNavigate = null;
+    }
+  }
+  checkDiff() {
+    let change = sessionStorage.getItem("changeInWaterRejenuvation");
+    if (change == "true")
+      this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
+
+    let data = this.waterRejenuvation.value;
+    console.log('check diff data', data);
+
+    // for (let index = 0; index < data.uaData.length; index++) {
+    //   data.uaData[index].name = this.uasData[data.uaData[index].ua].name;
+    // }
+    let preData = data;
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in water rej change', allFormData, preData);
+    if (allFormData) {
+      allFormData[0].waterrejenuvationrecyclings[0] = preData
+      this._stateformsService.allFormsPreData.next(allFormData)
     }
   }
 
