@@ -106,7 +106,16 @@ export class MohuaDashboardComponent implements OnInit {
   statesLayer: L.GeoJSON<any>;
   tabelData;
   currentSort = 1;
-
+  grantTransferCardData;
+  grantTransferDate
+  GrantTransferparams = {
+    year:null,
+    installment:null,
+    state_id:null,
+    csv:false
+  };
+  dateSelect = true
+  installmentSelect = true  
   takeStateAction = "false";
   loading = false;
   filterObject;
@@ -172,6 +181,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.utilReportDonughtChart();
     this.slbDonughtChart();
     this.pieChart();
+    this.getGrantTranfer()
   }
   getWaterRejCardData(state_id) {
     this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
@@ -195,6 +205,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.updateCharts();
   }
 
+  tabIndex = 0
   total_notSubmittedForm = 0;
   total_submittedForm = 0;
   total_withState = 0;
@@ -470,7 +481,7 @@ export class MohuaDashboardComponent implements OnInit {
     this.getFormData(state_id)
     this.getPlansData(state_id);
     this.getWaterRejCardData(state_id);
-
+    this.getGrantTranfer(state_id)
   }
   state_id;
   onClickingStateTab(event) {
@@ -1065,5 +1076,67 @@ export class MohuaDashboardComponent implements OnInit {
       (this.values.annualAcc_audited = data["annualAccounts"]["audited"]),
       (this.values.annualAcc_provisional =
         data["annualAccounts"]["provisional"]);
+  }
+
+  getGrantTranfer(state_id = null,csv=null){
+    if(state_id){
+      this.GrantTransferparams.state_id = state_id
+    }else{
+      this.GrantTransferparams.state_id = ''
+    }
+    if(csv){
+      this.GrantTransferparams.csv = true
+    }
+    this.mohuaDashboardService.getGrantTransfer(this.GrantTransferparams,csv).subscribe(
+      (res: any)=>{
+        if(csv){
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          fileSaver.saveAs(blob, "grantTransfer.xlsx");
+          return
+        }
+
+        this.grantTransferCardData = res['data'].ExcelData[0]
+        if(res['data'].ExcelData[0].statesCount === 1){
+          res['data'].ExcelData[0].complete =  res['data'].ExcelData[0].complete ? "Yes" :"No"
+          res['data'].ExcelData[0].mid =  res['data'].ExcelData[0].mid ? "Yes" :"No"
+          res['data'].ExcelData[0].start =  res['data'].ExcelData[0].start ? "Yes" :"No"
+        }
+        this.grantTransferDate = res['data'].latestTime
+      },(error)=>{
+      }
+      )
+    this.GrantTransferparams.csv = false
+  }
+
+  grantTransferFilter(value){
+    let data = value.split(",")
+    if(data[1] == 'date'){
+      this.GrantTransferparams.year = data[0]
+      this.dateSelect = false
+
+    }
+    if(data[1] == 'installment'){
+      this.GrantTransferparams.installment = data[0]
+      this.installmentSelect = false
+    }
+    this.getGrantTranfer()
+  }
+
+  clearGrantTransferFillter(){
+    this.GrantTransferparams.installment = null
+    this.GrantTransferparams.year = null
+    this.dateSelect = true
+    this.installmentSelect = true
+    this.getGrantTranfer()
+  }
+  
+  tabIndexChangeHandler(tabIndex){
+    this.tabIndex = tabIndex
+  }
+
+  grantTransferDownload(){
+    this.getGrantTranfer(null,true)
   }
 }

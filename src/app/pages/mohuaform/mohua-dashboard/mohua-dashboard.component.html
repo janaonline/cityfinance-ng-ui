@@ -361,7 +361,7 @@
             </div>
         </div>
     </div>
-    <div class="bottomPart" style="margin-top:10px; margin-bottom: 50px;">
+    <div class="bottomPart" style="margin-top:10px; margin-bottom: 10px">
         <div class="header">
             <div class="col-sm-6"
                 style="font-size:18px;font-weight: 450; padding-left:40px; border-right:1px solid #0000001A">
@@ -469,6 +469,96 @@
 
     </div>
 
+    <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2">
+        <mat-card class="example-card">
+            <mat-card-actions class="pull-right">
+                <mat-label>Year </mat-label>
+                <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                    <option [selected]="dateSelect" value=",date">None</option>
+                    <option value="2020-21,date">2020-21</option>
+                    <option value="2021-22,date">2021-22</option>
+                </select>
+                <mat-label class="m-1">Installment</mat-label>
+                <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                    <option [selected]="installmentSelect" value=",installment">None</option>
+                    <option value="1,installment">1</option>
+                    <option value="2,installment">2</option>
+                </select>
+                <mat-icon class="m-1" style="cursor: pointer;" aria-hidden="false">
+                    <img (click)="clearGrantTransferFillter()" style="vertical-align: sub;"
+                        src="../../../../assets/homeIcon/refresh_black_24dp.svg">
+                </mat-icon>
+            </mat-card-actions>
+            <mat-card-header>
+                <mat-card-title>Grant Transfer Status</mat-card-title>
+                <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-tab-group dynamicHeight="false" (selectedIndexChange)="tabIndexChangeHandler($event)"
+                    [selectedIndex]="tabIndex" class="mt-2" animationDuration="100ms">
+                    <mat-tab label="Grant Transfer Certificate Status">
+                        <ng-template matTabContent>
+                            <div class="col-sm-10 col-md-10" *ngIf="tabIndex === 0">
+                                <div class="Card2">
+                                    Million Plus Grants for Water Supply and SWM
+                                    <br>
+                                    <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                        {{grantTransferCardData.start}}/{{grantTransferCardData.statesWithMillPlusUlbsCount}}
+                                    </strong>
+                                    <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-number2">
+                                        {{grantTransferCardData.start}}
+                                    </strong>
+                                    <br>
+                                    States
+                                </div>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
 
+                    <mat-tab [label]="'Grant Recommendation Sent to MoF'">
+                        <ng-template matTabContent>
+                            <div class="col-sm-10 col-md-10 " *ngIf="tabIndex === 1">
+                                <div class="Card2">
+                                    Non Million Plus Tied
+                                    <br>
+                                    <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                        {{grantTransferCardData.mid}}/{{grantTransferCardData.statesCount}}
+                                    </strong>
+                                    <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-number2">
+                                        {{grantTransferCardData.mid}}
+                                    </strong>
+                                    <br>
+                                    States
+                                </div>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
 
+                    <mat-tab [label]="'15TH FC Grants Disbursed'">
+                        <ng-template matTabContent>
+                            <div class="col-sm-10 col-md-10 " *ngIf="tabIndex === 2">
+                                <div class="Card2">
+                                    Non-Million Plus Untied
+                                    <br>
+                                    <strong *ngIf="grantTransferCardData.statesCount != 1" class="card-number2">
+                                        {{grantTransferCardData.complete}}/{{grantTransferCardData.statesCount}}
+                                    </strong>
+                                    <strong *ngIf="grantTransferCardData.statesCount == 1" class="card-number2">
+                                        {{grantTransferCardData.complete}}
+                                    </strong>
+                                    <br>
+                                    States
+                                </div>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-card-content>
+            <mat-card-actions class="pull-right">
+                <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
+                padding: 2px; height: 25px;">DOWNLOAD</button>
+            </mat-card-actions>
+            <br>
+        </mat-card>
+    </div>
 </div>
