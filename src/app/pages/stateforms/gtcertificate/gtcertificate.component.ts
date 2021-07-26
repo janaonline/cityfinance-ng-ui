@@ -143,6 +143,9 @@ export class GTCertificateComponent implements OnInit {
   actionFormDisableA = false;
   actionFormDisableB = false;
   actionFormDisableC = false;
+  showQ1 = false
+  showQ2 = false
+  showQ3 = false
   ngOnInit(): void {
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.state_id = sessionStorage.getItem("state_id")
@@ -162,6 +165,16 @@ export class GTCertificateComponent implements OnInit {
       }
     }
 
+    this.gtcService.getCondition().subscribe(
+      (res) => {
+        let data = res['data']
+        this.showQ1 = data['showQ1']
+        this.showQ2 = data['showQ2']
+        this.showQ3 = data['showQ3']
+      },
+      (err) => {
+        console.log(err.message)
+      })
 
     this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {

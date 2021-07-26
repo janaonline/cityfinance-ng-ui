@@ -44,10 +44,11 @@
                                                 style="width:75px" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
-                                            <!-- <span class="s-s"><img
-                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
-                                            <input type="text" class="s-th p-s" [formControl]="state_name"
-                                                style="width:75px" (keyup.enter)="stateData(false)">
+                                            <select class="s-th" [formControl]="state_name" style="width: 135px;"
+                                                (change)="stateData(false)">
+                                                <option selected value="">State</option>
+                                                <option value="states._id">{{states.name}}</option>
+                                            </select>
                                         </th>
                                         <th class="filter">
                                             <!-- <span class="s-s"><img

@@ -25,7 +25,7 @@ export class PlansListComponent implements OnInit {
     role: null,
     csv: false,
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
+    // limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
@@ -127,7 +127,7 @@ export class PlansListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'plans', this.data.state_id)
+      .fetchAllFormStatusList({ skip }, this.listFetchOption, 'plans', this.data.state_id)
       .subscribe(
         (result: any) => {
           if (this.listFetchOption.csv) {

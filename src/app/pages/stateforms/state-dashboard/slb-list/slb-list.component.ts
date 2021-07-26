@@ -25,7 +25,7 @@ export class SlbListComponent implements OnInit {
     role: null,
     csv: false,
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
+    // limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
@@ -131,7 +131,7 @@ export class SlbListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'slb', this.data.state_id)
+      .fetchAllFormStatusList({ skip }, this.listFetchOption, 'slb', this.data.state_id)
       .subscribe(
         (result: any) => {
           if (this.listFetchOption.csv) {
