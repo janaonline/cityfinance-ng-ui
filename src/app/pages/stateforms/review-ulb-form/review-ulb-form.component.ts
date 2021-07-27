@@ -8,6 +8,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ReviewUlbFormService } from './review-ulb-form.service'
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
+import * as fileSaver from "file-saver";
 @Component({
   selector: 'app-review-ulb-form',
   templateUrl: './review-ulb-form.component.html',
@@ -26,7 +27,8 @@ export class ReviewUlbFormComponent implements OnInit {
   listFetchOption = {
     filter: null,
     sort: null,
-    role: null,
+    // role: null,
+    csv: false,
     skip: 0,
     limit: this.tableDefaultOptions.itemPerPage,
   };
@@ -75,8 +77,8 @@ export class ReviewUlbFormComponent implements OnInit {
   alertClose() {
     this.dialog.closeAll();
   }
-  
-  
+
+
   openDialog(template) {
 
     let dialogRef = this.dialog.open(template, {
@@ -138,7 +140,7 @@ export class ReviewUlbFormComponent implements OnInit {
   }
 
 
-  stateData() {
+  stateData(csv) {
     this.loading = true;
     this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
@@ -147,19 +149,28 @@ export class ReviewUlbFormComponent implements OnInit {
     if (this.fcFormListSubscription) {
       this.fcFormListSubscription.unsubscribe();
     }
-
+    this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
       .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
-        (result) => {
-          let res: any = result;
-          this.tabelData = res.data;
-          if (res.data.length == 0) {
-            this.nodataFound = true;
+        (result: any) => {
+          if (this.listFetchOption.csv) {
+            let blob: any = new Blob([result], {
+              type: "text/json; charset=utf-8",
+            });
+            const url = window.URL.createObjectURL(blob);
+            fileSaver.saveAs(blob, "Review ULB Form List.xlsx");
           } else {
-            this.nodataFound = false;
+            let res: any = result;
+            this.tabelData = res.data;
+            if (res.data.length == 0) {
+              this.nodataFound = true;
+            } else {
+              this.nodataFound = false;
+            }
+            console.log(result);
           }
-          console.log(result);
+
 
         },
         (response: HttpErrorResponse) => {
@@ -178,19 +189,19 @@ export class ReviewUlbFormComponent implements OnInit {
     sessionStorage.setItem('isUA', resData.isUA);
     sessionStorage.setItem('stateName', resData.state);
     sessionStorage.setItem('ulbName', resData.ulbName);
-    if((resData.actionTakenByUserRole == 'ULB' && resData.isSubmit == true) ||
-    (resData.actionTakenByUserRole == 'STATE' && resData.isSubmit == false)){
-       this.takeStateAction = 'true'
+    if ((resData.actionTakenByUserRole == 'ULB' && resData.isSubmit == true) ||
+      (resData.actionTakenByUserRole == 'STATE' && resData.isSubmit == false)) {
+      this.takeStateAction = 'true'
     }
-    localStorage.setItem('takeStateAction' , this.takeStateAction)
+    localStorage.setItem('takeStateAction', this.takeStateAction)
     let stActionCheck = 'false'
-     if (
-          (resData.actionTakenByRole == "STATE")&&
-           (resData.isSubmit == true) && (resData.status != 'PENDING')
-        ){
-          stActionCheck = 'true'
-        }
-        localStorage.setItem("stateActionComDis", stActionCheck);
+    if (
+      (resData.actionTakenByRole == "STATE") &&
+      (resData.isSubmit == true) && (resData.status != 'PENDING')
+    ) {
+      stActionCheck = 'true'
+    }
+    localStorage.setItem("stateActionComDis", stActionCheck);
   }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;

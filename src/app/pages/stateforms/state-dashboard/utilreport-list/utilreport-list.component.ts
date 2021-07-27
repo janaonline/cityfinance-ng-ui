@@ -25,7 +25,7 @@ export class UtilreportListComponent implements OnInit {
     role: null,
     csv: false,
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
+    // limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
@@ -60,6 +60,7 @@ export class UtilreportListComponent implements OnInit {
     // this.searchUsersBy(this.filterForm.value);
   }
   ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
@@ -127,9 +128,9 @@ export class UtilreportListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'utilReport')
+      .fetchAllFormStatusList({ skip }, this.listFetchOption, 'utilReport', this.data.state_id)
       .subscribe(
-        (result) => {
+        (result: any) => {
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
               type: "text/json; charset=utf-8",
