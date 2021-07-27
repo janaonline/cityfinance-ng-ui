@@ -764,7 +764,6 @@ margin-left : .5rem !important;
   downloadSub;
 
   ngOnInit(): void {
-
     this.downloadSub = this.ulbformService.initiateDownload.subscribe(
       (proceedSelected) => {
         if (proceedSelected) {

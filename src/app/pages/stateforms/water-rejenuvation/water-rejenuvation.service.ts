@@ -7,7 +7,7 @@ import { Subject } from "rxjs";
 })
 export class WaterRejenuvationService {
   constructor(private http: HttpClient) { }
-
+  OpenModalTrigger = new Subject<any>();
   postData(body) {
     return this.http.post(`${environment.api.url}WaterRejenuvation`, body);
   }

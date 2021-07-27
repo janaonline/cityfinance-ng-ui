@@ -6,6 +6,7 @@ import {
   ElementRef,
   ViewChild,
   TemplateRef,
+  OnDestroy,
 } from "@angular/core";
 import {
   MatDialog,
@@ -19,12 +20,13 @@ import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 import { WaterRejenuvationService } from "../water-rejenuvation.service";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
+import { StateformsService } from "../../stateforms.service";
 @Component({
   selector: "app-water-rejenuvation-preview",
   templateUrl: "./water-rejenuvation-preview.component.html",
   styleUrls: ["./water-rejenuvation-preview.component.scss"],
 })
-export class WaterRejenuvationPreviewComponent implements OnInit {
+export class WaterRejenuvationPreviewComponent implements OnInit, OnDestroy {
 
   @Input() parentData: any;
   @Input()
@@ -34,7 +36,8 @@ export class WaterRejenuvationPreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     public _router: Router,
     private _questionnaireService: QuestionnaireService,
-    public waterRejenuvationService: WaterRejenuvationService
+    public waterRejenuvationService: WaterRejenuvationService,
+    public state_service : StateformsService,
   ) {}
 
   styleForPDF = `<style>
@@ -173,16 +176,28 @@ h5{
   stateName;
   ulbName;
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
-
+  subParentForModal;
   ngOnInit(): void {
+
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
-    this.setStatus();
-    console.log('pre rej', this.data);
+
+    console.log('pre rejaaaaa', this.data, this.parentData);
     if (this.parentData) {
       this.data = this.parentData;
     }
+    this.subParentForModal = this.waterRejenuvationService.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openModal(this.template);
+        }
+      }
+    );
+    this.setStatus();
+  }
+  ngOnDestroy(): void {
+    if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
 
   clickedDownloadAsPDF() {
@@ -252,7 +267,11 @@ h5{
   proceed(uploadedFiles) {
     this._matDialog.closeAll();
     this.postsDataCall(uploadedFiles);
-    this.downloadAsPDF();
+    //this.downloadAsPDF();
+    sessionStorage.setItem("changeInWaterRejenuvation", "false");
+    if (this.changeFromOutSide) {
+      this.state_service.initiateDownload.next(true);
+    } else this.downloadAsPDF();
     return;
   }
   postsDataCall(uploadedFiles) {

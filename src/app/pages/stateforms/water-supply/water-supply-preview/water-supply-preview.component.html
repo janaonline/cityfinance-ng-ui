@@ -21,159 +21,164 @@
       Download as PDF
     </button>
     </div>
-    <h3 style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+    <h3 class="form-name" style="text-align: center;">
         Indicator for Water Supply and Sanitation</h3>
-    <div *ngFor="let uaDetails of detailsOfUa; let i=index">
+    <div *ngFor="let uaDetails of uasList; let i=index" style="margin-bottom: 1.5rem;">
         <div style="position: relative; padding: 0% 2%">
             <div class="row">
                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                    <h6 class="font-s" style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{ uaDetails.uaName.substring(0, uaDetails.uaName.lastIndexOf(" ")) }}</h6>
+                    <h6 class="font-s" style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</h6>
                     <!-- {{uaDetails.uaName.split(' ')[0]}} -->
 
                 </div>
             </div>
-            <div class="row" style="margin: 10px 0 0 0;">
-                <div class="card" style="border: 1px solid #dedede;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block;">
-                                <h5 class="ex-t-q m-r-l h-s" style="display: inline-block;">Total Number of ULBs in UA</h5>
-                                <h5 class="ex-t h-s mr-l" style="display: inline-block;"> {{uaDetails.totalULBsInUA}}</h5>
-                            </div>
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block; border-left: 1px solid #70707030;
+            <div *ngIf="uaDetails.data">
+                <div class="row" style="margin: 10px 0 0 0;">
+                    <div class="card" style="border: 1px solid #dedede;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block;">
+                                    <h5 class="ex-t-q m-r-l h-s" style="display: inline-block;">Total Number of ULBs in UA</h5>
+                                    <h5 class="ex-t h-s mr-l" style="display: inline-block;"> {{uaDetails.totalULBsInUA}}</h5>
+                                </div>
+                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block; border-left: 1px solid #70707030;
                               border-right: 1px solid #70707030;">
-                                <h5 class="ex-t-q h-s" style="display: inline-block;">Approved by State</h5>
-                                <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
-                                    {{uaDetails.totalCompletedUlb}}</h5>
-                            </div>
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display:inline-block;">
-                                <h5 class="ex-t-q h-s" style="display: inline-block;">Pending for Submission/Approval</h5>
-                                <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
-                                    {{uaDetails.totalPendingUlb}}
-                                </h5>
+                                    <h5 class="ex-t-q h-s" style="display: inline-block;">Approved by State</h5>
+                                    <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
+                                        {{uaDetails.totalCompletedUlb}}</h5>
+                                </div>
+                                <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display:inline-block;">
+                                    <h5 class="ex-t-q h-s" style="display: inline-block;">Pending for Submission/Approval</h5>
+                                    <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
+                                        {{uaDetails.totalPendingUlb}}
+                                    </h5>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%; width: 100%;
+                <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%; width: 100%;
              border: 1px solid #dedede" cellspacing="0" cellpadding="0">
-                <thead style="color: #047474">
-                    <th style="padding: 1%" scope="col">Service Level Indicators</th>
-                    <td></td>
-                    <th style="padding: 1%; text-align: center" scope="col">
-                        Baseline Indicator <br /> 2020-21
-                    </th>
-                    <th style="padding: 1%; text-align: center" *ngFor="let column of targets" scope="col" [innerHTML]="column.name"></th>
-                </thead>
-                <tbody>
-                    <tr *ngIf="services[0] as service">
-                        <td style="padding: 1%" class="td-width">
-                            {{ service.name }}
-                        </td>
+                    <thead style="color: #047474">
+                        <th style="padding: 1%" scope="col">Service Level Indicators</th>
                         <td></td>
-                        <td style="padding: 1%; text-align: center">
-                            <span *ngIf="uaDetails.waterSuppliedPerDay.baseline['2021']">
+                        <th style="padding: 1%; text-align: center" scope="col">
+                            Baseline Indicator <br /> 2020-21
+                        </th>
+                        <th style="padding: 1%; text-align: center" *ngFor="let column of targets" scope="col" [innerHTML]="column.name"></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="services[0] as service">
+                            <td style="padding: 1%" class="td-width">
+                                {{ service.name }}
+                            </td>
+                            <td></td>
+                            <td style="padding: 1%; text-align: center">
+                                <span *ngIf="uaDetails.waterSuppliedPerDay.baseline['2021']">
                         {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }}
                       </span>
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
+                            </td>
 
-                        <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                            <span *ngIf="uaDetails.waterSuppliedPerDay.target[year.key]">
+                            <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                                <span *ngIf="uaDetails.waterSuppliedPerDay.target[year.key]">
                         {{ uaDetails.waterSuppliedPerDay.target[year.key] }}
                       </span>
 
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
 
-                    <tr *ngIf="services[1] as service">
-                        <td style="padding: 1%" class="td-width">
-                            <span class="service-name ">{{ service.name }}
-                              <span  class="mandatory ">*</span></span>
-                        </td>
-                        <td></td>
-                        <td style="padding: 1%; text-align: center">
-                            <span *ngIf="uaDetails.reduction.baseline['2021']">
+                        <tr *ngIf="services[1] as service">
+                            <td style="padding: 1%" class="td-width">
+                                <span class="service-name ">{{ service.name }}
+                              <!-- <span  class="mandatory ">*</span> -->
+
+                                </span>
+                            </td>
+                            <td></td>
+                            <td style="padding: 1%; text-align: center">
+                                <span *ngIf="uaDetails.reduction.baseline['2021']">
                         {{ uaDetails.reduction.baseline['2021'] }}
                       </span>
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
+                            </td>
 
-                        <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                            <span *ngIf="uaDetails.reduction.target[year.key]">
+                            <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                                <span *ngIf="uaDetails.reduction.target[year.key]">
                         {{ uaDetails.reduction.target[year.key] }}
                       </span>
 
-                            <i class="glyphicon" style="font-weight: 600">
+                                <i class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </i>
-                        </td>
+                            </td>
 
-                    </tr>
-                    <tr *ngIf="services[2] as service ">
-                        <td style="padding: 1%" class="td-width">
-                            <span class="service-name ">{{ service.name }}
-<span  class="mandatory ">*</span></span>
-                        </td>
-                        <td></td>
-                        <td style="padding: 1%; text-align: center">
-                            <span *ngIf="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']">
+                        </tr>
+                        <tr *ngIf="services[2] as service ">
+                            <td style="padding: 1%" class="td-width">
+                                <span class="service-name ">{{ service.name }}</span>
+                                <!-- <span  class="mandatory ">*</span> -->
+                            </td>
+                            <td></td>
+                            <td style="padding: 1%; text-align: center">
+                                <span *ngIf="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']">
                         {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }}
                       </span>
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
-                        <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                            <span *ngIf="uaDetails.houseHoldCoveredWithSewerage.target[year.key]">
+                            </td>
+                            <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                                <span *ngIf="uaDetails.houseHoldCoveredWithSewerage.target[year.key]">
                         {{ uaDetails.houseHoldCoveredWithSewerage.target[year.key] }}
                       </span>
 
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
+                            </td>
 
-                    </tr>
-                    <tr *ngIf="services[3] as service">
-                        <td style="padding: 1%" class="td-width">
-                            <span class="service-name ">{{ service.name }}
-<span  class="mandatory ">*</span></span>
-                        </td>
-                        <td></td>
-                        <td style="padding: 1%; text-align: center">
-                            <span *ngIf="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']">
+                        </tr>
+                        <tr *ngIf="services[3] as service">
+                            <td style="padding: 1%" class="td-width">
+                                <span class="service-name ">{{ service.name }}</span>
+                                <!-- <span  class="mandatory ">*</span> -->
+                            </td>
+                            <td></td>
+                            <td style="padding: 1%; text-align: center">
+                                <span *ngIf="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']">
                         {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }}
                       </span>
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
+                            </td>
 
-                        <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                            <span *ngIf="uaDetails.houseHoldCoveredPipedSupply.target[year.key]">
+                            <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                                <span *ngIf="uaDetails.houseHoldCoveredPipedSupply.target[year.key]">
                         {{ uaDetails.houseHoldCoveredPipedSupply.target[year.key] }}
                       </span>
 
-                            <em class="glyphicon" style="font-weight: 600">
+                                <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
 
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <div class="no-data" *ngIf="uaDetails.data==null">No Data Available</div>
     </div>
 </div>
 

@@ -128,7 +128,7 @@
                     </div>
                 </a>
             </div>
-            <div class="row link-div">
+            <div class="row link-div" *ngIf="totalUas">
                 <!-- <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
                     aria-controls="collapseBasicSer"> -->
                 <div class="col-sm-1 col-xs-1 m-l">
@@ -146,7 +146,7 @@
                 <!-- </a> -->
             </div>
             <!-- <div id="collapseBasicSer" [collapse]="isCollapsedSer"> -->
-            <div class="row link-div-u" routerLinkActive="active">
+            <div class="row link-div-u" routerLinkActive="active" *ngIf="totalUas">
                 <a [routerLink]="['water-supply']">
                     <div class="col-sm-1 col-xs-1 m-l-u">
                         <mat-icon aria-hidden="false">
@@ -161,10 +161,17 @@
                         <!-- <mat-icon aria-hidden="false">
                             <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
                         </mat-icon> -->
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Submission Requried" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+                        <mat-icon *ngIf="userLoggedInDetails.role != userTypes.STATE" tooltip="No Action Requried" class="pull-right" aria-hidden="false">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+
                     </div>
                 </a>
             </div>
-            <div class="row link-div-u" routerLinkActive="active">
+            <div class="row link-div-u" routerLinkActive="active" *ngIf="totalUas">
                 <a [routerLink]="['water-rejenuvation']">
                     <div class="col-sm-1 col-xs-1 m-l-u">
                         <mat-icon aria-hidden="false" style="margin-top: 4px;">
@@ -185,7 +192,7 @@
                     </div>
                 </a>
             </div>
-            <div class="row link-div-u" routerLinkActive="active">
+            <div class="row link-div-u" routerLinkActive="active" *ngIf="totalUas">
                 <a [routerLink]="['action-plan']">
                     <div class="col-sm-1 col-xs-1 m-l-u">
                         <mat-icon aria-hidden="false" style="margin-top: 4px;">
