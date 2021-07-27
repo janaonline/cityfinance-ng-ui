@@ -63,14 +63,14 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         this.toolTipContentN = 'Not Completed'
 
         break;
-       case USER_TYPE.MoHUA:
-       case USER_TYPE.PARTNER:
-       case USER_TYPE.ADMIN:
+      case USER_TYPE.MoHUA:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.ADMIN:
         this.toolTipContentC = 'Reviewed'
-         this.toolTipContentN = 'Not Reviewed'
+        this.toolTipContentN = 'Not Reviewed'
 
-      //   this._router.navigate(["/mohua/dashboard"]);
-         break;
+        //   this._router.navigate(["/mohua/dashboard"]);
+        break;
       // case USER_TYPE.PARTNER:
       // case USER_TYPE.ADMIN:
       // case undefined:
@@ -141,6 +141,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   };
   allStateFormsData
   ngOnInit(): void {
+    sessionStorage.setItem("disableAllForms", "false")
     this.screenHeight = window.innerHeight;
     console.log('screennnnnHieght', this.screenHeight);
 
@@ -609,47 +610,47 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   statePreview() {
     let userData = JSON.parse(localStorage.getItem("userData"));
     let st_id = userData.state;
-    console.log('state user data',userData, st_id)
+    console.log('state user data', userData, st_id)
     this.stateformsService.allStateFormData(st_id).subscribe((res) => {
-        console.log('previewResPonce', res)
-        this.allStateFormsRes = res['data'];
-        console.log("hello", this.allStateFormsRes);
-        const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+      console.log('previewResPonce', res)
+      this.allStateFormsRes = res['data'];
+      console.log("hello", this.allStateFormsRes);
+      const dialogRef = this.dialog.open(StateAllPreviewComponent, {
         data: this.allStateFormsRes,
         width: "85vw",
         height: "100%",
         panelClass: "no-padding-dialog",
-       });
-    dialogRef.afterClosed().subscribe((result) => {});
+      });
+      dialogRef.afterClosed().subscribe((result) => { });
     },
-    (err) => {
+      (err) => {
         console.log(err);
 
-    })
+      })
 
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
 
   @HostListener('window:scroll', ['$event'])
-    handleScroll(){
-      const windowScroll = window.pageYOffset;
-      console.log('scrolllllll', windowScroll, this.elementPosition);
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    console.log('scrolllllll', windowScroll, this.elementPosition);
 
-      if(windowScroll >= this.elementPosition){
-        this.sticky = true;
-        // if(windowScroll < 500) {
-        //  this.stiHieght = true;
-        //   this.sticky = false;
-        // }else{
-        //   this.sticky = true;
-        //   this.stiHieght = false;
-        // }
-      } else {
-        this.sticky = false;
-        //this.stiHieght = false;
-      }
+    if (windowScroll >= this.elementPosition) {
+      this.sticky = true;
+      // if(windowScroll < 500) {
+      //  this.stiHieght = true;
+      //   this.sticky = false;
+      // }else{
+      //   this.sticky = true;
+      //   this.stiHieght = false;
+      // }
+    } else {
+      this.sticky = false;
+      //this.stiHieght = false;
     }
+  }
 
 }

@@ -249,7 +249,7 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchEditDataList({ skip, limit: 10 }, this.listFetchOption)
+      .fetchEditDataList({ skip }, this.listFetchOption)
       .subscribe(
         (result: any) => {
           if (this.listFetchOption.csv) {
