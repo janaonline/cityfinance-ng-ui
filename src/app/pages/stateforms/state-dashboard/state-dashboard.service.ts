@@ -9,6 +9,7 @@ import { Subject } from "rxjs"
 export class StateDashboardService {
 
     constructor(private http: HttpClient) { }
+    totalUaS = new Subject<any>();
 
     getCardData(state_id) {
         return this.http.get(`${environment.api.url}dashboard/state?state_id=${state_id}`);

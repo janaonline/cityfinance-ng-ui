@@ -12,6 +12,7 @@ const swal: SweetAlert = require("sweetalert");
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { StateDashboardService } from './state-dashboard/state-dashboard.service';
 
 @Component({
   selector: 'app-stateforms',
@@ -32,6 +33,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   sticky: boolean = false;
   stiHieght: boolean = false;
   elementPosition: any;
+  totalUas = true;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -41,7 +43,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     private _router: Router,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
-    public stateformsService: StateformsService
+    public stateformsService: StateformsService,
+    public stateDashboardService: StateDashboardService,
   ) {
     this.activatedRoute.params.subscribe((val) => {
       console.log("vallllll", val);
@@ -368,6 +371,13 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       this.allStateFormsData = data;
       sessionStorage.setItem("allStateFormsData", JSON.stringify(data));
       console.log("allStateformStatus", data);
+    });
+
+    this.stateDashboardService.totalUaS.subscribe((data) => {
+      console.log("total uasss", data);
+      if(data == 0){
+        this.totalUas = false;
+      }
     });
 
     this.stateformsService.allFormsPreData.subscribe((data) => {

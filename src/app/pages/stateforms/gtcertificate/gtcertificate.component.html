@@ -123,9 +123,9 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 btn-group" [ngClass]="{'anDisable': actionFormDisableB}" *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionB" style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
-                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleB}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
+                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleRB}" btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
                           width: 82px;">Return</label>
                                 </div>
                             </div>
@@ -164,7 +164,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
+                    <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA &&
+                    stateActionB =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionB == 'REJECTED')" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
                         <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE }">
@@ -201,9 +202,9 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 btn-group" [ngClass]="{'anDisable': actionFormDisableC}" *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup [(ngModel)]="stateActionC" style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                 <div>
-                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
+                                    <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleC}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
+                                    <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleRC}" btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
                         width: 82px;">Return</label>
                                 </div>
                             </div>
@@ -328,7 +329,7 @@
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed
             </button>
 
-          
+
         </div>
 
     </div>

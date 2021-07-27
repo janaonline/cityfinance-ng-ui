@@ -69,6 +69,10 @@ export class GTCertificateComponent implements OnInit {
   actionData3 = {};
   btnStyleA = false;
   btnStyleR = false;
+  btnStyleB = false;
+  btnStyleRB = false;
+  btnStyleC = false;
+  btnStyleRC = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -677,8 +681,7 @@ export class GTCertificateComponent implements OnInit {
   }
 
   checkStatusAp(qusCheck) {
-    this.btnStyleA = true;
-    this.btnStyleR = false;
+
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
 
@@ -686,6 +689,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
+      this.btnStyleA = true;
+      this.btnStyleR = false;
     }
     if (qusCheck == 'nonMillionTied') {
       this.actionData2['rejectReason'] = null;
@@ -693,6 +698,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
+      this.btnStyleB = true;
+      this.btnStyleRB = false;
     }
     if (qusCheck == 'nonMillionUntied') {
       this.actionData3['rejectReason'] = null;
@@ -700,6 +707,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
+      this.btnStyleC = true;
+      this.btnStyleRC = false;
     }
 
 
@@ -716,18 +725,24 @@ export class GTCertificateComponent implements OnInit {
         status: this.stateActionA,
         rejectReason: this.rejectReasonA
       }
+      this.btnStyleA = false;
+      this.btnStyleR = true;
     }
     if (qusCheck == 'nonMillionTied') {
       this.actionData2 = {
         status: this.stateActionB,
         rejectReason: this.rejectReasonB
       }
+      this.btnStyleB = false;
+      this.btnStyleRB = true;
     }
     if (qusCheck == 'nonMillionUntied') {
       this.actionData3 = {
         status: this.stateActionC,
         rejectReason: this.rejectReasonC
       }
+      this.btnStyleC = false;
+      this.btnStyleRC = true;
     }
     console.log('stateAction', this.stateActionA)
     //  this.actionValues.emit(this.actionData);

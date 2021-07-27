@@ -572,7 +572,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         this.nonMillionCities = data['totalUlbNonMil'];
         this.millionPlusUAs = data['totalUa'];
         this.UlbInMillionPlusUA = data['totalUlbInUas'];
-
+        this.stateDashboardService.totalUaS.next(this.millionPlusUAs);
         let newList = {};
         res["data"]["uaList"].forEach((element) => {
           this.UANames.push(element.name)

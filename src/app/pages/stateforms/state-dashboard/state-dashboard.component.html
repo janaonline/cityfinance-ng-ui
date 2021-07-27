@@ -221,7 +221,7 @@
     <div class="bottomPart" style="margin-top:10px; margin-bottom: 30px; margin-left: 10px">
         <div class="header">
             <div class="col-sm-6" style="font-size:18px;font-weight: 450; border-right:1px solid #0000001A">
-                <div class="row">
+                <div class="row" *ngIf="!(millionPlusUAs == 0)">
                     <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
                     <div class="col-sm-5">
                         <span style="text-align: right; margin-left: auto; font-size: 15px;">
@@ -254,7 +254,7 @@
         <div style="height:244px;">
             <div class="col-sm-6" style="display: block;text-align: center;">
 
-                <div style="color:#000000C4">
+                <div style="color:#000000C4" *ngIf="!(millionPlusUAs == 0)">
                     <div class="Card1">
                         <div class="row" style="height: 70%;">
                             <div class="col-sm-7" style="text-align: left;">

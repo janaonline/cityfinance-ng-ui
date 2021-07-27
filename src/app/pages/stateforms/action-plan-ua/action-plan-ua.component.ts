@@ -397,6 +397,7 @@ export class ActionPlanUAComponent implements OnInit {
     console.log(JSON.stringify(allData), "xxxxxxxxxxx", temp);
     if (!deepEqual(allData, JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
+      this.checkDiff();
     } else {
       sessionStorage.setItem("changeInActionPlans", "false");
     }

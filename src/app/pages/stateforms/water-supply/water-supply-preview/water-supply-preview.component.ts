@@ -135,7 +135,17 @@ h5{
 .mr-l{
   margin-left: 22%;
 }
+.no-data {
+  font-size: 10px;
+  color: red;
+    padding-top: 4px;
+    margin-left: 7%;
 
+}
+.form-name {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
 
   </style>`;
   constructor(
@@ -165,7 +175,9 @@ h5{
   detailsOfUa;
   ulbName;
   stateName;
+  uasList;
   ngOnInit() {
+    this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
@@ -190,14 +202,37 @@ h5{
     this.getwaterSuppyData()
 
   }
-  getwaterSuppyData(){
+  // getwaterSuppyData(){
+  //   this._WaterSupplyService.getslbsData()
+  //     .subscribe((res) => {
+  //        console.log('response', res)
+  //        let ulbdetail: any = res
+  //        this.detailsOfUa = ulbdetail.data;
+  //     })
+  // }
+  getwaterSuppyData() {
     this._WaterSupplyService.getslbsData()
       .subscribe((res) => {
-         console.log('response', res)
-         let ulbdetail: any = res
-         this.detailsOfUa = ulbdetail.data;
+        console.log('response', res)
+        let ulbdetails: any = res;
+        this.detailsOfUa = ulbdetails.data;
+        console.log(this.detailsOfUa);
+
+        this.uasList.forEach(el => {
+          this.detailsOfUa.forEach(el2 => {
+            if (el.name == el2.uaName) {
+              console.log('match', el.name)
+              el['data'] = el2;
+            } else {
+              el['data'] = null;
+            }
+          })
+
+        })
+        console.log(this.uasList)
       })
   }
+
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
