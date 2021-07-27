@@ -6,6 +6,7 @@ import {
   ElementRef,
   ViewChild,
   TemplateRef,
+  OnDestroy,
 } from "@angular/core";
 import {
   MatDialog,
@@ -19,12 +20,13 @@ import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 import { ActionplanserviceService } from "../actionplanservice.service";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
+import { StateformsService } from "../../stateforms.service";
 @Component({
   selector: "app-actionplanspreview",
   templateUrl: "./actionplanspreview.component.html",
   styleUrls: ["./actionplanspreview.component.scss"],
 })
-export class ActionplanspreviewComponent implements OnInit {
+export class ActionplanspreviewComponent implements OnInit, OnDestroy{
   @Input() parentData: any;
   @Input()
   changeFromOutSide: any;
@@ -33,7 +35,8 @@ export class ActionplanspreviewComponent implements OnInit {
     private _matDialog: MatDialog,
     public _router: Router,
     private _questionnaireService: QuestionnaireService,
-    public actionplanserviceService: ActionplanserviceService
+    public actionplanserviceService: ActionplanserviceService,
+    public stateformsService: StateformsService
   ) {}
   styleForPDF = `<style>
   .header-p {
@@ -398,7 +401,7 @@ margin-left: 22%;
   stateName;
   ulbName;
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
-
+  subParentForModal;
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
@@ -406,9 +409,19 @@ margin-left: 22%;
     if(this.parentData){
     this.data = this.parentData;
   }
+  this.subParentForModal = this.actionplanserviceService.OpenModalTrigger.subscribe(
+    (change) => {
+      if (this.changeFromOutSide) {
+        this.openModal(this.template);
+      }
+    }
+  );
     this.setStatus();
     console.log(this.data);
 
+  }
+  ngOnDestroy(): void {
+    if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
 
   clickedDownloadAsPDF() {
@@ -478,7 +491,10 @@ margin-left: 22%;
   proceed(uploadedFiles) {
     this._matDialog.closeAll();
     this.postsDataCall(uploadedFiles);
-    this.downloadAsPDF();
+    sessionStorage.setItem("changeInActionPlans", "false")
+    if (this.changeFromOutSide) {
+      this.stateformsService.initiateDownload.next(true);
+    } else this.downloadAsPDF();
     return;
   }
   postsDataCall(uploadedFiles) {

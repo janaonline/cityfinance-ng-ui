@@ -6,6 +6,7 @@ import {
   ViewChild,
   TemplateRef,
   Input,
+  OnDestroy,
 } from "@angular/core";
 import {
   MatDialog,
@@ -17,13 +18,14 @@ import { defaultDailogConfiuration } from "../../../questionnaires/state/configs
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
 import { GAservicesService } from "../g-aservices.service";
+import { StateformsService } from "../../stateforms.service";
 
 @Component({
   selector: "app-grant-all-preview",
   templateUrl: "./grant-all-preview.component.html",
   styleUrls: ["./grant-all-preview.component.scss"],
 })
-export class GrantAllPreviewComponent implements OnInit {
+export class GrantAllPreviewComponent implements OnInit, OnDestroy{
   @Input() parentData: any;
   @Input()
   changeFromOutSide: any;
@@ -108,19 +110,32 @@ margin-left: 1.2rem !important;
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
-    private _gAservices: GAservicesService
+    private _gAservices: GAservicesService,
+    public state_service : StateformsService,
   ) {}
   stateName;
   ulbName;
+  subParentForModal;
   ngOnInit() {
     console.log("previewData", this.data);
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
-    this.setStatus()
+
+    this.subParentForModal = this._gAservices.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openModal(this.template);
+        }
+      }
+    );
     if (this.parentData) {
       this.data = this.parentData;
     }
+    this.setStatus();
+  }
+  ngOnDestroy(): void {
+    if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
   close() {
     this._matDialog.closeAll();
@@ -182,7 +197,11 @@ margin-left: 1.2rem !important;
   proceed(uploadedFiles) {
     this._matDialog.closeAll();
     this.postsDataCall(this.data);
-    this.downloadAsPDF();
+    // this.downloadAsPDF();
+    sessionStorage.setItem("ChangeInGrantAllocation", "false");
+    if (this.changeFromOutSide) {
+      this.state_service.initiateDownload.next(true);
+    } else this.downloadAsPDF();
     return;
   }
 

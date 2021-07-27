@@ -69,6 +69,10 @@ export class GTCertificateComponent implements OnInit {
   actionData3 = {};
   btnStyleA = false;
   btnStyleR = false;
+  btnStyleB = false;
+  btnStyleRB = false;
+  btnStyleC = false;
+  btnStyleRC = false;
   /* This is to keep track of which indexed which file is already either in data processing state
    * or in file Upload state
    */
@@ -116,6 +120,7 @@ export class GTCertificateComponent implements OnInit {
             const currentRoute = this._router.routerState;
             this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
             this.routerNavigate = event
+
             this.openModal(this.template);
           } else {
             this.change = "false"
@@ -182,6 +187,8 @@ export class GTCertificateComponent implements OnInit {
 
     this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {
+        console.log('gtc responce', res);
+
         sessionStorage.setItem("StateGTC", JSON.stringify(res));
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
           this.fileName_millionTied = res['data']['million_tied']['pdfName'];
@@ -479,6 +486,7 @@ export class GTCertificateComponent implements OnInit {
       this.fileName_nonMillionUntied = '';
       this.nonMillionUntiedFileUrl = ''
     }
+    this.checkDiff();
   }
 
   fileChangeEvent(event, progessType, fileName) {
@@ -580,6 +588,7 @@ export class GTCertificateComponent implements OnInit {
               this.nonMillionUntiedFileUrl = fileAlias;
             }
             console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
+            this.checkDiff();
           }
         },
         (err) => {
@@ -631,7 +640,34 @@ export class GTCertificateComponent implements OnInit {
         }
       );
   }
+  checkDiff(){
+    let preData = {
+      million_tied:
+      {
+        pdfUrl: this.millionTiedFileUrl,
+        pdfName: this.fileName_millionTied
+      },
+      nonmillion_tied:
+      {
+        pdfUrl: this.nonMillionTiedFileUrl,
+        pdfName: this.fileName_nonMillionTied
+      },
+      nonmillion_untied:
+      {
+        pdfUrl: this.nonMillionUntiedFileUrl,
+        pdfName: this.fileName_nonMillionUntied
+      },
+      isDraft: (this.millionTiedFileUrl != '' && this.nonMillionTiedFileUrl != '' && this.nonMillionUntiedFileUrl != '') ? false : true
+    };
 
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in grant all..', allFormData,  preData);
+
+    if (allFormData) {
+      allFormData[0].stategtcertificates[0] = preData
+      this._stateformsService.allFormsPreData.next(allFormData)
+    }
+  }
   onPreview() {
     let PreviewFiles = {
       design_year: "606aaf854dff55e6c075d219",
@@ -666,8 +702,7 @@ export class GTCertificateComponent implements OnInit {
   }
 
   checkStatusAp(qusCheck) {
-    this.btnStyleA = true;
-    this.btnStyleR = false;
+
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
 
@@ -675,6 +710,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
+      this.btnStyleA = true;
+      this.btnStyleR = false;
     }
     if (qusCheck == 'nonMillionTied') {
       this.actionData2['rejectReason'] = null;
@@ -682,6 +719,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
+      this.btnStyleB = true;
+      this.btnStyleRB = false;
     }
     if (qusCheck == 'nonMillionUntied') {
       this.actionData3['rejectReason'] = null;
@@ -689,6 +728,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
+      this.btnStyleC = true;
+      this.btnStyleRC = false;
     }
 
 
@@ -705,18 +746,24 @@ export class GTCertificateComponent implements OnInit {
         status: this.stateActionA,
         rejectReason: this.rejectReasonA
       }
+      this.btnStyleA = false;
+      this.btnStyleR = true;
     }
     if (qusCheck == 'nonMillionTied') {
       this.actionData2 = {
         status: this.stateActionB,
         rejectReason: this.rejectReasonB
       }
+      this.btnStyleB = false;
+      this.btnStyleRB = true;
     }
     if (qusCheck == 'nonMillionUntied') {
       this.actionData3 = {
         status: this.stateActionC,
         rejectReason: this.rejectReasonC
       }
+      this.btnStyleC = false;
+      this.btnStyleRC = true;
     }
     console.log('stateAction', this.stateActionA)
     //  this.actionValues.emit(this.actionData);

@@ -44,7 +44,7 @@
         </div>
         <div class="col-sm-3 card">
             <div class="row">
-                <div class="col-sm-9">
+                <div class="col-sm-9" style="padding-right: 0;">
                     <div class="card-number">{{UlbInMillionPlusUA}}</div>
                     <div class="card-text">ULBs in Million-Plus UAs</div>
                 </div>
@@ -221,7 +221,7 @@
     <div class="bottomPart" style="margin-top:10px; margin-bottom: 30px; margin-left: 10px">
         <div class="header">
             <div class="col-sm-6" style="font-size:18px;font-weight: 450; border-right:1px solid #0000001A">
-                <div class="row">
+                <div class="row" *ngIf="!(millionPlusUAs == 0)">
                     <div class="col-sm-7">Million Plus Cities Challenge Fund</div>
                     <div class="col-sm-5">
                         <span style="text-align: right; margin-left: auto; font-size: 15px;">
@@ -254,7 +254,7 @@
         <div style="height:244px;">
             <div class="col-sm-6" style="display: block;text-align: center;">
 
-                <div style="color:#000000C4">
+                <div style="color:#000000C4" *ngIf="!(millionPlusUAs == 0)">
                     <div class="Card1">
                         <div class="row" style="height: 70%;">
                             <div class="col-sm-7" style="text-align: left;">
@@ -267,19 +267,15 @@
 
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:61%;"
-                                    [style.width]="width1">
+                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:61%;" [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:61%;"
-                                    [style.width]="width2">
+                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:61%;" [style.width]="width2">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;"
-                                    [style.width]="width3"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;" [style.width]="width3"></div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;"
-                                    [style.width]="width4"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;" [style.width]="width4"></div>
                             </div>
                         </div>
                         <div class="row">
@@ -298,14 +294,10 @@
 
                             <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
 
 
                             </div>
