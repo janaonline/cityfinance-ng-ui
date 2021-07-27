@@ -855,7 +855,7 @@ margin-left : .5rem !important;
       this.detailUtil = formdata;
       this.detailUtil.useData = detailUtilData;
       this.detailUtil.useData.projects.forEach((element) => {
-        element.category = this.categories[element.category];
+        element.category_id = this.categories[element.category];
       });
     } else this.detailUtil = this.detailUtilError;
   }

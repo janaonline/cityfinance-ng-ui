@@ -26,7 +26,7 @@ export class OverallListComponent implements OnInit {
     role: null,
     skip: 0,
     csv: false,
-    limit: this.tableDefaultOptions.itemPerPage,
+    // limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
@@ -41,6 +41,7 @@ export class OverallListComponent implements OnInit {
 
 
   ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
@@ -52,10 +53,10 @@ export class OverallListComponent implements OnInit {
   status_util = new FormControl('');
   status_slb = new FormControl('');
   status_plans = new FormControl('');
-
+  states;
   ngOnInit() {
     console.log(this.data)
-
+    this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.loadData();
   }
   loadData() {
@@ -234,9 +235,9 @@ export class OverallListComponent implements OnInit {
     }
 
     this.listFetchOption.csv = csv
-    this.fcFormListSubscription = this.ulbService.fetchAllFormStatusList({ skip }, this.listFetchOption, null)
+    this.fcFormListSubscription = this.ulbService.fetchAllFormStatusList({ skip }, this.listFetchOption, null, this.data.state_id)
       .subscribe(
-        (result) => {
+        (result: any) => {
           console.log(result)
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {

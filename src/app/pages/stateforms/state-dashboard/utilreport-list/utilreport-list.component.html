@@ -3,8 +3,12 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
-                        <button type="button" (click)="stateData(true)" class="btn btn-d">DOWNLOAD</button>
+                    <div class="col-sm-12 col-lg-12 col-md-12 "
+                        style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
+                        <span class="text-left" style="font-size: 20px; font-weight: bold;text-align: left;">Utilization
+                            Report Form
+                            Status</span>
+                        <button type="button" (click)="stateData(true)" class="btn btn-d text-right">DOWNLOAD</button>
 
                     </div>
                     <div class="col-sm-12">
@@ -15,6 +19,7 @@
                                     <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col">S.No</th>
                                         <th scope="col">ULB Name </th>
+                                        <th scope="col">State Name </th>
                                         <th scope="col">ULB Census Code/ ULB Code </th>
                                         <th scope="col">ULB Type</th>
                                         <th scope="col">Population Type</th>
@@ -30,6 +35,11 @@
                                         <th class="filter">
 
                                             <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
+                                                (keyup.enter)="stateData(false)">
+                                        </th>
+                                        <th class="filter">
+
+                                            <input type="text" class="s-th p-s" [formControl]="state_name"
                                                 (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
@@ -92,6 +102,8 @@
                                             {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
                                             tabelIndex+1}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode ||
                                             resData.sbCode }}</td>

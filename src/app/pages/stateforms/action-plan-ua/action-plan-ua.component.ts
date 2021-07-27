@@ -275,11 +275,7 @@ export class ActionPlanUAComponent implements OnInit {
       let data = this.makeApiData();
       this.actionplanserviceService.postFormData(data).subscribe(
         (res) => {
-          swal({
-            title: "Submitted",
-            text: "Record submitted successfully!",
-            icon: "success",
-          });
+          swal("Record Submitted Successfully!");
           sessionStorage.setItem("changeInActionPlans", "false");
           const form = JSON.parse(
             sessionStorage.getItem("allStatusStateForms")
@@ -345,11 +341,6 @@ export class ActionPlanUAComponent implements OnInit {
         for (const key in e) {
           if (key == "index") continue;
           pro[key] = e[key]["value"];
-          if (e[key]["lastValidation"] != true || e[key]["value"] === '') {
-            this.data.isDraft = true;
-          } else {
-            this.data.isDraft = false;
-          }
         }
         temp.push(pro);
       });
@@ -360,11 +351,6 @@ export class ActionPlanUAComponent implements OnInit {
         for (const key in e) {
           if (key == "index") continue;
           pro[key] = e[key]["value"];
-          if (e[key]["lastValidation"] != true || e[key]["value"] === '') {
-            this.data.isDraft = true;
-          } else {
-            this.data.isDraft = false;
-          }
         }
         temp.push(pro);
       });
@@ -375,15 +361,16 @@ export class ActionPlanUAComponent implements OnInit {
         for (const key in e) {
           if (key == "index") continue;
           pro[key] = e[key]["value"];
-          if (e[key]["lastValidation"] != true || e[key]["value"] === '') {
-            this.data.isDraft = true;
-          } else {
-            this.data.isDraft = false;
-          }
         }
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
+      for (const key in Uas) {
+        const element = Uas[key];
+        if(Array.isArray(Uas[key])){
+ //         for
+        }
+      }
       newUaData.push(Uas);
     });
     let apiData = JSON.parse(JSON.stringify(this.data));

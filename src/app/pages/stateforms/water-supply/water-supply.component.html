@@ -27,7 +27,8 @@
         <button type="button" class="btn  btn-pre" (click)="onPreview()">PREVIEW</button>
     </div> -->
 </div>
-<div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index" style="margin-left: 15px; margin-right: 25px; margin-bottom: 10px;">
+<div class="row box-shadow p-1" *ngFor="let uaDetails of uasList; let i=index"
+    style="margin-left: 15px; margin-right: 25px; margin-bottom: 10px;">
     <!-- <div class="card" style="margin-bottom: 10px;  box-shadow: 0; border-radius: 0;">
         <div class="card-body"> -->
     <div class="row" style=" padding-top: 0px">
@@ -39,38 +40,42 @@
         <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right" style="padding-top: 5px;">
             <!-- <button type="button" class="btn" style="height: 2pc;" (click)="isCollapsed[i]= !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseEvent[i]">Select
             </button> -->
-            <button class="btn pull-right" [ngClass]="{'selectBtn': isCollapsed[i]}" (click)="foldCard(i)">Select</button>
+            <button class="btn pull-right" [ngClass]="{'selectBtn': isCollapsed[i]}"
+                (click)="foldCard(i,uaDetails._id)">Select</button>
         </div>
     </div>
     <!-- <hr> -->
     <!-- <div id="collapseEvent[i]" [isAnimated]="true" [Collapse]="isCollapsed[i]"
      (collapses)="collapses(i)" (expands)="expands(i)" (collapsed)="collapsed(i)" (expanded)="expanded(i)"> -->
     <div *ngIf="isCollapsed[i]">
-        <div *ngIf="uaDetails.data">
+        <div *ngIf="getData">
             <div class="row" style="margin-top: 10px; margin-left: 15px; margin-right: 25px;">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                style="border-right: 2px solid #70707030">
                                 <h6 style="display: inline-flex; position: relative; width: 92%; margin-left: 7px;">
                                     Total Number of ULBs in UA</h6>
-                                <h6 style="display: inline-flex;"> {{uaDetails.data.totalULBsInUA}}</h6>
+                                <h6 style="display: inline-flex;"> {{totalULBsInUA}}</h6>
                             </div>
-                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4" style="border-right: 2px solid #70707030">
+                            <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4"
+                                style="border-right: 2px solid #70707030">
                                 <h6 style="display: inline-flex; position: relative; width: 92%;">Approved by State</h6>
                                 <a (click)="openDialog(template, uaDetails.data)">
                                     <h6 style="display: inline-flex; color: #337AB7;">
-                                        {{uaDetails.data.totalCompletedUlb}}
+                                        {{totalCompletedUlb}}
                                     </h6>
                                 </a>
                             </div>
                             <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
 
-                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for Submission/Approval
+                                <h6 style="display: inline-flex; position: relative; width: 92%;">Pending for
+                                    Submission/Approval
                                 </h6>
 
-                                <a (click)="openDialog2(template1, uaDetails.data)">
-                                    <h6 style="display: inline-flex; color: #337AB7;">{{uaDetails.data.totalPendingUlb}}
+                                <a (click)="openDialog2(template1, getData[1])">
+                                    <h6 style="display: inline-flex; color: #337AB7;">{{totalPendingUlb}}
                                     </h6>
                                 </a>
                             </div>
@@ -95,7 +100,8 @@
                     <tbody>
                         <tr *ngIf="services[0] as service">
                             <td>
-                                <span class="service-name">{{ service.name }}<span class="mandatory" style="color: red;">*</span></span>
+                                <span class="service-name">{{ service.name }}<span class="mandatory"
+                                        style="color: red;">*</span></span>
                             </td>
                             <td>
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
@@ -103,7 +109,8 @@
                             <td>
                                 <div class="input-group data-input">
 
-                                    <input type="text" disabled [value]="uaDetails.data.waterSuppliedPerDay.baseline['2021']" [id]="service.key + 'baseline'" class="form-control">
+                                    <input type="text" disabled [value]="getData[0].waterSuppliedPerDay2021"
+                                        [id]="service.key + 'baseline'" class="form-control">
                                     <span class="input-group-addon"><em class="glyphicon">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -112,7 +119,8 @@
                             <td *ngFor="let year of targets">
 
                                 <div class="input-group data-input">
-                                    <input type="text" disabled [value]="uaDetails.data.waterSuppliedPerDay.target[year.key]" [id]="service.key + year.key" class="form-control">
+                                    <input type="text" disabled [value]="getData[0]['waterSuppliedPerDay'+year.key]"
+                                        [id]="service.key + year.key" class="form-control">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -122,14 +130,16 @@
                         </tr>
                         <tr *ngIf="services[1] as service ">
                             <td>
-                                <span class="service-name ">{{ service.name }}<span class="mandatory" style="color: red;">*</span></span>
+                                <span class="service-name ">{{ service.name }}<span class="mandatory"
+                                        style="color: red;">*</span></span>
                             </td>
                             <td>
                                 <span class="benchamark-cell ">{{ service.benchmark }}</span>
                             </td>
                             <td>
                                 <div class="input-group data-input ">
-                                    <input type="text" disabled [value]="uaDetails.data.reduction.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                                    <input type="text" disabled [value]="getData[0].reduction2021"
+                                        [id]="service.key + 'baseline' " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -137,7 +147,8 @@
                             </td>
                             <td *ngFor="let year of targets ">
                                 <div class="input-group data-input ">
-                                    <input type="text " disabled [value]="uaDetails.data.reduction.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                                    <input type="text " disabled [value]="getData[0]['reduction'+year.key]"
+                                        [id]="service.key + year.key " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -147,14 +158,16 @@
                         </tr>
                         <tr *ngIf="services[2] as service ">
                             <td>
-                                <span class="service-name ">{{ service.name }}<span class="mandatory" style="color: red;">*</span></span>
+                                <span class="service-name ">{{ service.name }}<span class="mandatory"
+                                        style="color: red;">*</span></span>
                             </td>
                             <td>
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td>
                                 <div class="input-group data-input ">
-                                    <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredWithSewerage.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                                    <input type="text" disabled [value]="getData[0].houseHoldCoveredWithSewerage2021"
+                                        [id]="service.key + 'baseline' " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -162,7 +175,9 @@
                             </td>
                             <td *ngFor="let year of targets ">
                                 <div class="input-group data-input ">
-                                    <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredWithSewerage.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                                    <input type="text" disabled
+                                        [value]="getData[0]['houseHoldCoveredWithSewerage'+year.key]"
+                                        [id]="service.key + year.key " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -172,14 +187,16 @@
                         </tr>
                         <tr *ngIf="services[3] as service ">
                             <td>
-                                <span class="service-name ">{{ service.name }}<span class="mandatory" style="color: red;">*</span></span>
+                                <span class="service-name ">{{ service.name }}<span class="mandatory"
+                                        style="color: red;">*</span></span>
                             </td>
                             <td>
                                 <span class="benchamark-cell ">{{ service.benchmark }}</span>
                             </td>
                             <td>
                                 <div class="input-group data-input ">
-                                    <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredPipedSupply.baseline['2021']" [id]="service.key + 'baseline' " class="form-control ">
+                                    <input type="text" disabled [value]="getData[0].houseHoldCoveredPipedSupply2021"
+                                        [id]="service.key + 'baseline' " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -187,7 +204,9 @@
                             </td>
                             <td *ngFor="let year of targets ">
                                 <div class="input-group data-input ">
-                                    <input type="text" disabled [value]="uaDetails.data.houseHoldCoveredPipedSupply.target[year.key]" [id]="service.key + year.key " class="form-control ">
+                                    <input type="text" disabled
+                                        [value]="getData[0]['houseHoldCoveredPipedSupply'+year.key]"
+                                        [id]="service.key + year.key " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
                                             {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                                         </em></span>
@@ -202,7 +221,7 @@
             </div>
 
         </div>
-        <div *ngIf="uaDetails.data==null" style="color: red; padding-top: 15px; padding-left: 5px;">No Data Found</div>
+        <div *ngIf="!getData" style="color: red; padding-top: 15px; padding-left: 5px;">No Data Found</div>
     </div>
 </div>
 <!-- </div>
@@ -237,7 +256,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let resData of uaDetails.approvedUlbs | paginate
+                <tr *ngFor="let resData of approvedStatusData | paginate
                                                 : {
                                                     id: 'foo',
                                                     itemsPerPage: tableDefaultOptions.itemPerPage,
@@ -259,7 +278,9 @@
         </table>
         <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!
         </div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
+            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>
@@ -272,7 +293,8 @@
 <ng-template #template1>
 
 
-    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/ SUBMISSION
+    <div style="font-size: 18px; line-height: auto; text-align: left; font-weight: bold"> PENDING FOR APPROVAL/
+        SUBMISSION
     </div>
     <div class="table-responsive tracking-history-table" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
 
@@ -281,12 +303,13 @@
 
                 <tr style="background-color: white">
                     <th scope="col" style="width:10%">S.No</th>
-                    <th scope="col" style="width:45%">ULB Name </th>
-                    <th scope="col" style="width:45%">ULB Census Code/ ULB Code </th>
+                    <th scope="col" style="width:30%">ULB Name </th>
+                    <th scope="col" style="width:30%">ULB Census Code/ ULB Code </th>
+                    <th scope="col" style="width:30%">Status</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let resData of uaDetails.pendingUlbs | paginate
+                <tr *ngFor="let resData of statusData | paginate
                                                 : {
                                                     id: 'foo',
                                                     itemsPerPage: tableDefaultOptions.itemPerPage,
@@ -300,7 +323,11 @@
                         {{resData['name']}}
                     </td>
                     <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode'] ? resData['sbCode'] : 'Not Available' }}
+                        {{resData['censusCode'] ? resData['censusCode']: resData['sbCode'] ? resData['sbCode'] : 'Not
+                        Available' }}
+                    </td>
+                    <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                        {{resData['status']}}
                     </td>
                 </tr>
             </tbody>
@@ -308,7 +335,9 @@
         </table>
         <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!
         </div>
-        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
+            directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
             screenReaderCurrentLabel="You're on page">
         </pagination-controls>
     </div>

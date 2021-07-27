@@ -25,7 +25,7 @@ export class AnnualaccListComponent implements OnInit {
     role: null,
     csv: false,
     skip: 0,
-    limit: this.tableDefaultOptions.itemPerPage,
+    // limit: this.tableDefaultOptions.itemPerPage,
   };
   loading = false;
   filterObject;
@@ -55,6 +55,7 @@ export class AnnualaccListComponent implements OnInit {
       )
   }
   ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
   ulb_code_s = new FormControl('');
   ulb_type_s = new FormControl('');
   population_type_s = new FormControl('');
@@ -147,9 +148,9 @@ export class AnnualaccListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv;
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip, limit: 10 }, this.listFetchOption, 'annualaccount')
+      .fetchAllFormStatusList({ skip }, this.listFetchOption, 'annualaccount', this.data.state_id)
       .subscribe(
-        (result) => {
+        (result: any) => {
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
               type: "text/json; charset=utf-8",

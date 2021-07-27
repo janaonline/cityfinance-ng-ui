@@ -87,36 +87,36 @@ export class WaterSupplyComponent implements OnInit {
     })
 
     this.benchmarks = this.services.map((el) => (parseInt(el.benchmark)))
-    // console.log(this.benchmarks);
-    // console.log('target', this.targets)
-    // console.log('serv', this.services);
-    // console.log('basline', this.focusTargetKey)
-    this.getwaterSuppyData();
+    console.log(this.benchmarks);
+    console.log('target', this.targets)
+    console.log('serv', this.services);
+    console.log('basline', this.focusTargetKey)
+    // this.getwaterSuppyData();
 
 
   }
-  getwaterSuppyData() {
-    this._WaterSupplyService.getslbsData()
-      .subscribe((res) => {
-        console.log('response', res)
-        let ulbdetails: any = res;
-        this.detailsOfUa = ulbdetails.data;
-        console.log(this.detailsOfUa);
+  // getwaterSuppyData() {
+  //   this._WaterSupplyService.getslbsData()
+  //     .subscribe((res) => {
+  //       console.log('response', res)
+  //       let ulbdetails: any = res;
+  //       this.detailsOfUa = ulbdetails.data;
+  //       console.log(this.detailsOfUa);
 
-        this.uasList.forEach(el => {
-          this.detailsOfUa.forEach(el2 => {
-            if (el.name == el2.uaName) {
-              console.log('match', el.name)
-              el['data'] = el2;
-            } else {
-              el['data'] = null;
-            }
-          })
+  //       this.uasList.forEach(el => {
+  //         this.detailsOfUa.forEach(el2 => {
+  //           if (el.name == el2.uaName) {
+  //             console.log('match', el.name)
+  //             el['data'] = el2;
+  //           } else {
+  //             el['data'] = null;
+  //           }
+  //         })
 
-        })
-        console.log(this.uasList)
-      })
-  }
+  //       })
+  //       console.log(this.uasList)
+  //     })
+  // }
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
@@ -204,13 +204,98 @@ export class WaterSupplyComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
-  foldCard(index){
+  getData = null
+  totalULBsInUA = 0;
+  totalCompletedUlb = 0
+  totalPendingUlb = 0
+  approvedStatusData = []
+  statusData = []
+  foldCard(index, ua_id) {
+    console.log(ua_id)
+    this._WaterSupplyService.getslbsData(ua_id).subscribe(
+      (res) => {
+        console.log(res['data'])
+        let data = res['data']
+        this.statusData = []
+        this.approvedStatusData = []
+        this.getData = res['data']
+        this.totalULBsInUA = data[1]?.completedAndpendingSubmission.length +
+          data[1]?.pendingCompletion.length +
+          data[1]?.underStateReview.length +
+          data[0]?.total
+
+        this.totalCompletedUlb = data[0]?.total;
+
+        this.totalPendingUlb = data[1]?.completedAndpendingSubmission.length +
+          data[1]?.pendingCompletion.length +
+          data[1]?.underStateReview.length
+        for (let key in this.getData[1]) {
+          if (key === 'completedAndpendingSubmission') {
+            if (this.getData[1][key].length > 0) {
+              this.getData[1][key].forEach(el => {
+                this.statusData.push(
+                  {
+                    name: el.name,
+                    censusCode: el.censusCode,
+                    sbCode: el.sbCode,
+                    status: 'Completed And Pending Submission'
+                  }
+                )
+              })
+
+            }
+
+          } else if (key === 'pendingCompletion') {
+            if (this.getData[1][key].length > 0) {
+              this.getData[1][key].forEach(el => {
+                this.statusData.push(
+                  {
+                    name: el.name,
+                    censusCode: el.censusCode,
+                    sbCode: el.sbCode,
+                    status: 'Pending Completion'
+                  }
+                )
+              })
+
+            }
+
+          } else if (key === 'underStateReview') {
+            if (this.getData[1][key].length > 0) {
+              this.getData[1][key].forEach(el => {
+                this.statusData.push(
+                  {
+                    name: el.name,
+                    censusCode: el.censusCode,
+                    sbCode: el.sbCode,
+                    status: 'Under State Review'
+                  }
+                )
+              })
+
+            }
+
+          }
+        }
+        this.getData[0].ulbData.forEach(el => {
+          this.approvedStatusData.push({
+            name: el.name,
+            censusCode: el.censusCode,
+            sbCode: el.sbCode
+          })
+        })
+
+      },
+      (err) => {
+        this.getData = null
+      }
+    )
     this.isCollapsed[index] = !this.isCollapsed[index];
     console.log(this.isCollapsed.length, this.uasList);
 
-    for(let i =0; i <= this.uasList.length; i++){
+    for (let i = 0; i <= this.uasList.length; i++) {
       console.log(i);
-      if(i != index){
+      if (i != index) {
         this.isCollapsed[i] = false;
       }
     }
