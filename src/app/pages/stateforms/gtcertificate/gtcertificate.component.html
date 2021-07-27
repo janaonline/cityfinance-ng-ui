@@ -46,11 +46,11 @@
                                     btnRadioGroup [(ngModel)]="stateActionA"
                                     style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}"
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_A}"
                                             btnRadio="APPROVED" (click)="checkStatusAp('millionTied')" uncheckable
                                             tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}"
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_A}"
                                             btnRadio="REJECTED" (click)="checkStatus('millionTied')" uncheckable
                                             tabindex="0" role="button" style="margin-left: 10px;
                                 width: 82px;">Return</label>
@@ -59,8 +59,8 @@
                                 </div>
 
                                 <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
-                                    style="margin-bottom: 1rem; margin-left: 20%;">
+                                    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'"
+                                    btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
                                     <label class="btn btn-success" disabled style="width: 82px;"
                                         [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
                                         {{stateActionA | titlecase}}</label>
@@ -159,11 +159,11 @@
                                     btnRadioGroup [(ngModel)]="stateActionB"
                                     style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}"
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_B}"
                                             btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable
                                             tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}"
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_B}"
                                             btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable
                                             tabindex="0" role="button" style="margin-left: 10px;
                           width: 82px;">Return</label>
@@ -264,11 +264,11 @@
                                     btnRadioGroup [(ngModel)]="stateActionC"
                                     style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}"
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_C}"
                                             btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable
                                             tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}"
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_C}"
                                             btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable
                                             tabindex="0" role="button" style="margin-left: 10px;
                         width: 82px;">Return</label>

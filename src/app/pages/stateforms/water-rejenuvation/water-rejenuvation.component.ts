@@ -79,6 +79,8 @@ export class WaterRejenuvationComponent implements OnInit {
         sessionStorage.setItem("disableAllActionForm", "true")
       }
     })
+
+
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
     await this.loadData();

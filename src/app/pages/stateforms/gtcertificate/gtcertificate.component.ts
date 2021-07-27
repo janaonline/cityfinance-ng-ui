@@ -255,7 +255,7 @@ export class GTCertificateComponent implements OnInit {
           this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
         }
         if (this.loggedInUserType === "MoHUA") {
-          if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+          if (this.allStatus['latestFinalResponse']['role'] == 'STATE' && this.allStatus['actionTakenByRole'] == 'STATE') {
             if (this.stateActionA != 'PENDING' && this.stateActionA) {
               this.actionFormDisableA = true
             }
@@ -672,7 +672,7 @@ export class GTCertificateComponent implements OnInit {
         }
       );
   }
-  checkDiff(){
+  checkDiff() {
     let preData = {
       million_tied:
       {
@@ -693,7 +693,7 @@ export class GTCertificateComponent implements OnInit {
     };
 
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
-    console.log('in grant all..', allFormData,  preData);
+    console.log('in grant all..', allFormData, preData);
 
     if (allFormData) {
       allFormData[0].stategtcertificates[0] = preData
@@ -742,8 +742,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
-      this.btnStyleA = true;
-      this.btnStyleR = false;
+      this.btnStyleA_A = true;
+      this.btnStyleR_A = false;
     }
     if (qusCheck == 'nonMillionTied') {
       this.actionData2['rejectReason'] = null;
@@ -751,8 +751,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
-      this.btnStyleB = true;
-      this.btnStyleRB = false;
+      this.btnStyleA_B = true;
+      this.btnStyleR_B = false;
     }
     if (qusCheck == 'nonMillionUntied') {
       this.actionData3['rejectReason'] = null;
@@ -760,8 +760,8 @@ export class GTCertificateComponent implements OnInit {
         status: "APPROVED",
         rejectReason: null
       }
-      this.btnStyleC = true;
-      this.btnStyleRC = false;
+      this.btnStyleA_C = true;
+      this.btnStyleR_C = false;
     }
 
 
@@ -770,32 +770,31 @@ export class GTCertificateComponent implements OnInit {
     //  this.actionValues.emit(this.actionData);
   }
   checkStatus(qusCheck) {
-    this.btnStyleA = false;
-    this.btnStyleR = true;
+
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
       this.actionData1 = {
         status: this.stateActionA,
         rejectReason: this.rejectReasonA
       }
-      this.btnStyleA = false;
-      this.btnStyleR = true;
+      this.btnStyleA_A = false;
+      this.btnStyleR_A = true;
     }
     if (qusCheck == 'nonMillionTied') {
       this.actionData2 = {
         status: this.stateActionB,
         rejectReason: this.rejectReasonB
       }
-      this.btnStyleB = false;
-      this.btnStyleRB = true;
+      this.btnStyleA_B = false;
+      this.btnStyleR_B = true;
     }
     if (qusCheck == 'nonMillionUntied') {
       this.actionData3 = {
         status: this.stateActionC,
         rejectReason: this.rejectReasonC
       }
-      this.btnStyleC = false;
-      this.btnStyleRC = true;
+      this.btnStyleA_C = false;
+      this.btnStyleR_C = true;
     }
     console.log('stateAction', this.stateActionA)
     //  this.actionValues.emit(this.actionData);

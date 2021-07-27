@@ -68,6 +68,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   @ViewChild("template1") template1;
   routerNavigate = null;
   isDisabled = false;
+  btnStyleA = false
+  btnStyleR = false
   quesName =
     "Please upload Expenditure Advance Transfer (EAT) Module Implemention Report";
   requiredBtn = "excel";
@@ -245,6 +247,11 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         this.data.isDraft = res["data"].isDraft;
         this.excelDataOnLoad = { excel: res["data"].excel };
         this.getStatus = res["data"]["status"];
+        if (this.getStatus == 'APPROVED') {
+          this.btnStyleA = true
+        } else if (this.getStatus == 'REJECTED') {
+          this.btnStyleR = true
+        }
         this.getrejectReason = res["data"]["rejectReason"];
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
         this.actionRes = {
