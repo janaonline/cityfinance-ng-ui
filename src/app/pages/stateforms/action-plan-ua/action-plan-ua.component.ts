@@ -73,6 +73,7 @@ export class ActionPlanUAComponent implements OnInit {
   allStatus;
   formDisable = false;
   ngOnInit(): void {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     sessionStorage.setItem("changeInActionPlans", "false");
     this.state_id = sessionStorage.getItem("state_id");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
@@ -120,9 +121,11 @@ export class ActionPlanUAComponent implements OnInit {
       this.uaCodes[key] = code;
     }
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
-      (role) => {
-        console.log("Action Plan Testing", role);
-        this.disableAllForms = true;
+      (disable) => {
+        this.formDisable = disable;
+        if (disable) {
+          sessionStorage.setItem("disableAllForms", "true")
+        }
       }
     );
   }
@@ -367,8 +370,8 @@ export class ActionPlanUAComponent implements OnInit {
       Uas.yearOutlay = temp;
       for (const key in Uas) {
         const element = Uas[key];
-        if(Array.isArray(Uas[key])){
- //         for
+        if (Array.isArray(Uas[key])) {
+          //         for
         }
       }
       newUaData.push(Uas);

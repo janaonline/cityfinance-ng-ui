@@ -86,6 +86,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   state_id;
   formDisable = false;
   ngOnInit() {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     sessionStorage.setItem("changeInPFMSAccountState", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
 
@@ -108,11 +109,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         }
       }
     }
+
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
-      (role) => {
-        console.log("link pfms Testing", role);
-        if (role === "STATE") {
-          this.disableAllForms = true;
+      (disable) => {
+        console.log("link pfms Testing", disable);
+        this.formDisable = disable
+        if (disable) {
+          sessionStorage.setItem("disableAllForms", "true")
         }
       }
     );
@@ -221,8 +224,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     await this.dialogRef.close(true);
   }
-  getStatus;
-  getrejectReason;
+  getStatus = null;
+  getrejectReason = null;
   actionFormDisable = false;
   onLoad() {
     this.LinkPFMSAccount.getData(
@@ -237,7 +240,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         this.getStatus = res["data"]["status"];
         this.getrejectReason = res["data"]["rejectReason"];
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
-
+        this.actionRes = {
+          st: this.getStatus,
+          rRes: this.getrejectReason
+        };
         if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
           console.log(this.allStatus["latestFinalResponse"]["role"], this.getStatus)
           if (this.getStatus != "PENDING") {

@@ -70,6 +70,7 @@ export class WaterRejenuvationComponent implements OnInit {
   allStatus;
   formDisable = false;
   async ngOnInit() {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     sessionStorage.setItem("changeInWaterRejenuvation", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
     await this.loadData();
@@ -102,10 +103,10 @@ export class WaterRejenuvationComponent implements OnInit {
     }
 
     this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
-      (role) => {
-        console.log("Water Rejuvenation Testing", role);
-        if (role === "STATE") {
-          this.disableAllForms = true;
+      (disable) => {
+        this.formDisable = disable
+        if (disable) {
+          sessionStorage.setItem("disableAllForms", "true")
         }
       }
     );

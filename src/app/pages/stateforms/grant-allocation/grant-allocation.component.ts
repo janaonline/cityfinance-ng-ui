@@ -94,6 +94,7 @@ export class GrantAllocationComponent implements OnInit {
   disableAllForms = false
   isStateSubmittedForms = ''
   ngOnInit() {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     sessionStorage.setItem("ChangeInGrantAllocation", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.state_name = localStorage.getItem("state_name");
@@ -117,6 +118,7 @@ export class GrantAllocationComponent implements OnInit {
       }
     );
 
+
     if (this.loggedInUserType == 'MoHUA') {
       this.formDisable = true;
     } else if (this.loggedInUserType == 'STATE') {
@@ -128,6 +130,15 @@ export class GrantAllocationComponent implements OnInit {
     }
     console.log('formDisable', this.formDisable)
 
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
+      (disable) => {
+        console.log("grsnt allocation Testing", disable);
+        this.formDisable = disable
+        if (this.formDisable) {
+          sessionStorage.setItem("disableAllForms", "true")
+        }
+      }
+    );
 
   }
 
