@@ -7,21 +7,24 @@
     </div>
 
     <div class="col-sm-4 col-lg-4 col-md-4  text-right">
-        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="openModal(template,true)">PREVIEW</button>
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn"
+            (click)="openModal(template,true)">PREVIEW</button>
     </div>
 </div>
 <div class="mat-card" style="margin-right: 25px; margin-left: 15px;">
     <div class="card-body" style="margin-top: 1rem;">
         <ng-container>
             <br>
-            <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable">
+            <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn"
+                [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable">
             </app-comm-file-upload>
             <br>
         </ng-container>
     </div>
 </div>
 
-<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA">
+<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;"
+    *ngIf="loggedInUserType === USER_TYPE.MoHUA">
     <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
         <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
         </app-action-component>
@@ -71,7 +74,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
 
@@ -93,7 +97,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
+                (click)="proceed()">Proceed</button>
         </div>
 
     </div>

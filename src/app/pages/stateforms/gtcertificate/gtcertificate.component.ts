@@ -153,6 +153,9 @@ export class GTCertificateComponent implements OnInit {
   showQ3 = false
   ngOnInit(): void {
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
+    this.formDisableA = sessionStorage.getItem("disableAllForms") == 'true'
+    this.formDisableB = sessionStorage.getItem("disableAllForms") == 'true'
+    this.formDisableC = sessionStorage.getItem("disableAllForms") == 'true'
     this.state_id = sessionStorage.getItem("state_id")
     if (this.loggedInUserType == 'MoHUA') {
       this.formDisable = true;
@@ -170,12 +173,13 @@ export class GTCertificateComponent implements OnInit {
       }
     }
 
-    this.gtcService.getCondition().subscribe(
+    this.gtcService.getCondition(this.state_id).subscribe(
       (res) => {
         let data = res['data']
         this.showQ1 = data['showQ1']
         this.showQ2 = data['showQ2']
         this.showQ3 = data['showQ3']
+        console.log(this.showQ1, this.showQ2, this.showQ3)
       },
       (err) => {
         console.log(err.message)
@@ -237,7 +241,10 @@ export class GTCertificateComponent implements OnInit {
         }
 
         if (this.loggedInUserType == 'MoHUA') {
-          this.formDisable = true;
+          this.formDisableA = true;
+          this.formDisableB = true;
+          this.formDisableC = true;
+
         } else if (this.loggedInUserType == 'STATE') {
           if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
             this.formDisableA = true;
@@ -268,12 +275,13 @@ export class GTCertificateComponent implements OnInit {
     sessionStorage.setItem("changeInGTC", "false")
     this.change = "false"
     this.submitted = false;
-    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((role) => {
-      console.log('Gt Certificate Testing', role)
-      if (role === "STATE") {
-        this.disableAllForms = true;
+    this._stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe((disable) => {
+      this.formDisableA = disable
+      this.formDisableB = disable
+      this.formDisableC = disable
+      if (disable) {
+        sessionStorage.setItem("disableAllForms", "true")
       }
-
 
     });
 

@@ -34,9 +34,15 @@ export class GTCertificateService {
         }));
     }
 
-    getCondition() {
-        let sendUrl = environment.api.url + 'state/condition';
-        return this.http.get(sendUrl)
+    getCondition(state_id) {
+        if (state_id) {
+            let sendUrl = environment.api.url + `state/condition?state_id=${state_id}`;
+            return this.http.get(sendUrl)
+        } else {
+            let sendUrl = environment.api.url + 'state/condition';
+            return this.http.get(sendUrl)
+        }
+
     }
 
 }
