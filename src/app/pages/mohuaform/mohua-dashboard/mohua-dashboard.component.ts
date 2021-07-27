@@ -514,6 +514,8 @@ export class MohuaDashboardComponent implements OnInit {
 
   openDialogAnnual() {
     const dialogRef = this.dialog.open(AnnualaccListComponent, {
+      height: "700px",
+      width: "1600px",
       data: {
         state_id: this.state_id
       }
@@ -525,6 +527,8 @@ export class MohuaDashboardComponent implements OnInit {
   }
   openDialogSlb() {
     const dialogRef = this.dialog.open(SlbListComponent, {
+      height: "700px",
+      width: "1600px",
       data: {
         state_id: this.state_id
       }
@@ -536,6 +540,8 @@ export class MohuaDashboardComponent implements OnInit {
   }
   openDialogPlans() {
     const dialogRef = this.dialog.open(PlansListComponent, {
+      height: "700px",
+      width: "1600px",
       data: {
         state_id: this.state_id
       }
@@ -547,6 +553,8 @@ export class MohuaDashboardComponent implements OnInit {
   }
   openDialogPfms() {
     const dialogRef = this.dialog.open(PfmsListComponent, {
+      height: "700px",
+      width: "1600px",
       data: {
         state_id: this.state_id
       }
@@ -558,6 +566,8 @@ export class MohuaDashboardComponent implements OnInit {
   }
   openDialogUtil() {
     const dialogRef = this.dialog.open(UtilreportListComponent, {
+      height: "700px",
+      width: "1600px",
       data: {
         state_id: this.state_id
       }
@@ -570,8 +580,8 @@ export class MohuaDashboardComponent implements OnInit {
   openDialog() {
     console.log(this.state_id)
     const dialogRef = this.dialog.open(OverallListComponent, {
-      height: "800px",
-      width: "1600px",
+      height: "700px",
+      width: "2000px",
       data: {
         state_id: this.state_id
       }

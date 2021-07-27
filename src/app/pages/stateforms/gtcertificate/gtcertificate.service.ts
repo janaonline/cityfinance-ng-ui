@@ -32,4 +32,9 @@ export class GTCertificateService {
         }));
     }
 
+    getCondition() {
+        let sendUrl = environment.api.url + 'state/condition';
+        return this.http.get(sendUrl)
+    }
+
 }

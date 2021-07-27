@@ -143,13 +143,13 @@ h5{
     private profileService: ProfileService,
     private _router: Router,
     private _matDialog: MatDialog,
-    private _WaterSupplyService : WaterSupplyService,
+    private _WaterSupplyService: WaterSupplyService,
     private _questionnaireService: QuestionnaireService,
-    ) {
-      this.initializeUserType();
-      this.fetchStateList();
-      this.initializeLoggedInUserDataFetch();
-    }
+  ) {
+    this.initializeUserType();
+    this.fetchStateList();
+    this.initializeLoggedInUserDataFetch();
+  }
   waterWasteManagementForm: FormGroup;
 
   focusTargetKey: any = {}
@@ -186,18 +186,18 @@ h5{
     console.log(this.benchmarks);
     console.log('target', this.targets)
     console.log('serv', this.services);
-    console.log('basline',this.focusTargetKey )
-    this.getwaterSuppyData()
+    console.log('basline', this.focusTargetKey)
+    // this.getwaterSuppyData()
 
   }
-  getwaterSuppyData(){
-    this._WaterSupplyService.getslbsData()
-      .subscribe((res) => {
-         console.log('response', res)
-         let ulbdetail: any = res
-         this.detailsOfUa = ulbdetail.data;
-      })
-  }
+  // getwaterSuppyData() {
+  //   this._WaterSupplyService.getslbsData()
+  //     .subscribe((res) => {
+  //       console.log('response', res)
+  //       let ulbdetail: any = res
+  //       this.detailsOfUa = ulbdetail.data;
+  //     })
+  // }
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
@@ -224,7 +224,7 @@ h5{
       case USER_TYPE.ULB:
         return this.fetchStateList();
     }
- }
+  }
   // constructor(
   //   @Inject(MAT_DIALOG_DATA) public data: any,
   //   private _matDialog: MatDialog,
@@ -239,7 +239,7 @@ h5{
   close() {
     this._matDialog.closeAll();
   }
-   downloadAsPDF() {
+  downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;
     this.showLoader = true;

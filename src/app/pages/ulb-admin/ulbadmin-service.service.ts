@@ -73,7 +73,7 @@ export class UlbadminServiceService {
       params: queryParams,
     });
   }
-  fetchAllFormStatusList(params = {}, body = {}, formName) {
+  fetchAllFormStatusList(params = {}, body = {}, formName, state_id) {
     let queryParams = new HttpParams();
     for (const key in params) {
       queryParams = queryParams.set(
@@ -90,16 +90,32 @@ export class UlbadminServiceService {
       );
     }
     let url;
-    if (formName) {
-      url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219/${formName}`
+    if (state_id) {
+      if (formName) {
+        url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219/${formName}?state_id=${state_id}`
+      } else {
+        url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219?state_id=${state_id}`
+      }
     } else {
-      url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219`
+      if (formName) {
+        url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219/${formName}`
+      } else {
+        url = `${environment.api.url}masterForm/dashboard-viewList/606aaf854dff55e6c075d219`
+      }
     }
-    return this.http.get(url, {
-      params: queryParams,
-      responseType: 'blob'
+    if (body['csv']) {
+      return this.http.get(url, {
+        params: queryParams,
+        responseType: 'blob'
 
-    });
+      });
+    } else {
+      return this.http.get(url, {
+        params: queryParams
+      });
+
+    }
+
   }
   fetchReviewStateList = (params = {}, body = {}) => {
     let queryParams = new HttpParams();

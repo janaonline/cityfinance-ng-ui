@@ -127,35 +127,61 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     )
   }
   openDialogAnnual() {
-    const dialogRef = this.dialog.open(AnnualaccListComponent);
+    console.log(this.id)
+    const dialogRef = this.dialog.open(AnnualaccListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogSlb() {
-    const dialogRef = this.dialog.open(SlbListComponent);
+    const dialogRef = this.dialog.open(SlbListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogPlans() {
-    const dialogRef = this.dialog.open(PlansListComponent);
+    const dialogRef = this.dialog.open(PlansListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogPfms() {
-    const dialogRef = this.dialog.open(PfmsListComponent);
+    const dialogRef = this.dialog.open(PfmsListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
   }
   openDialogUtil() {
-    const dialogRef = this.dialog.open(UtilreportListComponent);
+    const dialogRef = this.dialog.open(UtilreportListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -164,8 +190,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   openDialog() {
 
     const dialogRef = this.dialog.open(OverallListComponent, {
-      height: '1000px',
-      width: '1600px',
+      height: '700px',
+      width: '3000px',
+      data: {
+        state_id: null
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -222,7 +251,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             padding: 22,
           }
         },
-       responsive : true,
+        responsive: true,
 
       }
 
@@ -321,7 +350,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             padding: 20,
           }
         },
-        responsive : true
+        responsive: true
       }
 
     });
