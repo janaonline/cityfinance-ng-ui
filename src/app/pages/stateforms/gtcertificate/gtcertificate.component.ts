@@ -146,8 +146,25 @@ export class GTCertificateComponent implements OnInit {
   showQ1 = false
   showQ2 = false
   showQ3 = false
+  btnStyleA_A = false
+  btnStyleR_A = false
+  btnStyleA_B = false
+  btnStyleR_B = false
+  btnStyleA_C = false
+  btnStyleR_C = false
   ngOnInit(): void {
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
+    this.actionFormDisableA = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this.actionFormDisableB = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this.actionFormDisableC = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this._stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
+      this.actionFormDisableA = disable;
+      this.actionFormDisableB = disable;
+      this.actionFormDisableC = disable;
+      if (disable) {
+        sessionStorage.setItem("disableAllActionForm", "true")
+      }
+    })
     this.formDisableA = sessionStorage.getItem("disableAllForms") == 'true'
     this.formDisableB = sessionStorage.getItem("disableAllForms") == 'true'
     this.formDisableC = sessionStorage.getItem("disableAllForms") == 'true'
@@ -202,8 +219,23 @@ export class GTCertificateComponent implements OnInit {
         console.log(masterForm)
 
         this.stateActionA = res['data']['million_tied']['status']
+        if (this.stateActionA == "APPROVED") {
+          this.btnStyleA_A = true;
+        } else if (this.stateActionA == "REJECTED") {
+          this.btnStyleR_A = true;
+        }
         this.stateActionB = res['data']['nonmillion_tied']['status']
+        if (this.stateActionB == "APPROVED") {
+          this.btnStyleA_B = true;
+        } else if (this.stateActionB == "REJECTED") {
+          this.btnStyleR_B = true;
+        }
         this.stateActionC = res['data']['nonmillion_untied']['status']
+        if (this.stateActionC == "APPROVED") {
+          this.btnStyleA_C = true;
+        } else if (this.stateActionC == "REJECTED") {
+          this.btnStyleR_C = true;
+        }
         this.getStatus = res['data']['status']
         if (res['data']['million_tied']['rejectReason']) {
 

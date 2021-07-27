@@ -142,6 +142,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   allStateFormsData
   ngOnInit(): void {
     sessionStorage.setItem("disableAllForms", "false")
+    sessionStorage.setItem("disableAllActionForm", "false")
     this.screenHeight = window.innerHeight;
     console.log('screennnnnHieght', this.screenHeight);
 
@@ -398,7 +399,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         this.lastRoleInMasterForm = res["data"]['actionTakenByRole'];
 
         this.stateformsService.allStatusStateForms.next(res['data']);
-        this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
+        // this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
         this.role = res["data"]["latestFinalResponse"]['role'];
         if (this.role === "STATE") {
           this.submitted = true;
@@ -437,6 +438,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       this.stateformsService.finalReviewSubmitByMoHUA(data, this.id).subscribe(
         (res) => {
           this.validate = false;
+          this.stateformsService.disableAllFormsAfterMoHUAReview.next(true)
           swal(
             "Forms Successfully Submitted by MoHUA"
           );

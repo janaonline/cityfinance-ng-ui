@@ -87,6 +87,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   formDisable = false;
   ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
+    this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this.stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
+      this.actionFormDisable = disable;
+      if (disable) {
+        sessionStorage.setItem("disableAllActionForm", "true")
+      }
+    })
     sessionStorage.setItem("changeInPFMSAccountState", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
 
