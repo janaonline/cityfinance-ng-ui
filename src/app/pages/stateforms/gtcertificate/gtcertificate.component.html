@@ -17,7 +17,7 @@
         <div class="card" style="background-color: #FFFFFF; margin-top: 5px;">
             <div class="card-body ">
                 <!-- 1st Card -->
-                <div *ngIf="showQ1">
+                <div *ngIf="showQ1 ">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 8px;">
                             <!-- Upload Signed Grant Transfer Certificate for Million Tied Grants  -->
@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cin">
-                                        <a class="btn btnUpload" (click)="uploadButtonClicked()"
+                                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                                             [ngClass]="{'anDisable': formDisableA }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
@@ -42,20 +42,30 @@
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableA}"
-                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup
-                                    [(ngModel)]="stateActionA"
+                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
+                                    btnRadioGroup [(ngModel)]="stateActionA"
                                     style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}"
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_A}"
                                             btnRadio="APPROVED" (click)="checkStatusAp('millionTied')" uncheckable
                                             tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}"
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_A}"
                                             btnRadio="REJECTED" (click)="checkStatus('millionTied')" uncheckable
                                             tabindex="0" role="button" style="margin-left: 10px;
                                 width: 82px;">Return</label>
                                     </div>
+
                                 </div>
+
+                                <div class="btn-group float-right"
+                                    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'"
+                                    btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
+                                    <label class="btn btn-success" disabled style="width: 82px;"
+                                        [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
+                                        {{stateActionA | titlecase}}</label>
+                                </div>
+
 
 
 
@@ -133,7 +143,7 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind">
-                                        <a class="btn btnUpload" (click)="uploadButtonClicked()"
+                                        <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
                                             [ngClass]="{'anDisable': formDisableB }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
@@ -145,19 +155,26 @@
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableB}"
-                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup
-                                    [(ngModel)]="stateActionB"
+                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
+                                    btnRadioGroup [(ngModel)]="stateActionB"
                                     style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}"
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_B}"
                                             btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable
                                             tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}"
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_B}"
                                             btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable
                                             tabindex="0" role="button" style="margin-left: 10px;
                           width: 82px;">Return</label>
                                     </div>
+                                </div>
+                                <div class="btn-group float-right"
+                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
+                                    style="margin-bottom: 1rem; margin-left: 20%;">
+                                    <label class="btn btn-success" disabled style="width: 82px;"
+                                        [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
+                                        {{stateActionB | titlecase}}</label>
                                 </div>
                             </div>
                         </div>
@@ -231,7 +248,7 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde">
-                                        <a class="btn btnUpload" (click)="uploadButtonClicked()"
+                                        <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
                                             [ngClass]="{'anDisable': formDisableC }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
@@ -243,19 +260,26 @@
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableC}"
-                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA" btnRadioGroup
-                                    [(ngModel)]="stateActionC"
+                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
+                                    btnRadioGroup [(ngModel)]="stateActionC"
                                     style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}"
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_C}"
                                             btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable
                                             tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}"
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_C}"
                                             btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable
                                             tabindex="0" role="button" style="margin-left: 10px;
                         width: 82px;">Return</label>
                                     </div>
+                                </div>
+                                <div class="btn-group float-right"
+                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
+                                    style="margin-bottom: 1rem; margin-left: 20%;">
+                                    <label class="btn btn-success" disabled style="width: 82px;"
+                                        [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
+                                        {{stateActionC | titlecase}}</label>
                                 </div>
                             </div>
                         </div>

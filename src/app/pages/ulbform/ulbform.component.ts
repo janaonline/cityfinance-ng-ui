@@ -117,10 +117,12 @@ export class UlbformComponent implements OnInit {
   };
 
   async ngOnInit() {
+
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
-      console.log("allformStatus", data);
+      console.log('sesionnnnn data', sessionStorage.getItem("allFormsData"));
+      console.log("allformdata.................", data);
     });
     this.getStatus();
     this.getAllForm();
@@ -246,7 +248,6 @@ export class UlbformComponent implements OnInit {
 
   getAllForm() {
     let userData = JSON.parse(localStorage.getItem("userData"));
-
     this.ulbformService
       .getAllForms(
         userData.ulb ?? sessionStorage.getItem("row_id"),
@@ -254,6 +255,7 @@ export class UlbformComponent implements OnInit {
         "606aadac4dff55e6c075c507"
       )
       .subscribe((res) => {
+        console.log("allformdata aall.................", res);
         this.ulbformService.allFormsData.next(res[0]);
       });
   }

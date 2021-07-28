@@ -44,6 +44,9 @@ export class GrantAllocationComponent implements OnInit {
           this._router.navigateByUrl(currentRoute.snapshot.url, {
             skipLocationChange: true,
           });
+          console.log('change..............happen');
+
+          this.checkDiff();
           this.openModal(this.template);
         }
       }
@@ -94,6 +97,7 @@ export class GrantAllocationComponent implements OnInit {
   disableAllForms = false
   isStateSubmittedForms = ''
   ngOnInit() {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     sessionStorage.setItem("ChangeInGrantAllocation", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.state_name = localStorage.getItem("state_name");
@@ -117,6 +121,7 @@ export class GrantAllocationComponent implements OnInit {
       }
     );
 
+
     if (this.loggedInUserType == 'MoHUA') {
       this.formDisable = true;
     } else if (this.loggedInUserType == 'STATE') {
@@ -128,9 +133,34 @@ export class GrantAllocationComponent implements OnInit {
     }
     console.log('formDisable', this.formDisable)
 
+    this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
+      (disable) => {
+        console.log("grsnt allocation Testing", disable);
+        this.formDisable = disable
+        if (this.formDisable) {
+          sessionStorage.setItem("disableAllForms", "true")
+        }
+      }
+    );
 
   }
 
+  checkDiff(){
+    let preData = {
+      answer: this.account,
+      fileName: this.fileName,
+      url: this.gtFileUrl,
+      isDraft: this.checkDraft(),
+    };
+
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in grant all..', allFormData,  preData);
+
+    if (allFormData) {
+      allFormData[0].grantdistributions[0] = preData
+      this.stateformsService.allFormsPreData.next(allFormData)
+    }
+  }
   downloadSample() {
     this._gAservices.downloadFile().subscribe((response) => {
       let blob: any = new Blob([response], {
@@ -149,6 +179,7 @@ export class GrantAllocationComponent implements OnInit {
 
     this.linked = "";
     sessionStorage.setItem("ChangeInGrantAllocation", "true");
+    this.checkDiff();
   }
   onClickNo() {
     this.account = "no";
@@ -158,6 +189,7 @@ export class GrantAllocationComponent implements OnInit {
     // this.progessType =''
     // if (!this.change)
     sessionStorage.setItem("ChangeInGrantAllocation", "true");
+    this.checkDiff();
   }
   fileChangeEvent(event) {
     this.submitted = false;
@@ -256,6 +288,7 @@ export class GrantAllocationComponent implements OnInit {
                 console.log(response);
                 this.progessType = 100;
                 this.gtFileUrl = fileAlias;
+                this.checkDiff();
                 //  swal('Record Submitted Successfully!')
                 //  resolve(res)
               },
@@ -331,6 +364,7 @@ export class GrantAllocationComponent implements OnInit {
     this.fileName = "";
     this.gtFileUrl = "";
     this.progessType = "";
+    this.checkDiff();
   }
 
   checkDraft() {
@@ -427,6 +461,7 @@ export class GrantAllocationComponent implements OnInit {
   proceed() {
     this.dialogRefForNavigation.close(true);
     this.saveForm();
+
   }
 
   alertClose() {

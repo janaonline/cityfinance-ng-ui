@@ -4,12 +4,13 @@ import { environment } from '../../../../environments/environment'
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GAservicesService {
-
+  OpenModalTrigger = new Subject<any>();
   constructor(private http: HttpClient) { }
 
   sendRequest(val) {

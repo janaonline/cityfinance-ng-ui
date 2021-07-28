@@ -68,6 +68,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   @ViewChild("template1") template1;
   routerNavigate = null;
   isDisabled = false;
+  btnStyleA = false
+  btnStyleR = false
   quesName =
     "Please upload Expenditure Advance Transfer (EAT) Module Implemention Report";
   requiredBtn = "excel";
@@ -86,6 +88,14 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   state_id;
   formDisable = false;
   ngOnInit() {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
+    this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this.stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
+      this.actionFormDisable = disable;
+      if (disable) {
+        sessionStorage.setItem("disableAllActionForm", "true")
+      }
+    })
     sessionStorage.setItem("changeInPFMSAccountState", "false");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
 
@@ -108,11 +118,13 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         }
       }
     }
+
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
-      (role) => {
-        console.log("link pfms Testing", role);
-        if (role === "STATE") {
-          this.disableAllForms = true;
+      (disable) => {
+        console.log("link pfms Testing", disable);
+        this.formDisable = disable
+        if (disable) {
+          sessionStorage.setItem("disableAllForms", "true")
         }
       }
     );
@@ -221,8 +233,8 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     }
     await this.dialogRef.close(true);
   }
-  getStatus;
-  getrejectReason;
+  getStatus = null;
+  getrejectReason = null;
   actionFormDisable = false;
   onLoad() {
     this.LinkPFMSAccount.getData(
@@ -235,9 +247,17 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         this.data.isDraft = res["data"].isDraft;
         this.excelDataOnLoad = { excel: res["data"].excel };
         this.getStatus = res["data"]["status"];
+        if (this.getStatus == 'APPROVED') {
+          this.btnStyleA = true
+        } else if (this.getStatus == 'REJECTED') {
+          this.btnStyleR = true
+        }
         this.getrejectReason = res["data"]["rejectReason"];
         sessionStorage.setItem("pfmsAccounts", JSON.stringify(res));
-
+        this.actionRes = {
+          st: this.getStatus,
+          rRes: this.getrejectReason
+        };
         if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
           console.log(this.allStatus["latestFinalResponse"]["role"], this.getStatus)
           if (this.getStatus != "PENDING") {
@@ -256,6 +276,15 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   checkDiff() {
     this.saveBtnTxt = "SAVE AND NEXT";
     sessionStorage.setItem("changeInPFMSAccountState", "true");
+    let preData = this.data;
+
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in linkPfms', allFormData, this.data, preData);
+
+    if (allFormData) {
+      allFormData[0].linkpfmsstates[0] = preData
+      this.stateformsService.allFormsPreData.next(allFormData)
+    }
   }
 
   async proceed(uploadedFiles) {

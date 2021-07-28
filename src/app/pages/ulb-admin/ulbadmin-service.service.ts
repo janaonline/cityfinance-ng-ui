@@ -165,9 +165,17 @@ export class UlbadminServiceService {
         )
       );
     }
+    if (body['csv']) {
+      return this.http.get(`${environment.api.url}user/all?role=ULB`, {
+        params: queryParams,
+        responseType: 'blob'
 
-    return this.http.get(`${environment.api.url}user/all?role=ULB`, {
-      params: queryParams,
-    });
+      });
+    } else {
+      return this.http.get(`${environment.api.url}user/all?role=ULB`, {
+        params: queryParams,
+      });
+    }
+
   }
 }

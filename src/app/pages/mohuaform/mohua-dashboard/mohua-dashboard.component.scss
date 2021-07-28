@@ -175,8 +175,9 @@
 }
 
 .my_table tbody tr:focus {
-  background-color: #FFC500 !important;
-  outline: 0; /*remove outline*/
+    background-color: #FFC500 !important;
+    outline: 0;
+    /*remove outline*/
 }
 
 .textInThirdColumn {
@@ -496,7 +497,7 @@ table {
 
  ::ng-deep .ml-0 {
     max-width: 140px;
-    transform: translateX(-3%);
+    transform: translateX(14%);
     margin-bottom: 3vh !important;
     overflow: visible;
     margin-left: 0pc !important;
@@ -517,6 +518,10 @@ table {
     color: #FFFFFF;
 }
 
+::ng-deep .leaflet-map-pane {
+    transform: translate3d(-26px, 7px, 0px) !important;
+}
+
 .card-number2 {
     color: #12505A;
     font-size: 33px;
@@ -524,7 +529,7 @@ table {
     font-weight: 430;
 }
 
-.card-text-1{
+.card-text-1 {
     color: #12505A;
     font-size: 25px;
     margin-top: 13px;

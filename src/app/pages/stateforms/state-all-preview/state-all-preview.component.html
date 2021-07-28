@@ -20,13 +20,13 @@
     </div>
     <div class="row m-h-mr" *ngIf="gtcData">
         <div class="col-sm-12">
-            <app-gtcertificate-preview [changeFromOutSide]="changeTrigger.changeIngtcData" [parentData]="gtcData"></app-gtcertificate-preview>
+            <app-gtcertificate-preview [changeFromOutSide]="changeTrigger.changeInGTC" [parentData]="gtcData"></app-gtcertificate-preview>
         </div>
     </div>
 
     <div class="row" *ngIf="pfmsStateData">
         <div class="col-sm-12">
-            <app-pfms-preview [changeFromOutSide]="changeTrigger.changeInpfmsStateData" [parentData]="pfmsStateData"></app-pfms-preview>
+            <app-pfms-preview [changeFromOutSide]="changeTrigger.changeInPFMSAccountState" [parentData]="pfmsStateData"></app-pfms-preview>
         </div>
     </div>
     <div class="page-break"></div>
@@ -37,19 +37,19 @@
     </div>
     <div class="row" *ngIf="waterRejData">
         <div class="col-sm-12">
-            <app-water-rejenuvation-preview [changeFromOutSide]="changeTrigger.changeInWaterRejData" [parentData]="waterRejData"></app-water-rejenuvation-preview>
+            <app-water-rejenuvation-preview [changeFromOutSide]="changeTrigger.changeInWaterRejenuvation" [parentData]="waterRejData"></app-water-rejenuvation-preview>
         </div>
     </div>
     <div class="page-break"></div>
     <div class="row" *ngIf="actionPlanData">
         <div class="col-sm-12">
-            <app-actionplanspreview [changeFromOutSide]="changeTrigger.changeInActionPlanData" [parentData]="actionPlanData"></app-actionplanspreview>
+            <app-actionplanspreview [changeFromOutSide]="changeTrigger.changeInActionPlans" [parentData]="actionPlanData"></app-actionplanspreview>
         </div>
     </div>
     <div class="page-break"></div>
     <div class="row" *ngIf="gAllData">
         <div class="col-sm-12">
-            <app-grant-all-preview [changeFromOutSide]="changeTrigger.changeIngAllData" [parentData]="gAllData"></app-grant-all-preview>
+            <app-grant-all-preview [changeFromOutSide]="changeTrigger.ChangeInGrantAllocation" [parentData]="gAllData"></app-grant-all-preview>
         </div>
     </div>
 </div>

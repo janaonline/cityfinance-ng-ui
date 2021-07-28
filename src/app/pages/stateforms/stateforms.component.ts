@@ -12,6 +12,7 @@ const swal: SweetAlert = require("sweetalert");
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { StateDashboardService } from './state-dashboard/state-dashboard.service';
 
 @Component({
   selector: 'app-stateforms',
@@ -32,15 +33,18 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   sticky: boolean = false;
   stiHieght: boolean = false;
   elementPosition: any;
+  totalUas = true;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
+
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
     private _router: Router,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
-    public stateformsService: StateformsService
+    public stateformsService: StateformsService,
+    public stateDashboardService: StateDashboardService,
   ) {
     this.activatedRoute.params.subscribe((val) => {
       console.log("vallllll", val);
@@ -63,14 +67,14 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         this.toolTipContentN = 'Not Completed'
 
         break;
-       case USER_TYPE.MoHUA:
-       case USER_TYPE.PARTNER:
-       case USER_TYPE.ADMIN:
+      case USER_TYPE.MoHUA:
+      case USER_TYPE.PARTNER:
+      case USER_TYPE.ADMIN:
         this.toolTipContentC = 'Reviewed'
-         this.toolTipContentN = 'Not Reviewed'
+        this.toolTipContentN = 'Not Reviewed'
 
-      //   this._router.navigate(["/mohua/dashboard"]);
-         break;
+        //   this._router.navigate(["/mohua/dashboard"]);
+        break;
       // case USER_TYPE.PARTNER:
       // case USER_TYPE.ADMIN:
       // case undefined:
@@ -141,6 +145,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   };
   allStateFormsData
   ngOnInit(): void {
+    sessionStorage.setItem("disableAllForms", "false")
+    sessionStorage.setItem("disableAllActionForm", "false")
     this.screenHeight = window.innerHeight;
     console.log('screennnnnHieght', this.screenHeight);
 
@@ -210,8 +216,9 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
 
         } else if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "STATE")
-          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA") ||
-          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")) {
+          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA")
+          || (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")
+        ) {
 
 
           if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
@@ -290,54 +297,61 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
 
         } else if (
-          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE")
-          || (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")
+          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE" ||
+            res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA"
+          )
+
         ) {
-          if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
-            this.pfms_greenTick = true;
-          } else if ((!res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
-            this.pfms_greenTick = false;
-          }
+          this.pfms_greenTick = this.res['latestFinalResponse']['linkPFMS']['isSubmit'];
+          this.gtc_greenTick = this.res['latestFinalResponse']['GTCertificate']['isSubmit'];
+          this.wr_greenTick = this.res['latestFinalResponse']['waterRejuventation']['isSubmit'];
+          this.ap_greenTick = this.res['latestFinalResponse']['actionPlans']['isSubmit'];
+          this.ga_greenTick = true;
+          // if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+          //   res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
+          //   this.pfms_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+          //   res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
+          //   this.pfms_greenTick = false;
+          // }
 
-          if ((res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
-            this.gtc_greenTick = true;
-          } else if ((!res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
-            this.gtc_greenTick = false;
-          }
+          // if ((res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+          //   res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
+          //   this.gtc_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+          //   res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
+          //   this.gtc_greenTick = false;
+          // }
 
-          if ((res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
-            this.wr_greenTick = true;
-          } else if ((!res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
-            this.wr_greenTick = false;
-          }
+          // if ((res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+          //   res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
+          //   this.wr_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+          //   res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
+          //   this.wr_greenTick = false;
+          // }
 
-          if ((res['latestFinalResponse']['actionPlans']['isSubmit'] &&
-            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
-            this.ap_greenTick = true;
-          } else if ((!res['latestFinalResponse']['actionPlans']['isSubmit'] &&
-            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
-            this.ap_greenTick = false;
-          }
+          // if ((res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+          //   res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
+          //   this.ap_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+          //   res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
+          //   this.ap_greenTick = false;
+          // }
 
-          if (res['latestFinalResponse']['grantAllocation']['isSubmit']) {
-            this.ga_greenTick = true;
-          } else {
-            this.ga_greenTick = false;
-          }
+          // if (res['latestFinalResponse']['grantAllocation']['isSubmit']) {
+          //   this.ga_greenTick = true;
+          // } else {
+          //   this.ga_greenTick = false;
+          // }
 
         }
 
@@ -369,6 +383,20 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       console.log("allStateformStatus", data);
     });
 
+    this.stateDashboardService.totalUaS.subscribe((data) => {
+      console.log("total uasss", data);
+      if (data == 0) {
+        this.totalUas = false;
+      }
+    });
+
+    this.stateformsService.allFormsPreData.subscribe((data) => {
+      this.allStateFormsRes = data;
+      sessionStorage.setItem("allFormsPreData", JSON.stringify(data));
+      //   console.log('sesionnnnn data', sessionStorage.getItem("allFormsPreData"));
+      //  console.log("allformdata.................", data);
+    });
+
     this.getStatus();
     this.getAllStateForms();
   }
@@ -383,6 +411,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   ap_greenTick = false;
   ga_greenTick = false;
   res;
+
   getStatus() {
     console.log('Please check user role', this.userLoggedInDetails.role)
     if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
@@ -397,7 +426,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         this.lastRoleInMasterForm = res["data"]['actionTakenByRole'];
 
         this.stateformsService.allStatusStateForms.next(res['data']);
-        this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
+        // this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
         this.role = res["data"]["latestFinalResponse"]['role'];
         if (this.role === "STATE") {
           this.submitted = true;
@@ -424,6 +453,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   }
   finalActionDis = false;
   reviewSubmitted = false;
+
   finalMoHUAAction() {
     this.reviewSubmitted = true
     let data = {
@@ -436,6 +466,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       this.stateformsService.finalReviewSubmitByMoHUA(data, this.id).subscribe(
         (res) => {
           this.validate = false;
+          this.stateformsService.disableAllFormsAfterMoHUAReview.next(true)
           swal(
             "Forms Successfully Submitted by MoHUA"
           );
@@ -452,11 +483,21 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   getAllStateForms() {
     if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
       this.id = sessionStorage.getItem("state_id");
+    } else {
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      this.id = userData.state;
     }
     this.stateformsService
       .getAllStateForms(this.design_year, this.id)
       .subscribe((res) => {
         this.stateformsService.allStateFormsData.next(res['data']);
+      });
+
+    this.stateformsService
+      .allStateFormData(this.id)
+      .subscribe((res) => {
+        console.log('inside next......', res);
+        this.stateformsService.allFormsPreData.next(res['data']);
       });
   }
   validate = true
@@ -607,49 +648,60 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   }
   allStateFormsRes;
   statePreview() {
-    let userData = JSON.parse(localStorage.getItem("userData"));
-    let st_id = userData.state;
-    console.log('state user data',userData, st_id)
-    this.stateformsService.allStateFormData(st_id).subscribe((res) => {
-        console.log('previewResPonce', res)
-        this.allStateFormsRes = res['data'];
-        console.log("hello", this.allStateFormsRes);
-        const dialogRef = this.dialog.open(StateAllPreviewComponent, {
-        data: this.allStateFormsRes,
-        width: "85vw",
-        height: "100%",
-        panelClass: "no-padding-dialog",
-       });
-    dialogRef.afterClosed().subscribe((result) => {});
-    },
-    (err) => {
-        console.log(err);
+    // let userData = JSON.parse(localStorage.getItem("userData"));
+    // let st_id = userData.state;
+    console.log("hello", this.allStateFormsRes);
+    const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+      data: this.allStateFormsRes,
+      width: "85vw",
+      height: "100%",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => { });
+    // let userData = JSON.parse(localStorage.getItem("userData"));
+    // let st_id = userData.state;
+    // console.log('state user data',userData, st_id)
+    // this.stateformsService.allStateFormData(st_id).subscribe((res) => {
+    //     console.log('previewResPonce', res)
+    //     this.allStateFormsRes = res['data'];
+    //     console.log("hello", this.allStateFormsRes);
+    //     const dialogRef = this.dialog.open(StateAllPreviewComponent, {
+    //     data: this.allStateFormsRes,
+    //     width: "85vw",
+    //     height: "100%",
+    //     panelClass: "no-padding-dialog",
+    //    });
+    // dialogRef.afterClosed().subscribe((result) => {});
+    // },
+    // (err) => {
+    //     console.log(err);
 
-    })
+    // })
 
   }
-  ngAfterViewInit(){
+
+  ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
 
   @HostListener('window:scroll', ['$event'])
-    handleScroll(){
-      const windowScroll = window.pageYOffset;
-      console.log('scrolllllll', windowScroll, this.elementPosition);
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    console.log('scrolllllll', windowScroll, this.elementPosition);
 
-      if(windowScroll >= this.elementPosition){
-        this.sticky = true;
-        // if(windowScroll < 500) {
-        //  this.stiHieght = true;
-        //   this.sticky = false;
-        // }else{
-        //   this.sticky = true;
-        //   this.stiHieght = false;
-        // }
-      } else {
-        this.sticky = false;
-        //this.stiHieght = false;
-      }
+    if (windowScroll >= this.elementPosition) {
+      this.sticky = true;
+      // if(windowScroll < 500) {
+      //  this.stiHieght = true;
+      //   this.sticky = false;
+      // }else{
+      //   this.sticky = true;
+      //   this.stiHieght = false;
+      // }
+    } else {
+      this.sticky = false;
+      //this.stiHieght = false;
     }
+  }
 
 }

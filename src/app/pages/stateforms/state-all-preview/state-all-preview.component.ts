@@ -1,16 +1,26 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { QuestionnaireService } from '../../questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from '../../questionnaires/ulb/configs/common.config';
+import { ActionplanserviceService } from '../action-plan-ua/actionplanservice.service';
+import { GAservicesService } from '../grant-allocation/g-aservices.service';
+import { GTCertificateService } from '../gtcertificate/gtcertificate.service';
+import { LinkPFMSAccount } from '../link-pfms/link-pfms.service';
+import { StateformsService } from '../stateforms.service';
+import { WaterRejenuvationService } from '../water-rejenuvation/water-rejenuvation.service';
 
 @Component({
   selector: 'app-state-all-preview',
   templateUrl: './state-all-preview.component.html',
   styleUrls: ['./state-all-preview.component.scss']
 })
-export class StateAllPreviewComponent implements OnInit {
+export class StateAllPreviewComponent implements OnInit, OnDestroy
+
+
+
+{
   uasData;
   @ViewChild("statePre") _html: ElementRef;
  // @ViewChild("template") template;
@@ -361,7 +371,13 @@ margin-left: 22%;
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public gtc_service: GTCertificateService,
+    public linkPFMS_service: LinkPFMSAccount,
+    public gta_service: GAservicesService,
+    public waterRej_service: WaterRejenuvationService,
+    public actionPlan_service: ActionplanserviceService,
+    public state_service : StateformsService
   ) {
     this.uasData = JSON.parse(sessionStorage.getItem("UasList"));
 
@@ -372,13 +388,14 @@ margin-left: 22%;
   waterRejData = null;
   actionPlanData = null;
   gAllData = null;
+  canDownload = true;
   changeTrigger: any = {
-    changeInGtc: false,
-    changeInpfmsStateData: false,
+    changeInGTC: false,
+    changeInPFMSAccountState: false,
     changeInStateSlb: false,
-    changeInWaterRejData: false,
-    changeInActionPlanData: false,
-    changeIngAllData: false,
+    changeInWaterRejenuvation: false,
+    changeInActionPlans: false,
+    ChangeInGrantAllocation: false,
   };
   userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -484,45 +501,176 @@ allFormRes = {};
 account =''
 fileName ='';
 gtFileUrl = '';
-
+downloadSub;
   ngOnInit() {
-    console.log('previewData', this.data, this.data[0]);
-    this.allFormRes = this.data[0]
-     this.gtcError.data = this.data[0]['stategtcertificates'][0];
-     this.pfmsStateError = this.data[0]['linkpfmsstates'][0];
-     this.waterRejError = this.data[0]['waterrejenuvationrecyclings'][0];
-     this.actionPlanError = this.data[0]['actionplans'][0];
-     this.grantAllError = this.data[0]['grantdistributions'][0];
-     console.log('g-all-data', this.grantAllError, this.data[0]['grantdistributions'][0]);
-
-
-    //  for (let index = 0; index < this.waterRejError[0].uaData.length; index++) {
-    //   this.waterRejError[0].uaData[index].name = this.uasData[this.waterRejError[0].uaData[index].ua].name;
+    this.downloadSub = this.state_service.initiateDownload.subscribe(
+      (proceedSelected) => {
+        if (proceedSelected) {
+          this.downloadAsPdf();
+        }
+      }
+    );
+    console.log('previewData', this.data);
+    // this.allFormRes = this.data[0]
+    //  this.gtcError.data = this.data[0]['stategtcertificates'][0];
+    //  this.pfmsStateError = this.data[0]['linkpfmsstates'][0];
+    //  this.waterRejError = this.data[0]['waterrejenuvationrecyclings'][0];
+    //  this.actionPlanError = this.data[0]['actionplans'][0];
+    //  this.grantAllError = this.data[0]['grantdistributions'][0];
+    //  console.log('g-all-data', this.grantAllError, this.data[0]['grantdistributions'][0]);
+    //  this.gtcData = this.gtcError.data;
+    // this.pfmsStateData = this.pfmsStateError;
+    // this.waterRejData = this.waterRejError;
+    // this.actionPlanData = this.actionPlanError
+    // this.gAllData = this.grantAllError;
+    // console.log('all single form', this.gAllData);
+    // if (this.gAllData.answer == true) {
+    //   console.log('dsvfdbad', this.gAllData.answer);
+    //   this.gAllData.answer = "yes";
+    // } else if (this.gAllData.answer == false) {
+    //   this.account = "no";
     // }
+     //pfmsStateError
 
-     this.gtcData = this.gtcError.data;
-    this.pfmsStateData = this.pfmsStateError;
-    this.waterRejData = this.waterRejError;
-    this.actionPlanData = this.actionPlanError
-    this.gAllData = this.grantAllError;
-    console.log('all single form', this.gAllData);
+     this.onLoad();
+  }
+  async onLoad() {
+    this.checkDataChange();
+    if (this.data) {
+      console.log('setdata............', this.data);
+      this.setAllData(this.data);
+    } else
+    {
+      console.log('getdata............', this.data);
+      this.getAllForm();
+    }
+  }
+  getAllForm() {
+    let userData = JSON.parse(localStorage.getItem("userData"));
+    let st_id = userData.state;
+    this.state_service
+      .allStateFormData(st_id)
+      .subscribe((res) => {
+        this.showLoader = false;
+        this.setAllData(res['data']);
+        console.log('getAldata.....',res['data']);
+
+      });
+  }
+  ngOnDestroy() {
+    this.downloadSub.unsubscribe();
+  }
+
+  checkDataChange() {
+    const status = [
+      "changeInGTC",
+      "changeInPFMSAccountState",
+      "changeInWaterRejenuvation",
+      "changeInActionPlans",
+      "ChangeInGrantAllocation",
+    ];
+    status.forEach((element) => {
+      let change = sessionStorage.getItem(element);
+      if (
+        change == "true"
+      ) {
+        this.changeTrigger[element] = true;
+        this.canDownload = false;
+      }
+    });
+  }
+  setAllData(data) {
+    console.log('setDataaaa', data);
+    this.setLinkPfms(data[0]['linkpfmsstates'][0]);
+    console.log('setDataaaa Water rej', data[0]['waterrejenuvationrecyclings'][0]);
+    this.setGtcData(data[0]['stategtcertificates'][0]);
+    this.setActionPlan(data[0]['actionplans'][0]);
+    this.setWaterRej(data[0]['waterrejenuvationrecyclings'][0]);
+    this.setGrantAll(data[0]['grantdistributions'][0]);
+    this.showLoader = false;
+  }
+  setLinkPfms(pfmsData) {
+    console.log('setpfmsData', pfmsData);
+
+    if (pfmsData) this.pfmsStateData = pfmsData;
+    else this.pfmsStateData = this.pfmsStateError;
+  }
+  setGtcData(gtcData) {
+    sessionStorage.setItem("StateGTC", JSON.stringify(gtcData));
+    if (gtcData) this.gtcData = gtcData;
+    else this.gtcData =  this.gtcError.data;
+  }
+  setActionPlan(actionData) {
+    if (actionData) this.actionPlanData = actionData;
+    else this.actionPlanData = this.actionPlanError;
+  }
+  setWaterRej(waterRejData) {
+    console.log('setpfmsData', waterRejData, this.waterRejError);
+    if (waterRejData)
+    {
+      console.log('inside if', this.waterRejData);
+
+      this.waterRejData = waterRejData;
+      console.log('inside if out', this.waterRejData, waterRejData);
+    }
+    else
+    {
+      this.waterRejData = this.waterRejError;
+    }
+  }
+  setGrantAll(gAllData) {
+    if (gAllData) this.gAllData = gAllData;
+    else this.gAllData = this.grantAllError;
     if (this.gAllData.answer == true) {
       console.log('dsvfdbad', this.gAllData.answer);
-
       this.gAllData.answer = "yes";
-     // this.fileName = this.gAllData.fileName;
-     // this.gtFileUrl = this.gAllData.url;
     } else if (this.gAllData.answer == false) {
       this.account = "no";
     }
-     //pfmsStateError
+  }
+  openModal() {
 
+    if (this.canDownload) {
+      this.downloadAsPdf();
+      console.log('canDownload', this.canDownload);
 
+    }
+    const status = [
+      "changeInGTC",
+      "changeInPFMSAccountState",
+      "changeInWaterRejenuvation",
+      "changeInActionPlans",
+      "ChangeInGrantAllocation",
+    ];
+
+    status.forEach((element) => {
+      if (sessionStorage.getItem(element) == "true") {
+        console.log('elements....', element);
+
+        switch (element) {
+          case "changeInGTC":
+            this.gtc_service.OpenModalTrigger.next(true);
+            break;
+          case "changeInPFMSAccountState":
+            this.linkPFMS_service.OpenModalTrigger.next(true);
+            break;
+          case "changeInWaterRejenuvation":
+            this.waterRej_service.OpenModalTrigger.next(true);
+            break;
+          case "changeInActionPlans":
+            this.actionPlan_service.OpenModalTrigger.next(true);
+            break;
+            case "ChangeInGrantAllocation":
+              this.gta_service.OpenModalTrigger.next(true);
+              break;
+        }
+      }
+      //  else if (element == "ChangeInGrantAllocation") {
+      //   this.gta_service.OpenModalTrigger.next(true);
+      // }
+    });
   }
 
-  openModal(){
-  this.downloadAsPdf();
-  }
   downloadAsPdf(){
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
     const html = this.styleForPDF + elementToAddPDFInString;

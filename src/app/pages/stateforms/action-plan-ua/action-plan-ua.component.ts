@@ -73,6 +73,14 @@ export class ActionPlanUAComponent implements OnInit {
   allStatus;
   formDisable = false;
   ngOnInit(): void {
+    this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
+    this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this.stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
+      this.actionFormDisable = disable;
+      if (disable) {
+        sessionStorage.setItem("disableAllActionForm", "true")
+      }
+    })
     sessionStorage.setItem("changeInActionPlans", "false");
     this.state_id = sessionStorage.getItem("state_id");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
@@ -120,9 +128,11 @@ export class ActionPlanUAComponent implements OnInit {
       this.uaCodes[key] = code;
     }
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
-      (role) => {
-        console.log("Action Plan Testing", role);
-        this.disableAllForms = true;
+      (disable) => {
+        this.formDisable = disable;
+        if (disable) {
+          sessionStorage.setItem("disableAllForms", "true")
+        }
       }
     );
   }
@@ -401,6 +411,7 @@ export class ActionPlanUAComponent implements OnInit {
     console.log(JSON.stringify(allData), "xxxxxxxxxxx", temp);
     if (!deepEqual(allData, JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
+      this.checkDiff();
     } else {
       sessionStorage.setItem("changeInActionPlans", "false");
     }
@@ -436,7 +447,15 @@ export class ActionPlanUAComponent implements OnInit {
       this.routerNavigate = null;
     }
   }
-
+  checkDiff() {
+    let preData = this.makeApiData();
+    let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
+    console.log('in actionPlan', allFormData, preData);
+    if (allFormData) {
+      allFormData[0].actionplans[0] = preData
+      this.stateformsService.allFormsPreData.next(allFormData)
+    }
+  }
   onPreview() {
     let data = this.makeApiData();
     let dialogRef = this.dialog.open(ActionplanspreviewComponent, {

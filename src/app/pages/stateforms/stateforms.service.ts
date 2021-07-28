@@ -9,8 +9,11 @@ import { Subject } from "rxjs";
 export class StateformsService {
   allStatus = new Subject<any>();
   allStatusStateForms = new Subject<any>();
+  initiateDownload = new Subject<any>();
   allStateFormsData = new Subject<any>()
+  allFormsPreData = new Subject<any>();
   disableAllFormsAfterStateFinalSubmit = new Subject<any>();
+  disableAllFormsAfterMoHUAReview = new Subject<any>();
   getObservedStatus() {
     return this.allStatus;
   }
@@ -55,7 +58,7 @@ export class StateformsService {
   finalReviewSubmitByMoHUA(body, state_id) {
     return this.http.post(`${environment.api.url}stateMasterForm/finalAction?state_id=${state_id}`, body);
   }
-  allStateFormData(state_id){
+  allStateFormData(state_id) {
 
     return this.http.get(`${environment.api.url}stateMasterForm/getAllForms/606aaf854dff55e6c075d219/${state_id}`);
   }
