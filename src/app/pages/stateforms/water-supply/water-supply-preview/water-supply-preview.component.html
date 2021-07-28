@@ -32,25 +32,25 @@
 
                 </div>
             </div>
-            <div *ngIf="uaDetails.data">
+            <div *ngIf="getData[i] !='null'">
                 <div class="row" style="margin: 10px 0 0 0;">
                     <div class="card" style="border: 1px solid #dedede;">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block;">
                                     <h5 class="ex-t-q m-r-l h-s" style="display: inline-block;">Total Number of ULBs in UA</h5>
-                                    <h5 class="ex-t h-s mr-l" style="display: inline-block;"> {{uaDetails.totalULBsInUA}}</h5>
+                                    <h5 class="ex-t h-s mr-l" style="display: inline-block;"> {{totalULBsInUA[i]}}</h5>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block; border-left: 1px solid #70707030;
                               border-right: 1px solid #70707030;">
                                     <h5 class="ex-t-q h-s" style="display: inline-block;">Approved by State</h5>
                                     <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
-                                        {{uaDetails.totalCompletedUlb}}</h5>
+                                        {{totalCompletedUlb[i]}}</h5>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display:inline-block;">
                                     <h5 class="ex-t-q h-s" style="display: inline-block;">Pending for Submission/Approval</h5>
                                     <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
-                                        {{uaDetails.totalPendingUlb}}
+                                        {{totalPendingUlb[i]}}
                                     </h5>
                                 </div>
                             </div>
@@ -75,8 +75,9 @@
                             </td>
                             <td></td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="uaDetails.waterSuppliedPerDay.baseline['2021']">
-                        {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }}
+                                <span *ngIf="getData[i][0].waterSuppliedPerDay2021">
+                        <!-- {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }} -->
+                        {{getData[i][0].waterSuppliedPerDay2021}}
                       </span>
                                 <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -84,8 +85,9 @@
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="uaDetails.waterSuppliedPerDay.target[year.key]">
-                        {{ uaDetails.waterSuppliedPerDay.target[year.key] }}
+                                <span *ngIf="getData[i][0]['waterSuppliedPerDay'+year.key]">
+                        <!-- {{ uaDetails.waterSuppliedPerDay.target[year.key] }} -->
+                        {{getData[i][0]['waterSuppliedPerDay'+year.key]}}
                       </span>
 
                                 <em class="glyphicon" style="font-weight: 600">
@@ -103,8 +105,9 @@
                             </td>
                             <td></td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="uaDetails.reduction.baseline['2021']">
-                        {{ uaDetails.reduction.baseline['2021'] }}
+                                <span *ngIf="getData[i][0].reduction2021">
+                        <!-- {{ uaDetails.reduction.baseline['2021'] }} -->
+                        {{getData[i][0].reduction2021}}
                       </span>
                                 <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -112,8 +115,9 @@
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="uaDetails.reduction.target[year.key]">
-                        {{ uaDetails.reduction.target[year.key] }}
+                                <span *ngIf="getData[i][0]['reduction'+year.key]">
+                        <!-- {{ uaDetails.reduction.target[year.key] }} -->
+                        {{getData[i][0]['reduction'+year.key]}}
                       </span>
 
                                 <i class="glyphicon" style="font-weight: 600">
@@ -129,16 +133,18 @@
                             </td>
                             <td></td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="uaDetails.houseHoldCoveredWithSewerage.baseline['2021']">
-                        {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }}
+                                <span *ngIf="getData[i][0].houseHoldCoveredWithSewerage2021">
+                        <!-- {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }} -->
+                        {{getData[i][0].houseHoldCoveredWithSewerage2021}}
                       </span>
                                 <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                       </em>
                             </td>
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="uaDetails.houseHoldCoveredWithSewerage.target[year.key]">
-                        {{ uaDetails.houseHoldCoveredWithSewerage.target[year.key] }}
+                                <span *ngIf="getData[i][0]['houseHoldCoveredWithSewerage'+year.key]">
+                        <!-- {{ uaDetails.houseHoldCoveredWithSewerage.target[year.key] }} -->
+                        {{getData[i][0]['houseHoldCoveredWithSewerage'+year.key]}}
                       </span>
 
                                 <em class="glyphicon" style="font-weight: 600">
@@ -154,8 +160,9 @@
                             </td>
                             <td></td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="uaDetails.houseHoldCoveredPipedSupply.baseline['2021']">
-                        {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }}
+                                <span *ngIf="getData[i][0].houseHoldCoveredPipedSupply2021">
+                        <!-- {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }} -->
+                        {{getData[i][0].houseHoldCoveredPipedSupply2021}}
                       </span>
                                 <em class="glyphicon" style="font-weight: 600">
                         {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -163,8 +170,9 @@
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="uaDetails.houseHoldCoveredPipedSupply.target[year.key]">
-                        {{ uaDetails.houseHoldCoveredPipedSupply.target[year.key] }}
+                                <span *ngIf="getData[i][0]['houseHoldCoveredPipedSupply'+year.key]">
+                        <!-- {{ uaDetails.houseHoldCoveredPipedSupply.target[year.key] }} -->
+                        {{getData[i][0]['houseHoldCoveredPipedSupply'+year.key]}}
                       </span>
 
                                 <em class="glyphicon" style="font-weight: 600">
@@ -178,7 +186,7 @@
                 </table>
             </div>
         </div>
-        <div class="no-data" *ngIf="uaDetails.data==null">No Data Available</div>
+        <div class="no-data" *ngIf="getData[i] =='null'">No Data Available</div>
     </div>
 </div>
 

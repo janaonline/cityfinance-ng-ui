@@ -93,7 +93,11 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
         font-size: 9px !important;
         padding: 5px 1px !important;
       }
-
+      .na-cls {
+        text-decoration: none;
+        color: black;
+        pointer-events: none;
+    }
 
     </style>`
   ulbName;
