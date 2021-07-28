@@ -255,7 +255,7 @@ export class GTCertificateComponent implements OnInit {
           this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
         }
         if (this.loggedInUserType === "MoHUA") {
-          if (this.allStatus['latestFinalResponse']['role'] == 'STATE' && this.allStatus['actionTakenByRole'] == 'STATE') {
+          if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
             if (this.stateActionA != 'PENDING' && this.stateActionA) {
               this.actionFormDisableA = true
             }
@@ -320,9 +320,19 @@ export class GTCertificateComponent implements OnInit {
 
   }
 
-  uploadButtonClicked() {
+  uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
+    if (formName === 'A') {
+      this.stateActionA = 'PENDING';
+      this.rejectReasonA = null
+    } else if (formName === 'B') {
+      this.stateActionB = 'PENDING';
+      this.rejectReasonB = null
+    } else if (formName === 'C') {
+      this.stateActionC = 'PENDING';
+      this.rejectReasonC = null
+    }
   }
 
   dialogRef
