@@ -411,12 +411,12 @@ export class GTCertificateComponent implements OnInit {
     this.body['million_tied'] = data.data['million_tied']
     this.body['nonmillion_tied'] = data.data['nonmillion_tied']
     this.body['nonmillion_untied'] = data.data['nonmillion_untied']
-    this.body['million_tied']['status'] = this.actionData1['status']
-    this.body['million_tied']['rejectReason'] = this.actionData1['rejectReason']
-    this.body['nonmillion_tied']['status'] = this.actionData2['status']
-    this.body['nonmillion_tied']['rejectReason'] = this.actionData2['rejectReason']
-    this.body['nonmillion_untied']['status'] = this.actionData3['status']
-    this.body['nonmillion_untied']['rejectReason'] = this.actionData3['rejectReason']
+    this.body['million_tied']['status'] = this.actionData1['status'] ?? this.stateActionA
+    this.body['million_tied']['rejectReason'] = this.actionData1['rejectReason'] ?? this.rejectReasonA
+    this.body['nonmillion_tied']['status'] = this.actionData2['status'] ?? this.stateActionB
+    this.body['nonmillion_tied']['rejectReason'] = this.actionData2['rejectReason'] ?? this.rejectReasonB
+    this.body['nonmillion_untied']['status'] = this.actionData3['status'] ?? this.stateActionC
+    this.body['nonmillion_untied']['rejectReason'] = this.actionData3['rejectReason'] ?? this.rejectReasonC
     if (this.actionData1['status'] === 'REJECTED' || this.actionData2['status'] === 'REJECTED' || this.actionData3['status'] === 'REJECTED') {
       this.body['status'] = 'REJECTED'
 
@@ -456,17 +456,23 @@ export class GTCertificateComponent implements OnInit {
         million_tied:
         {
           pdfUrl: this.millionTiedFileUrl,
-          pdfName: this.fileName_millionTied
+          pdfName: this.fileName_millionTied,
+          status: this.stateActionA ? this.stateActionA : 'PENDING',
+          rejectReason: this.rejectReasonA ? this.rejectReasonA : null
         },
         nonmillion_tied:
         {
           pdfUrl: this.nonMillionTiedFileUrl,
-          pdfName: this.fileName_nonMillionTied
+          pdfName: this.fileName_nonMillionTied,
+          status: this.stateActionB ? this.stateActionB : 'PENDING',
+          rejectReason: this.rejectReasonB ? this.rejectReasonB : null
         },
         nonmillion_untied:
         {
           pdfUrl: this.nonMillionUntiedFileUrl,
-          pdfName: this.fileName_nonMillionUntied
+          pdfName: this.fileName_nonMillionUntied,
+          status: this.stateActionC ? this.stateActionC : 'PENDING',
+          rejectReason: this.rejectReasonC ? this.rejectReasonC : null
         },
         isDraft: true
       };
