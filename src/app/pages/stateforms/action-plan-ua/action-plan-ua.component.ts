@@ -381,6 +381,7 @@ export class ActionPlanUAComponent implements OnInit {
     apiData.uaData = newUaData;
     this.data.uaData.forEach((uaData) => {
       for (const key in uaData) {
+        if(key == "ulbList") continue
         const uaPro = uaData[key];
         if (Array.isArray(uaPro)) {
           for (let index = 0; index < uaPro.length; index++) {
