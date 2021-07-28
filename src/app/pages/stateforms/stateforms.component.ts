@@ -146,6 +146,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   allStateFormsData
   ngOnInit(): void {
     sessionStorage.setItem("disableAllForms", "false")
+    sessionStorage.setItem("disableAllActionForm", "false")
     this.screenHeight = window.innerHeight;
     console.log('screennnnnHieght', this.screenHeight);
 
@@ -215,8 +216,9 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
 
         } else if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "STATE")
-          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA") ||
-          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")) {
+          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA")
+          || (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")
+        ) {
 
 
           if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
@@ -295,54 +297,61 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
 
         } else if (
-          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE")
-          || (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA")
+          (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE" ||
+            res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA"
+          )
+
         ) {
-          if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
-            this.pfms_greenTick = true;
-          } else if ((!res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
-            res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
-            this.pfms_greenTick = false;
-          }
+          this.pfms_greenTick = this.res['latestFinalResponse']['linkPFMS']['isSubmit'];
+          this.gtc_greenTick = this.res['latestFinalResponse']['GTCertificate']['isSubmit'];
+          this.wr_greenTick = this.res['latestFinalResponse']['waterRejuventation']['isSubmit'];
+          this.ap_greenTick = this.res['latestFinalResponse']['actionPlans']['isSubmit'];
+          this.ga_greenTick = true;
+          // if ((res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+          //   res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['linkPFMS']['status'] === 'APPROVED')) {
+          //   this.pfms_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['linkPFMS']['isSubmit'] &&
+          //   res['latestFinalResponse']['linkPFMS']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['linkPFMS']['status'] === 'REJECTED')) {
+          //   this.pfms_greenTick = false;
+          // }
 
-          if ((res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
-            this.gtc_greenTick = true;
-          } else if ((!res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
-            res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
-            this.gtc_greenTick = false;
-          }
+          // if ((res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+          //   res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['GTCertificate']['status'] === 'APPROVED')) {
+          //   this.gtc_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['GTCertificate']['isSubmit'] &&
+          //   res['latestFinalResponse']['GTCertificate']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['GTCertificate']['status'] === 'REJECTED')) {
+          //   this.gtc_greenTick = false;
+          // }
 
-          if ((res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
-            this.wr_greenTick = true;
-          } else if ((!res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
-            res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
-            this.wr_greenTick = false;
-          }
+          // if ((res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+          //   res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['waterRejuventation']['status'] === 'APPROVED')) {
+          //   this.wr_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['waterRejuventation']['isSubmit'] &&
+          //   res['latestFinalResponse']['waterRejuventation']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['waterRejuventation']['status'] === 'REJECTED')) {
+          //   this.wr_greenTick = false;
+          // }
 
-          if ((res['latestFinalResponse']['actionPlans']['isSubmit'] &&
-            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
-            this.ap_greenTick = true;
-          } else if ((!res['latestFinalResponse']['actionPlans']['isSubmit'] &&
-            res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
-            || (res['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
-            this.ap_greenTick = false;
-          }
+          // if ((res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+          //   res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['actionPlans']['status'] === 'APPROVED')) {
+          //   this.ap_greenTick = true;
+          // } else if ((!res['latestFinalResponse']['actionPlans']['isSubmit'] &&
+          //   res['latestFinalResponse']['actionPlans']['status'] === 'PENDING')
+          //   || (res['latestFinalResponse']['actionPlans']['status'] === 'REJECTED')) {
+          //   this.ap_greenTick = false;
+          // }
 
-          if (res['latestFinalResponse']['grantAllocation']['isSubmit']) {
-            this.ga_greenTick = true;
-          } else {
-            this.ga_greenTick = false;
-          }
+          // if (res['latestFinalResponse']['grantAllocation']['isSubmit']) {
+          //   this.ga_greenTick = true;
+          // } else {
+          //   this.ga_greenTick = false;
+          // }
 
         }
 
@@ -376,7 +385,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
     this.stateDashboardService.totalUaS.subscribe((data) => {
       console.log("total uasss", data);
-      if(data == 0){
+      if (data == 0) {
         this.totalUas = false;
       }
     });
@@ -384,8 +393,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     this.stateformsService.allFormsPreData.subscribe((data) => {
       this.allStateFormsRes = data;
       sessionStorage.setItem("allFormsPreData", JSON.stringify(data));
-   //   console.log('sesionnnnn data', sessionStorage.getItem("allFormsPreData"));
-    //  console.log("allformdata.................", data);
+      //   console.log('sesionnnnn data', sessionStorage.getItem("allFormsPreData"));
+      //  console.log("allformdata.................", data);
     });
 
     this.getStatus();
@@ -417,7 +426,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         this.lastRoleInMasterForm = res["data"]['actionTakenByRole'];
 
         this.stateformsService.allStatusStateForms.next(res['data']);
-        this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
+        // this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
         this.role = res["data"]["latestFinalResponse"]['role'];
         if (this.role === "STATE") {
           this.submitted = true;
@@ -457,6 +466,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       this.stateformsService.finalReviewSubmitByMoHUA(data, this.id).subscribe(
         (res) => {
           this.validate = false;
+          this.stateformsService.disableAllFormsAfterMoHUAReview.next(true)
           swal(
             "Forms Successfully Submitted by MoHUA"
           );
@@ -473,7 +483,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   getAllStateForms() {
     if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
       this.id = sessionStorage.getItem("state_id");
-    }else {
+    } else {
       let userData = JSON.parse(localStorage.getItem("userData"));
       this.id = userData.state;
     }
@@ -483,7 +493,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         this.stateformsService.allStateFormsData.next(res['data']);
       });
 
-      this.stateformsService
+    this.stateformsService
       .allStateFormData(this.id)
       .subscribe((res) => {
         console.log('inside next......', res);
@@ -647,7 +657,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       height: "100%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
     // let userData = JSON.parse(localStorage.getItem("userData"));
     // let st_id = userData.state;
     // console.log('state user data',userData, st_id)
@@ -670,7 +680,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
 

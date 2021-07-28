@@ -74,6 +74,13 @@ export class ActionPlanUAComponent implements OnInit {
   formDisable = false;
   ngOnInit(): void {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
+    this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
+    this.stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
+      this.actionFormDisable = disable;
+      if (disable) {
+        sessionStorage.setItem("disableAllActionForm", "true")
+      }
+    })
     sessionStorage.setItem("changeInActionPlans", "false");
     this.state_id = sessionStorage.getItem("state_id");
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));

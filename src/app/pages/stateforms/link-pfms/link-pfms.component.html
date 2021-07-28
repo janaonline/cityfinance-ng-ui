@@ -24,28 +24,42 @@
 </div>
 
 <div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;"
-    *ngIf="loggedInUserType === USER_TYPE.MoHUA">
+    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
     <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
         <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
         </app-action-component>
     </div>
 </div>
-<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'MoHUA'))">
+<div class="card" style="background-color: hsl(0, 0%, 97%);"
+    *ngIf="loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'STATE'">
     <div class="card-body">
-        <p><b>MoHUA Review Status :</b> {{getStatus | titlecase}}</p>
-        <p *ngIf="getStatus == 'REJECTED'">
-            <b style="font-weight: 600;">Reason for return :</b> {{getrejectReason}}
-        </p>
+        <b>MoHUA Review Status : </b> Under Review By State
+    </div>
+</div>
+<div class="card" style="background-color: hsl(0, 0%, 97%);"
+    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'">
+    <div class="card-body">
+        <b>MoHUA Review Status :</b>
+        <div class="btn-group"
+            *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'"
+            btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
+
+            <label class="btn btn-success" disabled style="width: 82px;"
+                [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
+
+                {{getStatus | titlecase}}</label>
+
+        </div>
+        <div>
+            <p *ngIf="btnStyleR">
+                <b style="font-weight: 600;">Reason for return :</b> {{getrejectReason}}
+            </p>
+        </div>
+
 
     </div>
 </div>
-<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'STATE'))">
-    <div class="card-body">
-        <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
-    </div>
-</div>
+
 
 
 
