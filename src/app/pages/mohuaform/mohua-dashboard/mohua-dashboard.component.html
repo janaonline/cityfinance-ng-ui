@@ -472,12 +472,12 @@
     <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2">
         <mat-card class="example-card">
             <mat-card-actions class="pull-right">
-                <mat-label>Year </mat-label>
+                <mat-label style="font-weight:bolder;">Year </mat-label>
                 <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
                     <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
                     <option value="2021-22,date">2021-22</option>
                 </select>
-                <mat-label class="m-1">Installment</mat-label>
+                <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
                 <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
                     <option [selected]="installmentSelect" value="2,installment">2</option>
                     <option value="1,installment">1</option>
@@ -491,6 +491,10 @@
                 <mat-card-title>Grant Transfer Status</mat-card-title>
                 <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
             </mat-card-header>
+            <mat-card-actions class="pull-right">
+                <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
+                padding: 2px; height: 25px;">DOWNLOAD</button>
+            </mat-card-actions>
             <mat-card-content>
                 <mat-tab-group dynamicHeight="false" (selectedIndexChange)="tabIndexChangeHandler($event)"
                     [selectedIndex]="tabIndex" class="mt-2" animationDuration="100ms">
@@ -654,10 +658,6 @@
                     </mat-tab>
                 </mat-tab-group>
             </mat-card-content>
-            <mat-card-actions class="pull-right">
-                <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
-                padding: 2px; height: 25px;">DOWNLOAD</button>
-            </mat-card-actions>
             <br>
         </mat-card>
     </div>

@@ -69,6 +69,12 @@ export class UlbadminServiceService {
       );
     }
 
+    if(body['csv']){
+      return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`, {
+        params: queryParams,
+        responseType: 'blob'
+      });
+    }
     return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`, {
       params: queryParams,
     });

@@ -722,12 +722,20 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   latLong(value, event, type) {
-    let val = parseInt(value);
+    let val;
+    val = parseInt(value);
     if (isNaN(val)) {
       event.controls[type].patchValue(0);
       return;
     }
-    event.controls[type].patchValue(Number(value).toFixed(6));
+    val = value.split(".")
+    if(val[1] && val[1].length > 6){
+      val[1] = val[1].slice(0,6)
+    }
+    if(val[0].length > 4){
+      val[0] = val[0].slice(0,4)
+    }
+    event.controls[type].patchValue(val[0]+(val[1] ? "."+val[1] : ""));
   }
 }
 
