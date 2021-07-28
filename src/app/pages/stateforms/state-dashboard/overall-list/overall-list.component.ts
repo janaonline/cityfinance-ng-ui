@@ -53,7 +53,7 @@ export class OverallListComponent implements OnInit {
   status_util = new FormControl('');
   status_slb = new FormControl('');
   status_plans = new FormControl('');
-  states;
+  states = null;
   ngOnInit() {
     console.log(this.data)
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
