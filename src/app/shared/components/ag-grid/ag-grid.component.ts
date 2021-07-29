@@ -34,8 +34,8 @@ export class AgGridComponent implements OnInit, OnChanges {
   gridData = new EventEmitter();
 
   frameworkComponents;
-  yearErrorMsg = "All years value sum should be equal to amount";
-  fundErrorMsg = "All years value sum should be equal to project cost";
+  yearErrorMsg = "All years value sum should be a positive integer equal to amount";
+  fundErrorMsg = "All years value sum should be a positive integer equal to project cost";
 
   project = [
     {
@@ -788,7 +788,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         }
       }
       if (e.data.cost.value == "") e.data.cost.value = 0;
-      if (e.data.cost.value < val) e.data.total.lastValidation = val;
+      if (e.data.cost.value != val) e.data.total.lastValidation = val;
       else e.data.total.lastValidation = true;
       e.data.total.value = val;
       e.api.refreshCells({ columns: ["total"] });
@@ -970,7 +970,7 @@ const Total = (x, param) => {
   if (param.data.cost.value == "") {
     param.data.cost.value = 0;
   }
-  return param.data.cost.value >= parseInt(x);
+  return param.data.cost.value == parseInt(x);
 };
 const dropDown = (x) => {
   if (x.length < 1) return false;
@@ -993,8 +993,8 @@ const number = (x, params) => {
 };
 
 const checkYear = (x, param) => {
-  if(x <= 0){
-    return false
+  if (x <= 0) {
+    return false;
   }
   let data = param.data;
   let val = 0;
@@ -1020,8 +1020,8 @@ const checkYear = (x, param) => {
 };
 
 const checkYear2 = (x, param) => {
-  if(x <= 0){
-    return false
+  if (x <= 0) {
+    return false;
   }
   let data = param.data;
   let val = 0;
