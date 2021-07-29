@@ -12,6 +12,8 @@ import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails"
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { FasDirective } from "angular-bootstrap-md";
 const swal: SweetAlert = require("sweetalert");
+import * as fileSaver from "file-saver";
+
 @Component({
   selector: "app-action-plan-ua",
   templateUrl: "./action-plan-ua.component.html",
@@ -492,6 +494,23 @@ export class ActionPlanUAComponent implements OnInit {
       }
     });
     console.log("after", this.finalActionData);
+  }
+
+  getExcel(){
+    let data = this.makeApiData();
+    let body = {
+      uaData:data.uaData,
+      uaName:this.uasData
+    }
+
+    this.actionplanserviceService.getExcel(body).subscribe((res:any)=>{
+      let blob: any = new Blob([res], {
+        type: "text/json; charset=utf-8",
+      });
+      const url = window.URL.createObjectURL(blob);
+
+      fileSaver.saveAs(blob, "ActionPlanData.xlsx");
+    },(error)=>{})
   }
 }
 
