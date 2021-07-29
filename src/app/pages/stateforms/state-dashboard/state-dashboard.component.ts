@@ -14,6 +14,7 @@ import { UtilreportListComponent } from './utilreport-list/utilreport-list.compo
 import { AnnualaccListComponent } from './annualacc-list/annualacc-list.component'
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
+import { CommonService } from "src/app/shared/services/common.service";
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
@@ -28,7 +29,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public commonService: CommonService
 
   ) {
     super();
@@ -44,6 +46,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
   }
   id
+  states = null
   ngOnInit(): void {
 
     this.onLoad();
@@ -191,7 +194,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
     const dialogRef = this.dialog.open(OverallListComponent, {
       height: '700px',
-      width: '3000px',
+      width: '95vw',
+      maxWidth: '200vw',
       data: {
         state_id: null
       }

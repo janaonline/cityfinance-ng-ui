@@ -288,6 +288,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (!prevData.audited.submit_annual_accounts) {
       delete prevData.audited.standardized_data;
       delete prevData.audited.provisional_data;
+      prevData.audited.submit_standardized_data = undefined
     }
     if (!prevData.audited.submit_standardized_data) {
       delete prevData.audited.provisional_data;
@@ -296,6 +297,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (!prevData.unAudited.submit_annual_accounts) {
       delete prevData.unAudited.standardized_data;
       delete prevData.unAudited.provisional_data;
+      prevData.unAudited.submit_standardized_data = undefined
     }
     if (!prevData.unAudited.submit_standardized_data) {
       delete prevData.unAudited.standardized_data;
@@ -353,6 +355,12 @@ export class AnnualAccountsComponent implements OnInit {
     this.data = res;
     let index = 0;
     const toStoreResponse = this.data;
+
+    if(!toStoreResponse.audited.submit_annual_accounts && !toStoreResponse.unAudited.submit_annual_accounts && this.loggedInUserType != USER_TYPE.ULB){
+      const status = JSON.parse(sessionStorage.getItem("allStatus"));
+      status.annualAccounts.status = "APPROVED";
+      this._ulbformService.allStatus.next(status);
+    }
     console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));

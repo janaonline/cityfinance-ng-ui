@@ -145,3 +145,18 @@ input::-webkit-inner-spin-button {
 .cursor-not-allowed {
     cursor: not-allowed;
 }
+
+.anDisable {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.btn-r {
+    background-color: red;
+    color: #FFFFFF;
+}
+
+.btn-a {
+    background-color: green;
+    color: #FFFFFF;
+}

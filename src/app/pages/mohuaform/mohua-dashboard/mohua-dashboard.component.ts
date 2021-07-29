@@ -44,14 +44,15 @@ export class MohuaDashboardComponent implements OnInit {
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
-    protected commonService: CommonService,
+    // protected commonService: CommonService,
     protected _snackbar: MatSnackBar,
     protected geoService: GeographicalService,
     protected _activateRoute: ActivatedRoute,
-    public mohuaDashboardService: MohuaDashboardService
+    public mohuaDashboardService: MohuaDashboardService,
+    public commonService: CommonService
   ) { }
   @ViewChild("stateTable") stateTable;
-
+  stateslist = null
   ngOnInit(): void {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       try {
@@ -67,7 +68,7 @@ export class MohuaDashboardComponent implements OnInit {
       }
     });
     this.commonService.states.subscribe((res) => {
-      this.states = res;
+      this.stateslist = res;
       sessionStorage.setItem("statesData", JSON.stringify(res))
     });
     this.commonService.loadStates(true);
@@ -109,13 +110,13 @@ export class MohuaDashboardComponent implements OnInit {
   grantTransferCardData;
   grantTransferDate
   GrantTransferparams = {
-    year:"2020-21",
-    installment:2,
-    state_id:null,
-    csv:false
+    year: "2020-21",
+    installment: 2,
+    state_id: null,
+    csv: false
   };
   dateSelect = true
-  installmentSelect = true  
+  installmentSelect = true
   takeStateAction = "false";
   loading = false;
   filterObject;
@@ -581,7 +582,8 @@ export class MohuaDashboardComponent implements OnInit {
     console.log(this.state_id)
     const dialogRef = this.dialog.open(OverallListComponent, {
       height: "700px",
-      width: "2000px",
+      width: '95vw',
+      maxWidth: '200vw',
       data: {
         state_id: this.state_id
       }
@@ -1089,74 +1091,74 @@ export class MohuaDashboardComponent implements OnInit {
         data["annualAccounts"]["provisional"]);
   }
 
-  getGrantTranfer(state_id = null,csv=null){
-    if(state_id){
+  getGrantTranfer(state_id = null, csv = null) {
+    if (state_id) {
       this.GrantTransferparams.state_id = state_id
-    }else{
+    } else {
       this.GrantTransferparams.state_id = ''
     }
-    if(csv){
+    if (csv) {
       this.GrantTransferparams.csv = true
     }
-    this.mohuaDashboardService.getGrantTransfer(this.GrantTransferparams,csv).subscribe(
-      (res: any)=>{
-        if(csv){
+    this.mohuaDashboardService.getGrantTransfer(this.GrantTransferparams, csv).subscribe(
+      (res: any) => {
+        if (csv) {
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",
           });
-        const url = window.URL.createObjectURL(blob);
+          const url = window.URL.createObjectURL(blob);
           fileSaver.saveAs(blob, "grantTransfer.xlsx");
-        }else{
+        } else {
 
-        this.grantTransferCardData = res['data'].ExcelData[0]
-        
-        if(res['data'].ExcelData[0].statesCount === 1){
-          res['data'].ExcelData[0].mill.complete =  res['data'].ExcelData[0].mill.complete  ? "Submitted" :"Not Submitted"
-          res['data'].ExcelData[0].mill.mid =  res['data'].ExcelData[0].mill.mid  ? "Sent" :"Not Sent"
-          res['data'].ExcelData[0].mill.start =  res['data'].ExcelData[0].mill.start  ? "Released" :"Not Released"
-          res['data'].ExcelData[0].NonMillTied.complete =  res['data'].ExcelData[0].NonMillTied.complete  ? "Submitted" :"Not Submitted"
-          res['data'].ExcelData[0].NonMillTied.mid =  res['data'].ExcelData[0].NonMillTied.mid  ? "Sent" :"Not Sent"
-          res['data'].ExcelData[0].NonMillTied.start =  res['data'].ExcelData[0].NonMillTied.start  ? "Released" :"Not Released"
-          res['data'].ExcelData[0].NonMillUntied.complete =  res['data'].ExcelData[0].NonMillUntied.complete  ? "Submitted" :"Not Submitted"
-          res['data'].ExcelData[0].NonMillUntied.mid =  res['data'].ExcelData[0].NonMillUntied.mid  ? "Sent" :"Not Sent"
-          res['data'].ExcelData[0].NonMillUntied.start =  res['data'].ExcelData[0].NonMillUntied.start  ? "Released" :"Not Released"
+          this.grantTransferCardData = res['data'].ExcelData[0]
+
+          if (res['data'].ExcelData[0].statesCount === 1) {
+            res['data'].ExcelData[0].mill.complete = res['data'].ExcelData[0].mill.complete ? "Submitted" : "Not Submitted"
+            res['data'].ExcelData[0].mill.mid = res['data'].ExcelData[0].mill.mid ? "Sent" : "Not Sent"
+            res['data'].ExcelData[0].mill.start = res['data'].ExcelData[0].mill.start ? "Released" : "Not Released"
+            res['data'].ExcelData[0].NonMillTied.complete = res['data'].ExcelData[0].NonMillTied.complete ? "Submitted" : "Not Submitted"
+            res['data'].ExcelData[0].NonMillTied.mid = res['data'].ExcelData[0].NonMillTied.mid ? "Sent" : "Not Sent"
+            res['data'].ExcelData[0].NonMillTied.start = res['data'].ExcelData[0].NonMillTied.start ? "Released" : "Not Released"
+            res['data'].ExcelData[0].NonMillUntied.complete = res['data'].ExcelData[0].NonMillUntied.complete ? "Submitted" : "Not Submitted"
+            res['data'].ExcelData[0].NonMillUntied.mid = res['data'].ExcelData[0].NonMillUntied.mid ? "Sent" : "Not Sent"
+            res['data'].ExcelData[0].NonMillUntied.start = res['data'].ExcelData[0].NonMillUntied.start ? "Released" : "Not Released"
+          }
+          this.grantTransferDate = res['data'].latestTime
         }
-        this.grantTransferDate = res['data'].latestTime
-        }
-      },(error)=>{
+      }, (error) => {
       }
-      )
+    )
     this.GrantTransferparams.csv = false
   }
 
-  grantTransferFilter(value){
+  grantTransferFilter(value) {
     debugger
     let data = value.split(",")
-    if(data[1] == 'date'){
+    if (data[1] == 'date') {
       this.GrantTransferparams.year = data[0]
       this.dateSelect = false
 
     }
-    if(data[1] == 'installment'){
+    if (data[1] == 'installment') {
       this.GrantTransferparams.installment = data[0]
       this.installmentSelect = false
     }
     this.getGrantTranfer(this.state_id)
   }
 
-  clearGrantTransferFillter(){
+  clearGrantTransferFillter() {
     this.GrantTransferparams.installment = null
     this.GrantTransferparams.year = null
     this.dateSelect = true
     this.installmentSelect = true
     this.getGrantTranfer(this.state_id)
   }
-  
-  tabIndexChangeHandler(tabIndex){
+
+  tabIndexChangeHandler(tabIndex) {
     this.tabIndex = tabIndex
   }
 
-  grantTransferDownload(){
-    this.getGrantTranfer(this.state_id,true)
+  grantTransferDownload() {
+    this.getGrantTranfer(this.state_id, true)
   }
 }
