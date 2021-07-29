@@ -365,6 +365,11 @@ width : 33.33%;
 .mr-l{
 margin-left: 22%;
 }
+.na-cls {
+  text-decoration: none;
+  color: black;
+  pointer-events: none;
+}
   </style>`;
 
   constructor(

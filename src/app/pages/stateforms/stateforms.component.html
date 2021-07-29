@@ -9,12 +9,13 @@
                 <a [routerLink]="['../fc-home-page']">
                     <h5 class="pd" style="font-size: 14px;">
                         <div class="col-sm-1 col-xs-1 text-center">
-                            <mat-icon aria-hidden="false">
+                            <mat-icon aria-hidden="false" [style.padding-top]="backHeadStyle ? '5px' : '0'" [style.padding-bottom]="!(backHeadStyle) ? '5px' : '0'">
                                 <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
                             </mat-icon>
                         </div>
-                        <div class="col-sm-9 col-xs-9 t-c" style="padding-right: 3px; margin-bottom: 4px;">
-                            Approve Claims for 2021-2022
+                        <div class="col-sm-9 col-xs-9 t-c linktext pd" style="font-weight: 600;">
+                            {{backHead}}
+                            <!-- Approve Claims for 2021-2022 -->
                         </div>
                         <!-- <div class="col-sm-1">
 

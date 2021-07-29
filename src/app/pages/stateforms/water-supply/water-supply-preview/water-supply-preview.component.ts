@@ -210,27 +210,57 @@ h5{
   //        this.detailsOfUa = ulbdetail.data;
   //     })
   // }
+  getData:any = [];
+  totalULBsInUA:any = [];
+  totalCompletedUlb: any = [];
+  totalPendingUlb:any =[];
+  approvedStatusData = []
+  statusData = []
   getwaterSuppyData() {
-    this._WaterSupplyService.getslbsData('')
+    for(let i =0; i< this.uasList.length; i++) {
+  //  this.uasList.forEach(item => {
+      this._WaterSupplyService.getslbsData(this.uasList[i]._id)
       .subscribe((res) => {
-        console.log('response', res)
-        let ulbdetails: any = res;
-        this.detailsOfUa = ulbdetails.data;
-        console.log(this.detailsOfUa);
+        // console.log('response', res)
+        // let ulbdetails: any = res;
+        // this.detailsOfUa = ulbdetails.data;
+        // console.log(this.detailsOfUa);
 
-        this.uasList.forEach(el => {
-          this.detailsOfUa.forEach(el2 => {
-            if (el.name == el2.uaName) {
-              console.log('match', el.name)
-              el['data'] = el2;
-            } else {
-              el['data'] = null;
-            }
-          })
+        let data = res['data']
+        this.statusData = []
+        this.approvedStatusData = []
+        this.getData[i] = data;
 
-        })
+         if(this.getData[i] != 'null') {
+          console.log('data',i, this.totalULBsInUA, data[1]?.completedAndpendingSubmission.length +
+          data[1]?.pendingCompletion.length +
+          data[1]?.underStateReview.length +
+          data[0]?.total);
+          this.totalULBsInUA[i] = data[1]?.completedAndpendingSubmission.length +
+          data[1]?.pendingCompletion.length +
+          data[1]?.underStateReview.length +
+          data[0]?.total;
+
+          this.totalCompletedUlb[i] = data[0]?.total;
+          this.totalPendingUlb[i] = data[1]?.completedAndpendingSubmission.length +
+          data[1]?.pendingCompletion.length +
+          data[1]?.underStateReview.length;
+         }
         console.log(this.uasList)
-      })
+      },
+      (err) => {
+       // this.getData.push('null');
+        this.getData[i] = 'null';
+        this.totalULBsInUA[i] = 'NA'
+        this.totalPendingUlb[i] ='NA'
+        this.totalCompletedUlb[i] ='NA'
+        console.log('preview........err', this.getData)
+
+      }
+      )
+  //  })
+    }
+    console.log('preview........full array', this.getData)
   }
 
 
