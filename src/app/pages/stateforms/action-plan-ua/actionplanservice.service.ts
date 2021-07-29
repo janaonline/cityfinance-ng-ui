@@ -33,4 +33,10 @@ export class ActionplanserviceService {
     let utUrl = environment.api.url + 'ActionPlans/action'
     return this.http.post(utUrl, data)
   }
+
+  getExcel(body){
+    return this.http.post(`${environment.api.url}ActionPlans/getExcel`, body, {
+      responseType: "blob",
+    });
+  }
 }
