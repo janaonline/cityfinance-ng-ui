@@ -247,12 +247,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         maintainAspectRatio: false,
         legend: {
           position: 'left',
+
           align: 'start',
           labels: {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 22,
+           // padding: 22,
           }
         },
         responsive: true,
@@ -304,7 +305,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 20,
+          //  padding: 20,
           }
         },
         responsive: true
@@ -351,7 +352,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 20,
+           // padding: 20,
           }
         },
         responsive: true
@@ -518,7 +519,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
           '#FFCE56',
           '#A1CE65'
         ],
-        hoverOffset: 4
+        hoverOffset: 4,
       }]
     };
     const canvas = <HTMLCanvasElement>document.getElementById('myChart');
@@ -526,8 +527,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.maindonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
+
       options: {
         maintainAspectRatio: false,
+        responsive: true,
         legend: {
           position: 'bottom',
           align: 'start',
@@ -535,10 +538,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'white',
             usePointStyle: true,
-            padding: 30,
+            padding: 20,
           }
         }
-      }
+      },
+
 
     });
 

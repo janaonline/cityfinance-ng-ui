@@ -9,7 +9,7 @@
 <div class="container-fluid" style="margin-right: 22px;">
 
     <div class="row cards">
-        <div class="col-sm-3 card" style="margin-left: 2%;">
+        <div class="col-sm-3 card">
             <div class="row">
                 <div class="col-sm-8">
                     <div class="card-number">{{totalUlbs }}</div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 card">
+        <div class="col-sm-3 card" style="margin-right: 0;">
             <div class="row">
                 <div class="col-sm-9" style="padding-right: 0;">
                     <div class="card-number">{{UlbInMillionPlusUA}}</div>
@@ -67,7 +67,7 @@
         </div>
 
     </div>
-    <div class="row statusArea" style="margin-left: 10px; padding-right: 3px;">
+    <div class="row statusArea">
         <div class="col-sm-3 firstColumn">
             <div class="row" style="font-size: 18px;
              text-align: center;line-height: 50px; margin-top:2px;
@@ -83,11 +83,11 @@
         </div>
         <div class="col-sm-3 secondColumn">
 
-            <div class="row" style="font-size: 18px;
+            <div class="row" style="font-size: 17px;
             text-align: center;font-weight:bold; line-height: 31px;
             margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
                 ULB Annual Accounts Status
-                <a (click)="openDialogAnnual()" style="margin-left:5px">
+                <a (click)="openDialogAnnual()" style="margin-left: 5px">
                     <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
                 </a>
             </div>
@@ -178,38 +178,43 @@
         </div>
         <div class="col-sm-6 thirdColumn">
             <div class="row formDonutCharts">
-                <span class="textInThirdColumn">
-                    ULB PFMS STATUS</span>
-                <a (click)="openDialogPfms()" style="margin-left:224px">
-                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                </a>
+                <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
+                    ULB PFMS STATUS</div>
+                <div class="col-sm-2 text-right" style="margin-top: 8px;">
+                    <a (click)="openDialogPfms()">
+                        <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                    </a>
+                </div>
                 <!-- <button (click)="openDialogPfms()"> View List</button> -->
-                <div class="smallDonuts">
+                <div class="smallDonuts" style="margin-left: 15px;">
                     <canvas id="pfms"></canvas>
                 </div>
             </div>
             <div class="row formDonutCharts">
 
-                <span class="textInThirdColumn"> ULB Utilization Report Status</span>
-                <a (click)="openDialogUtil()" style="margin-left:147px">
-                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                </a>
+                <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;"> ULB Utilization Report Status</div>
+                <div class="col-sm-2 text-right" style="margin-top: 8px;">
+                    <a (click)="openDialogUtil()">
+                        <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                    </a>
+                </div>
 
-                <div class="smallDonuts">
+                <div class="smallDonuts" style="margin-left: 15px;">
                     <canvas id="utilReport"></canvas>
                 </div>
 
 
             </div>
             <div class="row formDonutCharts">
-                <span class="textInThirdColumn">
+                <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
                     ULB Service Level Benchmark Status
-                </span>
-                <a (click)="openDialogSlb()" style="margin-left:82px">
-                    <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                </a>
-
-                <div class="smallDonuts">
+                </div>
+                <div class="col-sm-2 text-right" style="margin-top: 8px;">
+                    <a (click)="openDialogSlb()">
+                        <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+                    </a>
+                </div>
+                <div class="smallDonuts" style="margin-left: 15px;">
                     <canvas id="slb"></canvas>
                 </div>
 
@@ -218,7 +223,7 @@
         </div>
     </div>
 
-    <div class="bottomPart" style="margin-top:10px; margin-bottom: 30px; margin-left: 10px">
+    <div class="row bottomPart" style="margin-top:35px; margin-bottom: 30px;">
         <div class="header">
             <div class="col-sm-6" style="font-size:18px;font-weight: 450; border-right:1px solid #0000001A">
                 <div class="row" *ngIf="!(millionPlusUAs == 0)">
@@ -242,11 +247,10 @@
             <div class="col-sm-6" style="font-weight: 450; text-align: left;">
                 <span style="line-height: 40px;
                 text-align: left;
-                margin-left: 10px;
                 font-size: 18px;
                 font-weight: bold;
                 margin-top: 8px;">Plans for Water Supply and Sanitation Indicators</span>
-                <a (click)="openDialogPlans()" style="margin-left:30px">
+                <a (click)="openDialogPlans()" style="margin-left: 13%">
                     <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
                 </a>
             </div>

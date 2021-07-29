@@ -12,6 +12,8 @@ import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails"
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { FasDirective } from "angular-bootstrap-md";
 const swal: SweetAlert = require("sweetalert");
+import * as fileSaver from "file-saver";
+
 @Component({
   selector: "app-action-plan-ua",
   templateUrl: "./action-plan-ua.component.html",
@@ -375,16 +377,34 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
-      for (const key in Uas) {
-        const element = Uas[key];
-        if (Array.isArray(Uas[key])) {
-          //         for
-        }
-      }
       newUaData.push(Uas);
     });
     let apiData = JSON.parse(JSON.stringify(this.data));
     apiData.uaData = newUaData;
+    this.data.uaData.forEach((uaData) => {
+      for (const key in uaData) {
+        if(key == "ulbList") continue
+        const uaPro = uaData[key];
+        if (Array.isArray(uaPro)) {
+          for (let index = 0; index < uaPro.length; index++) {
+            const elements = uaPro[index];
+            for (const key in elements) {
+              const element = elements[key];
+              if (key == "index") continue;
+              if (
+                element["lastValidation"] != true ||
+                element["value"] === ""
+              ) {
+                this.data.isDraft = true;
+                return apiData;
+              } else {
+                this.data.isDraft = false;
+              }
+            }
+          }
+        }
+      }
+    });
     return apiData;
   }
 
@@ -447,7 +467,7 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   finalActionData;
   checkStatus(ev, ua_id, a, b) {
@@ -474,6 +494,23 @@ export class ActionPlanUAComponent implements OnInit {
       }
     });
     console.log("after", this.finalActionData);
+  }
+
+  getExcel(){
+    let data = this.makeApiData();
+    let body = {
+      uaData:data.uaData,
+      uaName:this.uasData
+    }
+
+    this.actionplanserviceService.getExcel(body).subscribe((res:any)=>{
+      let blob: any = new Blob([res], {
+        type: "text/json; charset=utf-8",
+      });
+      const url = window.URL.createObjectURL(blob);
+
+      fileSaver.saveAs(blob, "ActionPlanData.xlsx");
+    },(error)=>{})
   }
 }
 
@@ -597,7 +634,6 @@ function deepEqual(x, y) {
     ty = typeof y;
   return x && y && tx === "object" && tx === ty
     ? ok(x).length === ok(y).length &&
-    ok(x).every((key) => deepEqual(x[key], y[key]))
+        ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
-

@@ -1,6 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { GtMohuaService } from "./gt-mohua.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { Router, NavigationStart, Event } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+
 const swal: SweetAlert = require("sweetalert");
 import * as fileSaver from "file-saver";
 @Component({
@@ -9,7 +12,32 @@ import * as fileSaver from "file-saver";
   styleUrls: ["./grant-transfer-mohua.component.scss"],
 })
 export class GrantTransferMohuaComponent implements OnInit {
-  constructor(public gtMohuaService: GtMohuaService) {}
+  constructor(
+    public gtMohuaService: GtMohuaService,
+    private _router: Router,
+    public dialog: MatDialog
+  ) {
+    this._router.events.subscribe(async (event: Event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url === "/" || event.url === "/login") {
+          this.changeInGtMohua = false;
+          return;
+        }
+        if (this.changeInGtMohua && this.routerNavigate === null) {
+          this.routerNavigate = event;
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.openModal(this.template);
+        }
+      }
+    });
+  }
+
+  @ViewChild("template") template;
+  routerNavigate = null;
+  dialogRef;
 
   quesName = "Please Upload Grant Transfer Excel Sheet ";
   requiredBtn = "excel";
@@ -21,6 +49,7 @@ export class GrantTransferMohuaComponent implements OnInit {
   isDisabled = false;
   saveBtnText = "SAVE";
   showLoader = false;
+  changeInGtMohua = false;
   getTemplate() {
     this.gtMohuaService.getTemplate().subscribe(
       (res) => {
@@ -38,7 +67,7 @@ export class GrantTransferMohuaComponent implements OnInit {
 
   save() {
     this.showLoader = true;
-    console.log(this.excel, "File url");
+    this.changeInGtMohua = false;
     if (!this.excel?.url) {
       return swal("Please upload file and save");
     }
@@ -52,6 +81,8 @@ export class GrantTransferMohuaComponent implements OnInit {
         swal("data successfully saved.");
         this.saveBtnText = "FILE SAVED";
         this.showLoader = false;
+        if (this.routerNavigate)
+          this._router.navigate([this.routerNavigate.url]);
       },
       (err) => {
         let blob: any = new Blob([err.error], {
@@ -62,6 +93,8 @@ export class GrantTransferMohuaComponent implements OnInit {
         fileSaver.saveAs(blob, "GrantTranfer_error.xlsx");
         swal("refer error file and upload again");
         this.showLoader = false;
+        if (this.routerNavigate)
+          this._router.navigate([this.routerNavigate.url]);
       }
     );
   }
@@ -69,5 +102,31 @@ export class GrantTransferMohuaComponent implements OnInit {
   uploadedFile(file) {
     this.excel = file.excel;
     this.saveBtnText = "SAVE";
+    if (this.excel.url) this.changeInGtMohua = true;
+    else this.changeInGtMohua = false;
+  }
+
+  openModal(template: TemplateRef<any>, fromPreview = null) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
+  }
+
+  stay() {
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+    this.dialogRef.close(true);
+  }
+
+  proceed(uploadedFiles) {
+    this.dialogRef.close(true);
+    this.save();
   }
 }

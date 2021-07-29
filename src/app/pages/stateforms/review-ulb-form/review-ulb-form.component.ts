@@ -154,6 +154,7 @@ export class ReviewUlbFormComponent implements OnInit {
       .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
         (result: any) => {
+          debugger
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
               type: "text/json; charset=utf-8",
@@ -174,7 +175,10 @@ export class ReviewUlbFormComponent implements OnInit {
 
         },
         (response: HttpErrorResponse) => {
+          
           this.loading = false;
+          console.log(response.error);
+          
           alert('Some Error Occurred')
 
         }

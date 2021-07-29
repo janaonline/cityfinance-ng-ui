@@ -1,9 +1,21 @@
 .btn {
-    background-color: #ffc500;
+    background-color: rgb(252, 195, 8);
     padding: 5px 5px;
     color: #FFFFFF;
     height: 36px;
     width: 109px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #f1ba02;
+    padding: 5px 5px;
+    color: #FFFFFF;
+    height: 40px;
+    width: 115px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .container-fluid {
