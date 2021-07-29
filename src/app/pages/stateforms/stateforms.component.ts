@@ -34,6 +34,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   stiHieght: boolean = false;
   elementPosition: any;
   totalUas = true;
+  backHead = '';
+  backHeadStyle = false;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -65,13 +67,15 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       case USER_TYPE.STATE:
         this.toolTipContentC = 'Completed'
         this.toolTipContentN = 'Not Completed'
-
+        this.backHead = 'Approve Claims for 2021-2022'
+        this.backHeadStyle = true;
         break;
       case USER_TYPE.MoHUA:
       case USER_TYPE.PARTNER:
       case USER_TYPE.ADMIN:
         this.toolTipContentC = 'Reviewed'
         this.toolTipContentN = 'Not Reviewed'
+        this.backHead = 'MoHUA Dashboard'
 
         //   this._router.navigate(["/mohua/dashboard"]);
         break;

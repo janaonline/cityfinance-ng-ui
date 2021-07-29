@@ -37,7 +37,7 @@
 }
 
 .square {
-    width: 570px;
+    width: 100%;
     height: 30px;
     background-color: #DBDBDB;
 }
@@ -109,7 +109,7 @@
     margin-left: 20px;
     margin-top: 8px;
     margin-bottom: 8px;
-    width: 96%;
+    width: 97%;
     height: auto;
     background-color: #F7F7F7;
 }
@@ -131,8 +131,8 @@
 
 .footerBtnDiv {
     margin-top: 2rem;
-    padding-left: 0px;
-    padding-right: 7px;
+    // padding-left: 0px;
+    // padding-right: 0;
     margin-bottom: 1rem;
 }
 

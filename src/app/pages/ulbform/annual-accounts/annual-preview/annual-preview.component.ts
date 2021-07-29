@@ -81,7 +81,9 @@ text-align: center;
     font-size: 10px;
 }
 .dec-h {
-  font-weight: 500 !important;
+  font-weight: 600 !important;
+  margin-bottom: 0 !important;
+    font-size: 10px;
 }
 @media print {
   .page-break {
@@ -123,6 +125,7 @@ text-align: center;
   font-size: 10px;
   margin-top: 10px;
 }
+
   </style>`;
 
   Years = JSON.parse(localStorage.getItem("Years"));
