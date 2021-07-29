@@ -105,7 +105,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
       this.loggedInUserType == USER_TYPE.ULB &&
       this.finalSubmitStatus == "true" &&
       this.lastRoleInMasterForm != USER_TYPE.ULB &&
-      this.dataFromParent.status =="REJECTED"
+      this.dataFromParent.status == "REJECTED"
     ) {
       this.isDisabled = false;
     }
@@ -120,6 +120,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     }
   }
   async fileChangeEvent(event, fileType) {
+    console.log(fileType)
     let files;
     if (typeof event != "boolean") files = event.target.files[0];
     else files = this.data[fileType].file;
