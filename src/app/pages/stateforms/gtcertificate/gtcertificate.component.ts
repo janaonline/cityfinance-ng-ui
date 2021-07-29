@@ -256,15 +256,15 @@ export class GTCertificateComponent implements OnInit {
         }
         if (this.loggedInUserType === "MoHUA") {
           if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
-            if (this.stateActionA != 'PENDING' && this.stateActionA) {
-              this.actionFormDisableA = true
-            }
-            if (this.stateActionB != 'PENDING' && this.stateActionB) {
-              this.actionFormDisableB = true
-            }
-            if (this.stateActionC != 'PENDING' && this.stateActionC) {
-              this.actionFormDisableC = true
-            }
+            // if (this.stateActionA != 'PENDING' && this.stateActionA) {
+            //   this.actionFormDisableA = true
+            // }
+            // if (this.stateActionB != 'PENDING' && this.stateActionB) {
+            //   this.actionFormDisableB = true
+            // }
+            // if (this.stateActionC != 'PENDING' && this.stateActionC) {
+            //   this.actionFormDisableC = true
+            // }
           } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
             this.actionFormDisableA = true
             this.actionFormDisableB = true
