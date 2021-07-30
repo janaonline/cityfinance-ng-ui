@@ -204,7 +204,8 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: this.tabelData.stateName,
+        state: this.tabelData.stateName ?
+          this.tabelData.stateName : '',
         ulbName: this.ulb_name_s.value
           ? this.ulb_name_s.value.trim()
           : "",

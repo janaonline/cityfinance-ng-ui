@@ -46,8 +46,9 @@ export class SlbListComponent implements OnInit {
   ua_name_s = new FormControl('');
   status_slb = new FormControl('');
 
-
+  states = null
   ngOnInit(): void {
+    this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.slbListService.getData(this.data.state_id)
       .subscribe((res) => {
 
@@ -89,7 +90,9 @@ export class SlbListComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
+        state: this.state_name.value
+          ? this.state_name.value
+          : "",
         ulbType: this.ulb_type_s.value
           ? this.ulb_type_s.value.trim()
           : "",

@@ -47,7 +47,8 @@
                                             <select class="s-th" [formControl]="state_name" style="width: 135px;"
                                                 (change)="stateData(false)">
                                                 <option selected value="">State</option>
-                                                <option *ngFor="let state of states" value="state._id">{{state.name}}
+                                                <option *ngFor="let state of states" value="{{state.name}}">
+                                                    {{state.name}}
                                                 </option>
                                             </select>
                                         </th>

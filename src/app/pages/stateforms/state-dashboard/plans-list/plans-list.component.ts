@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
+import { NullTemplateVisitor } from '@angular/compiler';
 @Component({
   selector: 'app-plans-list',
   templateUrl: './plans-list.component.html',
@@ -44,8 +45,9 @@ export class PlansListComponent implements OnInit {
   population_type_s = new FormControl('');
   ua_name_s = new FormControl('');
   status_plans = new FormControl('');
-
+  states = null
   ngOnInit(): void {
+    this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.plansListService.getData(this.data.state_id)
       .subscribe((res) => {
 
@@ -86,7 +88,9 @@ export class PlansListComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
+        state: this.state_name.value
+          ? this.state_name.value
+          : "",
         ulbType: this.ulb_type_s.value
           ? this.ulb_type_s.value.trim()
           : "",

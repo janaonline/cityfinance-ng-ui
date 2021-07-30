@@ -78,6 +78,7 @@ export class ActionPlanUAComponent implements OnInit {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
     this.stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
+      console.log('action plans speaking', disable)
       this.actionFormDisable = disable;
       if (disable) {
         sessionStorage.setItem("disableAllActionForm", "true")
@@ -111,7 +112,7 @@ export class ActionPlanUAComponent implements OnInit {
       }
     }
 
-    if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
+    if (this.allStatus["latestFinalResponse"]["role"] == "STATE" && this.allStatus['actionTakenByRole'] === 'STATE') {
       if (
         this.allStatus["latestFinalResponse"]["actionPlans"]["status"] !=
         "PENDING"
@@ -383,7 +384,7 @@ export class ActionPlanUAComponent implements OnInit {
     apiData.uaData = newUaData;
     this.data.uaData.forEach((uaData) => {
       for (const key in uaData) {
-        if(key == "ulbList") continue
+        if (key == "ulbList") continue
         const uaPro = uaData[key];
         if (Array.isArray(uaPro)) {
           for (let index = 0; index < uaPro.length; index++) {
@@ -467,7 +468,7 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   finalActionData;
   checkStatus(ev, ua_id, a, b) {
@@ -496,21 +497,21 @@ export class ActionPlanUAComponent implements OnInit {
     console.log("after", this.finalActionData);
   }
 
-  getExcel(){
+  getExcel() {
     let data = this.makeApiData();
     let body = {
-      uaData:data.uaData,
-      uaName:this.uasData
+      uaData: data.uaData,
+      uaName: this.uasData
     }
 
-    this.actionplanserviceService.getExcel(body).subscribe((res:any)=>{
+    this.actionplanserviceService.getExcel(body).subscribe((res: any) => {
       let blob: any = new Blob([res], {
         type: "text/json; charset=utf-8",
       });
       const url = window.URL.createObjectURL(blob);
 
       fileSaver.saveAs(blob, "ActionPlanData.xlsx");
-    },(error)=>{})
+    }, (error) => { })
   }
 }
 
@@ -634,6 +635,6 @@ function deepEqual(x, y) {
     ty = typeof y;
   return x && y && tx === "object" && tx === ty
     ? ok(x).length === ok(y).length &&
-        ok(x).every((key) => deepEqual(x[key], y[key]))
+    ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
