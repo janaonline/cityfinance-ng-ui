@@ -5,13 +5,15 @@ import { HttpEventType, HttpResponse } from "@angular/common/http";
 import { GAservicesService } from "./g-aservices.service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { GrantAllPreviewComponent } from "./grant-all-preview/grant-all-preview.component";
-const swal: SweetAlert = require("sweetalert");
+
 import * as fileSaver from "file-saver";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { StateformsService } from '../stateforms.service'
+
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-grant-allocation",
   templateUrl: "./grant-allocation.component.html",
@@ -145,7 +147,7 @@ export class GrantAllocationComponent implements OnInit {
 
   }
 
-  checkDiff(){
+  checkDiff() {
     let preData = {
       answer: this.account,
       fileName: this.fileName,
@@ -154,7 +156,7 @@ export class GrantAllocationComponent implements OnInit {
     };
 
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsPreData"))
-    console.log('in grant all..', allFormData,  preData);
+    console.log('in grant all..', allFormData, preData);
 
     if (allFormData) {
       allFormData[0].grantdistributions[0] = preData
@@ -212,8 +214,11 @@ export class GrantAllocationComponent implements OnInit {
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
-      if (fileExtension === "xlsx") {
+      if (fileExtension === "xlsx" || fileExtension === "xls") {
         validFiles.push(file);
+      } else {
+        swal("Only Excel File can be Uploaded.")
+        return;
       }
     }
     return validFiles;

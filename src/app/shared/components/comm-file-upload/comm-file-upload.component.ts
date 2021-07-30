@@ -4,6 +4,9 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
+
 @Component({
   selector: "app-comm-file-upload",
   templateUrl: "./comm-file-upload.component.html",
@@ -124,10 +127,26 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     let files;
     if (typeof event != "boolean") files = event.target.files[0];
     else files = this.data[fileType].file;
-    this.uploadFile(files, files.name, files.type, fileType);
+    let fileExtension = files.name.split('.').pop();
+    console.log(fileExtension)
+    if (fileType == 'excel') {
+      if (fileExtension == 'xls' || fileExtension == 'xlsx') {
+        this.uploadFile(files, files.name, files.type, fileType);
+      } else {
+        return swal("Only Excel File can be Uploaded.")
+      }
+    } else if (fileType == 'pdf') {
+      if (fileExtension == 'pdf') {
+        this.uploadFile(files, files.name, files.type, fileType);
+      }
+    } else {
+      return swal("Only PDF File can be Uploaded.")
+    }
+
   }
 
   uploadFile(file, name, type, fileType) {
+
     this.data[fileType].progress = 20;
     this.dataEntryService.getURLForFileUpload(name, type).subscribe(
       (s3Response) => {
