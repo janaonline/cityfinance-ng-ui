@@ -593,7 +593,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontColor: 'black',
             usePointStyle: true,
 
-            padding: 22,
+         //   padding: 22,
           }
         }
       }
