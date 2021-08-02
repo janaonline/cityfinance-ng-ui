@@ -107,6 +107,16 @@ export class WaterRejenuvationComponent implements OnInit {
         }
       }
     }
+    if (this.allStatus["latestFinalResponse"]["role"] == "STATE" && this.allStatus['actionTakenByRole'] === 'STATE') {
+      if (
+        this.allStatus["latestFinalResponse"]["waterRejuventation"]["status"] !=
+        "PENDING"
+      ) {
+        this.actionFormDisable = true;
+      }
+    } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
+      this.actionFormDisable = true;
+    }
 
     if (this.formDisable) {
       this.waterRejenuvation.disable();
@@ -762,13 +772,13 @@ export class WaterRejenuvationComponent implements OnInit {
       return;
     }
     val = value.split(".")
-    if(val[1] && val[1].length > 6){
-      val[1] = val[1].slice(0,6)
+    if (val[1] && val[1].length > 6) {
+      val[1] = val[1].slice(0, 6)
     }
-    if(val[0].length > 4){
-      val[0] = val[0].slice(0,4)
+    if (val[0].length > 4) {
+      val[0] = val[0].slice(0, 4)
     }
-    event.controls[type].patchValue(val[0]+(val[1] ? "."+val[1] : ""));
+    event.controls[type].patchValue(val[0] + (val[1] ? "." + val[1] : ""));
   }
 }
 

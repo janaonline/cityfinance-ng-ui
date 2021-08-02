@@ -37,8 +37,9 @@ export class UtilreportListComponent implements OnInit {
     public ulbService: UlbadminServiceService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
-
+  states = null
   ngOnInit(): void {
+    this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.utilreportListService.getData(this.data.state_id)
       .subscribe((res) => {
 
@@ -86,7 +87,9 @@ export class UtilreportListComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
+        state: this.state_name.value
+          ? this.state_name.value
+          : "",
         ulbType: this.ulb_type_s.value
           ? this.ulb_type_s.value.trim()
           : "",

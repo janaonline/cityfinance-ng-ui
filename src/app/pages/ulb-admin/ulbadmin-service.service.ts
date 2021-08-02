@@ -69,7 +69,7 @@ export class UlbadminServiceService {
       );
     }
 
-    if(body['csv']){
+    if (body['csv']) {
       return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`, {
         params: queryParams,
         responseType: 'blob'
@@ -150,6 +150,8 @@ export class UlbadminServiceService {
     });
   }
   fetchEditDataList(params = {}, body = {}) {
+    console.log(body)
+    console.log(typeof body['csv'])
     let queryParams = new HttpParams();
     for (const key in params) {
       queryParams = queryParams.set(
@@ -174,6 +176,7 @@ export class UlbadminServiceService {
     } else {
       return this.http.get(`${environment.api.url}user/all?role=ULB`, {
         params: queryParams,
+        responseType: 'json'
       });
     }
 

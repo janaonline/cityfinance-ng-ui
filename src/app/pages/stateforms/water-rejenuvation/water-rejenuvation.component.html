@@ -238,11 +238,9 @@
  (takeStateAction == 'true')" -->
                             <div class="" style="overflow: hidden;"
                                 *ngIf="loggedInUserType === USER_TYPE.MoHUA  && allStatus['latestFinalResponse']['role'] == 'STATE'">
-                                <div class="" [ngClass]="{'anDisable': allStatus['latestFinalResponse']['role'] == 'MoHUA' ||
-                                (allStatus['latestFinalResponse']['role'] == 'STATE' && uas.value.status != 'PENDING' 
-                                && allStatus['steps']['waterRejuventation']['status'] != 'PENDING')}">
-                                    <app-action-component (actionValues)="checkStatus($event, uas.value.ua)"
-                                        [statusResponse]='{
+                                <div class="" [ngClass]="{'anDisable': actionFormDisable}">
+                                    <app-action-component [isDisabled]="actionFormDisable"
+                                        (actionValues)="checkStatus($event, uas.value.ua)" [statusResponse]='{
                                             st: uas.value.status,
                                             rRes: uas.value.rejectReason
                                           }'> </app-action-component>

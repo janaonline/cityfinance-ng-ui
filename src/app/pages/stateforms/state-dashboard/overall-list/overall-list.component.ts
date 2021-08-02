@@ -173,7 +173,9 @@ export class OverallListComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
+        state: this.state_name.value
+          ? this.state_name.value
+          : '',
         ulbType: this.ulb_type_s.value
           ? this.ulb_type_s.value.trim()
           : "",

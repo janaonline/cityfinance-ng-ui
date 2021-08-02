@@ -14,7 +14,7 @@
             </h4>
         </div>
         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
-            <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
+            <button type="button" class="btn btn-pre" (click)="getExcel()">PREVIEW</button>
         </div>
     </div>
     <div *ngIf="showLoader" style="margin-left: 33pc;">
@@ -36,10 +36,11 @@
                 <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)"
                     [isDisabled]="formDisable" [ulbList]="item.ulbList" [rowData]="item">
                 </app-ag-grid>
+
                 <div class="card"
-                    *ngIf="loggedInUserType === USER_TYPE.MoHUA &&  allStatus['latestFinalResponse']['role'] == 'STATE' "
+                    *ngIf="loggedInUserType === USER_TYPE.MoHUA &&  allStatus['latestFinalResponse']['role'] == 'STATE'"
                     style="border: 2px solid #00000029; background-color: #FFFFFF; overflow: hidden; padding: 10px;">
-                    <div class="card-body" style="margin-left: .8rem;">
+                    <div class="card-body" style="margin-left: .8rem;" [ngClass]="{'anDisable': actionFormDisable}">
                         <app-action-component [isDisabled]="actionFormDisable"
                             (actionValues)="checkStatus($event,item.ua, projectIndex)" [statusResponse]='{
                                 st: item.status,
@@ -48,6 +49,7 @@
                         </app-action-component>
                     </div>
                 </div>
+
 
                 <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
                     allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA')">

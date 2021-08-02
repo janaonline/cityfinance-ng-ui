@@ -47,9 +47,9 @@ export class PfmsListComponent implements OnInit {
   status_pfms = new FormControl('');
 
 
-
+  states = null
   ngOnInit(): void {
-
+    this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.pfmsListService.getData(this.data.state_id)
       .subscribe((res) => {
 
@@ -91,7 +91,9 @@ export class PfmsListComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
+        state: this.state_name.value
+          ? this.state_name.value
+          : "", 
         ulbType: this.ulb_type_s.value
           ? this.ulb_type_s.value.trim()
           : "",

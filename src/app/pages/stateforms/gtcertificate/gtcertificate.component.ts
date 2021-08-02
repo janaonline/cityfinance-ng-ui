@@ -14,8 +14,9 @@ import { USER_TYPE } from 'src/app/models/user/userType';
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { GtcertificatePreviewComponent } from './gtcertificate-preview/gtcertificate-preview.component';
 import { ProfileService } from "src/app/users/profile/service/profile.service";
-import { SweetAlert } from "sweetalert/typings/core";
+
 import { isNull } from '@angular/compiler/src/output/output_ast';
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
@@ -255,7 +256,7 @@ export class GTCertificateComponent implements OnInit {
           this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
         }
         if (this.loggedInUserType === "MoHUA") {
-          if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+          if (this.allStatus['latestFinalResponse']['role'] == 'STATE' && this.allStatus['actionTakenByRole'] === 'STATE') {
             if (this.stateActionA != 'PENDING' && this.stateActionA) {
               this.actionFormDisableA = true
             }
@@ -323,16 +324,7 @@ export class GTCertificateComponent implements OnInit {
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
-    if (formName === 'A') {
-      this.stateActionA = 'PENDING';
-      this.rejectReasonA = null
-    } else if (formName === 'B') {
-      this.stateActionB = 'PENDING';
-      this.rejectReasonB = null
-    } else if (formName === 'C') {
-      this.stateActionC = 'PENDING';
-      this.rejectReasonC = null
-    }
+
   }
 
   dialogRef
@@ -538,6 +530,7 @@ export class GTCertificateComponent implements OnInit {
   }
 
   fileChangeEvent(event, progessType, fileName) {
+    console.log(event, fileName)
     this.submitted = false;
     this.resetFileTracker();
     const filesSelected = <Array<File>>event.target["files"];
@@ -557,9 +550,11 @@ export class GTCertificateComponent implements OnInit {
     for (let i = 0; i < filesSelected.length; i++) {
       const file = filesSelected[i];
       const fileExtension = file.name.split(`.`).pop();
-      if (fileExtension === "pdf" || fileExtension === "xlsx" || fileExtension == "png"
-        || fileExtension == "jpg" || fileExtension == "jpeg") {
+      if (fileExtension === "pdf") {
         validFiles.push(file);
+      } else {
+        swal("Only PDF File can be Uploaded.")
+        return;
       }
     }
     return validFiles;
@@ -569,6 +564,9 @@ export class GTCertificateComponent implements OnInit {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
     this[fileName] = files[0].name;
+    console.log(files[0].name)
+    let fileExtension = files[0].name.split('.').pop();
+    console.log(fileExtension)
     this[progessType] = 10;
     for (let i = 0; i < files.length; i++) {
       if (this.filesAlreadyInProcess.length > i) {
@@ -577,6 +575,8 @@ export class GTCertificateComponent implements OnInit {
       this.filesAlreadyInProcess.push(i);
       await this.uploadFile(files[i], i, progessType, fileName);
     }
+
+
   }
 
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
@@ -595,6 +595,16 @@ export class GTCertificateComponent implements OnInit {
           );
           resolve("success")
           console.log('file url', fileAlias)
+          if (fileName === 'fileName_millionTied') {
+            this.stateActionA = 'PENDING';
+            this.rejectReasonA = null
+          } else if (fileName === 'fileName_nonMillionTied') {
+            this.stateActionB = 'PENDING';
+            this.rejectReasonB = null
+          } else if (fileName === 'fileName_nonMillionUntied') {
+            this.stateActionC = 'PENDING';
+            this.rejectReasonC = null
+          }
         },
         (err) => {
           if (!this.fileUploadTracker[fileIndex]) {

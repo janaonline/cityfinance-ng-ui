@@ -258,7 +258,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
           st: this.getStatus,
           rRes: this.getrejectReason
         };
-        if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
+        if (this.allStatus["latestFinalResponse"]["role"] == "STATE" && this.allStatus['actionTakenByRole'] === 'STATE') {
           console.log(this.allStatus["latestFinalResponse"]["role"], this.getStatus)
           if (this.getStatus != "PENDING") {
             this.actionFormDisable = true;
