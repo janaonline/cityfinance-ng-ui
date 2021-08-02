@@ -36,6 +36,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   totalUas = true;
   backHead = '';
   backHeadStyle = false;
+  m_stateName = ''
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -506,6 +507,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     this.stateformsService
       .getAllStateForms(this.design_year, this.id)
       .subscribe((res) => {
+        console.log('satae all form data', res['data'], res);
+        this.m_stateName =  res['data'][0]['name'];
         this.stateformsService.allStateFormsData.next(res['data']);
       });
 
