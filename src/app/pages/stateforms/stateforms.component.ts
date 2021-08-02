@@ -150,6 +150,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   };
   allStateFormsData
   ngOnInit(): void {
+    this.getStatus();
     sessionStorage.setItem("disableAllForms", "false")
     sessionStorage.setItem("disableAllActionForm", "false")
     this.screenHeight = window.innerHeight;
@@ -163,6 +164,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         // sessionStorage.setItem("disableAllForms")
       }
     })
+
     this.stateformsService.allStatusStateForms.subscribe((res) => {
       console.log('triggered')
 
@@ -364,18 +366,28 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         console.log('3')
         if (res['steps']['linkPFMS']['isSubmit']) {
           this.pfms_greenTick = true;
+        } else {
+          this.pfms_greenTick = false;
         }
         if (res['steps']['GTCertificate']['isSubmit']) {
           this.gtc_greenTick = true;
+        } else {
+          this.gtc_greenTick = false;
         }
         if (res['steps']['waterRejuventation']['isSubmit']) {
           this.wr_greenTick = true;
+        } else {
+          this.wr_greenTick = false;
         }
         if (res['steps']['actionPlans']['isSubmit']) {
           this.ap_greenTick = true;
+        } else {
+          this.ap_greenTick = false;
         }
         if (res['steps']['grantAllocation']['isSubmit']) {
           this.ga_greenTick = true;
+        } else {
+          this.ga_greenTick = false;
         }
       }
 
@@ -402,7 +414,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       //  console.log("allformdata.................", data);
     });
 
-    this.getStatus();
+
     this.getAllStateForms();
   }
   id = '';

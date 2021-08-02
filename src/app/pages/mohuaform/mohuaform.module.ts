@@ -25,11 +25,13 @@ import { GrantTransferMohuaComponent } from './grant-transfer-mohua/grant-transf
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
+import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
 
 
 
 @NgModule({
   declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent, GrantTransferMohuaComponent],
+  providers: [CircleProgressOptions],
   imports: [
     CommonModule,
     MohuaformRoutingModule,
@@ -50,7 +52,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatTabsModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    NgCircleProgressModule
   ]
 })
 export class MohuaformModule { }

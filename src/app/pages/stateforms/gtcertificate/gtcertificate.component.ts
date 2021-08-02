@@ -484,9 +484,9 @@ export class GTCertificateComponent implements OnInit {
         return;
       } else {
         if (
-          this.millionTiedFileUrl != '' &&
-          this.nonMillionTiedFileUrl != '' &&
-          this.nonMillionUntiedFileUrl != ''
+          this.uploadedFiles.million_tied.pdfUrl != '' &&
+          this.uploadedFiles.nonmillion_tied.pdfUrl != '' &&
+          this.uploadedFiles.nonmillion_untied.pdfUrl != ''
         ) {
           this.uploadedFiles.isDraft = false
           this.postsDataCall(this.uploadedFiles);
