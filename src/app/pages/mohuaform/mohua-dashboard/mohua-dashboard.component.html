@@ -506,7 +506,7 @@
             </div>
             <div class="col-sm-6" style="color:#000000C4;height:inherit; border-left:1px solid #0000001A;">
 
-
+                <!--
                 <div class="row pieChart">
                     <div style="height:190px; width:100%; margin-left:50px; margin-top:24px ;"
                         *ngIf="!noDataFound_plans">
@@ -518,20 +518,18 @@
                             [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
                             [titleFontWeight]="550" [showUnits]='false'>
                         </circle-progress>
-                        <<<<<<< HEAD </div> -->
-                            <div class="row pieChart" style="margin-left: 4px;">
-                                <div style="height:190px; margin-top:24px ;">
-                                    <canvas id="pfm"></canvas>
-                                    =======
-                                    >>>>>>> 4373e6e9bc497eed46ccf840bf43cdf5786d7876
-                                </div>
-                            </div>
+                </div> -->
+                <div class="row pieChart" style="margin-left: 4px;">
+                    <div style="height:190px; margin-top:24px ;">
+                        <canvas id="pfm"></canvas>
                     </div>
                 </div>
-
             </div>
+        </div>
 
-            <!-- <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2"> 
+    </div>
+
+    <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2">
         <mat-card class="example-card">
             <mat-card-actions class="pull-right">
                 <mat-label style="font-weight:bolder;">Year </mat-label>
@@ -556,47 +554,6 @@
             <mat-card-actions class="pull-right">
                 <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
                 padding: 2px; height: 25px;">DOWNLOAD</button>
-                <<<<<<< HEAD </mat-card-actions>
-                    <mat-card-content>
-                        <mat-tab-group dynamicHeight="false" (selectedIndexChange)="tabIndexChangeHandler($event)"
-                            [selectedIndex]="tabIndex" class="mt-2" animationDuration="100ms">
-                            <mat-tab label="Grant Transfer Certificate Status">
-                                <ng-template matTabContent>
-                                    <div class="col-sm-12 col-md-12" *ngIf="tabIndex === 0">
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <div class="Card2">
-                                                    Million Plus Grants for Water Supply and SWM
-                                                    <br>
-                                                    <strong *ngIf="grantTransferCardData.statesCount != 1"
-                                                        class="card-number2">
-                                                        {{grantTransferCardData.mill.start}}/{{grantTransferCardData.statesWithMillPlusUlbsCount}}
-                                                    </strong>
-                                                    <strong *ngIf="grantTransferCardData.statesCount == 1"
-                                                        class="card-text-1">
-                                                        {{grantTransferCardData.mill.start}}
-                                                    </strong>
-                                                    <br>
-                                                    <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <div class="Card2">
-                                                    Non Million Plus Tied
-                                                    <br>
-                                                    <strong *ngIf="grantTransferCardData.statesCount != 1"
-                                                        class="card-number2">
-                                                        {{grantTransferCardData.NonMillTied.mid}}/{{grantTransferCardData.statesCount}}
-                                                    </strong>
-                                                    <strong *ngIf="grantTransferCardData.statesCount == 1"
-                                                        class="card-text-1">
-                                                        {{grantTransferCardData.NonMillTied.mid}}
-                                                    </strong>
-                                                    <br>
-                                                    <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
-                                                </div>
-                                            </div>
-                                            =======
             </mat-card-actions>
             <mat-card-content>
                 <mat-tab-group dynamicHeight="false" (selectedIndexChange)="tabIndexChangeHandler($event)"
@@ -670,7 +627,6 @@
                                             </strong>
                                             <br>
                                             <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
-                                            >>>>>>> 4373e6e9bc497eed46ccf840bf43cdf5786d7876
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
@@ -756,22 +712,13 @@
                                             <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
-                                    <<<<<<< HEAD </ng-template>
+                                </div>
+                            </div>
+                        </ng-template>
                     </mat-tab>
                 </mat-tab-group>
             </mat-card-content>
             <br>
-            </mat-card>
-        </div>
-        =======
+        </mat-card>
     </div>
-</div>
-</ng-template>
-</mat-tab>
-</mat-tab-group>
-</mat-card-content>
-<br>
-</mat-card>
-</div>
->>>>>>> 4373e6e9bc497eed46ccf840bf43cdf5786d7876
 </div>
