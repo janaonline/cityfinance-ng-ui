@@ -35,33 +35,20 @@
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin" name="cin" type="file" [disabled]="formDisableA"
-                                        (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')"
-                                        accept=".pdf" />
+                                    <input id="cin" name="cin" type="file" [disabled]="formDisableA" (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')" accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
-                                    [ngClass]="{'anDisable': actionFormDisableA}"
-                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
-                                    btnRadioGroup [(ngModel)]="stateActionA"
-                                    style="margin-bottom: 1rem; padding: 0; text-align: right;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group" [ngClass]="{'anDisable': actionFormDisableA}" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'" btnRadioGroup [(ngModel)]="stateActionA" style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_A}"
-                                            btnRadio="APPROVED" (click)="checkStatusAp('millionTied')" uncheckable
-                                            tabindex="0" role="button" style="width: 82px;">Approve</label>
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_A}" btnRadio="APPROVED" (click)="checkStatusAp('millionTied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_A}"
-                                            btnRadio="REJECTED" (click)="checkStatus('millionTied')" uncheckable
-                                            tabindex="0" role="button" style="margin-left: 10px;
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_A}" btnRadio="REJECTED" (click)="checkStatus('millionTied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
                                 width: 82px;">Return</label>
                                     </div>
 
                                 </div>
 
-                                <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'"
-                                    btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
-                                    <label class="btn" disabled style="width: 82px;"
-                                        [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
+                                <div class="btn-group float-right" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
+                                    <label class="btn" disabled style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
                                         {{stateActionA | titlecase}}</label>
                                 </div>
 
@@ -80,8 +67,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 3px; font-weight: normal;"
-                                        *ngIf="fileName_millionTied">{{fileName_millionTied}}</label>
+                                    <label for="" style="margin-right: 3px; font-weight: normal;" *ngIf="fileName_millionTied">{{fileName_millionTied}}</label>
                                 </div>
                                 <!-- <div class="progress-bar" role="progressbar" [ngStyle]="{
                           'width.%':
@@ -90,22 +76,17 @@
                                 {{ fileUploadTracker[question.key][file.name].percentage }} %
                             </div> -->
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="millionTiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ millionTiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress + '%' }">
+                                    <div class="progress-bar" *ngIf="millionTiedProgress" role="progressbar" attr.aria-valuenow="{{ millionTiedProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress + '%' }">
                                         {{ millionTiedProgress }}%
                                     </div>
                                 </div>
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                     <ng-container *ngIf="millionTiedFileUrl">
                                         <a href="{{ millionTiedFileUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="height: 19px;">
+                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                         </a>
-                                        <a (click)="clearFiles('fileName_millionTied')"
-                                            [ngClass]="{'anDisable': formDisableA }" style="margin-left: 4px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
+                                        <a (click)="clearFiles('fileName_millionTied')" [ngClass]="{'anDisable': formDisableA }" style="margin-left: 4px;">
+                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                         </a>
                                     </ng-container>
                                 </div>
@@ -113,14 +94,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionA =='REJECTED')
                         || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
-                        && stateActionA == 'REJECTED') "
-                            style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
-                            <div class="float-right"
-                                [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE || actionFormDisableA }">
+                        && stateActionA == 'REJECTED') " style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
+                            <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE || actionFormDisableA }">
                                 <span style="font-weight: 600; text-align: left">Reason for return</span>
                                 <div class="input-group" style="width: 100%">
-                                    <textarea rows="3" style="width: 100%" class="form-control"
-                                        (blur)="checkStatus('millionTied')" [(ngModel)]="rejectReasonA">{{rejectReasonA ? rejectReasonA: null}}
+                                    <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('millionTied')" [(ngModel)]="rejectReasonA">{{rejectReasonA ? rejectReasonA: null}}
                   </textarea>
 
                                 </div>
@@ -149,31 +127,18 @@
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind" name="cind" type="file" [disabled]="formDisableB"
-                                        (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')"
-                                        accept=".pdf" />
+                                    <input id="cind" name="cind" type="file" [disabled]="formDisableB" (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')" accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
-                                    [ngClass]="{'anDisable': actionFormDisableB}"
-                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
-                                    btnRadioGroup [(ngModel)]="stateActionB"
-                                    style="margin-bottom: 1rem; padding: 0; text-align: right;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group" [ngClass]="{'anDisable': actionFormDisableB}" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'" btnRadioGroup [(ngModel)]="stateActionB" style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_B}"
-                                            btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable
-                                            tabindex="0" role="button" style="width: 82px;">Approve</label>
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_B}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionTied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_B}"
-                                            btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable
-                                            tabindex="0" role="button" style="margin-left: 10px;
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_B}" btnRadio="REJECTED" (click)="checkStatus('nonMillionTied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
                           width: 82px;">Return</label>
                                     </div>
                                 </div>
-                                <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
-                                    style="margin-bottom: 1rem; margin-left: 20%;">
-                                    <label class="btn" disabled style="width: 82px;"
-                                        [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
+                                <div class="btn-group float-right" *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
+                                    <label class="btn" disabled style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
                                         {{stateActionB | titlecase}}</label>
                                 </div>
                             </div>
@@ -189,14 +154,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="fileName_nonMillionTied">
+                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="fileName_nonMillionTied">
                                         {{fileName_nonMillionTied}}</label>
                                 </div>
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="nonMillionTiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ nonMillionTiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionTiedProgress + '%' }">
+                                    <div class="progress-bar" *ngIf="nonMillionTiedProgress" role="progressbar" attr.aria-valuenow="{{ nonMillionTiedProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: nonMillionTiedProgress + '%' }">
                                         {{ nonMillionTiedProgress }}%
                                     </div>
                                 </div>
@@ -204,14 +166,11 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                     <ng-container *ngIf="nonMillionTiedFileUrl">
                                         <a href="{{ nonMillionTiedFileUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
-                                            [ngClass]="{'anDisable': formDisableB }">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
+                                        <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;" [ngClass]="{'anDisable': formDisableB }">
+                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                         </a>
                                     </ng-container>
                                 </div>
@@ -219,14 +178,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
-                    && stateActionB == 'REJECTED')"
-                            style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
-                            <div class="float-right"
-                                [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE || actionFormDisableB }">
+                    && stateActionB == 'REJECTED')" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
+                            <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE || actionFormDisableB }">
                                 <span style="font-weight: 600; text-align: left">Reason for return</span>
                                 <div class="input-group" style="width: 100%">
-                                    <textarea rows="3" style="width: 100%" class="form-control"
-                                        (blur)="checkStatus('nonMillionTied')" [(ngModel)]="rejectReasonB">{{rejectReasonB ? rejectReasonB : null }}
+                                    <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('nonMillionTied')" [(ngModel)]="rejectReasonB">{{rejectReasonB ? rejectReasonB : null }}
                   </textarea>
 
                                 </div>
@@ -244,8 +200,7 @@
                                 (C) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Untied
                                 Grant<span style="color: red;">*</span></label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 image-upload"
-                            style="margin-left: 3rem; margin-top: 2px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde">
@@ -255,31 +210,18 @@
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde" [disabled]="formDisableC" name="cinde" type="file"
-                                        (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')"
-                                        accept=".pdf" />
+                                    <input id="cinde" [disabled]="formDisableC" name="cinde" type="file" (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')" accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
-                                    [ngClass]="{'anDisable': actionFormDisableC}"
-                                    *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
-                                    btnRadioGroup [(ngModel)]="stateActionC"
-                                    style="margin-bottom: 1rem; padding: 0; text-align: right;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group" [ngClass]="{'anDisable': actionFormDisableC}" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'" btnRadioGroup [(ngModel)]="stateActionC" style="margin-bottom: 1rem; padding: 0; text-align: right;">
                                     <div>
-                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_C}"
-                                            btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable
-                                            tabindex="0" role="button" style="width: 82px;">Approve</label>
+                                        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA_C}" btnRadio="APPROVED" (click)="checkStatusAp('nonMillionUntied')" uncheckable tabindex="0" role="button" style="width: 82px;">Approve</label>
 
-                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_C}"
-                                            btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable
-                                            tabindex="0" role="button" style="margin-left: 10px;
+                                        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR_C}" btnRadio="REJECTED" (click)="checkStatus('nonMillionUntied')" uncheckable tabindex="0" role="button" style="margin-left: 10px;
                         width: 82px;">Return</label>
                                     </div>
                                 </div>
-                                <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
-                                    style="margin-bottom: 1rem; margin-left: 20%;">
-                                    <label class="btn" disabled style="width: 82px;"
-                                        [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
+                                <div class="btn-group float-right" *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
+                                    <label class="btn" disabled style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
                                         {{stateActionC | titlecase}}</label>
                                 </div>
                             </div>
@@ -294,15 +236,12 @@
                         <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
-                                    <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="fileName_nonMillionUntied">
+                                    <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="fileName_nonMillionUntied">
                                         {{fileName_nonMillionUntied}}</label>
                                 </div>
 
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="nonMillionUntiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ nonMillionUntiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionUntiedProgress + '%' }">
+                                    <div class="progress-bar" *ngIf="nonMillionUntiedProgress" role="progressbar" attr.aria-valuenow="{{ nonMillionUntiedProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: nonMillionUntiedProgress + '%' }">
                                         {{ nonMillionUntiedProgress }}%
                                     </div>
                                 </div>
@@ -310,14 +249,11 @@
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
                                     <ng-container *ngIf="nonMillionUntiedFileUrl">
                                         <a href="{{ nonMillionUntiedFileUrl }}" target="_blank">
-                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
-                                                style="margin-left: 1px; height: 19px;">
+                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;"
-                                            [ngClass]="{'anDisable': formDisableC }">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                                                style="height: 13px;">
+                                        <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;" [ngClass]="{'anDisable': formDisableC }">
+                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                         </a>
                                     </ng-container>
                                 </div>
@@ -325,14 +261,11 @@
                         </div>
                         <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionC =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
-                    && stateActionC == 'REJECTED')"
-                            style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
-                            <div class="float-right"
-                                [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE || actionFormDisableC }">
+                    && stateActionC == 'REJECTED')" style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
+                            <div class="float-right" [ngClass]="{'anDisable': loggedInUserType === USER_TYPE.STATE || actionFormDisableC }">
                                 <span style="font-weight: 600; text-align: left">Reason for return</span>
                                 <div class="input-group" style="width: 100%">
-                                    <textarea rows="3" style="width: 100%" class="form-control"
-                                        (blur)="checkStatus('nonMillionUntied')" [(ngModel)]="rejectReasonC">
+                                    <textarea rows="3" style="width: 100%" class="form-control" (blur)="checkStatus('nonMillionUntied')" [(ngModel)]="rejectReasonC">
                                     {{rejectReasonC ? rejectReasonC  : null}}
               </textarea>
 
@@ -359,7 +292,7 @@
                 <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
             </div>
         </div>
-        <div class=" row" style="margin-top: 20px; margin-left: 5px;">
+        <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 1rem;">
             <div class="col-sm-6" style="text-align: left;">
                 <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
@@ -386,11 +319,11 @@
 
         <p style="margin-top: 8px;">
             Are you sure you want to proceed?
-        <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
                 Proceed</button>
-        </div>
+            </div>
 
     </div>
 </ng-template>
@@ -410,8 +343,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Save & Proceed
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Save & Proceed
             </button>
 
 

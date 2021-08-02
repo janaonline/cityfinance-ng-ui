@@ -1,25 +1,39 @@
 .save {
-  // margin-right: 15px;
-  width: auto;
-  height: 32px;
-  background-color: #26a1a1;
-  color: #ffffff;
-  font-weight: normal;
-  font-size: 12px;
-  border-radius: 4px;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid transparent;
-  display: inline-block;
-  padding-left: 4%;
-  padding-right: 4%;
+    // margin-right: 15px;
+    width: auto;
+    height: 32px;
+    background-color: #26a1a1;
+    color: #ffffff;
+    font-weight: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .save:hover {
-  background-color: #ffc500;
-  font-weight: bold;
+    background-color: #ffc500;
+    font-weight: bold;
 }
 
 .upload {
-  width: 13em !important;
+    width: 13em !important;
+}
+
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.btn-d {
+    background-color: #059B9A;
+    color: #FFFFFF;
 }

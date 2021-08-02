@@ -24,7 +24,7 @@
  :host {
     .scrol {
         height: 56vh;
-        overflow-y: scroll;
+        overflow-y: hidden;
     }
     button {
         background: #047474;
@@ -58,7 +58,7 @@
 }
 
 .ans-slb-a {
-    margin-left: 9.4rem;
+    margin-left: 8.2rem;
     font-weight: normal;
     font-size: 16px;
 }
