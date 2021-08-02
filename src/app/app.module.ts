@@ -39,6 +39,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   entryComponents: [DialogComponent],
+
   imports: [
     AppRouter,
     BrowserModule,
@@ -66,10 +67,11 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatFormFieldModule,
     CarouselModule.forRoot(),
     FlexLayoutModule,
-    
+
   ],
   providers: [
     CustomHttpInterceptor,
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CustomHttpInterceptor,

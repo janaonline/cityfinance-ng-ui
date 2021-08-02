@@ -52,13 +52,13 @@ export const appRouter: Routes = [
         (m) => m.MohuaformModule
       ),
   },
-  {
-    path: "ulbAdmin",
-    loadChildren: () =>
-      import("./pages/ulb-admin/ulb-admin.module").then(
-        (m) => m.UlbAdminModule
-      ),
-  },
+  // {
+  //   path: "ulbAdmin",
+  //   loadChildren: () =>
+  //     import("./pages/ulb-admin/ulb-admin.module").then(
+  //       (m) => m.UlbAdminModule
+  //     ),
+  // },
   {
     path: "questionnaires",
     loadChildren: () =>

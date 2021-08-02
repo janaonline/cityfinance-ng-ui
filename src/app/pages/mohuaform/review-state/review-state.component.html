@@ -161,7 +161,8 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ row.status }}</td>
                     <td>
-                        {{row.time | date:'medium':'IST'}}
+                        {{row.time | date: 'medium': 'GMT'}}
+                        <!-- ,{{row.time.split('T')[1] | time: 'mediumTime'}} -->
                     </td>
                 </tr>
             </tbody>
