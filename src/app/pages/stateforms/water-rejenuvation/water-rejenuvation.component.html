@@ -23,7 +23,7 @@
                             <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
                             <h5 style="display: inline-block; font-size: 15px; font-weight: 500;">
                                 <!-- {{uaIdToName(projectIndex).split(' ')[0]}} -->
-                                UA{{projectIndex+1}}: Urban Aggolmeration {{ uaIdToName(projectIndex).substring(0,
+                                UA{{projectIndex+1}}: Urban Agglomeration {{ uaIdToName(projectIndex).substring(0,
                                 uaIdToName(projectIndex).lastIndexOf(" ")) }}
                             </h5>
                         </div>
@@ -119,7 +119,7 @@
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
                                                 (blur)="latLong($event.target.value,projectRow,'long')"
                                                 formControlName="long" style="margin-left: 1ch;" type="text" min="1">
-                                            <a (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
+                                            <a [disabled]="isDisabled" (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                 </mat-icon>
@@ -218,7 +218,7 @@
                                                 formControlName="long"
                                                 (blur)="latLong($event.target.value,projectRow,'long')"
                                                 style="margin-left: 1pc;" type="text" min="1">
-                                            <a (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
+                                            <a [disabled]="isDisabled" (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                 </mat-icon>

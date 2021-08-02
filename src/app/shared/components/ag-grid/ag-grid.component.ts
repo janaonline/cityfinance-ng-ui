@@ -34,8 +34,10 @@ export class AgGridComponent implements OnInit, OnChanges {
   gridData = new EventEmitter();
 
   frameworkComponents;
-  yearErrorMsg = "All years value sum should be a positive integer equal to amount";
-  fundErrorMsg = "All years value sum should be a positive integer equal to project cost";
+  yearErrorMsg =
+    "All years value sum should be a positive integer equal to amount";
+  fundErrorMsg =
+    "All years value sum should be a positive integer equal to project cost";
 
   project = [
     {
@@ -835,10 +837,14 @@ export class AgGridComponent implements OnInit, OnChanges {
       if (this.rowData.yearOutlay[e.rowIndex]["cost"].value == "") {
         this.rowData.yearOutlay[e.rowIndex]["funding"].value = 0;
       } else {
-        this.rowData.yearOutlay[e.rowIndex]["funding"].value = (
-          (e.value / this.rowData.yearOutlay[e.rowIndex]["cost"].value) *
-          100
-        ).toPrecision(2);
+        this.rowData.yearOutlay[e.rowIndex]["funding"].value =
+          (e.value / this.rowData.yearOutlay[e.rowIndex]["cost"].value) * 100;
+        if (this.rowData.yearOutlay[e.rowIndex]["funding"].value % 1 != 0) {
+          this.rowData.yearOutlay[e.rowIndex]["funding"].value = (
+            (e.value / this.rowData.yearOutlay[e.rowIndex]["cost"].value) *
+            100
+          ).toPrecision(2);
+        }
       }
       this.agGrid3.api.applyTransaction({ update: this.rowData.yearOutlay });
     } else {
@@ -925,20 +931,20 @@ const input = {
       code: { value: "", isEmpty: true, lastValidation: true },
       name: { value: "", isEmpty: true, lastValidation: true },
       cost: { value: "", isEmpty: true, lastValidation: true },
-      fc: { value: "", isEmpty: true, lastValidation: true },
-      jjm: { value: "", isEmpty: true, lastValidation: true },
-      sbm: { value: "", isEmpty: true, lastValidation: true },
-      centalScheme: { value: "", isEmpty: true, lastValidation: true },
-      stateScheme: { value: "", isEmpty: true, lastValidation: true },
-      stateGrant: { value: "", isEmpty: true, lastValidation: true },
-      ulb: { value: "", isEmpty: true, lastValidation: true },
-      other: { value: "", isEmpty: true, lastValidation: true },
+      fc: { value: 0, isEmpty: true, lastValidation: true },
+      jjm: { value: 0, isEmpty: true, lastValidation: true },
+      sbm: { value: 0, isEmpty: true, lastValidation: true },
+      centalScheme: { value: 0, isEmpty: true, lastValidation: true },
+      stateScheme: { value: 0, isEmpty: true, lastValidation: true },
+      stateGrant: { value: 0, isEmpty: true, lastValidation: true },
+      ulb: { value: 0, isEmpty: true, lastValidation: true },
+      other: { value: 0, isEmpty: true, lastValidation: true },
       total: { value: "", isEmpty: true, lastValidation: true },
-      "2021-22": { value: "", isEmpty: true, lastValidation: true },
-      "2022-23": { value: "", isEmpty: true, lastValidation: true },
-      "2023-24": { value: "", isEmpty: true, lastValidation: true },
-      "2024-25": { value: "", isEmpty: true, lastValidation: true },
-      "2025-26": { value: "", isEmpty: true, lastValidation: true },
+      "2021-22": { value: 0, isEmpty: true, lastValidation: true },
+      "2022-23": { value: 0, isEmpty: true, lastValidation: true },
+      "2023-24": { value: 0, isEmpty: true, lastValidation: true },
+      "2024-25": { value: 0, isEmpty: true, lastValidation: true },
+      "2025-26": { value: 0, isEmpty: true, lastValidation: true },
     },
   ],
   yearOutlay: [
@@ -946,14 +952,14 @@ const input = {
       index: { value: 1, isEmpty: true, lastValidation: true },
       code: { value: "", isEmpty: true, lastValidation: true },
       name: { value: "", isEmpty: true, lastValidation: true },
-      cost: { value: "", isEmpty: true, lastValidation: true },
-      funding: { value: "", isEmpty: true, lastValidation: true },
-      amount: { value: "", isEmpty: true, lastValidation: true },
-      "2021-22": { value: "", isEmpty: true, lastValidation: true },
-      "2022-23": { value: "", isEmpty: true, lastValidation: true },
-      "2023-24": { value: "", isEmpty: true, lastValidation: true },
-      "2024-25": { value: "", isEmpty: true, lastValidation: true },
-      "2025-26": { value: "", isEmpty: true, lastValidation: true },
+      cost: { value: 0, isEmpty: true, lastValidation: true },
+      funding: { value: 0, isEmpty: true, lastValidation: true },
+      amount: { value: 0, isEmpty: true, lastValidation: true },
+      "2021-22": { value: 0, isEmpty: true, lastValidation: true },
+      "2022-23": { value: 0, isEmpty: true, lastValidation: true },
+      "2023-24": { value: 0, isEmpty: true, lastValidation: true },
+      "2024-25": { value: 0, isEmpty: true, lastValidation: true },
+      "2025-26": { value: 0, isEmpty: true, lastValidation: true },
     },
   ],
   fold: false,
@@ -1043,7 +1049,7 @@ const checkYear2 = (x, param) => {
   if (count == 4) {
     return cost == val;
   }
-  return val <= (cost ? cost : 0);
+  return val == (cost ? cost : 0);
 };
 
 const _onSuccess = (params) => () => {

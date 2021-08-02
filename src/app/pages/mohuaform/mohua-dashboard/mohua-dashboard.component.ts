@@ -175,16 +175,8 @@ export class MohuaDashboardComponent implements OnInit {
     this.getFormData('');
     this.getPlansData('');
     this.getWaterRejCardData('');
-    this.mainDonughtChart();
-    this.gaugeChart1();
-    this.constChart();
-    this.constChart1();
-    this.gaugeChart2();
-    this.pfmsDonughtChart();
-    this.utilReportDonughtChart();
-    this.slbDonughtChart();
-    this.pieChart();
     this.getGrantTranfer()
+    this.updateCharts();
   }
   getWaterRejCardData(state_id) {
     this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
@@ -402,7 +394,7 @@ export class MohuaDashboardComponent implements OnInit {
 
   private createTooltip(layer: L.Layer) {
     const stateCode = MapUtil.getStateCode(layer);
-    const stateFound = this.states.find((state) => state.code === stateCode);
+    const stateFound = this.stateslist.find((state) => state.code === stateCode);
     if (!stateFound) {
       return;
     }
