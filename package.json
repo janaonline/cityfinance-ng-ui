@@ -48,6 +48,7 @@
         "jquery": "^3.6.0",
         "jscharting": "^3.0.3-beta",
         "leaflet": "^1.6.0",
+        "ng-circle-progress": "^1.5.1",
         "ng-connection-service": "^1.0.4",
         "ng-recaptcha": "^7.0.1",
         "ng2-charts": "^2.4.2",

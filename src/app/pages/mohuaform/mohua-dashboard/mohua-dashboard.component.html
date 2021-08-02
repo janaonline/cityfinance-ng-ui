@@ -1,3 +1,7 @@
+<!-- <circle-progress [percent]="100" [radius]="100" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'"
+    [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false'
+    [showUnits]='false'>
+</circle-progress> -->
 <div style="overflow-y: hidden;overflow-x: hidden;">
     <div class="container-fluid row"
         style="margin-bottom: 15px;display:flex; line-height: 38px; justify-content: center;">
@@ -218,8 +222,15 @@
                     style="font-size: 18px; text-align: center;line-height: 50px; margin-top:2px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
                     ULB Form Status
                 </div>
-                <div class="row mainDonutChart">
+                <div class="row mainDonutChart" *ngIf="!noDataFound_Overall">
                     <canvas id="myChart" style="width:400px ; height:400px"></canvas>
+                </div>
+                <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
+                    style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                    <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16"
+                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                        [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+                    </circle-progress>
                 </div>
                 <div class="viewListBtn">
                     <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
@@ -326,8 +337,15 @@
                         <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
                     </a>
                     <!-- <button (click)="openDialogPfms()"> View List</button> -->
-                    <div class="smallDonuts">
+                    <div class="smallDonuts" *ngIf="!noDataFound_pfms">
                         <canvas id="pfms"></canvas>
+                    </div>
+                    <div class="smallDonuts" *ngIf="noDataFound_pfms" style="text-align:right; margin-top: -7%;">
+                        <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                            [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                            [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                            [titleFontWeight]="550" [showUnits]='false'>
+                        </circle-progress>
                     </div>
                 </div>
                 <div class="row formDonutCharts">
@@ -337,8 +355,15 @@
                         <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
                     </a>
 
-                    <div class="smallDonuts">
+                    <div class="smallDonuts" *ngIf="!noDataFound_util">
                         <canvas id="utilReport"></canvas>
+                    </div>
+                    <div class="smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
+                        <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                            [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                            [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                            [titleFontWeight]="550" [showUnits]='false'>
+                        </circle-progress>
                     </div>
 
 
@@ -351,8 +376,15 @@
                         <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
                     </a>
 
-                    <div class="smallDonuts">
+                    <div class="smallDonuts" *ngIf="!noDataFound_slb">
                         <canvas id="slb"></canvas>
+                    </div>
+                    <div class="smallDonuts" *ngIf="noDataFound_slb" style="text-align:right; margin-top: -7%;">
+                        <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                            [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                            [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                            [titleFontWeight]="550" [showUnits]='false'>
+                        </circle-progress>
                     </div>
 
                 </div>
@@ -459,8 +491,16 @@
 
 
                 <div class="row pieChart">
-                    <div style="height:190px; width:100%; margin-left:50px; margin-top:24px ;">
+                    <div style="height:190px; width:100%; margin-left:50px; margin-top:24px ;"
+                        *ngIf="!noDataFound_plans">
                         <canvas id="pfm"></canvas>
+                    </div>
+                    <div style="height:190px; width:100%; text-align:right;margin-top:3%" *ngIf="noDataFound_plans">
+                        <circle-progress [percent]="100" [radius]="90" [outerStrokeWidth]="16"
+                            [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                            [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                            [titleFontWeight]="550" [showUnits]='false'>
+                        </circle-progress>
                     </div>
                 </div>
             </div>
@@ -512,7 +552,7 @@
                                                 {{grantTransferCardData.mill.start}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
@@ -526,7 +566,7 @@
                                                 {{grantTransferCardData.NonMillTied.mid}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                 </div>
@@ -542,7 +582,7 @@
                                                 {{grantTransferCardData.NonMillUntied.complete}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                 </div>
@@ -565,7 +605,7 @@
                                                 {{grantTransferCardData.mill.start}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
@@ -579,7 +619,7 @@
                                                 {{grantTransferCardData.NonMillTied.mid}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                 </div>
@@ -595,7 +635,7 @@
                                                 {{grantTransferCardData.NonMillUntied.complete}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                 </div>
@@ -618,7 +658,7 @@
                                                 {{grantTransferCardData.mill.start}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-5">
@@ -632,7 +672,7 @@
                                                 {{grantTransferCardData.NonMillTied.mid}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                 </div>
@@ -648,7 +688,7 @@
                                                 {{grantTransferCardData.NonMillUntied.complete}}
                                             </strong>
                                             <br>
-                                            <p *ngIf="grantTransferCardData.statesCount != 1" >States</p>
+                                            <p *ngIf="grantTransferCardData.statesCount != 1">States</p>
                                         </div>
                                     </div>
                                 </div>

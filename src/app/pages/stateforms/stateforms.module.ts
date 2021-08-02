@@ -47,8 +47,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { ChartsModule } from 'ng2-charts';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
+import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
 @NgModule({
   entryComponents: [OverallListComponent],
+  providers: [CircleProgressOptions],
   declarations: [StateformsComponent,
     GTCertificateComponent,
     StateDashboardComponent,
@@ -85,6 +87,7 @@ import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.
 
 
   ],
+
   imports: [
     CommonModule,
     MatTableModule,
@@ -104,7 +107,8 @@ import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.
     MatDialogModule,
     ChartsModule,
     MatButtonModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    NgCircleProgressModule
 
   ]
 })

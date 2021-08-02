@@ -74,8 +74,15 @@
              border-bottom: 1px solid #0000001A; font-weight: 10px;">
                 ULB Form Status
             </div>
-            <div class="row mainDonutChart">
+            <div class="row mainDonutChart" *ngIf="!noDataFound_Overall">
                 <canvas id="myChart" style="width:400px ; height:400px"></canvas>
+            </div>
+            <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
+                style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16"
+                    [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                    [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+                </circle-progress>
             </div>
             <div class="viewListBtn">
                 <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
@@ -185,10 +192,18 @@
                         <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
                     </a>
                 </div>
+                <div *ngIf="noDataFound_pfms" style="text-align:right; margin-top: -7%;padding-right:10%">
+                    <circle-progress [percent]="100" [radius]="62" [outerStrokeWidth]="16"
+                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                        [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                        [showUnits]='false'>
+                    </circle-progress>
+                </div>
                 <!-- <button (click)="openDialogPfms()"> View List</button> -->
-                <div class="smallDonuts" style="margin-left: 15px;">
+                <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_pfms">
                     <canvas id="pfms"></canvas>
                 </div>
+
             </div>
             <div class="row formDonutCharts">
 
@@ -199,8 +214,15 @@
                     </a>
                 </div>
 
-                <div class="smallDonuts" style="margin-left: 15px;">
+                <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_util">
                     <canvas id="utilReport"></canvas>
+                </div>
+                <div class="smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
+                    <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                        [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                        [showUnits]='false'>
+                    </circle-progress>
                 </div>
 
 
@@ -214,8 +236,15 @@
                         <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
                     </a>
                 </div>
-                <div class="smallDonuts" style="margin-left: 15px;">
+                <div class="smallDonuts" *ngIf="!noDataFound_slb" style="margin-left: 15px;">
                     <canvas id="slb"></canvas>
+                </div>
+                <div class="smallDonuts" *ngIf="noDataFound_slb" style="text-align:right; margin-top: -7%;">
+                    <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                        [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                        [showUnits]='false'>
+                    </circle-progress>
                 </div>
 
             </div>
@@ -271,15 +300,19 @@
 
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
 
-                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:61%;" [style.width]="width1">
+                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:61%;"
+                                    [style.width]="width1">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:61%;" [style.width]="width2">
+                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:61%;"
+                                    [style.width]="width2">
                                 </div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;" [style.width]="width3"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;"
+                                    [style.width]="width3"></div>
                                 <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;" [style.width]="width4"></div>
+                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;"
+                                    [style.width]="width4"></div>
                             </div>
                         </div>
                         <div class="row">
@@ -298,10 +331,14 @@
 
                             <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
+                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                                    src="../../../../assets/stateform/nature.svg">
 
 
                             </div>
@@ -316,8 +353,15 @@
 
 
                 <div class="row pieChart">
-                    <div style="height:190px; width:100%;  margin-top:24px ;">
+                    <div style="height:190px; width:100%;  margin-top:24px ;" *ngIf="!noDataFound_plans">
                         <canvas id="pfm"></canvas>
+                    </div>
+                    <div style="height:190px; width:100%; text-align:right;margin-top:3%" *ngIf="noDataFound_plans">
+                        <circle-progress [percent]="100" [radius]="90" [outerStrokeWidth]="16"
+                            [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                            [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                            [titleFontWeight]="550" [showUnits]='false'>
+                        </circle-progress>
                     </div>
                 </div>
             </div>
