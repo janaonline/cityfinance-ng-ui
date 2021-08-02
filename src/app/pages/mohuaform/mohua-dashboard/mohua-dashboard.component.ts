@@ -653,7 +653,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            padding: 25,
+          //  padding: 25,
           }
         }
       }
@@ -698,7 +698,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: "black",
             usePointStyle: true,
-            padding: 22,
+          //  padding: 22,
           },
         },
       },
@@ -740,7 +740,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: "black",
             usePointStyle: true,
-            padding: 22,
+         //   padding: 22,
           },
         },
       },
@@ -915,6 +915,7 @@ export class MohuaDashboardComponent implements OnInit {
       data: data,
       options: {
         maintainAspectRatio: false,
+        responsive: true,
         legend: {
           position: 'bottom',
           align: 'start',
@@ -922,7 +923,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'white',
             usePointStyle: true,
-            padding: 30,
+            padding: 20,
           }
         }
       }

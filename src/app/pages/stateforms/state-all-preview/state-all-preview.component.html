@@ -30,11 +30,11 @@
         </div>
     </div>
     <div class="page-break"></div>
-    <div class="row" *ngIf="stateSlbData">
+    <!-- <div class="row" *ngIf="stateSlbData">
         <div class="col-sm-12">
             <app-water-supply-preview [changeFromOutSide]="changeTrigger.changeInstateSlbData" [parentData]="stateSlbData"></app-water-supply-preview>
         </div>
-    </div>
+    </div> -->
     <div class="row" *ngIf="waterRejData">
         <div class="col-sm-12">
             <app-water-rejenuvation-preview [changeFromOutSide]="changeTrigger.changeInWaterRejenuvation" [parentData]="waterRejData"></app-water-rejenuvation-preview>
@@ -46,7 +46,7 @@
             <app-actionplanspreview [changeFromOutSide]="changeTrigger.changeInActionPlans" [parentData]="actionPlanData"></app-actionplanspreview>
         </div>
     </div>
-    <div class="page-break"></div>
+    <!-- <div class="page-break"></div> -->
     <div class="row" *ngIf="gAllData">
         <div class="col-sm-12">
             <app-grant-all-preview [changeFromOutSide]="changeTrigger.ChangeInGrantAllocation" [parentData]="gAllData"></app-grant-all-preview>

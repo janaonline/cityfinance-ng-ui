@@ -391,6 +391,10 @@ width : 33.33%;
 .mr-l{
 margin-left: 22%;
 }
+.action-re {
+  text-align: center;
+  font-size: 12px !important;
+}
   </style>`;
   @ViewChild("actionP") _html: ElementRef;
   @ViewChild("template") template;
