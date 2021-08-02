@@ -38,7 +38,7 @@ export class CustomizedCellComponent
 
   checkError(params) {
     let field = params.colDef.field;
-    if (params.data[field].lastValidation != true && field != "") {
+    if (params.data[field].lastValidation !== true && field != "") {
       this.notValid = true;
       this.noEditable = false;
     } else {

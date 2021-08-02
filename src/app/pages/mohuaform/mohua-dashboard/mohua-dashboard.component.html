@@ -6,7 +6,7 @@
         <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;
         text-align-last: center; font-size: 20px; border: 2px solid #333;">
             <option selected>India</option>
-            <option [selected]="isSelected(resData)" *ngFor="let resData of states ; let tabelIndex=index"
+            <option [selected]="isSelected(resData)" *ngFor="let resData of stateslist ; let tabelIndex=index"
                 value="{{resData.code}} and {{resData._id}}">
                 {{resData.name}}</option>
         </select>

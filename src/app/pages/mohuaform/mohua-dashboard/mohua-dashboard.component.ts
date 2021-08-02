@@ -400,7 +400,7 @@ export class MohuaDashboardComponent implements OnInit {
 
   private createTooltip(layer: L.Layer) {
     const stateCode = MapUtil.getStateCode(layer);
-    const stateFound = this.states.find((state) => state.code === stateCode);
+    const stateFound = this.stateslist.find((state) => state.code === stateCode);
     if (!stateFound) {
       return;
     }
