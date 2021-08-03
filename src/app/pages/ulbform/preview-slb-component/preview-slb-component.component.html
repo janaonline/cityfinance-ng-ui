@@ -25,9 +25,9 @@
         <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
             <thead style="color: #047474">
                 <th style="padding: 1%" scope="col">Service Level Indicators</th>
-                <td></td>
+                <th style="padding: 1%; text-align: center" scope="col">Benchmark</th>
                 <th style="padding: 1%; text-align: center" scope="col">
-                    Baseline Indicator <br /> 2020-21
+                    Actual Indicator <br /> 2020-21
                 </th>
                 <th style="padding: 1%; text-align: center" *ngFor="let column of targets" scope="col" [innerHTML]="column.name"></th>
             </thead>
@@ -37,7 +37,10 @@
                     <td style="padding: 1%" class="td-width">
                         {{ service.name }}
                     </td>
-                    <td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <!-- <td>
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -105,7 +108,7 @@
                 d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
                 transform="translate(-113.725 -113.725)" />
             </svg>
-                    </td>
+                    </td> -->
                     <td style="padding: 1%; text-align: center">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
@@ -146,6 +149,9 @@
                 <tr *ngIf="services[1] as service">
                     <td style="padding: 1%" class="td-width">
                         {{ service.name }}
+                    </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <td>
                         <svg *ngIf="
@@ -257,6 +263,9 @@
                     <td style="padding: 1%" class="td-width">
                         {{ service.name }}
                     </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
                     <td>
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
@@ -366,6 +375,9 @@
                 <tr *ngIf="services[3] as service">
                     <td style="padding: 1%" class="td-width">
                         {{ service.name }}
+                    </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <td>
                         <svg *ngIf="
