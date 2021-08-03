@@ -352,7 +352,7 @@ export class PreviewSlbComponentComponent implements OnInit {
         this.downloadFile(
           res.slice(0),
           "pdf",
-          `XV_FC_Grant ${
+          `slb ${
             this.data ? this.data.ulbName : this.userDetails.name
           }.pdf`
         );
