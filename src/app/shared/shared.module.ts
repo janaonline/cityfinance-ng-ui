@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule,FormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -54,6 +54,7 @@ import { CommFileUploadComponent } from './components/comm-file-upload/comm-file
 import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ActionComponentComponent } from './components/action-component/action-component.component';
+
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -80,6 +81,7 @@ import { ActionComponentComponent } from './components/action-component/action-c
       libraries: ["places"],
     }),
     MatCardModule,
+
   ],
   declarations: [
     PreLoaderComponent,
@@ -110,6 +112,8 @@ import { ActionComponentComponent } from './components/action-component/action-c
     CommFileUploadComponent,
     ActionComponentComponent,
 
+
+
   ],
   exports: [
     FormsModule,
@@ -137,8 +141,9 @@ import { ActionComponentComponent } from './components/action-component/action-c
     MatCheckboxModule,
     FcSlbComponent,
     CommFileUploadComponent,
-    ActionComponentComponent
+    ActionComponentComponent,
+
   ],
   providers: [FinancialDataService],
 })
-export class SharedModule {}
+export class SharedModule { }

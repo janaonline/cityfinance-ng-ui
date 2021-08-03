@@ -84,10 +84,17 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   disableAllForms = false;
   isStateSubmittedForms = "";
   userRole;
+  design_year = '606aaf854dff55e6c075d219'
   excelDataOnLoad = null;
   state_id;
   formDisable = false;
   ngOnInit() {
+    this.formDisable = false;
+    this.stateformsService.getStateForm(this.design_year, '').subscribe((res) => {
+      if (res['data']['latestFinalResponse']['role'] == "STATE") {
+        this.formDisable = true
+      }
+    })
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
     this.stateformsService.disableAllFormsAfterMoHUAReview.subscribe((disable) => {
@@ -96,29 +103,6 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         sessionStorage.setItem("disableAllActionForm", "true")
       }
     })
-    sessionStorage.setItem("changeInPFMSAccountState", "false");
-    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
-
-    this.state_id = sessionStorage.getItem("state_id");
-
-    if (this.loggedInUserType == "MoHUA") {
-      this.formDisable = true;
-    } else if (this.loggedInUserType == "STATE") {
-      if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
-        if (
-          this.allStatus["steps"]["linkPFMS"]["isSubmit"] &&
-          (this.allStatus["steps"]["linkPFMS"]["status"] == "PENDING" ||
-            this.allStatus["steps"]["linkPFMS"]["status"] == "APPROVED")
-        ) {
-          this.formDisable = true;
-        }
-      } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
-        if (this.allStatus["steps"]["linkPFMS"]["status"] == "APPROVED") {
-          this.formDisable = true;
-        }
-      }
-    }
-
     this.stateformsService.disableAllFormsAfterStateFinalSubmit.subscribe(
       (disable) => {
         console.log("link pfms Testing", disable);
@@ -128,6 +112,24 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
         }
       }
     );
+    sessionStorage.setItem("changeInPFMSAccountState", "false");
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"));
+
+    this.state_id = sessionStorage.getItem("state_id");
+
+    if (this.loggedInUserType == "MoHUA") {
+      this.formDisable = true;
+    } else if (this.loggedInUserType == "STATE") {
+      if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
+        this.formDisable = true;
+      } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
+        if (this.allStatus["steps"]["linkPFMS"]["status"] == "APPROVED") {
+          this.formDisable = true;
+        }
+      }
+    }
+
+
 
     this.onLoad();
   }
@@ -168,7 +170,10 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.body["status"] = this.pfmsFormStatus;
     this.body["state"] = this.state_id;
     this.body["rejectReason"] = this.pfmsFormRejectReason;
-
+    if (this.pfmsFormStatus == 'REJECTED' && !this.pfmsFormRejectReason) {
+      swal('Providing Reason for Rejection is mandatory for Rejecting the Form')
+      return
+    }
     this.LinkPFMSAccount.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");

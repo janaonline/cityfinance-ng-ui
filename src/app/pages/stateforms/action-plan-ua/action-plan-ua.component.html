@@ -14,7 +14,7 @@
             </h4>
         </div>
         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
-            <button type="button" class="btn btn-pre" (click)="getExcel()">PREVIEW</button>
+            <button type="button" class="btn btn-pre" (click)="getExcel()">Download</button>
         </div>
     </div>
     <div *ngIf="showLoader" style="margin-left: 33pc;">
@@ -33,8 +33,11 @@
                     style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
             </div>
             <div *ngIf="item.fold">
-                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)"
-                    [isDisabled]="formDisable" [ulbList]="item.ulbList" [rowData]="item">
+                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [isDisabled]="formDisable || (
+                        loggedInUserType === USER_TYPE.STATE &&
+                          allStatus['latestFinalResponse']['role'] == 'MoHUA'
+                          &&
+                        item.status =='APPROVED')" [ulbList]="item.ulbList" [rowData]="item">
                 </app-ag-grid>
 
                 <div class="card"

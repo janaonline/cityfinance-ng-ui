@@ -253,7 +253,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-           // padding: 22,
+            // padding: 22,
           }
         },
         responsive: true,
@@ -305,7 +305,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-          //  padding: 20,
+            //  padding: 20,
           }
         },
         responsive: true
@@ -352,7 +352,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-           // padding: 20,
+            // padding: 20,
           }
         },
         responsive: true
@@ -639,6 +639,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.mainDonughtChart();
     this.gaugeChart1();
     this.gaugeChart2();
+    this.constChart();
+    this.constChart1();
     this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     this.slbDonughtChart();
@@ -716,6 +718,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     }
 
   }
+  noDataFound_Overall = false
+  noDataFound_pfms = false
+  noDataFound_util = false
+  noDataFound_slb = false
+  noDataFound_plans = false
   mapValues(data) {
     this.values.overall_approvedByState = data['overallFormStatus']['approvedByState'],
       this.values.overall_pendingForSubmission = data['overallFormStatus']['pendingForSubmission'],
@@ -737,6 +744,49 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       this.values.plans_underStateReview = data['plans']['underStateReview'],
       this.values.annualAcc_audited = data['annualAccounts']['audited'],
       this.values.annualAcc_provisional = data['annualAccounts']['provisional']
+
+
+
+    if (this.values.overall_approvedByState +
+      this.values.overall_pendingForSubmission +
+      this.values.overall_underReviewByState == 0
+    ) {
+      this.noDataFound_Overall = true
+    }
+
+    if (this.values.pfms_notRegistered +
+      this.values.pfms_pendingResponse +
+      this.values.pfms_registered +
+      this.values.slb_approvedbyState == 0
+    ) {
+      this.noDataFound_pfms = true
+    }
+    if (this.values.util_approvedbyState +
+      this.values.util_completedAndPendingSubmission +
+      this.values.util_pendingCompletion +
+      this.values.util_underStateReview == 0
+    ) {
+      this.noDataFound_util = true
+    }
+    if (this.values.slb_approvedbyState +
+      this.values.slb_completedAndPendingSubmission +
+      this.values.slb_pendingCompletion +
+      this.values.slb_underStateReview == 0
+    ) {
+      this.noDataFound_slb = true
+    }
+    if (this.values.plans_approvedbyState +
+      this.values.plans_completedAndPendingSubmission +
+      this.values.plans_pendingCompletion +
+      this.values.plans_underStateReview == 0
+    ) {
+      this.noDataFound_plans = true
+    }
+    this.noDataFound_Overall = true
+    this.noDataFound_plans = true
+    this.noDataFound_util = true
+    this.noDataFound_pfms = true
+    this.noDataFound_slb = true
   }
 
 

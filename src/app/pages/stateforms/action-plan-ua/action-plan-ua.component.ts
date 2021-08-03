@@ -92,23 +92,7 @@ export class ActionPlanUAComponent implements OnInit {
       this.formDisable = true;
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
-        // if (
-        //   this.allStatus["latestFinalResponse"]["actionPlans"]["isSubmit"] &&
-        //   (this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-        //     "PENDING" ||
-        //     this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-        //       "APPROVED")
-        // ) {
-        //   this.formDisable = true;
-        // }
         this.formDisable = true;
-      } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
-        if (
-          this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-          "APPROVED"
-        ) {
-          this.formDisable = true;
-        }
       }
     }
 
@@ -318,9 +302,22 @@ export class ActionPlanUAComponent implements OnInit {
     }
   }
   body = {};
+
   saveStateAction() {
-    this.actionplanserviceService
-      .postStateAction(this.finalActionData)
+    let flag = 0;
+    console.log(this.finalActionData)
+    this.finalActionData.uaData.forEach((el) => {
+      console.log(el.ua, el.status, el.rejectReason)
+
+      if (el['status'] == 'REJECTED' && (!el['rejectReason'] || el['rejectReason'] == null)) {
+        flag = 1
+      }
+    });
+    if (flag) {
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+      return
+    }
+    this.actionplanserviceService.postStateAction(this.finalActionData)
       .subscribe(
         (res) => {
           swal("Record submitted successfully!");
@@ -540,20 +537,20 @@ const input = {
       code: { value: "", isEmpty: null, lastValidation: true },
       name: { value: "", isEmpty: null, lastValidation: true },
       cost: { value: "", isEmpty: null, lastValidation: true },
-      fc: { value: "", isEmpty: null, lastValidation: true },
-      jjm: { value: "", isEmpty: null, lastValidation: true },
-      sbm: { value: "", isEmpty: null, lastValidation: true },
-      centalScheme: { value: "", isEmpty: null, lastValidation: true },
-      stateScheme: { value: "", isEmpty: null, lastValidation: true },
-      stateGrant: { value: "", isEmpty: null, lastValidation: true },
-      ulb: { value: "", isEmpty: null, lastValidation: true },
-      other: { value: "", isEmpty: null, lastValidation: true },
+      fc: { value: 0, isEmpty: null, lastValidation: true },
+      jjm: { value: 0, isEmpty: null, lastValidation: true },
+      sbm: { value: 0, isEmpty: null, lastValidation: true },
+      centalScheme: { value: 0, isEmpty: null, lastValidation: true },
+      stateScheme: { value: 0, isEmpty: null, lastValidation: true },
+      stateGrant: { value: 0, isEmpty: null, lastValidation: true },
+      ulb: { value: 0, isEmpty: null, lastValidation: true },
+      other: { value: 0, isEmpty: null, lastValidation: true },
       total: { value: "", isEmpty: null, lastValidation: true },
-      "2021-22": { value: "", isEmpty: null, lastValidation: true },
-      "2022-23": { value: "", isEmpty: null, lastValidation: true },
-      "2023-24": { value: "", isEmpty: null, lastValidation: true },
-      "2024-25": { value: "", isEmpty: null, lastValidation: true },
-      "2025-26": { value: "", isEmpty: null, lastValidation: true },
+      "2021-22": { value: 0, isEmpty: null, lastValidation: true },
+      "2022-23": { value: 0, isEmpty: null, lastValidation: true },
+      "2023-24": { value: 0, isEmpty: null, lastValidation: true },
+      "2024-25": { value: 0, isEmpty: null, lastValidation: true },
+      "2025-26": { value: 0, isEmpty: null, lastValidation: true },
     },
   ],
   yearOutlay: [
@@ -561,14 +558,14 @@ const input = {
       index: { value: 1, isEmpty: null, lastValidation: true },
       code: { value: "", isEmpty: null, lastValidation: true },
       name: { value: "", isEmpty: null, lastValidation: true },
-      cost: { value: "", isEmpty: null, lastValidation: true },
-      funding: { value: "", isEmpty: null, lastValidation: true },
-      amount: { value: "", isEmpty: null, lastValidation: true },
-      "2021-22": { value: "", isEmpty: null, lastValidation: true },
-      "2022-23": { value: "", isEmpty: null, lastValidation: true },
-      "2023-24": { value: "", isEmpty: null, lastValidation: true },
-      "2024-25": { value: "", isEmpty: null, lastValidation: true },
-      "2025-26": { value: "", isEmpty: null, lastValidation: true },
+      cost: { value: 0, isEmpty: null, lastValidation: true },
+      funding: { value: 0, isEmpty: null, lastValidation: true },
+      amount: { value: 0, isEmpty: null, lastValidation: true },
+      "2021-22": { value: 0, isEmpty: null, lastValidation: true },
+      "2022-23": { value: 0, isEmpty: null, lastValidation: true },
+      "2023-24": { value: 0, isEmpty: null, lastValidation: true },
+      "2024-25": { value: 0, isEmpty: null, lastValidation: true },
+      "2025-26": { value: 0, isEmpty: null, lastValidation: true },
     },
   ],
   fold: false,

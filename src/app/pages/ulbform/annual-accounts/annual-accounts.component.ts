@@ -81,6 +81,7 @@ export class AnnualAccountsComponent implements OnInit {
   dialogRef;
   modalRef;
   actionResAn;
+  saveBtn = "NEXT"
   // actionResAu;
   ulbId = null;
   @HostBinding("")
@@ -544,15 +545,13 @@ export class AnnualAccountsComponent implements OnInit {
           ) {
             this.auditQues[index].error = true;
             this.data.isDraft = true;
+            return
           } else {
             this.auditQues[index].error = false;
-            this.data.isDraft = false;
           }
           index++;
         }
-        if (this.data.isDraft) {
-          return;
-        }
+        this.data.isDraft = false;
         if (this.data.audited.submit_standardized_data == null) {
           this.data.isDraft = true;
         } else {
@@ -564,18 +563,14 @@ export class AnnualAccountsComponent implements OnInit {
               this.data.isDraft = false;
             } else {
               this.data.isDraft = true;
-            }
-            if (this.data.isDraft) {
               return;
             }
             if (
               this.data.audited.standardized_data.excel.url == null ||
               this.data.audited.standardized_data.excel.name == null
             ) {
-              this.auditQues[index].error = true;
               this.data.isDraft = true;
             } else {
-              this.auditQues[index].error = false;
               this.data.isDraft = false;
             }
           } else {
@@ -600,15 +595,13 @@ export class AnnualAccountsComponent implements OnInit {
           ) {
             this.unAuditQues[index].error = true;
             this.data.isDraft = true;
+            return;
           } else {
             this.unAuditQues[index].error = false;
-            this.data.isDraft = false;
           }
           index++;
         }
-        if (this.data.isDraft) {
-          return;
-        }
+        this.data.isDraft = false;
         if (this.data.unAudited.submit_standardized_data == null) {
           this.data.isDraft = true;
         } else {
@@ -620,8 +613,6 @@ export class AnnualAccountsComponent implements OnInit {
               this.data.isDraft = false;
             } else {
               this.data.isDraft = true;
-            }
-            if (this.data.isDraft) {
               return;
             }
             if (
@@ -825,6 +816,7 @@ export class AnnualAccountsComponent implements OnInit {
     let toCompData = JSON.stringify(this.data);
     if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
+      this.saveBtn = "SAVE AND NEXT"
       this.checkForm();
       let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
       if (allFormData) {
