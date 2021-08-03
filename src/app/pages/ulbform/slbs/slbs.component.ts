@@ -39,7 +39,7 @@ export class SlbsComponent implements OnInit {
   ulbFormRejectR = null;
   finalSubmitStatus;
   takeStateAction;
-  actionResSlb; 
+  actionResSlb;
   compDis;
   constructor(
     private _matDialog: MatDialog,
@@ -121,11 +121,11 @@ export class SlbsComponent implements OnInit {
 
         let waterPotability =
           res["data"] &&
-          res["data"][0] &&
-          res["data"][0]["waterPotability"]["documents"]["waterPotabilityPlan"]
+            res["data"][0] &&
+            res["data"][0]["waterPotability"]["documents"]["waterPotabilityPlan"]
             ? res["data"][0]["waterPotability"]["documents"][
-                "waterPotabilityPlan"
-              ][0]
+            "waterPotabilityPlan"
+            ][0]
             : {};
 
         this.waterPotability =

@@ -348,9 +348,23 @@
 
         </div>
         <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-    (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'MoHUA'))">
+     (allStatus['latestFinalResponse']['role'] == 'MoHUA'))">
             <div class="card-body">
-                <p><b>MoHUA Review Status :</b> {{getStatus | titlecase}}</p>
+                <b>MoHUA Review Status :</b>
+                <div class="btn-group"
+                    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'"
+                    btnRadioGroup style=" margin-left: 2%;">
+
+                    <label class="btn btn-success" disabled style="width: 82px;"
+                        [ngClass]="{'btn-a' : btnStyleA_A && btnStyleA_B && btnStyleA_C  , 'btn-r' : btnStyleR_A || btnStyleR_B  || btnStyleR_C  }">
+
+                        {{(btnStyleA_A && btnStyleA_B && btnStyleA_C) ? 'Approved' : (btnStyleR_A || btnStyleR_B ||
+                        btnStyleR_C) ? 'Rejected' : null }}</label>
+
+                </div>
+
+
+
             </div>
         </div>
         <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
