@@ -627,11 +627,11 @@ export class WaterRejenuvationComponent implements OnInit {
   uploadFile(file, name, type) {
     return new Promise<void>((resolve, reject) => {
       this.dataEntryService.getURLForFileUpload(name, type).subscribe(
-        (s3Response) => {
-          resolve();
+        async (s3Response) => {
           const res = s3Response.data[0];
-          this.uploadFileToS3(file, res["url"], res["file_alias"]);
+          await this.uploadFileToS3(file, res["url"], res["file_alias"]);
           this.photosArray.push({ url: res["file_alias"], name });
+          resolve();
         },
         (err) => {
           console.log(err);
@@ -642,16 +642,19 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   private uploadFileToS3(file: File, s3URL: string, fileAlias: string) {
-    this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
-      (res) => {
-        if (res.type === HttpEventType.Response) {
+    return new Promise((resolve,reject)=>{
+      this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
+        (res) => {
+          if (res.type === HttpEventType.Response) {
+            resolve("aa")
+          }
+        },
+        (err) => {
+          this.errorPhotosArray.push(file);
+          console.log(err);
         }
-      },
-      (err) => {
-        this.errorPhotosArray.push(file);
-        console.log(err);
-      }
-    );
+      );
+    })
   }
 
   uaIdToName(index) {
