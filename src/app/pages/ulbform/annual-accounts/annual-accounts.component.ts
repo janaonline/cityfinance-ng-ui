@@ -81,6 +81,7 @@ export class AnnualAccountsComponent implements OnInit {
   dialogRef;
   modalRef;
   actionResAn;
+  saveBtn = "NEXT"
   // actionResAu;
   ulbId = null;
   @HostBinding("")
@@ -815,6 +816,7 @@ export class AnnualAccountsComponent implements OnInit {
     let toCompData = JSON.stringify(this.data);
     if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
+      this.saveBtn = "SAVE AND NEXT"
       this.checkForm();
       let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
       if (allFormData) {

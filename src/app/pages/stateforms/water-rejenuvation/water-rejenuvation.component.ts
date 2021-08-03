@@ -542,6 +542,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   openMap(nameIndex, uaIndex, name): void {
+    if(this.formDisable)return
     let data;
     if (name == "waterBodies") {
       data = {
@@ -580,6 +581,8 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
+    if(this.formDisable)return
+    
     this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
