@@ -33,8 +33,11 @@
                     style="margin-right: 1pc; margin-top: 15px;" (click)="foldCard(projectIndex)">Select</button>
             </div>
             <div *ngIf="item.fold">
-                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)"
-                    [isDisabled]="formDisable" [ulbList]="item.ulbList" [rowData]="item">
+                <app-ag-grid [catList]="projectCategories" (gridData)="getDataFromGrid($event)" [isDisabled]="formDisable || (
+                        loggedInUserType === USER_TYPE.STATE &&
+                          allStatus['latestFinalResponse']['role'] == 'MoHUA'
+                          &&
+                        item.status =='APPROVED')" [ulbList]="item.ulbList" [rowData]="item">
                 </app-ag-grid>
 
                 <div class="card"

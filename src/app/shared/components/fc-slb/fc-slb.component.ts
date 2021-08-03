@@ -383,6 +383,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
 
   emitOnDocChange() {
+    this.changeInData = true
     this.emitValues(this.form.getRawValue());
   }
 
@@ -766,15 +767,15 @@ export class FcSlbComponent implements OnInit, OnChanges {
               // console.log(mainValue, actualData)
               invalid = increse
                 ? !(
-                    mainValue > 0 &&
-                    mainValue < upperLimit &&
-                    mainValue >= otherValue
-                  )
+                  mainValue > 0 &&
+                  mainValue < upperLimit &&
+                  mainValue >= otherValue
+                )
                 : !(
-                    mainValue > 0 &&
-                    mainValue < upperLimit &&
-                    mainValue <= otherValue
-                  );
+                  mainValue > 0 &&
+                  mainValue < upperLimit &&
+                  mainValue <= otherValue
+                );
               // console.log(value > controlValue[obj])
               // console.log("if", value, controlValue[obj], controlKey, obj)
               // console.log(invalid)
@@ -795,7 +796,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     for (let key in this.form?.controls) {
       if (
         this.form?.controls[key]["controls"]["baseline"]?.controls["2021"][
-          "status"
+        "status"
         ] === "INVALID"
       ) {
         this.invalidWhole = true;
@@ -808,7 +809,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
       ]) {
         if (
           this.form["controls"][key]["controls"]["target"]["controls"][key2][
-            "status"
+          "status"
           ] === "INVALID"
         )
           this.invalidWhole = true;

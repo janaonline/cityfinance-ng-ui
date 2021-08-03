@@ -97,6 +97,7 @@ export class UtilisationReportComponent implements OnInit {
   lastRoleInMasterForm;
   masterFormStatus;
   // editable;
+  saveBtn = "NEXT"
   photoUrl: any = [];
   fd;
   formDataResponce;
@@ -213,6 +214,7 @@ export class UtilisationReportComponent implements OnInit {
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
       if (change !== oldForm) {
+        this.saveBtn = "SAVE AND NEXT"
         sessionStorage.setItem("canNavigate", "false");
       } else {
         sessionStorage.setItem("canNavigate", "true");
@@ -844,9 +846,8 @@ export class UtilisationReportComponent implements OnInit {
   }
   saveAndNext(template1) {
     let canNavigate = sessionStorage.getItem("canNavigate");
-    if (canNavigate === "true" && this.clickedSave == false) {
-      this._router.navigate(["ulbform/annual_acc"]);
-      return;
+    if (canNavigate === "true" && this.saveBtn === "NEXT") {
+      return this._router.navigate(["ulbform/annual_acc"]);;
     } else {
       this.submitted = true;
       console.log(this.utilizationReport);

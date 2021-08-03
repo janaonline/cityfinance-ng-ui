@@ -87,38 +87,29 @@ export class WaterRejenuvationComponent implements OnInit {
     this.initializeReport();
     if (this.loggedInUserType == "MoHUA") {
       this.formDisable = true;
+
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
-        // if (
-        //   this.allStatus["steps"]["waterRejuventation"]["isSubmit"] &&
-        //   (this.allStatus["steps"]["waterRejuventation"]["status"] ==
-        //     "PENDING" ||
-        //     this.allStatus["steps"]["waterRejuventation"]["status"] ==
-        //       "APPROVED")
-        // ) {
-        //   this.formDisable = true;
-        // }
         this.formDisable = true;
       } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
-        if (
-          this.allStatus["steps"]["waterRejuventation"]["status"] == "APPROVED"
-        ) {
-          this.formDisable = true;
-        }
+        console.log(this.waterRejenuvation)
+        this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
+
+          if (el['controls']['status']['value'] == 'APPROVED') {
+            console.log(el)
+            el.disable();
+            console.log(el['controls'])
+            // this.waterRejenuvation['controls']['uaData']['controls'][el]['controls'].disable();
+          }
+        })
       }
     }
-    if (this.allStatus["latestFinalResponse"]["role"] == "STATE" && this.allStatus['actionTakenByRole'] === 'STATE') {
-      if (
-        this.allStatus["latestFinalResponse"]["waterRejuventation"]["status"] !=
-        "PENDING"
-      ) {
-        this.actionFormDisable = true;
-      }
-    } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
+    else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
       this.actionFormDisable = true;
     }
-
+    console.log('waterRejuvenation', this.waterRejenuvation)
     if (this.formDisable) {
+
       this.waterRejenuvation.disable();
     }
 
@@ -485,8 +476,19 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   body = {};
   saveStateAction() {
+    let flag = 0;
     this.body = this.waterRejenuvation.value;
     console.log("this.body", this.body);
+    this.body['uaData'].forEach(el => {
+      if (el['status'] == 'REJECTED' && !el.rejectReason) {
+        flag = 1;
+      }
+    })
+    if (flag) {
+      swal("Providing Reason for Rejection is Mandatory for Rejecting a form.")
+      return;
+    }
+
     this.waterRejenuvationService.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
@@ -540,6 +542,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   openMap(nameIndex, uaIndex, name): void {
+    if(this.formDisable)return
     let data;
     if (name == "waterBodies") {
       data = {
@@ -578,6 +581,8 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
+    if(this.formDisable)return
+    
     this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
