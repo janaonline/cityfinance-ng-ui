@@ -92,23 +92,7 @@ export class ActionPlanUAComponent implements OnInit {
       this.formDisable = true;
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
-        // if (
-        //   this.allStatus["latestFinalResponse"]["actionPlans"]["isSubmit"] &&
-        //   (this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-        //     "PENDING" ||
-        //     this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-        //       "APPROVED")
-        // ) {
-        //   this.formDisable = true;
-        // }
         this.formDisable = true;
-      } else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
-        if (
-          this.allStatus["latestFinalResponse"]["actionPlans"]["status"] ==
-          "APPROVED"
-        ) {
-          this.formDisable = true;
-        }
       }
     }
 
@@ -318,9 +302,22 @@ export class ActionPlanUAComponent implements OnInit {
     }
   }
   body = {};
+
   saveStateAction() {
-    this.actionplanserviceService
-      .postStateAction(this.finalActionData)
+    let flag = 0;
+    console.log(this.finalActionData)
+    this.finalActionData.uaData.forEach((el) => {
+      console.log(el.ua, el.status, el.rejectReason)
+
+      if (el['status'] == 'REJECTED' && (!el['rejectReason'] || el['rejectReason'] == null)) {
+        flag = 1
+      }
+    });
+    if (flag) {
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+      return
+    }
+    this.actionplanserviceService.postStateAction(this.finalActionData)
       .subscribe(
         (res) => {
           swal("Record submitted successfully!");

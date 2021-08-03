@@ -171,7 +171,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.body["state"] = this.state_id;
     this.body["rejectReason"] = this.pfmsFormRejectReason;
     if (this.pfmsFormStatus == 'REJECTED' && !this.pfmsFormRejectReason) {
-      swal('Providing Reason is mandatory for Rejecting the Form')
+      swal('Providing Reason for Rejection is mandatory for Rejecting the Form')
       return
     }
     this.LinkPFMSAccount.postStateAction(this.body).subscribe(

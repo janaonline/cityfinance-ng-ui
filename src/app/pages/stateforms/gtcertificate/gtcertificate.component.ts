@@ -373,7 +373,12 @@ export class GTCertificateComponent implements OnInit {
 
   postsDataCall(uploadedFiles) {
 
-
+    // if (this.uploadedFiles.million_tied.status == 'REJECTED' && !this.uploadedFiles.million_tied.rejectReason ||
+    //   this.uploadedFiles.nonmillion_tied.status == 'REJECTED' && !this.uploadedFiles.nonmillion_tied.rejectReason ||
+    //   this.uploadedFiles.nonmillion_untied.status == 'REJECTED' && !this.uploadedFiles.nonmillion_untied.rejectReason) {
+    //   swal("Providing Reason for Rejection in Mandatory for Rejecting a form.")
+    //   return
+    // }
     return new Promise((resolve, reject) => {
 
       this.gtcService.sendRequest(this.uploadedFiles)
@@ -425,7 +430,12 @@ export class GTCertificateComponent implements OnInit {
     } else {
       this.body['status'] = 'APPROVED'
     }
-
+    if (this.actionData1['status'] == 'REJECTED' && !this.actionData1['rejectReason'] ||
+      this.actionData2['status'] == 'REJECTED' && !this.actionData2['rejectReason'] ||
+      this.actionData3['status'] == 'REJECTED' && !this.actionData3['rejectReason']) {
+      swal("Providing Reason for Rejection in Mandatory for Rejecting a form.")
+      return
+    }
     this.gtcService.postStateAction(this.body).subscribe(
       (res) => {
         swal("Record submitted successfully!");
