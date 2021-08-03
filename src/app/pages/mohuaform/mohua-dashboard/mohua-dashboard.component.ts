@@ -53,7 +53,7 @@ export class MohuaDashboardComponent implements OnInit {
     public commonService: CommonService
   ) { }
   @ViewChild("stateTable") stateTable;
-  stateslist = null
+  stateslist = []
   ngOnInit(): void {
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       try {
@@ -69,8 +69,13 @@ export class MohuaDashboardComponent implements OnInit {
       }
     });
     this.commonService.states.subscribe((res) => {
-      this.stateslist = res;
-      sessionStorage.setItem("statesData", JSON.stringify(res))
+      let data = res
+      data.forEach(el => {
+        if (el['accessToXVFC']) {
+          this.stateslist.push(el)
+        }
+      })
+      sessionStorage.setItem("statesData", JSON.stringify(this.stateslist))
     });
     this.commonService.loadStates(true);
     this.onLoad();
@@ -645,7 +650,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-          //  padding: 25,
+            //  padding: 25,
           }
         }
       }
@@ -690,7 +695,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: "black",
             usePointStyle: true,
-          //  padding: 22,
+            //  padding: 22,
           },
         },
       },
@@ -732,7 +737,7 @@ export class MohuaDashboardComponent implements OnInit {
             fontSize: 13,
             fontColor: "black",
             usePointStyle: true,
-         //   padding: 22,
+            //   padding: 22,
           },
         },
       },
