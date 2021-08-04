@@ -384,6 +384,12 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
+      if(element.status === "REJECTED"){
+        Uas.status = "PENDING"
+        this.data.status = "PENDING"
+      }else{
+        Uas.status = element.status
+      }
       newUaData.push(Uas);
     });
     let apiData = JSON.parse(JSON.stringify(this.data));
