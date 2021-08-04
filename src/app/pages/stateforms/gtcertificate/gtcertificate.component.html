@@ -388,7 +388,7 @@
     </div>
 </div>
 <ng-template #template>
-    <div class=" modal-body text-center">
+    <div class="modal-body text-center">
         <div class="modal-header">
             <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
             <div class="text-right">
@@ -399,11 +399,13 @@
         </div>
 
         <p style="margin-top: 8px;">
-            Are you sure you want to proceed?
+            Are you sure you want to proceed further?
+        </p>
         <div>
-            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
-                Proceed</button>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
         </div>
 
     </div>
