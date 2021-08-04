@@ -241,6 +241,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   getStatus = null;
   getrejectReason = null;
   actionFormDisable = false;
+  actionTakenByRoleOnForm = null
   onLoad() {
     this.LinkPFMSAccount.getData(
       this.Years["2021-22"],
@@ -248,6 +249,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     ).subscribe(
       (res) => {
         console.log(res);
+        this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
         this.data.excel = res["data"].excel;
         this.data.isDraft = res["data"].isDraft;
         this.excelDataOnLoad = { excel: res["data"].excel };
