@@ -41,7 +41,7 @@ export class ActionPlanUAComponent implements OnInit {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   dialogRefForNavigation;
-  actionRes;
+  actionRes = [];
   constructor(
     public stateformsService: StateformsService,
     public actionplanserviceService: ActionplanserviceService,
@@ -151,6 +151,7 @@ export class ActionPlanUAComponent implements OnInit {
   }
   state_id;
   actionTakenByRoleOnForm = null
+
   load() {
     console.log(this.state_id);
     this.actionplanserviceService.getFormData(this.state_id).subscribe(
@@ -158,6 +159,7 @@ export class ActionPlanUAComponent implements OnInit {
         this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
         this.showLoader = false;
         console.log(res["data"], "sss");
+
         this.data = {
           state: res["data"].state,
           design_year: res["data"]["design_year"],
@@ -193,6 +195,10 @@ export class ActionPlanUAComponent implements OnInit {
       });
       element.ulbList = newList;
       element.code = this.uaCodes[element.ua];
+      this.actionRes.push({
+        st: element.status,
+        rRes: element.rejectReason
+      })
     });
 
     data.uaData.forEach((element) => {
@@ -279,6 +285,7 @@ export class ActionPlanUAComponent implements OnInit {
           const form = JSON.parse(
             sessionStorage.getItem("allStatusStateForms")
           );
+
           form.steps.actionPlans.isSubmit = !this.data.isDraft;
           form.steps.actionPlans.status = "PENDING";
           form.actionTakenByRole = "STATE";
