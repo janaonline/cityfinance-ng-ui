@@ -119,7 +119,8 @@
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
                                                 (blur)="latLong($event.target.value,projectRow,'long')"
                                                 formControlName="long" style="margin-left: 1ch;" type="text" min="1">
-                                            <a [disabled]="isDisabled" (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
+                                            <a [disabled]="isDisabled"
+                                                (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                 </mat-icon>
@@ -218,7 +219,8 @@
                                                 formControlName="long"
                                                 (blur)="latLong($event.target.value,projectRow,'long')"
                                                 style="margin-left: 1pc;" type="text" min="1">
-                                            <a [disabled]="isDisabled" (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
+                                            <a [disabled]="isDisabled"
+                                                (click)="openMap(reuseWaterIndex,projectIndex,'reuseWater')">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
                                                 </mat-icon>
@@ -253,8 +255,8 @@
                                 </div>
                             </div>
                             <div class="card" style="background-color: hsl(0, 0%, 97%);"
-                                *ngIf="(
-                                allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA')">
+                                *ngIf="
+                                allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
 
                                 <div class="card-body">
                                     <b>MoHUA Review Status :</b>

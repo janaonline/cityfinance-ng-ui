@@ -56,13 +56,13 @@
                                     </div>
 
                                 </div>
-
-                                <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'"
-                                    btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
-                                    <label class="btn" disabled style="width: 82px;"
-                                        [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
-                                        {{stateActionA | titlecase}}</label>
+                                <div *ngIf="stateActionA == 'APPROVED' || stateActionB == 'REJECTED' ">
+                                    <div class="btn-group float-right" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'
+                                    " btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
+                                        <label class="btn" disabled style="width: 82px;"
+                                            [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
+                                            {{stateActionA | titlecase}}</label>
+                                    </div>
                                 </div>
 
 
@@ -169,12 +169,15 @@
                           width: 82px;">Return</label>
                                     </div>
                                 </div>
-                                <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
-                                    style="margin-bottom: 1rem; margin-left: 20%;">
-                                    <label class="btn" disabled style="width: 82px;"
-                                        [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
-                                        {{stateActionB | titlecase}}</label>
+
+                                <div *ngIf="stateActionB == 'APPROVED' || stateActionB == 'REJECTED' ">
+                                    <div class="btn-group float-right"
+                                        *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
+                                        style="margin-bottom: 1rem; margin-left: 20%;">
+                                        <label class="btn" disabled style="width: 82px;"
+                                            [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
+                                            {{stateActionB | titlecase}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -275,12 +278,14 @@
                         width: 82px;">Return</label>
                                     </div>
                                 </div>
-                                <div class="btn-group float-right"
-                                    *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
-                                    style="margin-bottom: 1rem; margin-left: 20%;">
-                                    <label class="btn" disabled style="width: 82px;"
-                                        [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
-                                        {{stateActionC | titlecase}}</label>
+                                <div *ngIf="stateActionC == 'APPROVED' || stateActionC == 'REJECTED' ">
+                                    <div class="btn-group float-right"
+                                        *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
+                                        style="margin-bottom: 1rem; margin-left: 20%;">
+                                        <label class="btn" disabled style="width: 82px;"
+                                            [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
+                                            {{stateActionC | titlecase}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -347,8 +352,8 @@
             </div>
 
         </div>
-        <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-     (allStatus['latestFinalResponse']['role'] == 'MoHUA'))">
+        <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="
+     allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
             <div class="card-body">
                 <b>MoHUA Review Status :</b>
                 <div class="btn-group"

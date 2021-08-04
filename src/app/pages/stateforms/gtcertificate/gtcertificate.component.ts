@@ -162,6 +162,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   btnStyleR_B = false
   btnStyleA_C = false
   btnStyleR_C = false
+  actionTakenByRoleOnForm = null
   ngOnInit(): void {
 
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
@@ -211,7 +212,8 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {
         console.log('gtc responce', res);
-
+        this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
+        console.log('roleForm', this.actionTakenByRoleOnForm)
         sessionStorage.setItem("StateGTC", JSON.stringify(res));
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
           this.fileName_millionTied = res['data']['million_tied']['pdfName'];
