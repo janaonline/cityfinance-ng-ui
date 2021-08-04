@@ -38,7 +38,7 @@
     </div>
 </div>
 <div class="card" style="background-color: hsl(0, 0%, 97%);"
-    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'">
+    *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
     <div class="card-body">
         <b>MoHUA Review Status :</b>
         <div class="btn-group"
@@ -67,10 +67,10 @@
 
 <div class="row" style="margin-top: 3rem; margin-left: 0; margin-right: 10px;">
     <div [routerLink]="['../gtCertificate']" routerLinkActive="router-link-active" class="col-sm-6 col-md-6 col-lg-6">
-        <button class="backButton">BACK</button>
+        <button class="btn backButton">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)="saveAndNextValue(template1)">{{saveBtnTxt}}</button>
+        <button class="btn save" (click)="saveAndNextValue(template1)">{{saveBtnTxt}}</button>
     </div>
 </div>
 <ng-template #template>

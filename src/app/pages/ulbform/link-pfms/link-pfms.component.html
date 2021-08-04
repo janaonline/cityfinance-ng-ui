@@ -41,10 +41,10 @@
 
 <div class="row" style="margin-top: 2rem;">
     <div class="col-sm-6 col-md-6 col-lg-6">
-        <button class="backButton" (click)="clickedBack(template)">BACK</button>
+        <button class="btn backButton" (click)="clickedBack(template)">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button class="save" (click)="saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true?
+        <button class="btn save" (click)="saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true?
           'SAVE AND
           NEXT': 'NEXT'}}</button>
     </div>

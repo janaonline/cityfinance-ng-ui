@@ -1,6 +1,6 @@
 
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Router, NavigationStart, Event } from "@angular/router";
+import { Component, OnInit, TemplateRef, ViewChild, OnDestroy } from '@angular/core';
+import { Router, NavigationStart, NavigationEnd, Event } from "@angular/router";
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,7 +23,8 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: './gtcertificate.component.html',
   styleUrls: ['./gtcertificate.component.scss']
 })
-export class GTCertificateComponent implements OnInit {
+export class GTCertificateComponent implements OnInit, OnDestroy {
+  myObserver = null;
   userLoggedInDetails: IUserLoggedInDetails;
   loggedInUserType: USER_TYPE;
 
@@ -90,7 +91,7 @@ export class GTCertificateComponent implements OnInit {
     private profileService: ProfileService,
   ) {
     this.initializeUserType();
-    this.navigationCheck()
+    this.navigationCheck();
 
 
   }
@@ -102,35 +103,38 @@ export class GTCertificateComponent implements OnInit {
   nonMillionTiedFileUrl = '';
   nonMillionUntiedFileUrl = '';
   routerNavigate = null
-
+  ngOnDestroy() {
+    this.myObserver.unsubscribe();
+  }
   navigationCheck() {
 
-    this._router.events.subscribe(async (event: Event) => {
-      if (!this.submitted) {
-        if (event instanceof NavigationStart) {
-          if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("changeInGTC", "false");
-            this.change = "false"
-            return;
-          }
-          const changeHappen = sessionStorage.getItem("changeInGTC")
-          if (changeHappen === "true" && this.routerNavigate == null) {
+    this.myObserver = this._router.events.subscribe(async (event: Event) => {
 
-            this.change = "true"
-            console.log('inside router')
-            const currentRoute = this._router.routerState;
-            this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
-            this.routerNavigate = event
+      if (event instanceof NavigationStart) {
+        if (event.url === "/" || event.url === "/login") {
+          sessionStorage.setItem("changeInGTC", "false");
+          this.change = "false"
+          return;
+        }
+        const changeHappen = sessionStorage.getItem("changeInGTC")
+        if (changeHappen === "true" && this.routerNavigate == null) {
 
-            this.openModal(this.template);
-          } else {
-            this.change = "false"
-          }
+          this.change = "true"
+          console.log('inside router')
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, { skipLocationChange: true });
+          this.routerNavigate = event
+
+          this.openModal(this.template);
+        } else {
+          this.change = "false"
         }
       }
 
 
+
     });
+
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -158,7 +162,9 @@ export class GTCertificateComponent implements OnInit {
   btnStyleR_B = false
   btnStyleA_C = false
   btnStyleR_C = false
+  actionTakenByRoleOnForm = null
   ngOnInit(): void {
+
     this.allStatus = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
     this.actionFormDisableA = sessionStorage.getItem("disableAllActionForm") == 'true'
     this.actionFormDisableB = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -206,7 +212,8 @@ export class GTCertificateComponent implements OnInit {
     this.gtcService.getFiles(this.state_id)
       .subscribe((res) => {
         console.log('gtc responce', res);
-
+        this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
+        console.log('roleForm', this.actionTakenByRoleOnForm)
         sessionStorage.setItem("StateGTC", JSON.stringify(res));
         if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
           this.fileName_millionTied = res['data']['million_tied']['pdfName'];
@@ -344,23 +351,25 @@ export class GTCertificateComponent implements OnInit {
   }
 
   async stay() {
-    await this.dialogRef.close(true);
+
+    this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null
     }
 
   }
 
-
-  async proceed(uploadedFiles) {
-    await this.dialog.closeAll();
-
+  proceedClicked = false
+  proceed() {
+    this.dialog.closeAll();
+    this.proceedClicked = true
     if (this.submitted) {
-      this.postsDataCall(uploadedFiles);
+      this.saveForm(this.template1);
+      sessionStorage.setItem("changeInGTC", "false")
       this._router.navigate(["stateform/water-supply"]);
       return;
     } else if (this.routerNavigate) {
-      this.postsDataCall(uploadedFiles);
+      this.saveForm(this.template1);
       sessionStorage.setItem("changeInGTC", "false")
       this._router.navigate([this.routerNavigate.url]);
       return
@@ -371,7 +380,7 @@ export class GTCertificateComponent implements OnInit {
 
   }
 
-  postsDataCall(uploadedFiles) {
+  postsDataCall() {
 
     // if (this.uploadedFiles.million_tied.status == 'REJECTED' && !this.uploadedFiles.million_tied.rejectReason ||
     //   this.uploadedFiles.nonmillion_tied.status == 'REJECTED' && !this.uploadedFiles.nonmillion_tied.rejectReason ||
@@ -379,6 +388,7 @@ export class GTCertificateComponent implements OnInit {
     //   swal("Providing Reason for Rejection in Mandatory for Rejecting a form.")
     //   return
     // }
+    this.ngOnDestroy()
     return new Promise((resolve, reject) => {
 
       this.gtcService.sendRequest(this.uploadedFiles)
@@ -499,8 +509,11 @@ export class GTCertificateComponent implements OnInit {
           this.uploadedFiles.nonmillion_untied.pdfUrl != ''
         ) {
           this.uploadedFiles.isDraft = false
-          this.postsDataCall(this.uploadedFiles);
+          this.postsDataCall();
 
+        } else if (this.routerNavigate || this.proceedClicked) {
+          sessionStorage.setItem("changeInGTC", "false")
+          this.postsDataCall();
         }
         else {
           this.openModal(template1);

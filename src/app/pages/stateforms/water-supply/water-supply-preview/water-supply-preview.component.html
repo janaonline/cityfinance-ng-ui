@@ -62,7 +62,7 @@
              border: 1px solid #dedede" cellspacing="0" cellpadding="0">
                     <thead style="color: #047474">
                         <th style="padding: 1%" scope="col">Service Level Indicators</th>
-                        <td></td>
+                        <th style="padding: 1%; text-align: center" scope="col">Benchmark</th>
                         <th style="padding: 1%; text-align: center" scope="col">
                             Baseline Indicator <br /> 2020-21
                         </th>
@@ -73,7 +73,9 @@
                             <td style="padding: 1%" class="td-width">
                                 {{ service.name }}
                             </td>
-                            <td></td>
+                            <td style="padding: 1%; text-align: center;">
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].waterSuppliedPerDay2021">
                         <!-- {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }} -->
@@ -103,7 +105,9 @@
 
                                 </span>
                             </td>
-                            <td></td>
+                            <td style="padding: 1%; text-align: center;">
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].reduction2021">
                         <!-- {{ uaDetails.reduction.baseline['2021'] }} -->
@@ -131,7 +135,9 @@
                                 <span class="service-name ">{{ service.name }}</span>
                                 <!-- <span  class="mandatory ">*</span> -->
                             </td>
-                            <td></td>
+                            <td style="padding: 1%; text-align: center;">
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].houseHoldCoveredWithSewerage2021">
                         <!-- {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }} -->
@@ -158,7 +164,9 @@
                                 <span class="service-name ">{{ service.name }}</span>
                                 <!-- <span  class="mandatory ">*</span> -->
                             </td>
-                            <td></td>
+                            <td style="padding: 1%; text-align: center;">
+                                <span class="benchamark-cell">{{ service.benchmark }}</span>
+                            </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].houseHoldCoveredPipedSupply2021">
                         <!-- {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }} -->

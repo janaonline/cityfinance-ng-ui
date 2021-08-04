@@ -307,12 +307,13 @@ export class WaterRejenuvationComponent implements OnInit {
       })
     );
   }
-
+  actionTakenByRoleOnForm = null
   loadData() {
     return new Promise((resolve, reject) => {
       let id = sessionStorage.getItem("state_id");
       this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
         (res) => {
+          this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
           this.errorOnload = true;
           this.data = res["data"]["uaData"];
           this.isDraft = res["data"].isDraft;
@@ -542,7 +543,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   openMap(nameIndex, uaIndex, name): void {
-    if(this.formDisable)return
+    if (this.formDisable) return
     let data;
     if (name == "waterBodies") {
       data = {
@@ -581,8 +582,8 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   async onFileChange(event, waterIndex, uaIndex) {
-    if(this.formDisable)return
-    
+    if (this.formDisable) return
+
     this.photosArray = [];
     const files = event.target.files;
     let msg = "Photo uploaded successfully.";
@@ -645,7 +646,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   private uploadFileToS3(file: File, s3URL: string, fileAlias: string) {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
       this.dataEntryService.uploadFileToS3(file, s3URL).subscribe(
         (res) => {
           if (res.type === HttpEventType.Response) {
