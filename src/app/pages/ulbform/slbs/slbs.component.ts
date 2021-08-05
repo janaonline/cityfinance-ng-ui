@@ -380,7 +380,6 @@ export class SlbsComponent implements OnInit {
 
   saveSlbStateAction() {
     console.log("satAction", this.statePostData.data[0], "szfdg");
-
     let data = {
       ulb: this.ulbId,
       design_year: this.Years["2021-22"],
@@ -403,20 +402,24 @@ export class SlbsComponent implements OnInit {
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     };
-    console.log("actionData.....", data);
-    this._ulbformService.postStateSlbActionSlb(data).subscribe(
-      (res) => {
-        swal("Record submitted successfully!");
-        const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.slbForWaterSupplyAndSanitation.status =
-          data["waterManagement"].status;
-        this._ulbformService.allStatus.next(status);
-      },
-      (error) => {
-        swal("An error occured!");
-        // this.errMessage = error.message;
-        // console.log(this.errMessage);
-      }
-    );
+if((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED"){
+  swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
+}
+else{
+  console.log("actionData.....", data);
+  this._ulbformService.postStateSlbActionSlb(data).subscribe(
+    (res) => {
+      swal("Record submitted successfully!");
+      const status = JSON.parse(sessionStorage.getItem("allStatus"));
+      status.slbForWaterSupplyAndSanitation.status =
+        data["waterManagement"].status;
+      this._ulbformService.allStatus.next(status);
+    },
+    (error) => {
+      swal("An error occured!");
+    }
+  );
+}
+
   }
 }
