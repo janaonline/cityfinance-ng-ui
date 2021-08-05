@@ -48,6 +48,9 @@ import { ChartsModule } from 'ng2-charts';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
 import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
   entryComponents: [OverallListComponent],
   providers: [CircleProgressOptions],
@@ -108,7 +111,9 @@ import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progres
     ChartsModule,
     MatButtonModule,
     ButtonsModule.forRoot(),
-    NgCircleProgressModule
+    NgCircleProgressModule,
+    MatCardModule,
+    MatSelectModule
 
   ]
 })
