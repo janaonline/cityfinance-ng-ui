@@ -23,7 +23,11 @@ export class StateDashboardService {
     getUAList() {
         return this.http.get(`${environment.api.url}masterForm/UAList`);
     }
-
-
+    
+    getGrantTransfer(params,csv=null){
+        if(csv)
+        return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ?params.state_id:"" }&year_id=${params.year ? params.year:""}&installment=${params.installment ? params.installment: ""}`,{responseType:'blob'});
+        return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ?params.state_id:"" }&year_id=${params.year ? params.year:""}&installment=${params.installment ? params.installment: ""}`);
+      }
 
 }
