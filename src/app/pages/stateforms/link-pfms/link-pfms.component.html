@@ -22,8 +22,9 @@
     </div>
 </div>
 
-<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
-    <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
+<div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
+margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
+    <div class="card-body" style="padding: 2%;" [ngClass]="{'anDisable': actionFormDisable}">
         <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
         </app-action-component>
     </div>
