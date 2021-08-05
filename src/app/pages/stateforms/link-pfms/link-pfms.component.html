@@ -22,9 +22,8 @@
     </div>
 </div>
 
-<div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
-margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
-    <div class="card-body" style="padding: 2%;" [ngClass]="{'anDisable': actionFormDisable}">
+<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
+    <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
         <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
         </app-action-component>
     </div>
@@ -34,7 +33,7 @@ margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['la
         <b>MoHUA Review Status : </b> Under Review By MoHUA
     </div>
 </div>
-<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'">
+<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
     <div class="card-body">
         <b>MoHUA Review Status :</b>
         <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">

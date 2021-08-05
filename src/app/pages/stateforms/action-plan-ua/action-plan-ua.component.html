@@ -49,8 +49,9 @@
                 </div>
 
 
-                <div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="(
-                    allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA')">
+                <div class="card" style="background-color: hsl(0, 0%, 97%);"
+                    *ngIf="(
+                    allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA')">
                     <div class="card-body">
                         <b>MoHUA Review Status :</b>
                         <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">

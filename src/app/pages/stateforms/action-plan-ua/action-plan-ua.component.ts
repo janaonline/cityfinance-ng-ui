@@ -150,10 +150,12 @@ export class ActionPlanUAComponent implements OnInit {
     );
   }
   state_id;
+  actionTakenByRoleOnForm = null
   load() {
     console.log(this.state_id);
     this.actionplanserviceService.getFormData(this.state_id).subscribe(
       (res) => {
+        this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
         this.showLoader = false;
         console.log(res["data"], "sss");
         this.data = {
