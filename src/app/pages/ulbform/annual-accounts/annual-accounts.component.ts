@@ -716,6 +716,7 @@ export class AnnualAccountsComponent implements OnInit {
     for (const key in temp) {
       temp[key] = null;
     }
+    this.checkDiff()
   }
 
   async fileChangeEvent(event, fileType) {
