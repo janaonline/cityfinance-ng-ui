@@ -421,6 +421,7 @@ export class ActionPlanUAComponent implements OnInit {
     if (!deepEqual(allData, JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
       this.checkDiff();
+      this.saveBtnText = "SAVE AND NEXT"
     } else {
       sessionStorage.setItem("changeInActionPlans", "false");
     }
