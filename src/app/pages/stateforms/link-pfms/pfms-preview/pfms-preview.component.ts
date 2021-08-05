@@ -41,10 +41,10 @@ export class PfmsPreviewComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _questionnaireService: QuestionnaireService,
     private LinkPFMSAccount: LinkPFMSAccount,
-    public state_service : StateformsService,
+    public state_service: StateformsService,
     private _matDialog: MatDialog,
     private modalService: BsModalService
-  ) {}
+  ) { }
   @ViewChild("template") template;
 
   styleForPDF = `<style>
@@ -111,14 +111,11 @@ export class PfmsPreviewComponent implements OnInit, OnDestroy {
 
   formStatusCheck = "";
   statusArray = [
-    "Not Started",
-    "In Progress",
-    "Completed but not Submitted",
-    "Completed",
-    "Under Review By State",
-    "Registered",
-    "Not Registered",
-  ];
+    'Not Started',
+    'Under Review By State',
+    'Completed',
+    'In Progress'
+  ]
   subParentForModal;
   @Output() change = new EventEmitter<any>();
   ngOnInit(): void {
@@ -136,39 +133,36 @@ export class PfmsPreviewComponent implements OnInit, OnDestroy {
     if (this.parentData) {
       this.data = this.parentData;
     }
+
     if (getData) {
-      let change = sessionStorage.getItem("changeInPFMSAccountState");
-      if (change == "true") {
-        if (this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[3];
-        } else if (!this.data["isDraft"]) {
-          if (this.data["linked"] == "yes") {
-            this.formStatusCheck = this.statusArray[4];
-          } else if (this.data["linked"] == "no") {
-            this.formStatusCheck = this.statusArray[5];
+      {
+        let change = sessionStorage.getItem("changeInPFMSAccountState");
+        if (change == "true") {
+          if (this.data['isDraft']) {
+            this.formStatusCheck = this.statusArray[3]
+          } else if (!this.data['isDraft']) {
+            this.formStatusCheck = this.statusArray[2]
           }
-        }
-      } else if (change == "false") {
-        if (this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[3];
-        } else if (!this.data["isDraft"]) {
-          if (this.data["linked"] == "yes") {
-            this.formStatusCheck = this.statusArray[4];
-          } else if (this.data["linked"] == "no") {
-            this.formStatusCheck = this.statusArray[5];
+        } else if (change == "false") {
+          if (this.data['isDraft']) {
+            this.formStatusCheck = this.statusArray[3]
+          } else if (!this.data['isDraft']) {
+            this.formStatusCheck = this.statusArray[1]
           }
+
         }
       }
     } else {
       let change = sessionStorage.getItem("changeInPFMSAccountState");
       if (change == "true") {
-        if (this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[3];
-        } else if (!this.data["isDraft"]) {
-          this.formStatusCheck = this.statusArray[2];
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
         }
       } else if (change == "false") {
-        this.formStatusCheck = this.statusArray[0];
+        this.formStatusCheck = this.statusArray[0]
+
       }
     }
 
