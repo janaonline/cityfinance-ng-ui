@@ -78,30 +78,31 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
                                         <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.numberOfUas}}</td>
+                                            {{resData.uas}}</td>
 
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
                                             <a
-                                                (click)="viewHistory(template, resData['_id'])">{{resData.formStatus}}</a>
+                                                (click)="viewHistory(template, resData['stateMasterFormData']['_id'])">{{resData.formStatus}}</a>
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData.isSubmit && resData.actionTakenByRole == 'STATE') || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA'))">
+                                            *ngIf="!((resData?.stateMasterFormData?.isSubmit && resData?.stateMasterFormData?.actionTakenByRole == 'STATE')  || (!resData?.stateMasterFormData?.isSubmit && resData?.stateMasterFormData?.actionTakenByRole == 'MoHUA'))  || resData.formStatus=='Approval Completed'">
 
 
                                             <a (click)="viewStateForm(resData)" [routerLink]="[
-                            '/stateform/dashboard',  resData?.state_id ]">
+                            '/stateform/dashboard',  resData?._id ]">
 
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/ulbform/eye.png">
                                                 </mat-icon>
                                             </a>
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByRole == 'STATE')
-                                             || (!resData.isSubmit && resData.actionTakenByRole == 'MoHUA')">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData?.stateMasterFormData?.isSubmit && resData?.stateMasterFormData?.actionTakenByRole == 'STATE')
+                                             || (!resData?.stateMasterFormData?.isSubmit && resData?.stateMasterFormData?.actionTakenByRole == 'MoHUA')
+                                             && !(resData.formStatus=='Approval Completed')">
                                             <a class="btn btn-action" (click)="viewStateForm(resData)" [routerLink]="[
-                                        '/stateform/dashboard', resData?.state_id  ]">
+                                        '/stateform/dashboard', resData?._id  ]">
                                                 Take Action
                                             </a>
                                         </td>
@@ -123,10 +124,10 @@
     </div>
     <div class="row" style="margin-left: 0; margin-right: 0; margin-bottom: 2rem;">
         <div class="col-sm-6 col-md-6 col-lg-6">
-            <button type="button" class="btn btn-back" [routerLink]="[ 'dashboard']">BACK</button>
+            <button type="button" class="btn btn-back" [routerLink]="['/dashboard']">BACK</button>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-            <button type="button" class="btn btn-next" [routerLink]="[ 'review-ulb']">NEXT</button>
+            <button type="button" class="btn btn-next" [routerLink]="['/review-ulb']">NEXT</button>
         </div>
     </div>
 </div>

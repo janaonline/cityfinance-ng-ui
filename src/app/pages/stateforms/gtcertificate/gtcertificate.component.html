@@ -87,9 +87,13 @@
                                         <a href="{{ millionTiedFileUrl }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="height: 19px;">
                                         </a>
-                                        <a (click)="clearFiles('fileName_millionTied')" [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
+                                        <span style="cursor:not-allowed;">
+                                            <a (click)="clearFiles('fileName_millionTied')"
+                                                [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </span>
                                     </ng-container>
                                 </div>
                             </div>
@@ -174,9 +178,13 @@
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableB }">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
+                                        <span style="cursor:not-allowed;">
+                                            <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
+                                                [ngClass]="{'abDisable': formDisableB }">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </span>
                                     </ng-container>
                                 </div>
                             </div>
@@ -259,9 +267,13 @@
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a (click)="clearFiles('fileName_nonMillionUntied')" style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
-                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                        </a>
+                                        <span style="cursor:not-allowed;">
+                                            <a (click)="clearFiles('fileName_nonMillionUntied')"
+                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
+                                                <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
+                                                    style="height: 13px;">
+                                            </a>
+                                        </span>
                                     </ng-container>
                                 </div>
                             </div>

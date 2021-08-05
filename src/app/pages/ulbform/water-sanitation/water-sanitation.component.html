@@ -41,8 +41,7 @@
                                 </td>
                                 <td>
                                     <textarea type="textarea" [disabled]="isDisabled" [ngClass]="{'error': errors.water.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.textarea ? 'Description less than 200 char' : null" (keyup)="onKey($event,'water.component')"
-                                        placeholder="Enter Physical Components">
-                                     {{waterAndSanitation.water.component}}</textarea>
+                                        placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
                                 </td>
                                 <td>
                                     <mat-form-field style="margin-top: 1pc;">
