@@ -22,19 +22,22 @@
     </div>
 </div>
 
-<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
+<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px; margin-right: 25px;
+margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
     <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
         <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
         </app-action-component>
     </div>
 </div>
-<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'STATE'">
-    <div class="card-body">
+<div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
+margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'STATE'">
+    <div class="card-body" style="padding: 2%;">
         <b>MoHUA Review Status : </b> Under Review By MoHUA
     </div>
 </div>
-<div class="card" style="background-color: hsl(0, 0%, 97%);" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
-    <div class="card-body">
+<div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
+margin-left: 15px;" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
+    <div class="card-body" style="padding: 2%;">
         <b>MoHUA Review Status :</b>
         <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
 
@@ -57,7 +60,7 @@
 
 
 
-<div class="row" style="margin-top: 3rem; margin-left: 0; margin-right: 10px;">
+<div class="row" style="margin-top: 3rem; margin-left: 0; margin-right: 10px; margin-bottom: 2rem;">
     <div [routerLink]="['../gtCertificate']" routerLinkActive="router-link-active" class="col-sm-6 col-md-6 col-lg-6">
         <button class="btn backButton">BACK</button>
     </div>
