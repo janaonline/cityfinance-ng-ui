@@ -71,11 +71,14 @@
                                         </td>
                                         <td>
                                             <div class="image-upload" style="display: inline-block;">
-                                                <label class="file" [attr.for]="waterBodiesIndex">
+                                                <label class="file" [attr.for]="waterBodiesIndex+'id'+projectIndex">
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                                 </label>
-                                                <input style="display: none;" [attr.id]="waterBodiesIndex" type="file" [disabled]="isDisabled" accept=".png,.jpg,.jpeg" (change)="onFileChange($event,waterBodiesIndex,projectIndex)" required multiple />
+                                                <input style="display: none;" onclick="this.value=null;" [attr.id]="waterBodiesIndex+'id'+projectIndex" type="file"
+                                                    [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
+                                                    (change)="onFileChange($event,waterBodiesIndex,projectIndex)"
+                                                    required multiple />
                                             </div>
                                             <a style="margin-left: 1ch;" (click)="imgPreview(waterBodiesIndex,projectIndex)"> <span class="material-icons file" style="font-size: 14px; padding-left:2px; vertical-align: middle;">
                                                     collections
