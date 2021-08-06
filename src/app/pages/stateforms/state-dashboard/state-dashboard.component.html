@@ -388,4 +388,87 @@
         </div>
     </div> -->
 
+    <div class="row">
+        <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2" style="padding: 0ch;">
+            <mat-card class="example-card">
+                <mat-card-actions class="pull-right">
+                    <mat-label style="font-weight:bolder;">Year </mat-label>
+                    <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                        <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
+                        <option value="2021-22,date">2021-22</option>
+                    </select>
+                    <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
+                    <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                        <option [selected]="installmentSelect" value="2,installment">2</option>
+                        <option [ngStyle]="{'display': year21 ? 'none':''}" value="1,installment">1</option>
+                    </select>
+                </mat-card-actions>
+                <mat-card-header>
+                    <mat-card-title>Grant Transfer Status</mat-card-title>
+                    <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions class="pull-right">
+                    <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
+                    padding: 2px; height: 25px;">DOWNLOAD</button>
+                </mat-card-actions>
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive"
+                                style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                                <table class="table tracking-history-table" style="margin-bottom: 0;">
+                                    <thead >
+                                        <tr style="background-color: #047474; color: #FFFFFF;">
+                                            <th scope="col" style="width: 20%;"
+                                                class="tableHeadText">
+                                                Grant Type
+                                            </th>
+                                            <th scope="col" class="tableHeadText" >Grant
+                                                Amount Assigned in Cr</th>
+                                            <th scope="col" class="tableHeadText" >
+                                                ULBs submitted forms/ Total ULBs in Category
+                                            </th>
+                                            <th scope="col" style="width: 18%;" class="tableHeadText" >ULBs
+                                                Grant Transfer Certificate Status
+                                            </th>
+                                            <th scope="col" style="width: 20%;" class="tableHeadText" >ULBs Under
+                                                Grant Recommendation Status
+                                            </th>
+                                            <th scope="col" style="width: 20%;" class="tableHeadText" >ULBs Not
+                                                Grant Release Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of grantTransferCardData | keyvalue" class="tableHeadText">
+                                            <td>
+                                                {{item.key}}
+                                            </td>
+                                            <td>
+                                                {{item.value.amount}}
+                                            </td>
+                                            <td>
+                                                {{item.value.ulb}}
+                                            </td>
+                                            <td>
+                                                {{item.value.submissionDate}}
+                                            </td>
+                                            <td>
+                                                {{item.value.recommendationDate}}
+                                            </td>
+                                            <td>
+                                                {{item.value.releaseDate}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <br>
+            </mat-card>
+        </div>
+    </div>
 </div>

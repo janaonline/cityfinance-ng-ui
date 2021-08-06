@@ -544,18 +544,23 @@ export class WaterSanitationComponent extends BaseComponent implements OnInit {
     body.ulb = this.ulbId;
     body.status = this.ulbFormStaus;
     body.rejectReason = this.ulbFormRejectR;
-    this.wsService.stateActionPost(body).subscribe(
-      (res) => {
-        swal("Record submitted successfully!");
-        const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.plans.status = body.status;
-        this._ulbformService.allStatus.next(status);
-      },
-      (error) => {
-        swal("An error occured!");
-        this.errMessage = error.message;
-        console.log(this.errMessage);
-      }
-    );
+    if((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED"){
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
+    }else {
+      this.wsService.stateActionPost(body).subscribe(
+        (res) => {
+          swal("Record submitted successfully!");
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.plans.status = body.status;
+          this._ulbformService.allStatus.next(status);
+        },
+        (error) => {
+          swal("An error occured!");
+          this.errMessage = error.message;
+          console.log(this.errMessage);
+        }
+      );
+    }
+
   }
 }

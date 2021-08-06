@@ -811,38 +811,43 @@ export class UtilisationReportComponent implements OnInit {
     }
   }
   stateActionSave() {
+
     let stateData;
     stateData = this.utilizationReport.value;
-
     stateData.financialYear = this.financialYear;
     stateData.designYear = this.designYear;
     stateData.grantType = "Tied";
     stateData.grantPosition.closingBal = this.totalclosingBal;
     stateData.ulb = this.ulbId;
     stateData.status = this.ulbFormStaus;
-    if (
-      this.ulbFormStaus == "APPROVED" ||
-      (this.ulbFormStaus == "REJECTED" && this.ulbFormRejectR != null)
-    ) {
-      stateData.isDraft = false;
-    } else {
-      stateData.isDraft = true;
-    }
-    stateData.rejectReason = this.ulbFormRejectR;
-
-    this.UtiReportService.stateActionPost(stateData).subscribe(
-      (res) => {
-        swal("Record submitted successfully!");
-        const status = JSON.parse(sessionStorage.getItem("allStatus"));
-        status.utilReport.status = stateData.status;
-        this._ulbformService.allStatus.next(status);
-      },
-      (error) => {
-        swal("An error occured!");
-        this.errMessage = error.message;
-        console.log(this.errMessage);
+    if((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED"){
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
+    }else {
+      if (
+        this.ulbFormStaus == "APPROVED" ||
+        (this.ulbFormStaus == "REJECTED" && this.ulbFormRejectR != null)
+      ) {
+        stateData.isDraft = false;
+      } else {
+        stateData.isDraft = true;
       }
-    );
+      stateData.rejectReason = this.ulbFormRejectR;
+
+      this.UtiReportService.stateActionPost(stateData).subscribe(
+        (res) => {
+          swal("Record submitted successfully!");
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.utilReport.status = stateData.status;
+          this._ulbformService.allStatus.next(status);
+        },
+        (error) => {
+          swal("An error occured!");
+          this.errMessage = error.message;
+          console.log(this.errMessage);
+        }
+      );
+    }
+
   }
   saveAndNext(template1) {
     let canNavigate = sessionStorage.getItem("canNavigate");
@@ -1202,6 +1207,7 @@ export class UtilisationReportComponent implements OnInit {
 
   checkStatus(ev) {
     console.log("actionValues", ev);
+    this.saveBtn = "SAVE AND NEXT";
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
   }

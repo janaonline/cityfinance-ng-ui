@@ -123,6 +123,7 @@ export class MohuaDashboardComponent implements OnInit {
   };
   dateSelect = true
   installmentSelect = true
+  year21 = true
   takeStateAction = "false";
   loading = false;
   filterObject;
@@ -176,11 +177,11 @@ export class MohuaDashboardComponent implements OnInit {
   waterRejCardData;
 
   onLoad() {
+    this.getGrantTranfer()
     this.getCardData('');
     this.getFormData('');
     this.getPlansData('');
     this.getWaterRejCardData('');
-    this.getGrantTranfer()
     this.updateCharts();
   }
   getWaterRejCardData(state_id) {
@@ -1157,18 +1158,6 @@ export class MohuaDashboardComponent implements OnInit {
         } else {
 
           this.grantTransferCardData = res['data'].ExcelData[0]
-
-          if (res['data'].ExcelData[0].statesCount === 1) {
-            res['data'].ExcelData[0].mill.complete = res['data'].ExcelData[0].mill.complete ? "Submitted" : "Not Submitted"
-            res['data'].ExcelData[0].mill.mid = res['data'].ExcelData[0].mill.mid ? "Sent" : "Not Sent"
-            res['data'].ExcelData[0].mill.start = res['data'].ExcelData[0].mill.start ? "Released" : "Not Released"
-            res['data'].ExcelData[0].NonMillTied.complete = res['data'].ExcelData[0].NonMillTied.complete ? "Submitted" : "Not Submitted"
-            res['data'].ExcelData[0].NonMillTied.mid = res['data'].ExcelData[0].NonMillTied.mid ? "Sent" : "Not Sent"
-            res['data'].ExcelData[0].NonMillTied.start = res['data'].ExcelData[0].NonMillTied.start ? "Released" : "Not Released"
-            res['data'].ExcelData[0].NonMillUntied.complete = res['data'].ExcelData[0].NonMillUntied.complete ? "Submitted" : "Not Submitted"
-            res['data'].ExcelData[0].NonMillUntied.mid = res['data'].ExcelData[0].NonMillUntied.mid ? "Sent" : "Not Sent"
-            res['data'].ExcelData[0].NonMillUntied.start = res['data'].ExcelData[0].NonMillUntied.start ? "Released" : "Not Released"
-          }
           this.grantTransferDate = res['data'].latestTime
         }
       }, (error) => {
@@ -1178,12 +1167,14 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   grantTransferFilter(value) {
-    debugger
     let data = value.split(",")
     if (data[1] == 'date') {
       this.GrantTransferparams.year = data[0]
+      if(data[0] == "2020-21")
+      this.year21 = true
+      else
+      this.year21 = false
       this.dateSelect = false
-
     }
     if (data[1] == 'installment') {
       this.GrantTransferparams.installment = data[0]

@@ -18,6 +18,7 @@ import { CommonService } from "src/app/shared/services/common.service";
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
+import * as fileSaver from "file-saver";
 
 
 @Component({
@@ -75,6 +76,17 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     plans_underStateReview: 0,
 
   };
+  grantTransferCardData;
+  grantTransferDate
+  GrantTransferparams = {
+    year: "2020-21",
+    installment: 2,
+    state_id: null,
+    csv: false
+  };
+  dateSelect = true
+  installmentSelect = true
+  year21 = true
   errMessage = ''
   totalUlbs = 0;
   nonMillionCities = 0;
@@ -97,8 +109,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   utilreportDonughtChart;
   slbdonughtChart
   piechart;
+  userData = JSON.parse(localStorage.getItem("userData"))
 
   onLoad() {
+    this,this.getGrantTranfer(this.id ? this.id:this.userData.state)
     this.getCardData();
     this.getFormData()
     this.getPlansData();
@@ -786,7 +800,62 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   }
 
 
+  getGrantTranfer(state_id = null, csv = null) {
+    if (state_id) {
+      this.GrantTransferparams.state_id = state_id
+    } else {
+      this.GrantTransferparams.state_id = ''
+    }
+    if (csv) {
+      this.GrantTransferparams.csv = true
+    }
+    this.stateDashboardService.getGrantTransfer(this.GrantTransferparams, csv).subscribe(
+      (res: any) => {
+        if (csv) {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+          fileSaver.saveAs(blob, "grantTransfer.xlsx");
+        } else {
 
+          this.grantTransferCardData = res['data'].ExcelData[0]
+          this.grantTransferDate = res['data'].latestTime
+        }
+      }, (error) => {
+      }
+    )
+    this.GrantTransferparams.csv = false
+  }
+
+  grantTransferFilter(value) {
+    let data = value.split(",")
+    if (data[1] == 'date') {
+      this.GrantTransferparams.year = data[0]
+      this.dateSelect = false
+      if(data[0] == "2020-21")
+      this.year21 = true
+      else
+      this.year21 = false
+    }
+    if (data[1] == 'installment') {
+      this.GrantTransferparams.installment = data[0]
+      this.installmentSelect = false
+    }
+    this.getGrantTranfer(this.id ? this.id:this.userData.state)
+  }
+
+  clearGrantTransferFillter() {
+    this.GrantTransferparams.installment = null
+    this.GrantTransferparams.year = null
+    this.dateSelect = true
+    this.installmentSelect = true
+    this.getGrantTranfer(this.id ? this.id:this.userData.state)
+  }
+
+  grantTransferDownload() {
+    this.getGrantTranfer(this.id ? this.id:this.userData.state, true)
+  }
 
 }
 

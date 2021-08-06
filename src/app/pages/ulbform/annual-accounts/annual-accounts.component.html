@@ -330,12 +330,12 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-12 mat-card card-body" style="background-color: #F7F7F7;" *ngIf="(finalSubmitUtiStatus == 'true') &&
+<div class="row" style="margin: 0;">
+    <div class="col-sm-12 card st-d" style="background-color: #F7F7F7; margin-left: 4px;" *ngIf="(finalSubmitUtiStatus == 'true') &&
 (loggedInUserType === USER_TYPE.ULB)">
-        <div class="card-body">
-            <p style="padding-top: 2rem; padding-left: .5rem;"><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
-            <p style="padding-left: .5rem;" *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
+        <div class="card-body" style="padding: 1%; margin-left: 0;">
+            <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
+            <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
                 Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
             <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
