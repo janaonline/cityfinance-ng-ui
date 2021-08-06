@@ -89,7 +89,7 @@
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                                 </label>
-                                                <input style="display: none;" [attr.id]="waterBodiesIndex" type="file"
+                                                <input style="display: none;" onclick="this.value=null;" [attr.id]="waterBodiesIndex" type="file"
                                                     [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
                                                     (change)="onFileChange($event,waterBodiesIndex,projectIndex)"
                                                     required multiple />

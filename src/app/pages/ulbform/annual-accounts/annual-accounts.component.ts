@@ -81,7 +81,7 @@ export class AnnualAccountsComponent implements OnInit {
   dialogRef;
   modalRef;
   actionResAn;
-  saveBtn = "NEXT"
+  saveBtn = "NEXT";
   // actionResAu;
   ulbId = null;
   @HostBinding("")
@@ -289,7 +289,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (!prevData.audited.submit_annual_accounts) {
       delete prevData.audited.standardized_data;
       delete prevData.audited.provisional_data;
-      prevData.audited.submit_standardized_data = undefined
+      prevData.audited.submit_standardized_data = undefined;
     }
     if (!prevData.audited.submit_standardized_data) {
       delete prevData.audited.provisional_data;
@@ -298,7 +298,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (!prevData.unAudited.submit_annual_accounts) {
       delete prevData.unAudited.standardized_data;
       delete prevData.unAudited.provisional_data;
-      prevData.unAudited.submit_standardized_data = undefined
+      prevData.unAudited.submit_standardized_data = undefined;
     }
     if (!prevData.unAudited.submit_standardized_data) {
       delete prevData.unAudited.standardized_data;
@@ -357,7 +357,11 @@ export class AnnualAccountsComponent implements OnInit {
     let index = 0;
     const toStoreResponse = this.data;
 
-    if(!toStoreResponse.audited.submit_annual_accounts && !toStoreResponse.unAudited.submit_annual_accounts && this.loggedInUserType != USER_TYPE.ULB){
+    if (
+      !toStoreResponse.audited.submit_annual_accounts &&
+      !toStoreResponse.unAudited.submit_annual_accounts &&
+      this.loggedInUserType != USER_TYPE.ULB
+    ) {
       const status = JSON.parse(sessionStorage.getItem("allStatus"));
       status.annualAccounts.status = "APPROVED";
       this._ulbformService.allStatus.next(status);
@@ -399,7 +403,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (this.data["status"] != "NA") {
       this.anFormStaus = this.data["status"] ? this.data["status"] : "PENDING";
 
-      if (this.data['actionTakenByRole'] == USER_TYPE.STATE) {
+      if (this.data["actionTakenByRole"] == USER_TYPE.STATE) {
         if (
           ((this.data?.status == "REJECTED" &&
             this.masterFormStatus != "REJECTED") ||
@@ -410,7 +414,7 @@ export class AnnualAccountsComponent implements OnInit {
           this.anFormStaus = "PENDING";
         }
       }
-      if (this.data['actionTakenByRole'] == USER_TYPE.MoHUA) {
+      if (this.data["actionTakenByRole"] == USER_TYPE.MoHUA) {
         this.anFormStaus = "APPROVED";
         if (
           ((this.data?.status == "REJECTED" &&
@@ -422,7 +426,6 @@ export class AnnualAccountsComponent implements OnInit {
           this.ulbFormStatusMoHUA = "PENDING";
         }
       }
-
 
       if (
         this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
@@ -457,8 +460,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   save(form) {
-    console.log("adsfghSave", this.data);
-
+    debugger
     if (
       !form.audited.submit_annual_accounts ||
       form.audited.submit_annual_accounts == null
@@ -485,19 +487,21 @@ export class AnnualAccountsComponent implements OnInit {
     }
     if (
       !form.audited.submit_standardized_data ||
-      form.audited.submit_standardized_data == null
+      form.audited.submit_standardized_data == null ||
+      this.uploadErrors.audited.standardized_data.error
     ) {
-      form.audited.standardized_data.excel.name == null;
-      form.audited.standardized_data.excel.url == null;
-      form.audited.standardized_data.declaration == null;
+      form.audited.standardized_data.excel.name = null;
+      form.audited.standardized_data.excel.url = null;
+      form.audited.standardized_data.declaration = null;
     }
     if (
       !form.unAudited.submit_standardized_data ||
-      form.unAudited.submit_standardized_data == null
+      form.unAudited.submit_standardized_data == null ||
+      this.uploadErrors.unAudited.standardized_data.error
     ) {
-      form.unAudited.standardized_data.excel.name == null;
-      form.unAudited.standardized_data.excel.url == null;
-      form.unAudited.standardized_data.declaration == null;
+      form.unAudited.standardized_data.excel.name = null;
+      form.unAudited.standardized_data.excel.url = null;
+      form.unAudited.standardized_data.declaration = null;
     }
     console.log(JSON.stringify(form), "saved form.........");
 
@@ -545,7 +549,7 @@ export class AnnualAccountsComponent implements OnInit {
           ) {
             this.auditQues[index].error = true;
             this.data.isDraft = true;
-            return
+            return;
           } else {
             this.auditQues[index].error = false;
           }
@@ -685,8 +689,8 @@ export class AnnualAccountsComponent implements OnInit {
           this.data[status].submit_standardized_data = val;
         }
         break;
-      }
-      this.checkDiff();
+    }
+    this.checkDiff();
   }
 
   clearFile(fileType) {
@@ -698,7 +702,7 @@ export class AnnualAccountsComponent implements OnInit {
     for (const key in temp) {
       temp[key] = null;
     }
-    this.checkDiff()
+    this.checkDiff();
   }
 
   async fileChangeEvent(event, fileType) {
@@ -817,7 +821,7 @@ export class AnnualAccountsComponent implements OnInit {
     let toCompData = JSON.stringify(this.data);
     if (storedData != toCompData) {
       sessionStorage.setItem("changeInAnnual", "true");
-      this.saveBtn = "SAVE AND NEXT"
+      this.saveBtn = "SAVE AND NEXT";
       this.checkForm();
       let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
       if (allFormData) {
@@ -827,6 +831,7 @@ export class AnnualAccountsComponent implements OnInit {
         this._ulbformService.allFormsData.next(allFormData);
       }
     } else {
+      this.saveBtn = "NEXT";
       sessionStorage.setItem("changeInAnnual", "false");
     }
   }
@@ -923,11 +928,11 @@ export class AnnualAccountsComponent implements OnInit {
     this.AuditAct[index] = e;
     console.log(this.AuditAct);
   }
-  checkAuditReport(item){
-    if(item.name == 'Auditor Report'){
-      return 'pdf'
-    }else{
-      return null
+  checkAuditReport(item) {
+    if (item.name == "Auditor Report") {
+      return "pdf";
+    } else {
+      return null;
     }
   }
 
