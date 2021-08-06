@@ -315,12 +315,24 @@ export class ActionPlanUAComponent implements OnInit {
         this._router.navigate(["stateform/grant-allocation"]);
         return;
       } else {
+        if (this.routerNavigate) {
+          this.saveStateAction();
+          if (!this.stopFlag) {
+            this._router.navigate([this.routerNavigate.url]);
+          }
+          return;
+        }
         this.saveStateAction();
+        if (!this.stopFlag) {
+          this._router.navigate(["stateform/grant-allocation"]);
+        }
+        return;
+
       }
     }
   }
   body = {};
-
+  stopFlag = 0;
   saveStateAction() {
     let flag = 0;
     console.log(this.finalActionData);
@@ -335,8 +347,9 @@ export class ActionPlanUAComponent implements OnInit {
       }
     });
     if (flag) {
-      swal("Providing Reason for Rejection is Mandatory for Rejecting a Form");
-      return;
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+      this.stopFlag = 1;
+      return
     }
     this.actionplanserviceService
       .postStateAction(this.finalActionData)
@@ -362,7 +375,7 @@ export class ActionPlanUAComponent implements OnInit {
       );
   }
 
-  makeApiData(fromSave =false) {
+  makeApiData(fromSave = false) {
     let newUaData = [];
     this.data.uaData.forEach((element) => {
       let Uas = JSON.parse(JSON.stringify(output));
@@ -397,7 +410,7 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
-      if(fromSave){
+      if (fromSave) {
         if (element.status === "REJECTED") {
           Uas.status = "PENDING";
           this.data.status = "PENDING";
@@ -470,7 +483,7 @@ export class ActionPlanUAComponent implements OnInit {
   }
 
   proceed() {
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     this.submit(true);
   }
 
@@ -497,7 +510,7 @@ export class ActionPlanUAComponent implements OnInit {
       width: "90%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   finalActionData;
   checkStatus(ev, ua_id, a, b) {
@@ -542,7 +555,7 @@ export class ActionPlanUAComponent implements OnInit {
 
         fileSaver.saveAs(blob, "ActionPlanData.xlsx");
       },
-      (error) => {}
+      (error) => { }
     );
   }
 }
@@ -667,6 +680,6 @@ function deepEqual(x, y) {
     ty = typeof y;
   return x && y && tx === "object" && tx === ty
     ? ok(x).length === ok(y).length &&
-        ok(x).every((key) => deepEqual(x[key], y[key]))
+    ok(x).every((key) => deepEqual(x[key], y[key]))
     : x === y;
 }
