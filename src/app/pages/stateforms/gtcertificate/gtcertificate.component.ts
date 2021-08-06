@@ -434,7 +434,8 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     this.body['nonmillion_tied']['rejectReason'] = this.actionData2['rejectReason'] ?? this.rejectReasonB
     this.body['nonmillion_untied']['status'] = this.actionData3['status'] ?? this.stateActionC
     this.body['nonmillion_untied']['rejectReason'] = this.actionData3['rejectReason'] ?? this.rejectReasonC
-    if (this.actionData1['status'] === 'REJECTED' || this.actionData2['status'] === 'REJECTED' || this.actionData3['status'] === 'REJECTED') {
+    if (this.actionData1['status'] === 'REJECTED' || this.actionData2['status'] === 'REJECTED'
+     || this.actionData3['status'] === 'REJECTED') {
       this.body['status'] = 'REJECTED'
 
     } else {

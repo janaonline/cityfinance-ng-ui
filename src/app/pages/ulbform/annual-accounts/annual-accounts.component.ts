@@ -657,6 +657,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   async clickedSaveAndNext(template) {
+    let rejectReasonCheck = true;
     if (this.ulbId == null) {
       console.log(JSON.stringify(this.data));
       this.clickedSave = true;
@@ -667,7 +668,24 @@ export class AnnualAccountsComponent implements OnInit {
         return this._router.navigate(["ulbform/service-level"]);
       }
     } else {
-      this.saveStateActionData();
+      console.log('unAudit Report', this.unAuditAct);
+      console.log('audit Report', this.AuditAct);
+      this.unAuditAct.forEach((item) => {
+        if((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED'){
+          rejectReasonCheck = false;
+          swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
+          return;
+        }
+      })
+      this.AuditAct.forEach((item) => {
+        if((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED'){
+          rejectReasonCheck = false;
+          swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
+          return;
+        }
+      })
+      if(rejectReasonCheck)
+        this.saveStateActionData();
     }
   }
   answer(question, val, isAudit = null, fromStart = false) {
@@ -920,13 +938,12 @@ export class AnnualAccountsComponent implements OnInit {
   checkStatusUnA(e, index) {
     console.log("eeeeeeeeee", index, e);
     this.unAuditAct[index] = e;
-    console.log(this.unAuditAct);
-    console.log("checkStatus", this.data);
+ //   console.log("checkStatus", this.data);
   }
   checkStatusAu(e, index) {
     console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
-    console.log(this.AuditAct);
+ //   console.log(this.AuditAct);
   }
   checkAuditReport(item) {
     if (item.name == "Auditor Report") {
