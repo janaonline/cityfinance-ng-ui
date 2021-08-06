@@ -306,12 +306,24 @@ export class ActionPlanUAComponent implements OnInit {
         this._router.navigate(["stateform/grant-allocation"]);
         return;
       } else {
+        if (this.routerNavigate) {
+          this.saveStateAction();
+          if (!this.stopFlag) {
+            this._router.navigate([this.routerNavigate.url]);
+          }
+          return;
+        }
         this.saveStateAction();
+        if (!this.stopFlag) {
+          this._router.navigate(["stateform/grant-allocation"]);
+        }
+        return;
+
       }
     }
   }
   body = {};
-
+  stopFlag = 0;
   saveStateAction() {
     let flag = 0;
     console.log(this.finalActionData)
@@ -324,6 +336,7 @@ export class ActionPlanUAComponent implements OnInit {
     });
     if (flag) {
       swal('Providing Reason for Rejection is Mandatory for Rejecting a Form')
+      this.stopFlag = 1;
       return
     }
     this.actionplanserviceService.postStateAction(this.finalActionData)
@@ -384,10 +397,10 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
-      if(element.status === "REJECTED"){
+      if (element.status === "REJECTED") {
         Uas.status = "PENDING"
         this.data.status = "PENDING"
-      }else{
+      } else {
         Uas.status = element.status
       }
       newUaData.push(Uas);
@@ -453,7 +466,7 @@ export class ActionPlanUAComponent implements OnInit {
   }
 
   proceed() {
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     this.submit(true);
   }
 

@@ -593,7 +593,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontColor: 'black',
             usePointStyle: true,
 
-         //   padding: 22,
+            //   padding: 22,
           }
         }
       }
@@ -782,11 +782,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     ) {
       this.noDataFound_plans = true
     }
-    this.noDataFound_Overall = true
-    this.noDataFound_plans = true
-    this.noDataFound_util = true
-    this.noDataFound_pfms = true
-    this.noDataFound_slb = true
+
   }
 
 

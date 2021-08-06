@@ -7,6 +7,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  SimpleChanges
 } from "@angular/core";
 import { AbstractControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -142,7 +143,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
   benchmarks = [];
   changeInData = false;
   ngOnInit() {
+    console.log('ngOnInit fired')
     this.changeInData = false;
+    console.log('ngOnInit says', this.form)
     // if (this.ulb_id != null) {
     //   this.isDisabled = true;
     // }
@@ -179,8 +182,9 @@ export class FcSlbComponent implements OnInit, OnChanges {
     }
     // console.log('focusTargetKey', this.focusTargetKey)
   }
-
-  ngOnChanges(changes) {
+  i = 0;
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnchanges fired')
     console.log("changes ........", changes, this.form);
     console.log("action.........", this.actionStatus);
     // this.ulbFormStaus = this.actionStatus.st;
@@ -236,7 +240,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     if (this.isDataPrefilled && changes.isDataPrefilled) {
       this.populateFormDatas();
     }
-    if (changes.form && changes.form.currentValue)
+    if (changes.form && changes.form.currentValue) {
       if (changes.waterPotability && changes.waterPotability.currentValue) {
         // this.form = changes.form.currentValue
 
@@ -254,21 +258,23 @@ export class FcSlbComponent implements OnInit, OnChanges {
             ? changes.waterPotability.currentValue.url
             : "";
       }
+    }
+
     // if (this.form) this.initializeForm();
     console.log("onChanges values", this.form);
 
     let FORM = this.form;
     console.log("this.form", this.form);
-    if (this.form) {
-      for (let key in this.form["controls"]) {
+    if (changes.form) {
+      for (let key in changes.form.currentValue["controls"]) {
         console.log(key);
-        for (let key2 in this.form["controls"][key]["controls"]["target"]
+        for (let key2 in changes.form.currentValue["controls"][key]["controls"]["target"]
           .controls) {
           //  console.log(key2)
           let textValue =
-            this.form.controls[key]["controls"]["target"]["controls"][key2];
+            changes.form.currentValue.controls[key]["controls"]["target"]["controls"][key2];
           let currentControlKey = key2;
-          let controlValue = this.form.controls[key].value.target;
+          let controlValue = changes.form.currentValue.controls[key].value.target;
           let increase;
           if (key == "reduction") {
             increase = false;
@@ -277,11 +283,11 @@ export class FcSlbComponent implements OnInit, OnChanges {
           }
           let serviceKey = key;
           let actualData = parseFloat(
-            this.form.controls[key]["controls"]["baseline"]["value"]["2021"]
+            changes.form.currentValue.controls[key]["controls"]["baseline"]["value"]["2021"]
           );
           let control =
-            this.form["controls"][key]["controls"]["target"].controls[key2];
-          let formValue = this.form["controls"][key]["controls"]["target"];
+            changes.form.currentValue["controls"][key]["controls"]["target"].controls[key2];
+          let formValue = changes.form.currentValue["controls"][key]["controls"]["target"];
 
           // console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
           if (
@@ -294,18 +300,86 @@ export class FcSlbComponent implements OnInit, OnChanges {
               actualData
             )
           ) {
-            this.form.controls[serviceKey]["controls"]["target"].controls[
+            changes.form.currentValue.controls[serviceKey]["controls"]["target"].controls[
               currentControlKey
             ].status = "INVALID";
             //true means the entered value is not as per the desired logic
           } else {
-            this.form.controls[serviceKey]["controls"]["target"].controls[
+            changes.form.currentValue.controls[serviceKey]["controls"]["target"].controls[
               currentControlKey
             ].status = "VALID";
           }
         }
       }
+      let increase = true;
+      for (let key in changes.form.currentValue.controls) {
+        if (key == 'reduction') {
+          increase = false
+        } else {
+          increase = true
+        }
+        for (let key2 in changes.form.currentValue.controls[key]['controls'].target.controls) {
+          this.onBlur(
+            changes.form.currentValue.controls[key]['controls'].target.controls[key2],
+            changes.form.currentValue.controls[key],
+            key2,
+            key,
+            increase
+          );
+          this.i = this.i + 1;
+          console.log('onblur called in on changes', this.i)
+        }
+
+      }
     }
+    // if (this.form) {
+    //   for (let key in this.form["controls"]) {
+    //     console.log(key);
+    //     for (let key2 in this.form["controls"][key]["controls"]["target"]
+    //       .controls) {
+    //       //  console.log(key2)
+    //       let textValue =
+    //         this.form.controls[key]["controls"]["target"]["controls"][key2];
+    //       let currentControlKey = key2;
+    //       let controlValue = this.form.controls[key].value.target;
+    //       let increase;
+    //       if (key == "reduction") {
+    //         increase = false;
+    //       } else {
+    //         increase = true;
+    //       }
+    //       let serviceKey = key;
+    //       let actualData = parseFloat(
+    //         this.form.controls[key]["controls"]["baseline"]["value"]["2021"]
+    //       );
+    //       let control =
+    //         this.form["controls"][key]["controls"]["target"].controls[key2];
+    //       let formValue = this.form["controls"][key]["controls"]["target"];
+
+    //       // console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
+    //       if (
+    //         this.checkIncreaseValidation(
+    //           textValue.value,
+    //           currentControlKey,
+    //           controlValue,
+    //           increase,
+    //           serviceKey,
+    //           actualData
+    //         )
+    //       ) {
+    //         this.form.controls[serviceKey]["controls"]["target"].controls[
+    //           currentControlKey
+    //         ].status = "INVALID";
+    //         //true means the entered value is not as per the desired logic
+    //       } else {
+    //         this.form.controls[serviceKey]["controls"]["target"].controls[
+    //           currentControlKey
+    //         ].status = "VALID";
+    //       }
+    //     }
+    //   }
+    // }
+    console.log('ngOnChanges says after validation', this.form, changes)
     if (this.ulb_id != null || this.finalSubmitStatus == "true") {
       this.isDisabled = true;
       this.form?.disable();
