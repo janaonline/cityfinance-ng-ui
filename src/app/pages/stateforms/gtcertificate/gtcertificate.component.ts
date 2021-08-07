@@ -17,6 +17,7 @@ import { ProfileService } from "src/app/users/profile/service/profile.service";
 
 import { isNull } from '@angular/compiler/src/output/output_ast';
 import { SweetAlert } from "sweetalert/typings/core";
+import { TrusteeForTheBond } from 'src/app/credit-rating/municipal-bond/models/bondIssureItemResponse';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
@@ -362,17 +363,43 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   proceedClicked = false
   proceed() {
     this.dialog.closeAll();
-    this.proceedClicked = true
-    if (this.submitted) {
-      this.saveForm(this.template1);
+    if (this.loggedInUserType == 'STATE') {
+      this.proceedClicked = true
+      if (this.submitted) {
+        this.saveForm(this.template1);
+        sessionStorage.setItem("changeInGTC", "false")
+        this._router.navigate(["stateform/water-supply"]);
+        return;
+      } else if (this.routerNavigate) {
+        this.saveForm(this.template1);
+        sessionStorage.setItem("changeInGTC", "false")
+        this._router.navigate([this.routerNavigate.url]);
+        return
+      }
+
+    } else if (this.loggedInUserType == 'MoHUA') {
+      if (this.routerNavigate) {
+        this.saveStateAction();
+        sessionStorage.setItem("changeInGTC", "false")
+        if (!this.flag) {
+          this._router.navigate([this.routerNavigate.url]);
+        }
+        return;
+      } else if (this.actionSubmit) {
+        this.saveStateAction();
+        sessionStorage.setItem("changeInGTC", "false")
+        if (!this.flag) {
+          this._router.navigate(["stateform/link-in-pfms"]);
+        }
+        return;
+      }
+      this.saveStateAction()
       sessionStorage.setItem("changeInGTC", "false")
-      this._router.navigate(["stateform/water-supply"]);
+      if (!this.flag) {
+        this._router.navigate(["stateform/review-ulb-form"]);
+      }
       return;
-    } else if (this.routerNavigate) {
-      this.saveForm(this.template1);
-      sessionStorage.setItem("changeInGTC", "false")
-      this._router.navigate([this.routerNavigate.url]);
-      return
+
     }
 
 
@@ -418,12 +445,30 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
 
   }
   body = {};
+
   saveStateAction() {
 
     let data = JSON.parse(sessionStorage.getItem("StateGTC"))
     console.log(data)
     this.body['design_year'] = data.data['design_year']
-    this.body['isDraft'] = data.data['isDraft']
+    this.body['isDraft'] = true;
+
+    if (
+      (this.actionData1['status'] == 'APPROVED' ||
+        this.actionData1['status'] == 'REJECTED' ||
+        this.stateActionA == 'APPROVED' ||
+        this.stateActionA == 'REJECTED') &&
+      (this.actionData2['status'] == 'APPROVED' ||
+        this.actionData2['status'] == 'REJECTED' ||
+        this.stateActionB == 'APPROVED' ||
+        this.stateActionB == 'REJECTED') &&
+      (this.actionData3['status'] == 'APPROVED' ||
+        this.actionData3['status'] == 'REJECTED' ||
+        this.stateActionC == 'APPROVED' ||
+        this.stateActionC == 'REJECTED')) {
+      this.body['isDraft'] = false;
+    }
+    console.log(this.body['isDraft'])
     this.body['state'] = this.state_id
     this.body['million_tied'] = data.data['million_tied']
     this.body['nonmillion_tied'] = data.data['nonmillion_tied']
@@ -445,6 +490,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       this.actionData2['status'] == 'REJECTED' && !this.actionData2['rejectReason'] ||
       this.actionData3['status'] == 'REJECTED' && !this.actionData3['rejectReason']) {
       swal("Providing Reason for Rejection in Mandatory for Rejecting a form.")
+      this.flag = 1;
       return
     }
     this.gtcService.postStateAction(this.body).subscribe(
@@ -469,7 +515,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   alertClose() {
     this.stay();
   }
-
+  actionSubmit = false;
   saveForm(template1) {
     console.log(this.loggedInUserType)
     if (this.loggedInUserType === "STATE") {
@@ -504,12 +550,14 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         this._router.navigate(["stateform/link-in-pfms"]);
         return;
       } else {
+
         if (
           this.uploadedFiles.million_tied.pdfUrl != '' &&
           this.uploadedFiles.nonmillion_tied.pdfUrl != '' &&
           this.uploadedFiles.nonmillion_untied.pdfUrl != ''
         ) {
           this.uploadedFiles.isDraft = false
+
           this.postsDataCall();
 
         } else if (this.routerNavigate || this.proceedClicked) {
@@ -521,12 +569,31 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         }
       }
     } else if (this.loggedInUserType === "MoHUA") {
+      this.actionSubmit = true
       let changeHappen = sessionStorage.getItem("changeInGTC")
       if (changeHappen == "false") {
         this._router.navigate(["stateform/link-in-pfms"]);
         return;
       } else {
-        this.saveStateAction()
+        if (
+          (this.actionData1['status'] == 'APPROVED' ||
+            this.actionData1['status'] == 'REJECTED' ||
+            this.stateActionA == 'APPROVED' ||
+            this.stateActionA == 'REJECTED') &&
+          (this.actionData2['status'] == 'APPROVED' ||
+            this.actionData2['status'] == 'REJECTED' ||
+            this.stateActionB == 'APPROVED' ||
+            this.stateActionB == 'REJECTED') &&
+          (this.actionData3['status'] == 'APPROVED' ||
+            this.actionData3['status'] == 'REJECTED' ||
+            this.stateActionC == 'APPROVED' ||
+            this.stateActionC == 'REJECTED')) {
+          this.saveStateAction()
+        } else {
+          this.openModal(template1)
+        }
+
+        // this.saveStateAction()
       }
 
     }
@@ -602,7 +669,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
 
 
   }
-
+  flag = 0
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
       this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(

@@ -161,6 +161,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
   }
   body = {};
   allStatus;
+  flag = 0
   saveStateAction() {
     let data = JSON.parse(sessionStorage.getItem("pfmsAccounts"));
     console.log(data);
@@ -172,6 +173,7 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
     this.body["rejectReason"] = this.pfmsFormRejectReason;
     if (this.pfmsFormStatus == 'REJECTED' && !this.pfmsFormRejectReason) {
       swal('Providing Reason for Rejection is mandatory for Rejecting the Form')
+      this.flag = 1;
       return
     }
     this.LinkPFMSAccount.postStateAction(this.body).subscribe(
@@ -296,15 +298,34 @@ export class LinkPFMSComponent extends BaseComponent implements OnInit {
 
   async proceed(uploadedFiles) {
     await this.dialogRef.close(true);
-    if (this.routerNavigate) {
-      await this.postData();
+    if (this.loggedInUserType == 'STATE') {
+      if (this.routerNavigate) {
+        await this.postData();
+        sessionStorage.setItem("changeInPFMSAccountState", "false");
+        this._router.navigate([this.routerNavigate.url]);
+        return;
+      }
+      this.postData();
       sessionStorage.setItem("changeInPFMSAccountState", "false");
-      this._router.navigate([this.routerNavigate.url]);
-      return;
+      return this._router.navigate(["stateform/gtCertificate"]);
+    } else if (this.loggedInUserType == 'MoHUA') {
+      if (this.routerNavigate) {
+        this.saveStateAction();
+        if (!this.flag) {
+          this._router.navigate([this.routerNavigate.url]);
+        }
+
+        return;
+      }
+      this.saveStateAction();
+      if (!this.flag) {
+        this._router.navigate(["stateform/gtCertificate"]);
+      }
+      return
+
+
     }
-    this.postData();
-    sessionStorage.setItem("changeInPFMSAccountState", "false");
-    return this._router.navigate(["ulbform/grant-tra-certi"]);
+
   }
   alertClose() {
     this.stay();

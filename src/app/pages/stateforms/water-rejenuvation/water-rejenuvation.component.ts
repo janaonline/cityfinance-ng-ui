@@ -471,14 +471,53 @@ export class WaterRejenuvationComponent implements OnInit {
         this._router.navigate(["stateform/action-plan"]);
         return;
       } else {
+        if (this.routerNavigate) {
+          this.saveStateAction();
+          if (!this.flagg) {
+            this._router.navigate([this.routerNavigate.url]);
+          }
+          return;
+        } else if (this.submitted) {
+          this.body = this.waterRejenuvation.value;
+          this.body['uaData'].forEach(el => {
+            if (el.status != 'APPROVED' || el.status != 'REJECTED') {
+              this.body['isDraft'] = true;
+              this.openModal(this.template1)
+
+              return;
+            }
+          })
+          this.saveStateAction();
+          if (!this.flagg) {
+            this._router.navigate(["stateform/action-plan"]);
+          }
+          return;
+        }
         this.saveStateAction();
+        if (!this.flagg) {
+          this._router.navigate(["stateform/action-plan"]);
+        }
+        return
+
       }
     }
   }
   body = {};
+  flagg = 0;
   saveStateAction() {
     let flag = 0;
+    let draftFlag = 0;
     this.body = this.waterRejenuvation.value;
+    this.body['uaData'].forEach(el => {
+      if (el.status != 'APPROVED' || el.status != 'REJECTED') {
+
+        draftFlag = 1;
+      }
+
+    })
+    if (draftFlag) {
+      this.body['isDraft'] = true;
+    }
     console.log("this.body", this.body);
     this.body['uaData'].forEach(el => {
       if (el['status'] == 'REJECTED' && !el.rejectReason) {
@@ -487,6 +526,7 @@ export class WaterRejenuvationComponent implements OnInit {
     })
     if (flag) {
       swal("Providing Reason for Rejection is Mandatory for Rejecting a form.")
+      this.flagg = 1;
       return;
     }
 
@@ -687,8 +727,17 @@ export class WaterRejenuvationComponent implements OnInit {
       this.routerNavigate = null;
     }
   }
+  submitted = false
+  saveButtonClicked() {
 
+    this.submitted = true
+
+    this.submit()
+
+
+  }
   proceed() {
+    this.submitted = false
     this.dialogRefForNavigation.close(true);
     this.submit(true);
   }

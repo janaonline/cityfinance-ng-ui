@@ -291,3 +291,61 @@ rect {
     background-color: #059B9A;
     color: #FFFFFF;
 }
+
+.tracking-history-table {
+    thead tr th {
+        background: #12505A;
+        color: white;
+    }
+    tbody tr:nth-child(even) {
+        background: #dbdbdb;
+    }
+}
+
+#compare-table {
+    margin-bottom: 5px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    tr {
+        position: relative;
+    }
+    th {
+        background-color: #059b9a;
+        color: white;
+    }
+    //     cursor: alias;
+    //     td{
+    //         min-width: 200px;
+    //         max-width: 300px;
+    //         .glyphicon-info-sign{
+    //             float: right;
+    //             color: #059b9a;
+    //             border: 1px solid blue;
+    //             border-radius: 50%;
+    //             margin-top: -10px;
+    //             margin-right: -5px;
+    //         }
+    //     }
+}
+
+table {
+    td,
+    th {
+        width: 300px;
+        border: 1px solid #eee;
+        .glyphicon-info-sign {
+            float: left;
+            color: #059b9a;
+            // border: 1px solid blue;
+            border-radius: 50%;
+            // margin-top: -10px;
+            margin-right: 10px;
+        }
+    }
+}
+
+.tableHeadText {
+    text-align: center;
+    vertical-align: inherit;
+}

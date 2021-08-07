@@ -277,7 +277,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       } else if (res['latestFinalResponse'].hasOwnProperty('role') && this.userLoggedInDetails.role === "MoHUA") {
         console.log('2')
         if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "STATE")
-          || (res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA")) {
+        ) {
           if (res['steps']['linkPFMS']['status'] === 'PENDING') {
             this.pfms_greenTick = false;
           } else {
@@ -303,6 +303,20 @@ export class StateformsComponent implements OnInit, AfterViewInit {
           }
 
 
+        } else if ((res['latestFinalResponse']['role'] === "STATE" && res['actionTakenByRole'] === "MoHUA")) {
+          if (this.res['steps']['linkPFMS']['status'] != 'PENDING') {
+            this.pfms_greenTick = this.res['steps']['linkPFMS']['isSubmit'];
+          }
+          if (this.res['steps']['GTCertificate']['status'] != 'PENDING') {
+            this.gtc_greenTick = this.res['steps']['GTCertificate']['isSubmit'];
+          }
+          if (this.res['steps']['waterRejuventation']['status'] != 'PENDING') {
+            this.wr_greenTick = this.res['steps']['waterRejuventation']['isSubmit'];
+          }
+          if (this.res['steps']['actionPlans']['status'] != 'PENDING') {
+            this.ap_greenTick = this.res['steps']['actionPlans']['isSubmit'];
+          }
+          this.ga_greenTick = true;
         } else if (
           (res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "STATE" ||
             res['latestFinalResponse']['role'] === "MoHUA" && res['actionTakenByRole'] === "MoHUA"
@@ -508,7 +522,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       .getAllStateForms(this.design_year, this.id)
       .subscribe((res) => {
         console.log('satae all form data', res['data'], res);
-        this.m_stateName =  res['data'][0]['name'];
+        this.m_stateName = res['data'][0]['name'];
         this.stateformsService.allStateFormsData.next(res['data']);
       });
 
