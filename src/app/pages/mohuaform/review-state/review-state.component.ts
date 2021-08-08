@@ -34,7 +34,8 @@ export class ReviewStateComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
-  formData
+  formData;
+  showLoader = false;
   constructor(
     private reviewStateService: ReviewStateService,
     public dialog: MatDialog,
@@ -47,6 +48,7 @@ export class ReviewStateComponent implements OnInit {
   states;
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
   ngOnInit(): void {
+    this.showLoader = true;
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
     console.log(this.states)
     this.onLoad();
@@ -58,13 +60,16 @@ export class ReviewStateComponent implements OnInit {
         this.nodataFound = false;
         if (res['data'].length == 0) {
           this.nodataFound = true;
+          this.showLoader = false;
         }
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
+        this.showLoader = false;
       },
       (err) => {
         console.log(err)
+        this.showLoader = false;
       })
   }
 

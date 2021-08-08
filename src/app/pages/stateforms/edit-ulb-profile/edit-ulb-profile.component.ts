@@ -14,6 +14,8 @@ import {
   customEmailValidator,
   mobileNoValidator,
 } from "../../../util/reactiveFormValidators";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: 'app-edit-ulb-profile',
@@ -61,7 +63,7 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   totalItems;
   indexNo: number;
   //  currentPage = 4;
-
+  showLoader = false;
   ulb_name_s = new FormControl('');
   ulb_code_s = new FormControl('');
   nodal_of_name = new FormControl('');
@@ -72,6 +74,7 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
   row_no = null;
   errMessage = '';
   ngOnInit() {
+    this.showLoader = true;
     this.loadData();
   }
 
@@ -86,11 +89,14 @@ export class EditUlbProfileComponent extends BaseComponent implements OnInit {
         this.tabelData.forEach(data => {
           this.filledValue(data)
         })
+        this.showLoader = false;
         if (this.detailsEdit)
           this.editableForm.disable();
       },
         error => {
           this.errMessage = error.message;
+          this.showLoader = false;
+          swal(this.errMessage);
           console.log(error, this.errMessage);
         });
     this.formInitialize();

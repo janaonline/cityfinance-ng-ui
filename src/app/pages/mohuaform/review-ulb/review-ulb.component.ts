@@ -34,6 +34,7 @@ export class ReviewUlbComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = "";
+  showLoader = false;
   constructor(
     public reviewUlbService: ReviewUlbService,
     public ulbService: UlbadminServiceService,
@@ -49,6 +50,7 @@ export class ReviewUlbComponent implements OnInit {
   historyData;
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
   ngOnInit() {
+    this.showLoader = true;
     this.loadData();
     console.log('user', this.loggedInUser);
 
@@ -87,10 +89,12 @@ export class ReviewUlbComponent implements OnInit {
         let resData: any = res;
         this.tabelData = resData.data;
         console.log("tabelData", this.tabelData);
+        this.showLoader = false;
       },
       (error) => {
         this.errMessage = error.message;
         console.log(error, this.errMessage);
+        this.showLoader = false;
       }
     );
   }
