@@ -174,6 +174,7 @@ export class ActionPlanUAComponent implements OnInit {
           isDraft: res["data"]["isDraft"],
         };
         sessionStorage.setItem("actionPlans", JSON.stringify(this.data));
+
         this.addKeys(this.data);
       },
       (err) => {
@@ -279,6 +280,7 @@ export class ActionPlanUAComponent implements OnInit {
   }
 
   submit(fromPrev = null) {
+    let draftFlag = 0;
     if (this.loggedInUserType === "STATE") {
       if (this.saveBtnText === "NEXT") {
         return this._router.navigate(["stateform/grant-allocation"]);
@@ -317,12 +319,33 @@ export class ActionPlanUAComponent implements OnInit {
       } else {
         if (this.routerNavigate) {
           this.saveStateAction();
+          sessionStorage.setItem("changeInActionPlans", "false")
           if (!this.stopFlag) {
             this._router.navigate([this.routerNavigate.url]);
           }
           return;
+        } else if (this.submitted) {
+          this.finalActionData['uaData'].forEach(el => {
+            if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
+              draftFlag = 1;
+            }
+          })
+          if (draftFlag) {
+            this.finalActionData['isDraft'] = true;
+            this.openModal(this.template1)
+            return;
+          } else {
+            this.finalActionData['isDraft'] = false;
+          }
+          this.saveStateAction();
+          sessionStorage.setItem("changeInActionPlans", "false")
+          if (!this.stopFlag) {
+            this._router.navigate(["stateform/grant-allocation"]);
+          }
+          return;
         }
         this.saveStateAction();
+        sessionStorage.setItem("changeInActionPlans", "false")
         if (!this.stopFlag) {
           this._router.navigate(["stateform/grant-allocation"]);
         }
@@ -335,7 +358,20 @@ export class ActionPlanUAComponent implements OnInit {
   stopFlag = 0;
   saveStateAction() {
     let flag = 0;
+    let draftFlag = 0;
+
     console.log(this.finalActionData);
+    this.finalActionData['uaData'].forEach(el => {
+      if (el.status != 'APPROVED' && el.status != 'REJECTED') {
+        draftFlag = 1;
+      }
+    })
+    if (draftFlag) {
+      this.finalActionData['isDraft'] = true;
+    } else {
+      this.finalActionData['isDraft'] = false;
+    }
+    console.log(this.finalActionData['isDraft'])
     this.finalActionData.uaData.forEach((el) => {
       console.log(el.ua, el.status, el.rejectReason);
 
@@ -361,7 +397,7 @@ export class ActionPlanUAComponent implements OnInit {
           );
           // status.steps.actionPlans.status = this.body["status"];
           sessionStorage.setItem("changeInActionPlans", "false");
-          status.steps.actionPlans.isSubmit = true;
+          status.steps.actionPlans.isSubmit = !this.finalActionData["isDraft"];
           status.steps.actionPlans.status = this.finalActionData["status"];
           status.actionTakenByRole = "MoHUA";
           this.stateformsService.allStatusStateForms.next(status);
@@ -374,7 +410,11 @@ export class ActionPlanUAComponent implements OnInit {
         }
       );
   }
-
+  submitted = false;
+  saveButtonClicked() {
+    this.submitted = true;
+    this.submit()
+  }
   makeApiData(fromSave = false) {
     let newUaData = [];
     this.data.uaData.forEach((element) => {
@@ -410,12 +450,12 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
+      Uas.status = element?.status;
+      Uas.rejectReason = element?.rejectReason
       if (fromSave) {
         if (element.status === "REJECTED") {
           Uas.status = "PENDING";
           this.data.status = "PENDING";
-        } else {
-          Uas.status = element.status.value;
         }
       }
       newUaData.push(Uas);
@@ -476,7 +516,7 @@ export class ActionPlanUAComponent implements OnInit {
   }
 
   stay() {
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
@@ -484,11 +524,12 @@ export class ActionPlanUAComponent implements OnInit {
 
   proceed() {
     this.dialog.closeAll();
+    this.submitted = false
     this.submit(true);
   }
 
   alertClose() {
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
@@ -519,7 +560,16 @@ export class ActionPlanUAComponent implements OnInit {
     console.log("before", this.data.uaData);
     if (!this.finalActionData) {
       this.finalActionData = this.makeApiData();
+      this.data['uaData'].forEach(el1 => {
+        this.finalActionData['uaData'].forEach(el2 => {
+          if (el1.ua == el2.ua) {
+            el2.status = el1.status;
+            el2.rejectReason = el1.rejectReason
+          }
+        })
+      })
     }
+
 
     console.log(this.finalActionData);
     this.finalActionData.uaData.forEach((el) => {
