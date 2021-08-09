@@ -118,8 +118,7 @@
 
                     </div>
                     <div class="col-lg-6">
-                        <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true &&
-                        utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('expDuringYr')" formControlName="expDuringYr" appTwoDigitDecimaNumber>
+                        <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('expDuringYr')" formControlName="expDuringYr" appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.expDuringYr.touched || submitted) &&
                        utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required" style="margin-left: 10px;">
                             Required*
@@ -164,8 +163,9 @@
                                 <th scope="col">Capacity</th>
                                 <th scope="col">Upload Images</th>
                                 <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
-                                <th scope="col">Project Cost<br> (INR in lakhs) </th>
-                                <th scope="col">Expenditure<br>(INR in lakhs)</th>
+                                <th scope="col">Total Project Cost<br> (INR in lakhs) </th>
+                                <th scope="col">15 FC Grants in Total Project Cost<br>(INR in lakhs)</th>
+                                <th scope="col">% of 15 FC Grants in Total Project Cost<br></th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
@@ -331,9 +331,14 @@
                                     || submitted)
                                 && errorDisplayExp
                                  && utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required">
-                                            Expenditure required*
+                                            Amount required*
                                         </span>
                                     </div>
+                                </td>
+                                <td>
+                                    <input class="t-i form-control" [disabled]="true" [ngStyle]="{'border':(isSubmitted == true)?
+                                     '1px solid red' : '' }" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+
                                 </td>
                                 <td>
                                     <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)" [disabled]="isDisabled">
@@ -382,6 +387,93 @@
                         <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
                             add_circle_outline
                         </span>Add more</button>
+                </div>
+
+                <div class="card-body" *ngIf="analytics" style="margin-bottom: 20px;">
+                    <p style="margin-left: 5px; font-weight: 500;">Waste Management (WM)</p>
+                    <div class="table-responsive">
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Total % of Tied Grant Utilized on WM</th>
+                                    <th scope="col">Number of Projects Undertaken</th>
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                <tr *ngFor="let outputRow of wm; let rowIndex=index" [formGroupName]="rowIndex" style="text-align: center; vertical-align: inherit;">
+                                    <td class="t-i">
+                                        <span>{{1+rowIndex}}</span>
+                                    </td>
+                                    <td>
+                                        <input class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td class="pos-td">
+                                        <input class="t-i " [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)}}%" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td>
+                                        <input class="t-i " [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td>
+                                        <input class="t-i " [disabled]="true" value="{{outputRow.totalProjectCost}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+
+
+
+                </div>
+                <div class="card-body" *ngIf="analytics" style="margin-bottom: 20px;">
+                    <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
+                    <div class="table-responsive">
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Total % of Tied Grant Utilized on SWM</th>
+                                    <th scope="col">Number of Projects Undertaken</th>
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                <tr *ngFor="let outputRow of swm; let rowIndex=index" [formGroupName]="rowIndex" style="text-align: center; vertical-align: inherit;">
+                                    <td class="t-i">
+                                        <span>{{1+rowIndex}}</span>
+                                    </td>
+                                    <td>
+                                        <input class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td class="pos-td">
+                                        <input class="t-i " [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)}}%" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td>
+                                        <input class="t-i " [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+                                    <td>
+                                        <input class="t-i " [disabled]="true" value="{{outputRow.totalProjectCost}}" (mouseout)="errorDisplayExp=false">
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+
+
+
                 </div>
                 <div class="form-group row formfooter">
                     <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name<span

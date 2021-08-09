@@ -300,9 +300,9 @@ export class UlbformComponent implements OnInit {
         ) {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-              true &&
+            true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-              "PENDING"
+            "PENDING"
           ) {
             console.log("2");
             this.finalActionDis = false;
@@ -312,9 +312,9 @@ export class UlbformComponent implements OnInit {
         } else if (element === "Plan water sanitation" && key === "plans") {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-              true &&
+            true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-              "PENDING"
+            "PENDING"
           ) {
             console.log("3");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
@@ -378,7 +378,7 @@ export class UlbformComponent implements OnInit {
       height: "100%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   submitted = false;
   finalSubmit() {
@@ -500,27 +500,27 @@ export class UlbformComponent implements OnInit {
       }
     );
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
 
   @HostListener('window:scroll', ['$event'])
-    handleScroll(){
-      const windowScroll = window.pageYOffset;
-      console.log('scrolllllll', windowScroll, this.elementPosition);
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    // console.log('scrolllllll', windowScroll, this.elementPosition);
 
-      if(windowScroll >= this.elementPosition){
-        this.sticky = true;
-        // if(windowScroll < 500) {
-        //  this.stiHieght = true;
-        //   this.sticky = false;
-        // }else{
-        //   this.sticky = true;
-        //   this.stiHieght = false;
-        // }
-      } else {
-        this.sticky = false;
-        //this.stiHieght = false;
-      }
+    if (windowScroll >= this.elementPosition) {
+      this.sticky = true;
+      // if(windowScroll < 500) {
+      //  this.stiHieght = true;
+      //   this.sticky = false;
+      // }else{
+      //   this.sticky = true;
+      //   this.stiHieght = false;
+      // }
+    } else {
+      this.sticky = false;
+      //this.stiHieght = false;
     }
+  }
 }

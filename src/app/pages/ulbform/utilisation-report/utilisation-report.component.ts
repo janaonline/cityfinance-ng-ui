@@ -229,7 +229,9 @@ export class UtilisationReportComponent implements OnInit {
       this._ulbformService.allFormsData.next(allFormData);
     }
   }
-
+  analytics = []
+  swm = []
+  wm = []
   public getResponse() {
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.UtiReportService.fetchPosts(
@@ -249,6 +251,23 @@ export class UtilisationReportComponent implements OnInit {
           projects: res["projects"],
           grantType: res["grantType"],
         };
+
+        this.analytics = res['analytics']
+        this.analytics.forEach(el => {
+          this.categories.forEach(element => {
+            if (element._id == el['_id']) {
+              el['categoryName'] = element.name
+            }
+          });
+        })
+        console.log(this.analytics)
+        this.analytics.forEach(el => {
+          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+            this.swm.push(el)
+          } else {
+            this.wm.push(el)
+          }
+        })
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         setTimeout(() => {
           this.currentChanges();
@@ -266,7 +285,10 @@ export class UtilisationReportComponent implements OnInit {
         this.isDraft = "fail";
       }
     );
+
+
   }
+
   private preFilledData(res) {
     // this.editable = res.isDraft;
     this.deleteRow(0);
@@ -820,9 +842,9 @@ export class UtilisationReportComponent implements OnInit {
     stateData.grantPosition.closingBal = this.totalclosingBal;
     stateData.ulb = this.ulbId;
     stateData.status = this.ulbFormStaus;
-    if((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED"){
+    if ((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED") {
       swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
-    }else {
+    } else {
       if (
         this.ulbFormStaus == "APPROVED" ||
         (this.ulbFormStaus == "REJECTED" && this.ulbFormRejectR != null)

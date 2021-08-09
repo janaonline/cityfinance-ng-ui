@@ -427,6 +427,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   submit(fromPrev = null) {
+    let draftFlag = 0;
     console.log(this.loggedInUserType);
     if (this.loggedInUserType === "STATE") {
       this.waterRejenuvation.controls.isDraft.patchValue(!this.formStatus);
@@ -473,31 +474,38 @@ export class WaterRejenuvationComponent implements OnInit {
       } else {
         if (this.routerNavigate) {
           this.saveStateAction();
+          sessionStorage.setItem("changeInWaterRejenuvation", "false")
           if (!this.flagg) {
             this._router.navigate([this.routerNavigate.url]);
           }
           return;
         } else if (this.submitted) {
+
           this.body = this.waterRejenuvation.value;
           this.body['uaData'].forEach(el => {
-            if (el.status != 'APPROVED' || el.status != 'REJECTED') {
-              this.body['isDraft'] = true;
-              this.openModal(this.template1)
-
-              return;
+            if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
+              draftFlag = 1;
             }
           })
+          if (draftFlag) {
+            this.body['isDraft'] = true;
+            this.openModal(this.template1)
+            return;
+          }
           this.saveStateAction();
+          sessionStorage.setItem("changeInWaterRejenuvation", "false")
           if (!this.flagg) {
             this._router.navigate(["stateform/action-plan"]);
           }
           return;
         }
         this.saveStateAction();
+
         if (!this.flagg) {
+          sessionStorage.setItem("changeInWaterRejenuvation", "false")
           this._router.navigate(["stateform/action-plan"]);
         }
-        return
+        return;
 
       }
     }
@@ -509,7 +517,7 @@ export class WaterRejenuvationComponent implements OnInit {
     let draftFlag = 0;
     this.body = this.waterRejenuvation.value;
     this.body['uaData'].forEach(el => {
-      if (el.status != 'APPROVED' || el.status != 'REJECTED') {
+      if (el.status != 'APPROVED' && el.status != 'REJECTED') {
 
         draftFlag = 1;
       }
@@ -517,7 +525,10 @@ export class WaterRejenuvationComponent implements OnInit {
     })
     if (draftFlag) {
       this.body['isDraft'] = true;
+    } else {
+      this.body['isDraft'] = false;
     }
+    console.log('isDraft of Water Rej', this.body['isDraft'])
     console.log("this.body", this.body);
     this.body['uaData'].forEach(el => {
       if (el['status'] == 'REJECTED' && !el.rejectReason) {
@@ -722,7 +733,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   stay() {
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
@@ -738,12 +749,12 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   proceed() {
     this.submitted = false
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     this.submit(true);
   }
 
   alertClose() {
-    this.dialogRefForNavigation.close(true);
+    this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
