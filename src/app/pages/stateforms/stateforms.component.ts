@@ -148,9 +148,18 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     "isSubmit": false,
 
   };
+  eligibleForms = {}
   allStateFormsData
   ngOnInit(): void {
     this.getStatus();
+
+    this.stateformsService.geteligibleStateForms(this.id).subscribe((res) => {
+      this.eligibleForms = res['data']
+      console.log(this.eligibleForms)
+    },
+      (err) => {
+
+      })
     sessionStorage.setItem("disableAllForms", "false")
     sessionStorage.setItem("disableAllActionForm", "false")
     this.screenHeight = window.innerHeight;
@@ -720,7 +729,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    console.log('scrolllllll', windowScroll, this.elementPosition);
+    // console.log('scrolllllll', windowScroll, this.elementPosition);
 
     if (windowScroll >= this.elementPosition) {
       this.sticky = true;

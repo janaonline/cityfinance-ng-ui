@@ -426,6 +426,34 @@ export class WaterRejenuvationComponent implements OnInit {
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
+
+  addRow() {
+    // this.tabelRows.push(
+    //   this.fb.group({
+    //     name: this.fb.control(this.data.name, [
+    //       Validators.required,
+    //       Validators.maxLength(25),
+    //     ]),
+    //     treatmentPlant: this.fb.control(this.data.treatmentPlant, [
+    //       Validators.required,
+    //       Validators.maxLength(25),
+    //     ]),
+    //     lat: this.fb.control(this.data.lat, [
+    //       Validators.required,
+    //       Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+    //     ]),
+    //     long: this.fb.control(this.data.long, [
+    //       Validators.required,
+    //       Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+    //     ]),
+    //     stp: this.fb.control(this.data.stp, [
+    //       Validators.required,
+    //       Validators.min(1),
+    //     ]),
+    //   })
+    // );
+  }
+
   submit(fromPrev = null) {
     let draftFlag = 0;
     console.log(this.loggedInUserType);

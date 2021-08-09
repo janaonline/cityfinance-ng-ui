@@ -693,7 +693,7 @@
     <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
   </ng-template>
 </div>
-<div class="row" *ngIf="form">
+<!-- <div class="row" *ngIf="form">
   <div class="col-sm-12 float-left">
     <div class="col-lg-6 col-md-6 col-sm-6 float-left">
       <span class="align-vertical" style="font-weight: 500;">{{uploadQuestion}} <span
@@ -746,12 +746,7 @@
             <label for="" style="margin-right: 3px; font-weight: normal; margin-left: 4px;"
               *ngIf="publishedFileName">{{publishedFileName}}</label>
           </div>
-          <!-- <div class="progress-bar" role="progressbar" [ngStyle]="{
-          'width.%':
-            fileUploadTracker[question.key][file.name].percentage
-        }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-            {{ fileUploadTracker[question.key][file.name].percentage }} %
-        </div> -->
+          
           <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
 
             <div class="progress-bar" *ngIf="publishedProgress" role="progressbar"
@@ -776,7 +771,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <div class="card mb-2 mt-1 p-1 box-shadow" *ngIf="(loggedInUserType === USER_TYPE.ULB) && (finalSubmitStatus == 'true')"
   [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : '64px'">
   <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
