@@ -236,6 +236,43 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="addMoreDiv text-right">
+                                <button type="button" class="btn" (click)="addRow()" id="addmoreBtn"
+                                    [disabled]="isDisabled">
+                                    <span class="material-icons text-center"
+                                        style="font-size: 12px; margin-right: 3px;">
+                                        add_circle_outline
+                                    </span>Add more</button>
+                            </div>
+                            <div>
+                                <h4 style="font-weight: 500; font-size: 16px;"> Details of Proposed Project to
+                                    Improve Service Level Indicators related to Water Supply<span
+                                        style="color: red;">*</span>
+                                </h4>
+                            </div>
+                            <table class="table custom-position">
+                                <thead>
+                                    <tr class="thHeader">
+                                        <th scope="col">Project Name</th>
+                                        <th scope="col">Physical Components</th>
+                                        <th scope="col">Indicator</th>
+                                        <th scope="col">Existing (As-is)
+                                        </th>
+                                        <th scope="col">After (To-be)
+                                        </th>
+                                        <th scope="col">Estimated Cost (Amount in INR)</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                            <div class="addMoreDiv text-right">
+                                <button type="button" class="btn" (click)="addRow()" id="addmoreBtn"
+                                    [disabled]="isDisabled">
+                                    <span class="material-icons text-center"
+                                        style="font-size: 12px; margin-right: 3px;">
+                                        add_circle_outline
+                                    </span>Add more</button>
+                            </div>
                             <!-- *ngIf="loggedInUserType === userTypes.STATE && utilizationReport &&
  (takeStateAction == 'true')" -->
                             <div class="" style="overflow: hidden;"

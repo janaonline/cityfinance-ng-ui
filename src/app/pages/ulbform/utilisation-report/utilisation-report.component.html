@@ -471,7 +471,7 @@
                                     </td>
                                     <td class="pos-td">
                                         <input class="t-i " [disabled]="true"
-                                            value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)}}%"
+                                            value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) > 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%"
                                             (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
@@ -520,7 +520,7 @@
                                     </td>
                                     <td class="pos-td">
                                         <input class="t-i " [disabled]="true"
-                                            value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)}}%"
+                                            value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)> 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%"
                                             (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>

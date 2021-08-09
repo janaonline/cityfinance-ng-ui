@@ -30,7 +30,9 @@ export class StateformsService {
     return this.http.post(`${environment.api.url}stateMasterForm/finalSubmit`, data);
   }
 
-
+  geteligibleStateForms(state_id) {
+    return this.http.get(`${environment.api.url}eligibleStateForms?state_id=${state_id}`);
+  }
   getAllStateForms(design_year, state) {
     return this.http.get(`${environment.api.url}stateMasterForm/getAllForms/${design_year}/${state}`)
   }

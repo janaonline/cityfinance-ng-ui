@@ -115,14 +115,20 @@ export class UlbformComponent implements OnInit {
     slbForWaterSupplyAndSanitation: { isSubmit: null, status: null },
     utilReport: { isSubmit: null, status: null },
   };
-
+  eligibleForms = {}
   async ngOnInit() {
-
+    let id = sessionStorage.getItem("ulb_id");
+    this.ulbformService.getEligibleULBForm(id).subscribe(
+      (res) => {
+        this.eligibleForms = res['data']
+        console.log(this.eligibleForms)
+      },
+      (err) => { })
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
-      console.log('sesionnnnn data', sessionStorage.getItem("allFormsData"));
-      console.log("allformdata.................", data);
+      // console.log('sesionnnnn data', sessionStorage.getItem("allFormsData"));
+      // console.log("allformdata.................", data);
     });
     this.getStatus();
     this.getAllForm();
