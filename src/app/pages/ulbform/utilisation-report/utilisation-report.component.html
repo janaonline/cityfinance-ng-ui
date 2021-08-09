@@ -33,17 +33,16 @@
     <form [formGroup]="utilizationForm" *ngIf="utilizationForm">
         <div class="card-body form-group">
 
-            <div class="row" style="vertical-align: inherit;">
+            <!-- <div class="row" style="vertical-align: inherit;">
                 <div class="col-lg-6">
                     <label for="" class="labelField">State Name</label>
-                    <!-- <input type="text" class="form-control d-input" formControlName="stateNameLabel"> -->
 
                 </div>
                 <div class="col-lg-6">
                     <input type="text" class="form-control d-input" disabled formControlName="stateName">
                 </div>
 
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-lg-6">
                     <label for="" class="labelField">Name of MPC/UA/NMPC</label>
@@ -442,6 +441,14 @@
 
     </div>
 </div>
+<!-- <div class="card" style="background-color: #F7F7F7;" *ngIf="(utilizationReport &&
+(loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true'))">
+    <div class="card-body" style="padding: 1%;">
+        <div class="btn-group float-right" *ngIf="" btnRadioGroup style="">
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">{{stateAction | titlecase}}</label>
+        </div>
+    </div>
+</div> -->
 <div class="row footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6">
         <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../grant-tra-certi']">BACK</a>
