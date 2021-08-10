@@ -310,13 +310,17 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
       if (element.label != "Grant Transfer Certificate") {
+        if(element.label !=  'Plan water sanitation')  {
         if (element.label != "service-level") {
+          if (element.label != "PFMS") {
           eligibleForms.push(element.label);
           console.log(element.label);
           if (element.label != "PFMS") {
             eligibleActionForms.push(element.label);
           }
         }
+      }
+      }
       }
     });
 

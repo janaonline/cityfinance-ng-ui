@@ -5,7 +5,9 @@ import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { SweetAlert } from "sweetalert/typings/core";
+import { UlbformService } from "src/app/pages/ulbform/ulbform.service";
 const swal: SweetAlert = require("sweetalert");
+
 
 @Component({
   selector: "app-comm-file-upload",
@@ -20,7 +22,9 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   compDis;
   lastRoleInMasterForm;
   masterFormStatus;
-  constructor(private dataEntryService: DataEntryService) {
+  constructor(
+    private dataEntryService: DataEntryService,
+    private _ulbformService: UlbformService) {
     this.loggedInUserType = this.loggedInUserDetails.role;
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
@@ -115,6 +119,16 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     if (this.loggedInUserType === USER_TYPE.ULB) {
       this.ulbDisabled = true;
     }
+    this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+        this.actionCompDis = true;
+        if (disable) {
+          localStorage.setItem("stateActionComDis", 'true');
+        }
+      }
+    );
   }
 
   ngOnChanges() {

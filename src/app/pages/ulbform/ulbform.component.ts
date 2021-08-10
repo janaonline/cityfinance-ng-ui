@@ -219,7 +219,7 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
         localStorage.setItem("finalSubmitStatus", this.submitted.toString());
-        console.log("here", res["response"]);
+        console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
         }
@@ -233,8 +233,27 @@ export class UlbformComponent implements OnInit {
           stActionCheck = "true";
           console.log("final action completed.....");
         }
+        if (
+          res["response"].actionTakenByRole === this.userTypes.MoHUA &&
+          this.loggedInUserType === this.userTypes.STATE
+        ) {
+          stActionCheck = "true";
+          console.log("final state action completed.....");
+        }
+        let mohuaAction = "false"
+        if (
+          res["response"].actionTakenByRole === this.userTypes.MoHUA &&
+          res["response"].isSubmit == true &&
+          res["response"].status != "PENDING" &&
+          this.loggedInUserType === this.userTypes.MoHUA
+        ) {
+          mohuaAction = "true";
+          stActionCheck = "true";
+          console.log("final action completed.....");
+        }
         localStorage.setItem("lastRoleInMasterForm", this.lastRoleInMasterForm);
         localStorage.setItem("stateActionComDis", stActionCheck);
+        localStorage.setItem("mohuaActionComDis", mohuaAction);
         localStorage.setItem("masterFormStatus", res["response"].status);
         if (
           this.lastRoleInMasterForm != USER_TYPE.ULB &&
@@ -417,6 +436,7 @@ export class UlbformComponent implements OnInit {
 
   checkValidationStatusOfAllForms() {
     const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
+    console.log('eligible forms........', eligibleForms);
     this.validate = true;
     let requiredStatus = {};
     //checking the status of each form
@@ -426,12 +446,12 @@ export class UlbformComponent implements OnInit {
     eligibleForms.forEach((element) => {
       for (let key in this.allStatus) {
         if (element === "PFMS" && key === "pfmsAccount") {
-          let change = sessionStorage.getItem("changeInPFMSAccount");
-          if (change === "true") {
-            this.validate = false;
-            return;
-          }
-          requiredStatus[key] = this.allStatus[key]["isSubmit"];
+          // let change = sessionStorage.getItem("changeInPFMSAccount");
+          // if (change === "true") {
+          //   this.validate = false;
+          //   return;
+          // }
+          // requiredStatus[key] = this.allStatus[key]["isSubmit"];
         } else if (element === "Utilization Report" && key === "utilReport") {
           let change = sessionStorage.getItem("canNavigate");
           if (change === "false") {
@@ -496,8 +516,17 @@ export class UlbformComponent implements OnInit {
 
     this.ulbformService.postFinalActionByState(actionBody).subscribe(
       (res) => {
-        console.log(res);
+
         swal("Action Successfully Submitted");
+        if(this.loggedInUserType === this.userTypes.MoHUA){
+          this.ulbformService.disableAllFormsAfterMohuaReview.next(true)
+          console.log('Mohua final action',res);
+        }
+        if(this.loggedInUserType === this.userTypes.STATE){
+          this.ulbformService.disableAllFormsAfterStateReview.next(true)
+          console.log('State final action',res);
+        }
+
         this.finalActionDis = true;
       },
       (err) => {

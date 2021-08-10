@@ -249,7 +249,7 @@ export class ReviewUlbComponent implements OnInit {
     ) {
       stActionCheck = "true";
     }
-    localStorage.setItem("stateActionComDis", stActionCheck);
+    localStorage.setItem("mohuaActionComDis", stActionCheck);
   }
   setPage(pageNoClick: number) {
     this.tableDefaultOptions.currentPage = pageNoClick;

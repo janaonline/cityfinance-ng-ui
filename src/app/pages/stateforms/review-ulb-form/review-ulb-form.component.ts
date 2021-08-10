@@ -209,10 +209,13 @@ export class ReviewUlbFormComponent implements OnInit {
     localStorage.setItem('takeStateAction', this.takeStateAction)
     let stActionCheck = 'false'
     if (
-      (resData.actionTakenByRole == "STATE") &&
+      (resData.actionTakenByUserRole == "STATE") &&
       (resData.isSubmit == true) && (resData.status != 'PENDING')
     ) {
       stActionCheck = 'true'
+    }
+    if(resData.actionTakenByUserRole == "MoHUA") {
+      stActionCheck = 'true';
     }
     localStorage.setItem("stateActionComDis", stActionCheck);
   }

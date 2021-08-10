@@ -514,14 +514,17 @@
     </div>
 </form>
 <div class="card" style="background-color: #F7F7F7;" *ngIf="(loggedInUserType != userTypes.ULB && utilizationReport &&
- (takeStateAction == 'true')) || (loggedInUserType != userTypes.ULB && compDis == 'true')">
+ (takeStateAction == 'true') &&  (compDis == 'false'))">
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-state-action-ulb>
     </div>
 </div>
 <!-- (ulbFormStaus !== 'NA') -->
+<!-- {{compDis}}, {{finalSubmitUtiStatus}} -->
 <div class="card" style="background-color: #F7F7F7;" *ngIf="(utilizationReport &&
-(loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true'))">
+ (finalSubmitUtiStatus == 'true' && loggedInUserType == userTypes.ULB) ||
+ (loggedInUserType != userTypes.ULB && compDis == 'true')
+ )">
     <div class="card-body" style="padding: 1%;">
         <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
         <br>

@@ -45,7 +45,7 @@
                             Yes
                         </label>
                         <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data.unAudited.submit_annual_accounts == false" [disabled]="isDisabled" (change)="answer('q1',false)" />
-                        <label class="btn " [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts,'qbtn2':data.unAudited.submit_annual_accounts, 'cross':isDisabled}" style="margin-left: 7pc;" for="btnUnaudit2">
+                        <label class="btn" [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts,'qbtn2':data.unAudited.submit_annual_accounts, 'cross':isDisabled}" style="margin-left: 7pc;" for="btnUnaudit2">
                             No
                         </label>
                     </div>

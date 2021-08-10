@@ -936,11 +936,13 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkStatusUnA(e, index) {
+    this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.unAuditAct[index] = e;
  //   console.log("checkStatus", this.data);
   }
   checkStatusAu(e, index) {
+    this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
  //   console.log(this.AuditAct);
