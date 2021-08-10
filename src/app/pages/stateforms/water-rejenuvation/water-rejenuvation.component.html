@@ -237,7 +237,7 @@
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
-                                <button type="button" class="btn" (click)="addRow()" id="addmoreBtn"
+                                <button type="button" class="btn" (click)="addRow1(projectIndex)" id="addmoreBtn"
                                     [disabled]="isDisabled">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
@@ -253,6 +253,7 @@
                             <table class="table custom-position">
                                 <thead>
                                     <tr class="thHeader">
+                                        <th style="width: 5%;" scope="col">S.No</th>
                                         <th scope="col">Project Name</th>
                                         <th scope="col">Physical Components</th>
                                         <th scope="col">Indicator</th>
@@ -263,10 +264,49 @@
                                         <th scope="col">Estimated Cost (Amount in INR)</th>
                                     </tr>
                                 </thead>
+                                <tbody formArrayName="serviceLevelIndicators"
+                                    *ngFor="let projectRow of getSubControlsServiceLevelIndicator(projectIndex); let sliIndex=index">
 
+                                    <tr [formGroupName]="sliIndex">
+
+                                        <td class="t-i">
+                                            <span>{{1+sliIndex}}</span>
+                                        </td>
+                                        <td>
+                                            <input formControlName="name" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
+                                                [matTooltip]="" type="text" />
+                                        </td>
+                                        <td>
+                                            <input formControlName="component" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="indicator" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'indicator')}"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="existing" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'existing')}"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="after" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'after')}"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="cost" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'cost')}"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
-                                <button type="button" class="btn" (click)="addRow()" id="addmoreBtn"
+                                <button type="button" class="btn" (click)="addRow2(projectIndex)" id="addmoreBtn"
                                     [disabled]="isDisabled">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
