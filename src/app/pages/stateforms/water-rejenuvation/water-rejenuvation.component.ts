@@ -487,6 +487,18 @@ export class WaterRejenuvationComponent implements OnInit {
     console.log(uaDataAtIndex._id);
     console.log(this.data)
     console.log(this.waterRejenuvation)
+    this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['serviceLevelIndicators'].patchValue({
+          name: null,
+          components: null,
+          indicator: null,
+          existing: null,
+          after: null,
+          cost: null
+        })
+      }
+    })
     this.data.forEach(el => {
       if (el.ua == uaDataAtIndex._id) {
         el.serviceLevelIndicators.push(
