@@ -292,7 +292,7 @@ export class AnnualAccountsComponent implements OnInit {
       prevData.audited.submit_standardized_data = undefined;
     }
     if (!prevData.audited.submit_standardized_data) {
-      delete prevData.audited.provisional_data;
+      delete prevData.audited.standardized_data;
     }
 
     if (!prevData.unAudited.submit_annual_accounts) {
