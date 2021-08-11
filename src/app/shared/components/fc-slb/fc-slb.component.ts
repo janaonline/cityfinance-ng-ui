@@ -311,26 +311,26 @@ export class FcSlbComponent implements OnInit, OnChanges {
           }
         }
       }
-      //   let increase = true;
-      //   for (let key in changes.form.currentValue.controls) {
-      //     if (key == 'reduction') {
-      //       increase = false
-      //     } else {
-      //       increase = true
-      //     }
-      //     for (let key2 in changes.form.currentValue.controls[key]['controls'].target.controls) {
-      //       this.onBlur(
-      //         changes.form.currentValue.controls[key]['controls'].target.controls[key2],
-      //         changes.form.currentValue.controls[key],
-      //         key2,
-      //         key,
-      //         increase
-      //       );
-      //       this.i = this.i + 1;
-      //       console.log('onblur called in on changes', this.i)
-      //     }
-
+      // let increase = true;
+      // for (let key in changes.form.currentValue.controls) {
+      //   if (key == 'reduction') {
+      //     increase = false
+      //   } else {
+      //     increase = true
       //   }
+      //   for (let key2 in changes.form.currentValue.controls[key]['controls'].target.controls) {
+      //     this.onBlur(
+      //       changes.form.currentValue.controls[key]['controls'].target.controls[key2],
+      //       changes.form.currentValue.controls[key],
+      //       key2,
+      //       key,
+      //       increase
+      //     );
+      //     this.i = this.i + 1;
+      //     console.log('onblur called in on changes', this.i)
+      //   }
+
+      // }
     }
 
     console.log('ngOnChanges says after validation', this.form, changes)
