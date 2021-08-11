@@ -46,6 +46,7 @@ export class AnnualAccountsComponent implements OnInit {
   anFormStaus = "PENDING";
   ulbFormStatusMoHUA;
   ulbFormRejectR = null;
+  actionCheck;
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null },
     { name: "Balance Sheet Schedule", error: false, data: null },
@@ -332,8 +333,8 @@ export class AnnualAccountsComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
-
-          console.log(res, "---------------");
+           this.actionCheck = res['status'];
+          console.log("annual res---------------", res);
         },
         (err) => {
           const toStoreResponse = this.data;
@@ -667,6 +668,7 @@ export class AnnualAccountsComponent implements OnInit {
         return this._router.navigate(["ulbform/service-level"]);
       }
     } else {
+      if(this.saveBtn == 'SAVE AND NEXT'){
       console.log('unAudit Report', this.unAuditAct);
       console.log('audit Report', this.AuditAct);
       this.unAuditAct.forEach((item) => {
@@ -685,6 +687,9 @@ export class AnnualAccountsComponent implements OnInit {
       })
       if(rejectReasonCheck)
         this.saveStateActionData();
+    }else {
+      return this._router.navigate(["ulbform/service-level"]);
+    }
     }
   }
   answer(question, val, isAudit = null, fromStart = false) {
@@ -1010,6 +1015,7 @@ export class AnnualAccountsComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.annualAccounts.status = res["newAnnualAccountData"].status;
         this._ulbformService.allStatus.next(status);
+        this._router.navigate(["ulbform/service-level"]);
       },
       (err) => {
         swal("Failed To Save Action");

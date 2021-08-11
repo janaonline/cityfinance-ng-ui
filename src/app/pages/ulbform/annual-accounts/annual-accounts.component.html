@@ -330,7 +330,8 @@
         </div>
     </div>
 </div>
-<div class="row" style="margin: 0;">
+
+<div class="row" style="margin: 0;" *ngIf="actionCheck">
     <div class="col-sm-12 card st-d" style="background-color: #F7F7F7; margin-left: 4px;" *ngIf="(finalSubmitUtiStatus == 'true') &&
 (loggedInUserType === USER_TYPE.ULB)">
         <div class="card-body" style="padding: 1%; margin-left: 0;">
@@ -350,7 +351,8 @@
             <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active" class="btn btn-secondary backbtn">BACK</button>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-            <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)" id="saveNext">{{saveBtn}}</button>
+            <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)" id="saveNext">
+              {{saveBtn}}</button>
         </div>
     </div>
 </div>

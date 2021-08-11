@@ -14,7 +14,9 @@
 <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 
 <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="(loggedInUserType != USER_TYPE.ULB &&
-(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
+(takeStateAction == 'true') &&  (compDis == 'false'))">
+    <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
     </div>
@@ -32,8 +34,7 @@
         <!-- <button type="button" class="btn footerBtn" id="saveDraft"
                (click)="saveAsDraft()">SAVE AS DRAFT</button>
            -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveSlbStateAction()">SAVE
-      AND NEXT</button>
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
     </div>
 </div>
 

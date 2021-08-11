@@ -760,7 +760,12 @@
     </div>
   </div>
 </div> -->
-<div class="card mb-2 mt-1 p-1 box-shadow" *ngIf="(loggedInUserType === USER_TYPE.ULB) && (finalSubmitStatus == 'true')" [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : '64px'">
+
+<!-- *ngIf="(loggedInUserType === USER_TYPE.ULB) && (finalSubmitStatus == 'true')" -->
+<div class="card mb-2 mt-1 p-1 box-shadow" *ngIf="(
+(finalSubmitStatus == 'true' && loggedInUserType == USER_TYPE.ULB) ||
+(loggedInUserType != USER_TYPE.ULB && compDis == 'true')
+)" [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : '64px'">
     <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
         <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
         <p style="margin-bottom: 2pc;" *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')"><b>MoHUA Review Status

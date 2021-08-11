@@ -319,7 +319,6 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           eligibleForms.push(element.label);
           console.log(element.label);
           if (element.label != "PFMS") {
-
             eligibleActionForms.push(element.label);
           }
         }
