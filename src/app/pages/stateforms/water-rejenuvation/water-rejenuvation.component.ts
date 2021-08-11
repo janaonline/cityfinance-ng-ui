@@ -466,84 +466,87 @@ export class WaterRejenuvationComponent implements OnInit {
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
-
+  disableAddMore = false
   addRow1(index) {
-
-    // this.data.serviceLevelIndicators.push(
-    //   {
-    //     name: null,
-    //     components: null,
-    //     indicator: null,
-    //     existing: null,
-    //     after: null,
-    //     cost: null
-    //   }
-
-    // )
-  }
-  addRow2(index) {
-
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
     console.log(this.data)
-    console.log(this.waterRejenuvation)
-    this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
+    console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-        el['controls']['serviceLevelIndicators'].patchValue({
-          name: null,
-          components: null,
-          indicator: null,
-          existing: null,
-          after: null,
-          cost: null
+        el['controls']['reuseWater'].patchValue(el['controls']['reuseWater'].push(this.fb.group({
+          name: this.fb.control(null, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          treatmentPlant: this.fb.control(null, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          lat: this.fb.control(null, [
+            Validators.required,
+            Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          ]),
+          long: this.fb.control(null, [
+            Validators.required,
+            Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          ]),
+          stp: this.fb.control(null, [
+            Validators.required,
+            Validators.min(1),
+          ]),
         })
+        ))
       }
-    })
-    this.data.forEach(el => {
-      if (el.ua == uaDataAtIndex._id) {
-        el.serviceLevelIndicators.push(
-          {
-            name: null,
-            component: null,
-            indicator: null,
-            existing: null,
-            after: null,
-            cost: null
-          }
-        )
-
-      }
-    })
-    console.log(this.data)
-    let state = this.userData["state"] ?? sessionStorage.getItem("state_id");
-    this.waterRejenuvation = this.fb.group({
-      state: this.fb.control(state, [Validators.required]),
-      design_year: this.fb.control(this.Year["2021-22"], [Validators.required]),
-      uaData: this.fb.array(this.getUas()),
-      status: this.fb.control(this.totalStatus, []),
-      isDraft: this.fb.control(this.isDraft, []),
-    });
-
-    // this.data.serviceLevelIndicators.push({
-    //   ua: uaDataAtIndex._id,
-
-    //   serviceLevelIndicators: [
-    //     {
-    //       name: null,
-    //       component: null,
-    //       indicator: null,
-    //       existing: null,
-    //       after: null,
-    //       cost: null
-    //     }
-    //   ]
-
-    // });
+      console.log(el.get('serviceLevelIndicators').length)
+    }
 
 
 
   }
+  addRow2(index) {
+    let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
+    console.log(uaDataAtIndex._id);
+    console.log(this.data)
+    console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['serviceLevelIndicators'].patchValue(el['controls']['serviceLevelIndicators'].push(
+          this.fb.group({
+            name: this.fb.control(null, [
+              Validators.required,
+              // Validators.maxLength(25),
+            ]),
+            component: this.fb.control(null, [
+              Validators.required,
+              // Validators.maxLength(25),
+            ]),
+            indicator: this.fb.control(null, [
+              Validators.required,
+              // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+            ]),
+            existing: this.fb.control(null, [
+              Validators.required,
+              // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+            ]),
+            after: this.fb.control(null, [
+              Validators.required,
+              // Validators.min(1),
+            ]),
+            cost: this.fb.control(null, [
+              Validators.required,
+              // Validators.min(1),
+            ]),
+          })
+        ))
+      }
+    }
+  }
+  deleteRow(index) {
+
+  }
   submit(fromPrev = null) {
     let draftFlag = 0;
     console.log(this.loggedInUserType);

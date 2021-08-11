@@ -185,15 +185,18 @@
                                             <span>Location</span><br>
                                             <span>Latitude and Longitude</span>
                                         </th>
-                                        <th style="width: 23%;" scope="col">Proposed capacity</th>
+                                        <th style="width: 20%;" scope="col">Proposed capacity</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody formArrayName="reuseWater"
                                     *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
+
                                     <tr [formGroupName]="reuseWaterIndex">
                                         <td class="t-i">
                                             <span>{{1+reuseWaterIndex}}</span>
                                         </td>
+
                                         <td>
                                             <input formControlName="name" matTooltipPosition="above"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
@@ -233,12 +236,19 @@
                                                 formControlName="stp" type="number"
                                                 oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
+                                        <td *ngIf="1+reuseWaterIndex>1">
+                                            <a (click)="deleteRow(projectIndex)">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                </mat-icon>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
                                 <button type="button" class="btn" (click)="addRow1(projectIndex)" id="addmoreBtn"
-                                    [disabled]="isDisabled">
+                                    [disabled]="disableAddMore">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
@@ -262,6 +272,7 @@
                                         <th scope="col">After (To-be)
                                         </th>
                                         <th scope="col">Estimated Cost (Amount in INR)</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody formArrayName="serviceLevelIndicators"
@@ -273,41 +284,42 @@
                                             <span>{{1+sliIndex}}</span>
                                         </td>
                                         <td>
-                                            <input formControlName="name" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
-                                                [matTooltip]="" type="text" />
+                                            <input formControlName="name" matTooltipPosition="above" [matTooltip]=""
+                                                type="text" />
                                         </td>
                                         <td>
                                             <input formControlName="component" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'component')}"
                                                 [matTooltip]="" type="text">
                                         </td>
                                         <td>
                                             <input formControlName="indicator" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'indicator')}"
                                                 [matTooltip]="" type="text">
                                         </td>
                                         <td>
-                                            <input formControlName="existing" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'existing')}"
-                                                [matTooltip]="" type="text">
+                                            <input formControlName="existing" matTooltipPosition="above" [matTooltip]=""
+                                                type="text">
                                         </td>
                                         <td>
-                                            <input formControlName="after" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'after')}"
-                                                [matTooltip]="" type="text">
+                                            <input formControlName="after" matTooltipPosition="above" [matTooltip]=""
+                                                type="text">
                                         </td>
                                         <td>
-                                            <input formControlName="cost" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'cost')}"
-                                                [matTooltip]="" type="text">
+                                            <input formControlName="cost" matTooltipPosition="above" [matTooltip]=""
+                                                type="text">
+                                        </td>
+                                        <td *ngIf="1+sliIndex>1">
+                                            <a (click)="deleteRow(projectIndex)">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                </mat-icon>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
                                 <button type="button" class="btn" (click)="addRow2(projectIndex)" id="addmoreBtn"
-                                    [disabled]="isDisabled">
+                                    [disabled]="disableAddMore">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline

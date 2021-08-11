@@ -241,23 +241,23 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.populateFormDatas();
     }
     if (changes.form && changes.form.currentValue) {
-      if (changes.waterPotability && changes.waterPotability.currentValue) {
-        // this.form = changes.form.currentValue
+      // if (changes.waterPotability && changes.waterPotability.currentValue) {
+      //   // this.form = changes.form.currentValue
 
-        if (changes.waterPotability.currentValue.hasOwnProperty("name")) {
-          this.publishedFileName = changes.waterPotability.currentValue.name;
-          this.publishedFileUrl = changes.waterPotability.currentValue.url;
-          if (this.publishedFileUrl != "") {
-            this.showPublishedUpload = true;
-          }
+      //   if (changes.waterPotability.currentValue.hasOwnProperty("name")) {
+      //     this.publishedFileName = changes.waterPotability.currentValue.name;
+      //     this.publishedFileUrl = changes.waterPotability.currentValue.url;
+      //     if (this.publishedFileUrl != "") {
+      //       this.showPublishedUpload = true;
+      //     }
 
-          this.publishedProgress;
-        }
-        this.publishedFileUrl =
-          changes.waterPotability.currentValue.hasOwnProperty("url")
-            ? changes.waterPotability.currentValue.url
-            : "";
-      }
+      //     this.publishedProgress;
+      //   }
+      //   this.publishedFileUrl =
+      //     changes.waterPotability.currentValue.hasOwnProperty("url")
+      //       ? changes.waterPotability.currentValue.url
+      //       : "";
+      // }
     }
 
     // if (this.form) this.initializeForm();
@@ -426,18 +426,18 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   }
     // }
     // console.log("value emitting by waste water", values);
-    let fileName = this.showPublishedUpload ? this.publishedFileName : "";
-    let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : "";
+    // let fileName = this.showPublishedUpload ? this.publishedFileName : "";
+    // let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : "";
     this.invalidWhole = false;
     this.checkAutoValidCustom();
     let outputValues = {
       waterManagement: values,
-      waterPotabilityPlan: {
-        name: fileName,
-        url: fileUrl,
-      },
+      // waterPotabilityPlan: {
+      //   name: fileName,
+      //   url: fileUrl,
+      // },
       saveData: next,
-      water_index: this.showPublishedUpload,
+      // water_index: this.showPublishedUpload,
       isFormInvalid: this.invalidWhole,
     };
 
