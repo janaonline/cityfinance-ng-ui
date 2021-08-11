@@ -157,11 +157,11 @@
                         <thead>
                             <tr class="thHeader">
                                 <th scope="col">S.No</th>
-                                <th scope="col">Category</th>
+                                <th width="20%" scope="col">Category</th>
                                 <th scope="col">Name of the Project</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Capacity</th>
-                                <th scope="col">Upload Images</th>
+                                <!-- <th scope="col">Description</th>
+                                <th scope="col">Capacity</th> -->
+                                <!-- <th scope="col">Upload Images</th> -->
                                 <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
                                 <th scope="col">Total Project Cost<br> (INR in lakhs) </th>
                                 <th scope="col">15 FC Grants in Total Project Cost<br>(INR in lakhs)</th>
@@ -177,7 +177,7 @@
                                 </td>
                                 <td>
                                     <select class="t-i" *ngIf="categories" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.projects.controls[projectIndex].controls.category.errors?.required)? '1px solid red' : '' }" (mouseover)="errorDisplayCat=true"
-                                        (mouseout)="errorDisplayCat=false" formControlName="category" data-toggle="tooltip" data-placement="top" style="width: 10rem;">
+                                        (mouseout)="errorDisplayCat=false" formControlName="category" data-toggle="tooltip" data-placement="top" style="width: auto;">
                                         <option *ngFor="let item of categories; let j=index;" [value]="item._id">
                                             {{item.name}}</option>
                                     </select>
@@ -210,23 +210,28 @@
 
                                     </div>
                                 </td>
-                                <td>
-                                    <input type="text" class="t-i form-control" [ngStyle]="{'border':(isSubmitted == true &&
-                                      utiReportFormControl.projects.controls[projectIndex].controls.description.errors?.required) ? '1px solid red' : '' }" [disabled]="isDisabled" (mouseover)="errorDisplayDescription=true" (mouseout)="errorDisplayDescription=false"
-                                        placeholder="Max 200 Characters" formControlName="description" style="width: 14rem;" required>
-                                    <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDescription
+                                <!-- <td>
+                                    <input type="text" class="t-i form-control"
+                                        [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.description.errors?.required) ? '1px solid red' : '' }"
+                                        [disabled]="isDisabled" (mouseover)="errorDisplayDescription=true"
+                                        (mouseout)="errorDisplayDescription=false" placeholder="Max 200 Characters"
+                                        formControlName="description" style="width: 14rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip"
+                                        *ngIf="errorDisplayDescription
                                         &&
                                         utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
                                   (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
-                                  utiReportFormControl.projects.controls[projectIndex].controls.description.touched || submitted)">
+                                  utiReportFormControl.projects.controls[projectIndex].controls.description.touched || submitted)"> -->
 
 
-                                        <!-- <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDescription
+                                <!-- <div class="bs-tooltip-top" role="tooltip" *ngIf="errorDisplayDescription
                                        && utiReportFormControl.projects.controls[projectIndex].controls.description.invalid &&
                                       (utiReportFormControl.projects.controls[projectIndex].controls.description.dirty ||
                                       utiReportFormControl.projects.controls[projectIndex].controls.description.touched || submitted)"> -->
 
-                                        <span class="tooltip-inner" style="font-size: 10px;" *ngIf=" errorDisplayDescription
+                                <!-- <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayDescription
                            && utiReportFormControl.projects.controls[projectIndex].controls.description.errors.required">
                                             Description is required.
                                         </span>
@@ -252,17 +257,17 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td>
-                                    <!-- <a>
+                                <td> -->
+                                <!-- <a>
 
                                     <mat-icon aria-hidden="false">
                                         <img src="../../../../assets/form-icon/Icon feather-upload.svg">
                                     </mat-icon>
 
                                 </a> -->
-                                    <!-- <img class="ml-2" [src]="imgUrl.url" alt="" width="30px" *ngFor="let imgUrl
+                                <!-- <img class="ml-2" [src]="imgUrl.url" alt="" width="30px" *ngFor="let imgUrl
                                  of projectRow?.value?.photos"> -->
-                                    <div class="image-upload" fromGroupName="photos" style="display: inline-block;">
+                                <!-- <div class="image-upload" fromGroupName="photos" style="display: inline-block;">
                                         <label [attr.for]="projectIndex">
                                             <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
@@ -277,7 +282,7 @@
                                         <span class="material-icons" style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
                                             delete_forever
                                         </span></a>
-                                </td>
+                                </td> -->
                                 <td style="display: inline-flex;" formGroupName="location">
                                     <input type="text" class="t-i form-control" (mouseover)="errorDisplayLat=true" (mouseout)="errorDisplayLat=false" [ngStyle]="{'border':(isSubmitted == true &&
                                      utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required) ? '1px solid red' : '' }" formControlName="lat" [disabled]="isDisabled" appSixDigitDecimaNumber>
@@ -336,8 +341,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input class="t-i form-control" [disabled]="true" [ngStyle]="{'border':(isSubmitted == true)?
-                                     '1px solid red' : '' }" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                    <input class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
 
                                 </td>
                                 <td>
@@ -354,10 +358,8 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><span><b> Total(INR in lakhs) </b> </span></td>
+
+                                <td style="text-align:right"><span><b> Total(INR in lakhs) </b> </span></td>
                                 <td><span> <b> {{projectCost}}</b></span></td>
                                 <td>
                                     <span (mouseover)="errorDisplayProExp=true" (mouseout)="errorDisplayProExp=false">
@@ -389,7 +391,7 @@
                         </span>Add more</button>
                 </div>
 
-                <div class="card-body" *ngIf="analytics" style="margin-bottom: 20px;">
+                <div class="card-body" *ngIf="analytics.length>0" style="margin-bottom: 20px;">
                     <p style="margin-left: 5px; font-weight: 500;">Waste Management (WM)</p>
                     <div class="table-responsive">
                         <table class="table custom-position">
@@ -410,16 +412,16 @@
                                         <span>{{1+rowIndex}}</span>
                                     </td>
                                     <td>
-                                        <input class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
+                                        <input style="width:20rem;cursor:not-allowed" class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
-                                        <input class="t-i " [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) > 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                        <input class="t-i" style="cursor:not-allowed" style="cursor:not-allowed" [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) > 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
-                                        <input class="t-i " [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
+                                        <input class="t-i " style="cursor:not-allowed" [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
-                                        <input class="t-i " [disabled]="true" value="{{outputRow.totalProjectCost}}" (mouseout)="errorDisplayExp=false">
+                                        <input class="t-i " style="cursor:not-allowed" [disabled]="true" value="{{outputRow.totalProjectCost}}" (mouseout)="errorDisplayExp=false">
                                     </td>
 
                                 </tr>
@@ -432,14 +434,14 @@
 
 
                 </div>
-                <div class="card-body" *ngIf="analytics" style="margin-bottom: 20px;">
+                <div class="card-body" *ngIf="analytics.length>0" style="margin-bottom: 20px;">
                     <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
                     <div class="table-responsive">
                         <table class="table custom-position">
                             <thead>
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
-                                    <th scope="col">Category</th>
+                                    <th width="20%" scope="col">Category</th>
                                     <th scope="col">Total % of Tied Grant Utilized on SWM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
@@ -453,16 +455,16 @@
                                         <span>{{1+rowIndex}}</span>
                                     </td>
                                     <td>
-                                        <input class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
+                                        <input style="cursor:not-allowed" style="width:20rem" class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
-                                        <input class="t-i " [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)> 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                        <input class="t-i " [disabled]="true" style="cursor:not-allowed" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)> 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
-                                        <input class="t-i " [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
+                                        <input class="t-i " style="cursor:not-allowed" [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
-                                        <input class="t-i " [disabled]="true" value="{{outputRow.totalProjectCost}}" (mouseout)="errorDisplayExp=false">
+                                        <input class="t-i " style="cursor:not-allowed" [disabled]="true" value="{{outputRow.totalProjectCost}}" (mouseout)="errorDisplayExp=false">
                                     </td>
 
                                 </tr>
@@ -470,10 +472,6 @@
 
                         </table>
                     </div>
-
-
-
-
                 </div>
                 <div class="form-group row formfooter">
                     <label for="name" class="col-sm-2 col-form-label" style="margin-top: 10px; ">Name<span

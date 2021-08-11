@@ -110,8 +110,8 @@ export class UlbformComponent implements OnInit {
   design_year = JSON.parse(localStorage.getItem("Years"))["2021-22"];
   allStatus = {
     annualAccounts: { isSubmit: null, status: null },
-    pfmsAccount: { isSubmit: null, status: null },
-    plans: { isSubmit: null, status: null },
+    // pfmsAccount: { isSubmit: null, status: null },
+    // plans: { isSubmit: null, status: null },
     slbForWaterSupplyAndSanitation: { isSubmit: null, status: null },
     utilReport: { isSubmit: null, status: null },
   };
@@ -445,14 +445,7 @@ export class UlbformComponent implements OnInit {
     }
     eligibleForms.forEach((element) => {
       for (let key in this.allStatus) {
-        if (element === "PFMS" && key === "pfmsAccount") {
-          // let change = sessionStorage.getItem("changeInPFMSAccount");
-          // if (change === "true") {
-          //   this.validate = false;
-          //   return;
-          // }
-          // requiredStatus[key] = this.allStatus[key]["isSubmit"];
-        } else if (element === "Utilization Report" && key === "utilReport") {
+        if (element === "Utilization Report" && key === "utilReport") {
           let change = sessionStorage.getItem("canNavigate");
           if (change === "false") {
             this.validate = false;
@@ -471,13 +464,6 @@ export class UlbformComponent implements OnInit {
           key === "slbForWaterSupplyAndSanitation"
         ) {
           let change = sessionStorage.getItem("changeInSLB");
-          if (change === "true") {
-            this.validate = false;
-            return;
-          }
-          requiredStatus[key] = this.allStatus[key]["isSubmit"];
-        } else if (element === "Plan water sanitation" && key === "plans") {
-          let change = sessionStorage.getItem("changeInPlans");
           if (change === "true") {
             this.validate = false;
             return;

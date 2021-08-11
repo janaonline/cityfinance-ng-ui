@@ -440,14 +440,14 @@ export class UtilisationReportComponent implements OnInit {
         this.fb.group({
           category: [null, Validators.required],
           name: ["", [Validators.maxLength(50), Validators.required]],
-          description: ["", [Validators.maxLength(200), Validators.required]],
-          // 'imgUpload' : new FormControl(''),
-          photos: this.fb.array([
-            // this.fb.group({
-            //   url: ['']
-            // })
-          ]),
-          capacity: ["", Validators.required],
+          // description: ["", [Validators.maxLength(200), Validators.required]],
+          // // 'imgUpload' : new FormControl(''),
+          // photos: this.fb.array([
+          //   // this.fb.group({
+          //   //   url: ['']
+          //   // })
+          // ]),
+          // capacity: ["", Validators.required],
           location: this.fb.group({
             lat: ["", Validators.required],
             long: ["", Validators.required],
@@ -609,16 +609,16 @@ export class UtilisationReportComponent implements OnInit {
     this.fd.ulb = user_data.ulb;
     console.log(this.fd);
     let len = this.tabelRows.length;
-    for (let i = 0; i < len; i++) {
-      const control = this.tabelRows.controls[i]["controls"]["photos"];
-      console.log("prk", control.length);
-      if (control.length == 0) {
-        this.fd.isDraft = true;
-        i = len;
-      } else {
-        this.fd.isDraft = false;
-      }
-    }
+    // for (let i = 0; i < len; i++) {
+    //   const control = this.tabelRows.controls[i]["controls"]["photos"];
+    //   console.log("prk", control.length);
+    //   if (control.length == 0) {
+    //     this.fd.isDraft = true;
+    //     i = len;
+    //   } else {
+    //     this.fd.isDraft = false;
+    //   }
+    // }
 
     if (fromChange) return;
 
@@ -672,16 +672,16 @@ export class UtilisationReportComponent implements OnInit {
       // this.fd.isDraft = false;
       console.log(this.utilizationReport);
       let len = this.tabelRows.length;
-      for (let i = 0; i < len; i++) {
-        const control = this.tabelRows.controls[i]["controls"]["photos"];
-        console.log("prk", control.length);
-        if (control.length == 0) {
-          this.helpData.isDraft = true;
-          i = len;
-        } else {
-          this.helpData.isDraft = false;
-        }
-      }
+      // for (let i = 0; i < len; i++) {
+      //   const control = this.tabelRows.controls[i]["controls"]["photos"];
+      //   console.log("prk", control.length);
+      //   if (control.length == 0) {
+      //     this.helpData.isDraft = true;
+      //     i = len;
+      //   } else {
+      //     this.helpData.isDraft = false;
+      //   }
+      // }
     }
     console.log(this.utilizationForm);
     console.log(this.utilizationReport);
@@ -745,13 +745,13 @@ export class UtilisationReportComponent implements OnInit {
       this.fb.group({
         category: [null, Validators.required],
         name: ["", [Validators.required, Validators.maxLength(50)]],
-        description: ["", [Validators.required, Validators.maxLength(200)]],
-        photos: this.fb.array([
-          // this.fb.group({
-          //   url: ['']
-          // })
-        ]),
-        capacity: ["", Validators.required],
+        // description: ["", [Validators.required, Validators.maxLength(200)]],
+        // photos: this.fb.array([
+        //   // this.fb.group({
+        //   //   url: ['']
+        //   // })
+        // ]),
+        // capacity: ["", Validators.required],
         location: this.fb.group({
           lat: ["", Validators.required],
           long: ["", Validators.required],
@@ -768,13 +768,13 @@ export class UtilisationReportComponent implements OnInit {
       this.fb.group({
         category: [data.category, Validators.required],
         name: [data.name, [Validators.required, Validators.maxLength(50)]],
-        description: [
-          data.description,
-          [Validators.required, Validators.maxLength(200)],
-        ],
+        // description: [
+        //   data.description,
+        //   [Validators.required, Validators.maxLength(200)],
+        // ],
 
-        photos: this.fb.array([]),
-        capacity: [data.capacity, Validators.required],
+        // photos: this.fb.array([]),
+        // capacity: [data.capacity, Validators.required],
         location: this.fb.group({
           lat: [data.location.lat, Validators.required],
           long: [data.location.long, Validators.required],
@@ -785,7 +785,7 @@ export class UtilisationReportComponent implements OnInit {
     );
     this.totalProCost(this.tabelRows.length);
     this.totalExpCost(this.tabelRows.length);
-    this.addPhotosUrl(data.photos, this.tabelRows.length - 1);
+    // this.addPhotosUrl(data.photos, this.tabelRows.length - 1);
 
     //  if (!this.editable) this.tabelRows.disable();
   }
@@ -800,7 +800,7 @@ export class UtilisationReportComponent implements OnInit {
     photos.forEach((element) => {
       let url = element.url;
       const urlObject = this.setUrlGroup(url);
-      control.push(urlObject);
+      // control.push(urlObject);
     });
   }
 
@@ -932,16 +932,16 @@ export class UtilisationReportComponent implements OnInit {
         // this.fd.isDraft = false;
         console.log(this.fd);
         let len = this.tabelRows.length;
-        for (let i = 0; i < len; i++) {
-          const control = this.tabelRows.controls[i]["controls"]["photos"];
-          console.log("prk", control.length);
-          if (control.length == 0) {
-            this.fd.isDraft = true;
-            i = len;
-          } else {
-            this.fd.isDraft = false;
-          }
-        }
+        // for (let i = 0; i < len; i++) {
+        //   const control = this.tabelRows.controls[i]["controls"]["photos"];
+        //   console.log("prk", control.length);
+        //   if (control.length == 0) {
+        //     this.fd.isDraft = true;
+        //     i = len;
+        //   } else {
+        //     this.fd.isDraft = false;
+        //   }
+        // }
         console.log("api data", this.fd);
         this.apiCall(this.fd);
         sessionStorage.setItem("canNavigate", "true");
@@ -1086,7 +1086,7 @@ export class UtilisationReportComponent implements OnInit {
       this.filesAlreadyInProcess.push(i);
       await this.uploadFile(files[i], i, urlIndex);
     }
-    if (files.length) this.addPhotosUrl(this.photoUrl, urlIndex);
+    // if (files.length) this.addPhotosUrl(this.photoUrl, urlIndex);
   }
 
   uploadFile(file: File, fileIndex: number, urlIndex) {

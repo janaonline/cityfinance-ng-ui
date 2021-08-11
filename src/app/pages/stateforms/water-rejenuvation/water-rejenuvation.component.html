@@ -185,15 +185,18 @@
                                             <span>Location</span><br>
                                             <span>Latitude and Longitude</span>
                                         </th>
-                                        <th style="width: 23%;" scope="col">Proposed capacity</th>
+                                        <th style="width: 20%;" scope="col">Proposed capacity</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody formArrayName="reuseWater"
                                     *ngFor="let projectRow of getSubControlsWaterReuse(projectIndex); let reuseWaterIndex=index">
+
                                     <tr [formGroupName]="reuseWaterIndex">
                                         <td class="t-i">
                                             <span>{{1+reuseWaterIndex}}</span>
                                         </td>
+
                                         <td>
                                             <input formControlName="name" matTooltipPosition="above"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
@@ -233,12 +236,19 @@
                                                 formControlName="stp" type="number"
                                                 oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
+                                        <td *ngIf="1+reuseWaterIndex>1">
+                                            <a (click)="deleteRow(projectIndex)">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                </mat-icon>
+                                            </a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
-                                <button type="button" class="btn" (click)="addRow()" id="addmoreBtn"
-                                    [disabled]="isDisabled">
+                                <button type="button" class="btn" (click)="addRow1(projectIndex)" id="addmoreBtn"
+                                    [disabled]="disableAddMore">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
@@ -253,6 +263,7 @@
                             <table class="table custom-position">
                                 <thead>
                                     <tr class="thHeader">
+                                        <th style="width: 5%;" scope="col">S.No</th>
                                         <th scope="col">Project Name</th>
                                         <th scope="col">Physical Components</th>
                                         <th scope="col">Indicator</th>
@@ -261,13 +272,54 @@
                                         <th scope="col">After (To-be)
                                         </th>
                                         <th scope="col">Estimated Cost (Amount in INR)</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
+                                <tbody formArrayName="serviceLevelIndicators"
+                                    *ngFor="let projectRow of getSubControlsServiceLevelIndicator(projectIndex); let sliIndex=index">
 
+                                    <tr [formGroupName]="sliIndex">
+
+                                        <td class="t-i">
+                                            <span>{{1+sliIndex}}</span>
+                                        </td>
+                                        <td>
+                                            <input formControlName="name" matTooltipPosition="above" [matTooltip]=""
+                                                type="text" />
+                                        </td>
+                                        <td>
+                                            <input formControlName="component" matTooltipPosition="above"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="indicator" matTooltipPosition="above"
+                                                [matTooltip]="" type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="existing" matTooltipPosition="above" [matTooltip]=""
+                                                type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="after" matTooltipPosition="above" [matTooltip]=""
+                                                type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="cost" matTooltipPosition="above" [matTooltip]=""
+                                                type="text">
+                                        </td>
+                                        <td *ngIf="1+sliIndex>1">
+                                            <a (click)="deleteRow(projectIndex)">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                </mat-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <div class="addMoreDiv text-right">
-                                <button type="button" class="btn" (click)="addRow()" id="addmoreBtn"
-                                    [disabled]="isDisabled">
+                                <button type="button" class="btn" (click)="addRow2(projectIndex)" id="addmoreBtn"
+                                    [disabled]="disableAddMore">
                                     <span class="material-icons text-center"
                                         style="font-size: 12px; margin-right: 3px;">
                                         add_circle_outline
