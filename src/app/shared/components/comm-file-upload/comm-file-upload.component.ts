@@ -22,6 +22,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   compDis;
   lastRoleInMasterForm;
   masterFormStatus;
+  mohuaCompDis;
   constructor(
     private dataEntryService: DataEntryService,
     private _ulbformService: UlbformService) {
@@ -29,6 +30,8 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
+    this.mohuaCompDis = localStorage.getItem("mohuaActionComDis");
+
     this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
     this.masterFormStatus = localStorage.getItem("masterFormStatus");
   }

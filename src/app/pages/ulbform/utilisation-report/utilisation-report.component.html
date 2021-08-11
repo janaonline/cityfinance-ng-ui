@@ -514,7 +514,7 @@
     </div>
 </form>
 <div class="card" style="background-color: #F7F7F7;" *ngIf="(loggedInUserType != userTypes.ULB && utilizationReport &&
- (takeStateAction == 'true') &&  (compDis == 'false'))">
+ (takeStateAction == 'true') &&  (compDis == 'false') )">
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionRes'> </app-state-action-ulb>
     </div>
