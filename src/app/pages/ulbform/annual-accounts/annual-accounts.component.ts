@@ -460,7 +460,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   save(form) {
-    debugger
     if (
       !form.audited.submit_annual_accounts ||
       form.audited.submit_annual_accounts == null

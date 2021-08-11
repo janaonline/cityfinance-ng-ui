@@ -29,6 +29,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   id = null;
   //  sessionUlbId = null;
   checkPos = true;
+  annualStatus;
   constructor(
     private Overview: Overview,
     public activatedRoute: ActivatedRoute,
@@ -171,6 +172,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
           this.ulbName = res["response"]["ulbName"];
+          this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
           this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
           this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
@@ -316,6 +318,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           eligibleForms.push(element.label);
           console.log(element.label);
           if (element.label != "PFMS") {
+
             eligibleActionForms.push(element.label);
           }
         }
