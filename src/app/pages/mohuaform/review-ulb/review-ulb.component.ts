@@ -163,11 +163,10 @@ export class ReviewUlbComponent implements OnInit {
       );
   }
 
-  setActionBtnIcon(resData, type) {
+  setActionBtnIcon(resData, type) {    
     if (
-      resData.actionTakenByUserRole == USER_TYPE.STATE &&
-      resData.isSubmit &&
-      resData.status == "APPROVED" &&
+      resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
+      !resData.isSubmit &&
       type == "action"
     ) {
       return true;
@@ -175,6 +174,14 @@ export class ReviewUlbComponent implements OnInit {
     if (
       resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
       !resData.isSubmit &&
+      type == "eye"
+    ) {
+      return false;
+    }
+    if (
+      resData.actionTakenByUserRole == USER_TYPE.STATE &&
+      resData.isSubmit &&
+      resData.status == "APPROVED" &&
       type == "action"
     ) {
       return true;
@@ -186,13 +193,6 @@ export class ReviewUlbComponent implements OnInit {
       type == "eye"
     ) {
       return false;
-    }
-    if (
-      resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
-      !resData.isSubmit &&
-      type == "eye"
-    ) {
-      return true;
     }
     if (
       resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
