@@ -705,6 +705,7 @@ export class AnnualAccountsComponent implements OnInit {
           this.data[status].submit_standardized_data = val;
         } else {
           this.data[status].submit_standardized_data = val;
+          swal("ULB has the option to upload the standardised financial statement at a later stage")
         }
         break;
     }
