@@ -19,7 +19,7 @@ export class UlbformService {
     return this.allStatus;
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getStatus(design_year, rowId) {
     if (rowId != null) {
@@ -38,7 +38,9 @@ export class UlbformService {
       `${environment.api.url}masterForm/getAllForms?ulb=${ulb}&&design_year=${design_year}&&financialYear=${financialYear}`
     );
   }
-
+  getEligibleULBForm(ulb_id) {
+    return this.http.get(`${environment.api.url}eligibleULBForms?ulb_id=${ulb_id}`);
+  }
   postMasterForm(data) {
     return this.http.post(`${environment.api.url}masterForm/finalSubmit`, data);
   }

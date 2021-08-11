@@ -241,23 +241,23 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.populateFormDatas();
     }
     if (changes.form && changes.form.currentValue) {
-      if (changes.waterPotability && changes.waterPotability.currentValue) {
-        // this.form = changes.form.currentValue
+      // if (changes.waterPotability && changes.waterPotability.currentValue) {
+      //   // this.form = changes.form.currentValue
 
-        if (changes.waterPotability.currentValue.hasOwnProperty("name")) {
-          this.publishedFileName = changes.waterPotability.currentValue.name;
-          this.publishedFileUrl = changes.waterPotability.currentValue.url;
-          if (this.publishedFileUrl != "") {
-            this.showPublishedUpload = true;
-          }
+      //   if (changes.waterPotability.currentValue.hasOwnProperty("name")) {
+      //     this.publishedFileName = changes.waterPotability.currentValue.name;
+      //     this.publishedFileUrl = changes.waterPotability.currentValue.url;
+      //     if (this.publishedFileUrl != "") {
+      //       this.showPublishedUpload = true;
+      //     }
 
-          this.publishedProgress;
-        }
-        this.publishedFileUrl =
-          changes.waterPotability.currentValue.hasOwnProperty("url")
-            ? changes.waterPotability.currentValue.url
-            : "";
-      }
+      //     this.publishedProgress;
+      //   }
+      //   this.publishedFileUrl =
+      //     changes.waterPotability.currentValue.hasOwnProperty("url")
+      //       ? changes.waterPotability.currentValue.url
+      //       : "";
+      // }
     }
 
     // if (this.form) this.initializeForm();
@@ -332,53 +332,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
       // }
     }
-    // if (this.form) {
-    //   for (let key in this.form["controls"]) {
-    //     console.log(key);
-    //     for (let key2 in this.form["controls"][key]["controls"]["target"]
-    //       .controls) {
-    //       //  console.log(key2)
-    //       let textValue =
-    //         this.form.controls[key]["controls"]["target"]["controls"][key2];
-    //       let currentControlKey = key2;
-    //       let controlValue = this.form.controls[key].value.target;
-    //       let increase;
-    //       if (key == "reduction") {
-    //         increase = false;
-    //       } else {
-    //         increase = true;
-    //       }
-    //       let serviceKey = key;
-    //       let actualData = parseFloat(
-    //         this.form.controls[key]["controls"]["baseline"]["value"]["2021"]
-    //       );
-    //       let control =
-    //         this.form["controls"][key]["controls"]["target"].controls[key2];
-    //       let formValue = this.form["controls"][key]["controls"]["target"];
 
-    //       // console.log(textValue, currentControlKey, controlValue, increase, serviceKey, actualData)
-    //       if (
-    //         this.checkIncreaseValidation(
-    //           textValue.value,
-    //           currentControlKey,
-    //           controlValue,
-    //           increase,
-    //           serviceKey,
-    //           actualData
-    //         )
-    //       ) {
-    //         this.form.controls[serviceKey]["controls"]["target"].controls[
-    //           currentControlKey
-    //         ].status = "INVALID";
-    //         //true means the entered value is not as per the desired logic
-    //       } else {
-    //         this.form.controls[serviceKey]["controls"]["target"].controls[
-    //           currentControlKey
-    //         ].status = "VALID";
-    //       }
-    //     }
-    //   }
-    // }
     console.log('ngOnChanges says after validation', this.form, changes)
     if (this.ulb_id != null || this.finalSubmitStatus == "true") {
       this.isDisabled = true;
@@ -472,18 +426,18 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   }
     // }
     // console.log("value emitting by waste water", values);
-    let fileName = this.showPublishedUpload ? this.publishedFileName : "";
-    let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : "";
+    // let fileName = this.showPublishedUpload ? this.publishedFileName : "";
+    // let fileUrl = this.showPublishedUpload ? this.publishedFileUrl : "";
     this.invalidWhole = false;
     this.checkAutoValidCustom();
     let outputValues = {
       waterManagement: values,
-      waterPotabilityPlan: {
-        name: fileName,
-        url: fileUrl,
-      },
+      // waterPotabilityPlan: {
+      //   name: fileName,
+      //   url: fileUrl,
+      // },
       saveData: next,
-      water_index: this.showPublishedUpload,
+      // water_index: this.showPublishedUpload,
       isFormInvalid: this.invalidWhole,
     };
 
