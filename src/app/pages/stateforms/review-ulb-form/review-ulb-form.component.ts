@@ -9,6 +9,9 @@ import { ReviewUlbFormService } from './review-ulb-form.service'
 import { UserUtility } from 'src/app/util/user/user';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import * as fileSaver from "file-saver";
+
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-review-ulb-form',
   templateUrl: './review-ulb-form.component.html',
@@ -37,6 +40,7 @@ export class ReviewUlbFormComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
+  showLoader = false;
   constructor(
     public ulbService: UlbadminServiceService,
     public _stateformsService: StateformsService,
@@ -53,6 +57,7 @@ export class ReviewUlbFormComponent implements OnInit {
   status_s = new FormControl('');
   historyData;
   ngOnInit() {
+    this.showLoader = true;
     this.loadData();
   }
   noHistorydataFound = false
@@ -96,11 +101,15 @@ export class ReviewUlbFormComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
+        this.showLoader = false;
 
       },
         error => {
           this.errMessage = error.message;
+
           console.log(error, this.errMessage);
+          this.showLoader = false;
+          swal(this.errMessage);
         }
       )
   }
@@ -154,7 +163,6 @@ export class ReviewUlbFormComponent implements OnInit {
       .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
         (result: any) => {
-          debugger
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
               type: "text/json; charset=utf-8",
@@ -175,10 +183,10 @@ export class ReviewUlbFormComponent implements OnInit {
 
         },
         (response: HttpErrorResponse) => {
-          
+
           this.loading = false;
           console.log(response.error);
-          
+
           alert('Some Error Occurred')
 
         }
@@ -200,10 +208,13 @@ export class ReviewUlbFormComponent implements OnInit {
     localStorage.setItem('takeStateAction', this.takeStateAction)
     let stActionCheck = 'false'
     if (
-      (resData.actionTakenByRole == "STATE") &&
+      (resData.actionTakenByUserRole == "STATE") &&
       (resData.isSubmit == true) && (resData.status != 'PENDING')
     ) {
       stActionCheck = 'true'
+    }
+    if(resData.actionTakenByUserRole == "MoHUA") {
+      stActionCheck = 'true';
     }
     localStorage.setItem("stateActionComDis", stActionCheck);
   }

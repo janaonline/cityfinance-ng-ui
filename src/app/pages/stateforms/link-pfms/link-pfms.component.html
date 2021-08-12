@@ -36,7 +36,8 @@ margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.STATE && allStatus['la
     </div>
 </div>
 <div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
-margin-left: 15px;" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
+margin-left: 15px;" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'
+&& actionTakenByRoleOnForm=='MoHUA' ">
     <div class="card-body" style="padding: 2%;">
         <b>MoHUA Review Status :</b>
         <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
