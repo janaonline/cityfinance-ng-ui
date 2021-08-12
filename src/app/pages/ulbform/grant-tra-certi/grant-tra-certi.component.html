@@ -6,13 +6,16 @@
 
             <div class="individualResource ">
                 <div style="position:relative; ">
-                    <pdf-viewer [src]="number.pdfUrl" [render-text]="false" [show-all]="false" style="display: block; height:300px" [page]="1" [zoom-scale]="'page-fit'" [original-size]="false">
+                    <pdf-viewer [src]="number.pdfUrl" [render-text]="false" [show-all]="false"
+                        style="display: block; height:300px" [page]="1" [zoom-scale]="'page-fit'"
+                        [original-size]="false">
 
                         <!-- <img src="../../../../assets/ulbform/overview/Picture2.png" class="card-img-top " alt="... "> -->
                         <!-- <div class="card-body "> -->
                     </pdf-viewer>
                 </div>
-                <h5 class="card-title " style="text-align: center;  font-size: 18px; "><a href={{number.pdfUrl}} target="_blank">{{number.name}}</a></h5>
+                <h5 class="card-title " style="text-align: center;  font-size: 18px; "><a href={{number.pdfUrl}}
+                        target="_blank">{{number.name}}</a></h5>
             </div>
 
 
@@ -29,7 +32,7 @@
 
 <div class="row" style="margin-top: 2rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6">
-        <button class="btn backButton" [routerLink]="['../pfms_acc']">BACK</button>
+        <button class="btn backButton" [routerLink]="['../overview']">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
         <button class="btn save" [routerLink]="['../utilisation-report']">NEXT</button>

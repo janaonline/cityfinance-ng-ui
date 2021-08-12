@@ -449,14 +449,14 @@ export class AnnualAccountsComponent implements OnInit {
     //  console.log('asdfghj', actRes, this.actionRes);
     this.checkForm();
   }
-  checkDisabled(quesIndex) {}
+  checkDisabled(quesIndex) { }
 
   async submit(template = null) {
     if (template && this.data.isDraft) {
       this.openDialog(template);
     } else {
       await this.save(this.data);
-      return this._router.navigate(["ulbform/service-level"]);
+      return this._router.navigate(["ulbform/slbs"]);
     }
   }
 
@@ -665,27 +665,27 @@ export class AnnualAccountsComponent implements OnInit {
       if (changeHappen === "true") {
         this.submit(template);
       } else {
-        return this._router.navigate(["ulbform/service-level"]);
+        return this._router.navigate(["ulbform/slbs"]);
       }
     } else {
       if(this.saveBtn == 'SAVE AND NEXT'){
       console.log('unAudit Report', this.unAuditAct);
       console.log('audit Report', this.AuditAct);
       this.unAuditAct.forEach((item) => {
-        if((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED'){
+        if ((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED') {
           rejectReasonCheck = false;
           swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
           return;
         }
       })
       this.AuditAct.forEach((item) => {
-        if((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED'){
+        if ((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED') {
           rejectReasonCheck = false;
           swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
           return;
         }
       })
-      if(rejectReasonCheck)
+      if (rejectReasonCheck)
         this.saveStateActionData();
     }else {
       return this._router.navigate(["ulbform/service-level"]);
@@ -884,7 +884,7 @@ export class AnnualAccountsComponent implements OnInit {
       return;
     }
     await this.submit();
-    return this._router.navigate(["ulbform/service-level"]);
+    return this._router.navigate(["ulbform/slbs"]);
   }
   alertClose() {
     this.stay();
@@ -943,13 +943,13 @@ export class AnnualAccountsComponent implements OnInit {
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.unAuditAct[index] = e;
- //   console.log("checkStatus", this.data);
+    //   console.log("checkStatus", this.data);
   }
   checkStatusAu(e, index) {
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
- //   console.log(this.AuditAct);
+    //   console.log(this.AuditAct);
   }
   checkAuditReport(item) {
     if (item.name == "Auditor Report") {

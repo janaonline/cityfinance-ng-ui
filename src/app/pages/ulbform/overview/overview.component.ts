@@ -254,17 +254,17 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     console.log("overview", this.isUA, this.isMillionPlus);
     if (this.isUA == "Yes") {
       this.cardsOverview = this.cardsOverview;
-      this.formValue = 4;
-      this.factor = 100 / this.formValue;
-      this.numcard = 6;
-    } else if (this.isUA == "No") {
       this.formValue = 3;
+      this.factor = 100 / this.formValue;
+      this.numcard = 4;
+    } else if (this.isUA == "No") {
+      this.formValue = 2;
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
       );
       this.factor = 100 / +this.formValue;
-      this.numcard = 5;
+      this.numcard = 3;
       console.log("no. no", this.factor);
     }
     //  else if (this.isUA == "No" && this.isMillionPlus == "Yes") {
@@ -358,9 +358,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     // }
     if (title == 'Grant Transfer Certificate') {
       //  this.p = (num+1)*135;
-      this.val = 1;
+      this.val = 0;
       this.hover = true;
-      this.i = 2;
+      this.i = 1;
       // this.message = "State Governments to furnish Grant transfer certificate for last installment of grants in the prescribed format."
       this.message = `State Governments to furnish Grant Transfer Certificate
      for the previous installment of grants in the prescribed format.`;
@@ -368,9 +368,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
     if (title == "Detailed Utilization Report") {
       //  this.p = (num+2)*120;
-      this.val = 2;
+      this.val = 1;
       this.hover = true;
-      this.i = 3;
+      this.i = 2;
       // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
       this.message = `ULBs are mandated to furnish Detailed Utilization Report as per
       prescribed format for the previous installments of 15th FC grants`;
@@ -378,30 +378,30 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
     if (title == 'Annual Accounts') {
       //  this.p = (num+3)*112;
-      this.val = 3;
+      this.val = 2;
       this.hover = true;
-      this.i = 4;
+      this.i = 3;
       //  this.message = "ULBs to upload provisional annual accounts for
       //    previous year and audited annual accounts for year previous year w.r.t. award year."
       this.message = `ULBs to upload Provisional Annual Accounts for previous year
     and Audited Annual Accounts for year before previous year with respect to the award year.`;
       this.checkPos = true;
     }
-    if (title == 'Service Level Benchmarks') {
-      //  this.p = (num+3)*125;
-      this.val = 4;
-      this.hover = true;
-      this.i = 5;
-      //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
-      this.message = `ULBs to publish 28 Service Level Benchmarks pertaining to
-      Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`;
-      this.checkPos = true;
-    }
+    // if (title == 'Service Level Benchmarks') {
+    //   //  this.p = (num+3)*125;
+    //   this.val = 4;
+    //   this.hover = true;
+    //   this.i = 5;
+    //   //  this.message = "ULBs to publish 28 Service Level Benchmarks pertaining to water supply, waste water management, solid waste management and storm water drainage."
+    //   this.message = `ULBs to publish 28 Service Level Benchmarks pertaining to
+    //   Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`;
+    //   this.checkPos = true;
+    // }
     if (title == 'Million Plus City Challenge Fund') {
       // this.p = (num+3)*125;
-      this.val = 5;
+      this.val = 3;
       this.hover = true;
-      this.i = 6;
+      this.i = 4;
       //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
       this.message = `Million-plus Urban Agglomerations (UA) to meet performance criteria in addition to entry level conditions. State and UA to sign Memorandum of Understanding with Ministry of
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
