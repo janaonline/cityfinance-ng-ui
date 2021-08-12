@@ -127,35 +127,11 @@ export class ReviewStateComponent implements OnInit {
 
   setLIstFetchOptions() {
 
-    let statusCode;
-
-
-
-    if (this.status_type.value) {
-      if (this.status_type.value == "Not Started") {
-        statusCode = 1;
-      } else if (this.status_type.value == "In Progess") {
-        statusCode = 2;
-      } else if (this.status_type.value == "Under Review By State") {
-        statusCode = 3;
-      } else if (this.status_type.value == "Approved By State") {
-        statusCode = 4;
-      } else if (this.status_type.value == "Rejected By State") {
-        statusCode = 5;
-      } else if (this.status_type.value == "Approved By MoHUA") {
-        statusCode = 6;
-      } else if (this.status_type.value == "Rejected By MoHUA") {
-        statusCode = 7;
-      }
-    }
-
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: this.state_name ? this.state_name : '',
-        status: statusCode
-          ? statusCode
-          : "",
+        state: this.state_name.value ? this.state_name.value : '',
+        status: this.status_type.value ? this.status_type.value : "",
 
       }
 
@@ -182,6 +158,7 @@ export class ReviewStateComponent implements OnInit {
       .fetchReviewStateList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
         (result) => {
+
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
               type: "text/json; charset=utf-8",
@@ -192,7 +169,7 @@ export class ReviewStateComponent implements OnInit {
           else {
             let res: any = result;
             this.tabelData = res.data;
-            if (res.data.length == 0) {
+            if (!res['data']) {
               this.nodataFound = true;
             } else {
               this.nodataFound = false;

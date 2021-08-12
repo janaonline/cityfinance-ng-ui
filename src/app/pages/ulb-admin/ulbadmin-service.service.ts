@@ -142,13 +142,19 @@ export class UlbadminServiceService {
     let url;
 
     url = `${environment.api.url}stateMasterForm/getAll/606aaf854dff55e6c075d219`
-
+    if (body['csv']) {
     return this.http.get(url, {
       params: queryParams,
       responseType: 'blob'
 
     });
-  }
+  }else{
+    return this.http.get(url, {
+      params: queryParams,
+      responseType: 'json'
+  })
+}
+}
   fetchEditDataList(params = {}, body = {}) {
     console.log(body)
     console.log(typeof body['csv'])
