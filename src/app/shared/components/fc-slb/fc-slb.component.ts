@@ -360,7 +360,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
   proceed(uploadedFiles) {
     this.modalRef.hide();
-    return this._router.navigate(["ulbform/water-sanitation"]);
+    return;
+    //  this._router.navigate(["ulbform/water-sanitation"]);
   }
   onSaveAsDraftClick() {
     this.saveAsDraft.emit(this.form.value);

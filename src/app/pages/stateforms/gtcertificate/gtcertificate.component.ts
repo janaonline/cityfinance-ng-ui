@@ -389,7 +389,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         this.saveStateAction();
         sessionStorage.setItem("changeInGTC", "false")
         if (!this.flag) {
-          this._router.navigate(["stateform/link-in-pfms"]);
+          this._router.navigate(["stateform/water-supply"]);
         }
         return;
       }
@@ -432,7 +432,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
           console.log(form)
           this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
-          this._router.navigate(["stateform/link-in-pfms"]);
+          this._router.navigate(["stateform/water-supply"]);
           resolve(res)
         },
           error => {
@@ -503,7 +503,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         status.actionTakenByRole = 'MoHUA'
         this._stateformsService.allStatusStateForms.next(status);
 
-        this._router.navigate(["stateform/link-in-pfms"]);
+        this._router.navigate(["stateform/water-supply"]);
       },
       (error) => {
         swal("An error occured!");
@@ -547,7 +547,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       };
       let changeHappen = sessionStorage.getItem("changeInGTC")
       if (changeHappen == "false") {
-        this._router.navigate(["stateform/link-in-pfms"]);
+        this._router.navigate(["stateform/water-supply"]);
         return;
       } else {
 
@@ -572,7 +572,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       this.actionSubmit = true
       let changeHappen = sessionStorage.getItem("changeInGTC")
       if (changeHappen == "false") {
-        this._router.navigate(["stateform/link-in-pfms"]);
+        this._router.navigate(["stateform/water-supply"]);
         return;
       } else {
         if (

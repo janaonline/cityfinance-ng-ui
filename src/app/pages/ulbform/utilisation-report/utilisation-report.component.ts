@@ -894,7 +894,7 @@ export class UtilisationReportComponent implements OnInit {
         !this.isSumEqual
       ) {
         console.log("entered valid form");
-        // this.fd.isDraft = false;
+        this.fd.isDraft = false;
         console.log(this.fd);
         let len = this.tabelRows.length;
         // for (let i = 0; i < len; i++) {
