@@ -237,7 +237,7 @@
                                                 oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
                                         <td *ngIf="1+reuseWaterIndex>1">
-                                            <a (click)="deleteRow(projectIndex)">
+                                            <a (click)="deleteRow1(projectIndex,reuseWaterIndex)">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>
@@ -308,7 +308,7 @@
                                                 type="text">
                                         </td>
                                         <td *ngIf="1+sliIndex>1">
-                                            <a (click)="deleteRow(projectIndex)">
+                                            <a (click)="deleteRow2(projectIndex, sliIndex)">
                                                 <mat-icon aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/Icon material-delete.svg">
                                                 </mat-icon>
