@@ -53,6 +53,7 @@ export class UtilisationReportComponent implements OnInit {
   finalSubmitUtiStatus;
   takeStateAction;
   compDis;
+  mohuaActionComp;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -70,6 +71,7 @@ export class UtilisationReportComponent implements OnInit {
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
+    this.mohuaActionComp =localStorage.getItem("mohuaActionComDis ");
     this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
     this.masterFormStatus = localStorage.getItem("masterFormStatus");
     console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
@@ -116,6 +118,7 @@ export class UtilisationReportComponent implements OnInit {
   isDraft = null;
   ulbId = null;
   actionRes;
+
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -177,6 +180,25 @@ export class UtilisationReportComponent implements OnInit {
       this.submitted = true;
       this.isSubmitted = true;
     }
+ //   for state after final action
+   this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+    (disable) => {
+      console.log("utilization speaking", disable);
+      this.compDis = 'true';
+      if (disable) {
+        localStorage.setItem("stateActionComDis", 'true');
+      }
+    }
+  );
+  this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+    (disable) => {
+      console.log("utilization speaking", disable);
+      this.mohuaActionComp = 'true';
+      if (disable) {
+        localStorage.setItem("mohuaActionComDis", 'true');
+      }
+    }
+  );
   }
 
   navigationCheck() {
@@ -473,6 +495,9 @@ export class UtilisationReportComponent implements OnInit {
   calAmount(setFormControl) {
     let controlValue =
       +this.utilizationReport.value.grantPosition[setFormControl];
+      if(controlValue < 0) {
+        controlValue = 0;
+      }
     if (!isNaN(controlValue) || controlValue != 0) {
       controlValue.toFixed(2);
     }
@@ -829,7 +854,16 @@ export class UtilisationReportComponent implements OnInit {
     if (this.ulbId == null) {
       this.saveAndNext(template1);
     } else {
-      this.stateActionSave();
+      if(this.ulbFormStaus != undefined || this.ulbFormStaus != null)
+      {
+        let canNavigate = sessionStorage.getItem("canNavigate");
+             if (canNavigate === "true" && this.saveBtn === "NEXT") {
+             return this._router.navigate(["ulbform/annual_acc"]);;
+          } else {
+              this.stateActionSave();
+         }
+
+      }
     }
   }
   stateActionSave() {
@@ -861,6 +895,7 @@ export class UtilisationReportComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.utilReport.status = stateData.status;
           this._ulbformService.allStatus.next(status);
+          this._router.navigate(["ulbform/annual_acc"]);;
         },
         (error) => {
           swal("An error occured!");
@@ -894,7 +929,7 @@ export class UtilisationReportComponent implements OnInit {
         !this.isSumEqual
       ) {
         console.log("entered valid form");
-        // this.fd.isDraft = false;
+        this.fd.isDraft = false;
         console.log(this.fd);
         let len = this.tabelRows.length;
         // for (let i = 0; i < len; i++) {

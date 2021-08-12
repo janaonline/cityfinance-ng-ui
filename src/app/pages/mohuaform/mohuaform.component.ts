@@ -14,6 +14,7 @@ export class MohuaformComponent implements OnInit, AfterViewInit {
   loggedInUserType;
   sticky: boolean = false;
   elementPosition: any;
+  showLoader = true;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
     private _router: Router
@@ -21,20 +22,24 @@ export class MohuaformComponent implements OnInit, AfterViewInit {
     this.loggedInUserType =  this.loggedInUserDetails.role;
     if(!this.loggedInUserType){
       this._router.navigate(["/home"]);
+      this.showLoader = false;
     }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
            this._router.navigate(["/ulbform/overview"]);
+           this.showLoader = false;
          // this._router.navigate(["/home"]);
             break;
      case USER_TYPE.STATE:
           this._router.navigate(["/stateform/dashboard"]);
+          this.showLoader = false;
        //  this._router.navigate(["/home"]);
         break;
      case USER_TYPE.MoHUA:
       case USER_TYPE.PARTNER:
       case USER_TYPE.ADMIN:
       this._router.navigate(["/mohua/dashboard"]);
+      this.showLoader = false;
       break;
     //
       // case USER_TYPE.PARTNER:

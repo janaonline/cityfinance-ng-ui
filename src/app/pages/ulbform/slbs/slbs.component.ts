@@ -41,6 +41,8 @@ export class SlbsComponent implements OnInit {
   takeStateAction;
   actionResSlb;
   compDis;
+  mohuaActionComp;
+  btnSave = 'NEXT'
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -88,7 +90,29 @@ export class SlbsComponent implements OnInit {
     await this.getSlbData();
 
     this.createDataForms(this.preFilledWaterManagement);
+    this.checkFinalAction();
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
+
+  }
+  checkFinalAction(){
+    this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+        if (disable) {
+          localStorage.setItem("stateActionComDis", 'true');
+        }
+      }
+    );
+    this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.mohuaActionComp = 'true';
+        if (disable) {
+          localStorage.setItem("mohuaActionComDis", 'true');
+        }
+      }
+    );
   }
   Years = JSON.parse(localStorage.getItem("Years"));
   createDataForms(data?: IFinancialData) {
@@ -164,6 +188,7 @@ export class SlbsComponent implements OnInit {
         resolve(res);
       });
     });
+
   }
 
   value;
@@ -210,7 +235,8 @@ export class SlbsComponent implements OnInit {
 
     let changeHappen = sessionStorage.getItem("changeInSLB");
     if (changeHappen == "false" && value.saveData) {
-      return this._router.navigate(["ulbform/water-sanitation"]);
+      return
+      // this._router.navigate(["ulbform/water-sanitation"]);
     }
     sessionStorage.setItem("changeInSLB", "true");
     let completed = this.checkIfCompletedOrNot(value);
@@ -243,7 +269,8 @@ export class SlbsComponent implements OnInit {
       console.log("3");
       this.postSlbData(value);
       sessionStorage.setItem("changeInSLB", "false");
-      return this._router.navigate(["ulbform/water-sanitation"]);
+      return
+      // this._router.navigate(["ulbform/water-sanitation"]);
     }
   }
 
@@ -346,7 +373,8 @@ export class SlbsComponent implements OnInit {
     if (this.clickedSave) {
       this.postSlbData(this.data);
       sessionStorage.setItem("changeInSLB", "false");
-      return this._router.navigate(["ulbform/water-sanitation"]);
+      return
+      // this._router.navigate(["ulbform/water-sanitation"]);
     } else if (this.routerNavigate && changeHappen === "true") {
       console.log("this data is going in POST API", this.data);
       this.data["saveData"] = true;
@@ -354,7 +382,8 @@ export class SlbsComponent implements OnInit {
       this._router.navigate([this.routerNavigate.url]);
       return;
     } else if (this.routerNavigate == null && changeHappen === "false") {
-      return this._router.navigate(["ulbform/water-sanitation"]);
+      return
+      //  this._router.navigate(["ulbform/water-sanitation"]);
     }
     // this.onWaterWasteManagementEmitValue(this.data);
   }
@@ -369,11 +398,18 @@ export class SlbsComponent implements OnInit {
     }
   }
   checkStatus(ev) {
+    this.btnSave = 'SAVE'
     console.log("actionValues", ev);
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
   }
-
+  clickActionButton(){
+    if(this.btnSave == 'SAVE'){
+      this.saveSlbStateAction();
+    }else {
+      return this._router.navigate(["ulbform/overview"]);;
+    }
+  }
   saveSlbStateAction() {
     console.log("satAction", this.statePostData.data[0], "szfdg");
     let data = {

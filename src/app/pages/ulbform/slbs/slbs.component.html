@@ -7,16 +7,19 @@
         <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
         " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
-      Preview
-    </button>
+            Preview
+        </button>
     </h3>
 </div>
 <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 
 <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="(loggedInUserType != USER_TYPE.ULB &&
-(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
+(takeStateAction == 'true') &&  (compDis == 'false'))">
+    <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
     <div class="card-body">
-        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'> </app-state-action-ulb>
+        <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
+        </app-state-action-ulb>
     </div>
 </div>
 <!-- (ulbFormStaus !== 'NA') -->
@@ -26,14 +29,13 @@
  (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
  (loggedInUserDetails.role === USER_TYPE.MoHUA)">
     <div class="col-lg-6 col-md-6 col-sm-6">
-        <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../service-level']">BACK</a>
+        <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../annual_acc']">BACK</a>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft"
                (click)="saveAsDraft()">SAVE AS DRAFT</button>
            -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveSlbStateAction()">SAVE
-      AND NEXT</button>
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
     </div>
 </div>
 
@@ -58,8 +60,8 @@
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save
-        &
-        Proceed</button>
+                &
+                Proceed</button>
         </div>
 
     </div>

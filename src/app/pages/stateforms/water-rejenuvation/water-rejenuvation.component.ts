@@ -466,10 +466,20 @@ export class WaterRejenuvationComponent implements OnInit {
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
-  disableAddMore = false
+  disableAddMore1 = false
+  disableAddMore2 = false
   addRow1(index) {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        if (el['controls']['reuseWater'].length > 9) {
+          this.disableAddMore1 = true
+          return swal('Maximum 10 Rows can be added.')
+        }
+
+      }
+    }
     console.log(this.data)
     console.log(this.waterRejenuvation['controls']['uaData']['controls'])
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
@@ -498,8 +508,11 @@ export class WaterRejenuvationComponent implements OnInit {
           ]),
         })
         ))
+
+
+
       }
-      console.log(el.get('serviceLevelIndicators').length)
+
     }
 
 
@@ -509,6 +522,15 @@ export class WaterRejenuvationComponent implements OnInit {
     let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
     console.log(uaDataAtIndex._id);
     console.log(this.data)
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        if (el['controls']['serviceLevelIndicators'].length > 9) {
+          this.disableAddMore2 = true
+          return swal('Maximum 10 Rows can be added.')
+        }
+
+      }
+    }
     console.log(this.waterRejenuvation['controls']['uaData']['controls'])
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
