@@ -15,6 +15,9 @@ export class UlbformService {
 
   setForms = new Subject<any>();
 
+  disableAllFormsAfterStateReview = new Subject<any>();
+  disableAllFormsAfterMohuaReview = new Subject<any>();
+
   getObservedStatus() {
     return this.allStatus;
   }

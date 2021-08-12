@@ -28,6 +28,7 @@ import {
 import { HttpEventType } from "@angular/common/http";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { controllers } from "chart.js";
+import { UlbformService } from "src/app/pages/ulbform/ulbform.service";
 @Component({
   selector: "app-fc-slb",
   templateUrl: "./fc-slb.component.html",
@@ -50,17 +51,24 @@ export class FcSlbComponent implements OnInit, OnChanges {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
+  takeStateAction;
+  compDis;
+  mohuaActionComp;
   constructor(
     private _router: Router,
     private modalService: BsModalService,
     protected dataEntryService: DataEntryService,
-    protected _dialog: MatDialog
+    protected _dialog: MatDialog,
+    private _ulbformService: UlbformService
   ) {
     // super(dataEntryService, _dialog);
     this.ulb_id = sessionStorage.getItem("ulb_id");
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
     this.masterFormStatus = localStorage.getItem("masterFormStatus");
+    this.takeStateAction = localStorage.getItem("takeStateAction");
+    this.compDis = localStorage.getItem("stateActionComDis");
+    this.mohuaActionComp =localStorage.getItem("mohuaActionComDis ");
   }
 
   focusTargetKey: any = {};
@@ -167,6 +175,25 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   console.log(this.benchmarks)
     //   console.log("tt", this.form, this.focusTargetKey)
     // this.checkAutoValidCustom();
+
+    this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+        if (disable) {
+          localStorage.setItem("stateActionComDis", 'true');
+        }
+      }
+    );
+    this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.mohuaActionComp = 'true';
+        if (disable) {
+          localStorage.setItem("mohuaActionComDis", 'true');
+        }
+      }
+    );
   }
 
   setFocusTarget(focusTarget = "") {

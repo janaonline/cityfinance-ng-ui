@@ -41,6 +41,8 @@ export class SlbsComponent implements OnInit {
   takeStateAction;
   actionResSlb;
   compDis;
+  mohuaActionComp;
+  btnSave = 'NEXT'
   constructor(
     private _matDialog: MatDialog,
     private commonService: CommonService,
@@ -88,7 +90,29 @@ export class SlbsComponent implements OnInit {
     await this.getSlbData();
 
     this.createDataForms(this.preFilledWaterManagement);
+    this.checkFinalAction();
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
+
+  }
+  checkFinalAction(){
+    this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+        if (disable) {
+          localStorage.setItem("stateActionComDis", 'true');
+        }
+      }
+    );
+    this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.mohuaActionComp = 'true';
+        if (disable) {
+          localStorage.setItem("mohuaActionComDis", 'true');
+        }
+      }
+    );
   }
   Years = JSON.parse(localStorage.getItem("Years"));
   createDataForms(data?: IFinancialData) {
@@ -164,6 +188,7 @@ export class SlbsComponent implements OnInit {
         resolve(res);
       });
     });
+
   }
 
   value;
@@ -373,11 +398,18 @@ export class SlbsComponent implements OnInit {
     }
   }
   checkStatus(ev) {
+    this.btnSave = 'SAVE'
     console.log("actionValues", ev);
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
   }
-
+  clickActionButton(){
+    if(this.btnSave == 'SAVE'){
+      this.saveSlbStateAction();
+    }else {
+      return this._router.navigate(["ulbform/overview"]);;
+    }
+  }
   saveSlbStateAction() {
     console.log("satAction", this.statePostData.data[0], "szfdg");
     let data = {

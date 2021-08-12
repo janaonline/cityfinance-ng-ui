@@ -46,6 +46,7 @@ export class AnnualAccountsComponent implements OnInit {
   anFormStaus = "PENDING";
   ulbFormStatusMoHUA;
   ulbFormRejectR = null;
+  actionCheck;
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null },
     { name: "Balance Sheet Schedule", error: false, data: null },
@@ -332,8 +333,8 @@ export class AnnualAccountsComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
-
-          console.log(res, "---------------");
+           this.actionCheck = res['status'];
+          console.log("annual res---------------", res);
         },
         (err) => {
           const toStoreResponse = this.data;
@@ -460,7 +461,6 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   save(form) {
-    debugger
     if (
       !form.audited.submit_annual_accounts ||
       form.audited.submit_annual_accounts == null
@@ -668,6 +668,7 @@ export class AnnualAccountsComponent implements OnInit {
         return this._router.navigate(["ulbform/slbs"]);
       }
     } else {
+      if(this.saveBtn == 'SAVE AND NEXT'){
       console.log('unAudit Report', this.unAuditAct);
       console.log('audit Report', this.AuditAct);
       this.unAuditAct.forEach((item) => {
@@ -686,6 +687,9 @@ export class AnnualAccountsComponent implements OnInit {
       })
       if (rejectReasonCheck)
         this.saveStateActionData();
+    }else {
+      return this._router.navigate(["ulbform/service-level"]);
+    }
     }
   }
   answer(question, val, isAudit = null, fromStart = false) {
@@ -936,11 +940,13 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkStatusUnA(e, index) {
+    this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.unAuditAct[index] = e;
     //   console.log("checkStatus", this.data);
   }
   checkStatusAu(e, index) {
+    this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
     //   console.log(this.AuditAct);
@@ -1009,6 +1015,7 @@ export class AnnualAccountsComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.annualAccounts.status = res["newAnnualAccountData"].status;
         this._ulbformService.allStatus.next(status);
+        this._router.navigate(["ulbform/service-level"]);
       },
       (err) => {
         swal("Failed To Save Action");

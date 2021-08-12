@@ -6,17 +6,17 @@
 
         <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload"
-            (click)="openModal(template,true)">
+        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
             Preview
         </button>
     </h3>
 </div>
-<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)"
-    [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
+<app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 
 <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="(loggedInUserType != USER_TYPE.ULB &&
-(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
+(takeStateAction == 'true') &&  (compDis == 'false'))">
+    <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+(takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
     <div class="card-body">
         <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
         </app-state-action-ulb>
@@ -35,8 +35,7 @@
         <!-- <button type="button" class="btn footerBtn" id="saveDraft"
                (click)="saveAsDraft()">SAVE AS DRAFT</button>
            -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="saveSlbStateAction()">SAVE
-        </button>
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
     </div>
 </div>
 
@@ -83,8 +82,7 @@
         </p>
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c"
-                (click)="proceed()">Proceed</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
         </div>
 
     </div>
