@@ -81,7 +81,8 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   };
 
   ngOnInit(): void {
-    console.log("an res status", this.statusResponse, this.dataFromParent);
+    console.log("an res status", this.statusResponse);
+    console.log("an data res status", this.dataFromParent);
     if (this.finalSubmitStatus == "true") {
       this.isDisabled = true;
     }
@@ -137,6 +138,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   ngOnChanges() {
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
+      console.log('changes..........', this.dataFromParent);
     }
   }
   async fileChangeEvent(event, fileType) {

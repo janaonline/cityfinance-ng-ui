@@ -40,6 +40,7 @@ export class UlbformComponent implements OnInit {
   sticky: boolean = false;
   stiHieght: boolean = false;
   elementPosition: any;
+  annualStatus;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
@@ -218,6 +219,9 @@ export class UlbformComponent implements OnInit {
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
+        this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
+        // alert(this.annualStatus);
+        console.log('hi', this.annualStatus);
         localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
@@ -514,6 +518,7 @@ export class UlbformComponent implements OnInit {
         }
 
         this.finalActionDis = true;
+        location.reload();
       },
       (err) => {
         console.log(err);
