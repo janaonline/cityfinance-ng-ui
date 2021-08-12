@@ -202,6 +202,11 @@ export class WaterRejenuvationComponent implements OnInit {
       "controls"
     ] as FormArray;
   }
+  getSubControlsServiceLevelIndicator(index) {
+    return this.f.uaData["controls"][index]["controls"]["serviceLevelIndicators"][
+      "controls"
+    ] as FormArray;
+  }
 
   get f() {
     return this.waterRejenuvation.controls;
@@ -216,6 +221,7 @@ export class WaterRejenuvationComponent implements OnInit {
         rejectReason: data?.rejectReason ?? null,
         waterBodies: this.fb.array(this.getWaterBodies(data.waterBodies)),
         reuseWater: this.fb.array(this.getReuseWater(data.reuseWater)),
+        serviceLevelIndicators: this.fb.array(this.getServiceLevelIndicator(data.serviceLevelIndicators)),
         foldCard: false,
       })
     );
@@ -281,6 +287,37 @@ export class WaterRejenuvationComponent implements OnInit {
     );
   }
 
+  getServiceLevelIndicator(dataArray) {
+    console.log(dataArray)
+    return dataArray.map((data) =>
+      this.fb.group({
+        name: this.fb.control(data.name, [
+          Validators.required,
+          // Validators.maxLength(25),
+        ]),
+        component: this.fb.control(data.component, [
+          Validators.required,
+          // Validators.maxLength(25),
+        ]),
+        indicator: this.fb.control(data.indicator, [
+          Validators.required,
+          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+        ]),
+        existing: this.fb.control(data.existing, [
+          Validators.required,
+          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+        ]),
+        after: this.fb.control(data.after, [
+          Validators.required,
+          // Validators.min(1),
+        ]),
+        cost: this.fb.control(data.cost, [
+          Validators.required,
+          // Validators.min(1),
+        ]),
+      })
+    );
+  }
   getReuseWater(dataArray) {
     return dataArray.map((data) =>
       this.fb.group({
@@ -309,6 +346,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   actionTakenByRoleOnForm = null
   loadData() {
+    console.log(this.uasData)
     return new Promise((resolve, reject) => {
       let id = sessionStorage.getItem("state_id");
       this.waterRejenuvationService.getData(this.Year["2021-22"], id).subscribe(
@@ -327,6 +365,7 @@ export class WaterRejenuvationComponent implements OnInit {
         (err) => {
           this.showLoader = false;
           this.data = [];
+
           for (const key in this.uasData) {
             this.data.push({
               ua: key,
@@ -382,21 +421,19 @@ export class WaterRejenuvationComponent implements OnInit {
                   long: null,
                   stp: null,
                 },
-                {
-                  name: null,
-                  treatmentPlant: null,
-                  lat: null,
-                  long: null,
-                  stp: null,
-                },
-                {
-                  name: null,
-                  treatmentPlant: null,
-                  lat: null,
-                  long: null,
-                  stp: null,
-                },
+
               ],
+              serviceLevelIndicators: [
+                {
+                  name: null,
+                  component: null,
+                  indicator: null,
+                  existing: null,
+                  after: null,
+                  cost: null
+                }
+              ]
+
             });
           }
           resolve("ss");
@@ -414,6 +451,9 @@ export class WaterRejenuvationComponent implements OnInit {
       element.waterBodies.forEach((element) => {
         delete element._id;
       });
+      element.serviceLevelIndicators.forEach((element) => {
+        delete element._id;
+      });
     });
     let state_id = sessionStorage.getItem("state_id");
     let toStore = {
@@ -426,6 +466,87 @@ export class WaterRejenuvationComponent implements OnInit {
     sessionStorage.setItem("waterRejenuvationData", JSON.stringify(toStore));
   }
 
+  disableAddMore = false
+  addRow1(index) {
+    let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
+    console.log(uaDataAtIndex._id);
+    console.log(this.data)
+    console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['reuseWater'].patchValue(el['controls']['reuseWater'].push(this.fb.group({
+          name: this.fb.control(null, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          treatmentPlant: this.fb.control(null, [
+            Validators.required,
+            Validators.maxLength(25),
+          ]),
+          lat: this.fb.control(null, [
+            Validators.required,
+            Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          ]),
+          long: this.fb.control(null, [
+            Validators.required,
+            Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          ]),
+          stp: this.fb.control(null, [
+            Validators.required,
+            Validators.min(1),
+          ]),
+        })
+        ))
+      }
+      console.log(el.get('serviceLevelIndicators').length)
+    }
+
+
+
+  }
+  addRow2(index) {
+    let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
+    console.log(uaDataAtIndex._id);
+    console.log(this.data)
+    console.log(this.waterRejenuvation['controls']['uaData']['controls'])
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['serviceLevelIndicators'].patchValue(el['controls']['serviceLevelIndicators'].push(
+          this.fb.group({
+            name: this.fb.control(null, [
+              Validators.required,
+              // Validators.maxLength(25),
+            ]),
+            component: this.fb.control(null, [
+              Validators.required,
+              // Validators.maxLength(25),
+            ]),
+            indicator: this.fb.control(null, [
+              Validators.required,
+              // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+            ]),
+            existing: this.fb.control(null, [
+              Validators.required,
+              // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+            ]),
+            after: this.fb.control(null, [
+              Validators.required,
+              // Validators.min(1),
+            ]),
+            cost: this.fb.control(null, [
+              Validators.required,
+              // Validators.min(1),
+            ]),
+          })
+        ))
+      }
+    }
+  }
+  deleteRow(index) {
+
+  }
   submit(fromPrev = null) {
     let draftFlag = 0;
     console.log(this.loggedInUserType);
@@ -805,7 +926,7 @@ export class WaterRejenuvationComponent implements OnInit {
       return projectRow.controls[val].invalid;
     }
     return (
-      projectRow.controls[val].invalid &&
+      projectRow.controls[val]?.invalid &&
       (projectRow.controls[val].dirty || projectRow.controls[val].touched)
     );
   }

@@ -41,7 +41,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
         this.id = id;
         console.log('stid', id)
         sessionStorage.setItem('row_id', this.id);
-      }else{
+      } else {
         this.id = sessionStorage.getItem('row_id')
       }
     });
@@ -57,15 +57,15 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   val = 0;
   cardFit = false;
   cardsOverview = [
-    {
-      label: "PFMS",
-      link: "../pfms_acc",
-      title: "Linking of PFMS Account",
-      tooltip: "tooltip",
-      image: "../../../../assets//ulbform/lpa.svg",
-      permittedAccounts: [""],
-      display: [""],
-    },
+    // {
+    //   label: "PFMS",
+    //   link: "../pfms_acc",
+    //   title: "Linking of PFMS Account",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets//ulbform/lpa.svg",
+    //   permittedAccounts: [""],
+    //   display: [""],
+    // },
     {
       label: "Grant Transfer Certificate",
       link: "../grant-tra-certi",
@@ -93,15 +93,15 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       permittedAccounts: [""],
       display: [""],
     },
-    {
-      label: "service-level",
-      link: "../service-level",
-      title: "Service Level Benchmarks",
-      tooltip: "tooltip",
-      image: "../../../../assets/ulbform/slb.svg",
-      permittedAccounts: [""],
-      display: [""],
-    },
+    // {
+    //   label: "service-level",
+    //   link: "../service-level",
+    //   title: "Service Level Benchmarks",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets/ulbform/slb.svg",
+    //   permittedAccounts: [""],
+    //   display: [""],
+    // },
     {
       label: "slbs",
       link: "../slbs",
@@ -111,15 +111,15 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       permittedAccounts: ["Yes"],
       display: ["None"],
     },
-    {
-      label: "Plan water sanitation",
-      link: "../water-sanitation",
-      title: "Plans for Water and Sanitation",
-      tooltip: "tooltip",
-      image: "../../../../assets/ulbform/plan for water and sanitation.svg",
-      permittedAccounts: ["No"],
-      display: ["None"],
-    },
+    // {
+    //   label: "Plan water sanitation",
+    //   link: "../water-sanitation",
+    //   title: "Plans for Water and Sanitation",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+    //   permittedAccounts: ["No"],
+    //   display: ["None"],
+    // },
   ];
   width;
   row_width;
@@ -250,38 +250,39 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       console.log("12elseblock", this.isMillionPlus, this.isUA);
     }
     console.log("overview", this.isUA, this.isMillionPlus);
-    if (this.isUA == "Yes" && this.isMillionPlus == "No") {
+    if (this.isUA == "Yes") {
       this.cardsOverview = this.cardsOverview;
-      this.formValue = 5;
-      this.factor = 100 / this.formValue;
-      this.numcard = 7;
-    } else if (this.isUA == "No" && this.isMillionPlus == "No") {
       this.formValue = 4;
+      this.factor = 100 / this.formValue;
+      this.numcard = 6;
+    } else if (this.isUA == "No") {
+      this.formValue = 3;
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
       );
       this.factor = 100 / +this.formValue;
-      this.numcard = 6;
-      console.log("no. no", this.factor);
-    } else if (this.isUA == "No" && this.isMillionPlus == "Yes") {
-      let userType = "None";
-      this.cardsOverview = this.cardsOverview.filter(
-        (item) => !item.display.includes(userType)
-      );
-      this.formValue = 3;
-      this.factor = Math.floor(100 / this.formValue);
       this.numcard = 5;
-    } else if (this.isUA == "Yes" && this.isMillionPlus == "Yes") {
-      this.formValue = 4;
-      let userType = "No";
-      this.cardsOverview = this.cardsOverview.filter(
-        (item) => !item.permittedAccounts.includes(userType)
-      );
-      this.factor = 100 / +this.formValue;
-      this.numcard = 6;
       console.log("no. no", this.factor);
     }
+    //  else if (this.isUA == "No" && this.isMillionPlus == "Yes") {
+    //   let userType = "None";
+    //   this.cardsOverview = this.cardsOverview.filter(
+    //     (item) => !item.display.includes(userType)
+    //   );
+    //   this.formValue = 3;
+    //   this.factor = Math.floor(100 / this.formValue);
+    //   this.numcard = 5;
+    // } else if (this.isUA == "Yes" && this.isMillionPlus == "Yes") {
+    //   this.formValue = 4;
+    //   let userType = "No";
+    //   this.cardsOverview = this.cardsOverview.filter(
+    //     (item) => !item.permittedAccounts.includes(userType)
+    //   );
+    //   this.factor = 100 / +this.formValue;
+    //   this.numcard = 6;
+    //   console.log("no. no", this.factor);
+    // }
     // else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
     //   this.cardsOverview = this.cardsOverview;
     //   this.formValue = 5;
@@ -291,7 +292,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     //}
     this.width = this.row_width / this.numcard - 8;
     this.percentage = this.count * this.factor;
-    console.log('ppercent', typeof(this.percentage));
+    console.log('ppercent', typeof (this.percentage));
 
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
@@ -302,14 +303,16 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.status = 'In Progress'
       console.log('ppercent', this.percentage);
     }
-    if (this.percentage == 0){
+    if (this.percentage == 0) {
       this.status = 'Not Started'
       console.log('ppercent', this.percentage);
     }
     let eligibleForms = [];
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
-      if (element.label != "Grant Transfer Certificate") {
+      if (element.label != "Grant Transfer Certificate" &&
+        element.label != "Linking of PFMS Account"
+        && element.label != "Plans for Water and Sanitation") {
         if (element.label != "service-level") {
           eligibleForms.push(element.label);
           console.log(element.label);
@@ -339,16 +342,16 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
   onHover(num, title) {
     console.log('index-num', num, title);
-    if (title == 'Linking of PFMS Account') {
-      //   this.p = (num+1)*80;
-      this.val = 0;
-      this.hover = true;
-      this.i = 1;
-      // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
-      this.message = `Each ULB's account for 15th FC Grants must be linked with Public Financial Management System
-       before 1 April 2021`;
-      this.checkPos = true;
-    }
+    // if (title == 'Linking of PFMS Account') {
+    //   //   this.p = (num+1)*80;
+    //   this.val = 0;
+    //   this.hover = true;
+    //   this.i = 1;
+    //   // this.message = "Each ULB's Account for 15th FC Grants must be Linked with PFMS before 1 April 2021";
+    //   this.message = `Each ULB's account for 15th FC Grants must be linked with Public Financial Management System
+    //    before 1 April 2021`;
+    //   this.checkPos = true;
+    // }
     if (title == 'Grant Transfer Certificate') {
       //  this.p = (num+1)*135;
       this.val = 1;
@@ -400,22 +403,22 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
       this.checkPos = true;
     }
-    if (title == 'Plans for Water and Sanitation') {
-      //  this.p = (num+3)*120;
+    //   if (title == 'Plans for Water and Sanitation') {
+    //     //  this.p = (num+3)*120;
 
-      this.hover = true;
-      if(num == 5){
-         this.i = 6;
-         this.val = 5;
-      }
-      else{
-        this.i = 7;
-        this.val = 6;
-      }
-      //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
-      this.message = `Non-Million Plus Cities to select 1 Project for Water
-   and 1 Project for Sanitation with clear functional outcomes`;
-      this.checkPos = true;
-    }
+    //     this.hover = true;
+    //     if (num == 5) {
+    //       this.i = 6;
+    //       this.val = 5;
+    //     }
+    //     else {
+    //       this.i = 7;
+    //       this.val = 6;
+    //     }
+    //     //  this.message = "Million-plus Urban Agglomerations to meet performance criteria in addition to mandatory conditions. State and UA to sign MoU with MoHUA on the year-wise action plan to meet targeted outcomes."
+    //     this.message = `Non-Million Plus Cities to select 1 Project for Water
+    //  and 1 Project for Sanitation with clear functional outcomes`;
+    //     this.checkPos = true;
+    //   }
   }
 }

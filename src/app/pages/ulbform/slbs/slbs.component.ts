@@ -252,12 +252,12 @@ export class SlbsComponent implements OnInit {
       design_year: this.Years["2021-22"],
       isCompleted: value.isCompleted,
       waterManagement: { ...value.waterManagement },
-      water_index: value.water_index,
-      waterPotability: {
-        documents: {
-          waterPotabilityPlan: [value.waterPotabilityPlan],
-        },
-      },
+      // water_index: value.water_index,
+      // waterPotability: {
+      //   documents: {
+      //     waterPotabilityPlan: [value.waterPotabilityPlan],
+      //   },
+      // },
     };
     let allFormData = JSON.parse(sessionStorage.getItem("allFormsData"));
     if (allFormData) {
@@ -286,11 +286,7 @@ export class SlbsComponent implements OnInit {
     }
 
     //checking water potability plan values
-    if (
-      value["water_index"] == true &&
-      (value["waterPotabilityPlan"]["url"] == "" || null)
-    )
-      return false;
+
 
     return true;
   }
@@ -402,24 +398,24 @@ export class SlbsComponent implements OnInit {
       },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     };
-if((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED"){
-  swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
-}
-else{
-  console.log("actionData.....", data);
-  this._ulbformService.postStateSlbActionSlb(data).subscribe(
-    (res) => {
-      swal("Record submitted successfully!");
-      const status = JSON.parse(sessionStorage.getItem("allStatus"));
-      status.slbForWaterSupplyAndSanitation.status =
-        data["waterManagement"].status;
-      this._ulbformService.allStatus.next(status);
-    },
-    (error) => {
-      swal("An error occured!");
+    if ((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED") {
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
     }
-  );
-}
+    else {
+      console.log("actionData.....", data);
+      this._ulbformService.postStateSlbActionSlb(data).subscribe(
+        (res) => {
+          swal("Record submitted successfully!");
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          status.slbForWaterSupplyAndSanitation.status =
+            data["waterManagement"].status;
+          this._ulbformService.allStatus.next(status);
+        },
+        (error) => {
+          swal("An error occured!");
+        }
+      );
+    }
 
   }
 }
