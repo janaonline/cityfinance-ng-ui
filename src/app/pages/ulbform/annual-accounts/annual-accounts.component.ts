@@ -69,7 +69,12 @@ export class AnnualAccountsComponent implements OnInit {
       rejectReason: null,
     },
   ];
-  AuditAct = [];
+  AuditAct = [
+    {
+      status: null,
+      rejectReason: null,
+    },
+  ];
   Years = JSON.parse(localStorage.getItem("Years"));
   dateShow: string = "2020-21";
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -393,7 +398,7 @@ export class AnnualAccountsComponent implements OnInit {
 
       index++;
     }
-    this.actionResAn = this.unAuditAct.concat(this.AuditAct);
+  //  this.actionResAn = this.unAuditAct.concat(this.AuditAct);
     // this.actionResAu = this.AuditAct;
     console.log("action status both", this.actionResAn);
 
@@ -647,6 +652,7 @@ export class AnnualAccountsComponent implements OnInit {
         this.dateShow = "2020-21";
         break;
     }
+  if(this.loggedInUserDetails.role === this.USER_TYPE.ULB)
     this.checkDiff();
   }
 
@@ -672,21 +678,36 @@ export class AnnualAccountsComponent implements OnInit {
       console.log('unAudit Report', this.unAuditAct);
       console.log('audit Report', this.AuditAct);
       this.unAuditAct.forEach((item) => {
-        if ((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED') {
+        if ((item.rejectReason == null || item.rejectReason == '') && item.status == 'REJECTED') {
           rejectReasonCheck = false;
           swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
           return;
         }
       })
       this.AuditAct.forEach((item) => {
-        if ((item.rejectReason == null || item.rejectReason == undefined) && item.status == 'REJECTED') {
+        if ((item.rejectReason == null || item.rejectReason == '') && item.status == 'REJECTED') {
           rejectReasonCheck = false;
           swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
           return;
         }
       })
-      if (rejectReasonCheck)
+      let totalQus = [];
+      totalQus = this.unAuditQues.concat(this.auditQues);
+      console.log('total ques',totalQus);
+      totalQus.forEach((item) => {
+
+        if (item.data?.pdf?.url != null && (item.data.status == undefined || item.data.status == "PENDING")) {
+          rejectReasonCheck = false;
+          swal('Action for all the question is mandatory');
+          return;
+        }
+      })
+      if (rejectReasonCheck){
         this.saveStateActionData();
+        console.log('unAutited',this.unAuditQues)
+        console.log('unAutited', this.auditQues)
+      }
+
     }else {
       return this._router.navigate(["ulbform/service-level"]);
     }
@@ -942,14 +963,21 @@ export class AnnualAccountsComponent implements OnInit {
   checkStatusUnA(e, index) {
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
-    this.unAuditAct[index] = e;
-    //   console.log("checkStatus", this.data);
+   this.unAuditAct[index] = e;
+    console.log('array unaudited', this.unAuditAct);
+    this.unAuditQues[index].data = {...e}
+
+    // console.log(this.actionResAn);
+
   }
   checkStatusAu(e, index) {
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
-    //   console.log(this.AuditAct);
+    //  console.log('array audited', this.AuditAct);
+    //  this.actionResAn = this.unAuditAct.concat(this.AuditAct);
+     this.auditQues[index].data = {...e}
+     console.log(this.actionResAn);
   }
   checkAuditReport(item) {
     if (item.name == "Auditor Report") {
@@ -960,7 +988,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   saveStateActionData() {
-    console.log("checkStatus", this.data);
+    console.log( "this data....",this.data);
     let stateData = this.data;
     stateData.unAudited.provisional_data.bal_sheet.status =
       this.unAuditAct[0]?.status;
