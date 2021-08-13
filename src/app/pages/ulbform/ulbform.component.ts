@@ -220,9 +220,7 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
         this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
-        // alert(this.annualStatus);
-        console.log('hi', this.annualStatus);
-        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+       localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
@@ -279,7 +277,7 @@ export class UlbformComponent implements OnInit {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbformService
       .getAllForms(
-        userData.ulb ?? sessionStorage.getItem("row_id"),
+        userData.ulb ?? sessionStorage.getItem("ulb_id"),
         "606aaf854dff55e6c075d219",
         "606aadac4dff55e6c075c507"
       )
