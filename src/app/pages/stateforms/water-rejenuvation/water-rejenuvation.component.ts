@@ -566,8 +566,23 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     }
   }
-  deleteRow(index) {
+  deleteRow1(uaIndex, rowIndex) {
+    let uaDataAtIndex = this.uasData[this.Uas[uaIndex].value["ua"]];
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
 
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['reuseWater'].removeAt(rowIndex);
+      }
+    }
+  }
+  deleteRow2(uaIndex, rowIndex) {
+    let uaDataAtIndex = this.uasData[this.Uas[uaIndex].value["ua"]];
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['serviceLevelIndicators'].removeAt(rowIndex);
+      }
+    }
   }
   submit(fromPrev = null) {
     let draftFlag = 0;

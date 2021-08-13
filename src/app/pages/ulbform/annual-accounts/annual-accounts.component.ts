@@ -298,7 +298,7 @@ export class AnnualAccountsComponent implements OnInit {
       prevData.audited.submit_standardized_data = undefined;
     }
     if (!prevData.audited.submit_standardized_data) {
-      delete prevData.audited.provisional_data;
+      delete prevData.audited.standardized_data;
     }
 
     if (!prevData.unAudited.submit_annual_accounts) {
@@ -730,6 +730,7 @@ export class AnnualAccountsComponent implements OnInit {
           this.data[status].submit_standardized_data = val;
         } else {
           this.data[status].submit_standardized_data = val;
+          swal("ULB has the option to upload the standardised financial statement at a later stage")
         }
         break;
     }

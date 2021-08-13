@@ -71,7 +71,7 @@ export class UtilisationReportComponent implements OnInit {
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
     this.compDis = localStorage.getItem("stateActionComDis");
-    this.mohuaActionComp =localStorage.getItem("mohuaActionComDis ");
+    this.mohuaActionComp = localStorage.getItem("mohuaActionComDis ");
     this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
     this.masterFormStatus = localStorage.getItem("masterFormStatus");
     console.log("finalSubmitStatus", typeof this.finalSubmitUtiStatus);
@@ -180,25 +180,25 @@ export class UtilisationReportComponent implements OnInit {
       this.submitted = true;
       this.isSubmitted = true;
     }
- //   for state after final action
-   this._ulbformService.disableAllFormsAfterStateReview.subscribe(
-    (disable) => {
-      console.log("utilization speaking", disable);
-      this.compDis = 'true';
-      if (disable) {
-        localStorage.setItem("stateActionComDis", 'true');
+    //   for state after final action
+    this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+        if (disable) {
+          localStorage.setItem("stateActionComDis", 'true');
+        }
       }
-    }
-  );
-  this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
-    (disable) => {
-      console.log("utilization speaking", disable);
-      this.mohuaActionComp = 'true';
-      if (disable) {
-        localStorage.setItem("mohuaActionComDis", 'true');
+    );
+    this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.mohuaActionComp = 'true';
+        if (disable) {
+          localStorage.setItem("mohuaActionComDis", 'true');
+        }
       }
-    }
-  );
+    );
   }
 
   navigationCheck() {
@@ -499,9 +499,9 @@ export class UtilisationReportComponent implements OnInit {
   calAmount(setFormControl) {
     let controlValue =
       +this.utilizationReport.value.grantPosition[setFormControl];
-      if(controlValue < 0) {
-        controlValue = 0;
-      }
+    if (controlValue < 0) {
+      controlValue = 0;
+    }
     if (!isNaN(controlValue) || controlValue != 0) {
       controlValue.toFixed(2);
     }
@@ -858,14 +858,13 @@ export class UtilisationReportComponent implements OnInit {
     if (this.ulbId == null) {
       this.saveAndNext(template1);
     } else {
-      if(this.ulbFormStaus != undefined || this.ulbFormStaus != null)
-      {
+      if (this.ulbFormStaus != undefined || this.ulbFormStaus != null) {
         let canNavigate = sessionStorage.getItem("canNavigate");
-             if (canNavigate === "true" && this.saveBtn === "NEXT") {
-             return this._router.navigate(["ulbform/annual_acc"]);;
-          } else {
-              this.stateActionSave();
-         }
+        if (canNavigate === "true" && this.saveBtn === "NEXT") {
+          return this._router.navigate(["ulbform/annual_acc"]);;
+        } else {
+          this.stateActionSave();
+        }
 
       }
     }
@@ -971,7 +970,7 @@ export class UtilisationReportComponent implements OnInit {
   }
 
   stay() {
-    this.dialogReference.close();
+    this.dialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
