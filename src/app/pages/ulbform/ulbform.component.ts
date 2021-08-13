@@ -220,9 +220,7 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
         this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
-        // alert(this.annualStatus);
-        console.log('hi', this.annualStatus);
-        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+       localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
