@@ -277,7 +277,7 @@ export class UlbformComponent implements OnInit {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbformService
       .getAllForms(
-        userData.ulb ?? sessionStorage.getItem("row_id"),
+        userData.ulb ?? sessionStorage.getItem("ulb_id"),
         "606aaf854dff55e6c075d219",
         "606aadac4dff55e6c075c507"
       )

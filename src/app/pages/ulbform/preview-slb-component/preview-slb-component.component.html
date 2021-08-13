@@ -1,51 +1,46 @@
 <div id="previewSlb" #previewSlb>
-  <!-- [ngStyle]="{'padding': !data?.fromParent  ? '2% 0% 2.5% 0%' : '.4rem 0 1rem 0'}" -->
-  <div style="background: #047474; color: white; position: relative; text-align: center;"
-    [ngClass]="{'slb-pd':!data?.fromParent, 'slb-pd-t' : data?.fromParent }">
-    <span *ngIf="!data?.fromParent" class="heading-font" style="margin-top: 0px; margin-bottom: 0;">
+    <!-- [ngStyle]="{'padding': !data?.fromParent  ? '2% 0% 2.5% 0%' : '.4rem 0 1rem 0'}" -->
+    <div style="background: #047474; color: white; position: relative; text-align: center;" [ngClass]="{'slb-pd':!data?.fromParent, 'slb-pd-t' : data?.fromParent }">
+        <span *ngIf="!data?.fromParent" class="heading-font" style="margin-top: 0px; margin-bottom: 0;">
       Submissions for 15th FC Grants for FY 2021-22</span>
-    <h3 *ngIf="data?.fromParent" class="slb-h" style="text-align: center">{{slbTitleText}}</h3>
-    <h3 *ngIf="!data?.fromParent" class="sub-h-font" style="text-align: center; margin-top: 3px; margin-bottom: 0;">
-      {{ data?.ulbName || userDetails.name }},{{userData.stateName}}
-    </h3>
-    <i *ngIf="!data?.fromParent" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;"
-      class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
-  </div>
+        <h3 *ngIf="data?.fromParent" class="slb-h" style="text-align: center">{{slbTitleText}}</h3>
+        <h3 *ngIf="!data?.fromParent" class="sub-h-font" style="text-align: center; margin-top: 3px; margin-bottom: 0;">
+            {{ data?.ulbName || userDetails.name }},{{userData.stateName}}
+        </h3>
+        <i *ngIf="!data?.fromParent" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;" class="fa fa-times" aria-hidden="true" (click)="_matDialog.closeAll()"></i>
+    </div>
 
-  <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
-    <p class="form-status">
-      <b>Application Current Status:</b>{{ formStatusCheck }}
-    </p>
+    <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
+        <p class="form-status">
+            <b>Application Current Status:</b>{{ formStatusCheck }}
+        </p>
 
-    <button *ngIf="!data?.fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%"
-      class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
+        <button *ngIf="!data?.fromParent" id="donwloadButton" style="right: 0%; outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
       Download as PDF
     </button>
-  </div>
-  <div style="position: relative; padding: 0% 2%" class="scrol">
-    <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
+    </div>
+    <div style="position: relative; padding: 0% 2%" class="scrol">
+        <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
 
-    <table aria-describedby="Water Waste Management Form"
-      style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
-      <thead style="color: #047474">
-        <th style="padding: 1%" scope="col">Service Level Indicators</th>
-        <th style="padding: 1%; text-align: center" scope="col">Benchmark</th>
-        <th style="padding: 1%; text-align: center" scope="col">
-          Actual Indicator <br /> 2020-21
-        </th>
-        <th style="padding: 1%; text-align: center" *ngFor="let column of targets" scope="col"
-          [innerHTML]="column.name"></th>
-      </thead>
+        <table aria-describedby="Water Waste Management Form" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">
+            <thead style="color: #047474">
+                <th style="padding: 1%" scope="col">Service Level Indicators</th>
+                <th style="padding: 1%; text-align: center" scope="col">Benchmark</th>
+                <th style="padding: 1%; text-align: center" scope="col">
+                    Actual Indicator <br /> 2020-21
+                </th>
+                <th style="padding: 1%; text-align: center" *ngFor="let column of targets" scope="col" [innerHTML]="column.name"></th>
+            </thead>
 
-      <tbody>
-        <tr *ngIf="services[0] as service">
-          <td style="padding: 1%" class="td-width">
-            {{ service.name }}
-          </td>
-          <td style="padding: 1%; text-align: center;">
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <!-- <td>
+            <tbody>
+                <tr *ngIf="services[0] as service">
+                    <td style="padding: 1%" class="td-width">
+                        {{ service.name }}
+                    </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <!-- <td>
                         <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -114,51 +109,51 @@
                 transform="translate(-113.725 -113.725)" />
             </svg>
                     </td> -->
-          <td style="padding: 1%; text-align: center">
-            <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                    <td style="padding: 1%; text-align: center">
+                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-          <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-            <span *ngIf="data?.waterManagement[service.key]?.target">
+                    </td>
+                    <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                        <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-        </tr>
-        <tr *ngIf="
+                    </td>
+                </tr>
+                <tr *ngIf="
               data?.waterManagement[services[0].key].status ===
               uploadSTATUS.REJECTED
             ">
-          <td></td>
-          <td></td>
+                    <td></td>
+                    <td></td>
 
-          <td colspan="5" style="padding-left: 1%">
-            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-            {{ data?.waterManagement[services[0].key].rejectReason }}
-          </td>
-        </tr>
+                    <td colspan="5" style="padding-left: 1%">
+                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                        {{ data?.waterManagement[services[0].key].rejectReason }}
+                    </td>
+                </tr>
 
-        <tr *ngIf="services[1] as service">
-          <td style="padding: 1%" class="td-width">
-            {{ service.name }}
-          </td>
-          <td style="padding: 1%; text-align: center;">
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td>
+                <tr *ngIf="services[1] as service">
+                    <td style="padding: 1%" class="td-width">
+                        {{ service.name }}
+                    </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <!-- <td>
             <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -226,52 +221,52 @@
                 d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
                 transform="translate(-113.725 -113.725)" />
             </svg>
-          </td>
+          </td> -->
 
-          <td style="padding: 1%; text-align: center">
-            <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                    <td style="padding: 1%; text-align: center">
+                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-          <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-            <span *ngIf="data?.waterManagement[service.key]?.target">
+                    </td>
+                    <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                        <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-            <i class="glyphicon" style="font-weight: 600" *ngIf="
+                        <i class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </i>
-          </td>
-        </tr>
-        <tr *ngIf="
+                    </td>
+                </tr>
+                <tr *ngIf="
               data?.waterManagement[services[1].key].status ===
               uploadSTATUS.REJECTED
             ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="padding-left: 1%">
-            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-            {{ data?.waterManagement[services[1].key].rejectReason }}
-          </td>
-        </tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="padding-left: 1%">
+                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                        {{ data?.waterManagement[services[1].key].rejectReason }}
+                    </td>
+                </tr>
 
-        <tr *ngIf="services[2] as service">
-          <td style="padding: 1%" class="td-width">
-            {{ service.name }}
-          </td>
-          <td style="padding: 1%; text-align: center;">
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td>
+                <tr *ngIf="services[2] as service">
+                    <td style="padding: 1%" class="td-width">
+                        {{ service.name }}
+                    </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <!-- <td>
             <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -339,52 +334,52 @@
                 d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
                 transform="translate(-113.725 -113.725)" />
             </svg>
-          </td>
+          </td> -->
 
-          <td style="padding: 1%; text-align: center">
-            <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                    <td style="padding: 1%; text-align: center">
+                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-          <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-            <span *ngIf="data?.waterManagement[service.key]?.target">
+                    </td>
+                    <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                        <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-        </tr>
-        <tr *ngIf="
+                    </td>
+                </tr>
+                <tr *ngIf="
               data?.waterManagement[services[2].key].status ===
               uploadSTATUS.REJECTED
             ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="padding-left: 1%">
-            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-            {{ data?.waterManagement[services[2].key].rejectReason }}
-          </td>
-        </tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="padding-left: 1%">
+                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                        {{ data?.waterManagement[services[2].key].rejectReason }}
+                    </td>
+                </tr>
 
-        <tr *ngIf="services[3] as service">
-          <td style="padding: 1%" class="td-width">
-            {{ service.name }}
-          </td>
-          <td style="padding: 1%; text-align: center;">
-            <span class="benchamark-cell">{{ service.benchmark }}</span>
-          </td>
-          <td>
+                <tr *ngIf="services[3] as service">
+                    <td style="padding: 1%" class="td-width">
+                        {{ service.name }}
+                    </td>
+                    <td style="padding: 1%; text-align: center;">
+                        <span class="benchamark-cell">{{ service.benchmark }}</span>
+                    </td>
+                    <!-- <td>
             <svg *ngIf="
                   data?.waterManagement[service.key]?.status ===
                     uploadSTATUS.APPROVED ||
@@ -452,59 +447,59 @@
                 d="M123.919,123.919a.687.687,0,0,1-.963,0l-2.231-2.231-2.231,2.231a.681.681,0,0,1-.963-.963l2.231-2.231-2.231-2.231a.681.681,0,0,1,.963-.963l2.231,2.231,2.231-2.231a.681.681,0,0,1,.963.963l-2.231,2.231,2.231,2.231A.687.687,0,0,1,123.919,123.919Z"
                 transform="translate(-113.725 -113.725)" />
             </svg>
-          </td>
+          </td> -->
 
-          <td style="padding: 1%; text-align: center">
-            <span *ngIf="data?.waterManagement[service.key]?.baseline">
+                    <td style="padding: 1%; text-align: center">
+                        <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.baseline &&
                   data?.waterManagement[service.key]?.baseline['2021']
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-          <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-            <span *ngIf="data?.waterManagement[service.key]?.target">
+                    </td>
+                    <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
+                        <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
 
-            <em class="glyphicon" style="font-weight: 600" *ngIf="
+                        <em class="glyphicon" style="font-weight: 600" *ngIf="
                   data?.waterManagement[service.key]?.target &&
                   data?.waterManagement[service.key]?.target[year.key]
                 ">
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
-          </td>
-        </tr>
-        <tr *ngIf="
+                    </td>
+                </tr>
+                <tr *ngIf="
               data?.waterManagement[services[3].key].status ===
               uploadSTATUS.REJECTED
             ">
-          <td></td>
-          <td></td>
-          <td colspan="5" style="padding-left: 1%">
-            <h5 style="margin-bottom: 0px">Reason for rejection</h5>
-            {{ data?.waterManagement[services[3].key].rejectReason }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div style="display: none;">
-      <h3 style="text-align: center">Upload Plans</h3>
-      <ol>
-        <li *ngFor="let question of solidWasteQuestions" style="margin-bottom: 1.5%">
-          {{ question.question }}
-          <div style="display: flex; flex-wrap: wrap; margin-top: 0.5rem">
-            <a style="display: inline !important" *ngIf="
+                    <td></td>
+                    <td></td>
+                    <td colspan="5" style="padding-left: 1%">
+                        <h5 style="margin-bottom: 0px">Reason for rejection</h5>
+                        {{ data?.waterManagement[services[3].key].rejectReason }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display: none;">
+            <h3 style="text-align: center">Upload Plans</h3>
+            <ol>
+                <li *ngFor="let question of solidWasteQuestions" style="margin-bottom: 1.5%">
+                    {{ question.question }}
+                    <div style="display: flex; flex-wrap: wrap; margin-top: 0.5rem">
+                        <a style="display: inline !important" *ngIf="
                 data?.solidWasteManagement?.documents &&
                 data?.solidWasteManagement?.documents[question.key] &&
                 data?.solidWasteManagement?.documents[question.key][0]
               " [href]="data?.solidWasteManagement?.documents[question.key][0]?.url" target="_blank">
               {{ data?.solidWasteManagement?.documents[question.key][0].name }}
             </a>
-            <span style="display: inline-flex; width: 50%; margin-left: 3%" *ngIf="
+                        <span style="display: inline-flex; width: 50%; margin-left: 3%" *ngIf="
                 data?.solidWasteManagement?.documents &&
                 data?.solidWasteManagement?.documents[question.key] &&
                 data?.solidWasteManagement?.documents[question.key][0]?.status
@@ -582,35 +577,34 @@
                     transform="translate(-113.725 -113.725)" />
                 </svg>
               </span>
-              <span style="padding-left: 2%; position: relative" *ngIf="
+                        <span style="padding-left: 2%; position: relative" *ngIf="
                   data?.solidWasteManagement?.documents &&
                   data?.solidWasteManagement?.documents[question.key] &&
                   data?.solidWasteManagement?.documents[question.key][0]
                     ?.status === uploadSTATUS.REJECTED
                 ">
-                <span style="font-weight: 700">Reason for rejection: </span> {{
-                data?.solidWasteManagement?.documents[question.key][0] .rejectReason }}
-              </span>
-            </span>
-          </div>
-        </li>
-      </ol>
+                <span style="font-weight: 700">Reason for rejection: </span> {{ data?.solidWasteManagement?.documents[question.key][0] .rejectReason }}
+                        </span>
+                        </span>
+                    </div>
+                </li>
+            </ol>
 
-      <div *ngIf="isULBMillionPlus">
-        <h3 style="text-align: center">Upload Plans(Million+ City)</h3>
-        <ol>
-          <li *ngFor="let question of millionPlusCitiesQuestions" style="margin-bottom: 1.5%">
-            {{ question.question }} <br />
+            <div *ngIf="isULBMillionPlus">
+                <h3 style="text-align: center">Upload Plans(Million+ City)</h3>
+                <ol>
+                    <li *ngFor="let question of millionPlusCitiesQuestions" style="margin-bottom: 1.5%">
+                        {{ question.question }} <br />
 
-            <div style="display: flex; flex-wrap: wrap; margin-top: 0.5rem">
-              <a style="display: inline !important" *ngIf="
+                        <div style="display: flex; flex-wrap: wrap; margin-top: 0.5rem">
+                            <a style="display: inline !important" *ngIf="
                   data?.millionPlusCities?.documents &&
                   data?.millionPlusCities?.documents[question.key] &&
                   data?.millionPlusCities?.documents[question.key][0]
                 " [href]="data?.millionPlusCities?.documents[question.key][0]?.url" target="_blank">
                 {{ data?.millionPlusCities?.documents[question.key][0].name }}
               </a>
-              <span style="display: inline-flex; width: 50%; margin-left: 3%" *ngIf="
+                            <span style="display: inline-flex; width: 50%; margin-left: 3%" *ngIf="
                   data?.millionPlusCities?.documents &&
                   data?.millionPlusCities?.documents[question.key] &&
                   data?.millionPlusCities?.documents[question.key][0]?.status
@@ -688,49 +682,48 @@
                       transform="translate(-113.725 -113.725)" />
                   </svg>
                 </span>
-                <span style="padding-left: 2%; position: relative" *ngIf="
+                            <span style="padding-left: 2%; position: relative" *ngIf="
                     data?.millionPlusCities?.documents &&
                     data?.millionPlusCities?.documents[question.key] &&
                     data?.millionPlusCities?.documents[question.key][0]
                       ?.status === uploadSTATUS.REJECTED
                   ">
-                  <span style="font-weight: 700">Reason for rejection: </span> {{
-                  data?.millionPlusCities?.documents[question.key][0] .rejectReason }}
-                </span>
-              </span>
+                  <span style="font-weight: 700">Reason for rejection: </span> {{ data?.millionPlusCities?.documents[question.key][0] .rejectReason }}
+                            </span>
+                            </span>
+                        </div>
+                    </li>
+                </ol>
             </div>
-          </li>
-        </ol>
-      </div>
-      <div class="mt-4" style="padding-left: 3%; float: right">
-        <h5>
-          Form First Submitted On:
-          <span style="font-weight: normal">
+            <div class="mt-4" style="padding-left: 3%; float: right">
+                <h5>
+                    Form First Submitted On:
+                    <span style="font-weight: normal">
             {{
             (data["firstSubmitedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
             "Not Submitted"
             }}</span>
-        </h5>
-        <h5>
-          Form Last Rejected On:
-          <span style="font-weight: normal">
+                </h5>
+                <h5>
+                    Form Last Rejected On:
+                    <span style="font-weight: normal">
             {{
             (data["rejectedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
             "No Reject Found"
             }}</span>
-        </h5>
-      </div>
+                </h5>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- <div>
+    <!-- <div>
         <label class="qus-slb" for="">Have you published Water Potability Index?</label>
         <label class="ans-slb" for="">{{ water_index_qus }}</label>
     </div> -->
 
-  <!-- <div>
+    <!-- <div>
       <label for="" style="margin-left: 1.6rem;"><a href="{{fileUrl}}" target="_blank">{{fileName}}</a></label>
     </div> -->
-  <!-- <div>
+    <!-- <div>
         <p class="form-status m-cl">
             <label class="qus-slb" for="">Upload the published document</label>
             <label class="ans-slb-a" for=""> <a href="{{fileUrl}}" target="_blank">{{fileName}}</a></label>
@@ -738,25 +731,24 @@
     </div> -->
 </div>
 <ng-template #template>
-  <div class="modal-body text-center alert">
-    <div class="modal-header">
-      <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-      <div class="text-right">
-        <a (click)="alertClose()">
-          <img src="../../../../assets/form-icon/close-red-icon.png">
-        </a>
-      </div>
-    </div>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
 
-    <p style="margin-top: 8px;">
-      Are you sure you want to proceed further?
-    </p>
-    <div>
-      <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-      <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c"
-        (click)="proceed()">
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
         Save & Proceed</button>
-    </div>
+        </div>
 
-  </div>
+    </div>
 </ng-template>
