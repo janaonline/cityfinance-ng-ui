@@ -327,6 +327,10 @@ export class UtilisationReportComponent implements OnInit {
         this.isDisabled = true;
         this.utilizationReport.controls.projects.disable();
     }
+    if((this.finalSubmitUtiStatus == "true") &&
+    (this.masterFormStatus != 'REJECTED')){
+      this.utilizationReport.controls.projects.disable();
+    }
     if (
       this.ulbFormStaus == "REJECTED" &&
       this.userLoggedInDetails.role === USER_TYPE.ULB &&
