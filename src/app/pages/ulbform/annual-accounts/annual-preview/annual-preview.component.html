@@ -1,7 +1,7 @@
 <div class="container-fluid" #annualPreview id="annualPreview">
     <div class="row">
         <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
-            <a *ngIf="!fromParent" (click)="closeMat()" style="position: absolute; right: 3%; top: 14%; transform: scale(1.5);cursor: pointer;">
+            <a *ngIf="!fromParent" (click)="closeMat()" class="pull-right" >
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
