@@ -68,14 +68,20 @@
 
     </div>
     <div class="row statusArea">
-        <div class="col-sm-3 firstColumn">
-            <div class="row" style="font-size: 18px;
-             text-align: center;line-height: 50px; margin-top:2px;
+        <div class="col-sm-4 firstColumn">
+            <div class="row" style="font-size: 23px;
+             text-align: center;line-height: 70px; margin-top:2px;
              border-bottom: 1px solid #0000001A; font-weight: 10px;">
-                ULB Form Status
+                Overall ULB Form Status
             </div>
-            <div class="row mainDonutChart" *ngIf="!noDataFound_Overall">
-                <canvas id="myChart" style="width:400px ; height:400px"></canvas>
+
+            <div class="row mainDonutChart" style="margin-left:3%;width:100%; height:380px; align-items:center "
+                *ngIf="!noDataFound_Overall">
+                <canvas id="myChart"></canvas>
+
+            </div>
+            <div style="text-align:center; margin-top:8%">
+                <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
             <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
                 style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
@@ -84,175 +90,239 @@
                     [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
                 </circle-progress>
             </div>
-            <div class="viewListBtn">
-                <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
-            </div>
+
+
+
         </div>
-        <div class="col-sm-3 secondColumn">
-
-            <div class="row" style="font-size: 17px;
-            text-align: center;font-weight:bold; line-height: 31px;
-            margin-top:2px; margin-bottom: 3px; border-bottom: 1px solid #0000001A; font-weight: 10px;">
-                ULB Annual Accounts Status
-                <a (click)="openDialogAnnual()" style="margin-left: 5px">
-                    <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
-                </a>
+        <!-- second and third column for entry level conditions -->
+        <div class="col-sm-8">
+            <div class="row" style="font-size: 18px;
+            text-align: center;line-height: 50px; margin-top:2px;
+            border: 1px solid #0000001A; font-weight: bold">
+                Entry Level Conditions
             </div>
-            <div class="row gauge" style="margin-bottom:12px">
-                <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
-                    Provisional Account: 2020-2021
-                </div>
-                <div class="gaugeSize">
-                    <div style="height: 169px; width: 100%; position:absolute">
-                        <canvas id="meter1"></canvas>
+            <div class="row">
+                <div class="col-sm-6 secondColumn">
+
+                    <div class="row textInThirdColumn" style="
+    line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; ">
+                        ULB Annual Accounts Status
+                        <a (click)="openDialogAnnual()" style="margin-left: 5px">
+                            <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
+                        </a>
                     </div>
+                    <div class="row gauge" style="margin-bottom:12px">
+                        <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
+                            Provisional Account: 2020-2021
+                        </div>
+                        <div class="gaugeSize">
+                            <div style="height: 169px; width: 100%; position:absolute">
+                                <canvas id="meter1"></canvas>
+                            </div>
 
-                    <div style="height: 162px;
-                    width: 100%;
-                    position: relative;
-                    z-index: 2;
-                    margin-top: 3px;
-                    margin-left: 4px;
-                    padding-top: 12px;">
-                        <canvas id="chartDiv"></canvas>
+                            <div style="height: 162px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            margin-top: 3px;
+            margin-left: 4px;
+            padding-top: 12px;">
+                                <canvas id="chartDiv"></canvas>
 
-                    </div>
-                    <div style="position: relative;
-                    z-index: 2;
-                    font-size: 37px;
-                    font-weight: bold;
+                            </div>
+                            <div style="position: relative;
+            z-index: 2;
+            font-size: 37px;
+            font-weight: bold;
 
-                    bottom: 94px;
-                    width: 100%;
-                    text-align: center;
-                    margin-left: 13px;">
-                        {{values.annualAcc_provisional}}<small>%</small>
-                        <div style="font-size: 18px;
-                        margin-left: -14px;">Completed
+            bottom: 94px;
+            width: 100%;
+            text-align: center;
+            margin-left: 13px;">
+                                {{values.annualAcc_provisional}}<small>%</small>
+                                <div style="font-size: 18px;
+                margin-left: -14px;">Completed
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div style="margin-top:3px;text-align: center;
+         position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                            Target for 15th FC - 25%
                         </div>
                     </div>
+                    <div class="row gauge">
+                        <div style="margin-top:10px;text-align: center; font-weight: 450; font-size: 16px;">
+                            Audited Account: 2019-2020
+                        </div>
+
+                        <div class="gaugeSize">
+                            <div style="height: 169px; width: 100%;position:absolute">
+                                <canvas id="meter"></canvas>
+                            </div>
+
+                            <div style="height: 162px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            margin-top: 3px;
+            margin-left: 4px;
+            padding-top: 12px;">
+                                <canvas id="chartDiv2"></canvas>
+
+                            </div>
+                            <div style="position: relative;
+            z-index: 2;
+            font-size: 37px;
+            font-weight: bold;
+
+            bottom: 94px;
+            width: 100%;
+            text-align: center;
+            margin-left: 13px;">
+                                {{values.annualAcc_audited}}<small>%</small>
+                                <div style="font-size: 18px;
+                margin-left: -14px;">Completed
+                                </div>
+                            </div>
 
 
-                </div>
-
-                <div style="margin-top:3px;text-align: center;
-                 position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
-                    Target for 15th FC - 25%
-                </div>
-            </div>
-            <div class="row gauge">
-                <div style="margin-top:10px;text-align: center; font-weight: 450; font-size: 16px;">
-                    Audited Account: 2019-2020
-                </div>
-
-                <div class="gaugeSize">
-                    <div style="height: 169px; width: 100%;position:absolute">
-                        <canvas id="meter"></canvas>
-                    </div>
-
-                    <div style="height: 162px;
-                    width: 100%;
-                    position: relative;
-                    z-index: 2;
-                    margin-top: 3px;
-                    margin-left: 4px;
-                    padding-top: 12px;">
-                        <canvas id="chartDiv2"></canvas>
-
-                    </div>
-                    <div style="position: relative;
-                    z-index: 2;
-                    font-size: 37px;
-                    font-weight: bold;
-
-                    bottom: 94px;
-                    width: 100%;
-                    text-align: center;
-                    margin-left: 13px;">
-                        {{values.annualAcc_audited}}<small>%</small>
-                        <div style="font-size: 18px;
-                        margin-left: -14px;">Completed
+                        </div>
+                        <div style="margin-top:3px;text-align: center; position:relative;
+        font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                            Target for 15th FC - 25%
                         </div>
                     </div>
-
-
                 </div>
-                <div style="margin-top:3px;text-align: center; position:relative;
-                font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
-                    Target for 15th FC - 25%
-                </div>
-            </div>
+                <div class="col-sm-6 thirdColumn">
+                    <!-- <div class="row formDonutCharts">
+        <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
+            ULB PFMS STATUS</div>
+        <div class="col-sm-2 text-right" style="margin-top: 8px;">
+            <a (click)="openDialogPfms()">
+                <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+            </a>
         </div>
-        <div class="col-sm-6 thirdColumn">
-            <div class="row formDonutCharts">
-                <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
-                    ULB PFMS STATUS</div>
-                <div class="col-sm-2 text-right" style="margin-top: 8px;">
-                    <a (click)="openDialogPfms()">
-                        <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                    </a>
-                </div>
-                <div *ngIf="noDataFound_pfms" style="text-align:right; margin-top: -7%;padding-right:10%">
-                    <circle-progress [percent]="100" [radius]="62" [outerStrokeWidth]="16"
-                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
-                        [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
-                        [showUnits]='false'>
-                    </circle-progress>
-                </div>
-                <!-- <button (click)="openDialogPfms()"> View List</button> -->
-                <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_pfms">
-                    <canvas id="pfms"></canvas>
-                </div>
+        <div *ngIf="noDataFound_pfms" style="text-align:right; margin-top: -7%;padding-right:10%">
+            <circle-progress [percent]="100" [radius]="62" [outerStrokeWidth]="16"
+                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                [showUnits]='false'>
+            </circle-progress>
+        </div>
+     
+        <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_pfms">
+            <canvas id="pfms"></canvas>
+        </div>
 
-            </div>
-            <div class="row formDonutCharts">
+    </div> -->
+                    <div class="row formDonutCharts">
+                        <div class="textInThirdColumn"
+                            style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
+                            ULB
+                            Utilization Report
+                            Status
 
-                <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;"> ULB Utilization Report Status</div>
-                <div class="col-sm-2 text-right" style="margin-top: 8px;">
-                    <a (click)="openDialogUtil()">
-                        <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                    </a>
-                </div>
-
-                <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_util">
-                    <canvas id="utilReport"></canvas>
-                </div>
-                <div class="smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
-                    <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
-                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
-                        [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
-                        [showUnits]='false'>
-                    </circle-progress>
-                </div>
+                            <span style="margin-left: 30px;">
+                                <a (click)="openDialogUtil()">
+                                    <img src="../../../../assets/stateform/clipboard (1).png" width="22px"
+                                        height="22px">
+                                </a>
+                            </span>
+                        </div>
+                        <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%"
+                            *ngIf="!noDataFound_util">
+                            <canvas id="utilReport"></canvas>
+                        </div>
+                        <div class="row smallDonuts" *ngIf="noDataFound_util"
+                            style="text-align:right; margin-top: -7%;">
+                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                                [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                                [titleFontWeight]="550" [showUnits]='false'>
+                            </circle-progress>
+                        </div>
 
 
-            </div>
-            <div class="row formDonutCharts">
-                <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
-                    ULB Service Level Benchmark Status
-                </div>
-                <div class="col-sm-2 text-right" style="margin-top: 8px;">
-                    <a (click)="openDialogSlb()">
-                        <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                    </a>
-                </div>
-                <div class="smallDonuts" *ngIf="!noDataFound_slb" style="margin-left: 15px;">
-                    <canvas id="slb"></canvas>
-                </div>
-                <div class="smallDonuts" *ngIf="noDataFound_slb" style="text-align:right; margin-top: -7%;">
-                    <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
-                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
-                        [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
-                        [showUnits]='false'>
-                    </circle-progress>
-                </div>
+                    </div>
+                    <!-- <div class="row formDonutCharts">
+        <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
+            ULB Service Level Benchmark Status
+        </div>
+        <div class="col-sm-2 text-right" style="margin-top: 8px;">
+            <a (click)="openDialogSlb()">
+                <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+            </a>
+        </div>
+        <div class="smallDonuts" *ngIf="!noDataFound_slb" style="margin-left: 15px;">
+            <canvas id="slb"></canvas>
+        </div>
+        <div class="smallDonuts" *ngIf="noDataFound_slb" style="text-align:right; margin-top: -7%;">
+            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                [showUnits]='false'>
+            </circle-progress>
+        </div>
 
+    </div> -->
+
+                </div>
             </div>
 
         </div>
     </div>
+    <div class="row bottomPart">
+        <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
+            <div class="row">
+                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
+                    Challenge Fund</div>
+                <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
 
-    <div class="row bottomPart" style="margin-top:35px; margin-bottom: 30px;">
+                    <select [(ngModel)]="selectUa" (change)="selectedUA()" placeholder="Select UA" class="dropdown">
+                        <option value="" selected>-Select UA-</option>
+                        <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+
+                <div *ngIf="noDataFound_millionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
+                    *ngIf="!noDataFound_millionSLB">
+                    <canvas id="mpcf"></canvas>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for
+                    Non-Million ULBs</div>
+
+            </div>
+            <div class="row">
+                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+                <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
+                    *ngIf="!noDataFound_nonMillionSLB">
+                    <canvas id="nmpcf"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row bottomPart" style="margin-top:35px; margin-bottom: 30px;">
         <div class="header">
             <div class="row">
                 <div class="col-sm-6" style="font-size:18px;font-weight: 450; border-right:1px solid #0000001A">
@@ -276,11 +346,7 @@
                 </div>
                 <div class="col-sm-6" style="font-weight: 450; text-align: left;">
                     <div class="row">
-                        <!-- <span style="line-height: 40px;
-                text-align: left;
-                font-size: 18px;
-                font-weight: bold;
-                margin-top: 8px;"> -->
+                      
                         <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;
                         margin-top: 0;
                         line-height: normal;">
@@ -378,15 +444,8 @@
             </div>
         </div>
 
-    </div>
-    <!-- <div class="row" style="margin-bottom: 2rem;">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <button type="button" class="btn btn-back">BACK</button>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-            <button type="button" class="btn btn-next" [routerLink]="[ '../review-ulb-form']">NEXT</button>
-        </div>
     </div> -->
+
 
     <div class="row">
         <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2" style="padding: 0ch;">
@@ -405,7 +464,8 @@
                 </mat-card-actions>
                 <mat-card-header>
                     <mat-card-title>Grant Transfer Status</mat-card-title>
-                    <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
+                    <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}
+                    </mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-actions class="pull-right">
                     <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
@@ -417,24 +477,23 @@
                             <div class="table-responsive"
                                 style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
                                 <table class="table tracking-history-table" style="margin-bottom: 0;">
-                                    <thead >
+                                    <thead>
                                         <tr style="background-color: #047474; color: #FFFFFF;">
-                                            <th scope="col" style="width: 20%;"
-                                                class="tableHeadText">
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">
                                                 Grant Type
                                             </th>
-                                            <th scope="col" class="tableHeadText" >Grant
+                                            <th scope="col" class="tableHeadText">Grant
                                                 Amount Assigned in Cr</th>
-                                            <th scope="col" class="tableHeadText" >
+                                            <th scope="col" class="tableHeadText">
                                                 ULBs submitted forms/ Total ULBs in Category
                                             </th>
-                                            <th scope="col" style="width: 18%;" class="tableHeadText" >ULBs
+                                            <th scope="col" style="width: 18%;" class="tableHeadText">ULBs
                                                 Grant Transfer Certificate Status
                                             </th>
-                                            <th scope="col" style="width: 20%;" class="tableHeadText" >ULBs Under
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">ULBs Under
                                                 Grant Recommendation Status
                                             </th>
-                                            <th scope="col" style="width: 20%;" class="tableHeadText" >ULBs Not
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">ULBs Not
                                                 Grant Release Status
                                             </th>
                                         </tr>
@@ -461,7 +520,7 @@
                                             </td>
                                         </tr>
                                     </tbody>
-    
+
                                 </table>
                             </div>
                         </div>

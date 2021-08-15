@@ -57,23 +57,21 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     overall_approvedByState: 0,
     overall_pendingForSubmission: 0,
     overall_underReviewByState: 0,
-    pfms_notRegistered: 0,
-    pfms_pendingResponse: 0,
-    pfms_registered: 0,
-    slb_approvedbyState: 0,
-    slb_completedAndPendingSubmission: 0,
-    slb_pendingCompletion: 0,
-    slb_underStateReview: 0,
+
     util_approvedbyState: 0,
     util_completedAndPendingSubmission: 0,
     util_pendingCompletion: 0,
     util_underStateReview: 0,
     annualAcc_audited: 0,
     annualAcc_provisional: 0,
-    plans_approvedbyState: 0,
-    plans_completedAndPendingSubmission: 0,
-    plans_pendingCompletion: 0,
-    plans_underStateReview: 0,
+    million_approvedByState: 0,
+    million_completedAndPendingSubmission: 0,
+    million_pendingCompletion: 0,
+    million_underReviewByState: 0,
+    nonMillion_approvedByState: 0,
+    nonMillion_completedAndPendingSubmission: 0,
+    nonMillion_pendingCompletion: 0,
+    nonMillion_underReviewByState: 0,
 
   };
   grantTransferCardData;
@@ -112,23 +110,12 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   userData = JSON.parse(localStorage.getItem("userData"))
 
   onLoad() {
-    this,this.getGrantTranfer(this.id ? this.id:this.userData.state)
+    this.getGrantTranfer(this.id ? this.id : this.userData.state)
     this.getCardData();
     this.getFormData()
-    this.getPlansData();
     this.getUAList();
-    this.mainDonughtChart();
-    this.gaugeChart1();
-    this.constChart();
-    this.constChart1()
-    this.gaugeChart2();
+    this.updateCharts();
 
-    this.pfmsDonughtChart();
-    this.utilReportDonughtChart();
-    this.slbDonughtChart();
-    this.getCardData();
-    this.getFormData()
-    this.getPlansData();
 
   }
   UAs;
@@ -220,63 +207,54 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     });
   }
 
-  getPlansData() {
-    this.stateDashboardService.getPlansData(this.id).subscribe(
-      (res) => {
-        console.log(res);
-        this.plansDataApiRes = res
-      },
-      (err) => {
-        console.log(err);
-      })
-  }
-  pfmsDonughtChart() {
-    const data = {
-      labels: [
-        'Registered',
-        'Not Registered',
-        'Pending Response                                                '
-      ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.pfms_registered,
-          this.values.pfms_notRegistered,
-          this.values.pfms_pendingResponse],
-        backgroundColor: [
-          '#67DF7B',
-          '#DBDBDB',
-          '#FF7154',
 
-        ],
-        hoverOffset: 4
-      }]
-    };
-    const canvas = <HTMLCanvasElement>document.getElementById('pfms');
-    const ctx = canvas.getContext('2d');
-    this.pfmsdonughtChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: data,
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          position: 'left',
+  // pfmsDonughtChart() {
+  //   const data = {
+  //     labels: [
+  //       'Registered',
+  //       'Not Registered',
+  //       'Pending Response                                                '
+  //     ],
+  //     datasets: [{
+  //       label: 'My First Dataset',
+  //       data: [
+  //         this.values.pfms_registered,
+  //         this.values.pfms_notRegistered,
+  //         this.values.pfms_pendingResponse],
+  //       backgroundColor: [
+  //         '#67DF7B',
+  //         '#DBDBDB',
+  //         '#FF7154',
 
-          align: 'start',
-          labels: {
-            fontSize: 13,
-            fontColor: 'black',
-            usePointStyle: true,
-            // padding: 22,
-          }
-        },
-        responsive: true,
+  //       ],
+  //       hoverOffset: 4
+  //     }]
+  //   };
+  //   const canvas = <HTMLCanvasElement>document.getElementById('pfms');
+  //   const ctx = canvas.getContext('2d');
+  //   this.pfmsdonughtChart = new Chart(ctx, {
+  //     type: 'doughnut',
+  //     data: data,
+  //     options: {
+  //       maintainAspectRatio: false,
+  //       legend: {
+  //         position: 'left',
 
-      }
+  //         align: 'start',
+  //         labels: {
+  //           fontSize: 13,
+  //           fontColor: 'black',
+  //           usePointStyle: true,
+  //           // padding: 22,
+  //         }
+  //       },
+  //       responsive: true,
+
+  //     }
 
 
-    });
-  }
+  //   });
+  // }
 
 
 
@@ -313,13 +291,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: 'left',
-          align: 'start',
+          position: 'bottom',
+          align: 'center',
           labels: {
             fontSize: 13,
             fontColor: 'black',
             usePointStyle: true,
-            //  padding: 20,
+            padding: 28,
           }
         },
         responsive: true
@@ -327,53 +305,53 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
     });
   }
-  slbDonughtChart() {
-    const data = {
-      labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '213 - Under State Review',
-        '213 - Approved by State'
-      ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.slb_pendingCompletion,
-          this.values.slb_completedAndPendingSubmission,
-          this.values.slb_underStateReview,
-          this.values.slb_approvedbyState],
-        backgroundColor: [
-          '#F95151',
-          '#FF9E30',
-          '#DBDBDB',
-          '#67DF7B'
-        ],
-        hoverOffset: 4
-      }]
-    };
-    const canvas = <HTMLCanvasElement>document.getElementById('slb');
-    const ctx = canvas.getContext('2d');
-    this.slbdonughtChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: data,
-      options: {
-        maintainAspectRatio: false,
-        legend: {
+  // slbDonughtChart() {
+  //   const data = {
+  //     labels: [
+  //       '103 - Pending Completion',
+  //       '213 - Completed and Pending Submission',
+  //       '213 - Under State Review',
+  //       '213 - Approved by State'
+  //     ],
+  //     datasets: [{
+  //       label: 'My First Dataset',
+  //       data: [
+  //         this.values.slb_pendingCompletion,
+  //         this.values.slb_completedAndPendingSubmission,
+  //         this.values.slb_underStateReview,
+  //         this.values.slb_approvedbyState],
+  //       backgroundColor: [
+  //         '#F95151',
+  //         '#FF9E30',
+  //         '#DBDBDB',
+  //         '#67DF7B'
+  //       ],
+  //       hoverOffset: 4
+  //     }]
+  //   };
+  //   const canvas = <HTMLCanvasElement>document.getElementById('slb');
+  //   const ctx = canvas.getContext('2d');
+  //   this.slbdonughtChart = new Chart(ctx, {
+  //     type: 'doughnut',
+  //     data: data,
+  //     options: {
+  //       maintainAspectRatio: false,
+  //       legend: {
 
-          position: 'left',
-          align: 'start',
-          labels: {
-            fontSize: 13,
-            fontColor: 'black',
-            usePointStyle: true,
-            // padding: 20,
-          }
-        },
-        responsive: true
-      }
+  //         position: 'left',
+  //         align: 'start',
+  //         labels: {
+  //           fontSize: 13,
+  //           fontColor: 'black',
+  //           usePointStyle: true,
+  //           // padding: 20,
+  //         }
+  //       },
+  //       responsive: true
+  //     }
 
-    });
-  }
+  //   });
+  // }
   gaugeChart1() {
 
     let mainColor = "",
@@ -547,12 +525,14 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         responsive: true,
         legend: {
           position: 'bottom',
-          align: 'start',
+          align: 'center',
+
           labels: {
-            fontSize: 13,
+            fontSize: 15,
             fontColor: 'white',
             usePointStyle: true,
-            padding: 20,
+            padding: 32,
+
           }
         }
       },
@@ -561,9 +541,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     });
 
   }
-  pieChart() {
-
-
+  pieChartMillion() {
     const data = {
       labels: [
         '103 - Pending Completion',
@@ -573,10 +551,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       datasets: [{
         label: 'My First Dataset',
         data: [
-          this.values.plans_pendingCompletion,
-          this.values.plans_completedAndPendingSubmission,
-          this.values.plans_underStateReview,
-          this.values.plans_approvedbyState],
+          this.values.million_pendingCompletion,
+          this.values.million_completedAndPendingSubmission,
+          this.values.million_underReviewByState,
+          this.values.million_approvedByState],
         backgroundColor: [
           '#F95151',
           '#FF9E30',
@@ -590,7 +568,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     };
 
 
-    const canvas = <HTMLCanvasElement>document.getElementById('pfm');
+    const canvas = <HTMLCanvasElement>document.getElementById('mpcf');
     const ctx = canvas.getContext('2d');
     this.piechart = new Chart(ctx, {
       type: 'pie',
@@ -607,7 +585,58 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             fontColor: 'black',
             usePointStyle: true,
 
-            //   padding: 22,
+            padding: 22,
+          }
+        }
+      }
+    });
+  }
+  piechart2;
+  pieChartNonMillion = () => {
+    const data = {
+      labels: [
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '76 - Under State Review',
+        '213 - Approved by State'],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [
+          this.values.nonMillion_pendingCompletion,
+          this.values.nonMillion_completedAndPendingSubmission,
+          this.values.nonMillion_underReviewByState,
+          this.values.nonMillion_approvedByState],
+        backgroundColor: [
+          '#F95151',
+          '#FF9E30',
+          '#DBDBDB',
+          '#67DF7B'
+
+        ],
+        hoverOffset: 4
+      }],
+
+    };
+
+
+    const canvas = <HTMLCanvasElement>document.getElementById('nmpcf');
+    const ctx = canvas.getContext('2d');
+    this.piechart2 = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+
+          position: 'left',
+          align: 'start',
+          labels: {
+            fontSize: 13,
+            fontColor: 'black',
+            usePointStyle: true,
+
+            padding: 22,
           }
         }
       }
@@ -655,17 +684,17 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.gaugeChart2();
     this.constChart();
     this.constChart1();
-    this.pfmsDonughtChart();
+    // this.pieChartMillion();
+    // this.pieChartNonMillion();
+    // this.pfmsDonughtChart();
     this.utilReportDonughtChart();
-    this.slbDonughtChart();
-    this.pieChart();
+    // this.slbDonughtChart();
+
   }
   selected() {
     this.maindonughtChart?.destroy();
     this.utilreportDonughtChart?.destroy();
-    this.slbdonughtChart?.destroy();
-    this.pfmsdonughtChart?.destroy();
-    this.piechart?.destroy();
+
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
 
@@ -689,16 +718,55 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   filledULBs = 0;
   totalULBs = 0;
   percentage;
+  noDataFound_millionSLB = false
+  noDataFound_nonMillionSLB = false
   selectedUA() {
-
+    this.noDataFound_millionSLB = false
+    this.noDataFound_nonMillionSLB = false
+    this.piechart?.destroy();
+    this.piechart2?.destroy();
     console.log('selectedUA', this.selectUa)
 
-    this.stateDashboardService.getPlansData(this.selectUa).subscribe(
+    this.stateDashboardService.getSlbData(this.selectUa).subscribe(
       (res) => {
-        this.filledULBs = res['data']['filledULBs']
-        this.totalULBs = res['data']['totalULBs']
-        this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2);
-        this.calculateValue();
+        console.log(res['data'])
+        let data = res['data']
+        data.forEach(el => {
+          if (el['category'] == 'MillionPlus') {
+            this.values.million_approvedByState = el['approvedByState'];
+            this.values.million_completedAndPendingSubmission = el['completedAndPendingSubmission'],
+              this.values.million_pendingCompletion = el['pendingCompletion']
+            this.values.million_underReviewByState = el['underReviewByState']
+          } else if (el['category'] == 'NonMillion') {
+            this.values.nonMillion_approvedByState = el['approvedByState'];
+            this.values.nonMillion_completedAndPendingSubmission = el['completedAndPendingSubmission'],
+              this.values.nonMillion_pendingCompletion = el['pendingCompletion']
+            this.values.nonMillion_underReviewByState = el['underReviewByState']
+          }
+        })
+
+        this.pieChartMillion();
+        this.pieChartNonMillion();
+        if (this.values.million_approvedByState == 0 &&
+          this.values.million_completedAndPendingSubmission == 0 &&
+          this.values.million_pendingCompletion == 0 &&
+          this.values.million_underReviewByState == 0
+        ) {
+          this.noDataFound_millionSLB = true
+        } else {
+          this.pieChartMillion();
+        }
+        if (this.values.nonMillion_approvedByState == 0 &&
+          this.values.nonMillion_completedAndPendingSubmission == 0 &&
+          this.values.nonMillion_pendingCompletion == 0 &&
+          this.values.nonMillion_underReviewByState == 0
+        ) {
+          this.noDataFound_nonMillionSLB = true
+        } else {
+          this.pieChartNonMillion();
+
+        }
+
       },
       (err) => {
 
@@ -741,21 +809,21 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.values.overall_approvedByState = data['overallFormStatus']['approvedByState'],
       this.values.overall_pendingForSubmission = data['overallFormStatus']['pendingForSubmission'],
       this.values.overall_underReviewByState = data['overallFormStatus']['underReviewByState'],
-      this.values.pfms_notRegistered = data['pfms']['notRegistered'],
-      this.values.pfms_pendingResponse = data['pfms']['pendingResponse'],
-      this.values.pfms_registered = data['pfms']['registered'],
-      this.values.slb_approvedbyState = data['slb']['approvedbyState'],
-      this.values.slb_completedAndPendingSubmission = data['slb']['completedAndPendingSubmission'],
-      this.values.slb_pendingCompletion = data['slb']['pendingCompletion'],
-      this.values.slb_underStateReview = data['slb']['underStateReview'],
+      // this.values.pfms_notRegistered = data['pfms']['notRegistered'],
+      // this.values.pfms_pendingResponse = data['pfms']['pendingResponse'],
+      // this.values.pfms_registered = data['pfms']['registered'],
+      // this.values.slb_approvedbyState = data['slb']['approvedbyState'],
+      // this.values.slb_completedAndPendingSubmission = data['slb']['completedAndPendingSubmission'],
+      // this.values.slb_pendingCompletion = data['slb']['pendingCompletion'],
+      // this.values.slb_underStateReview = data['slb']['underStateReview'],
       this.values.util_approvedbyState = data['utilReport']['approvedbyState'],
       this.values.util_completedAndPendingSubmission = data['utilReport']['completedAndPendingSubmission'],
       this.values.util_pendingCompletion = data['utilReport']['pendingCompletion'],
       this.values.util_underStateReview = data['utilReport']['underStateReview'],
-      this.values.plans_approvedbyState = data['plans']['approvedbyState'],
-      this.values.plans_completedAndPendingSubmission = data['plans']['completedAndPendingSubmission'],
-      this.values.plans_pendingCompletion = data['plans']['pendingCompletion'],
-      this.values.plans_underStateReview = data['plans']['underStateReview'],
+      // this.values.plans_approvedbyState = data['plans']['approvedbyState'],
+      // this.values.plans_completedAndPendingSubmission = data['plans']['completedAndPendingSubmission'],
+      // this.values.plans_pendingCompletion = data['plans']['pendingCompletion'],
+      // this.values.plans_underStateReview = data['plans']['underStateReview'],
       this.values.annualAcc_audited = data['annualAccounts']['audited'],
       this.values.annualAcc_provisional = data['annualAccounts']['provisional']
 
@@ -768,13 +836,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       this.noDataFound_Overall = true
     }
 
-    if (this.values.pfms_notRegistered +
-      this.values.pfms_pendingResponse +
-      this.values.pfms_registered +
-      this.values.slb_approvedbyState == 0
-    ) {
-      this.noDataFound_pfms = true
-    }
+    // if (this.values.pfms_notRegistered +
+    //   this.values.pfms_pendingResponse +
+    //   this.values.pfms_registered +
+    //   this.values.slb_approvedbyState == 0
+    // ) {
+    //   this.noDataFound_pfms = true
+    // }
     if (this.values.util_approvedbyState +
       this.values.util_completedAndPendingSubmission +
       this.values.util_pendingCompletion +
@@ -782,20 +850,20 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     ) {
       this.noDataFound_util = true
     }
-    if (this.values.slb_approvedbyState +
-      this.values.slb_completedAndPendingSubmission +
-      this.values.slb_pendingCompletion +
-      this.values.slb_underStateReview == 0
-    ) {
-      this.noDataFound_slb = true
-    }
-    if (this.values.plans_approvedbyState +
-      this.values.plans_completedAndPendingSubmission +
-      this.values.plans_pendingCompletion +
-      this.values.plans_underStateReview == 0
-    ) {
-      this.noDataFound_plans = true
-    }
+    // if (this.values.slb_approvedbyState +
+    //   this.values.slb_completedAndPendingSubmission +
+    //   this.values.slb_pendingCompletion +
+    //   this.values.slb_underStateReview == 0
+    // ) {
+    //   this.noDataFound_slb = true
+    // }
+    // if (this.values.plans_approvedbyState +
+    //   this.values.plans_completedAndPendingSubmission +
+    //   this.values.plans_pendingCompletion +
+    //   this.values.plans_underStateReview == 0
+    // ) {
+    //   this.noDataFound_plans = true
+    // }
 
   }
 
@@ -833,16 +901,16 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     if (data[1] == 'date') {
       this.GrantTransferparams.year = data[0]
       this.dateSelect = false
-      if(data[0] == "2020-21")
-      this.year21 = true
+      if (data[0] == "2020-21")
+        this.year21 = true
       else
-      this.year21 = false
+        this.year21 = false
     }
     if (data[1] == 'installment') {
       this.GrantTransferparams.installment = data[0]
       this.installmentSelect = false
     }
-    this.getGrantTranfer(this.id ? this.id:this.userData.state)
+    this.getGrantTranfer(this.id ? this.id : this.userData.state)
   }
 
   clearGrantTransferFillter() {
@@ -850,11 +918,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.GrantTransferparams.year = null
     this.dateSelect = true
     this.installmentSelect = true
-    this.getGrantTranfer(this.id ? this.id:this.userData.state)
+    this.getGrantTranfer(this.id ? this.id : this.userData.state)
   }
 
   grantTransferDownload() {
-    this.getGrantTranfer(this.id ? this.id:this.userData.state, true)
+    this.getGrantTranfer(this.id ? this.id : this.userData.state, true)
   }
 
 }

@@ -157,7 +157,7 @@ export class ReviewStateComponent implements OnInit {
     this.fcFormListSubscription = this.ulbService
       .fetchReviewStateList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
-        (result) => {
+        (result: any) => {
 
           if (this.listFetchOption.csv) {
             let blob: any = new Blob([result], {
