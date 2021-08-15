@@ -23,13 +23,13 @@
     <div *ngIf="showLoader" style="margin-left: 33pc;">
         <mat-spinner></mat-spinner>
     </div>
-    <div class="mat-card-content ">
+    <!-- <div class="mat-card-content ">
         <div *ngIf="pfms">
             <app-pfms-preview [changeFromOutSide]="changeTrigger.changeInPFMSAccount" [parentData]="pfms">
             </app-pfms-preview>
         </div>
     </div>
-    <div class="page-break"></div>
+    <div class="page-break"></div> -->
     <div class="mat-card-content">
         <div *ngIf="detailUtil">
             <app-preview-uti-form [changeFromOutSide]="changeTrigger.canNavigate" [parentData]="detailUtil">
@@ -50,11 +50,11 @@
             </app-preview-slb-component>
         </div>
     </div>
-    <div class="page-break"></div>
+    <!-- <div class="page-break"></div>
     <div class="mat-card-content">
         <div *ngIf="waterSanitation">
             <app-water-sanitation-preview [changeFromOutSide]="changeTrigger.changeInPlans" [parentData]="waterSanitation">
             </app-water-sanitation-preview>
         </div>
-    </div>
+    </div> -->
 </div>
