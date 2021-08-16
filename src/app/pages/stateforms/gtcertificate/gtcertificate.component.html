@@ -5,7 +5,7 @@
         <!-- </label> -->
     </div>
     <div class="col-sm-2 col-lg- col-md-2  text-right">
-        <button type="button" class="btn btn-primary pr-btn" id="prevBtn" (click)="onPreview()">PREVIEW</button>
+        <button type="button" class="btn pr-btn" id="prevBtn" (click)="onPreview()">PREVIEW</button>
     </div>
 
 </div>
@@ -324,8 +324,7 @@
         </div>
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
             <div class="col-sm-6" style="text-align: left;">
-                <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
-                    [routerLink]="['../review-ulb-form']">BACK</a>
+                <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active" [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
                 <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{change

@@ -649,10 +649,12 @@ export class UtilisationReportComponent implements OnInit {
   }
   onNewPre(){
     const dialogRef = this.dialog.open(UtiNewPreComponent, {
-
-      // height: "100%",
-      // width: "100%",
-      // panelClass: "no-padding-dialog",
+      //  height: "3508px",
+      //  width: '2480px',
+      width: '21cm',
+      height: '100%',
+      maxHeight: '90vh',
+      panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
     dialogRef.afterClosed().subscribe((result) => {
@@ -703,12 +705,12 @@ export class UtilisationReportComponent implements OnInit {
     }
     console.log(this.utilizationForm);
     console.log(this.utilizationReport);
+    alert(this.utilizationForm.controls.stateName.value)
     let formdata = {
       useData: this.helpData,
       isDraft: this.isDraft,
-      state_name: this.utilizationForm.controls.stateName.value,
+     state_name: this.utilizationForm.controls.stateName.value,
       ulbName: this.utilizationForm.controls.ulb.value,
-
       grantType: this.utilizationForm.controls.grantType.value,
       grantPosition: {
         unUtilizedPrevYr:
@@ -746,9 +748,9 @@ export class UtilisationReportComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
-
-      height: "100%",
-      width: "100%",
+      width: '21cm',
+      height: '100%',
+      maxHeight: '90vh',
       panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
