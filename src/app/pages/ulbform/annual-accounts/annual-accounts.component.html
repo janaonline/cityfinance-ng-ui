@@ -336,9 +336,21 @@
     <div class="col-sm-12 card st-d" style="background-color: #F7F7F7; margin-left: 4px;" *ngIf="(finalSubmitUtiStatus == 'true') &&
 (loggedInUserType === USER_TYPE.ULB)">
         <div class="card-body" style="padding: 1%; margin-left: 0;">
-            <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p>
-            <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
-                Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
+            <!-- <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p> -->
+            <p><b style="padding-right: 25px;">State Review Status :</b>
+                <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
+            'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING')}">
+              {{anFormStaus | titlecase}}</label>
+            </p>
+            <!-- <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
+                Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p> -->
+
+            <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')">
+                <b style="padding-right: 10px;"> MoHUA Review Status :</b>
+                <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+                   'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+                     {{ulbFormStatusMoHUA | titlecase}}</label>
+            </p>
             <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
         </p> -->

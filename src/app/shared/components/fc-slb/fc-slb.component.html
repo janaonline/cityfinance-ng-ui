@@ -760,9 +760,21 @@
     (loggedInUserType != USER_TYPE.ULB && compDis == 'true')
     )" [style.height]="ulbFormStaus == 'REJECTED' ? 'auto' : 'auto'">
     <div class="card-body" style="padding-left: 6px; padding-top: 10px;">
-        <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
-        <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')"><b>MoHUA Review Status
-            :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
+        <!-- <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p> -->
+        <p><b style="padding-right: 25px;">State Review Status :</b>
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+        'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+          {{ulbFormStaus | titlecase}}</label>
+        </p>
+        <!-- <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')"><b>MoHUA Review Status
+            :</b> {{ulbFormStatusMoHUA | titlecase}}</p> -->
+
+        <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')">
+            <b style="padding-right: 10px;"> MoHUA Review Status :</b>
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+             'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+               {{ulbFormStatusMoHUA | titlecase}}</label>
+        </p>
         <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
         </p>
@@ -771,11 +783,12 @@
 
 
 <div class="col-sm-12 footerBtnDiv" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
-    <div class="col-lg-6 col-md-6 col-sm-6">
+    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 0;">
         <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../annual_acc']">BACK</a>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+    <div class="col-lg-6 col-md-6 col-sm-6 text-right" style="padding-right: 0;">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+        <!--  -->
         <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)" *ngIf="changeInData">SAVE</button>
     </div>
 </div>

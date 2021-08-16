@@ -5,6 +5,8 @@
         <div class="col-sm-8 col-lg-8 col-md-8 header2">Detailed Utilization Report</div>
 
         <div class="col-sm-4 col-md-4 col-lg-4 prevBtnDiv text-right">
+            <!-- (click)="onNewPre()" -->
+            <!-- (click)="previewClicked()" -->
             <button type="button" class="btn btn-primary" id="prevBtn" (click)="previewClicked()">PREVIEW</button>
         </div>
     </div>
@@ -524,9 +526,20 @@
  (loggedInUserType != userTypes.ULB && compDis == 'true')
  )">
     <div class="card-body" style="padding: 1%;">
-        <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
+        <p><b style="padding-right: 27px;">State Review Status :</b>
+            <!-- {{ulbFormStaus | titlecase}} -->
+
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+            {{ulbFormStaus | titlecase}}</label>
+        </p>
         <br>
-        <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
+        <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b style="padding-right: 10px;"> MoHUA Review Status :</b>
+            <!-- {{ulbFormStatusMoHUA | titlecase}} -->
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+           'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+             {{ulbFormStatusMoHUA | titlecase}}</label>
+        </p>
         <br>
         <p *ngIf="ulbFormStaus == 'REJECTED'">
             <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
@@ -538,7 +551,8 @@
 (loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true'))">
     <div class="card-body" style="padding: 1%;">
         <div class="btn-group float-right" *ngIf="" btnRadioGroup style="">
-            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">{{stateAction | titlecase}}</label>
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
+              {{stateAction | titlecase}}</label>
         </div>
     </div>
 </div> -->

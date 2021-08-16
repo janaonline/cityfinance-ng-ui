@@ -32,6 +32,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
+import { UtiNewPreComponent } from "./uti-new-pre/uti-new-pre.component";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -645,6 +646,19 @@ export class UtilisationReportComponent implements OnInit {
   }
   onSubmit() {
     alert("Submit and Next?");
+  }
+  onNewPre(){
+    const dialogRef = this.dialog.open(UtiNewPreComponent, {
+
+      // height: "100%",
+      // width: "100%",
+      // panelClass: "no-padding-dialog",
+    });
+    // this.hidden = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+    });
   }
   helpData;
   onPreview() {

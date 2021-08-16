@@ -54,6 +54,7 @@ import { CommFileUploadComponent } from './components/comm-file-upload/comm-file
 import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ActionComponentComponent } from './components/action-component/action-component.component';
+import { PageLayoutComponent } from '../shared/components/page-layout/page-layout.component';
 
 @NgModule({
   imports: [
@@ -111,6 +112,7 @@ import { ActionComponentComponent } from './components/action-component/action-c
     CustomTooltipComponent,
     CommFileUploadComponent,
     ActionComponentComponent,
+    PageLayoutComponent,
 
 
 
@@ -142,6 +144,7 @@ import { ActionComponentComponent } from './components/action-component/action-c
     FcSlbComponent,
     CommFileUploadComponent,
     ActionComponentComponent,
+    PageLayoutComponent
 
   ],
   providers: [FinancialDataService],
