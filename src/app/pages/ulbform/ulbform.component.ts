@@ -139,9 +139,11 @@ export class UlbformComponent implements OnInit {
 
   subscribeStatus() {
     this.ulbformService.allStatus.subscribe((status) => {
-      this.checkGreenRedTick(status);
-      sessionStorage.setItem("allStatus", JSON.stringify(status));
-      console.log("red this", this.allStatus);
+      if (this.userLoggedInDetails.role === USER_TYPE.STATE || this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
+        this.checkGreenRedTick(status);
+        sessionStorage.setItem("allStatus", JSON.stringify(status));
+        console.log("red this", this.allStatus);
+      }
       if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
       }
@@ -221,12 +223,12 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
         this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
-       localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
         }
-         this.stActionCheck = "false";
+        this.stActionCheck = "false";
         if (
           res["response"].actionTakenByRole === this.userTypes.STATE &&
           res["response"].isSubmit == true &&
@@ -507,13 +509,13 @@ export class UlbformComponent implements OnInit {
       (res) => {
 
         swal("Action Successfully Submitted");
-        if(this.loggedInUserType === this.userTypes.MoHUA){
+        if (this.loggedInUserType === this.userTypes.MoHUA) {
           this.ulbformService.disableAllFormsAfterMohuaReview.next(true)
-          console.log('Mohua final action',res);
+          console.log('Mohua final action', res);
         }
-        if(this.loggedInUserType === this.userTypes.STATE){
+        if (this.loggedInUserType === this.userTypes.STATE) {
           this.ulbformService.disableAllFormsAfterStateReview.next(true)
-          console.log('State final action',res);
+          console.log('State final action', res);
         }
 
         this.finalActionDis = true;
