@@ -255,6 +255,8 @@ width: 5% !important;
   ]
   totalStatus;
   ngOnInit(): void {
+    console.log('preview data', this.data);
+
     this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
       (change) => {
         if (this.changeFromOutSide) {

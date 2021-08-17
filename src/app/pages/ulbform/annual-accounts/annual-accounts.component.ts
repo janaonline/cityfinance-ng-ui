@@ -369,7 +369,7 @@ export class AnnualAccountsComponent implements OnInit {
       this.loggedInUserType != USER_TYPE.ULB
     ) {
       const status = JSON.parse(sessionStorage.getItem("allStatus"));
-      status.annualAccounts.status = "APPROVED";
+      status.annualAccounts.status = "N/A";
       this._ulbformService.allStatus.next(status);
     }
     console.log("annnualREs", this.data["status"]);
