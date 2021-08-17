@@ -1,5 +1,218 @@
+<div class="container-fluid" id="previewUti" #previewUti style="padding-left: 4%; padding-right: 4%;">
+    <div class="row">
+        <!-- <div class="col-sm-12 text-r">
+            <mat-icon aria-hidden="false">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </mat-icon>
+        </div> -->
+        <div class="col-sm-12 h-uti-p">
+            <span>
+    GRANT UTILISATION REPORT FOR THE FIFTEENTH COMMISSION RECOMMENDED
+     TIED GRANT RECEIVED DURING THE AWARD PERIOD 2021-22 TO 2025-26.
+  </span>
+            <hr style="border: 1px solid #51504F; margin: 5px 0">
+        </div>
+        <div class="col-sm-12 text-center s-h-uti">
+            <span>
+(to be submitted by NMPCs & MPCs as per details in para 14 above)
+    </span>
+        </div>
+
+    </div>
+    <div class="row se-r">
+        <div class="col-sm-12 st-n">
+            <span>Name of State:-  <span>{{data.state_name}}</span></span>
+        </div>
+        <div class="col-sm-12 st-n m-top">
+            <span>
+           Name of City/UA[MPC/NMPC]:-
+         <span>{{data.ulbName}}</span>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered border-primary">
+                <thead>
+                    <tr>
+                        <th scope="col">S. No.</th>
+                        <th scope="col">Item description</th>
+                        <th scope="col">Amount (RS. in lakh)</th>
+                        <th scope="col">% of total tied grant earmarked </th>
+                        <th scope="col">No of projects undertaken</th>
+                        <th scope="col">Total project cast involved (RS. in lakh)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1.</th>
+                        <td style="text-align: left; font-weight: 500;">Unutilisated tied grant from previous installment</td>
+                        <td>{{data.grantPosition.unUtilizedPrevYr}}</td>
+                        <td>x</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2.</th>
+                        <td style="text-align: left; font-weight: 500;">
+                            15<sup style="text-transform: capitalize">th</sup> F.C. Tied grant received during the year [ 1<sup>st</sup> & 2<sup>nd</sup> installment taken together ]
+
+                        </td>
+                        <td>{{data.grantPosition.receivedDuringYr}}</td>
+                        <td>x</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3.</th>
+                        <td style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>
+                        <td>{{data.grantPosition.expDuringYr}}</td>
+                        <td>x</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4.</th>
+                        <td style="text-align: left; font-weight: 500;">Closing balance at the end of year</td>
+                        <td><b *ngIf="data.grantPosition.closingBal">{{data.grantPosition.closingBal}}</b> </td>
+                        <td>x</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5.</th>
+                        <td style="text-align: left; font-weight: 500;">Component-wise utilisation of grant </td>
+                        <td>x</td>
+                        <td>x</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)</td>
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [ ]</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Supply of Drinking water</td>
+                        <td></td>
+                        <td>x</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">ii. &nbsp; &nbsp;Rain water harvesting</td>
+                        <td></td>
+                        <td>x</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">iii. &nbsp; &nbsp;Water Recycling</td>
+                        <td></td>
+                        <td>x</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">iv. &nbsp; &nbsp;Rejenuvenation of water bodies</td>
+                        <td></td>
+                        <td>x</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [ ]</td>
+                        <td>x</td>
+                        <td>x</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Sanitation</td>
+                        <td></td>
+                        <td>x</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"></th>
+                        <td style="text-align: left; font-weight: 500;">ii. &nbsp; &nbsp;Solid Waste Management</td>
+                        <td></td>
+                        <td>x</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered border-primary">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="7" style="border: none; text-align: center;">Project details</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-decoration: underline;">S. No.</th>
+                        <th scope="col">Name of Project</th>
+                        <th scope="col">Sector (Water Management /Sanitation/ SWM)</th>
+                        <th scope="col" colspan="2" style="text-align: center;">
+                            <span>Location</span>
+                            <!-- <hr>
+                            <span style="border-right: 1px solid black;">Lat</span>
+                            <span>Long</span> -->
+                        </th>
+
+                        <th scope="col">Total Project cost</th>
+                        <th scope="col">% of 15<sup>th</sup> FC grants in total project cost
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data.projects; let i=index" style="text-align: center; vertical-align: inherit;">
+                        <th scope="row">{{1+i}}</th>
+                        <td>{{data.projects[i].name}}</td>
+                        <td>{{data.projects[i].category}}</td>
+                        <td>{{data.projects[i].location.lat}}</td>
+                        <td>{{data.projects[i].location.long}}</td>
+                        <td>{{data.projects[i].cost}}</td>
+                        <td>{{data.projects[i].expenditure}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%;">
+        <div class="col-sm-12 f-text">
+            <span>
+        Certified that the above information has been extracted from the relevant Records being maintained
+        in the ULB and is true to the best of my knowledge and belief.
+      </span>
+        </div>
+    </div>
+    <div class="row m-b">
+        <div class="col-sm-12 sig-text text-center">
+            <span>
+       Signature with seal of commissioner or appropriate Authority in the ULB
+      </span>
+        </div>
+    </div>
+</div>
+
 <!-- <mat-dialog-content style="margin-top: 0;" id="previewUti" #previewUti> -->
-<div class="container-fluid" id="previewUti" #previewUti>
+<!-- <div class="container-fluid" id="previewUti" #previewUti>
     <div>
         <div class="row">
             <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
@@ -9,10 +222,7 @@
                     </mat-icon>
                 </a>
 
-                <!-- <div class="col-sm-12 heading-p" [ngStyle]="{'padding-top':!parentData  ? '' : '1.5rem'}">
-                    <span *ngIf="!parentData">Submissions for 15th FC Grants for FY 2021-22</span>
-                    <br *ngIf="!parentData"> Utilization Report(2020-21),{{data.ulbName}},{{data.state_name}}
-                </div> -->
+
                 <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
                     <span *ngIf="!parentData" style="display: block; line-height: normal;"> Submissions for 15th FC Grants for FY 2021-22</span>
                     <span *ngIf="parentData">Utilization Report(2020-21)</span>
@@ -34,9 +244,7 @@
         </div>
 
 
-        <!-- <div *ngIf="!parentData" class="text-right dnDiv pdf-hide">
-        <button mat-button class="dnldBtn" (click)="downloadForm()">Download as PDF</button>
-    </div> -->
+
         <div class="row" *ngIf="!parentData">
             <div class="col-sm-12 text-center form-h">
                 Utilization Report(2020-21)
@@ -78,7 +286,8 @@
             <div class="crd-ls-div c-2-d">
                 <label for="" class="card3 qus-ut-l"> <b>(vi) Closing balance at the end of year(INR in lakhs)
                     (2(i)+2(ii)-2(iii))</b> </label>
-                <label for="" class="card3 ans-ut-l" *ngIg="data.grantPosition.closingBal"> <b>{{data.grantPosition.closingBal.toFixed(2)}} </b> </label>
+                <label for="" class="card3 ans-ut-l" *ngIg="data.grantPosition.closingBal"> <b>
+                  {{data.grantPosition.closingBal.toFixed(2)}} </b> </label>
             </div>
             <br>
 
@@ -117,8 +326,10 @@
 
                         </td>
                         <td>
-                            <label for="" class="bor-in-l"><span *ngIf="(data.projects[i].location.lat != '')">Lat :&nbsp; {{data.projects[i].location.lat}}</span></label> <br>
-                            <label for="" class="bor-in-l long"><span *ngIf="(data.projects[i].location.long != '')">Long :&nbsp;
+                            <label for="" class="bor-in-l"><span *ngIf="(data.projects[i].location.lat != '')">
+                              Lat :&nbsp; {{data.projects[i].location.lat}}</span></label> <br>
+                            <label for="" class="bor-in-l long"><span *ngIf="(data.projects[i].location.long != '')">
+                              Long :&nbsp;
                               {{data.projects[i].location.long}}</span> </label>
 
                         </td>
@@ -156,8 +367,7 @@
        (data["modifiedAt"] | date: "MMMM d, y, h:mm a":"+00") ||
        "Not Submitted"
       }}
-<!-- {{ (modiDate | date: "MMMM d, y, h:mm a":"+00") ||
-"Not Submitted" }} -->
+
     </span>
         </h5>
         <h5 class="font-9" style="margin-top: 0; margin-bottom: 1rem;">
@@ -171,8 +381,8 @@
 
 
     </div>
-</div>
-<!-- </mat-dialog-content> -->
+</div> -->
+
 <ng-template #template>
     <div class="modal-body text-center">
         <div class="modal-header">

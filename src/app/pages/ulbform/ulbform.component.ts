@@ -41,6 +41,7 @@ export class UlbformComponent implements OnInit {
   stiHieght: boolean = false;
   elementPosition: any;
   annualStatus;
+  stActionCheck;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
@@ -225,21 +226,21 @@ export class UlbformComponent implements OnInit {
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
         }
-        let stActionCheck = "false";
+         this.stActionCheck = "false";
         if (
           res["response"].actionTakenByRole === this.userTypes.STATE &&
           res["response"].isSubmit == true &&
           res["response"].status != "PENDING" &&
           this.loggedInUserType === this.userTypes.STATE
         ) {
-          stActionCheck = "true";
+          this.stActionCheck = "true";
           console.log("final action completed.....");
         }
         if (
           res["response"].actionTakenByRole === this.userTypes.MoHUA &&
           this.loggedInUserType === this.userTypes.STATE
         ) {
-          stActionCheck = "true";
+          this.stActionCheck = "true";
           console.log("final state action completed.....");
         }
         let mohuaAction = "false"
@@ -250,11 +251,11 @@ export class UlbformComponent implements OnInit {
           this.loggedInUserType === this.userTypes.MoHUA
         ) {
           mohuaAction = "true";
-          stActionCheck = "true";
+          this.stActionCheck = "true";
           console.log("final action completed.....");
         }
         localStorage.setItem("lastRoleInMasterForm", this.lastRoleInMasterForm);
-        localStorage.setItem("stateActionComDis", stActionCheck);
+        localStorage.setItem("stateActionComDis", this.stActionCheck);
         localStorage.setItem("mohuaActionComDis", mohuaAction);
         localStorage.setItem("masterFormStatus", res["response"].status);
         if (

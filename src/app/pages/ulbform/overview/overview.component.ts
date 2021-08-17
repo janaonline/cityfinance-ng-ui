@@ -318,14 +318,13 @@ export class OverviewComponent extends BaseComponent implements OnInit {
             if (element.label != "PFMS") {
               eligibleForms.push(element.label);
               console.log(element.label);
-              if (element.label != "PFMS") {
+              if ((element.label != "PFMS") && !(element.label == "Annual Acconts" && this.annualStatus == 'N/A')
+              ) {
                 eligibleActionForms.push(element.label);
               }
             }
           }
-        }
-      }
-    });
+        });
 
     sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms));
     sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms)

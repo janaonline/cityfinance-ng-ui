@@ -414,7 +414,7 @@
                                         <span>{{1+rowIndex}}</span>
                                     </td>
                                     <td>
-                                        <input style="width:20rem;cursor:not-allowed" class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
+                                        <input style="width:20rem;cursor:not-allowed" class="t-i" [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
                                         <input class="t-i" style="cursor:not-allowed" style="cursor:not-allowed" [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) > 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
