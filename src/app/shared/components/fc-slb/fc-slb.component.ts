@@ -648,6 +648,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log('current Control Key', currentControlKey)
     console.log('service Key', serviceKey)
     console.log('increase', increase)
+    sessionStorage.setItem("changeInSLB", "true")
     let actualData = parseFloat(
       this.form.controls[serviceKey]["controls"]["baseline"]?.controls["2021"]
         .value
