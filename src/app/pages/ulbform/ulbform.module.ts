@@ -42,6 +42,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { StateActionUlbComponent } from '../stateUlbAction/state-action/state-action-ulb/state-action-ulb.component';
 import { CommFileUploadComponent } from 'src/app/shared/components/comm-file-upload/comm-file-upload.component';
+import { UtiNewPreComponent } from './utilisation-report/uti-new-pre/uti-new-pre.component';
+
 @NgModule({
   entryComponents: [PreviewUtiFormComponent, ImagePreviewComponent],
   declarations: [
@@ -64,6 +66,7 @@ import { CommFileUploadComponent } from 'src/app/shared/components/comm-file-upl
     AnnualPreviewComponent,
     ServiceSlbsComponent,
     StateActionUlbComponent,
+    UtiNewPreComponent,
 
   ],
   imports: [

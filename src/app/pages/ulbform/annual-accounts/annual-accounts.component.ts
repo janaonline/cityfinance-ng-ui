@@ -965,8 +965,12 @@ export class AnnualAccountsComponent implements OnInit {
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
    this.unAuditAct[index] = e;
-    console.log('array unaudited', this.unAuditAct);
-    this.unAuditQues[index].data = {...e}
+    console.log('array unaudited 1', this.unAuditQues);
+  // this.unAuditQues[index].data = { ...e }
+   this.unAuditQues[index].data.status = e.status;
+   this.unAuditQues[index].data.rejectReason = e.rejectReason;
+ //  console.log('array unaudited 2', this.unAuditQues);
+
 
     // console.log(this.actionResAn);
 
@@ -977,7 +981,9 @@ export class AnnualAccountsComponent implements OnInit {
     this.AuditAct[index] = e;
     //  console.log('array audited', this.AuditAct);
     //  this.actionResAn = this.unAuditAct.concat(this.AuditAct);
-     this.auditQues[index].data = {...e}
+  //   this.auditQues[index].data = {...e}
+  this.auditQues[index].data.status = e.status;
+   this.auditQues[index].data.rejectReason = e.rejectReason;
      console.log(this.actionResAn);
   }
   checkAuditReport(item) {
