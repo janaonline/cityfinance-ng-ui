@@ -109,8 +109,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       title: "Million Plus City Challenge Fund",
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/mpccf.svg",
-      permittedAccounts: ["Yes"],
-      display: ["None"],
+      permittedAccounts: [""],
+      display: [""],
     },
     // {
     //   label: "Plan water sanitation",
@@ -313,24 +313,22 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
       if (element.label != "Grant Transfer Certificate") {
-        if(element.label !=  'Plan water sanitation')  {
-        if (element.label != "service-level") {
-          if (element.label != "PFMS") {
-          eligibleForms.push(element.label);
-          console.log(element.label);
-          if (element.label != "PFMS") {
-            eligibleActionForms.push(element.label);
+        if (element.label != 'Plan water sanitation') {
+          if (element.label != "service-level") {
+            if (element.label != "PFMS") {
+              eligibleForms.push(element.label);
+              console.log(element.label);
+              if (element.label != "PFMS") {
+                eligibleActionForms.push(element.label);
+              }
+            }
           }
         }
-      }
-      }
       }
     });
 
     sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms));
-    sessionStorage.setItem(
-      "eligibleActionForms",
-      JSON.stringify(eligibleActionForms)
+    sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms)
     );
     this.ulbformService.setForms.next(true);
   }

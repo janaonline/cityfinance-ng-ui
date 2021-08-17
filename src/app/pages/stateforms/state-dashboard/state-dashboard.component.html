@@ -322,6 +322,40 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="Card2">
+                <div class="row" style="height: 70%;">
+                    <div class="col-sm-7" style="text-align: left;">
+                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
+                        </span>
+                        <span>ULBs in Million Plus UA</span>
+
+                    </div>
+
+                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    Submission of Water Rejuvenation, Water Recycling and Action Plans
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6"></div>
+
+
+    </div>
     <!-- <div class="row bottomPart" style="margin-top:35px; margin-bottom: 30px;">
         <div class="header">
             <div class="row">
@@ -487,13 +521,13 @@
                                             <th scope="col" class="tableHeadText">
                                                 ULBs submitted forms/ Total ULBs in Category
                                             </th>
-                                            <th scope="col" style="width: 18%;" class="tableHeadText">ULBs
+                                            <th scope="col" style="width: 18%;" class="tableHeadText">
                                                 Grant Transfer Certificate Status
                                             </th>
-                                            <th scope="col" style="width: 20%;" class="tableHeadText">ULBs Under
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">
                                                 Grant Recommendation Status
                                             </th>
-                                            <th scope="col" style="width: 20%;" class="tableHeadText">ULBs Not
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">
                                                 Grant Release Status
                                             </th>
                                         </tr>

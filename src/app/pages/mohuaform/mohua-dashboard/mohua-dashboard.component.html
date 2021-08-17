@@ -33,11 +33,10 @@
                     <div class="col-sm-3 card ">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number"><b>{{submitted_totalUlbs}}</b> </div>
-                                <div class="card-text" style="font-size:13px ; margin-top:10px">ULBs Approved / </div>
-
-                                <div class="card-text" style="font-size:13px"><span style="font-size: 16px;
-                                  font-weight: 600;">{{totalUlbs}}</span> Total ULBs</div>
+                                <div class="card-number" style="font-weight:500">{{submitted_totalUlbs}}/{{totalUlbs}}
+                                </div>
+                                <div class="card-text" style="font-size:16px ; margin-top:10px">ULB Forms Approved
+                                </div>
                             </div>
 
                         </div>
@@ -48,28 +47,10 @@
                                 <!-- <div class="card-number">{{submitted_nonMillion}}</div>
                                 <div class="card-text" style="font-size:13px">Non Million Cities Approved</div>
                                 <div class="card-text" style="font-size:13px">Out Of {{nonMillion}} </div> -->
-                                <div class="card-number">{{submitted_nonMillion}}</div>
-                                <div class="card-text" style="font-size:13px"> ULBs Approved /</div>
-                                <div class="card-text" style="font-size:13px"> <span style="font-size: 16px;
-                                  font-weight: 600;">{{nonMillion}}</span> Total Non Million Plus ULBs</div>
+                                <div class="card-number" style="font-weight:500">{{submitted_nonMillion}}/{{nonMillion}}
+                                </div>
+                                <div class="card-text" style="font-size:14px"> Non Million Plus ULB Forms Approved</div>
 
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-3 card">
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{submitted_millionPlusUA ? submitted_millionPlusUA : 0 }}
-                                </div>
-                                <div class="card-text" style="font-size:13px">UA Approved /
-                                    <!-- Million-Plus UAs Approved -->
-                                </div>
-                                <div class="card-text" style="font-size:13px">
-                                    <span style="font-size: 16px;
-                                    font-weight: 600;">{{millionPlusUA ? millionPlusUA : '0' }}</span> Million Plus UAs
-                                </div>
-                                <!-- <div class="card-number" *ngIf="!millionPlusUA">NA</div> -->
 
                             </div>
 
@@ -79,15 +60,29 @@
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;padding-right: 6px; padding-left: 6px; ">
                                 <div class="card-number">
-                                    {{submitted_ulbsInMillionPlusUlbs}}</div>
-                                <div class="card-text" style="font-size:13px">ULB Approved /
+                                    {{submitted_ulbsInMillionPlusUlbs}}/{{ulbsInMillionPlusUlbs}}</div>
+                                <div class="card-text" style="font-size:14px">ULB Forms in Million Plus UAs Approved
                                     <!-- ULBs in Million-Plus UAs Approved -->
                                 </div>
-                                <div class="card-text" style="font-size:13px">
-                                    <span style="font-size: 16px;
-                                    font-weight: 600;">{{ulbsInMillionPlusUlbs}}</span> ULBs in Million Plus UAs
-                                </div>
+
                                 <!-- <div class="card-number" *ngIf="!ulbsInMillionPlusUlbs">NA</div> -->
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3 card">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <div class="card-number">{{submitted_millionPlusUA ? submitted_millionPlusUA : 0
+                                    }}/{{millionPlusUA ? millionPlusUA : '0' }}
+                                </div>
+                                <div class="card-text" style="font-size:14px">UA Forms Submitted by States
+                                    <!-- Million-Plus UAs Approved -->
+                                </div>
+
+                                <!-- <div class="card-number" *ngIf="!millionPlusUA">NA</div> -->
+
                             </div>
 
                         </div>
