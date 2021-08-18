@@ -10,6 +10,7 @@ export class StateDashboardService {
 
     constructor(private http: HttpClient) { }
     totalUaS = new Subject<any>();
+    closeDialog = new Subject<any>();
 
     getCardData(state_id) {
         return this.http.get(`${environment.api.url}dashboard/state?state_id=${state_id}`);
@@ -17,11 +18,11 @@ export class StateDashboardService {
     getFormData(state_id) {
         return this.http.get(`${environment.api.url}masterForm/state-dashboard/606aaf854dff55e6c075d219?state_id=${state_id}`);
     }
-    getSlbData(ua_id) {
-        return this.http.get(`${environment.api.url}masterForm/dashboard-slbWS/state/606aaf854dff55e6c075d219?ua_id=${ua_id}`);
+    getSlbData(ua_id, state_id) {
+        return this.http.get(`${environment.api.url}masterForm/dashboard-slbWS/state/606aaf854dff55e6c075d219?ua_id=${ua_id}&state_id=${state_id}`);
     }
-    getUAList() {
-        return this.http.get(`${environment.api.url}masterForm/UAList`);
+    getUAList(state_id) {
+        return this.http.get(`${environment.api.url}masterForm/UAList?state_id=${state_id}`);
     }
 
     getGrantTransfer(params, csv = null) {

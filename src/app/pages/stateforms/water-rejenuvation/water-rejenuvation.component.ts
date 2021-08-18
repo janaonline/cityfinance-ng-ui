@@ -165,7 +165,7 @@ export class WaterRejenuvationComponent implements OnInit {
         delete element.foldCard;
       });
       console.log(deepEqual(change, JSON.parse(data)));
-
+      console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
       if (!deepEqual(change, JSON.parse(data))) {
         this.saveBtnText = "SAVE AND NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "true");
@@ -331,11 +331,11 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
-          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
-          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
         ]),
         stp: this.fb.control(data.stp, [
           Validators.required,

@@ -27,7 +27,7 @@
         <div style="position: relative; padding: 0% 2%">
             <div class="row">
                 <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                    <h6 class="font-s" style="margin: 0;">UA{{i+1}}: Urban Aggolmeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</h6>
+                    <h6 class="font-s" style="margin: 0;">UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}</h6>
                     <!-- {{uaDetails.uaName.split(' ')[0]}} -->
 
                 </div>
@@ -38,7 +38,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block;">
-                                    <h5 class="ex-t-q m-r-l h-s" style="display: inline-block;">Total Number of ULBs in UA</h5>
+                                    <h5 class="ex-t-q m-r-l h-s" style="display: inline-block;">Total Number of ULBs in UA
+                                    </h5>
                                     <h5 class="ex-t h-s mr-l" style="display: inline-block;"> {{totalULBsInUA[i]}}</h5>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display: inline-block; border-left: 1px solid #70707030;
@@ -48,7 +49,8 @@
                                         {{totalCompletedUlb[i]}}</h5>
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4 d-i" style="display:inline-block;">
-                                    <h5 class="ex-t-q h-s" style="display: inline-block;">Pending for Submission/Approval</h5>
+                                    <h5 class="ex-t-q h-s" style="display: inline-block;">Pending for Submission/Approval
+                                    </h5>
                                     <h5 class="h-s mr-l" style="display: inline-block; color: #337AB7;">
                                         {{totalPendingUlb[i]}}
                                     </h5>
@@ -78,30 +80,30 @@
                             </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].waterSuppliedPerDay2021">
-                        <!-- {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }} -->
-                        {{getData[i][0].waterSuppliedPerDay2021}}
-                      </span>
+                                    <!-- {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }} -->
+                                    {{getData[i][0].waterSuppliedPerDay2021}}
+                                </span>
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                                 <span *ngIf="getData[i][0]['waterSuppliedPerDay'+year.key]">
-                        <!-- {{ uaDetails.waterSuppliedPerDay.target[year.key] }} -->
-                        {{getData[i][0]['waterSuppliedPerDay'+year.key]}}
-                      </span>
+                                    <!-- {{ uaDetails.waterSuppliedPerDay.target[year.key] }} -->
+                                    {{getData[i][0]['waterSuppliedPerDay'+year.key]}}
+                                </span>
 
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
                         </tr>
 
                         <tr *ngIf="services[1] as service">
                             <td style="padding: 1%" class="td-width">
                                 <span class="service-name ">{{ service.name }}
-                              <!-- <span  class="mandatory ">*</span> -->
+                                    <!-- <span  class="mandatory ">*</span> -->
 
                                 </span>
                             </td>
@@ -110,23 +112,23 @@
                             </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].reduction2021">
-                        <!-- {{ uaDetails.reduction.baseline['2021'] }} -->
-                        {{getData[i][0].reduction2021}}
-                      </span>
+                                    <!-- {{ uaDetails.reduction.baseline['2021'] }} -->
+                                    {{getData[i][0].reduction2021}}
+                                </span>
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                                 <span *ngIf="getData[i][0]['reduction'+year.key]">
-                        <!-- {{ uaDetails.reduction.target[year.key] }} -->
-                        {{getData[i][0]['reduction'+year.key]}}
-                      </span>
+                                    <!-- {{ uaDetails.reduction.target[year.key] }} -->
+                                    {{getData[i][0]['reduction'+year.key]}}
+                                </span>
 
                                 <i class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </i>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </i>
                             </td>
 
                         </tr>
@@ -140,22 +142,22 @@
                             </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].houseHoldCoveredWithSewerage2021">
-                        <!-- {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }} -->
-                        {{getData[i][0].houseHoldCoveredWithSewerage2021}}
-                      </span>
+                                    <!-- {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }} -->
+                                    {{getData[i][0].houseHoldCoveredWithSewerage2021}}
+                                </span>
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                                 <span *ngIf="getData[i][0]['houseHoldCoveredWithSewerage'+year.key]">
-                        <!-- {{ uaDetails.houseHoldCoveredWithSewerage.target[year.key] }} -->
-                        {{getData[i][0]['houseHoldCoveredWithSewerage'+year.key]}}
-                      </span>
+                                    <!-- {{ uaDetails.houseHoldCoveredWithSewerage.target[year.key] }} -->
+                                    {{getData[i][0]['houseHoldCoveredWithSewerage'+year.key]}}
+                                </span>
 
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
 
                         </tr>
@@ -169,23 +171,23 @@
                             </td>
                             <td style="padding: 1%; text-align: center">
                                 <span *ngIf="getData[i][0].houseHoldCoveredPipedSupply2021">
-                        <!-- {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }} -->
-                        {{getData[i][0].houseHoldCoveredPipedSupply2021}}
-                      </span>
+                                    <!-- {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }} -->
+                                    {{getData[i][0].houseHoldCoveredPipedSupply2021}}
+                                </span>
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
                                 <span *ngIf="getData[i][0]['houseHoldCoveredPipedSupply'+year.key]">
-                        <!-- {{ uaDetails.houseHoldCoveredPipedSupply.target[year.key] }} -->
-                        {{getData[i][0]['houseHoldCoveredPipedSupply'+year.key]}}
-                      </span>
+                                    <!-- {{ uaDetails.houseHoldCoveredPipedSupply.target[year.key] }} -->
+                                    {{getData[i][0]['houseHoldCoveredPipedSupply'+year.key]}}
+                                </span>
 
                                 <em class="glyphicon" style="font-weight: 600">
-                        {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
-                      </em>
+                                    {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
+                                </em>
                             </td>
                         </tr>
 

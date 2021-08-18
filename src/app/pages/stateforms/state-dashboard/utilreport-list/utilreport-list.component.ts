@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
+import { StateDashboardService } from '../state-dashboard.service'
 @Component({
   selector: 'app-utilreport-list',
   templateUrl: './utilreport-list.component.html',
@@ -35,9 +36,13 @@ export class UtilreportListComponent implements OnInit {
   constructor(
     private utilreportListService: UtilreportListService,
     public ulbService: UlbadminServiceService,
+    public stateDashboardService: StateDashboardService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
   states = null
+  closeDialog() {
+    this.stateDashboardService.closeDialog.next('overall')
+  }
   ngOnInit(): void {
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.utilreportListService.getData(this.data.state_id)

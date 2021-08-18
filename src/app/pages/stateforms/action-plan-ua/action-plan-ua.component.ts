@@ -450,8 +450,8 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
-      Uas.status = element?.status;
-      Uas.rejectReason = element?.rejectReason
+      Uas.status = element?.status?.value ?? '';
+      Uas.rejectReason = element?.rejectReason?.value ?? ''
       if (fromSave) {
         if (element.status === "REJECTED") {
           Uas.status = "PENDING";
@@ -493,6 +493,7 @@ export class ActionPlanUAComponent implements OnInit {
     let temp = sessionStorage.getItem("actionPlans");
     let allData = this.makeApiData();
     console.log(JSON.stringify(allData), "xxxxxxxxxxx", temp);
+
     if (!deepEqual(allData, JSON.parse(temp))) {
       sessionStorage.setItem("changeInActionPlans", "true");
       this.checkDiff();
@@ -500,6 +501,12 @@ export class ActionPlanUAComponent implements OnInit {
     } else {
       sessionStorage.setItem("changeInActionPlans", "false");
       this.saveBtnText = "NEXT";
+    }
+
+    if (this.loggedInUserType == "MoHUA") {
+      if (sessionStorage.getItem("changeInActionPlans") == 'true') {
+        this.saveBtnText = "SAVE AND NEXT";
+      }
     }
   }
 

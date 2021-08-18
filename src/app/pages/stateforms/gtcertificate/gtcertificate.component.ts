@@ -849,9 +849,9 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       console.log(result)
     });
   }
-
+  mohuaAction = false
   checkStatusAp(qusCheck) {
-
+    this.mohuaAction = true
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
 
@@ -887,7 +887,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     //  this.actionValues.emit(this.actionData);
   }
   checkStatus(qusCheck) {
-
+    this.mohuaAction = true
     sessionStorage.setItem("changeInGTC", "true")
     if (qusCheck == 'millionTied') {
       this.actionData1 = {

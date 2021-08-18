@@ -1,5 +1,13 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
+        <div style="text-align:right; margin-bottom:10px">
+            <button style="min-width: min-content;" (click)="closeDialog()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
+
+        </div>
+
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -48,6 +56,7 @@
                                                 </option>
                                             </select>
                                         </th>
+                                        <th class="filter" *ngIf="!states"></th>
                                         <th class="filter">
 
                                             <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
