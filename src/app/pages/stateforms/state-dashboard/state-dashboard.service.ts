@@ -17,17 +17,17 @@ export class StateDashboardService {
     getFormData(state_id) {
         return this.http.get(`${environment.api.url}masterForm/state-dashboard/606aaf854dff55e6c075d219?state_id=${state_id}`);
     }
-    getPlansData(ua_id) {
-        return this.http.get(`${environment.api.url}masterForm/dashboard-plansData/state/606aaf854dff55e6c075d219?ua_id=${ua_id}`);
+    getSlbData(ua_id, state_id) {
+        return this.http.get(`${environment.api.url}masterForm/dashboard-slbWS/state/606aaf854dff55e6c075d219?ua_id=${ua_id}&state_id=${state_id}`);
     }
-    getUAList() {
-        return this.http.get(`${environment.api.url}masterForm/UAList`);
+    getUAList(state_id) {
+        return this.http.get(`${environment.api.url}masterForm/UAList?state_id=${state_id}`);
     }
-    
-    getGrantTransfer(params,csv=null){
-        if(csv)
-        return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ?params.state_id:"" }&year_id=${params.year ? params.year:""}&installment=${params.installment ? params.installment: ""}`,{responseType:'blob'});
-        return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ?params.state_id:"" }&year_id=${params.year ? params.year:""}&installment=${params.installment ? params.installment: ""}`);
-      }
+
+    getGrantTransfer(params, csv = null) {
+        if (csv)
+            return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ? params.state_id : ""}&year_id=${params.year ? params.year : ""}&installment=${params.installment ? params.installment : ""}`, { responseType: 'blob' });
+        return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ? params.state_id : ""}&year_id=${params.year ? params.year : ""}&installment=${params.installment ? params.installment : ""}`);
+    }
 
 }

@@ -94,7 +94,7 @@ export class SlbsComponent implements OnInit {
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
 
   }
-  checkFinalAction(){
+  checkFinalAction() {
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
       (disable) => {
         console.log("utilization speaking", disable);
@@ -200,12 +200,12 @@ export class SlbsComponent implements OnInit {
       design_year: this.Years["2021-22"],
       isCompleted: value.isCompleted,
       waterManagement: { ...value.waterManagement },
-      water_index: value.water_index,
-      waterPotability: {
-        documents: {
-          waterPotabilityPlan: [value.waterPotabilityPlan],
-        },
-      },
+      // water_index: value.water_index,
+      // waterPotability: {
+      //   documents: {
+      //     waterPotabilityPlan: [value.waterPotabilityPlan],
+      //   },
+      // },
       // completeness: 'APPROVED', correctness: 'APPROVED',
     };
     if (this.slbId) {
@@ -224,7 +224,10 @@ export class SlbsComponent implements OnInit {
       this._ulbformService.allStatus.next(status);
 
       swal("Record submitted successfully!");
-    });
+    },
+      (err) => {
+        swal(err.message)
+      });
   }
   data = "";
   res;
@@ -232,7 +235,7 @@ export class SlbsComponent implements OnInit {
   isCompleted;
   onWaterWasteManagementEmitValue(value) {
     console.log("value which came from fc-slb component", value);
-
+    sessionStorage.setItem("changeInSLB", "true")
     let changeHappen = sessionStorage.getItem("changeInSLB");
     if (changeHappen == "false" && value.saveData) {
       return
@@ -403,10 +406,10 @@ export class SlbsComponent implements OnInit {
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
   }
-  clickActionButton(){
-    if(this.btnSave == 'SAVE'){
+  clickActionButton() {
+    if (this.btnSave == 'SAVE') {
       this.saveSlbStateAction();
-    }else {
+    } else {
       return this._router.navigate(["ulbform/overview"]);;
     }
   }

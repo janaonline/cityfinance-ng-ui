@@ -41,204 +41,105 @@ export class PreviewUtiFormComponent implements OnInit {
   ) { }
   styleForPDF = `<style>
 
-td, th{
-  word-break: break-all;
-  font-size: 9px !important;
-  padding: 5px 1px !important;
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .header-p {
+    background-color: #047474;
+    text-align: center;
+    padding: 10px;
 }
 
-.mat-dialog-content {
-  padding: 0 0 0 0;
-  max-width: 100vw;
-  max-height: 100vw;
-}
-
-.header-p {
-  background-color: #047474;
-  height: 75px;
-  text-align: center;
-}
 .heading-p {
-  color: #FFFFFF;
-  font-size: 18px;
-  padding-top: 1rem !important;
-  font-weight: 700;
-
-}
-.sub-h {
-  font-weight: 700 !important;
-   font-size: 14px;
+    color: #FFFFFF;
+    font-size: 16px;
+    margin-top: 1rem;
+    font-weight: 700;
 }
 
-.form-h {
-font-size: 15px;
-font-weight: 700;
-text-align: center;
+.header-u-p {
+    background-color: #047474;
+    text-align: center;
+    padding: 10px;
 }
 
+.heading-u-p {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    padding-top: .5rem;
+}
 
-.h-ut{
-  font-size: 10px !important;
-  margin-top: 1rem !important;
-  margin-bottom: .5rem !important;
-  margin-left: 1rem !important;
+.h-uti-p {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 1rem;
+    color: #FFFFFF;
 }
-.h-ut-t{
-  font-size: 10px !important;
-  margin-top: 1rem !important;
-  margin-bottom: .5rem !important;
+
+.s-h-uti {
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
 }
-.qus-ut-s {
-  font-size: 10px !important;
-  margin-left: .9rem;
+
+.se-r {
+    margin-top: 2%;
 }
-.qus-ut-u {
-  font-size: 10px !important;
-  margin-left: 1rem;
+
+.st-n {
+    font-size: 12px;
+    font-weight: 600;
 }
-.qus-ut-t {
-  font-size: 10px !important;
-  margin-left: 1rem;
-  margin-bottom: 1rem !important;
+
+.m-top {
+    margin-top: 1%;
+    margin-bottom: 2%;
 }
-.pp {
+
+tr {
+    text-align: center;
+}
+
+.f-text {
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 14px;
+    padding-top: 2rem;
+
+}
+
+.sig-text {
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.m-b {
+    margin-top: 4%;
+    margin-bottom: 5%;
+}
+
+.pd-row {
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.pd-row-n {
+    padding-left: 2%;
+    padding-right: 2%;
+}
+.name-row {
   margin-top: .5rem !important;
-}
-.ans-ut-s {
-  font-size: 10px !important;
-  margin-left: 5.4rem;
-}
-.ans-ut-u {
-  font-size: 10px !important;
-  margin-left: 1.3rem;
-}
-.ans-ut-t {
-  font-size: 10px !important;
-  margin-left: 4.9rem;
-  margin-bottom: 1rem !important;
-}
-.ans-ut-a {
-  margin-left: 7.2rem;
-}
-.ans-ut-b {
-  margin-left: 7.5rem;
-}
-.ans-ut-c {
-  margin-left: 6.9rem;
-}
-.ans-ut-l{
-  margin-left: 1rem;
-
-}
-
-.dnDiv {
-  margin-top: 10px;
-  margin-right: 5%;
-}
-.dnldBtn {
-  background-color: #26A1A1;
-  color: #FFFFFF;
-  font-weight: normal;
-}
-.card2Div {
-  margin-top: 1rem !important;
-  margin-bottom: 1rem !important;
-}
-.mat-dialog-container {
-  padding: 0;
-}
-.mat-card2 {
-  padding: 5px 2px;
-  margin-top: 10px;
-  background-color: #EBF5F5;
-  display: block;
-}
-
-.crd-ls-div {
-  margin-bottom: 15px;
-}
-.c-2-d {
-  margin-left: 1.7rem !important;
-  margin-bottom: 1rem !important;
-}
-label {
-  font-weight: normal;
-}
-.thHeader {
-  background-color: #E9E9E9;
-  color: #047474;
-  font-size: 15px;
-  font-weight: normal;
-}
-th {
-  font-weight: normal;
-  vertical-align: middle;
-  text-align: center;
-}
-.table>tbody>tr>td,
-.table>tbody>tr>th,
-.table>tfoot>tr>td,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>thead>tr>th {
-  vertical-align: middle;
-  padding: 10px 6px;
-}
-.bor-in-l {
-  word-break: break-all;
-}
-.long{
-  margin-left: .25rem;
-}
-.tableFooterDiv {
-  background-color: #E7E7E7;
-  color: #000000;
-  font-size: 16px;
-}
-.f-d-n {
-  background-color: #CFCFCF;
-  width: 235px;
-  height: 35px;
-  padding: 7px 8px;
-  height: 15px !important;
-}
-.d-none {
-  display: none;
-}
-label{
-  font-size: 9px !important;
-}
-.font-9{
-  font-size: 9px !important;
+   font-weight: 500;
+    font-size: 12px;
 }
 .pdf-hide{
-  display: none;
+  display : none;
 }
-.w-5{
-width: 5% !important;
-}
-.w-10{
-  width: 10% !important;
-}
-.w-11{
-  width: 11% !important;
-}
-.w-12{
-  width: 12% !important;
-  line-break: strict !important;
-}
-.w-15{
-  width: 15% !important;
-}
-.form-status-ut {
-  font-size: 10px;
-  margin-top: 10px;
-
-}
-.d-status{
-  padding-left: 1% !important;
-}
-
   </style>`;
 
   @Input()
@@ -255,6 +156,8 @@ width: 5% !important;
   ]
   totalStatus;
   ngOnInit(): void {
+    console.log('preview data', this.data);
+
     this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
       (change) => {
         if (this.changeFromOutSide) {
@@ -472,5 +375,8 @@ width: 5% !important;
     if (this.changeFromOutSide) {
       this._ulbformService.initiateDownload.next(true);
     } else this.downloadForm();
+  }
+  dialogClose() {
+    this._matDialog.closeAll();
   }
 }

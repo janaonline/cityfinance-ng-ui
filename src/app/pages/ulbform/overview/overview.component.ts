@@ -109,8 +109,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       title: "Million Plus City Challenge Fund",
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/mpccf.svg",
-      permittedAccounts: ["Yes"],
-      display: ["None"],
+      permittedAccounts: [""],
+      display: [""],
     },
     // {
     //   label: "Plan water sanitation",
@@ -267,31 +267,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.numcard = 3;
       console.log("no. no", this.factor);
     }
-    //  else if (this.isUA == "No" && this.isMillionPlus == "Yes") {
-    //   let userType = "None";
-    //   this.cardsOverview = this.cardsOverview.filter(
-    //     (item) => !item.display.includes(userType)
-    //   );
-    //   this.formValue = 3;
-    //   this.factor = Math.floor(100 / this.formValue);
-    //   this.numcard = 5;
-    // } else if (this.isUA == "Yes" && this.isMillionPlus == "Yes") {
-    //   this.formValue = 4;
-    //   let userType = "No";
-    //   this.cardsOverview = this.cardsOverview.filter(
-    //     (item) => !item.permittedAccounts.includes(userType)
-    //   );
-    //   this.factor = 100 / +this.formValue;
-    //   this.numcard = 6;
-    //   console.log("no. no", this.factor);
-    // }
-    // else if (this.isUA == 'Yes' && this.isMillionPlus == 'No') {
-    //   this.cardsOverview = this.cardsOverview;
-    //   this.formValue = 5;
-    //   this.factor = 100 / this.formValue;
-    //   this.numcard = 7;
 
-    //}
     this.width = this.row_width / this.numcard - 8;
     this.percentage = this.count * this.factor;
     console.log('ppercent', typeof (this.percentage));
@@ -313,31 +289,30 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     let eligibleActionForms = [];
     this.cardsOverview.forEach((element) => {
       if (element.label != "Grant Transfer Certificate") {
-        if(element.label !=  'Plan water sanitation')  {
-        if (element.label != "service-level") {
-          if (element.label != "PFMS") {
-          eligibleForms.push(element.label);
-          console.log(element.label);
-          if (element.label != "PFMS") {
-            eligibleActionForms.push(element.label);
+        if (element.label != 'Plan water sanitation') {
+          if (element.label != "service-level") {
+            if (element.label != "PFMS") {
+              eligibleForms.push(element.label);
+              console.log(element.label);
+              if ((element.label != "PFMS") && !(element.label == "Annual Acconts" && this.annualStatus == 'N/A')
+              ) {
+                eligibleActionForms.push(element.label);
+              }
+            }
           }
         }
-      }
-      }
-      }
-    });
+      };
 
-    sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms));
-    sessionStorage.setItem(
-      "eligibleActionForms",
-      JSON.stringify(eligibleActionForms)
-    );
-    this.ulbformService.setForms.next(true);
+      sessionStorage.setItem("eligibleForms", JSON.stringify(eligibleForms));
+      sessionStorage.setItem("eligibleActionForms", JSON.stringify(eligibleActionForms)
+      );
+      this.ulbformService.setForms.next(true);
+    })
+    // storeUlbId() {
+    //   sessionStorage.setItem('ulb_id', this.sessionUlbId);
+    //   console.log('ulb_id', this.sessionUlbId)
+    // }
   }
-  // storeUlbId() {
-  //   sessionStorage.setItem('ulb_id', this.sessionUlbId);
-  //   console.log('ulb_id', this.sessionUlbId)
-  // }
   onUnhover(num) {
     this.hover = false;
     this.val = num;

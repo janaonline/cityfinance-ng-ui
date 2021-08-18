@@ -78,6 +78,7 @@ export class MohuaDashboardComponent implements OnInit {
       sessionStorage.setItem("statesData", JSON.stringify(this.stateslist))
     });
     this.commonService.loadStates(true);
+
     this.onLoad();
   }
   mapGeoData: FeatureCollection<
@@ -180,9 +181,11 @@ export class MohuaDashboardComponent implements OnInit {
     this.getGrantTranfer()
     this.getCardData('');
     this.getFormData('');
-    this.getPlansData('');
+    // this.getPlansData('');
     this.getWaterRejCardData('');
+
     this.updateCharts();
+
   }
   getWaterRejCardData(state_id) {
     this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
@@ -195,10 +198,6 @@ export class MohuaDashboardComponent implements OnInit {
   selected() {
     this.maindonughtChart?.destroy();
     this.utilreportDonughtChart?.destroy();
-    this.slbdonughtChart?.destroy();
-    this.pfmsdonughtChart?.destroy();
-    this.piechart?.destroy();
-
     console.log(this.formDataApiRes);
     let data = this.formDataApiRes;
 
@@ -481,7 +480,7 @@ export class MohuaDashboardComponent implements OnInit {
   callAllApis(state_id) {
     this.getCardData(state_id);
     this.getFormData(state_id)
-    this.getPlansData(state_id);
+    // this.getPlansData(state_id);
     this.getWaterRejCardData(state_id);
     this.getGrantTranfer(state_id)
   }
@@ -598,66 +597,24 @@ export class MohuaDashboardComponent implements OnInit {
   compiledFor = 0
   filledULBs = 0;
   totalULBs = 0;
-  getPlansData(state_id) {
+  // getPlansData(state_id) {
 
-    this.mohuaDashboardService.getPlansData(state_id).subscribe(
-      (res) => {
-        console.log(res);
-        this.filledULBs = res['data']['filledULBs'];
-        this.totalULBs = res['data']['totalULBs'];
-        this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2)
-        this.calculateValue()
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+  //   this.mohuaDashboardService.getPlansData(state_id).subscribe(
+  //     (res) => {
+  //       console.log(res);
+  //       this.filledULBs = res['data']['filledULBs'];
+  //       this.totalULBs = res['data']['totalULBs'];
+  //       this.percentage = ((this.filledULBs / this.totalULBs) * 100).toFixed(2)
+  //       this.calculateValue()
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //     }
+  //   );
 
 
-  }
-  pfmsDonughtChart() {
-    const data = {
-      labels: [
-        'Registered',
-        'Not Registered',
-        'Pending Response                                                '
-      ],
-      datasets: [{
-        label: 'My First Dataset',
-        data: [
-          this.values.pfms_registered,
-          this.values.pfms_notRegistered,
-          this.values.pfms_pendingResponse],
-        backgroundColor: [
-          '#67DF7B',
-          '#DBDBDB',
-          '#FF7154',
+  // }
 
-        ],
-        hoverOffset: 4
-      }]
-    };
-    const canvas = <HTMLCanvasElement>document.getElementById('pfms');
-    const ctx = canvas.getContext('2d');
-    this.pfmsdonughtChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: data,
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          position: 'left',
-          align: 'start',
-          labels: {
-            fontSize: 13,
-            fontColor: 'black',
-            usePointStyle: true,
-            //  padding: 25,
-          }
-        }
-      }
-
-    });
-  }
 
   utilReportDonughtChart() {
     const data = {
@@ -690,60 +647,20 @@ export class MohuaDashboardComponent implements OnInit {
       options: {
         maintainAspectRatio: false,
         legend: {
-          position: "left",
-          align: "start",
+          position: 'bottom',
+          align: 'center',
           labels: {
             fontSize: 13,
-            fontColor: "black",
+            fontColor: 'black',
             usePointStyle: true,
-            //  padding: 22,
-          },
+            padding: 28,
+          }
         },
-      },
+        responsive: true
+      }
     });
   }
-  slbDonughtChart() {
-    const data = {
-      labels: [
-        "103 - Pending Completion",
-        "213 - Completed and Pending Submission",
-        "213 - Under State Review",
-        "213 - Approved by State",
-      ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [
-            this.values.slb_pendingCompletion,
-            this.values.slb_completedAndPendingSubmission,
-            this.values.slb_underStateReview,
-            this.values.slb_approvedbyState,
-          ],
-          backgroundColor: ["#F95151", "#FF9E30", "#DBDBDB", "#67DF7B"],
-          hoverOffset: 4,
-        },
-      ],
-    };
-    const canvas = <HTMLCanvasElement>document.getElementById("slb");
-    const ctx = canvas.getContext("2d");
-    this.slbdonughtChart = new Chart(ctx, {
-      type: "doughnut",
-      data: data,
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          position: "left",
-          align: "start",
-          labels: {
-            fontSize: 13,
-            fontColor: "black",
-            usePointStyle: true,
-            //   padding: 22,
-          },
-        },
-      },
-    });
-  }
+
   gaugeChart1() {
 
     let mainColor = "",
@@ -916,64 +833,25 @@ export class MohuaDashboardComponent implements OnInit {
         responsive: true,
         legend: {
           position: 'bottom',
-          align: 'start',
+          align: 'center',
+
           labels: {
-            fontSize: 13,
+            fontSize: 15,
             fontColor: 'white',
             usePointStyle: true,
-            padding: 20,
+            padding: 32,
+
           }
         }
-      }
-
-    });
-
-  }
-  pieChart() {
-    const data = {
-      labels: [
-        "103 - Pending Completion",
-        "213 - Completed and Pending Submission",
-        "76 - Under State Review",
-        "213 - Approved by State",
-      ],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [
-            this.values.plans_pendingCompletion,
-            this.values.plans_completedAndPendingSubmission,
-            this.values.plans_underStateReview,
-            this.values.plans_approvedbyState,
-          ],
-          backgroundColor: ["#F95151", "#FF9E30", "#DBDBDB", "#67DF7B"],
-          hoverOffset: 4,
-        },
-      ],
-    };
-
-    const canvas = <HTMLCanvasElement>document.getElementById("pfm");
-    const ctx = canvas.getContext("2d");
-    this.piechart = new Chart(ctx, {
-      type: "pie",
-      data: data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          position: "left",
-          align: "start",
-          labels: {
-            fontSize: 13,
-            fontColor: "black",
-            usePointStyle: true,
-
-            padding: 22,
-          },
-        },
       },
+
     });
+
   }
+  noDataFound_nonMillionSLB = false
+  noDataFound_millionSLB = false
+
+
   submitted_totalUlbs = 0;
   submitted_nonMillion = 0;
   nonMillion = 0;
@@ -1010,6 +888,100 @@ export class MohuaDashboardComponent implements OnInit {
       }
     );
   }
+
+  pieChartMillion() {
+    const data = {
+      labels: [
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '76 - Under State Review',
+        '213 - Approved by State'],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [100, 0, 0, 0],
+        backgroundColor: [
+          '#F95151',
+          '#FF9E30',
+          '#DBDBDB',
+          '#67DF7B'
+
+        ],
+        hoverOffset: 4
+      }],
+
+    };
+
+
+    const canvas = <HTMLCanvasElement>document.getElementById('mpcf');
+    const ctx = canvas.getContext('2d');
+    this.piechart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+
+          position: 'left',
+          align: 'start',
+          labels: {
+            fontSize: 13,
+            fontColor: 'black',
+            usePointStyle: true,
+
+            padding: 22,
+          }
+        }
+      }
+    });
+  }
+  piechart2;
+  pieChartNonMillion = () => {
+    const data = {
+      labels: [
+        '103 - Pending Completion',
+        '213 - Completed and Pending Submission',
+        '76 - Under State Review',
+        '213 - Approved by State'],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [100, 0, 0, 0],
+        backgroundColor: [
+          '#F95151',
+          '#FF9E30',
+          '#DBDBDB',
+          '#67DF7B'
+
+        ],
+        hoverOffset: 4
+      }],
+
+    };
+
+
+    const canvas = <HTMLCanvasElement>document.getElementById('nmpcf');
+    const ctx = canvas.getContext('2d');
+    this.piechart2 = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+
+          position: 'left',
+          align: 'start',
+          labels: {
+            fontSize: 13,
+            fontColor: 'black',
+            usePointStyle: true,
+
+            padding: 22,
+          }
+        }
+      }
+    });
+  }
   getFormData(state_id) {
     this.mohuaDashboardService.getFormData(state_id).subscribe(
       (res) => {
@@ -1029,10 +1001,9 @@ export class MohuaDashboardComponent implements OnInit {
     this.gaugeChart2();
     this.constChart();
     this.constChart1();
-    this.pfmsDonughtChart();
     this.utilReportDonughtChart();
-    this.slbDonughtChart();
-    this.pieChart();
+    this.pieChartMillion();
+    this.pieChartNonMillion();
   }
 
 
@@ -1061,10 +1032,8 @@ export class MohuaDashboardComponent implements OnInit {
     }
   }
   noDataFound_Overall = false
-  noDataFound_pfms = false
   noDataFound_util = false
-  noDataFound_slb = false
-  noDataFound_plans = false
+
   mapValues(data) {
     (this.values.overall_approvedByState =
       data["overallFormStatus"]["approvedByState"]),
@@ -1072,14 +1041,6 @@ export class MohuaDashboardComponent implements OnInit {
         data["overallFormStatus"]["pendingForSubmission"]),
       (this.values.overall_underReviewByState =
         data["overallFormStatus"]["underReviewByState"]),
-      (this.values.pfms_notRegistered = data["pfms"]["notRegistered"]),
-      (this.values.pfms_pendingResponse = data["pfms"]["pendingResponse"]),
-      (this.values.pfms_registered = data["pfms"]["registered"]),
-      (this.values.slb_approvedbyState = data["slb"]["approvedbyState"]),
-      (this.values.slb_completedAndPendingSubmission =
-        data["slb"]["completedAndPendingSubmission"]),
-      (this.values.slb_pendingCompletion = data["slb"]["pendingCompletion"]),
-      (this.values.slb_underStateReview = data["slb"]["underStateReview"]),
       (this.values.util_approvedbyState =
         data["utilReport"]["approvedbyState"]),
       (this.values.util_completedAndPendingSubmission =
@@ -1088,12 +1049,6 @@ export class MohuaDashboardComponent implements OnInit {
         data["utilReport"]["pendingCompletion"]),
       (this.values.util_underStateReview =
         data["utilReport"]["underStateReview"]),
-      (this.values.plans_approvedbyState = data["plans"]["approvedbyState"]),
-      (this.values.plans_completedAndPendingSubmission =
-        data["plans"]["completedAndPendingSubmission"]),
-      (this.values.plans_pendingCompletion =
-        data["plans"]["pendingCompletion"]),
-      (this.values.plans_underStateReview = data["plans"]["underStateReview"]),
       (this.values.annualAcc_audited = data["annualAccounts"]["audited"]),
       (this.values.annualAcc_provisional =
         data["annualAccounts"]["provisional"]);
@@ -1105,13 +1060,7 @@ export class MohuaDashboardComponent implements OnInit {
       this.noDataFound_Overall = true
     }
 
-    if (this.values.pfms_notRegistered +
-      this.values.pfms_pendingResponse +
-      this.values.pfms_registered +
-      this.values.slb_approvedbyState == 0
-    ) {
-      this.noDataFound_pfms = true
-    }
+
     if (this.values.util_approvedbyState +
       this.values.util_completedAndPendingSubmission +
       this.values.util_pendingCompletion +
@@ -1119,20 +1068,7 @@ export class MohuaDashboardComponent implements OnInit {
     ) {
       this.noDataFound_util = true
     }
-    if (this.values.slb_approvedbyState +
-      this.values.slb_completedAndPendingSubmission +
-      this.values.slb_pendingCompletion +
-      this.values.slb_underStateReview == 0
-    ) {
-      this.noDataFound_slb = true
-    }
-    if (this.values.plans_approvedbyState +
-      this.values.plans_completedAndPendingSubmission +
-      this.values.plans_pendingCompletion +
-      this.values.plans_underStateReview == 0
-    ) {
-      this.noDataFound_plans = true
-    }
+
 
 
 
@@ -1170,10 +1106,10 @@ export class MohuaDashboardComponent implements OnInit {
     let data = value.split(",")
     if (data[1] == 'date') {
       this.GrantTransferparams.year = data[0]
-      if(data[0] == "2020-21")
-      this.year21 = true
+      if (data[0] == "2020-21")
+        this.year21 = true
       else
-      this.year21 = false
+        this.year21 = false
       this.dateSelect = false
     }
     if (data[1] == 'installment') {

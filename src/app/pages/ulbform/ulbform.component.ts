@@ -41,6 +41,7 @@ export class UlbformComponent implements OnInit {
   stiHieght: boolean = false;
   elementPosition: any;
   annualStatus;
+  stActionCheck;
   public screenHeight: any;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
@@ -138,9 +139,11 @@ export class UlbformComponent implements OnInit {
 
   subscribeStatus() {
     this.ulbformService.allStatus.subscribe((status) => {
+
       this.checkGreenRedTick(status);
       sessionStorage.setItem("allStatus", JSON.stringify(status));
       console.log("red this", this.allStatus);
+
       if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
       }
@@ -167,46 +170,33 @@ export class UlbformComponent implements OnInit {
         this.userLoggedInDetails.role == this.userTypes.MoHUA
       ) {
         switch (key) {
-          case "pfmsAccount":
-            if (
-              this.allStatus[key].status == "PENDING" &&
-              eligibleActionForms.includes("PFMS")
-            )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
-            break;
+
           case "utilReport":
             if (
-              this.allStatus[key].status == "PENDING" &&
+              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
               eligibleActionForms.includes("Utilization Report")
-            )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
+            ) {
+              this.allStatus[key].isSubmit = true;
+            }
+            else this.allStatus[key].isSubmit = false;
             break;
           case "annualAccounts":
             if (
-              this.allStatus[key].status == "PENDING" &&
+              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
               eligibleActionForms.includes("Annual Acconts")
             )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
+              this.allStatus[key].isSubmit = true;
+            else this.allStatus[key].isSubmit = false;
             break;
           case "slbForWaterSupplyAndSanitation":
             if (
-              this.allStatus[key].status == "PENDING" &&
+              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
               eligibleActionForms.includes("slbs")
             )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
+              this.allStatus[key].isSubmit = true;
+            else this.allStatus[key].isSubmit = false;
             break;
-          case "plans":
-            if (
-              this.allStatus[key].status == "PENDING" &&
-              eligibleActionForms.includes("Plan water sanitation")
-            )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
-            break;
+
         }
       }
     }
@@ -220,26 +210,26 @@ export class UlbformComponent implements OnInit {
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
         this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
-       localStorage.setItem("finalSubmitStatus", this.submitted.toString());
+        localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
           this.finalActionDis = true;
         }
-        let stActionCheck = "false";
+        this.stActionCheck = "false";
         if (
           res["response"].actionTakenByRole === this.userTypes.STATE &&
           res["response"].isSubmit == true &&
           res["response"].status != "PENDING" &&
           this.loggedInUserType === this.userTypes.STATE
         ) {
-          stActionCheck = "true";
+          this.stActionCheck = "true";
           console.log("final action completed.....");
         }
         if (
           res["response"].actionTakenByRole === this.userTypes.MoHUA &&
           this.loggedInUserType === this.userTypes.STATE
         ) {
-          stActionCheck = "true";
+          this.stActionCheck = "true";
           console.log("final state action completed.....");
         }
         let mohuaAction = "false"
@@ -250,11 +240,11 @@ export class UlbformComponent implements OnInit {
           this.loggedInUserType === this.userTypes.MoHUA
         ) {
           mohuaAction = "true";
-          stActionCheck = "true";
+          this.stActionCheck = "true";
           console.log("final action completed.....");
         }
         localStorage.setItem("lastRoleInMasterForm", this.lastRoleInMasterForm);
-        localStorage.setItem("stateActionComDis", stActionCheck);
+        localStorage.setItem("stateActionComDis", this.stActionCheck);
         localStorage.setItem("mohuaActionComDis", mohuaAction);
         localStorage.setItem("masterFormStatus", res["response"].status);
         if (
@@ -506,13 +496,13 @@ export class UlbformComponent implements OnInit {
       (res) => {
 
         swal("Action Successfully Submitted");
-        if(this.loggedInUserType === this.userTypes.MoHUA){
+        if (this.loggedInUserType === this.userTypes.MoHUA) {
           this.ulbformService.disableAllFormsAfterMohuaReview.next(true)
-          console.log('Mohua final action',res);
+          console.log('Mohua final action', res);
         }
-        if(this.loggedInUserType === this.userTypes.STATE){
+        if (this.loggedInUserType === this.userTypes.STATE) {
           this.ulbformService.disableAllFormsAfterStateReview.next(true)
-          console.log('State final action',res);
+          console.log('State final action', res);
         }
 
         this.finalActionDis = true;

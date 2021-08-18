@@ -265,7 +265,19 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
+        if (!("_id" in res)) {
 
+          this.utilizationReport.value["blankForm"] = true;
+          console.log(this.utilizationReport);
+          sessionStorage.setItem(
+            "utilReport",
+            JSON.stringify(this.utilizationReport.value)
+          );
+
+          this.currentChanges();
+          this.isDraft = "fail";
+          return;
+        }
         this.preFilledData(res);
         const data = {
           designation: res["designation"],
@@ -328,8 +340,8 @@ export class UtilisationReportComponent implements OnInit {
         this.isDisabled = true;
         this.utilizationReport.controls.projects.disable();
     }
-    if((this.finalSubmitUtiStatus == "true") &&
-    (this.masterFormStatus != 'REJECTED')){
+    if ((this.finalSubmitUtiStatus == "true") &&
+      (this.masterFormStatus != 'REJECTED')) {
       this.utilizationReport.controls.projects.disable();
     }
     if (
@@ -647,12 +659,14 @@ export class UtilisationReportComponent implements OnInit {
   onSubmit() {
     alert("Submit and Next?");
   }
-  onNewPre(){
+  onNewPre() {
     const dialogRef = this.dialog.open(UtiNewPreComponent, {
-
-      // height: "100%",
-      // width: "100%",
-      // panelClass: "no-padding-dialog",
+      //  height: "3508px",
+      //  width: '2480px',
+      width: '21cm',
+      height: '100%',
+      maxHeight: '90vh',
+      panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
     dialogRef.afterClosed().subscribe((result) => {
@@ -703,12 +717,12 @@ export class UtilisationReportComponent implements OnInit {
     }
     console.log(this.utilizationForm);
     console.log(this.utilizationReport);
+    // alert(this.utilizationForm.controls.stateName.value)
     let formdata = {
       useData: this.helpData,
       isDraft: this.isDraft,
       state_name: this.utilizationForm.controls.stateName.value,
       ulbName: this.utilizationForm.controls.ulb.value,
-
       grantType: this.utilizationForm.controls.grantType.value,
       grantPosition: {
         unUtilizedPrevYr:
@@ -724,6 +738,7 @@ export class UtilisationReportComponent implements OnInit {
             "expDuringYr"
           ].value,
         closingBal: this.totalclosingBal,
+
         // isDraft: true,
       },
       projects: this.utilizationReport.getRawValue().projects,
@@ -732,6 +747,7 @@ export class UtilisationReportComponent implements OnInit {
       designation: this.utilizationReport.controls.designation.value,
       totalProCost: this.projectCost,
       totalExpCost: this.projectExp,
+      analytics: this.analytics
     };
     // console.log(formdata);
     for (let i = 0; i < formdata.projects.length; i++) {
@@ -746,9 +762,9 @@ export class UtilisationReportComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
-
-      height: "100%",
-      width: "100%",
+      width: '85vw',
+      height: '100%',
+      maxHeight: '90vh',
       panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
