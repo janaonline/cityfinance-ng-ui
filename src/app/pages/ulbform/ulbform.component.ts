@@ -170,46 +170,33 @@ export class UlbformComponent implements OnInit {
         this.userLoggedInDetails.role == this.userTypes.MoHUA
       ) {
         switch (key) {
-          case "pfmsAccount":
-            if (
-              this.allStatus[key].status == "PENDING" &&
-              eligibleActionForms.includes("PFMS")
-            )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
-            break;
+
           case "utilReport":
             if (
-              this.allStatus[key].status == "PENDING" &&
+              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
               eligibleActionForms.includes("Utilization Report")
-            )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
+            ) {
+              this.allStatus[key].isSubmit = true;
+            }
+            else this.allStatus[key].isSubmit = false;
             break;
           case "annualAccounts":
             if (
-              this.allStatus[key].status == "PENDING" &&
+              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
               eligibleActionForms.includes("Annual Acconts")
             )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
+              this.allStatus[key].isSubmit = true;
+            else this.allStatus[key].isSubmit = false;
             break;
           case "slbForWaterSupplyAndSanitation":
             if (
-              this.allStatus[key].status == "PENDING" &&
+              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
               eligibleActionForms.includes("slbs")
             )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
+              this.allStatus[key].isSubmit = true;
+            else this.allStatus[key].isSubmit = false;
             break;
-          case "plans":
-            if (
-              this.allStatus[key].status == "PENDING" &&
-              eligibleActionForms.includes("Plan water sanitation")
-            )
-              this.allStatus[key].isSubmit = false;
-            else this.allStatus[key].isSubmit = true;
-            break;
+
         }
       }
     }
