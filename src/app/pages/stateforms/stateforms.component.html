@@ -44,8 +44,7 @@
             </div>
 
             <div class="row link-div">
-                <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
-                    aria-controls="collapseBasic">
+                <a>
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false">
                             <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
@@ -59,7 +58,7 @@
                     </div>
                 </a>
             </div>
-            <div id="collapseBasic" [collapse]="isCollapsed">
+            <div>
                 <div class="row link-div-u" routerLinkActive="active">
                     <a [routerLink]="['edit-ulb-profile']">
                         <div class="col-sm-1 col-xs-1 m-l-u">
@@ -83,7 +82,7 @@
                             </mat-icon>
                         </div>
                         <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;">
-                            Review ULB Forms
+                            Review Grant Application
                         </div>
                         <div class="col-sm-1 col-xs-1">
 
@@ -161,7 +160,7 @@
                     </div>
                     <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px;  padding-left: 7px;">
                         <!-- Water Supply and Sanitation -->
-                        Projects for Water Supply and Sanitation
+                        Indicators for Water Supply and Sanitation
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right">
                         <!-- <mat-icon aria-hidden="false">
@@ -188,7 +187,7 @@
                     </div>
                     <div class="col-sm-8 col-xs-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 6px;">
                         <!-- Water Rejenuvation and Recycling -->
-                        Indicator for Water Rejenuvation and Recycling
+                        Projects for Water and Sanitation
                     </div>
                     <div class="col-sm-1 col-xs-1 text-right">
                         <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
