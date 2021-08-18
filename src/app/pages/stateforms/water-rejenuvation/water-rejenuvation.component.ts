@@ -165,7 +165,7 @@ export class WaterRejenuvationComponent implements OnInit {
         delete element.foldCard;
       });
       console.log(deepEqual(change, JSON.parse(data)));
-
+      console.log(JSON.stringify(change), JSON.stringify(JSON.parse(data)))
       if (!deepEqual(change, JSON.parse(data))) {
         this.saveBtnText = "SAVE AND NEXT";
         sessionStorage.setItem("changeInWaterRejenuvation", "true");

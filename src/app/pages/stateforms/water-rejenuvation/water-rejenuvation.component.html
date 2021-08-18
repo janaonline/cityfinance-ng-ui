@@ -85,11 +85,12 @@
                                         </td>
                                         <td>
                                             <div class="image-upload" style="display: inline-block;">
-                                                <label class="file" [attr.for]="waterBodiesIndex">
+                                                <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                                 </label>
-                                                <input style="display: none;" [attr.id]="waterBodiesIndex" type="file"
+                                                <input style="display: none;"
+                                                    [attr.id]="waterBodiesIndex + '' + projectIndex" type="file"
                                                     [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
                                                     (change)="onFileChange($event,waterBodiesIndex,projectIndex)"
                                                     required multiple />
