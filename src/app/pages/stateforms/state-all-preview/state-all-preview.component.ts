@@ -516,6 +516,7 @@ downloadSub;
       }
     );
     console.log('previewData', this.data);
+    this.stateSlbData = sessionStorage.getItem('slbStateData');
     // this.allFormRes = this.data[0]
     //  this.gtcError.data = this.data[0]['stategtcertificates'][0];
     //  this.pfmsStateError = this.data[0]['linkpfmsstates'][0];

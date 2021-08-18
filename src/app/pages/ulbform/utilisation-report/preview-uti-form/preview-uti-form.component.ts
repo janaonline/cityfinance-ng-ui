@@ -115,7 +115,7 @@ tr {
     font-weight: 500;
     font-size: 12px;
     text-align: center;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
 }
 
 .m-b {
@@ -133,12 +133,36 @@ tr {
     padding-right: 2%;
 }
 .name-row {
-  margin-top: .5rem !important;
-   font-weight: 500;
+    margin-top: .5rem !important;
+    font-weight: 500;
     font-size: 12px;
+    text-align: center;
 }
 .pdf-hide{
   display : none;
+}
+
+
+.f-table>table>tbody>tr>td,
+  .table>tbody>tr>th,
+  .table>tfoot>tr>td,
+  .table>tfoot>tr>th,
+  .table>thead>tr>td,
+  .table>thead>tr>th {
+      padding: 4px 0px;
+      line-height: 1.42857143;
+      vertical-align: middle;
+
+
+}
+.pj-tb{
+  margin-top: 3rem;
+}
+.pd-r {
+  padding-left : 6px !important;
+}
+.se-tb{
+  padding-top : 1rem !important;
 }
   </style>`;
 
@@ -155,7 +179,11 @@ tr {
     'In Progress'
   ]
   totalStatus;
-  ngOnInit(): void {
+  analytics = []
+  swm = []
+  wm = []
+  categories;
+  ngOnInit() {
     console.log('preview data', this.data);
 
     this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
@@ -204,6 +232,23 @@ tr {
     }
 
     this.setTotalStatus();
+    this.analytics = this.data.analytics;
+    this.categories = this.data.categories;
+        this.analytics.forEach(el => {
+          this.categories.forEach(element => {
+            if (element._id == el['_id']) {
+              el['categoryName'] = element.name
+            }
+          });
+        })
+        console.log('prev ana...',this.analytics, this.categories)
+        this.analytics.forEach(el => {
+          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+            this.swm.push(el)
+          } else {
+            this.wm.push(el)
+          }
+        })
   }
 
   ngOnDestroy(): void {

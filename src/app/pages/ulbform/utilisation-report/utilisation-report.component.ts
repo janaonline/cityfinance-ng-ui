@@ -735,7 +735,10 @@ export class UtilisationReportComponent implements OnInit {
       designation: this.utilizationReport.controls.designation.value,
       totalProCost: this.projectCost,
       totalExpCost: this.projectExp,
-      analytics: this.analytics
+      analytics: this.analytics,
+      categories: this.categories,
+      wm : this.wm,
+      swm : this.swm,
     };
     // console.log(formdata);
     for (let i = 0; i < formdata.projects.length; i++) {

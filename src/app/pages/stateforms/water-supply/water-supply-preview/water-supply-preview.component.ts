@@ -176,7 +176,7 @@ h5{
   ulbName;
   stateName;
   uasList;
-  ngOnInit() {
+ ngOnInit() {
     this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
@@ -199,8 +199,7 @@ h5{
     console.log('target', this.targets)
     console.log('serv', this.services);
     console.log('basline', this.focusTargetKey)
-     this.getwaterSuppyData()
-
+   this.getwaterSuppyData();
   }
   // getwaterSuppyData(){
   //   this._WaterSupplyService.getslbsData()
@@ -217,6 +216,7 @@ h5{
   approvedStatusData = []
   statusData = []
   getwaterSuppyData() {
+   let j =0;
     for(let i =0; i< this.uasList.length; i++) {
   //  this.uasList.forEach(item => {
       this._WaterSupplyService.getslbsData(this.uasList[i]._id)
@@ -246,7 +246,10 @@ h5{
           data[1]?.pendingCompletion.length +
           data[1]?.underStateReview.length;
          }
-        console.log(this.uasList)
+        console.log(this.uasList);
+        if(i === (this.uasList.length-1)){
+          this.setDataSession();
+        }
       },
       (err) => {
        // this.getData.push('null');
@@ -254,15 +257,23 @@ h5{
         this.totalULBsInUA[i] = 'NA'
         this.totalPendingUlb[i] ='NA'
         this.totalCompletedUlb[i] ='NA'
-        console.log('preview........err', this.getData)
 
+        console.log('preview........err', this.getData)
+        if(i === (this.uasList.length-1)){
+          this.setDataSession();
+        }
       }
       )
   //  })
-    }
-    console.log('preview........full array', this.getData)
-  }
 
+
+
+    }
+  }
+setDataSession(){
+    console.log('preview........full array', this.getData)
+    sessionStorage.setItem("slbStateData", JSON.stringify(this.getData));
+}
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
