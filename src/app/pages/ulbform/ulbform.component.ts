@@ -139,11 +139,11 @@ export class UlbformComponent implements OnInit {
 
   subscribeStatus() {
     this.ulbformService.allStatus.subscribe((status) => {
-      if (this.userLoggedInDetails.role === USER_TYPE.STATE || this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
-        this.checkGreenRedTick(status);
-        sessionStorage.setItem("allStatus", JSON.stringify(status));
-        console.log("red this", this.allStatus);
-      }
+
+      this.checkGreenRedTick(status);
+      sessionStorage.setItem("allStatus", JSON.stringify(status));
+      console.log("red this", this.allStatus);
+
       if (this.userLoggedInDetails.role === USER_TYPE.ULB) {
         this.checkValidationStatusOfAllForms();
       }
