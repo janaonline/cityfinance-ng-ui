@@ -936,7 +936,7 @@ export class AnnualAccountsComponent implements OnInit {
         url: e.pdf.url,
         name: e.pdf.name,
       },
-      excel: { url: e.excel.url, name: e.excel.name },
+      excel: { url: e.excel?.url, name: e.excel?.name },
     };
     switch (quesName) {
       case "Balance Sheet":
