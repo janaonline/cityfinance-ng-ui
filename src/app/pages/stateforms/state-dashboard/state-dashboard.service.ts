@@ -17,8 +17,8 @@ export class StateDashboardService {
     getFormData(state_id) {
         return this.http.get(`${environment.api.url}masterForm/state-dashboard/606aaf854dff55e6c075d219?state_id=${state_id}`);
     }
-    getSlbData(ua_id) {
-        return this.http.get(`${environment.api.url}masterForm/dashboard-slbWS/state/606aaf854dff55e6c075d219?ua_id=${ua_id}`);
+    getSlbData(ua_id, state_id) {
+        return this.http.get(`${environment.api.url}masterForm/dashboard-slbWS/state/606aaf854dff55e6c075d219?ua_id=${ua_id}&state_id=${state_id}`);
     }
     getUAList() {
         return this.http.get(`${environment.api.url}masterForm/UAList`);

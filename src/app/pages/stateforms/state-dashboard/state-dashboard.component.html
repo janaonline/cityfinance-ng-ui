@@ -282,7 +282,7 @@
                 <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
 
                     <select [(ngModel)]="selectUa" (change)="selectedUA()" placeholder="Select UA" class="dropdown">
-                        <option value="" selected>-Select UA-</option>
+                        <option value="all">-ALL UAs-</option>
                         <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
                     </select>
                 </div>
