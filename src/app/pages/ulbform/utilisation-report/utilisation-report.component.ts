@@ -726,6 +726,7 @@ export class UtilisationReportComponent implements OnInit {
             "expDuringYr"
           ].value,
         closingBal: this.totalclosingBal,
+
         // isDraft: true,
       },
       projects: this.utilizationReport.getRawValue().projects,
@@ -734,6 +735,7 @@ export class UtilisationReportComponent implements OnInit {
       designation: this.utilizationReport.controls.designation.value,
       totalProCost: this.projectCost,
       totalExpCost: this.projectExp,
+      analytics: this.analytics
     };
     // console.log(formdata);
     for (let i = 0; i < formdata.projects.length; i++) {
@@ -748,7 +750,7 @@ export class UtilisationReportComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
-      width: '21cm',
+      width: '85vw',
       height: '100%',
       maxHeight: '90vh',
       panelClass: "no-padding-dialog",

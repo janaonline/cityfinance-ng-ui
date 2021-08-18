@@ -59,7 +59,7 @@ export class GrantTransferMohuaComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
 
         fileSaver.saveAs(blob, "GrantTranferTemplate.xlsx");
-        swal("upload downloaded template");
+        swal("Upload downloaded template");
       },
       (err) => {}
     );
@@ -78,7 +78,7 @@ export class GrantTransferMohuaComponent implements OnInit {
 
     this.gtMohuaService.saveData(body).subscribe(
       (res) => {
-        swal("data successfully saved.");
+        swal("Record submitted successfully!");
         this.saveBtnText = "FILE SAVED";
         this.showLoader = false;
         if (this.routerNavigate)
@@ -91,7 +91,7 @@ export class GrantTransferMohuaComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
 
         fileSaver.saveAs(blob, "GrantTranfer_error.xlsx");
-        swal("refer error file and upload again");
+        swal("Refer error file and upload again");
         this.showLoader = false;
         if (this.routerNavigate)
           this._router.navigate([this.routerNavigate.url]);
