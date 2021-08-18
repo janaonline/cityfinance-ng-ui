@@ -6,6 +6,7 @@ import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.serv
 import { HttpErrorResponse } from '@angular/common/http';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
+import { StateDashboardService } from '../state-dashboard.service'
 @Component({
   selector: 'app-annualacc-list',
   templateUrl: './annualacc-list.component.html',
@@ -36,9 +37,13 @@ export class AnnualaccListComponent implements OnInit {
   constructor(
     private annualaccListService: AnnualaccListService,
     public ulbService: UlbadminServiceService,
+    public stateDashboardService: StateDashboardService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
   states = null
+  closeDialog() {
+    this.stateDashboardService.closeDialog.next('overall')
+  }
   ngOnInit(): void {
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.annualaccListService.getData(this.data.state_id)

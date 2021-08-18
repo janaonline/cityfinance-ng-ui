@@ -1,10 +1,12 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
+        <div style="text-align:right; margin-bottom:10px">
+            <button style="min-width: min-content;" (click)="closeDialog()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
 
-        <button style="min-width: min-content;" class="btn btn-danger" aria-label="Close">
-            <i style="color: white;"></i>
-        </button>
-
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="row">
@@ -30,12 +32,12 @@
                                         <th scope="col">Population Type</th>
                                         <th scope="col">Name of UA</th>
                                         <th scope="col">Overall Form Status</th>
-                                        <th scope="col">PFMS Status</th>
+                                        <!-- <th scope="col">PFMS Status</th> -->
                                         <th scope="col">Audited Accounts 2019-2020 Status</th>
                                         <th scope="col">"Provisional Accounts 2020-2021 Status</th>
                                         <th scope="col">Utilisation Report Status</th>
                                         <th scope="col">SLB Status</th>
-                                        <th scope="col">Plans for Water Supply and Sanitation Status</th>
+                                        <!-- <th scope="col">Plans for Water Supply and Sanitation Status</th> -->
                                     </tr>
                                 </thead>
                                 <thead>
@@ -57,6 +59,7 @@
                                                 </option>
                                             </select>
                                         </th>
+                                        <th class="filter" *ngIf="!states"></th>
                                         <th class="filter">
                                             <!-- <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span> -->
@@ -105,7 +108,7 @@
                                                 <option value="Rejected by MoHUA">Rejected by MoHUA</option>
                                             </select>
                                         </th>
-                                        <th class="filter">
+                                        <!-- <th class="filter">
                                             <select class="s-th" [formControl]="status_pfms" style="width: 71px;"
                                                 (change)="stateData(false)">
                                                 <option selected value="">Status</option>
@@ -114,7 +117,7 @@
                                                 <option value="Registered">Registered</option>
                                                 <option value="Not Registered">Not Registered</option>
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_audited" style="width: 71px;"
                                                 (change)="stateData(false)">
@@ -163,7 +166,7 @@
                                                 <option value="Not Applicable">Not Applicable</option>
                                             </select>
                                         </th>
-                                        <th class="filter">
+                                        <!-- <th class="filter">
                                             <select class="s-th" [formControl]="status_plans" style="width: 71px;"
                                                 (change)="stateData(false)">
 
@@ -173,7 +176,7 @@
                                                 <option value="Completed">Completed</option>
                                                 <option value="Not Applicable">Not Applicable</option>
                                             </select>
-                                        </th>
+                                        </th> -->
 
                                     </tr>
 
@@ -205,9 +208,9 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.masterformStatus}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                        <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.pfmsaccountStatus}}
-                                        </td>
+                                        </td> -->
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.audited_annualaccountsStatus}}
                                         </td>
@@ -218,8 +221,8 @@
                                             {{resData.utilizationreportStatus}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.xvfcgrantulbformsStatus}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.xvfcgrantplansStatus}}</td>
+                                        <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{resData.xvfcgrantplansStatus}}</td> -->
 
 
 

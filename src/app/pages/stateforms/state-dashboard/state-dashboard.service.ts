@@ -10,6 +10,7 @@ export class StateDashboardService {
 
     constructor(private http: HttpClient) { }
     totalUaS = new Subject<any>();
+    closeDialog = new Subject<any>();
 
     getCardData(state_id) {
         return this.http.get(`${environment.api.url}dashboard/state?state_id=${state_id}`);
