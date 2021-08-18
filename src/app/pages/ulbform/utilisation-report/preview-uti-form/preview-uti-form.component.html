@@ -1,27 +1,37 @@
-<div class="container-fluid" id="previewUti" #previewUti style="padding-left: 4%; padding-right: 4%;">
+<div class="container-fluid" id="previewUti" #previewUti>
     <div class="row">
-        <!-- <div class="col-sm-12 text-r">
-            <mat-icon aria-hidden="false">
-                <img src="../../../../../assets/form-icon/Icon material-close.svg">
-            </mat-icon>
-        </div> -->
-        <div class="col-sm-12 h-uti-p">
-            <span>
+        <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
+            <div class="row" style="margin: 0;">
+                <div class="col-sm-12 text-r pdf-hide" *ngIf="!parentData" style="text-align: right;">
+                    <!-- <mat-icon aria-hidden="false">
+                        <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                    </mat-icon> -->
+                    <i class="fa fa-times" style="color: #fff; cursor: pointer;
+                    font-size: 24px; " aria-hidden="true" (click)="dialogClose()"></i>
+                </div>
+                <div class="col-sm-12 h-uti-p" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
+                    <span>
     GRANT UTILISATION REPORT FOR THE FIFTEENTH COMMISSION RECOMMENDED
      TIED GRANT RECEIVED DURING THE AWARD PERIOD 2021-22 TO 2025-26.
   </span>
-            <hr style="border: 1px solid #51504F; margin: 5px 0">
-        </div>
-        <div class="col-sm-12 text-center s-h-uti">
-            <span>
+                    <hr style="border: 1px solid #FFFFFF; margin: 5px 0;">
+                </div>
+                <div class="col-sm-12 text-center s-h-uti">
+                    <span>
 (to be submitted by NMPCs & MPCs as per details in para 14 above)
     </span>
+                </div>
+            </div>
         </div>
-
     </div>
-    <div class="row se-r">
-        <div class="col-sm-12 st-n">
+    <div class="row se-r pd-row-n">
+        <div class="col-sm-9 st-n">
             <span>Name of State:-  <span>{{data.state_name}}</span></span>
+        </div>
+        <div class="col-sm-3 pdf-hide" style="text-align: right;">
+            <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none;" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
+            Download as PDF
+        </button>
         </div>
         <div class="col-sm-12 st-n m-top">
             <span>
@@ -30,7 +40,7 @@
             </span>
         </div>
     </div>
-    <div class="row">
+    <div class="row pd-row">
         <div class="col-sm-12">
             <table class="table table-bordered border-primary">
                 <thead>
@@ -74,7 +84,7 @@
                     <tr>
                         <th scope="row">4.</th>
                         <td style="text-align: left; font-weight: 500;">Closing balance at the end of year</td>
-                        <td><b *ngIf="data.grantPosition.closingBal">{{data.grantPosition.closingBal}}</b> </td>
+                        <td><b>{{ data.grantPosition.closingBal }}</b> </td>
                         <td>x</td>
                         <td>x</td>
                         <td>x</td>
@@ -90,70 +100,72 @@
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)</td>
-                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [ ]</td>
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [ {{(((data?.analytics[2]?.amount + data?.analytics[3]?.amount + data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2)}} ]
+                        </td>
                         <td>x</td>
                         <td>x</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Supply of Drinking water</td>
-                        <td></td>
+                        <td>{{data?.analytics[2]?.amount}}</td>
                         <td>x</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data?.analytics[2]?.count}}</td>
+                        <td>{{data?.analytics[2]?.totalProjectCost}}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">ii. &nbsp; &nbsp;Rain water harvesting</td>
-                        <td></td>
+                        <td>{{data?.analytics[3]?.amount}}</td>
                         <td>x</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data?.analytics[3]?.count}}</td>
+                        <td>{{data?.analytics[3]?.totalProjectCost}}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">iii. &nbsp; &nbsp;Water Recycling</td>
-                        <td></td>
+                        <td>{{data?.analytics[5]?.amount}}</td>
                         <td>x</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data?.analytics[5]?.count}}</td>
+                        <td>{{data?.analytics[5]?.totalProjectCost}}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">iv. &nbsp; &nbsp;Rejenuvenation of water bodies</td>
-                        <td></td>
+                        <td>{{data?.analytics[1]?.amount}}</td>
                         <td>x</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data?.analytics[1]?.count}}</td>
+                        <td>{{data?.analytics[1]?.totalProjectCost}}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [ ]</td>
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [ {{(((data?.analytics[0]?.amount + data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2)}} ]
+                        </td>
                         <td>x</td>
                         <td>x</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Sanitation</td>
-                        <td></td>
+                        <td>{{data?.analytics[0]?.amount}}</td>
                         <td>x</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data?.analytics[0]?.count}}</td>
+                        <td>{{data?.analytics[0]?.totalProjectCost}}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">ii. &nbsp; &nbsp;Solid Waste Management</td>
-                        <td></td>
+                        <td>{{data?.analytics[4]?.amount}}</td>
                         <td>x</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{data?.analytics[4]?.count}}</td>
+                        <td>{{data?.analytics[4]?.totalProjectCost}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="row">
+    <div class="row pd-row">
         <div class="col-sm-12">
             <table class="table table-bordered border-primary">
                 <thead>
@@ -188,13 +200,16 @@
                         <td>{{data.projects[i].location.lat}}</td>
                         <td>{{data.projects[i].location.long}}</td>
                         <td>{{data.projects[i].cost}}</td>
-                        <td>{{data.projects[i].expenditure}}</td>
+                        <td>
+                            {{((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) >=0? ((data?.projects[i].expenditure/data?.projects[i].cost)*100).toFixed(2) : 0 }}%
+                        </td>
+                        <!-- <td>{{data.projects[i].expenditure}}</td> -->
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="row" style="margin-top: 2%;">
+    <div class="row pd-row" style="margin-top: 1%">
         <div class="col-sm-12 f-text">
             <span>
         Certified that the above information has been extracted from the relevant Records being maintained
@@ -202,7 +217,16 @@
       </span>
         </div>
     </div>
-    <div class="row m-b">
+    <div class="row pd-row name-row">
+        <div class="col-sm-12" style="margin-top: 1rem">
+            Name : {{data.name}}
+        </div>
+        <div class="col-sm-12">
+            Designation : {{data.designation}}
+        </div>
+    </div>
+
+    <div class="row m-b pd-row">
         <div class="col-sm-12 sig-text text-center">
             <span>
        Signature with seal of commissioner or appropriate Authority in the ULB

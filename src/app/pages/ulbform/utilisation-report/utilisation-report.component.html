@@ -394,14 +394,14 @@
                 </div>
 
                 <div class="card-body" *ngIf="analytics.length>0" style="margin-bottom: 20px;">
-                    <p style="margin-left: 5px; font-weight: 500;">Waste Management (WM)</p>
+                    <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
                     <div class="table-responsive">
                         <table class="table custom-position">
                             <thead>
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th scope="col">Category</th>
-                                    <th scope="col">Total % of Tied Grant Utilized on WM</th>
+                                    <th scope="col">Total Tied Grant Utilized on WM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
 
@@ -417,7 +417,9 @@
                                         <input style="width:20rem;cursor:not-allowed" class="t-i" [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
-                                        <input class="t-i" style="cursor:not-allowed" style="cursor:not-allowed" [disabled]="true" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) > 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                        <!-- value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) > 0 ?
+                                        ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" -->
+                                        <input class="t-i" style="cursor:not-allowed" style="cursor:not-allowed" [disabled]="true" value="{{outputRow.amount}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
                                         <input class="t-i " style="cursor:not-allowed" [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
@@ -444,7 +446,7 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th width="20%" scope="col">Category</th>
-                                    <th scope="col">Total % of Tied Grant Utilized on SWM</th>
+                                    <th scope="col">Total Tied Grant Utilized on SWM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
 
@@ -460,7 +462,9 @@
                                         <input style="cursor:not-allowed" style="width:20rem" class="t-i " [disabled]="true" value="{{outputRow.categoryName}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
-                                        <input class="t-i " [disabled]="true" style="cursor:not-allowed" value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)> 0 ? ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                        <!-- value="{{((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2)> 0 ?
+                                        ((outputRow.amount/outputRow.totalProjectCost)*100).toFixed(2) : 0 }}%" -->
+                                        <input class="t-i " [disabled]="true" style="cursor:not-allowed" value="{{outputRow.amount}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td>
                                         <input class="t-i " style="cursor:not-allowed" [disabled]="true" value="{{outputRow.count}}" (mouseout)="errorDisplayExp=false">
