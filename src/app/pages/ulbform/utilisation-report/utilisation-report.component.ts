@@ -265,7 +265,19 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
+        if (!("_id" in res)) {
 
+          this.utilizationReport.value["blankForm"] = true;
+          console.log(this.utilizationReport);
+          sessionStorage.setItem(
+            "utilReport",
+            JSON.stringify(this.utilizationReport.value)
+          );
+
+          this.currentChanges();
+          this.isDraft = "fail";
+          return;
+        }
         this.preFilledData(res);
         const data = {
           designation: res["designation"],
@@ -328,8 +340,8 @@ export class UtilisationReportComponent implements OnInit {
         this.isDisabled = true;
         this.utilizationReport.controls.projects.disable();
     }
-    if((this.finalSubmitUtiStatus == "true") &&
-    (this.masterFormStatus != 'REJECTED')){
+    if ((this.finalSubmitUtiStatus == "true") &&
+      (this.masterFormStatus != 'REJECTED')) {
       this.utilizationReport.controls.projects.disable();
     }
     if (
@@ -647,7 +659,7 @@ export class UtilisationReportComponent implements OnInit {
   onSubmit() {
     alert("Submit and Next?");
   }
-  onNewPre(){
+  onNewPre() {
     const dialogRef = this.dialog.open(UtiNewPreComponent, {
       //  height: "3508px",
       //  width: '2480px',
@@ -709,7 +721,7 @@ export class UtilisationReportComponent implements OnInit {
     let formdata = {
       useData: this.helpData,
       isDraft: this.isDraft,
-     state_name: this.utilizationForm.controls.stateName.value,
+      state_name: this.utilizationForm.controls.stateName.value,
       ulbName: this.utilizationForm.controls.ulb.value,
       grantType: this.utilizationForm.controls.grantType.value,
       grantPosition: {

@@ -47,11 +47,15 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
   }
   id
-  states = null
+  states = null;
+
   ngOnInit(): void {
 
     this.onLoad();
-
+    window.onload = () => {
+      this.updateCharts();
+      this.selectedUA();
+    };
 
   }
   values = {
@@ -115,57 +119,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.getCardData();
     this.getFormData()
     this.getUAList();
-    this.updateCharts();
-    this.stateDashboardService.getSlbData(this.selectUa, this.id).subscribe(
-      (res) => {
-        console.log(res['data'])
-        let data = res['data']
-        data.forEach(el => {
-          if (el['category'] == 'UA') {
-            this.values.million_approvedByState = el['approvedByState'];
-            this.values.million_completedAndPendingSubmission = el['completedAndPendingSubmission'],
-              this.values.million_pendingCompletion = el['pendingCompletion']
-            this.values.million_underReviewByState = el['underReviewByState']
-          } else if (el['category'] == 'NonMillionNonUA') {
-            this.values.nonMillion_approvedByState = el['approvedByState'];
-            this.values.nonMillion_completedAndPendingSubmission = el['completedAndPendingSubmission'],
-              this.values.nonMillion_pendingCompletion = el['pendingCompletion']
-            this.values.nonMillion_underReviewByState = el['underReviewByState']
-          }
-        })
 
-        this.pieChartMillion();
-        this.pieChartNonMillion();
-        if (this.values.million_approvedByState == 0 &&
-          this.values.million_completedAndPendingSubmission == 0 &&
-          this.values.million_pendingCompletion == 0 &&
-          this.values.million_underReviewByState == 0
-        ) {
-          this.noDataFound_millionSLB = true
-        } else {
-          this.pieChartMillion();
-        }
-        if (this.values.nonMillion_approvedByState == 0 &&
-          this.values.nonMillion_completedAndPendingSubmission == 0 &&
-          this.values.nonMillion_pendingCompletion == 0 &&
-          this.values.nonMillion_underReviewByState == 0
-        ) {
-          this.noDataFound_nonMillionSLB = true
-        } else {
-          this.pieChartNonMillion();
 
-        }
-
-      },
-      (err) => {
-
-      }
-    )
 
   }
   UAs;
   getUAList() {
-    this.stateDashboardService.getUAList().subscribe(
+    this.stateDashboardService.getUAList(this.id).subscribe(
       (res) => {
         this.UAs = res['data']
 

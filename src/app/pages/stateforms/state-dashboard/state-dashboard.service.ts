@@ -20,8 +20,8 @@ export class StateDashboardService {
     getSlbData(ua_id, state_id) {
         return this.http.get(`${environment.api.url}masterForm/dashboard-slbWS/state/606aaf854dff55e6c075d219?ua_id=${ua_id}&state_id=${state_id}`);
     }
-    getUAList() {
-        return this.http.get(`${environment.api.url}masterForm/UAList`);
+    getUAList(state_id) {
+        return this.http.get(`${environment.api.url}masterForm/UAList?state_id=${state_id}`);
     }
 
     getGrantTransfer(params, csv = null) {
