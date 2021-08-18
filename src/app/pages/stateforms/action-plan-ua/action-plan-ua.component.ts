@@ -450,8 +450,8 @@ export class ActionPlanUAComponent implements OnInit {
         temp.push(pro);
       });
       Uas.yearOutlay = temp;
-      Uas.status = element?.status;
-      Uas.rejectReason = element?.rejectReason
+      Uas.status = element?.status.value;
+      Uas.rejectReason = element?.rejectReason.value
       if (fromSave) {
         if (element.status === "REJECTED") {
           Uas.status = "PENDING";
