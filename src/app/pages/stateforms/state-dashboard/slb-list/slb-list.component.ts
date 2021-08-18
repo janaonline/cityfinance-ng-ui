@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
+import { StateDashboardService } from '../state-dashboard.service'
 @Component({
   selector: 'app-slb-list',
   templateUrl: './slb-list.component.html',
@@ -35,6 +36,7 @@ export class SlbListComponent implements OnInit {
   constructor(
     private slbListService: SlbListService,
     public ulbService: UlbadminServiceService,
+    public stateDashboardService: StateDashboardService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -47,6 +49,9 @@ export class SlbListComponent implements OnInit {
   status_slb = new FormControl('');
 
   states = null
+  closeDialog() {
+    this.stateDashboardService.closeDialog.next('overall')
+  }
   ngOnInit(): void {
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.slbListService.getData(this.data.state_id)

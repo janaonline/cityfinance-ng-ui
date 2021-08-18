@@ -6,6 +6,7 @@ import { OverallListService } from './overall-list.service'
 import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
+import { StateDashboardService } from '../state-dashboard.service'
 @Component({
   selector: 'app-overall-list',
   templateUrl: './overall-list.component.html',
@@ -36,6 +37,7 @@ export class OverallListComponent implements OnInit {
   constructor(
     private overallListService: OverallListService,
     public ulbService: UlbadminServiceService,
+    public stateDashboardService: StateDashboardService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -54,6 +56,10 @@ export class OverallListComponent implements OnInit {
   status_slb = new FormControl('');
   status_plans = new FormControl('');
   states = null;
+
+  closeDialog() {
+    this.stateDashboardService.closeDialog.next('overall')
+  }
   ngOnInit() {
     console.log(this.data)
     this.states = JSON.parse(sessionStorage.getItem("statesData"))

@@ -56,7 +56,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       this.updateCharts();
       this.selectedUA();
     };
-
+    this.stateDashboardService.closeDialog.subscribe((form) => {
+      console.log(form)
+      this.dialog.closeAll()
+    })
   }
   values = {
     overall_approvedByState: 0,

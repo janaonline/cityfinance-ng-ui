@@ -265,10 +265,26 @@ export class UtilisationReportComponent implements OnInit {
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
+        this.analytics = res['analytics']
+        this.analytics.forEach(el => {
+          this.categories.forEach(element => {
+            if (element._id == el['_id']) {
+              el['categoryName'] = element.name
+            }
+          });
+        })
+        console.log(this.analytics)
+        this.analytics.forEach(el => {
+          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+            this.swm.push(el)
+          } else {
+            this.wm.push(el)
+          }
+        })
         if (!("_id" in res)) {
 
           this.utilizationReport.value["blankForm"] = true;
-          console.log(this.utilizationReport);
+          console.log(this.utilizationReport, this.wm, this.swm);
           sessionStorage.setItem(
             "utilReport",
             JSON.stringify(this.utilizationReport.value)
@@ -287,22 +303,7 @@ export class UtilisationReportComponent implements OnInit {
           grantType: res["grantType"],
         };
 
-        this.analytics = res['analytics']
-        this.analytics.forEach(el => {
-          this.categories.forEach(element => {
-            if (element._id == el['_id']) {
-              el['categoryName'] = element.name
-            }
-          });
-        })
-        console.log(this.analytics)
-        this.analytics.forEach(el => {
-          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-            this.swm.push(el)
-          } else {
-            this.wm.push(el)
-          }
-        })
+
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         setTimeout(() => {
           this.currentChanges();
