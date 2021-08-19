@@ -738,6 +738,9 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clearFile(fileType) {
+    if(this.isDisabled){
+      return
+    }
     let temp = this.data[fileType].standardized_data.excel;
     for (const key in temp) {
       temp[key] = null;

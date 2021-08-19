@@ -66,11 +66,11 @@ export class GrantTransferMohuaComponent implements OnInit {
   }
 
   save() {
-    this.showLoader = true;
-    this.changeInGtMohua = false;
     if (!this.excel?.url) {
       return swal("Please upload file and save");
     }
+    this.showLoader = true;
+    this.changeInGtMohua = false;
     let body = {
       url: this.excel.url,
       design_year: "606aaf854dff55e6c075d219",
