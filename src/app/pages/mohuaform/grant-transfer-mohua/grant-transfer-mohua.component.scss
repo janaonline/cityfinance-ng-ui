@@ -38,14 +38,20 @@
     color: #FFFFFF;
 }
 
-.back {
-    width: auto;
-    background-color: #cfcfcf;
-    color: #ffffff;
-    border-radius: 4px;
+.btn-back {
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    border-radius: 5px;
     height: 32px;
-    padding-left: 2%;
-    padding-right: 2%;
-    font-size: 12px;
-    font-weight: normal;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.btn-next {
+    background-color: #059B9A;
+    color: #FFFFFF;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
