@@ -25,7 +25,7 @@
             <button class="save upload" (click)="getTemplate()">Download Latest Data</button>
         </div> -->
     <ng-container>
-        <app-comm-file-upload [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
+        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
         <br>
     </ng-container>
 </div>

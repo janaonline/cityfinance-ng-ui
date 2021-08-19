@@ -50,6 +50,7 @@ export class GrantTransferMohuaComponent implements OnInit {
   saveBtnText = "SAVE";
   showLoader = false;
   changeInGtMohua = false;
+  delType = null
   getTemplate() {
     this.gtMohuaService.getTemplate().subscribe(
       (res) => {
@@ -69,6 +70,7 @@ export class GrantTransferMohuaComponent implements OnInit {
     if (!this.excel?.url) {
       return swal("Please upload file and save");
     }
+    if(this.saveBtnText === "FILE SAVED")return swal("File already uploaded.")
     this.showLoader = true;
     this.changeInGtMohua = false;
     let body = {
@@ -85,6 +87,10 @@ export class GrantTransferMohuaComponent implements OnInit {
           this._router.navigate([this.routerNavigate.url]);
       },
       (err) => {
+        this.delType = "excel"
+        setTimeout(() => {
+          this.delType = null
+        }, 0);
         let blob: any = new Blob([err.error], {
           type: "text/json; charset=utf-8",
         });

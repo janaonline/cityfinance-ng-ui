@@ -56,6 +56,9 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
 
   //  @Input() statusResponseUnA;
 
+  @Input()
+  delFileType;
+
   showPdf = true;
   showExcel = true;
   actionRes;
@@ -136,6 +139,9 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if(this.delFileType){
+      this.clearFile(this.delFileType)
+    }
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
       console.log('changes..........', this.dataFromParent);
