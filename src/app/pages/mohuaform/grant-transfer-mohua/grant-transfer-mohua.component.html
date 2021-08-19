@@ -35,7 +35,7 @@
 
 <div class="row" style="margin-top: 2rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6 text-left">
-        <button *ngIf="!showLoader" [routerLink]="['../review-ulb']" class="btn-back" [disabled]="isDisabled">BACK</button>
+        <button *ngIf="!showLoader" [routerLink]="['../review-ulb']" class="btn btn-back" [disabled]="isDisabled">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
         <button *ngIf="!showLoader" class="btn btn-next" (click)="save()" [disabled]="isDisabled">{{saveBtnText}}</button>
