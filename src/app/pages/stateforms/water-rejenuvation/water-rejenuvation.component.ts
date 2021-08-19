@@ -969,7 +969,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
   checkStatus(ev, ua_id) {
     console.log("mohua action in state", ev, ua_id);
-
+    this.saveBtnText = "SAVE AND NEXT";
     sessionStorage.setItem("changeInWaterRejenuvation", "true");
     console.log("before", this.waterRejenuvation.value);
     let state_id = sessionStorage.getItem("state_id");

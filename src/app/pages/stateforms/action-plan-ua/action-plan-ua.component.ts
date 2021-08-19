@@ -563,6 +563,7 @@ export class ActionPlanUAComponent implements OnInit {
   finalActionData;
   checkStatus(ev, ua_id, a, b) {
     sessionStorage.setItem("changeInActionPlans", "true");
+    this.saveBtnText = "SAVE AND NEXT";
     console.log("action plan of UA", ev, ua_id);
     console.log("before", this.data.uaData);
     if (!this.finalActionData) {
