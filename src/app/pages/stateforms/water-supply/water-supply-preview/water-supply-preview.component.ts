@@ -216,16 +216,10 @@ h5{
   approvedStatusData = []
   statusData = []
   getwaterSuppyData() {
-   let j =0;
     for(let i =0; i< this.uasList.length; i++) {
   //  this.uasList.forEach(item => {
       this._WaterSupplyService.getslbsData(this.uasList[i]._id)
       .subscribe((res) => {
-        // console.log('response', res)
-        // let ulbdetails: any = res;
-        // this.detailsOfUa = ulbdetails.data;
-        // console.log(this.detailsOfUa);
-
         let data = res['data']
         this.statusData = []
         this.approvedStatusData = []
@@ -246,10 +240,6 @@ h5{
           data[1]?.pendingCompletion.length +
           data[1]?.underStateReview.length;
          }
-        console.log(this.uasList);
-        if(i === (this.uasList.length-1)){
-          this.setDataSession();
-        }
       },
       (err) => {
        // this.getData.push('null');
@@ -258,22 +248,16 @@ h5{
         this.totalPendingUlb[i] ='NA'
         this.totalCompletedUlb[i] ='NA'
 
-        console.log('preview........err', this.getData)
-        if(i === (this.uasList.length-1)){
-          this.setDataSession();
-        }
       }
       )
-  //  })
-
-
 
     }
+    setTimeout(() => {
+      console.log('preview........full array from slb', this.getData)
+      sessionStorage.setItem("slbStateData", JSON.stringify(this.getData));
+    }, 500);
   }
-setDataSession(){
-    console.log('preview........full array', this.getData)
-    sessionStorage.setItem("slbStateData", JSON.stringify(this.getData));
-}
+
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {

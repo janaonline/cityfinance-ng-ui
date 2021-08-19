@@ -69,8 +69,8 @@ tr {
 }
 
 .m-b {
-    margin-top: 4%;
     margin-bottom: 5%;
+    margin-top: 1%;
 }
 
 .pd-row {
@@ -93,6 +93,11 @@ table>tbody>tr>td,
     line-height: 1.42857143;
     vertical-align: middle;
     border-top: 1px solid #ddd;
+}
+
+.name-row {
+    text-align: center;
+    margin-top: 4%;
 }
 
 // .mat-dialog-content {

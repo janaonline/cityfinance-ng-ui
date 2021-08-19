@@ -103,6 +103,7 @@ tr {
     text-align: center;
 }
 
+
 .f-text {
     text-decoration: underline;
     font-weight: 500;
@@ -115,11 +116,10 @@ tr {
     font-weight: 500;
     font-size: 12px;
     text-align: center;
-    padding-top: 1.5rem;
 }
 
 .m-b {
-    margin-top: 4%;
+    margin-top: .5rem !important;
     margin-bottom: 5%;
 }
 
@@ -133,7 +133,7 @@ tr {
     padding-right: 2%;
 }
 .name-row {
-    margin-top: .5rem !important;
+    margin-top: 4rem !important;
     font-weight: 500;
     font-size: 12px;
     text-align: center;
@@ -164,6 +164,10 @@ tr {
 .se-tb{
   padding-top : 1rem !important;
 }
+.pd-th {
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
   </style>`;
 
   @Input()
@@ -183,6 +187,8 @@ tr {
   swm = []
   wm = []
   categories;
+  totalWmAmount = 0;
+  totalSwmAmount = 0;
   ngOnInit() {
     console.log('preview data', this.data);
 
@@ -232,23 +238,31 @@ tr {
     }
 
     this.setTotalStatus();
-    this.analytics = this.data.analytics;
-    this.categories = this.data.categories;
-        this.analytics.forEach(el => {
-          this.categories.forEach(element => {
-            if (element._id == el['_id']) {
-              el['categoryName'] = element.name
-            }
-          });
-        })
-        console.log('prev ana...',this.analytics, this.categories)
-        this.analytics.forEach(el => {
-          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-            this.swm.push(el)
-          } else {
-            this.wm.push(el)
-          }
-        })
+    // this.analytics = this.data.analytics;
+    // this.categories = this.data.categories;
+    //     this.analytics.forEach(el => {
+    //       this.categories.forEach(element => {
+    //         if (element._id == el['_id']) {
+    //           el['categoryName'] = element.name
+    //         }
+    //       });
+    //     })
+    //     console.log('prev ana...',this.analytics, this.categories)
+    //     this.analytics.forEach(el => {
+    //       if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+    //         this.swm.push(el)
+    //       } else {
+    //         this.wm.push(el)
+    //       }
+    //     })
+    this.data.wm.forEach(el => {
+      this.totalWmAmount = this.totalWmAmount + el.amount;
+    });
+    this.data.swm.forEach(el => {
+      this.totalSwmAmount = this.totalSwmAmount + el.amount;
+    });
+    // alert(this.totalWmAmount);
+    // alert(this.totalSwmAmount);
   }
 
   ngOnDestroy(): void {

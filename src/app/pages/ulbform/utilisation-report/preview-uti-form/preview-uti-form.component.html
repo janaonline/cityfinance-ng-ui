@@ -47,10 +47,10 @@
                     <tr>
                         <th scope="col">S. No.</th>
                         <th scope="col">Item description</th>
-                        <th scope="col">Amount (Rs. in lakh)</th>
-                        <th scope="col">% of total tied grant earmarked </th>
-                        <th scope="col">No of projects undertaken</th>
-                        <th scope="col">Total project cast involved (Rs. in lakh)</th>
+                        <th scope="col" class="pd-th">Amount (Rs. in lakh)</th>
+                        <th scope="col" class="pd-th">% of total tied grant earmarked </th>
+                        <th scope="col" class="pd-th">No of projects undertaken</th>
+                        <th scope="col" class="pd-th">Total project cast involved (Rs. in lakh)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,7 +100,9 @@
                     <tr>
                         <th scope="row"></th>
                         <td class="pd-r" style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)</td>
-                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [ {{(((data?.analytics[2]?.amount + data?.analytics[3]?.amount + data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2)}} % ]
+                        <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
+                           data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td>x</td>
                         <td>x</td>
@@ -149,8 +151,10 @@
                     </tr> -->
                     <tr>
                         <th scope="row"></th>
+                        <!-- (((data?.analytics[0]?.amount +
+                            data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
                         <td class="pd-r" style="text-align: left; font-weight: 500; white-space: nowrap;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [ {{(((data?.analytics[0]?.amount + data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2)}} % ]
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td>x</td>
                         <td>x</td>
@@ -206,8 +210,8 @@
                             <span>Long</span> -->
                         </th>
 
-                        <th scope="col">Total Project cost</th>
-                        <th scope="col">% of 15<sup>th</sup> FC grants in total project cost
+                        <th scope="col" class="pd-th">Total Project cost</th>
+                        <th scope="col" class="pd-th">% of 15<sup>th</sup> FC grants in total project cost
 
                         </th>
                     </tr>
@@ -238,7 +242,7 @@
         </div>
     </div>
     <div class="row pd-row name-row">
-        <div class="col-sm-12" style="margin-top: 1rem">
+        <div class="col-sm-12">
             Name : {{data.name}}
         </div>
         <div class="col-sm-12">

@@ -627,12 +627,14 @@ downloadSub;
   setGrantAll(gAllData) {
     if (gAllData) this.gAllData = gAllData;
     else this.gAllData = this.grantAllError;
+    if(this.gAllData){
     if (this.gAllData.answer == true) {
       console.log('dsvfdbad', this.gAllData.answer);
       this.gAllData.answer = "yes";
     } else if (this.gAllData.answer == false) {
       this.account = "no";
     }
+  }
   }
   openModal() {
 

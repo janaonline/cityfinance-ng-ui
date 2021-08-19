@@ -79,7 +79,7 @@
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="getData[i][0].waterSuppliedPerDay2021">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.waterSuppliedPerDay.baseline['2021'] }} -->
                                     {{getData[i][0].waterSuppliedPerDay2021}}
                                 </span>
@@ -89,7 +89,7 @@
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="getData[i][0]['waterSuppliedPerDay'+year.key]">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.waterSuppliedPerDay.target[year.key] }} -->
                                     {{getData[i][0]['waterSuppliedPerDay'+year.key]}}
                                 </span>
@@ -111,7 +111,7 @@
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="getData[i][0].reduction2021">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.reduction.baseline['2021'] }} -->
                                     {{getData[i][0].reduction2021}}
                                 </span>
@@ -121,7 +121,7 @@
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="getData[i][0]['reduction'+year.key]">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.reduction.target[year.key] }} -->
                                     {{getData[i][0]['reduction'+year.key]}}
                                 </span>
@@ -141,7 +141,7 @@
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="getData[i][0].houseHoldCoveredWithSewerage2021">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.houseHoldCoveredWithSewerage.baseline['2021'] }} -->
                                     {{getData[i][0].houseHoldCoveredWithSewerage2021}}
                                 </span>
@@ -150,7 +150,7 @@
                                 </em>
                             </td>
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="getData[i][0]['houseHoldCoveredWithSewerage'+year.key]">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.houseHoldCoveredWithSewerage.target[year.key] }} -->
                                     {{getData[i][0]['houseHoldCoveredWithSewerage'+year.key]}}
                                 </span>
@@ -170,7 +170,7 @@
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td style="padding: 1%; text-align: center">
-                                <span *ngIf="getData[i][0].houseHoldCoveredPipedSupply2021">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.houseHoldCoveredPipedSupply.baseline['2021'] }} -->
                                     {{getData[i][0].houseHoldCoveredPipedSupply2021}}
                                 </span>
@@ -180,7 +180,7 @@
                             </td>
 
                             <td style="padding: 1%; text-align: center" *ngFor="let year of targets">
-                                <span *ngIf="getData[i][0]['houseHoldCoveredPipedSupply'+year.key]">
+                                <span *ngIf="getData[i]">
                                     <!-- {{ uaDetails.houseHoldCoveredPipedSupply.target[year.key] }} -->
                                     {{getData[i][0]['houseHoldCoveredPipedSupply'+year.key]}}
                                 </span>
