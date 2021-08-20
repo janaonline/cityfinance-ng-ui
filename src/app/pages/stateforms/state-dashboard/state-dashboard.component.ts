@@ -52,16 +52,17 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   states = null;
 
   ngOnInit(): void {
-
-    this.onLoad();
-    window.onload = () => {
-      this.updateCharts();
-      this.selectedUA();
-    };
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
       this.dialog.closeAll()
     })
+    this.onLoad();
+    window.onload = () => {
+      this.selectedUA();
+      this.updateCharts();
+
+    };
+
   }
   values = {
     overall_approvedByState: 0,
@@ -112,11 +113,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   width3 = '';
   width4 = '';
   UANames = []
-  maindonughtChart;
+  maindonughtChart = null;
   pfmsdonughtChart;
-  utilreportDonughtChart;
+  utilreportDonughtChart = null;
   slbdonughtChart
-  piechart;
+  piechart = null;
   userData = JSON.parse(localStorage.getItem("userData"))
 
   onLoad() {
@@ -124,6 +125,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.getCardData();
     this.getFormData()
     this.getUAList();
+    this.selectedUA();
   }
   UAs;
   getUAList() {
@@ -599,7 +601,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       }
     });
   }
-  piechart2;
+  piechart2 = null;
   pieChartNonMillion = () => {
     const data = {
       labels: [
@@ -702,8 +704,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
   }
   selected() {
-    this.maindonughtChart?.destroy();
-    this.utilreportDonughtChart?.destroy();
+    if (this.maindonughtChart) {
+      this.maindonughtChart.destroy();
+    }
+    if (this.utilreportDonughtChart) {
+      this.utilreportDonughtChart.destroy();
+    }
+
 
     console.log(this.selectedLevel)
     if (this.selectedLevel === "allUlbs") {
@@ -734,8 +741,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
     this.noDataFound_millionSLB = false
     this.noDataFound_nonMillionSLB = false
-    this.piechart?.destroy();
-    this.piechart2?.destroy();
+    if (this.piechart) {
+      this.piechart.destroy();
+    }
+    if (this.piechart2) {
+      this.piechart2.destroy();
+    }
+
     console.log('selectedUA', this.selectUa)
 
     this.stateDashboardService.getSlbData(this.selectUa, this.id).subscribe(

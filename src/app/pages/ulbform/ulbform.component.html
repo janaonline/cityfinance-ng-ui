@@ -215,6 +215,31 @@
 
 
             </ul>
+            <ul class="links " *ngIf="isUA == 'Yes'" routerLinkActive="active">
+                <!-- <a routerLink="entry-list5 ">SLB's for Water Supply and Sanitation</a> -->
+                <div class="row">
+
+                    <a routerLink="service-level">
+                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                            <mat-icon aria-hidden="false ">
+                                <img src="../../../assets/ulbform/Group 13409.svg">
+                            </mat-icon>
+                        </div>
+                        <div class="col-sm-9 col-xs-9" style="padding-right: 3px;">
+                            28 Service Level Benchmarks (SLBs)
+                        </div>
+                    </a>
+
+                    <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                        <mat-icon placement="right" class="pull-right" aria-hidden="false">
+                            <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
+                    </div>
+                </div>
+
+
+            </ul>
 
 
             <ul class="heading" style="background-color: #124A55;" *ngIf="eligibleForms['plansWaterSupplySanitation']">
