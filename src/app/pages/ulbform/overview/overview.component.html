@@ -42,28 +42,23 @@
          color: rgb(5, 113, 255);">
             Application Status -{{status}}
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12" [ngStyle]="{'width': messWidth +'px'}">
+        <!-- [ngStyle]="{'width': messWidth +'px'}" -->
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="progressBar">
                 <div class="progress" style="height: 33px;">
-                    <div class="progress-bar" role="progressbar" style="font-size:18px; line-height:unset;"
-                        aria-valuenow="25" aria-valuemin="0" [ngStyle]="{ width: percentage + '%' }"
-                        aria-valuemax="100">
+                    <div class="progress-bar" role="progressbar" style="font-size:18px; line-height:unset;" aria-valuenow="25" aria-valuemin="0" [ngStyle]="{ width: percentage + '%' }" aria-valuemax="100">
                         {{percentage.toFixed(0)}}%</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: 15px;">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="margin-left: 5%;">
             <div class="row titleCards">
                 <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="cardFit">
-                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;"
-                        [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="singleSlideOffset" [interval]="false"
-                        [showIndicators]="false">
+                    <carousel [itemsPerSlide]="itemsPerSlide" style="background-image: none;" [ngClass]='{"a-con": cardFit}' [singleSlideOffset]="singleSlideOffset" [interval]="false" [showIndicators]="false">
                         <slide *ngFor="let slide of cardsOverview; let index=index">
                             <a routerLink="{{slide['link']}}">
-                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'"
-                                    (mouseenter)="onHover(index, cardsOverview[index].title)"
-                                    (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
       index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
       'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
       index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -78,12 +73,12 @@
                                 </div>
                             </a>
                             <svg height="42px" width="auto" [style.display]="index == val ? 'block' : 'none'">
-                                <line [attr.x1]="60" y1="0px " [attr.x2]="60" y2="42px " style="stroke-width:2;"
+                                <line [attr.x1]="65" y1="0px " [attr.x2]="65" y2="42px " style="stroke-width:2;"
                                     [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
                                   '#F16831': index==3 ? '#549D5E' : index==4? '#FDCB2E': index==5? '#E71368' : index==6 ?
                                   '#9D198B' : '#73C557' } " />
                                 <svg height="30 " width="auto">
-                                    <circle [attr.cx]="60" cy="42 " r="12 " stroke="white " stroke-width="10 "
+                                    <circle [attr.cx]="65" cy="42 " r="12 " stroke="white " stroke-width="10 "
                                         [ngStyle]="{ 'fill': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ? '#F16831':
                                       index==3 ? '#549D5E' : index==4 ? '#FDCB2E': index==5 ? '#E71368' : index==6 ? '#9D198B' : '#73C557' } " />
                                 </svg>
@@ -92,16 +87,14 @@
 
                     </carousel>
                 </div>
-                <div class="col" *ngIf="!cardFit">
+                <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="!cardFit">
+                    <!-- [ngStyle]="{'width': width+'px'}" -->
                     <div class="row" style="display: inline-flex; position: relative;">
-                        <div class="col" style="position: relative;" [ngStyle]="{'width': width+'px'}"
-                            *ngFor="let slide of cardsOverview; let index=index">
+                        <div class="col-sm-3" style="position: relative;" *ngFor="let slide of cardsOverview; let index=index">
                             <!-- <div *ngIf="(isMillionPlus =='No') && "> -->
                             <!-- [style.margin-right]="(numcard == 5) ? '9%' : ''" -->
                             <a routerLink="{{slide['link']}}">
-                                <div class="card  individualCard" [style.margin-bottom]="index != val ? '42px' : '0'"
-                                    (mouseenter)="onHover(index, cardsOverview[index].title)"
-                                    (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
+                                <div class="card  individualCard" style="width: 57%;" [style.margin-bottom]="index != val ? '42px' : '0'" (mouseenter)="onHover(index, cardsOverview[index].title)" (mouseleave)="onUnhover(index)" [ngStyle]="{'background-image':
 index == 0 ?'linear-gradient(#73C557, #3A632C)': index == 1  ? 'linear-gradient(#42C9F6, #21657B)': index == 2 ?
 'linear-gradient(#F16831, #793419)': index == 3 ? 'linear-gradient(#549D5E, #2A4F2F)' :
 index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(#E71368, #740A34)' : index == 6 ?
@@ -119,12 +112,12 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
                             <!-- </div> -->
 
                             <svg height="42px" width="auto" [style.display]="index == val ? 'block' : 'none'">
-                                <line [attr.x1]="60" y1="0px " [attr.x2]="60" y2="42px " style="stroke-width:2;"
+                                <line [attr.x1]="65" y1="0px " [attr.x2]="65" y2="42px " style="stroke-width:2;"
                                     [ngStyle]="{ 'stroke': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ?
                       '#F16831': index==3 ? '#549D5E' : index==4? '#FDCB2E': index==5? '#E71368' : index==6 ?
                       '#9D198B' : '#73C557' } " />
                                 <svg height="30 " width="auto">
-                                    <circle [attr.cx]="60" cy="42 " r="12 " stroke="white " stroke-width="10 "
+                                    <circle [attr.cx]="65" cy="42 " r="12 " stroke="white " stroke-width="10 "
                                         [ngStyle]="{ 'fill': index==0 ? '#73C557': index==1 ? '#42C9F6': index==2 ? '#F16831':
                           index==3 ? '#549D5E' : index==4 ? '#FDCB2E': index==5 ? '#E71368' : index==6 ? '#9D198B' : '#73C557' } " />
                                 </svg>
@@ -138,10 +131,9 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
 
             </div>
         </div>
-
-        <div class="col-sm-12" [ngStyle]="{'width': messWidth +'px'}">
-            <div class="message "
-                [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)':
+        <!-- [ngStyle]="{'width': messWidth +'px'}" -->
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="message " [ngStyle]="{ 'background-image': i==1 ? 'linear-gradient(#73C557, #3A632C)':
             i==2 ? 'linear-gradient(#42C9F6, #21657B)': i==3 ? 'linear-gradient(#F16831, #793419)': i==4 ?
             'linear-gradient(#549D5E, #2A4F2F)' : i==5?
             'linear-gradient(#FDCB2E, #7F6617)': i==6? 'linear-gradient(#E71368, #740A34)' : i==7 ? 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' } ">
@@ -158,25 +150,20 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
                 <div class="individualResource ">
                     <img src={{imageUrls[0]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
-                        <h5 class="card-title " style="text-align: center; "><a
-                                href="https://democityfinance.dhwaniris.in/assets/files/XV%20FC%20Report.pdf"
-                                target="_blank">{{resourceNames[0]}}</a></h5>
+                        <h5 class="card-title " style="text-align: center; "><a href="https://democityfinance.dhwaniris.in/assets/files/XV%20FC%20Report.pdf" target="_blank">{{resourceNames[0]}}</a></h5>
                     </div>
                 </div>
                 <div class="individualResource ">
                     <img src={{imageUrls[1]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
-                        <h5 class="card-title " style="text-align: center; "><a
-                                href="https://democityfinance.dhwaniris.in/assets/files/XV%20FC%20Operational%20Guidelines.pdf"
-                                target="_blank">{{resourceNames[1]}}</a></h5>
+                        <h5 class="card-title " style="text-align: center; "><a href="https://democityfinance.dhwaniris.in/assets/files/XV%20FC%20Operational%20Guidelines.pdf" target="_blank">{{resourceNames[1]}}</a></h5>
                     </div>
                 </div>
                 <div class="individualResource ">
                     <img src={{imageUrls[2]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
                         <h5 class="card-title " style="text-align: center; ">
-                            <a href="https://democityfinance.dhwaniris.in/assets/files/15th%20FC%20ULB%20Grants%20-%20User%20Manual%20for%20CityFinance.pdf"
-                                target="_blank">{{resourceNames[2]}}</a>
+                            <a href="https://democityfinance.dhwaniris.in/assets/files/15th%20FC%20ULB%20Grants%20-%20User%20Manual%20for%20CityFinance.pdf" target="_blank">{{resourceNames[2]}}</a>
                         </h5>
                     </div>
                 </div>
@@ -189,9 +176,7 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
                 <div class="individualResource ">
                     <img src={{imageUrls[4]}} class="card-img-top " alt="... ">
                     <div class="card-body ">
-                        <h5 class="card-title " style="text-align: center; "><a
-                                href="https://cityfinance.in/resource/NMAM_Manual.pdf"
-                                target="_blank">{{resourceNames[4]}}</a></h5>
+                        <h5 class="card-title " style="text-align: center; "><a href="https://cityfinance.in/resource/NMAM_Manual.pdf" target="_blank">{{resourceNames[4]}}</a></h5>
                     </div>
                 </div>
             </div>

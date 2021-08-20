@@ -41,22 +41,22 @@
         </div>
     </div>
     <div class="row pd-row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 f-table">
             <table class="table table-bordered border-primary">
                 <thead>
                     <tr>
                         <th scope="col">S. No.</th>
                         <th scope="col">Item description</th>
-                        <th scope="col">Amount (RS. in lakh)</th>
-                        <th scope="col">% of total tied grant earmarked </th>
-                        <th scope="col">No of projects undertaken</th>
-                        <th scope="col">Total project cast involved (RS. in lakh)</th>
+                        <th scope="col" class="pd-th">Amount (Rs. in lakh)</th>
+                        <th scope="col" class="pd-th">% of total tied grant earmarked </th>
+                        <th scope="col" class="pd-th">No of projects undertaken</th>
+                        <th scope="col" class="pd-th">Total project cast involved (Rs. in lakh)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th scope="row">1.</th>
-                        <td style="text-align: left; font-weight: 500;">Unutilisated tied grant from previous installment</td>
+                        <td class="pd-r" style="text-align: left; font-weight: 500;">Unutilisated tied grant from previous installment</td>
                         <td>{{data.grantPosition.unUtilizedPrevYr}}</td>
                         <td>x</td>
                         <td>x</td>
@@ -64,8 +64,8 @@
                     </tr>
                     <tr>
                         <th scope="row">2.</th>
-                        <td style="text-align: left; font-weight: 500;">
-                            15<sup style="text-transform: capitalize">th</sup> F.C. Tied grant received during the year [ 1<sup>st</sup> & 2<sup>nd</sup> installment taken together ]
+                        <td class="pd-r" style="text-align: left; font-weight: 500;">15
+                            <sup style="text-transform: capitalize">th</sup> F.C. Tied grant received during the year [ 1<sup>st</sup> & 2<sup>nd</sup> installment taken together ]
 
                         </td>
                         <td>{{data.grantPosition.receivedDuringYr}}</td>
@@ -75,7 +75,7 @@
                     </tr>
                     <tr>
                         <th scope="row">3.</th>
-                        <td style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>
+                        <td class="pd-r" style="text-align: left; font-weight: 500;">Expenditure incurred during the year</td>
                         <td>{{data.grantPosition.expDuringYr}}</td>
                         <td>x</td>
                         <td>x</td>
@@ -83,7 +83,7 @@
                     </tr>
                     <tr>
                         <th scope="row">4.</th>
-                        <td style="text-align: left; font-weight: 500;">Closing balance at the end of year</td>
+                        <td class="pd-r" style="text-align: left; font-weight: 500;"> Closing balance at the end of year</td>
                         <td><b>{{ data.grantPosition.closingBal }}</b> </td>
                         <td>x</td>
                         <td>x</td>
@@ -91,7 +91,7 @@
                     </tr>
                     <tr>
                         <th scope="row">5.</th>
-                        <td style="text-align: left; font-weight: 500;">Component-wise utilisation of grant </td>
+                        <td class="pd-r" style="text-align: left; font-weight: 500;"> Component-wise utilisation of grant </td>
                         <td>x</td>
                         <td>x</td>
                         <td>x</td>
@@ -99,20 +99,32 @@
                     </tr>
                     <tr>
                         <th scope="row"></th>
-                        <td style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)</td>
-                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [ {{(((data?.analytics[2]?.amount + data?.analytics[3]?.amount + data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2)}} ]
+                        <td class="pd-r" style="text-align: left; font-weight: 500;">A. &nbsp; &nbsp;Water Management(WM)</td>
+                        <!-- (((data?.analytics[2]?.amount + data?.analytics[3]?.amount +
+                           data?.analytics[5]?.amount +data?.analytics[1]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in WM [&nbsp;{{ +((totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) > 0 ? (+(totalWmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td>x</td>
                         <td>x</td>
                     </tr>
-                    <tr>
+                    <tr *ngFor="let outputRow of data.wm; let rowIndex=index">
                         <th scope="row"></th>
-                        <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Supply of Drinking water</td>
-                        <td>{{data?.analytics[2]?.amount}}</td>
+                        <td class="pd-r" style="text-align: left; font-weight: 500; white-space: nowrap;">
+                            {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.categoryName}}
+                        </td>
+                        <td>{{outputRow.amount}}</td>
                         <td>x</td>
-                        <td>{{data?.analytics[2]?.count}}</td>
-                        <td>{{data?.analytics[2]?.totalProjectCost}}</td>
+                        <td>{{outputRow.count}}</td>
+                        <td>{{outputRow.totalProjectCost}}</td>
                     </tr>
+                    <!-- <tr>
+                      <th scope="row"></th>
+                      <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Supply of Drinking water</td>
+                      <td>{{data?.analytics[2]?.amount}}</td>
+                      <td>x</td>
+                      <td>{{data?.analytics[2]?.count}}</td>
+                      <td>{{data?.analytics[2]?.totalProjectCost}}</td>
+                  </tr>
                     <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">ii. &nbsp; &nbsp;Rain water harvesting</td>
@@ -136,22 +148,34 @@
                         <td>x</td>
                         <td>{{data?.analytics[1]?.count}}</td>
                         <td>{{data?.analytics[1]?.totalProjectCost}}</td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th scope="row"></th>
-                        <td style="text-align: left; font-weight: 500;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
-                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [ {{(((data?.analytics[0]?.amount + data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2)}} ]
+                        <!-- (((data?.analytics[0]?.amount +
+                            data?.analytics[4]?.amount)/data.grantPosition.expDuringYr)*100).toFixed(2) -->
+                        <td class="pd-r" style="text-align: left; font-weight: 500; white-space: nowrap;">B. &nbsp; &nbsp;Solid Waste Management(SWM)</td>
+                        <td colspan="2" style="font-weight: bold;">Total % of tied grant utilised in SWM [&nbsp;{{+((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) >0 ? ((totalSwmAmount/data.grantPosition.expDuringYr)*100).toFixed(2) : 0 }}% ]
                         </td>
                         <td>x</td>
                         <td>x</td>
                     </tr>
-                    <tr>
+                    <tr *ngFor="let outputRow of data.swm; let rowIndex=index">
+                        <th scope="row"></th>
+                        <td class="pd-r" style="text-align: left; font-weight: 500; white-space: nowrap;">
+                            {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.categoryName}}
+                        </td>
+                        <td>{{outputRow.amount}}</td>
+                        <td>x</td>
+                        <td>{{outputRow.count}}</td>
+                        <td>{{outputRow.totalProjectCost}}</td>
+                    </tr>
+                    <!-- <tr>
                         <th scope="row"></th>
                         <td style="text-align: left; font-weight: 500;">i. &nbsp; &nbsp;Sanitation</td>
-                        <td>{{data?.analytics[0]?.amount}}</td>
+                        <td>{{data?.analytics[5]?.amount}}</td>
                         <td>x</td>
-                        <td>{{data?.analytics[0]?.count}}</td>
-                        <td>{{data?.analytics[0]?.totalProjectCost}}</td>
+                        <td>{{data?.analytics[5]?.count}}</td>
+                        <td>{{data?.analytics[5]?.totalProjectCost}}</td>
                     </tr>
                     <tr>
                         <th scope="row"></th>
@@ -160,16 +184,16 @@
                         <td>x</td>
                         <td>{{data?.analytics[4]?.count}}</td>
                         <td>{{data?.analytics[4]?.totalProjectCost}}</td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="row pd-row">
-        <div class="col-sm-12">
+    <div class="row pd-row pj-tb">
+        <div class="col-sm-12 se-tb">
             <table class="table table-bordered border-primary">
                 <thead>
-                    <tr>
+                    <tr style="border-collapse: separate;">
                         <th scope="col" colspan="7" style="border: none; text-align: center;">Project details</th>
                     </tr>
                 </thead>
@@ -186,8 +210,8 @@
                             <span>Long</span> -->
                         </th>
 
-                        <th scope="col">Total Project cost</th>
-                        <th scope="col">% of 15<sup>th</sup> FC grants in total project cost
+                        <th scope="col" class="pd-th">Total Project cost</th>
+                        <th scope="col" class="pd-th">% of 15<sup>th</sup> FC grants in total project cost
 
                         </th>
                     </tr>
@@ -218,7 +242,7 @@
         </div>
     </div>
     <div class="row pd-row name-row">
-        <div class="col-sm-12" style="margin-top: 1rem">
+        <div class="col-sm-12">
             Name : {{data.name}}
         </div>
         <div class="col-sm-12">

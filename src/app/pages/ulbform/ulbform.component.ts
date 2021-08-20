@@ -417,6 +417,7 @@ export class UlbformComponent implements OnInit {
             "Forms Successfully Submitted to be Reviewed by State and MoHUA"
           );
           localStorage.setItem("finalSubmitStatus", 'true');
+          this._router.navigate(["ulbform/ulbform-overview"]);
         },
         (err) => {
           console.log(err);
@@ -506,7 +507,9 @@ export class UlbformComponent implements OnInit {
         }
 
         this.finalActionDis = true;
+        this._router.navigate(["ulbform/ulbform-overview"]);
         location.reload();
+
       },
       (err) => {
         console.log(err);

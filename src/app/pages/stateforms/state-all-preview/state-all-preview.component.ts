@@ -516,6 +516,7 @@ downloadSub;
       }
     );
     console.log('previewData', this.data);
+    this.stateSlbData = sessionStorage.getItem('slbStateData');
     // this.allFormRes = this.data[0]
     //  this.gtcError.data = this.data[0]['stategtcertificates'][0];
     //  this.pfmsStateError = this.data[0]['linkpfmsstates'][0];
@@ -626,12 +627,14 @@ downloadSub;
   setGrantAll(gAllData) {
     if (gAllData) this.gAllData = gAllData;
     else this.gAllData = this.grantAllError;
+    if(this.gAllData){
     if (this.gAllData.answer == true) {
       console.log('dsvfdbad', this.gAllData.answer);
       this.gAllData.answer = "yes";
     } else if (this.gAllData.answer == false) {
       this.account = "no";
     }
+  }
   }
   openModal() {
 
