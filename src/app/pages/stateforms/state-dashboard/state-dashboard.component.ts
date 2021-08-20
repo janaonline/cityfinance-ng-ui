@@ -19,6 +19,7 @@ import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
 import * as fileSaver from "file-saver";
+import { WaterSupplyService } from '../water-supply/water-supply.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
-    public commonService: CommonService
+    public commonService: CommonService,
+    private _WaterSupplyService: WaterSupplyService,
 
   ) {
     super();
@@ -124,8 +126,6 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.getFormData()
     this.getUAList();
     this.selectedUA();
-
-
   }
   UAs;
   getUAList() {
@@ -652,24 +652,26 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       }
     });
   }
+
   getCardData() {
     this.stateDashboardService.getCardData(this.id).subscribe(
       (res) => {
         console.log(res["data"]);
         let data = res["data"];
-
+        let newList = {};
         this.totalUlbs = data['totalUlb'];
         this.nonMillionCities = data['totalUlbNonMil'];
         this.millionPlusUAs = data['totalUa'];
         this.UlbInMillionPlusUA = data['totalUlbInUas'];
         this.stateDashboardService.totalUaS.next(this.millionPlusUAs);
-        let newList = {};
+
         res["data"]["uaList"].forEach((element) => {
           this.UANames.push(element.name)
           newList[element._id] = element;
         });
         console.log(this.UANames)
         sessionStorage.setItem("UasList", JSON.stringify(newList));
+        this.getwaterSuppyData();
       },
       (err) => {
         console.log(err);
@@ -945,6 +947,55 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   grantTransferDownload() {
     this.getGrantTranfer(this.id ? this.id : this.userData.state, true)
   }
+  getData:any = [];
+  totalULBsInUA:any = [];
+  totalCompletedUlb: any = [];
+  totalPendingUlb:any =[];
+  approvedStatusData = []
+  statusData = []
+  getwaterSuppyData() {
+    let uasList;
+    uasList  = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
+    console.log('ua list for pre...',uasList)
+     for(let i =0; i< uasList.length; i++) {
+   //  this.uasList.forEach(item => {
+       this._WaterSupplyService.getslbsData(uasList[i]._id)
+       .subscribe((res) => {
+         let data = res['data']
+         this.statusData = []
+         this.approvedStatusData = []
+         this.getData[i] = data;
 
+          if(this.getData[i] != 'null') {
+           console.log('data',i, this.totalULBsInUA, data[1]?.completedAndpendingSubmission.length +
+           data[1]?.pendingCompletion.length +
+           data[1]?.underStateReview.length +
+           data[0]?.total);
+           this.totalULBsInUA[i] = data[1]?.completedAndpendingSubmission.length +
+           data[1]?.pendingCompletion.length +
+           data[1]?.underStateReview.length +
+           data[0]?.total;
+
+           this.totalCompletedUlb[i] = data[0]?.total;
+           this.totalPendingUlb[i] = data[1]?.completedAndpendingSubmission.length +
+           data[1]?.pendingCompletion.length +
+           data[1]?.underStateReview.length;
+          }
+       },
+       (err) => {
+        // this.getData.push('null');
+         this.getData[i] = 'null';
+         this.totalULBsInUA[i] = 'NA'
+         this.totalPendingUlb[i] ='NA'
+         this.totalCompletedUlb[i] ='NA'
+
+       }
+       )
+     }
+     setTimeout(() => {
+      console.log('preview........full array from dashbord', this.getData)
+      sessionStorage.setItem("slbStateData", JSON.stringify(this.getData));
+    }, 500);
+   }
 }
 

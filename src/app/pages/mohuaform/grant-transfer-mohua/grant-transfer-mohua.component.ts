@@ -59,7 +59,7 @@ export class GrantTransferMohuaComponent implements OnInit {
         });
         const url = window.URL.createObjectURL(blob);
 
-        fileSaver.saveAs(blob, "GrantTranferTemplate.xlsx");
+        fileSaver.saveAs(blob, "GrantTransferTemplate.xlsx");
         swal("Upload downloaded template");
       },
       (err) => {}
