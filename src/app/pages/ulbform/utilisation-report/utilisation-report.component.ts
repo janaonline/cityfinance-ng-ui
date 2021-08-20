@@ -566,7 +566,8 @@ export class UtilisationReportComponent implements OnInit {
     this.projectCost = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
       // console.log(this.projectCost + +this.utilizationReport.controls.projects.value[j].cost)
-      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost)) {
+      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost)
+      || (this.utilizationReport.controls.projects.value[j].cost) > 0) {
         this.projectCost =
           this.projectCost +
           +this.utilizationReport.controls.projects.value[j].cost;
