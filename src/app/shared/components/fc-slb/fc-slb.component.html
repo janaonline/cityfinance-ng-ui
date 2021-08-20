@@ -9,7 +9,7 @@
         <th scope="col">Service Level Indicators</th>
         <th scope="col">Benchmark</th>
         <th scope="col">
-          Actual Figures<br /> 2020-21
+          Actual Indicator<br /> 2020-21
         </th>
 
         <th *ngFor="let column of targets" scope="col">
@@ -82,7 +82,7 @@
                 );
               " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key"
                 type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
-                'is-ed':
+                'is-invalid':
                   ((isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
                       year.key
