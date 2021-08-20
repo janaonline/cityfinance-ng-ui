@@ -339,7 +339,7 @@ export class AnnualAccountsComponent implements OnInit {
         async (res) => {
           this.dataPopulate(res);
           this.actionCheck = res['status'];
-          console.log("annual res---------------", res);
+          console.log("annual res---------------", res, this.actionCheck);
         },
         (err) => {
           const toStoreResponse = this.data;
