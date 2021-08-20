@@ -116,6 +116,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   maindonughtChart = null;
   pfmsdonughtChart;
   utilreportDonughtChart = null;
+  gauge_provisional = null
+  gauge_audited = null
   slbdonughtChart
   piechart = null;
   userData = JSON.parse(localStorage.getItem("userData"))
@@ -378,10 +380,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     }
     const canvas = <HTMLCanvasElement>document.getElementById("chartDiv");
     const ctx = canvas.getContext("2d");
-    var myChart = new Chart(ctx, {
+    this.gauge_provisional = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [],
+        labels: ['Completed and Accounts Submitted',
+          'Completed and Accounts Not Submitted'],
         datasets: [
           {
             data: [
@@ -399,7 +402,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 68,
-
+        legend: {
+          display: false
+        },
         onClick(...args) {
           console.log(args);
         },
@@ -474,10 +479,11 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     }
     const canvas = <HTMLCanvasElement>document.getElementById("chartDiv2");
     const ctx = canvas.getContext("2d");
-    var myChart = new Chart(ctx, {
+    this.gauge_audited = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [],
+        labels: ['Completed and Accounts Submitted',
+          'Completed and Accounts Not Submitted'],
         datasets: [
           {
             data: [
@@ -495,7 +501,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 68,
-
+        legend: {
+          display: false
+        },
         onClick(...args) {
           console.log(args);
         },
@@ -709,6 +717,12 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     }
     if (this.utilreportDonughtChart) {
       this.utilreportDonughtChart.destroy();
+    }
+    if (this.gauge_audited) {
+      this.gauge_audited.destroy();
+    }
+    if (this.gauge_provisional) {
+      this.gauge_provisional.destroy();
     }
 
 
@@ -947,55 +961,55 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   grantTransferDownload() {
     this.getGrantTranfer(this.id ? this.id : this.userData.state, true)
   }
-  getData:any = [];
-  totalULBsInUA:any = [];
+  getData: any = [];
+  totalULBsInUA: any = [];
   totalCompletedUlb: any = [];
-  totalPendingUlb:any =[];
+  totalPendingUlb: any = [];
   approvedStatusData = []
   statusData = []
   getwaterSuppyData() {
     let uasList;
-    uasList  = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
-    console.log('ua list for pre...',uasList)
-     for(let i =0; i< uasList.length; i++) {
-   //  this.uasList.forEach(item => {
-       this._WaterSupplyService.getslbsData(uasList[i]._id)
-       .subscribe((res) => {
-         let data = res['data']
-         this.statusData = []
-         this.approvedStatusData = []
-         this.getData[i] = data;
+    uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
+    console.log('ua list for pre...', uasList)
+    for (let i = 0; i < uasList.length; i++) {
+      //  this.uasList.forEach(item => {
+      this._WaterSupplyService.getslbsData(uasList[i]._id)
+        .subscribe((res) => {
+          let data = res['data']
+          this.statusData = []
+          this.approvedStatusData = []
+          this.getData[i] = data;
 
-          if(this.getData[i] != 'null') {
-           console.log('data',i, this.totalULBsInUA, data[1]?.completedAndpendingSubmission.length +
-           data[1]?.pendingCompletion.length +
-           data[1]?.underStateReview.length +
-           data[0]?.total);
-           this.totalULBsInUA[i] = data[1]?.completedAndpendingSubmission.length +
-           data[1]?.pendingCompletion.length +
-           data[1]?.underStateReview.length +
-           data[0]?.total;
+          if (this.getData[i] != 'null') {
+            console.log('data', i, this.totalULBsInUA, data[1]?.completedAndpendingSubmission.length +
+              data[1]?.pendingCompletion.length +
+              data[1]?.underStateReview.length +
+              data[0]?.total);
+            this.totalULBsInUA[i] = data[1]?.completedAndpendingSubmission.length +
+              data[1]?.pendingCompletion.length +
+              data[1]?.underStateReview.length +
+              data[0]?.total;
 
-           this.totalCompletedUlb[i] = data[0]?.total;
-           this.totalPendingUlb[i] = data[1]?.completedAndpendingSubmission.length +
-           data[1]?.pendingCompletion.length +
-           data[1]?.underStateReview.length;
+            this.totalCompletedUlb[i] = data[0]?.total;
+            this.totalPendingUlb[i] = data[1]?.completedAndpendingSubmission.length +
+              data[1]?.pendingCompletion.length +
+              data[1]?.underStateReview.length;
           }
-       },
-       (err) => {
-        // this.getData.push('null');
-         this.getData[i] = 'null';
-         this.totalULBsInUA[i] = 'NA'
-         this.totalPendingUlb[i] ='NA'
-         this.totalCompletedUlb[i] ='NA'
+        },
+          (err) => {
+            // this.getData.push('null');
+            this.getData[i] = 'null';
+            this.totalULBsInUA[i] = 'NA'
+            this.totalPendingUlb[i] = 'NA'
+            this.totalCompletedUlb[i] = 'NA'
 
-       }
-       )
-     }
-     setTimeout(() => {
+          }
+        )
+    }
+    setTimeout(() => {
       console.log('preview........full array from dashbord', this.getData)
       sessionStorage.setItem("slbStateData", JSON.stringify(this.getData));
     }, 500);
-   }
+  }
 }
 
