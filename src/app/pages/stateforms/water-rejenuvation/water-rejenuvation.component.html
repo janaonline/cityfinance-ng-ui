@@ -91,7 +91,7 @@
                                                 </label>
                                                 <input style="display: none;"
                                                     [attr.id]="waterBodiesIndex + '' + projectIndex" type="file"
-                                                    [disabled]="isDisabled" accept=".png,.jpg,.jpeg"
+                                                    [disabled]="formDisable" accept=".png,.jpg,.jpeg"
                                                     (change)="onFileChange($event,waterBodiesIndex,projectIndex)"
                                                     required multiple />
                                             </div>
@@ -103,7 +103,7 @@
                                                 </span></a>
                                             <a style="margin-left: 1ch;"
                                                 (click)="removePhotos(waterBodiesIndex,projectIndex)"
-                                                [ngClass]="{'anDisable': isDisabled }">
+                                                [ngClass]="{'anDisable': formDisable }">
                                                 <span class="material-icons file"
                                                     style="font-size: 14px; padding-left:2px; vertical-align: middle; color: red;">
                                                     delete_forever

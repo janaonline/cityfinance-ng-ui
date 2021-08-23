@@ -514,11 +514,11 @@ export class ActionPlanUAComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
     this.dialogRefForNavigation.afterClosed().subscribe((result) => {
-      if (result === undefined) {
-        if (this.routerNavigate) {
-          this.routerNavigate = null;
-        }
-      }
+      // if (result === undefined) {
+      //   if (this.routerNavigate) {
+      //     this.routerNavigate = null;
+      //   }
+      // }
     });
   }
 

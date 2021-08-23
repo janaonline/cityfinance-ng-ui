@@ -194,6 +194,11 @@ export class PreviewSlbComponentComponent implements OnInit {
     let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data = this.formatResponse(this.data);
     this.data.history = null;
+    if(this.userData.role !== USER_TYPE.ULB){
+      this.data.ulbName = sessionStorage.getItem("ulbName")
+    }else{
+      this.data.ulbName = this.userData['name'];
+    }
     console.log("getData", getData);
     console.log("this.data", this.data);
 

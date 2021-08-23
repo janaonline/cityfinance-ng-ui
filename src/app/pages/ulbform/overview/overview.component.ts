@@ -30,6 +30,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   //  sessionUlbId = null;
   checkPos = true;
   annualStatus;
+  userData = JSON.parse(localStorage.getItem("userData"));
+
   constructor(
     private Overview: Overview,
     public activatedRoute: ActivatedRoute,
@@ -171,7 +173,11 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           console.log("overviewRes", res["response"]);
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
+          if(this.userData.role != USER_TYPE.ULB)
+          this.ulbName = sessionStorage.getItem("ulbName");
+          else
           this.ulbName = res["response"]["ulbName"];
+
           this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
           this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
@@ -258,13 +264,13 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.factor = 100 / this.formValue;
       this.numcard = 4;
     } else if (this.isUA == "No") {
-      this.formValue = 2;
+      this.formValue = 3;
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
       );
       this.factor = 100 / +this.formValue;
-      this.numcard = 3;
+      this.numcard = 4;
       console.log("no. no", this.factor);
     }
 

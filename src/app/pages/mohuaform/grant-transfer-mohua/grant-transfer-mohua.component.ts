@@ -109,7 +109,6 @@ export class GrantTransferMohuaComponent implements OnInit {
     this.excel = file.excel;
     this.saveBtnText = "SAVE";
     if (this.excel.url) this.changeInGtMohua = true;
-    else this.changeInGtMohua = false;
   }
 
   openModal(template: TemplateRef<any>, fromPreview = null) {
