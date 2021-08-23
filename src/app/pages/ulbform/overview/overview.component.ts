@@ -258,13 +258,13 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       this.factor = 100 / this.formValue;
       this.numcard = 4;
     } else if (this.isUA == "No") {
-      this.formValue = 2;
+      this.formValue = 3;
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
       );
       this.factor = 100 / +this.formValue;
-      this.numcard = 3;
+      this.numcard = 4;
       console.log("no. no", this.factor);
     }
 
