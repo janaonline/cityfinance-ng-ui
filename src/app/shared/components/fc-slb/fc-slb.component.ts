@@ -222,7 +222,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     }
     if(changes && changes.actionStatus && changes.actionStatus.currentValue){
     this.actionStatus = changes.actionStatus.currentValue;
-
+    
     if (this.actionStatus.rRes != null) {
       this.ulbFormRejectR = this.actionStatus.rRes;
     }
@@ -245,6 +245,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         });
       });
     }, 100)
+    
       this.ulbFormStaus = this.actionStatus.st;
 
       if (this.actionStatus["actionTakenByRole"] == USER_TYPE.STATE) {
