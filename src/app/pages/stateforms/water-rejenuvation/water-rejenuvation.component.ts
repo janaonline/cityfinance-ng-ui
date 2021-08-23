@@ -740,6 +740,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   removePhotos(waterIndex, uaIndex) {
+    if (this.formDisable) return
     let mess = window.confirm("Do you want delete all photos");
     let control = this.getSubControlsWaterBodies(uaIndex);
     let photoControl = control[waterIndex].controls.photos;
