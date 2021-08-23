@@ -21,6 +21,7 @@ import { Router, Event } from "@angular/router";
 import { AnnualAccountsComponent } from "../annual-accounts.component";
 const swal: SweetAlert = require("sweetalert");
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
+import { USER_TYPE } from "src/app/models/user/userType";
 
 @Component({
   selector: "app-annual-preview",
@@ -143,7 +144,11 @@ text-align: center;
   stateName =''
   async ngOnInit() {
     let userData = JSON.parse(localStorage.getItem('userData'));
-    this.ulbName = userData['name'];
+    if(userData.role !== USER_TYPE.ULB){
+      this.ulbName = sessionStorage.getItem("ulbName")
+    }else{
+      this.ulbName = userData['name'];
+    }
     this.stateName = userData['stateName'];
     this.subParentForModal =
       this.annualAccountsService.OpenModalTrigger.subscribe((change) => {
