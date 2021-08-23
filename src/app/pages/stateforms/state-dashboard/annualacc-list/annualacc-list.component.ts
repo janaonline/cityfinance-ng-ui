@@ -33,7 +33,8 @@ export class AnnualaccListComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
-  resData
+  resData;
+  showLoader = true;
   constructor(
     private annualaccListService: AnnualaccListService,
     public ulbService: UlbadminServiceService,
@@ -52,11 +53,12 @@ export class AnnualaccListComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-
+        this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
           console.log(error, this.errMessage);
+          this.showLoader = false;
         }
       )
   }

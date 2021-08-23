@@ -100,7 +100,7 @@
 .firstColumn {
     background-color: #12505A;
     color: #ffffff;
-      height: 100%;
+    height: 100%;
     border-radius: 4px;
     border: 1px solid #0000001A;
 }
@@ -124,8 +124,8 @@
 
 .statusArea {
     height: 577px;
-   // width: 100%;
-   // margin-left: inherit
+    // width: 100%;
+    // margin-left: inherit
 }
 
 .mainDonutChart {
@@ -182,7 +182,6 @@
 .textInThirdColumn {
     line-height: 30px;
     text-align: center;
-   
     font-size: 18px;
     font-weight: bold;
     margin-top: 4px;
@@ -193,10 +192,9 @@
     border-radius: 4px;
     //   width: inherit;
     margin-bottom: 2%;
-     height: 290px;
-     margin-top:2%;
+    height: 290px;
+    margin-top: 2%;
 }
-
 
 .header {
     border-bottom: 1px solid #0000001A;
@@ -545,8 +543,22 @@ table {
     }
 }
 
-.mainDonutChart {
-    .chartjs-render-monitor {
-        padding-right: 10px;
-    }
+// .mainDonutChart {
+//     .chartjs-render-monitor {
+//         padding-right: 10px;
+//     }
+// }
+.mat-card-actions,
+.mat-card-subtitle,
+.mat-card-content {
+    margin-bottom: 0;
+}
+
+.mat-card-actions {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+::ng-deep .mat-card-header-text {
+    margin: 0 !important;
 }

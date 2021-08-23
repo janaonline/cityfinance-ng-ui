@@ -34,6 +34,7 @@ export class OverallListComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
+  showLoader = true;
   constructor(
     private overallListService: OverallListService,
     public ulbService: UlbadminServiceService,
@@ -59,6 +60,7 @@ export class OverallListComponent implements OnInit {
 
   closeDialog() {
     this.stateDashboardService.closeDialog.next('overall')
+
   }
   ngOnInit() {
     console.log(this.data)
@@ -72,11 +74,12 @@ export class OverallListComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-
+this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
           console.log(error, this.errMessage);
+          this.showLoader = false;
         }
       )
   }
