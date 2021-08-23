@@ -222,8 +222,12 @@ export class FcSlbComponent implements OnInit, OnChanges {
     }
     if(changes && changes.actionStatus && changes.actionStatus.currentValue){
     this.actionStatus = changes.actionStatus.currentValue;
-    if(this.actionStatus.st){
-    this.isSubmitButtonClick = true;
+
+    if (this.actionStatus.rRes != null) {
+      this.ulbFormRejectR = this.actionStatus.rRes;
+    }
+    if (this.actionStatus.st != null) {
+      this.isSubmitButtonClick = true;
     setTimeout(() => {
       this.services.forEach((service, serviceIndex) => {
         let isIncreasing = serviceIndex == 1 ?  false : true
@@ -241,11 +245,6 @@ export class FcSlbComponent implements OnInit, OnChanges {
         });
       });
     }, 100)
-  }
-    if (this.actionStatus.rRes != null) {
-      this.ulbFormRejectR = this.actionStatus.rRes;
-    }
-    if (this.actionStatus.st != null) {
       this.ulbFormStaus = this.actionStatus.st;
 
       if (this.actionStatus["actionTakenByRole"] == USER_TYPE.STATE) {
