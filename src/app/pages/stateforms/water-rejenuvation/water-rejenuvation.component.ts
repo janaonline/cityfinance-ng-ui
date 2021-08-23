@@ -244,11 +244,9 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
-          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
-          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
         ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
           Validators.required,
