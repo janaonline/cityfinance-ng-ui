@@ -512,6 +512,7 @@ margin-left : .5rem !important;
         expenditure: null,
       },
     ],
+    analytics : []
   };
 
   slbWaterSanitaionError = {
@@ -828,11 +829,12 @@ margin-left : .5rem !important;
   }
 
   setAllData(data) {
-    this.setLinkPfms(data.pfmsAccounts[0]);
+    //this.setLinkPfms(data.pfmsAccounts[0]);
     this.setDetailUtilData(data.utilizationReport[0]);
     this.setAnnualAccount(data.annualAccountData[0]);
-    if (data.isUA == "Yes") this.setSlbData(data.SLBs[0]);
-    if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
+  //  if (data.isUA == "Yes")
+    this.setSlbData(data.SLBs[0]);
+  //  if (data.isMillionPlus == "No") this.setWaterSanitation(data.plansData[0]);
     this.showLoader = false;
   }
 
@@ -847,6 +849,7 @@ margin-left : .5rem !important;
         grantType: detailUtilData["grantType"] ?? "Tied",
         grantPosition: detailUtilData["grantPosition"],
         projects: detailUtilData["projects"],
+        analytics :detailUtilData['analytics'],
         name: detailUtilData["name"],
         designation: detailUtilData["designation"],
         totalProCost: detailUtilData["projectCost"] ?? 0,
