@@ -15,8 +15,10 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { NgxPaginationModule } from "ngx-pagination";
-
-
+import { MatIconModule } from "@angular/material/icon";
+import { DateFormatPipe } from "./dateTimePipe"
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,8 +34,11 @@ import { NgxPaginationModule } from "ngx-pagination";
     NgxPaginationModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatIconModule,
   ],
-  declarations: [AnnualAccountsCreateComponent],
+  declarations: [AnnualAccountsCreateComponent, DateFormatPipe],
   exports: [AnnualAccountsCreateComponent],
 })
-export class AnnualAccountsModule {}
+export class AnnualAccountsModule { }

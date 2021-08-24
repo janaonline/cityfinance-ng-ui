@@ -20,7 +20,6 @@ import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
 
 const swal: SweetAlert = require("sweetalert");
-
 @Component({
   selector: "app-data-upload",
   templateUrl: "./data-upload.component.html",
@@ -482,8 +481,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
 
       const isFieldREJECTED =
         this.uploadObject[key] &&
-        (this.uploadObject[key].completeness === "REJECTED" ||
-          this.uploadObject[key].correctness === "REJECTED")
+          (this.uploadObject[key].completeness === "REJECTED" ||
+            this.uploadObject[key].correctness === "REJECTED")
           ? true
           : false;
 
@@ -672,8 +671,8 @@ export class DataUploadComponent implements OnInit, OnDestroy {
           this.loading = false;
           this._snackBar.open(
             response.error.errors.message ||
-              response.error.message ||
-              "Some Error Occurred",
+            response.error.message ||
+            "Some Error Occurred",
             null,
             { duration: 6600 }
           );
@@ -818,5 +817,5 @@ export class DataUploadComponent implements OnInit, OnDestroy {
       .updateValueAndValidity();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 }
