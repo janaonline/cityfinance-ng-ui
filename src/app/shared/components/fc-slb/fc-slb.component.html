@@ -93,7 +93,8 @@
                     year.key
                   ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
                   (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
-                  || form.controls[service.key].controls['target'].controls[year.key].errors.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                   || form.controls[service.key].controls['target'].controls[year.key]?.invalid) ) }" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -265,7 +266,8 @@
                     year.key
                   ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
                   (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
-                  || form.controls[service.key].controls['target'].controls[year.key].errors.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                   || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )}" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -435,7 +437,8 @@
                     year.key
                   ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
                   (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
-                  || form.controls[service.key].controls['target'].controls[year.key].errors.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                   || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
               }" />
               <span class="input-group-addon"><em class="glyphicon">
@@ -606,7 +609,8 @@
                     year.key
                   ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
                   (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
-                  || form.controls[service.key].controls['target'].controls[year.key].errors.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
                   || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
               }" />
               <span class="input-group-addon"><em class="glyphicon">
