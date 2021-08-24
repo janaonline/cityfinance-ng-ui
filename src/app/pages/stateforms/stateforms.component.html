@@ -9,8 +9,7 @@
                 <a [routerLink]="['../fc-home-page']">
                     <h5 class="pd" style="font-size: 14px;">
                         <div class="col-sm-1 col-xs-1 text-center">
-                            <mat-icon aria-hidden="false" [style.padding-top]="backHeadStyle ? '5px' : '0'"
-                                [style.padding-bottom]="!(backHeadStyle) ? '5px' : '0'">
+                            <mat-icon aria-hidden="false" [style.padding-top]="backHeadStyle ? '5px' : '0'" [style.padding-bottom]="!(backHeadStyle) ? '5px' : '0'">
                                 <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
                             </mat-icon>
                         </div>
@@ -104,8 +103,7 @@
                         <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -122,12 +120,10 @@
                         Linking of PFMS Account
                     </div>
                     <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateC">
+                        <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -166,12 +162,10 @@
                         <!-- <mat-icon aria-hidden="false">
                             <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
                         </mat-icon> -->
-                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Submission Requried"
-                            class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Submission Requried" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="userLoggedInDetails.role != userTypes.STATE" tooltip="No Action Requried"
-                            class="pull-right" aria-hidden="false">
+                        <mat-icon *ngIf="userLoggedInDetails.role != userTypes.STATE" tooltip="No Action Requried" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
 
@@ -193,8 +187,7 @@
                         <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -215,8 +208,7 @@
                         <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                             <img src="../../../assets/form-icon/checked.svg">
                         </mat-icon>
-                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN">
+                        <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                             <img src="../../../assets/form-icon/cancel.svg">
                         </mat-icon>
                     </div>
@@ -276,19 +268,13 @@
 
                 </div>
                 <div>
-                    <div *ngIf="(loggedInUserType === userTypes.STATE)"
-                        matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
+                    <div *ngIf="(loggedInUserType === userTypes.STATE)" matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
 
-                        <button mat-raised-button class="subBtn"
-                            [disabled]="!validate || submitted || allStatusStateForms['status'] == 'APPROVED'  "
-                            (click)="finalSubmit()">{{submitted ? "Submitted" : allStatusStateForms['status'] ==
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || submitted || allStatusStateForms['status'] == 'APPROVED'  " (click)="finalSubmit()">{{submitted ? "Submitted" : allStatusStateForms['status'] ==
                             'APPROVED' ? "Approval Completed" : "Submit"}}</button>
                     </div>
-                    <div *ngIf="loggedInUserType === userTypes.MoHUA "
-                        matTooltip="Must submit all the Forms Status before Final Submit"
-                        [matTooltipDisabled]="validate">
-                        <button mat-raised-button class="subBtn" [disabled]="!validate || reviewSubmitted"
-                            (click)=" finalMoHUAAction()">
+                    <div *ngIf="loggedInUserType === userTypes.MoHUA " matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
+                        <button mat-raised-button class="subBtn" [disabled]="!validate || reviewSubmitted" (click)=" finalMoHUAAction()">
                             {{reviewSubmitted ? "Submitted Final
                             Review" : "Submit Final Review"}}</button>
                     </div>
@@ -296,8 +282,7 @@
             </div>
         </div>
 
-        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" [ngClass]="{'stickyMain' : sticky || stiHieght}"
-            style="margin-top: 1.5rem; width: 82%;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" [ngClass]="{'stickyMain' : sticky || stiHieght}" style="margin-top: 1.5rem; width: 82%;">
             <div class="row">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">
@@ -308,7 +293,11 @@
         loggedInUserType === userTypes.PARTNER
       " style="font-weight: 700; font-size: 24px;">
                             {{ userLoggedInDetails.role }}
-                        </span> <br>
+                        </span> <br *ngIf="
+                        loggedInUserType === userTypes.ADMIN ||
+                        loggedInUserType === userTypes.MoHUA ||
+                        loggedInUserType === userTypes.PARTNER
+                      ">
                         <span *ngIf="
         loggedInUserType === userTypes.ADMIN ||
         loggedInUserType === userTypes.MoHUA ||

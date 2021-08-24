@@ -563,23 +563,34 @@ export class UtilisationReportComponent implements OnInit {
   }
 
   totalProCost(i) {
+    console.log('uti form', this.utilizationReport);
+    console.log('12222222--',i);
+//  if((this.utilizationReport.controls.projects.value[0].cost) > 0){
     this.projectCost = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
-      // console.log(this.projectCost + +this.utilizationReport.controls.projects.value[j].cost)
-      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost)) {
+     console.log('val...........', this.utilizationReport.controls.projects.value[j].cost)
+      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost) &&
+      (this.utilizationReport.controls.projects.value[j].cost) > 0) {
         this.projectCost =
           this.projectCost +
           +this.utilizationReport.controls.projects.value[j].cost;
-      } else {
-        this.projectCost = this.projectCost + 0;
-        console.log(this.utilizationReport);
       }
-      if (isNaN(this.utilizationReport.controls.projects.value[j].cost)) {
+    else if (isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
+      (this.utilizationReport.controls.projects.value[j].cost) < 0) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "cost"
         ].patchValue("");
       }
+      else {
+        this.projectCost = this.projectCost + 0;
+        console.log(this.utilizationReport);
+      }
     }
+//  }else{
+//    this.utilizationReport.controls.projects["controls"][0]["controls"][
+//      "cost"
+//    ].patchValue("");
+//  }
   }
   totalExpCost(i) {
     this.projectExp = 0;
@@ -588,19 +599,22 @@ export class UtilisationReportComponent implements OnInit {
       // console.log(this.projectExp);
       if (
         !isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
+        && (this.utilizationReport.controls.projects.value[j].expenditure)
       ) {
         this.projectExp =
           this.projectExp +
           Number(this.utilizationReport.controls.projects.value[j].expenditure);
-      } else {
-        this.projectExp = this.projectExp + 0;
       }
-      if (
-        isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
+     else if (
+        isNaN(this.utilizationReport.controls.projects.value[j].expenditure) ||
+        (this.utilizationReport.controls.projects.value[j].expenditure) < 0
       ) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "expenditure"
         ].patchValue("");
+      }
+      else {
+        this.projectExp = this.projectExp + 0;
       }
     }
     if (

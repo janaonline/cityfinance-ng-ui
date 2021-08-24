@@ -70,6 +70,16 @@
     color: white;
 }
 
+#checkboxes input[type=radio]:checked+.cross {
+    background-color: #fde184;
+    color: white;
+}
+
+#checkboxes2 input[type=radio]:checked+.cross {
+    background-color: #fde184;
+    color: white;
+}
+
 .footerBtn {
     // margin-left: 15px;
     width: auto;

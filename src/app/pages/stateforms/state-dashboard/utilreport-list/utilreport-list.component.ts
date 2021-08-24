@@ -33,6 +33,7 @@ export class UtilreportListComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
+  showLoader = true;
   constructor(
     private utilreportListService: UtilreportListService,
     public ulbService: UlbadminServiceService,
@@ -51,11 +52,12 @@ export class UtilreportListComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-
+       this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
           console.log(error, this.errMessage);
+          this.showLoader = false;
         }
       )
   }

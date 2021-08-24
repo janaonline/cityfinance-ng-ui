@@ -1,8 +1,7 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div style="text-align:right; margin-bottom:10px">
-            <button style="min-width: min-content;" (click)="closeDialog()" class="btn btn-danger" title="Close"
-                type="button" data-dismiss="modal" aria-label="Close">
+            <button style="min-width: min-content;" (click)="closeDialog()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
 
@@ -10,8 +9,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-12 col-md-12 "
-                        style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
+                    <div class="col-sm-12 col-lg-12 col-md-12 " style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
                         <span class="text-left" style="font-size: 20px; font-weight: bold;text-align: left;">Utilization
                             Report Form
                             Status</span>
@@ -41,12 +39,10 @@
 
                                         <th class="filter">
 
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
-                                                (keyup.enter)="stateData(false)">
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter" *ngIf="states">
-                                            <select class="s-th" [formControl]="state_name" style="width: 135px;"
-                                                (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="state_name" style="width: 135px;" (change)="stateData(false)">
                                                 <option selected value="">State</option>
                                                 <option *ngFor="let state of states" value="{{state.name}}">
                                                     {{state.name}}
@@ -56,8 +52,7 @@
                                         <th class="filter" *ngIf="!states"></th>
                                         <th class="filter">
 
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
-                                                (keyup.enter)="stateData(false)">
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)">
@@ -71,8 +66,7 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
-                                                (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;" (change)="stateData(false)">
                                                 <option selected value="">Population Type</option>
                                                 <option value="Million Plus">Million Plus</option>
                                                 <option value="Non Million">Non Million</option>
@@ -83,12 +77,10 @@
                                         </th>
                                         <th class="filter">
 
-                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s"
-                                                style="width: 76px;" (change)="stateData(false)">
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s" style="width: 76px;" (change)="stateData(false)">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_util" style="width: 71px;"
-                                                (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="status_util" style="width: 71px;" (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -111,20 +103,18 @@
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
-                                            tabelIndex+1}}</td>
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                                        </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode ||
-                                            resData.sbCode }}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode || resData.sbCode }}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.isMillionPlus == "No"? 'Non-Million': 'Million-Plus'}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.isUA =="No"?
-                                            'NA': resData.UA}}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.isUA =="No"? 'NA': resData.UA}}</td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.utilizationreportStatus}}</td>
@@ -137,10 +127,8 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo"
-                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
-                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
-                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
                         </div>
                     </div>
@@ -148,5 +136,9 @@
             </div>
         </div>
     </div>
-
+    <div class="col-sm-12">
+        <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
 </div>
