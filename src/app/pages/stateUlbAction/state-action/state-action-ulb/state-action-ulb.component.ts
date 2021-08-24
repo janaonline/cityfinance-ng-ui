@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, AfterViewChecked, OnChanges } from '@angular/core';
+import { UlbformService } from 'src/app/pages/ulbform/ulbform.service';
 
 @Component({
   selector: 'app-state-action-ulb',
@@ -7,7 +8,9 @@ import { Component, EventEmitter, Input, OnInit, Output, AfterViewChecked, OnCha
 })
 export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChanges {
 
-  constructor() { }
+  constructor(
+    public _ulbformService: UlbformService
+  ) { }
   @Output()
    actionValues = new EventEmitter<any>();
    @Input() statusResponse;
@@ -28,6 +31,28 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
       this.actionDisable = true;
       console.log('final action completed.....', this.compDis);
 }
+
+this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+  (disable) => {
+    console.log("utilization speaking", disable);
+    this.compDis = 'true';
+    if (disable) {
+      localStorage.setItem("stateActionComDis", 'true');
+      this.actionDisable = true;
+    }
+  }
+);
+this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+  (disable) => {
+    console.log("utilization speaking", disable);
+    this.compDis = 'true';
+
+    if (disable) {
+      localStorage.setItem("mohuaActionComDis", 'true');
+      this.actionDisable = true;
+    }
+  }
+);
   }
   ngOnChanges(){
 

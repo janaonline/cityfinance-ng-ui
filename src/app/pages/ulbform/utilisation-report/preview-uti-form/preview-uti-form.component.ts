@@ -191,7 +191,13 @@ tr {
   totalSwmAmount = 0;
   ngOnInit() {
     console.log('preview data', this.data);
-
+    this.UtiReportService.getCategory().subscribe((resdata) => {
+      this.categories = resdata;
+      console.log('res cat', resdata);
+      this.categories = this.categories.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    });
     this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
       (change) => {
         if (this.changeFromOutSide) {
@@ -200,13 +206,42 @@ tr {
       }
     );
 
+
     if (this.parentData) {
       this.genrateParentData();
     }
+   setTimeout(() => {
+    this.analytics = this.data.analytics;
+    console.log('anaaaaaaaaaaa', this.analytics, this.categories, this.data.categories);
+   // this.categories = this.data.categories;
+        this.analytics.forEach(el => {
+          this.categories.forEach(element => {
+            if (element._id == el['_id']) {
+              el['categoryName'] = element.name
+            }
+          });
+        })
+        console.log('prev ana...',this.analytics, this.categories)
+        this.analytics.forEach(el => {
+          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+            this.swm.push(el)
+          } else {
+            this.wm.push(el)
+          }
+        })
+    this.wm.forEach(el => {
+      this.totalWmAmount = this.totalWmAmount + el.amount;
+    });
+    this.swm.forEach(el => {
+      this.totalSwmAmount = this.totalSwmAmount + el.amount;
+    });
+
+   }, 500)
+
     let getData = JSON.parse(sessionStorage.getItem("utilReport"))
     console.log("getData", getData);
     console.log("Data", this.data);
-    if (!getData.hasOwnProperty('blankForm')) {
+    if (!getData?.['blankForm']) {
       let canNavigate = sessionStorage.getItem("canNavigate");
       if (canNavigate == "false") {
         if (this.data['isDraft']) {
@@ -238,32 +273,7 @@ tr {
     }
 
     this.setTotalStatus();
-    // this.analytics = this.data.analytics;
-    // this.categories = this.data.categories;
-    //     this.analytics.forEach(el => {
-    //       this.categories.forEach(element => {
-    //         if (element._id == el['_id']) {
-    //           el['categoryName'] = element.name
-    //         }
-    //       });
-    //     })
-    //     console.log('prev ana...',this.analytics, this.categories)
-    //     this.analytics.forEach(el => {
-    //       if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-    //         this.swm.push(el)
-    //       } else {
-    //         this.wm.push(el)
-    //       }
-    //     })
-    this.data.wm.forEach(el => {
-      this.totalWmAmount = this.totalWmAmount + el.amount;
-    });
-    this.data.swm.forEach(el => {
-      this.totalSwmAmount = this.totalSwmAmount + el.amount;
-    });
-    // alert(this.totalWmAmount);
-    // alert(this.totalSwmAmount);
-  }
+     }
 
   ngOnDestroy(): void {
     this.subParentForModal.unsubscribe();
@@ -306,6 +316,7 @@ tr {
       );
     });
     this.data = this.parentData;
+
   }
 
   // makePdf() {
