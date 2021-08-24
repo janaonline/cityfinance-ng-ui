@@ -244,11 +244,9 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
-          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
-          Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
         ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
           Validators.required,
@@ -742,6 +740,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   removePhotos(waterIndex, uaIndex) {
+    if (this.formDisable) return
     let mess = window.confirm("Do you want delete all photos");
     let control = this.getSubControlsWaterBodies(uaIndex);
     let photoControl = control[waterIndex].controls.photos;
@@ -882,11 +881,11 @@ export class WaterRejenuvationComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
     this.dialogRefForNavigation.afterClosed().subscribe((result) => {
-      if (result === undefined) {
-        if (this.routerNavigate) {
-          this.routerNavigate = null;
-        }
-      }
+      // if (result === undefined) {
+      //   if (this.routerNavigate) {
+      //     this.routerNavigate = null;
+      //   }
+      // }
     });
   }
 

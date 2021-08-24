@@ -102,7 +102,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   @Output()
   previous = new EventEmitter<WaterManagement>();
   @Input() waterPotability: any = {};
-  @Input() actionStatus;
+  @Input() actionStatus:any;
   uploadQuestion: string = "Have you published Water Potability Index ?";
   uploadDocumentText: string = "Upload the published document";
 
@@ -215,10 +215,37 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log("changes ........", changes, this.form);
     console.log("action.........", this.actionStatus);
     // this.ulbFormStaus = this.actionStatus.st;
+    
+
+    if(changes && changes.form && changes.form.currentValue){
+    this.form = changes.form.currentValue;
+    }
+    if(changes && changes.actionStatus && changes.actionStatus.currentValue){
+    this.actionStatus = changes.actionStatus.currentValue;
+    
     if (this.actionStatus.rRes != null) {
       this.ulbFormRejectR = this.actionStatus.rRes;
     }
     if (this.actionStatus.st != null) {
+      this.isSubmitButtonClick = true;
+    setTimeout(() => {
+      this.services.forEach((service, serviceIndex) => {
+        let isIncreasing = serviceIndex == 1 ?  false : true
+        this.onBlur(
+          this.form['controls'][service.key]['controls']['baseline']['controls'][
+            '2021'
+          ], '', 'actual', service.key, isIncreasing
+        )
+        this.targets.forEach((year) => {
+          this.onBlur(
+            this.form.controls[service.key]['controls']['target'].controls[
+              year.key
+            ], this.form.controls[service.key]['controls']['target'], year.key, service.key, isIncreasing
+          )
+        });
+      });
+    }, 100)
+    
       this.ulbFormStaus = this.actionStatus.st;
 
       if (this.actionStatus["actionTakenByRole"] == USER_TYPE.STATE) {
@@ -260,6 +287,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
         this.ulbFormStatusMoHUA = "PENDING";
       }
     }
+
+  }
 
     this.invalidWhole = false;
     this.showPublishedUpload = null;

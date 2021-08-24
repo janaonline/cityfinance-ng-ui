@@ -199,8 +199,8 @@
         </div>
 
     </div>
-    <div class="container-fluid row" style="margin-bottom:15px; padding-left: 0; padding-right: 15px;">
-        <div class="row statusArea">
+    <div class="container-fluid row" style="margin-bottom:15px;">
+        <div class="row statusArea" style="margin: 0;">
             <div class="col-sm-4 firstColumn">
                 <div class="row" style="font-size: 23px;
                  text-align: center;line-height: 70px; margin-top:2px;
@@ -208,7 +208,7 @@
                     Overall ULB Form Status
                 </div>
 
-                <div class="row mainDonutChart" style="margin-left:3%;width:100%; height:380px; align-items:center " *ngIf="!noDataFound_Overall">
+                <div class="row mainDonutChart" style="margin-left: 0; margin-right: 0; width:100%; height:380px; align-items:center" *ngIf="!noDataFound_Overall">
                     <canvas id="myChart"></canvas>
 
                 </div>
@@ -357,8 +357,39 @@
             </div>
         </div>
     </div>
+    <div class="row" style="text-align: center;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="Card2">
+                <div class="row" style="margin-top: 2%;
+            font-weight: bold;">
+                    Submission of Water Rejuvenation, Water Recycling and Action Plans
+                </div>
+                <div class="row" style="height: 70%;">
+                    <div class="col-sm-7" style="text-align: left;padding-left: 15%;">
+                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
+                        </span>
+
+
+                    </div>
+
+                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
     <div class="row bottomPart" style="margin-left: 0; margin-right: 0;">
-        <div class="col-sm-6" style="border-right:1px solid #0000001A;">
+        <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
             <div class="row">
                 <div class="col-sm-12 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>
             </div>
