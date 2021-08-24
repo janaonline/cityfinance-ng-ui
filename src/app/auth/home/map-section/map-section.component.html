@@ -1,9 +1,9 @@
 <!-- asdasasd -->
-<h2 class="heading" style="margin: 3vw auto;">
+<h2 class="heading" style="margin: 3vw auto">
   <span>Dashboard</span>
 </h2>
 
-<div class="wrapper ">
+<div class="wrapper">
   <div class="selectPart">
     <form [formGroup]="myForm">
       <angular2-multiselect
@@ -100,8 +100,15 @@
         }}
       </strong>
       <span class="data-point-name">
-        Financial Statements for FYs 2015-16 to 17-18</span
-      >
+        Financial Statements for FYs
+        <span [ngClass]="{ 'loading-value': !financialYearTexts }">
+          {{ financialYearTexts?.min || "2015-16" }}
+        </span>
+        to
+        <span [ngClass]="{ 'loading-value': !financialYearTexts }">
+          {{ financialYearTexts?.max || "15-16" }}
+        </span>
+      </span>
       <a
         class="btn btn-explore"
         *ngIf="dataForVisualization?.financialStatements"
@@ -175,9 +182,7 @@
           >s</span
         >
         <br />
-        <span>
-          with investment grade Rating
-        </span>
+        <span> with investment grade Rating </span>
       </span>
       <a
         *ngIf="creditRatingAboveBBB_Minus"

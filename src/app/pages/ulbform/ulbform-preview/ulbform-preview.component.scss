@@ -1,0 +1,59 @@
+.m-h {
+    font-size: 28px;
+    // margin-top: 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sub-m-h {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.header {
+    background-color: #047474 !important;
+    height: 70px !important;
+    display: inline-block;
+    color: #FFFFFF;
+    text-align: center;
+    width: 93% !important;
+    margin-left: 4% !important;
+}
+
+.listitem_head {
+    // padding: 2px 2px;
+    // font-size: 12px !important;
+    font-family: Roboto;
+    // font-weight: 500;
+    display: inline-block;
+    margin-top: 2rem !important;
+}
+
+.header-p {
+    background-color: #047474;
+    height: 70px;
+    text-align: center;
+}
+
+.pdf-hide {
+    display: none !important;
+}
+
+.heading-p {
+    color: #FFFFFF;
+    font-size: 22px;
+    margin-top: 10px !important;
+}
+
+.h-cls {
+    display: none;
+}
+
+@media print {
+    .page-break {
+        page-break-before: always;
+    }
+}

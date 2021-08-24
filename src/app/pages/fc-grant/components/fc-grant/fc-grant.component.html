@@ -1,175 +1,119 @@
-<div
-  [ngClass]="{ 'fc-grant-2': !(isULBProfileCompleted === false) }"
-  *ngIf="
+<div [ngClass]="{ 'fc-grant-2': !(isULBProfileCompleted === false) }" *ngIf="
     !loggedInUserType || loggedInUserType === USER_TYPE.ULB;
     else showLoader
-  "
->
+  ">
   <div class="container-fluid" *ngIf="!(isULBProfileCompleted === false)">
     <div class="align-items-center d-flex flex-wrap">
       <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="pr-lg-4">
-          <h4 style="color: white; font-size: 3rem">
-            15th Finance Commission<br />
-            Grants Management System
+          <h4 style="color: white; font-size: 3rem;">
+            15th Finance Commission<br /> Grants Management System
           </h4>
           <p>
-            The Fifteenth Finance Commission (15th FC), in its latest report for
-            the year 2020-21, has recommended total grants of Rs. 29,250 crore
-            for Urban Local bodies (ULBs).
+            The Fifteenth Finance Commission (15th FC), in its latest report for the year 2020-21, has recommended total
+            grants of Rs. 29,250 crore for Urban Local bodies (ULBs).
           </p>
           <p>
-            The Ministry of Housing and Urban Affairs (MoHUA), Government of
-            India, is the nodal ministry for administering the 15th FC grants to
-            the ULBs.
+            The Ministry of Housing and Urban Affairs (MoHUA), Government of India, is the nodal ministry for
+            administering the 15th FC grants to the ULBs.
           </p>
           <p>
-            This Grant Management System streamlines the process between ULBs,
-            State Urban Development Departments (UDDs), and MoHUA, and
-            facilitates seamless submission and flow of required information
-            from ULBs to State UDDs and further to MoHUA.
+            This Grant Management System streamlines the process between ULBs, State Urban Development Departments
+            (UDDs), and MoHUA, and facilitates seamless submission and flow of required information from ULBs to State
+            UDDs and further to MoHUA.
           </p>
           <p>
-            We thank you for your patronage and we hope you have an enjoyable
-            experience using this grant management system.
+            We thank you for your patronage and we hope you have an enjoyable experience using this grant management
+            system.
           </p>
         </div>
         <br />
         <p class="text-white">Reference Documents:-</p>
         <ul class="list-group list-inline d-none">
-
           <li>
-            <a
-              href="../../../../../assets/files/15th FC ULB Grants - User Manual for CityFinance.pdf"
-              target="_blank"
-            >
-              <i class="fa fa-circle" aria-hidden="true"></i> Grant Module –
-              User Manual for ULBs
+            <a href="../../../../../assets/files/15th FC ULB Grants - User Manual for CityFinance.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> Grant Module – User Manual for ULBs
             </a>
           </li>
           <li>
-            <a
-              href="../../../../../assets/files/Grant Module - User Manual for State Nodal Officers.pdf"
-              target="_blank"
-            >
-              <i class="fa fa-circle" aria-hidden="true"></i> Grant Module –
-              User Manual for State Nodal Officers
+            <a href="../../../../../assets/files/Grant Module - User Manual for State Nodal Officers.pdf"
+              target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> Grant Module – User Manual for State Nodal Officers
             </a>
           </li>
 
           <li>
-            <a
-              href="../../../../../assets/files/XV FC Operational Guidelines.pdf"
-              target="_blank"
-            >
-              <i class="fa fa-circle" aria-hidden="true"></i> MoF Operational
-              Guidelines
+            <a href="../../../../../assets/files/XV FC Operational Guidelines.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> MoF Operational Guidelines
             </a>
           </li>
           <li>
-            <a
-              href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf"
-              target="_blank"
-            >
-              <i class="fa fa-circle" aria-hidden="true"></i> MoHUA Marking
-              Scheme
+            <a href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> MoHUA Marking Scheme
             </a>
           </li>
           <li>
-            <a
-              href="../../../../../assets/files/XV FC Report.pdf"
-              target="_blank"
-            >
-              <i class="fa fa-circle" aria-hidden="true"></i> 15th FC Report</a
-            >
+            <a href="../../../../../assets/files/XV FC Report.pdf" target="_blank">
+              <i class="fa fa-circle" aria-hidden="true"></i> 15th FC Report</a>
           </li>
         </ul>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
         <div *ngIf="!loggedInUserType">
           <div class="img-wrapper text-center">
-            <img
-              src="../assets/images/Group 13309-compressed.png"
-              class="img-responsive m-auto"
-              alt="Back img 2"
-            />
+            <img src="../assets/images/Group 13309-compressed.png" class="img-responsive m-auto" alt="Back img 2" />
           </div>
-          <input
-            type="submit"
-            class="btn btn-primary"
-            (click)="onClickingLoginButton()"
-            value="LOGIN"
-          />
+          <input type="submit" class="btn btn-primary" (click)="onClickingLoginButton()" value="LOGIN" />
 
-          <P class="support-text"
-            >For clarifications/ questions, please email us at
+          <P class="support-text">For clarifications/ questions, please email us at
             <br />
-            <a href="mailto:15fcgrant@cityfinance.in"
-              >15fcgrant@cityfinance.in</a
-            >.
+            <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
           </P>
           <p>We will respond to you within 24 hours.</p>
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-12 progress-container">
-          <div
-            *ngIf="
+          <div *ngIf="
               loggedInUserType &&
               financialData &&
               isULBMillionPlus !== null &&
               isULBMillionPlus !== undefined
-            "
-            class="d-flex justify-content-center flex-column align-items-center login-wrapper"
-          >
-            <span
-              ><span style="font-weight: 600; display: inline"
-                >APPLICATION STATUS:</span
-              >
-              {{ financialData.customStatusMessage }}</span
-            >
+            " class="d-flex justify-content-center flex-column align-items-center login-wrapper">
+            <span><span style="font-weight: 600; display: inline;">APPLICATION STATUS:</span>
+              {{ financialData.customStatusMessage }}</span>
 
             <!-- multistep form -->
-            <div
-              id="msform"
-              *ngIf="
+            <div id="msform" *ngIf="
                 isULBMillionPlus !== undefined && isULBMillionPlus !== null
-              "
-            >
+              ">
               <!-- progressbar -->
               <ul class="progressbar">
-                <li
-                  [ngClass]="{
+                <li [ngClass]="{
                     completed: evidencePercentageCompleted === 100,
                     active:
                       evidencePercentageCompleted > 0 &&
                       evidencePercentageCompleted !== 100,
                     pending: evidencePercentageCompleted === 0
-                  }"
-                >
+                  }">
                   {{ evidencePercentageCompleted }}% <br />
                   Service Level Indicators
                 </li>
-                <li
-                  [ngClass]="{
+                <li [ngClass]="{
                     completed: solidWastePercentageCompleted === 100,
                     active:
                       solidWastePercentageCompleted > 0 &&
                       solidWastePercentageCompleted !== 100,
                     pending: solidWastePercentageCompleted === 0
-                  }"
-                >
+                  }">
                   {{ solidWastePercentageCompleted }}% <br />Upload Plans
                 </li>
-                <li
-                  *ngIf="isULBMillionPlus"
-                  [ngClass]="{
+                <li *ngIf="isULBMillionPlus" [ngClass]="{
                     completed: millionPlusCitiesCompleted === 100,
                     active:
                       millionPlusCitiesCompleted > 0 &&
                       millionPlusCitiesCompleted !== 100,
                     pending: millionPlusCitiesCompleted === 0
-                  }"
-                >
+                  }">
                   {{ millionPlusCitiesCompleted }}%<br />
                   Upload Plans(Million+ City)
                 </li>
@@ -177,117 +121,76 @@
             </div>
 
             <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                [ngStyle]="{
+              <div class="progress-bar" role="progressbar" [ngStyle]="{
                   'width.%': formCompletedPercentage
-                }"
-                aria-valuenow="25"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
+                }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                 {{ formCompletedPercentage }}%
               </div>
             </div>
-            <a
-              style="margin-bottom: 1%"
-              id="login"
-              class="btn btn-primary btn-upload mt-1"
-              (click)="
-                goToFormView(
-                  '/user/data-upload/upload-form/' + financialData._id
-                )
-              "
-            >
+            <a style="margin-bottom: 1%;" id="login" class="btn btn-primary btn-upload mt-1" (click)="
+                goToFormView('/user/xvform/upload-form/' + financialData._id)
+              ">
               <ng-container [ngSwitch]="financialData.isCompleted">
                 <span *ngSwitchCase="true">
                   {{
-                    financialData.status === uploadStatus.REJECTED
-                      ? "Update
+                  financialData.status === uploadStatus.REJECTED
+                  ? "Update
                   Rejected Data"
-                      : "View Filled Data"
+                  : "View Filled Data"
                   }}
                 </span>
                 <span *ngSwitchCase="false">
                   {{
-                    financialData.actionTakenByUserRole === USER_TYPE.ULB
-                      ? "Complete Application"
-                      : "View Filled Data"
+                  financialData.actionTakenByUserRole === USER_TYPE.ULB
+                  ? "Complete Application"
+                  : "View Filled Data"
                   }}
                 </span>
               </ng-container>
             </a>
 
-            <a
-              (click)="openModal(financialData, historyModal)"
-              class="mt-1"
-              style="
+            <a (click)="openModal(financialData, historyModal)" class="mt-1" style="
                 text-decoration: underline;
                 cursor: pointer;
                 color: #059b9a;
-              "
-            >
+              ">
               View History
             </a>
           </div>
-          <P
-            class="support-text mt-3"
-            *ngIf="
+          <P class="support-text mt-3" *ngIf="
               loggedInUserType &&
               financialData &&
               isULBMillionPlus !== null &&
               isULBMillionPlus !== undefined
-            "
-            >For clarifications/ questions, please email us at
+            ">For clarifications/ questions, please email us at
             <br />
-            <a href="mailto:15fcgrant@cityfinance.in"
-              >15fcgrant@cityfinance.in</a
-            >.
+            <a href="mailto:15fcgrant@cityfinance.in">15fcgrant@cityfinance.in</a>.
           </P>
-          <p
-            *ngIf="
+          <p *ngIf="
               loggedInUserType &&
               financialData &&
               isULBMillionPlus !== null &&
               isULBMillionPlus !== undefined
-            "
-          >
+            ">
             We will respond to you within 24 hours.
           </p>
         </div>
 
-        <div
-          class="preloader-wrapper"
-          *ngIf="loggedInUserType && !financialData"
-        >
+        <div class="preloader-wrapper" *ngIf="loggedInUserType && !financialData">
           <app-pre-loader></app-pre-loader>
         </div>
 
-        <div
-          *ngIf="financialData === null"
-          class="d-flex justify-content-center flex-column align-items-center"
-        >
-          <span
-            ><span style="font-weight: 600; display: inline"
-              >APPLICATION STATUS:</span
-            >
-            Not Filled</span
-          >
-          <a
-            id="login"
-            class="btn btn-primary btn-upload mt-1"
-            (click)="goToFormView('/user/data-upload/upload-form')"
-            >Fill Up 15th FC Form</a
-          >
+        <div *ngIf="financialData === null" class="d-flex justify-content-center flex-column align-items-center">
+          <span><span style="font-weight: 600; display: inline;">APPLICATION STATUS:</span>
+            Not Filled</span>
+          <a id="login" class="btn btn-primary btn-upload mt-1" (click)="goToFormView('/user/xvform/upload-form')">Fill
+            Up 15th FC Form</a>
         </div>
       </div>
     </div>
   </div>
 
-  <app-incomplete-profile
-    *ngIf="isULBProfileCompleted === false"
-  ></app-incomplete-profile>
+  <app-incomplete-profile *ngIf="isULBProfileCompleted === false"></app-incomplete-profile>
 </div>
 
 <ng-template #showLoader>
@@ -300,19 +203,10 @@
 
 <ng-template #historyModal>
   <div class="modal-body">
-    <div
-      style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end"
-    >
-      <button
-        style="min-width: min-content"
-        (click)="closePopUp()"
-        class="btn btn-danger"
-        title="Close"
-        type="button"
-        data-dismiss="modal"
-        aria-label="Close"
-      >
-        <em class="fa fa-times" style="color: white"></em>
+    <div style="margin-bottom: 0.5rem; display: flex; justify-content: flex-end;">
+      <button style="min-width: min-content;" (click)="closePopUp()" class="btn btn-danger" title="Close" type="button"
+        data-dismiss="modal" aria-label="Close">
+        <em class="fa fa-times" style="color: white;"></em>
       </button>
     </div>
 
@@ -321,10 +215,7 @@
       <app-pre-loader></app-pre-loader>
     </div>
 
-    <app-formhistory
-      *ngIf="formHistoricalData?.length"
-      [data]="formHistoricalData"
-    ></app-formhistory>
+    <app-formhistory *ngIf="formHistoricalData?.length" [data]="formHistoricalData"></app-formhistory>
   </div>
   <ng-template #noData>
     <div class="row">
@@ -334,3 +225,5 @@
     </div>
   </ng-template>
 </ng-template>
+
+<!-- <app-fc-home-page></app-fc-home-page> -->

@@ -1,0 +1,74 @@
+<div style="margin-bottom: 1rem;">
+    <!-- <pre class="card card-block card-header">{{uncheckableRadioModel || 'null'}}</pre> -->
+    <b class="card card-block card-header">
+   State Review Status
+  </b>
+    <br>
+    <!-- <form class="example-form" [formGroup]="approveRejForm" (ngSubmit)="onFormSubmit()" ngNativeValidate>  -->
+    <div class="btn-group" btnRadioGroup [(ngModel)]="stateAction" style="margin-bottom: 1rem; margin-left: 2%; margin-top: 1rem;">
+        <label class="btn btn-success" [ngClass]="{'btn-a' : btnStyleA}" [disabled]="actionDisable" btnRadio="APPROVED" (click)="checkStatusAp()" uncheckable tabindex="0" role="button">Approve</label>
+
+        <label class="btn btn-danger" [ngClass]="{'btn-r' : btnStyleR}" [disabled]="actionDisable" btnRadio="REJECTED" (click)="checkStatus()" uncheckable tabindex="0" role="button" style="margin-left: 10px;">Return</label>
+    </div>
+    <div class="row" *ngIf="stateAction == 'REJECTED'">
+        <div class="col-sm-6 col-lg-6 col-md-6" style="margin-left: 2%;">
+            <span style="font-weight: 600; text-align: left">Reason for return</span>
+            <div class="input-group" style="width: 100%">
+                <textarea rows="3" style="width: 100%" class="form-control" [disabled]="actionDisable" (blur)="checkStatus()" [(ngModel)]="rejectReason">
+</textarea>
+            </div>
+        </div>
+    </div>
+    <!-- </form> -->
+</div>
+<!-- --------------------------------------------- -->
+<!-- <div class="card" style="background-color: #F7F7F7;">
+  <div class="card-body">
+      <p> <b>State Approve/Reject form</b> </p>
+
+      <form class="example-form" [formGroup]="approveRejForm" (ngSubmit)="onFormSubmit()" ngNativeValidate>
+          <mat-slide-toggle formControlName="approve" (change)="checkStatusAp()">Approve</mat-slide-toggle>
+          <br>
+          <mat-slide-toggle formControlName="reject" (change)="checkStatus()">Reject</mat-slide-toggle>
+      </form>
+      <div class="row" *ngIf="isChecked">
+          <div class="col-sm-6 col-lg-6 col-md-6">
+              <span style="font-weight: 700; text-align: left">Reason for return</span>
+              <div class="input-group" style="width: 100%">
+                  <textarea rows="3" style="width: 100%" class="form-control">
+</textarea>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->
+<!-- ----------------------------------------------- -->
+<!-- *ngIf="loggedInUserType === userTypes.STATE" -->
+<!-- <div class="card" style="background-color: #F7F7F7;">
+  <div class="card-body">
+      <div class="row" style="margin-bottom: 1rem;">
+          <div class="col-sm-12 col-lg-12 col-md-12">
+              <b>State Approve/Reject form</b>
+          </div>
+          <div class="col-sm-12 col-lg-12 col-md-12" style="padding-left: 3%;">
+              <label>
+                <input type="radio" name="action" value="approveAction" (click)="approveForm()"/>
+                  Approve
+              </label>
+              <label style="margin-left: 15%;">
+                  <input type="radio" name="action" value="rejectAction" (click)="rejectReason($event.target)" />
+                  Reject
+             </label>
+          </div>
+          <div class="row" *ngIf="rejectForm">
+              <div class="col-sm-6 col-lg-6 col-md-6">
+                  <span style="font-weight: 700; text-align: left; padding-left: 4%;">Reason for return</span>
+                  <div class="input-group" style="width: 100%; padding-left: 6%;">
+                      <textarea rows="3" style="width: 100%" class="form-control">
+                      </textarea>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->

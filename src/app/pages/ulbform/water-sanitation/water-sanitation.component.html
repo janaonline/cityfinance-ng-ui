@@ -1,0 +1,195 @@
+<div class="row" style="margin-bottom: 10px; padding-right: 15px;">
+    <div class="col-sm-8 col-lg-8 col-md-8">
+        <label for="" style="color:#373737; font-size: 20px !important; font-weight: 600; margin-left: 2px;">
+            Plans for Water and Sanitation
+        </label>
+    </div>
+    <div class="col-sm-4 col-lg-4 col-md-4  text-right p-0">
+        <button type="button" class="btn btn-primary pr-btn" id="prevBtn" (click)="onPreview()">PREVIEW</button>
+    </div>
+
+</div>
+
+
+<div class="row" style="padding-right: 15px;">
+    <div class="col">
+        <div class="card" style="background-color: #FFFFFF;">
+            <div class="card-body ">
+                <div class="table-responsive">
+                    <div>
+                        <h4 style="font-weight: 500; font-size: 16px;">(A) Details of Proposed Project to Improve Service Level Indicators related to Water Supply<span style="color: red;">*</span>
+                        </h4>
+                    </div>
+                    <table class="table custom-position">
+                        <thead>
+                            <tr class="thHeader">
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Physical Components</th>
+                                <th scope="col">Indicator</th>
+                                <th scope="col">Existing (As-is)
+                                </th>
+                                <th scope="col">After (To-be)
+                                </th>
+                                <th scope="col">Estimated Cost (Amount in INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input [ngClass]="{'error': errors.water.lengthError.text}" matTooltipPosition="above" [disabled]="isDisabled" [matTooltip]="errors.water.lengthError.text ? 'Name less than 50 char' : null" type="text" (keyup)="onKey($event,'water.name')" placeholder="Enter Project Name"
+                                        value="{{waterAndSanitation.water.name}}">
+                                </td>
+                                <td>
+                                    <textarea type="textarea" [disabled]="isDisabled" [ngClass]="{'error': errors.water.lengthError.textarea}" matTooltipPosition="above" [matTooltip]="errors.water.lengthError.textarea ? 'Description less than 200 char' : null" (keyup)="onKey($event,'water.component')"
+                                        placeholder="Enter Physical Components">{{waterAndSanitation.water.component}}</textarea>
+                                </td>
+                                <td>
+                                    <mat-form-field style="margin-top: 1pc;">
+                                        <!-- <mat-label>Select</mat-label> -->
+                                        <mat-select [(value)]="waterAndSanitation.water.serviceLevel.indicator" [disabled]="isDisabled" (selectionChange)="onKey($event,'water.serviceLevel.indicator')">
+                                            <mat-option *ngFor="let Indicator of waterIndicators" [value]="Indicator">
+                                                {{Indicator}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [disabled]="isDisabled" [ngClass]="{'error': errors.water.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.before ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.existing')"
+                                        placeholder="Enter Existing (As-is)" value="{{waterAndSanitation.water.serviceLevel.existing}}">
+                                </td>
+                                <td>
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [disabled]="isDisabled" [ngClass]="{'error': errors.water.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.water.serviceLvlError.after ? waterToolTip : null" (keyup)="onKey($event,'water.serviceLevel.after')"
+                                        placeholder="Enter After (To-be)" value="{{waterAndSanitation.water.serviceLevel.after}}">
+                                </td>
+                                <td>
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [disabled]="isDisabled" (keyup)="onKey($event,'water.cost')" placeholder="Cost in INR" value="{{waterAndSanitation.water.cost}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <h4 style="font-weight: 500; font-size: 16px;">(B) Details of Proposed Project to Improve Service Level Indicators related to Sanitation<span style="color: red;">*</span>
+                        </h4>
+                    </div>
+                    <table class="table custom-position">
+                        <thead>
+                            <tr class="thHeader">
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Physical Components</th>
+                                <th scope="col">Indicator</th>
+                                <th scope="col">Existing (As-is)
+                                </th>
+                                <th scope="col">After (To-be)
+                                </th>
+                                <th scope="col">Estimated Cost (Amount in INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" [ngClass]="{'error': errors.sanitation.lengthError.text}" [disabled]="isDisabled" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.text ? 'Name less than 50 char' : null" (keyup)="onKey($event,'sanitation.name')"
+                                        placeholder="Enter Project Name" value="{{waterAndSanitation.sanitation.name}}">
+                                </td>
+                                <td>
+                                    <textarea type="textarea" [ngClass]="{'error': errors.sanitation.lengthError.textarea}" [disabled]="isDisabled" matTooltipPosition="above" [matTooltip]="errors.sanitation.lengthError.textarea ? 'Description less than 200 char' : null" (keyup)="onKey($event,'sanitation.component')"
+                                        placeholder="Enter Physical Components">{{waterAndSanitation.sanitation.component}}</textarea>
+                                </td>
+                                <td>
+                                    <mat-form-field style="margin-top: 1pc;">
+                                        <!-- <mat-label>Select</mat-label> -->
+                                        <mat-select [(value)]="waterAndSanitation.sanitation.serviceLevel.indicator" [disabled]="isDisabled" (selectionChange)="onKey($event,'sanitation.serviceLevel.indicator')">
+                                            <mat-option *ngFor="let Indicator of sanitationIndicators" [value]="Indicator">
+                                                {{Indicator}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [disabled]="isDisabled" [ngClass]="{'error': errors.sanitation.serviceLvlError.before}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.before ? sanitationToolTip : null"
+                                        (keyup)="onKey($event,'sanitation.serviceLevel.existing')" placeholder="Enter Existing (As-is)" value="{{waterAndSanitation.sanitation.serviceLevel.existing}}">
+                                </td>
+                                <td>
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [disabled]="isDisabled" [ngClass]="{'error': errors.sanitation.serviceLvlError.after}" matTooltipPosition="above" [matTooltip]="errors.sanitation.serviceLvlError.after ? sanitationToolTip : null"
+                                        (keyup)="onKey($event,'sanitation.serviceLevel.after')" placeholder="Enter After (To-be)" value="{{waterAndSanitation.sanitation.serviceLevel.after}}">
+                                </td>
+                                <td>
+                                    <input oninput="this.value = Math.abs(this.value)" type="number" [disabled]="isDisabled" (keyup)="onKey($event,'sanitation.cost')" placeholder="Cost in INR" value="{{waterAndSanitation.sanitation.cost}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="(loggedInUserType != USER_TYPE.ULB && (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')">
+            <div class="card-body">
+                <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResW'>
+                </app-state-action-ulb>
+            </div>
+        </div>
+        <div class="card" style="background-color: #FFFFFF; margin-top: 2rem;" *ngIf="
+             (loggedInUserType === userTypes.ULB) && (finalSubmitUtiStatus == 'true')">
+            <div class="card-body">
+                <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p>
+                <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review Status :</b> {{ulbFormStatusMoHUA | titlecase}}</p>
+                <p *ngIf="ulbFormStaus == 'REJECTED'">
+                    <b style="font-weight: 600;">Reason for return :</b> {{ulbFormRejectR}}
+                </p>
+
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px; margin-left: 10px; margin-bottom: 1rem;">
+            <div class="col-sm-6" style="padding: 0ch;">
+                <button type="button" class="btn btn-secondary backbtn" [routerLink]="['../slbs']">BACK</button>
+            </div>
+            <div class="col-sm-6  text-right">
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">SAVE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

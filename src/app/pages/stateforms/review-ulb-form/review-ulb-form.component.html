@@ -1,0 +1,209 @@
+<div class="row" style="margin: 0;">
+    <div class="col-sm-12 col-lg-12 col-md-12" style="margin-bottom: 2rem;">
+        <div class="card">
+            <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+                <div class="row">
+                    <!-- <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-d">DOWNLOAD</button>
+
+                    </div> -->
+                    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+                        <h4 class="form-header">
+                            Review Grant Application
+                        </h4>
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
+                        <button type="button" class="btn btn-next" (click)="stateData(true)" style="padding-left: 7%; padding-right: 7%;">DOWNLOAD</button>
+                    </div>
+                    <div class="col-sm-12">
+
+                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+                            <table class="table">
+                                <thead>
+                                    <tr style="background-color: #047474; color: #FFFFFF;">
+                                        <th scope="col" style="width: 1%;">S.No</th>
+                                        <th scope="col">ULB Name </th>
+                                        <th scope="col" style="width: 11%;">ULB Census Code/ ULB Code </th>
+                                        <th scope="col">ULB Type</th>
+                                        <th scope="col">Population Type</th>
+                                        <th scope="col">Name of UA</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr class="filter">
+                                        <th class="filter" style="width: 1%;"></th>
+
+                                        <th class="filter">
+                                            <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
+                                        </th>
+                                        <th class="filter" style="width: 11%;">
+                                            <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData(false)">
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)">
+                                                <option selected value="">ULB Type</option>
+                                                <option value="Municipality">Municipality</option>
+
+                                                <option value="Municipal Corporation">Municipal Corporation</option>
+                                                <option value="Nagar Nigam">Nagar Nigam</option>
+                                                <option value="Nagar Palika Parishad">Nagar Palika Parishad</option>
+                                                <option value="Town Panchayat">Town Panchayat</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;" (change)="stateData(false)">
+                                                <option selected value="">Population Type</option>
+                                                <option value="Million Plus">Million Plus</option>
+                                                <option value="Non Million">Non Million</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <span class="s-s"><img
+                                                    src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s" style="width: 76px;" (change)="stateData(false)">
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;" (change)="stateData(false)">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progress">In Progress</option>
+                                                <option value="Under Review by State">Under Review by State</option>
+                                                <option value="Under Review by MoHUA">Under Review by MoHUA</option>
+                                                <option value="Rejected by STATE">Rejected by STATE</option>
+                                                <option value="Rejected by MoHUA">Rejected by MoHUA</option>
+                                                <option value="Approval Completed">Approval Completed</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <button class="btn btn-t" (click)="stateData(false)">Search</button>
+                                            <a (click)="loadData()">
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
+                                                </mat-icon>
+                                            </a>
+                                        </th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let resData of tabelData | paginate
+                                    : {
+                                        id: 'foo',
+                                        itemsPerPage: tableDefaultOptions.itemPerPage,
+                                        currentPage: tableDefaultOptions.currentPage,
+                                        totalItems: tableDefaultOptions.totalCount
+                                      }; let tabelIndex=index">
+                                        <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                        </td>
+                                        <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{resData.censusCode || resData.sbCode }}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{resData.populationType}}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
+
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
+                                            <a (click)="viewHistory(template, resData['_id'])">{{resData.printStatus}}</a>
+                                        </td>
+
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
+                                            || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
+
+                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
+                                          '/ulbform/overview', resData?._id  ]">
+                                                <!-- <a (click)="viewUlbForm(resData)" [routerLink]="[
+                            '/ulbform',  resData?._id ]"> -->
+                                                <mat-icon aria-hidden="false">
+                                                    <img src="../../../../assets/ulbform/eye.png">
+                                                </mat-icon>
+                                            </a>
+                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
+                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
+                                            <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
+                                        '/ulbform/overview', resData?._id  ]">
+                                                Take Action
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
+                            </pagination-controls>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+                            <mat-spinner></mat-spinner>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-left: 12px; margin-right: 12px; margin-bottom: 2rem;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-back" [routerLink]="[ '../review-ulb-form']">BACK</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+            <button type="button" class="btn btn-next" [routerLink]="[ '../gtCertificate']">NEXT</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-title">
+        <div style=" display: flex; justify-content: flex-end;">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
+        </div>
+        <div>
+            <h3>Tracking</h3>
+        </div>
+    </div>
+    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+        <table class="table tracking-history-table">
+            <thead>
+                <tr>
+                    <th style="position: sticky; top: 0" class="text-center"></th>
+                    <th style="position: sticky; top: 0">Sr. No</th>
+                    <th style="position: sticky; top: 0">Action</th>
+                    <th style="position: sticky; top: 0">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of historyData; let i = index">
+                    <td class="text-center">
+                        <em *ngIf="row['status'] == 'Approved By MoHUA'" class="fa fa-check-circle text-success"></em>
+                    </td>
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                        <div>{{ row.status }}</div>
+                    </td>
+                    <td>
+                        {{row.time | date:'medium':'GMT' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="!historyData" class="text-center alert" style="color: red;">No Data Found!</div>
+
+</ng-template>

@@ -1,7 +1,10 @@
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ModuleWithProviders } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { HomeComponent } from './auth/home/home.component';
+import { HomeComponent } from "./auth/home/home.component";
+
+import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
+import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
 
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -9,7 +12,10 @@ export const appRouter: Routes = [
   { path: "home", component: HomeComponent },
   {
     path: "analytics",
-    loadChildren: "./pages/analytics/analytics.module#AnalyticsModule",
+    loadChildren: () =>
+      import("./pages/analytics/analytics.module").then(
+        (m) => m.AnalyticsModule
+      ),
   },
   // {
   //   path: "resources",
@@ -17,62 +23,136 @@ export const appRouter: Routes = [
   // },
   {
     path: "fc_grant",
-    loadChildren: "./pages/fc-grant/fc-grant.module#FcGrantModule",
+    loadChildren: () =>
+      import("./pages/fc-grant/fc-grant.module").then((m) => m.FcGrantModule),
   },
   {
+    path: "fc-home-page",
+    loadChildren: () =>
+      import("./pages/fc-grant-home/fc-grant-home.module").then(
+        (m) => m.FcGrantHomeModule
+      ),
+  },
+  {
+    path: "ulbform",
+    loadChildren: () =>
+      import("./pages/ulbform/ulbform.module").then((m) => m.UlbformModule),
+  },
+  {
+    path: "stateform",
+    loadChildren: () =>
+      import("./pages/stateforms/stateforms.module").then(
+        (m) => m.StateformsModule
+      ),
+  },
+  {
+    path: "mohua",
+    loadChildren: () =>
+      import("./pages/mohuaform/mohuaform.module").then(
+        (m) => m.MohuaformModule
+      ),
+  },
+  // {
+  //   path: "ulbAdmin",
+  //   loadChildren: () =>
+  //     import("./pages/ulb-admin/ulb-admin.module").then(
+  //       (m) => m.UlbAdminModule
+  //     ),
+  // },
+  {
     path: "questionnaires",
-    loadChildren:
-      "./pages/questionnaires/questionnaires.module#QuestionnairesModule",
+    loadChildren: () =>
+      import("./pages/questionnaires/questionnaires.module").then(
+        (m) => m.QuestionnairesModule
+      ),
   },
 
   {
     path: "user",
-    loadChildren: "./users/users.module#UsersModule",
+    loadChildren: () =>
+      import("./users/users.module").then((m) => m.UsersModule),
   },
   {
     path: "login",
-    loadChildren: "./auth/login/login.module#LoginModule",
+    loadChildren: () =>
+      import("./auth/login/login.module").then((m) => m.LoginModule),
   },
   {
     path: "register",
-    loadChildren: "./auth/register/register.module#RegisterModule",
+    loadChildren: () =>
+      import("./auth/register/register.module").then((m) => m.RegisterModule),
   },
   {
     path: "password",
-    loadChildren: "./auth/password/password.module#PasswordModule",
+    loadChildren: () =>
+      import("./auth/password/password.module").then((m) => m.PasswordModule),
   },
   {
     path: "account-reactivate",
-    loadChildren:
-      "./auth/account-reactivate/account-reactivate.module#AccountReactivateModule",
+    loadChildren: () =>
+      import("./auth/account-reactivate/account-reactivate.module").then(
+        (m) => m.AccountReactivateModule
+      ),
   },
   {
     path: "borrowings",
-    loadChildren: "./credit-rating/credit-rating.module#CreditRatingModule",
+    loadChildren: () =>
+      import("./credit-rating/credit-rating.module").then(
+        (m) => m.CreditRatingModule
+      ),
   },
 
   {
     path: "municipal-law",
-    loadChildren: "./municipal-law/municipal-law.module#MunicipalLawModule",
+    loadChildren: () =>
+      import("./municipal-law/municipal-law.module").then(
+        (m) => m.MunicipalLawModule
+      ),
   },
 
   {
     path: "financial-statement",
-    loadChildren: "./dashboard/dashboard.module#DashboardModule",
+    loadChildren: () =>
+      import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
+  },
+  {
+    path: "data-tracker",
+    loadChildren: () =>
+      import("./pages/data-tracker/data-tracker.module").then(
+        (m) => m.DataTrackerModule
+      ),
   },
   {
     path: "upload-annual-accounts",
-    loadChildren:
-      "./pages/annual-accounts/annual-accounts.module#AnnualAccountsModule",
+    loadChildren: () =>
+      import("./pages/annual-accounts/annual-accounts.module").then(
+        (m) => m.AnnualAccountsModule
+      ),
   },
 
   {
     path: "not-found",
-    loadChildren: "./not-found/not-found.module#NotFoundModule",
+    loadChildren: () =>
+      import("./not-found/not-found.module").then((m) => m.NotFoundModule),
+  },
+  {
+    path: "ulb-location-visualize",
+    loadChildren: () =>
+      import("./pages/ulbs-visualization/ulbs-visualization.module").then(
+        (m) => m.UlbsVisualizationModule
+      ),
+  },
+  {
+    path: "ulb-not-registered",
+    component: UlbNotRegisteredComponent,
+  },
+  {
+    path: "app-water-rejenuvation",
+    component: WaterRejenuvationComponent
   },
 
   { path: "**", redirectTo: "" },
-  { path: "**", redirectTo: "" },
 ];
 
-export const AppRouter: ModuleWithProviders = RouterModule.forRoot(appRouter);
+export const AppRouter: ModuleWithProviders<RouterModule> =
+  RouterModule.forRoot(appRouter, { relativeLinkResolution: "legacy" });

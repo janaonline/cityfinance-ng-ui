@@ -14,7 +14,7 @@ export class AuthService {
   // public expirationDate = this.helper.getTokenExpirationDate(myRawToken);
   // public isExpired = this.helper.isTokenExpired(myRawToken);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   authenticateUser(user) {
     this.http.post(environment.api.url + "users/signin", user);
@@ -52,4 +52,12 @@ export class AuthService {
   logout() {
     localStorage.clear();
   }
+  otpSignIn(body) {
+    return this.http.post(`${environment.api.url}sendOtp`, body)
+  }
+  otpVerify(body) {
+    return this.http.post(`${environment.api.url}verifyOtp`, body)
+  }
+
+
 }

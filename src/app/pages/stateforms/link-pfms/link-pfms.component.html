@@ -1,0 +1,114 @@
+<!-- <input type="button" value="set background" ng-click="myStyle={'background-color':rgb(68, 255, 99)}"> -->
+
+<div class="row" style="margin-left: 0; margin-right: 10px;">
+
+    <div class="col-sm-8 col-lg-8 col-md-8 header2">
+        Linking of PFMS Account
+    </div>
+
+    <div class="col-sm-4 col-lg-4 col-md-4  text-right">
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="openModal(template,true)">PREVIEW</button>
+    </div>
+</div>
+<div class="mat-card" style="margin-right: 25px; margin-left: 15px;">
+    <div class="card-body" style="margin-top: 1rem;">
+        <ng-container>
+            <br>
+            <app-comm-file-upload [dataFromParent]="excelDataOnLoad" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)" [isDisabled]="formDisable">
+            </app-comm-file-upload>
+            <br>
+        </ng-container>
+
+    </div>
+</div>
+
+<div class="mat-card" style="margin-top: 1rem; margin-bottom: 1rem; padding: 20px; margin-right: 25px;
+margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'">
+    <div class="card-body" [ngClass]="{'anDisable': actionFormDisable}">
+        <app-action-component (actionValues)=" checkStatus($event)" [statusResponse]='actionRes'>
+        </app-action-component>
+    </div>
+</div>
+<div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
+margin-left: 15px;" *ngIf="loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'STATE'">
+    <div class="card-body" style="padding: 2%;">
+        <b>MoHUA Review Status : </b> Under Review By MoHUA
+    </div>
+</div>
+<div class="mat-card" style="margin-right: 25px; margin-top: 1rem;
+margin-left: 15px;" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'
+&& actionTakenByRoleOnForm=='MoHUA' ">
+    <div class="card-body" style="padding: 2%;">
+        <b>MoHUA Review Status :</b>
+        <div class="btn-group" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup style="margin-bottom: 2rem; margin-left: 2%;">
+
+            <label class="btn btn-success" disabled style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
+
+                {{getStatus | titlecase}}</label>
+
+        </div>
+        <div>
+            <p *ngIf="btnStyleR">
+                <b style="font-weight: 600;">Reason for return :</b> {{getrejectReason}}
+            </p>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+<div class="row" style="margin-top: 3rem; margin-left: 0; margin-right: 10px; margin-bottom: 2rem;">
+    <div [routerLink]="['../gtCertificate']" routerLinkActive="router-link-active" class="col-sm-6 col-md-6 col-lg-6">
+        <button class="btn backButton">BACK</button>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+        <button class="btn save" (click)="saveAndNextValue(template1)">{{saveBtnTxt}}</button>
+    </div>
+</div>
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

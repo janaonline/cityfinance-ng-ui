@@ -9,10 +9,10 @@ import { AccessChecker } from '../../util/access/accessChecker';
 import { FileUpload } from '../../util/fileUpload';
 import { UserUtility } from '../../util/user/user';
 import { FinancialDataService } from '../services/financial-data.service';
-import { BulkEntryComponent } from './bulk-entry/bulk-entry.component';
 import { DataUploadActionComponent } from './data-upload-action/data-upload-action.component';
 import { DataUploadRoutingModule } from './data-upload-routing.module';
 
+// import {BulkEntryComponent} from './bulk-entry/bulk-entry.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +23,6 @@ import { DataUploadRoutingModule } from './data-upload-routing.module';
     SharedModule,
   ],
   providers: [AccessChecker, FileUpload, UserUtility, FinancialDataService],
-  declarations: [DataUploadActionComponent, BulkEntryComponent],
+  declarations: [DataUploadActionComponent],
 })
 export class DataUploadModule {}

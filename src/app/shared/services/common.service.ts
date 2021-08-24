@@ -1,27 +1,34 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { a } from '@angular/core/src/render3';
-import { Observable, of, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { IULBResponse } from 'src/app/models/IULBResponse';
-import { NewULBStructure, NewULBStructureResponse } from 'src/app/models/newULBStructure';
-import { IStateListResponse } from 'src/app/models/state/state-response';
-import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
-import { IULB } from 'src/app/models/ulb';
-import { USER_TYPE } from 'src/app/models/user/userType';
-import { HttpUtility } from 'src/app/util/httpUtil';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, of, Subject } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { IBasicLedgerData } from "src/app/dashboard/report/models/basicLedgerData.interface";
+import { IULBResponse } from "src/app/models/IULBResponse";
+import {
+  NewULBStructure,
+  NewULBStructureResponse,
+} from "src/app/models/newULBStructure";
+import { IStateListResponse } from "src/app/models/state/state-response";
+import { ULBsStatistics } from "src/app/models/statistics/ulbsStatistics";
+import { IULB } from "src/app/models/ulb";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { HttpUtility } from "src/app/util/httpUtil";
 
-import { IStateULBCoveredResponse } from '../models/stateUlbConvered';
-import { IULBWithPopulationResponse } from '../models/ulbsForMapResponse';
-import { environment } from './../../../environments/environment';
+import { IStateULBCoveredResponse } from "../models/stateUlbConvered";
+import { IULBWithPopulationResponse } from "../models/ulbsForMapResponse";
+import { environment } from "./../../../environments/environment";
+import { JSONUtility } from "src/app/util/jsonUtil";
 
 @Injectable({
   providedIn: "root",
 })
 export class CommonService {
+  userType: string;
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
+  OpenModalTrigger = new Subject<any>();
   private httpUtil = new HttpUtility();
+  jsonUtil = new JSONUtility();
 
   private NewULBStructureResponseCache: {
     [datesAsString: string]: IULBResponse;
@@ -29,6 +36,26 @@ export class CommonService {
 
   // private states: any = [];
   constructor(private http: HttpClient) {}
+
+  getFinancialYearBasedOnData() {
+    return this.http
+      .get(`${environment.api.url}dynamic-financial-year`)
+      .pipe(
+        map((res) => ({ ...res, data: this.sortFinancialYears(res["data"]) }))
+      );
+  }
+  /**
+   * @description Sort the Financial Years only.
+   *
+   * @example
+   * list = ["2015-16", "2014-15", "2018-19"]
+   * sorted = ["2014-15", "2015-16", "2018-19"]
+   */
+  private sortFinancialYears(years: string[]) {
+    return years.sort(
+      (yearA, yearB) => +yearA.split("-")[0] - +yearB.split("-")[0]
+    );
+  }
 
   public getWebsiteVisitCount() {
     return this.http
@@ -117,6 +144,82 @@ export class CommonService {
     return this.NewULBStructureResponseCache[yearsAsString];
   }
 
+  getNewULBLegdersList(years: string[] = []) {
+    // const cachedResponse = this.getCachedResponse(years);
+    // if (cachedResponse) {
+    //   return of(cachedResponse);
+    // }
+
+    return this.http.post<NewULBStructureResponse>(
+      `${environment.api.url}/ledger/getAllLegders`,
+      { year: years }
+    );
+  }
+
+  fetchBasicLedgerData() {
+    return this.http
+      .get<IBasicLedgerData>(
+        `${environment.api.url}/ledger/getOverAllUlbLegders`
+      )
+      .pipe(
+        map((res) => ({
+          ...res,
+          data: res.data.map((state) => ({
+            ...state,
+            ulbList: state.ulbList.map((ulb) => ({
+              ...ulb,
+              _id: ulb.ulb,
+              financialYear:
+                !ulb.financialYear ||
+                !ulb.financialYear.length ||
+                !ulb.financialYear[0]
+                  ? null
+                  : ulb.financialYear,
+            })),
+          })),
+        })),
+        map((res) => ({ ...res, data: this.sortLedgeData(res) }))
+      );
+  }
+
+  /**
+   * @description Sort the data:
+   * 1. State - Alphabetic
+   * 2. ULBs - Alphabetic
+   * 3. Year - Descreasing (Latest year first).
+   */
+  private sortLedgeData(res: IBasicLedgerData) {
+    return res.data.sort((stateA, stateB) => {
+      stateA.ulbList = stateA.ulbList
+        .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
+        .map((ulb) => ({
+          ...ulb,
+          state: stateA._id.name,
+          stateId: stateA._id.state,
+          financialYear: this.sortFinancialYear(ulb.financialYear),
+        }));
+      stateB.ulbList = stateB.ulbList
+        .sort((ulbA, ulbB) => ulbA.name.localeCompare(ulbB.name))
+        .map((ulb) => ({
+          ...ulb,
+          state: stateB._id.name,
+          stateId: stateB._id.state,
+          financialYear: this.sortFinancialYear(ulb.financialYear),
+        }));
+      return stateA._id.name.localeCompare(stateB._id.name);
+    });
+  }
+
+  /**
+   * @description Sort the financial years of ulbs in descending order.
+   * @example
+   * years = ['2016-17', '2017-18'];
+   * sortedYear = ['2017-18', '2016-17']
+   */
+  private sortFinancialYear(years: string[]) {
+    return years?.sort((A, B) => +B.split("-")[0] - +A.split("-")[0]);
+  }
+
   getULBSByYears(years: string[] = []) {
     const cachedResponse = this.getCachedResponse(years);
     if (cachedResponse) {
@@ -133,6 +236,7 @@ export class CommonService {
           const formattedResponse = this.convertULBStaticticsToIULBResponse(
             response
           );
+
           const yearsAsString = !years.length
             ? "NoYear"
             : years.reduce((a, b) => a + b);
@@ -170,22 +274,33 @@ export class CommonService {
       }
 
       const convertedULB = this.convertNewULBStructureToIULB(ulb);
-      if (
-        newObj.data[ulb.state.code].ulbs.every(
-          (ulb) => ulb.code !== convertedULB.code
-        )
-      ) {
+      const index = newObj.data[ulb.state.code].ulbs.findIndex(
+        (newULB) => newULB.code === convertedULB.code
+      );
+
+      if (index === -1) {
         newObj.data[ulb.state.code].ulbs.push({
           ...this.convertNewULBStructureToIULB(ulb),
           state: ulb.state.name,
         });
+      } else {
+        if (!newObj.data[ulb.state.code].ulbs[index].allYears) {
+          newObj.data[ulb.state.code].ulbs[index].allYears = [];
+        }
+        newObj.data[ulb.state.code].ulbs[index].allYears.push(
+          convertedULB.financialYear
+        );
       }
     });
     return newObj;
   }
 
   convertNewULBStructureToIULB(ulb: NewULBStructure): IULB {
-    return { ...ulb.ulb, type: ulb.ulbtypes.name };
+    return {
+      ...ulb.ulb,
+      type: ulb.ulbtypes.name,
+      financialYear: ulb.financialYear,
+    };
   }
 
   fetchULBList(body, sort?: {}) {
@@ -211,10 +326,9 @@ export class CommonService {
       params = params.append("sort", JSON.stringify(sort));
     }
 
-    return this.http.get(
-      `${environment.api.url}ulb-financial-data/fc-grant/ulbList`,
-      { params }
-    );
+    return this.http.get(`${environment.api.url}xv-fc-form/fc-grant/ulbList`, {
+      params,
+    });
   }
 
   getULBListApi(body) {
@@ -239,19 +353,19 @@ export class CommonService {
         params = params.append(key, body[key]);
       }
     });
-    return `${environment.api.url}ulb-financial-data/fc-grant/ulbList?${params}`;
+    return `${environment.api.url}xv-fc-form/fc-grant/ulbList?${params}`;
   }
 
   fetchDashboardCardData() {
     return this.http.get(
-      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-card`
+      `${environment.api.url}xv-fc-form/fc-grant/dashboard-card`
     );
   }
 
   fetchDashboardChartData(queryParams) {
     const params = this.httpUtil.convertToHttpParams(queryParams);
     return this.http.get(
-      `${environment.api.url}/ulb-financial-data/fc-grant/dashboard-chart`,
+      `${environment.api.url}xv-fc-form/fc-grant/dashboard-chart`,
       { params }
     );
   }
@@ -268,10 +382,6 @@ export class CommonService {
   getCount(ulbList: NewULBStructure[]): ULBsStatistics {
     const newObj: ULBsStatistics = {};
     ulbList.forEach((ulb) => {
-      // if (ulb.ulb.amrut == undefined) {
-      //   console.log(ulb.ulb.name);
-      // }
-
       if (!ulb.state._id) {
         return;
       }
@@ -316,9 +426,16 @@ export class CommonService {
         ulb.ulb.amrut == "No" || ulb.ulb.amrut == undefined ? 1 : 0;
       // newObj[ulb.state._id].ulbsByYears[ulb.financialYear].push({ ...ulb });
     });
-    // console.log('newObj',newObj);
 
     return { ...newObj };
+  }
+  stateRegister: any = {};
+  setGetStateRegister(set, data = null): Observable<any> {
+    if (set) {
+      this.stateRegister = data;
+    } else {
+      return this.stateRegister;
+    }
   }
 
   loadStatesAgg(): Observable<any> {
@@ -388,5 +505,47 @@ export class CommonService {
     return this.http
       .get(`${environment.api.url}resource/all`)
       .pipe(map((res) => res["data"]["data"]));
+  }
+
+  getNodalOfficer(state) {
+    return this.http.get(`${environment.api.url}user/nodal/${state}`);
+  }
+
+  fetchSlbData(params, ulbId){
+    // let data = {design_year: '606aaf854dff55e6c075d219'}
+    // const newData = this.jsonUtil.convert(data);
+    if(ulbId != null){
+      return this.http.get(
+        `${environment.api.url}xv-fc-form/admin/${ulbId}?${params}`
+      );
+    }else{
+      return this.http.get(
+        `${environment.api.url}xv-fc-form?${params}`
+      );
+    }
+
+  }
+
+  postSlbData(data: any) {
+
+    const newData = this.jsonUtil.convert(data);
+    return this.http.post(
+      `${environment.api.url}xv-fc-form`,
+      JSON.stringify(newData)
+    );
+  }
+
+  updateSlbData(data: any, id) {
+    const newData = this.jsonUtil.convert(data);
+    return this.http.put(
+      `${environment.api.url}xv-fc-form/${id}`,
+      JSON.stringify(newData)
+    );
+  }
+  setUser(get,user=null){
+    if(get){
+      return this.userType;
+    }
+    this.userType = user
   }
 }

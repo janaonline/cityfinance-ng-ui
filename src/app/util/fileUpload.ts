@@ -1,3 +1,5 @@
+import { Injectable } from "@angular/core";
+@Injectable()
 export class FileUpload {
   get uploading(): boolean {
     return this._uploading;

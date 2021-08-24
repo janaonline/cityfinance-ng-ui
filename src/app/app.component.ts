@@ -7,6 +7,9 @@ import { GlobalLoaderService } from './shared/services/loaders/global-loader.ser
 import { SessionService } from './shared/services/session/session.service';
 import { ProfileService } from './users/profile/service/profile.service';
 import { UserUtility } from './util/user/user';
+import { ConnectionService } from 'ng-connection-service';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-root",
@@ -15,14 +18,15 @@ import { UserUtility } from './util/user/user';
 })
 export class AppComponent implements OnDestroy {
   title = "City Finance";
-
+  googleTagId = environment.GoogleTagID;
   showLoader = false;
   sessionId: string;
 
   constructor(
     public globalLoader: GlobalLoaderService,
     private sessionService: SessionService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private connectionService: ConnectionService
   ) {
     this.startSession();
     this.globalLoader
@@ -32,6 +36,15 @@ export class AppComponent implements OnDestroy {
         this.showLoader = loadingStatus;
       });
     this.addCustomScripts();
+    this.connectionService.monitor().subscribe(isConnected => {
+      if(!isConnected){
+        swal({
+          title: "No Internet Connection!",
+          text: "Please connect to internet",
+          icon: "warning",
+        });
+      }
+    })
     let userData: any = localStorage.getItem("userData");
     if (!userData) return;
     try {
@@ -53,23 +66,23 @@ export class AppComponent implements OnDestroy {
    * as of now.
    */
   private addCustomScripts() {
-    const id = environment.GoogleTagID;
-    if (!id) return false;
+    // const id = environment.GoogleTagID;
+    if (!this.googleTagId) return false;
     const scriptTag = document.createElement("script");
-    scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    scriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleTagId}`;
     scriptTag.async = true;
     scriptTag.onload = this.onGoogleTagLoad;
     document.getElementsByTagName("head")[0].appendChild(scriptTag);
   }
 
   onGoogleTagLoad = () => {
-    (<any>window).dataLayer = (<any>window).dataLayer || [];
+    const dataLayer = (<any>window).dataLayer || [];
     function gtag(...args: any[]) {
-      (<any>dataLayer).push(arguments);
+      dataLayer.push(arguments);
     }
     gtag("js", new Date());
 
-    gtag("config", "UA-171288029-1");
+    gtag("config", this.googleTagId);
   };
 
   private startSession() {

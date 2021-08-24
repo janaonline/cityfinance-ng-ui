@@ -7,17 +7,16 @@ import { MODULES_NAME } from '../util/access/modules';
 const accessChecker = new AccessChecker();
 
 export const defaultSideBarContents: { title: string; subMenus: ILink[] }[] = [
-  // {
-  //   title:
-  //     "<span>15<sup style='text-transform: capitalize'>th</sup> FC Grants</span>",
-  //   subMenus: [
-  //     {
-  //       title: "ULB 15th FC Form Status",
-  //       type: "link",
-  //       route: ["/user/data-upload/list"],
-  //     },
-  //   ],
-  // },
+  {
+    title: "Data Upload",
+    subMenus: [
+      {
+        title: "ULB Data Upload",
+        type: "link",
+        route: ["/user/data-upload/list"],
+      },
+    ],
+  },
   {
     title: "User Management",
     subMenus: [

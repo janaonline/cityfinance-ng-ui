@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
-import {
-  MatTabsModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatIconModule,
-  MatProgressSpinnerModule, MatTooltipModule, MatDialogModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 
 @NgModule({

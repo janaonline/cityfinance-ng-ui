@@ -1,0 +1,275 @@
+<div class="container-fluid" style="margin-bottom: 1pc;" id="actionP" #actionP>
+    <div class="row">
+        <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
+            <a *ngIf="!parentData" (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+                <mat-icon aria-hidden="false">
+                    <img src="../../../../../assets/form-icon/Icon material-close.svg">
+                </mat-icon>
+            </a>
+            <!-- <div class="col-sm-12 heading-p">
+                Action Plan for UA Service Level Indicator
+            </div> -->
+            <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
+                <span *ngIf="!parentData"> Submissions for 15th FC Grants for FY 2021-22</span>
+                <span *ngIf="parentData">Action Plan for UA Service Level Indicator</span>
+                <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
+            </div>
+        </div>
+    </div>
+    <div class=" row st-d">
+        <div class="col-sm-6 form-status">
+            <b>Form Current Status:</b> {{status}}
+        </div>
+        <div class="col-sm-6 text-right h-cls" *ngIf="!parentData">
+            <button id="donwloadButton" style="right: 0%;
+    outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
+                Download as PDF
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngIf="!parentData">
+        <div class="col-sm-12 text-center form-h">
+            Action Plan for UA Service Level Indicator
+        </div>
+    </div>
+    <div class="col-sm-12" style="margin-top: 1rem; text-align: center;">
+        <h5 *ngIf="parentData" class="form-status">
+            Please refer CSV file for download in Actipn Plan form.
+        </h5>
+    </div>
+    <!-- <ng-container *ngIf="!parentData">
+        <div *ngFor="let uas of data.uaData; let projectIndex=index" class="d-m">
+            <div class="card" style="margin-top: 5px; margin-left: 0pc;">
+                <div class="card-body ">
+                    <div style="display: flex;">
+                        <div>
+                            <h4>UA{{projectIndex + 1}}: Urban Aggolmeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}
+
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <div>
+                            <h5>List of Projects to be Executed with 15th FC Grants</h5>
+                        </div>
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th style="width: 4%;" scope="col">S.No</th>
+                                    <th style="width: 10%;" scope="col">Project Code</th>
+                                    <th style="width: 10%;" scope="col">Project Name</th>
+                                    <th style="width: 10%;" scope="col">Project Cost</th>
+                                    <th style="width: 10%;" scope="col">Project Details</th>
+                                    <th style="width: 10%;" scope="col">Executing Agency</th>
+                                    <th *ngIf="includeParaAgency(uas)" style="width: 10%;" scope="col">Name of Parastatal Agency</th>
+                                    <th style="width: 7%;" scope="col">Sector</th>
+                                    <th style="width: 10%;" scope="col">Project Type</th>
+                                    <th style="width: 7%;" scope="col">Estimated OutCome</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let projectExecute of uas.projectExecute; let projectExecuteIndex=index">
+                                <tr>
+                                    <td>
+                                        <span>{{1+projectExecuteIndex}}</span>
+                                    </td>
+                                    <td>
+                                        {{projectExecute.code}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.name}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.cost}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.details}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.exAgency}}
+                                    </td>
+                                    <td *ngIf="projectExecute.paraAgency != ''">
+                                        {{projectExecute.paraAgency}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.sector}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.type}}
+                                    </td>
+                                    <td>
+                                        {{projectExecute.esOutcome}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <h5>Project List and Source of Funds</h5>
+                        </div>
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th style="width: 3%;" scope="col">S.No</th>
+                                    <th style="width: 5%;" scope="col">Project Code</th>
+                                    <th style="width: 5%;" scope="col">Project Name</th>
+                                    <th style="width: 5%;" scope="col">Project Cost</th>
+                                    <th style="width: 5%;" scope="col">15th FC</th>
+                                    <th style="width: 3%;" scope="col">JJM</th>
+                                    <th style="width: 5%;" scope="col">SBM 2.0</th>
+                                    <th style="width: 5%;" scope="col">Other Central Schemes</th>
+                                    <th style="width: 5%;" scope="col">State Central Schemes</th>
+                                    <th style="width: 5%;" scope="col">State Gov Grants</th>
+                                    <th style="width: 3%;" scope="col">ULB</th>
+                                    <th style="width: 3%;" scope="col">Other</th>
+                                    <th style="width: 3%;" scope="col">total</th>
+                                    <th style="width: 7%;" scope="col">FY 2021-22</th>
+                                    <th style="width: 7%;" scope="col">FY 2022-23</th>
+                                    <th style="width: 7%;" scope="col">FY 2023-24</th>
+                                    <th style="width: 7%;" scope="col">FY 2024-25</th>
+                                    <th style="width: 7%;" scope="col">FY 2025-26</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let sourceFund of uas.sourceFund; let sourceFundIndex=index">
+                                <tr>
+                                    <td>
+                                        <span>{{1+sourceFundIndex}}</span>
+                                    </td>
+                                    <td>
+                                        {{sourceFund.code}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.name}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.cost}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.fc}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.jjm}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.sbm}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.centalScheme}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.stateScheme}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.stateGrant}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.ulb}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.other}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund.total}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund['2021-22']}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund['2022-23']}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund['2023-24']}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund['2024-25']}}
+                                    </td>
+                                    <td>
+                                        {{sourceFund['2025-26']}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <h5>Year-wise Outlay for 15th FC Grants:</h5>
+                        </div>
+                        <table class="table custom-position">
+                            <thead>
+                                <tr class="thHeader">
+                                    <th style="width: 4%;" scope="col">S.No</th>
+                                    <th style="width: 10%;" scope="col">Project Code</th>
+                                    <th style="width: 10%;" scope="col">Project Name</th>
+                                    <th style="width: 10%;" scope="col">Project Cost</th>
+                                    <th style="width: 9%;" scope="col">% Funding</th>
+                                    <th style="width: 9%;" scope="col">Amount</th>
+                                    <th style="width: 10%;" scope="col">FY 2021-22</th>
+                                    <th style="width: 10%;" scope="col">FY 2022-23</th>
+                                    <th style="width: 10%;" scope="col">FY 2023-24</th>
+                                    <th style="width: 10%;" scope="col">FY 2024-25</th>
+                                    <th style="width: 12%;" scope="col">FY 2025-26</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let yearOutlay of uas.yearOutlay; let yearOutlayIndex=index">
+                                <tr>
+                                    <td>
+                                        <span>{{1+yearOutlayIndex}}</span>
+                                    </td>
+                                    <td>
+                                        {{yearOutlay.code}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay.name}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay.cost}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay.funding}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay.amount}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay['2021-22']}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay['2022-23']}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay['2023-24']}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay['2024-25']}}
+                                    </td>
+                                    <td>
+                                        {{yearOutlay['2025-26']}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container> -->
+
+</div>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed?
+            <div>
+                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+                Proceed</button>
+            </div>
+
+    </div>
+</ng-template>

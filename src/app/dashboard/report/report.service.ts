@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IDetailedReportResponse } from '../../../app/models/detailedReport/detailedReportResponse';
 import { ISummaryReport } from '../../../app/models/summaryReport/summaryReport';
@@ -55,6 +56,27 @@ export class ReportService {
           alert("Year and ULB selection is mandatory");
         }
       });
+  }
+
+  getFinancialYearBasedOnData() {
+    return this.http
+      .get(`${environment.api.url}dynamic-financial-year`)
+      .pipe(
+        map((res) => ({ ...res, data: this.sortFinancialYears(res["data"]) }))
+      );
+  }
+
+  /**
+   * @description Sort the Financial Years only.
+   *
+   * @example
+   * list = ["2015-16", "2014-15", "2018-19"]
+   * sorted = ["2014-15", "2015-16", "2018-19"]
+   */
+  private sortFinancialYears(years: string[]) {
+    return years.sort(
+      (yearA, yearB) => +yearA.split("-")[0] - +yearB.split("-")[0]
+    );
   }
 
   BSDetailed(criteria: IReportType) {

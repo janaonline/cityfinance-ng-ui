@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 import { IReportType } from 'src/app/models/reportType';
@@ -18,6 +18,7 @@ import { currencryConversionOptions, currencryConversionType, ICurrencryConversi
   selector: "app-basic",
   templateUrl: "./basic.component.html",
   styleUrls: ["./basic.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BasicComponent implements OnInit, OnDestroy {
   report: any = {};
@@ -60,6 +61,10 @@ export class BasicComponent implements OnInit, OnDestroy {
       confirm: {
         text: "Proceed to Login",
         callback: () => {
+          sessionStorage.setItem(
+            "postLoginNavigation",
+            `/financial-statement/report/basic`
+          );
           this.router.navigate(["/", "login"]);
         },
       },
@@ -75,8 +80,11 @@ export class BasicComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _dialog: MatDialog,
     private router: Router,
-    private _authService: AuthService
-  ) {}
+    private _authService: AuthService,
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.changeDetector.reattach();
+  }
 
   private initializeCurrencyConversion(reportCriteria: IReportType) {
     this.currencyTypeInUser =
@@ -102,6 +110,7 @@ export class BasicComponent implements OnInit, OnDestroy {
       this.initializeCurrencyConversion(reportCriteria);
       this.initializeForm(reportCriteria);
       this.loaderService.showLoader();
+      console.log("got criteria", reportCriteria);
 
       this.reportReq = reportCriteria;
 
@@ -123,6 +132,7 @@ export class BasicComponent implements OnInit, OnDestroy {
 
           this.loaderService.stopLoader();
           this.setDataNotAvailable();
+          this.changeDetector.detectChanges();
         },
         (err) => {
           this.loaderService.stopLoader();
@@ -295,6 +305,55 @@ export class BasicComponent implements OnInit, OnDestroy {
     }
 
     this.isProcessed = true;
+  }
+
+  routerTo() {
+    // console.log(this.router.)
+    const ulbs: string[] = this.reportReq.ulbIds;
+    const years: string[] = this.reportReq.years;
+    const query = `ulb=${ulbs.toString()}&year=${years.toString()}&backRoute=${
+      window.location.pathname
+    }`;
+
+    const isUserLoggedIn = this._authService.loggedIn();
+    console.log(isUserLoggedIn);
+    if (!isUserLoggedIn) {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: {
+          message:
+            "<p class='text-center'>You need to be Login to download the data.</p>",
+          buttons: {
+            signup: {
+              text: "Signup",
+              callback: () => {
+                this.router.navigate(["register/user"]);
+              },
+            },
+            confirm: {
+              text: "Proceed to Login",
+              callback: () => {
+                sessionStorage.setItem(
+                  "postLoginNavigation",
+                  `/data-tracker?${query}`
+                );
+                this.router.navigate(["/", "login"]);
+              },
+            },
+            cancel: { text: "Cancel" },
+          },
+        },
+        width: "28vw",
+      });
+      return;
+    }
+
+    this.router.navigate(["/data-tracker"], {
+      queryParams: {
+        ulb: ulbs,
+        year: years.toString(),
+        backRoute: window.location.pathname,
+      },
+    });
   }
 
   download() {

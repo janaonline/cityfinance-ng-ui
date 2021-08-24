@@ -1,0 +1,173 @@
+.sidebar {
+    margin-top: 1px;
+    width: 18%;
+    padding-left: 15px;
+    padding-right: 3px;
+    height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+// .main {
+//     position: relative;
+//     top: 0;
+//     left: 233px;
+// }
+.pd {
+    padding-bottom: 1rem;
+}
+
+.t-c {
+    color: #FFFFFF;
+}
+
+div.active {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+    .svg-gl {
+        filter: invert(0);
+    }
+}
+
+.svg-icon {
+    filter: invert(1);
+}
+
+.svg-gl {
+    filter: invert(1);
+}
+
+.material-icons {
+    vertical-align: middle;
+}
+
+.link-div:hover {
+    background-color: #FFFFFF;
+    .linktext {
+        margin-top: 8px;
+        color: #212121;
+    }
+    .svg-icon {
+        filter: none;
+    }
+    .svg-gt {
+        filter: invert(1);
+    }
+    .svg-gl {
+        filter: invert(0);
+    }
+}
+
+.linktext {
+    margin-top: 8px;
+    color: #FFFFFF;
+}
+
+.link-div {
+    background-color: #114551;
+}
+
+.link-div-u {
+    background-color: #DCDCDC;
+    padding-left: 3rem;
+}
+
+.linktext-u {
+    margin-top: 10px;
+    color: #212121;
+    margin-bottom: 6px;
+    padding-left: 5px;
+}
+
+.m-l-u {
+    margin-left: 6px;
+}
+
+.m-l {
+    margin-left: 6px;
+}
+
+.subBtnDiv {
+    margin-top: 20px;
+}
+
+.subBtn {
+    background-color: #124A55;
+    font-size: 12px;
+    font-weight: normal;
+    font-family: Segoe UI;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+    padding-left: 4%;
+    padding-right: 4%;
+    height: 32px;
+}
+
+.header1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 8px;
+}
+
+.mat-icon {
+    width: 20px;
+    height: 0px;
+}
+
+.material-icons {
+    font-size: 12px;
+}
+
+.pull-right {
+    margin-top: 9px;
+    width: 14px;
+    margin-right: .5rem;
+}
+
+::ng-deep .tooltip {
+    //  background-color: #009688;
+    color: #FFFFFF;
+    z-index: 3;
+    width: 150px;
+}
+
+.sticky {
+    position: fixed;
+    top: 9%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    //  z-index: 10;
+    height: 69%;
+    width: 18%;
+}
+
+.sticky-se {
+    position: fixed;
+    top: 9%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    //   z-index: 10;
+    height: 90%;
+    width: 18%;
+}
+
+.stickyMain {
+    margin-left: 18%;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}

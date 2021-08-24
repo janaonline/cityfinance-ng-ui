@@ -1,0 +1,60 @@
+<div class="mat-card" id="ulbformPre" #ulbformPre>
+    <div class="mat-card-title text-center m-h-mr">
+        <div class="b-hide" style="text-align: right;">
+            <a mat-dialog-close>
+                <img src="https://img.icons8.com/metro/26/000000/multiply.png" />
+            </a>
+        </div>
+        <div>
+            <h2 class="m-h" style="line-height: normal; margin: 0;"> Submissions for 15th FC Grants for FY 2021-22</h2>
+            <h3 class="sub-m-h" style="line-height: normal; margin: 0;">{{ userData.name }},{{userData.stateName}}</h3>
+            <!-- <h2 class="m-h">15th FC Form</h2>
+        <h3 class="m-h">
+            {{ userData.name }}
+        </h3> -->
+        </div>
+        <div class="pull-right b-hide">
+            <button id="donwloadButton" style="right: 0%;
+      outline: none; margin-right: 2% ;margin-bottom: 1pc; position: relative; z-index:4" (click)="openModal()" class="btn btn-primary btn-upload">
+                Download as PDF
+            </button>
+        </div>
+    </div>
+    <div *ngIf="showLoader" style="margin-left: 33pc;">
+        <mat-spinner></mat-spinner>
+    </div>
+    <!-- <div class="mat-card-content ">
+        <div *ngIf="pfms">
+            <app-pfms-preview [changeFromOutSide]="changeTrigger.changeInPFMSAccount" [parentData]="pfms">
+            </app-pfms-preview>
+        </div>
+    </div>
+    <div class="page-break"></div> -->
+    <div class="mat-card-content">
+        <div *ngIf="detailUtil">
+            <app-preview-uti-form [changeFromOutSide]="changeTrigger.canNavigate" [parentData]="detailUtil">
+            </app-preview-uti-form>
+        </div>
+    </div>
+    <div class="page-break"></div>
+    <div class="mat-card-content">
+        <div *ngIf="annualAccount">
+            <app-annual-preview [changeFromOutSide]="changeTrigger.changeInAnnual" [parentData]="annualAccount">
+            </app-annual-preview>
+        </div>
+    </div>
+    <div class="page-break"></div>
+    <div class="mat-card-content">
+        <div *ngIf="slbWaterSanitaion">
+            <app-preview-slb-component [changeFromOutSide]="changeTrigger.changeInSLB" [data]="slbWaterSanitaion">
+            </app-preview-slb-component>
+        </div>
+    </div>
+    <!-- <div class="page-break"></div>
+    <div class="mat-card-content">
+        <div *ngIf="waterSanitation">
+            <app-water-sanitation-preview [changeFromOutSide]="changeTrigger.changeInPlans" [parentData]="waterSanitation">
+            </app-water-sanitation-preview>
+        </div>
+    </div> -->
+</div>

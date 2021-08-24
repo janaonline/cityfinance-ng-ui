@@ -1,0 +1,94 @@
+<!-- <input type="button" value="set background" ng-click="myStyle={'background-color':rgb(68, 255, 99)}"> -->
+
+<div class="row">
+
+    <div class="col-sm-8 col-lg-8 col-md-8 header2">
+        Linking of PFMS Account
+    </div>
+
+    <div class="col-sm-4 col-lg-4 col-md-4  text-right">
+        <button type="button" class="btn btn-primary pr-btn" style="margin-top: 1rem;" id="prevBtn" (click)="openModal(template,true)">PREVIEW</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <div class="question" style="margin-top: 1rem;" *ngIf="showQuestion1">
+            <span>{{questions[0]}}<span style="color: red;">*</span></span>
+            <div>
+                <button class="btn" style="margin-left: 2rem;" (click)="onClickYes()" [disabled]="isDisabled" [ngStyle]="{'background-color':
+              account === 'yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
+                <button class=" btn" style="margin-left: 5rem;" (click)="onClickNo()" [disabled]="isDisabled" [ngStyle]="{'background-color':
+          account === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 4rem;">
+    <div class="col-sm-12 col-lg-12 col-md-12">
+        <div class="question" *ngIf="showQuestion2">
+            <span>{{questions[1]}}<span style="color: red;">*</span></span>
+            <div>
+                <button class="btn" style="margin-left: 2rem;" (click)="onClickYES()" [disabled]="isDisabled" [ngStyle]="{'background-color':
+         linked ==='yes' ?'#ffc500': 'rgb(229 230 230)' }">Yes</button>
+                <button class=" btn" style="margin-left: 5rem;" (click)="onClickNO()" [disabled]="isDisabled" [ngStyle]="{'background-color':
+          linked === 'no' ?'#ffc500': 'rgb(229 230 230)' }">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row" style="margin-top: 2rem;">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+        <button class="btn backButton" (click)="clickedBack(template)">BACK</button>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+        <button class="btn save" (click)="saveAndNextValue(template1)" [disabled]="isDisabled">{{change == true?
+          'SAVE AND
+          NEXT': 'NEXT'}}</button>
+    </div>
+</div>
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+              Save & Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
