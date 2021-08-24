@@ -268,6 +268,31 @@
 
             <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
             <ng-template #tolTemplateN>{{toolTipContentN}}</ng-template>
+            <ng-template #finalSubmitAlert>
+                <div class="modal-body text-center">
+                    <div class="modal-header">
+                        <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+                        <div class="text-right">
+                            <a (click)="alertClose()">
+                                <img src="../../../../assets/form-icon/close-red-icon.png">
+                            </a>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 8px;">
+                        Are you sure you want to proceed further?
+
+                    </p>
+                    <p>If you Proceed, no changes could be made in any of the Forms.</p>
+                    <div>
+                        <button type="button" class="btn btn-secondary " (click)="alertClose()">Stay</button>
+                        <button type="button" class="btn btn-success "
+                            style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                            Final Submit</button>
+                    </div>
+
+                </div>
+            </ng-template>
 
 
             <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
@@ -281,7 +306,8 @@
 
                         <button mat-raised-button class="subBtn"
                             [disabled]="!validate || submitted || allStatusStateForms['status'] == 'APPROVED'  "
-                            (click)="finalSubmit()">{{submitted ? "Submitted" : allStatusStateForms['status'] ==
+                            (click)="finalSubmitClicked(finalSubmitAlert)">{{submitted ? "Submitted" :
+                            allStatusStateForms['status'] ==
                             'APPROVED' ? "Approval Completed" : "Submit"}}</button>
                     </div>
                     <div *ngIf="loggedInUserType === userTypes.MoHUA "

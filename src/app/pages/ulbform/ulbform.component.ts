@@ -387,6 +387,10 @@ export class UlbformComponent implements OnInit {
   }
 
   allFormsData;
+  openDialog(template) {
+    const dialogRef = this.dialog.open(template);
+    dialogRef.afterClosed().subscribe((result) => { });
+  }
   ulbPreview() {
     console.log("hello", this.allFormsData);
     const dialogRef = this.dialog.open(UlbformPreviewComponent, {
@@ -398,6 +402,12 @@ export class UlbformComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => { });
   }
   submitted = false;
+  finalSubmitClicked(finalSubmitAlert) {
+    this.openDialog(finalSubmitAlert);
+  }
+  alertClose() {
+    this.dialog.closeAll();
+  }
   finalSubmit() {
     let data = {
       design_year: this.design_year,
@@ -472,6 +482,10 @@ export class UlbformComponent implements OnInit {
       }
     }
     console.log("validate", this.validate);
+  }
+  proceed() {
+    this.dialog.closeAll();
+    this.finalSubmit();
   }
   finalStateAction() {
     let actionStatus = "PENDING";

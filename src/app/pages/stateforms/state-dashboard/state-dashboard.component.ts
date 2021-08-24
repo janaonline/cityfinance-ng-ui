@@ -272,10 +272,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   utilReportDonughtChart() {
     const data = {
       labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '213 - Under State Review',
-        '213 - Approved by State'
+        'Pending Completion',
+        'Completed and Pending Submission',
+        'Under State Review',
+        'Approved by State'
       ],
       datasets: [{
         label: 'My First Dataset',
@@ -316,53 +316,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
     });
   }
-  // slbDonughtChart() {
-  //   const data = {
-  //     labels: [
-  //       '103 - Pending Completion',
-  //       '213 - Completed and Pending Submission',
-  //       '213 - Under State Review',
-  //       '213 - Approved by State'
-  //     ],
-  //     datasets: [{
-  //       label: 'My First Dataset',
-  //       data: [
-  //         this.values.slb_pendingCompletion,
-  //         this.values.slb_completedAndPendingSubmission,
-  //         this.values.slb_underStateReview,
-  //         this.values.slb_approvedbyState],
-  //       backgroundColor: [
-  //         '#F95151',
-  //         '#FF9E30',
-  //         '#DBDBDB',
-  //         '#67DF7B'
-  //       ],
-  //       hoverOffset: 4
-  //     }]
-  //   };
-  //   const canvas = <HTMLCanvasElement>document.getElementById('slb');
-  //   const ctx = canvas.getContext('2d');
-  //   this.slbdonughtChart = new Chart(ctx, {
-  //     type: 'doughnut',
-  //     data: data,
-  //     options: {
-  //       maintainAspectRatio: false,
-  //       legend: {
 
-  //         position: 'left',
-  //         align: 'start',
-  //         labels: {
-  //           fontSize: 13,
-  //           fontColor: 'black',
-  //           usePointStyle: true,
-  //           // padding: 20,
-  //         }
-  //       },
-  //       responsive: true
-  //     }
-
-  //   });
-  // }
   gaugeChart1() {
 
     let mainColor = "",
@@ -562,10 +516,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   pieChartMillion() {
     const data = {
       labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '76 - Under State Review',
-        '213 - Approved by State'],
+        'Pending Completion',
+        'Completed and Pending Submission',
+        'Under State Review',
+        'Approved by State'],
       datasets: [{
         label: 'My First Dataset',
         data: [
@@ -613,10 +567,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   pieChartNonMillion = () => {
     const data = {
       labels: [
-        '103 - Pending Completion',
-        '213 - Completed and Pending Submission',
-        '76 - Under State Review',
-        '213 - Approved by State'],
+        'Pending Completion',
+        'Completed and Pending Submission',
+        'Under State Review',
+        'Approved by State'],
       datasets: [{
         label: 'My First Dataset',
         data: [
