@@ -557,6 +557,17 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     });
 
   }
+  finalSubmitClicked(finalSubmitAlert) {
+    this.openDialog(finalSubmitAlert);
+  }
+
+  proceed() {
+    this.dialog.closeAll();
+    this.finalSubmit();
+  }
+  alertClose() {
+    this.dialog.closeAll();
+  }
   finalSubmit() {
     let data = {
       design_year: this.design_year,
@@ -605,6 +616,10 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     }
   }
   allStateFormsRes;
+  openDialog(template) {
+    const dialogRef = this.dialog.open(template);
+    dialogRef.afterClosed().subscribe((result) => { });
+  }
   statePreview() {
     // let userData = JSON.parse(localStorage.getItem("userData"));
     // let st_id = userData.state;
