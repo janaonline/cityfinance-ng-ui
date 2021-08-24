@@ -3,7 +3,8 @@
     [showUnits]='false'>
 </circle-progress> -->
 <div style="overflow-y: hidden;overflow-x: hidden;">
-    <div class="container-fluid row" style="margin-bottom: 15px;display:flex; line-height: 38px; justify-content: center;">
+    <div class="container-fluid row"
+        style="margin-bottom: 15px;display:flex; line-height: 38px; justify-content: center;">
         <span style="font-size: 30px; font-weight: 600; margin-right:15px">Dashboard for 15th FC 2021-22 </span>
         <!-- text-align-last:center; -->
         <select (change)="onClickingStateTab($event)" class="dropdown" style="width: 150px !important; height:35px;
@@ -73,7 +74,8 @@
                     <div class="col-sm-3 card">
                         <div class="row">
                             <div class="col-sm-12" style="text-align: center;">
-                                <div class="card-number">{{submitted_millionPlusUA ? submitted_millionPlusUA : 0 }}/{{millionPlusUA ? millionPlusUA : '0' }}
+                                <div class="card-number">{{submitted_millionPlusUA ? submitted_millionPlusUA : 0
+                                    }}/{{millionPlusUA ? millionPlusUA : '0' }}
                                 </div>
                                 <div class="card-text" style="font-size:14px">UA Forms Submitted by States
                                     <!-- Million-Plus UAs Approved -->
@@ -107,7 +109,8 @@
 
                     </div>
                     <div class="row" style="margin-right: 0;">
-                        <div class="table-responsive" style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                        <div class="table-responsive"
+                            style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
                             <table #stateTable class="table tracking-history-table my_table" style="margin-bottom: 0;">
                                 <thead style="position:sticky; top:0">
                                     <tr style="background-color: #047474; color: #FFFFFF;">
@@ -119,11 +122,14 @@
                                         <th scope="col" class="tableHeadText" style="width: 11%;position:sticky; top:0">
                                             Total ULBs
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Submitted & Approved
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs
+                                            Submitted & Approved
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Under Review by State
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Under
+                                            Review by State
                                         </th>
-                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not Submitted Data
+                                        <th scope="col" class="tableHeadText" style="position:sticky; top:0">ULBs Not
+                                            Submitted Data
                                         </th>
                                         <th scope="col" class="tableHeadText" style="position:sticky; top:0">
                                             Completed & Approved Forms (%)</th>
@@ -133,7 +139,8 @@
 
 
                                 <tbody>
-                                    <tr *ngFor="let resData of tabelData ; let tabelIndex=index" tabindex="{{tabelIndex}}" class="tableHeadText">
+                                    <tr *ngFor="let resData of tabelData ; let tabelIndex=index"
+                                        tabindex="{{tabelIndex}}" class="tableHeadText">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{ tabelIndex+1}}
                                         </td>
@@ -151,8 +158,10 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.notSubmittedForm}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="font-weight: bold;">
-                                            {{resData.submittedForm/resData.totalULBs * 100 ? (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0 }}
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
+                                            style="font-weight: bold;">
+                                            {{resData.submittedForm/resData.totalULBs * 100 ?
+                                            (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0 }}
                                             <small>%</small>
                                         </td>
                                         <td style="display: none;">
@@ -162,7 +171,8 @@
                                             {{resData.id}}
                                         </td>
                                     </tr>
-                                    <tr class="tableHeadText" style="background-color: skyblue; font-weight: bold; position:sticky; bottom:0">
+                                    <tr class="tableHeadText"
+                                        style="background-color: skyblue; font-weight: bold; position:sticky; bottom:0">
                                         <td style="width: 1%;">
 
                                         </td>
@@ -181,7 +191,8 @@
                                             {{total_notSubmittedForm}}
                                         </td>
                                         <td style="font-weight: bold;">
-                                            {{total_submittedForm/total_totalULBs * 100 ? (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0 }}
+                                            {{total_submittedForm/total_totalULBs * 100 ?
+                                            (total_submittedForm/total_totalULBs * 100).toFixed(2) : 0 }}
                                             <small>%</small>
                                         </td>
                                     </tr>
@@ -208,15 +219,20 @@
                     Overall ULB Form Status
                 </div>
 
-                <div class="row mainDonutChart" style="margin-left: 0; margin-right: 0; width:100%; height:380px; align-items:center" *ngIf="!noDataFound_Overall">
+                <div class="row mainDonutChart"
+                    style="margin-left: 0; margin-right: 0; width:100%; height:380px; align-items:center"
+                    *ngIf="!noDataFound_Overall">
                     <canvas id="myChart"></canvas>
 
                 </div>
                 <div style="text-align:center; margin-top:8%">
                     <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
                 </div>
-                <div class="row mainDonutChart" *ngIf="noDataFound_Overall" style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
-                    <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+                <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
+                    style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                    <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16"
+                        [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                        [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
                     </circle-progress>
                 </div>
 
@@ -328,7 +344,8 @@
                     <div class="col-sm-6 thirdColumn">
 
                         <div class="row formDonutCharts">
-                            <div class="textInThirdColumn" style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
+                            <div class="textInThirdColumn"
+                                style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
                                 ULB Utilization Report Status
 
                                 <span style="margin-left: 30px;">
@@ -338,12 +355,16 @@
                                     </a>
                                 </span>
                             </div>
-                            <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%" *ngIf="!noDataFound_util">
+                            <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%"
+                                *ngIf="!noDataFound_util">
                                 <canvas id="utilReport"></canvas>
                             </div>
-                            <div class="row smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
-                                <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
-                                    [showUnits]='false'>
+                            <div class="row smallDonuts" *ngIf="noDataFound_util"
+                                style="text-align:right; margin-top: -7%;">
+                                <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                                    [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                                    [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false'
+                                    [titleFontSize]="13" [titleFontWeight]="550" [showUnits]='false'>
                                 </circle-progress>
                             </div>
 
@@ -357,153 +378,163 @@
             </div>
         </div>
     </div>
-    <div class="row" style="text-align: center;">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <div class="Card2">
-                <div class="row" style="margin-top: 2%;
+
+
+</div>
+
+<div class="row bottomPart">
+    <div class="col-sm-6" style="border-right:1px solid #0000001A ; ">
+        <div class="row">
+            <div class="col-sm-12 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
+                Challenge Fund</div>
+        </div>
+
+        <div class="row">
+            <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+
+            <div *ngIf="noDataFound_millionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+            <div style="width:90%; height:183px; align-items:center; margin-top: 1%;" *ngIf="!noDataFound_millionSLB">
+                <canvas id="mpcf"></canvas>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for
+                Non-Million ULBs</div>
+
+        </div>
+        <div class="row">
+            <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+            <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+            <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
+                *ngIf="!noDataFound_nonMillionSLB">
+                <canvas id="nmpcf"></canvas>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="text-align: center;">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="Card2">
+            <div class="row" style="margin-top: 2%;
             font-weight: bold;">
-                    Submission of Water Rejuvenation, Water Recycling and Action Plans
-                </div>
-                <div class="row" style="height: 70%;">
-                    <div class="col-sm-7" style="text-align: left;padding-left: 15%;">
-                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
-                        </span>
+                Submission of Action Plan and Projects for Water and Sanitation
+            </div>
+            <div class="row" style="height: 70%;">
+                <div class="col-sm-7" style="text-align: left;padding-left: 15%;">
+                    <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
+                    </span>
 
 
-                    </div>
-
-                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-
-
-                    </div>
                 </div>
 
-            </div>
-        </div>
-        <div class="col-sm-3"></div>
-    </div>
-    <div class="row bottomPart" style="margin-left: 0; margin-right: 0;">
-        <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
-            <div class="row">
-                <div class="col-sm-12 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>
-            </div>
+                <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div style="text-align: left;margin-left: 2%;margin-top: 1%;
-                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+                    <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                        src="../../../../assets/stateform/nature.svg">
+                    <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                        src="../../../../assets/stateform/nature.svg">
+                    <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                        src="../../../../assets/stateform/nature.svg">
+                    <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                        src="../../../../assets/stateform/nature.svg">
 
-                    <div *ngIf="noDataFound_millionSLB" style="text-align: center;
-                font-size: 30px;
-                margin-top: 12%;">No Data Found</div>
-                    <div style="width:90%; height:183px; align-items:center; margin-top: 1%;" *ngIf="!noDataFound_millionSLB">
-                        <canvas id="mpcf"></canvas>
 
-                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="row">
-                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for Non-Million ULBs</div>
 
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div style="text-align: left;margin-left: 2%;margin-top: 1%;
-                font-weight: bold;">SLB for Water Supply and Sanitation</div>
-                    <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
-                font-size: 30px;
-                margin-top: 12%;">No Data Found</div>
-                    <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_nonMillionSLB">
-                        <canvas id="nmpcf"></canvas>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    <div class="row" style="border:1px solid #0000001A;">
-        <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2">
-            <mat-card class="example-card">
-                <mat-card-actions class="pull-right">
-                    <mat-label style="font-weight:bolder;">Year </mat-label>
-                    <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+    <div class="col-sm-3"></div>
+</div>
+<div class="row">
+    <div class="col-sm-12 mb-2">
+        <mat-card class="example-card">
+            <mat-card-actions class="pull-right">
+                <mat-label style="font-weight:bolder;">Year </mat-label>
+                <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
                     <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
                     <option value="2021-22,date">2021-22</option>
                 </select>
-                    <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
-                    <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
+                <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
                     <option [selected]="installmentSelect" value="2,installment">2</option>
                     <option [ngStyle]="{'display': year21 ? 'none':''}" value="1,installment">1</option>
                 </select>
-                </mat-card-actions>
-                <mat-card-header>
-                    <mat-card-title>Grant Transfer Status</mat-card-title>
-                    <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-actions class="pull-right">
-                    <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
-                padding: 2px; height: 25px;">DOWNLOAD</button>
-                </mat-card-actions>
-                <mat-card-content>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="table-responsive" style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
-                                <table class="table tracking-history-table my_table" style="margin-bottom: 0;">
-                                    <thead>
-                                        <tr style="background-color: #047474; color: #FFFFFF;">
-                                            <th scope="col" style="width: 20%;" class="tableHeadText">
-                                                Grant Type
-                                            </th>
-                                            <th scope="col" class="tableHeadText">Grant Amount Assigned in Cr</th>
-                                            <th scope="col" class="tableHeadText">
-                                                ULBs submitted forms/ Total ULBs in Category
-                                            </th>
-                                            <th scope="col" style="width: 18%;" class="tableHeadText">Number of States to Submit Grant Transfer Certificates
-                                            </th>
-                                            <th scope="col" style="width: 20%;" class="tableHeadText">Number of States with Grant Recommendations sent to the MoF
-                                            </th>
-                                            <th scope="col" style="width: 20%;" class="tableHeadText">Number of States that Received Grants
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of grantTransferCardData | keyvalue" class="tableHeadText">
-                                            <td>
-                                                {{item.key}}
-                                            </td>
-                                            <td>
-                                                {{item.value.amount}}
-                                            </td>
-                                            <td>
-                                                {{item.value.ulb}}
-                                            </td>
-                                            <td>
-                                                {{item.value.submissionDate}}
-                                            </td>
-                                            <td>
-                                                {{item.value.recommendationDate}}
-                                            </td>
-                                            <td>
-                                                {{item.value.releaseDate}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
+            </mat-card-actions>
+            <mat-card-header>
+                <mat-card-title>Grant Transfer Status</mat-card-title>
+                <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions class="pull-right">
+                <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
+            padding: 2px; height: 25px;">DOWNLOAD</button>
+            </mat-card-actions>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive"
+                            style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                            <table class="table tracking-history-table my_table" style="margin-bottom: 0;">
+                                <thead>
+                                    <tr style="background-color: #047474; color: #FFFFFF;">
+                                        <th scope="col" style="width: 20%;" class="tableHeadText">
+                                            Grant Type
+                                        </th>
+                                        <th scope="col" class="tableHeadText">Grant Amount Assigned in Cr</th>
+                                        <th scope="col" class="tableHeadText">
+                                            ULBs submitted forms/ Total ULBs in Category
+                                        </th>
+                                        <th scope="col" style="width: 18%;" class="tableHeadText">Number of States to
+                                            Submit Grant Transfer Certificates
+                                        </th>
+                                        <th scope="col" style="width: 20%;" class="tableHeadText">Number of States with
+                                            Grant Recommendations sent to the MoF
+                                        </th>
+                                        <th scope="col" style="width: 20%;" class="tableHeadText">Number of States that
+                                            Received Grants
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of grantTransferCardData | keyvalue" class="tableHeadText">
+                                        <td>
+                                            {{item.key}}
+                                        </td>
+                                        <td>
+                                            {{item.value.amount}}
+                                        </td>
+                                        <td>
+                                            {{item.value.ulb}}
+                                        </td>
+                                        <td>
+                                            {{item.value.submissionDate}}
+                                        </td>
+                                        <td>
+                                            {{item.value.recommendationDate}}
+                                        </td>
+                                        <td>
+                                            {{item.value.releaseDate}}
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                                </table>
-                            </div>
+                            </table>
                         </div>
                     </div>
-                </mat-card-content>
-                <br>
-            </mat-card>
-        </div>
+                </div>
+            </mat-card-content>
+            <br>
+        </mat-card>
     </div>
 </div>

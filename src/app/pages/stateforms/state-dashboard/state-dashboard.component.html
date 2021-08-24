@@ -75,14 +75,19 @@
                 Overall ULB Form Status
             </div>
 
-            <div class="row mainDonutChart" style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;" *ngIf="!noDataFound_Overall">
+            <div class="row mainDonutChart"
+                style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;"
+                *ngIf="!noDataFound_Overall">
                 <canvas id="myChart"></canvas>
             </div>
             <div style="text-align:center; margin-top:8%">
                 <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
-            <div class="row mainDonutChart" *ngIf="noDataFound_Overall" style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
-                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+            <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
+                style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16"
+                    [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                    [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
                 </circle-progress>
             </div>
 
@@ -214,7 +219,8 @@
 
     </div> -->
                     <div class="row formDonutCharts">
-                        <div class="textInThirdColumn" style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
+                        <div class="textInThirdColumn"
+                            style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
                             ULB Utilization Report Status
 
                             <span style="margin-left: 30px;">
@@ -224,12 +230,16 @@
                                 </a>
                             </span>
                         </div>
-                        <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%" *ngIf="!noDataFound_util">
+                        <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%"
+                            *ngIf="!noDataFound_util">
                             <canvas id="utilReport"></canvas>
                         </div>
-                        <div class="row smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
-                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
-                                [showUnits]='false'>
+                        <div class="row smallDonuts" *ngIf="noDataFound_util"
+                            style="text-align:right; margin-top: -7%;">
+                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
+                                [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
+                                [titleFontWeight]="550" [showUnits]='false'>
                             </circle-progress>
                         </div>
 
@@ -262,207 +272,6 @@
 
         </div>
     </div>
-    <div class="row bottomPart">
-        <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
-            <div class="row">
-                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>
-                <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
-
-                    <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
-                        <option value="all">-ALL UAs-</option>
-                        <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
-                font-weight: bold;">SLB for Water Supply and Sanitation</div>
-
-                <div *ngIf="noDataFound_millionSLB" style="text-align: center;
-                font-size: 30px;
-                margin-top: 12%;">No Data Found</div>
-                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_millionSLB">
-                    <canvas id="mpcf"></canvas>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="row">
-                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for Non-Million ULBs</div>
-
-            </div>
-            <div class="row">
-                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
-                font-weight: bold;">SLB for Water Supply and Sanitation</div>
-                <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
-                font-size: 30px;
-                margin-top: 12%;">No Data Found</div>
-                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_nonMillionSLB">
-                    <canvas id="nmpcf"></canvas>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="Card2">
-                <div class="row" style="margin-top: 2%;
-                font-weight: bold;">
-                    Submission of Water Rejuvenation, Water Recycling and Action Plans
-                </div>
-                <div class="row" style="height: 70%;">
-                    <div class="col-sm-7" style="text-align: left;padding-left: 15%;">
-                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
-                        </span>
-
-
-                    </div>
-
-                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
-
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-sm-6"></div>
-
-
-    </div>
-    <!-- <div class="row bottomPart" style="margin-top:35px; margin-bottom: 30px;">
-        <div class="header">
-            <div class="row">
-                <div class="col-sm-6" style="font-size:18px;font-weight: 450; border-right:1px solid #0000001A">
-                    <div class="row" *ngIf="!(millionPlusUAs == 0)">
-                        <div class="col-sm-7" style="margin-left: 10px; font-size: 18px;
-                        font-weight: bold;">Million Plus Cities Challenge Fund</div>
-                        <div class="col-sm-4" style="padding-right: 0;">
-                            <span style="font-size: 15px;">
-                                UA:
-                                <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
-                                    <option value="0">-Select-</option>
-                                    <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
-
-                                </select>
-                            </span>
-                        </div>
-
-                    </div>
-
-
-                </div>
-                <div class="col-sm-6" style="font-weight: 450; text-align: left;">
-                    <div class="row">
-
-                        <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;
-                        margin-top: 0;
-                        line-height: normal;">
-                            Plans for Water Supply and Sanitation Indicators</div>
-                        <div class="col-sm-2 text-right">
-                            <a (click)="openDialogPlans()">
-                                <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="height:244px;">
-            <div class="col-sm-6" style="display: block;text-align: center;">
-
-                <div style="color:#000000C4" *ngIf="!(millionPlusUAs == 0)">
-                    <div class="Card1">
-                        <div class="row" style="height: 70%;">
-                            <div class="col-sm-7" style="text-align: left;">
-                                <span style="color: #12505A; font-size: 41px;">{{percentage}}<small>% </small></span>
-                                <span>ULBs in Million Plus UA</span>
-
-                            </div>
-                            <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-
-                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-
-                                <div class="opacity_div" style=" z-index:2;right:29px;margin-right:61%;"
-                                    [style.width]="width1">
-                                </div>
-                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-18px;margin-right:61%;"
-                                    [style.width]="width2">
-                                </div>
-                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-67px;margin-right:147px;"
-                                    [style.width]="width3"></div>
-                                <img class="tapImage" src="../../../../assets/stateform/plumbering.svg">
-                                <div class="opacity_div" style=" z-index:2;right:-116px;margin-right:147px;"
-                                    [style.width]="width4"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            Water Supply and Sanitation Indicators compiled for <b> {{totalULBs}}
-                                ULBs</b>
-                        </div>
-                    </div>
-                    <div class="Card2">
-                        <div class="row" style="height: 70%;">
-                            <div class="col-sm-7" style="text-align: left;">
-                                <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
-                                </span>
-                                <span>ULBs in Million Plus UA</span>
-
-                            </div>
-
-                            <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
-
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-                                <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                                    src="../../../../assets/stateform/nature.svg">
-
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            Submission of Water Rejuvenation, Water Recycling and Action Plans
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6" style="color:#000000C4;height:inherit; border-left:1px solid #0000001A;">
-
-
-                <div class="row pieChart">
-                    <div style="height:190px; width:100%;  margin-top:24px ;" *ngIf="!noDataFound_plans">
-                        <canvas id="pfm"></canvas>
-                    </div>
-                    <div style="height:190px; width:100%; text-align:right;margin-top:3%" *ngIf="noDataFound_plans">
-                        <circle-progress [percent]="100" [radius]="90" [outerStrokeWidth]="16"
-                            [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
-                            [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
-                            [titleFontWeight]="550" [showUnits]='false'>
-                        </circle-progress>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div> -->
-
-
     <div class="row">
         <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2" style="padding: 0ch;">
             <mat-card class="example-card">
@@ -485,19 +294,21 @@
                 </mat-card-header>
                 <mat-card-actions class="pull-right">
                     <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
-                    padding: 2px; height: 25px; margin-bottom: 0;">DOWNLOAD</button>
+                    padding: 2px; height: 25px;">DOWNLOAD</button>
                 </mat-card-actions>
                 <mat-card-content>
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="table-responsive" style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                            <div class="table-responsive"
+                                style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
                                 <table class="table tracking-history-table" style="margin-bottom: 0;">
                                     <thead>
                                         <tr style="background-color: #047474; color: #FFFFFF;">
                                             <th scope="col" style="width: 20%;" class="tableHeadText">
                                                 Grant Type
                                             </th>
-                                            <th scope="col" class="tableHeadText">Grant Amount Assigned in Cr</th>
+                                            <th scope="col" class="tableHeadText">Grant
+                                                Amount Assigned in Cr</th>
                                             <th scope="col" class="tableHeadText">
                                                 ULBs submitted forms/ Total ULBs in Category
                                             </th>
@@ -544,4 +355,93 @@
             </mat-card>
         </div>
     </div>
+    <div class="row bottomPart">
+        <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
+            <div class="row">
+                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
+                    Challenge Fund</div>
+                <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
+
+                    <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
+                        <option value="all">-ALL UAs-</option>
+                        <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+
+                <div *ngIf="noDataFound_millionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
+                    *ngIf="!noDataFound_millionSLB">
+                    <canvas id="mpcf"></canvas>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for
+                    Non-Million ULBs</div>
+
+            </div>
+            <div class="row">
+                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+                <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
+                    *ngIf="!noDataFound_nonMillionSLB">
+                    <canvas id="nmpcf"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="Card2">
+                <div class="row" style="margin-top: 2%;
+                font-weight: bold;">
+                    Submission of Action Plan and Projects for Water and Sanitation
+                </div>
+                <div class="row" style="height: 70%;">
+                    <div class="col-sm-7" style="text-align: left;padding-left: 15%;">
+                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
+                        </span>
+
+
+                    </div>
+
+                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
+                            src="../../../../assets/stateform/nature.svg">
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+
+
+    </div>
+
+
+
+
 </div>
