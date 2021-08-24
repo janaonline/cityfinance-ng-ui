@@ -764,8 +764,8 @@ export class UtilisationReportComponent implements OnInit {
       totalExpCost: this.projectExp,
       analytics: this.analytics,
       categories: this.categories,
-      wm : this.wm,
-      swm : this.swm,
+      // wm : this.wm,
+      // swm : this.swm,
     };
     // console.log(formdata);
     for (let i = 0; i < formdata.projects.length; i++) {
