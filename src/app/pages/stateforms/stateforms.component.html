@@ -334,7 +334,11 @@
         loggedInUserType === userTypes.PARTNER
       " style="font-weight: 700; font-size: 24px;">
                             {{ userLoggedInDetails.role }}
-                        </span> <br>
+                        </span> <br *ngIf="
+                        loggedInUserType === userTypes.ADMIN ||
+                        loggedInUserType === userTypes.MoHUA ||
+                        loggedInUserType === userTypes.PARTNER
+                      ">
                         <span *ngIf="
         loggedInUserType === userTypes.ADMIN ||
         loggedInUserType === userTypes.MoHUA ||

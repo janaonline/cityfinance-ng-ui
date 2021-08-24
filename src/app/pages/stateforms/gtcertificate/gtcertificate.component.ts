@@ -340,14 +340,12 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     this.dialogRef = this.dialog.open(template, dialogConfig);
     this.dialogRef.afterClosed().subscribe((result) => {
-
-
-      console.log('result', result)
-      if (result === undefined) {
-        if (this.routerNavigate) {
-          this.routerNavigate = null;
-        }
-      }
+      // console.log('result', result)
+      // if (result === undefined) {
+      //   if (this.routerNavigate) {
+      //     this.routerNavigate = null;
+      //   }
+      // }
     });
   }
 
@@ -432,7 +430,11 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
           console.log(form)
           this._stateformsService.allStatusStateForms.next(form);
           swal('Record Submitted Successfully!')
-          this._router.navigate(["stateform/water-supply"]);
+          if (this.routerNavigate) {
+            this._router.navigate([this.routerNavigate.url]);
+          } else {
+            this._router.navigate(["stateform/water-supply"]);
+          }
           resolve(res)
         },
           error => {

@@ -75,10 +75,10 @@
                 Overall ULB Form Status
             </div>
 
-            <div class="row mainDonutChart" style="margin-left:3%;width:100%; height:380px; align-items:center "
+            <div class="row mainDonutChart"
+                style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;"
                 *ngIf="!noDataFound_Overall">
                 <canvas id="myChart"></canvas>
-
             </div>
             <div style="text-align:center; margin-top:8%">
                 <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
@@ -212,7 +212,7 @@
                 [showUnits]='false'>
             </circle-progress>
         </div>
-     
+
         <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_pfms">
             <canvas id="pfms"></canvas>
         </div>
@@ -221,9 +221,7 @@
                     <div class="row formDonutCharts">
                         <div class="textInThirdColumn"
                             style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
-                            ULB
-                            Utilization Report
-                            Status
+                            ULB Utilization Report Status
 
                             <span style="margin-left: 30px;">
                                 <a (click)="openDialogUtil()">

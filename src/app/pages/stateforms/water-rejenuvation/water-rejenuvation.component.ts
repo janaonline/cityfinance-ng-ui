@@ -740,6 +740,7 @@ export class WaterRejenuvationComponent implements OnInit {
   }
 
   removePhotos(waterIndex, uaIndex) {
+    if (this.formDisable) return
     let mess = window.confirm("Do you want delete all photos");
     let control = this.getSubControlsWaterBodies(uaIndex);
     let photoControl = control[waterIndex].controls.photos;
@@ -880,11 +881,11 @@ export class WaterRejenuvationComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     this.dialogRefForNavigation = this.dialog.open(template, dialogConfig);
     this.dialogRefForNavigation.afterClosed().subscribe((result) => {
-      if (result === undefined) {
-        if (this.routerNavigate) {
-          this.routerNavigate = null;
-        }
-      }
+      // if (result === undefined) {
+      //   if (this.routerNavigate) {
+      //     this.routerNavigate = null;
+      //   }
+      // }
     });
   }
 
