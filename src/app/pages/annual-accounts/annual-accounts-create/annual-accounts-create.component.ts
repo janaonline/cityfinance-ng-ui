@@ -7,7 +7,7 @@ import {
   TemplateRef,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { IStateULBCovered } from "src/app/shared/models/stateUlbConvered";
@@ -30,7 +30,7 @@ export class AnnualAccountsCreateComponent implements OnInit {
     private annualAccountsService: AnnualAccountsService,
     private dataEntryService: DataEntryService,
     private _commonService: CommonService,
-    public snackBar: MatSnackBarModule,
+    public snackBar: MatSnackBar,
     public dialog: MatDialog,
     private _questionnaireService: QuestionnaireService
   ) {
