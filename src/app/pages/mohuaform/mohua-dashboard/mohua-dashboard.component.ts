@@ -1036,16 +1036,13 @@ export class MohuaDashboardComponent implements OnInit {
           }
         })
 
-        this.pieChartMillion();
-        this.pieChartNonMillion();
+
         if (this.values.million_approvedByState == 0 &&
           this.values.million_completedAndPendingSubmission == 0 &&
           this.values.million_pendingCompletion == 0 &&
           this.values.million_underReviewByState == 0
         ) {
           this.noDataFound_millionSLB = true
-        } else {
-          this.pieChartMillion();
         }
         if (this.values.nonMillion_approvedByState == 0 &&
           this.values.nonMillion_completedAndPendingSubmission == 0 &&
@@ -1053,9 +1050,6 @@ export class MohuaDashboardComponent implements OnInit {
           this.values.nonMillion_underReviewByState == 0
         ) {
           this.noDataFound_nonMillionSLB = true
-        } else {
-          this.pieChartNonMillion();
-
         }
 
       },
