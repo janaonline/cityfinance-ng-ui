@@ -86,13 +86,13 @@ export class SlbsComponent implements OnInit {
   async ngOnInit() {
     console.log("usertype....", this.loggedInUserDetails, USER_TYPE);
     this.clickedSave = false;
-    sessionStorage.setItem("changeInSLB", "false");
+
     await this.getSlbData();
 
     this.createDataForms(this.preFilledWaterManagement);
     this.checkFinalAction();
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
-
+    sessionStorage.setItem("changeInSLB", "false");
   }
   checkFinalAction() {
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
@@ -233,7 +233,17 @@ export class SlbsComponent implements OnInit {
   res;
   clickedSave = false;
   isCompleted;
+  initi;
+  detectInit = 0
   onWaterWasteManagementEmitValue(value) {
+    this.detectInit++;
+    console.log(this.detectInit)
+    if (this.detectInit > 20) {
+      sessionStorage.setItem("changeInSLB", "true");
+    } else {
+      sessionStorage.setItem("changeInSLB", "false");
+      this._ulbformService.slbFormChange.next(false)
+    }
     console.log("value which came from fc-slb component", value);
 
     let changeHappen = sessionStorage.getItem("changeInSLB");
@@ -242,7 +252,7 @@ export class SlbsComponent implements OnInit {
       return
 
     }
-    sessionStorage.setItem("changeInSLB", "true");
+
     let completed = this.checkIfCompletedOrNot(value);
 
     if (value.isFormInvalid || !completed) {
