@@ -23,6 +23,7 @@ export class CustomTooltipComponent implements IToolPanelAngularComp {
       this.showTootip = true;
     }
     this.checkError(params);
+   this.showValue(params);
   }
 
   checkError(params) {
@@ -30,6 +31,16 @@ export class CustomTooltipComponent implements IToolPanelAngularComp {
     if (params.data[field].lastValidation != true) {
       this.type = "danger";
       this.noEditMsg = params.colDef.tooltipComponentParams?.errorMsg;
+      this.showTootip = true;
+      this.lastValue = params.data[field]?.lastValidation;
+    }
+  }
+
+  showValue(params){
+    let field = params.colDef.field;
+    if (params.data[field].lastValidation == true) {
+      this.type = "danger";
+      this.noEditMsg = params.data[field].value;
       this.showTootip = true;
       this.lastValue = params.data[field]?.lastValidation;
     }
