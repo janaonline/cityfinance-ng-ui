@@ -446,6 +446,7 @@ export class MohuaDashboardComponent implements OnInit {
         this.stateSelected = state_id;
         this.state_id = state_id
         this.callAllApis(state_id);
+        this.updateCharts()
         element.focus();
         break;
       }
@@ -526,6 +527,7 @@ export class MohuaDashboardComponent implements OnInit {
     }
     this.selectStateOnMap(stateCode);
     this.callAllApis(this.state_id);
+    this.updateCharts();
   }
 
   openDialogAnnual() {
@@ -1036,13 +1038,16 @@ export class MohuaDashboardComponent implements OnInit {
           }
         })
 
-
+        this.pieChartMillion();
+        this.pieChartNonMillion();
         if (this.values.million_approvedByState == 0 &&
           this.values.million_completedAndPendingSubmission == 0 &&
           this.values.million_pendingCompletion == 0 &&
           this.values.million_underReviewByState == 0
         ) {
           this.noDataFound_millionSLB = true
+        } else {
+          this.pieChartMillion();
         }
         if (this.values.nonMillion_approvedByState == 0 &&
           this.values.nonMillion_completedAndPendingSubmission == 0 &&
@@ -1050,6 +1055,8 @@ export class MohuaDashboardComponent implements OnInit {
           this.values.nonMillion_underReviewByState == 0
         ) {
           this.noDataFound_nonMillionSLB = true
+        } else {
+          this.pieChartNonMillion();
         }
 
       },
