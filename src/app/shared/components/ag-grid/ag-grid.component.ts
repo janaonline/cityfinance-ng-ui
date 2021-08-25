@@ -171,6 +171,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Replacing of existing infrastructure",
         ],
       },
+      enableBrowserTooltips: true,
     },
     {
       cellRenderer: "customizedCell",
