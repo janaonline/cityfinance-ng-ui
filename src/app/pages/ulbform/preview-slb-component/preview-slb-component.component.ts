@@ -231,23 +231,23 @@ export class PreviewSlbComponentComponent implements OnInit {
     }
 
     console.log("hi", JSON.stringify(this.data));
-    if (this.data.preWater?.index != undefined) {
-      this.fileName = this.data.preWater.plan.name;
-      this.fileUrl = this.data.preWater.plan.url;
-      if (this.data.preWater.index) {
-        this.water_index_qus = "Yes";
-      } else {
-        this.water_index_qus = "No";
-      }
-    } else {
-      this.fileName = this.data.waterPotability.name;
-      this.fileUrl = this.data.waterPotability.url;
-      if (this.data.water_index) {
-        this.water_index_qus = "Yes";
-      } else {
-        this.water_index_qus = "No";
-      }
-    }
+    // if (this.data.preWater?.index != undefined) {
+    //   this.fileName = this.data.preWater.plan.name;
+    //   this.fileUrl = this.data.preWater.plan.url;
+    //   if (this.data.preWater.index) {
+    //     this.water_index_qus = "Yes";
+    //   } else {
+    //     this.water_index_qus = "No";
+    //   }
+    // } else {
+    //   this.fileName = this.data.waterPotability.name;
+    //   this.fileUrl = this.data.waterPotability.url;
+    //   if (this.data.water_index) {
+    //     this.water_index_qus = "Yes";
+    //   } else {
+    //     this.water_index_qus = "No";
+    //   }
+    // }
   }
 
   ngOnDestroy(): void {

@@ -870,11 +870,11 @@ margin-left : .5rem !important;
     }
     this.slbWaterSanitaion = slbData;
     if (this.slbWaterSanitaion) {
-      let tem =
-        this.slbWaterSanitaion.waterPotability.documents
-          ?.waterPotabilityPlan[0];
-      if (tem) this.slbWaterSanitaion.waterPotability = tem;
-      this.slbWaterSanitaion.fromParent = true;
+      // let tem =
+      //   this.slbWaterSanitaion.waterPotability.documents
+      //     ?.waterPotabilityPlan[0];
+      // if (tem) this.slbWaterSanitaion.waterPotability = tem;
+      // this.slbWaterSanitaion.fromParent = true;
     }
   }
 
