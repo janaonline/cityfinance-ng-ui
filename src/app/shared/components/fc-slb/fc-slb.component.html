@@ -45,7 +45,9 @@
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
                   (form.controls[service.key].controls['baseline']?.touched &&
-                    form.controls[service.key].controls['baseline']?.invalid)
+                   ( form.controls[service.key].controls['baseline'].status == 'INVALID' || 
+                   form.controls[service.key].controls['baseline']?.invalid) )
+                   
               }" />
 
               <span class="input-group-addon"><em class="glyphicon">
@@ -89,7 +91,11 @@
                     ].dirty) &&
                   form.controls[service.key].controls['target'].controls[
                     year.key
-                  ].invalid) }" />
+                  ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+                  (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+                  || form.controls[service.key].controls['target'].controls[year.key]?.invalid) ) }" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
@@ -211,8 +217,9 @@
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
-                  (form.controls[service.key].controls['baseline']?.touched &&
-                    form.controls[service.key].controls['baseline']?.invalid)
+                    (form.controls[service.key].controls['baseline']?.touched &&
+                    ( form.controls[service.key].controls['baseline'].status == 'INVALID' || 
+                    form.controls[service.key].controls['baseline']?.invalid) )
               }" />
 
               <span class="input-group-addon"><em class="glyphicon">
@@ -257,7 +264,11 @@
                     ].dirty) &&
                   form.controls[service.key].controls['target'].controls[
                     year.key
-                  ].invalid)}" />
+                  ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+                  (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+                  || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )}" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
                 </em></span>
@@ -377,8 +388,9 @@
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
-                  (form.controls[service.key].controls['baseline']?.touched &&
-                    form.controls[service.key].controls['baseline']?.invalid)
+                    (form.controls[service.key].controls['baseline']?.touched &&
+                    ( form.controls[service.key].controls['baseline'].status == 'INVALID' || 
+                    form.controls[service.key].controls['baseline']?.invalid) )
               }" />
 
               <span class="input-group-addon"><em class="glyphicon">
@@ -417,13 +429,17 @@
               " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key"
                 type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
-                  (isSubmitButtonClick ||
+                  ((isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
                       year.key
                     ].dirty) &&
                   form.controls[service.key].controls['target'].controls[
                     year.key
-                  ].invalid
+                  ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+                  (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+                  || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
               }" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
@@ -544,8 +560,9 @@
                 'is-invalid':
                   (isSubmitButtonClick &&
                     form.controls[service.key].controls['baseline']?.invalid) ||
-                  (form.controls[service.key].controls['baseline']?.touched &&
-                    form.controls[service.key].controls['baseline']?.invalid)
+                    (form.controls[service.key].controls['baseline']?.touched &&
+                    ( form.controls[service.key].controls['baseline'].status == 'INVALID' || 
+                    form.controls[service.key].controls['baseline']?.invalid) )
               }" />
 
               <span class="input-group-addon"><em class="glyphicon">
@@ -584,13 +601,17 @@
               " (mouseover)="setFocusTargetForErrorMessages(service.key+year.key)" [id]="service.key + year.key"
                 type="text" class="form-control" [formControlName]="year.key" [ngClass]="{
                 'is-invalid':
-                  (isSubmitButtonClick ||
+                  ((isSubmitButtonClick ||
                     form.controls[service.key].controls['target'].controls[
                       year.key
                     ].dirty) &&
                   form.controls[service.key].controls['target'].controls[
                     year.key
-                  ].invalid
+                  ].invalid) ||   (form.controls[service.key].controls['target'].controls[year.key].touched &&
+                  (form.controls[service.key].controls['target'].controls[year.key].status  == 'INVALID'
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.required 
+                  || form.controls[service.key].controls['target'].controls[year.key].errors?.pattern
+                  || form.controls[service.key].controls['target'].controls[year.key]?.invalid) )
               }" />
               <span class="input-group-addon"><em class="glyphicon">
                   {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
