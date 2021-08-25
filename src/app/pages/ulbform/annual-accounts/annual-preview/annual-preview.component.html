@@ -1,14 +1,15 @@
 <div class="container-fluid" #annualPreview id="annualPreview">
     <div class="row">
         <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
-            <a *ngIf="!fromParent" (click)="closeMat()" class="pull-right" >
+            <a *ngIf="!fromParent" (click)="closeMat()" class="pull-right">
 
                 <img src="../../../../../assets/form-icon/Icon material-close.svg">
 
             </a>
             <!-- <div class="col-sm-12 heading-p">Annual Accounts: 2021-22</div> -->
             <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
-                <span *ngIf="!fromParent" style="display: block; line-height: normal;"> Submissions for 15th FC Grants for FY 2021-22</span>
+                <span *ngIf="!fromParent" style="display: block; line-height: normal;">
+                  Submissions for 15th FC grant for FY 2021-22</span>
                 <span *ngIf="fromParent">Annual Accounts</span>
                 <b class="sub-h" *ngIf="!fromParent">{{ulbName}},{{stateName}}</b>
             </div>

@@ -5,6 +5,7 @@
      'col-sm-6': !(loggedInUserType === USER_TYPE.STATE && !FromLinkinPfms) }"> <b *ngIf="FromLinkinPfms">(A) </b>
         <b>{{quesName}}</b><span style="color: red;">*</span></span>
     <button *ngIf="showPdf" (click)="bs_pdf1.click()" class="col-md-2 btn btn2" [disabled]="isDisabled">Upload PDF
+     <sup><span style="color: white; font-size: 14px;">*</span></sup>
         <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
     </button>
     <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')" type="file" accept=".pdf" #file>

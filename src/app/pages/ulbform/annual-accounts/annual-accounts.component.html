@@ -28,6 +28,7 @@
                 </span>
             </label>
         </div>
+
     </div>
 
     <div *ngIf="audit_status == 'Unaudited'">
@@ -38,7 +39,14 @@
                     </b>
                     </span>
                 </div>
-                <div [ngClass]="{'col-sm-6': data.unAudited.submit_annual_accounts}" style="margin-bottom: 2pc;">
+                <!-- <div class="col-sm-12" style="padding-left: 3%;
+                margin-top: .5rem;
+                margin-bottom: 1rem;" *ngIf="!data.unAudited.submit_annual_accounts">
+                    <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                        <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                    </mat-icon> - PDFs are mandatory and Excels are Optional.
+                </div> -->
+                <div [ngClass]="{'col-sm-6': data.unAudited.submit_annual_accounts}">
                     <div id="checkboxes">
                         <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [disabled]="isDisabled" [checked]="data.unAudited.submit_annual_accounts" (change)="answer('q1',true)" />
                         <label class="btn" [ngClass]="{'qbtn': !data.unAudited.submit_annual_accounts,
@@ -52,7 +60,16 @@
                     </div>
                     <span class="text-danger" *ngIf="answerError.unAudited.submit_annual_accounts">Select Yes or
                         No</span>
+
                 </div>
+                <div class="col-sm-12" style="padding-left: 2.5rem;
+                margin-top: .5rem;
+                margin-bottom: 1.5rem;" *ngIf="data.unAudited.submit_annual_accounts">
+                    <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                        <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                    </mat-icon> - PDFs are mandatory and Excels are Optional.
+                </div>
+
                 <div *ngIf="data.unAudited.submit_annual_accounts">
                     <div *ngFor="let item of unAuditQues ; let quesIndex=index">
                         <ng-container>
@@ -80,8 +97,9 @@
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_standardized_data}">
 
                     <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                            ?<span style="color: red;">*</span></b>
+                            ?</b>
                     </span>
+                    <!-- <span style="color: red;">*</span> -->
 
                 </div>
                 <div [ngClass]="{'col-sm-6': data.unAudited.submit_standardized_data}" style="margin-bottom: 2pc;">
@@ -196,7 +214,7 @@
                     <span class="quesIn"><b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span></b>
                     </span>
                 </div>
-                <div [ngClass]="{'col-sm-6': data.audited.submit_annual_accounts}" style="margin-bottom: 2pc;">
+                <div [ngClass]="{'col-sm-6': data.audited.submit_annual_accounts}">
                     <div id="checkboxes2">
                         <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [disabled]="isDisabled" [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
                         <label class="btn" [ngClass]="{'qbtn': !data.audited.submit_annual_accounts, 'qbtn2':data.audited.submit_annual_accounts, 'cross':isDisabled}" for="btnAudit">
@@ -208,6 +226,13 @@
                         </label>
                     </div>
                     <span class="text-danger" *ngIf="answerError.audited.submit_annual_accounts">Select Yes or No</span>
+                </div>
+                <div class="col-sm-12" style="padding-left: 2.5rem;
+                margin-top: .5rem;
+                margin-bottom: 1.5rem;" *ngIf="data.audited.submit_annual_accounts">
+                    <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                        <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                    </mat-icon> - PDFs are mandatory and Excels are Optional.
                 </div>
                 <div *ngIf="data.audited.submit_annual_accounts">
                     <div *ngFor="let item of auditQues; let quesIndex=index">
@@ -227,8 +252,9 @@
             <div class="mat-card-content" style="margin-top: 2rem;">
                 <div [ngClass]="{'col-sm-6 quesLine': data.audited.submit_standardized_data}">
                     <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
-                            ?<span style="color: red;">*</span></b>
+                            ?</b>
                     </span>
+                    <!-- <span style="color: red;">*</span> -->
                 </div>
                 <div [ngClass]="{'col-sm-6': data.audited.submit_standardized_data}" style="margin-bottom: 2pc;">
                     <div id="checkboxes">
