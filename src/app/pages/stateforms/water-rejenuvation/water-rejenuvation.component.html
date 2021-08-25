@@ -50,34 +50,36 @@
                                             <span>Location</span><br>
                                             <span>Latitude and Longitude</span>
                                         </th>
+                                        <th style="width: 2%;" scope="col"></th>
                                         <th style="width: 7%;" scope="col">BOD in mg/L</th>
                                         <th style="width: 7%;" scope="col">COD in mg/L</th>
                                         <th style="width: 7%;" scope="col">DO in mg/L</th>
                                         <th style="width: 7%;" scope="col">TDS in mg/L</th>
                                         <th style="width: 7%;" scope="col">Turbidity in NTU</th>
-                                        <th style="width: 14%;" scope="col">Project Details</th>
+                                        <th style="width: 12%;" scope="col">Project Details</th>
                                     </tr>
                                 </thead>
                                 <tbody formArrayName="waterBodies"
                                     *ngFor="let projectRow of getSubControlsWaterBodies(projectIndex); let waterBodiesIndex=index">
                                     <tr [formGroupName]="waterBodiesIndex">
                                         <td class="t-i">
-                                            <span>{{1+waterBodiesIndex}}</span>
+                                            <span style="height:4rem">{{1+waterBodiesIndex}}</span>
                                         </td>
                                         <td>
-                                            <input formControlName="name" matTooltipPosition="above"
+                                            <input style="height:4rem" formControlName="name" matTooltipPosition="above"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
                                                 [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
                                                 type="text" />
                                         </td>
                                         <td>
-                                            <input formControlName="nameOfBody" matTooltipPosition="above"
+                                            <input style="height:4rem" formControlName="nameOfBody"
+                                                matTooltipPosition="above"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'nameOfBody')}"
                                                 [matTooltip]="checkErrorState(projectRow,'nameOfBody') ? 'Enter 1-25 Characters' : null"
                                                 type="text" min="1" />
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
+                                            <input style="height:4rem" matTooltipPosition="above"
                                                 [matTooltip]="checkErrorState(projectRow,'area') ? 'Min value 1' : null"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'area')}"
                                                 formControlName="area" oninput="this.value = Math.abs(this.value)"
@@ -109,8 +111,8 @@
                                                     delete_forever
                                                 </span></a>
                                         </td>
-                                        <td style="display: inline-flex;">
-                                            <input matTooltipPosition="above"
+                                        <td style="display: inline-flex; margin-top: 12%;">
+                                            <input style="height:4rem" matTooltipPosition="above"
                                                 [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}"
                                                 (blur)="latLong($event.target.value,projectRow,'lat')"
@@ -119,7 +121,8 @@
                                                 [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
                                                 (blur)="latLong($event.target.value,projectRow,'long')"
-                                                formControlName="long" style="margin-left: 1ch;" type="text" min="1">
+                                                formControlName="long" style="margin-left: 1ch; height:4rem" type="text"
+                                                min="1">
                                             <a [disabled]="isDisabled"
                                                 (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
@@ -127,43 +130,101 @@
                                                 </mat-icon>
                                             </a>
                                         </td>
+
+
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}"
-                                                formControlName="bod" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
+                                            <div style="margin-bottom: 33%;  font-size: 13px;
+                                            font-weight: bold;">Current</div>
+                                            <div style=" font-size: 13px;
+                                            font-weight: bold;">Expected</div>
+                                        </td>
+
+                                        <td>
+                                            <div style="margin-bottom:5px">
+                                                <input matTooltipPosition="above" placeholder="Current"
+                                                    [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}"
+                                                    formControlName="bod" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                            <div>
+                                                <input matTooltipPosition="above" placeholder="Expected"
+                                                    [matTooltip]="checkErrorState(projectRow,'bod') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'bod')}"
+                                                    formControlName="bod_expected" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div style="margin-bottom:5px">
+                                                <input matTooltipPosition="above" placeholder="Current"
+                                                    [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}"
+                                                    formControlName="cod" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                            <div>
+                                                <input matTooltipPosition="above" placeholder="Expected"
+                                                    [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}"
+                                                    formControlName="cod_expected" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div style="margin-bottom: 5px;">
+                                                <input matTooltipPosition="above" placeholder="Current"
+                                                    [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}"
+                                                    formControlName="do" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                            <div>
+                                                <input matTooltipPosition="above" placeholder="Expected"
+                                                    [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}"
+                                                    formControlName="do_expected" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div style="margin-bottom: 5px;">
+                                                <input matTooltipPosition="above" placeholder="Current"
+                                                    [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}"
+                                                    formControlName="tds" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                            <div>
+                                                <input matTooltipPosition="above" placeholder="Expected"
+                                                    [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}"
+                                                    formControlName="tds_expected" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div style="margin-bottom: 5px;">
+                                                <input matTooltipPosition="above" placeholder="Current"
+                                                    [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}"
+                                                    formControlName="turbidity" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
+                                            <div>
+                                                <input matTooltipPosition="above" placeholder="Expected"
+                                                    [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null"
+                                                    [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}"
+                                                    formControlName="turbidity_expected" type="number"
+                                                    oninput="this.value = Math.abs(this.value)" min="1">
+                                            </div>
                                         </td>
                                         <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'cod') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'cod')}"
-                                                formControlName="cod" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
-                                        </td>
-                                        <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'do') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'do')}"
-                                                formControlName="do" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
-                                        </td>
-                                        <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'tds') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'tds')}"
-                                                formControlName="tds" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
-                                        </td>
-                                        <td>
-                                            <input matTooltipPosition="above"
-                                                [matTooltip]="checkErrorState(projectRow,'turbidity') ? 'Min value 1' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'turbidity')}"
-                                                formControlName="turbidity" type="number"
-                                                oninput="this.value = Math.abs(this.value)" min="1">
-                                        </td>
-                                        <td>
-                                            <input formControlName="details"
+                                            <input style="height:4rem" formControlName="details"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'details')}"
                                                 matTooltipPosition="above"
                                                 [matTooltip]="checkErrorState(projectRow,'details') ? 'Enter 1-200 Characters' : null"
@@ -179,14 +240,20 @@
                             <table class="table custom-position">
                                 <thead>
                                     <tr class="thHeader">
-                                        <th style="width: 5%;" scope="col">S.No</th>
-                                        <th style="width: 23%;" scope="col">Project Name</th>
-                                        <th style="width: 23%;" scope="col">Name of Water Treatment Plant</th>
-                                        <th style="width: 23%;" scope="col">
-                                            <span>Location</span><br>
+                                        <th style="width: 2%;" scope="col">S.No</th>
+                                        <th style="width: 15%;" scope="col">Project Name</th>
+                                        <th style="width: 20%;" scope="col">
+                                            <span>Location of Water Treatment Plant</span><br>
                                             <span>Latitude and Longitude</span>
                                         </th>
-                                        <th style="width: 20%;" scope="col">Proposed capacity</th>
+                                        <th style="width: 20%;" scope="col">Proposed capacity of STP(MLD)</th>
+                                        <th style="width: 20%;" scope="col">Proposed water quantity to be reused(MLD)
+                                        </th>
+
+                                        <th style="width: 20%;" scope="col">Target customers/ consumer for reuse of
+                                            water</th>
+
+
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -203,12 +270,6 @@
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'name')}"
                                                 [matTooltip]="checkErrorState(projectRow,'name') ? 'Enter 1-25 Characters' : null"
                                                 type="text" />
-                                        </td>
-                                        <td>
-                                            <input formControlName="treatmentPlant" matTooltipPosition="above"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}"
-                                                [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null"
-                                                type="text">
                                         </td>
                                         <td style="display: inline-flex;">
                                             <input matTooltipPosition="above"
@@ -237,6 +298,20 @@
                                                 formControlName="stp" type="number"
                                                 oninput="this.value = Math.abs(this.value)" min="1">
                                         </td>
+                                        <td>
+                                            <input formControlName="treatmentPlant" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}"
+                                                [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null"
+                                                type="text">
+                                        </td>
+                                        <td>
+                                            <input formControlName="treatmentPlant" matTooltipPosition="above"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'treatmentPlant')}"
+                                                [matTooltip]="checkErrorState(projectRow,'treatmentPlant') ? 'Enter 1-25 Characters' : null"
+                                                type="text">
+                                        </td>
+
+
                                         <td *ngIf="1+reuseWaterIndex>1">
                                             <a (click)="deleteRow1(projectIndex,reuseWaterIndex)">
                                                 <mat-icon aria-hidden="false">

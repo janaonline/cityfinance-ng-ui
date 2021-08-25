@@ -17,7 +17,7 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   styleUrls: ["./ag-grid.component.scss"],
 })
 export class AgGridComponent implements OnInit, OnChanges {
-  constructor() {}
+  constructor() { }
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
   @ViewChild("agGrid3") agGrid3: AgGridAngular;
@@ -289,114 +289,114 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueParser: "Number(newValue)",
       filter: "agNumberColumnFilter",
     },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["jjm"].value != null ? params.data["jjm"].value : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "JJM",
-      width: 100,
-      editable: true,
-      tooltipField: "jjm",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "jjm",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["sbm"].value != null ? params.data["sbm"].value : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "SBM 2.0",
-      width: 100,
-      editable: true,
-      tooltipField: "sbm",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "sbm",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["centalScheme"].value != null
-          ? params.data["centalScheme"].value
-          : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "Other Central Schemes",
-      width: 180,
-      editable: true,
-      tooltipField: "centalScheme",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "centalScheme",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["stateScheme"].value != null
-          ? params.data["stateScheme"].value
-          : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "State Schemes",
-      width: 150,
-      editable: true,
-      tooltipField: "stateScheme",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "stateScheme",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["stateGrant"].value != null
-          ? params.data["stateGrant"].value
-          : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "State Gov Grants",
-      width: 150,
-      editable: true,
-      tooltipField: "stateGrant",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "stateGrant",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["ulb"].value != null ? params.data["ulb"].value : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "ULB",
-      width: 100,
-      editable: true,
-      tooltipField: "ulb",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "ulb",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
+    // {
+    //   cellRenderer: "customizedCell",
+    //   valueGetter: (params) =>
+    //     params.data["jjm"].value != null ? params.data["jjm"].value : "",
+    //   valueSetter: syncValueSetter(number),
+    //   headerName: "JJM",
+    //   width: 100,
+    //   editable: true,
+    //   tooltipField: "jjm",
+    //   tooltipComponent: "customTooltip",
+    //   tooltipComponentParams: {
+    //     errorMsg: this.fundErrorMsg,
+    //   },
+    //   field: "jjm",
+    //   valueParser: "Number(newValue)",
+    //   filter: "agNumberColumnFilter",
+    // },
+    // {
+    //   cellRenderer: "customizedCell",
+    //   valueGetter: (params) =>
+    //     params.data["sbm"].value != null ? params.data["sbm"].value : "",
+    //   valueSetter: syncValueSetter(number),
+    //   headerName: "SBM 2.0",
+    //   width: 100,
+    //   editable: true,
+    //   tooltipField: "sbm",
+    //   tooltipComponent: "customTooltip",
+    //   tooltipComponentParams: {
+    //     errorMsg: this.fundErrorMsg,
+    //   },
+    //   field: "sbm",
+    //   valueParser: "Number(newValue)",
+    //   filter: "agNumberColumnFilter",
+    // },
+    // {
+    //   cellRenderer: "customizedCell",
+    //   valueGetter: (params) =>
+    //     params.data["centalScheme"].value != null
+    //       ? params.data["centalScheme"].value
+    //       : "",
+    //   valueSetter: syncValueSetter(number),
+    //   headerName: "Other Central Schemes",
+    //   width: 180,
+    //   editable: true,
+    //   tooltipField: "centalScheme",
+    //   tooltipComponent: "customTooltip",
+    //   tooltipComponentParams: {
+    //     errorMsg: this.fundErrorMsg,
+    //   },
+    //   field: "centalScheme",
+    //   valueParser: "Number(newValue)",
+    //   filter: "agNumberColumnFilter",
+    // },
+    // {
+    //   cellRenderer: "customizedCell",
+    //   valueGetter: (params) =>
+    //     params.data["stateScheme"].value != null
+    //       ? params.data["stateScheme"].value
+    //       : "",
+    //   valueSetter: syncValueSetter(number),
+    //   headerName: "State Schemes",
+    //   width: 150,
+    //   editable: true,
+    //   tooltipField: "stateScheme",
+    //   tooltipComponent: "customTooltip",
+    //   tooltipComponentParams: {
+    //     errorMsg: this.fundErrorMsg,
+    //   },
+    //   field: "stateScheme",
+    //   valueParser: "Number(newValue)",
+    //   filter: "agNumberColumnFilter",
+    // },
+    // {
+    //   cellRenderer: "customizedCell",
+    //   valueGetter: (params) =>
+    //     params.data["stateGrant"].value != null
+    //       ? params.data["stateGrant"].value
+    //       : "",
+    //   valueSetter: syncValueSetter(number),
+    //   headerName: "State Gov Grants",
+    //   width: 150,
+    //   editable: true,
+    //   tooltipField: "stateGrant",
+    //   tooltipComponent: "customTooltip",
+    //   tooltipComponentParams: {
+    //     errorMsg: this.fundErrorMsg,
+    //   },
+    //   field: "stateGrant",
+    //   valueParser: "Number(newValue)",
+    //   filter: "agNumberColumnFilter",
+    // },
+    // {
+    //   cellRenderer: "customizedCell",
+    //   valueGetter: (params) =>
+    //     params.data["ulb"].value != null ? params.data["ulb"].value : "",
+    //   valueSetter: syncValueSetter(number),
+    //   headerName: "ULB",
+    //   width: 100,
+    //   editable: true,
+    //   tooltipField: "ulb",
+    //   tooltipComponent: "customTooltip",
+    //   tooltipComponentParams: {
+    //     errorMsg: this.fundErrorMsg,
+    //   },
+    //   field: "ulb",
+    //   valueParser: "Number(newValue)",
+    //   filter: "agNumberColumnFilter",
+    // },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
@@ -856,7 +856,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   addRow() {
     let s = this.agGrid1.api.getDisplayedRowCount();
@@ -898,12 +898,12 @@ export class AgGridComponent implements OnInit, OnChanges {
 
 const fundAutoFill = [
   "fc",
-  "jjm",
-  "sbm",
-  "centalScheme",
-  "stateScheme",
-  "stateGrant",
-  "ulb",
+  // "jjm",
+  // "sbm",
+  // "centalScheme",
+  // "stateScheme",
+  // "stateGrant",
+  // "ulb",
   "other",
 ];
 
@@ -933,12 +933,12 @@ const input = {
       name: { value: "", isEmpty: true, lastValidation: true },
       cost: { value: "", isEmpty: true, lastValidation: true },
       fc: { value: 0, isEmpty: true, lastValidation: true },
-      jjm: { value: 0, isEmpty: true, lastValidation: true },
-      sbm: { value: 0, isEmpty: true, lastValidation: true },
-      centalScheme: { value: 0, isEmpty: true, lastValidation: true },
-      stateScheme: { value: 0, isEmpty: true, lastValidation: true },
-      stateGrant: { value: 0, isEmpty: true, lastValidation: true },
-      ulb: { value: 0, isEmpty: true, lastValidation: true },
+      // jjm: { value: 0, isEmpty: true, lastValidation: true },
+      // sbm: { value: 0, isEmpty: true, lastValidation: true },
+      // centalScheme: { value: 0, isEmpty: true, lastValidation: true },
+      // stateScheme: { value: 0, isEmpty: true, lastValidation: true },
+      // stateGrant: { value: 0, isEmpty: true, lastValidation: true },
+      // ulb: { value: 0, isEmpty: true, lastValidation: true },
       other: { value: 0, isEmpty: true, lastValidation: true },
       total: { value: "", isEmpty: true, lastValidation: true },
       "2021-22": { value: 0, isEmpty: true, lastValidation: true },
