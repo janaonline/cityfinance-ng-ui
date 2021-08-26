@@ -45,4 +45,5 @@ export class CustomTooltipComponent implements IToolPanelAngularComp {
       this.lastValue = params.data[field]?.lastValidation;
     }
   }
+
 }

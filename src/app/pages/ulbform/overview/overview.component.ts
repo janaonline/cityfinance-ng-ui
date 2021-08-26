@@ -79,9 +79,9 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       display: [""],
     },
     {
-      label: "Utilization Report",
+      label: "Utilisation Report",
       link: "../utilisation-report",
-      title: "Detailed Utilization Report",
+      title: "Detailed Utilisation Report",
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/dur.svg",
       permittedAccounts: [""],
@@ -108,7 +108,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     {
       label: "slbs",
       link: "../slbs",
-      title: "Million Plus City Challenge Fund",
+     // title: "Million Plus City Challenge Fund",
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/mpccf.svg",
       permittedAccounts: [""],
@@ -180,8 +180,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
           this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
-          this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
-          this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
+       //   this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
+       //   this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
           this.forms[3] =
             res["response"]?.steps?.slbForWaterSupplyAndSanitation?.isSubmit;
           this.forms[4] = res["response"]?.steps?.utilReport?.isSubmit;
@@ -220,7 +220,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     "15th Finance Commission Report",
     "Operational Guidelines",
     "User Manual for ULBs",
-    "Detailed Utilization Report Format",
+    "Detailed Utilisation Report Format",
     "National Municipal Accounting Manual",
   ];
   colors = [
@@ -259,12 +259,14 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
     console.log("overview", this.isUA, this.isMillionPlus);
     if (this.isUA == "Yes") {
+      this.cardsOverview[3].title = 'Million Plus City Challenge Fund'
       this.cardsOverview = this.cardsOverview;
       this.formValue = 3;
       this.factor = 100 / this.formValue;
       this.numcard = 4;
     } else if (this.isUA == "No") {
       this.formValue = 3;
+      this.cardsOverview[3].title = 'Performance Condition'
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
@@ -276,7 +278,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
     this.width = this.row_width / this.numcard - 8;
     this.percentage = this.count * this.factor;
-    console.log('ppercent', typeof (this.percentage));
+    console.log('ppercent', typeof (this.percentage), this.count);
 
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
@@ -347,13 +349,13 @@ export class OverviewComponent extends BaseComponent implements OnInit {
      for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
-    if (title == "Detailed Utilization Report") {
+    if (title == "Detailed Utilisation Report") {
       //  this.p = (num+2)*120;
       this.val = 1;
       this.hover = true;
       this.i = 2;
       // this.message = "ULBs are mandated to furnish detailed utilization report as per prescribed format for the previous installments (with a year lag) of 15th FC grants"
-      this.message = `ULBs are mandated to furnish Detailed Utilization Report as per
+      this.message = `ULBs are mandated to furnish Detailed Utilisation Report as per
       prescribed format for the previous installments of 15th FC grants`;
       this.checkPos = true;
     }
@@ -388,6 +390,18 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
       this.checkPos = true;
     }
+    if (title == 'Performance Condition') {
+      // this.p = (num+3)*125;
+      this.val = 3;
+      this.hover = true;
+      this.i = 4;
+      //  this.message = "NMPCs to select 1 Project for water and 1 Project for sanitation with clear functional outcomes"
+      this.message = `Performance condition grants will be recommended by MoHUA based on the publication of
+      Baseline data, annual targets, and achievement thereof. If the targets are achieved, NMPCs will be eligible for
+       receiving the undistributed portion of grants meant for MPCs.`;
+      this.checkPos = true;
+    }
+
     //   if (title == 'Plans for Water and Sanitation') {
     //     //  this.p = (num+3)*120;
 
