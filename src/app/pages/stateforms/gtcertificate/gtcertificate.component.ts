@@ -504,8 +504,14 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         status.steps.GTCertificate.isSubmit = !this.body['isDraft'];
         status.actionTakenByRole = 'MoHUA'
         this._stateformsService.allStatusStateForms.next(status);
+        if (this.submitted) {
+          this._router.navigate(["stateform/water-supply"]);
+          return;
+        } else {
+          this._router.navigate([this.routerNavigate.url]);
+          return;
+        }
 
-        this._router.navigate(["stateform/water-supply"]);
       },
       (error) => {
         swal("An error occured!");
