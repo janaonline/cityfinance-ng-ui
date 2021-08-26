@@ -158,211 +158,147 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
     font-size: 10px;
     margin-top: 10px;
   }
+  .header-ut-p {
+    background-color: #047474;
+    text-align: center;
+  }
 
-.m-h{
-  text-align: center;
-}
-.cont {
-  width: 794px;
-  background-color: #FFFFFF;
-  display: inline-block;
-}
-
-.container {
-  padding-left: 0;
-  padding-right: 0;
-}
-.header-p{
-  word-break: break-all;
-}
-
-td, th{
-  word-break: break-all;
-  font-size: 9px !important;
-  padding: 5px 1px !important;
-}
+  .heading-ut-p {
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 1%;
+  }
 
 
-.mat-dialog-content {
-  padding: 0 0 0 0;
-  max-width: 100vw;
-  max-height: 100vw;
+  .f-table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+
+.h-uti-p {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 1rem;
+    color: #FFFFFF;
+}
+
+.s-h-uti {
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    padding-bottom: 1%;
+}
+
+.se-r {
+    margin-top: 2%;
+}
+
+.st-n {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.m-top {
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+tr {
+    text-align: center;
 }
 
 
-
-.h-ut{
-  font-size: 10px !important;
-  margin-top: 1rem !important;
-  margin-bottom: .5rem !important;
-  margin-left: 1rem !important;
-}
-.h-ut-t{
-  font-size: 10px !important;
-  margin-top: 1rem !important;
-  margin-bottom: .5rem !important;
-}
-.qus-ut-s {
-  font-size: 10px !important;
-  margin-left: .9rem;
-}
-.qus-ut-u {
-  font-size: 10px !important;
-  margin-left: 1rem;
-}
-.qus-ut-t {
-  font-size: 10px !important;
-  margin-left: 1rem;
-  margin-bottom: 1rem !important;
-}
-.pp {
-  margin-top: .5rem !important;
-}
-.ans-ut-s {
-  font-size: 10px !important;
-  margin-left: 6rem;
-}
-.ans-ut-u {
-  font-size: 10px !important;
-  margin-left: 1.3rem;
-}
-.ans-ut-t {
-  font-size: 10px !important;
-  margin-left: 5.5rem;
-  margin-bottom: 1rem !important;
-}
-.ans-ut-a {
-  margin-left: 8rem;
-}
-.ans-ut-b {
-  margin-left: 8.3rem;
-}
-.ans-ut-c {
-  margin-left: 7.7rem;
-}
-.ans-ut-l{
-  margin-left: 1rem;
+.f-text {
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 14px;
+    padding-top: 2rem;
 
 }
 
-.dnDiv {
-  margin-top: 10px;
-  margin-right: 5%;
-}
-.dnldBtn {
-  background-color: #26A1A1;
-  color: #FFFFFF;
-  font-weight: normal;
-}
-.card2Div {
-  margin-top: 1rem !important;
-  margin-bottom: 1rem !important;
-}
-.mat-dialog-container {
-  padding: 0;
-}
-.mat-card2 {
-  padding: 5px 2px;
-  margin-top: 10px;
-  background-color: #EBF5F5;
-  display: block;
+.sig-text {
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
 }
 
-.crd-ls-div {
-  margin-bottom: 15px;
+.m-b {
+    margin-top: .5rem !important;
+    margin-bottom: 5%;
 }
-.c-2-d {
-  margin-left: 1.7rem !important;
-  margin-bottom: 1rem !important;
+
+.pd-row {
+    padding-left: 4%;
+    padding-right: 4%;
 }
-label {
-  font-weight: normal;
+
+.pd-row-n {
+    padding-left: 2%;
+    padding-right: 2%;
 }
-.thHeader {
-  background-color: #E9E9E9;
-  color: #047474;
-  font-size: 15px;
-  font-weight: normal;
-}
-th {
-  font-weight: normal;
-  vertical-align: middle;
-  text-align: center;
-}
-.table>tbody>tr>td,
-.table>tbody>tr>th,
-.table>tfoot>tr>td,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>thead>tr>th {
-  vertical-align: middle;
-  padding: 10px 6px;
-}
-.bor-in-l {
-  word-break: break-all;
-}
-.tableFooterDiv {
-  background-color: #E7E7E7;
-  color: #000000;
-  font-size: 16px;
-}
-.f-d-n {
-  background-color: #CFCFCF;
-  width: 235px;
-  height: 35px;
-  padding: 7px 8px;
-  height: 15px !important;
-}
-.d-none {
-  display: none;
-}
-label{
-  font-size: 9px !important;
-}
-.font-9{
-  font-size: 9px !important;
+.name-row {
+    margin-top: 4rem !important;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
 }
 .pdf-hide{
-  display: none;
-}
-.w-5{
-width: 5% !important;
-}
-.w-10{
-  width: 10% !important;
-}
-.w-11{
-  width: 11% !important;
-}
-.w-12{
-  width: 12% !important;
-}
-.w-15{
-  width: 15% !important;
-}
-.form-status-ut {
-  font-size: 10px !important;
-  margin-top: 10px  !important;
-  margin-bottom: 30px  !important;
-
-}
-.d-status{
-  padding-left: 1% !important;
+  display : none;
 }
 
-@media print {
-  .page-break {page-break-before: always;}
+
+.ff-table>table>tbody>tr>td,
+  .table>tbody>tr>th,
+  .table>tfoot>tr>td,
+  .table>tfoot>tr>th,
+  .table>thead>tr>td,
+  .table>thead>tr>th {
+      padding: 2px 0px;
+      line-height: 1.42857143;
+      vertical-align: middle;
+}
+.pj-tb{
+  margin-top: 3rem;
+}
+.pd-r {
+  padding-left : 6px !important;
+}
+.se-tb{
+  padding-top : 1rem !important;
+}
+.pd-th {
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+.p-tb {
+  padding-left: 3px !important;
+  padding-right: 3px !important;
 }
 :root {
   font-size: 14px;
 }
-table tbody tr {
+.sub-h-font{
+  font-size: 14px !important;
+  font-weight: 600;
+}
+.heading-font{
+  font-size: 18px !important;
+  font-weight: 700;
+
+}
+.slb-pd {
+  padding: 2% 0% 2.5% 0%;
+}
+.t-tb-tr {
   border: 100px solid black;
 }
-  table tbody tr:nth-child(even) {
+t-tb-tr:nth-child(even) {
   background: #d7ebeb;
 }
- table tbody tr:nth-child(even) td {
+t-tb-tr:nth-child(even) td {
   border:1px solid #d7ebeb;
 }
   h2 {
@@ -380,12 +316,12 @@ table tbody tr {
     font-size: .5rem;
   }
 
-  table thead th {
-    font-size: .5rem
+  .tb-th-s {
+    font-size: .6rem
   }
 
-  table tbody td, li {
-    font-size: .5rem
+  .tb-th-s, li {
+    font-size: .6rem
   }
 
   .td-width {
@@ -407,72 +343,11 @@ h6 {
 .form-status {
   font-size: 10px;
   margin-top: 10px;
-
 }
-
 .fa-times {
   display: none;
 }
-.qus-slb {
-  margin-left: 2%;
-  font-weight: normal;
-  font-size: 12px;
-}
 
-.ans-slb {
-  margin-left: 1rem;
-  font-weight: normal;
-  font-size: 12px;
-}
-.qus-h-an {
-  margin-bottom: .5rem;
-  margin-top: 1rem;
-  font-size: 10px;
-}
-.dec-h {
-  font-weight: 500 !important;
-}
-.ans-h-an {
-  margin-bottom: .5rem;
-  margin-top: .5rem;
-  font-size: 10px;
-}
-@media print {
-.page-break {
-    page-break-before: always;
-}
-}
-.h-font {
-display: inline-block;
-font-size: 12px !important;
-}
-.f-r {
-margin-left: 30px;
-}
-.ans-h-an{
-margin-left : .5rem !important;
-}
-.hi{
-display:none
-}
-.qus-h-an-ex {
-margin-bottom: .5rem;
-margin-top: .5rem;
-font-size: 10px;
-margin-left : .5rem !important;
-}
-.ans-h-an-b {
-  margin-bottom: .5rem;
-  margin-top: .5rem;
-  margin-left : 1rem !important;
-  font-size: 10px;
-}
-
-.ans-slb-a {
-  margin-left: 5.8rem;
-  font-weight: normal !important;
-  font-size: 10px !important;
-}
   </style>`;
 
   detailUtilError = {
@@ -874,7 +749,7 @@ margin-left : .5rem !important;
       //   this.slbWaterSanitaion.waterPotability.documents
       //     ?.waterPotabilityPlan[0];
       // if (tem) this.slbWaterSanitaion.waterPotability = tem;
-      // this.slbWaterSanitaion.fromParent = true;
+     this.slbWaterSanitaion.fromParent = true;
     }
   }
 
