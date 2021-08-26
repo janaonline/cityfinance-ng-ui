@@ -40,7 +40,7 @@ export class AnnualPreviewComponent implements OnInit {
     public _ulbformService: UlbformService,
     public _router: Router,
     private _matDialog: MatDialog
-  ) {}
+  ) { }
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -140,13 +140,13 @@ text-align: center;
   previewStatus;
   totalStatus;
   subParentForModal;
-  ulbName='';
-  stateName =''
+  ulbName = '';
+  stateName = ''
   async ngOnInit() {
     let userData = JSON.parse(localStorage.getItem('userData'));
-    if(userData.role !== USER_TYPE.ULB){
+    if (userData.role !== USER_TYPE.ULB) {
       this.ulbName = sessionStorage.getItem("ulbName")
-    }else{
+    } else {
       this.ulbName = userData['name'];
     }
     this.stateName = userData['stateName'];
@@ -160,14 +160,14 @@ text-align: center;
     this.download = false;
     if (this.data && this.parentData === undefined) {
       this.fromParent = false;
-    }else{
+    } else {
       this.data = this.parentData
     }
     console.log(this.data, "456789");
 
     this.previewStatuSet();
   }
-  closeMat(){
+  closeMat() {
     this._matDialog.closeAll();
   }
 
@@ -264,38 +264,46 @@ text-align: center;
 
   formStatusCheck = "";
   statusArray = [
-    "Not Started",
-    "In Progress",
-    "Completed but Not Submitted",
-    "Under Review By State",
-  ];
+    'Not Started',
+    'Under Review By State',
+    'Completed',
+    'In Progress'
+  ]
 
-  async previewStatuSet() {
-    if (
-      this.data.audited.submit_annual_accounts == null &&
-      this.data.audited.submit_standardized_data == null
-    ) {
-      this.formStatusCheck = this.statusArray[0];
-    } else {
-      if (this.data.isDraft) {
-        this.formStatusCheck = this.statusArray[1];
-      } else {
-        this.formStatusCheck = this.statusArray[2];
-      }
-    }
-
-    if (!this.parentData) {
-      this.totalStatus = sessionStorage.getItem("masterForm");
-      if (this.totalStatus) {
-        this.totalStatus = JSON.parse(this.totalStatus);
-        if (this.totalStatus["isSubmit"]) {
-          this.totalStatus = "Completed but Not Submitted";
-        } else {
-          this.totalStatus = "In Progress";
+  previewStatuSet() {
+    console.log(this.data)
+    let allFormsData = JSON.parse(sessionStorage.getItem("allFormsData"))
+    if (allFormsData['annualAccountData'].length > 0) {
+      let change = sessionStorage.getItem("changeInAnnual");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
         }
-      } else {
-        this.totalStatus = "Not Started";
+      } else if (change == "false") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+
       }
+    } else {
+      let change = sessionStorage.getItem("changeInAnnual");
+      if (change == "true") {
+        if (this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[3]
+        } else if (!this.data['isDraft']) {
+          this.formStatusCheck = this.statusArray[2]
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0]
+
+      }
+
     }
+
+
   }
 }
