@@ -17,7 +17,7 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   styleUrls: ["./ag-grid.component.scss"],
 })
 export class AgGridComponent implements OnInit, OnChanges {
-  constructor() { }
+  constructor() {}
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
   @ViewChild("agGrid3") agGrid3: AgGridAngular;
@@ -125,7 +125,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 150,
       editable: true,
       tooltipField: "exAgency",
-      tooltipComponent: "customTooltip",
+     tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
       field: "exAgency",
       cellEditor: "agSelectCellEditor",
@@ -183,6 +183,9 @@ export class AgGridComponent implements OnInit, OnChanges {
       editable: true,
       field: "type",
       cellEditor: "agSelectCellEditor",
+      tooltipField: "type",
+      tooltipComponent: "customTooltip",
+      tooltipComponentParams: { errorMsg: "Select one" },
       cellEditorParams: {
         values: [
           "Augmentation of existing infrastructure",

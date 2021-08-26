@@ -47,7 +47,8 @@ export class ActionPlanUAComponent implements OnInit {
     public actionplanserviceService: ActionplanserviceService,
     private _router: Router,
     private dialog: MatDialog,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+
   ) {
     this.initializeUserType();
     this._router.events.subscribe(async (event: Event) => {
