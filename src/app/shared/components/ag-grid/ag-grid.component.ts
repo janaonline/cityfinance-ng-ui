@@ -171,7 +171,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Replacing of existing infrastructure",
         ],
       },
-      enableBrowserTooltips: true,
+
     },
     {
       cellRenderer: "customizedCell",
@@ -182,6 +182,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 149,
       editable: true,
       field: "type",
+
       cellEditor: "agSelectCellEditor",
       tooltipField: "type",
       tooltipComponent: "customTooltip",
