@@ -48,6 +48,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       pinned: true,
       width: 50,
       field: "index",
+      rowDrag: false
     },
     {
       cellRenderer: "customizedCell",
@@ -60,6 +61,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       tooltipField: "code",
       tooltipComponent: "customTooltip",
       field: "code",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -75,6 +77,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
       field: "name",
       cellEditor: "agTextCellEditor",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -92,6 +95,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       },
       field: "cost",
       valueParser: "Number(newValue)",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -113,6 +117,8 @@ export class AgGridComponent implements OnInit, OnChanges {
         cols: "50",
         rows: "6",
       },
+      suppressMovable: true,
+
     },
     {
       cellRenderer: "customizedCell",
@@ -132,6 +138,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       cellEditorParams: {
         values: ["English", "Spanish", "French", "Portuguese", "(other)"],
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -149,6 +156,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["paraAgency"].value
           : "",
       valueSetter: syncValueSetter(name),
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -171,7 +179,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Replacing of existing infrastructure",
         ],
       },
-      enableBrowserTooltips: true,
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -182,6 +190,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 149,
       editable: true,
       field: "type",
+
       cellEditor: "agSelectCellEditor",
       tooltipField: "type",
       tooltipComponent: "customTooltip",
@@ -194,6 +203,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Replacing of existing infrastructure",
         ],
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -215,7 +225,9 @@ export class AgGridComponent implements OnInit, OnChanges {
         cols: "50",
         rows: "6",
       },
+      suppressMovable: true,
     },
+
   ];
   fund = [
     {
@@ -227,6 +239,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 70,
       pinned: true,
       field: "index",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -240,6 +253,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
       field: "code",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -258,6 +272,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       cellEditorParams: {
         maxLength: "50",
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -274,6 +289,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       },
       field: "cost",
       valueParser: "Number(newValue)",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -291,6 +307,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       field: "fc",
       valueParser: "Number(newValue)",
       filter: "agNumberColumnFilter",
+      suppressMovable: true,
     },
     // {
     //   cellRenderer: "customizedCell",
@@ -416,6 +433,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       field: "other",
       valueParser: "Number(newValue)",
       filter: "agNumberColumnFilter",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -431,6 +449,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: "Value should be equal to project cost",
       },
       field: "total",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -449,6 +468,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2021-22",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -467,6 +487,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2022-23",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -485,6 +506,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2023-24",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -503,6 +525,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2024-25",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -521,6 +544,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2025-26",
+      suppressMovable: true,
     },
   ];
   year = [
@@ -532,6 +556,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 70,
       pinned: true,
       field: "index",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -544,6 +569,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
       field: "code",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -561,6 +587,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       cellEditorParams: {
         maxLength: "50",
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -577,6 +604,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "cost",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -592,6 +620,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       tooltipField: "funding",
       tooltipComponent: "customTooltip",
       field: "funding",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -605,6 +634,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       tooltipField: "amount",
       tooltipComponent: "customTooltip",
       field: "amount",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -623,6 +653,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2021-22",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -641,6 +672,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2022-23",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -659,6 +691,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2023-24",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -677,6 +710,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2024-25",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -695,6 +729,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2025-26",
+      suppressMovable: true,
     },
   ];
 
@@ -724,6 +759,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.project[5].cellEditorParams.values = this.ulbList;
 
     this.project[7].cellEditorParams.values = this.catList;
+
 
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
@@ -986,9 +1022,9 @@ const dropDown = (x) => {
   if (x.length < 1) return false;
   else return true;
 };
-const name = async (x) => {
+const name =  (x) => {
   if (typeof x == "string") {
-    return x.length > 0 && x.length < 26;
+    return x.length > 0 && x.length < 50;
   }
   return false;
 };

@@ -84,6 +84,7 @@ export class SlbsComponent implements OnInit {
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: "", url: "" };
   async ngOnInit() {
+
     console.log("usertype....", this.loggedInUserDetails, USER_TYPE);
     this.clickedSave = false;
 
@@ -93,6 +94,7 @@ export class SlbsComponent implements OnInit {
     this.checkFinalAction();
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
     sessionStorage.setItem("changeInSLB", "false");
+
   }
   checkFinalAction() {
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
@@ -132,6 +134,7 @@ export class SlbsComponent implements OnInit {
     return newForm;
   }
   statePostData;
+
   getSlbData() {
     let ulbId = sessionStorage.getItem("ulb_id");
 
@@ -235,9 +238,11 @@ export class SlbsComponent implements OnInit {
   isCompleted;
   initi;
   detectInit = 0
+
   onWaterWasteManagementEmitValue(value) {
     this.detectInit++;
     console.log(this.detectInit)
+
     if (this.detectInit > 20) {
       sessionStorage.setItem("changeInSLB", "true");
     } else {
@@ -287,6 +292,7 @@ export class SlbsComponent implements OnInit {
       return
 
     }
+
   }
 
   saveDataInAllForm(value) {

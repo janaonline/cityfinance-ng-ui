@@ -219,7 +219,7 @@ h5{
     this.showLoader = true;
     this._questionnaireService.downloadPDF({ html }).subscribe(
       (res) => {
-        this.downloadFile(res.slice(0), "pdf", "waterRejenuvation.pdf");
+        this.downloadFile(res.slice(0), "pdf", "ProjectWaterSanitation.pdf");
         this.showLoader = false;
       },
       (err) => {

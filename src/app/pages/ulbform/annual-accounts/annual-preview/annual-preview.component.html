@@ -11,7 +11,7 @@
                 <span *ngIf="!fromParent" style="display: block; line-height: normal;">
                   Submissions for 15th FC grant for FY 2021-22</span>
                 <span *ngIf="fromParent">Annual Accounts</span>
-                <b class="sub-h" *ngIf="!fromParent">{{ulbName}},{{stateName}}</b>
+                <b class="sub-h" *ngIf="!fromParent">{{ulbName}}, {{stateName}}</b>
             </div>
         </div>
     </div>
@@ -25,8 +25,8 @@
     </div> -->
     <div class="d-flex justify-content-between" style="margin-top: 1rem;">
         <p class="form-status" style="padding: 0; margin-bottom: 5px;">
-            <b *ngIf="!fromParent">Application Current Status:</b> {{totalStatus}}
-            <br *ngIf="!fromParent">
+            <!-- <b *ngIf="!fromParent">Application Current Status:</b> {{totalStatus}} -->
+            <!-- <br *ngIf="!fromParent"> -->
             <b>Form Current Status:</b> {{formStatusCheck}}
         </p>
         <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; height: 2pc;" class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
