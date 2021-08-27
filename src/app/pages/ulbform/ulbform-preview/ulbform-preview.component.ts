@@ -165,7 +165,7 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
 
   .heading-ut-p {
     color: #FFFFFF;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     padding: 1%;
   }
