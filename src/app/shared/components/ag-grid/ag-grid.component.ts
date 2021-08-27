@@ -118,6 +118,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         rows: "6",
       },
       suppressMovable: true,
+
     },
     {
       cellRenderer: "customizedCell",
@@ -759,6 +760,7 @@ export class AgGridComponent implements OnInit, OnChanges {
 
     this.project[7].cellEditorParams.values = this.catList;
 
+
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
       agColumnHeader: CustomizedHeaderComponent,
@@ -1020,9 +1022,9 @@ const dropDown = (x) => {
   if (x.length < 1) return false;
   else return true;
 };
-const name = async (x) => {
+const name =  (x) => {
   if (typeof x == "string") {
-    return x.length > 0 && x.length < 26;
+    return x.length > 0 && x.length < 50;
   }
   return false;
 };
