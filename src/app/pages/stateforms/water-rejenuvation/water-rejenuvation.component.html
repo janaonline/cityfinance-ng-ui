@@ -368,8 +368,13 @@
                                                 [matTooltip]="" type="text">
                                         </td>
                                         <td>
-                                            <input formControlName="indicator" matTooltipPosition="above"
-                                                [matTooltip]="" type="text">
+
+                                            <select (change)="indicatorSet($event, projectIndex,sliIndex)">
+                                                <option *ngFor="let Indicator of waterIndicators">
+                                                    {{Indicator}}</option>
+                                            </select>
+                                            <!-- <input  matTooltipPosition="above"
+                                                [matTooltip]="" type="text"> -->
                                         </td>
                                         <td>
                                             <input formControlName="existing" matTooltipPosition="above" [matTooltip]=""

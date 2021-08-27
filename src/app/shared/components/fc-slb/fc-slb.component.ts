@@ -151,6 +151,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   benchmarks = [];
   changeInData = false;
   ngOnInit() {
+    this.isDataPrefilled = false;
     console.log('ngOnInit fired')
     this.changeInData = false;
     console.log('ngOnInit says', this.form)
@@ -197,6 +198,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         }
       }
     );
+    // location.reload();
   }
 
   setFocusTarget(focusTarget = "") {
