@@ -19,6 +19,9 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class ReviewUlbFormComponent implements OnInit {
 
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
   takeStateAction = 'false';
@@ -41,6 +44,7 @@ export class ReviewUlbFormComponent implements OnInit {
   nodataFound = false;
   errMessage = '';
   showLoader = false;
+  actBtn = false;
   constructor(
     public ulbService: UlbadminServiceService,
     public _stateformsService: StateformsService,
@@ -59,6 +63,9 @@ export class ReviewUlbFormComponent implements OnInit {
   ngOnInit() {
     this.showLoader = true;
     this.loadData();
+    if(this.loggedInUserType !== USER_TYPE.STATE){
+      this.actBtn = true;
+    }
   }
   noHistorydataFound = false
   viewHistory(template, formId) {

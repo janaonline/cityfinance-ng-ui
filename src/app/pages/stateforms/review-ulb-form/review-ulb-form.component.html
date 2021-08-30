@@ -13,8 +13,7 @@
                         </h4>
                     </div>
                     <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
-                        <button type="button" class="btn btn-next" (click)="stateData(true)"
-                            style="padding-left: 7%; padding-right: 7%;">DOWNLOAD</button>
+                        <button type="button" class="btn btn-next" (click)="stateData(true)" style="padding-left: 7%; padding-right: 7%;">DOWNLOAD</button>
                     </div>
                     <div class="col-sm-12">
 
@@ -39,14 +38,12 @@
                                         <th class="filter">
                                             <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s"
-                                                (keyup.enter)="stateData(false)">
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter" style="width: 11%;">
                                             <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
-                                                (keyup.enter)="stateData(false)">
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)">
@@ -60,8 +57,7 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
-                                                (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;" (change)="stateData(false)">
                                                 <option selected value="">Population Type</option>
                                                 <option value="Million Plus">Million Plus</option>
                                                 <option value="Non Million">Non Million</option>
@@ -70,12 +66,10 @@
                                         <th class="filter">
                                             <span class="s-s"><img
                                                     src="../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s"
-                                                style="width: 76px;" (change)="stateData(false)">
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s" style="width: 76px;" (change)="stateData(false)">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_s" style="width: 71px;"
-                                                (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="status_s" style="width: 71px;" (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -108,8 +102,7 @@
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
-                                            tabelIndex+1}}
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                                         </td>
@@ -122,14 +115,13 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
-                                            <a
-                                                (click)="viewHistory(template, resData['_id'])">{{resData.printStatus}}</a>
+                                            <a (click)="viewHistory(template, resData['_id'])">{{resData.printStatus}}</a>
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
 
-                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
+                                            <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                                           '/ulbform/overview', resData?._id  ]">
                                                 <!-- <a (click)="viewUlbForm(resData)" [routerLink]="[
                             '/ulbform',  resData?._id ]"> -->
@@ -140,7 +132,7 @@
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
                                              || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
-                                            <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
+                                            <a class="btn btn-action" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                                         '/ulbform/overview', resData?._id  ]">
                                                 Take Action
                                             </a>
@@ -150,16 +142,13 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo"
-                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
-                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
-                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <div class="spinner" *ngIf="showLoader"
-                            style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+                        <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
                             <mat-spinner></mat-spinner>
                         </div>
                     </div>
@@ -181,8 +170,7 @@
 <ng-template #template>
     <div class="modal-title">
         <div style=" display: flex; justify-content: flex-end;">
-            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
-                type="button" data-dismiss="modal" aria-label="Close">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
         </div>

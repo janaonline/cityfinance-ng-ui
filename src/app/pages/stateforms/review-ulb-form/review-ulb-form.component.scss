@@ -113,3 +113,8 @@
         padding-top: 12%;
     }
 }
+
+.notClick {
+    pointer-events: none;
+    cursor: not-allowed;
+}
