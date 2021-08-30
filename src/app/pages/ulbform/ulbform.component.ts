@@ -93,7 +93,7 @@ export class UlbformComponent implements OnInit {
       case USER_TYPE.ADMIN:
       case USER_TYPE.PARTNER:
         this.backHeader = "Admin Dashboard";
-        this.backLink = "../ulbAdmin";
+        this.backLink = "../mohua/dashboard";
         this.toolTipContentC = "Reviewed";
         this.toolTipContentN = "Not Reviewed";
         break;

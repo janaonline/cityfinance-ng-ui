@@ -11,7 +11,8 @@
             <option selected>India</option>
             <option [selected]="isSelected(resData)" *ngFor="let resData of stateslist ; let tabelIndex=index"
                 value="{{resData.code}} and {{resData._id}}">
-                {{resData.name}}</option>
+                {{resData.name}}
+            </option>
         </select>
     </div>
     <div class="container-fluid row" style="padding-left: 0; padding-right: 0; position: relative;">
@@ -199,7 +200,7 @@
         </div>
 
     </div>
-    <div class="container-fluid row" style="margin-bottom:15px;">
+    <div class="container-fluid row" style="margin-bottom:15px; padding-right: 0;">
         <div class="row statusArea" style="margin: 0;">
             <div class="col-sm-4 firstColumn">
                 <div class="row" style="font-size: 23px;
@@ -357,10 +358,8 @@
             </div>
         </div>
     </div>
-
-
 </div>
-<div class="row" style="margin-right: 0;">
+<div class="row">
     <div class="col-sm-12 mb-2">
         <mat-card class="example-card">
             <mat-card-actions class="pull-right">
@@ -440,7 +439,7 @@
     </div>
 </div>
 <div class="row bottomPart" style="margin-left: 0;
-margin-right: 15px;">
+margin-right: 0;">
     <div class="col-sm-6" style="border-right:1px solid #0000001A ; ">
         <div class="row">
             <div class="col-sm-12 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>

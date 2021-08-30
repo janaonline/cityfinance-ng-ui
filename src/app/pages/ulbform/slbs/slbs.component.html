@@ -15,7 +15,8 @@
     <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
 </div>
 <div class="col-sm-12 mb-1">
-    <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+    <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
+    loggedInUserType === USER_TYPE.MoHUA) &&
   (takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
         <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
   (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
