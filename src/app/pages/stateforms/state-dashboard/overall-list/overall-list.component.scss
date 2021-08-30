@@ -8,7 +8,9 @@
 }
 
 .p-s {
-    padding-left: 6px;
+    padding-left: 24%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table>tbody>tr>td,
@@ -69,4 +71,10 @@
     color: #FFFFFF;
     margin-right: 5px;
     padding-top: 2px;
+}
+
+.p-ss {
+    padding-left: 28%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

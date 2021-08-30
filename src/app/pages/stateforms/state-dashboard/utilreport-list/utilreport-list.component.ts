@@ -7,12 +7,17 @@ import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.serv
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from '../state-dashboard.service'
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 @Component({
   selector: 'app-utilreport-list',
   templateUrl: './utilreport-list.component.html',
   styleUrls: ['./utilreport-list.component.scss']
 })
 export class UtilreportListComponent implements OnInit {
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
   tableDefaultOptions = {
