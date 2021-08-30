@@ -52,15 +52,16 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
     display: none;
   }
   .m-h {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 5px;
     font-weight: 700;
+    text-align: center;
 }
 .m-h-mr {
   padding-bottom: 1rem !important;
 }
 .sub-m-h{
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 600;
     text-align: center;
 }
@@ -165,9 +166,9 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
 
   .heading-ut-p {
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    padding: 1%;
+    padding: 1% !important;
   }
 
 
@@ -179,103 +180,101 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
 
 
 .h-uti-p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     margin-top: 1rem;
     color: #FFFFFF;
 }
 
 .s-h-uti {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: #FFFFFF;
     padding-bottom: 1%;
 }
 
 .se-r {
-    margin-top: 2%;
+  margin-top: 2%;
 }
 
 .st-n {
-    font-size: 12px;
-    font-weight: 600;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .m-top {
-    margin-top: 1%;
-    margin-bottom: 2%;
+  margin-top: 1%;
+  margin-bottom: 2%;
 }
 
 tr {
-    text-align: center;
+  text-align: center;
 }
 
 
 .f-text {
-    text-decoration: underline;
-    font-weight: 500;
-    font-size: 14px;
-    padding-top: 2rem;
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 14px;
+  padding-top: 2rem;
 
 }
 
 .sig-text {
-    font-weight: 500;
-    font-size: 12px;
-    text-align: center;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
 }
 
 .m-b {
-    margin-top: .5rem !important;
-    margin-bottom: 5%;
+  margin-top: .5rem !important;
+  margin-bottom: 5%;
 }
 
 .pd-row {
-    padding-left: 4%;
-    padding-right: 4%;
+  padding-left: 1% !important;
+  padding-right: 2% !important;
 }
 
 .pd-row-n {
-    padding-left: 2%;
-    padding-right: 2%;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 .name-row {
-    margin-top: 4rem !important;
-    font-weight: 500;
-    font-size: 12px;
-    text-align: center;
+  margin-top: 4rem !important;
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
 }
 .pdf-hide{
-  display : none;
+display : none;
 }
 
 
 .ff-table>table>tbody>tr>td,
-  .table>tbody>tr>th,
-  .table>tfoot>tr>td,
-  .table>tfoot>tr>th,
-  .table>thead>tr>td,
-  .table>thead>tr>th {
-      padding: 2px 0px;
-      line-height: 1.42857143;
-      vertical-align: middle;
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding: 4px 0px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+
+
 }
 .pj-tb{
-  margin-top: 3rem;
+margin-top: 3rem;
 }
 .pd-r {
-  padding-left : 6px !important;
+padding-left : 6px !important;
 }
 .se-tb{
-  padding-top : 1rem !important;
+padding-top : 1rem !important;
 }
 .pd-th {
-  padding-left: 2px !important;
-  padding-right: 2px !important;
-}
-.p-tb {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
+padding-left: 2px !important;
+padding-right: 2px !important;
 }
 :root {
   font-size: 14px;

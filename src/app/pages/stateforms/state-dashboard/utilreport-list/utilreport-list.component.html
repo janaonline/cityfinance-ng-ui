@@ -18,13 +18,13 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
-                            <table class="table">
+                            <table class="table tableStriped">
                                 <thead>
 
                                     <tr style="background-color: #047474; color: #FFFFFF;">
                                         <th scope="col">S.No</th>
                                         <th scope="col">ULB Name </th>
-                                        <th scope="col">State Name </th>
+                                        <th scope="col" *ngIf="loggedInUserType != USER_TYPE.STATE">State Name </th>
                                         <th scope="col">ULB Census Code/ ULB Code </th>
                                         <th scope="col">ULB Type</th>
                                         <th scope="col">Population Type</th>
@@ -38,10 +38,11 @@
                                         <th class="filter"></th>
 
                                         <th class="filter">
-
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
+                                            <span class="s-s"><img
+                                            src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_name_s" placeholder="ULB Name" (keyup.enter)="stateData(false)">
                                         </th>
-                                        <th class="filter" *ngIf="states">
+                                        <th class="filter" *ngIf="loggedInUserType != USER_TYPE.STATE">
                                             <select class="s-th" [formControl]="state_name" style="width: 135px;" (change)="stateData(false)">
                                                 <option selected value="">State</option>
                                                 <option *ngFor="let state of states" value="{{state.name}}">
@@ -49,10 +50,11 @@
                                                 </option>
                                             </select>
                                         </th>
-                                        <th class="filter" *ngIf="!states"></th>
+                                        <!-- <th class="filter" *ngIf="!states"></th> -->
                                         <th class="filter">
-
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData(false)">
+                                            <span class="s-s"><img
+                                            src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" placeholder="ULB Code" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)">
@@ -76,8 +78,9 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-
-                                            <input type="text" [formControl]="ua_name_s" class="s-th p-s" style="width: 76px;" (change)="stateData(false)">
+                                            <span class="s-s"><img
+                                            src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-ss" placeholder="UA Name" style="width: 76px;" (change)="stateData(false)">
                                         </th>
                                         <th class="filter">
                                             <select class="s-th" [formControl]="status_util" style="width: 71px;" (change)="stateData(false)">
@@ -107,7 +110,7 @@
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
+                                        <td *ngIf="loggedInUserType != USER_TYPE.STATE" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode || resData.sbCode }}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}

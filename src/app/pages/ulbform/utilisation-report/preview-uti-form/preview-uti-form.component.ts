@@ -41,7 +41,7 @@ export class PreviewUtiFormComponent implements OnInit {
   ) { }
   styleForPDF = `<style>
 
-  table, th, td {
+  .f-table {
     border: 1px solid black;
     border-collapse: collapse;
     font-size: 12px;
@@ -67,20 +67,20 @@ export class PreviewUtiFormComponent implements OnInit {
 
 .heading-u-p {
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     padding-top: .5rem;
 }
 
 .h-uti-p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     margin-top: 1rem;
     color: #FFFFFF;
 }
 
 .s-h-uti {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: #FFFFFF;
 }
@@ -124,8 +124,8 @@ tr {
 }
 
 .pd-row {
-    padding-left: 4%;
-    padding-right: 4%;
+    padding-left: 1% !important;
+    padding-right: 2% !important;
 }
 
 .pd-row-n {
@@ -143,7 +143,7 @@ tr {
 }
 
 
-.f-table>table>tbody>tr>td,
+.ff-table>table>tbody>tr>td,
   .table>tbody>tr>th,
   .table>tfoot>tr>td,
   .table>tfoot>tr>th,

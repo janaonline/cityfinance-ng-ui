@@ -7,12 +7,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from '../state-dashboard.service'
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 @Component({
   selector: 'app-annualacc-list',
   templateUrl: './annualacc-list.component.html',
   styleUrls: ['./annualacc-list.component.scss']
 })
 export class AnnualaccListComponent implements OnInit {
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
   tableDefaultOptions = {
