@@ -13,12 +13,12 @@
         </span>Add row</button>
     <br>
     <br>
-    <h5 class="ag-tb-h">Project List and Source of Funds<span style="color: red;">*</span></h5>
+    <h5 class="ag-tb-h">Project List and Source of Funds<span style="color: red;">*</span> ( Amount in INR Lakhs)</h5>
     <ag-grid-angular #agGrid2 [animateRows]="true" [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;" (cellEditingStopped)="fundValueChanges($event)" class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.sourceFund"
         [columnDefs]="fund">
     </ag-grid-angular>
     <br>
-    <h5 class="ag-tb-h">Year-wise Outlay for 15th FC Grants<span style="color: red;">*</span></h5>
+    <h5 class="ag-tb-h">Year-wise Outlay for 15th FC Grants<span style="color: red;">*</span> (Amount in INR Lakhs)</h5>
     <ag-grid-angular #agGrid3 [animateRows]="true" [tooltipMouseTrack]="true" [tooltipShowDelay]="0" style="width: 100%; height: 300px;" (cellEditingStopped)="yearValueChanges($event)" class="ag-theme-alpine" [frameworkComponents]="frameworkComponents" [rowData]="rowData.yearOutlay"
         [columnDefs]="year">
     </ag-grid-angular>

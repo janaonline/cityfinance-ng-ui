@@ -370,6 +370,13 @@ margin-left: 22%;
   color: black;
   pointer-events: none;
 }
+.no-data {
+  font-size: 10px;
+  color: red;
+    padding-top: 4px;
+    margin-left: 7%;
+
+}
   </style>`;
 
   constructor(
@@ -507,6 +514,7 @@ account =''
 fileName ='';
 gtFileUrl = '';
 downloadSub;
+subDate
   ngOnInit() {
     this.downloadSub = this.state_service.initiateDownload.subscribe(
       (proceedSelected) => {
@@ -516,6 +524,8 @@ downloadSub;
       }
     );
     console.log('previewData', this.data);
+    this.subDate = this.data[0]?.modifiedAt;
+    alert(this.data[0].modifiedAt)
     this.stateSlbData = sessionStorage.getItem('slbStateData');
     // this.allFormRes = this.data[0]
     //  this.gtcError.data = this.data[0]['stategtcertificates'][0];
@@ -550,6 +560,7 @@ downloadSub;
       console.log('getdata............', this.data);
       this.getAllForm();
     }
+
   }
   getAllForm() {
     let userData = JSON.parse(localStorage.getItem("userData"));
