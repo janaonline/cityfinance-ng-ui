@@ -60,6 +60,13 @@ export class UlbformPreviewComponent implements OnInit, OnDestroy {
 .m-h-mr {
   padding-bottom: 1rem !important;
 }
+.sbDate {
+  width: 70%;
+  text-align: left;
+  font-size: 12px;
+  display: inline-block;
+  font-weight: normal;
+}
 .sub-m-h{
     font-size: 14px;
     font-weight: 600;
@@ -257,7 +264,7 @@ display : none;
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>thead>tr>th {
-    padding: 4px 0px;
+    padding: 2px 0px;
     line-height: 1.42857143;
     vertical-align: middle;
 
@@ -637,7 +644,7 @@ h6 {
 
   canDownload = true;
   downloadSub;
-
+  subDate;
   ngOnInit(): void {
     this.downloadSub = this.ulbformService.initiateDownload.subscribe(
       (proceedSelected) => {
@@ -662,6 +669,7 @@ h6 {
     if (this.data) {
       this.setAllData(this.data);
     } else this.getAllForm();
+    this.subDate = this.data?.modifiedAt;
   }
 
   checkDataChange() {

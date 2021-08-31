@@ -1124,3 +1124,41 @@ img.align-center {
 .tableStriped>tbody>tr:nth-of-type(odd) {
     background-color: #e7e7e7;
 }
+
+.btnSaveNext {
+    height: 32px;
+    background-color: #26A1A1;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 12px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.btnPre {
+    background-color: #0cc5c5;
+    color: #FFFFFF;
+    height: 32px;
+    font-size: 12px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.btnDownload {
+    background-color: #0cc5c5;
+    color: #FFFFFF;
+    height: 32px;
+    font-size: 12px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.btnBack {
+    background-color: #CFCFCF;
+    color: #FFFFFF;
+    width: auto;
+    height: 32px;
+    font-size: 12px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
