@@ -369,9 +369,14 @@
                                         </td>
                                         <td>
 
-                                            <select (change)="indicatorSet($event, projectIndex,sliIndex)">
-                                                <option *ngFor="let Indicator of waterIndicators">
+
+                                            <select style="height: 4ch;"
+                                                (change)="indicatorSet($event, projectIndex,sliIndex)">
+                                                <option
+                                                    [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator"
+                                                    *ngFor="let Indicator of waterIndicators">
                                                     {{Indicator}}</option>
+
                                             </select>
                                             <!-- <input  matTooltipPosition="above"
                                                 [matTooltip]="" type="text"> -->
