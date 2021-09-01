@@ -29,7 +29,7 @@
     (stateAction != 'PENDING') &&
     finalSubmitStatus == 'true' &&
     lastRoleInMasterForm != USER_TYPE.ULB" btnRadioGroup style="margin-bottom: 1rem;" [style.margin-left]='(quesName =="Auditor Report")
-    ? "38%": "20%"'>
+    ? "38%": "20%"' [style.display]='(stateAction == "PENDING") ? "none" : ""'>
         <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : btnStyleA, 'btn-r' : btnStyleR}">
             {{stateAction | titlecase}}</label>
     </div>
