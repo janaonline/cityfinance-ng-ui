@@ -901,10 +901,10 @@ const Area = (x) => {
   return false;
 };
 const Total = (x, param) => {
-  if (param.data.cost.value == "") {
-    param.data.cost.value = 0;
+  if (param.data.Cost.value == "") {
+    param.data.Cost.value = 0;
   }
-  return param.data.cost.value == parseInt(x);
+  return param.data.Cost.value == parseInt(x);
 };
 const dropDown = (x) => {
   if (x.length < 1) return false;
@@ -921,7 +921,7 @@ const number = (x, params) => {
   x = parseInt(x);
   if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "cost") return true;
-    return x / 100 < params.data.cost.value;
+    return x / 100 < params.data.Cost.value;
   }
   return false;
 };
@@ -946,11 +946,11 @@ const checkYear = (x, param) => {
     }
   }
   val += x;
-  let cost = param.data.cost?.value;
+  let cost = param.data.Cost?.value;
   if (count == 4) {
     return cost == val;
   }
-  return val <= (cost ? cost : 0);
+  return val <= (Cost ? Cost : 0);
 };
 
 const checkYear2 = (x, param) => {
@@ -973,7 +973,7 @@ const checkYear2 = (x, param) => {
     }
   }
   val += x;
-  let cost = param.data.amount.value;
+  let cost = param.data.Amount.value;
   if (count == 4) {
     return cost == val;
   }

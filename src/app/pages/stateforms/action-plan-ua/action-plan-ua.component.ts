@@ -264,13 +264,13 @@ export class ActionPlanUAComponent implements OnInit {
       code += "/" + this.yearCode;
       temp.code = code;
       for (let index = 1; index <= temp.projectExecute.length; index++) {
-        temp.projectExecute[index - 1].code.value = code + "/" + index;
+        temp.projectExecute[index - 1].Project_Code.value = code + "/" + index;
       }
       for (let index = 1; index <= temp.sourceFund.length; index++) {
-        temp.sourceFund[index - 1].code.value = code + "/" + index;
+        temp.sourceFund[index - 1].Project_Code.value = code + "/" + index;
       }
       for (let index = 1; index <= temp.yearOutlay.length; index++) {
-        temp.yearOutlay[index - 1].code.value = code + "/" + index;
+        temp.yearOutlay[index - 1].Project_Code.value = code + "/" + index;
       }
       this.data.uaData.push(temp);
     }
