@@ -253,7 +253,7 @@ export class SlbsComponent implements OnInit {
 
     let changeHappen = sessionStorage.getItem("changeInSLB");
     if (changeHappen == "false" && value.saveData) {
-      this._router.navigate(["ulbform/service-level"]);
+      // this._router.navigate(["ulbform/service-level"]);
       return
 
     }
@@ -288,7 +288,7 @@ export class SlbsComponent implements OnInit {
       console.log("3");
       this.postSlbData(value);
       sessionStorage.setItem("changeInSLB", "false");
-      this._router.navigate(["ulbform/service-level"]);
+      // this._router.navigate(["ulbform/service-level"]);
       return
 
     }
@@ -394,7 +394,7 @@ export class SlbsComponent implements OnInit {
     if (this.clickedSave) {
       this.postSlbData(this.data);
       sessionStorage.setItem("changeInSLB", "false");
-      this._router.navigate(["ulbform/service-level"]);
+      // this._router.navigate(["ulbform/service-level"]);
       return
 
     } else if (this.routerNavigate && changeHappen === "true") {
