@@ -271,7 +271,7 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
-          Validators.pattern("/^\d+([,.]\d+)?$/;"),
+          // Validators.pattern("/^\d+([,.]\d+)?$/;"),
 
         ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
