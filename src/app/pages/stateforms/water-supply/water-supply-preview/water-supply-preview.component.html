@@ -3,7 +3,7 @@
     <div [ngClass]="{'slb-pd':!parentData, 'slb-pd-t' : parentData }" style="background: #047474; color: white; position: relative; text-align: center;">
         <span *ngIf='!parentData' class="heading-font" style="margin-top: 0px; margin-bottom: 0;">
         Submissions for 15th FC Grants for FY 2021-22</span>
-        <h3 *ngIf="parentData" class="slb-h" style="text-align: center">Projects for Water Supply and Sanitation</h3>
+        <h3 *ngIf="parentData" class="slb-h" style="text-align: center">Indicators for Water Supply and Sanitation</h3>
         <h3 *ngIf='!parentData' class="sub-h-font" style="text-align: center; margin-top: 3px; margin-bottom: 0;">
             {{stateName}}
         </h3>
@@ -22,7 +22,7 @@
     </button>
     </div>
     <h3 *ngIf='!parentData' class="form-name" style="text-align: center;">
-        Projects for Water Supply and Sanitation</h3>
+        Indicators for Water Supply and Sanitation</h3>
     <div *ngFor="let uaDetails of uasList; let i=index" style="margin-bottom: 1.5rem;">
         <div style="position: relative; padding: 0% 2%">
             <div class="row">

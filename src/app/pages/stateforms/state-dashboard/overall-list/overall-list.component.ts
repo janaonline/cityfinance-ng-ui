@@ -7,6 +7,8 @@ import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.serv
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from '../state-dashboard.service'
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 @Component({
   selector: 'app-overall-list',
   templateUrl: './overall-list.component.html',
@@ -14,6 +16,9 @@ import { StateDashboardService } from '../state-dashboard.service'
 })
 export class OverallListComponent implements OnInit {
 
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
   tableDefaultOptions = {

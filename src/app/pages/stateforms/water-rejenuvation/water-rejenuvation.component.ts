@@ -69,7 +69,18 @@ export class WaterRejenuvationComponent implements OnInit {
   isStateSubmittedForms = "";
   allStatus;
   formDisable = false;
-  actionFormDisable = false
+  actionFormDisable = false;
+  waterIndicators = [
+    "Continuity of Water supplied",
+    "Cost Recovery",
+    "Coverage of Water Supply connections",
+    "Extent of Metering",
+    "Extent of Non-revenue WaterSanitationComponent",
+    "Efficiency in Collection of Water Charges",
+    "Efficiency in redressal of customer complaints",
+    "Per Capita Supply of Water",
+    "Quality of Water Supplied",
+  ];
   async ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -122,7 +133,20 @@ export class WaterRejenuvationComponent implements OnInit {
       }
     );
   }
+  indicatorSet(event, index, rowIndex) {
+    console.log(event.target.value, rowIndex)
+    let indicatorValue = event.target.value
 
+    let uaDataAtIndex = this.uasData[this.Uas[index].value["ua"]];
+    console.log(uaDataAtIndex._id);
+    for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
+      if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
+        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator'].patchValue(indicatorValue)
+      }
+    }
+    console.log(this.waterRejenuvation)
+    // this.checkDiff();
+  }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
     console.log(this._router.url);
@@ -247,6 +271,8 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
+          Validators.pattern("/^\d+([,.]\d+)?$/;"),
+
         ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
           Validators.required,
@@ -265,6 +291,23 @@ export class WaterRejenuvationComponent implements OnInit {
           Validators.min(1),
         ]),
         turbidity: this.fb.control(data.turbidity, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        bod_expected: this.fb.control(data.bod_expected, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        cod_expected: this.fb.control(data.cod_expected, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        do_expected: this.fb.control(data.do_expected, [Validators.required, Validators.min(1)]),
+        tds_expected: this.fb.control(data.tds_expected, [
+          Validators.required,
+          Validators.min(1),
+        ]),
+        turbidity_expected: this.fb.control(data.turbidity_expected, [
           Validators.required,
           Validators.min(1),
         ]),
@@ -380,6 +423,11 @@ export class WaterRejenuvationComponent implements OnInit {
                   do: null,
                   tds: null,
                   turbidity: null,
+                  bod_expected: null,
+                  cod_expected: null,
+                  do_expected: null,
+                  tds_expected: null,
+                  turbidity_expected: null,
                   details: null,
                 },
                 {
@@ -394,6 +442,11 @@ export class WaterRejenuvationComponent implements OnInit {
                   do: null,
                   tds: null,
                   turbidity: null,
+                  bod_expected: null,
+                  cod_expected: null,
+                  do_expected: null,
+                  tds_expected: null,
+                  turbidity_expected: null,
                   details: null,
                 },
                 {
@@ -408,6 +461,11 @@ export class WaterRejenuvationComponent implements OnInit {
                   do: null,
                   tds: null,
                   turbidity: null,
+                  bod_expected: null,
+                  cod_expected: null,
+                  do_expected: null,
+                  tds_expected: null,
+                  turbidity_expected: null,
                   details: null,
                 },
               ],

@@ -121,7 +121,7 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
                                             || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE'))">
 
-                                            <a (click)="viewUlbForm(resData)" [routerLink]="[
+                                            <a [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                                           '/ulbform/overview', resData?._id  ]">
                                                 <!-- <a (click)="viewUlbForm(resData)" [routerLink]="[
                             '/ulbform',  resData?._id ]"> -->
@@ -132,7 +132,7 @@
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="(resData.isSubmit && resData.actionTakenByUserRole == 'ULB')
                                              || (!resData.isSubmit && resData.actionTakenByUserRole == 'STATE')">
-                                            <a class="btn btn-action" (click)="viewUlbForm(resData)" [routerLink]="[
+                                            <a class="btn btn-action" [ngClass]='{"notClick" : actBtn}' (click)="viewUlbForm(resData)" [routerLink]="[
                                         '/ulbform/overview', resData?._id  ]">
                                                 Take Action
                                             </a>
@@ -198,7 +198,7 @@
                         <div>{{ row.status }}</div>
                     </td>
                     <td>
-                        {{row.time | date:'medium':'GMT' }}
+                        {{row.time | date:'medium':'IST' }}
                     </td>
                 </tr>
             </tbody>

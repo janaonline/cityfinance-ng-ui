@@ -84,14 +84,16 @@ export class SlbsComponent implements OnInit {
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: "", url: "" };
   async ngOnInit() {
+
     console.log("usertype....", this.loggedInUserDetails, USER_TYPE);
     this.clickedSave = false;
-    sessionStorage.setItem("changeInSLB", "false");
+
     await this.getSlbData();
 
     this.createDataForms(this.preFilledWaterManagement);
     this.checkFinalAction();
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
+    sessionStorage.setItem("changeInSLB", "false");
 
   }
   checkFinalAction() {
@@ -132,6 +134,7 @@ export class SlbsComponent implements OnInit {
     return newForm;
   }
   statePostData;
+
   getSlbData() {
     let ulbId = sessionStorage.getItem("ulb_id");
 
@@ -233,16 +236,28 @@ export class SlbsComponent implements OnInit {
   res;
   clickedSave = false;
   isCompleted;
+  initi;
+  detectInit = 0
+
   onWaterWasteManagementEmitValue(value) {
+    this.detectInit++;
+    console.log(this.detectInit)
+
+    if (this.detectInit > 20) {
+      sessionStorage.setItem("changeInSLB", "true");
+    } else {
+      sessionStorage.setItem("changeInSLB", "false");
+      this._ulbformService.slbFormChange.next(false)
+    }
     console.log("value which came from fc-slb component", value);
 
     let changeHappen = sessionStorage.getItem("changeInSLB");
     if (changeHappen == "false" && value.saveData) {
-      this._router.navigate(["ulbform/service-level"]);
+      // this._router.navigate(["ulbform/service-level"]);
       return
 
     }
-    sessionStorage.setItem("changeInSLB", "true");
+
     let completed = this.checkIfCompletedOrNot(value);
 
     if (value.isFormInvalid || !completed) {
@@ -273,10 +288,11 @@ export class SlbsComponent implements OnInit {
       console.log("3");
       this.postSlbData(value);
       sessionStorage.setItem("changeInSLB", "false");
-      this._router.navigate(["ulbform/service-level"]);
+      // this._router.navigate(["ulbform/service-level"]);
       return
 
     }
+
   }
 
   saveDataInAllForm(value) {
@@ -378,7 +394,7 @@ export class SlbsComponent implements OnInit {
     if (this.clickedSave) {
       this.postSlbData(this.data);
       sessionStorage.setItem("changeInSLB", "false");
-      this._router.navigate(["ulbform/service-level"]);
+      // this._router.navigate(["ulbform/service-level"]);
       return
 
     } else if (this.routerNavigate && changeHappen === "true") {

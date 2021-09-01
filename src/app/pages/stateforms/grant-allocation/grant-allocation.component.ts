@@ -366,6 +366,7 @@ export class GrantAllocationComponent implements OnInit {
       );
   }
   clearFiles() {
+    sessionStorage.setItem("ChangeInGrantAllocation", "true");
     this.fileName = "";
     this.gtFileUrl = "";
     this.progessType = "";
@@ -375,12 +376,10 @@ export class GrantAllocationComponent implements OnInit {
   checkDraft() {
     if (this.account === "no") {
       return false;
-    }
-    if (this.account == "" || this.fileName == "" || this.gtFileUrl == "") {
-      return true;
-    } else {
+    } else if (this.account == "yes" && (this.fileName != "" || this.gtFileUrl != "")) {
       return false;
     }
+    return true;
   }
 
   saveForm() {

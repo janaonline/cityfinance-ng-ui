@@ -41,7 +41,7 @@ export class PreviewUtiFormComponent implements OnInit {
   ) { }
   styleForPDF = `<style>
 
-  table, th, td {
+  .f-table {
     border: 1px solid black;
     border-collapse: collapse;
     font-size: 12px;
@@ -67,20 +67,20 @@ export class PreviewUtiFormComponent implements OnInit {
 
 .heading-u-p {
     color: #FFFFFF;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     padding-top: .5rem;
 }
 
 .h-uti-p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     margin-top: 1rem;
     color: #FFFFFF;
 }
 
 .s-h-uti {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: #FFFFFF;
 }
@@ -124,8 +124,8 @@ tr {
 }
 
 .pd-row {
-    padding-left: 4%;
-    padding-right: 4%;
+    padding-left: 1% !important;
+    padding-right: 2% !important;
 }
 
 .pd-row-n {
@@ -143,7 +143,7 @@ tr {
 }
 
 
-.f-table>table>tbody>tr>td,
+.ff-table>table>tbody>tr>td,
   .table>tbody>tr>th,
   .table>tfoot>tr>td,
   .table>tfoot>tr>th,
@@ -191,7 +191,13 @@ tr {
   totalSwmAmount = 0;
   ngOnInit() {
     console.log('preview data', this.data);
-
+    this.UtiReportService.getCategory().subscribe((resdata) => {
+      this.categories = resdata;
+      console.log('res cat', resdata);
+      this.categories = this.categories.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    });
     this.subParentForModal = this.UtiReportService.OpenModalTrigger.subscribe(
       (change) => {
         if (this.changeFromOutSide) {
@@ -200,13 +206,42 @@ tr {
       }
     );
 
+
     if (this.parentData) {
       this.genrateParentData();
     }
+   setTimeout(() => {
+    this.analytics = this.data.analytics;
+    console.log('anaaaaaaaaaaa', this.analytics, this.categories, this.data.categories);
+   // this.categories = this.data.categories;
+        this.analytics.forEach(el => {
+          this.categories.forEach(element => {
+            if (element._id == el['_id']) {
+              el['categoryName'] = element.name
+            }
+          });
+        })
+        console.log('prev ana...',this.analytics, this.categories)
+        this.analytics.forEach(el => {
+          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+            this.swm.push(el)
+          } else {
+            this.wm.push(el)
+          }
+        })
+    this.wm.forEach(el => {
+      this.totalWmAmount = this.totalWmAmount + el.amount;
+    });
+    this.swm.forEach(el => {
+      this.totalSwmAmount = this.totalSwmAmount + el.amount;
+    });
+
+   }, 500)
+
     let getData = JSON.parse(sessionStorage.getItem("utilReport"))
     console.log("getData", getData);
     console.log("Data", this.data);
-    if (!getData.hasOwnProperty('blankForm')) {
+    if (!getData?.['blankForm']) {
       let canNavigate = sessionStorage.getItem("canNavigate");
       if (canNavigate == "false") {
         if (this.data['isDraft']) {
@@ -238,32 +273,7 @@ tr {
     }
 
     this.setTotalStatus();
-    // this.analytics = this.data.analytics;
-    // this.categories = this.data.categories;
-    //     this.analytics.forEach(el => {
-    //       this.categories.forEach(element => {
-    //         if (element._id == el['_id']) {
-    //           el['categoryName'] = element.name
-    //         }
-    //       });
-    //     })
-    //     console.log('prev ana...',this.analytics, this.categories)
-    //     this.analytics.forEach(el => {
-    //       if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-    //         this.swm.push(el)
-    //       } else {
-    //         this.wm.push(el)
-    //       }
-    //     })
-    this.data.wm.forEach(el => {
-      this.totalWmAmount = this.totalWmAmount + el.amount;
-    });
-    this.data.swm.forEach(el => {
-      this.totalSwmAmount = this.totalSwmAmount + el.amount;
-    });
-    // alert(this.totalWmAmount);
-    // alert(this.totalSwmAmount);
-  }
+     }
 
   ngOnDestroy(): void {
     this.subParentForModal.unsubscribe();
@@ -306,6 +316,7 @@ tr {
       );
     });
     this.data = this.parentData;
+
   }
 
   // makePdf() {

@@ -102,7 +102,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   @Output()
   previous = new EventEmitter<WaterManagement>();
   @Input() waterPotability: any = {};
-  @Input() actionStatus:any;
+  @Input() actionStatus: any;
   uploadQuestion: string = "Have you published Water Potability Index ?";
   uploadDocumentText: string = "Upload the published document";
 
@@ -151,9 +151,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
   benchmarks = [];
   changeInData = false;
   ngOnInit() {
+    this.isDataPrefilled = false;
     console.log('ngOnInit fired')
     this.changeInData = false;
     console.log('ngOnInit says', this.form)
+    this._ulbformService.slbFormChange.subscribe(res => {
+      this.changeInData = res
+    })
     // if (this.ulb_id != null) {
     //   this.isDisabled = true;
     // }
@@ -194,6 +198,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
         }
       }
     );
+    // location.reload();
   }
 
   setFocusTarget(focusTarget = "") {
@@ -215,80 +220,80 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log("changes ........", changes, this.form);
     console.log("action.........", this.actionStatus);
     // this.ulbFormStaus = this.actionStatus.st;
-    
 
-    if(changes && changes.form && changes.form.currentValue){
-    this.form = changes.form.currentValue;
-    }
-    if(changes && changes.actionStatus && changes.actionStatus.currentValue){
-    this.actionStatus = changes.actionStatus.currentValue;
-    
-    if (this.actionStatus.rRes != null) {
-      this.ulbFormRejectR = this.actionStatus.rRes;
-    }
-    if (this.actionStatus.st != null) {
-      this.isSubmitButtonClick = true;
-    setTimeout(() => {
-      this.services.forEach((service, serviceIndex) => {
-        let isIncreasing = serviceIndex == 1 ?  false : true
-        this.onBlur(
-          this.form['controls'][service.key]['controls']['baseline']['controls'][
-            '2021'
-          ], '', 'actual', service.key, isIncreasing
-        )
-        this.targets.forEach((year) => {
-          this.onBlur(
-            this.form.controls[service.key]['controls']['target'].controls[
-              year.key
-            ], this.form.controls[service.key]['controls']['target'], year.key, service.key, isIncreasing
-          )
-        });
-      });
-    }, 100)
-    
-      this.ulbFormStaus = this.actionStatus.st;
 
-      if (this.actionStatus["actionTakenByRole"] == USER_TYPE.STATE) {
-        if (
-          ((this.actionStatus?.st == "REJECTED" &&
-            this.masterFormStatus != "REJECTED") ||
-            (this.actionStatus?.st == "APPROVED" &&
-              this.masterFormStatus != "APPROVED")) &&
-          this.lastRoleInMasterForm == USER_TYPE.ULB
-        ) {
-          this.ulbFormStaus = "PENDING";
-        }
+    if (changes && changes.form && changes.form.currentValue) {
+      this.form = changes.form.currentValue;
+    }
+    if (changes && changes.actionStatus && changes.actionStatus.currentValue) {
+      this.actionStatus = changes.actionStatus.currentValue;
+
+      if (this.actionStatus.rRes != null) {
+        this.ulbFormRejectR = this.actionStatus.rRes;
       }
-      if (this.actionStatus["actionTakenByRole"] == USER_TYPE.MoHUA) {
-        this.ulbFormStaus = "APPROVED";
+      if (this.actionStatus.st != null) {
+        this.isSubmitButtonClick = true;
+        setTimeout(() => {
+          this.services.forEach((service, serviceIndex) => {
+            let isIncreasing = serviceIndex == 1 ? false : true
+            this.onBlur(
+              this.form['controls'][service.key]['controls']['baseline']['controls'][
+              '2021'
+              ], '', 'actual', service.key, isIncreasing, true
+            )
+            this.targets.forEach((year) => {
+              this.onBlur(
+                this.form.controls[service.key]['controls']['target'].controls[
+                year.key
+                ], this.form.controls[service.key]['controls']['target'], year.key, service.key, isIncreasing, true
+              )
+            });
+          });
+        }, 100)
+
+        this.ulbFormStaus = this.actionStatus.st;
+
+        if (this.actionStatus["actionTakenByRole"] == USER_TYPE.STATE) {
+          if (
+            ((this.actionStatus?.st == "REJECTED" &&
+              this.masterFormStatus != "REJECTED") ||
+              (this.actionStatus?.st == "APPROVED" &&
+                this.masterFormStatus != "APPROVED")) &&
+            this.lastRoleInMasterForm == USER_TYPE.ULB
+          ) {
+            this.ulbFormStaus = "PENDING";
+          }
+        }
+        if (this.actionStatus["actionTakenByRole"] == USER_TYPE.MoHUA) {
+          this.ulbFormStaus = "APPROVED";
+          if (
+            ((this.actionStatus?.st == "REJECTED" &&
+              this.masterFormStatus != "REJECTED") ||
+              (this.actionStatus?.st == "APPROVED" &&
+                this.masterFormStatus != "APPROVED")) &&
+            this.lastRoleInMasterForm == USER_TYPE.STATE
+          ) {
+            this.ulbFormStatusMoHUA = "PENDING";
+          }
+        }
+
         if (
-          ((this.actionStatus?.st == "REJECTED" &&
-            this.masterFormStatus != "REJECTED") ||
-            (this.actionStatus?.st == "APPROVED" &&
-              this.masterFormStatus != "APPROVED")) &&
-          this.lastRoleInMasterForm == USER_TYPE.STATE
+          this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
+          this.actionStatus.finalSubmitStatus == "true"
+        ) {
+          this.ulbFormStatusMoHUA = this.actionStatus.st;
+          this.ulbFormStaus = "APPROVED";
+        }
+        if (
+          this.lastRoleInMasterForm === USER_TYPE.STATE &&
+          this.actionStatus.finalSubmitStatus == "true" &&
+          this.ulbFormStaus == "APPROVED"
         ) {
           this.ulbFormStatusMoHUA = "PENDING";
         }
       }
 
-      if (
-        this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
-        this.actionStatus.finalSubmitStatus == "true"
-      ) {
-        this.ulbFormStatusMoHUA = this.actionStatus.st;
-        this.ulbFormStaus = "APPROVED";
-      }
-      if (
-        this.lastRoleInMasterForm === USER_TYPE.STATE &&
-        this.actionStatus.finalSubmitStatus == "true" &&
-        this.ulbFormStaus == "APPROVED"
-      ) {
-        this.ulbFormStatusMoHUA = "PENDING";
-      }
     }
-
-  }
 
     this.invalidWhole = false;
     this.showPublishedUpload = null;
@@ -383,12 +388,12 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // }
   }
 
-  emitOnDocChange() {
-    this.changeInData = true
-    this.emitValues(this.form.getRawValue());
-  }
+  // emitOnDocChange() {
+  //   this.changeInData = true
+  //   this.emitValues(this.form.getRawValue());
+  // }
 
-  private emitValues(values: IFinancialData["waterManagement"], next = false) {
+  private emitValues(values: IFinancialData["waterManagement"], next = false, init = false) {
     // console.log("emitvalues called", values, next)
     // if (values) {
     //   if (
@@ -423,145 +428,145 @@ export class FcSlbComponent implements OnInit, OnChanges {
     //   .subscribe((values) => this.outputValues.emit(values));
   }
 
-  fileChangeEvent(event, progessType, fileName) {
-    this.submitted = false;
-    this.resetFileTracker();
-    const filesSelected = <Array<File>>event.target["files"];
-    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
-    //   for (let i = 0; i < event.target.files.length; i++) {
-    //     this.filesToUpload.push(event.target.files[i]);
+  // fileChangeEvent(event, progessType, fileName) {
+  //   this.submitted = false;
+  //   this.resetFileTracker();
+  //   const filesSelected = <Array<File>>event.target["files"];
+  //   this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+  //   //   for (let i = 0; i < event.target.files.length; i++) {
+  //   //     this.filesToUpload.push(event.target.files[i]);
 
-    // }
+  //   // }
 
-    // console.log(this.filesToUpload);
+  //   // console.log(this.filesToUpload);
 
-    this.upload(progessType, fileName);
-    // this.emitValues(this.form.getRawValue());
-  }
-  resetFileTracker() {
-    this.filesToUpload = [];
-    this.filesAlreadyInProcess = [];
-    this.fileProcessingTracker = {};
-    //  this.submitted = false;
-    this.fileUploadTracker = {};
-  }
-  filterInvalidFilesForUpload(filesSelected: File[]) {
-    const validFiles = [];
-    for (let i = 0; i < filesSelected.length; i++) {
-      const file = filesSelected[i];
-      const fileExtension = file.name.split(`.`).pop();
-      if (
-        fileExtension === "pdf" ||
-        fileExtension === "xlsx" ||
-        fileExtension == "png" ||
-        fileExtension == "jpg" ||
-        fileExtension == "jpeg"
-      ) {
-        validFiles.push(file);
-      }
-    }
-    return validFiles;
-  }
+  //   this.upload(progessType, fileName);
+  //   // this.emitValues(this.form.getRawValue());
+  // }
+  // resetFileTracker() {
+  //   this.filesToUpload = [];
+  //   this.filesAlreadyInProcess = [];
+  //   this.fileProcessingTracker = {};
+  //   //  this.submitted = false;
+  //   this.fileUploadTracker = {};
+  // }
+  // filterInvalidFilesForUpload(filesSelected: File[]) {
+  //   const validFiles = [];
+  //   for (let i = 0; i < filesSelected.length; i++) {
+  //     const file = filesSelected[i];
+  //     const fileExtension = file.name.split(`.`).pop();
+  //     if (
+  //       fileExtension === "pdf" ||
+  //       fileExtension === "xlsx" ||
+  //       fileExtension == "png" ||
+  //       fileExtension == "jpg" ||
+  //       fileExtension == "jpeg"
+  //     ) {
+  //       validFiles.push(file);
+  //     }
+  //   }
+  //   return validFiles;
+  // }
 
-  async upload(progessType, fileName) {
-    // this.submitted = true;
+  // async upload(progessType, fileName) {
+  //   // this.submitted = true;
 
-    const formData: FormData = new FormData();
-    const files: Array<File> = this.filesToUpload;
-    this[fileName] = files[0].name;
-    this[progessType] = 10;
+  //   const formData: FormData = new FormData();
+  //   const files: Array<File> = this.filesToUpload;
+  //   this[fileName] = files[0].name;
+  //   this[progessType] = 10;
 
-    for (let i = 0; i < files.length; i++) {
-      if (this.filesAlreadyInProcess.length > i) {
-        continue;
-      }
-      this.filesAlreadyInProcess.push(i);
-      this.uploadFile(files[i], i, progessType, fileName);
-    }
-  }
+  //   for (let i = 0; i < files.length; i++) {
+  //     if (this.filesAlreadyInProcess.length > i) {
+  //       continue;
+  //     }
+  //     this.filesAlreadyInProcess.push(i);
+  //     this.uploadFile(files[i], i, progessType, fileName);
+  //   }
+  // }
 
-  uploadFile(file: File, fileIndex: number, progessType, fileName) {
-    // console.log('percentage',this.fileUploadTracker[''][file.name]?.percentage)
-    return new Promise((resolve, reject) => {
-      this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
-        (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_alias"];
+  // uploadFile(file: File, fileIndex: number, progessType, fileName) {
+  //   // console.log('percentage',this.fileUploadTracker[''][file.name]?.percentage)
+  //   return new Promise((resolve, reject) => {
+  //     this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
+  //       (s3Response) => {
+  //         const fileAlias = s3Response["data"][0]["file_alias"];
 
-          //this.fileName = file.name;
-          this[progessType] = Math.floor(Math.random() * 90) + 10;
+  //         //this.fileName = file.name;
+  //         this[progessType] = Math.floor(Math.random() * 90) + 10;
 
-          const s3URL = s3Response["data"][0].url;
+  //         const s3URL = s3Response["data"][0].url;
 
-          this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
-          resolve("success");
+  //         this.uploadFileToS3(file, s3URL, fileAlias, fileIndex, progessType);
+  //         resolve("success");
 
-          // console.log('file url', fileAlias)
-          this.emitOnDocChange();
-        },
-        (err) => {
-          if (!this.fileUploadTracker[fileIndex]) {
-            this.fileUploadTracker[fileIndex] = {
-              status: "FAILED",
-            };
-          } else {
-            this.fileUploadTracker[fileIndex].status = "FAILED";
-          }
-        }
-      );
-    });
-  }
+  //         // console.log('file url', fileAlias)
+  //         // this.emitOnDocChange();
+  //       },
+  //       (err) => {
+  //         if (!this.fileUploadTracker[fileIndex]) {
+  //           this.fileUploadTracker[fileIndex] = {
+  //             status: "FAILED",
+  //           };
+  //         } else {
+  //           this.fileUploadTracker[fileIndex].status = "FAILED";
+  //         }
+  //       }
+  //     );
+  //   });
+  // }
 
-  private uploadFileToS3(
-    file: File,
-    s3URL: string,
-    fileAlias: string,
-    //  financialYear: string,
-    fileIndex: number,
-    progressType: string = ""
-  ) {
-    this.dataEntryService
-      .uploadFileToS3(file, s3URL)
-      // Currently we are not tracking file upload progress. If it is need, uncomment the below code.
-      // .pipe(
-      //   map((response: HttpEvent<any>) =>
-      //     this.logUploadProgess(response, file, fileAlias, fileIndex)
-      //   )
-      // )
-      .subscribe(
-        (res) => {
-          if (res.type === HttpEventType.Response) {
-            this[progressType] = 100;
+  // private uploadFileToS3(
+  //   file: File,
+  //   s3URL: string,
+  //   fileAlias: string,
+  //   //  financialYear: string,
+  //   fileIndex: number,
+  //   progressType: string = ""
+  // ) {
+  //   this.dataEntryService
+  //     .uploadFileToS3(file, s3URL)
+  //     // Currently we are not tracking file upload progress. If it is need, uncomment the below code.
+  //     // .pipe(
+  //     //   map((response: HttpEvent<any>) =>
+  //     //     this.logUploadProgess(response, file, fileAlias, fileIndex)
+  //     //   )
+  //     // )
+  //     .subscribe(
+  //       (res) => {
+  //         if (res.type === HttpEventType.Response) {
+  //           this[progressType] = 100;
 
-            if (progressType == "publishedProgress") {
-              this.publishedFileUrl = fileAlias;
-            }
+  //           if (progressType == "publishedProgress") {
+  //             this.publishedFileUrl = fileAlias;
+  //           }
 
-            this.emitValues(this.form.getRawValue());
-            // console.log('hi.....', progressType, this.publishedFileUrl)
-            // this.dataEntryService
-            //   .sendUploadFileForProcessing(fileAlias)
-            // .subscribe((res) => {
-            //   this.startFileProcessTracking(
-            //     file,
-            //     res["data"]["_id"],
-            //     fileIndex
-            //   );
-            // });
-          }
-        },
-        (err) => {
-          this.fileUploadTracker[fileIndex].status = "FAILED";
-        }
-      );
-  }
+  //           this.emitValues(this.form.getRawValue());
+  //           // console.log('hi.....', progressType, this.publishedFileUrl)
+  //           // this.dataEntryService
+  //           //   .sendUploadFileForProcessing(fileAlias)
+  //           // .subscribe((res) => {
+  //           //   this.startFileProcessTracking(
+  //           //     file,
+  //           //     res["data"]["_id"],
+  //           //     fileIndex
+  //           //   );
+  //           // });
+  //         }
+  //       },
+  //       (err) => {
+  //         this.fileUploadTracker[fileIndex].status = "FAILED";
+  //       }
+  //     );
+  // }
 
-  clearFiles(fileName) {
-    if (fileName == "publishedFileName") {
-      this.publishedProgress = 0;
-      this.publishedFileName = "";
-      this.publishedFileUrl = "";
-    }
-  }
+  // clearFiles(fileName) {
+  //   if (fileName == "publishedFileName") {
+  //     this.publishedProgress = 0;
+  //     this.publishedFileName = "";
+  //     this.publishedFileUrl = "";
+  //   }
+  // }
 
   previousValue = "";
   afterValue = "";
@@ -584,7 +589,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
     formValue = "",
     currentControlKey = "",
     serviceKey = "",
-    increase = true
+    increase = true,
+    init = false
   ) {
     this.changeInData = true;
     console.log('individual input field', control)
@@ -593,7 +599,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     console.log('current Control Key', currentControlKey)
     console.log('service Key', serviceKey)
     console.log('increase', increase)
-    sessionStorage.setItem("changeInSLB", "true")
+
     let actualData = parseFloat(
       this.form.controls[serviceKey]["controls"]["baseline"]?.controls["2021"]
         .value
@@ -661,6 +667,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
           serviceKey,
           increase,
           actualData
+
         );
         //currentValue is the details of that particular input field which is in focus
         //formValue is the details of entire service field
@@ -685,6 +692,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     serviceKey = "",
     increase = true,
     actualData
+
   ) {
     //textValue - info about the particular field
     //formvalue -> info about the particular service field

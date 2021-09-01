@@ -75,19 +75,14 @@
                 Overall ULB Form Status
             </div>
 
-            <div class="row mainDonutChart"
-                style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;"
-                *ngIf="!noDataFound_Overall">
+            <div class="row mainDonutChart" style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;" *ngIf="!noDataFound_Overall">
                 <canvas id="myChart"></canvas>
             </div>
             <div style="text-align:center; margin-top:8%">
                 <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
-            <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
-                style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
-                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16"
-                    [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
-                    [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+            <div class="row mainDonutChart" *ngIf="noDataFound_Overall" style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
                 </circle-progress>
             </div>
 
@@ -96,9 +91,9 @@
         </div>
         <!-- second and third column for entry level conditions -->
         <div class="col-sm-8">
-            <div class="row" style="font-size: 18px;
+            <div class="row" style="font-size: 20px;
             text-align: center;line-height: 50px; margin-top:2px;
-            border: 1px solid #0000001A; font-weight: bold">
+            border: 1px solid #0000001A; font-weight: bolder; color: black">
                 Entry Level Conditions
             </div>
             <div class="row">
@@ -131,7 +126,7 @@
 
                             </div>
                             <div style="position: relative;
-            
+
             font-size: 33px;
             font-weight: bold;
 
@@ -174,7 +169,7 @@
 
                             </div>
                             <div style="position: relative;
-         
+
             font-size: 33px;
             font-weight: bold;
 
@@ -219,8 +214,7 @@
 
     </div> -->
                     <div class="row formDonutCharts">
-                        <div class="textInThirdColumn"
-                            style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
+                        <div class="textInThirdColumn" style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
                             ULB Utilization Report Status
 
                             <span style="margin-left: 30px;">
@@ -230,16 +224,12 @@
                                 </a>
                             </span>
                         </div>
-                        <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%"
-                            *ngIf="!noDataFound_util">
+                        <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%" *ngIf="!noDataFound_util">
                             <canvas id="utilReport"></canvas>
                         </div>
-                        <div class="row smallDonuts" *ngIf="noDataFound_util"
-                            style="text-align:right; margin-top: -7%;">
-                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
-                                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
-                                [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
-                                [titleFontWeight]="550" [showUnits]='false'>
+                        <div class="row smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
+                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                                [showUnits]='false'>
                             </circle-progress>
                         </div>
 
@@ -272,7 +262,7 @@
 
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2" style="padding: 0ch;">
             <mat-card class="example-card">
                 <mat-card-actions class="pull-right">
@@ -292,7 +282,7 @@
                     <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}
                     </mat-card-subtitle>
                 </mat-card-header>
-                <mat-card-actions class="pull-right">
+                <mat-card-actions class="pull-right" style="padding-top: 0;">
                     <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
                     padding: 2px; height: 25px;">DOWNLOAD</button>
                 </mat-card-actions>
@@ -354,12 +344,11 @@
                 <br>
             </mat-card>
         </div>
-    </div>
+    </div> -->
     <div class="row bottomPart">
         <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
             <div class="row">
-                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
-                    Challenge Fund</div>
+                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>
                 <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
 
                     <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
@@ -376,8 +365,7 @@
                 <div *ngIf="noDataFound_millionSLB" style="text-align: center;
                 font-size: 30px;
                 margin-top: 12%;">No Data Found</div>
-                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
-                    *ngIf="!noDataFound_millionSLB">
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_millionSLB">
                     <canvas id="mpcf"></canvas>
 
                 </div>
@@ -385,8 +373,7 @@
         </div>
         <div class="col-sm-6">
             <div class="row">
-                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for
-                    Non-Million ULBs</div>
+                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for Non-Million ULBs</div>
 
             </div>
             <div class="row">
@@ -395,8 +382,7 @@
                 <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
                 font-size: 30px;
                 margin-top: 12%;">No Data Found</div>
-                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
-                    *ngIf="!noDataFound_nonMillionSLB">
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_nonMillionSLB">
                     <canvas id="nmpcf"></canvas>
 
                 </div>
@@ -404,8 +390,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
+
+        <div class="col-sm-6" style="padding: 0;">
             <div class="Card2">
                 <div class="row" style="margin-top: 2%;
                 font-weight: bold;">
@@ -421,14 +407,10 @@
 
                     <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
 
 
                     </div>
@@ -436,7 +418,7 @@
 
             </div>
         </div>
-        <div class="col-sm-3"></div>
+
 
 
     </div>

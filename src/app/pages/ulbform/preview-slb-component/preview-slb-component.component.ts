@@ -172,9 +172,9 @@ export class PreviewSlbComponentComponent implements OnInit {
     private _commonService: CommonService,
     public _ulbformService: UlbformService,
     public _matDialog: MatDialog
-  ) {}
+  ) { }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
   formStatusCheck = "";
   statusArray = [
     "Not Started",
@@ -194,9 +194,9 @@ export class PreviewSlbComponentComponent implements OnInit {
     let getData = JSON.parse(sessionStorage.getItem("slbData"));
     this.data = this.formatResponse(this.data);
     this.data.history = null;
-    if(this.userData.role !== USER_TYPE.ULB){
+    if (this.userData.role !== USER_TYPE.ULB) {
       this.data.ulbName = sessionStorage.getItem("ulbName")
-    }else{
+    } else {
       this.data.ulbName = this.userData['name'];
     }
     console.log("getData", getData);
@@ -231,23 +231,23 @@ export class PreviewSlbComponentComponent implements OnInit {
     }
 
     console.log("hi", JSON.stringify(this.data));
-    if (this.data.preWater?.index != undefined) {
-      this.fileName = this.data.preWater.plan.name;
-      this.fileUrl = this.data.preWater.plan.url;
-      if (this.data.preWater.index) {
-        this.water_index_qus = "Yes";
-      } else {
-        this.water_index_qus = "No";
-      }
-    } else {
-      this.fileName = this.data.waterPotability.name;
-      this.fileUrl = this.data.waterPotability.url;
-      if (this.data.water_index) {
-        this.water_index_qus = "Yes";
-      } else {
-        this.water_index_qus = "No";
-      }
-    }
+    // if (this.data.preWater?.index != undefined) {
+    //   this.fileName = this.data.preWater.plan.name;
+    //   this.fileUrl = this.data.preWater.plan.url;
+    //   if (this.data.preWater.index) {
+    //     this.water_index_qus = "Yes";
+    //   } else {
+    //     this.water_index_qus = "No";
+    //   }
+    // } else {
+    //   this.fileName = this.data.waterPotability.name;
+    //   this.fileUrl = this.data.waterPotability.url;
+    //   if (this.data.water_index) {
+    //     this.water_index_qus = "Yes";
+    //   } else {
+    //     this.water_index_qus = "No";
+    //   }
+    // }
   }
 
   ngOnDestroy(): void {
@@ -357,8 +357,7 @@ export class PreviewSlbComponentComponent implements OnInit {
         this.downloadFile(
           res.slice(0),
           "pdf",
-          `slb ${
-            this.data ? this.data.ulbName : this.userDetails.name
+          `slb ${this.data ? this.data.ulbName : this.userDetails.name
           }.pdf`
         );
         this.showLoader = false;

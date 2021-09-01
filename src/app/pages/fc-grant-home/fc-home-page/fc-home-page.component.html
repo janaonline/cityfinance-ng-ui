@@ -5,7 +5,11 @@ loggedInUserType;" style="padding: 0;">
             <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="margin-bottom: 4rem;">
                 <h3 class="txt-header" style="opacity: 100%; font-size: 35px;">
                     Welcome to 15th Finance Commission Grant Management System </h3>
-                <h3 style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
+                <h3 *ngIf="loggedInUserType == USER_TYPE.ULB" style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
+                <h3 *ngIf="loggedInUserType == USER_TYPE.STATE" style="opacity: 100%; font-size: 35px;">{{stateName}}</h3>
+                <h3 *ngIf="loggedInUserType == USER_TYPE.ADMIN
+                    || loggedInUserType == USER_TYPE.MoHUA
+                    || loggedInUserType == USER_TYPE.PATNER" style="opacity: 100%; font-size: 35px;">{{ulbName}}</h3>
 
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12 text-center">

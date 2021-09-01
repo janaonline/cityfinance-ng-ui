@@ -51,7 +51,7 @@
                     <div>
                         <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
                     </div>
-                    <table class="table custom-position">
+                    <table class="table custom-position tableStriped">
                         <thead style="color: #047474">
                             <tr class="thHeader">
                                 <th style="width: 4%;" scope="col">S.No</th>
@@ -63,6 +63,7 @@
                                     <span>Location</span><br>
                                     <span>Latitude and Longitude</span>
                                 </th>
+                                <th scope="col"></th>
                                 <th style="width: 7%;" scope="col">BOD in mg/L</th>
                                 <th style="width: 7%;" scope="col">COD in mg/L</th>
                                 <th style="width: 7%;" scope="col">DO in mg/L</th>
@@ -80,35 +81,51 @@
                                     {{waterBodies.name}}
                                 </td>
                                 <td>
-                                    {{waterBodies.area}}
-                                </td>
-                                <td>
                                     {{waterBodies.nameOfBody}}
                                 </td>
+                                <td>
+                                    {{waterBodies.area}}
+                                </td>
+
                                 <td>
                                     <div>
                                         <img [src]="photo.url" width="40px" height="40px"
                                             *ngFor="let photo of waterBodies.photos">
                                     </div>
                                 </td>
-                                <td>
-                                    <span *ngIf="waterBodies.lat">Lat-</span> {{waterBodies.lat}} <br>
-                                    <span *ngIf="waterBodies.long">Long-</span> {{waterBodies.long}}
+                                <td style="text-align: left;">
+                                    <span *ngIf="waterBodies.lat">Lat-</span> {{waterBodies?.lat}} <br>
+                                    <span *ngIf="waterBodies.long">Long-</span> {{waterBodies?.long}}
+                                </td>
+                                <td style="text-align: left;">
+                                    <div style="font-weight: bold;">Current</div>
+                                    <div style="font-weight: bold;">Expected</div>
                                 </td>
                                 <td>
-                                    {{waterBodies.bod}}
+                                    <!-- <span></span> {{waterBodies?.bod}}<br>
+                                    <span></span>{{waterBodies?.bod_expected}} -->
+                                    <div [ngClass]="{'mr-btm': (waterBodies.bod_expected == null)}">{{waterBodies?.bod}}</div>
+                                    <div [ngClass]="{'mr-top': (waterBodies.bod == null)}">{{waterBodies?.bod_expected}}</div>
                                 </td>
                                 <td>
-                                    {{waterBodies.cod}}
+                                    <div [ngClass]="{'mr-btm': (waterBodies.cod_expected == null)}">{{waterBodies?.cod}}</div>
+                                    <div [ngClass]="{'mr-top': (waterBodies.cod == null)}">{{waterBodies?.cod_expected}}</div>
+                                    <!-- {{waterBodies.cod}} -->
                                 </td>
                                 <td>
-                                    {{waterBodies.do}}
+                                    <div [ngClass]="{'mr-btm': (waterBodies.do_expected == null)}">{{waterBodies?.do}}</div>
+                                    <div [ngClass]="{'mr-top': (waterBodies.do == null)}">{{waterBodies?.do_expected}}</div>
+                                    <!-- {{waterBodies.do}} -->
                                 </td>
                                 <td>
-                                    {{waterBodies.tds}}
+                                    <div [ngClass]="{'mr-btm': (waterBodies.tds_expected == null)}">{{waterBodies?.tds}}</div>
+                                    <div [ngClass]="{'mr-top': (waterBodies.tds == null)}">{{waterBodies?.tds_expected}}</div>
+                                    <!-- {{waterBodies.tds}} -->
                                 </td>
                                 <td>
-                                    {{waterBodies.turbidity}}
+                                    <div [ngClass]="{'mr-btm': (waterBodies.turbidity_expected == null)}">{{waterBodies?.turbidity}}</div>
+                                    <div [ngClass]="{'mr-top': (waterBodies.turbidity == null)}">{{waterBodies?.turbidity_expected}}</div>
+                                    <!-- {{waterBodies.turbidity}} -->
                                 </td>
                                 <td>
                                     {{waterBodies.details}}
@@ -119,7 +136,7 @@
                     <div>
                         <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
                     </div>
-                    <table class="table custom-position">
+                    <table class="table custom-position tableStriped">
                         <thead style="color: #047474">
                             <tr class="thHeader">
                                 <th style="width: 5%;" scope="col">S.No</th>
@@ -143,7 +160,8 @@
                                 <td>
                                     {{waterReuse.treatmentPlant}}
                                 </td>
-                                <td>
+
+                                <td style="text-align: left;">
                                     <span *ngIf="waterReuse.lat">Lat-</span> {{waterReuse.lat}} <br>
                                     <span *ngIf="waterReuse.long">Long-</span> {{waterReuse.long}}
                                     <!-- Lat- {{waterReuse.lat}} Long- {{waterReuse.long}} -->

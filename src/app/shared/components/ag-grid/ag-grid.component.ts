@@ -17,7 +17,7 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   styleUrls: ["./ag-grid.component.scss"],
 })
 export class AgGridComponent implements OnInit, OnChanges {
-  constructor() {}
+  constructor() { }
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
   @ViewChild("agGrid3") agGrid3: AgGridAngular;
@@ -48,120 +48,128 @@ export class AgGridComponent implements OnInit, OnChanges {
       pinned: true,
       width: 50,
       field: "index",
+      rowDrag: false
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["code"].value != null ? params.data["code"].value : "",
+        params.data["Project_Code"].value != null ? params.data["Project_Code"].value : "",
       headerName: "Project Code",
       pinned: true,
       width: 180,
       editable: false,
-      tooltipField: "code",
+      tooltipField: "Project_Code",
       tooltipComponent: "customTooltip",
-      field: "code",
+      field: "Project_Code",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["name"].value != null ? params.data["name"].value : "",
+        params.data["Project_Name"].value != null ? params.data["Project_Name"].value : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       pinned: true,
       width: 120,
       editable: true,
-      tooltipField: "name",
+      tooltipField: "Project_Name",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-      field: "name",
+      field: "Project_Name",
       cellEditor: "agTextCellEditor",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["cost"].value != null ? params.data["cost"].value : "",
+        params.data["Cost"].value != null ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 100,
       pinned: true,
       editable: true,
-      tooltipField: "cost",
+      tooltipField: "Cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
         errorMsg: this.fundErrorMsg,
       },
-      field: "cost",
+      field: "Cost",
       valueParser: "Number(newValue)",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["details"].value != null
-          ? params.data["details"].value
+        params.data["Details"].value != null
+          ? params.data["Details"].value
           : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Project Details",
       width: 117,
       editable: true,
-      tooltipField: "details",
+      tooltipField: "Details",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Value less than 200 char" },
-      field: "details",
+      field: "Details",
       cellEditor: "agLargeTextCellEditor",
       cellEditorParams: {
         maxLength: "300",
         cols: "50",
         rows: "6",
       },
+      suppressMovable: true,
+
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["exAgency"].value != null
-          ? params.data["exAgency"].value
+        params.data["Executing_Agency"].value != null
+          ? params.data["Executing_Agency"].value
           : "",
       valueSetter: syncValueSetter(name),
       headerName: "Executing Agency",
       width: 150,
       editable: true,
-      tooltipField: "exAgency",
+      tooltipField: "Executing_Agency",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-      field: "exAgency",
+      field: "Executing_Agency",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: {
         values: ["English", "Spanish", "French", "Portuguese", "(other)"],
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       headerName: "Name of Parastatal Agency",
       width: 190,
       editable: true,
-      field: "paraAgency",
+      field: "Parastatal_Agency",
       cellEditor: "agTextCellEditor",
       hide: true,
-      tooltipField: "paraAgency",
+      tooltipField: "Parastatal_Agency",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
       valueGetter: (params) =>
-        params.data["paraAgency"].value != null
-          ? params.data["paraAgency"].value
+        params.data["Parastatal_Agency"].value != null
+          ? params.data["Parastatal_Agency"].value
           : "",
       valueSetter: syncValueSetter(name),
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["sector"].value != null ? params.data["sector"].value : "",
+        params.data["Sector"].value != null ? params.data["Sector"].value : "",
       valueSetter: syncValueSetter(dropDown),
       headerName: "Sector",
       width: 122,
       editable: true,
-      tooltipField: "sector",
+      tooltipField: "Sector",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Select one" },
-      field: "sector",
+      field: "Sector",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: {
         values: [
@@ -169,49 +177,59 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Any ongoing projects under existing schemes",
           "New project",
           "Replacing of existing infrastructure",
+          "Operation and Maintenance Projects"
         ],
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["type"].value != null ? params.data["type"].value : "",
+        params.data["Type"].value != null ? params.data["Type"].value : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Project Type",
       width: 149,
       editable: true,
-      field: "type",
+      field: "Type",
+
       cellEditor: "agSelectCellEditor",
+      tooltipField: "Type",
+      tooltipComponent: "customTooltip",
+      tooltipComponentParams: { errorMsg: "Select one" },
       cellEditorParams: {
         values: [
           "Augmentation of existing infrastructure",
           "Any ongoing projects under existing schemes",
           "New project",
           "Replacing of existing infrastructure",
+          "Operation and Maintenance Projects"
         ],
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["esOutcome"].value != null
-          ? params.data["esOutcome"].value
+        params.data["Estimated_Outcome"].value != null
+          ? params.data["Estimated_Outcome"].value
           : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Estimated Outcome",
       width: 140,
       editable: true,
-      tooltipField: "esOutcome",
+      tooltipField: "Estimated_Outcome",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-      field: "esOutcome",
+      field: "Estimated_Outcome",
       cellEditor: "agLargeTextCellEditor",
       cellEditorParams: {
         maxLength: "300",
         cols: "50",
         rows: "6",
       },
+      suppressMovable: true,
     },
+
   ];
   fund = [
     {
@@ -223,210 +241,109 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 70,
       pinned: true,
       field: "index",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
 
       valueGetter: (params) =>
-        params.data["code"].value != null ? params.data["code"].value : "",
+        params.data["Project_Code"].value != null ? params.data["Project_Code"].value : "",
       headerName: "Project Code",
       pinned: true,
       width: 180,
-      tooltipField: "code",
+      tooltipField: "Project_Code",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-      field: "code",
+      field: "Project_Code",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
 
       valueGetter: (params) =>
-        params.data["name"].value != null ? params.data["name"].value : "",
+        params.data["Project_Name"].value != null ? params.data["Project_Name"].value : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       width: 120,
       pinned: true,
-      tooltipField: "name",
+      tooltipField: "Project_Name",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
       tooltipComponent: "customTooltip",
-      field: "name",
+      field: "Project_Name",
       cellEditor: "agTextCellEditor",
       cellEditorParams: {
         maxLength: "50",
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["cost"].value != null ? params.data["cost"].value : "",
+        params.data["Cost"].value != null ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
       width: 120,
       pinned: true,
-      tooltipField: "cost",
+      tooltipField: "Cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
         errorMsg: "should be number & Greater than 0",
       },
-      field: "cost",
+      field: "Cost",
       valueParser: "Number(newValue)",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["fc"].value != null ? params.data["fc"].value : "",
+        params.data["XV_FC"].value != null ? params.data["XV_FC"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "15th FC",
       width: 100,
       editable: true,
-      tooltipField: "fc",
+      tooltipField: "XV_FC",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
         errorMsg: this.fundErrorMsg,
       },
-      field: "fc",
+      field: "XV_FC",
       valueParser: "Number(newValue)",
       filter: "agNumberColumnFilter",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["jjm"].value != null ? params.data["jjm"].value : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "JJM",
-      width: 100,
-      editable: true,
-      tooltipField: "jjm",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "jjm",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["sbm"].value != null ? params.data["sbm"].value : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "SBM 2.0",
-      width: 100,
-      editable: true,
-      tooltipField: "sbm",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "sbm",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["centalScheme"].value != null
-          ? params.data["centalScheme"].value
-          : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "Other Central Schemes",
-      width: 180,
-      editable: true,
-      tooltipField: "centalScheme",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "centalScheme",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["stateScheme"].value != null
-          ? params.data["stateScheme"].value
-          : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "State Schemes",
-      width: 150,
-      editable: true,
-      tooltipField: "stateScheme",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "stateScheme",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["stateGrant"].value != null
-          ? params.data["stateGrant"].value
-          : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "State Gov Grants",
-      width: 150,
-      editable: true,
-      tooltipField: "stateGrant",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "stateGrant",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["ulb"].value != null ? params.data["ulb"].value : "",
-      valueSetter: syncValueSetter(number),
-      headerName: "ULB",
-      width: 100,
-      editable: true,
-      tooltipField: "ulb",
-      tooltipComponent: "customTooltip",
-      tooltipComponentParams: {
-        errorMsg: this.fundErrorMsg,
-      },
-      field: "ulb",
-      valueParser: "Number(newValue)",
-      filter: "agNumberColumnFilter",
-    },
-    {
-      cellRenderer: "customizedCell",
-      valueGetter: (params) =>
-        params.data["other"].value != null ? params.data["other"].value : "",
+        params.data["Other"].value != null ? params.data["Other"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Other",
       width: 100,
       editable: true,
-      tooltipField: "other",
+      tooltipField: "Other",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
         errorMsg: this.fundErrorMsg,
       },
-      field: "other",
+      field: "Other",
       valueParser: "Number(newValue)",
       filter: "agNumberColumnFilter",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["total"].value != null ? params.data["total"].value : "",
+        params.data["Total"].value != null ? params.data["Total"].value : "",
       valueSetter: syncValueSetter(Total),
       headerName: "Total",
       width: 100,
       editable: false,
-      tooltipField: "total",
+      tooltipField: "Total",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
         errorMsg: "Value should be equal to project cost",
       },
-      field: "total",
+      field: "Total",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -445,6 +362,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2021-22",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -463,6 +381,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2022-23",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -481,6 +400,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2023-24",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -499,6 +419,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2024-25",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -517,6 +438,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "2025-26",
+      suppressMovable: true,
     },
   ];
   year = [
@@ -528,79 +450,85 @@ export class AgGridComponent implements OnInit, OnChanges {
       width: 70,
       pinned: true,
       field: "index",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["code"].value != null ? params.data["code"].value : "",
+        params.data["Project_Code"].value != null ? params.data["Project_Code"].value : "",
       headerName: "Project Code",
       pinned: true,
       width: 180,
-      tooltipField: "code",
+      tooltipField: "Project_Code",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-      field: "code",
+      field: "Project_Code",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["name"].value != null ? params.data["name"].value : "",
+        params.data["Project_Name"].value != null ? params.data["Project_Name"].value : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       width: 130,
       pinned: true,
-      tooltipField: "name",
+      tooltipField: "Project_Name",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: { errorMsg: "Name less than 50 char" },
-      field: "name",
+      field: "Project_Name",
       cellEditor: "agTextCellEditor",
       cellEditorParams: {
         maxLength: "50",
       },
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["cost"].value != null ? params.data["cost"].value : "",
+        params.data["Cost"].value != null ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       valueParser: "Number(newValue)",
       headerName: "Project Cost",
       width: 120,
       pinned: true,
-      tooltipField: "cost",
+      tooltipField: "Cost",
       tooltipComponent: "customTooltip",
       tooltipComponentParams: {
         errorMsg: this.yearErrorMsg,
       },
-      field: "cost",
+      field: "Cost",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["funding"].value != null
-          ? params.data["funding"].value
+        params.data["Funding"].value != null
+          ? params.data["Funding"].value
           : "",
       valueSetter: syncValueSetter(number),
       // valueParser: "Number(newValue)",
       headerName: "% Funding",
       width: 85,
       editable: false,
-      tooltipField: "funding",
+      tooltipField: "Funding",
       tooltipComponent: "customTooltip",
-      field: "funding",
+      field: "Funding",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["amount"].value != null ? params.data["amount"].value : "",
+        params.data["Amount"].value != null ? params.data["Amount"].value : "",
       valueSetter: syncValueSetter(number),
       valueParser: "Number(newValue)",
       headerName: "Amount",
       width: 78,
       editable: false,
-      tooltipField: "amount",
+      tooltipField: "Amount",
       tooltipComponent: "customTooltip",
-      field: "amount",
+      field: "Amount",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -619,6 +547,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2021-22",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -637,6 +566,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2022-23",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -655,6 +585,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2023-24",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -673,6 +604,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2024-25",
+      suppressMovable: true,
     },
     {
       cellRenderer: "customizedCell",
@@ -691,6 +623,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.yearErrorMsg,
       },
       field: "2025-26",
+      suppressMovable: true,
     },
   ];
 
@@ -708,10 +641,10 @@ export class AgGridComponent implements OnInit, OnChanges {
     }
 
     this.rowData.projectExecute.forEach((element) => {
-      if (element.exAgency.value == "Parastatal Agency") {
+      if (element.Executing_Agency.value == "Parastatal Agency") {
         this.project[6].hide = false;
       } else {
-        element.paraAgency.value = "N/A";
+        element.Parastatal_Agency.value = "N/A";
       }
     });
 
@@ -721,6 +654,7 @@ export class AgGridComponent implements OnInit, OnChanges {
 
     this.project[7].cellEditorParams.values = this.catList;
 
+
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
       agColumnHeader: CustomizedHeaderComponent,
@@ -729,18 +663,18 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   cellValueChanged(e) {
-    if (e.colDef.field == "exAgency") {
+    if (e.colDef.field == "Executing_Agency") {
       this.agGrid1.api.forEachNode((param, index) => {
         if (
-          param.data.exAgency.value != "Parastatal Agency" &&
-          param.data.exAgency.value != ""
+          param.data.Executing_Agency.value != "Parastatal Agency" &&
+          param.data.Executing_Agency.value != ""
         ) {
-          param.data.paraAgency.value = "N/A";
+          param.data.Parastatal_Agency.value = "N/A";
         }
         if (e.node.id == index && e.value != "Parastatal Agency") {
-          param.data.paraAgency.value = "N/A";
+          param.data.Parastatal_Agency.value = "N/A";
         } else if (e.node.id == index) {
-          param.data.paraAgency.value = "";
+          param.data.Parastatal_Agency.value = "";
         }
         this.agGrid1.api.applyTransaction({ update: [param.data] });
       });
@@ -753,7 +687,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         ) {
           const element = this.rowData.projectExecute[index];
           if (
-            element.exAgency.value == "Parastatal Agency" &&
+            element.Executing_Agency.value == "Parastatal Agency" &&
             e.node.id != index
           ) {
             return;
@@ -761,12 +695,12 @@ export class AgGridComponent implements OnInit, OnChanges {
         }
       }
       if (e.value == "Parastatal Agency") {
-        this.agGrid1.columnApi.setColumnVisible("paraAgency", true);
+        this.agGrid1.columnApi.setColumnVisible("Parastatal_Agency", true);
       } else {
-        this.agGrid1.columnApi.setColumnVisible("paraAgency", false);
+        this.agGrid1.columnApi.setColumnVisible("Parastatal_Agency", false);
       }
     }
-    if (e.colDef.field == "cost" || e.colDef.field == "name") {
+    if (e.colDef.field == "Cost" || e.colDef.field == "Project_Name") {
       this.autoSetNames(e);
     }
     this.gridData.emit(this.rowData);
@@ -774,9 +708,9 @@ export class AgGridComponent implements OnInit, OnChanges {
 
   fundValueChanges(e) {
     if (years.includes(e.colDef.field))
-      this.checkValidYearSum(e, this.agGrid2.api, "cost");
+      this.checkValidYearSum(e, this.agGrid2.api, "Cost");
 
-    if (e.colDef.field == "fc") {
+    if (e.colDef.field == "XV_FC") {
       this.autoSetNames(e, true);
     }
     if (fundAutoFill.includes(e.colDef.field)) {
@@ -793,14 +727,14 @@ export class AgGridComponent implements OnInit, OnChanges {
       if (e.data.cost.value != val) e.data.total.lastValidation = val;
       else e.data.total.lastValidation = true;
       e.data.total.value = val;
-      e.api.refreshCells({ columns: ["total"] });
+      e.api.refreshCells({ columns: ["Total"] });
     }
     this.gridData.emit(this.rowData);
   }
 
   yearValueChanges(param) {
     if (years.includes(param.colDef.field))
-      this.checkValidYearSum(param, this.agGrid3.api, "amount");
+      this.checkValidYearSum(param, this.agGrid3.api, "Amount");
     this.gridData.emit(this.rowData);
   }
 
@@ -833,15 +767,15 @@ export class AgGridComponent implements OnInit, OnChanges {
 
   autoSetNames(e, fromFund = null) {
     if (fromFund) {
-      this.rowData.yearOutlay[e.rowIndex]["amount"].value = e.value;
-      if (this.rowData.yearOutlay[e.rowIndex]["cost"].value == "") {
-        this.rowData.yearOutlay[e.rowIndex]["funding"].value = 0;
+      this.rowData.yearOutlay[e.rowIndex]["Amount"].value = e.value;
+      if (this.rowData.yearOutlay[e.rowIndex]["Cost"].value == "") {
+        this.rowData.yearOutlay[e.rowIndex]["Funding"].value = 0;
       } else {
-        this.rowData.yearOutlay[e.rowIndex]["funding"].value =
-          (e.value / this.rowData.yearOutlay[e.rowIndex]["cost"].value) * 100;
-        if (this.rowData.yearOutlay[e.rowIndex]["funding"].value % 1 != 0) {
-          this.rowData.yearOutlay[e.rowIndex]["funding"].value = (
-            (e.value / this.rowData.yearOutlay[e.rowIndex]["cost"].value) *
+        this.rowData.yearOutlay[e.rowIndex]["Funding"].value =
+          (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) * 100;
+        if (this.rowData.yearOutlay[e.rowIndex]["Funding"].value % 1 != 0) {
+          this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
+            (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
             100
           ).toPrecision(2);
         }
@@ -855,7 +789,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   addRow() {
     let s = this.agGrid1.api.getDisplayedRowCount();
@@ -897,12 +831,12 @@ export class AgGridComponent implements OnInit, OnChanges {
 
 const fundAutoFill = [
   "fc",
-  "jjm",
-  "sbm",
-  "centalScheme",
-  "stateScheme",
-  "stateGrant",
-  "ulb",
+  // "jjm",
+  // "sbm",
+  // "centalScheme",
+  // "stateScheme",
+  // "stateGrant",
+  // "ulb",
   "other",
 ];
 
@@ -913,33 +847,29 @@ const input = {
   name: { value: "", isEmpty: true, lastValidation: true },
   projectExecute: [
     {
+
+
       index: { value: 1, isEmpty: true, lastValidation: true },
-      code: { value: "", isEmpty: true, lastValidation: true },
-      name: { value: "", isEmpty: true, lastValidation: true },
-      details: { value: "", isEmpty: true, lastValidation: true },
-      cost: { value: "", isEmpty: true, lastValidation: true },
-      exAgency: { value: "", isEmpty: true, lastValidation: true },
-      paraAgency: { value: "", isEmpty: true, lastValidation: true },
-      sector: { value: "", isEmpty: true, lastValidation: true },
-      type: { value: "", isEmpty: true, lastValidation: true },
-      esOutcome: { value: "", isEmpty: true, lastValidation: true },
+      Project_Code: { value: "", isEmpty: true, lastValidation: true },
+      Project_Name: { value: "", isEmpty: true, lastValidation: true },
+      Details: { value: "", isEmpty: true, lastValidation: true },
+      Cost: { value: "", isEmpty: true, lastValidation: true },
+      Executing_Agency: { value: "", isEmpty: true, lastValidation: true },
+      Parastatal_Agency: { value: "", isEmpty: true, lastValidation: true },
+      Sector: { value: "", isEmpty: true, lastValidation: true },
+      Type: { value: "", isEmpty: true, lastValidation: true },
+      Estimated_Outcome: { value: "", isEmpty: true, lastValidation: true },
     },
   ],
   sourceFund: [
     {
       index: { value: 1, isEmpty: true, lastValidation: true },
-      code: { value: "", isEmpty: true, lastValidation: true },
-      name: { value: "", isEmpty: true, lastValidation: true },
-      cost: { value: "", isEmpty: true, lastValidation: true },
-      fc: { value: 0, isEmpty: true, lastValidation: true },
-      jjm: { value: 0, isEmpty: true, lastValidation: true },
-      sbm: { value: 0, isEmpty: true, lastValidation: true },
-      centalScheme: { value: 0, isEmpty: true, lastValidation: true },
-      stateScheme: { value: 0, isEmpty: true, lastValidation: true },
-      stateGrant: { value: 0, isEmpty: true, lastValidation: true },
-      ulb: { value: 0, isEmpty: true, lastValidation: true },
-      other: { value: 0, isEmpty: true, lastValidation: true },
-      total: { value: "", isEmpty: true, lastValidation: true },
+      Project_Code: { value: "", isEmpty: true, lastValidation: true },
+      Project_Name: { value: "", isEmpty: true, lastValidation: true },
+      Cost: { value: "", isEmpty: true, lastValidation: true },
+      XV_FC: { value: 0, isEmpty: true, lastValidation: true },
+      Other: { value: 0, isEmpty: true, lastValidation: true },
+      Total: { value: "", isEmpty: true, lastValidation: true },
       "2021-22": { value: 0, isEmpty: true, lastValidation: true },
       "2022-23": { value: 0, isEmpty: true, lastValidation: true },
       "2023-24": { value: 0, isEmpty: true, lastValidation: true },
@@ -950,11 +880,11 @@ const input = {
   yearOutlay: [
     {
       index: { value: 1, isEmpty: true, lastValidation: true },
-      code: { value: "", isEmpty: true, lastValidation: true },
-      name: { value: "", isEmpty: true, lastValidation: true },
-      cost: { value: 0, isEmpty: true, lastValidation: true },
-      funding: { value: 0, isEmpty: true, lastValidation: true },
-      amount: { value: 0, isEmpty: true, lastValidation: true },
+      Project_Code: { value: "", isEmpty: true, lastValidation: true },
+      Project_Name: { value: "", isEmpty: true, lastValidation: true },
+      Cost: { value: 0, isEmpty: true, lastValidation: true },
+      Funding: { value: 0, isEmpty: true, lastValidation: true },
+      Amount: { value: 0, isEmpty: true, lastValidation: true },
       "2021-22": { value: 0, isEmpty: true, lastValidation: true },
       "2022-23": { value: 0, isEmpty: true, lastValidation: true },
       "2023-24": { value: 0, isEmpty: true, lastValidation: true },
@@ -973,18 +903,18 @@ const Area = (x) => {
   return false;
 };
 const Total = (x, param) => {
-  if (param.data.cost.value == "") {
-    param.data.cost.value = 0;
+  if (param.data.Cost.value == "") {
+    param.data.Cost.value = 0;
   }
-  return param.data.cost.value == parseInt(x);
+  return param.data.Cost.value == parseInt(x);
 };
 const dropDown = (x) => {
   if (x.length < 1) return false;
   else return true;
 };
-const name = async (x) => {
+const name = (x) => {
   if (typeof x == "string") {
-    return x.length > 0 && x.length < 26;
+    return x.length > 0 && x.length < 50;
   }
   return false;
 };
@@ -993,7 +923,7 @@ const number = (x, params) => {
   x = parseInt(x);
   if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "cost") return true;
-    return x / 100 < params.data.cost.value;
+    return x / 100 < params.data.Cost.value;
   }
   return false;
 };
@@ -1018,7 +948,7 @@ const checkYear = (x, param) => {
     }
   }
   val += x;
-  let cost = param.data.cost?.value;
+  let cost = param.data.Cost?.value;
   if (count == 4) {
     return cost == val;
   }
@@ -1045,7 +975,7 @@ const checkYear2 = (x, param) => {
     }
   }
   val += x;
-  let cost = param.data.amount.value;
+  let cost = param.data.Amount.value;
   if (count == 4) {
     return cost == val;
   }

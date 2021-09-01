@@ -12,6 +12,7 @@ export class UlbformService {
   allFormsData = new Subject<any>();
 
   initiateDownload = new Subject<any>();
+  slbFormChange = new Subject<any>();
 
   setForms = new Subject<any>();
 

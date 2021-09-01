@@ -93,7 +93,7 @@ export class UlbformComponent implements OnInit {
       case USER_TYPE.ADMIN:
       case USER_TYPE.PARTNER:
         this.backHeader = "Admin Dashboard";
-        this.backLink = "../ulbAdmin";
+        this.backLink = "../mohua/dashboard";
         this.toolTipContentC = "Reviewed";
         this.toolTipContentN = "Not Reviewed";
         break;
@@ -119,11 +119,12 @@ export class UlbformComponent implements OnInit {
   };
   eligibleForms = {}
   async ngOnInit() {
+
     let id = sessionStorage.getItem("ulb_id");
     this.ulbformService.getEligibleULBForm(id).subscribe(
       (res) => {
         this.eligibleForms = res['data']
-        console.log(this.eligibleForms)
+        console.log('oninit eligible forms', this.eligibleForms)
       },
       (err) => { })
     this.ulbformService.allFormsData.subscribe((data) => {
@@ -139,7 +140,7 @@ export class UlbformComponent implements OnInit {
 
   subscribeStatus() {
     this.ulbformService.allStatus.subscribe((status) => {
-
+      console.log('subscribe status fired')
       this.checkGreenRedTick(status);
       sessionStorage.setItem("allStatus", JSON.stringify(status));
       console.log("red this", this.allStatus);
@@ -174,7 +175,7 @@ export class UlbformComponent implements OnInit {
           case "utilReport":
             if (
               this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
-              eligibleActionForms.includes("Utilization Report")
+              (eligibleActionForms.includes("Utilization Report") || eligibleActionForms.includes("Utilisation Report"))
             ) {
               this.allStatus[key].isSubmit = true;
             }
@@ -291,7 +292,7 @@ export class UlbformComponent implements OnInit {
     eligibleActionForms.forEach((element) => {
       for (let key in this.allStatus) {
         console.log("keygbnm", this.allStatus[key]["status"]);
-        if (element === "Utilization Report" && key === "utilReport") {
+        if ((element === "Utilization Report" || element === "Utilization Report") && key === "utilReport") {
           if (
             this.allStatus["utilReport"]["isSubmit"] === true &&
             this.allStatus["utilReport"]["status"] != "PENDING"
@@ -436,7 +437,71 @@ export class UlbformComponent implements OnInit {
       );
     }
   }
-
+  cardsOverview = [
+    // {
+    //   label: "PFMS",
+    //   link: "../pfms_acc",
+    //   title: "Linking of PFMS Account",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets//ulbform/lpa.svg",
+    //   permittedAccounts: [""],
+    //   display: [""],
+    // },
+    {
+      label: "Grant Transfer Certificate",
+      link: "../grant-tra-certi",
+      title: "Grant Transfer Certificate",
+      tooltip: "tooltip",
+      image: "../../../../assets//ulbform/gtc.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Utilisation Report",
+      link: "../utilisation-report",
+      title: "Detailed Utilisation Report",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/dur.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    {
+      label: "Annual Acconts",
+      link: "../annual_acc",
+      title: "Annual Accounts",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/aa.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    // {
+    //   label: "service-level",
+    //   link: "../service-level",
+    //   title: "Service Level Benchmarks",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets/ulbform/slb.svg",
+    //   permittedAccounts: [""],
+    //   display: [""],
+    // },
+    {
+      label: "slbs",
+      link: "../slbs",
+      // title: "Million Plus City Challenge Fund",
+      tooltip: "tooltip",
+      image: "../../../../assets/ulbform/mpccf.svg",
+      permittedAccounts: [""],
+      display: [""],
+    },
+    // {
+    //   label: "Plan water sanitation",
+    //   link: "../water-sanitation",
+    //   title: "Plans for Water and Sanitation",
+    //   tooltip: "tooltip",
+    //   image: "../../../../assets/ulbform/plan for water and sanitation.svg",
+    //   permittedAccounts: ["No"],
+    //   display: ["None"],
+    // },
+  ];
   checkValidationStatusOfAllForms() {
     const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
     console.log('eligible forms........', eligibleForms);
@@ -448,7 +513,7 @@ export class UlbformComponent implements OnInit {
     }
     eligibleForms.forEach((element) => {
       for (let key in this.allStatus) {
-        if (element === "Utilization Report" && key === "utilReport") {
+        if ((element === "Utilization Report" || element === "Utilisation Report") && key === "utilReport") {
           let change = sessionStorage.getItem("canNavigate");
           if (change === "false") {
             this.validate = false;
@@ -477,6 +542,7 @@ export class UlbformComponent implements OnInit {
     });
 
     for (let key in requiredStatus) {
+      console.log(key, requiredStatus[key])
       if (!requiredStatus[key]) {
         this.validate = false;
       }
