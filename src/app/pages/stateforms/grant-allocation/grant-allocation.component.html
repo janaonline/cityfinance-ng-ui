@@ -111,7 +111,8 @@
     </div>
     <div class="row" style="margin-top: 3rem;">
         <div class="col-sm-6">
-            <a type="button" class="btn btn-back" [routerLink]="['../action-plan']">BACK</a>
+            <a type="button" class="btn btn-back" routerLinkActive="router-link-active"
+                [routerLink]="['../action-plan']">BACK</a>
         </div>
         <div class="col-sm-6  text-right">
             <button type="button" class="btn btn-next" (click)="saveForm()" [disabled]="isDisabled">SAVE</button>
