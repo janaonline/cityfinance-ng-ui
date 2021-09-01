@@ -177,6 +177,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Any ongoing projects under existing schemes",
           "New project",
           "Replacing of existing infrastructure",
+          "Operation and Maintenance Projects"
         ],
       },
       suppressMovable: true,
@@ -201,6 +202,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Any ongoing projects under existing schemes",
           "New project",
           "Replacing of existing infrastructure",
+          "Operation and Maintenance Projects"
         ],
       },
       suppressMovable: true,
