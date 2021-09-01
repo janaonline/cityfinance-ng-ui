@@ -1,7 +1,8 @@
 <div class="container-fluid" style="margin-bottom: 1pc;" id="waterRe" #waterRe>
     <div class="row">
         <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
-            <a *ngIf="!parentData" (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+            <a *ngIf="!parentData" (click)="close()"
+                style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
@@ -40,7 +41,8 @@
                     <div>
                         <!-- UA{{projectIndex+1}}: {{uas.name}} -->
                         <!-- {{uasData[uas.ua].name.split(' ')[0]}} -->
-                        <h4>UA{{projectIndex + 1}}: Urban Agglomeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}</h4>
+                        <h4>UA{{projectIndex + 1}}: Urban Agglomeration {{ uasData[uas.ua].name.substring(0,
+                            uasData[uas.ua].name.lastIndexOf(" ")) }}</h4>
 
 
                     </div>
@@ -78,14 +80,16 @@
                                     {{waterBodies.name}}
                                 </td>
                                 <td>
-                                    {{waterBodies.area}}
-                                </td>
-                                <td>
                                     {{waterBodies.nameOfBody}}
                                 </td>
                                 <td>
+                                    {{waterBodies.area}}
+                                </td>
+
+                                <td>
                                     <div>
-                                        <img [src]="photo.url" width="40px" height="40px" *ngFor="let photo of waterBodies.photos">
+                                        <img [src]="photo.url" width="40px" height="40px"
+                                            *ngFor="let photo of waterBodies.photos">
                                     </div>
                                 </td>
                                 <td>
@@ -170,11 +174,11 @@
 
         <p style="margin-top: 8px;">
             Are you sure you want to proceed?
-            <div>
-                <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
-                <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save &
                 Proceed</button>
-            </div>
+        </div>
 
     </div>
 </ng-template>
