@@ -525,7 +525,7 @@ subDate
     );
     console.log('previewData', this.data);
     this.subDate = this.data[0]?.modifiedAt;
-    alert(this.data[0].modifiedAt)
+   // alert(this.data[0].modifiedAt)
     this.stateSlbData = sessionStorage.getItem('slbStateData');
     // this.allFormRes = this.data[0]
     //  this.gtcError.data = this.data[0]['stategtcertificates'][0];
