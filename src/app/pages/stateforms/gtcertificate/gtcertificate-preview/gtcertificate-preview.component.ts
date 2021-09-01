@@ -116,9 +116,7 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
-    if (this.parentData){
-      this.data = this.parentData;
-    }
+
       this.subParentForModal = this.gtcService.OpenModalTrigger.subscribe(
         (change) => {
           if (this.changeFromOutSide) {
@@ -127,12 +125,16 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
         }
       );
     this.previewStatusSet();
+    if (this.parentData){
+      this.data = this.parentData;
+    }
   }
   ngOnDestroy(): void {
     if (this.subParentForModal) this.subParentForModal.unsubscribe();
   }
   previewStatusSet() {
-    console.log(this.data)
+
+    console.log('prevData status',this.data)
     let GTCData = JSON.parse(sessionStorage.getItem("StateGTC"))
     console.log(GTCData)
     if (GTCData['data']) {

@@ -41,33 +41,32 @@
                         <!-- UA{{projectIndex+1}}: {{uas.name}} -->
                         <!-- {{uasData[uas.ua].name.split(' ')[0]}} -->
                         <h4>UA{{projectIndex + 1}}: Urban Agglomeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}</h4>
-
-
                     </div>
                 </div>
+
+                <div>
+                    <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
+                </div>
                 <div class="table-responsive">
-                    <div>
-                        <h5>Fill Details of Project for Rejuvenation of Water Bodies</h5>
-                    </div>
                     <table class="table custom-position tableStriped">
                         <thead style="color: #047474">
                             <tr class="thHeader">
-                                <th style="width: 4%;" scope="col">S.No</th>
-                                <th style="width: 10%;" scope="col">Project Name</th>
-                                <th style="width: 10%;" scope="col">Name Of Water Body</th>
-                                <th style="width: 7%;" scope="col">Area</th>
-                                <th style="width: 7%;" scope="col">Upload Photo</th>
-                                <th style="width: 13%;" scope="col">
+                                <th scope="col">S.No</th>
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Name Of Water Body</th>
+                                <th scope="col">Area</th>
+                                <th scope="col">Upload Photo</th>
+                                <th scope="col">
                                     <span>Location</span><br>
                                     <span>Latitude and Longitude</span>
                                 </th>
                                 <th scope="col"></th>
-                                <th style="width: 7%;" scope="col">BOD in mg/L</th>
-                                <th style="width: 7%;" scope="col">COD in mg/L</th>
-                                <th style="width: 7%;" scope="col">DO in mg/L</th>
-                                <th style="width: 7%;" scope="col">TDS in mg/L</th>
-                                <th style="width: 7%;" scope="col">Turbidity in NTU</th>
-                                <th style="width: 14%;" scope="col">Project Details</th>
+                                <th scope="col">BOD in mg/L</th>
+                                <th scope="col">COD in mg/L</th>
+                                <th scope="col">DO in mg/L</th>
+                                <th scope="col">TDS in mg/L</th>
+                                <th scope="col">Turbidity in NTU</th>
+                                <th scope="col">Project Details</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,9 +128,11 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div>
-                        <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
-                    </div>
+                </div>
+                <div>
+                    <h5>Fill Details of Projects for Recycling and Reuse of Water</h5>
+                </div>
+                <div class="table-responsive">
                     <table class="table custom-position tableStriped">
                         <thead style="color: #047474">
                             <tr class="thHeader">
@@ -164,6 +165,55 @@
                                 </td>
                                 <td>
                                     {{waterReuse.stp}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h5>Details of Proposed Project to Improve Service Level Indicators related to Water Supply</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table custom-position tableStriped">
+                        <thead style="color: #047474">
+                            <tr class="thHeader">
+                                <th scope="col" style="width: 5%;">S.No</th>
+                                <th scope="col" style="width: 18%;">Project Name</th>
+                                <th scope="col" style="width: 20%;">Physical Components</th>
+                                <th scope="col" style="width: 20%;">
+                                    Indicator
+                                </th>
+                                <th scope="col" style="width: 12%;">Existing (As-is)</th>
+                                <th scope="col" style="width: 12%;">After (To-be)</th>
+                                <th scope="col" style="width: 13%;">Estimated Cost (Amount in INR Lakhs)</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let srIn of uas.serviceLevelIndicators; let serIndex=index">
+                                <td>
+                                    <span>{{1+serIndex}}</span>
+                                </td>
+                                <td>
+                                    {{srIn.name}}
+                                </td>
+                                <td>
+                                    {{srIn.component}}
+                                </td>
+
+                                <td>
+
+                                    {{srIn.indicator}}
+                                </td>
+                                <td>
+                                    {{srIn.existing}}
+
+                                </td>
+                                <td>
+                                    {{srIn.after}}
+                                </td>
+                                <td>
+                                    {{srIn.cost}}
                                 </td>
                             </tr>
                         </tbody>
