@@ -952,7 +952,7 @@ const checkYear = (x, param) => {
   if (count == 4) {
     return cost == val;
   }
-  return val <= (Cost ? Cost : 0);
+  return val <= (cost ? cost : 0);
 };
 
 const checkYear2 = (x, param) => {
