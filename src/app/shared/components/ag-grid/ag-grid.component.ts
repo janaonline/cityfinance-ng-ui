@@ -723,10 +723,10 @@ export class AgGridComponent implements OnInit, OnChanges {
           }
         }
       }
-      if (e.data.cost.value == "") e.data.cost.value = 0;
-      if (e.data.cost.value != val) e.data.total.lastValidation = val;
-      else e.data.total.lastValidation = true;
-      e.data.total.value = val;
+      if (e.data.Cost.value == "") e.data.Cost.value = 0;
+      if (e.data.Cost.value != val) e.data.Total.lastValidation = val;
+      else e.data.Total.lastValidation = true;
+      e.data.Total.value = val;
       e.api.refreshCells({ columns: ["Total"] });
     }
     this.gridData.emit(this.rowData);
@@ -831,7 +831,7 @@ export class AgGridComponent implements OnInit, OnChanges {
 
 const fundAutoFill = [
   "XV_FC",
-  "Other",
+  "Other"
 ];
 
 const years = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"];
@@ -916,7 +916,7 @@ const name = (x) => {
 const number = (x, params) => {
   x = parseInt(x);
   if (!isNaN(x) && x >= 0 && x < 999999999) {
-    if (params.colDef.field == "cost") return true;
+    if (params.colDef.field == "Cost") return true;
     return x / 100 < params.data.Cost.value;
   }
   return false;
