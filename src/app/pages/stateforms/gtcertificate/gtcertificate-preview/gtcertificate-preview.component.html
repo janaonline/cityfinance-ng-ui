@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class=" row st-d">
-        <div class="col-sm-6 form-status">
+        <div class="col-sm-6 form-status" *ngIf="!parentData">
             <b>Form Current Status:</b> {{formStatusCheck}}
         </div>
         <div class="col-sm-6 text-right h-cls" *ngIf="!parentData">
