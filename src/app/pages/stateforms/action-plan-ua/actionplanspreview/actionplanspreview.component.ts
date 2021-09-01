@@ -26,7 +26,7 @@ import { StateformsService } from "../../stateforms.service";
   templateUrl: "./actionplanspreview.component.html",
   styleUrls: ["./actionplanspreview.component.scss"],
 })
-export class ActionplanspreviewComponent implements OnInit, OnDestroy{
+export class ActionplanspreviewComponent implements OnInit, OnDestroy {
   @Input() parentData: any;
   @Input()
   changeFromOutSide: any;
@@ -37,7 +37,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy{
     private _questionnaireService: QuestionnaireService,
     public actionplanserviceService: ActionplanserviceService,
     public stateformsService: StateformsService
-  ) {}
+  ) { }
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -410,16 +410,16 @@ margin-left: 22%;
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = userData["name"];
     this.stateName = userData["stateName"];
-    if(this.parentData){
-    this.data = this.parentData;
-  }
-  this.subParentForModal = this.actionplanserviceService.OpenModalTrigger.subscribe(
-    (change) => {
-      if (this.changeFromOutSide) {
-        this.openModal(this.template);
-      }
+    if (this.parentData) {
+      this.data = this.parentData;
     }
-  );
+    this.subParentForModal = this.actionplanserviceService.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openModal(this.template);
+        }
+      }
+    );
     this.setStatus();
     console.log(this.data);
 
@@ -536,7 +536,7 @@ margin-left: 22%;
   includeParaAgency(data) {
     for (let index = 0; index < data.projectExecute.length; index++) {
       const element = data.projectExecute[index];
-      if (element.paraAgency != "") {
+      if (element.Parastatal_Agency != "") {
         return true;
       }
     }

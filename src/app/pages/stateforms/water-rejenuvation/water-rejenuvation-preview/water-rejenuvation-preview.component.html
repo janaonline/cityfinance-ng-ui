@@ -41,6 +41,8 @@
                         <!-- UA{{projectIndex+1}}: {{uas.name}} -->
                         <!-- {{uasData[uas.ua].name.split(' ')[0]}} -->
                         <h4>UA{{projectIndex + 1}}: Urban Agglomeration {{ uasData[uas.ua].name.substring(0, uasData[uas.ua].name.lastIndexOf(" ")) }}</h4>
+
+
                     </div>
                 </div>
 
@@ -78,11 +80,12 @@
                                     {{waterBodies.name}}
                                 </td>
                                 <td>
-                                    {{waterBodies.area}}
-                                </td>
-                                <td>
                                     {{waterBodies.nameOfBody}}
                                 </td>
+                                <td>
+                                    {{waterBodies.area}}
+                                </td>
+
                                 <td>
                                     <div>
                                         <img [src]="photo.url" width="40px" height="40px" *ngFor="let photo of waterBodies.photos">

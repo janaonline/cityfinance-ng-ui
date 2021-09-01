@@ -264,13 +264,13 @@ export class ActionPlanUAComponent implements OnInit {
       code += "/" + this.yearCode;
       temp.code = code;
       for (let index = 1; index <= temp.projectExecute.length; index++) {
-        temp.projectExecute[index - 1].code.value = code + "/" + index;
+        temp.projectExecute[index - 1].Project_Code.value = code + "/" + index;
       }
       for (let index = 1; index <= temp.sourceFund.length; index++) {
-        temp.sourceFund[index - 1].code.value = code + "/" + index;
+        temp.sourceFund[index - 1].Project_Code.value = code + "/" + index;
       }
       for (let index = 1; index <= temp.yearOutlay.length; index++) {
-        temp.yearOutlay[index - 1].code.value = code + "/" + index;
+        temp.yearOutlay[index - 1].Project_Code.value = code + "/" + index;
       }
       this.data.uaData.push(temp);
     }
@@ -627,32 +627,26 @@ const input = {
   projectExecute: [
     {
       index: { value: 1, isEmpty: null, lastValidation: true },
-      code: { value: "", isEmpty: null, lastValidation: true },
-      name: { value: "", isEmpty: null, lastValidation: true },
-      details: { value: "", isEmpty: null, lastValidation: true },
-      cost: { value: "", isEmpty: null, lastValidation: true },
-      exAgency: { value: "", isEmpty: null, lastValidation: true },
-      paraAgency: { value: "", isEmpty: null, lastValidation: true },
-      sector: { value: "", isEmpty: null, lastValidation: true },
-      type: { value: "", isEmpty: null, lastValidation: true },
-      esOutcome: { value: "", isEmpty: null, lastValidation: true },
+      Project_Code: { value: "", isEmpty: null, lastValidation: true },
+      Project_Name: { value: "", isEmpty: null, lastValidation: true },
+      Details: { value: "", isEmpty: null, lastValidation: true },
+      Cost: { value: "", isEmpty: null, lastValidation: true },
+      Executing_Agency: { value: "", isEmpty: null, lastValidation: true },
+      Parastatal_Agency: { value: "", isEmpty: null, lastValidation: true },
+      Sector: { value: "", isEmpty: null, lastValidation: true },
+      Type: { value: "", isEmpty: null, lastValidation: true },
+      Estimated_Outcome: { value: "", isEmpty: null, lastValidation: true },
     },
   ],
   sourceFund: [
     {
       index: { value: 1, isEmpty: null, lastValidation: true },
-      code: { value: "", isEmpty: null, lastValidation: true },
-      name: { value: "", isEmpty: null, lastValidation: true },
-      cost: { value: "", isEmpty: null, lastValidation: true },
-      fc: { value: 0, isEmpty: null, lastValidation: true },
-      // jjm: { value: 0, isEmpty: null, lastValidation: true },
-      // sbm: { value: 0, isEmpty: null, lastValidation: true },
-      // centalScheme: { value: 0, isEmpty: null, lastValidation: true },
-      // stateScheme: { value: 0, isEmpty: null, lastValidation: true },
-      // stateGrant: { value: 0, isEmpty: null, lastValidation: true },
-      // ulb: { value: 0, isEmpty: null, lastValidation: true },
-      other: { value: 0, isEmpty: null, lastValidation: true },
-      total: { value: "", isEmpty: null, lastValidation: true },
+      Project_Code: { value: "", isEmpty: null, lastValidation: true },
+      Project_Name: { value: "", isEmpty: null, lastValidation: true },
+      Cost: { value: "", isEmpty: null, lastValidation: true },
+      XV_FC: { value: 0, isEmpty: null, lastValidation: true },
+      Other: { value: 0, isEmpty: null, lastValidation: true },
+      Total: { value: "", isEmpty: null, lastValidation: true },
       "2021-22": { value: 0, isEmpty: null, lastValidation: true },
       "2022-23": { value: 0, isEmpty: null, lastValidation: true },
       "2023-24": { value: 0, isEmpty: null, lastValidation: true },
@@ -663,11 +657,11 @@ const input = {
   yearOutlay: [
     {
       index: { value: 1, isEmpty: null, lastValidation: true },
-      code: { value: "", isEmpty: null, lastValidation: true },
-      name: { value: "", isEmpty: null, lastValidation: true },
-      cost: { value: 0, isEmpty: null, lastValidation: true },
-      funding: { value: 0, isEmpty: null, lastValidation: true },
-      amount: { value: 0, isEmpty: null, lastValidation: true },
+      Project_Code: { value: "", isEmpty: null, lastValidation: true },
+      Project_Name: { value: "", isEmpty: null, lastValidation: true },
+      Cost: { value: 0, isEmpty: null, lastValidation: true },
+      Funding: { value: 0, isEmpty: null, lastValidation: true },
+      Amount: { value: 0, isEmpty: null, lastValidation: true },
       "2021-22": { value: 0, isEmpty: null, lastValidation: true },
       "2022-23": { value: 0, isEmpty: null, lastValidation: true },
       "2023-24": { value: 0, isEmpty: null, lastValidation: true },
@@ -685,31 +679,26 @@ const output = {
   rejectReason: "",
   projectExecute: [
     {
-      code: "",
-      name: "",
-      details: "",
-      cost: "",
-      exAgency: "",
-      paraAgency: "",
-      sector: "",
-      type: "",
-      esOutcome: "",
+
+      Project_Code: "",
+      Project_Name: "",
+      Details: "",
+      Cost: "",
+      Executing_Agency: "",
+      Parastatal_Agency: "",
+      Sector: "",
+      Type: "",
+      Estimated_Outcome: "",
     },
   ],
   sourceFund: [
     {
-      code: "",
-      name: "",
-      cost: "",
-      fc: "",
-      // jjm: "",
-      // sbm: "",
-      // centalScheme: "",
-      // stateScheme: "",
-      // stateGrant: "",
-      // ulb: "",
-      other: "",
-      total: "",
+      Project_Code: "",
+      Project_Name: "",
+      Cost: "",
+      XV_FC: "",
+      Other: "",
+      Total: "",
       "2021-22": "",
       "2022-23": "",
       "2023-24": "",
@@ -719,11 +708,11 @@ const output = {
   ],
   yearOutlay: [
     {
-      code: "",
-      name: "",
-      cost: "",
-      funding: "",
-      amount: "",
+      Project_Code: "",
+      Project_Name: "",
+      Cost: "",
+      Funding: "",
+      Amount: "",
       "2021-22": "",
       "2022-23": "",
       "2023-24": "",

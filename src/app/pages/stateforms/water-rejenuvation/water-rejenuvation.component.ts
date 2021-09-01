@@ -141,10 +141,11 @@ export class WaterRejenuvationComponent implements OnInit {
     console.log(uaDataAtIndex._id);
     for (let el of this.waterRejenuvation['controls']['uaData']['controls']) {
       if (el['controls']['ua']['value'] == uaDataAtIndex._id) {
-        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator']['value'] = indicatorValue
+        el['controls']['serviceLevelIndicators']['controls'][rowIndex]['controls']['indicator'].patchValue(indicatorValue)
       }
     }
     console.log(this.waterRejenuvation)
+    // this.checkDiff();
   }
   private initializeUserType() {
     this.loggedInUserType = this.profileService.getLoggedInUserType();
@@ -270,6 +271,8 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
+          Validators.pattern("/^\d+([,.]\d+)?$/;"),
+
         ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
           Validators.required,

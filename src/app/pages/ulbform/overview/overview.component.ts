@@ -108,7 +108,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     {
       label: "slbs",
       link: "../slbs",
-     // title: "Million Plus City Challenge Fund",
+      // title: "Million Plus City Challenge Fund",
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/mpccf.svg",
       permittedAccounts: [""],
@@ -173,15 +173,15 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           console.log("overviewRes", res["response"]);
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
-          if(this.userData.role != USER_TYPE.ULB)
-          this.ulbName = sessionStorage.getItem("ulbName");
+          if (this.userData.role != USER_TYPE.ULB)
+            this.ulbName = sessionStorage.getItem("ulbName");
           else
-          this.ulbName = res["response"]["ulbName"];
+            this.ulbName = res["response"]["ulbName"];
 
           this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
           this.forms[0] = res["response"]?.steps?.annualAccounts?.isSubmit;
-       //   this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
-       //   this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
+          //   this.forms[1] = res["response"]?.steps?.pfmsAccount?.isSubmit;
+          //   this.forms[2] = res["response"]?.steps?.plans?.isSubmit;
           this.forms[3] =
             res["response"]?.steps?.slbForWaterSupplyAndSanitation?.isSubmit;
           this.forms[4] = res["response"]?.steps?.utilReport?.isSubmit;
@@ -316,10 +316,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       );
       this.ulbformService.setForms.next(true);
     })
-    // storeUlbId() {
-    //   sessionStorage.setItem('ulb_id', this.sessionUlbId);
-    //   console.log('ulb_id', this.sessionUlbId)
-    // }
+
   }
   onUnhover(num) {
     this.hover = false;
