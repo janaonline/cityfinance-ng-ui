@@ -94,21 +94,10 @@ export class StateAllPreviewComponent implements OnInit, OnDestroy
       display: none;
     }
 
-    .qus-h-an {
-      margin-bottom: .5rem;
-      margin-top: 1rem;
-      font-size: 10px;
-  }
-
   .ans-h-an {
       margin-bottom: .5rem;
       margin-top: .5rem;
       font-size: 10px;
-  }
-  @media print {
-    .page-break {
-        page-break-before: always;
-    }
   }
   .h-font {
     display: inline-block;
@@ -116,9 +105,6 @@ export class StateAllPreviewComponent implements OnInit, OnDestroy
   }
   .f-r {
     margin-left: 30px;
-  }
-  .ans-h-an{
-    margin-left : .5rem !important;
   }
   .ans-h-na{
     margin-left : 1rem !important;
@@ -135,17 +121,6 @@ export class StateAllPreviewComponent implements OnInit, OnDestroy
     font-size: 10px;
     margin-left : .5rem !important;
   }
-  .ans-h-an-b {
-      margin-bottom: .5rem;
-      margin-top: .5rem;
-      margin-left : 1rem !important;
-      font-size: 10px;
-  }
-  .form-status {
-    font-size: 10px;
-    margin-top: 10px;
-  }
-
 .m-h{
   text-align: center;
 }
@@ -159,45 +134,8 @@ export class StateAllPreviewComponent implements OnInit, OnDestroy
   padding-left: 0;
   padding-right: 0;
 }
-.header-p{
-  word-break: break-all;
-}
-
-td, th{
-  word-break: break-all;
-  font-size: 9px !important;
-  padding: 5px 1px !important;
-}
 
 
-.thHeader {
-  background-color: #E9E9E9;
-  color: #047474;
-  font-size: 15px;
-  font-weight: normal;
-}
-th {
-  font-weight: normal;
-  vertical-align: middle;
-  text-align: center;
-}
-.table>tbody>tr>td,
-.table>tbody>tr>th,
-.table>tfoot>tr>td,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>thead>tr>th {
-  vertical-align: middle;
-  padding: 10px 6px;
-}
-.bor-in-l {
-  word-break: break-all;
-}
-.tableFooterDiv {
-  background-color: #E7E7E7;
-  color: #000000;
-  font-size: 16px;
-}
 .f-d-n {
   background-color: #CFCFCF;
   width: 235px;
@@ -212,9 +150,6 @@ label{
   font-size: 9px !important;
 }
 
-@media print {
-  .page-break {page-break-before: always;}
-}
 :root {
   font-size: 14px;
 }
@@ -275,28 +210,12 @@ h6 {
 .fa-times {
   display: none;
 }
-.qus-slb {
-  margin-left: 2%;
-  font-weight: normal;
-  font-size: 12px;
-}
-
-.ans-slb {
-  margin-left: 1rem;
-  font-weight: normal;
-  font-size: 12px;
-}
 .qus-h-an {
   margin-bottom: .5rem;
   margin-top: 1rem;
   font-size: 10px;
 }
 
-.ans-h-an {
-  margin-bottom: .5rem;
-  margin-top: .5rem;
-  font-size: 10px;
-}
 @media print {
 .page-break {
     page-break-before: always;
@@ -314,12 +233,6 @@ margin-left : .5rem !important;
 }
 .hi{
 display:none
-}
-.qus-h-an-ex {
-margin-bottom: .5rem;
-margin-top: .5rem;
-font-size: 10px;
-margin-left : .5rem !important;
 }
 .ans-h-an-b {
   margin-bottom: .5rem;
@@ -346,24 +259,20 @@ margin-left : .5rem !important;
 .fa-times {
   display: none;
 }
-.qus-slb {
-  margin-left: 2%;
-  font-weight: normal;
-  font-size: 12px;
+
+#donwloadButton {
+     display: none;
 }
 
-#donwloadButton{
-display: none;
+h5 {
+    display: inline-flex;
 }
-h5{
-display: inline-flex;
+.d-i {
+    display: inline-flex;
+    width : 33.33% !important;
 }
-.d-i{
-display: inline-flex;
-width : 33.33%;
-}
-.mr-l{
-margin-left: 22%;
+.mr-l {
+    margin-left: 17%;
 }
 .na-cls {
   text-decoration: none;
@@ -376,6 +285,18 @@ margin-left: 22%;
     padding-top: 4px;
     margin-left: 7%;
 
+}
+.st-d {
+  margin-bottom: 2px;
+}
+
+
+.table {
+  border: 1px solid gray;
+}
+.thHeader {
+background-color: #058e91;
+color: #ffffff;
 }
   </style>`;
 

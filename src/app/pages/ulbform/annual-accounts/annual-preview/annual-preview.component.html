@@ -24,7 +24,7 @@
         </div>
     </div> -->
     <div class="d-flex justify-content-between" style="margin-top: 1rem;">
-        <p class="form-status" style="padding: 0; margin-bottom: 5px;">
+        <p class="form-status" style="padding: 0; margin-bottom: 5px;" *ngIf="!fromParent">
             <!-- <b *ngIf="!fromParent">Application Current Status:</b> {{totalStatus}} -->
             <!-- <br *ngIf="!fromParent"> -->
             <b>Form Current Status:</b> {{formStatusCheck}}

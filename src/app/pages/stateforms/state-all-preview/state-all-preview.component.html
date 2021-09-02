@@ -11,8 +11,8 @@
         </div>
     </div>
     <div class="row" style="margin-bottom: 4px;">
-        <div class="col-sm-8 sbDate"> Date & Time of submission : {{ subDate | date:'medium' }}</div>
-        <div class="col-sm-4 text-right b-hide">
+        <!-- <div class="col-sm-8 sbDate"> Date & Time of submission : {{ subDate | date:'medium' }}</div> -->
+        <div class="col-sm-12 text-right b-hide">
             <button id="donwloadButton" (click)="openModal()" class="btn btn-primary btn-upload">
           Download as PDF
       </button>
@@ -36,6 +36,7 @@
             <app-water-supply-preview [changeFromOutSide]="changeTrigger.changeInstateSlbData" [parentData]="stateSlbData"></app-water-supply-preview>
         </div>
     </div>
+    <div class="page-break"></div>
     <div class="row" *ngIf="waterRejData">
         <div class="col-sm-12">
             <app-water-rejenuvation-preview [changeFromOutSide]="changeTrigger.changeInWaterRejenuvation" [parentData]="waterRejData"></app-water-rejenuvation-preview>
@@ -48,7 +49,7 @@
         </div>
     </div>
     <!-- <div class="page-break"></div> -->
-    <div class="row" *ngIf="gAllData">
+    <div class="row" *ngIf="gAllData" style="margin-top: 5rem; margin-bottom: 2rem;">
         <div class="col-sm-12">
             <app-grant-all-preview [changeFromOutSide]="changeTrigger.ChangeInGrantAllocation" [parentData]="gAllData"></app-grant-all-preview>
         </div>

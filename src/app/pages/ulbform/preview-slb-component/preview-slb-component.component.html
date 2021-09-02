@@ -11,7 +11,7 @@
     </div>
 
     <div class="d-flex justify-content-between mt-2" style="padding-left: 2%">
-        <p class="form-status">
+        <p class="form-status" *ngIf="!data.fromParent">
             <b>Application Current Status:</b> {{ formStatusCheck }}
         </p>
 
@@ -19,7 +19,7 @@
       Download as PDF
     </button>
     </div>
-    <div style="position: relative; padding: 0% 2%" class="scrol">
+    <div style="position: relative; padding: 2% 2%" class="scrol">
         <h3 *ngIf="!data?.fromParent" style="text-align: center; margin-top: 5px; margin-bottom: 8px;">{{slbTitleText}}</h3>
 
         <table aria-describedby="Water Waste Management Form" class="t-tb-tr tb-th-s" style="margin-bottom: 5%; width: 100%; border: 1px solid #dedede" cellspacing="0" cellpadding="0">

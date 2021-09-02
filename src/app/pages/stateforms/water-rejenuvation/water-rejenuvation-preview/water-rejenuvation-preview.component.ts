@@ -161,10 +161,14 @@ h5{
 }
 .form-status {
   font-size: 10px;
-
-
 }
-
+table {
+    border: 1px solid gray;
+}
+.thHeader {
+  background-color: #058e91;
+  color: #ffffff;
+}
 
   </style>`;
   @ViewChild("waterRe") _html: ElementRef;
