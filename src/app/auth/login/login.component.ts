@@ -1,10 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
-import { UserUtility } from 'src/app/util/user/user';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
 
-import { environment } from './../../../environments/environment';
+import { timer, Subscription } from "rxjs";
+import { Pipe, PipeTransform } from "@angular/core";
+import { environment } from "./../../../environments/environment";
+import { CommonService } from "src/app/shared/services/common.service";
 
 @Component({
   selector: "app-login",
@@ -12,6 +16,33 @@ import { environment } from './../../../environments/environment';
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  loginDetails = [
+    {
+      role: "ULB",
+      loginName: "Census Code/ULB Code",
+      loginPlaceHolder: "Census Code/ULB Code",
+      loginValidation: "censusValidation",
+    },
+    {
+      role: "USER",
+      loginName: "Email",
+      loginPlaceHolder: "Email",
+      loginValidation: "emailValidation",
+    },
+  ];
+
+  countDown: Subscription;
+  counter = 60;
+  tick = 1000;
+  counterTimer = false;
+  help = false;
+  noCodeError = false;
+  otpCreads: any = {};
+  loginSet: any = {};
+  ulbCode = "";
+  perFillUser;
+  public isOtpLogin = false;
+  selectedUserType = "";
   public loginForm: FormGroup;
   public badCredentials: boolean;
   public submitted = false;
@@ -19,6 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public loginError: string;
   public emailVerificationMessage: string;
+  otpVerificationMessage:boolean = false
   public reCaptcha = {
     show: false,
     siteKey: environment.reCaptcha.siteKey,
@@ -30,7 +62,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private commonService: CommonService
   ) {
     if (this.authService.loggedIn()) {
       this.router.navigate(["/home"]);
@@ -38,6 +71,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.activatedRoute.queryParams.subscribe((param) => {
       if (param.message) {
+        this.otpVerificationMessage = true
+        setTimeout(() => {
+          this.otpVerificationMessage = false
+        }, 3000);
         this.emailVerificationMessage = param.message;
       }
     });
@@ -47,11 +84,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm = this.fb.group({
       email: ["", Validators.required],
       password: ["", Validators.required],
+      otp: [""],
     });
-
     this.authService.badCredentials.subscribe((res) => {
       this.badCredentials = res;
     });
+    this.perFillUser = this.commonService.setUser(true);
+    if (this.perFillUser !== null) {
+      this.onSelectingUserType(this.perFillUser);
+    }
   }
 
   get lf() {
@@ -73,7 +114,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
-        (error) => this.onLoginError(error)
+        (error) =>{
+          this.onLoginError(error)
+        }
       );
     } else {
       this.formError = true;
@@ -83,8 +126,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   private onSuccessfullLogin(res) {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
+      localStorage.setItem("Years", JSON.stringify(res["allYears"]));
+
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
+
       this.routeToProperLocation();
     } else {
       localStorage.removeItem("id_token");
@@ -156,5 +202,112 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     sessionStorage.removeItem("postLoginNavigation");
+  }
+  onSelectingUserType(value: USER_TYPE) {
+    this.selectedUserType = value;
+    this.loginSet = this.loginDetails.find(
+      (item) => item.role == this.selectedUserType
+    );
+    switch (value) {
+      case USER_TYPE.ULB:
+        return this.loginForm.controls["email"].setValidators([
+          Validators.required,
+          Validators.pattern("^\\d+\\.{0,1}\\d*$"),
+          Validators.minLength(6),
+          Validators.maxLength(6)
+        ]);
+      default:
+        this.loginForm.controls["email"].setValidators([
+          Validators.required,
+          Validators.email,
+        ]);
+        break;
+    }
+  }
+
+  otpLogin() {
+    this.loginError = null;
+    const body = { ...this.loginForm.value };
+    body["email"] = body["email"].trim();
+    this.ulbCode = body["email"];
+    this.authService.otpSignIn(body).subscribe(
+      (res) => {
+        this.otpCreads = res;
+        this.isOtpLogin = true;
+      },
+      (error) => {
+        this.onLoginError(error);
+        this.countDown = null;
+      }
+    );
+  }
+
+  otpLoginSubmit() {
+    this.loginError = null;
+    if (this.reCaptcha.show && !this.reCaptcha.userGeneratedKey) {
+      this.loginError = "Login Failed. You must validate that you are human.";
+      return;
+    }
+    const body = { ...this.loginForm.value };
+    this.otpCreads.otp = body["otp"];
+    this.authService.otpVerify(this.otpCreads).subscribe(
+      (res) => this.onSuccessfullLogin(res),
+      (error) => this.onLoginError(error)
+    );
+  }
+
+  change() {
+    this.isOtpLogin = false;
+    this.countDown = null;
+  }
+
+  startCountDown(form = null) {
+    if (this.countDown) {
+      return true;
+    }
+
+    if (form?.controls.email.value === "") {
+      this.loginError = null
+      this.noCodeError = true;
+      setTimeout(() => {
+        this.noCodeError = false;
+      }, 1500);
+
+      return true;
+    }
+
+    this.counterTimer = true;
+    this.countDown = timer(0, this.tick).subscribe(() => {
+      if (this.counter != 0) {
+        --this.counter;
+      } else {
+        this.countDown = null;
+        this.counterTimer = false;
+        this.counter = 60;
+      }
+    });
+    this.otpLogin();
+  }
+
+  onChangeNumber() {
+    this.commonService.setGetStateRegister(true, this.otpCreads);
+  }
+
+  passwordUser(user) {
+    this.commonService.setUser(false, user);
+  }
+}
+
+@Pipe({
+  name: "formatTime",
+})
+export class FormatTimePipe implements PipeTransform {
+  transform(value: number): string {
+    const minutes: number = Math.floor(value / 60);
+    return (
+      ("00" + minutes).slice(-2) +
+      ":" +
+      ("00" + Math.floor(value - minutes * 60)).slice(-2)
+    );
   }
 }

@@ -2,15 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HttpUtility } from 'src/app/util/httpUtil';
 
 import { environment } from '../../../environments/environment';
 import { S3FileURLResponse } from '../../models/s3Responses/fileURLResponse';
-
+import { filter, timeout } from 'rxjs/operators';  
 @Injectable({
   providedIn: "root",
 })
 export class DataEntryService {
   constructor(private http: HttpClient) {}
+
+  httpUtil = new HttpUtility();
 
   bulkEntry(files) {
     const httpOptions = {
@@ -35,8 +38,10 @@ export class DataEntryService {
   }
 
   getLedgerLogs(criteria) {
+    const params = this.httpUtil.convertToHttpParams(criteria);
     return this.http.get(
-      environment.api.url + "ulb-financial-data/approved-records"
+      environment.api.url + "ulb-financial-data/approved-records",
+      { params }
     );
   }
 
@@ -98,7 +103,7 @@ export class DataEntryService {
    *
    * @param alias Here fileAlias is the file_alias key that is returned from getting s3URL api call.
    */
-  sendUploadFileForProcessing(alias: string, financialYear: string) {
+  sendUploadFileForProcessing(alias: string, financialYear: string="") {
     return this.http.post(`${environment.api.url}/processData`, {
       alias,
       financialYear,

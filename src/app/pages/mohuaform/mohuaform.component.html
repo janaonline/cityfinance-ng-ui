@@ -1,0 +1,103 @@
+<div class="container-fluid" style="padding: 0; overflow-x: hidden;" *ngIf="loggedInUserType == USER_TYPE.ADMIN ||
+loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
+    <div class="row" style="position: relative; display: block;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c tabs is-centered is-fullwidth" #stickyMenu [class.sticky]="sticky" style="margin-top: 1px;">
+            <div class="row" style="background-color: #FFC500; ">
+                <a [routerLink]="['../fc-home-page']">
+                    <h5 class="pd" style="font-size: 14px;">
+                        <div class="col-sm-1 col-xs-1 text-center">
+                            <mat-icon aria-hidden="false">
+                                <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg" style="margin-bottom: 2px;">
+                            </mat-icon>
+                        </div>
+                        <div class="col-sm-9 col-xs-9 t-c" style="padding-right: 3px; margin-bottom: 6px;
+                        font-weight: 500;">
+                            Approve Claims for 2021-2022
+                        </div>
+                        <!-- <div class="col-sm-1">
+
+                        </div> -->
+                    </h5>
+                </a>
+            </div>
+
+            <div class="row link-div" routerLinkActive="active">
+                <a [routerLink]="['dashboard']">
+                    <div class="col-sm-1 col-xs-1 m-l">
+                        <mat-icon aria-hidden="false">
+                            <img src="../../../assets/ulbform/dh.png" class="svg-gt">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 col-xs-9 linktext pd">
+                        Dashboard
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+
+                    </div>
+                </a>
+            </div>
+            <div class="row link-div" routerLinkActive="active">
+                <a [routerLink]="['review-state']">
+                    <div class="col-sm-1 col-xs-1 m-l">
+                        <mat-icon aria-hidden="false">
+                            <img src="../../../assets//stateform/review.svg" class="svg-gt">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 col-xs-9 linktext pd">
+                        Review State Forms
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+
+                    </div>
+                </a>
+            </div>
+            <div class="row link-div" routerLinkActive="active">
+                <a [routerLink]="['review-ulb']">
+                    <div class="col-sm-1 col-xs-1 m-l">
+                        <mat-icon aria-hidden="false">
+                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 col-xs-9 linktext pd">
+                        Review ULB Forms
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+
+                    </div>
+                </a>
+            </div>
+            <div class="row link-div" routerLinkActive="active">
+                <a [routerLink]="['gt-mohua']">
+                    <div class="col-sm-1 col-xs-1 m-l">
+                        <mat-icon aria-hidden="false">
+                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                        </mat-icon>
+                    </div>
+                    <div class="col-sm-9 col-xs-9 linktext pd">
+                        Grant Transfer
+                    </div>
+                    <div class="col-sm-1 col-xs-1">
+
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" [ngClass]="{'stickyMain' : sticky}" style="margin-top: 1.5rem; width: 81%;">
+
+            <div class="row">
+                <div class="col-sm-12 col-lg-12 col-md-12" style="padding-right: 0;">
+                    <router-outlet></router-outlet>
+                </div>
+                <!-- </div> -->
+            </div>
+
+
+        </div>
+        <div class="col-sm-12">
+            <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </div>
+</div>

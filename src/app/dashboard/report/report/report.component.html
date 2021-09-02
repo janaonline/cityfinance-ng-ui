@@ -1,13 +1,16 @@
 <div class="w-100 b-sm">
   <div class="inner-head">
     <div class="back-icon">
-      <a href="/home" class="sldlsd"><span class="glyphicon glyphicon-arrow-left"></span></a>
+      <a href="/home" class="sldlsd"
+        ><span class="glyphicon glyphicon-arrow-left"></span
+      ></a>
     </div>
     <div class="head-content">
-      <h5> financial statement </h5>
+      <h5>financial statement</h5>
     </div>
   </div>
-</div> <!-- w-100 end -->
+</div>
+<!-- w-100 end -->
 
 <div class="common-container mt-3">
   <form [formGroup]="reportForm" (ngSubmit)="search()">
@@ -160,7 +163,7 @@
             <br /><br />
             <a
               style="float: right; text-decoration: underline;"
-              (click)="routerTo('/financial-statement/data-tracker')"
+              (click)="routerTo('/data-tracker')"
               >Download Source Files</a
             >
           </div>
@@ -210,12 +213,6 @@
 </div>
 
 <ng-template #UlbModal>
-  <!-- <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div> -->
-
   <div class="finance-statement-popup">
     <div
       class="modal-header col-md-12"
@@ -275,6 +272,7 @@
           matInput
           [formControl]="searchByNameControl"
           [matAutocomplete]="auto"
+          id="search-input"
         />
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
@@ -325,11 +323,7 @@
     <div class="row popup-cotnainer-2" *ngIf="ulbs && ulbs.data">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item col-md-2 stateULBName">
-          <a
-            class="nav-link active "
-            aria-controls="home"
-            aria-selected="true"
-          >
+          <a class="nav-link active" aria-controls="home" aria-selected="true">
             States
           </a>
         </li>

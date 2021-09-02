@@ -1,0 +1,200 @@
+<div class="row" style="margin: 0;">
+    <div class="col-sm-12 col-lg-12 col-md-12" style="margin-bottom: 2rem;">
+        <div class="card">
+            <div class="card-body" style="padding-left: 15px; padding-right: 15px;">
+                <div class="row">
+                    <!-- <div class="col-sm-12 col-lg-12 col-md-12 text-right" style="margin-bottom: 1rem;">
+                        <button type="button" class="btn btn-d">DOWNLOAD</button>
+
+                    </div> -->
+
+                    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10">
+                        <h4 class="form-header">
+                            Edit ULB Profile
+                        </h4>
+                    </div>
+                    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
+                        <button type="button" class="btn btn-next" (click)="stateData(true)" style="padding-left: 7%; padding-right: 7%;">DOWNLOAD</button>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="table-responsive" style="border: 1px solid  #00000029; margin-bottom: 1rem;">
+                            <form [formGroup]="editableForm">
+                                <table class="table custom-position">
+                                    <thead>
+                                        <tr style="background-color: #047474; color: #FFFFFF;">
+                                            <th scope="col">S.No</th>
+                                            <th scope="col" style="width: 16%;">ULB Name </th>
+                                            <th scope="col" style="width: 14%;">ULB Census Code/ ULB Code </th>
+                                            <th scope="col" style="width: 18%;">ULB Nodal Officer Name</th>
+                                            <th scope="col" style="width: 18%;">ULB Nodal Officer Email ID</th>
+                                            <th scope="col" style="width: 18%;">ULB Nodal Officer Phone Number</th>
+                                            <th scope="col" style="width: 15%;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <tr class="filter">
+                                            <th class="filter"></th>
+
+                                            <th class="filter">
+                                                <span class="s-s"><img
+                                                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
+                                            </th>
+                                            <th class="filter">
+                                                <span class="s-s"><img
+                                                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="ulb_code_s" (keyup.enter)="stateData(false)">
+                                            </th>
+                                            <th class="filter">
+                                                <span class="s-s"><img
+                                                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="nodal_of_name" (keyup.enter)="stateData(false)">
+                                            </th>
+                                            <th class="filter">
+                                                <span class="s-s"><img
+                                                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" class="s-th p-s" [formControl]="nodal_of_email" (keyup.enter)="stateData(false)">
+                                            </th>
+
+                                            <th class="filter">
+                                                <span class="s-s"><img
+                                                        src="../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                                <input type="text" [formControl]="nodal_of_phn" class="s-th p-s" (change)="stateData(false)">
+                                            </th>
+                                            <th class="filter">
+                                                <button class="btn btn-t" (click)="stateData(false)">Search</button>
+                                                <a (click)="loadData()">
+                                                    <mat-icon aria-hidden="false">
+                                                        <img src="../../../../assets/homeIcon/refresh_black_24dp.svg">
+                                                    </mat-icon>
+                                                </a>
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody formArrayName="editDetailsArray">
+
+                                        <tr *ngFor="let resData of tabelData | paginate
+                                        : {
+                                            id: 'foo',
+                                            itemsPerPage: tableDefaultOptions.itemPerPage,
+                                            currentPage: tableDefaultOptions.currentPage,
+                                            totalItems: tableDefaultOptions.totalCount
+                                          }; let tabelIndex=index" [formGroupName]="tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex +1">
+
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                {{ tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex + 1}}</td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
+                                            </td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                {{resData.censusCode}}</td>
+
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_name">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.invalid &&
+                                                (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.dirty ||
+                                                editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.touched)">
+
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.required">
+                                                        cannot be empty.
+                                                    </div>
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.pattern">
+                                                        must be of only Alphabet characters only and 1st letter must be capital.
+                                                    </div>
+                                                    <!-- utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required -->
+                                                </div>
+
+                                            </td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_email">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.invalid &&
+                                                (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.dirty ||
+                                                editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.touched)">
+
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.required">
+                                                        cannot be empty.
+                                                    </div>
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.email === false">
+                                                        is not a valid email id.
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <input type="text" class="form-control" formControlName="nodal_officer_phone">
+                                                <div class="bs-tooltip-top" role="tooltip" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.invalid &&
+                                                (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.dirty ||
+                                                editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.touched)">
+
+                                                    <!-- <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors?.required">
+                                                        cannot be empty.
+                                                    </div> -->
+                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors">
+                                                        Contact No is not valid
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+
+
+
+                                            <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                                <!-- <a [routerLink]="['/', 'user', 'profile', 'view']"
+                                                 [queryParams]="{ id: resData._id, role: 'ULB'}" class="btn btn-t"
+                                                 style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)"
+                                                 (click)="viewDetails()">View</a> -->
+                                                <a class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="viewDetails(resData._id)">View</a>
+                                                <!-- <button type="button" class="btn btn-t" (click)="editDetails()">
+                                                  {{detailsEdit == true?
+                                                    'Edit': 'Update'}}</button> -->
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="detailsEdit || (tabelIndex != row_no)" (click)="editDetails(tabelIndex)">Edit</button>
+                                                <button type="button" class="btn btn-t" style="margin-bottom: 3px;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="updateDetails(tabelIndex)">Update</button>
+                                                <!-- <a [routerLink]="['/', 'user', 'profile', 'view']"
+                                                 [queryParams]="{ id: resData._id, role: 'ULB', edit: true }"
+                                                 class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">
+                                                 Edit more</a> -->
+                                                <a class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                 padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="editMore(resData._id)">Edit more</a>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </form>
+                            <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
+                            <!-- <pagination-controls style="float: right; position:
+                              relative" id="foo" (pageChange)="p = $event">
+                            </pagination-controls> -->
+                            <!-- <pagination-controls id="foo" (pageChange)="setPage($event)" (pageBoundsCorrection)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                            </pagination-controls> -->
+                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                screenReaderCurrentLabel="You're on page">
+                            </pagination-controls>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+                            <mat-spinner></mat-spinner>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-left: 12px; margin-right: 12px; margin-bottom: 2rem;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button type="button" class="btn btn-back">BACK</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+            <button type="button" class="btn btn-next" [routerLink]="[ '../review-ulb-form']">NEXT</button>
+        </div>
+    </div>
+</div>

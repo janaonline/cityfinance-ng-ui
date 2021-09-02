@@ -1,0 +1,89 @@
+.header-p {
+    background-color: #047474;
+    text-align: center;
+    padding: 10px;
+    height: 100px;
+}
+
+.heading-p {
+    color: #FFFFFF;
+    font-size: 24px;
+    height: auto;
+    //  margin-top: 1rem;
+    font-weight: 700;
+}
+
+.header-u-p {
+    background-color: #047474;
+    height: 65px;
+    text-align: center;
+    padding: 10px;
+}
+
+.heading-u-p {
+    color: #FFFFFF;
+    font-size: 24px;
+    font-weight: 700;
+    padding-top: .5rem;
+}
+
+.sub-h {
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.form-h {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.card {
+    padding: 5px 10px;
+    background-color: #EBF5F5;
+}
+
+.qus-h-an {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.ans-h-an-b {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.qus-h-an-ex {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.m-clss {
+    margin-left: -16px;
+}
+
+.ans-h-an {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.ans-h-na {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.h-font {
+    font-size: 16px;
+}
+
+@media print {
+    .page-break {
+        page-break-before: always;
+    }
+}
+
+.dec-h {
+    font-size: 14px;
+    margin-bottom: 0;
+    font-weight: 500;
+}

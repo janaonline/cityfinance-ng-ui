@@ -1,0 +1,564 @@
+.card {
+    height: 140px;
+    width: 267px;
+    background-color: #12505A;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.gtCard {
+    height: 100% !important;
+    width: 100% !important;
+    background-color: inherit !important;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.mat-i {
+    width: 30px;
+    height: 26px;
+    border-radius: 4px;
+    background-color: #12505A;
+}
+
+.svg-gt {
+    margin-bottom: 9px;
+    margin-right: 3px;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 10px 3px #c7c7c7;
+    margin-top: -3px;
+    background-color: #083d44;
+    // width:269px;
+    height: 142px;
+    transition: height;
+    transition-duration: 150ms;
+    transition-timing-function: linear;
+}
+
+.cards {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-number {
+    color: #ffffff;
+    font-size: 30px;
+    margin-top: 13px;
+    font-weight: 430;
+}
+
+.card-text {
+    color: #ffffff;
+    font-size: 15px;
+    margin-left: 3px;
+}
+
+.search-bar {
+    border: 1px solid #0000001A;
+    border-radius: 5px;
+    width: inherit;
+    height: 63px;
+    line-height: 63px;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 17px;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.dropdown {
+    border-radius: 4px;
+    width: 200px;
+    height: 30px;
+    margin-left: 3px;
+    font-weight: 600;
+}
+
+.searchButton {
+    height: 31px;
+    width: 89px;
+    background-color: #059B9A;
+    color: #ffffff;
+    padding: 2px 1px 2px 1px;
+    margin-left: 5px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.searchButton:hover {
+    background-color: #FFC500;
+}
+
+.btn {
+    margin-left: 16px;
+    margin-bottom: 5px;
+    width: 100px
+}
+
+.firstColumn {
+    background-color: #12505A;
+    color: #ffffff;
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid #0000001A;
+}
+
+.secondColumn {
+    color: black;
+    background-color: #ffffff;
+    //   height: 100%;
+    border-radius: 4px;
+    border: 1px solid #0000001A;
+    padding-bottom: 10px;
+}
+
+.thirdColumn {
+    color: black;
+    background-color: #ffffff;
+    // height: 100%;
+    border-radius: 4px;
+    border: 1px solid #0000001A;
+}
+
+.statusArea {
+    height: 577px;
+    // width: 100%;
+    // margin-left: inherit
+}
+
+.mainDonutChart {
+    // height: 288px;
+    // width: 100%;
+    margin-top: 13%;
+}
+
+.pieChart {
+    height: 246px;
+    width: 100%;
+    // margin-left:auto;
+    // margin-right:auto;
+}
+
+.smallDonuts {
+    height: 120px;
+    width: 100%;
+}
+
+.viewListBtn {
+    margin-top: 90px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.iconImage {
+    margin-top: 30px;
+    text-align: right;
+    padding-right: 25px;
+}
+
+.gauge {
+    //  height: 190px;
+}
+
+.formDonutCharts {
+    height: 523px;
+    border-bottom: 1px solid #0000001A;
+    color: black;
+}
+
+.gaugeSize {
+    height: 175px;
+    width: 98%;
+}
+
+.my_table tbody tr:focus {
+    background-color: #FFC500 !important;
+    outline: 0;
+    /*remove outline*/
+}
+
+.textInThirdColumn {
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.bottomPart {
+    border: 1px solid #0000001A;
+    border-radius: 4px;
+    //   width: inherit;
+    margin-bottom: 2%;
+    height: 290px;
+    margin-top: 2%;
+}
+
+.header {
+    border-bottom: 1px solid #0000001A;
+    //  line-height: 50px;
+    text-align: left;
+    // width: 100%;
+    // height: 52px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.tracking-history-table {
+    thead tr th {
+        background: #12505A;
+        color: white;
+    }
+    tbody tr:nth-child(even) {
+        background: #dbdbdb;
+    }
+}
+
+.millionPlus {
+    height: 120px;
+}
+
+.Card1 {
+    background-color: #f5fbff;
+    border: 1px solid #BAE8FF;
+    border-radius: 4px;
+    // height: 100px;
+    width: 100%;
+    text-align: center;
+    margin: 15px 6px 15px 2px;
+    padding: 3px 16px 3px 16px;
+}
+
+.Card2 {
+    background-color: #E4FED8;
+    border: 1px solid #A6F284;
+    border-radius: 4px;
+    //   height: 100px;
+    width: 100%;
+    text-align: center;
+    margin: 15px 6px 15px 2px;
+    padding: 3px 16px 3px 16px;
+}
+
+svg {
+    overflow: none;
+    padding: 10px;
+    float: left;
+    width: 350px;
+    height: 350px;
+}
+
+text {
+    fill: orange;
+    text-anchor: left;
+    font-size: 12px;
+    font-family: sans-serif, Helvetica, Arial;
+    font-weight: bold;
+}
+
+rect {
+    fill: #555555;
+}
+
+.parent {
+    position: relative;
+}
+
+.opacity_div {
+    background: #fff;
+    height: 100%;
+    width: 33px;
+    position: absolute;
+    //   border:1px solid red;
+    opacity: 0.6;
+    /* manipulate to desired opacity */
+}
+
+.tapImage {
+    position: relative;
+    z-index: 2;
+    width: 31px;
+}
+
+.dropImage {
+    position: relative;
+    z-index: 2;
+    width: 27px;
+}
+
+#brandingLogo {
+    opacity: 0
+}
+
+.back-link {
+    float: left;
+    font-size: 14px;
+    // line-height: 3;
+    cursor: pointer;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    @media screen and (max-width: 468px) {
+        margin-right: 10px;
+    }
+}
+
+.back-btns {
+    float: right;
+}
+
+.map-container {
+    .fil2 {
+        fill: #fff;
+    }
+    .svg_path {
+        fill: #efefef;
+        opacity: 1;
+        &:hover {
+            stroke-width: 0.9px !important;
+        }
+    }
+    .selected {
+        fill: #059b9a;
+    }
+}
+
+.state-list {
+    .btn {
+        margin: 5px auto;
+        border: unset !important;
+        width: 100%;
+        background-color: #aaa;
+        &:hover {
+            background-color: #ffc500;
+            color: #fff;
+            @media screen and (max-width: 551px) {
+                background-color: #aaa;
+                color: #000;
+            }
+        }
+    }
+    .btn-selected {
+        background-color: #ffc500 !important;
+        color: black !important;
+    }
+}
+
+#compare-table {
+    margin-bottom: 5px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    tr {
+        position: relative;
+    }
+    th {
+        background-color: #059b9a;
+        color: white;
+    }
+    //     cursor: alias;
+    //     td{
+    //         min-width: 200px;
+    //         max-width: 300px;
+    //         .glyphicon-info-sign{
+    //             float: right;
+    //             color: #059b9a;
+    //             border: 1px solid blue;
+    //             border-radius: 50%;
+    //             margin-top: -10px;
+    //             margin-right: -5px;
+    //         }
+    //     }
+}
+
+table {
+    td,
+    th {
+        width: 300px;
+        border: 1px solid #eee;
+        .glyphicon-info-sign {
+            float: left;
+            color: #059b9a;
+            // border: 1px solid blue;
+            border-radius: 50%;
+            // margin-top: -10px;
+            margin-right: 10px;
+        }
+    }
+}
+
+.fixed-header {
+    height: calc(100vh - 200px);
+    @media screen and (max-width: 468px) {
+        height: calc(100vh - 290px);
+    }
+}
+
+.common-container {
+    padding: 30px 0 0px;
+}
+
+#finance-law-map {
+    // margin-top: 4%;
+    border-radius: inherit;
+    // left: 5px;
+    bottom: 0px;
+    background: transparent;
+    z-index: 0 !important;
+    display: inline-block;
+    width: 98%;
+    height: 100%;
+    min-height: 77vh;
+    max-height: 100%;
+    transition: all 0.8s;
+    position: initial !important // border-left: inherit;
+}
+
+ ::ng-deep .leaflet-control-attribution,
+.leaflet-control {
+    display: none !important;
+}
+
+ ::ng-deep .law-page {
+    .carousel-control {
+        display: none;
+    }
+}
+
+ ::ng-deep .municipal-law-carousel {
+    div.carousel.slide {
+        outline: none !important;
+    }
+}
+
+ :host {
+    .hide-container {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+        max-height: 0px;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 800px) and (min-width: 560px) {
+    .m-law-container {
+        height: 65vh;
+        overflow: scroll;
+    }
+}
+
+@media screen and (max-width: 551px) {
+    .m-law .btn {
+        white-space: break-spaces;
+    }
+    .m-law-container {
+        height: 59vh;
+        overflow: scroll;
+    }
+    .mv-65 {
+        height: 65vh;
+        overflow: scroll;
+    }
+}
+
+@media only screen and (max-width: 551px) {
+    .accordion-full-m {
+        padding: 0;
+    }
+    .mobile-btn-center {
+        margin: auto;
+        display: block;
+    }
+    // .m-l20sm{
+    //   margin-left: 15px;
+    // }
+    .law-page {
+        min-height: auto;
+    }
+}
+
+.tableHeadText {
+    text-align: center;
+    vertical-align: inherit;
+}
+
+.Card2 {
+    background-color: #E4FED8;
+    border: 1px solid #A6F284;
+    border-radius: 4px;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    margin: 15px 6px 15px 2px;
+    padding: 3px 16px 3px 16px;
+}
+
+ ::ng-deep .ml-0 {
+    max-width: 140px;
+    transform: translateX(14%);
+    margin-bottom: 3vh !important;
+    overflow: visible;
+    margin-left: 0pc !important;
+    margin-bottom: 2pc !important;
+    // font-size: 0.6vw;
+}
+
+ ::ng-deep .leaflet-bottom {
+    z-index: 0 !important;
+}
+
+ ::ng-deep .leaflet-pane {
+    z-index: 0 !important;
+}
+
+.btn-d {
+    background-color: #059B9A;
+    color: #FFFFFF;
+}
+
+::ng-deep .leaflet-map-pane {
+    transform: translate3d(-26px, 7px, 0px) !important;
+}
+
+.card-number2 {
+    color: #12505A;
+    font-size: 33px;
+    margin-top: 13px;
+    font-weight: 430;
+}
+
+.card-text-1 {
+    color: #12505A;
+    font-size: 25px;
+    margin-top: 13px;
+    font-weight: 430;
+}
+
+.pfms {
+    .chartjs-render-monitor {
+        padding-right: 25px;
+    }
+}
+
+// .mainDonutChart {
+//     .chartjs-render-monitor {
+//         padding-right: 10px;
+//     }
+// }
+.mat-card-actions,
+.mat-card-subtitle,
+.mat-card-content {
+    margin-bottom: 0;
+}
+
+.mat-card-actions {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+::ng-deep .mat-card-header-text {
+    margin: 0 !important;
+}

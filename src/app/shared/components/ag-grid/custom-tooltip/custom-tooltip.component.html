@@ -1,0 +1,13 @@
+<!-- <div *ngIf="showTootip" class="custom-tooltip">
+  <div [ngClass]="'panel panel-' + type">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ noEditMsg }}</h3>
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="showTootip" class="bs-tooltip-top" role="tooltip">
+  <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;">
+    {{ noEditMsg }}
+  </span>
+</div>

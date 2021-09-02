@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { USER_TYPE } from 'src/app/models/user/userType';
@@ -34,15 +34,19 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
     private _profileService: ProfileService
   ) {
     super();
+      // if(this.loggedInUserType){
+      //   this._router.navigate(["/fc-home-page"]);
+      // }
     switch (this.loggedInUserType) {
       case USER_TYPE.ULB:
-        this.checkULBProfileCompleteStatus();
+         this.checkULBProfileCompleteStatus();
+
         break;
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
       case USER_TYPE.MoHUA:
       case USER_TYPE.ADMIN:
-        this._router.navigate(["/user/data-upload/list"]);
+        this._router.navigate(["/user/xvform/list"]);
         break;
       case undefined:
       case null:
@@ -67,11 +71,14 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   evidencePercentageCompleted = 0;
 
   isULBMillionPlus: boolean;
+  years = JSON.parse(localStorage.getItem("Years"))
 
   ngOnInit() {}
 
   onClickingLoginButton() {
-    sessionStorage.setItem("postLoginNavigation", this._router.url);
+   let routerUrl = '/fc-home-page'
+    sessionStorage.setItem("postLoginNavigation", routerUrl);
+  //  this._router.navigate(["/fc-home-page"]);
     this._router.navigate(["/login"]);
   }
 
@@ -91,11 +98,11 @@ export class FcGrantComponent extends BaseComponent implements OnInit {
   }
 
   fetchFinancialDataUpload() {
-    this._financialService.fetchFinancialDataList().subscribe((res) => {
+    this._financialService.fetchXVFormDataList({design_year:this.years["2020-21"]}).subscribe((res) => {
       try {
         this.financialData = res["data"][0] || null;
         if (!this.financialData) {
-          return this._router.navigate(["/user/data-upload/upload-form"]);
+          return this._router.navigate(["/user/xvform/upload-form"]);
         }
         this.checkULBMilionPlusStatus();
       } catch (error) {

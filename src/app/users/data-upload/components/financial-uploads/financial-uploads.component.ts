@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatHorizontalStepper } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { IQuestionnaireResponse } from 'src/app/pages/questionnaires/model/questionnaireResponse.interface';
@@ -18,7 +19,7 @@ import {
   IFinancialData,
   MillionPlusCitiesDocuments,
   SolidWasteManagementDocuments,
-  WaterManagement,
+  WaterManagement
 } from '../../models/financial-data.interface';
 import { SolidWasteEmitValue } from '../../models/solid-waste-questions.interface';
 import { UploadDataUtility } from '../../util/upload-data.util';
@@ -32,8 +33,7 @@ import { solidWasterQuestions } from '../configs/solid-waste-management';
   templateUrl: "./financial-uploads.component.html",
   styleUrls: ["./financial-uploads.component.scss"],
 })
-export class FinancialUploadsComponent
-  extends UploadDataUtility
+export class FinancialUploadsComponent extends UploadDataUtility
   implements OnInit, OnDestroy {
   constructor(
     private _matDialog: MatDialog,
@@ -95,6 +95,8 @@ export class FinancialUploadsComponent
   ngOnInit() {
     this.initializeCompletedMessage();
   }
+
+  years = JSON.parse(localStorage.getItem("Years"));
 
   private initializeCompletedMessage() {
     switch (this.loggedInUserDetails.role) {
@@ -428,7 +430,7 @@ export class FinancialUploadsComponent
   private initiateDraftByStateAndMoHUA() {
     const body = this.createDataForApprovalInDraftMode();
     return this.financialDataService
-      .updateActionOnFinancialData(body, this.financialData._id)
+      .updateActionOnXVFcFormData(body, this.financialData._id)
       .subscribe(
         (res) => {
           this.draftSavingInProgess = false;
@@ -460,9 +462,10 @@ export class FinancialUploadsComponent
         ? this.financialData.waterManagement
         : null,
       isCompleted: false,
+      design_year: this.years["2020-21"]
     };
 
-    return this.financialDataService.uploadFinancialData(body).subscribe(
+    return this.financialDataService.uploadXVFcFormData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Saved as Draft";
@@ -535,6 +538,7 @@ export class FinancialUploadsComponent
         ...this.waterWasteManagementForm.value,
       },
       isCompleted: true,
+      design_year:this.years["2020-21"]
     };
 
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
@@ -547,14 +551,14 @@ export class FinancialUploadsComponent
       disableClose: true,
     });
 
-    this.financialDataService.uploadFinancialData(body).subscribe(
+    this.financialDataService.uploadXVFcFormData(body).subscribe(
       (res) => {
         this.draftSavingInProgess = false;
         this.successMessage = "Data Upload Complete.";
         if (this.loggedInUserDetails.role === USER_TYPE.ULB) {
           this._router.navigate(["/fc_grant"]);
         } else {
-          this._router.navigate(["user/data-upload/list"]);
+          this._router.navigate(["user/xvform/list"]);
         }
         // window.history.back();
         setTimeout(() => this._matDialog.closeAll(), 3000);
@@ -643,14 +647,14 @@ export class FinancialUploadsComponent
         confirm: {
           text: "OK",
           callback: () => {
-            this._router.navigate(["/user/data-upload/list"]);
+            this._router.navigate(["/user/xvform/list"]);
           },
         },
       },
     };
 
     this.financialDataService
-      .updateActionOnFinancialData(body, this.financialData._id)
+      .updateActionOnXVFcFormData(body, this.financialData._id)
       .subscribe(
         (res) => {
           this._matDialog.closeAll();

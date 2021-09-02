@@ -1,0 +1,429 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+
+<script src="http://code.highcharts.com/modules/solid-gauge.js"></script>
+
+
+
+<div class="container-fluid" style="margin-right: 22px;">
+
+    <div class="row cards">
+        <div class="col-sm-3 card">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="card-number">{{totalUlbs }}</div>
+                    <div class="card-text">Total ULBs</div>
+                </div>
+                <div class="col-sm-4 iconImage">
+                    <img src="../../../../assets/stateform/16-location (1).svg" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 card">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="card-number">{{nonMillionCities}}</div>
+                    <div class="card-text">Non Million Cities</div>
+                </div>
+                <div class="col-sm-4 iconImage">
+                    <img src="../../../../assets/stateform/XMLID_1248_.svg" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 card">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="card-number">{{millionPlusUAs}}</div>
+                    <div class="card-text">Million-Plus UAs</div>
+                </div>
+                <div class="col-sm-4 iconImage">
+                    <img src="../../../../assets/stateform/sustainable.svg" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 card" style="margin-right: 0;">
+            <div class="row">
+                <div class="col-sm-9" style="padding-right: 0;">
+                    <div class="card-number">{{UlbInMillionPlusUA}}</div>
+                    <div class="card-text">ULBs in Million-Plus UAs</div>
+                </div>
+                <div class="col-sm-3 iconImage" style="display: contents;">
+                    <img style=" margin-top: 27px;" src=" ../../../../assets/stateform/16-location (1).svg" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row search-bar">
+        <div class="col-sm-12">
+            Population Category:
+            <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
+                <!-- <option value="0" selected>--Please Select--</option> -->
+                <option value="allUlbs">All ULBs</option>
+                <option value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
+                <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="row statusArea">
+        <div class="col-sm-4 firstColumn">
+            <div class="row" style="font-size: 23px;
+             text-align: center;line-height: 70px; margin-top:2px;
+             border-bottom: 1px solid #0000001A; font-weight: 10px;">
+                Overall ULB Form Status
+            </div>
+
+            <div class="row mainDonutChart" style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;" *ngIf="!noDataFound_Overall">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div style="text-align:center; margin-top:8%">
+                <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
+            </div>
+            <div class="row mainDonutChart" *ngIf="noDataFound_Overall" style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+                </circle-progress>
+            </div>
+
+
+
+        </div>
+        <!-- second and third column for entry level conditions -->
+        <div class="col-sm-8">
+            <div class="row" style="font-size: 20px;
+            text-align: center;line-height: 50px; margin-top:2px;
+            border: 1px solid #0000001A; font-weight: bolder; color: black">
+                Entry Level Conditions
+            </div>
+            <div class="row">
+                <div class="col-sm-6 secondColumn">
+
+                    <div class="row textInThirdColumn" style="
+    line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; ">
+                        ULB Annual Accounts Status
+                        <a (click)="openDialogAnnual()" style="margin-left: 5px">
+                            <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
+                        </a>
+                    </div>
+                    <div class="row gauge" style="margin-bottom:12px">
+                        <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
+                            Provisional Account: 2020-2021
+                        </div>
+                        <div class="gaugeSize">
+                            <div style="height: 169px; width: 100%; position:absolute">
+                                <canvas id="meter1"></canvas>
+                            </div>
+
+                            <div style="height: 159px;
+                            width: 100%;
+                            position: relative;
+                          z-index:2;
+                            margin-top: 3px;
+                            margin-left: 3px;
+                            padding-top: 22px;">
+                                <canvas id="chartDiv"></canvas>
+
+                            </div>
+                            <div style="position: relative;
+
+            font-size: 33px;
+            font-weight: bold;
+
+            bottom: 94px;
+            width: 98%;
+            text-align: center;
+            margin-left: 13px;">
+                                {{values.annualAcc_provisional}}<small>%</small>
+                                <div style="font-size: 18px;
+                margin-left: -14px;">Completed
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div style="margin-top:3px;text-align: center;
+         position:relative; font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                            Target for 15th FC - 25%
+                        </div>
+                    </div>
+                    <div class="row gauge">
+                        <div style="margin-top:10px;text-align: center; font-weight: 450; font-size: 16px;">
+                            Audited Account: 2019-2020
+                        </div>
+
+                        <div class="gaugeSize">
+                            <div style="height: 169px; width: 100%;position:absolute">
+                                <canvas id="meter"></canvas>
+                            </div>
+
+                            <div style="height: 159px;
+                            width: 100%;
+                            position: relative;
+                            z-index: 2;
+                            margin-top: 3px;
+                            margin-left: 3px;
+                            padding-top: 22px;">
+                                <canvas id="chartDiv2"></canvas>
+
+                            </div>
+                            <div style="position: relative;
+
+            font-size: 33px;
+            font-weight: bold;
+
+            bottom: 94px;
+            width: 98%;
+            text-align: center;
+            margin-left: 13px;">
+                                {{values.annualAcc_audited}}<small>%</small>
+                                <div style="font-size: 18px;
+                margin-left: -14px;">Completed
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div style="margin-top:3px;text-align: center; position:relative;
+        font-weight: 450; font-size: 12px; color:rgb(255, 131, 152)">
+                            Target for 15th FC - 25%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 thirdColumn">
+                    <!-- <div class="row formDonutCharts">
+        <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
+            ULB PFMS STATUS</div>
+        <div class="col-sm-2 text-right" style="margin-top: 8px;">
+            <a (click)="openDialogPfms()">
+                <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+            </a>
+        </div>
+        <div *ngIf="noDataFound_pfms" style="text-align:right; margin-top: -7%;padding-right:10%">
+            <circle-progress [percent]="100" [radius]="62" [outerStrokeWidth]="16"
+                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                [showUnits]='false'>
+            </circle-progress>
+        </div>
+
+        <div class="smallDonuts" style="margin-left: 15px;" *ngIf="!noDataFound_pfms">
+            <canvas id="pfms"></canvas>
+        </div>
+
+    </div> -->
+                    <div class="row formDonutCharts">
+                        <div class="textInThirdColumn" style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
+                            ULB Utilization Report Status
+
+                            <span style="margin-left: 30px;">
+                                <a (click)="openDialogUtil()">
+                                    <img src="../../../../assets/stateform/clipboard (1).png" width="22px"
+                                        height="22px">
+                                </a>
+                            </span>
+                        </div>
+                        <div class="row" style=" width:92%; align-items:center;height:350px;margin-left:7%" *ngIf="!noDataFound_util">
+                            <canvas id="utilReport"></canvas>
+                        </div>
+                        <div class="row smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
+                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                                [showUnits]='false'>
+                            </circle-progress>
+                        </div>
+
+
+                    </div>
+                    <!-- <div class="row formDonutCharts">
+        <div class="col-sm-9 textInThirdColumn" style="padding-left: 0;">
+            ULB Service Level Benchmark Status
+        </div>
+        <div class="col-sm-2 text-right" style="margin-top: 8px;">
+            <a (click)="openDialogSlb()">
+                <img src="../../../../assets/stateform/clipboard (1).png" width="25px" height="25px">
+            </a>
+        </div>
+        <div class="smallDonuts" *ngIf="!noDataFound_slb" style="margin-left: 15px;">
+            <canvas id="slb"></canvas>
+        </div>
+        <div class="smallDonuts" *ngIf="noDataFound_slb" style="text-align:right; margin-top: -7%;">
+            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
+                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
+                [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                [showUnits]='false'>
+            </circle-progress>
+        </div>
+
+    </div> -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div *ngIf="grantTransferCardData" class="col-sm-12 mb-2" style="padding: 0ch;">
+            <mat-card class="example-card">
+                <mat-card-actions class="pull-right">
+                    <mat-label style="font-weight:bolder;">Year </mat-label>
+                    <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                        <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
+                        <option value="2021-22,date">2021-22</option>
+                    </select>
+                    <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
+                    <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                        <option [selected]="installmentSelect" value="2,installment">2</option>
+                        <option [ngStyle]="{'display': year21 ? 'none':''}" value="1,installment">1</option>
+                    </select>
+                </mat-card-actions>
+                <mat-card-header>
+                    <mat-card-title>Grant Transfer Status</mat-card-title>
+                    <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-actions class="pull-right" style="padding-top: 0;">
+                    <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
+                    padding: 2px; height: 25px;">DOWNLOAD</button>
+                </mat-card-actions>
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive"
+                                style="overflow-y: auto; border: 1px solid  #00000029; margin-bottom: 1rem;height:300px">
+                                <table class="table tracking-history-table" style="margin-bottom: 0;">
+                                    <thead>
+                                        <tr style="background-color: #047474; color: #FFFFFF;">
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">
+                                                Grant Type
+                                            </th>
+                                            <th scope="col" class="tableHeadText">Grant
+                                                Amount Assigned in Cr</th>
+                                            <th scope="col" class="tableHeadText">
+                                                ULBs submitted forms/ Total ULBs in Category
+                                            </th>
+                                            <th scope="col" style="width: 18%;" class="tableHeadText">
+                                                Grant Transfer Certificate Status
+                                            </th>
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">
+                                                Grant Recommendation Status
+                                            </th>
+                                            <th scope="col" style="width: 20%;" class="tableHeadText">
+                                                Grant Release Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of grantTransferCardData | keyvalue" class="tableHeadText">
+                                            <td>
+                                                {{item.key}}
+                                            </td>
+                                            <td>
+                                                {{item.value.amount}}
+                                            </td>
+                                            <td>
+                                                {{item.value.ulb}}
+                                            </td>
+                                            <td>
+                                                {{item.value.submissionDate}}
+                                            </td>
+                                            <td>
+                                                {{item.value.recommendationDate}}
+                                            </td>
+                                            <td>
+                                                {{item.value.releaseDate}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+                <br>
+            </mat-card>
+        </div>
+    </div> -->
+    <div class="row bottomPart">
+        <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
+            <div class="row">
+                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>
+                <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
+
+                    <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
+                        <option value="all">-ALL UAs-</option>
+                        <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+
+                <div *ngIf="noDataFound_millionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_millionSLB">
+                    <canvas id="mpcf"></canvas>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for Non-Million ULBs</div>
+
+            </div>
+            <div class="row">
+                <div style="text-align: left;margin-left: 2%;margin-top: 1%;
+                font-weight: bold;">SLB for Water Supply and Sanitation</div>
+                <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">No Data Found</div>
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_nonMillionSLB">
+                    <canvas id="nmpcf"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-6" style="padding: 0;">
+            <div class="Card2">
+                <div class="row" style="margin-top: 2%;
+                font-weight: bold;">
+                    Submission of Action Plan and Projects for Water and Sanitation
+                </div>
+                <div class="row" style="height: 70%;">
+                    <div class="col-sm-7" style="text-align: left;padding-left: 15%;">
+                        <span style="color: #12505A; font-size: 41px;">{{rejuvenationPlans ? 'Yes': 'No'}}
+                        </span>
+
+
+                    </div>
+
+                    <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
+
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+</div>

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { IState } from 'src/app/models/state/state';
 import { USER_TYPE } from 'src/app/models/user/userType';
 import { QuestionnaireService } from 'src/app/pages/questionnaires/service/questionnaire.service';

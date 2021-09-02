@@ -1,0 +1,18 @@
+.head {
+    text-align: center !important;
+    color: #FFFFFF;
+}
+.error-message {
+    padding: 1%;
+    border-radius: 5px;
+    z-index: 11;
+    position: absolute;
+    width: 120%;
+    font-size: 1rem;
+    background: rgb(87, 87, 87);
+    left: 0px;
+    top: 0px;
+    color: white !important;
+    opacity: 0;
+    animation: bottom-to-top 1s forwards;
+}

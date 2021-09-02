@@ -1,7 +1,7 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';

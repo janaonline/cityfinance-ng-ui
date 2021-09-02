@@ -2,46 +2,52 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../security/auth-guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { DataTrackerComponent } from './data-tracker/data-tracker.component';
 
 // import { TestComponent } from './test/test.component';
 
 export const dashboardRouter: Routes = [
   {
     path: "",
-    component: DashboardComponent,
     children: [
       { path: "", redirectTo: "user", pathMatch: "full" },
       {
         path: "user",
-        loadChildren: "./user/user.module#UserModule",
-        canActivate: [AuthGuard]
+        loadChildren: () =>
+          import("./user/user.module").then((m) => m.UserModule),
+        canActivate: [AuthGuard],
       },
       {
         path: "entry",
-        loadChildren: "./data-entry/data-entry.module#DataEntryModule",
-        canActivate: [AuthGuard]
+        loadChildren: () =>
+          import("./data-entry/data-entry.module").then(
+            (m) => m.DataEntryModule
+          ),
+        canActivate: [AuthGuard],
       },
       {
         path: "report",
-        loadChildren: "./report/report.module#ReportModule"
+        loadChildren: () =>
+          import("./report/report.module").then((m) => m.ReportModule),
+        data: { reuse: true },
       },
       {
         path: "ranking",
-        loadChildren: "./ranking/ranking.module#RankingModule"
+        loadChildren: () =>
+          import("./ranking/ranking.module").then((m) => m.RankingModule),
       },
       {
         path: "financial-information",
-        loadChildren:
-          "./financial-information/financial-information.module#FinancialInformationModule"
+        loadChildren: () =>
+          import("./financial-information/financial-information.module").then(
+            (m) => m.FinancialInformationModule
+          ),
       },
-      { path: "data-tracker", component: DataTrackerComponent }
       // { path: 'test', component: TestComponent}
-    ]
-  }
+    ],
+  },
+  // { path: "data-tracker", component: DataTrackerComponent },
 ];
 
-export const DashboardRouter: ModuleWithProviders = RouterModule.forChild(
+export const DashboardRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   dashboardRouter
 );

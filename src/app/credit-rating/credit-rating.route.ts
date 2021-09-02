@@ -23,13 +23,15 @@ export const creditRatingRouter: Routes = [
       { path: "municipal-bond", component: MunicipalBondComponent },
       {
         path: "resources",
-        loadChildren:
-          "../pages/resources/public-files.module#PublicFilesModule",
+        loadChildren: () =>
+          import("../pages/resources/public-files.module").then(
+            (m) => m.PublicFilesModule
+          ),
       },
     ],
   },
 ];
 
-export const CreditRatingRouter: ModuleWithProviders = RouterModule.forChild(
+export const CreditRatingRouter: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   creditRatingRouter
 );

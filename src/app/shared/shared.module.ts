@@ -1,51 +1,65 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatOption } from "@angular/material/core";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatListModule } from "@angular/material/list";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatSelect, MatSelectModule } from "@angular/material/select";
 import {
-  MatAutocompleteModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatListModule,
-  MatOption,
-  MatProgressSpinnerModule,
-  MatSelect,
-  MatSelectModule,
   MatSlideToggle,
   MatSlideToggleModule,
-  MatSnackBarModule,
-} from '@angular/material';
-import { RouterModule } from '@angular/router';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+} from "@angular/material/slide-toggle";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { RouterModule } from "@angular/router";
+import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 
-import { AngularMaterialModule } from '../angular-material.module';
-import { InrCurrencyPipe } from '../dashboard/report/inr-currency.pipe';
-import { CompletedComponent } from '../pages/questionnaires/components/completed/completed.component';
-import { FormhistoryComponent } from '../users/data-upload/components/formhistory/formhistory.component';
-import { FinancialDataService } from '../users/services/financial-data.service';
-import {
-  FileStatusCheckerInputComponent,
-} from './components/file-status-checker-input/file-status-checker-input.component';
-import { FileUploadComponent } from './components/file-upload/file-upload.component';
-import {
-  FinanceDataUploadInputComponent,
-} from './components/finance-data-upload-input/finance-data-upload-input.component';
-import { FinancialDataChartComponent } from './components/financial-data-chart/financial-data-chart.component';
-import { HomeHeaderComponent } from './components/home-header/home-header.component';
-import { PreLoaderComponent } from './components/pre-loader/pre-loader.component';
-import { ReUseableHeatMapComponent } from './components/re-useable-heat-map/re-useable-heat-map.component';
-import { IncompleteProfileComponent } from './components/ulb/incomplete-profile/incomplete-profile.component';
-import { UserTypeConfirmationComponent } from './components/user-type-confirmation/user-type-confirmation.component';
-import { AuditStatusTextPipe } from './pipes/audit-status-text.pipe';
-import { RoundoffPipe } from './pipes/roundoff/roundoff.pipe';
-import { RupeeConverterPipe } from './pipes/rupee-converter.pipe';
-import { TypeofPipe } from './pipes/typeof.pipe';
-import { SideMenuComponent } from './side-menu/side-menu.component';
-import { TickIconComponent } from './tick-icon/tick-icon.component';
+import { AngularMaterialModule } from "../angular-material.module";
+import { InrCurrencyPipe } from "../dashboard/report/inr-currency.pipe";
+import { CompletedComponent } from "../pages/questionnaires/components/completed/completed.component";
+import { FormhistoryComponent } from "../users/data-upload/components/formhistory/formhistory.component";
+import { FinancialDataService } from "../users/services/financial-data.service";
+import { FileStatusCheckerInputComponent } from "./components/file-status-checker-input/file-status-checker-input.component";
+import { FileUploadComponent } from "./components/file-upload/file-upload.component";
+import { FinanceDataUploadInputComponent } from "./components/finance-data-upload-input/finance-data-upload-input.component";
+import { FinancialDataChartComponent } from "./components/financial-data-chart/financial-data-chart.component";
+import { HomeHeaderComponent } from "./components/home-header/home-header.component";
+import { PreLoaderComponent } from "./components/pre-loader/pre-loader.component";
+import { ReUseableHeatMapComponent } from "./components/re-useable-heat-map/re-useable-heat-map.component";
+import { IncompleteProfileComponent } from "./components/ulb/incomplete-profile/incomplete-profile.component";
+import { UserTypeConfirmationComponent } from "./components/user-type-confirmation/user-type-confirmation.component";
+import { AuditStatusTextPipe } from "./pipes/audit-status-text.pipe";
+import { RoundoffPipe } from "./pipes/roundoff/roundoff.pipe";
+import { RupeeConverterPipe } from "./pipes/rupee-converter.pipe";
+import { TypeofPipe } from "./pipes/typeof.pipe";
+import { SideMenuComponent } from "./side-menu/side-menu.component";
+import { TickIconComponent } from "./tick-icon/tick-icon.component";
+import { FcSlbComponent } from "./components/fc-slb/fc-slb.component";
+
+import { MapDialogComponent } from "./components/map-dialog/map-dialog.component";
+import { GoogleMapComponent } from "./components/google-map/google-map.component";
+//G-Mpas
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { AgmCoreModule } from "@agm/core";
+import { WaterRejenuvationComponent } from "./components/water-rejenuvation/water-rejenuvation.component";
+import { CustomizedCellComponent } from './components/ag-grid/customized-cell/customized-cell.component';
+import { CustomizedHeaderComponent } from './components/ag-grid/customized-header/customized-header.component';
+import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/custom-tooltip.component';
+import { CommFileUploadComponent } from './components/comm-file-upload/comm-file-upload.component';
+import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ActionComponentComponent } from './components/action-component/action-component.component';
+import { PageLayoutComponent } from '../shared/components/page-layout/page-layout.component';
 
 @NgModule({
   imports: [
+    ButtonsModule.forRoot(),
+    FormsModule,
     RouterModule,
     CommonModule,
     MatFormFieldModule,
@@ -61,6 +75,14 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatExpansionModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatCheckboxModule,
+    GooglePlaceModule,
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyBum81Liii93xQ3JerXGozwDmNSutlZHro&libraries",
+      libraries: ["places"],
+    }),
+    MatCardModule,
+
   ],
   declarations: [
     PreLoaderComponent,
@@ -81,8 +103,22 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     FormhistoryComponent,
     IncompleteProfileComponent,
     FileUploadComponent,
+    FcSlbComponent,
+    MapDialogComponent,
+    GoogleMapComponent,
+    WaterRejenuvationComponent,
+    CustomizedCellComponent,
+    CustomizedHeaderComponent,
+    CustomTooltipComponent,
+    CommFileUploadComponent,
+    ActionComponentComponent,
+    PageLayoutComponent,
+
+
+
   ],
   exports: [
+    FormsModule,
     PreLoaderComponent,
     ReUseableHeatMapComponent,
     RupeeConverterPipe,
@@ -104,7 +140,13 @@ import { TickIconComponent } from './tick-icon/tick-icon.component';
     MatOption,
     IncompleteProfileComponent,
     FileUploadComponent,
+    MatCheckboxModule,
+    FcSlbComponent,
+    CommFileUploadComponent,
+    ActionComponentComponent,
+    PageLayoutComponent
+
   ],
   providers: [FinancialDataService],
 })
-export class SharedModule {}
+export class SharedModule { }

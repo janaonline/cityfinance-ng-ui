@@ -17,6 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@tweenjs/tween.js",
+              "chart.js"
+            ],
             "outputPath": "dist/PerfectAngular",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -34,8 +38,10 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/chart.js/dist/Chart.js"
-            ]
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/sweetalert/dist/sweetalert.min.js"
+            ],
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -85,7 +91,9 @@
               "node_modules/leaflet/dist/leaflet.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/sweetalert/dist/sweetalert.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

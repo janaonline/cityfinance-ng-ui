@@ -1,12 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ULBsStatistics } from 'src/app/models/statistics/ulbsStatistics';
 import { CommonService } from 'src/app/shared/services/common.service';
-import * as XLSX from 'xlsx';
 
 @Component({
   selector: "app-grid",
   templateUrl: "./grid.component.html",
-  styleUrls: ["./grid.component.scss"]
+  styleUrls: ["./grid.component.scss"],
 })
 export class GridComponent implements OnInit, OnDestroy {
   stateIds: string[];
@@ -23,19 +22,19 @@ export class GridComponent implements OnInit, OnDestroy {
       ["2015-16"]: {
         amrut: 0,
         nonAmrut: 0,
-        total: 0
+        total: 0,
       },
       ["2016-17"]: {
         amrut: 0,
         nonAmrut: 0,
-        total: 0
+        total: 0,
       },
       ["2017-18"]: {
         amrut: 0,
         nonAmrut: 0,
-        total: 0
-      }
-    }
+        total: 0,
+      },
+    },
   };
 
   tableData: any = null;
@@ -52,13 +51,13 @@ export class GridComponent implements OnInit, OnDestroy {
     8: { key: "amrut2017", color: "#333", status: 0 },
     9: { key: "nonAmrut2017", color: "#333", status: 0 },
     10: { key: "total2017", color: "#333", status: 0 },
-    11: { key: "grandTotal", color: "#333", status: 0 }
+    11: { key: "grandTotal", color: "#333", status: 0 },
   };
 
   constructor(private _commonService: CommonService) {
-    this._commonService.getULBsStatistics().subscribe(async ulbs => {
+    this._commonService.getULBsStatistics().subscribe(async (ulbs) => {
       let count = 0;
-      await Object.values(ulbs).forEach(row => {
+      await Object.values(ulbs).forEach((row) => {
         count += row.uniqueULBS.length;
         this.totalRow["ulbsByYears"]["2015-16"].amrut += row.ulbsByYears[
           "2015-16"
@@ -116,7 +115,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
       const tablePlot = [];
 
-      this.stateIds.forEach(stateId => {
+      this.stateIds.forEach((stateId) => {
         tablePlot.push({
           stateName: this.ulbs[stateId].stateName,
           noOfUlbs: this.ulbs[stateId]["uniqueULBS"].length,
@@ -156,7 +155,7 @@ export class GridComponent implements OnInit, OnDestroy {
               : 0) +
             (this.ulbs[stateId]["ulbsByYears"]["2017-18"]
               ? this.ulbs[stateId]["ulbsByYears"]["2017-18"].total
-              : 0)
+              : 0),
         });
       });
       this.tableData = tablePlot;
@@ -165,21 +164,20 @@ export class GridComponent implements OnInit, OnDestroy {
 
   private getUniqueYears(ulbs: ULBsStatistics) {
     const years = new Set<string>();
-    Object.keys(ulbs).forEach(stateId => {
-      Object.keys(ulbs[stateId].ulbsByYears).forEach(year => years.add(year));
+    Object.keys(ulbs).forEach((stateId) => {
+      Object.keys(ulbs[stateId].ulbsByYears).forEach((year) => years.add(year));
     });
     return Array.from(years).sort();
   }
 
   downloadTableData() {
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
-      this.financeTable.nativeElement
-    );
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-    /* save to file */
-    XLSX.writeFile(wb, "financial-report.xlsx");
+    // const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(
+    //   this.financeTable.nativeElement
+    // );
+    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    // /* save to file */
+    // XLSX.writeFile(wb, "financial-report.xlsx");
   }
 
   sortTableData(key, order, index) {
@@ -220,6 +218,5 @@ export class GridComponent implements OnInit, OnDestroy {
 
   ngOnInit() {}
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 }

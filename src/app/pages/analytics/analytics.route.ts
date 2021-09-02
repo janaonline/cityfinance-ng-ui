@@ -10,6 +10,6 @@ export const routes: Routes = [
   },
 ];
 
-export const AnalyticsRoutes: ModuleWithProviders = RouterModule.forChild(
+export const AnalyticsRoutes: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   routes
 );

@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
 
 import { IReportType } from '../../../../app/models/reportType';
+import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
 import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 import { currencryConversionOptions, ICurrencryConversion } from '../basic/conversionTypes';
 import { ExcelService } from '../excel.service';
@@ -13,6 +17,7 @@ import { ReportService } from '../report.service';
   selector: "app-comparative-ulb",
   templateUrl: "./comparative-ulb.component.html",
   styleUrls: ["./comparative-ulb.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
@@ -58,7 +63,11 @@ export class ComparativeUlbComponent implements OnInit {
     private excelService: ExcelService,
     private reportHelper: ReportHelperService,
     private _loaderService: GlobalLoaderService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _authService: AuthService,
+    private _dialog: MatDialog,
+    private router: Router,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   private initializeCurrencyConversion(reportCriteria: IReportType) {
@@ -122,6 +131,7 @@ export class ComparativeUlbComponent implements OnInit {
           this.isProcessed = true;
 
           this.setDataNotAvailable();
+          this.changeDetector.detectChanges();
         },
         () => {
           this._loaderService.stopLoader();
@@ -461,6 +471,54 @@ export class ComparativeUlbComponent implements OnInit {
     } else {
       return 0;
     }
+  }
+
+  routerTo() {
+    const ulbs: string[] = this.reportReq.ulbIds;
+    const years: string[] = this.reportReq.years;
+    const query = `ulbs=${ulbs.toString()}&year=${years.toString()}&backRoute=${
+      window.location.pathname
+    }`;
+
+    const isUserLoggedIn = this._authService.loggedIn();
+    console.log(isUserLoggedIn);
+    if (!isUserLoggedIn) {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: {
+          message:
+            "<p class='text-center'>You need to be Login to download the data.</p>",
+          buttons: {
+            signup: {
+              text: "Signup",
+              callback: () => {
+                this.router.navigate(["register/user"]);
+              },
+            },
+            confirm: {
+              text: "Proceed to Login",
+              callback: () => {
+                sessionStorage.setItem(
+                  "postLoginNavigation",
+                  `/data-tracker?${query}`
+                );
+                this.router.navigate(["/", "login"]);
+              },
+            },
+            cancel: { text: "Cancel" },
+          },
+        },
+        width: "28vw",
+      });
+      return;
+    }
+
+    this.router.navigate(["/data-tracker"], {
+      queryParams: {
+        ulb: ulbs.toString(),
+        year: years.toString(),
+        backRoute: window.location.pathname,
+      },
+    });
   }
 
   download() {

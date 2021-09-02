@@ -20,6 +20,6 @@ export const routes: Routes = [
   },
 ];
 
-export const QuestionnaireRoutes: ModuleWithProviders = RouterModule.forChild(
+export const QuestionnaireRoutes: ModuleWithProviders<RouterModule> = RouterModule.forChild(
   routes
 );

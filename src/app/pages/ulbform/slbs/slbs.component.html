@@ -1,0 +1,94 @@
+<div class="col-sm-12" style="margin-bottom: 1rem;">
+    <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
+        <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
+        <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+      ULB: {{ financialData?.ulbName }}</span> -->
+
+        <button [style.position]="
+          loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload" (click)="openModal(template,true)">
+            Preview
+        </button>
+    </h3>
+</div>
+<div class="col-sm-12 mb-2">
+    <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)" [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
+</div>
+<div class="col-sm-12 mb-1">
+    <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
+    loggedInUserType === USER_TYPE.MoHUA) &&
+  (takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
+        <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+  (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
+        <div class="card-body">
+            <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
+            </app-state-action-ulb>
+        </div>
+    </div>
+</div>
+
+<!-- (ulbFormStaus !== 'NA') -->
+
+<div class="col-sm-12 footerBtnDiv" *ngIf="
+ (loggedInUserDetails.role === USER_TYPE.STATE) ||
+ (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
+ (loggedInUserDetails.role === USER_TYPE.MoHUA)" style="padding: 0;">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../annual_acc']">BACK</a>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+        <!-- <button type="button" class="btn footerBtn" id="saveDraft"
+               (click)="saveAsDraft()">SAVE AS DRAFT</button>
+           -->
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
+    </div>
+</div>
+
+<ng-template #previewPopup>
+    <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
+</ng-template>
+
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px;" (click)="proceed()">Save
+                &
+                Proceed</button>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #template1>
+    <div class="modal-body text-center">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Some Data in the form is missing/invalid. Do you wish to save the Data in Draft Mode?
+        </p>
+        <div>
+            <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
+            <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
+        </div>
+
+    </div>
+</ng-template>

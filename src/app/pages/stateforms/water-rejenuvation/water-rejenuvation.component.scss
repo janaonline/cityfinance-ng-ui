@@ -1,0 +1,185 @@
+.card-body {
+    padding: 5px 8px;
+}
+
+.form-header {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.card {
+    border: 1px #00000029;
+    margin-left: 20px;
+    box-shadow: 1px 1px 1px 1.5px #00000029;
+    padding: 6px 10px;
+}
+.cellHeight{
+    height:4rem;
+}
+.label{
+    
+    font-size: 13px;
+    font-weight: bold;
+}
+.thHeader {
+    background-color: #058e91;
+    font-family: Roboto;
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.table {
+    border: 2px solid #00000029;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    vertical-align: inherit;
+    text-align: center;
+    padding: 8px 2px;
+}
+
+.custom-position {
+    td {
+        position: relative;
+    }
+}
+
+.custom-position {
+    input {
+        position: relative;
+        width: 80%;
+        height: 4ch;
+        text-align: center;
+    }
+}
+
+.custom-position {
+    select {
+        position: relative;
+    }
+}
+
+.custom-position {
+    textarea {
+        height: 2pc;
+        vertical-align: bottom;
+        margin-right: 1pc;
+    }
+    .error {
+        border-color: red;
+    }
+}
+
+.saveBtn {
+    background-color: #059b9a;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: auto;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn-pre {
+    background-color: #059b9a;
+    color: #FFFFFF;
+    border-radius: 5px;
+    height: 32px;
+    padding-left: 2rem;
+    font-size: 12px;
+    padding-right: 2rem;
+}
+
+.back {
+    width: auto;
+    background-color: #cfcfcf;
+    color: #ffffff;
+    border-radius: 4px;
+    height: 32px;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+    color: white;
+}
+
+.file:hover {
+    cursor: pointer;
+    background-color: #eaecee;
+}
+
+.selectBtn {
+    background-color: #ffc500;
+    color: white;
+}
+
+::ng-deep .mat-tooltip {
+    background-color: black !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.falseVal {
+    border-color: red;
+}
+
+.disabled {
+    color: gray;
+    background-color: rgb(247, 247, 247);
+    pointer-events: none
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+.anDisable {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-r {
+    background-color: red;
+    color: #FFFFFF;
+}
+
+.btn-a {
+    background-color: green;
+    color: #FFFFFF;
+}
+
+.btn:hover {
+    background-color: #ffc500;
+    font-weight: bold;
+}
+
+#addmoreBtn {
+    background-color: #177A27;
+    color: #FFFFFF;
+    margin-top: 15px;
+    width: 91px;
+    height: 25px;
+    font-size: 11px;
+    padding: 0;
+}

@@ -16,7 +16,7 @@ import { UserUtility } from 'src/app/util/user/user';
 @Component({
   selector: "app-map-section",
   templateUrl: "./map-section.component.html",
-  styleUrls: ["./map-section.component.scss"]
+  styleUrls: ["./map-section.component.scss"],
 })
 export class MapSectionComponent implements OnInit, AfterViewInit {
   constructor(
@@ -33,6 +33,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
+    this.fetchMinMaxFinancialYears();
   }
   statesLayer: L.GeoJSON<any>;
   myForm: FormGroup;
@@ -50,7 +51,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   StyleForSelectedState = {
     weight: 2,
     color: "black",
-    fillOpacity: 1
+    fillOpacity: 1,
   };
 
   stateDatasForMapColoring: IStateULBCoveredResponse["data"];
@@ -69,7 +70,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     labelKey: "name",
     primaryKey: "_id",
     showCheckbox: false,
-    classes: "homepage-stateList custom-class"
+    classes: "homepage-stateList custom-class",
   };
 
   defaultStateLayerColorOption = {
@@ -77,7 +78,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     weight: 1,
     opacity: 1,
     color: "#403f3f",
-    fillOpacity: 1
+    fillOpacity: 1,
   };
 
   dataPointsForVisualization: {
@@ -89,23 +90,23 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     {
       name: "Total Urban Local Bodies (ULBs) in Country",
       key: "totalULB",
-      background: "rgb(241, 104, 49)"
+      background: "rgb(241, 104, 49)",
     },
     {
       name: "ULBs for which data is available on Portal",
       key: "coveredUlbCount",
-      background: "rgb(34, 188, 238)"
+      background: "rgb(34, 188, 238)",
     },
     {
       name: "Number of Financial Statements of ULBs ",
       key: "financialStatements",
-      background: "rgb(231, 19, 104)"
+      background: "rgb(231, 19, 104)",
     },
     {
       name: "Details on Municipal Bond Issuances",
       key: "totalMunicipalBonds",
-      background: "rgb(252, 196, 21)"
-    }
+      background: "rgb(252, 196, 21)",
+    },
     // {
     //   name: "Number of ULBs with Credit Rating Reports",
     //   key: "total",
@@ -131,16 +132,32 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   bondIssueAmount: number;
   isBondIssueAmountInProgress = false;
 
+  financialYearTexts: {
+    min: string;
+    max: string;
+  };
+
   ngOnInit() {}
 
   ngAfterViewInit() {
     this.setdataPointsCardUI();
   }
 
+  private fetchMinMaxFinancialYears() {
+    this.commonService.getFinancialYearBasedOnData().subscribe((res) => {
+      this.financialYearTexts = {
+        min: res.data[0],
+        max: res.data[res.data.length - 1].slice(2),
+      };
+
+      console.log(this.financialYearTexts);
+    });
+  }
+
   private setdataPointsCardUI() {
     const options: IntersectionObserverInit = {
       root: null,
-      threshold: [1]
+      threshold: [1],
     };
     const elements = this.elem.nativeElement.querySelectorAll(".card");
     elements.forEach((element: HTMLElement) => {
@@ -151,7 +168,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       element.style.transform = "scale(0)";
       element.style.transitionDuration = "1s";
 
-      const observer = new IntersectionObserver(event => {
+      const observer = new IntersectionObserver((event) => {
         if (event[0].isIntersecting) {
           element.style.opacity = "1";
           element.style.transform = "scale(1)";
@@ -181,7 +198,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.statesLayer.eachLayer(layer => {
+    this.statesLayer.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
         return;
@@ -192,14 +209,14 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   }
 
   private fetchStateList() {
-    this.commonService.fetchStateList().subscribe(res => {
+    this.commonService.fetchStateList().subscribe((res) => {
       this.stateList = [{ _id: null, name: "India" }].concat(res);
     });
   }
 
   private fetchDataForVisualization(stateId?: string) {
     this.dataForVisualization.loading = true;
-    this.commonService.fetchDataForHomepageMap(stateId).subscribe(res => {
+    this.commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
       this.setDefaultAbsCreditInfo();
 
       this.showCreditInfoByState(
@@ -256,17 +273,17 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         element.innerText = `${target}`;
       }
     });
-  }
+  };
 
   private fetchDataForMapColoring() {
     this.commonService
       .getStateUlbCovered()
-      .subscribe(res => this.onGettingMapColoringData(res["data"]));
+      .subscribe((res) => this.onGettingMapColoringData(res["data"]));
   }
 
   private onGettingMapColoringData(data: IStateULBCoveredResponse["data"]) {
     this.stateDatasForMapColoring = data;
-    this.geoService.loadConvertedIndiaGeoData().subscribe(geoData => {
+    this.geoService.loadConvertedIndiaGeoData().subscribe((geoData) => {
       try {
         this.mapGeoData = geoData;
         this.createNationalLevelMap(geoData, "mapid");
@@ -283,6 +300,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   }
 
   calculateMapZoomLevel() {
+
     let zoom: number;
     const userUtil = new UserUtility();
     if (userUtil.isUserOnMobile()) {
@@ -326,8 +344,8 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         attributionControl: false,
         doubleClickZoom: false,
         dragging: false,
-        tap: false
-      }
+        tap: false,
+      },
     };
     let map;
 
@@ -338,7 +356,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.nationalLevelMap = map;
     this.createLegendsForNationalLevelMap();
 
-    this.statesLayer.eachLayer(layer => {
+    this.statesLayer.eachLayer((layer) => {
       const stateCode = MapUtil.getStateCode(layer);
 
       if (!stateCode) {
@@ -346,7 +364,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       }
 
       const stateFound = this.stateDatasForMapColoring.find(
-        state => state.code === stateCode
+        (state) => state.code === stateCode
       );
 
       // if (!stateFound) {
@@ -363,7 +381,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
           this.createTooltip(layer);
         },
         click: (args: ILeafletStateClickEvent) =>
-          this.onClickingState(args, layer)
+          this.onClickingState(args, layer),
       });
     });
   }
@@ -374,17 +392,17 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       { color: "#059b9a", text: "51%-75%" },
       { color: "#8BD2F0", text: "26%-50%" },
       { color: "#D0EDF9", text: "1%-25%" },
-      { color: "#E5E5E5", text: "0%" }
+      { color: "#E5E5E5", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomleft" });
     const labels = [
-      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability <br> on Cityfinance.in</span>`
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability <br> on Cityfinance.in</span>`,
     ];
-    legend.onAdd = function(map) {
+    legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend ml-0");
       div.id = "legendContainer";
       div.style.width = "100%";
-      arr.forEach(value => {
+      arr.forEach((value) => {
         labels.push(
           `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
         );
@@ -398,7 +416,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
   private createTooltip(layer: L.Layer) {
     const stateCode = MapUtil.getStateCode(layer);
-    const stateFound = this.stateList.find(state => state.code === stateCode);
+    const stateFound = this.stateList.find((state) => state.code === stateCode);
     if (!stateFound) {
       return;
     }
@@ -406,7 +424,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     const option: L.TooltipOptions = {
       sticky: true,
       offset: new L.Point(15, -8),
-      zoomAnimation: true
+      zoomAnimation: true,
     };
 
     layer.bindTooltip("<b>" + stateFound.name + "</b>", option);
@@ -421,7 +439,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const stateFound = this.stateList.find(state => state.code === stateCode);
+    const stateFound = this.stateList.find((state) => state.code === stateCode);
 
     // const doesStateHasData = !!this.stateDatasForMapColoring.find(
     //   (state) => state._id == stateFound._id && state.coveredUlbPercentage > 0
@@ -447,7 +465,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   private resetStateLayer(layer) {
     layer.setStyle({
       color: this.defaultStateLayerColorOption.color,
-      weight: this.defaultStateLayerColorOption.weight
+      weight: this.defaultStateLayerColorOption.weight,
     });
     layer.closeTooltip();
   }
@@ -482,7 +500,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
-    this.commonService.getBondIssuerItemAmount(stateId).subscribe(res => {
+    this.commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
       try {
         this.bondIssueAmount = Math.round(res["data"][0]["totalAmount"]);
       } catch (error) {
@@ -495,7 +513,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   private fetchCreditRatingTotalCount() {
     this.assetService
       .fetchCreditRatingReport()
-      .subscribe(res => this.computeStatesTotalRatings(res));
+      .subscribe((res) => this.computeStatesTotalRatings(res));
   }
 
   setDefaultAbsCreditInfo() {
@@ -527,8 +545,8 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
         "C-": 0,
         "D+": 0,
         D: 0,
-        "D-": 0
-      }
+        "D-": 0,
+      },
     };
   }
 
@@ -585,7 +603,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
     this.creditRatingList = res;
 
     const computedData = { total: 0, India: 0 };
-    res.forEach(data => {
+    res.forEach((data) => {
       if (computedData[data.state] || computedData[data.state] === 0) {
         computedData[data.state] += 1;
       } else {
@@ -604,7 +622,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
 
   private initializeform() {
     this.myForm = this.fb.group({
-      stateId: [""]
+      stateId: [""],
     });
   }
 }
