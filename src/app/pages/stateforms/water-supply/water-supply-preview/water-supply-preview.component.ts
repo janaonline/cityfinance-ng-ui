@@ -173,14 +173,20 @@ h5{
     benchmark: string;
   }[] = services;
   detailsOfUa;
-  ulbName;
+
   stateName;
   uasList;
+  USER_TYPES = USER_TYPE;
+  userDetails = new UserUtility().getLoggedInUserDetails();
  ngOnInit() {
     this.uasList = Object.values(JSON.parse(sessionStorage.getItem("UasList")))
     let userData = JSON.parse(localStorage.getItem("userData"));
-    this.ulbName = userData["name"];
-    this.stateName = userData["stateName"];
+
+    if(this.userDetails.role == USER_TYPE.STATE){
+      this.stateName = userData.stateName;
+  }else {
+      this.stateName = sessionStorage.getItem('stateName');
+  }
     this.services.forEach(data => {
       this.focusTargetKey[data.key + 'baseline'] = false
       this.targets.forEach(item => {
