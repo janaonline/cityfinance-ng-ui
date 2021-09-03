@@ -18,6 +18,8 @@ import { defaultDailogConfiuration } from "../../questionnaires/ulb/configs/comm
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { templateJitUrl } from "@angular/compiler";
 import { UlbformService } from "../ulbform.service";
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
 @Component({
   selector: "app-ulbform-preview",
   templateUrl: "./ulbform-preview.component.html",
@@ -636,16 +638,28 @@ h6 {
   pfms = null;
   annualAccount = null;
   waterSanitation = null;
+  USER_TYPES = USER_TYPE;
+  userDetails = new UserUtility().getLoggedInUserDetails();
   userData = JSON.parse(localStorage.getItem("userData"));
   years = JSON.parse(localStorage.getItem("Years"));
   designYear;
   financialYear;
-  stateName;
+  state;
+  ulb;
 
   canDownload = true;
   downloadSub;
   subDate;
+  stateName;
   ngOnInit(): void {
+    console.log(this.userDetails);
+    if(this.userDetails.role == USER_TYPE.ULB){
+        this.state = this.userData.stateName;
+        this.ulb = this.userData.name
+    }else {
+        this.state = sessionStorage.getItem('stateName');
+        this.ulb = sessionStorage.getItem('ulbName');
+    }
     this.downloadSub = this.ulbformService.initiateDownload.subscribe(
       (proceedSelected) => {
         if (proceedSelected) {
