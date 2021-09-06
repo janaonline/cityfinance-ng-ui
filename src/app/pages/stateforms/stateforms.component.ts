@@ -382,7 +382,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
   getStatus() {
     console.log('Please check user role', this.userLoggedInDetails.role)
-    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
+    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA || this.userLoggedInDetails.role === USER_TYPE.ADMIN || this.userLoggedInDetails.role === USER_TYPE.PARTNER) {
       this.id = sessionStorage.getItem("state_id");
     }
 
@@ -449,7 +449,10 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   }
 
   getAllStateForms() {
-    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA) {
+    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA ||
+      this.userLoggedInDetails.role === USER_TYPE.PARTNER ||
+      this.userLoggedInDetails.role === USER_TYPE.ADMIN
+    ) {
       this.id = sessionStorage.getItem("state_id");
     } else {
       let userData = JSON.parse(localStorage.getItem("userData"));

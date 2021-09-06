@@ -26,6 +26,7 @@ export class ReviewUlbComponent implements OnInit {
     sort: null,
     role: null,
     skip: 0,
+    csv: false,
     limit: this.tableDefaultOptions.itemPerPage,
   };
   takeStateAction = "false";
@@ -42,6 +43,7 @@ export class ReviewUlbComponent implements OnInit {
     public _stateformsService: StateformsService
   ) { }
   ulb_name_s = new FormControl("");
+  state_name_s = new FormControl("");
   ulb_code_s = new FormControl("");
   ulb_type_s = new FormControl("");
   population_type_s = new FormControl("");
@@ -49,8 +51,10 @@ export class ReviewUlbComponent implements OnInit {
   status_s = new FormControl("");
   historyData;
   loggedInUser = JSON.parse(localStorage.getItem("userData"));
+  states;
   ngOnInit() {
     this.showLoader = true;
+    this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.loadData();
     console.log('user', this.loggedInUser);
 
@@ -118,13 +122,13 @@ export class ReviewUlbComponent implements OnInit {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: "",
+        ulbName: this.ulb_name_s.value ? this.ulb_name_s.value.trim() : "",
+        state: this.state_name_s.value ? this.state_name_s.value.trim() : "",
+        censusCode: this.ulb_code_s.value ? this.ulb_code_s.value.trim() : "",
         ulbType: this.ulb_type_s.value ? this.ulb_type_s.value.trim() : "",
         populationType: this.population_type_s.value
           ? this.population_type_s.value.trim()
           : "",
-        ulbName: this.ulb_name_s.value ? this.ulb_name_s.value.trim() : "",
-        censusCode: this.ulb_code_s.value ? this.ulb_code_s.value.trim() : "",
         UA: this.ua_name_s.value ? this.ua_name_s.value.trim() : "",
         status: this.status_s.value ? this.status_s.value.trim() : "",
       },
@@ -136,8 +140,7 @@ export class ReviewUlbComponent implements OnInit {
       //  ...config,
     };
   }
-
-  stateData() {
+  stateData(csv) {
     this.loading = true;
     this.listFetchOption.skip = 0;
     this.tableDefaultOptions.currentPage = 1;
@@ -146,28 +149,42 @@ export class ReviewUlbComponent implements OnInit {
     if (this.fcFormListSubscription) {
       this.fcFormListSubscription.unsubscribe();
     }
-
+    this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
+      .fetchReviewUlbList({ skip }, this.listFetchOption)
       .subscribe(
-        (result) => {
-          let res: any = result;
-          this.tabelData = res.data;
-          if (res.data.length == 0) {
-            this.nodataFound = true;
-          } else {
-            this.nodataFound = false;
+        (result: any) => {
+
+          if (this.listFetchOption.csv) {
+            let blob: any = new Blob([result], {
+              type: "text/json; charset=utf-8",
+            });
+            const url = window.URL.createObjectURL(blob);
+            fileSaver.saveAs(blob, "Review Ulb Forms List.xlsx");
           }
-          console.log(result);
+          else {
+            let res: any = result;
+            this.tabelData = res.data;
+            if (!res['data']) {
+              this.nodataFound = true;
+            } else {
+              this.nodataFound = false;
+            }
+            console.log(result);
+          }
         },
         (response: HttpErrorResponse) => {
           this.loading = false;
-          alert("Some Error Occurred");
+          alert('Some Error Occurred')
+
         }
       );
+
+
   }
 
-  setActionBtnIcon(resData, type) {    
+
+  setActionBtnIcon(resData, type) {
     if (
       resData.actionTakenByUserRole == USER_TYPE.MoHUA &&
       !resData.isSubmit &&

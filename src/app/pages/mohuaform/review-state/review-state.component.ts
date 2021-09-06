@@ -118,8 +118,12 @@ export class ReviewStateComponent implements OnInit {
   }
   takeMoHUAAction = 'false'
   viewStateForm(resData) {
-    if ((resData.actionTakenByRole == 'STATE' && resData.isSubmit == true) ||
-      (resData.actionTakenByRole == 'MoHUA' && resData.isSubmit == false)) {
+    if (
+      (resData.stateMasterFormData.actionTakenByRole == 'STATE' && resData.stateMasterFormData.isSubmit == true) ||
+      (resData.stateMasterFormData.actionTakenByRole == 'MoHUA' && resData.stateMasterFormData.isSubmit == false) ||
+      this.loggedInUser.role == 'ADMIN' ||
+      this.loggedInUser.role == 'PARTNER'
+    ) {
       this.takeMoHUAAction = 'true'
     }
     localStorage.setItem('takeMoHUAAction', this.takeMoHUAAction)
