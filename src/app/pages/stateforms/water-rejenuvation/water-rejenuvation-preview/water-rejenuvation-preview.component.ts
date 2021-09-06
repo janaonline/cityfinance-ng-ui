@@ -21,6 +21,8 @@ const swal: SweetAlert = require("sweetalert");
 import { WaterRejenuvationService } from "../water-rejenuvation.service";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
 import { StateformsService } from "../../stateforms.service";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { UserUtility } from "src/app/util/user/user";
 @Component({
   selector: "app-water-rejenuvation-preview",
   templateUrl: "./water-rejenuvation-preview.component.html",
@@ -178,14 +180,18 @@ table {
   err = "";
   status;
   stateName;
-  ulbName;
+
   uasData = JSON.parse(sessionStorage.getItem("UasList"));
   subParentForModal;
+  USER_TYPES = USER_TYPE;
+  userDetails = new UserUtility().getLoggedInUserDetails();
   ngOnInit(): void {
-
     let userData = JSON.parse(localStorage.getItem("userData"));
-    this.ulbName = userData["name"];
-    this.stateName = userData["stateName"];
+    if(this.userDetails.role == USER_TYPE.STATE){
+      this.stateName = userData.stateName;
+  }else {
+      this.stateName = sessionStorage.getItem('stateName');
+  }
 
     console.log('pre rejaaaaa', this.data, this.parentData);
     if (this.parentData) {

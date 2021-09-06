@@ -1,7 +1,9 @@
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { USER_TYPE } from 'src/app/models/user/userType';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
+import { UserUtility } from 'src/app/util/user/user';
 import { QuestionnaireService } from '../../questionnaires/service/questionnaire.service';
 import { defaultDailogConfiuration } from '../../questionnaires/ulb/configs/common.config';
 import { ActionplanserviceService } from '../action-plan-ua/actionplanservice.service';
@@ -435,8 +437,17 @@ account =''
 fileName ='';
 gtFileUrl = '';
 downloadSub;
-subDate
+subDate;
+state;
+USER_TYPES = USER_TYPE;
+userDetails = new UserUtility().getLoggedInUserDetails();
   ngOnInit() {
+    if(this.userDetails.role == USER_TYPE.STATE){
+      this.state = this.userData.stateName;
+  }else {
+      this.state = sessionStorage.getItem('stateName');
+  }
+
     this.downloadSub = this.state_service.initiateDownload.subscribe(
       (proceedSelected) => {
         if (proceedSelected) {

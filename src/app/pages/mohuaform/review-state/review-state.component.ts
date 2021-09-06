@@ -127,6 +127,7 @@ export class ReviewStateComponent implements OnInit {
       this.takeMoHUAAction = 'true'
     }
     localStorage.setItem('takeMoHUAAction', this.takeMoHUAAction)
+    sessionStorage.setItem('stateName', resData.state);
   }
 
   setLIstFetchOptions() {
