@@ -87,13 +87,14 @@
                                         </td>
                                         <td>
                                             <div class="image-upload" style="display: inline-block;">
-                                                <label class="file" [attr.for]="waterBodiesIndex + '' + projectIndex">
+                                                <label [ngClass]="{'anDisable' : formDisable}" class="file"
+                                                    [attr.for]="waterBodiesIndex + '' + projectIndex">
                                                     <img src="../../../../assets/form-icon/Icon feather-upload.svg">
 
                                                 </label>
                                                 <input style="display: none;"
                                                     [attr.id]="waterBodiesIndex + '' + projectIndex" type="file"
-                                                    [disabled]="formDisable" accept=".png,.jpg,.jpeg"
+                                                    [ngClass]="{'anDisable' : formDisable}" accept=".png,.jpg,.jpeg"
                                                     (change)="onFileChange($event,waterBodiesIndex,projectIndex)"
                                                     required multiple />
                                             </div>
@@ -114,16 +115,16 @@
                                         <td style="display: inline-flex; margin-top: 12%;">
                                             <input style="height:4rem" matTooltipPosition="above"
                                                 [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'lat')}"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'lat'), 'anDisable' : formDisable }"
                                                 (blur)="latLong($event.target.value,projectRow,'lat')"
                                                 formControlName="lat" type="text" min="1">
                                             <input matTooltipPosition="above"
                                                 [matTooltip]="checkErrorState(projectRow,'long') ? 'Enter Valid long' : null"
-                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'long')}"
+                                                [ngClass]="{'falseVal': checkErrorState(projectRow,'long'), 'anDisable' : formDisable}"
                                                 (blur)="latLong($event.target.value,projectRow,'long')"
                                                 formControlName="long" style="margin-left: 1ch; height:4rem" type="text"
                                                 min="1">
-                                            <a [disabled]="isDisabled"
+                                            <a [ngClass]="{'anDisable' : formDisable}"
                                                 (click)="openMap(waterBodiesIndex,projectIndex,'waterBodies')">
                                                 <mat-icon class="file" aria-hidden="false">
                                                     <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">

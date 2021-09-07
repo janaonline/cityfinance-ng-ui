@@ -564,19 +564,19 @@ export class UtilisationReportComponent implements OnInit {
 
   totalProCost(i) {
     console.log('uti form', this.utilizationReport);
-    console.log('12222222--',i);
-//  if((this.utilizationReport.controls.projects.value[0].cost) > 0){
+    console.log('12222222--', i);
+    //  if((this.utilizationReport.controls.projects.value[0].cost) > 0){
     this.projectCost = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
-     console.log('val...........', this.utilizationReport.controls.projects.value[j].cost)
+      console.log('val...........', this.utilizationReport.controls.projects.value[j].cost)
       if (!isNaN(this.utilizationReport.controls.projects.value[j].cost) &&
-      (this.utilizationReport.controls.projects.value[j].cost) > 0) {
+        (this.utilizationReport.controls.projects.value[j].cost) > 0) {
         this.projectCost =
           this.projectCost +
           +this.utilizationReport.controls.projects.value[j].cost;
       }
-    else if (isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
-      (this.utilizationReport.controls.projects.value[j].cost) < 0) {
+      else if (isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
+        (this.utilizationReport.controls.projects.value[j].cost) < 0) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "cost"
         ].patchValue("");
@@ -586,11 +586,11 @@ export class UtilisationReportComponent implements OnInit {
         console.log(this.utilizationReport);
       }
     }
-//  }else{
-//    this.utilizationReport.controls.projects["controls"][0]["controls"][
-//      "cost"
-//    ].patchValue("");
-//  }
+    //  }else{
+    //    this.utilizationReport.controls.projects["controls"][0]["controls"][
+    //      "cost"
+    //    ].patchValue("");
+    //  }
   }
   totalExpCost(i) {
     this.projectExp = 0;
@@ -605,7 +605,7 @@ export class UtilisationReportComponent implements OnInit {
           this.projectExp +
           Number(this.utilizationReport.controls.projects.value[j].expenditure);
       }
-     else if (
+      else if (
         isNaN(this.utilizationReport.controls.projects.value[j].expenditure) ||
         (this.utilizationReport.controls.projects.value[j].expenditure) < 0
       ) {
@@ -909,9 +909,10 @@ export class UtilisationReportComponent implements OnInit {
       if (this.ulbFormStaus != undefined || this.ulbFormStaus != null) {
         let canNavigate = sessionStorage.getItem("canNavigate");
         if (canNavigate === "true" && this.saveBtn === "NEXT") {
-          return this._router.navigate(["ulbform/annual_acc"]);;
+          return this._router.navigate(["ulbform/annual_acc"]);
         } else {
           this.stateActionSave();
+          sessionStorage.setItem("canNavigate", "true");
         }
 
       }
@@ -946,7 +947,7 @@ export class UtilisationReportComponent implements OnInit {
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.utilReport.status = stateData.status;
           this._ulbformService.allStatus.next(status);
-          this._router.navigate(["ulbform/annual_acc"]);;
+          // this._router.navigate(["ulbform/annual_acc"]);;
         },
         (error) => {
           swal("An error occured!");
@@ -1023,7 +1024,7 @@ export class UtilisationReportComponent implements OnInit {
       this.routerNavigate = null;
     }
   }
-
+  backButtonClicked = false;
   async proceed() {
     await this._matDialog.closeAll();
     let canNavigate = sessionStorage.getItem("canNavigate");
@@ -1036,10 +1037,20 @@ export class UtilisationReportComponent implements OnInit {
     if (this.routerNavigate && canNavigate === "true") {
       this._router.navigate([this.routerNavigate.url]);
       return;
-    } else if (this.routerNavigate && canNavigate === "false") {
+    } else if (this.routerNavigate && canNavigate === "false" && !this.actionTaken) {
       await this.submitData();
       this._router.navigate([this.routerNavigate.url]);
       return;
+    } else if (this.routerNavigate && canNavigate === "false" && this.actionTaken) {
+
+      await this.stateActionSave();
+      if (this.backButtonClicked) {
+        return this._router.navigate(["ulbform/grant-tra-certi"])
+      } else {
+        return this._router.navigate([this.routerNavigate.url]);
+      }
+
+
     }
     if (this.fromPreview) {
       this.onPreview();
@@ -1312,9 +1323,11 @@ export class UtilisationReportComponent implements OnInit {
       }
     });
   }
-
+  actionTaken = false;
   checkStatus(ev) {
+    this.actionTaken = true;
     console.log("actionValues", ev);
+    sessionStorage.setItem("canNavigate", "false");
     this.saveBtn = "SAVE AND NEXT";
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;

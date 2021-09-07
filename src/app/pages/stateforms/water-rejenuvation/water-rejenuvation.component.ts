@@ -81,6 +81,7 @@ export class WaterRejenuvationComponent implements OnInit {
     "Per Capita Supply of Water",
     "Quality of Water Supplied",
   ];
+  disableUAs = []
   async ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -108,11 +109,14 @@ export class WaterRejenuvationComponent implements OnInit {
 
           if (el['controls']['status']['value'] == 'APPROVED') {
             console.log(el)
+            this.disableUAs.push(el.value?.ua)
+
             el.disable();
             console.log(el['controls'])
             // this.waterRejenuvation['controls']['uaData']['controls'][el]['controls'].disable();
           }
         })
+        console.log(this.disableUAs)
       }
     }
     else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
