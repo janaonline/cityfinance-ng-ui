@@ -7,6 +7,8 @@ import { QuestionnaireService } from 'src/app/pages/questionnaires/service/quest
 import { GTCertificateService } from '../gtcertificate.service'
 import { SweetAlert } from "sweetalert/typings/core";
 import { StateformsService } from '../../stateforms.service';
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate-preview',
@@ -100,7 +102,6 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
     }
 
     </style>`
-  ulbName;
   stateName;
   status;
   formStatusCheck = ''
@@ -111,12 +112,16 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
     'In Progress'
   ]
   subParentForModal;
+  USER_TYPES = USER_TYPE;
+  userDetails = new UserUtility().getLoggedInUserDetails();
   ngOnInit() {
     console.log('preData', this.data)
     let userData = JSON.parse(localStorage.getItem("userData"));
-    this.ulbName = userData["name"];
-    this.stateName = userData["stateName"];
-
+    if(this.userDetails.role == USER_TYPE.STATE){
+      this.stateName = userData.stateName;
+  }else {
+      this.stateName = sessionStorage.getItem('stateName');
+  }
       this.subParentForModal = this.gtcService.OpenModalTrigger.subscribe(
         (change) => {
           if (this.changeFromOutSide) {

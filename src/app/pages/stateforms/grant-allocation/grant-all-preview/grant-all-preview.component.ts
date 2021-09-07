@@ -19,6 +19,8 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
 import { GAservicesService } from "../g-aservices.service";
 import { StateformsService } from "../../stateforms.service";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { UserUtility } from "src/app/util/user/user";
 
 @Component({
   selector: "app-grant-all-preview",
@@ -114,13 +116,19 @@ margin-left: 1.2rem !important;
     public state_service : StateformsService,
   ) {}
   stateName;
-  ulbName;
+ // ulbName;
   subParentForModal;
+  USER_TYPES = USER_TYPE;
+  userDetails = new UserUtility().getLoggedInUserDetails();
   ngOnInit() {
     console.log("previewData", this.data);
     let userData = JSON.parse(localStorage.getItem("userData"));
-    this.ulbName = userData["name"];
-    this.stateName = userData["stateName"];
+  //  this.ulbName = userData["name"];
+    if(this.userDetails.role == USER_TYPE.STATE){
+      this.stateName = userData.stateName;
+  }else {
+      this.stateName = sessionStorage.getItem('stateName');
+  }
 
     this.subParentForModal = this._gAservices.OpenModalTrigger.subscribe(
       (change) => {

@@ -63,7 +63,7 @@ export class ReviewUlbFormComponent implements OnInit {
   ngOnInit() {
     this.showLoader = true;
     this.loadData();
-    if(this.loggedInUserType !== USER_TYPE.STATE){
+    if (this.loggedInUserType !== USER_TYPE.STATE) {
       this.actBtn = true;
     }
   }
@@ -102,6 +102,13 @@ export class ReviewUlbFormComponent implements OnInit {
     });
   }
   loadData() {
+    this.ulb_name_s.patchValue("")
+    this.ulb_code_s.patchValue("")
+    this.ulb_type_s.patchValue("")
+    this.population_type_s.patchValue("")
+    this.ua_name_s.patchValue("")
+    this.status_s.patchValue("")
+
     this._stateformsService.getUlbReview()
       .subscribe((res) => {
         console.log('profile', res);
@@ -220,7 +227,7 @@ export class ReviewUlbFormComponent implements OnInit {
     ) {
       stActionCheck = 'true'
     }
-    if(resData.actionTakenByUserRole == "MoHUA") {
+    if (resData.actionTakenByUserRole == "MoHUA") {
       stActionCheck = 'true';
     }
     localStorage.setItem("stateActionComDis", stActionCheck);

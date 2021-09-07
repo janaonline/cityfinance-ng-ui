@@ -53,9 +53,9 @@
                                                 <option value="In Progress">In Progress</option>
                                                 <option value="Under Review By State">Under Review By State</option>
                                                 <option value="Under Review By MoHUA">Under Review By MoHUA</option>
-                                                <option value="Approved By State">Approved By State</option>
+
                                                 <option value="Rejected By State">Rejected By State</option>
-                                                <option value="Approved By MoHUA">Approved By MoHUA</option>
+                                                <option value="Approval Completed">Approval Completed</option>
                                                 <option value="Rejected By MoHUA">Rejected By MoHUA</option>
                                             </select>
                                         </th>
@@ -87,8 +87,11 @@
                                                 (click)="viewHistory(template, resData['stateMasterFormData']['_id'])">{{resData.formStatus}}</a>
                                         </td>
 
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
-                                            *ngIf="!((resData?.stateMasterFormData?.isSubmit && resData?.stateMasterFormData?.actionTakenByRole == 'STATE')  || (!resData?.stateMasterFormData?.isSubmit && resData?.stateMasterFormData?.actionTakenByRole == 'MoHUA'))  || resData.formStatus=='Approval Completed'">
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData?.stateMasterFormData?.isSubmit &&
+                                             resData?.stateMasterFormData?.actionTakenByRole == 'STATE')  ||
+                                             (!resData?.stateMasterFormData?.isSubmit &&
+                                             resData?.stateMasterFormData?.actionTakenByRole == 'MoHUA'))  ||
+                                             resData.formStatus=='Approval Completed'">
 
 
                                             <a (click)="viewStateForm(resData)" [routerLink]="[
