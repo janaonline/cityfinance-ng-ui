@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, AfterViewChecked, OnChanges } from '@angular/core';
 import { UlbformService } from 'src/app/pages/ulbform/ulbform.service';
-
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 @Component({
   selector: 'app-state-action-ulb',
   templateUrl: './state-action-ulb.component.html',
@@ -12,55 +13,62 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
     public _ulbformService: UlbformService
   ) { }
   @Output()
-   actionValues = new EventEmitter<any>();
-   @Input() statusResponse;
+  actionValues = new EventEmitter<any>();
+  @Input() statusResponse;
   // @Input() statusResponseSlb;
   // @Input() statusResponseW;
-  stateAction= '';
+  stateAction = '';
   rejectReason = null;
   actionData;
   btnStyleA = false;
   btnStyleR = false;
   compDis = 'false'
   actionDisable = false;
-
+  USER_TYPES = USER_TYPE;
+  actionText = ''
+  userDetails = new UserUtility().getLoggedInUserDetails();
   ngOnInit() {
     this.compDis = localStorage.getItem('stateActionComDis')
     console.log('stateActionRec', this.statusResponse, this.compDis)
-    if(this.compDis == 'true'){
+    if (this.compDis == 'true') {
       this.actionDisable = true;
       console.log('final action completed.....', this.compDis);
-}
-
-this._ulbformService.disableAllFormsAfterStateReview.subscribe(
-  (disable) => {
-    console.log("utilization speaking", disable);
-    this.compDis = 'true';
-    if (disable) {
-      localStorage.setItem("stateActionComDis", 'true');
-      this.actionDisable = true;
+      if (this.userDetails.role == USER_TYPE.STATE) {
+        this.actionText = 'State Review Status';
+      } else if (this.userDetails.role == USER_TYPE.MoHUA) {
+        this.actionText = 'MoHUA Review Status';
+      }
     }
-  }
-);
-this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
-  (disable) => {
-    console.log("utilization speaking", disable);
-    this.compDis = 'true';
 
-    if (disable) {
-      localStorage.setItem("mohuaActionComDis", 'true');
-      this.actionDisable = true;
-    }
+    this._ulbformService.disableAllFormsAfterStateReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+        if (disable) {
+          localStorage.setItem("stateActionComDis", 'true');
+          this.actionDisable = true;
+        }
+      }
+    );
+    this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
+      (disable) => {
+        console.log("utilization speaking", disable);
+        this.compDis = 'true';
+
+        if (disable) {
+          localStorage.setItem("mohuaActionComDis", 'true');
+          this.actionDisable = true;
+        }
+      }
+    );
   }
-);
-  }
-  ngOnChanges(){
+  ngOnChanges() {
 
     this.stateAction = this.statusResponse?.st;
     this.rejectReason = this.statusResponse?.rRes;
-    if(this.stateAction == 'APPROVED'){
+    if (this.stateAction == 'APPROVED') {
       this.btnStyleA = true
-    }else if(this.stateAction == 'REJECTED'){
+    } else if (this.stateAction == 'REJECTED') {
       this.btnStyleR = true
     }
 
@@ -68,7 +76,7 @@ this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
   ngAfterViewChecked() {
 
   }
-  checkStatusAp(){
+  checkStatusAp() {
     this.btnStyleA = true;
     this.btnStyleR = false;
     this.rejectReason = null;
@@ -79,7 +87,7 @@ this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
     console.log('stateAction', this.stateAction, this.statusResponse)
     this.actionValues.emit(this.actionData);
   }
-  checkStatus(){
+  checkStatus() {
     this.btnStyleA = false;
     this.btnStyleR = true;
     this.actionData = {
