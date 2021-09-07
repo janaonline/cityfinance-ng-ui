@@ -34,7 +34,8 @@
                                     <tr class="filter">
                                         <th class="filter" style="width: 1%;"></th>
                                         <th class="filter" style="width: 35%;">
-                                            <select class="s-th" [formControl]="state_name" style="width: auto;" (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="state_name" style="width: auto;"
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">All States</option>
                                                 <option *ngFor="let state of states" value="{{state.name}}">
@@ -44,16 +45,17 @@
                                         </th>
                                         <th class="filter" style="width: 5%;"></th>
                                         <th class="filter" style="width: 35%;">
-                                            <select class="s-th" [formControl]="status_type" style="width: auto;" (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="status_type" style="width: auto;"
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
                                                 <option value="In Progress">In Progress</option>
                                                 <option value="Under Review By State">Under Review By State</option>
                                                 <option value="Under Review By MoHUA">Under Review By MoHUA</option>
-                                                <option value="Approved By State">Approved By State</option>
+
                                                 <option value="Rejected By State">Rejected By State</option>
-                                                <option value="Approved By MoHUA">Approved By MoHUA</option>
+                                                <option value="Approval Completed">Approval Completed</option>
                                                 <option value="Rejected By MoHUA">Rejected By MoHUA</option>
                                             </select>
                                         </th>
@@ -71,7 +73,8 @@
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
                                         <td style="width: 1%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                                            tabelIndex+1}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
@@ -80,7 +83,8 @@
 
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" style="color: blue;">
-                                            <a (click)="viewHistory(template, resData['stateMasterFormData']['_id'])">{{resData.formStatus}}</a>
+                                            <a
+                                                (click)="viewHistory(template, resData['stateMasterFormData']['_id'])">{{resData.formStatus}}</a>
                                         </td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''" *ngIf="!((resData?.stateMasterFormData?.isSubmit &&
@@ -111,13 +115,16 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
-                                screenReaderCurrentLabel="You're on page">
+                            <pagination-controls style="float: right; position: relative" id="foo"
+                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
+                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <div class="spinner" *ngIf="showLoader" style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
+                        <div class="spinner" *ngIf="showLoader"
+                            style="z-index: 999999; position: fixed; top: 0px; bottom: 0px">
                             <mat-spinner></mat-spinner>
                         </div>
                     </div>
@@ -138,7 +145,8 @@
 <ng-template #template>
     <div class="modal-title">
         <div style=" display: flex; justify-content: flex-end;">
-            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
         </div>
