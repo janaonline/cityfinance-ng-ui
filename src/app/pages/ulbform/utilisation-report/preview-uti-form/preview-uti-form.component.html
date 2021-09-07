@@ -26,7 +26,7 @@
     </div>
     <div class="row se-r pd-row-n">
         <div class="col-sm-9 st-n">
-            <span>Name of State:-  <span>{{data.state_name}}</span></span>
+            <span>Name of State:-  <span>{{ state }}</span></span>
         </div>
         <div class="col-sm-3 pdf-hide" style="text-align: right;">
             <button *ngIf="!parentData" id="donwloadButton" style="height: 32px; right: 0%; outline: none;" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF(template)">
@@ -36,7 +36,7 @@
         <div class="col-sm-12 st-n m-top">
             <span>
            Name of City/UA[MPC/NMPC]:-
-         <span>{{data.ulbName}}</span>
+         <span>{{ ulb }}</span>
             </span>
         </div>
     </div>

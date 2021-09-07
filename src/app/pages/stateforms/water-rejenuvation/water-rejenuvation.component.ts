@@ -81,6 +81,7 @@ export class WaterRejenuvationComponent implements OnInit {
     "Per Capita Supply of Water",
     "Quality of Water Supplied",
   ];
+  disableUAs = []
   async ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -108,11 +109,14 @@ export class WaterRejenuvationComponent implements OnInit {
 
           if (el['controls']['status']['value'] == 'APPROVED') {
             console.log(el)
+            this.disableUAs.push(el.value?.ua)
+
             el.disable();
             console.log(el['controls'])
             // this.waterRejenuvation['controls']['uaData']['controls'][el]['controls'].disable();
           }
         })
+        console.log(this.disableUAs)
       }
     }
     else if (this.allStatus["latestFinalResponse"]["role"] == "MoHUA") {
@@ -235,7 +239,7 @@ export class WaterRejenuvationComponent implements OnInit {
   get f() {
     return this.waterRejenuvation.controls;
   }
-
+  latLongRegex = "^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   getUas() {
     console.log("rejen heading...", this.data);
     return this.data.map((data) =>
@@ -268,10 +272,11 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
+          Validators.pattern(this.latLongRegex)
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
-          // Validators.pattern("/^\d+([,.]\d+)?$/;"),
+          Validators.pattern(this.latLongRegex)
 
         ]),
         photos: this.fb.array(this.getPhotos(data.photos), [
@@ -342,11 +347,11 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         indicator: this.fb.control(data.indicator, [
           Validators.required,
-          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+
         ]),
         existing: this.fb.control(data.existing, [
           Validators.required,
-          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+
         ]),
         after: this.fb.control(data.after, [
           Validators.required,
@@ -372,11 +377,11 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
-          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          Validators.pattern(this.latLongRegex)
         ]),
         long: this.fb.control(data.long, [
           Validators.required,
-          // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+          Validators.pattern(this.latLongRegex)
         ]),
         stp: this.fb.control(data.stp, [
           Validators.required,
@@ -552,11 +557,11 @@ export class WaterRejenuvationComponent implements OnInit {
           ]),
           lat: this.fb.control(null, [
             Validators.required,
-            Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+            Validators.pattern(this.latLongRegex)
           ]),
           long: this.fb.control(null, [
             Validators.required,
-            Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+            Validators.pattern(this.latLongRegex)
           ]),
           stp: this.fb.control(null, [
             Validators.required,
@@ -603,11 +608,11 @@ export class WaterRejenuvationComponent implements OnInit {
             ]),
             indicator: this.fb.control(null, [
               Validators.required,
-              // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+
             ]),
             existing: this.fb.control(null, [
               Validators.required,
-              // Validators.pattern("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}"),
+
             ]),
             after: this.fb.control(null, [
               Validators.required,
@@ -1052,7 +1057,7 @@ export class WaterRejenuvationComponent implements OnInit {
     let val;
     val = parseInt(value);
     if (isNaN(val)) {
-      event.controls[type].patchValue(0);
+      // event.controls[type].patchValue(0.0);
       return;
     }
     val = value.split(".")

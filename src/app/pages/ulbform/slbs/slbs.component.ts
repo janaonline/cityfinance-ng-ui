@@ -240,15 +240,20 @@ export class SlbsComponent implements OnInit {
   detectInit = 0
 
   onWaterWasteManagementEmitValue(value) {
+    console.log('ENTERED ON WASTER MANAGEMENT EMIT VALUE')
     this.detectInit++;
     console.log(this.detectInit)
-
-    if (this.detectInit > 20) {
-      sessionStorage.setItem("changeInSLB", "true");
+    if (this.preFilledWaterManagement.waterManagement) {
+      if (this.detectInit > 20) {
+        sessionStorage.setItem("changeInSLB", "true");
+      } else {
+        sessionStorage.setItem("changeInSLB", "false");
+        this._ulbformService.slbFormChange.next(false)
+      }
     } else {
-      sessionStorage.setItem("changeInSLB", "false");
-      this._ulbformService.slbFormChange.next(false)
+      sessionStorage.setItem("changeInSLB", "true");
     }
+
     console.log("value which came from fc-slb component", value);
 
     let changeHappen = sessionStorage.getItem("changeInSLB");

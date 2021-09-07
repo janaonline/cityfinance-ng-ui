@@ -19,6 +19,8 @@ import { Router, Event } from "@angular/router";
 import { UlbformService } from "../../ulbform.service";
 import { UtiReportService } from "../uti-report.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { UserUtility } from "src/app/util/user/user";
 const swal: SweetAlert = require("sweetalert");
 // import * as jspdf from 'jspdf';
 @Component({
@@ -189,7 +191,21 @@ tr {
   categories;
   totalWmAmount = 0;
   totalSwmAmount = 0;
+  USER_TYPES = USER_TYPE;
+  userDetails = new UserUtility().getLoggedInUserDetails();
+  userData = JSON.parse(localStorage.getItem("userData"));
+  state;
+  ulb;
   ngOnInit() {
+    console.log('details.....', this.userDetails);
+
+    if(this.userDetails.role == USER_TYPE.ULB){
+      this.state = this.userData.stateName;
+      this.ulb = this.userData.name
+  }else {
+      this.state = sessionStorage.getItem('stateName');
+      this.ulb = sessionStorage.getItem('ulbName');
+  }
     console.log('preview data', this.data);
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;

@@ -93,6 +93,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
   completedMessage: string;
 
   ngOnInit() {
+
     this.initializeCompletedMessage();
   }
 
@@ -231,8 +232,8 @@ export class FinancialUploadsComponent extends UploadDataUtility
     };
     this.millionPlusCitiesAnswers = data.millionPlusCities
       ? {
-          ...data.millionPlusCities.documents,
-        }
+        ...data.millionPlusCities.documents,
+      }
       : null;
   }
 
@@ -511,12 +512,12 @@ export class FinancialUploadsComponent extends UploadDataUtility
       ulb: this.financialData.ulb,
       millionPlusCities:
         this.financialData &&
-        this.financialData.millionPlusCities &&
-        this.financialData._id
+          this.financialData.millionPlusCities &&
+          this.financialData._id
           ? { ...this.financialData.millionPlusCities }
           : this.financialData.millionPlusCities && this.financialData._id
-          ? { ...this.financialData.millionPlusCities }
-          : {
+            ? { ...this.financialData.millionPlusCities }
+            : {
               documents: {
                 ...this.millionPlusCitiesForm.getRawValue(),
                 ...this.millionPlusCitiesForm.value,
@@ -524,21 +525,21 @@ export class FinancialUploadsComponent extends UploadDataUtility
             },
       solidWasteManagement:
         this.financialData &&
-        this.financialData.solidWasteManagement &&
-        this.financialData._id
+          this.financialData.solidWasteManagement &&
+          this.financialData._id
           ? { ...this.financialData.solidWasteManagement }
           : {
-              documents: {
-                ...this.solidWasteManagementForm.getRawValue(),
-                ...this.solidWasteManagementForm.value,
-              },
+            documents: {
+              ...this.solidWasteManagementForm.getRawValue(),
+              ...this.solidWasteManagementForm.value,
             },
+          },
       waterManagement: {
         ...this.waterWasteManagementForm.getRawValue(),
         ...this.waterWasteManagementForm.value,
       },
       isCompleted: true,
-      design_year:this.years["2020-21"]
+      design_year: this.years["2020-21"]
     };
 
     body = new JSONUtility().filterEmptyValue(body, true) as typeof body;
@@ -609,6 +610,7 @@ export class FinancialUploadsComponent extends UploadDataUtility
       },
       waterManagement: this.waterWasteManagementForm.getRawValue(),
       isCompleted: false,
+      design_year: this.years["2020-21"]
     };
   }
 
