@@ -406,7 +406,7 @@ export class AnnualAccountsComponent implements OnInit {
     //   st : data?.status,
     //   rRes : data?.rejectReason
     // }
-    if (this.data["status"] != "NA") {
+    if (this.data["status"] != "N/A") {
       this.anFormStaus = this.data["status"] ? this.data["status"] : "PENDING";
 
       if (this.data["actionTakenByRole"] == USER_TYPE.STATE) {
@@ -509,7 +509,9 @@ export class AnnualAccountsComponent implements OnInit {
       form.unAudited.standardized_data.declaration = null;
     }
     console.log(JSON.stringify(form), "saved form.........");
-
+    if (form.status === "N/A" && (form.unAudited.submit_annual_accounts || form.audited.submit_annual_accounts)) {
+      form.status = "PENDING"
+    }
     return new Promise((resolve, rej) => {
       this.annualAccountsService.postData(form).subscribe(
         (res) => {
@@ -709,7 +711,7 @@ export class AnnualAccountsComponent implements OnInit {
         }
 
       } else {
-        return this._router.navigate(["ulbform/service-level"]);
+        return this._router.navigate(["ulbform/slbs"]);
       }
     }
   }
@@ -738,7 +740,7 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   clearFile(fileType) {
-    if(this.isDisabled){
+    if (this.isDisabled) {
       return
     }
     let temp = this.data[fileType].standardized_data.excel;
@@ -1053,7 +1055,7 @@ export class AnnualAccountsComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.annualAccounts.status = res["newAnnualAccountData"].status;
         this._ulbformService.allStatus.next(status);
-        this._router.navigate(["ulbform/service-level"]);
+        this._router.navigate(["ulbform/slbs"]);
       },
       (err) => {
         swal("Failed To Save Action");
