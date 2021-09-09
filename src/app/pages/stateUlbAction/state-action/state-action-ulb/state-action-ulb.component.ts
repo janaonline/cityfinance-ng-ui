@@ -28,16 +28,17 @@ export class StateActionUlbComponent implements OnInit, AfterViewChecked, OnChan
   actionText = ''
   userDetails = new UserUtility().getLoggedInUserDetails();
   ngOnInit() {
+    if (this.userDetails.role == USER_TYPE.STATE) {
+      this.actionText = 'State Review Status';
+    } else if (this.userDetails.role == USER_TYPE.MoHUA) {
+      this.actionText = 'MoHUA Review Status';
+    }
     this.compDis = localStorage.getItem('stateActionComDis')
     console.log('stateActionRec', this.statusResponse, this.compDis)
     if (this.compDis == 'true') {
       this.actionDisable = true;
       console.log('final action completed.....', this.compDis);
-      if (this.userDetails.role == USER_TYPE.STATE) {
-        this.actionText = 'State Review Status';
-      } else if (this.userDetails.role == USER_TYPE.MoHUA) {
-        this.actionText = 'MoHUA Review Status';
-      }
+
     }
 
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(

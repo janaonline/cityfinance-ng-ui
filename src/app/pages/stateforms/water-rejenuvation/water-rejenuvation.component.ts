@@ -82,6 +82,8 @@ export class WaterRejenuvationComponent implements OnInit {
     "Quality of Water Supplied",
   ];
   disableUAs = []
+  disableActionUAs = []
+  backButtonClicked = false;
   async ngOnInit() {
     this.formDisable = sessionStorage.getItem("disableAllForms") == 'true'
     this.actionFormDisable = sessionStorage.getItem("disableAllActionForm") == 'true'
@@ -99,6 +101,14 @@ export class WaterRejenuvationComponent implements OnInit {
     this.initializeReport();
     if (this.loggedInUserType == "MoHUA") {
       this.formDisable = true;
+      this.waterRejenuvation['controls']['uaData']['controls'].forEach(el => {
+
+        if (el['controls']['status']['value'] == 'APPROVED') {
+
+          this.disableActionUAs.push(el.value?.ua)
+        }
+      })
+      console.log(this.disableActionUAs)
 
     } else if (this.loggedInUserType == "STATE") {
       if (this.allStatus["latestFinalResponse"]["role"] == "STATE") {
@@ -189,6 +199,10 @@ export class WaterRejenuvationComponent implements OnInit {
 
     this.waterRejenuvation.valueChanges.subscribe((change) => {
       let data = sessionStorage.getItem("waterRejenuvationData");
+      let uaData = this.waterRejenuvation.getRawValue().uaData
+      if (change.uaData.length != uaData.length) {
+        change.uaData = uaData
+      }
       change.uaData.forEach((element) => {
         delete element.foldCard;
       });
@@ -698,7 +712,7 @@ export class WaterRejenuvationComponent implements OnInit {
             this._router.navigate([this.routerNavigate.url]);
           }
           return;
-        } else if (this.submitted) {
+        } else if (this.submitted || this.backButtonClicked) {
 
           this.body = this.waterRejenuvation.value;
           this.body['uaData'].forEach(el => {
@@ -714,7 +728,14 @@ export class WaterRejenuvationComponent implements OnInit {
           this.saveStateAction();
           sessionStorage.setItem("changeInWaterRejenuvation", "false")
           if (!this.flagg) {
-            this._router.navigate(["stateform/action-plan"]);
+            if (this.submitted) {
+              this._router.navigate(["stateform/action-plan"]);
+              return;
+            } else if (this.backButtonClicked) {
+              this._router.navigate(["stateform/water-supply"]);
+              return;
+            }
+
           }
           return;
         }
@@ -769,7 +790,7 @@ export class WaterRejenuvationComponent implements OnInit {
         status.steps.waterRejuventation.isSubmit = !this.body["isDraft"];
         status.actionTakenByRole = "MoHUA";
         this._stateformsService.allStatusStateForms.next(status);
-        this._router.navigate(["stateform/action-plan"]);
+        // this._router.navigate(["stateform/action-plan"]);
       },
       (error) => {
         swal("An error occured!");
