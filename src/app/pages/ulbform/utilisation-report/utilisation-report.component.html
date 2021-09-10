@@ -312,12 +312,13 @@
                                     <input type="text" class="t-i form-control" (mouseover)="errorDisplayLat=true"
                                         (mouseout)="errorDisplayLat=false"
                                         [ngStyle]="{'border':(isSubmitted == true &&
-                                     utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required) ? '1px solid red' : '' }"
+                                     (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required || 
+                                     utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)  ) ? '1px solid red' : '' }"
                                         formControlName="lat" [disabled]="isDisabled" appSixDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;"
-                                            *ngIf="(isSubmitted == true &&
-                                      utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required) && errorDisplayLat">
+                                            *ngIf="(isSubmitted == true &&(utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required || 
+                                            utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)) && errorDisplayLat">
                                             Latitude Required*
                                         </span>
                                     </div>
@@ -326,11 +327,13 @@
                                     <input type="text" class="t-i form-control" (mouseover)="errorDisplayLong=true"
                                         (mouseout)="errorDisplayLong= false"
                                         [ngStyle]="{'border':(isSubmitted == true &&
-                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required)? '1px solid red' : '' }"
+                (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
+                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern) )? '1px solid red' : '' }"
                                         formControlName="long" [disabled]="isDisabled" appSixDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px;" *ngIf="(isSubmitted == true &&
-                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required) &&
+                                        (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
+                                        utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern)) &&
                  errorDisplayLong">
                                             Longitude Required*
                                         </span>
