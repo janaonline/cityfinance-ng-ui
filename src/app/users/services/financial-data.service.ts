@@ -127,7 +127,7 @@ export class FinancialDataService {
       }
     });
 
-    return `${environment.api.url}xv-fc-form/all/xv-fc-form/all/606aadac4dff55e6c075c507?${params}`;
+    return `${environment.api.url}/xv-fc-form/all/606aadac4dff55e6c075c507?${params}`;
   }
 
   updateActionOnFinancialData(data: { [key: string]: any }, requestId: string) {
