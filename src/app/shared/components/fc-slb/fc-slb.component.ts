@@ -217,7 +217,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   }
   i = 0;
   counter = 0;
-
+  allStatus;
   ngOnChanges(changes) {
 
     console.log('ngOnchanges fired')
@@ -326,6 +326,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.isDisabled = true;
       this.form?.disable();
     }
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatus"))
+    
     if (
       this.masterFormStatus == "REJECTED" &&
       this.loggedInUserType == USER_TYPE.ULB &&
@@ -334,6 +336,12 @@ export class FcSlbComponent implements OnInit, OnChanges {
     ) {
       this.isDisabled = false;
       this.form?.enable();
+    }
+    if (this.allStatus['slbForWaterSupplyAndSanitation']['status'] == "APPROVED" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
+    ) {
+      this.isDisabled = true;
+      this.form?.disable();
     }
 
   }

@@ -309,6 +309,15 @@ export class UtilisationReportComponent implements OnInit {
         setTimeout(() => {
           this.currentChanges();
         }, 1000);
+
+        if (res["status"] == "APPROVED" &&
+          this.lastRoleInMasterForm != this.userTypes.ULB
+        ) {
+          this.isDisabled = true;
+          this.utilizationReport.disable();
+          this.utilizationReport.controls.projects.disable();
+        }
+
       },
       (error) => {
         this.utilizationReport.value["blankForm"] = true;

@@ -15,7 +15,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: './gtcertificate-preview.component.html',
   styleUrls: ['./gtcertificate-preview.component.scss']
 })
-export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
+export class GtcertificatePreviewComponent implements OnInit, OnDestroy {
   @Input() parentData: any;
   @Input()
   changeFromOutSide: any;
@@ -117,20 +117,20 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
   ngOnInit() {
     console.log('preData', this.data)
     let userData = JSON.parse(localStorage.getItem("userData"));
-    if(this.userDetails.role == USER_TYPE.STATE){
+    if (this.userDetails.role == USER_TYPE.STATE) {
       this.stateName = userData.stateName;
-  }else {
+    } else {
       this.stateName = sessionStorage.getItem('stateName');
-  }
-      this.subParentForModal = this.gtcService.OpenModalTrigger.subscribe(
-        (change) => {
-          if (this.changeFromOutSide) {
-            this.openModal(this.template);
-          }
+    }
+    this.subParentForModal = this.gtcService.OpenModalTrigger.subscribe(
+      (change) => {
+        if (this.changeFromOutSide) {
+          this.openModal(this.template);
         }
-      );
+      }
+    );
     this.previewStatusSet();
-    if (this.parentData){
+    if (this.parentData) {
       this.data = this.parentData;
     }
   }
@@ -139,7 +139,7 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
   }
   previewStatusSet() {
 
-    console.log('prevData status',this.data)
+    console.log('prevData status', this.data)
     let GTCData = JSON.parse(sessionStorage.getItem("StateGTC"))
     console.log(GTCData)
     if (GTCData['data']) {
@@ -258,16 +258,35 @@ export class GtcertificatePreviewComponent implements OnInit, OnDestroy{
 
 
   async proceed(uploadedFiles) {
-    await this._matDialog.closeAll();
+    if (this.userDetails['role'] == USER_TYPE.STATE) {
+      await this._matDialog.closeAll();
 
-    this.postsDataCall(uploadedFiles);
-    sessionStorage.setItem("changeInGTC", "false")
-    if (this.changeFromOutSide) {
-      this.stateformsService.initiateDownload.next(true);
-    } else this.downloadAsPDF();
-    return;
+      this.postsDataCall(uploadedFiles);
+      sessionStorage.setItem("changeInGTC", "false")
+      if (this.changeFromOutSide) {
+        this.stateformsService.initiateDownload.next(true);
+      } else this.downloadAsPDF();
+      return;
+    } else if (this.userDetails['role'] == USER_TYPE.MoHUA) {
+      await this._matDialog.closeAll();
+      this.saveStateAction();
+      sessionStorage.setItem("changeInGTC", "false")
+      if (this.changeFromOutSide) {
+        this.stateformsService.initiateDownload.next(true);
+      } else this.downloadAsPDF();
+      return;
+    }
+
   }
   err = ''
+  saveStateAction() {
+    this.gtcService.postStateAction(this.data).subscribe((res) => {
+      sessionStorage.setItem("changeInGTC", "false")
+      swal('Record Submitted Successfully!')
+    }, (err) => {
+      swal(`Error- ${err.message}`)
+    })
+  }
   postsDataCall(uploadedFiles) {
     return new Promise((resolve, reject) => {
 

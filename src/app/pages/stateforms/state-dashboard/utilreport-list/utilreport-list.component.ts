@@ -57,7 +57,7 @@ export class UtilreportListComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-       this.showLoader = false;
+        this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
@@ -151,7 +151,7 @@ export class UtilreportListComponent implements OnInit {
               type: "text/json; charset=utf-8",
             });
             const url = window.URL.createObjectURL(blob);
-            fileSaver.saveAs(blob, "Utilization Report Status List.xlsx");
+            fileSaver.saveAs(blob, "Utilisation Report Status List.xlsx");
           }
           else {
             let res: any = result;

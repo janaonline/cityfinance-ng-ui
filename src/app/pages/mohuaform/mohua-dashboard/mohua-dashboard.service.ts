@@ -26,6 +26,9 @@ export class MohuaDashboardService {
       return this.http.get(`${environment.api.url}mohua/forms/606aaf854dff55e6c075d219`);
     }
   }
+  getFullUAList() {
+    return this.http.get(`${environment.api.url}/UA/getAll`);
+  }
   getPlansData(state_id) {
     if (state_id) {
       return this.http.get(`${environment.api.url}masterForm/dashboard-plansData/606aaf854dff55e6c075d219?state_id=${state_id}`);
@@ -62,10 +65,10 @@ export class MohuaDashboardService {
     }
   }
 
-  getGrantTransfer(params,csv=null){
-    if(csv)
-    return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ?params.state_id:"" }&year_id=${params.year ? params.year:""}&installment=${params.installment ? params.installment: ""}`,{responseType:'blob'});
-    return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ?params.state_id:"" }&year_id=${params.year ? params.year:""}&installment=${params.installment ? params.installment: ""}`);
+  getGrantTransfer(params, csv = null) {
+    if (csv)
+      return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ? params.state_id : ""}&year_id=${params.year ? params.year : ""}&installment=${params.installment ? params.installment : ""}`, { responseType: 'blob' });
+    return this.http.get(`${environment.api.url}template?csv=${params.csv}&design_year=606aaf854dff55e6c075d219&state_id=${params.state_id ? params.state_id : ""}&year_id=${params.year ? params.year : ""}&installment=${params.installment ? params.installment : ""}`);
   }
 
 }

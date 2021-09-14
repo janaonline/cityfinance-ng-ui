@@ -347,7 +347,7 @@
                         <div class="row formDonutCharts">
                             <div class="textInThirdColumn"
                                 style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
-                                ULB Utilization Report Status
+                                ULB Utilisation Report Status
 
                                 <span style="margin-left: 30px;">
                                     <a (click)="openDialogUtil()">
@@ -419,14 +419,18 @@
                                         <th scope="col" class="tableHeadText" style="width: 17%;">
                                             ULBs submitted forms/ Total ULBs in Category
                                         </th>
-                                        <th scope="col" style="width: 17%;" class="tableHeadText">Number of States to
-                                            Submit Grant Transfer Certificates
+
+                                        <th scope="col" style="width: 17%;" class="tableHeadText">{{!state_id ?
+                                            'Number of States to
+                                            Submit Grant Transfer Certificates' : 'Grant Transfer Certificate Status' }}
                                         </th>
-                                        <th scope="col" style="width: 17%;" class="tableHeadText">Number of States with
-                                            Grant Recommendations sent to the MoF
+                                        <th scope="col" style="width: 17%;" class="tableHeadText"> {{!state_id ?
+                                            'Number of States with
+                                            Grant Recommendations sent to the MoF' : 'Grant Recommendation Status' }}
                                         </th>
-                                        <th scope="col" style="width: 17%;" class="tableHeadText">Number of States that
-                                            Received Grants
+                                        <th scope="col" style="width: 17%;" class="tableHeadText"> {{!state_id ?
+                                            'Number of States that
+                                            Received Grants' : 'Grant Release Status' }}
                                         </th>
                                     </tr>
                                 </thead>
@@ -466,8 +470,27 @@
 margin-right: 0;">
     <div class="col-sm-6" style="border-right:1px solid #0000001A ; ">
         <div class="row">
-            <div class="col-sm-12 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
+            <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
                 Challenge Fund</div>
+            <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
+
+                <form>
+                    <mat-form-field>
+                        <input type="text" placeholder="Select UA" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+
+                <!-- <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
+                    <option value="all">-ALL UAs-</option>
+                    <option *ngFor="let item of UAs" value="{{item?._id}}">{{item?.name}}</option>
+                </select> -->
+            </div>
         </div>
 
         <div class="row">

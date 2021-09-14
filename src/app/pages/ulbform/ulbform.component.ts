@@ -587,8 +587,10 @@ export class UlbformComponent implements OnInit {
         }
 
         this.finalActionDis = true;
-        this._router.navigate(["ulbform/ulbform-overview"]);
-        location.reload();
+        this._router.navigate(["../ulbform-overview"]);
+        setTimeout(() => {
+          location.reload();
+        }, 100);
 
       },
       (err) => {
