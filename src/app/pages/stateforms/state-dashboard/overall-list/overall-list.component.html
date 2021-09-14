@@ -28,7 +28,7 @@
                                         <th scope="col">ULB Name </th>
                                         <th scope="col" *ngIf="loggedInUserType != USER_TYPE.STATE">State Name </th>
                                         <th scope="col">ULB Census Code/ ULB Code </th>
-                                        <th scope="col">ULB Type</th>
+                                        <!-- <th scope="col">ULB Type</th> -->
                                         <th scope="col">Population Type</th>
                                         <th scope="col">Name of UA</th>
                                         <th scope="col">Overall Form Status</th>
@@ -68,7 +68,7 @@
                                                 placeholder="ULB Code" style="width:75px"
                                                 (keyup.enter)="stateData(false)">
                                         </th>
-                                        <th class="filter">
+                                        <!-- <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)"
                                                 style="width:auto">
                                                 <option selected value="">ULB Type</option>
@@ -79,7 +79,7 @@
                                                 <option value="Nagar Palika Parishad">Nagar Palika Parishad</option>
                                                 <option value="Town Panchayat">Town Panchayat</option>
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th class="filter">
                                             <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
                                                 (change)="stateData(false)">
@@ -201,8 +201,8 @@
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode ||
                                             resData.sbCode }}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
-                                        </td>
+                                        <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
+                                        </td> -->
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.isMillionPlus == "No"? 'Non-Million': 'Million-Plus'}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.isUA =="No"?

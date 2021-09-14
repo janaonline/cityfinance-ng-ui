@@ -27,7 +27,7 @@
                                         <th scope="col">ULB Name </th>
                                         <th scope="col">State </th>
                                         <th scope="col" style="width: 11%;">ULB Census Code/ ULB Code </th>
-                                        <th scope="col">ULB Type</th>
+                                        <!-- <th scope="col">ULB Type</th> -->
                                         <th scope="col">Population Type</th>
                                         <th scope="col">Name of UA</th>
                                         <th scope="col">Status</th>
@@ -59,7 +59,7 @@
                                             <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
                                                 (keyup.enter)="stateData(false)">
                                         </th>
-                                        <th class="filter">
+                                        <!-- <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)">
                                                 <option selected value="">ULB Type</option>
                                                 <option value="Municipality">Municipality</option>
@@ -69,7 +69,7 @@
                                                 <option value="Nagar Palika Parishad">Nagar Palika Parishad</option>
                                                 <option value="Town Panchayat">Town Panchayat</option>
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th class="filter">
                                             <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
                                                 (change)="stateData(false)">
@@ -125,8 +125,8 @@
                                         </td>
                                         <td style="width: 11%;" [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.censusCode || resData.sbCode }}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
-                                        </td>
+                                        <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
+                                        </td> -->
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.populationType}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.UA}}</td>
