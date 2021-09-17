@@ -26,8 +26,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
-
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent, GrantTransferMohuaComponent],
@@ -53,7 +54,10 @@ import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progres
     MatTabsModule,
     MatCardModule,
     MatSelectModule,
-    NgCircleProgressModule
+    NgCircleProgressModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class MohuaformModule { }

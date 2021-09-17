@@ -55,6 +55,7 @@ export class UtilisationReportComponent implements OnInit {
   takeStateAction;
   compDis;
   mohuaActionComp;
+  latLongRegex = '^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -308,6 +309,15 @@ export class UtilisationReportComponent implements OnInit {
         setTimeout(() => {
           this.currentChanges();
         }, 1000);
+
+        if (res["status"] == "APPROVED" &&
+          this.lastRoleInMasterForm != this.userTypes.ULB
+        ) {
+          this.isDisabled = true;
+          this.utilizationReport.disable();
+          this.utilizationReport.controls.projects.disable();
+        }
+
       },
       (error) => {
         this.utilizationReport.value["blankForm"] = true;
@@ -467,8 +477,8 @@ export class UtilisationReportComponent implements OnInit {
           // ]),
           // capacity: ["", Validators.required],
           location: this.fb.group({
-            lat: ["", Validators.required],
-            long: ["", Validators.required],
+            lat: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
+            long: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
           }),
 
           cost: ["", Validators.required],
@@ -805,8 +815,8 @@ export class UtilisationReportComponent implements OnInit {
         // ]),
         // capacity: ["", Validators.required],
         location: this.fb.group({
-          lat: ["", Validators.required],
-          long: ["", Validators.required],
+          lat: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
+          long: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
         }),
         cost: ["", Validators.required],
         expenditure: ["", Validators.required],
@@ -828,8 +838,8 @@ export class UtilisationReportComponent implements OnInit {
         // photos: this.fb.array([]),
         // capacity: [data.capacity, Validators.required],
         location: this.fb.group({
-          lat: [data.location.lat, Validators.required],
-          long: [data.location.long, Validators.required],
+          lat: [data.location.lat, [Validators.required, Validators.pattern(this.latLongRegex)]],
+          long: [data.location.long, [Validators.required, Validators.pattern(this.latLongRegex)]],
         }),
         cost: [data.cost, Validators.required],
         expenditure: [data.expenditure, Validators.required],

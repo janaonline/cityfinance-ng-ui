@@ -34,14 +34,17 @@ import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { UserUtility } from "src/app/util/user/user";
 import * as fileSaver from "file-saver";
-
-
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: "app-mohua-dashboard",
   templateUrl: "./mohua-dashboard.component.html",
   styleUrls: ["./mohua-dashboard.component.scss"],
 })
 export class MohuaDashboardComponent implements OnInit {
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  options = ['a', 'b', 'c']
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
@@ -51,10 +54,20 @@ export class MohuaDashboardComponent implements OnInit {
     protected _activateRoute: ActivatedRoute,
     public mohuaDashboardService: MohuaDashboardService,
     public commonService: CommonService
-  ) { }
+  ) {
+
+
+  }
   @ViewChild("stateTable") stateTable;
   stateslist = []
+  UAs = [];
   ngOnInit(): void {
+    this.getUAList();
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
       this.dialog.closeAll()
@@ -88,7 +101,36 @@ export class MohuaDashboardComponent implements OnInit {
       this.updateCharts();
 
     };
+
   }
+  getUAList() {
+    this.UAs = []
+    if (this.state_id) {
+      this.stateDashboardService.getUAList(this.state_id).subscribe(
+        (res) => {
+          res['data'].forEach(el => {
+            this.UAs.push(el.name)
+          })
+
+        },
+        (err) => {
+          console.log(err.message)
+        }
+      )
+    } else {
+      this.mohuaDashboardService.getFullUAList().subscribe((res) => {
+        res['data'].forEach(el => {
+          this.UAs.push(el.name)
+        })
+      },
+        (err) => {
+          console.log(err.message)
+        })
+      return;
+    }
+
+  }
+
   mapGeoData: FeatureCollection<
     Geometry,
     {
@@ -177,7 +219,7 @@ export class MohuaDashboardComponent implements OnInit {
   UlbInMillionPlusUA = 0;
   formDataApiRes;
   selectedLevel;
-  selectUa = "";
+  selectUa = "all";
   plansDataApiRes;
   rejuvenationPlans;
   plans = 0;
@@ -201,6 +243,9 @@ export class MohuaDashboardComponent implements OnInit {
     this.getWaterRejCardData('');
     this.selectedUA();
 
+  }
+  displayFn(subject) {
+    return subject ? subject : undefined
   }
   getWaterRejCardData(state_id) {
     this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
@@ -251,6 +296,13 @@ export class MohuaDashboardComponent implements OnInit {
       window.innerHeight || 0
     );
     return (vh * h) / 100;
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    console.log(this.UAs)
+    this.options = this.UAs
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   downloadTableData() {
@@ -503,9 +555,11 @@ export class MohuaDashboardComponent implements OnInit {
   }
   state_id;
   onClickingStateTab(event) {
+
     console.log('Hi')
     const stateCode = event.target.value.split(' ')[0];
     this.state_id = event.target.value.split(' ')[2];
+    this.getUAList();
     if (stateCode == 'India') {
       this.state_id = ''
     }
@@ -1020,7 +1074,7 @@ export class MohuaDashboardComponent implements OnInit {
 
 
     console.log('state_id', this.state_id)
-    this.stateDashboardService.getSlbData('all', this.state_id).subscribe(
+    this.stateDashboardService.getSlbData(this.selectUa, this.state_id).subscribe(
       (res) => {
         console.log(res['data'])
         let data = res['data']

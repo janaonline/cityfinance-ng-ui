@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { SlbListService } from './slb-list.service'
+import { NonMillionListService } from './non-million-list.service'
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
@@ -7,12 +7,17 @@ import { UlbadminServiceService } from '../../../ulb-admin/ulbadmin-service.serv
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as fileSaver from "file-saver";
 import { StateDashboardService } from '../state-dashboard.service'
+import { USER_TYPE } from 'src/app/models/user/userType';
+import { UserUtility } from 'src/app/util/user/user';
 @Component({
-  selector: 'app-slb-list',
-  templateUrl: './slb-list.component.html',
-  styleUrls: ['./slb-list.component.scss']
+  selector: 'app-non-million-list',
+  templateUrl: './non-million-list.component.html',
+  styleUrls: ['./non-million-list.component.scss']
 })
-export class SlbListComponent implements OnInit {
+export class NonMillionListComponent implements OnInit {
+  loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
+  USER_TYPE = USER_TYPE;
+  loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
   tableDefaultOptions = {
@@ -33,38 +38,31 @@ export class SlbListComponent implements OnInit {
   fcFormListSubscription: Subscription;
   nodataFound = false;
   errMessage = '';
+  showLoader = true;
   constructor(
-    private slbListService: SlbListService,
+    private nonMillionListService: NonMillionListService,
     public ulbService: UlbadminServiceService,
     public stateDashboardService: StateDashboardService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
-
-  ulb_name_s = new FormControl('');
-  state_name = new FormControl('');
-  ulb_code_s = new FormControl('');
-  ulb_type_s = new FormControl('');
-  population_type_s = new FormControl('');
-  ua_name_s = new FormControl('');
-  status_slb = new FormControl('');
-
   states = null
   closeDialog() {
     this.stateDashboardService.closeDialog.next('overall')
   }
   ngOnInit(): void {
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
-    this.slbListService.getData(this.data.state_id)
+    this.nonMillionListService.getData(this.data.state_id)
       .subscribe((res) => {
 
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-
+        this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
           console.log(error, this.errMessage);
+          this.showLoader = false;
         }
       )
   }
@@ -74,21 +72,27 @@ export class SlbListComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
+  ulb_name_s = new FormControl('');
+  state_name = new FormControl('');
+  ulb_code_s = new FormControl('');
+  ulb_type_s = new FormControl('');
+  population_type_s = new FormControl('');
+  ua_name_s = new FormControl('');
+  status_slbNonMillion = new FormControl('');
 
   setLIstFetchOptions() {
 
-    let slb_statusCode;
+    let slbNonMillion_statusCode;
 
 
-    if (this.status_slb) {
-      if (this.status_slb.value == "Not Started") {
-        slb_statusCode = 24;
-      } else if (this.status_slb.value == "In Progess") {
-        slb_statusCode = 25;
-      } else if (this.status_slb.value == "Completed") {
-        slb_statusCode = 26;
-      } else if (this.status_slb.value == "Not Applicable") {
-        slb_statusCode = 30;
+
+    if (this.status_slbNonMillion) {
+      if (this.status_slbNonMillion.value == "Not Started") {
+        slbNonMillion_statusCode = 35;
+      } else if (this.status_slbNonMillion.value == "In Progess") {
+        slbNonMillion_statusCode = 36;
+      } else if (this.status_slbNonMillion.value == "Completed") {
+        slbNonMillion_statusCode = 37;
       }
     }
 
@@ -113,9 +117,9 @@ export class SlbListComponent implements OnInit {
         UA: this.ua_name_s.value
           ? this.ua_name_s.value.trim()
           : "",
-        slbStatus: slb_statusCode
-          ? slb_statusCode
-          : ""
+        slbNonMillionStatus: slbNonMillion_statusCode
+          ? slbNonMillion_statusCode
+          : "",
 
       }
 
@@ -139,7 +143,7 @@ export class SlbListComponent implements OnInit {
     }
     this.listFetchOption.csv = csv
     this.fcFormListSubscription = this.ulbService
-      .fetchAllFormStatusList({ skip }, this.listFetchOption, 'slb', this.data.state_id)
+      .fetchAllFormStatusList({ skip }, this.listFetchOption, 'slbNonMillion', this.data.state_id)
       .subscribe(
         (result: any) => {
           if (this.listFetchOption.csv) {
@@ -147,7 +151,7 @@ export class SlbListComponent implements OnInit {
               type: "text/json; charset=utf-8",
             });
             const url = window.URL.createObjectURL(blob);
-            fileSaver.saveAs(blob, "SLB for Water Supply and Sanitation Status List.xlsx");
+            fileSaver.saveAs(blob, "Non Million - SLB for Water Supply & Sanitation Status List.xlsx");
           }
           else {
             let res: any = result;
@@ -171,4 +175,5 @@ export class SlbListComponent implements OnInit {
 
 
   }
+
 }

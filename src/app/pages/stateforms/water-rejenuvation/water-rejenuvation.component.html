@@ -385,6 +385,7 @@
                                             <select [disabled]="formDisable || disableUAs.includes(uas.value.ua)"
                                                 style="height: 4ch;"
                                                 (change)="indicatorSet($event, projectIndex,sliIndex)">
+                                                <option value="">--Select Indicator--</option>
                                                 <option
                                                     [selected]="Uas[projectIndex].value['serviceLevelIndicators'][sliIndex]['indicator'] == Indicator"
                                                     *ngFor="let Indicator of waterIndicators">

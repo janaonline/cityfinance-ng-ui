@@ -22,7 +22,9 @@ export class StateformsService {
   }
 
   constructor(private http: HttpClient) { }
-
+  isMillionPlusState(state_id) {
+    return this.http.get(`${environment.api.url}nonMillionState?state_id=${state_id}`);
+  }
   getStatus(design_year) {
     return this.http.get(`${environment.api.url}masterForm/get/${design_year}`);
   }
