@@ -152,6 +152,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     this.stateformsService.isMillionPlusState(this.id).subscribe((res) => {
       this.isMillionState = res['data']
       console.log(this.isMillionState)
+      sessionStorage.setItem("isMillionPlusState", String(this.isMillionState))
     }, (err) => {
       console.log(err.message)
     })

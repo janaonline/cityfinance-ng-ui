@@ -61,7 +61,7 @@
             <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
                 <!-- <option value="0" selected>--Please Select--</option> -->
                 <option value="allUlbs">All ULBs</option>
-                <option value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
+                <option *ngIf="isMillionPlusState" value="ulbsInMillionPlusUa">ULBs in Million Plus UA</option>
                 <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
             </select>
         </div>
@@ -360,24 +360,36 @@
             <div class="row">
                 <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
                     Challenge Fund</div>
+
                 <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
 
                     <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
                         <option value="all">-ALL UAs-</option>
                         <option *ngFor="let item of UAs" value="{{item._id}}">{{item.name}}</option>
                     </select>
+                    <span style="margin-left: 20px;">
+                        <a (click)="openDialogMillion()">
+                            <img src="../../../../assets/stateform/clipboard (1).png" width="22px" height="22px">
+                        </a>
+                    </span>
                 </div>
             </div>
 
             <div class="row">
                 <div style="text-align: left;margin-left: 2%;margin-top: 1%;
                 font-weight: bold;">SLB for Water Supply and Sanitation</div>
-
-                <div *ngIf="noDataFound_millionSLB" style="text-align: center;
+                <div *ngIf="isMillionPlusState">
+                    <div *ngIf="noDataFound_millionSLB" style="text-align: center;
                 font-size: 30px;
-                margin-top: 12%;">No Data Found</div>
+                margin-top: 12%;">
+                        No Data Found</div>
+                </div>
+                <div *ngIf="!isMillionPlusState" style="text-align: center;
+                font-size: 30px;
+                margin-top: 12%;">
+                    Not Applicable</div>
                 <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
-                    *ngIf="!noDataFound_millionSLB">
+                    *ngIf="!noDataFound_millionSLB && isMillionPlusState ">
                     <canvas id="mpcf"></canvas>
 
                 </div>
@@ -385,8 +397,21 @@
         </div>
         <div class="col-sm-6">
             <div class="row">
-                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for
-                    Non-Million ULBs</div>
+
+                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions
+                    for
+                    Non-Million ULBs
+                    <span style="margin-left: 16%;">
+                        <a (click)="openDialogNonMillion()">
+                            <img src="../../../../assets/stateform/clipboard (1).png" width="22px" height="22px"
+                                style="vertical-align: initial;">
+                        </a>
+                    </span>
+                </div>
+
+
+
+
 
             </div>
             <div class="row">
@@ -405,7 +430,7 @@
     </div>
     <div class="row">
 
-        <div class="col-sm-6" style="padding: 0;">
+        <div *ngIf="!isMillionPlusState" class="col-sm-6" style="padding: 0;">
             <div class="Card2">
                 <div class="row" style="margin-top: 2%;
                 font-weight: bold;">
