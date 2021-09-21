@@ -438,7 +438,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
   }
 
   async stay() {
-    await this.dialogRef.close(true);
+    await this._matDialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
