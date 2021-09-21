@@ -178,6 +178,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           console.log("overviewRes", res["response"]);
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
+          this.percentage = Number(res['percentage'])
           if (this.userData.role != USER_TYPE.ULB)
             this.ulbName = sessionStorage.getItem("ulbName");
           else
@@ -282,8 +283,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
 
     this.width = this.row_width / this.numcard - 8;
-    this.percentage = this.count * this.factor;
-    console.log('ppercent', typeof (this.percentage), this.count);
+    // this.percentage = this.count * this.factor;
+    // console.log('ppercent', typeof (this.percentage), this.count);
 
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
