@@ -79,7 +79,7 @@ export class OverallListComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-this.showLoader = false;
+        this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
@@ -111,7 +111,7 @@ this.showLoader = false;
       // }
       else if (this.status_s.value == "Under Review by State") {
         overall_statusCode = 4;
-      } else if (this.status_s.value == "Under Review by MoHUA") {
+      } else if (this.status_s.value == "Approved By State") {
         overall_statusCode = 5;
       } else if (this.status_s.value == "Approval Completed") {
         overall_statusCode = 6;
