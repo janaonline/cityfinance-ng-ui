@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -47,5 +47,13 @@ export class AnnualAccountsService {
       }
     });
     return `${environment.api.url}dataCollectionForm?${params}`;
+  }
+
+  getYearHistory(params) {
+    let url = `${environment.api.url}dataCollectionForm/check?`;
+    for (const key in params) {
+      url = url + `${key}=${params[key]}&`;
+    }
+    return this.http.get(url);
   }
 }

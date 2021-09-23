@@ -10,7 +10,7 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "styleext": "scss"
         }
       },
       "targets": {
@@ -54,16 +54,12 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
-              "namedChunks": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ]
+              "buildOptimizer": true
             }
           }
         },
@@ -148,6 +144,6 @@
   },
   "defaultProject": "PerfectAngular",
   "cli": {
-    "analytics": "cace6f27-e889-45b8-b169-d2241593758b"
+    "analytics": "7e1af0b4-52e1-4133-950b-044934c5bb47"
   }
 }
