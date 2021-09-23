@@ -83,7 +83,7 @@
     }
   }
 }
-.fdc-form,
+
 .FCForm {
   margin: 0px 1% 0px 1%;
   height: fit-content;
@@ -112,8 +112,48 @@
   a {
     color: white;
   }
-
+  span {
+    color: white;
+  }
+  span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
   &:hover {
+    text-decoration: underline;
+  }
+}
+
+.fdc-form {
+  margin: 0px 1% 0px 1%;
+  height: fit-content;
+  background: #059696;
+  display: block;
+  font-size: 1.2em;
+  padding: 0.8rem 1%;
+  @media screen and (max-width: 768px) {
+    padding-right: 6%;
+    margin-top: 2%;
+  }
+  padding-right: 2%;
+
+  text-align: center;
+  width: fit-content;
+  position: relative;
+  border-radius: 2%;
+  animation: popup 2.5s infinite ease-in-out;
+  img {
+    position: absolute;
+    width: 15%;
+    right: 0px;
+    top: 0px;
+    // transform: scale(1.2);
+  }
+  span {
+    color: white;
+  }
+  span:hover {
+    cursor: pointer;
     text-decoration: underline;
   }
 }

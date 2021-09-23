@@ -63,7 +63,7 @@
         "sweetalert": "^2.1.2",
         "topojson": "3.0.2",
         "tslib": "^2.0.0",
-        "xlsx": "^0.16.9",
+        "xlsx": "^0.17.1",
         "zone.js": "~0.10.2"
     },
     "devDependencies": {
