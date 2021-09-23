@@ -549,6 +549,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
   }
   pieChartMillion() {
+    if (this.piechart) {
+      this.piechart.destroy();
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -600,6 +603,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   }
   piechart2 = null;
   pieChartNonMillion = () => {
+    if (this.piechart2) {
+      this.piechart2.destroy();
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -770,7 +776,12 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             this.values.nonMillion_underReviewByState = el['underReviewByState']
           }
         })
-
+        if (this.piechart) {
+          this.piechart.destroy();
+        }
+        if (this.piechart2) {
+          this.piechart2.destroy();
+        }
         this.pieChartMillion();
         this.pieChartNonMillion();
         if (this.values.million_approvedByState == 0 &&
