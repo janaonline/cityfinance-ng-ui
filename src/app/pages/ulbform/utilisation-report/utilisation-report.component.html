@@ -88,7 +88,7 @@
                     <div class="col-lg-6">
                         <input class="form-control inputfield d-input"
                             [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }"
-                            (change)="calAmount('unUtilizedPrevYr')" formControlName="unUtilizedPrevYr"
+                            (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
                         utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required"
@@ -167,6 +167,7 @@
                 <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants<span
                         style="color: red;">*</span></p>
                 <div class="table-responsive">
+
                     <table class="table custom-position tableStriped">
                         <thead>
                             <tr class="thHeader">
@@ -183,7 +184,36 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody formArrayName="projects">
+
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length == 0">
+
+                            <tr>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length > 0"
+                            formArrayName="projects">
                             <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
                             <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index"
                                 [formGroupName]="projectIndex" style="text-align: center; vertical-align: inherit;">
