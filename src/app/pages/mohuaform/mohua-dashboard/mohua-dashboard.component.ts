@@ -44,7 +44,7 @@ import { map, startWith } from 'rxjs/operators';
 export class MohuaDashboardComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
-  options = ['a', 'b', 'c']
+  options = []
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
@@ -61,6 +61,7 @@ export class MohuaDashboardComponent implements OnInit {
   @ViewChild("stateTable") stateTable;
   stateslist = []
   UAs = [];
+  UAData = []
   ngOnInit(): void {
     this.getUAList();
 
@@ -68,6 +69,7 @@ export class MohuaDashboardComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value))
     );
+    // console.log('selected UA', this.myControl)
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
       this.dialog.closeAll()
@@ -110,6 +112,7 @@ export class MohuaDashboardComponent implements OnInit {
         (res) => {
           res['data'].forEach(el => {
             this.UAs.push(el.name)
+            this.UAData.push(el)
           })
 
         },
@@ -121,6 +124,7 @@ export class MohuaDashboardComponent implements OnInit {
       this.mohuaDashboardService.getFullUAList().subscribe((res) => {
         res['data'].forEach(el => {
           this.UAs.push(el.name)
+          this.UAData.push(el)
         })
       },
         (err) => {
@@ -241,12 +245,10 @@ export class MohuaDashboardComponent implements OnInit {
     this.getCardData('');
     this.getFormData('');
     this.getWaterRejCardData('');
-    this.selectedUA();
+    this.selectedUA('');
 
   }
-  displayFn(subject) {
-    return subject ? subject : undefined
-  }
+
   getWaterRejCardData(state_id) {
     this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
       (res) => {
@@ -297,12 +299,28 @@ export class MohuaDashboardComponent implements OnInit {
     );
     return (vh * h) / 100;
   }
-
+  UAselected;
+  selectedUAId;
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     console.log(this.UAs)
+
     this.options = this.UAs
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    this.UAselected = this.options.filter(option => option.toLowerCase().includes(filterValue));
+    console.log('selected UA', this.UAselected)
+    if (this.UAselected.length == 1) {
+      this.selectedUAId = this.UAData.filter(el => {
+        console.log(el.name, this.UAselected[0])
+        return el.name == this.UAselected[0]
+      })
+      console.log(this.selectedUAId)
+      this.selectUa = this.selectedUAId[0]['_id']
+      let state_id = this.selectedUAId[0]['state']
+      this.selectedUA(state_id)
+    }
+
+
+    return this.UAselected
   }
 
   downloadTableData() {
@@ -551,7 +569,7 @@ export class MohuaDashboardComponent implements OnInit {
     // this.getPlansData(state_id);
     this.getWaterRejCardData(state_id);
     this.getGrantTranfer(state_id)
-    this.selectedUA();
+    this.selectedUA(state_id);
   }
   state_id;
   onClickingStateTab(event) {
@@ -962,6 +980,9 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   pieChartMillion() {
+    if (this.piechart) {
+      this.piechart.destroy()
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -1012,6 +1033,9 @@ export class MohuaDashboardComponent implements OnInit {
   }
   piechart2 = null;
   pieChartNonMillion = () => {
+    if (this.piechart2) {
+      this.piechart2.destroy()
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -1061,7 +1085,7 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
 
-  selectedUA() {
+  selectedUA(state_id) {
 
     this.noDataFound_millionSLB = false
     this.noDataFound_nonMillionSLB = false
@@ -1074,7 +1098,7 @@ export class MohuaDashboardComponent implements OnInit {
 
 
     console.log('state_id', this.state_id)
-    this.stateDashboardService.getSlbData(this.selectUa, this.state_id).subscribe(
+    this.stateDashboardService.getSlbData(this.selectUa, state_id).subscribe(
       (res) => {
         console.log(res['data'])
         let data = res['data']
@@ -1115,7 +1139,7 @@ export class MohuaDashboardComponent implements OnInit {
 
       },
       (err) => {
-
+        console.log(err.message)
       }
     )
 
