@@ -151,6 +151,9 @@ export class UserListComponent extends BaseComponent implements OnInit {
       "sbCode": sbCode
     }
     console.log(data)
+    if (!data.censusCode && !data.sbCode) {
+      return swal('Please enter Census Code / Swachh Bharat Code')
+    }
     await this._userService.signUp(data).subscribe(
       (res) => {
         console.log(res)
