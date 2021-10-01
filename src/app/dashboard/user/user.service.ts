@@ -10,7 +10,7 @@ import { environment } from './../../../environments/environment';
 })
 export class UserService {
   private httpUtil = new HttpUtility();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProfile() {
     return this.http.get(environment.api.url + "users/profile");
@@ -22,6 +22,10 @@ export class UserService {
 
   onboard(newUser) {
     return this.http.post(environment.api.url + "users/onboard", newUser);
+  }
+
+  signUp(data) {
+    return this.http.post(environment.api.url + "bulk/signUpNew", data);
   }
 
   getUsers(body: { filter?: {}; sort?: {} }) {

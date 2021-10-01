@@ -821,6 +821,8 @@ export class UtilisationReportComponent implements OnInit {
         }),
         cost: ["", Validators.required],
         expenditure: ["", Validators.required],
+        engineerName: ["", Validators.required],
+        engineerContact: ["", Validators.required]
       })
     );
   }
@@ -844,6 +846,8 @@ export class UtilisationReportComponent implements OnInit {
         }),
         cost: [data.cost, Validators.required],
         expenditure: [data.expenditure, Validators.required],
+        engineerName: [data.engineerName, Validators.required],
+        engineerContact: [data.engineerContact, Validators.required],
       })
     );
     this.totalProCost(this.tabelRows.length);
