@@ -36,7 +36,8 @@
                                         <th scope="col">Audited Accounts 2019-2020 Status</th>
                                         <th scope="col">Provisional Accounts 2020-2021 Status</th>
                                         <th scope="col">Utilisation Report Status</th>
-                                        <th scope="col">SLB for Water Supply and Sanitation Status</th>
+                                        <th scope="col">SLB Million Plus Status</th>
+                                        <th scope="col">SLB Non Million Status</th>
                                         <!-- <th scope="col">Plans for Water Supply and Sanitation Status</th> -->
                                     </tr>
                                 </thead>
@@ -102,7 +103,7 @@
                                                 <option value="Not Started">Not Started</option>
                                                 <option value="In Progess">In Progess</option>
                                                 <option value="Under Review by State">Under Review by State</option>
-                                                <option value="Under Review by MoHUA">Under Review by MoHUA</option>
+                                                <option value="Approved By State">Approved By State</option>
                                                 <option value="Approval Completed">Approval Completed</option>
                                                 <option value="Rejected by State">Rejected by State</option>
                                                 <option value="Rejected by MoHUA">Rejected by MoHUA</option>
@@ -156,8 +157,19 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_slb" style="width: 71px;"
+                                            <select class="s-th" [formControl]="status_slbMillion" style="width: 71px;"
                                                 (change)="stateData(false)">
+
+                                                <option selected value="">Status</option>
+                                                <option value="Not Started">Not Started</option>
+                                                <option value="In Progess">In Progess</option>
+                                                <option value="Completed">Completed</option>
+                                                <option value="Not Applicable">Not Applicable</option>
+                                            </select>
+                                        </th>
+                                        <th class="filter">
+                                            <select class="s-th" [formControl]="status_slbNonMillion"
+                                                style="width: 71px;" (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -222,7 +234,9 @@
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.utilizationreportStatus}}</td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.xvfcgrantulbformsStatus}}</td>
+                                            {{resData.slbMillionStatus}}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
+                                            {{resData.slbNonMillionStatus}}</td>
                                         <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.xvfcgrantplansStatus}}</td> -->
 

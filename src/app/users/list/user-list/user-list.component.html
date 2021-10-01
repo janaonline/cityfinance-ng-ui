@@ -4,56 +4,27 @@
       <div class="col-md-12">
         <h3>
           <span *ngIf="listType === userTypes.STATE" style="margin-left: 6px">
-            State List</span
-          >
-          <span
-            *ngIf="listType === userTypes.PARTNER"
-            style="margin-left: 0.5%"
-          >
-            Partner List</span
-          >
+            State List</span>
+          <span *ngIf="listType === userTypes.PARTNER" style="margin-left: 0.5%">
+            Partner List</span>
           <span *ngIf="listType === userTypes.USER" style="margin-left: 0.5%">
-            User List</span
-          >
+            User List</span>
           <span *ngIf="listType === userTypes.ULB" style="margin-left: 0.5%">
             ULB
             <span *ngIf="loggedInType === userTypes.STATE">Sign Up</span>
-            List</span
-          >
+            List</span>
           <span *ngIf="listType === userTypes.MoHUA" style="margin-left: 0.5%">
-            MoHUA List</span
-          >
-          <a
-            *ngIf="listType === userTypes.STATE"
-            class="btn btn-primary"
-            style="float: right; margin-right: 6px"
-            [routerLink]="['/', 'user', 'profile', 'create']"
-            [queryParams]="{ role: userTypes.STATE }"
-            >Create State</a
-          >
+            MoHUA List</span>
+          <a *ngIf="listType === userTypes.STATE" class="btn btn-primary" style="float: right; margin-right: 6px"
+            [routerLink]="['/', 'user', 'profile', 'create']" [queryParams]="{ role: userTypes.STATE }">Create State</a>
 
-          <a
-            *ngIf="listType === userTypes.PARTNER"
-            class="btn btn-primary"
-            style="float: right; margin-right: 6px"
-            [routerLink]="['/', 'user', 'profile', 'create']"
-            [queryParams]="{ role: userTypes.PARTNER }"
-            >Create Partner</a
-          >
+          <a *ngIf="listType === userTypes.PARTNER" class="btn btn-primary" style="float: right; margin-right: 6px"
+            [routerLink]="['/', 'user', 'profile', 'create']" [queryParams]="{ role: userTypes.PARTNER }">Create
+            Partner</a>
 
-          <a
-            *ngIf="listType === userTypes.MoHUA"
-            class="btn btn-primary"
-            style="float: right; margin-right: 6px"
-            [routerLink]="['/', 'user', 'profile', 'create']"
-            [queryParams]="{ role: userTypes.MoHUA }"
-            >Create MoHUA</a
-          >
-          <button
-            class="btn btn-primary"
-            style="float: right; margin-right: 6px"
-            (click)="downloadList()"
-          >
+          <a *ngIf="listType === userTypes.MoHUA" class="btn btn-primary" style="float: right; margin-right: 6px"
+            [routerLink]="['/', 'user', 'profile', 'create']" [queryParams]="{ role: userTypes.MoHUA }">Create MoHUA</a>
+          <button class="btn btn-primary" style="float: right; margin-right: 6px" (click)="downloadList()">
             Download List
           </button>
         </h3>
@@ -62,16 +33,9 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table
-          aria-describedby="USers List"
-          class="table"
-          *ngIf="listType === userTypes.USER && !isApiInProgress"
-        >
+        <table aria-describedby="USers List" class="table" *ngIf="listType === userTypes.USER && !isApiInProgress">
           <thead>
-            <tr
-              style="background: #059b9a; color: white; border: 0px"
-              class="sortable-headers"
-            >
+            <tr style="background: #059b9a; color: white; border: 0px" class="sortable-headers">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
@@ -98,60 +62,37 @@
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="User Name"
-                    id="name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.name"
-                  />
+                  <input placeholder="User Name" id="name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.name" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Email ID"
-                    id="email"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.email"
-                  />
+                  <input placeholder="Email ID" id="email" type="text" class="form-control"
+                    [formControl]="filterForm.controls.email" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Designation"
-                    id="designation"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.designation"
-                  />
+                  <input placeholder="Designation" id="designation" type="text" class="form-control"
+                    [formControl]="filterForm.controls.designation" />
                 </div>
               </td>
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Organisation Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.organization"
-                  />
+                  <input placeholder="Organisation Name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.organization" />
                 </div>
               </td>
               <td>
-                <button
-                  class="btn btn-primary"
-                  (click)="searchUsersBy(filterForm.value, 0)"
-                >
+                <button class="btn btn-primary" (click)="searchUsersBy(filterForm.value, 0)">
                   Search
                 </button>
               </td>
             </tr>
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let user of userList
                   | paginate
                     : {
@@ -161,8 +102,7 @@
                         totalItems: tableDefaultOptions.totalCount
                       };
                 index as i
-              "
-            >
+              ">
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
@@ -171,47 +111,29 @@
               <td class="">{{ user.designation }}</td>
               <td class="">{{ user.organization }}</td>
               <td class="text-center d-flex actionCell">
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: 'USER' }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'USER' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
                 <a *ngIf="canDeleteUser">
-                  <i
-                    class="fa fa-trash"
-                    aria-hidden="true"
-                    title="Delete User"
-                    (click)="
+                  <i class="fa fa-trash" aria-hidden="true" title="Delete User" (click)="
                       openUserDeleteConfirmationBox(userDeletePopup, user)
-                    "
-                  ></i
-                ></a>
+                    "></i></a>
               </td>
             </tr>
 
             <tr *ngIf="userList && !userList.length">
-              <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+              <td colspan="6" class="text-center">
+                <h3>No Data Found</h3>
+              </td>
             </tr>
           </tbody>
         </table>
 
-        <table
-          aria-describedby="ULB List"
-          class="table"
-          *ngIf="listType === userTypes.ULB && !isApiInProgress"
-        >
+        <table aria-describedby="ULB List" class="table" *ngIf="listType === userTypes.ULB && !isApiInProgress">
           <thead>
-            <tr
-              class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px"
-            >
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
               <th class="text-center" scope="Serial No">S.No.</th>
-              <th
-                scope="State No"
-                (click)="sortListBy('stateName')"
-                *ngIf="loggedInType !== userTypes.STATE"
-              >
+              <th scope="State No" (click)="sortListBy('stateName')" *ngIf="loggedInType !== userTypes.STATE">
                 State
                 <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
@@ -223,11 +145,14 @@
                 ULB Code
                 <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-              <th scope="Census Code" (click)="sortListBy('censusCode')">
+              <!-- <th scope="Census Code" (click)="sortListBy('censusCode')">
                 Census Code
                 <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
+              </th> -->
+              <th>
+                User Created
+                <em _ngcontent-c8="" class="glyphicon glyphicon-sort"></em>
               </th>
-
               <th scope="Take Action" class="text-center">Action</th>
             </tr>
           </thead>
@@ -237,13 +162,8 @@
 
               <td *ngIf="loggedInType !== userTypes.STATE">
                 <div class="input-group">
-                  <select
-                    name="State"
-                    id="state"
-                    [formControl]="filterForm.controls.state"
-                    class="form-control"
-                    placeholder="State"
-                  >
+                  <select name="State" id="state" [formControl]="filterForm.controls.state" class="form-control"
+                    placeholder="State">
                     <option value="" selected>All States</option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -254,35 +174,31 @@
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="ULB Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.name"
-                  />
+                  <input placeholder="ULB Name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.name" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="ULB Code"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.sbCode"
-                  />
+                  <input placeholder="ULB Code" type="text" class="form-control"
+                    [formControl]="filterForm.controls.sbCode" />
                 </div>
               </td>
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Census Code"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.censusCode"
-                  />
+                  <select [formControl]="filterForm.controls.user" class="form-control" placeholder="User Status">
+                    <option [value]="">User Created</option>
+                    <option [value]="false">User Not Created</option>
+                  </select>
                 </div>
               </td>
+              <!-- <td>
+                <div class="input-group">
+                  <input placeholder="Census Code" type="text" class="form-control"
+                    [formControl]="filterForm.controls.censusCode" />
+                </div>
+              </td> -->
 
               <!-- <td>
                 <div class="input-group">
@@ -304,17 +220,13 @@
                 </div>
               </td> -->
               <td>
-                <button
-                  class="btn btn-primary m-auto"
-                  style="display: block"
-                  (click)="searchUsersBy(filterForm.value, 0)"
-                >
+                <button class="btn btn-primary m-auto" style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)">
                   Search
                 </button>
               </td>
             </tr>
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let ulb of userList
                   | paginate
                     : {
@@ -324,17 +236,21 @@
                         totalItems: tableDefaultOptions.totalCount
                       };
                 index as i
-              "
-            >
+              ">
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
               <td class="" *ngIf="loggedInType !== userTypes.STATE">
                 {{ ulb["stateName"] }}
               </td>
-              <td class="">{{ ulb["name"] }}</td>
-              <td>{{ ulb.sbCode }}</td>
-              <td>{{ ulb.censusCode }}</td>
+              <td class="">{{ulb['user'] == 'false' ? ulb["ulbName"] : ulb["name"] }}</td>
+              <td>{{ ulb.sbCode ? ulb.sbCode : ulb.censusCode }}</td>
+              <td>
+                <button class="btn btn-primary" *ngIf="ulb.user == 'false'" (click)="signUpForm(templateForm, ulb)">Sign
+                  Up</button>
+                <div *ngIf="ulb.user != 'false'">Yes</div>
+              </td>
+              <!-- <td>{{ ulb.censusCode }}</td> -->
               <!-- <td class="">
                 <span
                   (click)="showUserRejectReason(ulb)"
@@ -346,40 +262,24 @@
                 </span>
               </td> -->
               <td class="text-center d-flex actionCell">
-                <a
-                  *ngIf="ulb.status === SINGPUP_STATUS.PENDING"
-                  class="btn btn-primary"
-                  title="Edit"
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: ulb._id, role: 'ULB' }"
-                  >Take Action
+                <a *ngIf="ulb.status === SINGPUP_STATUS.PENDING" class="btn btn-primary" title="Edit"
+                  [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">Take
+                  Action
                 </a>
                 <ng-container *ngIf="ulb.status !== SINGPUP_STATUS.PENDING">
-                  <a
-                    [routerLink]="['/', 'user', 'profile', 'view']"
-                    [queryParams]="{ id: ulb._id, role: 'ULB' }"
-                  >
+                  <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: ulb._id, role: 'ULB' }">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
-                  <a
-                    *ngIf="
+                  <a *ngIf="
                       ulb.status === SINGPUP_STATUS.APPROVED && canEditProfile
-                    "
-                    [routerLink]="['/', 'user', 'profile', 'view']"
-                    [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }"
-                  >
+                    " [routerLink]="['/', 'user', 'profile', 'view']"
+                    [queryParams]="{ id: ulb._id, role: 'ULB', edit: true }">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                   </a>
                   <a *ngIf="canDeleteUser">
-                    <i
-                      class="fa fa-trash"
-                      aria-hidden="true"
-                      title="Delete User"
-                      (click)="
+                    <i class="fa fa-trash" aria-hidden="true" title="Delete User" (click)="
                         openUserDeleteConfirmationBox(userDeletePopup, ulb)
-                      "
-                    ></i
-                  ></a>
+                      "></i></a>
                 </ng-container>
                 <!-- <a
                   [routerLink]="['/', 'user', 'profile', 'view']"
@@ -410,21 +310,16 @@
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
-              <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+              <td colspan="6" class="text-center">
+                <h3>No Data Found</h3>
+              </td>
             </tr>
           </tbody>
         </table>
 
-        <table
-          aria-describedby="States List"
-          class="table"
-          *ngIf="listType === userTypes.STATE && !isApiInProgress"
-        >
+        <table aria-describedby="States List" class="table" *ngIf="listType === userTypes.STATE && !isApiInProgress">
           <thead>
-            <tr
-              class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px"
-            >
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('stateName')">
                 State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
@@ -454,13 +349,8 @@
 
               <td>
                 <div class="input-group">
-                  <select
-                    name="State"
-                    id="state"
-                    [formControl]="filterForm.controls.state"
-                    class="form-control"
-                    placeholder="State"
-                  >
+                  <select name="State" id="state" [formControl]="filterForm.controls.state" class="form-control"
+                    placeholder="State">
                     <option value="" selected>All States</option>
                     <option *ngFor="let state of stateList" [value]="state._id">
                       {{ state.name }}
@@ -471,59 +361,39 @@
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="User Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.name"
-                  />
+                  <input placeholder="User Name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.name" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Email ID"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.email"
-                  />
+                  <input placeholder="Email ID" type="text" class="form-control"
+                    [formControl]="filterForm.controls.email" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Designation"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.designation"
-                  />
+                  <input placeholder="Designation" type="text" class="form-control"
+                    [formControl]="filterForm.controls.designation" />
                 </div>
               </td>
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Designation"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.departmentName"
-                  />
+                  <input placeholder="Designation" type="text" class="form-control"
+                    [formControl]="filterForm.controls.departmentName" />
                 </div>
               </td>
               <td>
-                <button
-                  class="btn btn-primary m-auto"
-                  style="display: block"
-                  (click)="searchUsersBy(filterForm.value, 0)"
-                >
+                <button class="btn btn-primary m-auto" style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)">
                   Search
                 </button>
               </td>
             </tr>
 
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let user of userList
                   | paginate
                     : {
@@ -533,8 +403,7 @@
                         totalItems: tableDefaultOptions.totalCount
                       };
                 index as i
-              "
-            >
+              ">
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
@@ -546,46 +415,31 @@
               <td class="">{{ user["designation"] }}</td>
               <td class="">{{ user["departmentName"] }}</td>
               <td class="text-center d-flex actionCell">
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: 'STATE' }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'STATE' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: 'STATE', edit: true }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'STATE', edit: true }">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
                 <a *ngIf="canDeleteUser">
-                  <i
-                    class="fa fa-trash"
-                    aria-hidden="true"
-                    title="Delete User"
-                    (click)="
+                  <i class="fa fa-trash" aria-hidden="true" title="Delete User" (click)="
                       openUserDeleteConfirmationBox(userDeletePopup, user)
-                    "
-                  ></i
-                ></a>
+                    "></i></a>
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
-              <td colspan="6" class="text-center"><h3>No Data Found</h3></td>
+              <td colspan="6" class="text-center">
+                <h3>No Data Found</h3>
+              </td>
             </tr>
           </tbody>
         </table>
 
-        <table
-          aria-describedby="Partners List"
-          class="table"
-          *ngIf="listType === userTypes.PARTNER && !isApiInProgress"
-        >
+        <table aria-describedby="Partners List" class="table"
+          *ngIf="listType === userTypes.PARTNER && !isApiInProgress">
           <thead>
-            <tr
-              class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px"
-            >
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
@@ -612,59 +466,39 @@
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="User Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.name"
-                  />
+                  <input placeholder="User Name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.name" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Email ID"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.email"
-                  />
+                  <input placeholder="Email ID" type="text" class="form-control"
+                    [formControl]="filterForm.controls.email" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Designation"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.designation"
-                  />
+                  <input placeholder="Designation" type="text" class="form-control"
+                    [formControl]="filterForm.controls.designation" />
                 </div>
               </td>
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Department Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.departmentName"
-                  />
+                  <input placeholder="Department Name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.departmentName" />
                 </div>
               </td>
               <td>
-                <button
-                  class="btn btn-primary m-auto"
-                  style="display: block"
-                  (click)="searchUsersBy(filterForm.value, 0)"
-                >
+                <button class="btn btn-primary m-auto" style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)">
                   Search
                 </button>
               </td>
             </tr>
 
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let user of userList
                   | paginate
                     : {
@@ -674,8 +508,7 @@
                         totalItems: tableDefaultOptions.totalCount
                       };
                 index as i
-              "
-            >
+              ">
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
@@ -685,46 +518,30 @@
               <td class="">{{ user["designation"] }}</td>
               <td class="">{{ user["departmentName"] }}</td>
               <td class="text-center d-flex actionCell">
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: 'PARTNER' }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'PARTNER' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: 'PARTNER', edit: true }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: 'PARTNER', edit: true }">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
                 <a *ngIf="canDeleteUser">
-                  <i
-                    class="fa fa-trash"
-                    aria-hidden="true"
-                    title="Delete User"
-                    (click)="
+                  <i class="fa fa-trash" aria-hidden="true" title="Delete User" (click)="
                       openUserDeleteConfirmationBox(userDeletePopup, user)
-                    "
-                  ></i
-                ></a>
+                    "></i></a>
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
-              <td colspan="5" class="text-center"><h3>No Data Found</h3></td>
+              <td colspan="5" class="text-center">
+                <h3>No Data Found</h3>
+              </td>
             </tr>
           </tbody>
         </table>
 
-        <table
-          aria-describedby="MoHUA List"
-          class="table"
-          *ngIf="listType === userTypes.MoHUA && !isApiInProgress"
-        >
+        <table aria-describedby="MoHUA List" class="table" *ngIf="listType === userTypes.MoHUA && !isApiInProgress">
           <thead>
-            <tr
-              class="sortable-headers"
-              style="background: #059b9a; color: white; border: 0px"
-            >
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
@@ -747,49 +564,33 @@
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="User Name"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.name"
-                  />
+                  <input placeholder="User Name" type="text" class="form-control"
+                    [formControl]="filterForm.controls.name" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Email ID"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.email"
-                  />
+                  <input placeholder="Email ID" type="text" class="form-control"
+                    [formControl]="filterForm.controls.email" />
                 </div>
               </td>
 
               <td>
                 <div class="input-group">
-                  <input
-                    placeholder="Designation"
-                    type="text"
-                    class="form-control"
-                    [formControl]="filterForm.controls.designation"
-                  />
+                  <input placeholder="Designation" type="text" class="form-control"
+                    [formControl]="filterForm.controls.designation" />
                 </div>
               </td>
               <td>
-                <button
-                  class="btn btn-primary m-auto"
-                  style="display: block"
-                  (click)="searchUsersBy(filterForm.value, 0)"
-                >
+                <button class="btn btn-primary m-auto" style="display: block"
+                  (click)="searchUsersBy(filterForm.value, 0)">
                   Search
                 </button>
               </td>
             </tr>
 
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let user of userList
                   | paginate
                     : {
@@ -799,8 +600,7 @@
                         totalItems: tableDefaultOptions.totalCount
                       };
                 index as i
-              "
-            >
+              ">
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
@@ -809,67 +609,46 @@
               <td class="">{{ user["email"] }}</td>
               <td class="">{{ user["designation"] }}</td>
               <td class="text-center d-flex actionCell">
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: listType }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: listType }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
 
-                <a
-                  [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: listType, edit: true }"
-                >
+                <a [routerLink]="['/', 'user', 'profile', 'view']"
+                  [queryParams]="{ id: user._id, role: listType, edit: true }">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
 
                 <a *ngIf="canDeleteUser">
-                  <i
-                    class="fa fa-trash"
-                    aria-hidden="true"
-                    title="Delete User"
-                    (click)="
+                  <i class="fa fa-trash" aria-hidden="true" title="Delete User" (click)="
                       openUserDeleteConfirmationBox(userDeletePopup, user)
-                    "
-                  ></i
-                ></a>
+                    "></i></a>
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
-              <td colspan="5" class="text-center"><h3>No Data Found</h3></td>
+              <td colspan="5" class="text-center">
+                <h3>No Data Found</h3>
+              </td>
             </tr>
           </tbody>
         </table>
 
-        <div
-          *ngIf="isApiInProgress"
-          style="
+        <div *ngIf="isApiInProgress" style="
             background: white;
             z-index: 99999999;
             left: 0px;
             right: 0px;
             top: 0px;
             bottom: 0px;
-          "
-        >
+          ">
           <app-pre-loader></app-pre-loader>
           <app-pre-loader></app-pre-loader>
           <app-pre-loader></app-pre-loader>
           <app-pre-loader></app-pre-loader>
         </div>
       </div>
-      <pagination-controls
-        style="float: right; position: relative"
-        id="foo"
-        (pageChange)="setPage($event)"
-        directionLinks="true"
-        autoHide="false"
-        previousLabel="Previous"
-        nextLabel="Next"
-        screenReaderPaginationLabel="Pagination"
-        screenReaderPageLabel="page"
-        screenReaderCurrentLabel="You're on page"
-      >
+      <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
+        directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
+        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
       </pagination-controls>
     </div>
   </div>
@@ -883,11 +662,7 @@
     </p>
 
     <div style="display: flex; width: 100%; justify-content: center">
-      <button
-        class="btn btn-primary"
-        style="margin-right: 2%"
-        (click)="deleteUser(userToDelete['_id'])"
-      >
+      <button class="btn btn-primary" style="margin-right: 2%" (click)="deleteUser(userToDelete['_id'])">
         Yes
       </button>
 
@@ -897,4 +672,48 @@
       {{ respone.errorMessage }}
     </p>
   </div>
+</ng-template>
+<ng-template #templateForm>
+  <div class="modal-title">
+    <div style=" display: flex; justify-content: flex-end;">
+      <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button"
+        data-dismiss="modal" aria-label="Close">
+        <i class="fa fa-times" style="color: white;"></i>
+      </button>
+    </div>
+    <div>
+      <div style="font-size: 22px;">Sign Up Form
+
+      </div>
+    </div>
+    <div class="row" style="margin-top: 9%; margin-bottom: 1%;">
+      <div class="col-lg-6">
+        <label for="">ULB Code</label>
+      </div>
+      <div class="col-lg-6" class="input-group">
+        <input type="text" value="{{ulbCode}}" disabled>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 1%;">
+      <div class="col-lg-6">
+        <label for="">Census Code</label>
+      </div>
+      <div class="col-lg-6" class="input-group">
+        <input type="text" value="{{censusCode ? censusCode : '' }}" [disabled]="codePreExist == true"
+          [(ngModel)]="censusCode">
+      </div>
+    </div>
+    <div class="row" style=" margin-bottom: 9%;">
+      <div class="col-lg-6">
+        <label for="">SB Code</label>
+      </div>
+      <div class="col-lg-6" class="input-group">
+        <input type="text" value="{{sbCode ? sbCode : ''}}" [disabled]="codePreExist == true" [(ngModel)]="sbCode">
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <button class="btn btn-success" (click)="createUser(sbCode,censusCode)">Sign Up</button>
+    </div>
+  </div>
+
 </ng-template>

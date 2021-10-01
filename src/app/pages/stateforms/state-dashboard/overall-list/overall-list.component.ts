@@ -55,12 +55,11 @@ export class OverallListComponent implements OnInit {
   population_type_s = new FormControl('');
   ua_name_s = new FormControl('');
   status_s = new FormControl('');
-  status_pfms = new FormControl('');
   status_audited = new FormControl('');
   status_unaudited = new FormControl('');
   status_util = new FormControl('');
-  status_slb = new FormControl('');
-  status_plans = new FormControl('');
+  status_slbMillion = new FormControl('');
+  status_slbNonMillion = new FormControl('');
   states = null;
 
   closeDialog() {
@@ -79,7 +78,7 @@ export class OverallListComponent implements OnInit {
         let resData: any = res
         this.tabelData = resData.data;
         console.log('tabelData', this.tabelData)
-this.showLoader = false;
+        this.showLoader = false;
       },
         error => {
           this.errMessage = error.message;
@@ -92,12 +91,11 @@ this.showLoader = false;
   setLIstFetchOptions() {
     console.log(this.status_s.value)
     let overall_statusCode,
-      pfms_statusCode,
       audited_statusCode,
       unaudited_statusCode,
       util_statusCode,
-      slb_statusCode,
-      plans_statusCode;
+      slbMillion_statusCode,
+      slbNonMillion_statusCode;
 
     if (this.status_s.value) {
 
@@ -111,7 +109,7 @@ this.showLoader = false;
       // }
       else if (this.status_s.value == "Under Review by State") {
         overall_statusCode = 4;
-      } else if (this.status_s.value == "Under Review by MoHUA") {
+      } else if (this.status_s.value == "Approved By State") {
         overall_statusCode = 5;
       } else if (this.status_s.value == "Approval Completed") {
         overall_statusCode = 6;
@@ -121,17 +119,7 @@ this.showLoader = false;
         overall_statusCode = 8;
       }
     }
-    if (this.status_pfms.value) {
-      if (this.status_pfms.value == "Not Started") {
-        pfms_statusCode = 9;
-      } else if (this.status_pfms.value == "In Progess") {
-        pfms_statusCode = 10;
-      } else if (this.status_pfms.value == "Registered") {
-        pfms_statusCode = 11;
-      } else if (this.status_pfms.value == "Not Registered") {
-        pfms_statusCode = 12;
-      }
-    }
+
     if (this.status_audited.value) {
       if (this.status_audited.value == "Not Started") {
         audited_statusCode = 13;
@@ -163,26 +151,26 @@ this.showLoader = false;
         util_statusCode = 23;
       }
     }
-    if (this.status_slb) {
-      if (this.status_slb.value == "Not Started") {
-        slb_statusCode = 24;
-      } else if (this.status_slb.value == "In Progess") {
-        slb_statusCode = 25;
-      } else if (this.status_slb.value == "Completed") {
-        slb_statusCode = 26;
-      } else if (this.status_slb.value == "Not Applicable") {
-        slb_statusCode = 30;
+    if (this.status_slbMillion) {
+      if (this.status_slbMillion.value == "Not Started") {
+        slbMillion_statusCode = 32;
+      } else if (this.status_slbMillion.value == "In Progess") {
+        slbMillion_statusCode = 33;
+      } else if (this.status_slbMillion.value == "Completed") {
+        slbMillion_statusCode = 34;
+      } else if (this.status_slbMillion.value == "Not Applicable") {
+        slbMillion_statusCode = 35;
       }
     }
-    if (this.status_plans) {
-      if (this.status_plans.value == "Not Started") {
-        plans_statusCode = 27;
-      } else if (this.status_plans.value == "In Progess") {
-        plans_statusCode = 28;
-      } else if (this.status_plans.value == "Completed") {
-        plans_statusCode = 29;
-      } else if (this.status_plans.value == "Not Applicable") {
-        plans_statusCode = 31;
+    if (this.status_slbNonMillion) {
+      if (this.status_slbNonMillion.value == "Not Started") {
+        slbNonMillion_statusCode = 36;
+      } else if (this.status_slbNonMillion.value == "In Progess") {
+        slbNonMillion_statusCode = 37;
+      } else if (this.status_slbNonMillion.value == "Completed") {
+        slbNonMillion_statusCode = 38;
+      } else if (this.status_slbNonMillion.value == "Not Applicable") {
+        slbNonMillion_statusCode = 39;
       }
     }
     //  const filterKeys = ["financialYear", "auditStatus"];
@@ -209,9 +197,6 @@ this.showLoader = false;
         status: overall_statusCode
           ? overall_statusCode
           : "",
-        pfmsStatus: pfms_statusCode
-          ? pfms_statusCode
-          : "",
         auditedStatus: audited_statusCode
           ? audited_statusCode
           : "",
@@ -221,11 +206,11 @@ this.showLoader = false;
         utilStatus: util_statusCode
           ? util_statusCode
           : "",
-        slbStatus: slb_statusCode
-          ? slb_statusCode
+        slbMillionStatus: slbMillion_statusCode
+          ? slbMillion_statusCode
           : "",
-        plansStatus: plans_statusCode
-          ? plans_statusCode
+        slbNonMillionStatus: slbNonMillion_statusCode
+          ? slbNonMillion_statusCode
           : "",
       }
 
