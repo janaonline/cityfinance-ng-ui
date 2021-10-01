@@ -32,7 +32,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
   previewData: any;
   loggedInUserType;
   jsonUtil = new JSONUtility();
-  slbTitleText: string = "SLB's for Water Supply and Sanitation";
+  slbTitleText: string = "SLBs for Water Supply and Sanitation";
   preFilledWaterManagement: any = {};
   slbId: string = "";
   ulbId = null;

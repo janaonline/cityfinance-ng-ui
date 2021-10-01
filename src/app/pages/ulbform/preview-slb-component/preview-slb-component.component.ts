@@ -40,7 +40,7 @@ const swal: SweetAlert = require("sweetalert");
 export class PreviewSlbComponentComponent implements OnInit {
   @Input()
   data: any;
-  slbTitleText: string = "SLB's for Water Supply and Sanitation";
+  slbTitleText: string = "SLBs for Water Supply and Sanitation";
   @Input()
   isULBMillionPlus = false;
   @ViewChild("previewSlb") _html: ElementRef;
