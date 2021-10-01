@@ -188,7 +188,7 @@
               <td>
                 <div class="input-group">
                   <select [formControl]="filterForm.controls.user" class="form-control" placeholder="User Status">
-                    <option [value]="">User Created</option>
+                    <option [value]="" selected>All Users</option>
                     <option [value]="false">User Not Created</option>
                   </select>
                 </div>
@@ -237,6 +237,7 @@
                       };
                 index as i
               ">
+
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
