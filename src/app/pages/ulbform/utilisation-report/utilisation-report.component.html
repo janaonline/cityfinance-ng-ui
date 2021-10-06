@@ -81,7 +81,7 @@
 
                 <div class="row">
                     <div class="col-lg-6">
-                        <label for="" class="labelField">i. Unutilized from previous installments (INR in lakhs)</label>
+                        <label for="" class="labelField">i. Unutilised from previous installments (INR in lakhs)</label>
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
@@ -393,23 +393,24 @@
                                      form-control" [disabled]="isDisabled"
                                         [ngStyle]="{'border':(isSubmitted == true &&
                                       utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors?.required )? '1px solid red' : '' }"
-                                        (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false"
-                                        formControlName="engineerName" style="width: 10rem;" required>
+                                        (mouseover)="errorDisplayEngineerName=true"
+                                        (mouseout)="errorDisplayEngineerName=false" formControlName="engineerName"
+                                        style="width: 10rem;" required>
                                     <div class="bs-tooltip-top" role="tooltip"
-                                        *ngIf="errorDisplayName &&
+                                        *ngIf="errorDisplayEngineerName &&
                                     utiReportFormControl.projects.controls[projectIndex].controls.engineerName.invalid &&
                               (utiReportFormControl.projects.controls[projectIndex].controls.engineerName.dirty ||
                               utiReportFormControl.projects.controls[projectIndex].controls.engineerName.touched || submitted)">
 
                                         <span class="tooltip-inner" style="font-size: 10px;"
-                                            *ngIf=" errorDisplayName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.required">
+                                            *ngIf=" errorDisplayEngineerName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.required">
                                             Engineer's Name is required.
                                         </span>
                                         <span class="tooltip-inner" style="font-size: 10px;"
-                                            *ngIf="errorDisplayName
-                                   && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.maxlength">
-                                            Name less than 50 char.
+                                            *ngIf=" errorDisplayEngineerName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.pattern">
+                                            Name must have atleast one Alphabet
                                         </span>
+
 
                                     </div>
                                 </td>
@@ -418,23 +419,23 @@
                                      form-control" [disabled]="isDisabled"
                                         [ngStyle]="{'border':(isSubmitted == true &&
                                       utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors?.required )? '1px solid red' : '' }"
-                                        (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false"
+                                        (mouseover)="errorDisplayContact=true" (mouseout)="errorDisplayContact=false"
                                         formControlName="engineerContact" style="width: 10rem;" required>
                                     <div class="bs-tooltip-top" role="tooltip"
-                                        *ngIf="errorDisplayName &&
+                                        *ngIf="errorDisplayContact &&
                                     utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.invalid &&
                               (utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.dirty ||
                               utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.touched || submitted)">
 
                                         <span class="tooltip-inner" style="font-size: 10px;"
-                                            *ngIf=" errorDisplayName && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.required">
+                                            *ngIf=" errorDisplayContact && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.required">
                                             Engineer's Contact Number is required.
                                         </span>
                                         <span class="tooltip-inner" style="font-size: 10px;"
-                                            *ngIf="errorDisplayName
-                                   && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.maxlength">
-                                            Name less than 50 char.
+                                            *ngIf=" errorDisplayContact && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.pattern">
+                                            Invalid Contact Number
                                         </span>
+
 
                                     </div>
                                 </td>
@@ -538,7 +539,7 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th scope="col">Category</th>
-                                    <th scope="col">Total Tied Grant Utilized on WM</th>
+                                    <th scope="col">Total Tied Grant Utilised on WM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
 
@@ -589,7 +590,7 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th width="20%" scope="col">Category</th>
-                                    <th scope="col">Total Tied Grant Utilized on SWM</th>
+                                    <th scope="col">Total Tied Grant Utilised on SWM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
 
