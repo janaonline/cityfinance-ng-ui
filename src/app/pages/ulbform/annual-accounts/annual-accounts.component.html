@@ -438,9 +438,13 @@
 (anFormStaus != 'N/A')">
         <div class="card-body" style="padding: 1%; margin-left: 0;">
             <!-- <p><b>State Review Status :</b> {{anFormStaus | titlecase}}</p> -->
+
+
+
+
             <p><b style="padding-right: 25px;">State Review Status :</b>
                 <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
-            'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING')}">
+            'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING' || anFormStaus == 'N/A'  )}">
                     {{anFormStaus | titlecase}}</label>
             </p>
             <!-- <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')"><b>MoHUA Review
@@ -448,8 +452,9 @@
 
             <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')">
                 <b style="padding-right: 10px;"> MoHUA Review Status :</b>
-                <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
-                   'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+                <label class="btn btn-success" style="width: 82px;"
+                    [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
+                   'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStatusMoHUA == 'N/A')}">
                     {{ulbFormStatusMoHUA | titlecase}}</label>
             </p>
             <!-- <p *ngIf="ulbFormStaus == 'REJECTED'">
@@ -462,8 +467,8 @@
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 3px;">
-            <button type="button" [routerLink]="['/ulbform/utilisation-report']" routerLinkActive="router-link-active"
-                class="btn btn-secondary backbtn">BACK</button>
+            <button type="button" [routerLink]="['/ulbform/utilisation-report']" (click)="clickedBack = true"
+                routerLinkActive="router-link-active" class="btn btn-secondary backbtn">BACK</button>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
             <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)"

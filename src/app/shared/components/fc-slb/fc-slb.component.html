@@ -796,7 +796,7 @@
     <!-- <p><b>State Review Status :</b> {{ulbFormStaus | titlecase}}</p> -->
     <p><b style="padding-right: 25px;">State Review Status :</b>
       <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
-        'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+        'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStaus == 'PENDING' )}">
         {{ulbFormStaus | titlecase}}</label>
     </p>
     <!-- <p *ngIf="ulbFormStatusMoHUA && (finalSubmitStatus == 'true')"><b>MoHUA Review Status
