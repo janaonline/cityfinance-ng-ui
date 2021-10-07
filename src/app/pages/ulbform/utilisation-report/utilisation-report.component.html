@@ -690,11 +690,12 @@
  )">
     <div class="card-body" style="padding: 1%;">
         <p><b style="padding-right: 27px;">State Review Status :</b>
+
             <!-- {{ulbFormStaus | titlecase}} -->
 
             <label class="btn btn-success" style="width: 82px;"
                 [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
-          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStatus == 'PENDING'  )}">
+          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStaus == 'PENDING'  )}">
                 {{ulbFormStaus | titlecase}}</label>
         </p>
         <br>

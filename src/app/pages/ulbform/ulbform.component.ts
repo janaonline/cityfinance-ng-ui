@@ -377,9 +377,9 @@ export class UlbformComponent implements OnInit {
       this.userLoggedInDetails = data;
       console.log("hi", data);
     });
-    if (!this.userLoggedInDetails) {
-      return this._router.navigate(["/login"]);
-    }
+    // if (!this.userLoggedInDetails) {
+    //   return this._router.navigate(["/login"]);
+    // }
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.ULB:
@@ -591,7 +591,7 @@ export class UlbformComponent implements OnInit {
         }
 
         this.finalActionDis = true;
-        this._router.navigate(["../ulbform-overview"]);
+        this._router.navigate(["ulbform/ulbform-overview"]);
         setTimeout(() => {
           location.reload();
         }, 100);

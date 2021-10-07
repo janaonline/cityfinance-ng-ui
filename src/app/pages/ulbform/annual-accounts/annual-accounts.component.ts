@@ -255,8 +255,10 @@ export class AnnualAccountsComponent implements OnInit {
       submit_standardized_data: false,
     },
   };
-
+  clickedBack = false
+  actionTaken = false;
   ngOnInit(): void {
+
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.clickedSave = false;
     this.onLoad();
@@ -706,6 +708,7 @@ export class AnnualAccountsComponent implements OnInit {
         })
         if (rejectReasonCheck) {
           this.saveStateActionData();
+          sessionStorage.setItem("changeInAnnual", "false");
           console.log('unAutited', this.unAuditQues)
           console.log('unAutited', this.auditQues)
         }
@@ -898,16 +901,30 @@ export class AnnualAccountsComponent implements OnInit {
     });
   }
   async stay() {
-    await this.dialogRef.close(true);
+    // await this.dialogRef.close(true);
+    this._matDialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   async proceed() {
     await this.dialogRef.close(true);
-    if (this.routerNavigate) {
+    // this._matDialog.closeAll();
+    if (this.routerNavigate && !this.actionTaken) {
       await this.submit();
       this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    if (this.routerNavigate && !this.clickedBack && this.actionTaken) {
+      await this.saveStateActionData();
+      sessionStorage.setItem("changeInAnnual", "false");
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    if (this.clickedBack && this.actionTaken) {
+      await this.saveStateActionData();
+      sessionStorage.setItem("changeInAnnual", "false");
+      this._router.navigate(['/ulbform/utilisation-report']);
       return;
     }
     await this.submit();
@@ -967,6 +984,8 @@ export class AnnualAccountsComponent implements OnInit {
   }
 
   checkStatusUnA(e, index) {
+    this.actionTaken = true
+    sessionStorage.setItem("changeInAnnual", "true");
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.unAuditAct[index] = e;
@@ -981,6 +1000,8 @@ export class AnnualAccountsComponent implements OnInit {
 
   }
   checkStatusAu(e, index) {
+    sessionStorage.setItem("changeInAnnual", "true");
+    this.actionTaken = true
     this.saveBtn = "SAVE AND NEXT";
     console.log("eeeeeeeeee", index, e);
     this.AuditAct[index] = e;
@@ -1055,7 +1076,10 @@ export class AnnualAccountsComponent implements OnInit {
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.annualAccounts.status = res["newAnnualAccountData"].status;
         this._ulbformService.allStatus.next(status);
-        this._router.navigate(["ulbform/slbs"]);
+        if (!this.clickedBack) {
+          this._router.navigate(["ulbform/slbs"]);
+        }
+
       },
       (err) => {
         swal("Failed To Save Action");

@@ -412,6 +412,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
         console.log("this data is going in POST API", this.data);
         this.data["saveData"] = true;
         this.onWaterWasteManagementEmitValue(this.data);
+        sessionStorage.setItem("changeInSLB", "false");
         this._router.navigate([this.routerNavigate.url]);
         return;
       } else if (this.routerNavigate == null && changeHappen === "false") {
@@ -453,6 +454,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
   clickActionButton() {
     if (this.btnSave == 'SAVE') {
       this.saveSlbStateAction();
+      sessionStorage.setItem("changeInSLB", "false");
     } else {
       return this._router.navigate(["ulbform/overview"]);;
     }
