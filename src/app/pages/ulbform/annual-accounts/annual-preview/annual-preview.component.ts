@@ -126,6 +126,12 @@ text-align: center;
   font-size: 10px;
   margin-top: 10px;
 }
+.optionalText{
+  padding-left: 2.5rem;
+          margin-top: .5rem;
+          margin-bottom: 1.5rem;
+          font-size:7px;
+}
 
   </style>`;
 

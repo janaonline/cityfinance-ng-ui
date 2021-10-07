@@ -822,7 +822,7 @@ export class UtilisationReportComponent implements OnInit {
         cost: ["", Validators.required],
         expenditure: ["", Validators.required],
         engineerName: ["", [Validators.required, Validators.pattern("^[a-zA-Z0-9]*[a-zA-Z]+[a-zA-Z0-9]*$")]],
-        engineerContact: ["", [Validators.required, Validators.pattern("^[0-9]+$")]]
+        engineerContact: ["", [Validators.required, Validators.pattern("[0-9 ]{10}")]]
       })
     );
   }
@@ -847,7 +847,7 @@ export class UtilisationReportComponent implements OnInit {
         cost: [data.cost, Validators.required],
         expenditure: [data.expenditure, Validators.required],
         engineerName: [data.engineerName, [Validators.required, Validators.pattern("^[a-zA-Z0-9]*[a-zA-Z]+[a-zA-Z0-9]*$")]],
-        engineerContact: [data.engineerContact, [Validators.required, Validators.pattern("^[0-9]+$")]],
+        engineerContact: [data.engineerContact, [Validators.required, Validators.pattern("[0-9 ]{10}")]],
       })
     );
     this.totalProCost(this.tabelRows.length);
