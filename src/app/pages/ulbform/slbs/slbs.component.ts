@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from "@angular/core";
 import { waterWasteManagementForm } from "../../../users/data-upload/components/configs/water-waste-management";
 import { IFinancialData } from "../../../users/data-upload/models/financial-data.interface";
 import {
@@ -17,13 +17,14 @@ import { UlbformService } from "../ulbform.service";
 import { Router, NavigationStart, Event } from "@angular/router";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { SweetAlert } from "sweetalert/typings/core";
+
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-slbs",
   templateUrl: "./slbs.component.html",
   styleUrls: ["./slbs.component.scss"],
 })
-export class SlbsComponent implements OnInit {
+export class SlbsComponent implements OnInit, OnDestroy {
   dialogRef;
   waterWasteManagementForm: FormGroup;
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
@@ -31,7 +32,7 @@ export class SlbsComponent implements OnInit {
   previewData: any;
   loggedInUserType;
   jsonUtil = new JSONUtility();
-  slbTitleText: string = "SLB's for Water Supply and Sanitation";
+  slbTitleText: string = "SLBs for Water Supply and Sanitation";
   preFilledWaterManagement: any = {};
   slbId: string = "";
   ulbId = null;
@@ -95,6 +96,9 @@ export class SlbsComponent implements OnInit {
     // if (this.preFilledWaterManagement) this.waterWasteManagementForm =this.createWasteWaterUploadForm(this.preFilledWaterManagement);
     sessionStorage.setItem("changeInSLB", "false");
 
+  }
+  ngOnDestroy() {
+    waterWasteManagementForm.reset();
   }
   checkFinalAction() {
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
@@ -391,26 +395,42 @@ export class SlbsComponent implements OnInit {
       }
     });
   }
-
+  backButtonClicked = false
   async proceed() {
     await this._matDialog.closeAll();
-    // await this.dialogRef.close(true);
-    let changeHappen = sessionStorage.getItem("changeInSLB");
-    if (this.clickedSave) {
-      this.postSlbData(this.data);
-      sessionStorage.setItem("changeInSLB", "false");
-      // this._router.navigate(["ulbform/service-level"]);
-      return
+    if (this.loggedInUserDetails.role == USER_TYPE.ULB) {
 
-    } else if (this.routerNavigate && changeHappen === "true") {
-      console.log("this data is going in POST API", this.data);
-      this.data["saveData"] = true;
-      this.onWaterWasteManagementEmitValue(this.data);
-      this._router.navigate([this.routerNavigate.url]);
-      return;
-    } else if (this.routerNavigate == null && changeHappen === "false") {
-      return
+      // await this.dialogRef.close(true);
+      let changeHappen = sessionStorage.getItem("changeInSLB");
+      if (this.clickedSave) {
+        this.postSlbData(this.data);
+        sessionStorage.setItem("changeInSLB", "false");
+        // this._router.navigate(["ulbform/service-level"]);
+        return
 
+      } else if (this.routerNavigate && changeHappen === "true") {
+        console.log("this data is going in POST API", this.data);
+        this.data["saveData"] = true;
+        this.onWaterWasteManagementEmitValue(this.data);
+        sessionStorage.setItem("changeInSLB", "false");
+        this._router.navigate([this.routerNavigate.url]);
+        return;
+      } else if (this.routerNavigate == null && changeHappen === "false") {
+        return
+
+      }
+
+    } else {
+      if (this.backButtonClicked || this.routerNavigate) {
+        this.saveSlbStateAction();
+        sessionStorage.setItem("changeInSLB", "false")
+        if (this.backButtonClicked) {
+          return this._router.navigate(["ulbform/annual_acc"]);
+        } else {
+          return this._router.navigate([this.routerNavigate.url]);
+        }
+
+      }
     }
     // this.onWaterWasteManagementEmitValue(this.data);
   }
@@ -419,13 +439,14 @@ export class SlbsComponent implements OnInit {
   }
 
   async stay() {
-    await this.dialogRef.close(true);
+    await this._matDialog.closeAll();
     if (this.routerNavigate) {
       this.routerNavigate = null;
     }
   }
   checkStatus(ev) {
     this.btnSave = 'SAVE'
+    sessionStorage.setItem("changeInSLB", "true");
     console.log("actionValues", ev);
     this.ulbFormStaus = ev.status;
     this.ulbFormRejectR = ev.rejectReason;
@@ -433,6 +454,7 @@ export class SlbsComponent implements OnInit {
   clickActionButton() {
     if (this.btnSave == 'SAVE') {
       this.saveSlbStateAction();
+      sessionStorage.setItem("changeInSLB", "false");
     } else {
       return this._router.navigate(["ulbform/overview"]);;
     }

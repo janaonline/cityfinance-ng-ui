@@ -12,9 +12,8 @@
                 <div class="row">
                     <div class="col-sm-12 col-lg-12 col-md-12 "
                         style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
-                        <span class="text-left" style="font-size: 20px; font-weight: bold;text-align: left;">Utilisation
-                            Report Form
-                            Status</span>
+                        <span class="text-left" style="font-size: 20px; font-weight: bold;text-align: left;"><b>Million
+                                Plus City Challenge Fund</b> - SLB for Water Supply and Sanitation</span>
                         <button type="button" (click)="stateData(true)" class="btn btn-d text-right">DOWNLOAD</button>
 
                     </div>
@@ -31,7 +30,7 @@
                                         <!-- <th scope="col">ULB Type</th> -->
                                         <th scope="col">Population Type</th>
                                         <th scope="col">Name of UA</th>
-                                        <th scope="col">Utilisation Report Status</th>
+                                        <th scope="col"> SLB for Water Supply and Sanitation</th>
 
                                     </tr>
                                 </thead>
@@ -90,7 +89,7 @@
                                                 placeholder="UA Name" style="width: 76px;" (change)="stateData(false)">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_util" style="width: 71px;"
+                                            <select class="s-th" [formControl]="status_slbMillion" style="width: 71px;"
                                                 (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
@@ -132,7 +131,7 @@
                                             'NA': resData.UA}}</td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.utilizationreportStatus}}</td>
+                                            {{resData.slbMillionStatus}}</td>
 
 
 

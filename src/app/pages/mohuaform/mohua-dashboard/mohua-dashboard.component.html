@@ -347,7 +347,7 @@
                         <div class="row formDonutCharts">
                             <div class="textInThirdColumn"
                                 style="line-height: 35px; margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
-                                ULB Utilization Report Status
+                                ULB Utilisation Report Status
 
                                 <span style="margin-left: 30px;">
                                     <a (click)="openDialogUtil()">
@@ -382,27 +382,28 @@
 </div>
 <div class="row">
     <div class="col-sm-12 mb-2">
-        <mat-card class="example-card">
-            <mat-card-actions class="pull-right">
+        <mat-card>
+
+            <div class="pull-right">
                 <mat-label style="font-weight:bolder;">Year </mat-label>
-                <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                <select (change)="grantTransferFilter($event.target.value)" required>
                     <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
                     <option value="2021-22,date">2021-22</option>
                 </select>
                 <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
-                <select (change)="grantTransferFilter($event.target.value)" matNativeControl required>
+                <select (change)="grantTransferFilter($event.target.value)" required>
                     <option [selected]="installmentSelect" value="2,installment">2</option>
                     <option [ngStyle]="{'display': year21 ? 'none':''}" value="1,installment">1</option>
                 </select>
-            </mat-card-actions>
+            </div>
             <mat-card-header>
                 <mat-card-title>Grant Transfer Status</mat-card-title>
                 <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-actions class="pull-right" style="padding-top: 0;">
+            <div class="pull-right" style="padding-top: 0;">
                 <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
                 padding: 2px; height: 25px;">DOWNLOAD</button>
-            </mat-card-actions>
+            </div>
             <mat-card-content>
                 <div class="row">
                     <div class="col-sm-12">
@@ -419,14 +420,17 @@
                                         <th scope="col" class="tableHeadText" style="width: 17%;">
                                             ULBs submitted forms/ Total ULBs in Category
                                         </th>
-                                        <th scope="col" style="width: 17%;" class="tableHeadText">Number of States to
-                                            Submit Grant Transfer Certificates
+
+                                        <th scope="col" style="width: 17%;" class="tableHeadText">{{!state_id ?
+                                            'Number of States to Submit Grant Transfer Certificate' : 'Grant Transfer
+                                            Certificate Status' }}
                                         </th>
-                                        <th scope="col" style="width: 17%;" class="tableHeadText">Number of States with
-                                            Grant Recommendations sent to the MoF
+                                        <th scope="col" style="width: 17%;" class="tableHeadText"> {{!state_id ?
+                                            'Number of States with Grant Recommendations sent to the MoF' : 'Grant
+                                            Recommendation Status' }}
                                         </th>
-                                        <th scope="col" style="width: 17%;" class="tableHeadText">Number of States that
-                                            Received Grants
+                                        <th scope="col" style="width: 17%;" class="tableHeadText"> {{!state_id ?
+                                            'Number of States that Received Grants' : 'Grant Release Status' }}
                                         </th>
                                     </tr>
                                 </thead>
@@ -466,8 +470,28 @@
 margin-right: 0;">
     <div class="col-sm-6" style="border-right:1px solid #0000001A ; ">
         <div class="row">
-            <div class="col-sm-12 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
+            <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
                 Challenge Fund</div>
+            <div class=" col-sm-4"
+                style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A; height:42px; padding:0">
+
+                <form>
+                    <mat-form-field style="width:80%; height:30px ">
+                        <input type="text" placeholder="Select UA" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+
+                <!-- <select [(ngModel)]="selectUa" (change)="selectedUA()" class="dropdown">
+                    <option value="all">-ALL UAs-</option>
+                    <option *ngFor="let item of UAs" value="{{item?._id}}">{{item?.name}}</option>
+                </select> -->
+            </div>
         </div>
 
         <div class="row">

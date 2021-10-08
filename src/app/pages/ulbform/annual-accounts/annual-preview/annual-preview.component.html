@@ -9,7 +9,7 @@
             <!-- <div class="col-sm-12 heading-p">Annual Accounts: 2021-22</div> -->
             <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
                 <span *ngIf="!fromParent" style="display: block; line-height: normal;">
-                  Submissions for 15th FC grant for FY 2021-22</span>
+                    Submissions for 15th FC grant for FY 2021-22</span>
                 <span *ngIf="fromParent">Annual Accounts</span>
                 <b class="sub-h" *ngIf="!fromParent">{{ulbName}}, {{stateName}}</b>
             </div>
@@ -29,7 +29,8 @@
             <!-- <br *ngIf="!fromParent"> -->
             <b>Form Current Status:</b> {{formStatusCheck}}
         </p>
-        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; height: 2pc;" class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
+        <button *ngIf="!fromParent" id="donwloadButton" style="right: 0%; outline: none; height: 2pc;"
+            class="btn btn-primary btn-upload hi" (click)="clickedDownloadAsPDF(templateAnnual)">
             Download as PDF
         </button>
     </div>
@@ -41,8 +42,14 @@
                     Annual Accounts
                 </div>
             </div>
+            <div class="row" class="optionalText;">
+                <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                    <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                </mat-icon> - PDFs are mandatory and Excels are Optional.
+            </div>
             <div class="row m-an" style="margin: 0;">
-                <div class="col-sm-12 h-annual" style="background-color: #124A55; margin: 0; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-12 h-annual"
+                    style="background-color: #124A55; margin: 0; color: #FFFFFF; padding: 4px;">
                     Provisional Accounts for 2020-21
                 </div>
             </div>
@@ -55,8 +62,11 @@
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4  h-font f-r m-clss">
                             <div style="padding: 1pc;" *ngIf="data.unAudited.submit_annual_accounts"> Yes</div>
-                            <div style="padding: 1pc;" *ngIf="!data.unAudited.submit_annual_accounts && (data.unAudited.submit_annual_accounts != undefined)"> No</div>
-                            <div style="padding: 1pc;" class="" *ngIf="data.unAudited.submit_annual_accounts == undefined">
+                            <div style="padding: 1pc;"
+                                *ngIf="!data.unAudited.submit_annual_accounts && (data.unAudited.submit_annual_accounts != undefined)">
+                                No</div>
+                            <div style="padding: 1pc;" class=""
+                                *ngIf="data.unAudited.submit_annual_accounts == undefined">
                                 N/A</div>
                         </div>
                     </div>
@@ -64,9 +74,10 @@
                         <div class="col-sm-8 qus-h-an">
                             1.Balance Sheet
                         </div>
-                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.bal_sheet.pdf.url" class="col-sm-4 ans-h-an">
+                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.bal_sheet.pdf.url"
+                            class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.unAudited.provisional_data.bal_sheet.pdf.url}}">
                                     {{ data.unAudited.provisional_data.bal_sheet.pdf.name}}</a>
                             </div>
@@ -76,7 +87,8 @@
                                     {{data.unAudited.provisional_data.bal_sheet?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.bal_sheet.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.bal_sheet.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -84,19 +96,23 @@
                         <div class="col-sm-8 qus-h-an">
                             2.Balance Sheet Schedule
                         </div>
-                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.bal_sheet_schedules.pdf.url" class="col-sm-4 ans-h-an ">
+                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.bal_sheet_schedules.pdf.url"
+                            class="col-sm-4 ans-h-an ">
                             <div class="row ans-h-an">
-                                Pdf - &nbsp;&nbsp;
-                                <a target="_blank" href="{{data.unAudited.provisional_data.bal_sheet_schedules.pdf.url}}">
+                                Pdf* - &nbsp;&nbsp;
+                                <a target="_blank"
+                                    href="{{data.unAudited.provisional_data.bal_sheet_schedules.pdf.url}}">
                                     {{data.unAudited.provisional_data.bal_sheet_schedules.pdf.name}}</a>
                             </div>
-                            <div class="row ans-h-an" *ngIf="data.unAudited.provisional_data.bal_sheet_schedules?.excel.name">
+                            <div class="row ans-h-an"
+                                *ngIf="data.unAudited.provisional_data.bal_sheet_schedules?.excel.name">
                                 Excel -
                                 <a href="{{data.unAudited.provisional_data.bal_sheet_schedules?.excel.url}}">
                                     {{data.unAudited.provisional_data.bal_sheet_schedules?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.bal_sheet_schedules.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.bal_sheet_schedules.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -104,19 +120,22 @@
                         <div class="col-sm-8 qus-h-an">
                             3.Income Expenditure
                         </div>
-                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.inc_exp.pdf.url" class="col-sm-4 ans-h-an">
+                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.inc_exp.pdf.url"
+                            class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.unAudited.provisional_data.inc_exp.pdf.url}}">
                                     {{data.unAudited.provisional_data.inc_exp.pdf.name}}</a>
                             </div>
-                            <div class="row ans-h-an" *ngIf="data.unAudited.provisional_data.inc_exp?.excel.name && data.unAudited.provisional_data.inc_exp.pdf.url">
+                            <div class="row ans-h-an"
+                                *ngIf="data.unAudited.provisional_data.inc_exp?.excel.name && data.unAudited.provisional_data.inc_exp.pdf.url">
                                 Excel -
                                 <a href="{{data.unAudited.provisional_data.inc_exp?.excel.url}}">
                                     {{data.unAudited.provisional_data.inc_exp?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.inc_exp.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.inc_exp.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -124,19 +143,22 @@
                         <div class="col-sm-8 qus-h-an">
                             4.Income Expenditure Schedule
                         </div>
-                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.inc_exp_schedules.pdf.url" class="col-sm-4 ans-h-an">
+                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.inc_exp_schedules.pdf.url"
+                            class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.unAudited.provisional_data.inc_exp_schedules.pdf.url}}">
                                     {{data.unAudited.provisional_data.inc_exp_schedules.pdf.name}}</a>
                             </div>
-                            <div *ngIf="data.unAudited.provisional_data.inc_exp_schedules?.excel.name" class="row ans-h-an">
+                            <div *ngIf="data.unAudited.provisional_data.inc_exp_schedules?.excel.name"
+                                class="row ans-h-an">
                                 Excel -
                                 <a href="{{data.unAudited.provisional_data.inc_exp_schedules?.excel.url}}">
                                     {{data.unAudited.provisional_data.inc_exp_schedules?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.inc_exp_schedules.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.inc_exp_schedules.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -144,9 +166,10 @@
                         <div class="col-sm-8 qus-h-an">
                             5.Cash flow Statement
                         </div>
-                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.cash_flow.pdf.url" class="col-sm-4 ans-h-an">
+                        <div *ngIf="data.unAudited.provisional_data && data.unAudited.provisional_data.cash_flow.pdf.url"
+                            class="col-sm-4 ans-h-an">
                             <div class="row ans-h-an">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.unAudited.provisional_data.cash_flow.pdf.url}}">
                                     {{data.unAudited.provisional_data.cash_flow.pdf.name}}</a>
                             </div>
@@ -156,7 +179,8 @@
                                     {{data.unAudited.provisional_data.cash_flow?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.cash_flow.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.unAudited.provisional_data || !data.unAudited.provisional_data.cash_flow.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -171,7 +195,9 @@
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4  h-font f-r">
                             <div *ngIf="data.unAudited.submit_standardized_data"> Yes</div>
-                            <div *ngIf="!data.unAudited.submit_standardized_data && (data.unAudited.submit_standardized_data != undefined)"> No</div>
+                            <div
+                                *ngIf="!data.unAudited.submit_standardized_data && (data.unAudited.submit_standardized_data != undefined)">
+                                No</div>
                             <div class="" *ngIf="data.unAudited.submit_standardized_data == undefined">
                                 N/A</div>
                         </div>
@@ -182,7 +208,8 @@
                         </div>
                         <div *ngIf="data.unAudited.standardized_data?.excel.url" class="col-sm-4 ans-h-an ">
                             Excel -
-                            <a href="{{data.unAudited.standardized_data?.excel.url}}">{{data.unAudited.standardized_data?.excel.name}}</a>
+                            <a
+                                href="{{data.unAudited.standardized_data?.excel.url}}">{{data.unAudited.standardized_data?.excel.name}}</a>
                         </div>
                         <div *ngIf="!data.unAudited.standardized_data?.excel.url" class="col-sm-4 ans-h-na">
                             N/A
@@ -197,18 +224,23 @@
                             is confirmed that this information can be made available
                              for public consumption on the CityFinance portal. -->
                             <label class="dec-h" style="font-weight: 500;">
-                              Self declaration by the Executive officer/Municipal
-                              Commissioner of the ULB on the standardised financial statements uploaded above.
+                                Self declaration by the Executive officer/Municipal
+                                Commissioner of the ULB on the standardised financial statements uploaded above.
                             </label> <br>
-                            <span> I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It is confirmed that this information can be made available for public
-                            consumption on the CityFinance portal.</span>
+                            <span> I hereby confirm that I have verified the information uploaded in standardized
+                                template and it is true and correct. It is confirmed that this information can be made
+                                available for public
+                                consumption on the CityFinance portal.</span>
                         </div>
                         <div class="col-sm-4" style="margin-top: 1rem;">
-                            <span class="ans-h-an" *ngIf="data.unAudited.standardized_data?.declaration == true">Agreed</span>
+                            <span class="ans-h-an"
+                                *ngIf="data.unAudited.standardized_data?.declaration == true">Agreed</span>
 
-                            <span class="ans-h-an" *ngIf="data.unAudited.standardized_data?.declaration == false && (data.unAudited.standardized_data?.declaration != undefined)">Not
+                            <span class="ans-h-an"
+                                *ngIf="data.unAudited.standardized_data?.declaration == false && (data.unAudited.standardized_data?.declaration != undefined)">Not
                                 Agreed</span>
-                            <span class="ans-h-na" *ngIf="data.unAudited.standardized_data?.declaration == undefined">N/A</span>
+                            <span class="ans-h-na"
+                                *ngIf="data.unAudited.standardized_data?.declaration == undefined">N/A</span>
                         </div>
                     </div>
                 </div>
@@ -219,7 +251,8 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="margin-top: 2rem; margin-bottom: 20px;">
             <div class="row m-an" style="margin: 0;">
-                <div class="col-sm-12 h-annual" style="margin: 0; background-color: #124A55; color: #FFFFFF; padding: 4px;">
+                <div class="col-sm-12 h-annual"
+                    style="margin: 0; background-color: #124A55; color: #FFFFFF; padding: 4px;">
                     Audited Accounts for 2019-20
                 </div>
             </div>
@@ -231,8 +264,11 @@
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4 h-font f-r m-clss">
                             <div style="padding: 1pc;" *ngIf="data.audited.submit_annual_accounts"> Yes</div>
-                            <div style="padding: 1pc;" *ngIf="!data.audited.submit_annual_accounts && (data.audited.submit_annual_accounts != undefined)"> No</div>
-                            <div style="padding: 1pc;" class="" *ngIf="data.audited.submit_annual_accounts == undefined">
+                            <div style="padding: 1pc;"
+                                *ngIf="!data.audited.submit_annual_accounts && (data.audited.submit_annual_accounts != undefined)">
+                                No</div>
+                            <div style="padding: 1pc;" class=""
+                                *ngIf="data.audited.submit_annual_accounts == undefined">
                                 N/A</div>
                         </div>
                     </div>
@@ -240,9 +276,10 @@
                         <div class="col-sm-8 qus-h-an">
                             1.Balance Sheet
                         </div>
-                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.bal_sheet.pdf.url" class="col-sm-4">
+                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.bal_sheet.pdf.url"
+                            class="col-sm-4">
                             <div class="row ans-h-an-b">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.audited.provisional_data.bal_sheet.pdf.url}}">
                                     {{data.audited.provisional_data.bal_sheet.pdf.name}}</a>
                             </div>
@@ -252,7 +289,8 @@
                                     {{data.audited.provisional_data.bal_sheet?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.bal_sheet.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.bal_sheet.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -260,19 +298,22 @@
                         <div class="col-sm-8 qus-h-an">
                             2.Balance Sheet Schedule
                         </div>
-                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.bal_sheet_schedules.pdf.url" class="col-sm-4">
+                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.bal_sheet_schedules.pdf.url"
+                            class="col-sm-4">
                             <div class="row ans-h-an-b">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.audited.provisional_data.bal_sheet_schedules.pdf.url}}">
                                     {{data.audited.provisional_data.bal_sheet_schedules.pdf.name}}</a>
                             </div>
-                            <div class="row ans-h-an-b" *ngIf="data.audited.provisional_data.bal_sheet_schedules?.excel.name">
+                            <div class="row ans-h-an-b"
+                                *ngIf="data.audited.provisional_data.bal_sheet_schedules?.excel.name">
                                 Excel -
                                 <a href="{{data.audited.provisional_data.bal_sheet_schedules?.excel.url}}">
                                     {{data.audited.provisional_data.bal_sheet_schedules?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.bal_sheet_schedules.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.bal_sheet_schedules.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -280,19 +321,22 @@
                         <div class="col-sm-8 qus-h-an">
                             3.Income Expenditure
                         </div>
-                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.inc_exp.pdf.url" class="col-sm-4">
+                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.inc_exp.pdf.url"
+                            class="col-sm-4">
                             <div class="row ans-h-an-b">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.audited.provisional_data.inc_exp.pdf.url}}">
                                     {{data.audited.provisional_data.inc_exp.pdf.name}}</a>
                             </div>
-                            <div class="row ans-h-an-b" *ngIf="data.audited.provisional_data.inc_exp?.excel.name && data.audited.provisional_data.inc_exp.pdf.url">
+                            <div class="row ans-h-an-b"
+                                *ngIf="data.audited.provisional_data.inc_exp?.excel.name && data.audited.provisional_data.inc_exp.pdf.url">
                                 Excel -
                                 <a href="{{data.audited.provisional_data.inc_exp?.excel.url}}">
                                     {{data.audited.provisional_data.inc_exp?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.inc_exp.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.inc_exp.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -300,19 +344,22 @@
                         <div class="col-sm-8 qus-h-an">
                             4.Income Expenditure Schedule
                         </div>
-                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.inc_exp_schedules.pdf.url" class="col-sm-4">
+                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.inc_exp_schedules.pdf.url"
+                            class="col-sm-4">
                             <div class="row ans-h-an-b">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.audited.provisional_data.inc_exp_schedules.pdf.url}}">
                                     {{data.audited.provisional_data.inc_exp_schedules.pdf.name}}</a>
                             </div>
-                            <div *ngIf="data.audited.provisional_data.inc_exp_schedules?.excel.name" class="row ans-h-an-b">
+                            <div *ngIf="data.audited.provisional_data.inc_exp_schedules?.excel.name"
+                                class="row ans-h-an-b">
                                 Excel -
                                 <a href="{{data.audited.provisional_data.inc_exp_schedules?.excel.url}}">
                                     {{data.audited.provisional_data.inc_exp_schedules?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.inc_exp_schedules.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.inc_exp_schedules.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -320,9 +367,10 @@
                         <div class="col-sm-8 qus-h-an">
                             5.Cash flow Statement
                         </div>
-                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.cash_flow.pdf.url" class="col-sm-4">
+                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.cash_flow.pdf.url"
+                            class="col-sm-4">
                             <div class="row ans-h-an-b">
-                                Pdf - &nbsp;&nbsp;
+                                Pdf* - &nbsp;&nbsp;
                                 <a target="_blank" href="{{data.audited.provisional_data.cash_flow.pdf.url}}">
                                     {{data.audited.provisional_data.cash_flow.pdf.name}}</a>
                             </div>
@@ -332,7 +380,8 @@
                                     {{data.audited.provisional_data.cash_flow?.excel.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.cash_flow.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.cash_flow.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -340,13 +389,15 @@
                         <div class="col-sm-8 qus-h-an">
                             6.Auditor Report
                         </div>
-                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.auditor_report.pdf.url" class="col-sm-4">
+                        <div *ngIf="data.audited.provisional_data && data.audited.provisional_data.auditor_report.pdf.url"
+                            class="col-sm-4">
                             <div class="row ans-h-an-b">
-                                Pdf - &nbsp;&nbsp; <a href="{{data.audited.provisional_data.auditor_report.pdf.url}}">
+                                Pdf* - &nbsp;&nbsp; <a href="{{data.audited.provisional_data.auditor_report.pdf.url}}">
                                     {{data.audited.provisional_data.auditor_report.pdf.name}}</a>
                             </div>
                         </div>
-                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.auditor_report.pdf.url" class="col-sm-4 ans-h-na">
+                        <div *ngIf="!data.audited.provisional_data || !data.audited.provisional_data.auditor_report.pdf.url"
+                            class="col-sm-4 ans-h-na">
                             N/A
                         </div>
                     </div>
@@ -361,7 +412,9 @@
                         </div>
                         <div class="col-sm-4 col-md-4 col-lg-4  h-font f-r">
                             <div *ngIf="data.audited.submit_standardized_data"> Yes</div>
-                            <div *ngIf="!data.audited.submit_standardized_data && (data.audited.submit_standardized_data != undefined)"> No</div>
+                            <div
+                                *ngIf="!data.audited.submit_standardized_data && (data.audited.submit_standardized_data != undefined)">
+                                No</div>
                             <div class="" *ngIf="data.audited.submit_standardized_data == undefined">
                                 N/A</div>
                         </div>
@@ -372,7 +425,8 @@
                         </div>
                         <div class="col-sm-4 ans-h-an" *ngIf="data.audited.standardized_data?.excel.url">
                             Excel -
-                            <a href="{{data.audited.standardized_data?.excel.url}}">{{data.audited.standardized_data?.excel.name}}</a>
+                            <a
+                                href="{{data.audited.standardized_data?.excel.url}}">{{data.audited.standardized_data?.excel.name}}</a>
                         </div>
                         <div class="col-sm-4 ans-h-na" *ngIf="!data.audited.standardized_data?.excel.url">
                             N/A
@@ -385,16 +439,22 @@
                             is confirmed that this information can be made available for public
                             consumption on the CityFinance portal. -->
                             <label class="dec-h">
-                                Self declaration by the Executive officer/Municipal Commissioner of the ULB on the standardised financial statements uploaded above.
+                                Self declaration by the Executive officer/Municipal Commissioner of the ULB on the
+                                standardised financial statements uploaded above.
                             </label> <br>
-                            <span> I hereby confirm that I have verified the information uploaded in standardized template and it is true and correct. It is confirmed that this information can be made available for public
-                            consumption on the CityFinance portal.</span>
+                            <span> I hereby confirm that I have verified the information uploaded in standardized
+                                template and it is true and correct. It is confirmed that this information can be made
+                                available for public
+                                consumption on the CityFinance portal.</span>
                         </div>
                         <div class="col-sm-4" style="margin-top: 1rem;">
-                            <span class="ans-h-an" *ngIf="data.audited.standardized_data?.declaration == true">Agreed</span>
-                            <span class="ans-h-an" *ngIf="data.audited.standardized_data?.declaration == false && (data.audited.standardized_data?.declaration != undefined)">Not
+                            <span class="ans-h-an"
+                                *ngIf="data.audited.standardized_data?.declaration == true">Agreed</span>
+                            <span class="ans-h-an"
+                                *ngIf="data.audited.standardized_data?.declaration == false && (data.audited.standardized_data?.declaration != undefined)">Not
                                 Agreed</span>
-                            <span class="ans-h-na" *ngIf="data.audited.standardized_data?.declaration == undefined">N/A</span>
+                            <span class="ans-h-na"
+                                *ngIf="data.audited.standardized_data?.declaration == undefined">N/A</span>
                         </div>
                     </div>
                 </div>
@@ -418,7 +478,8 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                 Save & Proceed</button>
         </div>
     </div>

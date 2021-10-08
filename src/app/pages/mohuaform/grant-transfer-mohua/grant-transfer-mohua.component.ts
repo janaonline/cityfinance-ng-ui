@@ -96,7 +96,7 @@ export class GrantTransferMohuaComponent implements OnInit {
         });
         const url = window.URL.createObjectURL(blob);
 
-        fileSaver.saveAs(blob, "GrantTranfer_error.xlsx");
+        fileSaver.saveAs(blob, "GrantTransfer_error.xlsx");
         swal("Refer error file and upload again");
         this.showLoader = false;
         if (this.routerNavigate)

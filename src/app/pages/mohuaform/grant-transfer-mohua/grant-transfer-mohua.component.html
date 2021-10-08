@@ -14,9 +14,17 @@
             Grant Transfer Data Upload
         </h4>
     </div>
+
     <div class="col-sm-2 col-lg-2 col-md-2 text-right" style="margin-bottom: 1rem;">
-        <button type="button" (click)="getTemplate()" class="btn save btn-d" style="padding-left: 8%; padding-right: 8%;">
-          Download Latest Data</button>
+        <button type="button" (click)="getTemplate()" class="btn save btn-d"
+            style="padding-left: 8%; padding-right: 8%;">
+            Download Latest Data</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+        <b>NOTE:</b> Dates mentioned in the downloaded file are in <b>MM/DD/YYYY</b> Format. It is mandatory to
+        maintain the same format while editing the downloaded Sheet.
     </div>
 </div>
 <div class="mat-card" style="padding-top: 5%;">
@@ -25,7 +33,8 @@
             <button class="save upload" (click)="getTemplate()">Download Latest Data</button>
         </div> -->
     <ng-container>
-        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn" [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
+        <app-comm-file-upload [delFileType]="delType" [quesName]="quesName" [requiredBtn]="requiredBtn"
+            [FromLinkinPfms]="true" (getFileUploadResult)="uploadedFile($event)"></app-comm-file-upload>
         <br>
     </ng-container>
 </div>
@@ -35,10 +44,12 @@
 
 <div class="row" style="margin-top: 2rem; margin-bottom: 1rem;">
     <div class="col-sm-6 col-md-6 col-lg-6 text-left">
-        <button *ngIf="!showLoader" [routerLink]="['../review-ulb']" class="btn btn-back" [disabled]="isDisabled">BACK</button>
+        <button *ngIf="!showLoader" [routerLink]="['../review-ulb']" class="btn btn-back"
+            [disabled]="isDisabled">BACK</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 text-right">
-        <button *ngIf="!showLoader" class="btn btn-next" (click)="save()" [disabled]="isDisabled">{{saveBtnText}}</button>
+        <button *ngIf="!showLoader" class="btn btn-next" (click)="save()"
+            [disabled]="isDisabled">{{saveBtnText}}</button>
     </div>
 </div>
 
@@ -59,8 +70,9 @@
         </p>
         <div>
             <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
-            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
-              Save & Proceed</button>
+            <button type="button" class="btn btn-success "
+                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                Save & Proceed</button>
         </div>
 
     </div>

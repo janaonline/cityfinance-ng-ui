@@ -59,6 +59,11 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   noWrap = true;
   val = 0;
   cardFit = false;
+  grantTransferTitle = 'View Grant Transfer Certificate'
+  utilReportTitle = 'Upload Detailed Utilisation Report'
+  annualAccountsTitle = 'Upload Annual Accounts'
+  mpcfTitle = 'Fill details for Million Plus Challenge Fund'
+  performanceConditionTitle = 'Fill details for Performance Condition'
   cardsOverview = [
     // {
     //   label: "PFMS",
@@ -72,7 +77,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     {
       label: "Grant Transfer Certificate",
       link: "../grant-tra-certi",
-      title: "Grant Transfer Certificate",
+      title: this.grantTransferTitle,
       tooltip: "tooltip",
       image: "../../../../assets//ulbform/gtc.svg",
       permittedAccounts: [""],
@@ -81,7 +86,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     {
       label: "Utilisation Report",
       link: "../utilisation-report",
-      title: "Detailed Utilisation Report",
+      title: this.utilReportTitle,
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/dur.svg",
       permittedAccounts: [""],
@@ -90,7 +95,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     {
       label: "Annual Acconts",
       link: "../annual_acc",
-      title: "Annual Accounts",
+      title: this.annualAccountsTitle,
       tooltip: "tooltip",
       image: "../../../../assets/ulbform/aa.svg",
       permittedAccounts: [""],
@@ -173,6 +178,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
           console.log("overviewRes", res["response"]);
           sessionStorage.setItem("masterForm", JSON.stringify(res["response"]));
           this.stateName = res["response"]["stateName"];
+          this.percentage = Number(res['percentage'])
           if (this.userData.role != USER_TYPE.ULB)
             this.ulbName = sessionStorage.getItem("ulbName");
           else
@@ -259,14 +265,14 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
     console.log("overview", this.isUA, this.isMillionPlus);
     if (this.isUA == "Yes") {
-      this.cardsOverview[3].title = 'Million Plus City Challenge Fund'
+      this.cardsOverview[3].title = this.mpcfTitle
       this.cardsOverview = this.cardsOverview;
       this.formValue = 3;
       this.factor = 100 / this.formValue;
       this.numcard = 4;
     } else if (this.isUA == "No") {
       this.formValue = 3;
-      this.cardsOverview[3].title = 'Performance Condition'
+      this.cardsOverview[3].title = this.performanceConditionTitle
       let userType = "Yes";
       this.cardsOverview = this.cardsOverview.filter(
         (item) => !item.permittedAccounts.includes(userType)
@@ -277,8 +283,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     }
 
     this.width = this.row_width / this.numcard - 8;
-    this.percentage = this.count * this.factor;
-    console.log('ppercent', typeof (this.percentage), this.count);
+    // this.percentage = this.count * this.factor;
+    // console.log('ppercent', typeof (this.percentage), this.count);
 
     // this.percentage = this.count * 20;
     if (this.percentage == 100) {
@@ -336,7 +342,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     //    before 1 April 2021`;
     //   this.checkPos = true;
     // }
-    if (title == 'Grant Transfer Certificate') {
+    if (title == this.grantTransferTitle) {
       //  this.p = (num+1)*135;
       this.val = 0;
       this.hover = true;
@@ -346,7 +352,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
      for the previous installment of grants in the prescribed format.`;
       this.checkPos = true;
     }
-    if (title == "Detailed Utilisation Report") {
+    if (title == this.utilReportTitle) {
       //  this.p = (num+2)*120;
       this.val = 1;
       this.hover = true;
@@ -356,7 +362,8 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       prescribed format for the previous installments of 15th FC grants`;
       this.checkPos = true;
     }
-    if (title == 'Annual Accounts') {
+
+    if (title == this.annualAccountsTitle) {
       //  this.p = (num+3)*112;
       this.val = 2;
       this.hover = true;
@@ -377,7 +384,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     //   Water Supply, Waste Water Management, Solid Waste Management and Storm Water Drainage.`;
     //   this.checkPos = true;
     // }
-    if (title == 'Million Plus City Challenge Fund') {
+    if (title == this.mpcfTitle) {
       // this.p = (num+3)*125;
       this.val = 3;
       this.hover = true;
@@ -387,7 +394,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
       Housing and Urban Affairs (MoHUA) on the year-wise action plan to meet targeted outcomes.`;
       this.checkPos = true;
     }
-    if (title == 'Performance Condition') {
+    if (title == this.performanceConditionTitle) {
       // this.p = (num+3)*125;
       this.val = 3;
       this.hover = true;

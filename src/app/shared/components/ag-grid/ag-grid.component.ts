@@ -177,7 +177,8 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Any ongoing projects under existing schemes",
           "New project",
           "Replacing of existing infrastructure",
-          "Operation and Maintenance Projects"
+          "Operation and Maintenance Projects",
+          "Others"
         ],
       },
       suppressMovable: true,
@@ -202,7 +203,8 @@ export class AgGridComponent implements OnInit, OnChanges {
           "Any ongoing projects under existing schemes",
           "New project",
           "Replacing of existing infrastructure",
-          "Operation and Maintenance Projects"
+          "Operation and Maintenance Projects",
+          "Others"
         ],
       },
       suppressMovable: true,
@@ -795,14 +797,14 @@ export class AgGridComponent implements OnInit, OnChanges {
     let s = this.agGrid1.api.getDisplayedRowCount();
     let obj = JSON.parse(JSON.stringify(input.projectExecute));
     obj[0].index.value = s + 1;
-    obj[0].code.value = this.rowData.code + "/" + obj[0].index.value;
+    obj[0].Project_Code.value = this.rowData.code + "/" + obj[0].index.value;
     this.agGrid1.api.applyTransaction({ add: [obj[0]] });
     this.rowData.projectExecute.push(obj[0]);
 
     s = this.agGrid2.api.getDisplayedRowCount();
     obj = JSON.parse(JSON.stringify(input.sourceFund));
     obj[0].index.value = s + 1;
-    obj[0].code.value = this.rowData.code + "/" + obj[0].index.value;
+    obj[0].Project_Code.value = this.rowData.code + "/" + obj[0].index.value;
 
     this.agGrid2.api.applyTransaction({ add: [obj[0]] });
     this.rowData.sourceFund.push(obj[0]);
@@ -810,7 +812,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     s = this.agGrid3.api.getDisplayedRowCount();
     obj = JSON.parse(JSON.stringify(input.yearOutlay));
     obj[0].index.value = s + 1;
-    obj[0].code.value = this.rowData.code + "/" + obj[0].index.value;
+    obj[0].Project_Code.value = this.rowData.code + "/" + obj[0].index.value;
 
     this.agGrid3.api.applyTransaction({ add: [obj[0]] });
     this.rowData.yearOutlay.push(obj[0]);

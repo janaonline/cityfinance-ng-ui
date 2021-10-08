@@ -118,6 +118,7 @@
         display: inline-block;
     }
     .btn:hover {
+        background-color: #ffc500;
         font-weight: bold;
     }
     .download-link-icon {
@@ -291,14 +292,17 @@ a.anDisable {
     background-color: #ffc500;
     color: #FFFFFF;
     border: none;
+    cursor:not-allowed;
 }
 
 .btn-r {
     background-color: red;
     color: #FFFFFF;
+    cursor:not-allowed;
 }
 
 .btn-a {
     background-color: green;
     color: #FFFFFF;
+    cursor:not-allowed;
 }

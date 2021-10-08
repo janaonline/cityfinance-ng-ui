@@ -110,7 +110,7 @@ export class ReviewUlbComponent implements OnInit {
           type: "text/json; charset=utf-8",
         });
         const url = window.URL.createObjectURL(blob);
-        fileSaver.saveAs(blob, "Review ULB Data.xlsx");
+        fileSaver.saveAs(blob, "Review Grant Application.xlsx");
       },
       (err) => {
         console.log(err.message)
@@ -160,7 +160,7 @@ export class ReviewUlbComponent implements OnInit {
               type: "text/json; charset=utf-8",
             });
             const url = window.URL.createObjectURL(blob);
-            fileSaver.saveAs(blob, "Review Ulb Forms List.xlsx");
+            fileSaver.saveAs(blob, "Review Grant Application List.xlsx");
           }
           else {
             let res: any = result;

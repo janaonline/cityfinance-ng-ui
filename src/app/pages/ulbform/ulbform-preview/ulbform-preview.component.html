@@ -14,13 +14,19 @@
         </h3> -->
         </div>
     </div>
-    <div class="sbDate"></div>
+    <div class="sbDate">
+        <b>ULB Submission Status:</b> {{data.submissionByUlb}}
+    </div>
+    <div class="sbDate">
+        <b>Latest Action Status:</b> {{data.actionInfo}}
+    </div>
     <!-- Date & Time of submission : {{ subDate | date:'medium' }} -->
     <div class="pull-right b-hide dndDiv">
         <button id="donwloadButton" style="right: 0%;
-      outline: none; margin-bottom: 10px; position: relative; z-index:4" (click)="openModal()" class="btn btn-primary btn-upload">
-                Download as PDF
-            </button>
+      outline: none; margin-bottom: 10px; position: relative; z-index:4" (click)="openModal()"
+            class="btn btn-primary btn-upload">
+            Download as PDF
+        </button>
     </div>
 
     <div *ngIf="showLoader" style="margin-left: 33pc;">

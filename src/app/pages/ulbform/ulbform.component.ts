@@ -292,7 +292,7 @@ export class UlbformComponent implements OnInit {
     eligibleActionForms.forEach((element) => {
       for (let key in this.allStatus) {
         console.log("keygbnm", this.allStatus[key]["status"]);
-        if ((element === "Utilization Report" || element === "Utilization Report") && key === "utilReport") {
+        if ((element === "Utilisation Report" || element === "Utilisation Report") && key === "utilReport") {
           if (
             this.allStatus["utilReport"]["isSubmit"] === true &&
             this.allStatus["utilReport"]["status"] != "PENDING"
@@ -377,9 +377,9 @@ export class UlbformComponent implements OnInit {
       this.userLoggedInDetails = data;
       console.log("hi", data);
     });
-    if (!this.userLoggedInDetails) {
-      return this._router.navigate(["/login"]);
-    }
+    // if (!this.userLoggedInDetails) {
+    //   return this._router.navigate(["/login"]);
+    // }
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.ULB:
@@ -556,11 +556,15 @@ export class UlbformComponent implements OnInit {
   finalStateAction() {
     let actionStatus = "PENDING";
     for (let key in this.currentActionStatus) {
+      console.log(this.currentActionStatus[key])
       if (this.currentActionStatus[key] == "REJECTED") {
         console.log("con if", this.currentActionStatus[key]);
         actionStatus = "REJECTED";
         break;
-      } else {
+      } else if (this.currentActionStatus[key] != "APPROVED" && this.currentActionStatus[key] != "REJECTED") {
+        continue;
+      }
+      else {
         actionStatus = "APPROVED";
       }
     }
@@ -588,7 +592,9 @@ export class UlbformComponent implements OnInit {
 
         this.finalActionDis = true;
         this._router.navigate(["ulbform/ulbform-overview"]);
-        location.reload();
+        setTimeout(() => {
+          location.reload();
+        }, 100);
 
       },
       (err) => {

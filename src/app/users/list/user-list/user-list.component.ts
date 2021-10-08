@@ -20,6 +20,8 @@ import { IULBProfileData } from '../../profile/model/ulb-profile';
 import { UserProfile } from '../../profile/model/user-profile';
 import { ProfileService } from '../../profile/service/profile.service';
 import { SidebarUtil } from '../../utils/sidebar.util';
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 
 @Component({
   selector: "app-user-list",
@@ -101,7 +103,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
 
   userListSubscription: Subscription;
 
-  ngOnInit() {}
+  ngOnInit() { }
   openUserDeleteConfirmationBox(template: TemplateRef<any>, user: any) {
     this.resetResponseMessages();
     this.userToDelete = user;
@@ -141,7 +143,28 @@ export class UserListComponent extends BaseComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     this.searchUsersBy(this.filterForm.value);
   }
+  async createUser(sbCode, censusCode) {
+    this.alertClose();
+    let data = {
+      "ulbCode": this.ulbCode,
+      "censusCode": censusCode,
+      "sbCode": sbCode
+    }
+    console.log(data)
+    if (!data.censusCode && !data.sbCode) {
+      return swal('Please enter Census Code / Swachh Bharat Code')
+    }
+    await this._userService.signUp(data).subscribe(
+      (res) => {
+        console.log(res)
+        swal(`Signed Up Successfully.
+        Your Username is ${res['username']} and Your Password is- ${res['password']}`)
+      }, (err) => {
+        console.log(err.message)
+        swal(`Error: ${err['message']}`)
+      })
 
+  }
   downloadList() {
     const params = { ...this.listFetchOption };
     delete params["skip"];
@@ -259,6 +282,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
       state: [""],
       censusCode: [null],
       sbCode: [null],
+      user: [""]
     });
   }
 
@@ -348,6 +372,32 @@ export class UserListComponent extends BaseComponent implements OnInit {
     this.canEditProfile = accessChecker.hasAccess({
       action: ACTIONS.EDIT,
       moduleName: <MODULES_NAME>(<any>this.listType),
+    });
+  }
+  alertClose() {
+    this._dialog.closeAll();
+  }
+  ulbCode = null;
+  censusCode = null
+  sbCode = null;
+  codePreExist = false;
+  signUpForm(template, ulbData) {
+    this.ulbCode = ulbData['ulbCode']
+    this.censusCode = ulbData['censusCode']
+    this.sbCode = ulbData['sbCode']
+    if (this.censusCode || this.sbCode) {
+      this.codePreExist = true
+    } else {
+      this.codePreExist = false
+    }
+    console.log(this.codePreExist)
+    console.log('signup clicked')
+    this._dialog.open(template, {
+      width: '500px',
+
+    });
+    this._dialog.afterAllClosed.subscribe((event) => {
+      this.userToDelete = null;
     });
   }
 }

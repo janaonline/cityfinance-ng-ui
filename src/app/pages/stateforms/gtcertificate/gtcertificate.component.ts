@@ -827,6 +827,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   }
   onPreview() {
     let PreviewFiles = {
+      state: this.state_id,
       design_year: "606aaf854dff55e6c075d219",
       million_tied:
       {

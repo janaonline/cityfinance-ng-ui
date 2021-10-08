@@ -145,10 +145,17 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
   };
   eligibleForms = {}
+  isMillionState = false;
   allStateFormsData
   ngOnInit(): void {
     this.getStatus();
-
+    this.stateformsService.isMillionPlusState(this.id).subscribe((res) => {
+      this.isMillionState = res['data']
+      console.log(this.isMillionState)
+      sessionStorage.setItem("isMillionPlusState", String(this.isMillionState))
+    }, (err) => {
+      console.log(err.message)
+    })
     this.stateformsService.geteligibleStateForms(this.id).subscribe((res) => {
       this.eligibleForms = res['data']
       console.log(this.eligibleForms)
