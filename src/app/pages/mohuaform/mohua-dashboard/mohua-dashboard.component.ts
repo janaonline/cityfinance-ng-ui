@@ -281,7 +281,7 @@ export class MohuaDashboardComponent implements OnInit {
           console.log(this.tabelData);
           this.tabelData.forEach(el => {
             this.total_notSubmittedForm = this.total_notSubmittedForm + el['notSubmittedForm'];
-            this.total_submittedForm = this.total_submittedForm + el['submittedForm']
+            this.total_submittedForm = this.total_submittedForm + el['approvedByState']
             this.total_withState = this.total_withState + el['withState']
             this.total_totalULBs = this.total_totalULBs + el['totalULBs']
           })
