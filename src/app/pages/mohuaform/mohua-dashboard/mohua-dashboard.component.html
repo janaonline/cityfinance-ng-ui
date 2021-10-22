@@ -152,7 +152,7 @@
                                             {{resData.totalULBs}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.submittedForm}}
+                                            {{resData.approvedByState}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.withState}}</td>
@@ -161,8 +161,8 @@
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''"
                                             style="font-weight: bold;">
-                                            {{resData.submittedForm/resData.totalULBs * 100 ?
-                                            (resData.submittedForm/resData.totalULBs * 100).toFixed(2) : 0 }}
+                                            {{resData.approvedByState/resData.totalULBs * 100 ?
+                                            (resData.approvedByState/resData.totalULBs * 100).toFixed(2) : 0 }}
                                             <small>%</small>
                                         </td>
                                         <td style="display: none;">
