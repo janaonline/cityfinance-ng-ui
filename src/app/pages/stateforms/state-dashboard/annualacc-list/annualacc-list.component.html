@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col-sm-12 col-lg-12 col-md-12">
         <div style="text-align:right; margin-bottom:10px">
-            <button style="min-width: min-content;" (click)="closeDialog()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
+            <button style="min-width: min-content;" (click)="closeDialog()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
 
@@ -11,7 +12,8 @@
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-sm-12 col-lg-12 col-md-12 " style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
+                    <div class="col-sm-12 col-lg-12 col-md-12 "
+                        style="margin-bottom: 1rem;display:flex; justify-content: space-between;">
                         <span class="text-left" style="font-size: 20px; font-weight: bold;text-align: left;">Annual
                             Accounts Form
                             Status</span>
@@ -28,7 +30,7 @@
                                         <th scope="col">ULB Name </th>
                                         <th scope="col" *ngIf="loggedInUserType != USER_TYPE.STATE">State Name </th>
                                         <th scope="col">ULB Census Code/ ULB Code </th>
-                                        <th scope="col">ULB Type</th>
+                                        <!-- <th scope="col">ULB Type</th> -->
                                         <th scope="col">Population Type</th>
                                         <th scope="col">Name of UA</th>
                                         <th scope="col">Audited Accounts 2019-2020 Status</th>
@@ -42,11 +44,13 @@
 
                                         <th class="filter">
                                             <span class="s-s"><img
-                                            src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" class="s-th p-s" placeholder="ULB Name" [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
+                                                    src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" placeholder="ULB Name"
+                                                [formControl]="ulb_name_s" (keyup.enter)="stateData(false)">
                                         </th>
                                         <th class="filter" *ngIf="loggedInUserType != USER_TYPE.STATE">
-                                            <select class="s-th" [formControl]="state_name" style="width: 135px;" (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="state_name" style="width: 135px;"
+                                                (change)="stateData(false)">
                                                 <option selected value="">State</option>
                                                 <option *ngFor="let state of states" value="{{state.name}}">
                                                     {{state.name}}
@@ -56,10 +60,11 @@
                                         <!-- <th class="filter" *ngIf="!states"></th> -->
                                         <th class="filter">
                                             <span class="s-s"><img
-                                            src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s" placeholder="ULB Code" (keyup.enter)="stateData(false)">
+                                                    src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" class="s-th p-s" [formControl]="ulb_code_s"
+                                                placeholder="ULB Code" (keyup.enter)="stateData(false)">
                                         </th>
-                                        <th class="filter">
+                                        <!-- <th class="filter">
                                             <select class="s-th" [formControl]="ulb_type_s" (change)="stateData(false)">
                                                 <option selected value="">ULB Type</option>
                                                 <option value="Municipality">Municipality</option>
@@ -69,9 +74,10 @@
                                                 <option value="Nagar Palika Parishad">Nagar Palika Parishad</option>
                                                 <option value="Town Panchayat">Town Panchayat</option>
                                             </select>
-                                        </th>
+                                        </th> -->
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;" (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="population_type_s" style="width: 135px;"
+                                                (change)="stateData(false)">
                                                 <option selected value="">Population Type</option>
                                                 <option value="Million Plus">Million Plus</option>
                                                 <option value="Non Million">Non Million</option>
@@ -80,11 +86,13 @@
                                         </th>
                                         <th class="filter">
                                             <span class="s-s"><img
-                                            src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
-                                            <input type="text" [formControl]="ua_name_s" class="s-th p-ss" style="width: 76px;" (change)="stateData(false)" placeholder="UA Name">
+                                                    src="../../../../../assets/ulbform/search_black_18dp.svg"></span>
+                                            <input type="text" [formControl]="ua_name_s" class="s-th p-ss"
+                                                style="width: 76px;" (change)="stateData(false)" placeholder="UA Name">
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_audited" style="width: 71px;" (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="status_audited" style="width: 71px;"
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -96,7 +104,8 @@
                                             </select>
                                         </th>
                                         <th class="filter">
-                                            <select class="s-th" [formControl]="status_unaudited" style="width: 71px;" (change)="stateData(false)">
+                                            <select class="s-th" [formControl]="status_unaudited" style="width: 71px;"
+                                                (change)="stateData(false)">
 
                                                 <option selected value="">Status</option>
                                                 <option value="Not Started">Not Started</option>
@@ -121,18 +130,22 @@
                                         totalItems: tableDefaultOptions.totalCount
                                       }; let tabelIndex=index">
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) + tabelIndex+1}}
+                                            {{tableDefaultOptions.itemPerPage * (tableDefaultOptions.currentPage -1) +
+                                            tabelIndex+1}}
                                         </td>
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbName}}
                                         </td>
-                                        <td *ngIf="loggedInUserType != USER_TYPE.STATE" [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
+                                        <td *ngIf="loggedInUserType != USER_TYPE.STATE"
+                                            [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.state}}
                                         </td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode || resData.sbCode }}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
-                                        </td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.censusCode ||
+                                            resData.sbCode }}</td>
+                                        <!-- <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.ulbType}}
+                                        </td> -->
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
-                                            {{resData.isMillionPlus == "No"? 'Non-Million': 'Million-Plus'}}</td>
-                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.isUA =="No"? 'NA': resData.UA}}</td>
+                                            {{resData.populationType}}</td>
+                                        <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">{{resData.isUA =="No"?
+                                            'NA': resData.UA}}</td>
 
                                         <td [style.border-top]="tabelIndex == '0' ? 'none' : ''">
                                             {{resData.audited_annualaccountsStatus}}</td>
@@ -147,8 +160,10 @@
 
                             </table>
                             <div class="text-center alert" style="color: red;" *ngIf="nodataFound">No Data Found!</div>
-                            <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)" directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
-                                screenReaderCurrentLabel="You're on page">
+                            <pagination-controls style="float: right; position: relative" id="foo"
+                                (pageChange)="setPage($event)" directionLinks="true" autoHide="false"
+                                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                                screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
                             </pagination-controls>
                         </div>
                     </div>

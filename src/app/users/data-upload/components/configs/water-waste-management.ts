@@ -33,12 +33,12 @@ const services: {
 }[] = [
     {
       key: "waterSuppliedPerDay",
-      name: "Water supplied in litre per day(lpcd)",
+      name: "Water supplied in litre per capita per day(lpcd)",
       benchmark: "135 LPCD",
     },
     {
       key: "reduction",
-      name: "% of Non revenue water",
+      name: "% of Non-revenue water",
       benchmark: "20%",
       customValidator: maxValidator,
     },

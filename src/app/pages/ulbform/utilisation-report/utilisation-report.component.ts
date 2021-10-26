@@ -55,6 +55,7 @@ export class UtilisationReportComponent implements OnInit {
   takeStateAction;
   compDis;
   mohuaActionComp;
+  latLongRegex = '^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -308,6 +309,15 @@ export class UtilisationReportComponent implements OnInit {
         setTimeout(() => {
           this.currentChanges();
         }, 1000);
+
+        if (res["status"] == "APPROVED" &&
+          this.lastRoleInMasterForm != this.userTypes.ULB
+        ) {
+          this.isDisabled = true;
+          this.utilizationReport.disable();
+          this.utilizationReport.controls.projects.disable();
+        }
+
       },
       (error) => {
         this.utilizationReport.value["blankForm"] = true;
@@ -449,32 +459,32 @@ export class UtilisationReportComponent implements OnInit {
 
     this.utilizationReport = this.fb.group({
       grantPosition: this.fb.group({
-        unUtilizedPrevYr: ["", Validators.required],
-        receivedDuringYr: ["", Validators.required],
-        expDuringYr: ["", Validators.required],
+        unUtilizedPrevYr: new FormControl(0, Validators.required),
+        receivedDuringYr: new FormControl(0, Validators.required),
+        expDuringYr: new FormControl(0, Validators.required),
         closingBal: [],
       }),
       projects: this.fb.array([
-        this.fb.group({
-          category: [null, Validators.required],
-          name: ["", [Validators.maxLength(50), Validators.required]],
-          // description: ["", [Validators.maxLength(200), Validators.required]],
-          // // 'imgUpload' : new FormControl(''),
-          // photos: this.fb.array([
-          //   // this.fb.group({
-          //   //   url: ['']
-          //   // })
-          // ]),
-          // capacity: ["", Validators.required],
-          location: this.fb.group({
-            lat: ["", Validators.required],
-            long: ["", Validators.required],
-          }),
+        // this.fb.group({
+        //   category: [null, Validators.required],
+        //   name: ["", [Validators.maxLength(50), Validators.required]],
+        //   // description: ["", [Validators.maxLength(200), Validators.required]],
+        //   // // 'imgUpload' : new FormControl(''),
+        //   // photos: this.fb.array([
+        //   //   // this.fb.group({
+        //   //   //   url: ['']
+        //   //   // })
+        //   // ]),
+        //   // capacity: ["", Validators.required],
+        //   location: this.fb.group({
+        //     lat: ["", Validators.required],
+        //     long: ["", Validators.required],
+        //   }),
 
-          cost: ["", Validators.required],
-          expenditure: ["", Validators.required],
-          // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        }),
+        //   cost: ["", Validators.required],
+        //   expenditure: ["", Validators.required],
+        //   // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        // }),
       ]),
       status: [""],
       name: ["", [Validators.required, Validators.maxLength(50)]],
@@ -510,7 +520,8 @@ export class UtilisationReportComponent implements OnInit {
   get tabelRows() {
     return this.utilizationReport.get("projects") as FormArray;
   }
-  calAmount(setFormControl) {
+  calAmount(setFormControl, event) {
+
     let controlValue =
       +this.utilizationReport.value.grantPosition[setFormControl];
     if (controlValue < 0) {
@@ -545,7 +556,7 @@ export class UtilisationReportComponent implements OnInit {
       if (controlValue == 0) {
         this.utilizationReport.controls["grantPosition"]["controls"][
           setFormControl
-        ].patchValue("");
+        ].patchValue("0");
       } else {
         this.utilizationReport.controls["grantPosition"]["controls"][
           setFormControl
@@ -805,11 +816,13 @@ export class UtilisationReportComponent implements OnInit {
         // ]),
         // capacity: ["", Validators.required],
         location: this.fb.group({
-          lat: ["", Validators.required],
-          long: ["", Validators.required],
+          lat: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
+          long: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
         }),
         cost: ["", Validators.required],
         expenditure: ["", Validators.required],
+        // engineerName: ["", [Validators.required, Validators.pattern("^[a-zA-Z]{1,}(?: [a-zA-Z]+)?(?: [a-zA-Z]+)?$")]],
+        // engineerContact: ["", [Validators.required, Validators.pattern("[0-9 ]{10}")]]
       })
     );
   }
@@ -828,11 +841,13 @@ export class UtilisationReportComponent implements OnInit {
         // photos: this.fb.array([]),
         // capacity: [data.capacity, Validators.required],
         location: this.fb.group({
-          lat: [data.location.lat, Validators.required],
-          long: [data.location.long, Validators.required],
+          lat: [data.location.lat, [Validators.required, Validators.pattern(this.latLongRegex)]],
+          long: [data.location.long, [Validators.required, Validators.pattern(this.latLongRegex)]],
         }),
         cost: [data.cost, Validators.required],
         expenditure: [data.expenditure, Validators.required],
+        // engineerName: [data.engineerName, [Validators.required, Validators.pattern("^[a-zA-Z]{1,}(?: [a-zA-Z]+)?(?: [a-zA-Z]+)?$")]],
+        // engineerContact: [data.engineerContact, [Validators.required, Validators.pattern("[0-9 ]{10}")]],
       })
     );
     this.totalProCost(this.tabelRows.length);
@@ -912,6 +927,7 @@ export class UtilisationReportComponent implements OnInit {
           return this._router.navigate(["ulbform/annual_acc"]);
         } else {
           this.stateActionSave();
+          this._router.navigate(["ulbform/annual_acc"]);
           sessionStorage.setItem("canNavigate", "true");
         }
 

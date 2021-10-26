@@ -81,14 +81,14 @@
 
                 <div class="row">
                     <div class="col-lg-6">
-                        <label for="" class="labelField">i. Unutilized from previous installments (INR in lakhs)</label>
+                        <label for="" class="labelField">i. Unutilised from previous installments (INR in lakhs)</label>
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
                     <div class="col-lg-6">
                         <input class="form-control inputfield d-input"
                             [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }"
-                            (change)="calAmount('unUtilizedPrevYr')" formControlName="unUtilizedPrevYr"
+                            (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
                         utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required"
@@ -167,6 +167,7 @@
                 <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants<span
                         style="color: red;">*</span></p>
                 <div class="table-responsive">
+
                     <table class="table custom-position tableStriped">
                         <thead>
                             <tr class="thHeader">
@@ -177,13 +178,51 @@
                                 <th scope="col">Capacity</th> -->
                                 <!-- <th scope="col">Upload Images</th> -->
                                 <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                                <!-- <th scope="col">Engineer's Name<br></th> -->
+                                <!-- <th scope="col">Engineer's Contact Number<br></th> -->
                                 <th scope="col">Total Project Cost<br> (INR in lakhs) </th>
                                 <th scope="col">15 FC Grants in Total Project Cost<br>(INR in lakhs)</th>
                                 <th scope="col">% of 15 FC Grants in Total Project Cost<br></th>
+
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody formArrayName="projects">
+
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length == 0">
+
+                            <tr>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+                                <td class="t-i">
+                                    <span> -- </span>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length > 0"
+                            formArrayName="projects">
                             <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
                             <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index"
                                 [formGroupName]="projectIndex" style="text-align: center; vertical-align: inherit;">
@@ -312,12 +351,13 @@
                                     <input type="text" class="t-i form-control" (mouseover)="errorDisplayLat=true"
                                         (mouseout)="errorDisplayLat=false"
                                         [ngStyle]="{'border':(isSubmitted == true &&
-                                     utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required) ? '1px solid red' : '' }"
+                                     (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required || 
+                                     utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)  ) ? '1px solid red' : '' }"
                                         formControlName="lat" [disabled]="isDisabled" appSixDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;"
-                                            *ngIf="(isSubmitted == true &&
-                                      utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required) && errorDisplayLat">
+                                            *ngIf="(isSubmitted == true &&(utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required || 
+                                            utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)) && errorDisplayLat">
                                             Latitude Required*
                                         </span>
                                     </div>
@@ -326,11 +366,13 @@
                                     <input type="text" class="t-i form-control" (mouseover)="errorDisplayLong=true"
                                         (mouseout)="errorDisplayLong= false"
                                         [ngStyle]="{'border':(isSubmitted == true &&
-                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required)? '1px solid red' : '' }"
+                (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
+                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern) )? '1px solid red' : '' }"
                                         formControlName="long" [disabled]="isDisabled" appSixDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px;" *ngIf="(isSubmitted == true &&
-                utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required) &&
+                                        (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
+                                        utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern)) &&
                  errorDisplayLong">
                                             Longitude Required*
                                         </span>
@@ -346,6 +388,57 @@
                                         </mat-icon>
                                     </a>
                                 </td>
+                                <!-- <td class="pos-td">
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
+                                     form-control" [disabled]="isDisabled"
+                                        [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors?.required )? '1px solid red' : '' }"
+                                        (mouseover)="errorDisplayEngineerName=true"
+                                        (mouseout)="errorDisplayEngineerName=false" formControlName="engineerName"
+                                        style="width: 10rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip"
+                                        *ngIf="errorDisplayEngineerName &&
+                                    utiReportFormControl.projects.controls[projectIndex].controls.engineerName.invalid &&
+                              (utiReportFormControl.projects.controls[projectIndex].controls.engineerName.dirty ||
+                              utiReportFormControl.projects.controls[projectIndex].controls.engineerName.touched || submitted)">
+
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayEngineerName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.required">
+                                            Engineer's Name is required.
+                                        </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayEngineerName && utiReportFormControl.projects.controls[projectIndex].controls.engineerName.errors.pattern">
+                                            Name must have atleast one Alphabet
+                                        </span>
+
+
+                                    </div>
+                                </td>
+                                <td class="pos-td">
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
+                                     form-control" [disabled]="isDisabled"
+                                        [ngStyle]="{'border':(isSubmitted == true &&
+                                      utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors?.required )? '1px solid red' : '' }"
+                                        (mouseover)="errorDisplayContact=true" (mouseout)="errorDisplayContact=false"
+                                        formControlName="engineerContact" style="width: 10rem;" required>
+                                    <div class="bs-tooltip-top" role="tooltip"
+                                        *ngIf="errorDisplayContact &&
+                                    utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.invalid &&
+                              (utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.dirty ||
+                              utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.touched || submitted)">
+
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayContact && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.required">
+                                            Engineer's Contact Number is required.
+                                        </span>
+                                        <span class="tooltip-inner" style="font-size: 10px;"
+                                            *ngIf=" errorDisplayContact && utiReportFormControl.projects.controls[projectIndex].controls.engineerContact.errors.pattern">
+                                            Enter a Valid 10 Digit Contact Number
+                                        </span>
+
+
+                                    </div>
+                                </td> -->
                                 <td class="t-i">
                                     <input class="t-i form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
      utiReportFormControl.projects.controls[projectIndex].controls.cost.errors?.required)? '1px solid red' : '' }"
@@ -385,6 +478,8 @@
                                         (mouseout)="errorDisplayExp=false">
 
                                 </td>
+
+
                                 <td>
                                     <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)"
                                         [disabled]="isDisabled">
@@ -400,6 +495,8 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <!-- <td></td> -->
+                                <!-- <td></td> -->
 
                                 <td style="text-align:right"><span><b> Total(INR in lakhs) </b> </span></td>
                                 <td><span> <b> {{projectCost}}</b></span></td>
@@ -442,7 +539,7 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th scope="col">Category</th>
-                                    <th scope="col">Total Tied Grant Utilized on WM</th>
+                                    <th scope="col">Total Tied Grant Utilised on WM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
 
@@ -493,7 +590,7 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th width="20%" scope="col">Category</th>
-                                    <th scope="col">Total Tied Grant Utilized on SWM</th>
+                                    <th scope="col">Total Tied Grant Utilised on SWM</th>
                                     <th scope="col">Number of Projects Undertaken</th>
                                     <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
 
@@ -593,10 +690,12 @@
  )">
     <div class="card-body" style="padding: 1%;">
         <p><b style="padding-right: 27px;">State Review Status :</b>
+
             <!-- {{ulbFormStaus | titlecase}} -->
 
-            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
-          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING')}">
+            <label class="btn btn-success" style="width: 82px;"
+                [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStaus == 'PENDING'  )}">
                 {{ulbFormStaus | titlecase}}</label>
         </p>
         <br>

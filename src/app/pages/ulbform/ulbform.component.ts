@@ -13,6 +13,8 @@ import { UlbformPreviewComponent } from "./ulbform-preview/ulbform-preview.compo
 import { WaterSanitationService } from "./water-sanitation/water-sanitation.service";
 import { UlbformService } from "./ulbform.service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common'
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-ulbform",
@@ -51,7 +53,9 @@ export class UlbformComponent implements OnInit {
     private wsService: WaterSanitationService,
     public dialog: MatDialog,
     public ulbformService: UlbformService,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document
   ) {
     this.activatedRoute.params.subscribe((val) => {
       console.log("vallllll", val);
@@ -119,6 +123,18 @@ export class UlbformComponent implements OnInit {
   };
   eligibleForms = {}
   async ngOnInit() {
+    const s = this.renderer2.createElement('script');
+    s.type = 'text/javascript';
+
+    s.text = `   
+      window.JOONBOT_WIDGET_ID = "f846bb00-1359-4196-9ecf-47094ddc04f7";
+      window.JB_source = (JSON.parse(localStorage.getItem("userData"))).name;
+      var n, o;
+      o = document.createElement("script");
+      o.src = "https://js.joonbot.com/init.js", o.defer = !0, o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous";
+      n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
+  `;
+    this.renderer2.appendChild(this._document.body, s);
 
     let id = sessionStorage.getItem("ulb_id");
     this.ulbformService.getEligibleULBForm(id).subscribe(
@@ -292,7 +308,7 @@ export class UlbformComponent implements OnInit {
     eligibleActionForms.forEach((element) => {
       for (let key in this.allStatus) {
         console.log("keygbnm", this.allStatus[key]["status"]);
-        if ((element === "Utilization Report" || element === "Utilization Report") && key === "utilReport") {
+        if ((element === "Utilisation Report" || element === "Utilisation Report") && key === "utilReport") {
           if (
             this.allStatus["utilReport"]["isSubmit"] === true &&
             this.allStatus["utilReport"]["status"] != "PENDING"
@@ -377,9 +393,9 @@ export class UlbformComponent implements OnInit {
       this.userLoggedInDetails = data;
       console.log("hi", data);
     });
-    if (!this.userLoggedInDetails) {
-      return this._router.navigate(["/login"]);
-    }
+    // if (!this.userLoggedInDetails) {
+    //   return this._router.navigate(["/login"]);
+    // }
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.ULB:
@@ -556,11 +572,15 @@ export class UlbformComponent implements OnInit {
   finalStateAction() {
     let actionStatus = "PENDING";
     for (let key in this.currentActionStatus) {
+      console.log(this.currentActionStatus[key])
       if (this.currentActionStatus[key] == "REJECTED") {
         console.log("con if", this.currentActionStatus[key]);
         actionStatus = "REJECTED";
         break;
-      } else {
+      } else if (this.currentActionStatus[key] != "APPROVED" && this.currentActionStatus[key] != "REJECTED") {
+        continue;
+      }
+      else {
         actionStatus = "APPROVED";
       }
     }
@@ -588,7 +608,9 @@ export class UlbformComponent implements OnInit {
 
         this.finalActionDis = true;
         this._router.navigate(["ulbform/ulbform-overview"]);
-        location.reload();
+        setTimeout(() => {
+          location.reload();
+        }, 100);
 
       },
       (err) => {

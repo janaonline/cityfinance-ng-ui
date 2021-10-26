@@ -147,7 +147,7 @@ export class SlbListComponent implements OnInit {
               type: "text/json; charset=utf-8",
             });
             const url = window.URL.createObjectURL(blob);
-            fileSaver.saveAs(blob, "SLB Status List.xlsx");
+            fileSaver.saveAs(blob, "SLB for Water Supply and Sanitation Status List.xlsx");
           }
           else {
             let res: any = result;

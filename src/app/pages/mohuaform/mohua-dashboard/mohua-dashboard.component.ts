@@ -34,14 +34,17 @@ import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { UserUtility } from "src/app/util/user/user";
 import * as fileSaver from "file-saver";
-
-
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: "app-mohua-dashboard",
   templateUrl: "./mohua-dashboard.component.html",
   styleUrls: ["./mohua-dashboard.component.scss"],
 })
 export class MohuaDashboardComponent implements OnInit {
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  options = []
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
@@ -51,10 +54,22 @@ export class MohuaDashboardComponent implements OnInit {
     protected _activateRoute: ActivatedRoute,
     public mohuaDashboardService: MohuaDashboardService,
     public commonService: CommonService
-  ) { }
+  ) {
+
+
+  }
   @ViewChild("stateTable") stateTable;
   stateslist = []
+  UAs = [];
+  UAData = []
   ngOnInit(): void {
+    this.getUAList();
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+    // console.log('selected UA', this.myControl)
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
       this.dialog.closeAll()
@@ -88,7 +103,38 @@ export class MohuaDashboardComponent implements OnInit {
       this.updateCharts();
 
     };
+
   }
+  getUAList() {
+    this.UAs = []
+    if (this.state_id) {
+      this.stateDashboardService.getUAList(this.state_id).subscribe(
+        (res) => {
+          res['data'].forEach(el => {
+            this.UAs.push(el.name)
+            this.UAData.push(el)
+          })
+
+        },
+        (err) => {
+          console.log(err.message)
+        }
+      )
+    } else {
+      this.mohuaDashboardService.getFullUAList().subscribe((res) => {
+        res['data'].forEach(el => {
+          this.UAs.push(el.name)
+          this.UAData.push(el)
+        })
+      },
+        (err) => {
+          console.log(err.message)
+        })
+      return;
+    }
+
+  }
+
   mapGeoData: FeatureCollection<
     Geometry,
     {
@@ -177,7 +223,7 @@ export class MohuaDashboardComponent implements OnInit {
   UlbInMillionPlusUA = 0;
   formDataApiRes;
   selectedLevel;
-  selectUa = "";
+  selectUa = "all";
   plansDataApiRes;
   rejuvenationPlans;
   plans = 0;
@@ -199,9 +245,10 @@ export class MohuaDashboardComponent implements OnInit {
     this.getCardData('');
     this.getFormData('');
     this.getWaterRejCardData('');
-    this.selectedUA();
+    this.selectedUA('');
 
   }
+
   getWaterRejCardData(state_id) {
     this.mohuaDashboardService.getWaterRejCardData(state_id).subscribe(
       (res) => {
@@ -234,7 +281,7 @@ export class MohuaDashboardComponent implements OnInit {
           console.log(this.tabelData);
           this.tabelData.forEach(el => {
             this.total_notSubmittedForm = this.total_notSubmittedForm + el['notSubmittedForm'];
-            this.total_submittedForm = this.total_submittedForm + el['submittedForm']
+            this.total_submittedForm = this.total_submittedForm + el['approvedByState']
             this.total_withState = this.total_withState + el['withState']
             this.total_totalULBs = this.total_totalULBs + el['totalULBs']
           })
@@ -251,6 +298,29 @@ export class MohuaDashboardComponent implements OnInit {
       window.innerHeight || 0
     );
     return (vh * h) / 100;
+  }
+  UAselected;
+  selectedUAId;
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    console.log(this.UAs)
+
+    this.options = this.UAs
+    this.UAselected = this.options.filter(option => option.toLowerCase().includes(filterValue));
+    console.log('selected UA', this.UAselected)
+    if (this.UAselected.length == 1) {
+      this.selectedUAId = this.UAData.filter(el => {
+        console.log(el.name, this.UAselected[0])
+        return el.name == this.UAselected[0]
+      })
+      console.log(this.selectedUAId)
+      this.selectUa = this.selectedUAId[0]['_id']
+      let state_id = this.selectedUAId[0]['state']
+      this.selectedUA(state_id)
+    }
+
+
+    return this.UAselected
   }
 
   downloadTableData() {
@@ -499,13 +569,15 @@ export class MohuaDashboardComponent implements OnInit {
     // this.getPlansData(state_id);
     this.getWaterRejCardData(state_id);
     this.getGrantTranfer(state_id)
-    this.selectedUA();
+    this.selectedUA(state_id);
   }
   state_id;
   onClickingStateTab(event) {
+
     console.log('Hi')
     const stateCode = event.target.value.split(' ')[0];
     this.state_id = event.target.value.split(' ')[2];
+    this.getUAList();
     if (stateCode == 'India') {
       this.state_id = ''
     }
@@ -908,6 +980,9 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   pieChartMillion() {
+    if (this.piechart) {
+      this.piechart.destroy()
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -958,6 +1033,9 @@ export class MohuaDashboardComponent implements OnInit {
   }
   piechart2 = null;
   pieChartNonMillion = () => {
+    if (this.piechart2) {
+      this.piechart2.destroy()
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -1007,7 +1085,7 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
 
-  selectedUA() {
+  selectedUA(state_id) {
 
     this.noDataFound_millionSLB = false
     this.noDataFound_nonMillionSLB = false
@@ -1020,7 +1098,7 @@ export class MohuaDashboardComponent implements OnInit {
 
 
     console.log('state_id', this.state_id)
-    this.stateDashboardService.getSlbData('all', this.state_id).subscribe(
+    this.stateDashboardService.getSlbData(this.selectUa, state_id).subscribe(
       (res) => {
         console.log(res['data'])
         let data = res['data']
@@ -1061,7 +1139,7 @@ export class MohuaDashboardComponent implements OnInit {
 
       },
       (err) => {
-
+        console.log(err.message)
       }
     )
 

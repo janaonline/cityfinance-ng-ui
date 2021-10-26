@@ -12,9 +12,12 @@ import { PlansListComponent } from './plans-list/plans-list.component'
 import { SlbListComponent } from './slb-list/slb-list.component'
 import { UtilreportListComponent } from './utilreport-list/utilreport-list.component'
 import { AnnualaccListComponent } from './annualacc-list/annualacc-list.component'
+import { MpfcListComponent } from './mpfc-list/mpfc-list.component'
+import { NonMillionListComponent } from './non-million-list/non-million-list.component'
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/util/BaseComponent/base_component';
 import { CommonService } from "src/app/shared/services/common.service";
+import { StateformsService } from '../stateforms.service'
 import * as $ from 'jquery';
 import { constants } from 'buffer';
 import * as JSC from "jscharting";
@@ -34,6 +37,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public commonService: CommonService,
     private _WaterSupplyService: WaterSupplyService,
+    public stateformsService: StateformsService
 
   ) {
     super();
@@ -50,8 +54,14 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   }
   id
   states = null;
-
+  isMillionPlusState = null
   ngOnInit(): void {
+
+    this.stateformsService.isMillionPlusState(this.id).subscribe(res => {
+      this.isMillionPlusState = res['data']
+    })
+
+
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
       this.dialog.closeAll()
@@ -217,7 +227,32 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  openDialogMillion() {
+    console.log('clicked million');
+    const dialogRef = this.dialog.open(MpfcListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openDialogNonMillion() {
+    console.log('clicked non million');
+    const dialogRef = this.dialog.open(NonMillionListComponent, {
+      height: '700px',
+      data: {
+        state_id: null
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   // pfmsDonughtChart() {
   //   const data = {
@@ -514,6 +549,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
   }
   pieChartMillion() {
+    if (this.piechart) {
+      this.piechart.destroy();
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -565,6 +603,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   }
   piechart2 = null;
   pieChartNonMillion = () => {
+    if (this.piechart2) {
+      this.piechart2.destroy();
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -735,7 +776,12 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             this.values.nonMillion_underReviewByState = el['underReviewByState']
           }
         })
-
+        if (this.piechart) {
+          this.piechart.destroy();
+        }
+        if (this.piechart2) {
+          this.piechart2.destroy();
+        }
         this.pieChartMillion();
         this.pieChartNonMillion();
         if (this.values.million_approvedByState == 0 &&
@@ -745,6 +791,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         ) {
           this.noDataFound_millionSLB = true
         } else {
+          if (this.piechart) {
+            this.piechart.destroy();
+          }
           this.pieChartMillion();
         }
         if (this.values.nonMillion_approvedByState == 0 &&
@@ -754,6 +803,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         ) {
           this.noDataFound_nonMillionSLB = true
         } else {
+          if (this.piechart2) {
+            this.piechart2.destroy();
+          }
           this.pieChartNonMillion();
 
         }

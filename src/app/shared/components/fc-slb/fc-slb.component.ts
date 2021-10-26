@@ -151,6 +151,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   benchmarks = [];
   changeInData = false;
   ngOnInit() {
+
     this.isDataPrefilled = false;
     console.log('ngOnInit fired')
     this.changeInData = false;
@@ -215,7 +216,10 @@ export class FcSlbComponent implements OnInit, OnChanges {
     // console.log('focusTargetKey', this.focusTargetKey)
   }
   i = 0;
+  counter = 0;
+  allStatus;
   ngOnChanges(changes) {
+
     console.log('ngOnchanges fired')
     console.log("changes ........", changes, this.form);
     console.log("action.........", this.actionStatus);
@@ -311,10 +315,19 @@ export class FcSlbComponent implements OnInit, OnChanges {
 
 
     console.log('ngOnChanges says after validation', this.form, changes)
+    this.counter++;
+    console.log('important counter', this.counter)
+    // if (this.counter == 2) {
+    //   window.location.reload()
+
+    // }
+
     if (this.ulb_id != null || this.finalSubmitStatus == "true") {
       this.isDisabled = true;
       this.form?.disable();
     }
+    this.allStatus = JSON.parse(sessionStorage.getItem("allStatus"))
+    
     if (
       this.masterFormStatus == "REJECTED" &&
       this.loggedInUserType == USER_TYPE.ULB &&
@@ -324,6 +337,13 @@ export class FcSlbComponent implements OnInit, OnChanges {
       this.isDisabled = false;
       this.form?.enable();
     }
+    if (this.allStatus['slbForWaterSupplyAndSanitation']['status'] == "APPROVED" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
+    ) {
+      this.isDisabled = true;
+      this.form?.disable();
+    }
+
   }
 
   openModal(template1: TemplateRef<any>) {

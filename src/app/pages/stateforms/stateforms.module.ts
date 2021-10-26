@@ -50,6 +50,8 @@ import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.
 import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progress';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
+import { MpfcListComponent } from './state-dashboard/mpfc-list/mpfc-list.component';
+import { NonMillionListComponent } from './state-dashboard/non-million-list/non-million-list.component';
 
 @NgModule({
   entryComponents: [OverallListComponent],
@@ -87,6 +89,8 @@ import { MatSelectModule } from '@angular/material/select';
     LinkPFMSComponent,
     PfmsPreviewComponent,
     StateAllPreviewComponent,
+    MpfcListComponent,
+    NonMillionListComponent,
 
 
   ],

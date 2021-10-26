@@ -75,6 +75,7 @@ export class ActionPlanUAComponent implements OnInit {
   isStateSubmittedForms = "";
   allStatus;
   formDisable = false;
+  backButtonClicked = false
   ngOnInit(): void {
     this.formDisable = sessionStorage.getItem("disableAllForms") == "true";
     this.actionFormDisable =
@@ -325,7 +326,7 @@ export class ActionPlanUAComponent implements OnInit {
             this._router.navigate([this.routerNavigate.url]);
           }
           return;
-        } else if (this.submitted) {
+        } else if (this.submitted || this.backButtonClicked) {
           this.finalActionData['uaData'].forEach(el => {
             if (el['status'] != 'APPROVED' && el['status'] != 'REJECTED') {
               draftFlag = 1;
@@ -340,8 +341,12 @@ export class ActionPlanUAComponent implements OnInit {
           }
           this.saveStateAction();
           sessionStorage.setItem("changeInActionPlans", "false")
-          if (!this.stopFlag) {
+          if (!this.stopFlag && this.submitted) {
             this._router.navigate(["stateform/grant-allocation"]);
+            return
+          } else if (!this.stopFlag && this.backButtonClicked) {
+            this._router.navigate(["stateform/action-plan"]);
+            return
           }
           return;
         }
@@ -403,7 +408,7 @@ export class ActionPlanUAComponent implements OnInit {
           status.actionTakenByRole = "MoHUA";
           this.stateformsService.allStatusStateForms.next(status);
 
-          this._router.navigate(["stateform/grant-allocation"]);
+          // this._router.navigate(["stateform/grant-allocation"]);
         },
         (error) => {
           swal("An error occured!");

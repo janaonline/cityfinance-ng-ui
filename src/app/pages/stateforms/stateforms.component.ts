@@ -13,7 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StateAllPreviewComponent } from './state-all-preview/state-all-preview.component';
 import { MatDialog } from '@angular/material/dialog';
 import { StateDashboardService } from './state-dashboard/state-dashboard.service';
-
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common'
 @Component({
   selector: 'app-stateforms',
   templateUrl: './stateforms.component.html',
@@ -48,6 +49,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     public activatedRoute: ActivatedRoute,
     public stateformsService: StateformsService,
     public stateDashboardService: StateDashboardService,
+    @Inject(DOCUMENT) private _document,
+    private renderer2: Renderer2,
   ) {
     this.activatedRoute.params.subscribe((val) => {
       console.log("vallllll", val);
@@ -145,10 +148,29 @@ export class StateformsComponent implements OnInit, AfterViewInit {
 
   };
   eligibleForms = {}
+  isMillionState = false;
   allStateFormsData
   ngOnInit(): void {
-    this.getStatus();
+    const s = this.renderer2.createElement('script');
+    s.type = 'text/javascript';
 
+    s.text = `   
+      window.JOONBOT_WIDGET_ID = "f846bb00-1359-4196-9ecf-47094ddc04f7";
+      window.JB_source = (JSON.parse(localStorage.getItem("userData"))).name;
+      var n, o;
+      o = document.createElement("script");
+      o.src = "https://js.joonbot.com/init.js", o.defer = !0, o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous";
+      n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
+  `;
+    this.renderer2.appendChild(this._document.body, s);
+    this.getStatus();
+    this.stateformsService.isMillionPlusState(this.id).subscribe((res) => {
+      this.isMillionState = res['data']
+      console.log(this.isMillionState)
+      sessionStorage.setItem("isMillionPlusState", String(this.isMillionState))
+    }, (err) => {
+      console.log(err.message)
+    })
     this.stateformsService.geteligibleStateForms(this.id).subscribe((res) => {
       this.eligibleForms = res['data']
       console.log(this.eligibleForms)
