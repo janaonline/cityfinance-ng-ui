@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { CarouselConfig } from "ngx-bootstrap/carousel";
 import { interval } from "rxjs";
 import { Router } from "@angular/router";
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common'
 interface Link {
   text: string;
   link?: string;
@@ -149,9 +151,25 @@ export class HomeComponent implements OnInit {
     { text: "XBRL for input of data directly by ULBs/States" },
   ];
 
-  constructor(public _router: Router) {}
+  constructor(
+    public _router: Router,
+    @Inject(DOCUMENT) private _document,
+    private renderer2: Renderer2,) { }
 
   ngOnInit() {
+    const s = this.renderer2.createElement('script');
+    s.type = 'text/javascript';
+
+    s.text = `   
+        window.JOONBOT_WIDGET_ID = "2f16ba64-925e-46e1-96b7-f0164e68c517";
+        var n, o;
+        o = document.createElement("script");
+        o.src = "https://js.joonbot.com/init.js", o.defer = !0, o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous";
+        n = document.getElementsByTagName("script")[0], n.parentNode.insertBefore(o, n);
+    
+
+  `;
+    this.renderer2.appendChild(this._document.body, s);
     setTimeout(() => {
       const aboutElement = document
         .getElementById("about-heading")
