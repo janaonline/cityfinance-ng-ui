@@ -11,6 +11,8 @@ import { USER_TYPE } from "src/app/models/user/userType";
 import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { UlbformService } from "../ulbform.service";
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common'
 
 @Component({
   selector: "app-overview",
@@ -35,9 +37,12 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   constructor(
     private Overview: Overview,
     public activatedRoute: ActivatedRoute,
-    public ulbformService: UlbformService
+    public ulbformService: UlbformService,
+    private renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document
   ) {
     super();
+
     this.activatedRoute.params.subscribe((val) => {
       const { id } = val;
       if (id) {
@@ -166,6 +171,10 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+   
+
+
     this.onResize();
     await this.getData();
     this.accessGrant();
