@@ -503,7 +503,8 @@
                                 <td>
                                     <span (mouseover)="errorDisplayProExp=true" (mouseout)="errorDisplayProExp=false">
                                         <b [ngStyle]="{'border':(isSumEqual == false)? '' : '1px solid red' }">
-                                            {{projectExp}}</b>
+
+                                            {{projectExp.toFixed(2)}}</b>
                                     </span>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="margin-left: -39rem;"
