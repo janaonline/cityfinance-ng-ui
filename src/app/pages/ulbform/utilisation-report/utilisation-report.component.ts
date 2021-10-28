@@ -95,7 +95,7 @@ export class UtilisationReportComponent implements OnInit {
   routerNavigate = null;
   totalclosingBal: Number = 0;
   projectCost = 0;
-  projectExp = 0;
+  projectExp: any = 0;
   selectedFile;
   categories;
   lastRoleInMasterForm;
@@ -532,7 +532,7 @@ export class UtilisationReportComponent implements OnInit {
     }
     if (
       this.projectExp !=
-      this.utilizationReport.controls.grantPosition.value.expDuringYr
+      (Number(this.utilizationReport.controls.grantPosition.value.expDuringYr)).toFixed(2)
     ) {
       this.isSumEqual = true;
     } else {
@@ -603,6 +603,7 @@ export class UtilisationReportComponent implements OnInit {
     //    ].patchValue("");
     //  }
   }
+  projectExpTotal: any
   totalExpCost(i) {
     this.projectExp = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
@@ -612,9 +613,17 @@ export class UtilisationReportComponent implements OnInit {
         !isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
         && (this.utilizationReport.controls.projects.value[j].expenditure)
       ) {
+        let expenditure: any
+        expenditure = Number(this.utilizationReport.controls.projects.value[j].expenditure)
         this.projectExp =
-          this.projectExp +
-          Number(this.utilizationReport.controls.projects.value[j].expenditure);
+          (this.projectExp + expenditure)
+        // this.projectExp = this.projectExp.toFixed(2)
+        Number(this.projectExp.toF)
+        // this.projectExp = this.projectExp.toFixed(2)
+
+        console.log(typeof this.projectExp)
+        console.log(this.projectExp)
+
       }
       else if (
         isNaN(this.utilizationReport.controls.projects.value[j].expenditure) ||
@@ -628,10 +637,11 @@ export class UtilisationReportComponent implements OnInit {
         this.projectExp = this.projectExp + 0;
       }
     }
+    this.projectExpTotal = (this.projectExp.toFixed(2))
     if (
-      this.projectExp !=
-      this.utilizationReport.controls.grantPosition.value.expDuringYr
-    ) {
+      ((this.projectExpTotal) !=
+        String(this.utilizationReport.controls.grantPosition.value.expDuringYr)
+      )) {
       this.isSumEqual = true;
     } else {
       this.isSumEqual = false;
