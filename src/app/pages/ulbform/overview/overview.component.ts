@@ -172,7 +172,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
 
   async ngOnInit() {
 
-   
+
 
 
     this.onResize();
@@ -232,11 +232,11 @@ export class OverviewComponent extends BaseComponent implements OnInit {
   p = 60;
   position = 0;
   resourceNames = [
-    "15th Finance Commission Report",
-    "Operational Guidelines",
-    "User Manual for ULBs",
-    "Detailed Utilisation Report Format",
-    "National Municipal Accounting Manual",
+    "ULB Nodal Officers Manual for Claiming XV FC ULB Grants for 2021-22",
+    "State Nodal Officers Manual for Claiming XV FC ULB Grants for 2021-22",
+    "XV-FC VOL I Main Report 2021-26",
+    "XV-FC -VOL II Annexes 2021-26",
+    "XV-FC recommended Urban Local Body Final Operational Guidelines for 2021-26",
   ];
   colors = [
     "#73C557, #3A632C",

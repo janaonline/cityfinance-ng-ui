@@ -400,6 +400,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   wr_greenTick = false;
   ap_greenTick = false;
   ga_greenTick = false;
+  gc_greenTick = false;
   res;
 
   getStatus() {
