@@ -237,6 +237,7 @@ export class OverviewComponent extends BaseComponent implements OnInit {
     "XV-FC VOL I Main Report 2021-26",
     "XV-FC -VOL II Annexes 2021-26",
     "XV-FC recommended Urban Local Body Final Operational Guidelines for 2021-26",
+    "National Municipal Accounting Manual"
   ];
   colors = [
     "#73C557, #3A632C",
