@@ -11,7 +11,7 @@ import { ActionPlanUAComponent } from "./action-plan-ua/action-plan-ua.component
 import { GrantAllocationComponent } from './grant-allocation/grant-allocation.component';
 import { LinkPFMSComponent } from "./link-pfms/link-pfms.component"
 import { AuthStateGuard } from './auth-state.guard';
-import { GrantClaimComponent } from './grant-claim/grant-claim.component'
+import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
 
 const routes: Routes = [
   {
@@ -44,7 +44,7 @@ const routes: Routes = [
         path: "grant-allocation", component: GrantAllocationComponent,
       },
       {
-        path: "grant-claim", component: GrantClaimComponent,
+        path: "grant-claims", component: GrantClaimsComponent,
       },
       {
         path: "link-in-pfms", component: LinkPFMSComponent,
@@ -55,7 +55,7 @@ const routes: Routes = [
     ]
   }
 ]
-// 
+//
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

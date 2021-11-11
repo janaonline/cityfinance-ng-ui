@@ -52,7 +52,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MpfcListComponent } from './state-dashboard/mpfc-list/mpfc-list.component';
 import { NonMillionListComponent } from './state-dashboard/non-million-list/non-million-list.component';
-import { GrantClaimComponent } from './grant-claim/grant-claim.component';
+import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
 
 @NgModule({
   entryComponents: [OverallListComponent],
@@ -92,7 +92,7 @@ import { GrantClaimComponent } from './grant-claim/grant-claim.component';
     StateAllPreviewComponent,
     MpfcListComponent,
     NonMillionListComponent,
-    GrantClaimComponent,
+    GrantClaimsComponent,
 
 
   ],
