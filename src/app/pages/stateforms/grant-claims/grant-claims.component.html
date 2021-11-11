@@ -8,6 +8,13 @@
                 Submit Final Claims for Grant (State Nodal Officer would be able to submit the claim once all compliances are done from ULB & State end)
             </h5>
         </div>
+        <div class="col-md-12" style="text-align: end; margin-bottom: 1rem;">
+
+            <select class="custom-select form-control" style="width: 15rem; display: inline-block;" (change)="checkFinancialYear($event.target.value)">
+            <option selected value="606aaf854dff55e6c075d219">2021-22</option>
+            <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
+          </select>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -29,28 +36,57 @@
                             </ul>
                         </div>
                         <div class="col-md-2">
-                            <!-- <button type="button" class="btn btn-primary">FY 2021</button> -->
-                            <select class="custom-select form-control" id="inputGroupSelect01">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a type="button">
+                                1st  Installment
+                               </a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a type="button" style="text-decoration: none;">
+                                        <mat-chip-list aria-label="Fish selection">
+                                            <mat-chip color="accent" selected>File</mat-chip>
+                                        </mat-chip-list>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- <select class="custom-select form-control" id="inputGroupSelect01">
                               <option selected>Select FY</option>
                               <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="col-md-2">
-                            <select class="custom-select form-control" id="inputGroupSelect01">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a type="button">
+                               2nd  Installment
+                              </a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a style="text-decoration: none;" *ngIf="curr_finance_year" (click)="CliamGrantBox()">
+                                        <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                            <mat-chip style="background-color: #059b9a;" selected>Claim Grant</mat-chip>
+                                        </mat-chip-list>
+                                    </a>
+                                    <a href="" *ngIf="!curr_finance_year" style="text-decoration: none;" target="_blank">
+                                        <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                            <mat-chip color="accent" selected>File</mat-chip>
+                                        </mat-chip-list>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- <select class="custom-select form-control" id="inputGroupSelect01">
                               <option selected>Select installment</option>
                               <option value="1">1st  Installment  </option>
                               <option value="2">2nd Installment</option>
-                            </select>
+                            </select> -->
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <button type="button" class="btn btn-primary">Upload cover letter</button>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -72,12 +108,59 @@
                             </ul>
                         </div>
                         <div class="col-md-2">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a type="button">
+                              1st  Installment
+                             </a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a type="button" style="text-decoration: none;">
+                                        <mat-chip-list aria-label="Fish selection">
+                                            <mat-chip color="accent" selected>File</mat-chip>
+                                        </mat-chip-list>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- <select class="custom-select form-control" id="inputGroupSelect01">
+                            <option selected>Select FY</option>
+                            <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
+                          </select> -->
+                        </div>
+                        <div class="col-md-2">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a type="button">
+                             2nd  Installment
+                            </a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a style="text-decoration: none;" *ngIf="curr_finance_year" (click)="CliamGrantBox()">
+                                        <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                            <mat-chip style="background-color: #059b9a;" selected>Claim Grant</mat-chip>
+                                        </mat-chip-list>
+                                    </a>
+                                    <a href="" *ngIf="!curr_finance_year" style="text-decoration: none;" target="_blank">
+                                        <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                            <mat-chip color="accent" selected>File</mat-chip>
+                                        </mat-chip-list>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- <select class="custom-select form-control" id="inputGroupSelect01">
+                            <option selected>Select installment</option>
+                            <option value="1">1st  Installment  </option>
+                            <option value="2">2nd Installment</option>
+                          </select> -->
+                        </div>
+                        <!-- <div class="col-md-2">
                             <select class="custom-select form-control" id="inputGroupSelect01">
                             <option selected>Select FY</option>
                             <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
                           </select>
-                        </div>
-                        <div class="col-md-2">
+                        </div> -->
+                        <!-- <div class="col-md-2">
                             <select class="custom-select form-control" id="inputGroupSelect01">
                           <option selected>Select installment</option>
                           <option value="1">1st  Installment  </option>
@@ -86,13 +169,13 @@
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary">Upload cover letter</button>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12 text-right">
                             <button type="button" class="btn btn-primary">Submit</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -114,21 +197,26 @@
 
                             </ul>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <select class="custom-select form-control" id="inputGroupSelect01">
                             <option selected>Select FY</option>
                             <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
                           </select>
-                        </div>
+                        </div> -->
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-primary">Upload cover letter</button>
+                            <!-- <button type="button" class="btn btn-primary">Upload cover letter</button> -->
+                            <a style="text-decoration: none;" *ngIf="curr_finance_year" (click)="CliamGrantBox()">
+                                <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                    <mat-chip style="background-color: #059b9a;" selected>Claim Grant</mat-chip>
+                                </mat-chip-list>
+                            </a>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12 text-right">
                             <button type="button" class="btn btn-primary">Submit</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
