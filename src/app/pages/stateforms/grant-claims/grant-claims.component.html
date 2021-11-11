@@ -28,15 +28,19 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-1">
-                            <button type="button" class="btn btn-primary">FY 2021</button>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <!-- <button type="button" class="btn btn-primary">FY 2021</button> -->
                             <select class="custom-select form-control" id="inputGroupSelect01">
-                            <option selected>Choose installment</option>
-                            <option value="1">1st  Installment  </option>
-                           <option value="2">2nd Installment</option>
-                        </select>
+                              <option selected>Select FY</option>
+                              <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="custom-select form-control" id="inputGroupSelect01">
+                              <option selected>Select installment</option>
+                              <option value="1">1st  Installment  </option>
+                              <option value="2">2nd Installment</option>
+                            </select>
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary">Upload cover letter</button>
@@ -67,12 +71,15 @@
 
                             </ul>
                         </div>
-                        <div class="col-md-1">
-                            <button type="button" class="btn btn-primary">FY 2021</button>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select class="custom-select form-control" id="inputGroupSelect01">
-                          <option selected>Choose installment</option>
+                            <option selected>Select FY</option>
+                            <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="custom-select form-control" id="inputGroupSelect01">
+                          <option selected>Select installment</option>
                           <option value="1">1st  Installment  </option>
                          <option value="2">2nd Installment</option>
                       </select>
@@ -107,8 +114,11 @@
 
                             </ul>
                         </div>
-                        <div class="col-md-1">
-                            <button type="button" class="btn btn-primary">FY 2021</button>
+                        <div class="col-md-2">
+                            <select class="custom-select form-control" id="inputGroupSelect01">
+                            <option selected>Select FY</option>
+                            <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option>
+                          </select>
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-primary">Upload cover letter</button>

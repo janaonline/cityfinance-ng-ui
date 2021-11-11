@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GrantClaimsComponent implements OnInit {
 
-  constructor() { }
+  financial_year;
+  constructor() {
+    this.financial_year =JSON.parse(localStorage.getItem('Years'))
+  }
+
 
   ngOnInit(): void {
+    console.log('years1', this.financial_year)
+    this.financial_year = Object.entries(this.financial_year);
+    console.log('years2', this.financial_year)
   }
 
 }

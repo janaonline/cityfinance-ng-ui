@@ -19,6 +19,9 @@
 
 .form-control {
     height: 32px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .uplod_label {
