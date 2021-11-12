@@ -41,8 +41,7 @@ export class GrantClaimsComponent implements OnInit {
     const dialogRef = this.dialog.open(GrantClaimsDialogComponent, {
       maxHeight: "95%",
       width: "80%",
-
-      // panelClass: "no-padding-dialog",
+      panelClass: "no-padding-dialog",
     });
     console.log("dialog ref");
     dialogRef.afterClosed().subscribe((result) => {

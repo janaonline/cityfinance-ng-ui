@@ -18,16 +18,35 @@
 }
 
 .form-control {
-    height: 32px !important;
+    height: 38px !important;
+    width: 20rem;
+    font-size: 18px;
+    font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .uplod_label {
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 700;
 }
 
-.mat-chp {
+::ng-deep .mat-chip-list-wrapper input.mat-input-element,
+::ng-deep .mat-chip-list-wrapper .mat-standard-chip {
     cursor: pointer;
+    color: #FFFFFF;
+    text-align: center;
+    display: block;
+    background-color: #114551;
+}
+
+.chip-aTag {
+    display: block;
+    width: 12rem;
+}
+
+label {
+    color: #114551;
+    font-size: 15px;
 }
