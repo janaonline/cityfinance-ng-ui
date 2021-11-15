@@ -51,4 +51,21 @@ export class GrantClaimsComponent implements OnInit {
       console.log(result);
     });
   }
+  viewHistory(template) {
+    this.openDialog(template)
+
+  }
+  openDialog(template) {
+
+    let dialogRef = this.dialog.open(template, {
+      height: "auto",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  alertClose() {
+    this.dialog.closeAll();
+  }
 }

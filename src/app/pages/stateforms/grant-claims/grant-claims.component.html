@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin-right: 15px;">
+<div class="container-fluid" style="margin-right: 15px; margin-bottom: 1rem;">
     <div class="row">
         <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
             <h4 class="form-header">
@@ -49,9 +49,12 @@
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on XXXXX date
-                                                    <span class="material-icons info-icon" style="">
-                                                      info
-                                                      </span>
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                        info
+                                                        </span>
+                                                    </a>
+
                                                 </li>
 
                                             </ul>
@@ -88,9 +91,11 @@
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on XXXXX date
-                                                    <span class="material-icons info-icon">
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
                                                       info
                                                       </span>
+                                                    </a>
                                                 </li>
 
                                             </ul>
@@ -169,9 +174,11 @@
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on XXXXX date
-                                                    <span class="material-icons info-icon" style="">
-                                                    info
-                                                    </span>
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                      info
+                                                      </span>
+                                                    </a>
                                                 </li>
 
                                             </ul>
@@ -208,9 +215,11 @@
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on XXXXX date
-                                                    <span class="material-icons info-icon">
-                                                    info
-                                                    </span>
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                      info
+                                                      </span>
+                                                    </a>
                                                 </li>
 
                                             </ul>
@@ -305,3 +314,43 @@
         </div>
     </div>
 </div>
+<ng-template #template>
+    <div class="modal-title">
+        <div style=" display: flex; justify-content: flex-end;">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
+              <i class="fa fa-times" style="color: white;"></i>
+          </button>
+        </div>
+        <div>
+            <h3>Tracking</h3>
+        </div>
+    </div>
+    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+        <table class="table tracking-history-table">
+            <thead>
+                <tr>
+                    <th style="position: sticky; top: 0" class="text-center"></th>
+                    <th style="position: sticky; top: 0">Sr. No</th>
+                    <th style="position: sticky; top: 0">Action</th>
+                    <th style="position: sticky; top: 0">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">
+                        <em class="fa fa-check-circle text-success"></em>
+                    </td>
+                    <td>1</td>
+                    <td>
+                        <div>abc</div>
+                    </td>
+                    <td>
+                        xxxx
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div *ngIf="!historyData" class="text-center alert" style="color: red;">No Data Found!</div> -->
+
+</ng-template>
