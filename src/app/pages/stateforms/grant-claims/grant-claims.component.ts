@@ -12,6 +12,9 @@ export class GrantClaimsComponent implements OnInit {
   financial_year;
   curr_finance_year = true;
   other_finance_year = false;
+  isCollapsed = true;
+  isCollapsed2 = true;
+  isCollapsed3 = true;
   constructor(
     private dialog: MatDialog,
   ) {

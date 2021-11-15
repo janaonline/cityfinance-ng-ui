@@ -2,11 +2,11 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
             <h4 class="form-header">
-                Grant Claims for Mohua
+                Final submission of claims for 15th FC Grants
             </h4>
-            <h5 style="font-size: 16px;">
+            <!-- <h5 style="font-size: 16px;">
                 Submit Final Claims for Grant (State Nodal Officer would be able to submit the claim once all compliances are done from ULB & State end)
-            </h5>
+            </h5> -->
         </div>
         <div class="col-md-12" style="text-align: end; margin-bottom: 1rem;">
 
@@ -24,68 +24,109 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
+                            <div class="row" style="margin: 0;">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
+                            </button>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="row" style="padding-left: 30px;">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>
-                                    1st  Installment Current Status:
-                                  </label>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            Claim for grant submitted on XXXXX date
-                                        </li>
-                                        <li>
-                                            Forwarded by MoHUA to MoF on XXXX date
-                                        </li>
-                                        <li>
-                                            Returned by MoHUA on XXXXX
-                                        </li>
-                                    </ul>
-                                    <div class="col-md-12">
-                                        <a href="https://cityfinance.in" target="_blank" style="text-decoration: none;" class="chip-aTag">
-                                            <mat-chip-list aria-label="Fish selection">
-                                                <mat-chip style="width: 100%;">File</mat-chip>
-                                            </mat-chip-list>
-                                        </a>
+
+                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                 1st  Installment Status:
+                                                </label>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    Claim for grant submitted on XXXXX date
+                                                    <span class="material-icons info-icon" style="">
+                                                      info
+                                                      </span>
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    Submit Grant Transfer Certificate for 2nd installment of FY 2020-21<span><b>(Submitted)</b> </span>
+                                                </li>
+                                            </ul>
+                                            <div class="col-md-12">
+                                                <a href="https://cityfinance.in" target="_blank" style="text-decoration: none;" class="chip-aTag">
+                                                    <mat-chip-list aria-label="Fish selection">
+                                                        <mat-chip style="width: 100%;">File</mat-chip>
+                                                    </mat-chip-list>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>
-                                    2nd  Installment Current Status:
-                                  </label>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            Claim for grant submitted on XXXXX date
-                                        </li>
-                                        <li>
-                                            Forwarded by MoHUA to MoF on XXXX date
-                                        </li>
-                                        <li>
-                                            Returned by MoHUA on XXXXX
-                                        </li>
-                                    </ul>
-                                    <div class="col-md-12">
+                            <div class="col-md-12">
 
-                                        <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
-                                            <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;">Claim Grant for INR 21Cr.</mat-chip>
-                                        </mat-chip-list>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                      2nd  Installment Status:
+                                    </label>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    Claim for grant submitted on XXXXX date
+                                                    <span class="material-icons info-icon">
+                                                      info
+                                                      </span>
+                                                </li>
 
-                                        <a href="https://cityfinance.in" *ngIf="!curr_finance_year" class="chip-aTag" style="text-decoration: none;" target="_blank">
-                                            <mat-chip-list aria-label="Fish selection" class="mat-chp">
-                                                <mat-chip style="width: 100%;" type="button">File</mat-chip>
-                                            </mat-chip-list>
-                                        </a>
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    25% of ULBs have submitted Audited and Provisional Financial Statements and the State Nodal Officer has approved the same. <span><b>(20% achieved)</b></span>
+                                                </li>
+                                                <li>
+                                                    100% of the Million Plus Cities have uploaded the detailed utilization reports and the State Nodal Officer has approved the same.<span><b>(70% achieved)</b></span>
+                                                </li>
+                                                <li>
+                                                    100% of the MPCs submitted the service level benchmark details and the State Nodal Officer has approved the same.<span><b>(80% achieved)</b></span>
+                                                </li>
+                                                <li>
+                                                    Grant transfer certificate for FY 2021-22 has been uploaded on the Cityfinance website. <span><b>(Submitted)</b> </span>
+                                                </li>
+                                            </ul>
+                                            <div class="col-md-12">
+
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;">Claim Grant for INR 21Cr.</mat-chip>
+                                                </mat-chip-list>
+
+                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year" class="chip-aTag" style="text-decoration: none;" target="_blank">
+                                                    <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                                        <mat-chip style="width: 100%;" type="button">File</mat-chip>
+                                                    </mat-chip-list>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -96,94 +137,153 @@
 
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row" style="margin: 0;">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">2. Claim Non-Million Plus Cities Untied Grants</h6>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
+                          </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                               1st  Installment Status:
+                                              </label>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    Claim for grant submitted on XXXXX date
+                                                    <span class="material-icons info-icon" style="">
+                                                    info
+                                                    </span>
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                          padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    Submit Grant Transfer Certificate for 2nd installment of FY 2020-21<span><b>(Submitted)</b> </span>
+                                                </li>
+                                            </ul>
+                                            <div class="col-md-12">
+                                                <a href="https://cityfinance.in" target="_blank" style="text-decoration: none;" class="chip-aTag">
+                                                    <mat-chip-list aria-label="Fish selection">
+                                                        <mat-chip style="width: 100%;">File</mat-chip>
+                                                    </mat-chip-list>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                    2nd  Installment Status:
+                                  </label>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    Claim for grant submitted on XXXXX date
+                                                    <span class="material-icons info-icon">
+                                                    info
+                                                    </span>
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                          padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    25% of ULBs have submitted Audited and Provisional Financial Statements and the State Nodal Officer has approved the same. <span><b>(20% achieved)</b></span>
+                                                </li>
+                                                <li>
+                                                    100% of the Million Plus Cities have uploaded the detailed utilization reports and the State Nodal Officer has approved the same.<span><b>(70% achieved)</b></span>
+                                                </li>
+                                                <li>
+                                                    100% of the MPCs submitted the service level benchmark details and the State Nodal Officer has approved the same.<span><b>(80% achieved)</b></span>
+                                                </li>
+                                                <li>
+                                                    Grant transfer certificate for FY 2021-22 has been uploaded on the Cityfinance website. <span><b>(Submitted)</b> </span>
+                                                </li>
+                                            </ul>
+                                            <div class="col-md-12">
+
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;">Claim Grant for INR 21Cr.</mat-chip>
+                                                </mat-chip-list>
+
+                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year" class="chip-aTag" style="text-decoration: none;" target="_blank">
+                                                    <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                                        <mat-chip style="width: 100%;" type="button">File</mat-chip>
+                                                    </mat-chip-list>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <h6 class="uplod_label">2. Claim Non-Million Plus Cities UnTied Grants</h6>
-                        </div>
-                        <div class="row" style="padding-left: 30px;">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>
-                                  1st  Installment Current Status:
-                                </label>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            XXXX
-                                        </li>
-
-                                    </ul>
-                                    <div class="col-md-12">
-                                        <a href="https://cityfinance.in" target="_blank" style="text-decoration: none;" class="chip-aTag">
-                                            <mat-chip-list aria-label="Fish selection">
-                                                <mat-chip style="width: 100%;">File</mat-chip>
-                                            </mat-chip-list>
-                                        </a>
-                                    </div>
+                            <div class="row" style="margin: 0;">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants Current Status:
+                                    </h6>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
+                             </button>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>
-                                  2nd  Installment Current Status:
-                                </label>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            XXXX
-                                        </li>
-
-                                    </ul>
-                                    <div class="col-md-12">
-
-                                        <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
-                                            <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;">Claim Grant for INR 21Cr.</mat-chip>
-                                        </mat-chip-list>
-
-                                        <a href="https://cityfinance.in" *ngIf="!curr_finance_year" class="chip-aTag" style="text-decoration: none;" target="_blank">
-                                            <mat-chip-list aria-label="Fish selection" class="mat-chp">
-                                                <mat-chip style="width: 100%;" type="button">File</mat-chip>
-                                            </mat-chip-list>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
                         </div>
-
                     </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants Current Status:
-
-                            </h6>
+                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true" style="padding-left: 30px;">
                             <ul>
                                 <li>
                                     XXXXX
                                 </li>
 
                             </ul>
-                        </div>
-
-                        <div class="col-md-6" style="padding-left: 30px;">
-
                             <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
                                 <mat-chip style="background-color: #059b9a;" (click)="CliamGrantBox()">Claim Grant for INR 21Cr.</mat-chip>
                             </mat-chip-list>
@@ -194,6 +294,14 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h5>
+                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for 1st installment of FY 2021-22? If yes ,
+                <a [routerLink]="['../gtCertificate']">Click Here</a>
+            </h5>
         </div>
     </div>
 </div>
