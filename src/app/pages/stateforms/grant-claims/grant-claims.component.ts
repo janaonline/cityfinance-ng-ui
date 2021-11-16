@@ -12,6 +12,9 @@ export class GrantClaimsComponent implements OnInit {
   financial_year;
   curr_finance_year = true;
   other_finance_year = false;
+  isCollapsed = true;
+  isCollapsed2 = true;
+  isCollapsed3 = true;
   constructor(
     private dialog: MatDialog,
   ) {
@@ -41,12 +44,28 @@ export class GrantClaimsComponent implements OnInit {
     const dialogRef = this.dialog.open(GrantClaimsDialogComponent, {
       maxHeight: "95%",
       width: "80%",
-
-      // panelClass: "no-padding-dialog",
+      panelClass: "no-padding-dialog",
     });
     console.log("dialog ref");
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
+  }
+  viewHistory(template) {
+    this.openDialog(template)
+
+  }
+  openDialog(template) {
+
+    let dialogRef = this.dialog.open(template, {
+      height: "auto",
+      width: "600px"
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  alertClose() {
+    this.dialog.closeAll();
   }
 }
