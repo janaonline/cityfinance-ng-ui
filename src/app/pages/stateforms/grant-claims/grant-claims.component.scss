@@ -43,7 +43,7 @@
 
 .chip-aTag {
     display: block;
-    width: 12rem;
+    // width: 12rem;
 }
 
 label {
@@ -66,4 +66,22 @@ label {
     tbody tr:nth-child(even) {
         background: #dbdbdb;
     }
+}
+
+.mat-chp {
+    width: 12rem;
+    display: block;
+}
+
+.chip-btn {
+    border-radius: 16px;
+    background-color: #059b9a;
+    color: #FFFFFF;
+    padding: 7px 15px;
+    text-decoration: none;
+}
+
+.disableCls {
+    cursor: not-allowed;
+    opacity: .5;
 }

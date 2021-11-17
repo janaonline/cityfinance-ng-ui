@@ -23,6 +23,31 @@ export class GrantClaimsComponent implements OnInit {
   conditions_mpc = [];
   claimsData;
   display;
+  eligibility = {
+    mpc: true,
+    nmpc_tied : [
+      {
+        installment: '1',
+        eligible : false
+      },
+      {
+        installment: '2',
+        eligible : true
+      }
+    ],
+    nmpc_untied : [
+      {
+        installment: '1',
+        eligible : true
+      },
+      {
+        installment: '2',
+        eligible : false
+      }
+    ],
+
+  }
+
   constructor(
     private dialog: MatDialog,
     public grantClaimsService: GrantClaimsService,
@@ -40,12 +65,19 @@ export class GrantClaimsComponent implements OnInit {
     this.financial_year = Object.entries(this.financial_year);
     this.gTCertificateService.getCondition(this.stateId).subscribe((res) => {
       this.display = res['data']
-      console.log(this.display)
+      console.log('display',this.display)
     })
     this.fetchData('606aaf854dff55e6c075d219');
 
 
   }
+  isNumber(val): boolean {
+   // console.log('type', typeof(val))
+     return typeof val === 'number';
+   }
+   isBoolean(val){
+    return typeof val === 'boolean';
+   }
   fetchData(financialYear) {
     this.grantClaimsService.getData(financialYear, this.stateId).subscribe(
       (res) => {

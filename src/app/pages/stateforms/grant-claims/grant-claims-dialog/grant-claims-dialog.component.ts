@@ -17,6 +17,8 @@ const swal: SweetAlert = require("sweetalert");
 export class GrantClaimsDialogComponent implements OnInit {
 
   stateName = '';
+  userName = '';
+  designation = '';
   @ViewChild("claimComponent") _html: ElementRef;
   showLoader;
   marked = false;
@@ -71,6 +73,8 @@ li {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.stateName = userData["stateName"];
+    this.userName = userData["name"];
+    this.designation = userData['role']
   }
 
   closeDialog(){
