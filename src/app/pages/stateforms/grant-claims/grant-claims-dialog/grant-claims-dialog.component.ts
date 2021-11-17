@@ -19,9 +19,11 @@ export class GrantClaimsDialogComponent implements OnInit {
   stateName = '';
   userName = '';
   designation = '';
+  stateId = '';
   @ViewChild("claimComponent") _html: ElementRef;
   showLoader;
   marked = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
@@ -74,7 +76,9 @@ li {
     let userData = JSON.parse(localStorage.getItem("userData"));
     this.stateName = userData["stateName"];
     this.userName = userData["name"];
-    this.designation = userData['role']
+    this.designation = userData['designation']
+    this.stateId = userData['state']
+
   }
 
   closeDialog(){
@@ -86,9 +90,23 @@ li {
     console.log('check box', this.marked)
   }
   submitClaim() {
+    console.log('this.data---', this.data)
+    let reqBody = {
+      financial_year : this.data.fy,
+      state : this.stateId,
+      installment : this.data.ins,
+      type: this.data.grantType,
+      amountClaimed : this.data.amt
+    }
+
+    console.log('req body', reqBody)
     if(this.marked) {
       this.downloadAsPDF()
+
     }
+    this._matDialog.closeAll();
+    swal('Saved', 'Data saved successfully', 'success')
+
   }
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
