@@ -1,4 +1,5 @@
 <div class="container-fluid" style="margin-right: 15px; margin-bottom: 1rem;">
+    <!-- heading and drop down -->
     <div class="row">
         <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
             <h4 class="form-header">
@@ -10,15 +11,16 @@
         </div>
         <div class="col-md-12" style="text-align: end; margin-bottom: 1rem;">
 
-            <select class="custom-select form-control" style="display: inline-block;" (change)="checkFinancialYear($event.target.value)">
-              <option  value="606aadac4dff55e6c075c507">2020-21</option>
-              <option selected value="606aaf854dff55e6c075d219">2021-22</option>
-             <option  value="606aafb14dff55e6c075d3ae">2022-23</option>
-            <!-- <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option> -->
-          </select>
+            <select class="custom-select form-control" style="display: inline-block;"
+                (change)="checkFinancialYear($event.target.value)">
+                <option value="606aadac4dff55e6c075c507">2020-21</option>
+                <option selected value="606aaf854dff55e6c075d219">2021-22</option>
+                <!-- <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option> -->
+            </select>
         </div>
     </div>
-    <div class="row">
+    <!-- claim for Non Million - Tied -->
+    <div *ngIf="display.showQ2" class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -29,29 +31,35 @@
                                     <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
-                            </button>
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
+                                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
+                                    </button>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true"
+                            style="padding-left: 30px; margin-right: 15px;">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                                 1st  Installment Status:
+                                                    1st Installment:
                                                 </label>
                                             </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
                                             <ul>
                                                 <li>
-                                                    Claim for grant submitted on XXXXX date
+                                                    Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
-                                                        info
+                                                            info
                                                         </span>
                                                     </a>
 
@@ -64,15 +72,13 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Submit Grant Transfer Certificate for 2nd installment of FY 2020-21<span><b>(Submitted)</b> </span>
+                                                    {{conditions_nmpc_first[0]}}<span><b>(Submitted)</b> </span>
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <a href="https://cityfinance.in" target="_blank" style="text-decoration: none;" class="chip-aTag">
-                                                    <mat-chip-list aria-label="Fish selection">
-                                                        <mat-chip style="width: 100%;">File</mat-chip>
-                                                    </mat-chip-list>
-                                                </a>
+                                                <mat-chip-list aria-label="Fish selection">
+                                                    <mat-chip style="width: 100%;">File</mat-chip>
+                                                </mat-chip-list>
                                             </div>
                                         </div>
                                     </div>
@@ -85,16 +91,20 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                      2nd  Installment Status:
-                                    </label>
+                                                    2nd Installment :
+                                                </label>
                                             </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on XXXXX date
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
-                                                      info
-                                                      </span>
+                                                            info
+                                                        </span>
                                                     </a>
                                                 </li>
 
@@ -104,26 +114,20 @@
                                                 Conditions:
                                             </h4>
                                             <ul>
-                                                <li>
-                                                    25% of ULBs have submitted Audited and Provisional Financial Statements and the State Nodal Officer has approved the same. <span><b>(20% achieved)</b></span>
-                                                </li>
-                                                <li>
-                                                    100% of the Million Plus Cities have uploaded the detailed utilization reports and the State Nodal Officer has approved the same.<span><b>(70% achieved)</b></span>
-                                                </li>
-                                                <li>
-                                                    100% of the MPCs submitted the service level benchmark details and the State Nodal Officer has approved the same.<span><b>(80% achieved)</b></span>
-                                                </li>
-                                                <li>
-                                                    Grant transfer certificate for FY 2021-22 has been uploaded on the Cityfinance website. <span><b>(Submitted)</b> </span>
-                                                </li>
+                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition}}</li>
                                             </ul>
                                             <div class="col-md-12">
 
-                                                <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
-                                                    <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;">Claim Grant for INR 21Cr.</mat-chip>
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp"
+                                                    *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()"
+                                                        style="background-color: #059b9a;">Claim Grant for INR
+                                                        {{claimsData?.nmpc_tied[1].amount}}Cr.
+                                                    </mat-chip>
                                                 </mat-chip-list>
 
-                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year" class="chip-aTag" style="text-decoration: none;" target="_blank">
+                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year"
+                                                    class="chip-aTag" style="text-decoration: none;" target="_blank">
                                                     <mat-chip-list aria-label="Fish selection" class="mat-chp">
                                                         <mat-chip style="width: 100%;" type="button">File</mat-chip>
                                                     </mat-chip-list>
@@ -142,11 +146,11 @@
 
         </div>
     </div>
-    <div class="row">
+    <!-- Claim for Non Million Untied -->
+    <div *ngIf="display.showQ3" class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row" style="margin: 0;">
@@ -154,30 +158,36 @@
                                     <h6 class="uplod_label">2. Claim Non-Million Plus Cities Untied Grants</h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
-                          </button>
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2"
+                                        [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
+                                    </button>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true"
+                            style="padding-left: 30px; margin-right: 15px;">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                               1st  Installment Status:
-                                              </label>
+                                                    1st Installment:
+                                                </label>
                                             </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
                                             <ul>
                                                 <li>
-                                                    Claim for grant submitted on XXXXX date
+                                                    Claim Granted - {{claimsData?.nmpc_untied[0].amount}}
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
-                                                      info
-                                                      </span>
+                                                            info
+                                                        </span>
                                                     </a>
                                                 </li>
 
@@ -188,15 +198,15 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Submit Grant Transfer Certificate for 2nd installment of FY 2020-21<span><b>(Submitted)</b> </span>
+                                                    {{conditions_nmpc_first[0]}}<span><b>(Submitted)</b> </span>
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <a href="https://cityfinance.in" target="_blank" style="text-decoration: none;" class="chip-aTag">
-                                                    <mat-chip-list aria-label="Fish selection">
-                                                        <mat-chip style="width: 100%;">File</mat-chip>
-                                                    </mat-chip-list>
-                                                </a>
+
+                                                <mat-chip-list aria-label="Fish selection">
+                                                    <mat-chip style="width: 100%;">File</mat-chip>
+                                                </mat-chip-list>
+
                                             </div>
                                         </div>
                                     </div>
@@ -209,16 +219,20 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                    2nd  Installment Status:
-                                  </label>
+                                                    2nd Installment:
+                                                </label>
                                             </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on XXXXX date
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
-                                                      info
-                                                      </span>
+                                                            info
+                                                        </span>
                                                     </a>
                                                 </li>
 
@@ -228,30 +242,23 @@
                                                 Conditions:
                                             </h4>
                                             <ul>
-                                                <li>
-                                                    25% of ULBs have submitted Audited and Provisional Financial Statements and the State Nodal Officer has approved the same. <span><b>(20% achieved)</b></span>
-                                                </li>
-                                                <li>
-                                                    100% of the Million Plus Cities have uploaded the detailed utilization reports and the State Nodal Officer has approved the same.<span><b>(70% achieved)</b></span>
-                                                </li>
-                                                <li>
-                                                    100% of the MPCs submitted the service level benchmark details and the State Nodal Officer has approved the same.<span><b>(80% achieved)</b></span>
-                                                </li>
-                                                <li>
-                                                    Grant transfer certificate for FY 2021-22 has been uploaded on the Cityfinance website. <span><b>(Submitted)</b> </span>
-                                                </li>
+                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition}}</li>
                                             </ul>
                                             <div class="col-md-12">
 
-                                                <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
-                                                    <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;">Claim Grant for INR 21Cr.</mat-chip>
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp"
+                                                    *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()"
+                                                        style="background-color: #059b9a;">Claim Grant for INR
+                                                        {{claimsData?.nmpc_tied[1].amount}}Cr.
+                                                    </mat-chip>
                                                 </mat-chip-list>
 
-                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year" class="chip-aTag" style="text-decoration: none;" target="_blank">
-                                                    <mat-chip-list aria-label="Fish selection" class="mat-chp">
-                                                        <mat-chip style="width: 100%;" type="button">File</mat-chip>
-                                                    </mat-chip-list>
-                                                </a>
+
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                                    <mat-chip style="width: 100%;" type="button">File</mat-chip>
+                                                </mat-chip-list>
+
                                             </div>
                                         </div>
                                     </div>
@@ -266,8 +273,8 @@
 
         </div>
     </div>
-
-    <div class="row">
+    <!-- claim for million  -->
+    <div *ngIf="display.showQ1" class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -275,26 +282,39 @@
                         <div class="col-md-12">
                             <div class="row" style="margin: 0;">
                                 <div class="col-md-10">
-                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants Current Status:
+                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants:
                                     </h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
-                             </button>
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3"
+                                        [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true" style="padding-left: 30px;">
+                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true"
+                            style="padding-left: 30px;">
+                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                Current Status:
+                            </h4>
                             <ul>
                                 <li>
                                     XXXXX
                                 </li>
-
+                            </ul>
+                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                Conditions:
+                            </h4>
+                            <ul>
+                                <li *ngFor="let condition of conditions_mpc">{{condition}}</li>
                             </ul>
                             <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
-                                <mat-chip style="background-color: #059b9a;" (click)="CliamGrantBox()">Claim Grant for INR 21Cr.</mat-chip>
+                                <mat-chip style="background-color: #059b9a;" (click)="CliamGrantBox()">Claim Grant for
+                                    INR {{claimsData?.mpc}}Cr.</mat-chip>
                             </mat-chip-list>
 
                         </div>
@@ -305,10 +325,12 @@
 
         </div>
     </div>
+    <!-- question for GTC -->
     <div class="row">
         <div class="col-md-12">
             <h5>
-                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for 1st installment of FY 2021-22? If yes ,
+                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for
+                1st installment of FY 2021-22? If yes ,
                 <a [routerLink]="['../gtCertificate']">Click Here</a>
             </h5>
         </div>
@@ -317,9 +339,10 @@
 <ng-template #template>
     <div class="modal-title">
         <div style=" display: flex; justify-content: flex-end;">
-            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
-              <i class="fa fa-times" style="color: white;"></i>
-          </button>
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
         </div>
         <div>
             <h3>Tracking</h3>
