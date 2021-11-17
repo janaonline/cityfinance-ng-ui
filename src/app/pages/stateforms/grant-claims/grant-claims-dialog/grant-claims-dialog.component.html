@@ -46,7 +46,8 @@
         <div class="col-md-12">
             <input type="checkbox" class="checkBox" (change)="isChecked($event)">
             <span class="term">
-      By checking on this box and clicking submit, username, designation, state, acknowledge
+      By checking on this box and clicking submit, <b>{{userName | titlecase}}, {{designation | titlecase}}, {{stateName | titlecase}},</b>
+       acknowledge
       the fulfilment of the above mentioned criteria and hereby submit a request a claim for
       second instalment for the year 2021-22.
     </span>- &nbsp; &nbsp;

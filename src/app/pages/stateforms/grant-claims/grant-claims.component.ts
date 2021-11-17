@@ -10,7 +10,7 @@ import { GTCertificateService } from '../gtcertificate/gtcertificate.service'
 })
 export class GrantClaimsComponent implements OnInit {
 
-  financial_year;
+  financial_year = '606aaf854dff55e6c075d219';
   curr_finance_year = true;
   other_finance_year = false;
   isCollapsed = true;
@@ -23,12 +23,37 @@ export class GrantClaimsComponent implements OnInit {
   conditions_mpc = [];
   claimsData;
   display;
+  eligibility = {
+    mpc: true,
+    nmpc_tied : [
+      {
+        installment: '1',
+        eligible : false
+      },
+      {
+        installment: '2',
+        eligible : true
+      }
+    ],
+    nmpc_untied : [
+      {
+        installment: '1',
+        eligible : true
+      },
+      {
+        installment: '2',
+        eligible : false
+      }
+    ],
+
+  }
+
   constructor(
     private dialog: MatDialog,
     public grantClaimsService: GrantClaimsService,
     public gTCertificateService: GTCertificateService
   ) {
-    this.financial_year = JSON.parse(localStorage.getItem('Years'));
+    // this.financial_year = JSON.parse(localStorage.getItem('Years'));
     this.stateId = sessionStorage.getItem("state_id");
     if (!this.stateId) {
       this.stateId = JSON.parse(localStorage.getItem("userData")).state;
@@ -37,15 +62,22 @@ export class GrantClaimsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.financial_year = Object.entries(this.financial_year);
+    // this.financial_year = Object.entries(this.financial_year);
     this.gTCertificateService.getCondition(this.stateId).subscribe((res) => {
       this.display = res['data']
-      console.log(this.display)
+      console.log('display',this.display)
     })
     this.fetchData('606aaf854dff55e6c075d219');
 
 
   }
+  isNumber(val): boolean {
+   // console.log('type', typeof(val))
+     return typeof val === 'number';
+   }
+   isBoolean(val){
+    return typeof val === 'boolean';
+   }
   fetchData(financialYear) {
     this.grantClaimsService.getData(financialYear, this.stateId).subscribe(
       (res) => {
@@ -64,7 +96,8 @@ export class GrantClaimsComponent implements OnInit {
   }
   checkFinancialYear(val) {
     //call api
-    this.fetchData(val)
+    this.financial_year = val;
+    this.fetchData(val);
     console.log("drp", val);
     if (val != '606aaf854dff55e6c075d219') {
       console.log(' other finance year')
@@ -77,8 +110,15 @@ export class GrantClaimsComponent implements OnInit {
     }
 
   }
-  CliamGrantBox() {
+  CliamGrantBox(type, installment, amount) {
+    let reqBody = {
+      grantType : type,
+      ins : installment,
+      amt : amount,
+      fy : this.financial_year
+    }
     const dialogRef = this.dialog.open(GrantClaimsDialogComponent, {
+      data: reqBody,
       maxHeight: "95%",
       width: "80%",
       panelClass: "no-padding-dialog",

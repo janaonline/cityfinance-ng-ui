@@ -11,8 +11,7 @@
         </div>
         <div class="col-md-12" style="text-align: end; margin-bottom: 1rem;">
 
-            <select class="custom-select form-control" style="display: inline-block;"
-                (change)="checkFinancialYear($event.target.value)">
+            <select class="custom-select form-control" style="display: inline-block;" (change)="checkFinancialYear($event.target.value)">
                 <option value="606aadac4dff55e6c075c507">2020-21</option>
                 <option selected value="606aaf854dff55e6c075d219">2021-22</option>
                 <!-- <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option> -->
@@ -20,7 +19,7 @@
         </div>
     </div>
     <!-- claim for Non Million - Tied -->
-    <div *ngIf="display.showQ2" class="row">
+    <div *ngIf="display?.showQ2" class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -31,16 +30,14 @@
                                     <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
-                                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
                                     </button>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true"
-                            style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
@@ -50,7 +47,7 @@
                                                     1st Installment:
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
@@ -66,19 +63,22 @@
                                                 </li>
 
                                             </ul>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Conditions:
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    {{conditions_nmpc_first[0]}}<span><b>(Submitted)</b> </span>
+                                                    {{conditions_nmpc_first[0]?.text}}. <span><b>({{conditions_nmpc_first[0]?.achieved ? 'Submitted' : 'Not Submited'}})</b> </span>
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <mat-chip-list aria-label="Fish selection">
-                                                    <mat-chip style="width: 100%;">File</mat-chip>
-                                                </mat-chip-list>
+                                                <a [href]="(eligibility?.nmpc_tied[0]?.eligible) ? '#' :
+                                                'javascript:void(0)' " class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_tied[0]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_tied[0]?.eligible) == true"
+                                                    matTooltipPosition="right">
+                                              File
+
+                                              </a>
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +94,7 @@
                                                     2nd Installment :
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
@@ -109,28 +109,31 @@
                                                 </li>
 
                                             </ul>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Conditions:
                                             </h4>
                                             <ul>
-                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition}}</li>
+                                                <li *ngFor="let condition of conditions_nmpc_second let i = index;">{{condition.text}}<b>
+                                                  <!-- <span *ngIf="isNumber(condition?.achieved)">({{condition?.achieved}} % achieved)</span>
+                                                  <span *ngIf="!isNumber(condition?.achieved)">({{condition?.tied ? 'Submited' : 'Not Submited'}})</span> -->
+                                                  <span>({{condition?.achieved ? condition?.achieved+'% achieved' : condition?.tied ? 'Submited' : 'Not Submited' }})</span>
+
+                                                </b></li>
                                             </ul>
                                             <div class="col-md-12">
+                                                <button (click)="CliamGrantBox('nmpc_tied', '2', claimsData?.nmpc_tied[1]?.amount)" [disabled]="eligibility?.nmpc_tied[1]?.eligible" *ngIf="curr_finance_year" class="btn chip-btn" matTooltip="Condition(s) not met">
+                                                <!-- <mat-chip-list aria-label="Fish selection" *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()" style="background-color: #059b9a;"> -->
+                                                      Claim Grant for INR {{claimsData?.nmpc_tied[1]?.amount}}Cr.
+                                                    <!-- </mat-chip>
+                                                </mat-chip-list> -->
+                                              </button>
+                                                <a [href]="(eligibility?.nmpc_tied[1]?.eligible) ? '#' :
+                                                'javascript:void(0)' " *ngIf="!curr_finance_year" class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_tied[1]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_tied[1]?.eligible) == true"
+                                                    matTooltipPosition="right">
+                                                File
 
-                                                <mat-chip-list aria-label="Fish selection" class="mat-chp"
-                                                    *ngIf="curr_finance_year">
-                                                    <mat-chip (click)="CliamGrantBox()"
-                                                        style="background-color: #059b9a;">Claim Grant for INR
-                                                        {{claimsData?.nmpc_tied[1].amount}}Cr.
-                                                    </mat-chip>
-                                                </mat-chip-list>
-
-                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year"
-                                                    class="chip-aTag" style="text-decoration: none;" target="_blank">
-                                                    <mat-chip-list aria-label="Fish selection" class="mat-chp">
-                                                        <mat-chip style="width: 100%;" type="button">File</mat-chip>
-                                                    </mat-chip-list>
                                                 </a>
                                             </div>
                                         </div>
@@ -147,7 +150,7 @@
         </div>
     </div>
     <!-- Claim for Non Million Untied -->
-    <div *ngIf="display.showQ3" class="row">
+    <div *ngIf="display?.showQ3" class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -158,16 +161,14 @@
                                     <h6 class="uplod_label">2. Claim Non-Million Plus Cities Untied Grants</h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2"
-                                        [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
                                     </button>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true"
-                            style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
@@ -177,13 +178,13 @@
                                                     1st Installment:
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Claim Granted - {{claimsData?.nmpc_untied[0].amount}}
+                                                    Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr.
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
                                                             info
@@ -192,21 +193,23 @@
                                                 </li>
 
                                             </ul>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                           padding-left: 15px;">
                                                 Conditions:
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    {{conditions_nmpc_first[0]}}<span><b>(Submitted)</b> </span>
+                                                    {{conditions_nmpc_first[0]?.text}}
+                                                    <span><b>({{conditions_nmpc_first[0]?.achieved ? 'Submitted' : 'Not Submited'}})</b> </span>
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
+                                                <a [href]="(eligibility?.nmpc_untied[0]?.eligible) ? '#' :
+                                                'javascript:void(0)' " class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_untied[0]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_untied[0]?.eligible) == true"
+                                                    matTooltipPosition="right">
+                                              File
 
-                                                <mat-chip-list aria-label="Fish selection">
-                                                    <mat-chip style="width: 100%;">File</mat-chip>
-                                                </mat-chip-list>
-
+                                              </a>
                                             </div>
                                         </div>
                                     </div>
@@ -222,7 +225,7 @@
                                                     2nd Installment:
                                                 </label>
                                             </div>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
@@ -237,28 +240,32 @@
                                                 </li>
 
                                             </ul>
-                                            <h4 style="font-size: 16px;
+                                            <h4 style="font-size: 15px;
                                           padding-left: 15px;">
                                                 Conditions:
                                             </h4>
                                             <ul>
-                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition}}</li>
+                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition.text}}
+                                                    <span> <b> ({{condition?.achieved ? condition?.achieved+'% achieved' : condition?.untied ? 'Submited' : 'Not Submited' }}) </b></span>
+                                                </li>
                                             </ul>
                                             <div class="col-md-12">
-
-                                                <mat-chip-list aria-label="Fish selection" class="mat-chp"
-                                                    *ngIf="curr_finance_year">
+                                                <button (click)="CliamGrantBox('nmpc_untied', '2', claimsData?.nmpc_untied[1]?.amount)" [disabled]="eligibility?.nmpc_untied[1]?.eligible" *ngIf="curr_finance_year" class="btn chip-btn" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_untied[1]?.eligible) == false"
+                                                    matTooltipPosition="right">
+                                                <!-- <mat-chip-list aria-label="Fish selection" *ngIf="curr_finance_year">
                                                     <mat-chip (click)="CliamGrantBox()"
-                                                        style="background-color: #059b9a;">Claim Grant for INR
-                                                        {{claimsData?.nmpc_tied[1].amount}}Cr.
-                                                    </mat-chip>
-                                                </mat-chip-list>
+                                                     style="background-color: #059b9a;"> -->
+                                                     Claim Grant for INR {{claimsData?.nmpc_untied[1].amount}}Cr.
+                                                    <!-- </mat-chip>
+                                                </mat-chip-list> -->
+                                              </button>
+                                                <a [href]="(eligibility?.nmpc_untied[1]?.eligible) ? '#' :
+                                                'javascript:void(0)' " *ngIf="!curr_finance_year" class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_untied[1]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_untied[1]?.eligible) == true"
+                                                    matTooltipPosition="right">
 
+                                                    File
 
-                                                <mat-chip-list aria-label="Fish selection" class="mat-chp">
-                                                    <mat-chip style="width: 100%;" type="button">File</mat-chip>
-                                                </mat-chip-list>
-
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +281,7 @@
         </div>
     </div>
     <!-- claim for million  -->
-    <div *ngIf="display.showQ1" class="row">
+    <div *ngIf="display?.showQ1" class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -286,17 +293,15 @@
                                     </h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
-                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3"
-                                        [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true"
-                            style="padding-left: 30px;">
-                            <h4 style="font-size: 16px;
+                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true" style="padding-left: 30px;">
+                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                 Current Status:
                             </h4>
@@ -305,18 +310,21 @@
                                     XXXXX
                                 </li>
                             </ul>
-                            <h4 style="font-size: 16px;
+                            <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                 Conditions:
                             </h4>
                             <ul>
-                                <li *ngFor="let condition of conditions_mpc">{{condition}}</li>
+                                <li *ngFor="let condition of conditions_mpc">{{condition.text}}
+                                    <b>
+                                    <span *ngIf="isNumber(condition?.achieved)">({{condition?.achieved}}% achieved)</span>
+                                    <span *ngIf="isBoolean(condition?.achieved)">({{condition?.achieved ? 'Submited' : 'Not Submited'}})</span>
+                                  </b>
+                                </li>
                             </ul>
-                            <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
-                                <mat-chip style="background-color: #059b9a;" (click)="CliamGrantBox()">Claim Grant for
-                                    INR {{claimsData?.mpc}}Cr.</mat-chip>
-                            </mat-chip-list>
-
+                            <button (click)="CliamGrantBox('mpc', 'NA', claimsData?.mpc)" [disabled]="eligibility?.mpc" *ngIf="curr_finance_year" class="btn chip-btn" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.mpc) == false" matTooltipPosition="right">
+                                Claim Grant for INR {{claimsData?.mpc}}Cr.
+                            </button>
                         </div>
                     </div>
 
@@ -329,8 +337,7 @@
     <div class="row">
         <div class="col-md-12">
             <h5>
-                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for
-                1st installment of FY 2021-22? If yes ,
+                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for 1st installment of FY 2021-22? If yes ,
                 <a [routerLink]="['../gtCertificate']">Click Here</a>
             </h5>
         </div>
@@ -339,8 +346,7 @@
 <ng-template #template>
     <div class="modal-title">
         <div style=" display: flex; justify-content: flex-end;">
-            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
-                type="button" data-dismiss="modal" aria-label="Close">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close" type="button" data-dismiss="modal" aria-label="Close">
                 <i class="fa fa-times" style="color: white;"></i>
             </button>
         </div>
