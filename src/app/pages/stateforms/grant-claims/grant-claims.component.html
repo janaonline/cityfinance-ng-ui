@@ -1,0 +1,379 @@
+<div class="container-fluid" style="margin-right: 15px; margin-bottom: 1rem;">
+    <!-- heading and drop down -->
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+            <h4 class="form-header">
+                Final submission of claims for 15th FC Grants
+            </h4>
+            <!-- <h5 style="font-size: 16px;">
+                Submit Final Claims for Grant (State Nodal Officer would be able to submit the claim once all compliances are done from ULB & State end)
+            </h5> -->
+        </div>
+        <div class="col-md-12" style="text-align: end; margin-bottom: 1rem;">
+
+            <select class="custom-select form-control" style="display: inline-block;"
+                (change)="checkFinancialYear($event.target.value)">
+                <option value="606aadac4dff55e6c075c507">2020-21</option>
+                <option selected value="606aaf854dff55e6c075d219">2021-22</option>
+                <!-- <option *ngFor="let years of financial_year" [value]="years[1]">{{years[0]}}</option> -->
+            </select>
+        </div>
+    </div>
+    <!-- claim for Non Million - Tied -->
+    <div *ngIf="display.showQ2" class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row" style="margin: 0;">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">1. Claim Non-Million Plus Cities Tied Grants</h6>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
+                                        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true"
+                            style="padding-left: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    1st Installment:
+                                                </label>
+                                            </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                            info
+                                                        </span>
+                                                    </a>
+
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    {{conditions_nmpc_first[0]}}<span><b>(Submitted)</b> </span>
+                                                </li>
+                                            </ul>
+                                            <div class="col-md-12">
+                                                <mat-chip-list aria-label="Fish selection">
+                                                    <mat-chip style="width: 100%;">File</mat-chip>
+                                                </mat-chip-list>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    2nd Installment :
+                                                </label>
+                                            </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    Claim for grant submitted on XXXXX date
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                            info
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition}}</li>
+                                            </ul>
+                                            <div class="col-md-12">
+
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp"
+                                                    *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()"
+                                                        style="background-color: #059b9a;">Claim Grant for INR
+                                                        {{claimsData?.nmpc_tied[1].amount}}Cr.
+                                                    </mat-chip>
+                                                </mat-chip-list>
+
+                                                <a href="https://cityfinance.in" *ngIf="!curr_finance_year"
+                                                    class="chip-aTag" style="text-decoration: none;" target="_blank">
+                                                    <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                                        <mat-chip style="width: 100%;" type="button">File</mat-chip>
+                                                    </mat-chip-list>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Claim for Non Million Untied -->
+    <div *ngIf="display.showQ3" class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row" style="margin: 0;">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">2. Claim Non-Million Plus Cities Untied Grants</h6>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2"
+                                        [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true"
+                            style="padding-left: 30px; margin-right: 15px;">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    1st Installment:
+                                                </label>
+                                            </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    Claim Granted - {{claimsData?.nmpc_untied[0].amount}}
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                            info
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                          padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    {{conditions_nmpc_first[0]}}<span><b>(Submitted)</b> </span>
+                                                </li>
+                                            </ul>
+                                            <div class="col-md-12">
+
+                                                <mat-chip-list aria-label="Fish selection">
+                                                    <mat-chip style="width: 100%;">File</mat-chip>
+                                                </mat-chip-list>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>
+                                                    2nd Installment:
+                                                </label>
+                                            </div>
+                                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                                Current Status:
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    Claim for grant submitted on XXXXX date
+                                                    <a (click)="viewHistory(template)">
+                                                        <span class="material-icons info-icon" style="">
+                                                            info
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                            <h4 style="font-size: 16px;
+                                          padding-left: 15px;">
+                                                Conditions:
+                                            </h4>
+                                            <ul>
+                                                <li *ngFor="let condition of conditions_nmpc_second">{{condition}}</li>
+                                            </ul>
+                                            <div class="col-md-12">
+
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp"
+                                                    *ngIf="curr_finance_year">
+                                                    <mat-chip (click)="CliamGrantBox()"
+                                                        style="background-color: #059b9a;">Claim Grant for INR
+                                                        {{claimsData?.nmpc_tied[1].amount}}Cr.
+                                                    </mat-chip>
+                                                </mat-chip-list>
+
+
+                                                <mat-chip-list aria-label="Fish selection" class="mat-chp">
+                                                    <mat-chip style="width: 100%;" type="button">File</mat-chip>
+                                                </mat-chip-list>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- claim for million  -->
+    <div *ngIf="display.showQ1" class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row" style="margin: 0;">
+                                <div class="col-md-10">
+                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants:
+                                    </h6>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3"
+                                        [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="collapseBasic3" [collapse]="isCollapsed3" [isAnimated]="true"
+                            style="padding-left: 30px;">
+                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                Current Status:
+                            </h4>
+                            <ul>
+                                <li>
+                                    XXXXX
+                                </li>
+                            </ul>
+                            <h4 style="font-size: 16px;
+                                            padding-left: 15px;">
+                                Conditions:
+                            </h4>
+                            <ul>
+                                <li *ngFor="let condition of conditions_mpc">{{condition}}</li>
+                            </ul>
+                            <mat-chip-list aria-label="Fish selection" class="mat-chp" *ngIf="curr_finance_year">
+                                <mat-chip style="background-color: #059b9a;" (click)="CliamGrantBox()">Claim Grant for
+                                    INR {{claimsData?.mpc}}Cr.</mat-chip>
+                            </mat-chip-list>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- question for GTC -->
+    <div class="row">
+        <div class="col-md-12">
+            <h5>
+                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for
+                1st installment of FY 2021-22? If yes ,
+                <a [routerLink]="['../gtCertificate']">Click Here</a>
+            </h5>
+        </div>
+    </div>
+</div>
+<ng-template #template>
+    <div class="modal-title">
+        <div style=" display: flex; justify-content: flex-end;">
+            <button style="min-width: min-content;" (click)="alertClose()" class="btn btn-danger" title="Close"
+                type="button" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times" style="color: white;"></i>
+            </button>
+        </div>
+        <div>
+            <h3>Tracking</h3>
+        </div>
+    </div>
+    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+        <table class="table tracking-history-table">
+            <thead>
+                <tr>
+                    <th style="position: sticky; top: 0" class="text-center"></th>
+                    <th style="position: sticky; top: 0">Sr. No</th>
+                    <th style="position: sticky; top: 0">Action</th>
+                    <th style="position: sticky; top: 0">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">
+                        <em class="fa fa-check-circle text-success"></em>
+                    </td>
+                    <td>1</td>
+                    <td>
+                        <div>abc</div>
+                    </td>
+                    <td>
+                        xxxx
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div *ngIf="!historyData" class="text-center alert" style="color: red;">No Data Found!</div> -->
+
+</ng-template>
