@@ -817,7 +817,7 @@ export class UtilisationReportComponent implements OnInit {
     this.tabelRows.push(
       this.fb.group({
         category: [null, Validators.required],
-        name: ["", [Validators.required, Validators.maxLength(50)]],
+        name: ["", [Validators.required, Validators.maxLength(200)]],
         // description: ["", [Validators.required, Validators.maxLength(200)]],
         // photos: this.fb.array([
         //   // this.fb.group({
@@ -842,7 +842,7 @@ export class UtilisationReportComponent implements OnInit {
     this.tabelRows.push(
       this.fb.group({
         category: [data.category, Validators.required],
-        name: [data.name, [Validators.required, Validators.maxLength(50)]],
+        name: [data.name, [Validators.required, Validators.maxLength(200)]],
         // description: [
         //   data.description,
         //   [Validators.required, Validators.maxLength(200)],
