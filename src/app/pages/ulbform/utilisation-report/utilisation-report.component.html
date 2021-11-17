@@ -253,7 +253,7 @@
                                      form-control" [disabled]="isDisabled"
                                         [ngStyle]="{'border':(isSubmitted == true &&
                                       utiReportFormControl.projects.controls[projectIndex].controls.name.errors?.required )? '1px solid red' : '' }"
-                                        placeholder="Max 50 Characters" (mouseover)="errorDisplayName=true"
+                                        placeholder="Max 200 Characters" (mouseover)="errorDisplayName=true"
                                         (mouseout)="errorDisplayName=false" formControlName="name" style="width: 10rem;"
                                         required>
                                     <div class="bs-tooltip-top" role="tooltip"
@@ -269,7 +269,7 @@
                                         <span class="tooltip-inner" style="font-size: 10px;"
                                             *ngIf="errorDisplayName
                                    && utiReportFormControl.projects.controls[projectIndex].controls.name.errors.maxlength">
-                                            Name less than 50 char.
+                                            Name less than 200 char.
                                         </span>
 
                                     </div>
