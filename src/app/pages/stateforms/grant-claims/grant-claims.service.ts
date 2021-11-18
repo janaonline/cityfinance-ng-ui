@@ -13,6 +13,10 @@ export class GrantClaimsService {
     let catUrl = environment.api.url + `grant-claim/get?financialYear=${financialYear}&stateId=${stateId}`;
     return this.http.get(catUrl);
   }
+  claimGrantCreate(reqBody){
+    let url = environment.api.url + `grant-claim/create`;
+    return this.http.post(url, reqBody);
+  }
 
 
 }
