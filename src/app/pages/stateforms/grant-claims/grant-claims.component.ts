@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { GrantClaimsDialogComponent } from './grant-claims-dialog/grant-claims-dialog.component';
 import { GrantClaimsService } from './grant-claims.service'
 import { GTCertificateService } from '../gtcertificate/gtcertificate.service'
+
 @Component({
   selector: 'app-grant-claims',
   templateUrl: './grant-claims.component.html',
@@ -23,32 +24,10 @@ export class GrantClaimsComponent implements OnInit {
   conditions_mpc = [];
   claimsData;
   display;
-  eligibility = {
-    mpc: true,
-    nmpc_tied : [
-      {
-        installment: '1',
-        eligible : false
-      },
-      {
-        installment: '2',
-        eligible : true
-      }
-    ],
-    nmpc_untied : [
-      {
-        installment: '1',
-        eligible : true
-      },
-      {
-        installment: '2',
-        eligible : false
-      }
-    ],
-
-  }
+  eligibility;
 
   constructor(
+
     private dialog: MatDialog,
     public grantClaimsService: GrantClaimsService,
     public gTCertificateService: GTCertificateService
@@ -84,10 +63,12 @@ export class GrantClaimsComponent implements OnInit {
         console.log(res)
         let data = res['data'];
         this.annualAccountsActual = data.annualAccountsActual;
-        this.conditions_nmpc_first = data?.conditions_nmpc[0].statements
-        this.conditions_nmpc_second = data?.conditions_nmpc[1].statements
-        this.conditions_mpc = data?.conditions_mpc.statements
-        this.claimsData = data?.claimsData
+        this.conditions_nmpc_first = data?.conditions_nmpc[0].statements;
+        this.conditions_nmpc_second = data?.conditions_nmpc[1].statements;
+        this.conditions_mpc = data?.conditions_mpc.statements;
+        this.claimsData = data?.claimsData;
+        this.eligibility = data?.eligibility;
+        console.log('eligible', this.eligibility)
       },
       (err) => {
         console.log(err.message)
@@ -125,7 +106,7 @@ export class GrantClaimsComponent implements OnInit {
     });
     console.log("dialog ref");
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
+      console.log('result',result);
     });
   }
   viewHistory(template) {

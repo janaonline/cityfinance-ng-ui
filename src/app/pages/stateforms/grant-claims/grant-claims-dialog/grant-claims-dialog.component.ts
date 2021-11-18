@@ -8,6 +8,7 @@ import { QuestionnaireService } from 'src/app/pages/questionnaires/service/quest
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
 import { defaultDailogConfiuration } from "../../../questionnaires/state/configs/common.config";
 import { SweetAlert } from "sweetalert/typings/core";
+import { GrantClaimsService } from '../grant-claims.service';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-grant-claims-dialog',
@@ -28,6 +29,7 @@ export class GrantClaimsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _matDialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
+    private grantClaimService : GrantClaimsService
   ) { }
   styleForPDF = `<style>
   .header-p {
@@ -92,20 +94,32 @@ li {
   submitClaim() {
     console.log('this.data---', this.data)
     let reqBody = {
-      financial_year : this.data.fy,
+      financialYear : this.data.fy,
       state : this.stateId,
       installment : this.data.ins,
       type: this.data.grantType,
       amountClaimed : this.data.amt
     }
 
-    console.log('req body', reqBody)
+    console.log('req body', reqBody);
+
     if(this.marked) {
-      this.downloadAsPDF()
+      this.grantClaimService.claimGrantCreate(reqBody).subscribe((res)=>{
+          console.log('submit responces..', res);
+          let responce: any = res;
+          this.data = {...this.data, res};
+          this._matDialog.closeAll();
+          swal('Saved', `${responce?.message}`, 'success');
+          this.downloadAsPDF();
+      },
+      (err)=>{
+        console.log('err', err)
+      })
+
 
     }
-    this._matDialog.closeAll();
-    swal('Saved', 'Data saved successfully', 'success')
+
+
 
   }
   downloadAsPDF() {
