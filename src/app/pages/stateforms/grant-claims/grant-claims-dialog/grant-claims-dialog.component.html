@@ -45,6 +45,14 @@
         </div>
         <div class="col-md-12">
             <input type="checkbox" class="checkBox" (change)="isChecked($event)">
+            <!-- <span class="material-icons" class="check-val" *ngIf="marked">
+
+                <img src="../../../../../assets/ticks/check_box_black_24dp.svg" class="svg-gt">
+
+            </span>
+            <span class="material-icons" class="check-val" *ngIf="!marked">
+              <img src="../../../../../assets/ticks/check_box_outline_blank_black_24dp.svg" class="svg-gt">
+              </span> -->
             <span class="term">
       By checking on this box and clicking submit, <b>{{userName | titlecase}}, {{designation | titlecase}}, {{stateName | titlecase}},</b>
        acknowledge

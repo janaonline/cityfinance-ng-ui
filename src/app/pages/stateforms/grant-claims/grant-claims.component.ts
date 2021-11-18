@@ -25,7 +25,7 @@ export class GrantClaimsComponent implements OnInit {
   claimsData;
   display;
   eligibility;
-
+  mpcPdfUrl = '';
   constructor(
 
     private dialog: MatDialog,
@@ -41,7 +41,7 @@ export class GrantClaimsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.financial_year = Object.entries(this.financial_year);
+
     this.gTCertificateService.getCondition(this.stateId).subscribe((res) => {
       this.display = res['data']
       console.log('display',this.display)
@@ -96,7 +96,7 @@ export class GrantClaimsComponent implements OnInit {
       grantType : type,
       ins : installment,
       amt : amount,
-      fy : this.financial_year
+      fy : this.financial_year,
     }
     const dialogRef = this.dialog.open(GrantClaimsDialogComponent, {
       data: reqBody,
@@ -106,7 +106,8 @@ export class GrantClaimsComponent implements OnInit {
     });
     console.log("dialog ref");
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('result',result);
+      console.log('result', result, reqBody);
+      this.mpcPdfUrl = result.data;
     });
   }
   viewHistory(template) {

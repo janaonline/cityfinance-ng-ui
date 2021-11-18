@@ -313,11 +313,11 @@
                                     XXXXX
                                 </li>
                             </ul>
-                            <h4 style="font-size: 15px;
+                            <h4 *ngIf="(mpcPdfUrl == '')" style="font-size: 15px;
                                             padding-left: 15px;">
                                 Conditions:
                             </h4>
-                            <ul>
+                            <ul *ngIf="(mpcPdfUrl == '')">
                                 <li *ngFor="let condition of conditions_mpc">{{condition.text}}
                                     <b>
                                     <span *ngIf="isNumber(condition?.achieved)">({{condition?.achieved}}% achieved)</span>
@@ -325,13 +325,16 @@
                                   </b>
                                 </li>
                             </ul>
-                            <button type="button" (click)="CliamGrantBox('mpc', 'NA', claimsData?.mpc)" *ngIf="curr_finance_year" class="btn chip-btn">
+                            <button type="button" (click)="CliamGrantBox('mpc', 'NA', claimsData?.mpc)" *ngIf="curr_finance_year && (mpcPdfUrl == '')" class="btn chip-btn">
                               <span matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.mpc) == true"
                               matTooltipPosition="right">
                                 Claim Grant for INR {{claimsData?.mpc}}Cr.
                               </span>
 
                             </button>
+                            <a *ngIf="(mpcPdfUrl != '')" href="{{mpcPdfUrl}}" target="_blank" class="chip-btn">
+                             File
+                             </a>
                         </div>
                     </div>
 
