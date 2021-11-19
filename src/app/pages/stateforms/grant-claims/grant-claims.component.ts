@@ -147,7 +147,30 @@ export class GrantClaimsComponent implements OnInit {
 
     });
   }
-  viewHistory(template) {
+  action ='';
+  claimSubmitDate =''
+  viewHistory(template, type, ins) {
+    this.action = 'Sumbitted';
+    this.claimSubmitDate = '';
+    if(type){
+      switch(type){
+        case 'mpc': {
+         // this.action = 'Sumbitted';
+          this.claimSubmitDate = this.claimsInformation?.mpc?.data[0].dates.submittedOn;
+          break;
+        }
+        case 'nmpc_tied': {
+          this.claimSubmitDate = this.claimsInformation?.nmpc_tied?.data[0].dates.submittedOn;
+          break;
+        }
+        case 'nmpc_untied': {
+          this.claimSubmitDate = this.claimsInformation?.nmpc_untied?.data[0].dates.submittedOn;
+          break;
+        }
+      }
+    }
+
+
     this.openDialog(template)
 
   }

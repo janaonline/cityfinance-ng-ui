@@ -54,7 +54,7 @@
                                             <ul>
                                                 <li>
                                                     Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr
-                                                    <a (click)="viewHistory(template)">
+                                                    <a (click)="viewHistory(template, 'nmpc_tied', '1')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
@@ -101,7 +101,7 @@
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on {{claimsInformation?.nmpc_tied?.data[0].dates.submittedOn | date:'medium'}}
-                                                    <a (click)="viewHistory(template)">
+                                                    <a (click)="viewHistory(template, 'nmpc_tied', '2')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
@@ -190,7 +190,7 @@
                                             <ul>
                                                 <li>
                                                     Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr.
-                                                    <a (click)="viewHistory(template)">
+                                                    <a (click)="viewHistory(template, 'nmpc_untied', '1')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
@@ -237,7 +237,7 @@
                                             <ul>
                                                 <li>
                                                     Claim for grant submitted on {{claimsInformation?.nmpc_untied?.data[0].dates.submittedOn | date:'medium'}}
-                                                    <a (click)="viewHistory(template)">
+                                                    <a (click)="viewHistory(template, 'nmpc_untied', '2')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
@@ -382,10 +382,13 @@
                     </td>
                     <td>1</td>
                     <td>
-                        <div>abc</div>
+                        <div *ngIf="claimSubmitDate != ''">Submitted by State</div>
+                        <div *ngIf="claimSubmitDate == ''">Pending</div>
                     </td>
                     <td>
-                        xxxx
+                        <div *ngIf="claimSubmitDate != ''">{{claimSubmitDate | date:'medium'}}</div>
+                        <div *ngIf="claimSubmitDate == ''">Pending</div>
+
                     </td>
                 </tr>
             </tbody>
