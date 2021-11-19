@@ -100,7 +100,7 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Claim for grant submitted on XXXXX date
+                                                    Claim for grant submitted on {{claimsInformation?.nmpc_tied?.data[0].dates.submittedOn | date:'medium'}}
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
                                                             info
@@ -110,10 +110,10 @@
 
                                             </ul>
                                             <h4 style="font-size: 15px;
-                                            padding-left: 15px;">
+                                            padding-left: 15px;" *ngIf="(nmpcTiedPdfUrl == '')">
                                                 Conditions:
                                             </h4>
-                                            <ul>
+                                            <ul *ngIf="(nmpcTiedPdfUrl == '')">
                                                 <li *ngFor="let condition of conditions_nmpc_second let i = index;">{{condition.text}}<b>
                                                   <!-- <span *ngIf="isNumber(condition?.achieved)">({{condition?.achieved}} % achieved)</span>
                                                   <span *ngIf="!isNumber(condition?.achieved)">({{condition?.tied ? 'Submited' : 'Not Submited'}})</span> -->
@@ -236,7 +236,7 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Claim for grant submitted on XXXXX date
+                                                    Claim for grant submitted on {{claimsInformation?.nmpc_untied?.data[0].dates.submittedOn | date:'medium'}}
                                                     <a (click)="viewHistory(template)">
                                                         <span class="material-icons info-icon" style="">
                                                             info
@@ -246,10 +246,10 @@
 
                                             </ul>
                                             <h4 style="font-size: 15px;
-                                          padding-left: 15px;">
+                                          padding-left: 15px;" *ngIf="(nmpcUntiedPdfUrl == '')">
                                                 Conditions:
                                             </h4>
-                                            <ul>
+                                            <ul *ngIf="(nmpcUntiedPdfUrl == '')">
                                                 <li *ngFor="let condition of conditions_nmpc_second">{{condition.text}}
                                                     <span> <b> ({{condition?.achieved ? condition?.achieved+'% achieved' : condition?.untied ? 'Submited' : 'Not Submited' }}) </b></span>
                                                 </li>
@@ -311,7 +311,7 @@
                             </h4>
                             <ul>
                                 <li>
-                                    XXXXX
+                                    Claim for grant submitted on {{claimsInformation?.mpc?.data[0].dates.submittedOn | date:'medium'}}
                                 </li>
                             </ul>
                             <h4 *ngIf="(mpcPdfUrl == '')" style="font-size: 15px;
