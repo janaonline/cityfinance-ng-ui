@@ -73,10 +73,10 @@
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <a [href]="(eligibility?.nmpc_tied[0]?.eligible) ? '#' :
-                                                'javascript:void(0)' " class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_tied[0]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_tied[0]?.eligible) == true"
+                                                <a [href]="(eligibility?.nmpc_tied[0]?.eligible) ? noDataFoundUrl :
+                                                'javascript:void(0)' " class="chip-btn" target="_blank" [ngClass]="{'disableCls': !(eligibility?.nmpc_tied[0]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_tied[0]?.eligible) == true"
                                                     matTooltipPosition="right">
-                                              File
+                                               View File
 
                                               </a>
                                             </div>
@@ -122,8 +122,7 @@
                                                 </b></li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <button type="button" (click)="CliamGrantBox('nmpc_tied', '2', claimsData?.nmpc_tied[1]?.amount)" disabled="{{eligibility?.nmpc_tied[1]?.eligible}}" *ngIf="curr_finance_year" class="btn chip-btn">
-
+                                                <button type="button" (click)="CliamGrantBox('nmpc_tied', '2', claimsData?.nmpc_tied[1]?.amount)" [disabled]="!(eligibility?.nmpc_tied[1]?.eligible)" *ngIf="curr_finance_year && (nmpcTiedPdfUrl == '')" class="btn chip-btn">
                                                     <span
                                                      matTooltip="Condition(s) not met"
                                                     [matTooltipDisabled]="(eligibility?.nmpc_tied[1]?.eligible) == ture"
@@ -132,10 +131,13 @@
                                                   </span>
 
                                               </button>
-                                                <a [href]="(eligibility?.nmpc_tied[1]?.eligible) ? '#' :
+                                                <a *ngIf="curr_finance_year && (nmpcTiedPdfUrl != '')" href="{{nmpcTiedPdfUrl}}" target="_blank" class="chip-btn">
+                                                View File
+                                               </a>
+                                                <a [href]="(eligibility?.nmpc_tied[1]?.eligible) ? noDataFoundUrl :
                                                 'javascript:void(0)' " *ngIf="!curr_finance_year" class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_tied[1]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_tied[1]?.eligible) == true"
                                                     matTooltipPosition="right">
-                                                File
+                                                 View File
 
                                                 </a>
                                             </div>
@@ -207,10 +209,10 @@
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <a [href]="(eligibility?.nmpc_untied[0]?.eligible) ? '#' :
+                                                <a [href]="(eligibility?.nmpc_untied[0]?.eligible) ? noDataFoundUrl :
                                                 'javascript:void(0)' " class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_untied[0]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_untied[0]?.eligible) == true"
                                                     matTooltipPosition="right">
-                                              File
+                                               View File
 
                                               </a>
                                             </div>
@@ -253,21 +255,20 @@
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <button type="button" (click)="CliamGrantBox('nmpc_untied', '2', claimsData?.nmpc_untied[1]?.amount)" disabled="{{eligibility?.nmpc_untied[1]?.eligible}}" *ngIf="curr_finance_year" class="btn chip-btn">
-
+                                                <button type="button" (click)="CliamGrantBox('nmpc_untied', '2', claimsData?.nmpc_untied[1]?.amount)" [disabled]="!(eligibility?.nmpc_untied[1]?.eligible)" *ngIf="curr_finance_year && (nmpcUntiedPdfUrl == '')" class="btn chip-btn">
                                                   <span matTooltip="Condition(s) not met"
                                                      [matTooltipDisabled]="(eligibility?.nmpc_untied[1]?.eligible) == true"
                                                      matTooltipPosition="right">
                                                      Claim Grant for INR {{claimsData?.nmpc_untied[1].amount}}Cr.
                                                     </span>
-
                                               </button>
-                                                <a [href]="(eligibility?.nmpc_untied[1]?.eligible) ? '#' :
+                                                <a *ngIf="curr_finance_year && (nmpcUntiedPdfUrl != '')" href="{{nmpcUntiedPdfUrl}}" target="_blank" class="chip-btn">
+                                                View File
+                                               </a>
+                                                <a [href]="(eligibility?.nmpc_untied[1]?.eligible) ? noDataFoundUrl :
                                                 'javascript:void(0)' " *ngIf="!curr_finance_year" class="chip-btn" [ngClass]="{'disableCls': !(eligibility?.nmpc_untied[1]?.eligible)}" matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.nmpc_untied[1]?.eligible) == true"
                                                     matTooltipPosition="right">
-
-                                                    File
-
+                                                   View File
                                                 </a>
                                             </div>
                                         </div>
@@ -325,7 +326,7 @@
                                   </b>
                                 </li>
                             </ul>
-                            <button type="button" (click)="CliamGrantBox('mpc', 'NA', claimsData?.mpc)" *ngIf="curr_finance_year && (mpcPdfUrl == '')" class="btn chip-btn">
+                            <button type="button" (click)="CliamGrantBox('mpc', 'NA', claimsData?.mpc)" *ngIf="curr_finance_year && (mpcPdfUrl == '')" [disabled]="!(eligibility?.mpc)" class="btn chip-btn">
                               <span matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.mpc) == true"
                               matTooltipPosition="right">
                                 Claim Grant for INR {{claimsData?.mpc}}Cr.
@@ -333,7 +334,7 @@
 
                             </button>
                             <a *ngIf="(mpcPdfUrl != '')" href="{{mpcPdfUrl}}" target="_blank" class="chip-btn">
-                             File
+                           View File
                              </a>
                         </div>
                     </div>

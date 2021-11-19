@@ -14,6 +14,7 @@
             </div>
         </div>
     </div>
+    <!-- no data found url -- https://democityfinanceapi.dhwaniris.in/objects/92f725fb-8b27-421a-8f16-ac71921efccb.pdf -->
     <div class="row" style="margin: 0 2% 2rem 2%;">
         <div class="col-md-12 text-right dn-btn">
             <button type="button" class="btn btn-primary h-cls" (click)="downloadAsPDF()">Download</button>
@@ -45,23 +46,27 @@
         </div>
         <div class="col-md-12">
             <input type="checkbox" class="checkBox" (change)="isChecked($event)">
-            <!-- <span class="material-icons" class="check-val" *ngIf="marked">
-
-                <img src="../../../../../assets/ticks/check_box_black_24dp.svg" class="svg-gt">
-
+            <span class="pdf-icon" *ngIf="marked">
+              <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#000000">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
             </span>
-            <span class="material-icons" class="check-val" *ngIf="!marked">
-              <img src="../../../../../assets/ticks/check_box_outline_blank_black_24dp.svg" class="svg-gt">
-              </span> -->
+            <span class="pdf-icon" *ngIf="!marked">
+              <svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 0 24 24" width="16px" fill="#000000">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+              </svg>
+           </span>
             <span class="term">
       By checking on this box and clicking submit, <b>{{userName | titlecase}}, {{designation | titlecase}}, {{stateName | titlecase}},</b>
        acknowledge
       the fulfilment of the above mentioned criteria and hereby submit a request a claim for
       second instalment for the year 2021-22.
-    </span>- &nbsp; &nbsp;
+    </span> &nbsp; &nbsp;
 
-            <span class="check-val" *ngIf="marked">Agreed</span>
-            <span class="check-val" *ngIf="!marked">Not Agreed</span>
+            <!-- <span class="check-val" *ngIf="marked">Agreed</span>
+            <span class="check-val" *ngIf="!marked">Not Agreed</span> -->
         </div>
         <div class="col-md-12" style="text-align: right;">
             <button type="button" class="btn btn-primary h-cls" (click)="submitClaim()" [disabled]="!marked">Submit</button>
@@ -70,3 +75,9 @@
 
     </div>
 </div>
+<!-- <span class="material-icons" class="check-val" *ngIf="marked">
+                <img src="../../../../../assets/ticks/check_box_black_24dp.svg" class="svg-gt">
+            </span>
+            <span class="material-icons" class="check-val" *ngIf="!marked">
+              <img src="../../../../../assets/ticks/check_box_outline_blank_black_24dp.svg" class="svg-gt">
+     </span> -->
