@@ -23,9 +23,16 @@ export class GrantClaimsComponent implements OnInit {
   conditions_nmpc_second = []
   conditions_mpc = [];
   claimsData;
+  claimsInformation;
   display;
   eligibility;
   mpcPdfUrl = '';
+  mpcFileName = '';
+  nmpcTiedPdfUrl = '';
+  nmpcTiedFileName = '';
+  nmpcUntiedPdfUrl = '';
+  nmpcUntiedFileName = '';
+  noDataFoundUrl ='https://democityfinanceapi.dhwaniris.in/objects/92f725fb-8b27-421a-8f16-ac71921efccb.pdf';
   constructor(
 
     private dialog: MatDialog,
@@ -68,12 +75,20 @@ export class GrantClaimsComponent implements OnInit {
         this.conditions_mpc = data?.conditions_mpc.statements;
         this.claimsData = data?.claimsData;
         this.eligibility = data?.eligibility;
-        console.log('eligible', this.eligibility)
+        this.claimsInformation = data?.claimsInformation
+        console.log('claimsInformation', this.claimsInformation);
+        this.setFileUrl(this.claimsInformation);
       },
       (err) => {
         console.log(err.message)
       }
     )
+  }
+  setFileUrl(claimInfo){
+    if(claimInfo?.mpc?.data[0]?.fileUrl) this.mpcPdfUrl = claimInfo?.mpc?.data[0]?.fileUrl;
+    if(claimInfo?.nmpc_untied?.data[0]?.fileUrl) this.nmpcUntiedPdfUrl = claimInfo?.nmpc_untied?.data[0]?.fileUrl;
+    if(claimInfo?.nmpc_tied?.data[0]?.fileUrl) this.nmpcTiedPdfUrl = claimInfo?.nmpc_tied?.data[0]?.fileUrl;
+    console.log('setttttt', this.nmpcTiedPdfUrl)
   }
   checkFinancialYear(val) {
     //call api
@@ -106,8 +121,30 @@ export class GrantClaimsComponent implements OnInit {
     });
     console.log("dialog ref");
     dialogRef.afterClosed().subscribe((result) => {
+      if(result.data){
+        switch(type){
+          case 'mpc': {
+            this.mpcPdfUrl = result.data.url;
+            this.mpcFileName = result.data.name;
+            console.log('mpc', this.mpcPdfUrl, this.mpcFileName);
+            break;
+          }
+          case 'nmpc_tied': {
+            this.nmpcTiedPdfUrl = result.data.url;
+            this.nmpcTiedFileName = result.data.name;
+            console.log('mpc', this.nmpcTiedFileName, this.nmpcTiedPdfUrl);
+            break;
+          }
+          case 'nmpc_untied': {
+            this.nmpcUntiedPdfUrl = result.data.url;
+            this.nmpcUntiedFileName = result.data.name;
+            console.log('mpc', this.nmpcUntiedFileName, this.nmpcUntiedPdfUrl);
+            break;
+          }
+        }
+      }
       console.log('result', result, reqBody);
-      this.mpcPdfUrl = result.data;
+
     });
   }
   viewHistory(template) {

@@ -28,7 +28,9 @@ export class GrantClaimsDialogComponent implements OnInit {
   showLoader;
   marked = false;
   reqBody;
-  claimsPdfUrl;
+  file_name= ''
+  file_url = ''
+  year;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<GrantClaimsDialogComponent>,
@@ -79,6 +81,9 @@ li {
   display: inline-block;
   font-size : 12px;
 }
+.pdf-icon {
+  vertical-align: middle !important;
+}
   </style>`;
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
@@ -86,7 +91,17 @@ li {
     this.userName = userData["name"];
     this.designation = userData['designation']
     this.stateId = userData['state']
+   switch(this.data.fy) {
+    case '606aadac4dff55e6c075c507': {
+       this.year= '2020-21';
+       break;
+    }
+    case '606aaf854dff55e6c075d219': {
+       this.year= '2021-22';
+       break;
+    }
 
+ }
   }
 
   closeDialog(){
@@ -97,34 +112,11 @@ li {
     this.marked= val.target.checked;
     console.log('check box', this.marked)
   }
+
   submitClaim() {
     console.log('this.data---', this.data)
-    this.reqBody = {
-      financialYear : this.data.fy,
-      state : this.stateId,
-      installment : this.data.ins,
-      type: this.data.grantType,
-      amountClaimed : this.data.amt
-    }
-
-    console.log('req body', this.reqBody);
-
     if(this.marked) {
-      this.grantClaimService.claimGrantCreate(this.reqBody).subscribe((res)=>{
-          console.log('submit responces..', res);
-          let responce: any = res;
-          this.data = {...this.data, res};
-          this.downloadAsPDF();
-          setTimeout(()=> {
-            this.dialogRef.close({ data: this.claimsPdfUrl })
-            swal('Saved', `${responce?.message}`, 'success');
-          }, 700)
-      },
-      (err)=>{
-        console.log('err', err)
-
-      })
-
+      this.downloadAsPDF();
     }
   }
   downloadAsPDF() {
@@ -161,14 +153,45 @@ li {
     document.body.appendChild(a);
 
    if(this.marked){
-    let pdfFile = this.blobToFile(blob,
-      `claimsGrant_${this.stateName}_${this.reqBody.financialYear}_${this.reqBody.type}_${this.reqBody.installment}.pdf`)
-    this.uploadFile(pdfFile)
-   }
+    let fileNameString = `claimsGrant_${this.stateName}_${this.year}_${this.data.grantType}_${this.data.ins}.pdf`
+    let pdfFile = this.blobToFile(blob, fileNameString)
+      this.file_name = fileNameString;
+      this.uploadFile(pdfFile);
+      setTimeout(()=> {
+        this.reqBody = {
+          financialYear : this.data.fy,
+          state : this.stateId,
+          installment : this.data.ins,
+          type: this.data.grantType,
+          amountClaimed : this.data.amt,
+          fileName : this.file_name,
+          fileUrl :  this.file_url
+        }
+        console.log('req body', this.reqBody);
+      this.grantClaimService.claimGrantCreate(this.reqBody).subscribe((res)=>{
+        console.log('submit responces..', res);
+        let responce: any = res;
+          let fileData = {
+            url: this.file_url,
+            name: this.file_name
+          }
+          this.dialogRef.close({ data: fileData })
+          swal('Saved', `${responce?.message}`, 'success');
+          a.href = url;
+          a.download = filename;
+          a.click();
+    },
+    (err)=>{
+      console.log('err', err)
 
+    });
+  }, 700)
+   }
+   if(!this.marked){
     a.href = url;
     a.download = filename;
     a.click();
+   }
     return url;
   }
 
@@ -205,8 +228,8 @@ li {
         (res) => {
           console.log('file res..', res)
           if (res.type === HttpEventType.Response) {
-            this.claimsPdfUrl = fileAlias;
-            console.log('pdf url', this.claimsPdfUrl);
+            this.file_url = fileAlias;
+            console.log('pdf url', this.file_url);
 
           }
         },
