@@ -28,10 +28,14 @@ export class GrantClaimsComponent implements OnInit {
   eligibility;
   mpcPdfUrl = '';
   mpcFileName = '';
-  nmpcTiedPdfUrl = '';
+  nmpcTiedPdfUrl_2 = '';
+  nmpcTiedPdfUrl_1 = '';
   nmpcTiedFileName = '';
-  nmpcUntiedPdfUrl = '';
+  nmpcUntiedPdfUrl_2 = '';
+  nmpcUntiedPdfUrl_1 = ''
   nmpcUntiedFileName = '';
+  status_nmpc_tied = 'Claim yet to be submitted.';
+  status_nmpc_untied = 'Claim yet to be submitted.';
   noDataFoundUrl ='https://democityfinanceapi.dhwaniris.in/objects/92f725fb-8b27-421a-8f16-ac71921efccb.pdf';
   constructor(
 
@@ -86,9 +90,47 @@ export class GrantClaimsComponent implements OnInit {
   }
   setFileUrl(claimInfo){
     if(claimInfo?.mpc?.data[0]?.fileUrl) this.mpcPdfUrl = claimInfo?.mpc?.data[0]?.fileUrl;
-    if(claimInfo?.nmpc_untied?.data[0]?.fileUrl) this.nmpcUntiedPdfUrl = claimInfo?.nmpc_untied?.data[0]?.fileUrl;
-    if(claimInfo?.nmpc_tied?.data[0]?.fileUrl) this.nmpcTiedPdfUrl = claimInfo?.nmpc_tied?.data[0]?.fileUrl;
-    console.log('setttttt', this.nmpcTiedPdfUrl)
+    if(claimInfo?.nmpc_untied?.data){
+      for(let item of claimInfo?.nmpc_untied?.data){
+        if(item.installment == '2'){
+          console.log('2 untied', item.installment)
+         this.nmpcUntiedPdfUrl_2 = item.fileUrl
+        }else {
+         this.status_nmpc_untied = "Claim yet to be submitted";
+         console.log('untied else 2')
+        }
+        if(item.installment == '1'){
+         this.nmpcUntiedPdfUrl_1 = item.fileUrl
+        }else {
+          // conditional message
+          this.status_nmpc_untied = "Claim yet to be submitted";
+          console.log('untied else 1')
+         }
+     }
+    }
+    if(claimInfo?.nmpc_tied?.data){
+      for(let item of claimInfo?.nmpc_tied?.data){
+        if(item.installment == '2'){
+          console.log('2 tied', item.installment)
+         this.nmpcTiedPdfUrl_2 = item.fileUrl
+        }else {
+          // conditional message
+          this.status_nmpc_tied = "Claim yet to be submitted";
+          console.log('tied else 2')
+         }
+       if(item.installment == '1'){
+         this.nmpcTiedPdfUrl_1 = item.fileUrl
+        }else {
+          // conditional message
+          this.status_nmpc_tied = "Claim yet to be submitted";
+          console.log('tied else 1')
+         }
+     }
+    }
+
+    // if(claimInfo?.nmpc_untied?.data[0]?.fileUrl) this.nmpcUntiedPdfUrl_2 = claimInfo?.nmpc_untied?.data[0]?.fileUrl;
+    // if(claimInfo?.nmpc_tied?.data[0]?.fileUrl) this.nmpcTiedPdfUrl = claimInfo?.nmpc_tied?.data[0]?.fileUrl;
+    console.log('setttttt', this.nmpcTiedPdfUrl_2)
   }
   checkFinancialYear(val) {
     //call api
@@ -130,15 +172,15 @@ export class GrantClaimsComponent implements OnInit {
             break;
           }
           case 'nmpc_tied': {
-            this.nmpcTiedPdfUrl = result.data.url;
+            this.nmpcTiedPdfUrl_2 = result.data.url;
             this.nmpcTiedFileName = result.data.name;
-            console.log('mpc', this.nmpcTiedFileName, this.nmpcTiedPdfUrl);
+            console.log('mpc', this.nmpcTiedFileName, this.nmpcTiedPdfUrl_2);
             break;
           }
           case 'nmpc_untied': {
-            this.nmpcUntiedPdfUrl = result.data.url;
+            this.nmpcUntiedPdfUrl_2 = result.data.url;
             this.nmpcUntiedFileName = result.data.name;
-            console.log('mpc', this.nmpcUntiedFileName, this.nmpcUntiedPdfUrl);
+            console.log('mpc', this.nmpcUntiedFileName, this.nmpcUntiedPdfUrl_2);
             break;
           }
         }
