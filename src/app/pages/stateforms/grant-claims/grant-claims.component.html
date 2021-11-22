@@ -53,9 +53,10 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr
-                                                    <a (click)="viewHistory(template, 'nmpc_tied', '1')">
-                                                        <span class="material-icons info-icon" style="">
+                                                    {{(nmpcTiedPdfUrl_1 == '') ? 'Claim Granted ' + claimsData?.nmpc_tied[0].amount + ' Cr.' : status_nmpc_tied}}
+                                                    <!-- Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr -->
+                                                    <a *ngIf="nmpcTiedPdfUrl_1 != ''" (click)="viewHistory(template, 'nmpc_tied', '1')">
+                                                        <span class="material-icons info-icon">
                                                             info
                                                         </span>
                                                     </a>
@@ -100,20 +101,25 @@
                                             </h4>
                                             <ul>
                                                 <li>
+                                                    <span *ngIf="nmpcTiedPdfUrl_2 == ''"> {{status_nmpc_tied}}</span>
+                                                    <span *ngIf="nmpcTiedPdfUrl_2 != ''">
                                                     Claim for grant submitted on {{claimsInformation?.nmpc_tied?.data[0].dates.submittedOn | date:'medium'}}
                                                     <a (click)="viewHistory(template, 'nmpc_tied', '2')">
-                                                        <span class="material-icons info-icon" style="">
-                                                            info
-                                                        </span>
+                                                      <span class="material-icons info-icon" style="">
+                                                          info
+                                                      </span>
                                                     </a>
+                                                    </span>
+
+
                                                 </li>
 
                                             </ul>
                                             <h4 style="font-size: 15px;
-                                            padding-left: 15px;" *ngIf="(nmpcTiedPdfUrl == '')">
+                                            padding-left: 15px;" *ngIf="(nmpcTiedPdfUrl_2 == '')">
                                                 Conditions:
                                             </h4>
-                                            <ul *ngIf="(nmpcTiedPdfUrl == '')">
+                                            <ul *ngIf="(nmpcTiedPdfUrl_2 == '')">
                                                 <li *ngFor="let condition of conditions_nmpc_second let i = index;">{{condition.text}}<b>
                                                   <!-- <span *ngIf="isNumber(condition?.achieved)">({{condition?.achieved}} % achieved)</span>
                                                   <span *ngIf="!isNumber(condition?.achieved)">({{condition?.tied ? 'Submited' : 'Not Submited'}})</span> -->
@@ -122,16 +128,16 @@
                                                 </b></li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <button type="button" (click)="CliamGrantBox('nmpc_tied', '2', claimsData?.nmpc_tied[1]?.amount)" [disabled]="!(eligibility?.nmpc_tied[1]?.eligible)" *ngIf="curr_finance_year && (nmpcTiedPdfUrl == '')" class="btn chip-btn">
+                                                <button type="button" (click)="CliamGrantBox('nmpc_tied', '2', claimsData?.nmpc_tied[1]?.amount)" [disabled]="!(eligibility?.nmpc_tied[1]?.eligible)" *ngIf="curr_finance_year && (nmpcTiedPdfUrl_2 == '')" class="btn chip-btn">
                                                     <span
                                                      matTooltip="Condition(s) not met"
                                                     [matTooltipDisabled]="(eligibility?.nmpc_tied[1]?.eligible) == ture"
                                                      matTooltipPosition="right">
-                                                    Claim Grant for INR {{claimsData?.nmpc_tied[1]?.amount}}Cr.
+                                                    Claim Grant for INR {{claimsData?.nmpc_tied[1]?.amount}} Cr.
                                                   </span>
 
                                               </button>
-                                                <a *ngIf="curr_finance_year && (nmpcTiedPdfUrl != '')" href="{{nmpcTiedPdfUrl}}" target="_blank" class="chip-btn">
+                                                <a *ngIf="curr_finance_year && (nmpcTiedPdfUrl_2 != '')" href="{{nmpcTiedPdfUrl_2}}" target="_blank" class="chip-btn">
                                                 View File
                                                </a>
                                                 <a [href]="(eligibility?.nmpc_tied[1]?.eligible) ? noDataFoundUrl :
@@ -189,8 +195,9 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr.
-                                                    <a (click)="viewHistory(template, 'nmpc_untied', '1')">
+                                                    {{(nmpcUntiedPdfUrl_1 == '') ? 'Claim Granted - INR ' + claimsData?.nmpc_untied[0].amount + ' Cr.' : status_nmpc_untied}}
+                                                    <!-- Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr. -->
+                                                    <a *ngIf="nmpcUntiedPdfUrl_1 != ''" (click)="viewHistory(template, 'nmpc_untied', '1')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
@@ -236,8 +243,10 @@
                                             </h4>
                                             <ul>
                                                 <li>
-                                                    Claim for grant submitted on {{claimsInformation?.nmpc_untied?.data[0].dates.submittedOn | date:'medium'}}
-                                                    <a (click)="viewHistory(template, 'nmpc_untied', '2')">
+                                                    <span *ngIf="nmpcUntiedPdfUrl_2 == ''">{{status_nmpc_untied}}</span>
+                                                    <span *ngIf="nmpcUntiedPdfUrl_2 != ''">Claim for grant submitted on {{claimsInformation?.nmpc_untied?.data[0].dates.submittedOn | date:'medium'}}</span>
+
+                                                    <a *ngIf="nmpcUntiedPdfUrl_2 != ''" (click)="viewHistory(template, 'nmpc_untied', '2')">
                                                         <span class="material-icons info-icon" style="">
                                                             info
                                                         </span>
@@ -246,23 +255,23 @@
 
                                             </ul>
                                             <h4 style="font-size: 15px;
-                                          padding-left: 15px;" *ngIf="(nmpcUntiedPdfUrl == '')">
+                                          padding-left: 15px;" *ngIf="(nmpcUntiedPdfUrl_2 == '')">
                                                 Conditions:
                                             </h4>
-                                            <ul *ngIf="(nmpcUntiedPdfUrl == '')">
+                                            <ul *ngIf="(nmpcUntiedPdfUrl_2 == '')">
                                                 <li *ngFor="let condition of conditions_nmpc_second">{{condition.text}}
                                                     <span> <b> ({{condition?.achieved ? condition?.achieved+'% achieved' : condition?.untied ? 'Submited' : 'Not Submited' }}) </b></span>
                                                 </li>
                                             </ul>
                                             <div class="col-md-12">
-                                                <button type="button" (click)="CliamGrantBox('nmpc_untied', '2', claimsData?.nmpc_untied[1]?.amount)" [disabled]="!(eligibility?.nmpc_untied[1]?.eligible)" *ngIf="curr_finance_year && (nmpcUntiedPdfUrl == '')" class="btn chip-btn">
+                                                <button type="button" (click)="CliamGrantBox('nmpc_untied', '2', claimsData?.nmpc_untied[1]?.amount)" [disabled]="!(eligibility?.nmpc_untied[1]?.eligible)" *ngIf="curr_finance_year && (nmpcUntiedPdfUrl_2 == '')" class="btn chip-btn">
                                                   <span matTooltip="Condition(s) not met"
                                                      [matTooltipDisabled]="(eligibility?.nmpc_untied[1]?.eligible) == true"
                                                      matTooltipPosition="right">
-                                                     Claim Grant for INR {{claimsData?.nmpc_untied[1].amount}}Cr.
+                                                     Claim Grant for INR {{claimsData?.nmpc_untied[1].amount}} Cr.
                                                     </span>
                                               </button>
-                                                <a *ngIf="curr_finance_year && (nmpcUntiedPdfUrl != '')" href="{{nmpcUntiedPdfUrl}}" target="_blank" class="chip-btn">
+                                                <a *ngIf="curr_finance_year && (nmpcUntiedPdfUrl_2 != '')" href="{{nmpcUntiedPdfUrl_2}}" target="_blank" class="chip-btn">
                                                 View File
                                                </a>
                                                 <a [href]="(eligibility?.nmpc_untied[1]?.eligible) ? noDataFoundUrl :
@@ -311,7 +320,20 @@
                             </h4>
                             <ul>
                                 <li>
+                                    <span *ngIf="mpcPdfUrl == ''">
+                                  Claim yet to be submitted.
+                                  </span>
+                                    <span *ngIf="mpcPdfUrl != ''">
                                     Claim for grant submitted on {{claimsInformation?.mpc?.data[0].dates.submittedOn | date:'medium'}}
+                                    <a  (click)="viewHistory(template, 'mpc', '2')">
+                                      <span class="material-icons info-icon" style="">
+                                          info
+                                      </span>
+                                    </a>
+
+                                    </span>
+
+
                                 </li>
                             </ul>
                             <h4 *ngIf="(mpcPdfUrl == '')" style="font-size: 15px;
@@ -329,7 +351,7 @@
                             <button type="button" (click)="CliamGrantBox('mpc', 'NA', claimsData?.mpc)" *ngIf="curr_finance_year && (mpcPdfUrl == '')" [disabled]="!(eligibility?.mpc)" class="btn chip-btn">
                               <span matTooltip="Condition(s) not met" [matTooltipDisabled]="(eligibility?.mpc) == true"
                               matTooltipPosition="right">
-                                Claim Grant for INR {{claimsData?.mpc}}Cr.
+                                Claim Grant for INR {{claimsData?.mpc}} Cr.
                               </span>
 
                             </button>
