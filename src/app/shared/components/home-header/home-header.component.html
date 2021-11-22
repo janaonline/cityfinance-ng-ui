@@ -1,15 +1,10 @@
 <nav class="navbar container-fluid navbar-1st-row" id="1stNavbarRow">
-    <div class="navbar-header" id="firstRowNavbar" style="flex: 1; display: flex; align-items: center">
-        <span [routerLink]="['/']" class="navbar-brand d-flex align-items-center indian-emblem-wrapper" style="outline: none">
-      <img
-        src="/assets/images/emblem-of-india.svg"
-        alt="Emblem of India"
-        srcset=""
-        class="indian-emblem"
-      />
+  <div class="navbar-header" id="firstRowNavbar" style="flex: 1; display: flex; align-items: center">
+    <span [routerLink]="['/']" class="navbar-brand d-flex align-items-center indian-emblem-wrapper"
+      style="outline: none">
+      <img src="/assets/images/emblem-of-india.svg" alt="Emblem of India" srcset="" class="indian-emblem" />
       &nbsp;&nbsp;Ministry of Housing and Urban Affairs &nbsp;
-      |&nbsp; Government of India</span
-    >
+      |&nbsp; Government of India</span>
 
     <ul class="nav navbar-nav login-and-profile">
       <!-- <li *ngIf="!isLoggedIn">
@@ -20,28 +15,16 @@
           >Login / Register
         </a>
       </li> -->
-      <li
-        routerLinkActive="active"
-        class="dropdown"
-        style="
+      <li routerLinkActive="active" class="dropdown" style="
           /* position: absolute;
           right: 5px;
           display: flex; */
           align-self: center;
           z-index: 8888;
-        "
-        *ngIf="isLoggedIn"
-      >
-        <a
-          class="dropdown-toggle"
-          data-toggle="dropdown"
-          role="button"
-          aria-haspopup="true"
-          aria-expanded="false"
-          style="padding: 6px 15px"
-        >
-          <i class="fa fa-user-circle" style="font-size: 2rem"></i>&nbsp;</a
-        >
+        " *ngIf="isLoggedIn">
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+          style="padding: 6px 15px">
+          <i class="fa fa-user-circle" style="font-size: 2rem"></i>&nbsp;</a>
         <div class="dropdown-menu" id="profileMenu">
           <div class="user-dropdown">
             <div class="user-avt" style="font-size: 3rem">
@@ -54,9 +37,7 @@
             <mat-divider></mat-divider>
             <mat-list dense>
               <ng-container *ngIf="canEditOwnProfile">
-                <mat-list-item [routerLink]="['user', 'profile', 'view']"
-                  >Profile</mat-list-item
-                >
+                <mat-list-item [routerLink]="['user', 'profile', 'view']">Profile</mat-list-item>
                 <mat-divider></mat-divider>
               </ng-container>
 
@@ -70,139 +51,83 @@
 </nav>
 
 <div class="navbar navbar-expand-lg nav-m container-fluid navbar-2nd-row">
-  <button
-    (click)="onClickingNavbarDropdown()"
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNavDropdown"
-    aria-controls="navbarNavDropdown"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
+  <button (click)="onClickingNavbarDropdown()" class="navbar-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+    aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-        </button>
+  </button>
 
-        <ol>
-            <li [routerLink]="['/']" class="navbar-brand d-b-lg">
-                <img src="/assets/images/cityfinance-logo.png" class="web-logo" alt="City Finance Logo" />
-            </li>
-        </ol>
-        <ul class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse" id="navbarNavDropdown" (click)="closeNavbar($event)">
-            <span class="sidebar-for-mobile" style="
+  <ol>
+    <li [routerLink]="['/']" class="navbar-brand d-b-lg">
+      <img src="/assets/images/cityfinance-logo.png" class="web-logo" alt="City Finance Logo" />
+    </li>
+  </ol>
+  <ul class="nav navbar-nav navbar-right nav-ul collapse navbar-collapse" id="navbarNavDropdown"
+    (click)="closeNavbar($event)">
+    <span class="sidebar-for-mobile" style="
         width: 65%;
         height: 100%;
         position: absolute;
         background-image: linear-gradient(to right, #095169, #059b9a);
       "></span>
-            <li [routerLink]="['/']" class="navbar-brand d-n-sm" style="position: absolute; left: 20px">
-                <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
-            </li>
-            <li>
-                <a routerLinkActive="active" routerLink="/home" (click)="closeSidebarMenu()">Home</a
-      >
+    <li [routerLink]="['/']" class="navbar-brand d-n-sm" style="position: absolute; left: 20px">
+      <img src="/assets/images/cityfinance-logo.png" class="web-logo" />
+    </li>
+    <li>
+      <a routerLinkActive="active" routerLink="/home" (click)="closeSidebarMenu()">Home</a>
     </li>
     <li id="analyticsDropdown" routerLinkActive="active" class="test">
       <span class="down-icon"></span>
-      <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-        (click)="navigateToAnalytics()"
-        id="id"
-        >Analytics
-        <i
-          class="fa fa-caret-down custom-fa"
-          style="margin-left: 1rem"
-          [ngClass]="{ 'rotate-180deg': showAnalyticsSubMenu }"
-          aria-hidden="true"
-        ></i>
+      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+        (click)="navigateToAnalytics()" id="id">Analytics
+        <i class="fa fa-caret-down custom-fa" style="margin-left: 1rem"
+          [ngClass]="{ 'rotate-180deg': showAnalyticsSubMenu }" aria-hidden="true"></i>
       </a>
-                <ul class="dropdown-menu dropdown-menu-left">
-                    <li style="width: auto" routerLinkActive="active" *ngFor="let tab of tabs" (click)="onClickingAnalyticsSubMenu($event)">
-                        <a [routerLink]="[tab.url]" class="analytics-sub-menu" (click)="onClickingAnalyticsSubMenu($event)">
-            {{ tab.name }}</a
-          >
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li style="width: auto" routerLinkActive="active" *ngFor="let tab of tabs"
+          (click)="onClickingAnalyticsSubMenu($event)">
+          <a [routerLink]="[tab.url]" class="analytics-sub-menu" (click)="onClickingAnalyticsSubMenu($event)">
+            {{ tab.name }}</a>
         </li>
       </ul>
     </li>
     <li class="dropdown">
-      <a
-        routerLinkActive="active"
-        routerLink="/financial-statement/report"
-        (click)="closeSidebarMenu()"
-        >Financial Statements</a
-      >
+      <a routerLinkActive="active" routerLink="/financial-statement/report" (click)="closeSidebarMenu()">Financial
+        Statements</a>
     </li>
     <li>
-      <a
-        [routerLink]="['/municipal-law']"
-        (click)="closeSidebarMenu()"
-        routerLinkActive="active"
-        >Municipal Laws</a
-      >
+      <a [routerLink]="['/municipal-law']" (click)="closeSidebarMenu()" routerLinkActive="active">Municipal Laws</a>
     </li>
     <li class="d-n-sm">
-      <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
+      <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
         [ngClass]="{
           active:
             isCreditRatingActive || isMunicipalBondActive || isResourceTabActive
-        }"
-        >Borrowings
+        }">Borrowings
       </a>
-                        <ul class="dropdown-menu dropdown-menu-left">
-                            <li>
-                                <a routerLink="/borrowings/municipal-bond" routerLinkActive="active" (click)="closeSidebarMenu()">Municipal Bonds</a
-          >
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li>
+          <a routerLink="/borrowings/municipal-bond" routerLinkActive="active" (click)="closeSidebarMenu()">Municipal
+            Bonds</a>
         </li>
         <li>
-          <a
-            routerLink="/borrowings/credit-rating"
-            routerLinkActive="active"
-            (click)="closeSidebarMenu()"
-            >Credit Rating</a
-          >
+          <a routerLink="/borrowings/credit-rating" routerLinkActive="active" (click)="closeSidebarMenu()">Credit
+            Rating</a>
         </li>
         <li>
-          <a
-            routerLinkActive="active"
-            routerLink="/borrowings/resources"
-            (click)="closeSidebarMenu()"
-            >Resources</a
-          >
+          <a routerLinkActive="active" routerLink="/borrowings/resources" (click)="closeSidebarMenu()">Resources</a>
         </li>
       </ul>
     </li>
-  <li class="d-b-lg-menu">
-      <a
-        routerLinkActive="active"
-        routerLink="/borrowings/municipal-bond"
-        (click)="closeSidebarMenu()"
-        >Municipal Bonds</a
-      >
+    <li class="d-b-lg-menu">
+      <a routerLinkActive="active" routerLink="/borrowings/municipal-bond" (click)="closeSidebarMenu()">Municipal
+        Bonds</a>
     </li>
     <li class="d-b-lg-menu">
-      <a
-        routerLinkActive="active"
-        routerLink="/borrowings/credit-rating"
-        (click)="closeSidebarMenu()"
-        >Credit Rating</a
-      >
+      <a routerLinkActive="active" routerLink="/borrowings/credit-rating" (click)="closeSidebarMenu()">Credit Rating</a>
     </li>
     <li class="d-b-lg-menu">
-      <a
-        routerLinkActive="active"
-        routerLink="/borrowings/resources"
-        (click)="closeSidebarMenu()"
-        >Resource</a
-      >
+      <a routerLinkActive="active" routerLink="/borrowings/resources" (click)="closeSidebarMenu()">Resource</a>
     </li>
 
     <!-- <li routerLinkActive="active">
@@ -211,34 +136,34 @@
                             <li routerLinkActive="active">
                                 <a [routerLink]="['/borrowings/municipal-bond']"> Municipal Bonds</a>
                             </li> -->
-                            <li *ngIf="isLoggedIn ? canViewFcGRantModule : true" style="background: #02dd76 !important">
-                                <a routerLinkActive="active" routerLink="/fc-home-page" (click)="closeSidebarMenu()">
-                                    <img src="/assets/images/new.png" alt="New" class="new" /> 15
-                                    <sup style="text-transform: capitalize">th</sup> FC Grants
-                                </a>
+    <li *ngIf="isLoggedIn ? canViewFcGRantModule : true" style="background: #02dd76 !important">
+      <a routerLinkActive="active" routerLink="/fc-home-page" (click)="closeSidebarMenu()">
+        <img src="/assets/images/new.png" alt="New" class="new" /> 15
+        <sup>th</sup> FC Grants
+      </a>
 
-                            </li>
-                            <li routerLinkActive="active" class="d-n-sm">
-                                <a [routerLink]="['/questionnaires/list']" [ngClass]="{ active: isQuestionnaireActive }" *ngIf="
+    </li>
+    <li routerLinkActive="active" class="d-n-sm">
+      <a [routerLink]="['/questionnaires/list']" [ngClass]="{ active: isQuestionnaireActive }" *ngIf="
           isLoggedIn
             ? canViewQuestionnaireList || canViewQuestionnaireForm
             : true
         ">
         Questionnaire
       </a>
-                            </li>
-                            <li routerLinkActive="active">
-                                <a [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)">
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/user/list/ULB']" *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)">
         Users
       </a>
-                            </li>
-                            <!-- <li *ngIf="isLoggedIn && canViewUploadData">
+    </li>
+    <!-- <li *ngIf="isLoggedIn && canViewUploadData">
       <a [routerLink]="['user', 'data-upload', 'list']" class="pointer"
         >Data upload</a
       >
     </li> -->
 
-                            <!-- <li
+    <!-- <li
       routerLinkActive="active"
       class="dropdown"
       style="
@@ -291,5 +216,5 @@
         </div>
       </div>
     </li> -->
-                        </ul>
-    </div>
+  </ul>
+</div>
