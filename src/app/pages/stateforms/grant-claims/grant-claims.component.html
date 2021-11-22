@@ -103,7 +103,7 @@
                                                 <li>
                                                     <span *ngIf="nmpcTiedPdfUrl_2 == ''"> {{status_nmpc_tied}}</span>
                                                     <span *ngIf="nmpcTiedPdfUrl_2 != ''">
-                                                    Claim for grant submitted on {{claimsInformation?.nmpc_tied?.data[0].dates.submittedOn | date:'medium'}}
+                                                    Claim for grant submitted on {{claimsInformation?.nmpc_tied?.data[0].dates.submittedOn | date:'medium':'GMT'}}
                                                     <a (click)="viewHistory(template, 'nmpc_tied', '2')">
                                                       <span class="material-icons info-icon" style="">
                                                           info
@@ -244,7 +244,8 @@
                                             <ul>
                                                 <li>
                                                     <span *ngIf="nmpcUntiedPdfUrl_2 == ''">{{status_nmpc_untied}}</span>
-                                                    <span *ngIf="nmpcUntiedPdfUrl_2 != ''">Claim for grant submitted on {{claimsInformation?.nmpc_untied?.data[0].dates.submittedOn | date:'medium'}}</span>
+                                                    <span *ngIf="nmpcUntiedPdfUrl_2 != ''">
+                                                      Claim for grant submitted on {{claimsInformation?.nmpc_untied?.data[0].dates.submittedOn | date:'medium':'GMT' }}</span>
 
                                                     <a *ngIf="nmpcUntiedPdfUrl_2 != ''" (click)="viewHistory(template, 'nmpc_untied', '2')">
                                                         <span class="material-icons info-icon" style="">
@@ -324,7 +325,7 @@
                                   Claim yet to be submitted.
                                   </span>
                                     <span *ngIf="mpcPdfUrl != ''">
-                                    Claim for grant submitted on {{claimsInformation?.mpc?.data[0].dates.submittedOn | date:'medium'}}
+                                    Claim for grant submitted on {{claimsInformation?.mpc?.data[0].dates.submittedOn | date:'medium':'GMT'}}
                                     <a  (click)="viewHistory(template, 'mpc', '2')">
                                       <span class="material-icons info-icon" style="">
                                           info
@@ -408,7 +409,7 @@
                         <div *ngIf="claimSubmitDate == ''">Pending</div>
                     </td>
                     <td>
-                        <div *ngIf="claimSubmitDate != ''">{{claimSubmitDate | date:'medium'}}</div>
+                        <div *ngIf="claimSubmitDate != ''">{{claimSubmitDate | date:'medium':'GMT'}}</div>
                         <div *ngIf="claimSubmitDate == ''">Pending</div>
 
                     </td>
