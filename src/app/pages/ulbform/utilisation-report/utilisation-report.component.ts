@@ -534,7 +534,7 @@ export class UtilisationReportComponent implements OnInit {
       this.projectExp !=
       (Number(this.utilizationReport.controls.grantPosition.value.expDuringYr)).toFixed(2)
     ) {
-      this.isSumEqual = true;
+      this.isSumEqual = false;
     } else {
       this.isSumEqual = false;
     }
@@ -642,7 +642,7 @@ export class UtilisationReportComponent implements OnInit {
       ((this.projectExpTotal) !=
         String(this.utilizationReport.controls.grantPosition.value.expDuringYr)
       )) {
-      this.isSumEqual = true;
+      this.isSumEqual = false;
     } else {
       this.isSumEqual = false;
     }
