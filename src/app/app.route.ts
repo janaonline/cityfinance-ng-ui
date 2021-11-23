@@ -17,10 +17,7 @@ export const appRouter: Routes = [
         (m) => m.AnalyticsModule
       ),
   },
-  // {
-  //   path: "resources",
-  //   loadChildren: "./pages/resources/public-files.module#PublicFilesModule"
-  // },
+
   {
     path: "fc_grant",
     loadChildren: () =>
@@ -52,13 +49,7 @@ export const appRouter: Routes = [
         (m) => m.MohuaformModule
       ),
   },
-  // {
-  //   path: "ulbAdmin",
-  //   loadChildren: () =>
-  //     import("./pages/ulb-admin/ulb-admin.module").then(
-  //       (m) => m.UlbAdminModule
-  //     ),
-  // },
+
   {
     path: "questionnaires",
     loadChildren: () =>
