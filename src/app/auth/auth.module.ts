@@ -15,6 +15,7 @@ import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
 import { StatisticsComponent } from './statistics/statistics.component';
 
+
 @NgModule({
   imports: [
     CommonModule,

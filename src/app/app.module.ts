@@ -35,6 +35,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { NewHomeComponent } from "./auth/new-home/new-home.component";
 
 
 @NgModule({
@@ -89,7 +90,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MapSectionComponent,
     HeatMapComponent,
     UlbNotRegisteredComponent,
-
+    NewHomeComponent
     // InrCurrencyPipe,
   ],
   exports: [],

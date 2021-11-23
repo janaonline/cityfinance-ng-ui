@@ -2,6 +2,7 @@ import { ModuleWithProviders } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { HomeComponent } from "./auth/home/home.component";
+import { NewHomeComponent } from "./auth/new-home/new-home.component";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
@@ -10,6 +11,8 @@ export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
   { path: "home", component: HomeComponent },
+  { path: "newhome", component: NewHomeComponent },
+
   {
     path: "analytics",
     loadChildren: () =>
