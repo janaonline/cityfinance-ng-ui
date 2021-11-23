@@ -115,9 +115,6 @@ import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.c
     ActionComponentComponent,
     PageLayoutComponent,
     NHomeHeaderComponent,
-
-
-
   ],
   exports: [
     FormsModule,
@@ -146,7 +143,8 @@ import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.c
     FcSlbComponent,
     CommFileUploadComponent,
     ActionComponentComponent,
-    PageLayoutComponent
+    PageLayoutComponent,
+    NHomeHeaderComponent,
 
   ],
   providers: [FinancialDataService],
