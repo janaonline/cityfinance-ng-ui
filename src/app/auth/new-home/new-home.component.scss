@@ -1,10 +1,10 @@
 .container-fluid {
-    padding: 0;
+    padding-left: 0;
 }
 
 .wrap-bg {
     background-image: url('../../../assets/new_dashBord_ftr_hdr/landingBg.png');
-    padding: 4% 2%;
+    padding: 4% 2% 15% 2%;
 }
 
 .city {
@@ -17,4 +17,163 @@
     font: normal normal normal 65px/56px Cabin;
     letter-spacing: 0px;
     color: #FFFFFF;
+}
+
+.ds-i-div {
+    margin-top: 3rem;
+}
+
+.ds-info {
+    font: normal normal 500 26px/41px 'Montserrat';
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.filter-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    display: inline-block;
+}
+
+.rec-text {
+    text-align: center;
+    font: normal normal normal 13px/49px Archivo;
+    letter-spacing: 0px;
+    color: #E2EEFF;
+    opacity: 1;
+}
+
+.ser-chip {
+    background: #1C3555 0% 0% no-repeat padding-box;
+    border: 1px solid #5C94D9;
+    border-radius: 40px;
+    opacity: 0.57;
+    padding: 4px 18px;
+    margin-left: 15px;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.g-filter-d {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 21px #5A5A5A31;
+    border-radius: 12px;
+    opacity: 1;
+    padding: 8px;
+    margin-top: 4rem;
+}
+
+.lnd-btn {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #FFDAA8;
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 8px 18px;
+    opacity: 1;
+}
+
+.fl-input {
+    width: 100%;
+    padding: 9px;
+    border: none;
+}
+
+.fl-input:focus-visible {
+    border: none;
+    outline-color: transparent;
+}
+
+.sl-text {
+    text-align: center;
+    font: normal normal 500 15px/24px Montserrat;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+    margin-bottom: 1rem;
+}
+
+.sl-name {
+    text-align: center;
+    font: normal normal 700 14px/22px Montserrat;
+    letter-spacing: 0px;
+    color: #FCB23C;
+    opacity: 1;
+    margin-bottom: 1rem;
+}
+
+.sl-des {
+    text-align: center;
+    font: normal normal 500 12px/17px Montserrat;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+    margin-bottom: 1rem;
+}
+
+.prim-img {
+    position: relative;
+    bottom: 69px;
+}
+
+.cr-text {
+    width: 50%;
+}
+
+.p-t {
+    position: relative;
+    bottom: 78px;
+}
+
+::ng-deep .m-indi {
+    .carousel-indicators {
+        bottom: -60px;
+    }
+}
+
+::ng-deep .carousel-control.left,
+::ng-deep .carousel-control.right {
+    display: none;
+}
+
+.w-new {
+    font: normal normal bold 30px/28px Archivo;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.wrap-card {
+    position: relative;
+    top: -160px;
+}
+
+.new-card-text {
+    padding: 0 10%;
+}
+
+.card-d {
+    padding: 2rem 10%;
+}
+
+.new-card {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 20px #4E4E4E29;
+    border: 1px solid #F4F4F4;
+    border-radius: 12px;
+    opacity: 1;
+    // width: 337px;
+    height: 240px;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 3rem;
+}
+
+.new-card-l {
+    font: normal normal bold 16px/24px Archivo;
+    letter-spacing: 0px;
+    color: #262831;
+    opacity: 1;
+    padding: 5px;
 }

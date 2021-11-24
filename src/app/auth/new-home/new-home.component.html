@@ -1,16 +1,81 @@
 <div class="container-fluid">
 
     <div class="row wrap-bg">
-
         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-            <div>
+            <div class="ds-i-c">
                 <span class="city">city</span>
                 <span class="fy">finance.in</span>
             </div>
-            <div></div>
-            <div></div>
+            <div class="ds-i-div">
+                <span class="ds-info">Standardised, timely and credible financial information on cities of India</span>
+            </div>
+            <div class="g-filter-d">
+                <form class="filter-form">
+                    <input type="text" placeholder="Search for a street" [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
+                            {{street}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </form>
+                <div style="display: inline-block; float: right;">
+                    <button type="button" class="btn lnd-btn">Search</button>
+                </div>
+
+            </div>
+            <div class="rce-s-div">
+                <span class="rec-text">Recently Searched:</span>
+                <span class="ser-chip">
+                 <span class="rec-text">Mumbai</span>
+
+                </span>
+                <span class="ser-chip">
+                 <span class="rec-text">Gujrat</span>
+                </span>
+                <span class="ser-chip">
+
+                 <span class="rec-text">Agra</span>
+
+                </span>
+            </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12"></div>
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+            <div class="images" style="text-align: -webkit-center;">
+                <carousel [interval]="myInterval" [isAnimated]="true" (activeSlideChange)="carouselClass($event)" [ngClass]='{"p-indi": p_indi, "m-indi": m_indi}'>
+                    <slide *ngFor="let slide of slides; let index=index">
+                        <img [src]="slide.image" alt="image slide" style="display: block;" [ngClass]="slide.class">
+
+                        <div class="cr-text" [ngClass]="slide.textCls">
+                            <div class="sl-text">{{slide.text}}</div>
+                            <div class="sl-name">{{slide.name}}</div>
+                            <div class="sl-des">{{slide.designation}}</div>
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
+        </div>
+    </div>
+    <div class="row wrap-card">
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="new-card-text">
+                <h3 class="w-new">What’s New (12)</h3>
+            </div>
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="card-d">
+                <div class="card new-card" *ngFor="let item of whatNewData; let index=index">
+                    <img class="card-img-top" [src]="item.image" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text new-card-l">{{item.label}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
     </div>
 
 
