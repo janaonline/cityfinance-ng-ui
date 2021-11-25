@@ -215,7 +215,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
 
   }
 
@@ -298,6 +298,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
             this.wm.push(el)
           }
         })
+        this.setcategoryData(res);
         if (!("_id" in res)) {
 
           this.utilizationReport.value["blankForm"] = true;
@@ -367,6 +368,14 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
 
 
   }
+  setcategoryData(res) {
+    res.categoryWiseData_swm.forEach((swm_project) => {
+      this.addSwmRow(swm_project);
+    })
+    res.categoryWiseData_wm.forEach((wm_project) => {
+      this.addWmRow(wm_project);
+    })
+  }
 
   private preFilledData(res) {
     // this.editable = res.isDraft;
@@ -375,12 +384,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
     res.projects.forEach((project) => {
       this.addPreFilledRow(project);
     });
-    res.categoryWiseData_swm.forEach((swm_project)=> {
-      this.addSwmRow(swm_project);
-    })
-    res.categoryWiseData_wm.forEach((wm_project)=> {
-      this.addWmRow(wm_project);
-    })
+
     switch (this.userLoggedInDetails.role) {
       case USER_TYPE.STATE:
       case USER_TYPE.PARTNER:
@@ -900,20 +904,20 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
   addSwmRow(data) {
     this.tabelRows_SWMcategory.push(
       this.fb.group({
-        category_name: [data.category_name, Validators.required],
-        grantUtilised: [data.grantUtilised, Validators.required],
-        numberOfProjects: [data.numberOfProjects, Validators.required],
-        totalProjectCost: [data.totalProjectCost, Validators.required],
+        category_name: [data?.category_name, Validators.required],
+        grantUtilised: [data?.grantUtilised, Validators.required],
+        numberOfProjects: [data?.numberOfProjects, Validators.required],
+        totalProjectCost: [data?.totalProjectCost, Validators.required],
       }),
     );
   }
   addWmRow(data) {
     this.tabelRows_WMcategory.push(
       this.fb.group({
-        category_name: [data.category_name, Validators.required],
-        grantUtilised: [data.grantUtilised, Validators.required],
-        numberOfProjects: [data.numberOfProjects, Validators.required],
-        totalProjectCost: [data.totalProjectCost, Validators.required],
+        category_name: [data?.category_name, Validators.required],
+        grantUtilised: [data?.grantUtilised, Validators.required],
+        numberOfProjects: [data?.numberOfProjects, Validators.required],
+        totalProjectCost: [data?.totalProjectCost, Validators.required],
       }),
     );
   }
