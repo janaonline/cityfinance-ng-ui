@@ -52,8 +52,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MpfcListComponent } from './state-dashboard/mpfc-list/mpfc-list.component';
 import { NonMillionListComponent } from './state-dashboard/non-million-list/non-million-list.component';
-import { GrantClaimComponent } from './grant-claim/grant-claim.component';
-
+import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
+import {MatChipsModule} from '@angular/material/chips';
+import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/grant-claims-dialog.component';
 @NgModule({
   entryComponents: [OverallListComponent],
   providers: [CircleProgressOptions],
@@ -92,7 +93,8 @@ import { GrantClaimComponent } from './grant-claim/grant-claim.component';
     StateAllPreviewComponent,
     MpfcListComponent,
     NonMillionListComponent,
-    GrantClaimComponent,
+    GrantClaimsComponent,
+    GrantClaimsDialogComponent,
 
 
   ],
@@ -119,7 +121,8 @@ import { GrantClaimComponent } from './grant-claim/grant-claim.component';
     ButtonsModule.forRoot(),
     NgCircleProgressModule,
     MatCardModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
 
   ]
 })

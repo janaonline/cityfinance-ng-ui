@@ -55,6 +55,7 @@ import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/st
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ActionComponentComponent } from './components/action-component/action-component.component';
 import { PageLayoutComponent } from '../shared/components/page-layout/page-layout.component';
+import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.component';
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { PageLayoutComponent } from '../shared/components/page-layout/page-layou
     CommFileUploadComponent,
     ActionComponentComponent,
     PageLayoutComponent,
+    NHomeHeaderComponent,
 
 
 
