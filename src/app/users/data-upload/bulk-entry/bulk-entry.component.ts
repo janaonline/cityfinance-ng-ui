@@ -13,7 +13,7 @@ import { DataEntryService } from '../../../dashboard/data-entry/data-entry.servi
 })
 export class BulkEntryComponent implements OnInit {
   submitted = false;
-  years: string[] = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20"];
+  years: string[] = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
   bulkEntryForm: FormGroup;
   filesToUpload: Array<File> = [];
 
@@ -42,7 +42,7 @@ export class BulkEntryComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dataEntryService: DataEntryService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.bulkEntryForm = this.formBuilder.group({

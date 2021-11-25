@@ -80,10 +80,18 @@ export class UtilisationReportComponent implements OnInit {
 
     this.designYear = yearId["2021-22"];
     this.financialYear = yearId["2020-21"];
+    this.swm_categories = this.categories.filter(category => !['Rejuvenation of Water Bodies', 'Drinking Water', 'Rainwater Harvesting', 'Water Recycling'].includes(category.name));
+    this.wm_categories = this.categories.filter(category => !['Sanitation', 'Solid Waste Management'].includes(category.name));
+
     this.initializeUserType();
     this.fetchStateList();
     this.initializeLoggedInUserDataFetch();
+    let i = 0;
+    for (let el of this.utilizationReport['controls']['categoryWiseData_swm']['controls']) {
 
+      el.controls.category_name.value = this.swm_categories[i].name
+      i++;
+    }
     this.navigationCheck();
   }
 
@@ -120,7 +128,8 @@ export class UtilisationReportComponent implements OnInit {
   isDraft = null;
   ulbId = null;
   actionRes;
-
+  wm_categories;
+  swm_categories;
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.states = {};
@@ -168,12 +177,21 @@ export class UtilisationReportComponent implements OnInit {
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
       //  console.log('res', resdata);
+
+      // console.log(this.utilizationReport['controls'])
+      // console.log(this.utilizationReport['controls']['categoryWiseData_swm'])
+      // console.log(this.utilizationReport['controls']['categoryWiseData_swm']['controls'])
+
+      console.log(this.utilizationReport.controls.categoryWiseData_swm)
+      console.log('swm categories', this.swm_categories)
+      console.log('wm categories', this.wm_categories)
       this.categories = this.categories.sort((a, b) =>
         a.name.localeCompare(b.name)
       );
     });
+
     let form_data = JSON.parse(sessionStorage.getItem("allStatus"));
-    console.log("form-data", form_data.utilReport);
+    console.log("form-data and this.utilizationReport", form_data.utilReport, this.utilizationReport);
     let form_status = form_data.utilReport.isSubmit;
     console.log("stat", form_status);
     if (form_status == null) {
@@ -300,6 +318,8 @@ export class UtilisationReportComponent implements OnInit {
           designation: res["designation"],
           grantPosition: res["grantPosition"],
           name: res["name"],
+          categoryWiseData_swm: res["categoryWiseData_swm"],
+          categoryWiseData_wm: res["categoryWiseData_wma"],
           projects: res["projects"],
           grantType: res["grantType"],
         };
@@ -464,28 +484,33 @@ export class UtilisationReportComponent implements OnInit {
         expDuringYr: new FormControl(0, Validators.required),
         closingBal: [],
       }),
-      projects: this.fb.array([
-        // this.fb.group({
-        //   category: [null, Validators.required],
-        //   name: ["", [Validators.maxLength(50), Validators.required]],
-        //   // description: ["", [Validators.maxLength(200), Validators.required]],
-        //   // // 'imgUpload' : new FormControl(''),
-        //   // photos: this.fb.array([
-        //   //   // this.fb.group({
-        //   //   //   url: ['']
-        //   //   // })
-        //   // ]),
-        //   // capacity: ["", Validators.required],
-        //   location: this.fb.group({
-        //     lat: ["", Validators.required],
-        //     long: ["", Validators.required],
-        //   }),
-
-        //   cost: ["", Validators.required],
-        //   expenditure: ["", Validators.required],
-        //   // name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        // }),
+      categoryWiseData_swm: this.fb.array([
+        this.fb.group({
+          category_name: ["", Validators.required],
+          grantUtilised: ["", Validators.required],
+          numberOfProjects: ["", Validators.required],
+          totalProjectCost: ["", Validators.required],
+        }),
+        this.fb.group({
+          category_name: ["", Validators.required],
+          grantUtilised: ["", Validators.required],
+          numberOfProjects: ["", Validators.required],
+          totalProjectCost: ["", Validators.required],
+        }),
       ]),
+      categoryWiseData_wm: this.fb.array([
+        this.fb.group({
+          category_name: ["", Validators.required],
+          grantUtilised: ["", Validators.required],
+          numberOfProjects: ["", Validators.required],
+          totalProjectCost: ["", Validators.required],
+        }),
+      ]),
+      projects: this.fb.array([
+
+      ]),
+
+
       status: [""],
       name: ["", [Validators.required, Validators.maxLength(50)]],
       designation: ["", [Validators.required, Validators.maxLength(50)]],
@@ -519,6 +544,12 @@ export class UtilisationReportComponent implements OnInit {
   }
   get tabelRows() {
     return this.utilizationReport.get("projects") as FormArray;
+  }
+  get tabelRows_SWMcategory() {
+    return this.utilizationReport.get("categoryWiseData_swm") as FormArray;
+  }
+  get tabelRows_WMcategory() {
+    return this.utilizationReport.get("categoryWiseData_wm") as FormArray;
   }
   calAmount(setFormControl, event) {
 
