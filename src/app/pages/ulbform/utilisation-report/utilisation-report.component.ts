@@ -369,12 +369,16 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
 
   }
   setcategoryData(res) {
-    res.categoryWiseData_swm.forEach((swm_project) => {
-      this.addSwmRow(swm_project);
-    })
-    res.categoryWiseData_wm.forEach((wm_project) => {
-      this.addWmRow(wm_project);
-    })
+    if(res?.categoryWiseData_swm){
+      res.categoryWiseData_swm.forEach((swm_project) => {
+        this.addSwmRow(swm_project);
+      })
+    }
+    if(res?.categoryWiseData_wm){
+      res?.categoryWiseData_wm.forEach((wm_project) => {
+        this.addWmRow(wm_project);
+      })
+    }
   }
 
   private preFilledData(res) {
