@@ -18,6 +18,10 @@ export class NewHomeComponent implements OnInit {
   activeSlideIndex = false;
   p_indi = true;
   m_indi = false;
+  itemsPerSlide = 3;
+  singleSlideOffset = false;
+  noWrap = false;
+
   slides = [
     {
       image: '../../../assets/new_dashBord_ftr_hdr/modiji/Group 15517.png',
@@ -57,8 +61,8 @@ export class NewHomeComponent implements OnInit {
       fileName: '',
       label: 'Municipal Performance Index',
       text: ''
+    }
 
-    },
 
   ];
 

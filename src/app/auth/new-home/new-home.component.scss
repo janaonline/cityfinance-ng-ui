@@ -133,9 +133,24 @@
     }
 }
 
-::ng-deep .carousel-control.left,
-::ng-deep .carousel-control.right {
+::ng-deep .images .carousel-control.left,
+::ng-deep .images .carousel-control.right {
     display: none;
+}
+
+::ng-deep .carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    background: #85ACE2 0% 0% no-repeat padding-box;
+}
+
+::ng-deep .carousel-indicators .active {
+    background: #F2991F 0% 0% no-repeat padding-box;
+    opacity: 1;
+    width: 12px;
+    height: 12px;
+    box-shadow: 0px 3px 6px #FFBD8D;
+    border: 1px solid #F4AB77;
 }
 
 .w-new {
@@ -176,4 +191,10 @@
     color: #262831;
     opacity: 1;
     padding: 5px;
+}
+
+::ng-deep .card-d {
+    .carousel-indicators {
+        bottom: -60px;
+    }
 }
