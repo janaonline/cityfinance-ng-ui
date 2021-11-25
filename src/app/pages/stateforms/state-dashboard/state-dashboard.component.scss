@@ -1,41 +1,30 @@
-.card {
-    height: 120px;
-    // width: 267px;
-    background-color: #12505A;
-    border-radius: 5px;
-    margin-right: 2%;
+@import "./src/scss/functions";
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+
+.indicator{
+    background: $primary;
+
+    &:hover {
+        @include box-shadow($box-shadow);
+        @include transition($transition-base);
+        margin-top: -3px;
+        background: $tertiary;
+    }
+    .card-number {
+        color: $white;
+        font-size: $font-size-lg;
+        font-weight: 450;
+    }
+    
+    .card-text {
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 5px;
+        margin-left: 3px;
+    }
 }
 
-.card:hover {
-    box-shadow: 4px 4px 10px 3px #c7c7c7;
-    margin-top: -3px;
-    background-color: #083d44;
-    // width:269px;
-    height: 123px;
-    transition: height;
-    transition-duration: 150ms;
-    transition-timing-function: linear;
-}
-
-.cards {
-    display: flex;
-    justify-content: space-around;
-}
-
-.card-number {
-    color: #ffffff;
-    font-size: 32px;
-    margin-top: 30px;
-    margin-right: 30px;
-    font-weight: 450;
-}
-
-.card-text {
-    color: #ffffff;
-    font-size: 14px;
-    margin-top: 5px;
-    margin-left: 3px;
-}
 
 .search-bar {
     border: 1px solid #0000001A;

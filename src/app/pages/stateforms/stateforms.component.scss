@@ -1,8 +1,7 @@
 .sidebar {
-    margin-top: 1px;
-    width: 18%;
-    padding-left: 15px;
-    padding-right: 3px;
+    // margin-top: 1px;
+    // padding-left: 15px;
+    // padding-right: 3px;
     height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -78,7 +77,7 @@ div.active {
 
 .link-div-u {
     background-color: #DCDCDC;
-    padding-left: 3rem;
+    padding-left: 1rem;
 }
 
 .linktext-u {
@@ -133,7 +132,7 @@ div.active {
 .pull-right {
     margin-top: 9px;
     width: 14px;
-    margin-right: .5rem;
+    // margin-right: .5rem;
 }
 
 ::ng-deep .tooltip {
