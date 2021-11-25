@@ -47,54 +47,40 @@ export class NewHomeComponent implements OnInit {
   ];
   whatNewData = [
     {
-      slide: [
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
-          fileName: "",
-          label: "Digital Property Tax Toolkit",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
-          fileName: "",
-          label: "XV FC Report for 2020-21",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
-          fileName: "",
-          label: "Municipal Performance Index",
-          text: "",
-        },
-      ],
+      image:"../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      fileName: "",
+      label: "Digital Property Tax Toolkit",
+      text: "",
     },
     {
-      slide: [
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
-          fileName: "",
-          label: "Digital Property Tax Toolkit",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
-          fileName: "",
-          label: "XV FC Report for 2020-21",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
-          fileName: "",
-          label: "Municipal Performance Index",
-          text: "",
-        },
-      ],
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
+      fileName: "",
+      label: "XV FC Report for 2020-21",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      fileName: "",
+      label: "Municipal Performance Index",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      fileName: "",
+      label: "Municipal Performance Index",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      fileName: "",
+      label: "Municipal Performance Index",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      fileName: "",
+      label: "Digital Property Tax Toolkit",
+      text: "",
     },
   ];
 
@@ -103,6 +89,7 @@ export class NewHomeComponent implements OnInit {
       startWith(""),
       map((value) => this._filter(value))
     );
+
   }
   private _filter(value: string): string[] {
     // console.log('value', value)
@@ -127,5 +114,61 @@ export class NewHomeComponent implements OnInit {
       this.m_indi = true;
       this.p_indi = false;
     }
+  }
+
+  slideConfig = {
+    "slidesToShow": 3,
+    "slidesToScroll": 3,
+    "dots": true,
+    "infinite": false,
+    "autoplay" : true,
+    "autoplaySpeed" : 2000,
+    "responsive": [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 680,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
+
+
+  removeSlide() {
+    this.slides.length = this.slides.length - 1;
+  }
+
+  slickInit(e) {
+    console.log('slick initialized');
+  }
+
+  breakpoint(e) {
+    console.log('breakpoint');
+  }
+
+  afterChange(e) {
+    console.log('afterChange');
+  }
+
+  beforeChange(e) {
+    console.log('beforeChange');
   }
 }

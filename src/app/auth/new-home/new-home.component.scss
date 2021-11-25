@@ -198,3 +198,27 @@
         bottom: -60px;
     }
 }
+
+.slick-wrapper {
+    width: 1000px;
+    margin: 20px auto;
+}
+
+::ng-deep .slick-prev:before,
+::ng-deep .slick-next:before {
+    color: black !important;
+}
+
+.slide {
+    margin-right: 1rem;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 20px #4E4E4E29;
+    border: 1px solid #F4F4F4;
+    border-radius: 12px;
+    opacity: 1;
+    padding: 8px;
+}
+
+.card-img {
+    // margin-left: 5px;
+}

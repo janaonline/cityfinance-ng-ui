@@ -56,13 +56,13 @@
     <div class="row wrap-card">
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="new-card-text">
-                <h3 class="w-new">What’s New (12)</h3>
+                <h3 class="w-new">What’s New ({{whatNewData.length}})</h3>
             </div>
 
         </div>
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="card-d">
-                <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="!noWrap" [interval]="0" [startFromIndex]="0">
+                <!-- <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="!noWrap" [interval]="0" [startFromIndex]="0">
                     <slide *ngFor="let item of whatNewData; let index=index">
                         <div class="card new-card" *ngFor="let perCardData of item.slide; let cardIndex=index">
                             <img class="card-img-top" [src]="perCardData.image" alt="Card image cap">
@@ -70,12 +70,14 @@
                                 <p class="card-text new-card-l">{{perCardData.label}}</p>
                             </div>
                         </div>
-                        <!-- <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
-                 <div class="carousel-caption">
-                  <h4>Slide {{index}}</h4>
-                 </div> -->
                     </slide>
-                </carousel>
+                </carousel> -->
+                <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                    <div ngxSlickItem *ngFor="let item of whatNewData;" class="slide">
+                        <img [src]="item.image" alt="" width="90%" class="card-img">
+                        <p class="card-text new-card-l">{{item.label}}</p>
+                    </div>
+                </ngx-slick-carousel>
 
             </div>
 

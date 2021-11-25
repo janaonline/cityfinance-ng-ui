@@ -36,7 +36,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
-
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   entryComponents: [DialogComponent],
@@ -68,7 +68,7 @@ import { NewHomeComponent } from "./auth/new-home/new-home.component";
     MatFormFieldModule,
     CarouselModule.forRoot(),
     FlexLayoutModule,
-
+    SlickCarouselModule
   ],
   providers: [
     CustomHttpInterceptor,
