@@ -38,6 +38,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 
+
 @NgModule({
   entryComponents: [DialogComponent],
 
@@ -68,7 +69,8 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     MatFormFieldModule,
     CarouselModule.forRoot(),
     FlexLayoutModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+
   ],
   providers: [
     CustomHttpInterceptor,
@@ -90,10 +92,14 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     MapSectionComponent,
     HeatMapComponent,
     UlbNotRegisteredComponent,
-    NewHomeComponent
+    NewHomeComponent,
+
+
     // InrCurrencyPipe,
   ],
-  exports: [],
+  exports: [
+
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

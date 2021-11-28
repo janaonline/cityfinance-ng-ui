@@ -62,16 +62,6 @@
         </div>
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="card-d">
-                <!-- <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="!noWrap" [interval]="0" [startFromIndex]="0">
-                    <slide *ngFor="let item of whatNewData; let index=index">
-                        <div class="card new-card" *ngFor="let perCardData of item.slide; let cardIndex=index">
-                            <img class="card-img-top" [src]="perCardData.image" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text new-card-l">{{perCardData.label}}</p>
-                            </div>
-                        </div>
-                    </slide>
-                </carousel> -->
                 <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
                     <div ngxSlickItem *ngFor="let item of whatNewData;" class="slide">
                         <img [src]="item.image" alt="" width="90%" class="card-img">
@@ -86,6 +76,13 @@
 
 
     </div>
+    <div class="row map-bg">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+            <app-dashboard-map-section></app-dashboard-map-section>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12">
 
+        </div>
+    </div>
 
 </div>

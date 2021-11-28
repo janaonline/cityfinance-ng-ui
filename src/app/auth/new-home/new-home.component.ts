@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { startWith, map } from "rxjs/operators";
+
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
@@ -18,7 +19,7 @@ export class NewHomeComponent implements OnInit {
   ];
   filteredStreets: Observable<string[]>;
 
-  myInterval = 3000;
+  myInterval = 2000;
   activeSlideIndex = false;
   p_indi = true;
   m_indi = false;
@@ -28,7 +29,7 @@ export class NewHomeComponent implements OnInit {
 
   slides = [
     {
-      image: "../../../assets/new_dashBord_ftr_hdr/modiji/Group 15517.png",
+      image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
       text: `"It’s our mission to strengthen our cities to meet the challenges of 21st century"`,
       name: "Narendra Modi",
       designation: "Prime Minister of India",
@@ -36,7 +37,7 @@ export class NewHomeComponent implements OnInit {
       textCls: "p-t",
     },
     {
-      image: "../../../assets/new_dashBord_ftr_hdr/ministerji/Group 15517.png",
+      image: "../../../assets/new_dashBord_ftr_hdr/puriji.png",
       text: `"Municipalities need to lay a foundation of robust financial management for both,
        enhancing own revenues, as well as tapping the capital market through municipal bonds"`,
       name: "Hardeep Singh Puri",
@@ -105,7 +106,7 @@ export class NewHomeComponent implements OnInit {
     return value.toLowerCase().replace(/\s/g, "");
   }
   carouselClass(e) {
-    console.log("crrrrr", e);
+
     if (e == 0) {
       this.p_indi = true;
       this.m_indi = false;
@@ -171,4 +172,6 @@ export class NewHomeComponent implements OnInit {
   beforeChange(e) {
     console.log('beforeChange');
   }
+
+
 }

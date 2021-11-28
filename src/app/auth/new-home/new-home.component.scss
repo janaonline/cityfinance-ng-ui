@@ -5,6 +5,8 @@
 .wrap-bg {
     background-image: url('../../../assets/new_dashBord_ftr_hdr/landingBg.png');
     padding: 4% 2% 15% 2%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .city {
@@ -113,44 +115,54 @@
     margin-bottom: 1rem;
 }
 
-.prim-img {
-    position: relative;
-    bottom: 69px;
+.images {
+    height: 150px;
 }
 
-.cr-text {
-    width: 50%;
-}
-
-.p-t {
-    position: relative;
-    bottom: 78px;
-}
-
-::ng-deep .m-indi {
-    .carousel-indicators {
-        bottom: -60px;
+@media screen and (min-width: 992px) {
+    .images {
+        text-align: -webkit-center;
+        top: -50px;
+        position: relative;
+        left: 35px;
     }
 }
 
+// .prim-img {
+//     position: relative;
+//     bottom: 69px;
+// }
+.cr-text {
+    width: 60%;
+}
+
+// .p-t {
+//     position: relative;
+//     bottom: 78px;
+// }
+//::ng-deep .m-indi {
+::ng-deep .carousel-indicators {
+    bottom: -45px;
+}
+
+//}
 ::ng-deep .images .carousel-control.left,
 ::ng-deep .images .carousel-control.right {
     display: none;
 }
 
-::ng-deep .carousel-indicators li {
-    width: 10px;
-    height: 10px;
-    background: #85ACE2 0% 0% no-repeat padding-box;
-}
-
+// ::ng-deep .carousel-indicators li {
+//     width: 10px;
+//     height: 10px;
+//     background: #85ACE2 0% 0% no-repeat padding-box;
+// }
 ::ng-deep .carousel-indicators .active {
     background: #F2991F 0% 0% no-repeat padding-box;
     opacity: 1;
-    width: 12px;
-    height: 12px;
-    box-shadow: 0px 3px 6px #FFBD8D;
-    border: 1px solid #F4AB77;
+    // width: 12px;
+    // height: 12px;
+    // box-shadow: 0px 3px 6px #FFBD8D;
+    // border: 1px solid #F4AB77;
 }
 
 .w-new {
@@ -161,7 +173,7 @@
 
 .wrap-card {
     position: relative;
-    top: -160px;
+    margin-top: -160px;
 }
 
 .new-card-text {
@@ -190,13 +202,7 @@
     letter-spacing: 0px;
     color: #262831;
     opacity: 1;
-    padding: 5px;
-}
-
-::ng-deep .card-d {
-    .carousel-indicators {
-        bottom: -60px;
-    }
+    padding: 8px 5px 12px 5px;
 }
 
 .slick-wrapper {
@@ -212,7 +218,7 @@
 .slide {
     margin-right: 1rem;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 20px #4E4E4E29;
+    //box-shadow: 0px 2px 20px #4E4E4E29;
     border: 1px solid #F4F4F4;
     border-radius: 12px;
     opacity: 1;
@@ -221,4 +227,8 @@
 
 .card-img {
     // margin-left: 5px;
+}
+
+.map-bg {
+    background-color: #F8F9FF !important;
 }

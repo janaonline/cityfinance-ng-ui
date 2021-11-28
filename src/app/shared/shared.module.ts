@@ -56,6 +56,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ActionComponentComponent } from './components/action-component/action-component.component';
 import { PageLayoutComponent } from '../shared/components/page-layout/page-layout.component';
 import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.component';
+import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-section/dashboard-map-section.component";
 
 @NgModule({
   imports: [
@@ -115,6 +116,7 @@ import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.c
     ActionComponentComponent,
     PageLayoutComponent,
     NHomeHeaderComponent,
+    DashboardMapSectionComponent,
   ],
   exports: [
     FormsModule,
@@ -145,7 +147,7 @@ import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.c
     ActionComponentComponent,
     PageLayoutComponent,
     NHomeHeaderComponent,
-
+    DashboardMapSectionComponent
   ],
   providers: [FinancialDataService],
 })
