@@ -84,6 +84,57 @@ export class NewHomeComponent implements OnInit {
       text: "",
     },
   ];
+  exploreCardData = [
+    {
+      title: '',
+      label: 'Financial Performance Of Cities',
+      text: 'Analyze and compare the financial performance of cities',
+      icon: '../../../assets/new_dashBord_ftr_hdr/perf.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: 'Improve Own Revenue',
+      text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
+      icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+
+    {
+      title: '',
+      label: 'Raise Money',
+      text: 'Know more about infrastructure projects in cities and interested funders. Explore tools that can help cities raise funds',
+      icon: '../../../assets/new_dashBord_ftr_hdr/raisemny.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: '15th Finance Commission Grants',
+      text: 'Apply, review, recommend and track 15th finance commission grants',
+      icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: 'Resources',
+      text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
+      icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: 'Service Level Benchmarks',
+      text: 'Track your city’s performance across five themes and 32 key indicators.',
+      icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+  ]
 
   ngOnInit(): void {
     this.filteredStreets = this.globalFilter.valueChanges.pipe(
@@ -173,5 +224,10 @@ export class NewHomeComponent implements OnInit {
     console.log('beforeChange');
   }
 
-
+  hiddenCallOver(i) {
+  //  this.hiddenText[i] = "true"
+  }
+  hiddenCallOut(i) {
+    // this.hiddenText[i] = "false"
+  }
 }

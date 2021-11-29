@@ -40,7 +40,7 @@
 
 .rec-text {
     text-align: center;
-    font: normal normal normal 13px/49px Archivo;
+    font: normal normal normal 13px/49px 'Archivo';
     letter-spacing: 0px;
     color: #E2EEFF;
     opacity: 1;
@@ -90,7 +90,7 @@
 
 .sl-text {
     text-align: center;
-    font: normal normal 500 15px/24px Montserrat;
+    font: normal normal 500 15px/24px 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
@@ -99,7 +99,7 @@
 
 .sl-name {
     text-align: center;
-    font: normal normal 700 14px/22px Montserrat;
+    font: normal normal 700 14px/22px 'Montserrat';
     letter-spacing: 0px;
     color: #FCB23C;
     opacity: 1;
@@ -108,7 +108,7 @@
 
 .sl-des {
     text-align: center;
-    font: normal normal 500 12px/17px Montserrat;
+    font: normal normal 500 12px/17px 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
@@ -166,7 +166,7 @@
 }
 
 .w-new {
-    font: normal normal bold 30px/28px Archivo;
+    font: normal normal bold 30px/28px 'Archivo';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
@@ -198,7 +198,7 @@
 }
 
 .new-card-l {
-    font: normal normal bold 16px/24px Archivo;
+    font: normal normal bold 16px/24px 'Archivo';
     letter-spacing: 0px;
     color: #262831;
     opacity: 1;
@@ -231,4 +231,87 @@
 
 .map-bg {
     background-color: #F8F9FF !important;
+}
+
+.res-h {
+    font: normal normal 800 30px/32px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.res-s-h {
+    font: normal normal normal 18px/22px 'Archivo';
+    letter-spacing: 0px;
+    color: #6E7281;
+}
+
+.card {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 33px #53525229;
+    border-radius: 12px;
+    width: 325px;
+    height: 225px;
+    margin: 1rem;
+    padding: 1rem 2rem;
+}
+
+.card1:hover {
+    background-color: #FFF7EB;
+    .cd-s-head,
+    .cd-head,
+    .cd-icon {
+        display: none;
+    }
+    .hidden-text {
+        display: inline-block;
+    }
+}
+
+.hidden-text {
+    display: none;
+}
+
+.pd-l-r {
+    padding: 1.5rem 8rem;
+}
+
+.cd-head {
+    font: normal normal bold 18px/23px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+    padding: 1rem .2rem;
+}
+
+.cd-s-head {
+    font: normal normal normal 14px/24px 'Archivo';
+    letter-spacing: 0px;
+    color: #444750;
+}
+
+.com-logo {
+    background-color: #F8F9FF;
+}
+
+.com-h {
+    font: normal normal 800 30px/32px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.comp-img {
+    padding: 0 2rem;
+}
+
+.btn-view {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #F7C199;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font: normal normal bold 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.btn-d {
+    margin-top: 2rem;
 }

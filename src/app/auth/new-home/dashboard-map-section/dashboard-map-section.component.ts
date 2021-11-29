@@ -20,6 +20,7 @@ import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 export class DashboardMapSectionComponent extends ReUseableHeatMapComponent
 implements OnInit {
 yearSelected = [];
+selectedState ="India"
 constructor(
   protected _commonService: CommonService,
   protected _snackbar: MatSnackBar,
@@ -217,6 +218,13 @@ constructor(
         );
       });
     }, 0.5);
+  }
+  selectState(state) {
+    console.log('state name', state)
+    this.selectedState = state;
+  }
+  selectCity(city) {
+    console.log('city name', city)
   }
 
 }

@@ -410,3 +410,91 @@ div.miniMap {
     stroke: #FFFFFF !important;
     stroke-width: 2px;
 }
+
+// css for new changes.............
+.expo {
+    font: normal normal 800 30px/32px Archivo;
+    letter-spacing: 0px;
+    color: #0F1F40;
+    opacity: 1;
+    padding: 3rem 0 1rem 1.5rem;
+}
+
+.expo-sub {
+    font: normal normal normal 14px/22px Archivo;
+    letter-spacing: 0px;
+    color: #6E7281;
+    opacity: 1;
+    padding: 1rem 0 1rem 1.5rem;
+}
+
+.expo-pd {
+    padding: 1rem 0 1rem 1.5rem;
+}
+
+.inp-grp {
+    width: 40%;
+    display: inline-flex;
+}
+
+.expo-drp-in {
+    //background: #E9ECF7 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    font: normal normal 600 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+.vl {
+    border-left: 4px solid #E8721C;
+    display: inline-block;
+    height: 15px;
+}
+
+.c-n {
+    display: inline-block;
+    font: normal normal bold 22px/24px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.num-data {
+    font: normal normal 800 24px/26px Archivo;
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.num-text {
+    font: normal normal normal 13px/19px Archivo;
+    letter-spacing: 0px;
+    color: #6E7281;
+}
+
+.view-ds-btn {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #F7C199;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font: normal normal bold 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.up-text {
+    font: normal normal normal 12px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #9094A5;
+}
+
+.info-drill {
+    font: normal normal normal 13px/14px Archivo;
+    letter-spacing: 0px;
+    color: #6E7281;
+    background: #F2F3F8 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    padding: .5rem;
+}
+
+.info-icon {
+    height: 12px;
+}

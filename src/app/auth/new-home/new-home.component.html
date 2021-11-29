@@ -77,11 +77,53 @@
 
     </div>
     <div class="row map-bg">
-        <div class="col-lg-6 col-md-12 col-sm-12">
-            <app-dashboard-map-section></app-dashboard-map-section>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12">
+        <app-dashboard-map-section></app-dashboard-map-section>
+    </div>
+    <div class="row mt-4">
+        <div class="col-sm-12 text-center">
+            <div class="res-h">
+                Discover
+            </div>
+            <div class="res-s-h pt-2">
+                Delve into key aspects of municipal data summarized and presented in a user-friendly manner
+            </div>
+            <div class="row pd-l-r">
+                <div class="col-lg-4 col-md-6 col-sm-12 text-center" *ngFor="let cardItem of exploreCardData; let i=index">
+                    <div class="card card1">
+                        <div class="cd-icon">
+                            <img [src]="cardItem.icon" alt="">
+                        </div>
+                        <div class="cd-head">
+                            {{cardItem.label}}
+                        </div>
+                        <div class="cd-s-head">
+                            {{cardItem.text}}
+                        </div>
+                        <div class="hidden-text">
+                            {{cardItem.hiddenText}}
+                        </div>
+                        <div class="hidden-text btn-d">
+                            <button class="btn btn-view">Know More</button>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 com-logo">
+        <div class="col-sm-12 text-center mt-1">
+            <div class="com-h">
+                Our Supporters & Partners
+            </div>
+        </div>
+        <div class="col p-4">
+            <span class="comp-img" style="padding: 0 2rem 0 4rem;"><img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/Dhwani-Logo_Versions-e1533798168980.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt=""></span>
         </div>
     </div>
 
