@@ -1,0 +1,68 @@
+<div [ngSwitch]="data.type">
+  <div *ngSwitchCase="1">
+    <div
+      class="card"
+      [ngStyle]="{
+        width: cardStyle?.width,
+        'border-radius': cardStyle.borderRadius,
+        width: cardStyle.width
+      }"
+    >
+      <div class="card-body">
+        <h5 class="card-title">{{ data.title }}</h5>
+        <span>{{ data.subTitle }}</span>
+        <div *ngIf="showButtons" class="text-center">
+          <button
+            class="mr-1"
+            *ngFor="let item of data.actionButtons"
+            mat-button
+          >
+            {{ item.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="2">
+    <div
+      class="card text-center"
+      [ngStyle]="{
+        height: cardStyle?.height,
+        'border-radius': cardStyle.borderRadius,
+        width: cardStyle.width
+      }"
+    >
+      <div class="card-body">
+        <img class="mb-1 pb-1" src="{{ data.svg }}" />
+        <h5 class="card-title" style="font-weight: bold">{{ data.number }}</h5>
+        <span>{{ data.subTitle }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngSwitchCase="3">
+    <div
+      class="card"
+      [ngStyle]="{
+        width: cardStyle?.width,
+        'border-radius': cardStyle.borderRadius,
+        width: cardStyle.width
+      }"
+    >
+      <div class="card-body">
+        <span class="project"
+          >Project ID:
+          <span style="font-weight: bold">{{ data.projectId }}</span></span
+        >
+        <h5 class="card-title mt-1">{{ data.title }}</h5>
+        <span
+          >INR
+          <span style="font: normal normal bold 18px/20px Archivo">{{
+            data.amount
+          }}</span></span
+        >
+      </div>
+    </div>
+  </div>
+</div>

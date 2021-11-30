@@ -56,6 +56,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ActionComponentComponent } from './components/action-component/action-component.component';
 import { PageLayoutComponent } from '../shared/components/page-layout/page-layout.component';
 import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.component';
+import { SharedCardComponent } from './components/shared-card/shared-card.component';
+import { FrontPanelComponent } from './components/front-panel/front-panel.component';
 
 @NgModule({
   imports: [
@@ -115,6 +117,8 @@ import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.c
     ActionComponentComponent,
     PageLayoutComponent,
     NHomeHeaderComponent,
+    SharedCardComponent,
+    FrontPanelComponent,
   ],
   exports: [
     FormsModule,
