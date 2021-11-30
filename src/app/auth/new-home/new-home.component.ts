@@ -224,10 +224,4 @@ export class NewHomeComponent implements OnInit {
     console.log('beforeChange');
   }
 
-  hiddenCallOver(i) {
-  //  this.hiddenText[i] = "true"
-  }
-  hiddenCallOut(i) {
-    // this.hiddenText[i] = "false"
-  }
 }
