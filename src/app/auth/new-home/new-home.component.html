@@ -56,26 +56,18 @@
     <div class="row wrap-card">
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="new-card-text">
-                <h3 class="w-new">What’s New (12)</h3>
+                <h3 class="w-new">What’s New ({{whatNewData.length}})</h3>
             </div>
 
         </div>
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="card-d">
-                <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [noWrap]="!noWrap" [interval]="0" [startFromIndex]="0">
-                    <slide *ngFor="let item of whatNewData; let index=index">
-                        <div class="card new-card" *ngFor="let perCardData of item.slide; let cardIndex=index">
-                            <img class="card-img-top" [src]="perCardData.image" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text new-card-l">{{perCardData.label}}</p>
-                            </div>
-                        </div>
-                        <!-- <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
-                 <div class="carousel-caption">
-                  <h4>Slide {{index}}</h4>
-                 </div> -->
-                    </slide>
-                </carousel>
+                <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                    <div ngxSlickItem *ngFor="let item of whatNewData;" class="slide">
+                        <img [src]="item.image" alt="" width="90%" class="card-img">
+                        <p class="card-text new-card-l">{{item.label}}</p>
+                    </div>
+                </ngx-slick-carousel>
 
             </div>
 
@@ -84,6 +76,55 @@
 
 
     </div>
+    <div class="row map-bg">
+        <app-dashboard-map-section></app-dashboard-map-section>
+    </div>
+    <div class="row mt-4">
+        <div class="col-sm-12 text-center">
+            <div class="res-h">
+                Discover
+            </div>
+            <div class="res-s-h pt-2">
+                Delve into key aspects of municipal data summarized and presented in a user-friendly manner
+            </div>
+            <div class="row pd-l-r">
+                <div class="col-lg-4 col-md-6 col-sm-12 text-center" *ngFor="let cardItem of exploreCardData; let i=index">
+                    <div class="card card1">
+                        <div class="cd-icon">
+                            <img [src]="cardItem.icon" alt="">
+                        </div>
+                        <div class="cd-head">
+                            {{cardItem.label}}
+                        </div>
+                        <div class="cd-s-head">
+                            {{cardItem.text}}
+                        </div>
+                        <div class="hidden-text">
+                            {{cardItem.hiddenText}}
+                        </div>
+                        <div class="hidden-text btn-d">
+                            <button class="btn btn-view">Know More</button>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 com-logo">
+        <div class="col-sm-12 text-center mt-1">
+            <div class="com-h">
+                Our Supporters & Partners
+            </div>
+        </div>
+        <div class="col p-4">
+            <span class="comp-img" style="padding: 0 2rem 0 4rem;"><img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/Dhwani-Logo_Versions-e1533798168980.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt=""></span>
+        </div>
+    </div>
 
 </div>

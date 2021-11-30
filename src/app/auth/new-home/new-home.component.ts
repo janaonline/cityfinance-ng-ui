@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { startWith, map } from "rxjs/operators";
+
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
@@ -18,7 +19,7 @@ export class NewHomeComponent implements OnInit {
   ];
   filteredStreets: Observable<string[]>;
 
-  myInterval = 3000;
+  myInterval = 2000;
   activeSlideIndex = false;
   p_indi = true;
   m_indi = false;
@@ -28,7 +29,7 @@ export class NewHomeComponent implements OnInit {
 
   slides = [
     {
-      image: "../../../assets/new_dashBord_ftr_hdr/modiji/Group 15517.png",
+      image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
       text: `"It’s our mission to strengthen our cities to meet the challenges of 21st century"`,
       name: "Narendra Modi",
       designation: "Prime Minister of India",
@@ -36,7 +37,7 @@ export class NewHomeComponent implements OnInit {
       textCls: "p-t",
     },
     {
-      image: "../../../assets/new_dashBord_ftr_hdr/ministerji/Group 15517.png",
+      image: "../../../assets/new_dashBord_ftr_hdr/puriji.png",
       text: `"Municipalities need to lay a foundation of robust financial management for both,
        enhancing own revenues, as well as tapping the capital market through municipal bonds"`,
       name: "Hardeep Singh Puri",
@@ -47,62 +48,100 @@ export class NewHomeComponent implements OnInit {
   ];
   whatNewData = [
     {
-      slide: [
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
-          fileName: "",
-          label: "Digital Property Tax Toolkit",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
-          fileName: "",
-          label: "XV FC Report for 2020-21",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
-          fileName: "",
-          label: "Municipal Performance Index",
-          text: "",
-        },
-      ],
+      image:"../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      fileName: "",
+      label: "Digital Property Tax Toolkit",
+      text: "",
     },
     {
-      slide: [
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
-          fileName: "",
-          label: "Digital Property Tax Toolkit",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
-          fileName: "",
-          label: "XV FC Report for 2020-21",
-          text: "",
-        },
-        {
-          image:
-            "../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
-          fileName: "",
-          label: "Municipal Performance Index",
-          text: "",
-        },
-      ],
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
+      fileName: "",
+      label: "XV FC Report for 2020-21",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      fileName: "",
+      label: "Municipal Performance Index",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      fileName: "",
+      label: "Municipal Performance Index",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      fileName: "",
+      label: "Municipal Performance Index",
+      text: "",
+    },
+    {
+      image:"../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      fileName: "",
+      label: "Digital Property Tax Toolkit",
+      text: "",
     },
   ];
+  exploreCardData = [
+    {
+      title: '',
+      label: 'Financial Performance Of Cities',
+      text: 'Analyze and compare the financial performance of cities',
+      icon: '../../../assets/new_dashBord_ftr_hdr/perf.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: 'Improve Own Revenue',
+      text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
+      icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+
+    {
+      title: '',
+      label: 'Raise Money',
+      text: 'Know more about infrastructure projects in cities and interested funders. Explore tools that can help cities raise funds',
+      icon: '../../../assets/new_dashBord_ftr_hdr/raisemny.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: '15th Finance Commission Grants',
+      text: 'Apply, review, recommend and track 15th finance commission grants',
+      icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: 'Resources',
+      text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
+      icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+    {
+      title: '',
+      label: 'Service Level Benchmarks',
+      text: 'Track your city’s performance across five themes and 32 key indicators.',
+      icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
+      hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
+
+    },
+  ]
 
   ngOnInit(): void {
     this.filteredStreets = this.globalFilter.valueChanges.pipe(
       startWith(""),
       map((value) => this._filter(value))
     );
+
   }
   private _filter(value: string): string[] {
     // console.log('value', value)
@@ -118,7 +157,7 @@ export class NewHomeComponent implements OnInit {
     return value.toLowerCase().replace(/\s/g, "");
   }
   carouselClass(e) {
-    console.log("crrrrr", e);
+
     if (e == 0) {
       this.p_indi = true;
       this.m_indi = false;
@@ -128,4 +167,61 @@ export class NewHomeComponent implements OnInit {
       this.p_indi = false;
     }
   }
+
+  slideConfig = {
+    "slidesToShow": 3,
+    "slidesToScroll": 3,
+    "dots": true,
+    "infinite": false,
+    "autoplay" : true,
+    "autoplaySpeed" : 2000,
+    "responsive": [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 680,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
+
+
+  removeSlide() {
+    this.slides.length = this.slides.length - 1;
+  }
+
+  slickInit(e) {
+    console.log('slick initialized');
+  }
+
+  breakpoint(e) {
+    console.log('breakpoint');
+  }
+
+  afterChange(e) {
+    console.log('afterChange');
+  }
+
+  beforeChange(e) {
+    console.log('beforeChange');
+  }
+
 }

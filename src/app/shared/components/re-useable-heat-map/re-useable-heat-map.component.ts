@@ -985,19 +985,21 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getColorBasedOnPercentage(value: number) {
-    if (value > 75) {
-      return "#216278";
-    }
-    if (value > 50) {
-      return "#059b9a";
-    }
-    if (value > 25) {
-      return "#8BD2F0";
-    }
-    if (value > 0) {
-      return `#D0EDF9`;
-    }
-    return "#E5E5E5";
+    // if (value > 75) {
+    //   return "#216278";
+    // }
+    // if (value > 50) {
+    //   return "#059b9a";
+    // }
+    // if (value > 25) {
+    //   return "#8BD2F0";
+    // }
+    // if (value > 0) {
+    //   return `#D0EDF9`;
+    // }
+    // return "#E5E5E5";
+    //for new dashboard india map
+    return '#3E5DB1';
   }
 
   /**
@@ -1018,8 +1020,18 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       fillColor: "#E5E5E5",
       weight: 1,
       opacity: 1,
-      color: "#403f3f",
+      color: "#fff",
       fillOpacity: 1,
+    };
+  }
+  newDashboardstateColorStyle(feature) {
+    return {
+      fillColor: "#3e5db1",
+      weight: 1,
+      opacity: 1,
+      color: "#fff",
+      fillOpacity: 1,
+      stroke: false, 
     };
   }
 

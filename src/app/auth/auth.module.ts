@@ -15,7 +15,6 @@ import { AuthRouter } from './auth.router';
 import { AuthService } from './auth.service';
 import { StatisticsComponent } from './statistics/statistics.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -37,6 +36,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
   ],
   providers: [AuthService],
   declarations: [StatisticsComponent, UlbCoverageComponent],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AuthModule {}

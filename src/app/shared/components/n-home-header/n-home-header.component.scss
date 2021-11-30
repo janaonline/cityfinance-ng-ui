@@ -23,7 +23,7 @@ $text-sizes: (
 
     .text-#{$size} {
         font-size: $value;
-        @include border-radius($radius: $border-radius, $fallback-border-radius: false);
+        @include border-radius($radius: $border-radius-sm, $fallback-border-radius: false);
         border: $btn-border-width solid #444750;
         width: 20px;
         height: 20px;

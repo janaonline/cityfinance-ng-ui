@@ -32,13 +32,16 @@
                         ],
                         "styles": [
                             "src/styles.scss",
-                            "node_modules/leaflet/dist/leaflet.css"
+                            "node_modules/leaflet/dist/leaflet.css",
+                            "node_modules/slick-carousel/slick/slick.scss",
+                            "node_modules/slick-carousel/slick/slick-theme.scss"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js",
                             "node_modules/bootstrap/dist/js/bootstrap.min.js",
                             "node_modules/chart.js/dist/Chart.js",
-                            "node_modules/sweetalert/dist/sweetalert.min.js"
+                            "node_modules/sweetalert/dist/sweetalert.min.js",
+                            "node_modules/slick-carousel/slick/slick.min.js"
                         ],
                         "aot": true
                     },
