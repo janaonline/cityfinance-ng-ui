@@ -1,5 +1,6 @@
 import { ModuleWithProviders } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthModule } from "./auth/auth.module";
 
 import { HomeComponent } from "./auth/home/home.component";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
@@ -17,7 +18,6 @@ export const appRouter: Routes = [
   { path: "front", component: FrontPanelComponent },
 
   { path: "newhome", component: NewHomeComponent },
-
   {
     path: "analytics",
     loadChildren: () =>
@@ -149,7 +149,6 @@ export const appRouter: Routes = [
     path: "app-water-rejenuvation",
     component: WaterRejenuvationComponent,
   },
-
   { path: "**", redirectTo: "" },
 ];
 

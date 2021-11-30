@@ -5,6 +5,8 @@
 .wrap-bg {
     background-image: url('../../../assets/new_dashBord_ftr_hdr/landingBg.png');
     padding: 4% 2% 15% 2%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .city {
@@ -38,7 +40,7 @@
 
 .rec-text {
     text-align: center;
-    font: normal normal normal 13px/49px Archivo;
+    font: normal normal normal 13px/49px 'Archivo';
     letter-spacing: 0px;
     color: #E2EEFF;
     opacity: 1;
@@ -88,7 +90,7 @@
 
 .sl-text {
     text-align: center;
-    font: normal normal 500 15px/24px Montserrat;
+    font: normal normal 500 15px/24px 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
@@ -97,7 +99,7 @@
 
 .sl-name {
     text-align: center;
-    font: normal normal 700 14px/22px Montserrat;
+    font: normal normal 700 14px/22px 'Montserrat';
     letter-spacing: 0px;
     color: #FCB23C;
     opacity: 1;
@@ -106,62 +108,72 @@
 
 .sl-des {
     text-align: center;
-    font: normal normal 500 12px/17px Montserrat;
+    font: normal normal 500 12px/17px 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
     margin-bottom: 1rem;
 }
 
-.prim-img {
-    position: relative;
-    bottom: 69px;
+.images {
+    height: 150px;
 }
 
-.cr-text {
-    width: 50%;
-}
-
-.p-t {
-    position: relative;
-    bottom: 78px;
-}
-
-::ng-deep .m-indi {
-    .carousel-indicators {
-        bottom: -60px;
+@media screen and (min-width: 992px) {
+    .images {
+        text-align: -webkit-center;
+        top: -50px;
+        position: relative;
+        left: 35px;
     }
 }
 
+// .prim-img {
+//     position: relative;
+//     bottom: 69px;
+// }
+.cr-text {
+    width: 60%;
+}
+
+// .p-t {
+//     position: relative;
+//     bottom: 78px;
+// }
+//::ng-deep .m-indi {
+::ng-deep .carousel-indicators {
+    bottom: -45px;
+}
+
+//}
 ::ng-deep .images .carousel-control.left,
 ::ng-deep .images .carousel-control.right {
     display: none;
 }
 
-::ng-deep .carousel-indicators li {
-    width: 10px;
-    height: 10px;
-    background: #85ACE2 0% 0% no-repeat padding-box;
-}
-
+// ::ng-deep .carousel-indicators li {
+//     width: 10px;
+//     height: 10px;
+//     background: #85ACE2 0% 0% no-repeat padding-box;
+// }
 ::ng-deep .carousel-indicators .active {
     background: #F2991F 0% 0% no-repeat padding-box;
     opacity: 1;
-    width: 12px;
-    height: 12px;
-    box-shadow: 0px 3px 6px #FFBD8D;
-    border: 1px solid #F4AB77;
+    // width: 12px;
+    // height: 12px;
+    // box-shadow: 0px 3px 6px #FFBD8D;
+    // border: 1px solid #F4AB77;
 }
 
 .w-new {
-    font: normal normal bold 30px/28px Archivo;
+    font: normal normal bold 30px/28px 'Archivo';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
 
 .wrap-card {
     position: relative;
-    top: -160px;
+    margin-top: -160px;
 }
 
 .new-card-text {
@@ -186,17 +198,11 @@
 }
 
 .new-card-l {
-    font: normal normal bold 16px/24px Archivo;
+    font: normal normal bold 16px/24px 'Archivo';
     letter-spacing: 0px;
     color: #262831;
     opacity: 1;
-    padding: 5px;
-}
-
-::ng-deep .card-d {
-    .carousel-indicators {
-        bottom: -60px;
-    }
+    padding: 8px 5px 12px 5px;
 }
 
 .slick-wrapper {
@@ -212,7 +218,7 @@
 .slide {
     margin-right: 1rem;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 20px #4E4E4E29;
+    //box-shadow: 0px 2px 20px #4E4E4E29;
     border: 1px solid #F4F4F4;
     border-radius: 12px;
     opacity: 1;
@@ -221,4 +227,91 @@
 
 .card-img {
     // margin-left: 5px;
+}
+
+.map-bg {
+    background-color: #F8F9FF !important;
+}
+
+.res-h {
+    font: normal normal 800 30px/32px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.res-s-h {
+    font: normal normal normal 18px/22px 'Archivo';
+    letter-spacing: 0px;
+    color: #6E7281;
+}
+
+.card {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 33px #53525229;
+    border-radius: 12px;
+    width: 325px;
+    height: 225px;
+    margin: 1rem;
+    padding: 1rem 2rem;
+}
+
+.card1:hover {
+    background-color: #FFF7EB;
+    .cd-s-head,
+    .cd-head,
+    .cd-icon {
+        display: none;
+    }
+    .hidden-text {
+        display: inline-block;
+    }
+}
+
+.hidden-text {
+    display: none;
+}
+
+.pd-l-r {
+    padding: 1.5rem 8rem;
+}
+
+.cd-head {
+    font: normal normal bold 18px/23px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+    padding: 1rem .2rem;
+}
+
+.cd-s-head {
+    font: normal normal normal 14px/24px 'Archivo';
+    letter-spacing: 0px;
+    color: #444750;
+}
+
+.com-logo {
+    background-color: #F8F9FF;
+}
+
+.com-h {
+    font: normal normal 800 30px/32px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.comp-img {
+    padding: 0 2rem;
+}
+
+.btn-view {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #F7C199;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font: normal normal bold 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.btn-d {
+    margin-top: 2rem;
 }

@@ -58,6 +58,7 @@ import { PageLayoutComponent } from '../shared/components/page-layout/page-layou
 import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.component';
 import { SharedCardComponent } from './components/shared-card/shared-card.component';
 import { FrontPanelComponent } from './components/front-panel/front-panel.component';
+import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-section/dashboard-map-section.component";
 
 @NgModule({
   imports: [
@@ -119,6 +120,7 @@ import { FrontPanelComponent } from './components/front-panel/front-panel.compon
     NHomeHeaderComponent,
     SharedCardComponent,
     FrontPanelComponent,
+    DashboardMapSectionComponent,
   ],
   exports: [
     FormsModule,
@@ -149,7 +151,7 @@ import { FrontPanelComponent } from './components/front-panel/front-panel.compon
     ActionComponentComponent,
     PageLayoutComponent,
     NHomeHeaderComponent,
-
+    DashboardMapSectionComponent
   ],
   providers: [FinancialDataService],
 })
