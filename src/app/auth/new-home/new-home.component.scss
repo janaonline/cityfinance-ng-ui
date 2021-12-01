@@ -9,6 +9,33 @@
     background-size: cover;
 }
 
+@media screen and (min-width: 992px) {
+    .wrap-bg {
+        height: 44rem;
+    }
+    .pd-l-r {
+        padding: 1.5rem 8rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .wrap-bg {
+        height: 50rem;
+    }
+}
+
+@media (min-width: 520px) and (max-width: 767px) {
+    .wrap-bg {
+        height: 74rem;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .wrap-bg {
+        height: 80rem;
+    }
+}
+
 .city {
     color: #38CDFA;
     font: normal normal bold 65px/56px Cabin;
@@ -34,7 +61,6 @@
 .filter-form {
     min-width: 150px;
     max-width: 500px;
-    width: 100%;
     display: inline-block;
 }
 
@@ -115,10 +141,6 @@
     margin-bottom: 1rem;
 }
 
-.images {
-    height: 150px;
-}
-
 @media screen and (min-width: 992px) {
     .images {
         text-align: -webkit-center;
@@ -136,16 +158,10 @@
     width: 60%;
 }
 
-// .p-t {
-//     position: relative;
-//     bottom: 78px;
-// }
-//::ng-deep .m-indi {
 ::ng-deep .carousel-indicators {
     bottom: -45px;
 }
 
-//}
 ::ng-deep .images .carousel-control.left,
 ::ng-deep .images .carousel-control.right {
     display: none;
@@ -271,10 +287,9 @@
     display: none;
 }
 
-.pd-l-r {
-    padding: 1.5rem 8rem;
-}
-
+// .pd-l-r {
+//     padding: 1.5rem 8rem;
+// }
 .cd-head {
     font: normal normal bold 18px/23px 'Archivo';
     letter-spacing: 0px;
