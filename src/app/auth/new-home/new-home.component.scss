@@ -16,6 +16,9 @@
     .pd-l-r {
         padding: 1.5rem 8rem;
     }
+    .f-d {
+        height: 142px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
@@ -28,11 +31,17 @@
     .wrap-bg {
         height: 74rem;
     }
+    .f-d {
+        height: 180px;
+    }
 }
 
 @media screen and (max-width: 520px) {
     .wrap-bg {
         height: 80rem;
+    }
+    .f-d {
+        height: 250px;
     }
 }
 
