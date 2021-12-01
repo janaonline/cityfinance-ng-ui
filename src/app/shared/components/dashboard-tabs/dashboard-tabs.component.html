@@ -1,0 +1,90 @@
+<div class="row">
+  <div *ngIf="data?.tabs?.length > 0">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      <li *ngFor="let tab of data.tabs" class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          id="{{ tab }}"
+          data-bs-toggle="pill"
+          data-bs-target="{{ tab }}"
+          type="button"
+          role="tab"
+          aria-controls="{{ tab }}"
+          (click)="changeTab($event)"
+          value="{{ tab }}"
+        >
+          {{ tab }}
+        </button>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div
+        *ngFor="let tab of data.tabs"
+        class="tab-pane fade show"
+        id="{{ tab }}"
+        role="tabpanel"
+        aria-labelledby="{{ tab }}-tab"
+        [ngClass]="{ active: activeTab == tab }"
+      >
+        <div [ngSwitch]="tab">
+          <div *ngSwitchCase="'tab2'">
+            <ul
+              class="nav nav-pills2 nav-pills mb-3"
+              id="pills-tab"
+              role="tablist"
+            >
+              <li
+                *ngFor="let innerTab of data.filter"
+                class="nav-item"
+                role="presentation"
+              >
+                <button
+                  class="nav-link nav-link2"
+                  id="{{ innerTab }}"
+                  data-bs-toggle="pill"
+                  data-bs-target="{{ innerTab }}"
+                  type="button"
+                  role="innerTab"
+                  aria-controls="{{ innerTab }}"
+                  (click)="changeTab($event, true)"
+                  value="{{ innerTab }}"
+                >
+                  {{ innerTab }}
+                </button>
+              </li>
+            </ul>
+            <div class="innerTab-content" id="pills-tabContent">
+              <div
+                *ngFor="let innerTab of data.filter; let i = index"
+                class="tab-pane fade show"
+                id="{{ innerTab }}"
+                role="tabpanel"
+                aria-labelledby="{{ innerTab }}-innerTab"
+                [ngClass]="{ active: innerActiveTab == innerTab }"
+              >
+                <div
+                  *ngIf="innerActiveTab == innerTab && innerTab == 'innerTab1'"
+                >
+                  yes
+                </div>
+                <div
+                  *ngIf="innerActiveTab == innerTab && innerTab == 'innerTab2'"
+                >
+                  yes/no
+                </div>
+                <div
+                  *ngIf="innerActiveTab == innerTab && innerTab == 'innerTab3'"
+                >
+                  yes/po
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="'tab3'">good</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loggedOut> Please friend, login. </ng-template>

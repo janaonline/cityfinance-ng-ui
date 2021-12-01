@@ -47,17 +47,18 @@ import { GoogleMapComponent } from "./components/google-map/google-map.component
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from "@agm/core";
 import { WaterRejenuvationComponent } from "./components/water-rejenuvation/water-rejenuvation.component";
-import { CustomizedCellComponent } from './components/ag-grid/customized-cell/customized-cell.component';
-import { CustomizedHeaderComponent } from './components/ag-grid/customized-header/customized-header.component';
-import { CustomTooltipComponent } from './components/ag-grid/custom-tooltip/custom-tooltip.component';
-import { CommFileUploadComponent } from './components/comm-file-upload/comm-file-upload.component';
+import { CustomizedCellComponent } from "./components/ag-grid/customized-cell/customized-cell.component";
+import { CustomizedHeaderComponent } from "./components/ag-grid/customized-header/customized-header.component";
+import { CustomTooltipComponent } from "./components/ag-grid/custom-tooltip/custom-tooltip.component";
+import { CommFileUploadComponent } from "./components/comm-file-upload/comm-file-upload.component";
 import { StateActionUlbComponent } from "../pages/stateUlbAction/state-action/state-action-ulb/state-action-ulb.component";
-import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { ActionComponentComponent } from './components/action-component/action-component.component';
-import { PageLayoutComponent } from '../shared/components/page-layout/page-layout.component';
-import { NHomeHeaderComponent } from './components/n-home-header/n-home-header.component';
-import { SharedCardComponent } from './components/shared-card/shared-card.component';
-import { FrontPanelComponent } from './components/front-panel/front-panel.component';
+import { ButtonsModule } from "ngx-bootstrap/buttons";
+import { ActionComponentComponent } from "./components/action-component/action-component.component";
+import { PageLayoutComponent } from "../shared/components/page-layout/page-layout.component";
+import { NHomeHeaderComponent } from "./components/n-home-header/n-home-header.component";
+import { SharedCardComponent } from "./components/shared-card/shared-card.component";
+import { FrontPanelComponent } from "./components/front-panel/front-panel.component";
+import { DashboardTabsComponent } from "./components/dashboard-tabs/dashboard-tabs.component";
 import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-section/dashboard-map-section.component";
 
 @NgModule({
@@ -86,7 +87,6 @@ import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-sec
       libraries: ["places"],
     }),
     MatCardModule,
-
   ],
   declarations: [
     PreLoaderComponent,
@@ -121,6 +121,7 @@ import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-sec
     SharedCardComponent,
     FrontPanelComponent,
     DashboardMapSectionComponent,
+    DashboardTabsComponent,
   ],
   exports: [
     FormsModule,
@@ -151,8 +152,9 @@ import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-sec
     ActionComponentComponent,
     PageLayoutComponent,
     NHomeHeaderComponent,
-    DashboardMapSectionComponent
+    DashboardMapSectionComponent,
+    DashboardTabsComponent,
   ],
   providers: [FinancialDataService],
 })
-export class SharedModule { }
+export class SharedModule {}
