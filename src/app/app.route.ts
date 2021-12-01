@@ -149,6 +149,14 @@ export const appRouter: Routes = [
     path: "app-water-rejenuvation",
     component: WaterRejenuvationComponent,
   },
+  {
+    path: "own-revenue-dashboard",
+    loadChildren: () =>
+      import("./pages/own-revenue-dashboard/own-revenue-dashboard.module").then(
+        (m) => m.OwnRevenueDashboardModule
+      ),
+  },
+
   { path: "**", redirectTo: "" },
 ];
 

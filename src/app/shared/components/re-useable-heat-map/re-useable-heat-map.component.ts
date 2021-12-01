@@ -1020,17 +1020,18 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       fillColor: "#E5E5E5",
       weight: 1,
       opacity: 1,
-      color: "#403f3f",
+      color: "#fff",
       fillOpacity: 1,
     };
   }
   newDashboardstateColorStyle(feature) {
     return {
-      fillColor: "#0B3C8B",
+      fillColor: "#3e5db1",
       weight: 1,
       opacity: 1,
       color: "#fff",
       fillOpacity: 1,
+      stroke: false, 
     };
   }
 
