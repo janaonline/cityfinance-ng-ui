@@ -283,8 +283,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
         //  this.formDataResponce = res;
         console.log(res);
         this.analytics = res['analytics']
-        this.analytics.forEach(el => {
-          this.categories.forEach(element => {
+        this.analytics?.forEach(el => {
+          this.categories?.forEach(element => {
             if (element._id == el['_id']) {
               el['categoryName'] = element.name
             }
@@ -298,6 +298,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
             this.wm.push(el)
           }
         })
+        console.log('project', this.swm, this.wm)
         this.setcategoryData(res);
         if (!("_id" in res)) {
 
@@ -317,8 +318,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
           designation: res["designation"],
           grantPosition: res["grantPosition"],
           name: res["name"],
-          categoryWiseData_swm: res["categoryWiseData_swm"],
-          categoryWiseData_wm: res["categoryWiseData_wma"],
+          categoryWiseData_swm: res["categoryWiseData_swm"] ? res["categoryWiseData_swm"] : this.swm,
+          categoryWiseData_wm: res["categoryWiseData_wm"] ? res["categoryWiseData_wm"] : this.wm,
           projects: res["projects"],
           grantType: res["grantType"],
         };
@@ -371,12 +372,21 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
   setcategoryData(res) {
     if(res?.categoryWiseData_swm){
       res.categoryWiseData_swm.forEach((swm_project) => {
-        this.addSwmRow(swm_project);
+        this.addSwmRow(swm_project, 'swm_category');
+      })
+    }else{
+     this.swm?.forEach((swmData) => {
+        this.addSwmRow(swmData, 'analytics_swm');
       })
     }
+
     if(res?.categoryWiseData_wm){
       res?.categoryWiseData_wm.forEach((wm_project) => {
-        this.addWmRow(wm_project);
+        this.addWmRow(wm_project, 'wm_category');
+      })
+    }else{
+     this.wm?.forEach((wmData) => {
+        this.addWmRow(wmData, 'analytics_wm');
       })
     }
   }
@@ -905,25 +915,49 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
     this.totalExpCost(this.tabelRows.length);
 
   }
-  addSwmRow(data) {
-    this.tabelRows_SWMcategory.push(
-      this.fb.group({
-        category_name: [data?.category_name, Validators.required],
-        grantUtilised: [data?.grantUtilised, Validators.required],
-        numberOfProjects: [data?.numberOfProjects, Validators.required],
-        totalProjectCost: [data?.totalProjectCost, Validators.required],
-      }),
-    );
+  addSwmRow(data, type) {
+    if(type == 'swm_category'){
+      this.tabelRows_SWMcategory.push(
+        this.fb.group({
+          category_name: [data?.category_name, Validators.required],
+          grantUtilised: [data?.grantUtilised, Validators.required],
+          numberOfProjects: [data?.numberOfProjects, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        }),
+      );
+    }else {
+      this.tabelRows_SWMcategory.push(
+        this.fb.group({
+          category_name: [data?.categoryName, Validators.required],
+          grantUtilised: [data?.amount, Validators.required],
+          numberOfProjects: [data?.count, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        }),
+      );
+    }
+
   }
-  addWmRow(data) {
-    this.tabelRows_WMcategory.push(
-      this.fb.group({
-        category_name: [data?.category_name, Validators.required],
-        grantUtilised: [data?.grantUtilised, Validators.required],
-        numberOfProjects: [data?.numberOfProjects, Validators.required],
-        totalProjectCost: [data?.totalProjectCost, Validators.required],
-      }),
-    );
+  addWmRow(data, type) {
+    if(type == 'wm_category'){
+      this.tabelRows_WMcategory.push(
+        this.fb.group({
+          category_name: [data?.category_name, Validators.required],
+          grantUtilised: [data?.grantUtilised, Validators.required],
+          numberOfProjects: [data?.numberOfProjects, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        }),
+      );
+    } else {
+      this.tabelRows_WMcategory.push(
+        this.fb.group({
+          category_name: [data?.categoryName, Validators.required],
+          grantUtilised: [data?.amount, Validators.required],
+          numberOfProjects: [data?.count, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        }),
+      );
+    }
+
   }
   setUrlGroup(url) {
     return this.fb.group({
