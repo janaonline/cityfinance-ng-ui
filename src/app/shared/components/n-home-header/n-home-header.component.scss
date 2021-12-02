@@ -1,26 +1,21 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
-
-.text-10px{
+.text-10px {
     font-size: $font-size-base*.625;
 }
-.text-12px{
+
+.text-12px {
     font-size: $font-size-base*.75;
 }
 
 // text sizes
-$text-sizes: (
-  "tiny":    $font-size-base*.75,
-  "regular":  $font-size-base,
-  "large":    $font-size-base*1.25
-) !default;
-
-@each $size, $value in $text-sizes {
+$text-sizes: ( "tiny": $font-size-base*.75, "regular": $font-size-base, "large": $font-size-base*1.25) !default;
+@each $size,
+$value in $text-sizes {
     body.text-#{$size} {
         font-size: $value;
     }
-
     .text-#{$size} {
         font-size: $value;
         @include border-radius($radius: $border-radius-sm, $fallback-border-radius: false);
@@ -37,7 +32,7 @@ $text-sizes: (
     }
 }
 
-.btn-login{
+.btn-login {
     background: $secondary;
     color: $white;
     border-color: $secondary;
@@ -45,10 +40,19 @@ $text-sizes: (
     font-size: $font-size-base*.75;
     padding-left: $spacer*2;
     padding-right: $spacer*2;
-    
-    &:hover{
+    &:hover {
         background: shade-color($secondary, 10);
         color: $white;
         border-color: shade-color($secondary, 10);
     }
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #E87A1C !important;
+    border-bottom: 2px solid;
+}
+
+.navbar { 
+    padding-bottom: 0;
 }
