@@ -60,6 +60,7 @@ import { SharedCardComponent } from "./components/shared-card/shared-card.compon
 import { FrontPanelComponent } from "./components/front-panel/front-panel.component";
 import { DashboardTabsComponent } from "./components/dashboard-tabs/dashboard-tabs.component";
 import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-section/dashboard-map-section.component";
+import { MapWithFilterComponent } from './components/map-with-filter/map-with-filter.component';
 
 @NgModule({
   imports: [
@@ -122,6 +123,7 @@ import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-sec
     FrontPanelComponent,
     DashboardMapSectionComponent,
     DashboardTabsComponent,
+    MapWithFilterComponent,
   ],
   exports: [
     FormsModule,

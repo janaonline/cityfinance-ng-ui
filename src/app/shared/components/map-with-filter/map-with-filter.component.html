@@ -1,0 +1,45 @@
+<div class="flex-column row">
+  <div class="row">
+    <div class="col-6 pull-right">
+      <select
+        *ngIf="stateList.length > 0"
+        class="form-select"
+        aria-label="State"
+      >
+        <option *ngFor="let item of stateList" selected>
+          {{ item.ST_NM }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-6 pull-right">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>
+  </div>
+  <div class="row col-sm-12 col-md-6 col-lg-6 stateMapContainer">
+    <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+      <app-pre-loader></app-pre-loader>
+    </div>
+    <div
+      class="col-sm-12"
+      id="districtMapContainer"
+      [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
+    ></div>
+
+    <div
+      class="stateMap analytics-map"
+      [id]="'mapidd' + randomNumber"
+      style="
+        background-image: url('../../../../assets/Layer\ 1.png') !important;
+      "
+    ></div>
+  </div>
+</div>

@@ -1,50 +1,54 @@
 <div class="container-fluid" style="background-color: #f1f8ff">
   <div class="row p-3">
-    <div class="col-sm-5 col-md-7">
+    <div class="col-sm-12 col-md-7">
       <div class="row">
         <a class="link mb-3" href="{{ data.link }}"
           >Go To {{ data.linkName }}</a
         >
-        <span class="header mt-2 mb-1">{{ data.name }}</span>
-        <span class="description mb-1">{{ data.desc }}</span>
+        <div class="col-12 col-md-8">
+          <span class="header mt-2 mb-1">{{ data.name }}</span>
+          <br />
+          <span class="description mb-1">{{ data.desc }}</span>
+        </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-sm-4 col-md-2">
+      <div class="row mt-5">
+        <div class="col-4 col-sm-4 col-md-2">
           <h6 class="b">{{ data.population }}</h6>
           <span class="subtitle">Population</span>
         </div>
-        <div class="col-sm-4 col-md-2">
+        <div class="col-4 col-sm-4 col-md-2"  >
           <h6 class="b">{{ data.area }}</h6>
           <span class="subtitle">Area</span>
         </div>
-        <div class="col-sm-4 col-md-2">
+        <div class="col-4 col-sm-4 col-md-2" >
           <h6 class="b">{{ data.populationDensity }}</h6>
           <span class="subtitle">Population Density</span>
         </div>
-        <div class="col-sm-4 col-md-2">
+        <div class="col-4 col-sm-4 col-md-2" >
           <h6 class="b">{{ data.ward }}</h6>
           <span class="subtitle">Ward</span>
         </div>
-        <div class="col-sm-5 col-md-3">
+        <div class="col-4 col-sm-4 col-md-2">
           <h6 class="b">{{ data.finance }}</h6>
           <span class="subtitle">Municipal Finance Ranking</span>
         </div>
       </div>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-5">
+      <app-map-with-filter></app-map-with-filter>
+    </div>
   </div>
-  <div class="row p-3">
+  <div class="row" style="padding-left: 1rem; padding-right: 1rem">
     <div
       style="width: innerWidth; float: left"
-      class="text-center col-sm-6 col-md-2 mb-2"
-      [ngStyle]="{ width: innerWidth }"
+      class="text-center col-6 col-sm-6 col-md-2 mb-2"
       *ngFor="let card of cardData"
     >
       <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
     </div>
   </div>
   <footer class="page-footer fot font-small blue">
-    <div class="footer-copyright py-3 text-end">
+    <div class="footer-copyright text-end">
       {{ data.footer }}
     </div>
   </footer>

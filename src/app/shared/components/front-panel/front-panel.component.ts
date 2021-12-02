@@ -20,39 +20,13 @@ export class FrontPanelComponent implements OnInit {
     footer: `Data shown is from audited/provisional financial statements for FY 20-21
     and data was last updated on 21st August 2021`,
   };
-  innerWidth;
-  textInnerWidth;
 
   cardStyle = cardStyle;
   cardData = [revenue, expenditure, assets, liabilities, tax_revenue, grants];
 
-  constructor() {
-    this.cardResize();
-  }
+  constructor() {}
 
   ngOnInit(): void {}
-
-  cardResize() {
-    this.innerWidth = window.innerWidth;
-    if (this.innerWidth < 580 && this.innerWidth > 400) {
-      this.innerWidth = window.innerWidth / 2.2;
-      this.innerWidth = `${this.innerWidth}px`;
-    } else if (this.innerWidth < 400) {
-      this.innerWidth = window.innerWidth / 2.3;
-      this.innerWidth = `${this.innerWidth}px`;
-    }
-  }
-
-  textResize() {
-    this.textInnerWidth = window.innerWidth;
-    if (this.textInnerWidth < 580 && this.textInnerWidth > 400) {
-      this.textInnerWidth = window.innerWidth / 2.2;
-      this.textInnerWidth = `${this.textInnerWidth}px`;
-    } else if (this.textInnerWidth < 400) {
-      this.textInnerWidth = window.innerWidth / 2.3;
-      this.textInnerWidth = `${this.textInnerWidth}px`;
-    }
-  }
 }
 
 const revenue = {
@@ -198,4 +172,5 @@ const cardStyle = {
   width: "auto",
   borderRadius: "0.7500em",
   height: "auto",
+  "max-height": "8rem",
 };
