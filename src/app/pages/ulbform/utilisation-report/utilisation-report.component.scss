@@ -79,8 +79,8 @@ option {
     color: black;
 }
 
-.inputfield:disabled {
-    background-color: #CFCFCF;
+input:disabled {
+    background-color: #DBDBDB !important;
 }
 
 .thHeader {
