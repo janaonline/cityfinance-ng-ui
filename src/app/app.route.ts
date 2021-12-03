@@ -8,10 +8,16 @@ import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
 
+import { SharedCardComponent } from "./shared/components/shared-card/shared-card.component";
+import { FrontPanelComponent } from "./shared/components/front-panel/front-panel.component";
+import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-with-filter.component";
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
   // { path: "home", component: HomeComponent },
+  { path: "card", component: SharedCardComponent },
+  { path: "front", component: FrontPanelComponent },
+  { path: "map", component: MapWithFilterComponent },
 
   { path: "home", component: NewHomeComponent },
   {
@@ -143,7 +149,7 @@ export const appRouter: Routes = [
   },
   {
     path: "app-water-rejenuvation",
-    component: WaterRejenuvationComponent
+    component: WaterRejenuvationComponent,
   },
   {
     path: "own-revenue-dashboard",
