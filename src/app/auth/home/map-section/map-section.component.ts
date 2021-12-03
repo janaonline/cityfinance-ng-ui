@@ -434,7 +434,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   onClickingState(currentStateLayer: ILeafletStateClickEvent, layer: L.Layer) {
     const stateCode = MapUtil.getStateCode(currentStateLayer);
 
-    if (this.stateSelected && stateCode === this.stateSelected.code) {
+    if (this.stateSelected &&stateCode === this.stateSelected.code) {
       this.resetMapToNationalView(currentStateLayer.target);
       return;
     }

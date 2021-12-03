@@ -14,12 +14,12 @@ import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent },
+  // { path: "home", component: HomeComponent },
   { path: "card", component: SharedCardComponent },
   { path: "front", component: FrontPanelComponent },
   { path: "map", component: MapWithFilterComponent },
 
-  { path: "newhome", component: NewHomeComponent },
+  { path: "home", component: NewHomeComponent },
   {
     path: "analytics",
     loadChildren: () =>
