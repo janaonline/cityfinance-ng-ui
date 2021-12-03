@@ -11,9 +11,9 @@ import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvati
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent },
+  // { path: "home", component: HomeComponent },
 
-  { path: "newhome", component: NewHomeComponent },
+  { path: "home", component: NewHomeComponent },
   {
     path: "analytics",
     loadChildren: () =>
