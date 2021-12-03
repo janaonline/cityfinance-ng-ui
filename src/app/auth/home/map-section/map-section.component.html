@@ -1,24 +1,18 @@
 <!-- asdasasd -->
 <h2 class="heading" style="margin: 3vw auto">
-  <span>Dashboard</span>
+    <span>Dashboard</span>
 </h2>
 
 <div class="wrapper">
-  <div class="selectPart">
-    <form [formGroup]="myForm">
-      <angular2-multiselect
-        [data]="stateList"
-        formControlName="stateId"
-        [settings]="DropdownSettings"
-        (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)"
-        (onDeSelect)="onSelectingStateFromDropDown(null)"
-      >
-      </angular2-multiselect>
-    </form>
-    Click on a state to see available data on City governments
-  </div>
-  <div class="visualization">
-    <!-- <div
+    <div class="selectPart">
+        <form [formGroup]="myForm">
+            <angular2-multiselect [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+            </angular2-multiselect>
+        </form>
+        Click on a state to see available data on City governments
+    </div>
+    <div class="visualization">
+        <!-- <div
       class="card"
       *ngFor="let points of dataPointsForVisualization"
       [style.backgroundColor]="points.background"
@@ -34,7 +28,7 @@
       <span class="data-point-name"> {{ points.name }}</span>
     </div> -->
 
-    <!-- <div class="card" [style.backgroundColor]="'rgb(241, 104, 49)'">
+        <!-- <div class="card" [style.backgroundColor]="'rgb(241, 104, 49)'">
       <strong
         class="data-point-value"
         [attr.data-animate-value]="
@@ -48,17 +42,14 @@
       >
     </div> -->
 
-    <div class="card" id="card1">
-      <strong
-        class="data-point-value"
-        [ngClass]="{ 'loading-value': dataForVisualization.loading }"
-      >
+        <div class="card" id="card1">
+            <strong class="data-point-value" [ngClass]="{ 'loading-value': dataForVisualization.loading }">
         {{
           dataForVisualization?.coveredUlbCount || 0
             | inrCurrency: { currencyTypeInUser: null }
         }}
       </strong>
-      <!-- <span
+            <!-- <span
         class="data-point-value"
         [ngClass]="{ 'loading-value': dataForVisualization.loading }"
         [attr.data-animate-value]="
@@ -66,7 +57,7 @@
         "
         >0</span
       > -->
-      <span class="data-point-name">
+            <span class="data-point-name">
         (out of
         <span [ngClass]="{ 'loading-value': dataForVisualization.loading }">
           {{
@@ -76,16 +67,9 @@
         >)</span
       >
       <span>
-        ULB<span *ngIf="dataForVisualization?.coveredUlbCount">s</span> with
-        Financial data</span
-      >
+        ULB<span *ngIf="dataForVisualization?.coveredUlbCount">s</span> with Financial data</span>
 
-      <a
-        class="btn btn-explore"
-        *ngIf="dataForVisualization?.coveredUlbCount"
-        [routerLink]="['/analytics/own-revenues']"
-        [queryParams]="{ state: stateSelected ? stateSelected._id : null }"
-        >Explore</a
+            <a class="btn btn-explore" *ngIf="dataForVisualization?.coveredUlbCount" [routerLink]="['/analytics/own-revenues']" [queryParams]="{ state: stateSelected ? stateSelected._id : null }">Explore</a
       >
     </div>
 
