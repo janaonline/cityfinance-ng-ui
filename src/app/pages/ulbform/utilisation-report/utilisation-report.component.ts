@@ -136,6 +136,10 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
         this.isDisabled = true;
         this.utilizationReport.disable();
         this.utilizationReport.controls.projects.disable();
+        this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
+
+
       }
       if (
         this.finalSubmitUtiStatus == "true" &&
@@ -145,6 +149,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
         this.isDisabled = true;
         this.utilizationReport.disable();
         this.utilizationReport.controls.projects.disable();
+        this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
       }
 
       switch (this.userLoggedInDetails.role) {
@@ -155,6 +161,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
           this.utilizationReport.disable();
           this.isDisabled = true;
           this.utilizationReport.controls.projects.disable();
+          this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
       }
 
       this.getResponse();
@@ -336,6 +344,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
           this.isDisabled = true;
           this.utilizationReport.disable();
           this.utilizationReport.controls.projects.disable();
+          this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
         }
 
       },
@@ -407,10 +417,14 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
         this.utilizationReport.disable();
         this.isDisabled = true;
         this.utilizationReport.controls.projects.disable();
+        this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
     if ((this.finalSubmitUtiStatus == "true") &&
       (this.masterFormStatus != 'REJECTED')) {
       this.utilizationReport.controls.projects.disable();
+      this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
     if (
       this.ulbFormStaus == "REJECTED" &&
@@ -421,6 +435,8 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
       this.utilizationReport.enable();
       this.isDisabled = false;
       this.utilizationReport.controls.projects.enable();
+      this.utilizationReport.controls.categoryWiseData_swm.enable();
+        this.utilizationReport.controls.categoryWiseData_wm.enable();
     }
   }
   addPreFilledSimple(data) {
