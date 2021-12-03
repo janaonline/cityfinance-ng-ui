@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
+import { IState } from 'src/app/models/state/state';
 import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
 import { ReUseableHeatMapComponent } from 'src/app/shared/components/re-useable-heat-map/re-useable-heat-map.component';
 import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
@@ -19,13 +21,31 @@ import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 })
 export class DashboardMapSectionComponent extends ReUseableHeatMapComponent
 implements OnInit {
+
+myForm: FormGroup;
 yearSelected = [];
-selectedState ="India"
+selected_state ="India";
+stateselected: IState;
+
+stateList: IState[];
+statesLayer: L.GeoJSON<any>;
+DropdownSettings = {
+  singleSelection: true,
+  text: "India",
+  enableSearchFilter: false,
+  labelKey: "name",
+  primaryKey: "_id",
+  showCheckbox: false,
+  classes: "homepage-stateList custom-class",
+};
 constructor(
   protected _commonService: CommonService,
   protected _snackbar: MatSnackBar,
   protected _geoService: GeographicalService,
-  protected _activateRoute: ActivatedRoute
+  protected _activateRoute: ActivatedRoute,
+  private fb: FormBuilder,
+
+
 ) {
   super(_commonService, _snackbar, _geoService, _activateRoute);
   setTimeout(() => {
@@ -38,9 +58,53 @@ constructor(
       },
     });
   }, 1000);
+    this.initializeform();
+    this.fetchStateList();
+  //  this.fetchDataForVisualization();
+  //  this.fetchDataForVisualization();
+   // this.fetchCreditRatingTotalCount();
+    this.fetchBondIssueAmout();
+
 }
+dataForVisualization: {
+  financialStatements?: number;
+  totalMunicipalBonds?: number;
+  totalULB?: number;
+  coveredUlbCount?: number;
+  loading: boolean;
+} = { loading: true };
+previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
+totalUsersVisit: number;
+
+  absCreditInfo = {};
+
+  creditRatingList: any[];
+
+  // Including A
+  creditRatingAboveA;
+
+  // Including BBB-
+  creditRatingAboveBBB_Minus;
+
+  bondIssueAmount: number;
+  isBondIssueAmountInProgress = false;
+
+  financialYearTexts: {
+    min: string;
+    max: string;
+  };
+  StyleForSelectedState = {
+    weight: 2,
+    color: "black",
+    fillOpacity: 1,
+  };
 
   ngOnInit(): void {
+  }
+  private initializeform() {
+    this.myForm = this.fb.group({
+      stateId: [""],
+    });
   }
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -221,10 +285,93 @@ constructor(
   }
   selectState(state) {
     console.log('state name', state)
-    this.selectedState = state;
+    this.selected_state = state;
   }
   selectCity(city) {
     console.log('city name', city)
   }
+  private fetchBondIssueAmout(stateId?: string) {
+    this.isBondIssueAmountInProgress = true;
+    this._commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
+      try {
+        this.bondIssueAmount = Math.round(res["data"][0]["totalAmount"]);
+      } catch (error) {
+        this.bondIssueAmount = 0;
+      }
+      this.isBondIssueAmountInProgress = false;
+    });
+  }
+  onSelectingStateFromDropDown(state: any | null) {
+    this.stateselected = state;
+   // this.fetchDataForVisualization(state ? state._id : null);
+    this.fetchBondIssueAmout(
+      this.stateselected ? this.stateselected._id : null
+    );
+    this.selectStateOnMap(state);
+  }
+
+  private selectStateOnMap(state?: IState) {
+    if (this.previousStateLayer) {
+    //  this.resetStateLayer(this.previousStateLayer);
+      this.previousStateLayer = null;
+    }
+    if (!state) {
+      return;
+    }
+
+    this.statesLayer.eachLayer((layer) => {
+      const layerName = MapUtil.getStateName(layer);
+      if (layerName !== state.name) {
+        return;
+      }
+      this.higlightClickedState(layer);
+      this.previousStateLayer = layer;
+    });
+  }
+  // private updateDropdownStateSelection(state: IState) {
+  //   this.stateselected = state;
+  //   this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
+  // }
+
+  private higlightClickedState(stateLayer) {
+    stateLayer.setStyle(this.StyleForSelectedState);
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+      stateLayer.bringToFront();
+    }
+  }
+  // private resetStateLayer(layer) {
+  //   layer.setStyle({
+  //     color: this.defaultStateLayerColorOption.color,
+  //     weight: this.defaultStateLayerColorOption.weight,
+  //   });
+  //   layer.closeTooltip();
+  // }
+
+  private updateDropdownStateSelection(state: IState) {
+    this.stateselected = state;
+    this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
+  }
+  private fetchStateList() {
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.stateList = [{ _id: null, name: "India" }].concat(res);
+    });
+  }
+
+  // private fetchDataForVisualization(stateId?: string) {
+  //   this.dataForVisualization.loading = true;
+  //   this._commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
+  //     this.setDefaultAbsCreditInfo();
+
+  //     this.showCreditInfoByState(
+  //       this.stateselected ? this.stateselected.name : ""
+  //     );
+  //     this.dataForVisualization = { ...res, loading: false };
+  //     this._ngZone.runOutsideAngular(() => {
+  //       setTimeout(() => {
+  //         this.animateValues(1);
+  //       });
+  //     });
+  //   });
+  // }
 
 }

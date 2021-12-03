@@ -112,6 +112,10 @@
                    <option value="3">Bihar</option>
                 </select>
             </div>
+            <!-- <form [formGroup]="myForm">
+                <angular2-multiselect [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+                </angular2-multiselect>
+            </form> -->
             <div class="input-group inp-grp ms-3" *ngIf="(selectedState != 'India')">
                 <select class="form-select expo-drp-in" id="inputGroupSelect01" (change)="selectCity($event.target.value)">
                  <option value="1">Kanpur</option>
@@ -123,7 +127,7 @@
         <div class="expo-pd">
             <div class="vl"></div>
             <div class="c-n ps-1">
-                {{selectedState}}
+                {{selected_state}}
             </div>
             <div class="row mt-1">
                 <div class="col-sm-6 col-md-4 col-6">
