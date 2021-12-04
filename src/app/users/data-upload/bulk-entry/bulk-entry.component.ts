@@ -173,7 +173,8 @@ export class BulkEntryComponent implements OnInit {
              * file is completed or not. Once it is completed or FAILED, then we stop
              * calling the api for that file.
              */
-            observableThrowError("throw any error here");
+            throw new Error("Error")
+            // observableThrowError("throw any error here");
           }
           return response;
         }),
