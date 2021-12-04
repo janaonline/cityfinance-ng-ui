@@ -79,6 +79,10 @@ option {
     color: black;
 }
 
+input:disabled {
+    background-color: #DBDBDB !important;
+}
+
 .thHeader {
     background-color: #058E91;
     font-family: Roboto;
