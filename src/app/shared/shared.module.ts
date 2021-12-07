@@ -156,6 +156,7 @@ import { MapWithFilterComponent } from './components/map-with-filter/map-with-fi
     NHomeHeaderComponent,
     DashboardMapSectionComponent,
     DashboardTabsComponent,
+    SharedCardComponent
   ],
   providers: [FinancialDataService],
 })

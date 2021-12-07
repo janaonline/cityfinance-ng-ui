@@ -11,7 +11,7 @@
             </div>
             <div class="g-filter-d">
                 <form class="filter-form">
-                    <input type="text" placeholder="Search for a street" [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input">
+                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input">
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
                             {{street}}
@@ -113,7 +113,7 @@
     </div>
     <div class="row mt-2 com-logo">
         <div class="col-sm-12 text-center mt-1">
-            <div class="com-h">
+            <div class="com-h pt-4">
                 Our Supporters & Partners
             </div>
         </div>
