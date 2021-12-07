@@ -93,8 +93,6 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     HeatMapComponent,
     UlbNotRegisteredComponent,
     NewHomeComponent,
-
-
     // InrCurrencyPipe,
   ],
   exports: [
