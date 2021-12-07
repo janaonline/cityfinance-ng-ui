@@ -158,6 +158,13 @@ export const appRouter: Routes = [
         (m) => m.OwnRevenueDashboardModule
       ),
   },
+  {
+    path: "resources-dashboard",
+    loadChildren: () =>
+      import("./pages/resources-dashboard/resources-dashboard.module").then(
+        (m) => m.ResourcesDashboardModule
+      ),
+  },
 
   { path: "**", redirectTo: "" },
 ];
