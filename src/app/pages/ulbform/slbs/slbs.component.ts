@@ -85,7 +85,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: "", url: "" };
   async ngOnInit() {
-
+    this.isMillionPlusOrNot()
     console.log("usertype....", this.loggedInUserDetails, USER_TYPE);
     this.clickedSave = false;
 
@@ -99,6 +99,24 @@ export class SlbsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     waterWasteManagementForm.reset();
+  }
+
+  isMillionPlus;
+  isUA;
+
+  isMillionPlusOrNot() {
+    this.ulbId = sessionStorage.getItem("ulb_id");
+    console.log("pk12", this.ulbId);
+    if (this.ulbId == null) {
+      let userData = JSON.parse(localStorage.getItem("userData"));
+      this.isMillionPlus = userData.isMillionPlus;
+      this.isUA = userData.isUA;
+      console.log("ifbl", this.isMillionPlus, this.isUA);
+    } else {
+      this.isMillionPlus = sessionStorage.getItem("isMillionPlus");
+      this.isUA = sessionStorage.getItem("isUA");
+      console.log("pk_elseblock", this.isMillionPlus, this.isUA);
+    }
   }
   checkFinalAction() {
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
@@ -146,10 +164,17 @@ export class SlbsComponent implements OnInit, OnDestroy {
       let designYear = "606aaf854dff55e6c075d219";
       let params = "design_year=" + designYear;
       this.commonService.fetchSlbData(params, ulbId).subscribe((res) => {
+
         this.preFilledWaterManagement =
           res["data"] && res["data"][0] ? res["data"][0] : {};
         this.preFilledWaterManagement.history = null;
-
+        if (res['data'].length > 0) {
+          if (res['data'][0]['blank']) {
+            this.clickAnswer = false
+          } else {
+            this.clickAnswer = true
+          }
+        }
         let waterPotability =
           res["data"] &&
             res["data"][0] &&
@@ -206,6 +231,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
     let data = {
       design_year: this.Years["2021-22"],
       isCompleted: value.isCompleted,
+      blank: false,
       waterManagement: { ...value.waterManagement },
       // water_index: value.water_index,
       // waterPotability: {
@@ -304,6 +330,68 @@ export class SlbsComponent implements OnInit, OnDestroy {
 
   }
 
+  submitBlank() {
+    let payload = {
+      "design_year": "606aaf854dff55e6c075d219",
+      "isCompleted": true,
+      "blank": true,
+      "waterManagement": {
+        "waterSuppliedPerDay": {
+          "target": {
+            "2122": "",
+            "2223": "",
+            "2324": "",
+            "2425": ""
+          },
+          "baseline": {
+            "2021": ""
+          }
+        },
+        "reduction": {
+          "target": {
+            "2122": "",
+            "2223": "",
+            "2324": "",
+            "2425": ""
+          },
+          "baseline": {
+            "2021": ""
+          }
+        },
+        "houseHoldCoveredWithSewerage": {
+          "target": {
+            "2122": "",
+            "2223": "",
+            "2324": "",
+            "2425": ""
+          },
+          "baseline": {
+            "2021": ""
+          }
+        },
+        "houseHoldCoveredPipedSupply": {
+          "target": {
+            "2122": "",
+            "2223": "",
+            "2324": "",
+            "2425": ""
+          },
+          "baseline": {
+            "2021": ""
+          }
+        }
+      }
+    }
+    this.commonService.postSlbData(payload).subscribe((res) => {
+      const status = JSON.parse(sessionStorage.getItem("allStatus"));
+      status.slbForWaterSupplyAndSanitation.isSubmit = true;
+      status.slbForWaterSupplyAndSanitation.status = 'NA';
+      this._ulbformService.allStatus.next(status);
+
+      swal("Record submitted successfully!");
+    });
+  }
+
   saveDataInAllForm(value) {
     let data = {
       design_year: this.Years["2021-22"],
@@ -322,7 +410,11 @@ export class SlbsComponent implements OnInit, OnDestroy {
       this._ulbformService.allFormsData.next(allFormData);
     }
   }
-
+  clickAnswer;
+  answer(ans) {
+    this.clickAnswer = ans
+    console.log(ans)
+  }
   checkIfCompletedOrNot(value) {
     //checking targets values
     for (let key in value["waterManagement"]) {

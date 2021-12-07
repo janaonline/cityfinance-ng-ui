@@ -1,56 +1,74 @@
-<div class="col-sm-12" style="margin-bottom: 1rem;">
-    <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
-        <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
-        <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
-      ULB: {{ financialData?.ulbName }}</span> -->
-
-        <button [style.position]="
-          loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload"
-            (click)="openModal(template,true)">
-            Preview
-        </button>
-    </h3>
-</div>
-<div class="col-sm-12 mb-2">
-    <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)"
-        [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
-</div>
-<div class="col-sm-12 mb-1">
-    <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
-    loggedInUserType === USER_TYPE.MoHUA) &&
-  (takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
-        <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
-  (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
-        <div class="card-body">
-            <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
-            </app-state-action-ulb>
+<div class="card-body" style="margin-top: 2rem;" *ngIf="isMillionPlus == 'No' && isUA == 'No'">
+    <div style="margin-top: 2rem;">
+        <span class="quesIn"><b>Do you wish to submit Details for Performance Conditions ?<span
+                    style="color: red;"></span>
+            </b>
+        </span>
+    </div>
+    <div style="margin-bottom: 2pc;">
+        <div style="margin-top: 2%;">
+            <button [ngClass]="{'btnClick': clickAnswer}" value="1" id="yes" class="btn"
+                style="margin: 1pc 2pc; width: 8%" (click)="answer(true)">Yes</button>
+            <button [ngClass]="{'btnClick': !clickAnswer}" value="1" id="no" class="btn"
+                style="margin: 1pc 2pc; width: 8%" (click)="answer(false)">No</button>
         </div>
     </div>
 </div>
+<div *ngIf="clickAnswer">
+    <div class="col-sm-12" style="margin-bottom: 1rem;">
+        <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
+            <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
+            <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
+      ULB: {{ financialData?.ulbName }}</span> -->
 
-<!-- (ulbFormStaus !== 'NA') -->
+            <button [style.position]="
+          loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
+        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload"
+                (click)="openModal(template,true)">
+                Preview
+            </button>
+        </h3>
+    </div>
+    <div class="col-sm-12 mb-2">
+        <app-fc-slb [form]="waterWasteManagementForm" (outputValues)="onWaterWasteManagementEmitValue($event)"
+            [waterPotability]="waterPotability" [actionStatus]="actionResSlb"></app-fc-slb>
+    </div>
+    <div class="col-sm-12 mb-1">
+        <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
+    loggedInUserType === USER_TYPE.MoHUA) &&
+  (takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
+            <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+  (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
+            <div class="card-body">
+                <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
+                </app-state-action-ulb>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 footerBtnDiv" *ngIf="
+    (loggedInUserDetails.role === USER_TYPE.STATE) ||
+    (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
+    (loggedInUserDetails.role === USER_TYPE.MoHUA)" style="padding: 0;">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true"
+                [routerLink]="['../annual_acc']">BACK</a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+            <!-- <button type="button" class="btn footerBtn" id="saveDraft"
+                  (click)="saveAsDraft()">SAVE AS DRAFT</button>
+              -->
+            <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
+        </div>
+    </div>
 
-<div class="col-sm-12 footerBtnDiv" *ngIf="
- (loggedInUserDetails.role === USER_TYPE.STATE) ||
- (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
- (loggedInUserDetails.role === USER_TYPE.MoHUA)" style="padding: 0;">
-    <div class="col-lg-6 col-md-6 col-sm-6">
-        <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true"
-            [routerLink]="['../annual_acc']">BACK</a>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-        <!-- <button type="button" class="btn footerBtn" id="saveDraft"
-               (click)="saveAsDraft()">SAVE AS DRAFT</button>
-           -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
-    </div>
 </div>
+
+<button *ngIf="!clickAnswer" class="btn backbtn" (click)="submitBlank()">BACK</button>
+<button *ngIf="!clickAnswer" class="btn footerBtn" style="float: right;" (click)="submitBlank()">SAVE</button>
 
 <ng-template #previewPopup>
     <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
 </ng-template>
-
 <ng-template #template>
     <div class="modal-body text-center">
         <div class="modal-header">

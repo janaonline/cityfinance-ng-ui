@@ -2,6 +2,24 @@
     margin-bottom: 10px;
 }
 
+.card-body {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 97%;
+    height: auto;
+    background-color: #F7F7F7;
+}
+.qbtn {
+    top: 321px;
+    left: 370px;
+    width: 72px;
+    height: 30px;
+    margin-top: 2rem;
+    background-color: #CFCFCF;
+    margin-bottom: 1pc;
+}
 .footerBtn {
     width: auto;
     height: 32px;
@@ -20,6 +38,10 @@
     height: 32px;
     padding-left: 4%;
     padding-right: 4%;
+}
+
+.btnClick {
+    background-color: #ffc500; 
 }
 
 .btn:hover {

@@ -223,6 +223,11 @@
                     </a>
 
                     <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                        <mat-icon
+                            *ngIf="allStatus.slbForWaterSupplyAndSanitation.status == 'NA' && userLoggedInDetails.role != userTypes.ULB"
+                            class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                            <img src="../../../assets/ticks/info_black_24dp.svg">
+                        </mat-icon>
                         <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
                             aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
                             <img src="../../../assets/form-icon/checked.svg">

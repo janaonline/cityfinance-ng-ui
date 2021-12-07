@@ -54,6 +54,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
   takeStateAction;
   compDis;
   mohuaActionComp;
+  isMillionPlus;
   constructor(
     private _router: Router,
     private modalService: BsModalService,
@@ -62,6 +63,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     private _ulbformService: UlbformService
   ) {
     // super(dataEntryService, _dialog);
+    this.isMillionPlus
     this.ulb_id = sessionStorage.getItem("ulb_id");
     this.finalSubmitStatus = localStorage.getItem("finalSubmitStatus");
     this.lastRoleInMasterForm = localStorage.getItem("lastRoleInMasterForm");
@@ -71,6 +73,7 @@ export class FcSlbComponent implements OnInit, OnChanges {
     this.mohuaActionComp = localStorage.getItem("mohuaActionComDis ");
   }
 
+  
   focusTargetKey: any = {};
   focusTargetKeyForErrorMessages: any = {};
 
@@ -150,6 +153,8 @@ export class FcSlbComponent implements OnInit, OnChanges {
   invalidWhole = false;
   benchmarks = [];
   changeInData = false;
+  ulbId;
+  isUA;
   ngOnInit() {
 
     this.isDataPrefilled = false;
