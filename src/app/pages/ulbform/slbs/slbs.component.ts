@@ -81,6 +81,7 @@ export class SlbsComponent implements OnInit, OnDestroy {
   @ViewChild("template") template;
   @ViewChild("template1") template1;
   routerNavigate = null;
+  isDisabled = false;
   protected readonly formBuilder = new FormBuilder();
   @ViewChild("previewPopup") previewPopup: TemplateRef<any>;
   waterPotability: any = { name: "", url: "" };
@@ -88,7 +89,12 @@ export class SlbsComponent implements OnInit, OnDestroy {
     this.isMillionPlusOrNot()
     console.log("usertype....", this.loggedInUserDetails, USER_TYPE);
     this.clickedSave = false;
-
+    let masterData = JSON.parse(sessionStorage.getItem("masterForm"))
+    if (masterData) {
+      if (masterData['actionTakenByRole'] == 'ULB' && masterData['isSubmit'] == true) {
+        this.isDisabled = true;
+      }
+    }
     await this.getSlbData();
 
     this.createDataForms(this.preFilledWaterManagement);
