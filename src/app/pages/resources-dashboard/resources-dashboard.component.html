@@ -26,8 +26,8 @@
 </div>
 <div class="container mt-n">
     <div class="row">
-        <div class="text-center col-3 mb-2" style="margin: 0 auto;" *ngFor="let card of cardData">
-            <a style="text-decoration: none;">
+        <div class="text-center col-3 mb-2 res-d" style="margin: 0 auto;" [routerLinkActive]="active" *ngFor="let card of cardData">
+            <a [routerLink]="card.link" style="text-decoration: none;">
                 <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
             </a>
         </div>
