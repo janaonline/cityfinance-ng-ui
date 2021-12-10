@@ -50,7 +50,7 @@ const learningCenter = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/learning.svg`,
-  routerLink : '',
+  link : 'learning-center',
   img: "",
   para: "",
   actionButtons: [
@@ -75,7 +75,7 @@ const dataSets = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/dataSets.svg`,
-  routerLink : '',
+  link : 'data-sets',
   img: "",
   para: "",
   actionButtons: [
@@ -100,7 +100,7 @@ const reportsPublications = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/reports.svg`,
-  routerLink : '',
+  link : 'report-publications',
   img: "",
   para: "",
   actionButtons: [
@@ -125,7 +125,7 @@ const latestNewsUpdates = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/learning.svg`,
-  routerLink : '',
+  link : 'latest-news',
   img: "",
   para: "",
   actionButtons: [
