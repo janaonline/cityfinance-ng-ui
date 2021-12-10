@@ -184,6 +184,7 @@ totalUsersVisit: number;
         click: (args: ILeafletStateClickEvent) => this.onStateLayerClick(args),
         mouseout: () => (this.mouseHoverOnState = null),
       });
+
     });
 
     /**
@@ -202,6 +203,8 @@ totalUsersVisit: number;
         this.currentStateInView
       );
     }
+
+
     this.isProcessingCompleted.emit(true);
   }
 
