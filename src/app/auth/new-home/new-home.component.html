@@ -11,10 +11,10 @@
             </div>
             <div class="g-filter-d">
                 <form class="filter-form w-100">
-                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input w-80">
+                    <input type="text" placeholder="Type here..." matInput [formControl]="stateCtrl" [matAutocomplete]="auto" class="fl-input w-80">
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
-                            {{street}}
+                        <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+                            {{state.name}}
                         </mat-option>
                     </mat-autocomplete>
                     <button class="btn lnd-btn" style="">

@@ -2,22 +2,51 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { startWith, map } from "rxjs/operators";
+import { CommonService } from "src/app/shared/services/common.service";
 
+export interface State {
+  flag: string;
+  name: string;
+  population: string;
+}
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
   styleUrls: ["./new-home.component.scss"],
 })
 export class NewHomeComponent implements OnInit {
-  constructor() {}
-  globalFilter = new FormControl();
-  streets: string[] = [
-    "Champs-Élysées 1",
-    "Lombard Street",
-    "Abbey Road",
-    "Fifth Avenue",
+  constructor(
+    protected _commonService: CommonService,
+  ) {}
+  stateCtrl = new FormControl();
+  filteredStates: Observable<State[]>;
+
+  states: State[] = [
+    {
+      name: 'Arkansas',
+      population: '2.978M',
+      // https://commons.wikimedia.org/wiki/File:Flag_of_Arkansas.svg
+      flag: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg',
+    },
+    {
+      name: 'California',
+      population: '39.14M',
+      // https://commons.wikimedia.org/wiki/File:Flag_of_California.svg
+      flag: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_California.svg',
+    },
+    {
+      name: 'Florida',
+      population: '20.27M',
+      // https://commons.wikimedia.org/wiki/File:Flag_of_Florida.svg
+      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Florida.svg',
+    },
+    {
+      name: 'Texas',
+      population: '27.47M',
+      // https://commons.wikimedia.org/wiki/File:Flag_of_Texas.svg
+      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Texas.svg',
+    },
   ];
-  filteredStreets: Observable<string[]>;
 
   myInterval = 2000;
   activeSlideIndex = false;
@@ -137,27 +166,26 @@ export class NewHomeComponent implements OnInit {
   ]
 
   ngOnInit(): void {
-    this.filteredStreets = this.globalFilter.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filter(value))
+    this.filteredStates = this.stateCtrl.valueChanges.pipe(
+      startWith(''),
+      map(state => (state ? this._filterStates(state) : this.states.slice())),
     );
 
   }
-  private _filter(value: string): string[] {
-    // console.log('value', value)
-    if (value != "") {
-      const filterValue = this._normalizeValue(value);
-      return this.streets.filter((street) =>
-        this._normalizeValue(street).includes(filterValue)
-      );
-    }
+  private _filterStates(value: string): State[] {
+    const filterValue = value.toLowerCase();
+    let temp = [];
+    this._commonService.postGlobalSearchData(filterValue).subscribe((res:any)=> {
+      temp = res?.data
+      console.log('temp', temp)
+    })
+    return this.states.filter(state => state.name.toLowerCase().includes(filterValue));
+
   }
 
-  private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, "");
-  }
+
+
   carouselClass(e) {
-
     if (e == 0) {
       this.p_indi = true;
       this.m_indi = false;
