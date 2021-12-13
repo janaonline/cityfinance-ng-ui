@@ -15,7 +15,7 @@
         </div>
     </div>
 </div>
-<div *ngIf="clickAnswer">
+<div *ngIf="clickAnswer || isMillionPlus == 'Yes' || isUA == 'Yes'">
     <div class="col-sm-12" style="margin-bottom: 1rem;">
         <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
             <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
@@ -64,8 +64,8 @@
 
 </div>
 
-<button *ngIf="!clickAnswer" class="btn backbtn" (click)="submitBlank()">BACK</button>
-<button *ngIf="!clickAnswer" class="btn footerBtn" style="float: right;" (click)="submitBlank()">SAVE</button>
+<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn backbtn" (click)="submitBlank()">BACK</button>
+<button *ngIf="!clickAnswer && isMillionPlus == 'No' && isUA == 'No'" class="btn footerBtn" style="float: right;" (click)="submitBlank()">SAVE</button>
 
 <ng-template #previewPopup>
     <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
