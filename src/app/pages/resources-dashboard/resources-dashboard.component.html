@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row res-bg">
+        <div class="col-12 text-center">
+            <div class="res-h mt-5 mb-2">
+                Resources
+            </div>
+            <div class="res-sub-h mb-2">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.
+            </div>
+            <div class="res-filter">
+                <form class="filter-form">
+                    <input type="text" placeholder="Type here..." [formControl]="resourcesFilter" [matAutocomplete]="auto" class="fl-input">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let resource of filteredResources | async" [value]="resource">
+                            {{resource}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </form>
+                <div style="display: inline-block; float: right;">
+                    <button type="button" class="btn btnFilter">Search</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-n">
+    <div class="row">
+        <div class="text-center col-3 mb-2 res-d" style="margin: 0 auto;" [routerLinkActive]="active" *ngFor="let card of cardData">
+            <a [routerLink]="card.link" style="text-decoration: none;">
+                <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

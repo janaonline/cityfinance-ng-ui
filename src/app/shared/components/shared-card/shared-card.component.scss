@@ -1,12 +1,38 @@
 .project {
-  background: #f4f7ff 0% 0% no-repeat padding-box;
-  border: 1px solid #6c93fc;
-  border-radius: 50px;
-  opacity: 0.8;
-  padding: 0.23em;
-  text-align: left;
-  letter-spacing: 0px;
-  color: #1e44ad;
+    background: #f4f7ff 0% 0% no-repeat padding-box;
+    border: 1px solid #6c93fc;
+    border-radius: 50px;
+    opacity: 0.8;
+    padding: 0.23em;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #1e44ad;
+}
+
+// .res-card:hover {
+//     background: #FFF1E3 0% 0% no-repeat padding-box;
+//     box-shadow: 0px 2px 8px #FADAAD;
+//     border: 1px solid #E87A1C;
+//     opacity: 1;
+// }
+// .resources-h:hover,
+// .resources-sub-h:hover {
+//     color: #000000;
+// }
+.resources-h {
+    text-align: center;
+    font: normal normal 700 16px/19px 'Montserrat';
+    letter-spacing: 0px;
+    color: #0F1F40;
+    opacity: 1;
+}
+
+.resources-sub-h {
+    text-align: center;
+    font: normal normal 400 12px/18px 'Montserrat';
+    letter-spacing: 0px;
+    color: #6E7281;
+    opacity: 1;
 }
 .lowerText{
   font-family: "Montserrat";

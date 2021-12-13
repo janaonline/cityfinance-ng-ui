@@ -11,7 +11,7 @@
             </div>
             <div class="g-filter-d">
                 <form class="filter-form">
-                    <input type="text" placeholder="Search for a street" [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input">
+                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input">
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
                             {{street}}
@@ -113,14 +113,14 @@
     </div>
     <div class="row mt-2 com-logo">
         <div class="col-sm-12 text-center mt-1">
-            <div class="com-h">
+            <div class="com-h pt-4">
                 Our Supporters & Partners
             </div>
         </div>
         <div class="col p-4">
             <span class="comp-img" style="padding: 0 2rem 0 4rem;"><img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt=""></span>
             <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
-            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/Dhwani-Logo_Versions-e1533798168980.png" alt=""></span>
+            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
             <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>
             <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt=""></span>
             <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt=""></span>

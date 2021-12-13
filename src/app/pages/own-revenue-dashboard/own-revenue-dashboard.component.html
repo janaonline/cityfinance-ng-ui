@@ -1,1 +1,45 @@
-<p>own-revenue-dashboard works!</p>
+<div class="container-fluid dashboard-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <h1 class="perform-dashboard-heading text-center">Performance Dashboard</h1>
+      <p class="perform-dashboard-para col-11 text-center mt-3">The performance dashboard showcases the state of Municipal own revenues and property tax revenues in the country. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.</p>  
+    </div>
+  </div>
+</div>
+
+
+<div class="container d-flex">
+  <div class="col-md-7">
+    <h3 class="heading">Data Availability</h3>
+    <p class="da-para">
+      75% financial data is available for the year YY i.e. 75% of the ULBs’
+      financial statements are available for the year YY. Data is not available
+      for AA, BB and CC Municipal Corporation. For more details, download the
+      complete set of ULBs for which the data is available for the year YY.
+    </p>
+    <button class="btn btn-outline-secondary btn-sm btn-os">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        enable-background="new 0 0 24 24"
+        height="24px"
+        viewBox="0 0 24 24"
+        width="24px"
+        class="fill-secondary"
+      >
+        <g><rect fill="none" height="24" width="24" /></g>
+        <g>
+          <path
+            d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M17,11l-1.41-1.41L13,12.17V4h-2v8.17L8.41,9.59L7,11l5,5 L17,11z"
+          />
+        </g>
+      </svg>
+      Download Data
+    </button>
+  </div>
+  <div class="col-md-5 ">
+    <canvas id="myChart">
+    </canvas>
+    <span>75%</span><br>
+    <span>Data Availability</span>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+@import "./src/scss/functions";
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+.res-bg {
+    background-color: #F1F8FF;
+    height: 20rem;
+}
+
+.res-h {
+    font: normal normal bold 34px/41px 'Montserrat';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.res-sub-h {
+    font: normal normal normal 18px/27px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.filter-form {
+    // min-width: 150px;
+    // max-width: 500px;
+    width: 82%;
+    display: inline-block;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.res-filter {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 11px #00000022;
+    border: 1px solid #D9DCE6;
+    border-radius: 8px;
+    width: 50%;
+    margin: 1rem auto 4rem auto;
+}
+
+.fl-input {
+    width: 100%;
+    border: none;
+    padding: 12px 0px 12px 5px;
+}
+
+.fl-input:focus-visible {
+    border: none;
+    outline: none;
+    outline-color: transparent;
+}
+
+.btnFilter {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    border-radius: 0px 8px 8px 0px;
+    opacity: 1;
+    padding: 12px 24px;
+    color: #fff;
+}
+
+.mt-n {
+    margin-top: -4rem;
+}
+
+.res-d.active {
+    background: #FFF1E3 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #FADAAD;
+    border: 1px solid #E87A1C;
+    opacity: 1;
+}
+
+// .resources-h.active,
+// .resources-sub-h.active {
+//     color: #000000;
+// }

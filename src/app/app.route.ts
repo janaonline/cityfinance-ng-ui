@@ -13,7 +13,7 @@ export const appRouter: Routes = [
 
   { path: "home", component: HomeComponent },
 
-  { path: "newhome", component: NewHomeComponent },
+  { path: "home", component: NewHomeComponent },
   {
     path: "dashboard",
     loadChildren: () =>
@@ -157,6 +157,13 @@ export const appRouter: Routes = [
     loadChildren: () =>
       import("./pages/own-revenue-dashboard/own-revenue-dashboard.module").then(
         (m) => m.OwnRevenueDashboardModule
+      ),
+  },
+  {
+    path: "resources-dashboard",
+    loadChildren: () =>
+      import("./pages/resources-dashboard/resources-dashboard.module").then(
+        (m) => m.ResourcesDashboardModule
       ),
   },
 

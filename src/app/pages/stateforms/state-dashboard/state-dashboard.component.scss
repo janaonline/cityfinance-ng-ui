@@ -2,273 +2,272 @@
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
 
-.indicator{
-    background: $primary;
+.indicator {
+  background: $primary;
 
-    &:hover {
-        @include box-shadow($box-shadow);
-        @include transition($transition-base);
-        margin-top: -3px;
-        background: $tertiary;
-    }
-    .card-number {
-        color: $white;
-        font-size: $font-size-lg;
-        font-weight: 450;
-    }
-    
-    .card-text {
-        color: #ffffff;
-        font-size: 14px;
-        margin-top: 5px;
-        margin-left: 3px;
-    }
+  &:hover {
+    @include box-shadow($box-shadow);
+    @include transition($transition-base);
+    margin-top: -3px;
+    background: $tertiary;
+  }
+  .card-number {
+    color: $white;
+    font-size: $font-size-lg;
+    font-weight: 450;
+  }
+
+  .card-text {
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 3px;
+  }
 }
 
-
 .search-bar {
-    border: 1px solid #0000001A;
-    border-radius: 5px;
-    width: inherit;
-    height: 63px;
-    line-height: 63px;
-    text-align: center;
-    margin-top: 16px;
-    margin-bottom: 17px;
-    text-align: left;
-    // padding-left: 20px;
-    // margin-left: 10px;
-    // margin-right: 3px;
+  border: 1px solid #0000001a;
+  border-radius: 5px;
+  width: inherit;
+  height: 63px;
+  line-height: 63px;
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 17px;
+  text-align: left;
+  // padding-left: 20px;
+  // margin-left: 10px;
+  // margin-right: 3px;
 }
 
 .dropdown {
-    border-radius: 4px;
-    width: 100px;
-    height: 25px;
-    margin: 5px 0px 5px 0px;
+  border-radius: 4px;
+  width: 100px;
+  height: 25px;
+  margin: 5px 0px 5px 0px;
 }
 
 .searchButton {
-    height: 31px;
-    width: 89px;
-    background-color: #059B9A;
-    color: #ffffff;
-    padding: 2px 1px 2px 1px;
-    margin-left: 5px;
-    border-radius: 4px;
-    border: 1px solid transparent;
+  height: 31px;
+  width: 89px;
+  background-color: #059b9a;
+  color: #ffffff;
+  padding: 2px 1px 2px 1px;
+  margin-left: 5px;
+  border-radius: 4px;
+  border: 1px solid transparent;
 }
 
 .searchButton:hover {
-    background-color: #FFC500;
+  background-color: #ffc500;
 }
 
 .btn {
-    margin-left: 16px;
-    margin-bottom: 18px;
-    width: 100px
+  margin-left: 16px;
+  margin-bottom: 18px;
+  width: 100px;
 }
 
 .firstColumn {
-    background-color: #12505A;
-    color: #ffffff;
-    height: 100%;
-    border-radius: 4px;
-    border: 1px solid #0000001A;
+  background-color: #12505a;
+  color: #ffffff;
+  height: 100%;
+  border-radius: 4px;
+  border: 1px solid #0000001a;
 }
 
 .secondColumn {
-    color: black;
-    background-color: #ffffff;
-    //   height: 100%;
-    border-radius: 4px;
-    border: 1px solid #0000001A;
-    padding-bottom: 10px;
+  color: black;
+  background-color: #ffffff;
+  //   height: 100%;
+  border-radius: 4px;
+  border: 1px solid #0000001a;
+  padding-bottom: 10px;
 }
 
 .thirdColumn {
-    color: black;
-    background-color: #ffffff;
-    // height: 100%;
-    border-radius: 4px;
-    border: 1px solid #0000001A;
+  color: black;
+  background-color: #ffffff;
+  // height: 100%;
+  border-radius: 4px;
+  border: 1px solid #0000001a;
 }
 
 .statusArea {
-    height: 577px;
-    // width: 100%;
-    // margin-left: inherit
+  height: 577px;
+  // width: 100%;
+  // margin-left: inherit
 }
 
 .mainDonutChart {
-    // height: 288px;
-    // width: 100%;
-    margin-top: 13%;
+  // height: 288px;
+  // width: 100%;
+  margin-top: 13%;
 }
 
 .pieChart {
-    height: 246px;
-    width: 100%;
-    // margin-left:auto;
-    // margin-right:auto;
+  height: 246px;
+  width: 100%;
+  // margin-left:auto;
+  // margin-right:auto;
 }
 
 .smallDonuts {
-    height: 120px;
-    width: 100%;
+  height: 120px;
+  width: 100%;
 }
 
 .viewListBtn {
-    margin-top: 90px;
-    text-align: center;
-    margin-right: 10px;
+  margin-top: 90px;
+  text-align: center;
+  margin-right: 10px;
 }
 
 .iconImage {
-    margin-top: 30px;
-    text-align: right;
-    padding-right: 25px;
+  margin-top: 30px;
+  text-align: right;
+  padding-right: 25px;
 }
 
 .gauge {
-    //  height: 190px;
+  //  height: 190px;
 }
 
 .formDonutCharts {
-    height: 523px;
-    border-bottom: 1px solid #0000001A;
-    color: black;
+  height: 523px;
+  border-bottom: 1px solid #0000001a;
+  color: black;
 }
 
 .gaugeSize {
-    height: 175px;
-    width: 98%;
+  height: 175px;
+  width: 98%;
 }
 
 .textInThirdColumn {
-    line-height: 30px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 4px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 4px;
 }
 
 .bottomPart {
-    border: 1px solid #0000001A;
-    border-radius: 4px;
-    //   width: inherit;
-    margin-bottom: 2%;
-    height: 263px;
-    margin-top: 2%;
+  border: 1px solid #0000001a;
+  border-radius: 4px;
+  //   width: inherit;
+  margin-bottom: 2%;
+  height: 263px;
+  margin-top: 2%;
 }
 
 .header {
-    border-bottom: 1px solid #0000001A;
-    //  line-height: 50px;
-    text-align: left;
-    // width: 100%;
-    // height: 52px;
-    padding: 10px;
-    font-weight: bold;
+  border-bottom: 1px solid #0000001a;
+  //  line-height: 50px;
+  text-align: left;
+  // width: 100%;
+  // height: 52px;
+  padding: 10px;
+  font-weight: bold;
 }
 
 .millionPlus {
-    height: 120px;
+  height: 120px;
 }
 
 .Card1 {
-    background-color: #f5fbff;
-    border: 1px solid #BAE8FF;
-    border-radius: 4px;
-    height: 100px;
-    width: 100%;
-    text-align: center;
-    margin: 15px 6px 15px 2px;
-    padding: 3px 16px 3px 16px;
+  background-color: #f5fbff;
+  border: 1px solid #bae8ff;
+  border-radius: 4px;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  margin: 15px 6px 15px 2px;
+  padding: 3px 16px 3px 16px;
 }
 
 .Card2 {
-    background-color: #E4FED8;
-    border: 1px solid #A6F284;
-    border-radius: 4px;
-    height: 100px;
-    width: 100%;
-    text-align: center;
-    margin: 15px 6px 15px 2px;
-    padding: 3px 16px 3px 16px;
+  background-color: #e4fed8;
+  border: 1px solid #a6f284;
+  border-radius: 4px;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  margin: 15px 6px 15px 2px;
+  padding: 3px 16px 3px 16px;
 }
 
 svg {
-    overflow: none;
-    padding: 10px;
-    float: left;
-    width: 350px;
-    height: 350px;
+  overflow: none;
+  padding: 10px;
+  float: left;
+  width: 350px;
+  height: 350px;
 }
 
 text {
-    fill: orange;
-    text-anchor: left;
-    font-size: 12px;
-    font-family: sans-serif, Helvetica, Arial;
-    font-weight: bold;
+  fill: orange;
+  text-anchor: left;
+  font-size: 12px;
+  font-family: sans-serif, Helvetica, Arial;
+  font-weight: bold;
 }
 
 rect {
-    fill: #555555;
+  fill: #555555;
 }
 
 .parent {
-    position: relative;
+  position: relative;
 }
 
 .opacity_div {
-    background: #fff;
-    height: 100%;
-    width: 33px;
-    position: absolute;
-    //   border:1px solid red;
-    opacity: 0.6;
-    /* manipulate to desired opacity */
+  background: #fff;
+  height: 100%;
+  width: 33px;
+  position: absolute;
+  //   border:1px solid red;
+  opacity: 0.6;
+  /* manipulate to desired opacity */
 }
 
 .tapImage {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 #brandingLogo {
-    opacity: 0
+  opacity: 0;
 }
 
 .btn-next {
-    background-color: #059b9a;
-    color: #ffffff;
-    border-radius: 4px;
-    height: 32px;
-    padding-left: 3%;
-    padding-right: 3%;
-    width: auto;
-    font-size: 12px;
-    font-weight: normal;
+  background-color: #059b9a;
+  color: #ffffff;
+  border-radius: 4px;
+  height: 32px;
+  padding-left: 3%;
+  padding-right: 3%;
+  width: auto;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .btn-back {
-    background-color: #CFCFCF;
-    color: #FFFFFF;
-    border-radius: 4px;
-    height: 32px;
-    padding-left: 3%;
-    padding-right: 3%;
-    width: auto;
-    font-size: 12px;
-    font-weight: normal;
+  background-color: #cfcfcf;
+  color: #ffffff;
+  border-radius: 4px;
+  height: 32px;
+  padding-left: 3%;
+  padding-right: 3%;
+  width: auto;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .pfms {
-    .chartjs-render-monitor {
-        padding-right: 25px;
-    }
+  .chartjs-render-monitor {
+    padding-right: 25px;
+  }
 }
 
 // .mainDonutChart {
@@ -277,79 +276,79 @@ rect {
 //     }
 // }
 .btn-d {
-    background-color: #059B9A;
-    color: #FFFFFF;
+  background-color: #059b9a;
+  color: #ffffff;
 }
 
 .tracking-history-table {
-    thead tr th {
-        background: #12505A;
-        color: white;
-    }
-    tbody tr:nth-child(even) {
-        background: #dbdbdb;
-    }
+  thead tr th {
+    background: #12505a;
+    color: white;
+  }
+  tbody tr:nth-child(even) {
+    background: #dbdbdb;
+  }
 }
 
 #compare-table {
-    margin-bottom: 5px;
-    position: sticky;
-    top: 0px;
-    z-index: 2;
-    tr {
-        position: relative;
-    }
-    th {
-        background-color: #059b9a;
-        color: white;
-    }
-    //     cursor: alias;
-    //     td{
-    //         min-width: 200px;
-    //         max-width: 300px;
-    //         .glyphicon-info-sign{
-    //             float: right;
-    //             color: #059b9a;
-    //             border: 1px solid blue;
-    //             border-radius: 50%;
-    //             margin-top: -10px;
-    //             margin-right: -5px;
-    //         }
-    //     }
+  margin-bottom: 5px;
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+  tr {
+    position: relative;
+  }
+  th {
+    background-color: #059b9a;
+    color: white;
+  }
+  //     cursor: alias;
+  //     td{
+  //         min-width: 200px;
+  //         max-width: 300px;
+  //         .glyphicon-info-sign{
+  //             float: right;
+  //             color: #059b9a;
+  //             border: 1px solid blue;
+  //             border-radius: 50%;
+  //             margin-top: -10px;
+  //             margin-right: -5px;
+  //         }
+  //     }
 }
 
 table {
-    td,
-    th {
-        width: 300px;
-        border: 1px solid #eee;
-        .glyphicon-info-sign {
-            float: left;
-            color: #059b9a;
-            // border: 1px solid blue;
-            border-radius: 50%;
-            // margin-top: -10px;
-            margin-right: 10px;
-        }
+  td,
+  th {
+    width: 300px;
+    border: 1px solid #eee;
+    .glyphicon-info-sign {
+      float: left;
+      color: #059b9a;
+      // border: 1px solid blue;
+      border-radius: 50%;
+      // margin-top: -10px;
+      margin-right: 10px;
     }
+  }
 }
 
 .tableHeadText {
-    text-align: center;
-    vertical-align: inherit;
+  text-align: center;
+  vertical-align: inherit;
 }
 
 .mat-card-actions,
 .mat-card-subtitle,
 .mat-card-content {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .mat-card-actions {
-    margin-left: 0;
-    margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .mat-card-header-text {
-    margin: 0;
+  margin: 0;
 }
