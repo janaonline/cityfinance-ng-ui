@@ -443,8 +443,8 @@ div.miniMap {
 }
 
 .expo-drp-in {
-    //background: #E9ECF7 0% 0% no-repeat padding-box;
-    border-radius: 8px;
+    background: #E9ECF7 !important;
+    border-radius: 8px !important;
     font: normal normal 600 14px/15px 'Archivo';
     letter-spacing: 0px;
     color: #000000;
@@ -506,5 +506,11 @@ div.miniMap {
 
 ::ng-deep .selected-list {
     border-radius: 8px !important;
-    width: 12rem;
+    // width: 80%;
+    background-color: #E9ECF7;
+}
+
+::ng-deep .c-remove,
+::ng-deep .clear-all {
+    display: none;
 }

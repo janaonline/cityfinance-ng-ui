@@ -190,6 +190,7 @@ export class MapSectionComponent implements OnInit, AfterViewInit {
   }
 
   private selectStateOnMap(state?: IState) {
+
     if (this.previousStateLayer) {
       this.resetStateLayer(this.previousStateLayer);
       this.previousStateLayer = null;

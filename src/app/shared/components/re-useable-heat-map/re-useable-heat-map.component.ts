@@ -361,13 +361,20 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
           layerToAutoSelect = { sourceTarget: layer };
         }
       }
+
       (layer as any).bringToBack();
       (layer as any).on({
+
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => this.onStateLayerClick(args),
         mouseout: () => (this.mouseHoverOnState = null),
+
       });
+
     });
+    this.nationalLevelMap.on({
+      mousemove: () => this.mouseOut(this.stateLayers),
+    })
 
     /**
      * @description If the map is already on mini mode, then it means the state is already selected, and its state map
@@ -387,6 +394,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onStateLayerClick(args: ILeafletStateClickEvent) {
+
+    console.log('aggs.', args)
     this.isProcessingCompleted.emit(false);
     if (this.isNationalMapToDistroctMapInProcess) {
       return;
@@ -606,24 +615,44 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     return newStateObj;
   }
-
+  mouseOut(stateLayer) {
+    console.log('haid...')
+    stateLayer.eachLayer(function(layer){
+      layer.setStyle({
+              fillColor: '#3E5DB1',
+              fillOpacity: 1
+            });
+      });
+  }
   createTooltip(layer, stateLayer) {
     if (this.isMapOnMiniMapMode) {
       return false;
     }
-
+    stateLayer.eachLayer(function(layer){
+      		layer.setStyle({
+                 fillColor: '#3E5DB1',
+                  fillOpacity: 1
+                });
+        	});
     let obj: IStateULBCovered = null;
     const stateCode = MapUtil.getStateCode(layer);
 
     const stateFound = this.stateData.find((state) => state.code === stateCode);
+    stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
+    layer.setStyle(
+      {
+        fillOpacity: 1,
+        fillColor: '#F08920',
 
+      },
+    );
     obj = stateFound;
     if (obj != undefined) {
       this.mouseHoverOnState = obj;
       const text =
         "<p>State : <b>" + layer.feature.properties.ST_NM + "</b></p> <p> <b>";
     } else {
-      // stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
+      stateLayer.bindTooltip("<b>" + layer.feature.properties.ST_NM + "</b>");
     }
   }
 
@@ -706,6 +735,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.hideMapLegends();
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
+   // console.log('nnnfcgfgnvb', this.nationalLevelMap, this.currentStateInView);
+   this._commonService.state_name_data.next(this.currentStateInView);
+
   }
 
   showMapLegends() {
@@ -1031,7 +1063,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       opacity: 1,
       color: "#fff",
       fillOpacity: 1,
-      stroke: false, 
+      stroke: false,
     };
   }
 
@@ -1046,6 +1078,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.resetDistrictMap();
     this.clearDistrictMapContainer();
     this.showMapLegends();
+
   }
 
   clearUlbFilterControl() {

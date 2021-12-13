@@ -27,6 +27,7 @@ export class CommonService {
   private stateArr = [];
   public states: Subject<any> = new Subject<any>();
   OpenModalTrigger = new Subject<any>();
+  state_name_data = new Subject<any>();
   private httpUtil = new HttpUtility();
   jsonUtil = new JSONUtility();
 

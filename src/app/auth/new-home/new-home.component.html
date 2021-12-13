@@ -10,17 +10,18 @@
                 <span class="ds-info">Standardised, timely and credible financial information on cities of India</span>
             </div>
             <div class="g-filter-d">
-                <form class="filter-form">
-                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input">
+                <form class="filter-form w-100">
+                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input w-80">
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
                             {{street}}
                         </mat-option>
                     </mat-autocomplete>
+                    <button class="btn lnd-btn" style="">
+                        Search
+                    </button>
                 </form>
-                <div style="display: inline-block; float: right;">
-                    <button type="button" class="btn lnd-btn">Search</button>
-                </div>
+
 
             </div>
             <div class="rce-s-div">
@@ -87,44 +88,59 @@
             <div class="res-s-h pt-2">
                 Delve into key aspects of municipal data summarized and presented in a user-friendly manner
             </div>
-            <div class="row pd-l-r">
-                <div class="col-lg-4 col-md-6 col-sm-12 text-center" *ngFor="let cardItem of exploreCardData; let i=index">
-                    <div class="card card1">
-                        <div class="cd-icon">
-                            <img [src]="cardItem.icon" alt="">
-                        </div>
-                        <div class="cd-head">
-                            {{cardItem.label}}
-                        </div>
-                        <div class="cd-s-head">
-                            {{cardItem.text}}
-                        </div>
-                        <div class="hidden-text">
-                            {{cardItem.hiddenText}}
-                        </div>
-                        <div class="hidden-text btn-d">
-                            <button class="btn btn-view">Know More</button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 text-center" *ngFor="let cardItem of exploreCardData; let i=index">
+                        <div class="card card1 mx-auto">
+                            <div class="cd-icon">
+                                <img [src]="cardItem.icon" alt="">
+                            </div>
+                            <div class="cd-head">
+                                {{cardItem.label}}
+                            </div>
+                            <div class="cd-s-head">
+                                {{cardItem.text}}
+                            </div>
+                            <div class="hidden-text">
+                                {{cardItem.hiddenText}}
+                            </div>
+                            <div class="hidden-text btn-d">
+                                <button class="btn btn-view">Know More</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
     <div class="row mt-2 com-logo">
         <div class="col-sm-12 text-center mt-1">
-            <div class="com-h pt-4">
+            <div class="com-h pt-4 pb-2">
                 Our Supporters & Partners
             </div>
         </div>
-        <div class="col p-4">
-            <span class="comp-img" style="padding: 0 2rem 0 4rem;"><img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt=""></span>
-            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
-            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
-            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>
-            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt=""></span>
-            <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt=""></span>
+        <div class="row align-items-center">
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
+                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt=""></span>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
+                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
+                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
+                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
+                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt=""></span>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
+                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt=""></span>
+            </div>
         </div>
+
     </div>
 
 </div>
