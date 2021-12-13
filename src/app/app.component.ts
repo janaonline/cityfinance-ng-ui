@@ -1,14 +1,15 @@
-import { Component, OnDestroy } from '@angular/core';
-import { delay } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { delay } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 
-import { IUserLoggedInDetails } from './models/login/userLoggedInDetails';
-import { GlobalLoaderService } from './shared/services/loaders/global-loader.service';
-import { SessionService } from './shared/services/session/session.service';
-import { ProfileService } from './users/profile/service/profile.service';
-import { UserUtility } from './util/user/user';
-import { ConnectionService } from 'ng-connection-service';
+import { IUserLoggedInDetails } from "./models/login/userLoggedInDetails";
+import { GlobalLoaderService } from "./shared/services/loaders/global-loader.service";
+import { SessionService } from "./shared/services/session/session.service";
+import { ProfileService } from "./users/profile/service/profile.service";
+import { UserUtility } from "./util/user/user";
+import { ConnectionService } from "ng-connection-service";
 import { SweetAlert } from "sweetalert/typings/core";
+import { CommonService } from "./shared/services/common.service";
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -16,7 +17,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, OnInit {
   title = "City Finance";
   googleTagId = environment.GoogleTagID;
   showLoader = false;
@@ -26,7 +27,8 @@ export class AppComponent implements OnDestroy {
     public globalLoader: GlobalLoaderService,
     private sessionService: SessionService,
     private profileService: ProfileService,
-    private connectionService: ConnectionService
+    private connectionService: ConnectionService,
+    private commonService: CommonService
   ) {
     this.startSession();
     this.globalLoader
@@ -36,15 +38,15 @@ export class AppComponent implements OnDestroy {
         this.showLoader = loadingStatus;
       });
     this.addCustomScripts();
-    this.connectionService.monitor().subscribe(isConnected => {
-      if(!isConnected){
+    this.connectionService.monitor().subscribe((isConnected) => {
+      if (!isConnected) {
         swal({
           title: "No Internet Connection!",
           text: "Please connect to internet",
           icon: "warning",
         });
       }
-    })
+    });
     let userData: any = localStorage.getItem("userData");
     if (!userData) return;
     try {
@@ -91,6 +93,14 @@ export class AppComponent implements OnDestroy {
     });
   }
 
+  ngOnInit(): void {
+    this.commonService.getAllUlbs().subscribe(
+      (res) => {
+        console.log(res, "ULB LIST");
+      },
+      (error) => {}
+    );
+  }
   ngOnDestroy(): void {
     this.sessionService.endSession(this.sessionId).subscribe((res) => {});
   }
