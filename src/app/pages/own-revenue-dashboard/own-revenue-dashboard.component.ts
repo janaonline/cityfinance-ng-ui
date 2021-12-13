@@ -11,7 +11,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    const canvas = <HTMLCanvasElement> document.getElementById('myChart');
+    const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
     console.log("#####",canvas);
     const ctx = canvas.getContext('2d');
     const myChart = new Chart(ctx, {
@@ -21,11 +21,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
             datasets: [
               {
                   label: 'Availability',
-                  data: [75],
+                  data: [75,25],
                   backgroundColor: [
-                      'rgba(51, 96, 219, 1)'
-                  ],
-                  borderWidth: 2
+                      'rgba(51, 96, 219, 1)',
+                      'rgba(218, 226, 253, 1)',
+                    ],
               }
           ]
         },
@@ -35,11 +35,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
                    legend: {
                        display: false
                    },
-                   cutoutPercentage: 90
+                   cutoutPercentage: 80
          }
     });
   }
-
+  
 }
 
 

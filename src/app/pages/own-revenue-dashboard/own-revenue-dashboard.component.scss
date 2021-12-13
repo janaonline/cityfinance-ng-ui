@@ -5,7 +5,7 @@
 $text-color-ord: #0F1F40;
 
 .dashboard-container {
-  background-color: #F1F8FF;
+  background-color: #DAE2FD;
   height: 19rem;
 }
 
@@ -21,9 +21,7 @@ $text-color-ord: #0F1F40;
   font-family: Archivo,serif;
   font-weight: normal;
 }
-// .container {
-//   background-color: #F0F4FF;
-// }
+
 .fill-secondary {
   fill: $secondary;
 }
@@ -59,7 +57,27 @@ $text-color-ord: #0F1F40;
 .btn-os:hover {
   background-color:#F0F4FF;
 }
-
+.doughnut-container {
+  position: relative;
+}
+.doughnut-container canvas {
+  margin-top: 7%;
+  margin-left: 20%;
+  height: 7.8rem !important;
+  width: 18.75rem !important;
+}
+.doughnut_percentage {
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+.doughnut_text {
+  position: absolute;
+  left: 40%;
+  top: 75%;
+}
 // .col-md-5 {
 //   background-color: rgb(224, 107, 107);
 // }
