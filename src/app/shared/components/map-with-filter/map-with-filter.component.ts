@@ -44,11 +44,12 @@ export class MapWithFilterComponent
 
   @Input()
   mapConfig = {
+    stateMapContainerHeight: "23rem",
     nationalZoomOnMobile: 3.9, // will fit map in container
-    nationalZoomOnWeb: 4.2, // will fit map in container
-    stateZoomOnMobile: 5, // will fit map in container
-    stateZoomOnWeb: 5.2, // will fit map in container
-    stateBlockHeight: "28rem", // will fit map in container
+    nationalZoomOnWeb: 3.9, // will fit map in container
+    stateZoomOnMobile: 4, // will fit map in container
+    stateZoomOnWeb: 4, // will fit map in container
+    stateBlockHeight: "23.5rem", // will fit map in container
   };
 
   ngOnInit(): void {}
@@ -170,9 +171,10 @@ export class MapWithFilterComponent
     this.clearDistrictMapContainer();
 
     setTimeout(() => {
+      debugger;
       let zoom;
       if (window.innerWidth > 1050) zoom = this.mapConfig.stateZoomOnMobile;
-      else zoom = this.mapConfig.stateZoomOnMobile;
+      else zoom = this.mapConfig.stateZoomOnWeb;
 
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,

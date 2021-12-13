@@ -1,13 +1,21 @@
-import { Component, OnInit, Input, HostListener } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
   styleUrls: ["./front-panel.component.scss"],
 })
-export class FrontPanelComponent implements OnInit {
+export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
   data = {
+    showMap: true,
     name: "Municipal Corporation of Greater Mumbai",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
     population: "12. 1 M",
@@ -20,13 +28,24 @@ export class FrontPanelComponent implements OnInit {
     footer: `Data shown is from audited/provisional financial statements for FY 20-21
     and data was last updated on 21st August 2021`,
   };
-
-  cardStyle = cardStyle;
+  @Input()
   cardData = [revenue, expenditure, assets, liabilities, tax_revenue, grants];
-
+  @Input()
+  cardStyle = cardStyle;
+  @Input()
+  mapConfig = {
+    stateMapContainerHeight: "23rem",
+    nationalZoomOnMobile: 3.9, // will fit map in container
+    nationalZoomOnWeb: 3.9, // will fit map in container
+    stateZoomOnMobile: 4, // will fit map in container
+    stateZoomOnWeb: 4, // will fit map in container
+    stateBlockHeight: "23.5rem", // will fit map in container
+  };
   constructor() {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {}
 }
 
 const revenue = {
