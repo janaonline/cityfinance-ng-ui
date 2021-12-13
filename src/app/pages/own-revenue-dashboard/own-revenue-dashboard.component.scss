@@ -3,6 +3,7 @@
 @import "./src/scss/mixins";
 
 $text-color-ord: #0F1F40;
+$font-archivo: Archivo;
 
 .dashboard-container {
   background-color: #DAE2FD;
@@ -18,8 +19,11 @@ $text-color-ord: #0F1F40;
 .perform-dashboard-para  {
   margin-top: 1.32rem;
   font-size: 1.125rem;
-  font-family: Archivo,serif;
+  font-family: $font-archivo,serif;
   font-weight: normal;
+}
+.filters-container {
+  background-color: #F7F7F7;
 }
 
 .fill-secondary {
@@ -38,17 +42,43 @@ $text-color-ord: #0F1F40;
   font-size: 0.875rem;
   padding-left: 1.75rem;
 }
-.btn-os {
+.para-styling {
+  margin-top: 5%;
+  margin-bottom: 2.5%;
+  color: #6E7281;
+} 
+.para_word_styling {
+  color: #6E7281;
+  font-weight: 600;
+  font-family: $font-archivo,serif;
+}
+.data-availability  {
+  margin-top: 2.5%;
+}
+.btn-download {
   margin-top: 1.56rem;
   margin-left: 1.75rem;
   margin-bottom: 1.125rem;
   font-size: 0.75rem;
-  font-family: Archivo,serif;
+  font-family: $font-archivo,serif;
   padding-top: 0.56rem;
   padding-bottom: 0.56rem;
   padding-right: 0.68rem;
   font-weight: medium;
   color: $secondary;
+}
+.filter {
+  font-weight: 600;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.filter:focus {
+  border: 1px solid #F2991F;
+  outline: none;
+  box-shadow: none;
+}
+.btn-clear-filters:hover {
+  color: #F2991F;
 }
 .btn:focus {
   outline: none;
@@ -78,21 +108,8 @@ $text-color-ord: #0F1F40;
   left: 40%;
   top: 75%;
 }
-// .col-md-5 {
-//   background-color: rgb(224, 107, 107);
-// }
-// .outer {
-//   position: relative;
-//   width: 600px;
-//   height: 400px;
-// }
-// canvas {
-//   position: absolute;
-// }
-// .percent {
-//  position: absolute;
-//     left: 50%;
-//     transform: translate(-50%, 0);
-//     font-size: 80px;
-//     bottom: 0;
-// }
+.total-revenue-doughnut {
+  margin-top: 2.5%;
+  background-color: #FFFBEF;
+}
+

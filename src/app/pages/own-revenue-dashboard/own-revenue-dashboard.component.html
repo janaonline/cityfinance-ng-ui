@@ -1,4 +1,4 @@
-<div class="container-fluid dashboard-container">
+<div class="container-fluid col col-sm col-md-* col-lg-* dashboard-container">
   <div class="container">
     <div class="row justify-content-center">
       <h1 class="perform-dashboard-heading text-center">Performance Dashboard</h1>
@@ -6,40 +6,114 @@
     </div>
   </div>
 </div>
-
-
-<div class="container d-flex" style="background-color:#F0F4FF;">
-  <div class="col-md-7">
-    <h3 class="heading">Data Availability</h3>
-    <p class="da-para">
-      75% financial data is available for the year YY i.e. 75% of the ULBs’
-      financial statements are available for the year YY. Data is not available
-      for AA, BB and CC Municipal Corporation. For more details, download the
-      complete set of ULBs for which the data is available for the year YY.
-    </p>
-    <button class="btn btn-outline-secondary btn-sm btn-os">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        enable-background="new 0 0 24 24"
-        height="24px"
-        viewBox="0 0 24 24"
-        width="24px"
-        class="fill-secondary"
-      >
-        <g><rect fill="none" height="24" width="24" /></g>
-        <g>
-          <path
-            d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M17,11l-1.41-1.41L13,12.17V4h-2v8.17L8.41,9.59L7,11l5,5 L17,11z"
-          />
-        </g>
-      </svg>
-      Download Data
-    </button>
+<div class="container">
+  <p class="para-styling">To view your performance, select <span class="para_word_styling">State</span> or <span  class="para_word_styling">ULB Name.</span>
+     If you want to view the performance of all <span  class="para_word_styling">ULBs within a ULB type</span> 
+     or <span  class="para_word_styling">ULB Population</span> Category then select your respective <span  class="para_word_styling">State</span> and 
+     the <span  class="para_word_styling">ULB type</span> or population category. Also, select the financial year
+      for which the performance should be displayed.
+  </p>
+  <div class="container rounded filters-container py-3">
+    <div class="row">
+      <h5 class="text-center d-flex justify-content-center">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             height="24px"
+             viewBox="0 0 24 24" 
+             width="24px"
+             fill="#000000">
+             <path d="M0 0h24v24H0V0z" fill="none"/>
+             <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+            </svg> Filter by
+      </h5>
+      <div class="col-md-12 col col-sm d-flex justify-content-between pt-2">
+            <div class="col-md-10 d-flex justify-content-between">
+              <select class="form-select filter">
+                <option selected>State</option>
+              </select>
+              <select class="form-select filter">
+                <option selected>Mumbai</option>
+              </select>
+              <select class="form-select filter">
+                <option selected>ULB Type</option>
+              </select>
+              <select class="form-select filter">
+                <option selected>ULB Population Category</option>
+              </select>
+              <select class="form-select filter">
+                <option selected>2020-2021</option>
+              </select>
+            </div>
+            <div class="col-md-2 col col-sm d-flex justify-content-end">
+              <button  class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
+                Clear All 
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     height="18px" viewBox="0 0 24 24" 
+                     width="18px"
+                     class="fill-secondary">
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M14.59 8L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41 14.59 8zM12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                </svg>
+              </button>
+            </div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-5 doughnut-container">
-    <canvas id="myChart1">
-    </canvas>
-    <span class="doughnut_percentage">75%</span><br>
-    <span class="doughnut_text">Data Availability</span>
+   
+  <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
+    <div class="col-md-7">
+      <h3 class="heading">Data Availability</h3>
+      <p class="da-para">
+        75% financial data is available for the year YY i.e. 75% of the ULBs’
+        financial statements are available for the year YY. Data is not available
+        for AA, BB and CC Municipal Corporation. For more details, download the
+        complete set of ULBs for which the data is available for the year YY.
+      </p>
+      <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          enable-background="new 0 0 24 24"
+          height="24px"
+          viewBox="0 0 24 24"
+          width="24px"
+          class="fill-secondary"
+        >
+          <g><rect fill="none" height="24" width="24" /></g>
+          <g>
+            <path
+              d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M17,11l-1.41-1.41L13,12.17V4h-2v8.17L8.41,9.59L7,11l5,5 L17,11z"
+            />
+          </g>
+        </svg>
+        Download Data
+      </button>
+    </div>
+    <div class="col-md-5 doughnut-container">
+      <canvas id="myChart1">
+      </canvas>
+      <span class="doughnut_percentage">75%</span><br>
+      <span class="doughnut_text">Data Availability</span>
+    </div>
+  </div>
+
+  <div class="container total-revenue-doughnut">
+    <div class="row">
+     <div class="col-md-6">
+      <p> 
+        <b>
+          The following pie chart provides the 
+          split of the contribution various own
+           revenue streams to the total own revenue.
+        </b>
+      </p>
+     </div>
+     <div class="col-md-3 d-flex">
+       <span></span>
+       <span></span>
+       <span></span>
+     </div>
+    </div>
+    <div class="container">
+      <canvas id="canvas"></canvas>
+    </div>
   </div>
 </div>
