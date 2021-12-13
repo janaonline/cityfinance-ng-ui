@@ -394,6 +394,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onStateLayerClick(args: ILeafletStateClickEvent) {
+
+    console.log('aggs.', args)
     this.isProcessingCompleted.emit(false);
     if (this.isNationalMapToDistroctMapInProcess) {
       return;
@@ -733,6 +735,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.hideMapLegends();
 
     this.showStateLayerOnlyFor(this.nationalLevelMap, this.currentStateInView);
+   // console.log('nnnfcgfgnvb', this.nationalLevelMap, this.currentStateInView);
+   this._commonService.state_name_data.next(this.currentStateInView);
+
   }
 
   showMapLegends() {
@@ -1073,6 +1078,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.resetDistrictMap();
     this.clearDistrictMapContainer();
     this.showMapLegends();
+
   }
 
   clearUlbFilterControl() {

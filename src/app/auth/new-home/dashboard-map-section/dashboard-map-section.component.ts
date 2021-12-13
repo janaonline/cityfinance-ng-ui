@@ -15,6 +15,7 @@ import { GeographicalService } from 'src/app/shared/services/geographical/geogra
 import { MapUtil } from 'src/app/util/map/mapUtil';
 import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 import { ICreditRatingData } from 'src/app/models/creditRating/creditRatingResponse';
+const districtJson = require('../../../../assets/jsonFile/state_boundries.json');
 @Component({
   selector: 'app-dashboard-map-section',
   templateUrl: './dashboard-map-section.component.html',
@@ -30,6 +31,8 @@ stateselected: IState;
 creditRating: { [stateName: string]: number; total?: number } = {};
 stateList: IState[];
 statesLayer: L.GeoJSON<any>;
+cityData = [];
+cityName = "";
 DropdownSettings = {
   singleSelection: true,
   text: "India",
@@ -108,6 +111,14 @@ totalUsersVisit: number;
   };
 
   ngOnInit(): void {
+    console.log(districtJson)
+
+    this._commonService.state_name_data.subscribe((res)=>{
+      //console.log('sub....', res, res.name);
+      this.onSelectingStateFromDropDown(res);
+      this.updateDropdownStateSelection(res);
+     });
+
   }
   private initializeform() {
     this.myForm = this.fb.group({
@@ -191,6 +202,7 @@ totalUsersVisit: number;
      * @description If the map is already on mini mode, then it means the state is already selected, and its state map
      * is in the view.
      */
+
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
     }
@@ -238,6 +250,7 @@ totalUsersVisit: number;
       }[];
     }
   ) {
+    console.log('json',districtGeoJSON)
     if (this.districtMap) {
       return;
     }
@@ -294,12 +307,10 @@ totalUsersVisit: number;
       });
     }, 0.5);
   }
-  selectState(state) {
-    console.log('state name', state)
-    this.selected_state = state;
-  }
+
   selectCity(city) {
     console.log('city name', city)
+    this.cityName = city;
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
@@ -313,24 +324,47 @@ totalUsersVisit: number;
     });
   }
   onSelectingStateFromDropDown(state: any | null) {
+    // console.log('state', districtJson)
+    // let selectedDistrict =  districtJson.features.find(el => el.properties && el?.properties?.ST_NM == state?.regionalName);
+    // console.log('district', selectedDistrict);
+    // let features = [
+    //   {
+    //     geometry : selectedDistrict?.geometry,
+    //     properties: selectedDistrict?.properties,
+    //     type: "Feature"
+    //   }
+    // ]
+    // let objec ={
+    //   features: features
+    // }
+
+    this.cityName = '';
+    this.selected_state = state ? state?.name : 'India';
+    console.log('sdc 2', state, this.stateselected, this.selected_state)
     this.stateselected = state;
     this.fetchDataForVisualization(state ? state._id : null);
     this.fetchBondIssueAmout(
       this.stateselected ? this.stateselected._id : null
     );
     this.selectStateOnMap(state);
+    this._commonService.getUlbByState(state ? state?.code : null).subscribe((res)=> {
+      console.log('ulb data', res)
+      let ulbsData :any = res;
+      this.cityData = ulbsData?.data?.ulbs;
+      //console.log('city data', this.cityData)
+    })
   }
 
   private selectStateOnMap(state?: IState) {
     if (this.previousStateLayer) {
-     this.resetStateLayer(this.previousStateLayer);
+      this.resetStateLayer(this.previousStateLayer);
       this.previousStateLayer = null;
     }
     if (!state) {
       return;
     }
-
-    this.statesLayer?.eachLayer((layer) => {
+   console.log('state layers', this.stateLayers)
+    this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
         return;
@@ -506,6 +540,7 @@ totalUsersVisit: number;
     return this.stateSelected ? false : true;
   }
   private updateDropdownStateSelection(state: IState) {
+    console.log(state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }

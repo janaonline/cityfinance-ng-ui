@@ -14,7 +14,7 @@ import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-
 export const appRouter: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  // { path: "home", component: HomeComponent },
+  { path: "oldhome", component: HomeComponent },
   { path: "card", component: SharedCardComponent },
   { path: "front", component: FrontPanelComponent },
   { path: "map", component: MapWithFilterComponent },
