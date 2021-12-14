@@ -2,7 +2,7 @@
   <div class="row p-3">
     <div class="col-sm-12" [ngClass]="{'col-md-7': data.showMap, 'col-12':!data.showMap}">
       <div class="row">
-        <a class="link mb-3" href="{{ data.link }}"
+        <a *ngIf="data.linkName" class="link mb-3" style="cursor: pointer;" href="{{ data.link }}"
           >Go To {{ data.linkName }}</a
         >
         <div class="col-12 col-md-8">
@@ -12,7 +12,11 @@
         </div>
       </div>
       <div class="row mt-5">
-        <div class="col-4 col-sm-4 col-md-3">
+        <div class="col-4 col-sm-4 col-md-3 mt-4 lineStyle"  *ngFor="let item of data.dataIndicators">
+          <h6 class="b">{{ item.value }}</h6>
+          <span class="subtitle" >{{item.title}}</span>
+        </div>
+        <!-- <div class="col-4 col-sm-4 col-md-3">
           <h6 class="b">{{ data.population }}</h6>
           <span class="subtitle">Population</span>
         </div>
@@ -27,7 +31,7 @@
         <div class="col-4 col-sm-4 col-md-3" >
           <h6 class="b">{{ data.ward }}</h6>
           <span class="subtitle">Ward</span>
-        </div>
+        </div> -->
         <!-- <div class="col-4 col-sm-4 col-md-3">
           <h6 class="b">{{ data.finance }}</h6>
           <span class="subtitle">Municipal Finance Ranking</span>

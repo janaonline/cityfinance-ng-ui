@@ -18,15 +18,23 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     showMap: true,
     name: "Municipal Corporation of Greater Mumbai",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
-    population: "12. 1 M",
-    area: "4335 Sq km",
-    populationDensity: "2857/ Sq km",
-    ward: "227",
     finance: "18",
     link: "",
     linkName: "Maharashtra Dashboard",
     footer: `Data shown is from audited/provisional financial statements for FY 20-21
     and data was last updated on 21st August 2021`,
+    dataIndicators: [
+      {
+        value: "12. 1 M",
+        title: "population",
+      },
+      { value: "4335 Sq km", title: "area" },
+      { value: "2857/ Sq km", title: "populationDensity" },
+      {
+        value: "227",
+        title: "wards",
+      },
+    ],
   };
   @Input()
   cardData = [revenue, expenditure, assets, liabilities, tax_revenue, grants];

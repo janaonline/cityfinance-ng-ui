@@ -9,15 +9,11 @@ import { NewDashboardService } from "../new-dashboard.service";
 export class NationalComponent implements OnInit {
   constructor(public newDashboardService: NewDashboardService) {}
   frontPanelData = data;
+  revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   ngOnInit(): void {
     let id = "5dd24729437ba31f7eb42eac";
     this.newDashboardService.dashboardInformation(true, id, "ulb").subscribe(
-      (res: any) => {
-        this.frontPanelData.area = res.data.area;
-        this.frontPanelData.population = res.data.population;
-        this.frontPanelData.populationDensity = res.data.density;
-        this.frontPanelData.ward = res.data.wards;
-      },
+      (res: any) => {},
       (error) => {
         console.error(error);
       }
@@ -32,59 +28,79 @@ export class NationalComponent implements OnInit {
 }
 
 const data = {
-  showMap: false,
+  showMap: true,
   name: "Municipal Corporation of Greater Mumbai",
   desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
-  population: "12. 1 M",
-  area: "4335 Sq km",
-  populationDensity: "2857/ Sq km",
-  ward: "227",
-  finance: "18",
-  link: "",
-  linkName: "Maharashtra Dashboard",
+  dataIndicators: [
+    {
+      value: "12. 1 M",
+      title: "Population",
+      key: "population",
+    },
+    { value: "4335 Sq km", title: "Urban Area", key: "rea" },
+    { value: "2857/ Sq km", title: "Urban Population Density", key: "density" },
+    {
+      value: "227",
+      title: "Municipal Corporations",
+      key: "Municipal_Corporation",
+    },
+    {
+      value: "227",
+      title: "Municipal Council",
+      key: "Municipal_Council",
+    },
+    {
+      value: "227",
+      title: "Urban Agglomorations",
+      key: "uas",
+    },
+    {
+      value: "227",
+      title: "Town Panchayat",
+      key: "Town_Panchayat",
+    },
+    {
+      value: "227",
+      title: "ULBs",
+      key: "ulbs",
+    },
+  ],
   footer: `Data shown is from audited/provisional financial statements for FY 20-21
   and data was last updated on 21st August 2021`,
 };
-
-const revenue = {
+const Revenue = {
   type: 2,
-  title: "revenue",
-  subTitle: "revenue",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  subTitle: "Total Revenue",
+  svg: `../../../../assets/file.svg`,
   number: "567 Cr",
 };
-const expenditure = {
+const Expense = {
   type: 2,
-  title: "expenditure",
-  subTitle: "expenditure",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  subTitle: "Total Expenditure",
+  svg: `../../../../assets/coinCuren.svg`,
   number: "567 Cr",
 };
-const assets = {
+const Asset = {
   type: 2,
-  title: "assets",
-  subTitle: "assets",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  subTitle: "Total Assets",
+  svg: `../../../../assets/Group 15967.svg`,
   number: "567 Cr",
 };
-const tax_revenue = {
+const Tax = {
   type: 2,
-  title: "tax_revenue",
-  subTitle: "tax_revenue",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  subTitle: "Total Tax Revenue",
+  svg: `../../../../assets/chart.svg`,
   number: "567 Cr",
 };
-const liabilities = {
+const Liability = {
   type: 2,
-  title: "liabilities",
-  subTitle: "liabilities",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  subTitle: "Total Liabilities",
+  svg: `../../../../assets/stats.svg`,
   number: "567 Cr",
 };
-const grants = {
+const Debt = {
   type: 2,
-  title: "grant",
-  subTitle: "grant",
-  svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,
+  subTitle: "Total Grant",
+  svg: `../../../../assets/folder.svg`,
   number: "567 Cr",
 };

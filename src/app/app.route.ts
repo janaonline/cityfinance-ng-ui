@@ -19,7 +19,6 @@ export const appRouter: Routes = [
   { path: "front", component: FrontPanelComponent },
   { path: "map", component: MapWithFilterComponent },
 
-
   { path: "home", component: NewHomeComponent },
   {
     path: "dashboard",
