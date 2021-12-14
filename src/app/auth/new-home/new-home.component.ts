@@ -1,23 +1,31 @@
+import { analyzeNgModules } from "@angular/compiler";
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
-import { startWith, map } from "rxjs/operators";
+import { startWith, map, debounceTime, distinctUntilChanged, switchMap, filter } from "rxjs/operators";
+import { CommonService } from "src/app/shared/services/common.service";
 
+export interface State {
+  flag: string;
+  name: string;
+  population: string;
+}
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
   styleUrls: ["./new-home.component.scss"],
 })
+
+
 export class NewHomeComponent implements OnInit {
-  constructor() {}
-  globalFilter = new FormControl();
-  streets: string[] = [
-    "Champs-Élysées 1",
-    "Lombard Street",
-    "Abbey Road",
-    "Fifth Avenue",
-  ];
-  filteredStreets: Observable<string[]>;
+  constructor(
+    protected _commonService: CommonService,
+  ) {
+
+  }
+  globalFormControl = new FormControl();
+  globalOptions = [];
+  filteredOptions: Observable<any[]>;
 
   myInterval = 2000;
   activeSlideIndex = false;
@@ -135,29 +143,35 @@ export class NewHomeComponent implements OnInit {
 
     },
   ]
-
-  ngOnInit(): void {
-    this.filteredStreets = this.globalFilter.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filter(value))
-    );
-
-  }
-  private _filter(value: string): string[] {
-    // console.log('value', value)
-    if (value != "") {
-      const filterValue = this._normalizeValue(value);
-      return this.streets.filter((street) =>
-        this._normalizeValue(street).includes(filterValue)
-      );
-    }
+  serString;
+  ngOnInit() {
+    this.globalFormControl.valueChanges
+    .subscribe(value => {
+      if(value.length >= 1){
+        this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
+          console.log(res?.data);
+          this.filteredOptions = res?.data;
+        });
+      }
+      else {
+        return null;
+      }
+    })
   }
 
-  private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, "");
-  }
+
+  // private _filterStates(value: string): State[] {
+  //   const filterValue = value.toLowerCase();
+  //   let temp = [];
+  //   this._commonService.postGlobalSearchData(filterValue).subscribe((res:any)=> {
+  //     temp = res?.data
+  //     console.log('temp', temp)
+  //   })
+  //   return this.states.filter(state => state.name.toLowerCase().includes(filterValue));
+
+  // }
+
   carouselClass(e) {
-
     if (e == 0) {
       this.p_indi = true;
       this.m_indi = false;
@@ -203,7 +217,6 @@ export class NewHomeComponent implements OnInit {
   };
 
 
-
   removeSlide() {
     this.slides.length = this.slides.length - 1;
   }
@@ -225,3 +238,4 @@ export class NewHomeComponent implements OnInit {
   }
 
 }
+

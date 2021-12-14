@@ -184,6 +184,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSelectingULBFromDropdown(ulbId: string) {
+    console.log(ulbId)
     const stateOfULB = this.getStateOfULB(ulbId);
     if (!stateOfULB) {
       return false;
@@ -395,7 +396,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   onStateLayerClick(args: ILeafletStateClickEvent) {
 
-    console.log('aggs.', args)
+    console.log('args.', args)
     this.isProcessingCompleted.emit(false);
     if (this.isNationalMapToDistroctMapInProcess) {
       return;
@@ -507,7 +508,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     };
   }) {
     if (!data || !Object.keys(data).length) {
-      return null;
       return null;
     }
 
@@ -801,11 +801,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       stateId: stateFound._id,
     });
     this.ulbsOfSelectedState = [...stateFound.ulbs];
-    if (!this.ulbsOfSelectedState.length) {
-      const message = `${stateFound.name} does not contains any ULB.`;
-      this.showSnacbarMessage(message);
-      return false;
-    }
+    // if (!this.ulbsOfSelectedState.length) {
+    //   const message = `${stateFound.name} does not contains any ULB.`;
+    //   this.showSnacbarMessage(message);
+    //   return false;
+    // }
 
     this.ulbListForAutoCompletion = this.ulbsOfSelectedState;
     const ulbsWithCoordinates = this.ulbsOfSelectedState.filter(
@@ -843,11 +843,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (this.districtMap) {
       this.unselectAllDistrictMarker();
     }
-    if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
-      this.showSnacbarMessage(message);
-      return false;
-    }
+    // if (!ulbsWithCoordinates.length) {
+    //   const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
+    //   this.showSnacbarMessage(message);
+    //   return false;
+    // }
 
     this.createDistrictMap(newObj, {
       center: stateCenter,

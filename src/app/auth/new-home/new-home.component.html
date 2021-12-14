@@ -11,10 +11,10 @@
             </div>
             <div class="g-filter-d">
                 <form class="filter-form w-100">
-                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input w-80">
+                    <input type="text" placeholder="Type here..." matInput [formControl]="globalFormControl" [matAutocomplete]="auto" class="fl-input w-80">
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
-                            {{street}}
+                        <mat-option *ngFor="let option of filteredOptions" [value]="option.name">
+                            {{option.name}}
                         </mat-option>
                     </mat-autocomplete>
                     <button class="btn lnd-btn" style="">
@@ -128,7 +128,7 @@
                 <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
-                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
+                <span class="comp-img"><img width="70%" src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
                 <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>

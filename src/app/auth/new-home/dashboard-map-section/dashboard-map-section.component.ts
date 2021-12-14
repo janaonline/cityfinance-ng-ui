@@ -309,8 +309,12 @@ totalUsersVisit: number;
   }
 
   selectCity(city) {
+    console.log('city data', this.cityData)
     console.log('city name', city)
-    this.cityName = city;
+   let filterCity = this.cityData.find(e => e.code == city)
+   this.cityName = filterCity.name;
+    console.log('city name', city, filterCity)
+    // this.onSelectingULBFromDropdown(city);
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
@@ -324,20 +328,7 @@ totalUsersVisit: number;
     });
   }
   onSelectingStateFromDropDown(state: any | null) {
-    // console.log('state', districtJson)
-    // let selectedDistrict =  districtJson.features.find(el => el.properties && el?.properties?.ST_NM == state?.regionalName);
-    // console.log('district', selectedDistrict);
-    // let features = [
-    //   {
-    //     geometry : selectedDistrict?.geometry,
-    //     properties: selectedDistrict?.properties,
-    //     type: "Feature"
-    //   }
-    // ]
-    // let objec ={
-    //   features: features
-    // }
-
+    console.log('sttts', state);
     this.cityName = '';
     this.selected_state = state ? state?.name : 'India';
     console.log('sdc 2', state, this.stateselected, this.selected_state)
@@ -346,6 +337,7 @@ totalUsersVisit: number;
     this.fetchBondIssueAmout(
       this.stateselected ? this.stateselected._id : null
     );
+    console.log('mini mode', this.isMapOnMiniMapMode)
     this.selectStateOnMap(state);
     this._commonService.getUlbByState(state ? state?.code : null).subscribe((res)=> {
       console.log('ulb data', res)
@@ -364,23 +356,46 @@ totalUsersVisit: number;
       return;
     }
    console.log('state layers', this.stateLayers)
+
     this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
         return;
       }
-      this.higlightClickedState(layer);
       this.previousStateLayer = layer;
+      this.higlightClickedState(layer);
     });
   }
 
 
 
   private higlightClickedState(stateLayer) {
-    stateLayer.setStyle(this.StyleForSelectedState);
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-      stateLayer.bringToFront();
+    console.log(stateLayer)
+    let obj: any = {
+      containerPoint : {
+
+      },
+      latlng : {
+        // lat: 23.48789594497792,
+        // lng: 78.2647891998273
+      },
+      layerPoint: {
+
+      },
+      originalEvent:{},
+      sourceTarget: stateLayer,
+      target: stateLayer,
+      type: "click"
     }
+   this.onStateLayerClick(obj);
+    stateLayer.setStyle({
+      fillColor: '#3E5DB1',
+       fillOpacity: 1
+    });
+    // stateLayer.setStyle(this.StyleForSelectedState);
+    // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    //   stateLayer.bringToFront();
+    // }
   }
   private resetStateLayer(layer) {
     layer.setStyle({
