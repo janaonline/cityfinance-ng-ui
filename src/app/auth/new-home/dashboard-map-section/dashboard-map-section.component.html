@@ -107,7 +107,7 @@
             <div class="col-md-6 col-sm-12">
                 <div class="input-group inp-grp">
                     <form [formGroup]="myForm" class="w-100">
-                        <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event._id ? $event : null)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+                        <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
                         </angular2-multiselect>
                     </form>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')">
                     <select class="c-btn expo-drp-in" id="inputGroupSelect01" (change)="selectCity($event.target.value)">
                       <option value="null" selected>Select City</option>
-                      <option value="1" *ngFor="let item of cityData" [value]="item.name">{{item.name}}</option>
+                      <option value="1" *ngFor="let item of cityData" [value]="item.code">{{item.name}}</option>
               </select>
                 </div>
             </div>

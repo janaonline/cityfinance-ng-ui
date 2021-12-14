@@ -1,7 +1,8 @@
+import { analyzeNgModules } from "@angular/compiler";
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
-import { startWith, map } from "rxjs/operators";
+import { startWith, map, debounceTime, distinctUntilChanged, switchMap, filter } from "rxjs/operators";
 import { CommonService } from "src/app/shared/services/common.service";
 
 export interface State {
@@ -14,39 +15,17 @@ export interface State {
   templateUrl: "./new-home.component.html",
   styleUrls: ["./new-home.component.scss"],
 })
+
+
 export class NewHomeComponent implements OnInit {
   constructor(
     protected _commonService: CommonService,
-  ) {}
-  stateCtrl = new FormControl();
-  filteredStates: Observable<State[]>;
+  ) {
 
-  states: State[] = [
-    {
-      name: 'Arkansas',
-      population: '2.978M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_Arkansas.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg',
-    },
-    {
-      name: 'California',
-      population: '39.14M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_California.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_California.svg',
-    },
-    {
-      name: 'Florida',
-      population: '20.27M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_Florida.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Florida.svg',
-    },
-    {
-      name: 'Texas',
-      population: '27.47M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_Texas.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Texas.svg',
-    },
-  ];
+  }
+  globalFormControl = new FormControl();
+  globalOptions = [];
+  filteredOptions: Observable<any[]>;
 
   myInterval = 2000;
   activeSlideIndex = false;
@@ -164,26 +143,33 @@ export class NewHomeComponent implements OnInit {
 
     },
   ]
-
-  ngOnInit(): void {
-    this.filteredStates = this.stateCtrl.valueChanges.pipe(
-      startWith(''),
-      map(state => (state ? this._filterStates(state) : this.states.slice())),
-    );
-
-  }
-  private _filterStates(value: string): State[] {
-    const filterValue = value.toLowerCase();
-    let temp = [];
-    this._commonService.postGlobalSearchData(filterValue).subscribe((res:any)=> {
-      temp = res?.data
-      console.log('temp', temp)
+  serString;
+  ngOnInit() {
+    this.globalFormControl.valueChanges
+    .subscribe(value => {
+      if(value.length >= 1){
+        this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
+          console.log(res?.data);
+          this.filteredOptions = res?.data;
+        });
+      }
+      else {
+        return null;
+      }
     })
-    return this.states.filter(state => state.name.toLowerCase().includes(filterValue));
-
   }
 
 
+  // private _filterStates(value: string): State[] {
+  //   const filterValue = value.toLowerCase();
+  //   let temp = [];
+  //   this._commonService.postGlobalSearchData(filterValue).subscribe((res:any)=> {
+  //     temp = res?.data
+  //     console.log('temp', temp)
+  //   })
+  //   return this.states.filter(state => state.name.toLowerCase().includes(filterValue));
+
+  // }
 
   carouselClass(e) {
     if (e == 0) {
@@ -231,7 +217,6 @@ export class NewHomeComponent implements OnInit {
   };
 
 
-
   removeSlide() {
     this.slides.length = this.slides.length - 1;
   }
@@ -253,3 +238,4 @@ export class NewHomeComponent implements OnInit {
   }
 
 }
+

@@ -290,6 +290,8 @@
 }
 
 .card1:hover {
+    transition: 500ms linear;
+    transform: translateY(-10px);
     background-color: #FFF7EB;
     .cd-s-head,
     .cd-head,
