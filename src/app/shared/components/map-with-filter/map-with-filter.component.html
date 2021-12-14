@@ -21,13 +21,7 @@
       </select>
     </div>
   </div>
-  <div class="row col-sm-12 col-md-6 col-lg-6 stateMapContainer">
-    <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
-      <app-pre-loader></app-pre-loader>
-      <app-pre-loader></app-pre-loader>
-      <app-pre-loader></app-pre-loader>
-      <app-pre-loader></app-pre-loader>
-    </div>
+  <div class="row col-sm-12 col-md-6 col-lg-6 stateMapContainer" [ngStyle]="{'min-height': mapConfig?.stateMapContainerHeight ? mapConfig.stateMapContainerHeight :'28rem'}">
     <div
       class="col-sm-12"
       id="districtMapContainer"

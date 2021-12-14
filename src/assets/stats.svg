@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21.094" height="30" viewBox="0 0 21.094 30">
+  <g id="Group_15968" data-name="Group 15968" transform="translate(-778.855 -525.999)">
+    <path id="Path_44016" data-name="Path 44016" d="M52.935,40.283H41.7c-.388,0-.7-.678-.7-1.516V14.516c0-.838.314-1.516.7-1.516H52.935c.388,0,.7.678.7,1.516V38.767C53.637,39.605,53.323,40.283,52.935,40.283Z" transform="translate(738.744 515.717)" fill="#ffc093"/>
+    <g id="profit-report" transform="translate(717.855 525.999)">
+      <path id="Path_44013" data-name="Path 44013" d="M75.94,0H61V27.693H82.094V6.153L75.94,0Zm3.384,5.678H76.415V2.769l2.909,2.909ZM63.777,26.071l4.118-4.1L70.33,24.41l6.085-6.085v2.121h1.623V15.577H73.17V17.2h2.075L70.33,22.115,67.9,19.682,62.623,24.93V1.623h12.17V7.3h5.679v18.77Z" fill="#1e44ad"/>
+      <path id="Path_44014" data-name="Path 44014" d="M136,105h6.473v1.623H136Z" transform="translate(-70.943 -99.321)" fill="#1e44ad"/>
+      <path id="Path_44015" data-name="Path 44015" d="M136,179.737h6.473v1.623H136Z" transform="translate(-70.943 -170.015)" fill="#1e44ad"/>
+    </g>
+  </g>
+</svg>

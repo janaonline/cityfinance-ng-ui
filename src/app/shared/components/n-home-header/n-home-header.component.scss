@@ -51,8 +51,9 @@ $value in $text-sizes {
 .nav-link.active {
     color: #E87A1C !important;
     border-bottom: 2px solid;
+    padding-bottom: 15px;
 }
 
-.navbar { 
+.navbar {
     padding-bottom: 0;
 }
