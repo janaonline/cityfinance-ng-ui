@@ -234,6 +234,8 @@ export class MohuaDashboardComponent implements OnInit {
   width4 = "";
   UANames = [];
   maindonughtChart;
+  annualAudited;
+  annualProvisional;
   pfmsdonughtChart;
   utilreportDonughtChart;
   slbdonughtChart;
@@ -707,6 +709,9 @@ export class MohuaDashboardComponent implements OnInit {
 
 
   utilReportDonughtChart() {
+    if (this.utilreportDonughtChart) {
+      this.utilreportDonughtChart.destroy()
+    }
     const data = {
       labels: [
         "Pending Completion",
@@ -752,7 +757,9 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   gaugeChart1() {
-
+    if (this.annualProvisional) {
+      this.annualProvisional.destroy()
+    }
     let mainColor = "",
       complimentColor = "",
       borderColor = "";
@@ -767,7 +774,7 @@ export class MohuaDashboardComponent implements OnInit {
     }
     const canvas = <HTMLCanvasElement>document.getElementById("chartDiv");
     const ctx = canvas.getContext("2d");
-    var myChart = new Chart(ctx, {
+    this.annualProvisional = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
@@ -848,6 +855,9 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
   gaugeChart2() {
+    if (this.annualAudited) {
+      this.annualAudited.destroy()
+    }
     let mainColor = "",
       complimentColor = "",
       borderColor = "";
@@ -863,7 +873,7 @@ export class MohuaDashboardComponent implements OnInit {
     }
     const canvas = <HTMLCanvasElement>document.getElementById("chartDiv2");
     const ctx = canvas.getContext("2d");
-    var myChart = new Chart(ctx, {
+    this.annualAudited = new Chart(ctx, {
       type: "doughnut",
       data: {
         labels: [],
@@ -892,7 +902,9 @@ export class MohuaDashboardComponent implements OnInit {
     });
   }
   mainDonughtChart() {
-
+    if (this.maindonughtChart) {
+      this.maindonughtChart.destroy()
+    }
     const data = {
       labels: [
         'Pending for Submission',
