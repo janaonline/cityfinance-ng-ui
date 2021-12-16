@@ -8,26 +8,32 @@ import {
   Output,
   SimpleChange,
   ViewChild,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { FeatureCollection, Geometry } from 'geojson';
-import * as L from 'leaflet';
-import { forkJoin } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
-import { MapUtil } from 'src/app/util/map/mapUtil';
-import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
-import { UserUtility } from 'src/app/util/user/user';
+} from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
+import { FeatureCollection, Geometry } from "geojson";
+import * as L from "leaflet";
+import { forkJoin } from "rxjs";
+import { debounceTime, map } from "rxjs/operators";
+import { MapUtil } from "src/app/util/map/mapUtil";
+import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
+import { UserUtility } from "src/app/util/user/user";
 
-import { IStateULBCovered, IStateULBCoveredResponse } from '../../models/stateUlbConvered';
-import { IULBWithPopulationResponse, ULBWithMapData } from '../../models/ulbsForMapResponse';
-import { CommonService } from '../../services/common.service';
-import { GeographicalService } from '../../services/geographical/geographical.service';
-import { IDistrictGeoJson } from './models/districtGeoJSON';
-import { ILeafletStateClickEvent } from './models/leafletStateClickEvent';
-import { IStateWithULBS } from './models/stateWithULBS';
+import {
+  IStateULBCovered,
+  IStateULBCoveredResponse,
+} from "../../models/stateUlbConvered";
+import {
+  IULBWithPopulationResponse,
+  ULBWithMapData,
+} from "../../models/ulbsForMapResponse";
+import { CommonService } from "../../services/common.service";
+import { GeographicalService } from "../../services/geographical/geographical.service";
+import { IDistrictGeoJson } from "./models/districtGeoJSON";
+import { ILeafletStateClickEvent } from "./models/leafletStateClickEvent";
+import { IStateWithULBS } from "./models/stateWithULBS";
 
 @Component({
   selector: "app-re-useable-heat-map",
@@ -186,6 +192,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSelectingULBFromDropdown(ulbId: string) {
+    console.log(ulbId);
     const stateOfULB = this.getStateOfULB(ulbId);
     if (!stateOfULB) {
       return false;
@@ -504,7 +511,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     };
   }) {
     if (!data || !Object.keys(data).length) {
-      return null;
       return null;
     }
 
@@ -841,11 +847,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (this.districtMap) {
       this.unselectAllDistrictMarker();
     }
-    if (!ulbsWithCoordinates.length) {
-      const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
-      this.showSnacbarMessage(message);
-      return false;
-    }
+    // if (!ulbsWithCoordinates.length) {
+    //   const message = `${stateFound.name} does not contains any ULB with geo co-ordinates.`;
+    //   this.showSnacbarMessage(message);
+    //   return false;
+    // }
 
     this.createDistrictMap(newObj, {
       center: stateCenter,

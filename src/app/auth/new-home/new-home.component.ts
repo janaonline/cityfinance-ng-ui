@@ -1,23 +1,28 @@
+
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { startWith, map } from "rxjs/operators";
+import { CommonService } from "src/app/shared/services/common.service";
+
 
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
   styleUrls: ["./new-home.component.scss"],
 })
+
+
 export class NewHomeComponent implements OnInit {
-  constructor() {}
-  globalFilter = new FormControl();
-  streets: string[] = [
-    "Champs-Élysées 1",
-    "Lombard Street",
-    "Abbey Road",
-    "Fifth Avenue",
-  ];
-  filteredStreets: Observable<string[]>;
+  constructor(
+    protected _commonService: CommonService,
+    private router: Router
+  ) {
+
+  }
+  globalFormControl = new FormControl();
+  globalOptions = [];
+  filteredOptions: Observable<any[]>;
 
   myInterval = 2000;
   activeSlideIndex = false;
@@ -135,29 +140,96 @@ export class NewHomeComponent implements OnInit {
 
     },
   ]
+  noDataFound = false;
+  recentSearchArray = [
 
-  ngOnInit(): void {
-    this.filteredStreets = this.globalFilter.valueChanges.pipe(
-      startWith(""),
-      map((value) => this._filter(value))
-    );
+  ];
+  ngOnInit() {
+    this.loadRecentSearchValue();
+    this.globalFormControl.valueChanges
+    .subscribe(value => {
+      if(value.length >= 1){
+        this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
+          console.log(res?.data);
+          let emptyArr:any = []
+            this.filteredOptions = emptyArr;
+          if(res?.data.length > 0 ){
+            this.filteredOptions = res?.data;
+            this.noDataFound = false;
+          }else{
 
+            let emptyArr:any = []
+            this.filteredOptions = emptyArr;
+            this.noDataFound = true;
+            let noDataFoundObj = {
+              name: '',
+              id: '',
+              type: '',
+            }
+            console.log('no data found')
+          }
+        });
+      }
+      else {
+        return null;
+      }
+    })
   }
-  private _filter(value: string): string[] {
-    // console.log('value', value)
-    if (value != "") {
-      const filterValue = this._normalizeValue(value);
-      return this.streets.filter((street) =>
-        this._normalizeValue(street).includes(filterValue)
-      );
+
+  loadRecentSearchValue() {
+    this._commonService.getRecentSearchValue().subscribe((res:any)=>{
+     console.log('recent search value', res);
+
+     for(let i=0; i<3; i++){
+       let obj = {
+         _id: res?.data[i]?._id,
+         type: 'ulb'
+       }
+       this.recentSearchArray[i] = obj ;
+      //  this.recentSearchArray[i].type = res?.data[i]?.type;
+    // this.recentSearchArray[i].push(res?.data?._id);
+     }
+     console.log('ser array', this.recentSearchArray)
+
+    },
+    (error)=> {
+      console.log('recent search error', error)
     }
+    )
+  }
+  globalSearchClick(){
+    console.log('filterOptions', this.filteredOptions)
+    console.log('form control', this.globalFormControl)
+    let searchArray:any = this.filteredOptions;
+    let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
+    console.log(searchValue);
+    let postBody = {
+      type: searchValue.type,
+      searchKeyword: searchValue._id
+    }
+    this._commonService.postRecentSearchValue(postBody).subscribe((res)=>{
+       console.log('serach res', res)
+    },
+    (error)=>{
+      console.log(error)
+    })
+    let option = {
+      type: searchValue.type,
+      _id: searchValue._id
+    }
+  this.dashboardNav(option);
+  }
+  dashboardNav(option) {
+    console.log('option', option)
+    if(option?.type == 'state'){
+     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    }
+    if(option?.type == 'ulb'){
+      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+     }
   }
 
-  private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, "");
-  }
   carouselClass(e) {
-
     if (e == 0) {
       this.p_indi = true;
       this.m_indi = false;
@@ -203,7 +275,6 @@ export class NewHomeComponent implements OnInit {
   };
 
 
-
   removeSlide() {
     this.slides.length = this.slides.length - 1;
   }
@@ -225,3 +296,4 @@ export class NewHomeComponent implements OnInit {
   }
 
 }
+
