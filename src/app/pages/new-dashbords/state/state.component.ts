@@ -10,18 +10,35 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class StateComponent implements OnInit {
   constructor(
     public newDashboardService: NewDashboardService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
-      this.stateId = param.stateId || "";
+      this.stateId = param.stateId || "5dcf9d7216a06aed41c748dd";
+      for (const key in this.stateUlbData.data) {
+        const element = this.stateUlbData.data[key];
+        if (element._id == this.stateId) {
+          this.stateCode = key;
+          break;
+        }
+      }
+
+      this.mapData.code.state = this.stateCode;
     });
   }
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   stateId;
+  stateCode;
+  stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
+  mapData = mapConfig;
   ngOnInit(): void {
+    this.dashBoardData(this.stateId);
+  }
+
+  dashBoardData(stateId) {
     this.newDashboardService
-      .dashboardInformation(true, this.stateId, "state")
+      .dashboardInformation(true, stateId, "state")
       .subscribe(
         (res: any) => {
           this.frontPanelData.dataIndicators.map((item) => {
@@ -63,7 +80,7 @@ export class StateComponent implements OnInit {
         }
       );
     this.newDashboardService
-      .dashboardInformation(false, this.stateId, "state")
+      .dashboardInformation(false, stateId, "state")
       .subscribe(
         (res: any) => {
           let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
@@ -88,6 +105,21 @@ export class StateComponent implements OnInit {
         }
       );
   }
+
+  changeInDropDown(event) {
+    if (event.fromState) {
+      this.stateCode = event.value.ST_CODE;
+      this.stateId = this.stateUlbData.data[this.stateCode]._id;
+      this.dashBoardData(this.stateId);
+    } else if (this.stateCode) {
+      let cityId = this.stateUlbData.data[this.stateCode].ulbs.find(
+        (value) => value.code === event.value.key
+      )._id;
+      this.router.navigateByUrl(
+        `dashboard/city?cityId=${cityId}&stateCode=${this.stateCode}`
+      );
+    }
+  }
 }
 
 const data = {
@@ -98,34 +130,34 @@ const data = {
   linkName: "National Dashboard",
   dataIndicators: [
     {
-      value: "12. 1 M",
+      value: "0 M",
       title: "Population",
       key: "population",
     },
     { value: "4335 Sq km", title: "Urban Area", key: "rea" },
     { value: "2857/ Sq km", title: "Urban Population Density", key: "density" },
     {
-      value: "227",
+      value: "0",
       title: "Municipal Corporations",
       key: "Municipal_Corporation",
     },
     {
-      value: "227",
+      value: "0",
       title: "Municipal Council",
       key: "Municipal_Council",
     },
     {
-      value: "227",
+      value: "0",
       title: "Urban Agglomorations",
       key: "uas",
     },
     {
-      value: "227",
+      value: "0",
       title: "Town Panchayat",
       key: "Town_Panchayat",
     },
     {
-      value: "227",
+      value: "0",
       title: "ULBs",
       key: "ulbs",
     },
@@ -137,35 +169,49 @@ const Revenue = {
   type: 2,
   subTitle: "Total Revenue",
   svg: `../../../../assets/file.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
 const Expense = {
   type: 2,
   subTitle: "Total Expenditure",
   svg: `../../../../assets/coinCuren.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
 const Asset = {
   type: 2,
   subTitle: "Total Assets",
   svg: `../../../../assets/Group 15967.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
 const Tax = {
   type: 2,
   subTitle: "Total Tax Revenue",
   svg: `../../../../assets/chart.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
 const Liability = {
   type: 2,
   subTitle: "Total Liabilities",
   svg: `../../../../assets/stats.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
 };
 const Debt = {
   type: 2,
   subTitle: "Total Grant",
   svg: `../../../../assets/folder.svg`,
-  number: "567 Cr",
+  number: "0 Cr",
+};
+const mapConfig = {
+  code: {
+    state: "GJ",
+    city: "GJ039",
+  },
+  showStateList: true,
+  showDistrictList: true,
+  stateMapContainerHeight: "23rem",
+  nationalZoomOnMobile: 3.9, // will fit map in container
+  nationalZoomOnWeb: 3.9, // will fit map in container
+  stateZoomOnMobile: 4, // will fit map in container
+  stateZoomOnWeb: 4, // will fit map in container
+  stateBlockHeight: "23.5rem", // will fit map in container
 };

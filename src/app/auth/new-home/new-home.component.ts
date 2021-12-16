@@ -1,15 +1,11 @@
-import { analyzeNgModules } from "@angular/compiler";
+
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { startWith, map, debounceTime, distinctUntilChanged, switchMap, filter } from "rxjs/operators";
 import { CommonService } from "src/app/shared/services/common.service";
 
-export interface State {
-  flag: string;
-  name: string;
-  population: string;
-}
+
 @Component({
   selector: "app-new-home",
   templateUrl: "./new-home.component.html",
@@ -20,6 +16,7 @@ export interface State {
 export class NewHomeComponent implements OnInit {
   constructor(
     protected _commonService: CommonService,
+    private router: Router
   ) {
 
   }
@@ -143,14 +140,34 @@ export class NewHomeComponent implements OnInit {
 
     },
   ]
-  serString;
+  noDataFound = false;
+  recentSearchArray = [
+
+  ];
   ngOnInit() {
+    this.loadRecentSearchValue();
     this.globalFormControl.valueChanges
     .subscribe(value => {
       if(value.length >= 1){
         this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
           console.log(res?.data);
-          this.filteredOptions = res?.data;
+          let emptyArr:any = []
+            this.filteredOptions = emptyArr;
+          if(res?.data.length > 0 ){
+            this.filteredOptions = res?.data;
+            this.noDataFound = false;
+          }else{
+
+            let emptyArr:any = []
+            this.filteredOptions = emptyArr;
+            this.noDataFound = true;
+            let noDataFoundObj = {
+              name: '',
+              id: '',
+              type: '',
+            }
+            console.log('no data found')
+          }
         });
       }
       else {
@@ -159,17 +176,58 @@ export class NewHomeComponent implements OnInit {
     })
   }
 
+  loadRecentSearchValue() {
+    this._commonService.getRecentSearchValue().subscribe((res:any)=>{
+     console.log('recent search value', res);
 
-  // private _filterStates(value: string): State[] {
-  //   const filterValue = value.toLowerCase();
-  //   let temp = [];
-  //   this._commonService.postGlobalSearchData(filterValue).subscribe((res:any)=> {
-  //     temp = res?.data
-  //     console.log('temp', temp)
-  //   })
-  //   return this.states.filter(state => state.name.toLowerCase().includes(filterValue));
+     for(let i=0; i<3; i++){
+       let obj = {
+         _id: res?.data[i]?._id,
+         type: 'ulb'
+       }
+       this.recentSearchArray[i] = obj ;
+      //  this.recentSearchArray[i].type = res?.data[i]?.type;
+    // this.recentSearchArray[i].push(res?.data?._id);
+     }
+     console.log('ser array', this.recentSearchArray)
 
-  // }
+    },
+    (error)=> {
+      console.log('recent search error', error)
+    }
+    )
+  }
+  globalSearchClick(){
+    console.log('filterOptions', this.filteredOptions)
+    console.log('form control', this.globalFormControl)
+    let searchArray:any = this.filteredOptions;
+    let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
+    console.log(searchValue);
+    let postBody = {
+      type: searchValue.type,
+      searchKeyword: searchValue._id
+    }
+    this._commonService.postRecentSearchValue(postBody).subscribe((res)=>{
+       console.log('serach res', res)
+    },
+    (error)=>{
+      console.log(error)
+    })
+    let option = {
+      type: searchValue.type,
+      _id: searchValue._id
+    }
+  this.dashboardNav(option);
+  }
+  dashboardNav(option) {
+    console.log('option', option)
+    if(option?.type == 'state'){
+     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    }
+    if(option?.type == 'ulb'){
+      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+     }
+  }
 
   carouselClass(e) {
     if (e == 0) {
