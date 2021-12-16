@@ -4,14 +4,20 @@
 
 .wrap-bg {
     background-image: url('../../../assets/new_dashBord_ftr_hdr/landingBg.png');
-    padding: 4% 2% 15% 2%;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 4% 2% 15% 2%;
 }
 
 @media screen and (min-width: 992px) {
     .wrap-bg {
         height: 44rem;
+    }
+    .city {
+        font: normal normal bold 65px/56px Cabin;
+    }
+    .fy {
+        font: normal normal normal 65px/56px Cabin;
     }
     // .pd-l-r {
     //     padding: 1.5rem 8rem;
@@ -19,11 +25,23 @@
     .f-d {
         height: 142px;
     }
+    .ds-info {
+        font: normal normal 500 26px/41px 'Montserrat';
+    }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
     .wrap-bg {
         height: 50rem;
+    }
+    .city {
+        font: normal normal bold 50px/56px Cabin;
+    }
+    .fy {
+        font: normal normal normal 50px/56px Cabin;
+    }
+    .ds-info {
+        font: normal normal 500 26px/41px 'Montserrat';
     }
 }
 
@@ -34,25 +52,42 @@
     .f-d {
         height: 180px;
     }
+    .city {
+        font: normal normal bold 50px/56px Cabin;
+    }
+    .fy {
+        font: normal normal normal 50px/56px Cabin;
+    }
+    .ds-info {
+        font: normal normal 500 24px/41px 'Montserrat';
+    }
 }
 
 @media screen and (max-width: 520px) {
     .wrap-bg {
-        height: 80rem;
+        height: 87rem;
     }
     .f-d {
         height: 250px;
+    }
+    .city {
+        font: normal normal bold 45px/56px Cabin;
+    }
+    .fy {
+        font: normal normal normal 45px/56px Cabin;
+    }
+    .ds-info {
+        font: normal normal 500 22px/41px 'Montserrat';
     }
 }
 
 .city {
     color: #38CDFA;
-    font: normal normal bold 65px/56px Cabin;
     letter-spacing: 0px;
 }
 
 .fy {
-    font: normal normal normal 65px/56px Cabin;
+    // font: normal normal normal 65px/56px Cabin;
     letter-spacing: 0px;
     color: #FFFFFF;
 }
@@ -62,7 +97,7 @@
 }
 
 .ds-info {
-    font: normal normal 500 26px/41px 'Montserrat';
+    //font: normal normal 500 26px/41px 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
@@ -73,7 +108,7 @@
 
 .rec-text {
     text-align: center;
-    font: normal normal normal 13px/49px 'Archivo';
+    font: normal normal normal 13px/20px 'Archivo';
     letter-spacing: 0px;
     color: #E2EEFF;
     opacity: 1;
@@ -86,6 +121,20 @@
     opacity: 0.57;
     padding: 4px 18px;
     margin-left: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: inline-block;
+}
+
+.ser-chip:hover {
+    background-color: #E8721C;
+    border: 1px solid #E8721C;
+    opacity: 1;
+}
+
+.rec-text:hover {
+    color: #fff;
+    opacity: 1;
 }
 
 .example-full-width {
@@ -290,6 +339,10 @@
 }
 
 .card1:hover {
+    // transition: 500ms linear;
+    // transform: translateY(-10px);
+    transform: scale(1.05);
+    transition: all 1s ease-out 0s;
     background-color: #FFF7EB;
     .cd-s-head,
     .cd-head,
@@ -351,4 +404,27 @@
 
 .c-i {
     padding: 1rem;
+}
+
+.noData {
+    color: #D94E4E;
+    font-size: 14px;
+}
+
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+    min-width: calc(100% + 28% + 2px);
+    margin-top: -1px;
+    margin-left: -8px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: none;
+    padding-top: 5px;
+}
+
+::ng-deep #mat-option-0,
+::ng-deep .firstCls {
+    border-top: 1px solid lightgray;
+}
+
+.custom-panel {
+    width: calc(100% + 30px);
 }

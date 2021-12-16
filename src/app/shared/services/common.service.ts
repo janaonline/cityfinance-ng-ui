@@ -549,4 +549,28 @@ export class CommonService {
     }
     this.userType = user
   }
+  postGlobalSearchData(data: any) {
+    let dataString = {
+      matchingWord: data
+      }
+    return this.http.post(
+      `${environment.api.url}recentSearchKeyword/search`,
+      dataString
+    );
+  }
+  postRecentSearchValue(data: any) {
+    // let searchObj = {
+    //      type: data.type,
+    //      searchKeyword: data._id
+    //   }
+    return this.http.post(
+      `${environment.api.url}recentSearchKeyword`,
+      data
+    );
+  }
+  getRecentSearchValue() {
+    return this.http.get(
+      `${environment.api.url}recentSearchKeyword`
+    );
+  }
 }

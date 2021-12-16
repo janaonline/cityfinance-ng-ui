@@ -28,40 +28,38 @@ export class NationalComponent implements OnInit {
 }
 
 const data = {
-  showMap: true,
+  showMap: false,
   name: "Municipal Corporation of Greater Mumbai",
   desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
   dataIndicators: [
     {
       value: "12. 1 M",
-      title: "Population",
+      title: "ULBs With Financial Data",
       key: "population",
     },
-    { value: "4335 Sq km", title: "Urban Area", key: "rea" },
-    { value: "2857/ Sq km", title: "Urban Population Density", key: "density" },
     {
       value: "227",
-      title: "Municipal Corporations",
+      title: "Financial Statements (2015-16 to 17-18)",
       key: "Municipal_Corporation",
     },
     {
       value: "227",
-      title: "Municipal Council",
+      title: "ULBs Credit Rating Reports",
       key: "Municipal_Council",
     },
     {
       value: "227",
-      title: "Urban Agglomorations",
+      title: "ULBs With Investment Grade Rating",
       key: "uas",
     },
     {
       value: "227",
-      title: "Town Panchayat",
+      title: "ULBs With Rating A & Above",
       key: "Town_Panchayat",
     },
     {
       value: "227",
-      title: "ULBs",
+      title: "Municipal Bond Issuances Of Rs. 5,459 Cr With Details",
       key: "ulbs",
     },
   ],

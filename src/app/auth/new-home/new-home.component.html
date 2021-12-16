@@ -1,5 +1,4 @@
-<div class="container-fluid">
-
+<div class="container-fluid w-100">
     <div class="row wrap-bg">
         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 f-d">
             <div class="ds-i-c">
@@ -11,31 +10,45 @@
             </div>
             <div class="g-filter-d">
                 <form class="filter-form w-100">
-                    <input type="text" placeholder="Type here..." [formControl]="globalFilter" [matAutocomplete]="auto" class="fl-input w-80">
+                    <input type="text" placeholder="Search for City, State, or your municipal finance area of interest" matInput [formControl]="globalFormControl" [matAutocomplete]="auto" class="fl-input w-80">
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
-                            {{street}}
+                        <!-- [routerLink]="[
+                      '/dashboard/' + option?.type + '/' + option?._id]" -->
+                        <a (click)="dashboardNav(option)" *ngFor="let option of filteredOptions; let i = index;" style="direction: none;">
+                            <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <span> {{option?.name}}</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <span style="color: #8E8E8E;">{{option.type | titlecase }}</span>
+                                    </div>
+                                </div>
+                            </mat-option>
+                        </a>
+                        <mat-option *ngIf="noDataFound" class="noData firstCls">
+                            Sorry, we can’t find anything related to your search. Try searching for a city or state
                         </mat-option>
                     </mat-autocomplete>
-                    <button class="btn lnd-btn" style="">
+                    <button type="button" class="btn lnd-btn" (click)="globalSearchClick()" style="">
                         Search
                     </button>
                 </form>
 
 
             </div>
-            <div class="rce-s-div">
-                <span class="rec-text">Recently Searched: </span>
-                <span class="ser-chip">
-                 <span class="rec-text">Mumbai</span>
+            <div class="row rce-s-div mt-2">
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <span class="rec-text">Recently Searched: </span>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="ser-chip" *ngFor="let item of recentSearchArray">
+                        <a style="text-decoration: none;" (click)="dashboardNav(item)">
+                            <span class="rec-text">{{item?._id}}</span>
+                        </a>
+                    </div>
+                </div>
 
-                </span>
-                <span class="ser-chip">
-                 <span class="rec-text">Gujrat</span>
-                </span>
-                <span class="ser-chip">
-                   <span class="rec-text">Agra</span>
-                </span>
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
@@ -128,7 +141,7 @@
                 <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt=""></span>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
-                <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
+                <span class="comp-img"><img width="70%" src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt=""></span>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 col-6 c-i">
                 <span class="comp-img"><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt=""></span>

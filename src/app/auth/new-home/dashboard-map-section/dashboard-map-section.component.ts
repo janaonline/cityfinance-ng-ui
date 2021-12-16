@@ -17,68 +17,69 @@ import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 import { ICreditRatingData } from 'src/app/models/creditRating/creditRatingResponse';
 const districtJson = require('../../../../assets/jsonFile/state_boundries.json');
 @Component({
-  selector: 'app-dashboard-map-section',
-  templateUrl: './dashboard-map-section.component.html',
-  styleUrls: ['./dashboard-map-section.component.scss']
+  selector: "app-dashboard-map-section",
+  templateUrl: "./dashboard-map-section.component.html",
+  styleUrls: ["./dashboard-map-section.component.scss"],
 })
-export class DashboardMapSectionComponent extends ReUseableHeatMapComponent
-implements OnInit {
-
-myForm: FormGroup;
-yearSelected = [];
-selected_state ="India";
-stateselected: IState;
-creditRating: { [stateName: string]: number; total?: number } = {};
-stateList: IState[];
-statesLayer: L.GeoJSON<any>;
-cityData = [];
-cityName = "";
-DropdownSettings = {
-  singleSelection: true,
-  text: "India",
-  enableSearchFilter: false,
-  labelKey: "name",
-  primaryKey: "_id",
-  showCheckbox: false,
-  classes: "homepage-stateList custom-class",
-};
-constructor(
-  protected _commonService: CommonService,
-  protected _snackbar: MatSnackBar,
-  protected _geoService: GeographicalService,
-  protected _activateRoute: ActivatedRoute,
-  private fb: FormBuilder,
-  private _ngZone: NgZone,
-  private assetService: AssetsService,
-) {
-  super(_commonService, _snackbar, _geoService, _activateRoute);
-  setTimeout(() => {
-    this.ngOnChanges({
-      yearSelected: {
-        currentValue: ["2016-17"],
-        previousValue: null,
-        firstChange: true,
-        isFirstChange: () => true,
-      },
-    });
-  }, 1000);
+export class DashboardMapSectionComponent
+  extends ReUseableHeatMapComponent
+  implements OnInit
+{
+  myForm: FormGroup;
+  yearSelected = [];
+  selected_state = "India";
+  stateselected: IState;
+  creditRating: { [stateName: string]: number; total?: number } = {};
+  stateList: IState[];
+  statesLayer: L.GeoJSON<any>;
+  cityData = [];
+  cityName = "";
+  DropdownSettings = {
+    singleSelection: true,
+    text: "India",
+    enableSearchFilter: false,
+    labelKey: "name",
+    primaryKey: "_id",
+    showCheckbox: false,
+    classes: "homepage-stateList custom-class",
+  };
+  districtMarkerMap = {};
+  constructor(
+    protected _commonService: CommonService,
+    protected _snackbar: MatSnackBar,
+    protected _geoService: GeographicalService,
+    protected _activateRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private _ngZone: NgZone,
+    private assetService: AssetsService
+  ) {
+    super(_commonService, _snackbar, _geoService, _activateRoute);
+    setTimeout(() => {
+      this.ngOnChanges({
+        yearSelected: {
+          currentValue: ["2016-17"],
+          previousValue: null,
+          firstChange: true,
+          isFirstChange: () => true,
+        },
+      });
+    }, 1000);
     this.initializeform();
     this.fetchStateList();
-   this.fetchDataForVisualization();
-   this.fetchDataForVisualization();
-   this.fetchCreditRatingTotalCount();
+    this.fetchDataForVisualization();
+    this.fetchDataForVisualization();
+    this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
-
-}
-dataForVisualization: {
-  financialStatements?: number;
-  totalMunicipalBonds?: number;
-  totalULB?: number;
-  coveredUlbCount?: number;
-  loading: boolean;
-} = { loading: true };
-previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
-totalUsersVisit: number;
+  }
+  dataForVisualization: {
+    financialStatements?: number;
+    totalMunicipalBonds?: number;
+    totalULB?: number;
+    coveredUlbCount?: number;
+    loading: boolean;
+  } = { loading: true };
+  previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
+  totalUsersVisit: number;
 
   absCreditInfo = {};
 
@@ -111,14 +112,13 @@ totalUsersVisit: number;
   };
 
   ngOnInit(): void {
-    console.log(districtJson)
+    console.log(districtJson);
 
-    this._commonService.state_name_data.subscribe((res)=>{
+    this._commonService.state_name_data.subscribe((res) => {
       //console.log('sub....', res, res.name);
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
-     });
-
+    });
   }
   private initializeform() {
     this.myForm = this.fb.group({
@@ -139,7 +139,7 @@ totalUsersVisit: number;
     vw = (vw - 1366) / 1366;
     let zoom = 4 + vw;
     if (this.userUtil.isUserOnMobile()) {
-      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
       if (window.innerHeight < 600) zoom = 3.6;
       const valueOf1vh = this.calculateVH(1);
       if (valueOf1vh < 5) zoom = 3;
@@ -162,9 +162,8 @@ totalUsersVisit: number;
     };
     let map: L.Map;
 
-    ({ stateLayers: this.stateLayers, map } = MapUtil.createDefaultNationalMap(
-      configuration
-    ));
+    ({ stateLayers: this.stateLayers, map } =
+      MapUtil.createDefaultNationalMap(configuration));
 
     this.nationalLevelMap = map;
 
@@ -192,10 +191,9 @@ totalUsersVisit: number;
       (layer as any).bringToBack();
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
-        click: (args: ILeafletStateClickEvent) => this.onStateLayerClick(args),
+        click: (args: ILeafletStateClickEvent) => this.onStateLayerClick(args,true,true),
         mouseout: () => (this.mouseHoverOnState = null),
       });
-
     });
 
     /**
@@ -215,7 +213,6 @@ totalUsersVisit: number;
         this.currentStateInView
       );
     }
-
 
     this.isProcessingCompleted.emit(true);
   }
@@ -250,7 +247,7 @@ totalUsersVisit: number;
       }[];
     }
   ) {
-    console.log('json',districtGeoJSON)
+    console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;
     }
@@ -294,7 +291,7 @@ totalUsersVisit: number;
       }
       this.districtMap = districtMap;
 
-      options.dataPoints.forEach((dataPoint) => {
+      options.dataPoints.forEach((dataPoint: any) => {
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
@@ -304,13 +301,19 @@ totalUsersVisit: number;
         marker.on("click", (values) =>
           this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
         );
+        this.districtMarkerMap[dataPoint.code] = marker;
       });
     }, 0.5);
   }
 
   selectCity(city) {
-    console.log('city name', city)
-    this.cityName = city;
+    console.log("city data", this.cityData);
+    console.log("city name", city);
+    let filterCity = this.cityData.find((e) => e.code == city);
+    this.cityName = filterCity.name;
+    this.districtMarkerMap[filterCity.code].fireEvent("click")
+    console.log("city name", city, filterCity);
+    // this.onSelectingULBFromDropdown(city);
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
@@ -324,35 +327,25 @@ totalUsersVisit: number;
     });
   }
   onSelectingStateFromDropDown(state: any | null) {
-    // console.log('state', districtJson)
-    // let selectedDistrict =  districtJson.features.find(el => el.properties && el?.properties?.ST_NM == state?.regionalName);
-    // console.log('district', selectedDistrict);
-    // let features = [
-    //   {
-    //     geometry : selectedDistrict?.geometry,
-    //     properties: selectedDistrict?.properties,
-    //     type: "Feature"
-    //   }
-    // ]
-    // let objec ={
-    //   features: features
-    // }
-
-    this.cityName = '';
-    this.selected_state = state ? state?.name : 'India';
-    console.log('sdc 2', state, this.stateselected, this.selected_state)
+    console.log("sttts", state);
+    this.cityName = "";
+    this.selected_state = state ? state?.name : "India";
+    console.log("sdc 2", state, this.stateselected, this.selected_state);
     this.stateselected = state;
     this.fetchDataForVisualization(state ? state._id : null);
     this.fetchBondIssueAmout(
       this.stateselected ? this.stateselected._id : null
     );
+    console.log("mini mode", this.isMapOnMiniMapMode);
     this.selectStateOnMap(state);
-    this._commonService.getUlbByState(state ? state?.code : null).subscribe((res)=> {
-      console.log('ulb data', res)
-      let ulbsData :any = res;
-      this.cityData = ulbsData?.data?.ulbs;
-      //console.log('city data', this.cityData)
-    })
+    this._commonService
+      .getUlbByState(state ? state?.code : null)
+      .subscribe((res) => {
+        console.log("ulb data", res);
+        let ulbsData: any = res;
+        this.cityData = ulbsData?.data?.ulbs;
+        //console.log('city data', this.cityData)
+      });
   }
 
   private selectStateOnMap(state?: IState) {
@@ -363,24 +356,41 @@ totalUsersVisit: number;
     if (!state) {
       return;
     }
-   console.log('state layers', this.stateLayers)
+    console.log("state layers", this.stateLayers);
+
     this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
         return;
       }
-      this.higlightClickedState(layer);
       this.previousStateLayer = layer;
+      this.higlightClickedState(layer);
     });
   }
 
-
-
   private higlightClickedState(stateLayer) {
-    stateLayer.setStyle(this.StyleForSelectedState);
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-      stateLayer.bringToFront();
-    }
+    console.log(stateLayer);
+    let obj: any = {
+      containerPoint: {},
+      latlng: {
+        // lat: 23.48789594497792,
+        // lng: 78.2647891998273
+      },
+      layerPoint: {},
+      originalEvent: {},
+      sourceTarget: stateLayer,
+      target: stateLayer,
+      type: "click",
+    };
+    this.onStateLayerClick(obj);
+    stateLayer.setStyle({
+      fillColor: "#3E5DB1",
+      fillOpacity: 1,
+    });
+    // stateLayer.setStyle(this.StyleForSelectedState);
+    // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    //   stateLayer.bringToFront();
+    // }
   }
   private resetStateLayer(layer) {
     layer.setStyle({
@@ -389,7 +399,6 @@ totalUsersVisit: number;
     });
     layer.closeTooltip();
   }
-
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
@@ -450,9 +459,9 @@ totalUsersVisit: number;
     const speed = 1000;
     const interval = this.isMapAtNationalLevel() ? 5 : 1;
 
-    const animateValues = (document.querySelectorAll(
+    const animateValues = document.querySelectorAll(
       "[data-animate-value]"
-    ) as any) as Array<HTMLElement>;
+    ) as any as Array<HTMLElement>;
 
     animateValues.forEach((element: HTMLElement) => {
       const target = +element.getAttribute("data-animate-value");

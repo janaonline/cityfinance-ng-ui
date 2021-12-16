@@ -1,71 +1,105 @@
 import { Component, OnInit } from "@angular/core";
 import { NewDashboardService } from "../new-dashboard.service";
+import { ActivatedRoute, Router } from "@angular/router";
+
 @Component({
   selector: "app-city",
   templateUrl: "./city.component.html",
   styleUrls: ["./city.component.scss"],
 })
 export class CityComponent implements OnInit {
-  constructor(public newDashboardService: NewDashboardService) {}
+  constructor(
+    public newDashboardService: NewDashboardService,
+    private _activatedRoute: ActivatedRoute
+  ) {
+    this._activatedRoute.queryParams.subscribe((param) => {
+      this.cityId = param.cityId || "5dd24729437ba31f7eb42eac";
+      this.stateCode = param.stateCode || "GJ";
+      this.mapData.code.city = this.stateUlbData.data[this.stateCode].ulbs.find(
+        (value) => value._id === this.cityId
+      ).code;
+      this.mapData.code.state = this.stateCode;
+    });
+  }
+  cityId;
+  stateCode;
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
+  mapData = mapConfig;
+  stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   ngOnInit(): void {
-    let id = "5dd24729437ba31f7eb42eac";
-    this.newDashboardService.dashboardInformation(true, id, "ulb").subscribe(
-      (res: any) => {
-        this.frontPanelData.dataIndicators.map((item) => {
-          switch (item.key) {
-            case "population":
-              item.value = Math.round(res.data.population / 1000000) + " M";
-              if (item.value == "0 M")
-                item.value = Math.round(res.data.population / 1000) + " K";
-              break;
-            case "density":
-              item.value = res.data.density + "/ Sq km";
-              break;
-            case "ward":
-              item.value = res.data.wards;
-              break;
-            case "area":
-              item.value = res.data.area + " Sq km";
-              break;
-          }
-          return item;
-        });
-        this.frontPanelData.name = res.data.name;
-        this.frontPanelData.desc = createDesc(
-          res.data?.ulbType?.name || "Municipal Corp"
-        );
-        this.frontPanelData.linkName = `${res.data.state.name} Dashboard`;
-        this.frontPanelData.link = `dashboard/state?stateId=${res.data.state._id}`;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-    this.newDashboardService.dashboardInformation(false, id, "ulb").subscribe(
-      (res: any) => {
-        let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
-        for (const key in obj) {
-          const element = obj[key];
-          element.number =
-            Math.round(
-              res.data.find((value) => value._id == key).amount / 10000000
-            ) + " Cr";
+    this.dashboardCalls(this.cityId);
+  }
+
+  dashboardCalls(cityId) {
+    this.newDashboardService
+      .dashboardInformation(true, cityId, "ulb")
+      .subscribe(
+        (res: any) => {
+          this.frontPanelData.dataIndicators.map((item) => {
+            switch (item.key) {
+              case "population":
+                item.value = Math.round(res.data.population / 1000000) + " M";
+                if (item.value == "0 M")
+                  item.value = Math.round(res.data.population / 1000) + " K";
+                break;
+              case "density":
+                item.value = res.data.density + "/ Sq km";
+                break;
+              case "ward":
+                item.value = res.data.wards;
+                break;
+              case "area":
+                item.value = res.data.area + " Sq km";
+                break;
+            }
+            return item;
+          });
+          this.frontPanelData.name = res.data.name;
+          this.frontPanelData.desc = createDesc(
+            res.data?.ulbType?.name || "Municipal Corp"
+          );
+          this.frontPanelData.linkName = `${res.data.state.name} Dashboard`;
+          this.frontPanelData.link = `dashboard/state?stateId=${res.data.state._id}`;
+        },
+        (error) => {
+          console.error(error);
         }
-        this.revenueData = [
-          obj.Revenue,
-          obj.Expense,
-          obj.Asset,
-          obj.Tax,
-          obj.Liability,
-          obj.Debt,
-        ];
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+      );
+    this.newDashboardService
+      .dashboardInformation(false, cityId, "ulb")
+      .subscribe(
+        (res: any) => {
+          let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
+          for (const key in obj) {
+            const element = obj[key];
+            element.number =
+              Math.round(
+                res.data.find((value) => value._id == key).amount / 10000000
+              ) + " Cr";
+          }
+          this.revenueData = [
+            obj.Revenue,
+            obj.Expense,
+            obj.Asset,
+            obj.Tax,
+            obj.Liability,
+            obj.Debt,
+          ];
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  changeInDropDown(event) {
+    if (!event.fromState) {
+      this.cityId = this.stateUlbData.data[this.stateCode].ulbs.find(
+        (value) => value.code === event.value.key
+      )._id;
+      this.dashboardCalls(this.cityId);
+    }
   }
 }
 
@@ -132,3 +166,17 @@ const Debt = {
 function createDesc(type, population = "4M+") {
   return `This urban local body has been classified as a ${type} in the ${population} population category`;
 }
+const mapConfig = {
+  code: {
+    state: "GJ",
+    city: "GJ039",
+  },
+  showStateList: false,
+  showDistrictList: true,
+  stateMapContainerHeight: "23rem",
+  nationalZoomOnMobile: 3.9, // will fit map in container
+  nationalZoomOnWeb: 3.9, // will fit map in container
+  stateZoomOnMobile: 4, // will fit map in container
+  stateZoomOnWeb: 4, // will fit map in container
+  stateBlockHeight: "23.5rem", // will fit map in container
+};
