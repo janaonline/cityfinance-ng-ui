@@ -398,7 +398,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     this.isProcessingCompleted.emit(true);
   }
 
-  onStateLayerClick(args: ILeafletStateClickEvent, showMiniMap = true) {
+  onStateLayerClick(
+    args: ILeafletStateClickEvent,
+    showMiniMap = true,
+    skipOndropDownSelect = true
+  ) {
     console.log("aggs.", args);
     this.isProcessingCompleted.emit(false);
     if (this.isNationalMapToDistroctMapInProcess) {
@@ -406,7 +410,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.isNationalMapToDistroctMapInProcess = setTimeout(() => {
       try {
-        this.onClickingState(args, showMiniMap);
+        this.onClickingState(args, showMiniMap, skipOndropDownSelect);
       } catch (error) {
         this.mouseHoverOnState = null;
         /**
@@ -693,7 +697,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     };
   }
 
-  onClickingState(mapClickEvent: ILeafletStateClickEvent, showMiniMap) {
+  onClickingState(
+    mapClickEvent: ILeafletStateClickEvent,
+    showMiniMap,
+    skipOndropDownSelect
+  ) {
     if (!this.DistrictsJSONForMapCreation) {
       console.error(`district json not loaded`);
       this.showDistrictMapNotLaodedWarning();
@@ -704,7 +712,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     if (this.isMapOnMiniMapMode) {
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
-      if (showMiniMap) return false;
+      if (!skipOndropDownSelect) return false;
     }
 
     if (
