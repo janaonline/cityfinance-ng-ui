@@ -141,6 +141,7 @@ import { MapWithFilterComponent } from "./components/map-with-filter/map-with-fi
     TickIconComponent,
     InrCurrencyPipe,
     CompletedComponent,
+    SharedCardComponent,
     UserTypeConfirmationComponent,
     FormhistoryComponent,
     MatSlideToggle,

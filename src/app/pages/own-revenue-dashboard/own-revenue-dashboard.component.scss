@@ -4,6 +4,7 @@
 
 $text-color-ord: #0F1F40;
 $font-archivo: Archivo;
+$font-Montserrat: Montserrat;
 
 .dashboard-container {
   background-color: #DAE2FD;
@@ -111,5 +112,30 @@ $font-archivo: Archivo;
 .total-revenue-doughnut {
   margin-top: 2.5%;
   background-color: #FFFBEF;
+}
+
+.three-icons-container a {
+  text-decoration: none;
+  color: $secondary;
+}
+.revenue-card-white p {
+  margin-top: 1.2rem;
+  color: $text-color-ord;
+  font-size: 0.8rem;
+  font-family: $font-archivo;
+}
+.revenue-stocks-container {
+  height: 11rem;
+  margin-top: 2.5rem;
+}
+.table-container {
+  margin-top: 2.5rem;
+}
+.col-attr {
+  background-color: #F2F5FF;
+  padding: 0.8rem 1rem;
+  font-family: $font-archivo;
+  font-weight: medium;
+  font-size: 0.8rem;
 }
 

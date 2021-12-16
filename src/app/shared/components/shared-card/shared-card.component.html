@@ -65,4 +65,16 @@
       </div>
     </div>
   </div>
-</div>
+  <div
+      *ngSwitchCase="5"
+    >
+      <div class="d-flex justify-content-center mx-2 my-2 p-2 text-center flex-column rounded revenue-card" >
+        <h3 class="title">{{data.title}}</h3>
+        <p class="subTitle">{{data.subTitle}}</p>
+        <span class="arrow-title">
+           <img class="" src="{{ data.svg }}" />
+           <span class="percentage">{{data.percentage}}</span>
+        </span>
+      </div>
+    </div>
+  </div>
