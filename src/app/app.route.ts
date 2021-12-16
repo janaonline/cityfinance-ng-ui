@@ -6,8 +6,10 @@ import { HomeComponent } from "./auth/home/home.component";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
+import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
 import { FrontPanelComponent } from "./shared/components/front-panel/front-panel.component";
 import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-with-filter.component";
+import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
 import { SharedCardComponent } from "./shared/components/shared-card/shared-card.component";
 import { WaterRejenuvationComponent } from "./shared/components/water-rejenuvation/water-rejenuvation.component";
 
@@ -18,6 +20,8 @@ export const appRouter: Routes = [
   { path: "card", component: SharedCardComponent },
   { path: "front", component: FrontPanelComponent },
   { path: "map", component: MapWithFilterComponent },
+  { path: "revenuchart", component: RevenuechartComponent },
+  { path: "compareDialog", component: CompareDialogComponent },
 
   { path: "home", component: NewHomeComponent },
   {
