@@ -139,7 +139,7 @@ totalUsersVisit: number;
     vw = (vw - 1366) / 1366;
     let zoom = 4 + vw;
     if (this.userUtil.isUserOnMobile()) {
-      zoom = 3.8 + (window.devicePixelRatio - 2) / 10;
+      zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
       if (window.innerHeight < 600) zoom = 3.6;
       const valueOf1vh = this.calculateVH(1);
       if (valueOf1vh < 5) zoom = 3;
