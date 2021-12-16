@@ -1,23 +1,23 @@
-<div class="flex-column row">
+<div [ngClass]="{'d-none': stateList.length <= 0}" class="flex-column row">
   <div class="row">
+    
     <div class="col-6 pull-right">
-      <select
+      <select 
+       [disabled]="!mapConfig.showStateList" (change)="stateOption($event)"
         *ngIf="stateList.length > 0"
         class="form-select"
         aria-label="State"
       >
-        <option *ngFor="let item of stateList" selected>
+        <option [selected]="mapConfig.code.state == item.ST_CODE" value="{{item | json}}" *ngFor="let item of stateList" selected>
           {{ item.ST_NM }}
         </option>
       </select>
     </div>
 
     <div class="col-6 pull-right">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select  *ngIf="stateList.length > 0" [disabled]="!mapConfig.showDistrictList" (change)="districtOption($event.target)" class="form-select" aria-label="Default select example">
+        <option value="">city</option>
+        <option [selected]="mapConfig.code.city == item.key" value="{{item | json}}" *ngFor="let item of districtList | keyvalue" >{{item.value}}</option>
       </select>
     </div>
   </div>
@@ -36,4 +36,10 @@
       "
     ></div>
   </div>
+</div>
+<div [ngClass]="{'d-none': stateList.length > 0}">
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
+  <app-pre-loader></app-pre-loader>
 </div>

@@ -5,6 +5,8 @@ import {
   HostListener,
   OnChanges,
   SimpleChanges,
+  Output,
+  EventEmitter,
 } from "@angular/core";
 
 @Component({
@@ -42,6 +44,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   cardStyle = cardStyle;
   @Input()
   mapConfig = {
+    showStateList: false,
+    showDistrictList: false,
     stateMapContainerHeight: "23rem",
     nationalZoomOnMobile: 3.9, // will fit map in container
     nationalZoomOnWeb: 3.9, // will fit map in container
@@ -49,11 +53,17 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     stateZoomOnWeb: 4, // will fit map in container
     stateBlockHeight: "23.5rem", // will fit map in container
   };
+  @Output()
+  changeInStateOrCity = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {}
+
+  changeInMapFilter(event) {
+    this.changeInStateOrCity.emit(event);
+  }
 }
 
 const revenue = {

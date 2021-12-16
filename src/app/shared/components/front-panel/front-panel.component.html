@@ -39,7 +39,7 @@
       </div>
     </div>
     <div *ngIf="data.showMap" class="col-md-5">
-      <app-map-with-filter [mapConfig]="mapConfig"></app-map-with-filter>
+      <app-map-with-filter (changeInStateOrCity)="changeInMapFilter($event)" [mapConfig]="mapConfig"></app-map-with-filter>
     </div>
   </div>
   <div class="row" style="padding-left: 1rem; padding-right: 1rem">

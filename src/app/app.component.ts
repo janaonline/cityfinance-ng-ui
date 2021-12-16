@@ -96,6 +96,7 @@ export class AppComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.commonService.getAllUlbs().subscribe(
       (res) => {
+        localStorage.setItem("ulbList", JSON.stringify(res));
         console.log(res, "ULB LIST");
       },
       (error) => {}
