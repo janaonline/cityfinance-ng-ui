@@ -1,5 +1,6 @@
 import { Component, OnInit ,Input } from '@angular/core';
 import Chart from 'chart.js';
+import {OwnRevenueService}from "./own-revenue.service"
 
 @Component({
   selector: 'app-own-revenue-dashboard',
@@ -248,7 +249,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
   @Input()
   cardData = [revenueCollection, revenuePerCapita, revenueExpenditure, revenuePercentage];
 
-  constructor() { }
+  constructor(private ownRevenueService:OwnRevenueService) {
+    this.ownRevenueService.test()
+   }
 
   ngOnInit(): void {
 

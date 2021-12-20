@@ -1,4 +1,4 @@
-<div class="container-fluid col col-sm col-md-* col-lg-* dashboard-container">
+<div class="container-fluid col col-sm dashboard-container">
   <div class="container">
     <div class="row justify-content-center">
       <h1 class="perform-dashboard-heading text-center">Performance Dashboard</h1>
@@ -15,17 +15,19 @@
   </p>
   <div class="container rounded filters-container py-3">
     <div class="row">
-      <h5 class="text-center d-flex justify-content-center">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             height="24px"
-             viewBox="0 0 24 24" 
-             width="24px"
-             fill="#000000">
-             <path d="M0 0h24v24H0V0z" fill="none"/>
-             <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
-            </svg> Filter by
-      </h5>
-      <div class="col-md-12 col col-sm d-flex justify-content-between pt-2">
+      <a href="" class="text-decoration-none">
+        <h5 class="text-center d-flex justify-content-center">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               height="24px"
+               viewBox="0 0 24 24" 
+               width="24px"
+               fill="#000000">
+               <path d="M0 0h24v24H0V0z" fill="none"/>
+               <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+              </svg> Filter by
+        </h5>
+      </a>
+      <div class="col-md-12 d-flex justify-content-between pt-2">
             <div class="col-md-10 d-flex justify-content-between">
               <select class="form-select filter">
                 <option selected>State</option>
@@ -64,9 +66,15 @@
       <h3 class="heading">Data Availability</h3>
       <p class="da-para">
         75% financial data is available for the year YY i.e. 75% of the ULBs’
-        financial statements are available for the year YY. Data is not available
-        for AA, BB and CC Municipal Corporation. For more details, download the
-        complete set of ULBs for which the data is available for the year YY.
+        financial statements are available for 
+        <span class="three-dots">...</span>
+        <span class="three-dots"><a href="" class="text-decoration-none read-toggle">Read More</a></span>
+          <span>
+            the year YY. Data is not available
+            for AA, BB and CC Municipal Corporation. For more details, download the
+            complete set of ULBs for which the data is available for the year YY.
+          </span>
+        <span class="three-dots"><a href="" class="text-decoration-none read-toggle">Read Less</a></span>
       </p>
       <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
         <svg
@@ -147,7 +155,7 @@
   </div>
   <div class="container revenue-stocks-container">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-lg-2 col-md-12 col-12">
           <div class="rounded revenue-card-white mx-2 my-2">
             <p>
               You can compare your performance
@@ -155,13 +163,20 @@
             </p>
           </div>
         </div>
-        <div class="col-md-10 d-flex">
+        <!-- <div class="col-md-10 d-flex">
          <div class="row w-100 mx-0">
-          <div class="col-md-3 col-6 revenue-card" *ngFor="let cardItem of cardData;">
+          <div class="col-lg-3 col-md-6 col-6 revenue-card" *ngFor="let cardItem of cardData;">
             <app-shared-card [data]="cardItem"></app-shared-card>
           </div>
          </div>
-        </div>
+        </div> -->
+        <div class="col-md-10">
+          <div class="row mx-0">
+           <div class="col-lg-3 col-md-6 col-6 revenue-card" *ngFor="let cardItem of cardData;">
+             <app-shared-card [data]="cardItem"></app-shared-card>
+           </div>
+          </div>
+         </div>
       </div>
   </div>
   <div class="container table-container">

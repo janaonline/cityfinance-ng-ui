@@ -15,12 +15,14 @@ $font-Montserrat: Montserrat;
   color: $text-color-ord;
   margin-top: 4.5rem;
   font-size: 2.125rem;
+  font-family: $font-Montserrat;
   font-weight: bold;
 }
 .perform-dashboard-para  {
   margin-top: 1.32rem;
   font-size: 1.125rem;
   font-family: $font-archivo,serif;
+  color: $text-color-ord;
   font-weight: normal;
 }
 .filters-container {
@@ -53,8 +55,13 @@ $font-Montserrat: Montserrat;
   font-weight: 600;
   font-family: $font-archivo,serif;
 }
+.three-dots {
+  display: none;
+}
+
 .data-availability  {
   margin-top: 2.5%;
+  height: auto;
 }
 .btn-download {
   margin-top: 1.56rem;
@@ -139,3 +146,112 @@ $font-Montserrat: Montserrat;
   font-size: 0.8rem;
 }
 
+
+//Applying REsponsiveness on Own-Revenue_Dashboard Component
+@media (max-width: 576px) { 
+    .dashboard-container {
+      width: 100%;
+      height: 18rem;
+        .perform-dashboard-heading {
+          font-size: 1.4rem;
+          margin-top: 2.25rem;
+        }
+        .perform-dashboard-para  {
+          font-size: 0.875rem;
+          line-height: 1.7;
+          margin-top: 1.125rem;
+        }
+
+    }
+
+    .para-styling  {
+      margin-top: 3.25rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+
+    .filters-container {
+      margin-top: 1.25rem;
+    }
+    .filters-container > .row > div {
+        display: none !important;
+    }
+
+    .data-availability {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1.375rem;
+      .heading {
+        padding-top: 1.0rem;
+        padding-left: 1.0rem;
+        font-size: 0.9rem;
+      }
+      .da-para {
+        margin-top: 1.0rem;
+        font-size: 0.875rem;
+        padding-left: 1.0rem;
+      }
+      .read-toggle{
+        color: #E67E15;
+      }
+
+      // Semi-Doughnut chart styling Start
+      .doughnut-container  canvas {
+        margin-top: 1.375rem;
+        margin-left: 6.5rem;
+        height: 5.7rem !important;
+        width: 10.31rem !important;
+      }
+      .doughnut_percentage {
+        position: absolute;
+        left: 45%;
+        top: 48%;
+        font-size: 1.25rem;
+        font-weight: 800;
+      }
+      .doughnut_text {
+        position: absolute;
+        font-size: 0.75rem;
+        left: 38%;
+        top: 75%;
+      }
+      // Semi-Doughnut chart End
+      .btn-download {
+        // position: absolute;
+        // margin-top: 0;
+        // margin-left: 0;
+        // margin-bottom: 0;
+        display: none;
+      }
+    }
+
+    .total-revenue-doughnut {
+      display: none;
+    }
+    
+ }
+
+ @media (max-width: 992px) {
+  .doughnut-container  canvas {
+    margin-top: 4rem;
+    margin-left: 3rem;
+    height: 6rem !important;
+    width: 12.85rem !important;
+  }
+  .doughnut_percentage {
+    position: absolute;
+    left: 43%;
+    top: 40%;
+    font-size: 2.25rem;
+    font-weight: 600;
+  }
+  .doughnut_text {
+    position: absolute;
+    left: 35%;
+    top: 57%;
+  }
+  
+ }
+
+ 
