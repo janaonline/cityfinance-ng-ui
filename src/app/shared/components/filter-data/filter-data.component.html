@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+       {{data.headLine}}
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let item of data.btn; let i = index" class="col-md-1">
+      <button (click)="changeActiveBtn(i)" [id]="'btn-'+i" class="btn deSelected" >{{item}}</button>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div [ngClass]="{'col-md-7': !expand,'col-md-12':expand}"></div>
+    <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
+      <app-about-indicator></app-about-indicator>
+    </div>
+  </div>
+</div>

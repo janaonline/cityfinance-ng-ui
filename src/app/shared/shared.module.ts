@@ -62,6 +62,7 @@ import { DashboardTabsComponent } from "./components/dashboard-tabs/dashboard-ta
 import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-section/dashboard-map-section.component";
 import { MapWithFilterComponent } from "./components/map-with-filter/map-with-filter.component";
 import { AboutIndicatorComponent } from './components/about-indicator/about-indicator.component';
+import { FilterDataComponent } from './components/filter-data/filter-data.component';
 
 @NgModule({
   imports: [
@@ -126,6 +127,7 @@ import { AboutIndicatorComponent } from './components/about-indicator/about-indi
     DashboardTabsComponent,
     MapWithFilterComponent,
     AboutIndicatorComponent,
+    FilterDataComponent,
   ],
   exports: [
     FormsModule,
