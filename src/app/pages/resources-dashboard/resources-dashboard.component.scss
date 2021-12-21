@@ -3,7 +3,8 @@
 @import "./src/scss/mixins";
 .res-bg {
     background-color: #F1F8FF;
-    height: 20rem;
+    // height: 20rem;
+    padding-bottom: 2rem;
 }
 
 .res-h {
@@ -21,7 +22,7 @@
 .filter-form {
     // min-width: 150px;
     // max-width: 500px;
-    width: 82%;
+    // width: 82%;
     display: inline-block;
 }
 
@@ -35,27 +36,36 @@
     border: 1px solid #D9DCE6;
     border-radius: 8px;
     width: 50%;
+    @media screen and (max-width: 768px) {
+        width: 80%;
+    }
     margin: 1rem auto 4rem auto;
 }
 
 .fl-input {
     width: 100%;
+    height: 3rem;
     border: none;
-    padding: 12px 0px 12px 5px;
+    // padding: 12px 0px 12px 5px;
 }
 
-.fl-input:focus-visible {
+.fl-input:focus-visible,
+.fl-input:focus {
     border: none;
     outline: none;
     outline-color: transparent;
+    box-shadow: none;
 }
 
 .btnFilter {
     background: #E67E15 0% 0% no-repeat padding-box;
     border-radius: 0px 8px 8px 0px;
     opacity: 1;
-    padding: 12px 24px;
+    height: 3rem;
+    width: 100%;
+    //  padding: 12px 24px;
     color: #fff;
+    border: none;
 }
 
 .mt-n {
@@ -73,3 +83,39 @@
 // .resources-sub-h.active {
 //     color: #000000;
 // }
+.container-cnt {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 20px;
+    overflow: auto;
+}
+
+.card {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 200px;
+    min-height: 300px;
+    box-shadow: 0 1px 2px #000;
+    flex-shrink: 0;
+    background: #fff;
+}
+
+.card+.card {
+    margin-left: 10px;
+}
+
+.center-aTag {
+    text-decoration: none;
+    margin: 0 1rem;
+}
+
+.center-aTag.active {
+    background: #FFF1E3 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #FADAAD;
+    border: 1px solid #E87A1C;
+    opacity: 1;
+    border-radius: 12px;
+}

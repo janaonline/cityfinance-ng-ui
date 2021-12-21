@@ -146,9 +146,9 @@ const latestNewsUpdates = {
 };
 
 const cardStyle = {
-  width: "auto",
+  width: "15rem",
   borderRadius: "0.7500em",
-  height: "auto",
-  "max-height": "8rem",
+  height: "13rem",
+  // "max-height": "8rem",
 
 };

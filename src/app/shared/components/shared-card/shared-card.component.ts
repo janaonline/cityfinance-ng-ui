@@ -48,11 +48,12 @@ export class SharedCardComponent implements OnInit, AfterViewInit {
 
   showButtons = false;
   ngOnInit(): void {
+    console.log('resources', this.data)
     if (this.data)
       this.showButtons = this.data?.actionButtons
         ? this.data.actionButtons.length > 0
         : false;
-    
+
   }
 
   ngAfterViewInit() {}

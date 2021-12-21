@@ -9,15 +9,42 @@ import { LearningCenterComponent } from './learning-center/learning-center.compo
 import { DataSetsComponent } from './data-sets/data-sets.component';
 import { ReportsPublicationComponent } from './reports-publication/reports-publication.component';
 import { LatestNewsComponent } from './latest-news/latest-news.component';
+import { ScorePerComponent } from './learning-center/score-per/score-per.component';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatStepperModule } from '@angular/material/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+
+
 @NgModule({
-  declarations: [ResourcesDashboardComponent, LearningCenterComponent, DataSetsComponent, ReportsPublicationComponent, LatestNewsComponent],
+  declarations: [
+    ResourcesDashboardComponent,
+    LearningCenterComponent,
+    DataSetsComponent,
+    ReportsPublicationComponent,
+    LatestNewsComponent,
+     ScorePerComponent
+    ],
   imports: [
     CommonModule,
+
     ResourcesDashboardRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
     MatAutocompleteModule,
-  ]
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatStepperModule,
+  ],
+  providers: [
+
+  ],
+  bootstrap: [ScorePerComponent],
 })
 export class ResourcesDashboardModule { }

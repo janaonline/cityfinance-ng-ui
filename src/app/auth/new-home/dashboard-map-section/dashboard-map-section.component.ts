@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureCollection, Geometry } from 'geojson';
 import * as L from 'leaflet';
 import { IState } from 'src/app/models/state/state';
@@ -50,6 +50,7 @@ constructor(
   private fb: FormBuilder,
   private _ngZone: NgZone,
   private assetService: AssetsService,
+  private router: Router
 ) {
   super(_commonService, _snackbar, _geoService, _activateRoute);
   setTimeout(() => {
@@ -315,6 +316,11 @@ totalUsersVisit: number;
    this.cityName = filterCity.name;
     console.log('city name', city, filterCity)
     // this.onSelectingULBFromDropdown(city);
+  }
+  viewDashboard() {
+    let searchValue = this.stateList.find(e => e?.name.toLowerCase() == this.selected_state.toLowerCase());
+    console.log('view dash', searchValue)
+    this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`)
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
