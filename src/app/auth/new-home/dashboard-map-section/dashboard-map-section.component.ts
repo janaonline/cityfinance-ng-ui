@@ -1,21 +1,22 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { FeatureCollection, Geometry } from 'geojson';
-import * as L from 'leaflet';
-import { IState } from 'src/app/models/state/state';
-import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
-import { ReUseableHeatMapComponent } from 'src/app/shared/components/re-useable-heat-map/re-useable-heat-map.component';
-import { IStateULBCovered } from 'src/app/shared/models/stateUlbConvered';
-import { ULBWithMapData } from 'src/app/shared/models/ulbsForMapResponse';
-import { AssetsService } from 'src/app/shared/services/assets/assets.service';
-import { CommonService } from 'src/app/shared/services/common.service';
-import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
-import { MapUtil } from 'src/app/util/map/mapUtil';
-import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
-import { ICreditRatingData } from 'src/app/models/creditRating/creditRatingResponse';
-const districtJson = require('../../../../assets/jsonFile/state_boundries.json');
+import { Component, NgZone, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FeatureCollection, Geometry } from "geojson";
+import * as L from "leaflet";
+import { IState } from "src/app/models/state/state";
+import { ILeafletStateClickEvent } from "src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent";
+import { ReUseableHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/re-useable-heat-map.component";
+import { IStateULBCovered } from "src/app/shared/models/stateUlbConvered";
+import { ULBWithMapData } from "src/app/shared/models/ulbsForMapResponse";
+import { AssetsService } from "src/app/shared/services/assets/assets.service";
+import { CommonService } from "src/app/shared/services/common.service";
+import { GeographicalService } from "src/app/shared/services/geographical/geographical.service";
+import { MapUtil } from "src/app/util/map/mapUtil";
+import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
+import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
+const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+
 @Component({
   selector: "app-dashboard-map-section",
   templateUrl: "./dashboard-map-section.component.html",
@@ -26,6 +27,9 @@ export class DashboardMapSectionComponent
   implements OnInit
 {
   myForm: FormGroup;
+  stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
+  selectedDistrictCode;
+  selectedStateCode;
   yearSelected = [];
   selected_state = "India";
   stateselected: IState;
@@ -51,7 +55,8 @@ export class DashboardMapSectionComponent
     protected _activateRoute: ActivatedRoute,
     private fb: FormBuilder,
     private _ngZone: NgZone,
-    private assetService: AssetsService
+    private assetService: AssetsService,
+    private router: Router
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     setTimeout(() => {
@@ -191,7 +196,10 @@ export class DashboardMapSectionComponent
       (layer as any).bringToBack();
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
-        click: (args: ILeafletStateClickEvent) => this.onStateLayerClick(args,true,true),
+        click: (args: ILeafletStateClickEvent) => {
+          this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+          this.onStateLayerClick(args, false, false);
+        },
         mouseout: () => (this.mouseHoverOnState = null),
       });
     });
@@ -298,20 +306,31 @@ export class DashboardMapSectionComponent
         }).addTo(districtMap);
         marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
         marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-        marker.on("click", (values) =>
-          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
-        );
+        marker.on("click", (values) => {
+          let city;
+          if (values["latlng"])
+            city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
+              (value) =>
+                +value.location.lat === values["latlng"].lat &&
+                +value.location.lng === values["latlng"].lng
+            );
+          if (city) {
+            this.selectedDistrictCode = city.code;
+            this.selectCity(city.code, false);
+          }
+          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
+        });
         this.districtMarkerMap[dataPoint.code] = marker;
       });
     }, 0.5);
   }
 
-  selectCity(city) {
+  selectCity(city, fireEvent = true) {
     console.log("city data", this.cityData);
     console.log("city name", city);
     let filterCity = this.cityData.find((e) => e.code == city);
     this.cityName = filterCity.name;
-    this.districtMarkerMap[filterCity.code].fireEvent("click")
+    if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
     // this.onSelectingULBFromDropdown(city);
   }
@@ -328,8 +347,16 @@ export class DashboardMapSectionComponent
   }
   onSelectingStateFromDropDown(state: any | null) {
     console.log("sttts", state);
+    this.selectedStateCode = state.code;
     this.cityName = "";
     this.selected_state = state ? state?.name : "India";
+    if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
+      const element = document.getElementById(this.createdDomMinId);
+      element.style.display = "block";
+
+      this.resetMapToNationalLevel();
+      this.initializeNationalLevelMapLayer(this.stateLayers);
+    }
     console.log("sdc 2", state, this.stateselected, this.selected_state);
     this.stateselected = state;
     this.fetchDataForVisualization(state ? state._id : null);
@@ -573,5 +600,10 @@ export class DashboardMapSectionComponent
     });
 
     this.creditRating = computedData;
+  }
+  openStateDashboard(event) {
+    this.router.navigateByUrl(
+      `/dashboard/state?stateCode=${this.selectedStateCode}`
+    );
   }
 }

@@ -10,18 +10,22 @@ export class DashboardTabsComponent implements OnInit {
   constructor() {}
 
   @Input()
-  data = {
-    tabs: ["tab1", "tab2", "tab3", "tab4", "tab5", "tab6"],
-    filter: ["innerTab1", "innerTab2", "innerTab3"],
-  };
+  data = [
+    { name: "tab1", filter: ["innerTab1", "innerTab2", "innerTab3"] },
+    { name: "tab2", filter: ["innerTab4", "innerTab5", "innerTab6"] },
+    { name: "tab3", filter: ["innerTab7", "innerTab8", "innerTab9"] },
+    { name: "tab4", filter: ["innerTab10", "innerTab11", "innerTab12"] },
+  ];
 
-  activeTab = "";
+  activeFilter = [];
   innerActiveTab = "";
 
-  changeTab(event, fromInner = null) {
-    if (fromInner) this.innerActiveTab = event.target.value;
+  changeTab(event, fromInner = false) {
+    let value = JSON.parse(event.target.value);
+    if (fromInner) this.innerActiveTab = value;
     else {
-      this.activeTab = event.target.value;
+      this.activeFilter = value.filter;
+      this.innerActiveTab = value.filter[0];
     }
   }
   ngOnInit(): void {}
