@@ -1,9 +1,33 @@
 <div class="container-fluid col col-sm dashboard-container">
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center">
       <h1 class="perform-dashboard-heading text-center">Performance Dashboard</h1>
-      <p class="perform-dashboard-para col-11 text-center">The performance dashboard showcases the state of Municipal own revenues and property tax revenues in the country. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.</p>  
+      <p class="perform-dashboard-para col-12 text-center">The performance dashboard showcases the state of Municipal own revenues and property tax revenues in the country. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.</p>  
     </div>
+    <div class="row gx-0 justify-content-center two-tabs">
+      <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-center rounded-start first-tab tab">
+        <a href="" class="text-decoration-none text-center">
+          Own Revenue Performance Dashboard
+        </a>
+      </div>
+      <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-center rounded-end second-tab tab">
+        <a href="" class="text-decoration-none text-center">
+          Property Tax Performance Dashboard
+        </a>
+      </div>
+    </div>
+    <!-- <div class="row gx-0 justify-content-center two-tabs">
+        <a href="" class="text-decoration-none col-6 col-md-4 col-lg-4">
+          <div class="tab first-tab d-flex justify-content-center align-items-center rounded-left">
+            Own Revenue Performance Dashboard
+          </div>
+        </a>
+        <a href="" class="text-decoration-none col-6 col-md-4 col-lg-4">
+          <div class="tab second-tab d-flex justify-content-center align-items-center rounded-right">
+            Property Tax Performance Dashboard
+          </div>
+        </a>
+    </div> -->
   </div>
 </div>
 <div class="container">
@@ -61,7 +85,7 @@
     </div>
   </div>
    
-  <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
+  <!-- <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
     <div class="col-md-7">
       <h3 class="heading">Data Availability</h3>
       <p class="da-para">
@@ -101,7 +125,46 @@
       <span class="doughnut_percentage">75%</span><br>
       <span class="doughnut_text">Data Availability</span>
     </div>
-  </div>
+  </div> -->
+
+  <!-- Data Availability section starts -->
+  <div class="container data-availability rounded">
+    <div class="row">
+        <div class="col-md-7">
+            <h3 class="heading">Data Availability</h3>
+            <p class="da-para">
+              75% financial data is available for the year YY i.e. 75% of the ULBs’
+              financial statements are available for 
+              <span class="three-dots">...</span>
+              <span class="three-dots"><a href="" class="text-decoration-none read-toggle">Read More</a></span>
+                <span>
+                  the year YY. Data is not available
+                  for AA, BB and CC Municipal Corporation. For more details, download the
+                  complete set of ULBs for which the data is available for the year YY.
+                </span>
+              <span class="three-dots"><a href="" class="text-decoration-none read-toggle">Read Less</a></span>
+            </p>
+          </div>
+          <div class="col-md-5 doughnut-container">
+            <canvas id="myChart1">
+            </canvas>
+            <span class="doughnut_percentage">75%</span><br>
+            <span class="doughnut_text">Data Availability</span>
+          </div>
+    </div>
+
+    <span class="btn-container">
+        <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
+            <img src="../../../assets/form-icon/file_download_black_24dp.svg" alt="download_icon">
+            Download Data
+        </button>
+    </span>
+</div>
+  
+
+
+
+
 
   <div class="container total-revenue-doughnut">
     <div class="row d-flex justify-content-between pt-3">

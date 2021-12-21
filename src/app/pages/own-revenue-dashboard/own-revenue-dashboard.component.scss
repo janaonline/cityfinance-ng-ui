@@ -3,8 +3,8 @@
 @import "./src/scss/mixins";
 
 $text-color-ord: #0F1F40;
-$font-archivo: Archivo;
-$font-Montserrat: Montserrat;
+$font-archivo: "Archivo";
+$font-Montserrat: "Montserrat";
 
 .dashboard-container {
   background-color: #DAE2FD;
@@ -21,29 +21,35 @@ $font-Montserrat: Montserrat;
 .perform-dashboard-para  {
   margin-top: 1.32rem;
   font-size: 1.125rem;
-  font-family: $font-archivo,serif;
+  font-family: $font-archivo;
   color: $text-color-ord;
   font-weight: normal;
 }
-.filters-container {
-  background-color: #F7F7F7;
+.two-tabs {
+  margin-top: 3.6rem;
 }
-
-.fill-secondary {
-  fill: $secondary;
+.tab {
+  height: 4.2rem;
 }
-.heading {
-  padding-top: 1.625rem;
-  padding-left: 1.75rem;
-  font-size: 1.125rem;
-  color: $text-color-ord;
+.first-tab {
+  background-color: #E67E15;
 }
-.da-para {
-  margin-bottom: 0;
-  margin-top: 1.32rem;
-  color:#6E7281;
+.second-tab {
+  background-color: #F7F8FF;
+}
+.first-tab a {
+  flex: 1;
+  font-family: $font-Montserrat;
   font-size: 0.875rem;
-  padding-left: 1.75rem;
+  font-weight: normal;
+  color: #FFF;
+}
+.second-tab a {
+  flex: 1;
+  font-family: $font-Montserrat;
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: #6E7281;
 }
 .para-styling {
   margin-top: 5%;
@@ -53,27 +59,10 @@ $font-Montserrat: Montserrat;
 .para_word_styling {
   color: #6E7281;
   font-weight: 600;
-  font-family: $font-archivo,serif;
+  font-family: $font-archivo;
 }
-.three-dots {
-  display: none;
-}
-
-.data-availability  {
-  margin-top: 2.5%;
-  height: auto;
-}
-.btn-download {
-  margin-top: 1.56rem;
-  margin-left: 1.75rem;
-  margin-bottom: 1.125rem;
-  font-size: 0.75rem;
-  font-family: $font-archivo,serif;
-  padding-top: 0.56rem;
-  padding-bottom: 0.56rem;
-  padding-right: 0.68rem;
-  font-weight: medium;
-  color: $secondary;
+.filters-container {
+  background-color: #F7F7F7;
 }
 .filter {
   font-weight: 600;
@@ -91,6 +80,40 @@ $font-Montserrat: Montserrat;
 .btn:focus {
   outline: none;
   box-shadow: none;
+}
+.data-availability  {
+  background-color:#F0F4FF;
+  margin-top: 2.5%;
+  height: auto;
+}
+.heading {
+  padding-top: 1.625rem;
+  padding-left: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: $text-color-ord;
+}
+.da-para {
+  margin-bottom: 0;
+  margin-top: 1.32rem;
+  color:#6E7281;
+  font-size: 0.875rem;
+  padding-left: 1.75rem;
+}
+.three-dots {
+  display: none;
+}
+.btn-download {
+  margin-top: 1.56rem;
+  margin-left: 1.75rem;
+  margin-bottom: 1.125rem;
+  font-size: 0.75rem;
+  font-family: $font-archivo;
+  padding-top: 0.56rem;
+  padding-bottom: 0.56rem;
+  padding-right: 0.68rem;
+  font-weight: medium;
+  color: $secondary;
 }
 .btn-os:hover {
   background-color:#F0F4FF;
@@ -147,27 +170,33 @@ $font-Montserrat: Montserrat;
 }
 
 
-//Applying REsponsiveness on Own-Revenue_Dashboard Component
+//Applying Responsiveness on Own-Revenue_Dashboard Component
 @media (max-width: 576px) { 
     .dashboard-container {
       width: 100%;
-      height: 18rem;
+      height: 23rem;
         .perform-dashboard-heading {
-          font-size: 1.4rem;
+          font-size: 1.625rem;
           margin-top: 2.25rem;
         }
         .perform-dashboard-para  {
-          font-size: 0.875rem;
-          line-height: 1.7;
+          font-size: 1.125rem;
+          line-height: 1.5;
           margin-top: 1.125rem;
+        }
+        .first-tab a {
+          padding: 2px;
+        }
+        .second-tab a {
+          padding: 2px;
         }
 
     }
 
     .para-styling  {
       margin-top: 3.25rem;
-      font-size: 0.875rem;
-      line-height: 1.7;
+      font-size: 1.063rem;
+      line-height: 1.4;
     }
 
     .filters-container {
@@ -185,7 +214,8 @@ $font-Montserrat: Montserrat;
       .heading {
         padding-top: 1.0rem;
         padding-left: 1.0rem;
-        font-size: 0.9rem;
+        font-size: 1.125rem;
+        font-weight: bold;
       }
       .da-para {
         margin-top: 1.0rem;
