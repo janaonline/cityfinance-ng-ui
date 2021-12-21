@@ -52,6 +52,8 @@ export class HomeTabViewComponent implements OnInit {
     { id: "2016-17", itemName: "2016-17" },
     { id: "2017-18", itemName: "2017-18" },
     { id: "2018-19", itemName: "2018-19" },
+    { id: "2019-20", itemName: "2019-20" },
+    { id: "2020-21", itemName: "2020-21" },
   ];
   yearsDropdownSettings = {
     text: "Select Years",
