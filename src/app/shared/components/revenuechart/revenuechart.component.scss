@@ -1,13 +1,22 @@
 .iconText {
-    color: #E67E15;
-    font-size: 13px;
+  color: #e67e15;
+  font-size: 13px;
 }
 
 .iconImg img {
-    width: 1em;
-    height: 50%;
-    left: 50%;
-    transform: translate(-50%);
-    position: relative;
-    margin: 0 auto;
+  width: 1em;
+  height: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  position: relative;
+  margin: 0 auto;
+}
+.svg {
+  cursor: pointer;
+}
+
+.compare {
+  border: 1px solid #d0d0d0;
+  background-color: white;
+  height: 2.3rem;
 }
