@@ -1,4 +1,4 @@
-<div class="container-fluid col col-sm dashboard-container">
+<div class="container-fluid dashboard-container">
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <h1 class="perform-dashboard-heading text-center">Performance Dashboard</h1>
@@ -16,18 +16,6 @@
         </a>
       </div>
     </div>
-    <!-- <div class="row gx-0 justify-content-center two-tabs">
-        <a href="" class="text-decoration-none col-6 col-md-4 col-lg-4">
-          <div class="tab first-tab d-flex justify-content-center align-items-center rounded-left">
-            Own Revenue Performance Dashboard
-          </div>
-        </a>
-        <a href="" class="text-decoration-none col-6 col-md-4 col-lg-4">
-          <div class="tab second-tab d-flex justify-content-center align-items-center rounded-right">
-            Property Tax Performance Dashboard
-          </div>
-        </a>
-    </div> -->
   </div>
 </div>
 <div class="container">
@@ -153,12 +141,12 @@
           </div>
     </div>
 
-    <span class="btn-container">
+    <div class="btn-container">
         <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
             <img src="../../../assets/form-icon/file_download_black_24dp.svg" alt="download_icon">
             Download Data
         </button>
-    </span>
+    </div>
 </div>
   
 
@@ -242,30 +230,26 @@
          </div>
       </div>
   </div>
-  <div class="container table-container">
-    <div class="table-responsive">
-      <table class="table table-hover table-bordered">
-        <thead>
-          <tr>
-            <th class="col-attr" scope="col">ULB Population Category</th>
-            <th class="col-attr" scope="col">Average Own Revenue Collections (In Crore Rs.)</th>
-            <th class="col-attr" scope="col">Median Own Revenue Per Capita</th>
-            <th class="col-attr" scope="col">Median Own Revenue Per Capita</th>
-            <th class="col-attr" scope="col">Average Own Revenues As Percentage Of Revenue Expenditure</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>{{user.name}}</td>
-            <td>{{user.username}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.city}}</td>
-            <td>{{user.street}}</td>
-          </tr>
-        </tbody>
-
-      </table>
-    </div>
-
+  <!-- <div class="container table-container"> 
+  </div> -->
+  <div class=" container table-container table-responsive">
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th class="col-attr" scope="col" *ngFor="let attribute of columnAttribute">
+            {{attribute.title}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.name}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.city}}</td>
+          <td>{{user.street}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

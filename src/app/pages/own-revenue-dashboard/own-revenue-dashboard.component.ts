@@ -9,8 +9,30 @@ import {OwnRevenueService}from "./own-revenue.service"
 })
 export class OwnRevenueDashboardComponent implements OnInit {
 
+//   showShortDesciption = true
+//   alterDescriptionText() {
+//     this.showShortDesciption = !this.showShortDesciption
+//  }
 
 // Dummy data for table
+ columnAttribute = [
+   { "id": 1,
+     "title": "ULB Population Category"
+   },
+   { "id": 2,
+     "title": "Average Own Revenue Collections (In Crore Rs.)"
+   },
+   { "id": 3,
+     "title": "Median Own Revenue Per Capita"
+   },
+   { "id": 4,
+     "title": "Percentage Of Cities Where Own Revenues Meet Revenue Expenditure"
+   },
+   { "id": 5,
+     "title": "Average Own Revenues As Percentage Of Revenue Expenditure"
+   }
+  ]
+
  users = [
   {
     "id": 1,

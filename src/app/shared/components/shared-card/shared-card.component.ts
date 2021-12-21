@@ -15,15 +15,6 @@ import {
 })
 export class SharedCardComponent implements OnInit, AfterViewInit {
   constructor() {}
-  
-  // @Input()
-  // cardItem = {
-  //   type:5,
-  //   title:"title",
-  //   subTitle: "subTitle",
-  //   svg: "svg",
-  //   percentage:"percentage",
-  // }
 
   @Input()
   cardStyle = {
