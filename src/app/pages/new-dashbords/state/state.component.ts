@@ -14,7 +14,7 @@ export class StateComponent implements OnInit {
     private router: Router
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
-      this.stateId = param.stateId || "5dcf9d7216a06aed41c748dd";
+      this.stateId = param.stateId;
       for (const key in this.stateUlbData.data) {
         const element = this.stateUlbData.data[key];
         if (element._id == this.stateId) {
@@ -22,7 +22,6 @@ export class StateComponent implements OnInit {
           break;
         }
       }
-
       this.mapData.code.state = this.stateCode;
     });
   }

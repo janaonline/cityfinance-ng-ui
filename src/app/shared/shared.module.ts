@@ -62,7 +62,8 @@ import { DashboardTabsComponent } from "./components/dashboard-tabs/dashboard-ta
 import { DashboardMapSectionComponent } from "../auth/new-home/dashboard-map-section/dashboard-map-section.component";
 import { MapWithFilterComponent } from "./components/map-with-filter/map-with-filter.component";
 import { RevenuechartComponent } from "./components/revenuechart/revenuechart.component";
-import { CompareDialogComponent } from './components/compare-dialog/compare-dialog.component';
+import { CompareDialogComponent } from "./components/compare-dialog/compare-dialog.component";
+import { AboutIndicatorComponent } from "./components/about-indicator/about-indicator.component";
 
 @NgModule({
   imports: [
@@ -128,6 +129,7 @@ import { CompareDialogComponent } from './components/compare-dialog/compare-dial
     MapWithFilterComponent,
     RevenuechartComponent,
     CompareDialogComponent,
+    AboutIndicatorComponent,
   ],
   exports: [
     FormsModule,

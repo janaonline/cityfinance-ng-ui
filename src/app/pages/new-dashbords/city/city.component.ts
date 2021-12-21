@@ -13,14 +13,14 @@ export class CityComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
-      this.cityId = param.cityId || "5dd24729437ba31f7eb42eac";
-      this.stateCode = param.stateCode || "GJ";
-      this.mapData.code.city = this.stateUlbData.data[this.stateCode].ulbs.find(
-        (value) => value._id === this.cityId
-      ).code;
-      this.mapData.code.state = this.stateCode;
+      this.cityId = param.cityId;
+      this.stateCode = param.stateCode || this.ulbStateCodeMapping[this.cityId];
+      this.mapData.code.city = this.ulbCodeMapping[this.cityId];
+      this.mapData.code.state = this.ulbStateCodeMapping[this.cityId];
     });
   }
+  ulbStateCodeMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+  ulbCodeMapping = JSON.parse(localStorage.getItem("ulbCodeMapping"));
   cityId;
   stateCode;
   frontPanelData = data;
