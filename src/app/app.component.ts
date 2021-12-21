@@ -11,6 +11,7 @@ import { ConnectionService } from "ng-connection-service";
 import { SweetAlert } from "sweetalert/typings/core";
 import { CommonService } from "./shared/services/common.service";
 const swal: SweetAlert = require("sweetalert");
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-root",
@@ -28,7 +29,8 @@ export class AppComponent implements OnDestroy, OnInit {
     private sessionService: SessionService,
     private profileService: ProfileService,
     private connectionService: ConnectionService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private matSnackBar: MatSnackBar
   ) {
     this.startSession();
     this.globalLoader
@@ -40,11 +42,14 @@ export class AppComponent implements OnDestroy, OnInit {
     this.addCustomScripts();
     this.connectionService.monitor().subscribe((isConnected) => {
       if (!isConnected) {
-        swal({
-          title: "No Internet Connection!",
-          text: "Please connect to internet",
-          icon: "warning",
-        });
+        this.matSnackBar.open(
+          `No Internet Connection!
+        Please connect to internet`,
+          null,
+          {
+            duration: 6600,
+          }
+        );
       }
     });
     let userData: any = localStorage.getItem("userData");

@@ -17,13 +17,10 @@
         (opened)="item.panelOpenState = true"
         (closed)="item.panelOpenState = false"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header style="background-color: #F5FAFF;">
           <mat-panel-title [ngClass]="{ activeIndicator: item.panelOpenState }">
             {{ item.title }}
           </mat-panel-title>
-          <!-- <mat-panel-description>
-                  Currently I am {{panelOpenState ? 'open' : 'closed'}}
-                </mat-panel-description> -->
         </mat-expansion-panel-header>
         <p>{{ item.text }}</p>
       </mat-expansion-panel>
