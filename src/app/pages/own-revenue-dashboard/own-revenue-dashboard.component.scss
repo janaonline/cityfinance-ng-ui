@@ -8,7 +8,7 @@ $font-Montserrat: "Montserrat";
 
 .dashboard-container {
   background-color: #DAE2FD;
-  height: 19rem;
+  // height: 19rem;
 }
 
 .perform-dashboard-heading {
@@ -117,6 +117,9 @@ $font-Montserrat: "Montserrat";
 }
 .btn-os:hover {
   background-color:#F0F4FF;
+}
+.btn-ghost{
+  display: none;
 }
 .doughnut-container {
   position: relative;
@@ -234,8 +237,8 @@ $font-Montserrat: "Montserrat";
       }
       .doughnut_percentage {
         position: absolute;
-        left: 45%;
-        top: 48%;
+        left: 36%;
+        top: 28%;
         font-size: 1.25rem;
         font-weight: 800;
       }
@@ -245,14 +248,14 @@ $font-Montserrat: "Montserrat";
         left: 38%;
         top: 75%;
       }
-      // Semi-Doughnut chart End
-      .btn-download {
-        // position: absolute;
-        // margin-top: 0;
-        // margin-left: 0;
-        // margin-bottom: 0;
+      .btn-download{
         display: none;
       }
+      .btn-ghost{
+        display: block;
+      }
+      // Semi-Doughnut chart End
+      
     }
 
     .total-revenue-doughnut {

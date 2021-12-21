@@ -132,21 +132,26 @@
                 </span>
               <span class="three-dots"><a href="" class="text-decoration-none read-toggle">Read Less</a></span>
             </p>
+              <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
+                  <img src="../../../assets/form-icon/file_download_black_24dp.svg" alt="download_icon">
+                  Download Data
+              </button>
           </div>
           <div class="col-md-5 doughnut-container">
             <canvas id="myChart1">
             </canvas>
             <span class="doughnut_percentage">75%</span><br>
             <span class="doughnut_text">Data Availability</span>
+              <button class="btn btn-outline-secondary btn-sm btn-os btn-download btn-ghost">
+                  <img src="../../../assets/form-icon/file_download_black_24dp.svg" alt="download_icon">
+                  Download Data
+              </button>
           </div>
     </div>
 
-    <div class="btn-container">
-        <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
-            <img src="../../../assets/form-icon/file_download_black_24dp.svg" alt="download_icon">
-            Download Data
-        </button>
-    </div>
+    <!-- <div class="btn-container">
+        
+    </div> -->
 </div>
   
 
@@ -214,13 +219,6 @@
             </p>
           </div>
         </div>
-        <!-- <div class="col-md-10 d-flex">
-         <div class="row w-100 mx-0">
-          <div class="col-lg-3 col-md-6 col-6 revenue-card" *ngFor="let cardItem of cardData;">
-            <app-shared-card [data]="cardItem"></app-shared-card>
-          </div>
-         </div>
-        </div> -->
         <div class="col-md-10">
           <div class="row mx-0">
            <div class="col-lg-3 col-md-6 col-6 revenue-card" *ngFor="let cardItem of cardData;">
