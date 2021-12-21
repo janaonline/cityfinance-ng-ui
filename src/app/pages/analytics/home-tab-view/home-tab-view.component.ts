@@ -11,7 +11,6 @@ import { forkJoin, Observable, Subject } from 'rxjs';
 import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
-
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
 import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
 import { IStateULBCovered, IStateULBCoveredResponse } from '../../../../app/shared/models/stateUlbConvered';
