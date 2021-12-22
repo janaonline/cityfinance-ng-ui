@@ -47,7 +47,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <mat-stepper labelPosition="bottom" #stepper>
+                        <!-- <mat-stepper labelPosition="bottom" #stepper>
                             <mat-step [stepControl]="firstFormGroup">
                                 <form [formGroup]="firstFormGroup">
                                     <ng-template matStepLabel>Fill out your name</ng-template>
@@ -81,7 +81,59 @@
                                     <button mat-button (click)="stepper.reset()">Reset</button>
                                 </div>
                             </mat-step>
-                        </mat-stepper>
+                        </mat-stepper> -->
+                        <mat-horizontal-stepper labelPosition="bottom" id="stepper" #stepper>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Enumeration">Enumeration</span>
+                                </ng-template>
+
+
+                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.next()">
+                                Continue
+                                </button>
+                                <ng-content> </ng-content>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Valuation">Valuation</span>
+                                </ng-template>
+
+                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.next()">
+                                Continue
+                                </button>
+                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.previous()">
+                                Back
+                                </button>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Assessment">Assessment</span>
+                                </ng-template>
+
+
+
+                                <p>
+                                    <span class="mandatory">*</span> Upload GAP analysis report and project identified for bridging the gap as a single document.
+                                </p>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Billing and Collection">Billing and Collection</span>
+                                </ng-template>
+                            </mat-step>
+
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Reporting">Reporting</span>
+                                </ng-template>
+                            </mat-step>
+                            <ng-template matStepperIcon="edit">
+                                <mat-icon>check</mat-icon>
+                            </ng-template>
+
+
+                        </mat-horizontal-stepper>
                     </div>
                 </div>
             </div>
