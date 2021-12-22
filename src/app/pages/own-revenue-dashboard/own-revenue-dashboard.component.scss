@@ -3,9 +3,11 @@
 @import "./src/scss/mixins";
 
 $text-color-ord: #0F1F40;
+$font-archivo: "Archivo";
+$font-Montserrat: "Montserrat";
 
 .dashboard-container {
-  background-color: #F1F8FF;
+  background-color: #DAE2FD;
   height: 19rem;
 }
 
@@ -13,24 +15,82 @@ $text-color-ord: #0F1F40;
   color: $text-color-ord;
   margin-top: 4.5rem;
   font-size: 2.125rem;
+  font-family: $font-Montserrat;
   font-weight: bold;
 }
 .perform-dashboard-para  {
   margin-top: 1.32rem;
   font-size: 1.125rem;
-  font-family: Archivo,serif;
+  font-family: $font-archivo;
+  color: $text-color-ord;
   font-weight: normal;
 }
-// .container {
-//   background-color: #F0F4FF;
-// }
-.fill-secondary {
-  fill: $secondary;
+.two-tabs {
+  margin-top: 3.6rem;
+}
+.tab {
+  height: 4.2rem;
+}
+.first-tab {
+  background-color: #E67E15;
+}
+.second-tab {
+  background-color: #F7F8FF;
+}
+.first-tab a {
+  flex: 1;
+  font-family: $font-Montserrat;
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: #FFF;
+}
+.second-tab a {
+  flex: 1;
+  font-family: $font-Montserrat;
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: #6E7281;
+}
+.para-styling {
+  margin-top: 5%;
+  margin-bottom: 2.5%;
+  color: #6E7281;
+} 
+.para_word_styling {
+  color: #6E7281;
+  font-weight: 600;
+  font-family: $font-archivo;
+}
+.filters-container {
+  background-color: #F7F7F7;
+}
+.filter {
+  font-weight: 600;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.filter:focus {
+  border: 1px solid #F2991F;
+  outline: none;
+  box-shadow: none;
+}
+.btn-clear-filters:hover {
+  color: #F2991F;
+}
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.data-availability  {
+  background-color:#F0F4FF;
+  margin-top: 2.5%;
+  height: auto;
 }
 .heading {
   padding-top: 1.625rem;
   padding-left: 1.75rem;
   font-size: 1.125rem;
+  font-weight: bold;
   color: $text-color-ord;
 }
 .da-para {
@@ -40,41 +100,187 @@ $text-color-ord: #0F1F40;
   font-size: 0.875rem;
   padding-left: 1.75rem;
 }
-.btn-os {
+.three-dots {
+  display: none;
+}
+.btn-download {
   margin-top: 1.56rem;
   margin-left: 1.75rem;
   margin-bottom: 1.125rem;
   font-size: 0.75rem;
-  font-family: Archivo,serif;
+  font-family: $font-archivo;
   padding-top: 0.56rem;
   padding-bottom: 0.56rem;
   padding-right: 0.68rem;
   font-weight: medium;
   color: $secondary;
 }
-.btn:focus {
-  outline: none;
-  box-shadow: none;
-}
 .btn-os:hover {
   background-color:#F0F4FF;
 }
+.doughnut-container {
+  position: relative;
+}
+.doughnut-container canvas {
+  margin-top: 7%;
+  margin-left: 20%;
+  height: 7.8rem !important;
+  width: 18.75rem !important;
+}
+.doughnut_percentage {
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+.doughnut_text {
+  position: absolute;
+  left: 40%;
+  top: 75%;
+}
+.total-revenue-doughnut {
+  margin-top: 2.5%;
+  background-color: #FFFBEF;
+}
 
-// .col-md-5 {
-//   background-color: rgb(224, 107, 107);
-// }
-// .outer {
-//   position: relative;
-//   width: 600px;
-//   height: 400px;
-// }
-// canvas {
-//   position: absolute;
-// }
-// .percent {
-//  position: absolute;
-//     left: 50%;
-//     transform: translate(-50%, 0);
-//     font-size: 80px;
-//     bottom: 0;
-// }
+.three-icons-container a {
+  text-decoration: none;
+  color: $secondary;
+}
+.revenue-card-white p {
+  margin-top: 1.2rem;
+  color: $text-color-ord;
+  font-size: 0.8rem;
+  font-family: $font-archivo;
+}
+.revenue-stocks-container {
+  height: 11rem;
+  margin-top: 2.5rem;
+}
+.table-container {
+  margin-top: 2.5rem;
+}
+.col-attr {
+  background-color: #F2F5FF;
+  padding: 0.8rem 1rem;
+  font-family: $font-archivo;
+  font-weight: medium;
+  font-size: 0.8rem;
+}
+
+
+//Applying Responsiveness on Own-Revenue_Dashboard Component
+@media (max-width: 576px) { 
+    .dashboard-container {
+      width: 100%;
+      height: 23rem;
+        .perform-dashboard-heading {
+          font-size: 1.625rem;
+          margin-top: 2.25rem;
+        }
+        .perform-dashboard-para  {
+          font-size: 1.125rem;
+          line-height: 1.5;
+          margin-top: 1.125rem;
+        }
+        .first-tab a {
+          padding: 2px;
+        }
+        .second-tab a {
+          padding: 2px;
+        }
+    }
+
+    .para-styling  {
+      margin-top: 3.25rem;
+      font-size: 1.063rem;
+      line-height: 1.4;
+    }
+
+    .filters-container {
+      margin-top: 1.25rem;
+    }
+    .filters-container > .row > div {
+        display: none !important;
+    }
+
+    .data-availability {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1.375rem;
+      .heading {
+        padding-top: 1.0rem;
+        padding-left: 1.0rem;
+        font-size: 1.125rem;
+        font-weight: bold;
+      }
+      .da-para {
+        margin-top: 1.0rem;
+        font-size: 0.875rem;
+        padding-left: 1.0rem;
+      }
+      .read-toggle{
+        color: #E67E15;
+      }
+
+      // Semi-Doughnut chart styling Start
+      .doughnut-container  canvas {
+        margin-top: 1.375rem;
+        margin-left: 6.5rem;
+        height: 5.7rem !important;
+        width: 10.31rem !important;
+      }
+      .doughnut_percentage {
+        position: absolute;
+        left: 45%;
+        top: 48%;
+        font-size: 1.25rem;
+        font-weight: 800;
+      }
+      .doughnut_text {
+        position: absolute;
+        font-size: 0.75rem;
+        left: 38%;
+        top: 75%;
+      }
+      // Semi-Doughnut chart End
+      .btn-download {
+        // position: absolute;
+        // margin-top: 0;
+        // margin-left: 0;
+        // margin-bottom: 0;
+        display: none;
+      }
+    }
+
+    .total-revenue-doughnut {
+      display: none;
+    }
+    
+ }
+
+ @media (max-width: 992px) {
+  .doughnut-container  canvas {
+    margin-top: 4rem;
+    margin-left: 3rem;
+    height: 6rem !important;
+    width: 12.85rem !important;
+  }
+  .doughnut_percentage {
+    position: absolute;
+    left: 43%;
+    top: 40%;
+    font-size: 2.25rem;
+    font-weight: 600;
+  }
+  .doughnut_text {
+    position: absolute;
+    left: 35%;
+    top: 57%;
+  }
+  
+ }
+
+ 

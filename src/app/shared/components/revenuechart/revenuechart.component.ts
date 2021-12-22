@@ -1,14 +1,23 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  TemplateRef,
+} from "@angular/core";
 import Chart from "chart.js";
-
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { CompareDialogComponent } from "../compare-dialog/compare-dialog.component";
 @Component({
   selector: "app-revenuechart",
   templateUrl: "./revenuechart.component.html",
   styleUrls: ["./revenuechart.component.scss"],
 })
 export class RevenuechartComponent implements OnInit {
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
+  @ViewChild("template") template;
+  @Input()
   data = {
     datasets: [
       {
@@ -88,6 +97,7 @@ export class RevenuechartComponent implements OnInit {
     ],
   };
 
+  @Input()
   options: {
     elements: {
       point: {
@@ -225,6 +235,22 @@ export class RevenuechartComponent implements OnInit {
     ],
   };
 
+  @Input()
+  headerActions = [
+    {
+      name: "shek",
+      svg: "../../../../assets/stateform/Icon feather-menu.svg",
+    },
+    {
+      name: "shek",
+      svg: "../../../../assets/stateform/Icon feather-menu.svg",
+    },
+    {
+      name: "shek",
+      svg: "../../../../assets/stateform/Icon feather-menu.svg",
+    },
+  ];
+
   ngOnInit(): void {
     const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
     const ctx = canvas.getContext("2d");
@@ -284,5 +310,24 @@ export class RevenuechartComponent implements OnInit {
         },
       },
     });
+  }
+
+  actionClick(i) {
+    console.log(i);
+  }
+
+  dialogRef;
+
+  openModal() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = "39rem";
+    this.dialogRef = this.dialog.open(this.template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+    });
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 }

@@ -9,6 +9,7 @@ import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-reg
 import { AboutIndicatorComponent } from "./shared/components/about-indicator/about-indicator.component";
 import { CompareDialogComponent } from "./shared/components/compare-dialog/compare-dialog.component";
 import { DashboardTabsComponent } from "./shared/components/dashboard-tabs/dashboard-tabs.component";
+import { FilterDataComponent } from "./shared/components/filter-data/filter-data.component";
 import { FrontPanelComponent } from "./shared/components/front-panel/front-panel.component";
 import { MapWithFilterComponent } from "./shared/components/map-with-filter/map-with-filter.component";
 import { RevenuechartComponent } from "./shared/components/revenuechart/revenuechart.component";
@@ -23,6 +24,7 @@ export const appRouter: Routes = [
   { path: "front", component: FrontPanelComponent },
   { path: "tab", component: DashboardTabsComponent },
   { path: "about", component: AboutIndicatorComponent },
+  { path: "filter", component: FilterDataComponent },
 
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },

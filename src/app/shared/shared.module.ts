@@ -64,6 +64,7 @@ import { MapWithFilterComponent } from "./components/map-with-filter/map-with-fi
 import { RevenuechartComponent } from "./components/revenuechart/revenuechart.component";
 import { CompareDialogComponent } from "./components/compare-dialog/compare-dialog.component";
 import { AboutIndicatorComponent } from "./components/about-indicator/about-indicator.component";
+import { FilterDataComponent } from "./components/filter-data/filter-data.component";
 
 @NgModule({
   imports: [
@@ -130,6 +131,7 @@ import { AboutIndicatorComponent } from "./components/about-indicator/about-indi
     RevenuechartComponent,
     CompareDialogComponent,
     AboutIndicatorComponent,
+    FilterDataComponent,
   ],
   exports: [
     FormsModule,
@@ -147,6 +149,7 @@ import { AboutIndicatorComponent } from "./components/about-indicator/about-indi
     TickIconComponent,
     InrCurrencyPipe,
     CompletedComponent,
+    SharedCardComponent,
     UserTypeConfirmationComponent,
     FormhistoryComponent,
     MatSlideToggle,
@@ -164,6 +167,7 @@ import { AboutIndicatorComponent } from "./components/about-indicator/about-indi
     DashboardTabsComponent,
     FrontPanelComponent,
     DashboardTabsComponent,
+    SharedCardComponent
   ],
   providers: [FinancialDataService],
 })

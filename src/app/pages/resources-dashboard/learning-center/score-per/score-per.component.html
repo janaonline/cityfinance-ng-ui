@@ -1,0 +1,142 @@
+<div class="row mb-3">
+    <div class="col-12">
+        <h3>
+            Assess the health of your property tax system in 5 easy steps
+        </h3>
+        <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+            sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+        </p>
+    </div>
+    <div class="col-12 col-md-7">
+        <div class="row">
+            <div class="col-6 col-md-4">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>State</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-4">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Ulb</option>
+               </select>
+            </div>
+            <div class="col-12 col-md-3 text-end">
+                <button class="btn btn-gS">Get Started</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-3" [ngClass]='{"hideCls" : closeScoreDiv}' *ngIf="!closeScoreDiv">
+    <div class="col-sm-12">
+        <div class="container-cnt">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <a (click)="closeScoreCard()">
+                            <img src="../../../../../assets/new_dashBord_ftr_hdr/Icon feather-menu.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <h3>
+                            Property Tax Health Score
+                        </h3>
+                        <h5>
+                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.
+                        </h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <mat-stepper labelPosition="bottom" #stepper>
+                            <mat-step [stepControl]="firstFormGroup">
+                                <form [formGroup]="firstFormGroup">
+                                    <ng-template matStepLabel>Fill out your name</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+                                    </mat-form-field>
+                                    <div>
+                                        <button mat-button matStepperNext>Next</button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step [stepControl]="secondFormGroup" optional>
+                                <form [formGroup]="secondFormGroup">
+                                    <ng-template matStepLabel>Fill out your address</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Address</mat-label>
+                                        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+                                    </mat-form-field>
+                                    <div>
+                                        <button mat-button matStepperPrevious>Back</button>
+                                        <button mat-button matStepperNext>Next</button>
+                                    </div>
+                                </form>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>Done</ng-template>
+                                <p>You are now done.</p>
+                                <div>
+                                    <button mat-button matStepperPrevious>Back</button>
+                                    <button mat-button (click)="stepper.reset()">Reset</button>
+                                </div>
+                            </mat-step>
+                        </mat-stepper> -->
+                        <mat-horizontal-stepper labelPosition="bottom" id="stepper" #stepper>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Enumeration">Enumeration</span>
+                                </ng-template>
+
+
+                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.next()">
+                                Continue
+                                </button>
+                                <ng-content> </ng-content>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Valuation">Valuation</span>
+                                </ng-template>
+
+                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.next()">
+                                Continue
+                                </button>
+                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.previous()">
+                                Back
+                                </button>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Assessment">Assessment</span>
+                                </ng-template>
+
+
+
+                                <p>
+                                    <span class="mandatory">*</span> Upload GAP analysis report and project identified for bridging the gap as a single document.
+                                </p>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Billing and Collection">Billing and Collection</span>
+                                </ng-template>
+                            </mat-step>
+
+                            <mat-step>
+                                <ng-template matStepLabel>
+                                    <span title="Reporting">Reporting</span>
+                                </ng-template>
+                            </mat-step>
+                            <ng-template matStepperIcon="edit">
+                                <mat-icon>check</mat-icon>
+                            </ng-template>
+
+
+                        </mat-horizontal-stepper>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,7 @@ import {
 })
 export class SharedCardComponent implements OnInit, AfterViewInit {
   constructor() {}
+
   @Input()
   cardStyle = {
     // width: "20em",
@@ -48,11 +49,12 @@ export class SharedCardComponent implements OnInit, AfterViewInit {
 
   showButtons = false;
   ngOnInit(): void {
+    console.log('resources', this.data)
     if (this.data)
       this.showButtons = this.data?.actionButtons
         ? this.data.actionButtons.length > 0
         : false;
-    
+
   }
 
   ngAfterViewInit() {}

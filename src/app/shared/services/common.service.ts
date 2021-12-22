@@ -570,7 +570,7 @@ export class CommonService {
   }
   getRecentSearchValue() {
     return this.http.get(
-      `${environment.api.url}recentSearchKeyword`
+      `${environment.api.url}recentSearchKeyword?limit=3`
     );
   }
 }
