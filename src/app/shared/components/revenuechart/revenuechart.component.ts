@@ -229,10 +229,10 @@ export class RevenuechartComponent implements OnInit {
     const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
     const ctx = canvas.getContext("2d");
     const myChart = new Chart(ctx, {
-      // type: "bar",
-      type: "scatter",
-      // data: this.barData,
-      data: this.scatterData,
+      type: "bar",
+      // type: "scatter",
+      data: this.barData,
+      // data: this.scatterData,
 
       options: {
         elements: {
