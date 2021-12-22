@@ -149,6 +149,7 @@ import { FilterDataComponent } from "./components/filter-data/filter-data.compon
     TickIconComponent,
     InrCurrencyPipe,
     CompletedComponent,
+    SharedCardComponent,
     UserTypeConfirmationComponent,
     FormhistoryComponent,
     MatSlideToggle,

@@ -15,6 +15,7 @@ import {
 })
 export class SharedCardComponent implements OnInit, AfterViewInit {
   constructor() {}
+
   @Input()
   cardStyle = {
     // width: "20em",
