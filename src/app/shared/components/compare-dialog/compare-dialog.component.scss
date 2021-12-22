@@ -1,0 +1,200 @@
+.topBar {
+    background-color: #F5F7FF;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    
+}
+
+.compareDialog {
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 8px; 
+    box-shadow: 0px 13px 54px #06060696;
+}
+
+@media only screen and (max-width: 1024px) {
+    .compareDialog {
+        width: 60vw !important;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .compareDialog {
+        width: 70vw !important;
+    }
+}
+
+.infoBar {
+    background-color: #F2F3F8;
+    font-size: 13px;
+    border-radius: 8px;
+    width: auto;
+}
+
+@media only screen and (max-width: 600px) {
+    .infoBar {
+        font-size: 13px;
+        width: 100vw;
+    }
+
+    .compareDialog {
+        width: 90vw !important;
+    }
+}
+
+
+
+.checkbox-round {
+    width: 1em;
+    height: 1em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    background-color: orange;
+    opacity: 1;
+}
+
+
+
+.inputCheckbox > span {
+    font-weight: bold;
+    color: #6E7281;
+    padding-left: 5px;
+    font-size: 0.8em;
+
+}
+
+@media only screen and (max-width: 800px) {
+    .inputCheckbox > span {
+        font-size: 10px;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .inputCheckbox {
+        width: 50%;
+    }
+    .inputCheckbox > span {
+        font-size: 10px;
+    }
+}
+
+.inputCheckbox > span:checked {
+    color: #0F1F40;
+}
+
+@media only screen and (max-width: 600px) {
+    .differ {
+        margin-left: 10px;
+    }
+}
+
+
+
+.compareInput input {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #D3D4D5;
+    width: 20vw;
+}
+
+.compareButton > button {
+    box-shadow: 0px 2px 8px #FFDAA8;
+    border-radius: 8px;
+    background: #E67E15;
+    border: none;
+    padding: 10px;
+    color: #fff;
+    width: 8vw;
+}
+
+@media only screen and (max-width: 800px) {
+    .compareButton > button {
+        width: 10vw;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .formInput {
+        flex-direction: column;
+    }
+    .compareInput input  {
+        width: 100vw;
+        padding: 5px;
+    }
+    .compareButton > button {
+        width: 20vw;
+        font-size: 10px;
+        display: inline-block;
+        float: none !important;
+        left: 50%;
+        position: relative;
+        transform: translate(-50%);
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .compareButton > button {
+        width: 20vw;
+        margin: 0 auto;
+        // margin-left: 90px;
+        font-size: 10px;
+    }
+}
+
+
+.lastButtons button {
+    border: 1px solid #6E7281;
+    border-radius: 8px;
+    padding: 10px;
+    color: #6E7281;
+    background-color: #fff;
+    margin: 5px;
+    width: 8vw;
+}
+
+@media only screen and (max-width: 600px) {
+    .lastButtons button {
+        width: 20vw;
+        font-size: 10px;
+    }
+}
+
+
+.ownRevText {
+    font-size: 0.8em;
+}
+
+.selectDiv {
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+@media only screen and (max-width: 1042px) {
+    .selectDiv {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .selectDiv {
+        // width: 100vw;
+        // margin: 0 auto;
+        left: 18%;
+        position: relative;
+        transform: translate(-50%);
+        font-size: 11px;
+    }
+}
+
+.example-chip-list {
+    width: 100%;
+  }
