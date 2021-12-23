@@ -248,24 +248,26 @@ export class NewHomeComponent implements OnInit {
    }
   }
   dashboardNav(option) {
+    console.log('option', option)
     this.checkType(option);
     // let postBody = {
     //   type: option.type,
     //   searchKeyword: option._id
     // }
-    console.log('option', option)
-    if(option?.type == 'state'){
-     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
-    }
-    if(option?.type == 'ulb'){
-      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
-     }
-     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
+    this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
       console.log('serach res', res)
    },
    (error)=>{
      console.log(error)
    });
+    console.log('option', option)
+    if(option?.type == 'state'){
+     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    }
+    if(option?.type == 'ulb'){
+     this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+     }
+
   }
 
   carouselClass(e) {

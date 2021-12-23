@@ -45,97 +45,259 @@
                         </h5>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- <mat-stepper labelPosition="bottom" #stepper>
-                            <mat-step [stepControl]="firstFormGroup">
-                                <form [formGroup]="firstFormGroup">
-                                    <ng-template matStepLabel>Fill out your name</ng-template>
-                                    <mat-form-field appearance="fill">
-                                        <mat-label>Name</mat-label>
-                                        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-                                    </mat-form-field>
-                                    <div>
-                                        <button mat-button matStepperNext>Next</button>
+                <div class="container container-stepper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper [class]="'selectedIndex' + stepper.selectedIndex + ' mat-stepper-label-position-bottom'">
+                                <mat-step>
+                                    <ng-template matStepLabel>
+                                        <span title="Enumeration">Enumeration</span>
+                                    </ng-template>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.1</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.2</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-cont" (click)="stepper.next()">
+                                            Continue
+                                            </button>
+                                        </div>
                                     </div>
-                                </form>
-                            </mat-step>
-                            <mat-step [stepControl]="secondFormGroup" optional>
-                                <form [formGroup]="secondFormGroup">
-                                    <ng-template matStepLabel>Fill out your address</ng-template>
-                                    <mat-form-field appearance="fill">
-                                        <mat-label>Address</mat-label>
-                                        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-                                    </mat-form-field>
-                                    <div>
-                                        <button mat-button matStepperPrevious>Back</button>
-                                        <button mat-button matStepperNext>Next</button>
+
+
+
+                                    <ng-content>
+
+                                    </ng-content>
+                                </mat-step>
+                                <mat-step>
+                                    <ng-template matStepLabel>
+                                        <span title="Valuation">Valuation</span>
+                                    </ng-template>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.1</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.2</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-cont" (click)="stepper.next()">
+                                             Continue
+                                          </button>
+                                            <button class="btn-back" (click)="stepper.previous()">
+                                          Back
+                                         </button>
+
+                                        </div>
                                     </div>
-                                </form>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>Done</ng-template>
-                                <p>You are now done.</p>
-                                <div>
-                                    <button mat-button matStepperPrevious>Back</button>
-                                    <button mat-button (click)="stepper.reset()">Reset</button>
-                                </div>
-                            </mat-step>
-                        </mat-stepper> -->
-                        <mat-horizontal-stepper labelPosition="bottom" id="stepper" #stepper>
-                            <mat-step>
-                                <ng-template matStepLabel>
-                                    <span title="Enumeration">Enumeration</span>
+
+                                </mat-step>
+                                <mat-step>
+                                    <ng-template matStepLabel>
+                                        <span title="Assessment">Assessment</span>
+                                    </ng-template>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.1</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.2</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-cont" (click)="stepper.next()">
+                                           Continue
+                                        </button>
+                                            <button class="btn-back" (click)="stepper.previous()">
+                                        Back
+                                       </button>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </mat-step>
+                                <mat-step>
+                                    <ng-template matStepLabel>
+                                        <span title="Billing and Collection">Billing and Collection</span>
+                                    </ng-template>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.1</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.2</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-cont" (click)="stepper.next()">
+                                           Continue
+                                        </button>
+                                            <button class="btn-back" (click)="stepper.previous()">
+                                        Back
+                                       </button>
+
+                                        </div>
+                                    </div>
+                                </mat-step>
+
+                                <mat-step>
+                                    <ng-template matStepLabel>
+                                        <span title="Reporting">Reporting</span>
+                                    </ng-template>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.1</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="align-items: baseline;">
+                                                <div class="col-1 text-end">
+                                                    <span class="str-Qus">1.2</span>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <div class="btn-div">
+                                                        <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn-cont" (click)="stepper.next()">
+                                            Submit
+                                        </button>
+                                            <button class="btn-back" (click)="stepper.previous()">
+                                        Back
+                                       </button>
+
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <ng-template matStepperIcon="edit">
+                                    <mat-icon>check</mat-icon>
                                 </ng-template>
 
 
-                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.next()">
-                                Continue
-                                </button>
-                                <ng-content> </ng-content>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>
-                                    <span title="Valuation">Valuation</span>
-                                </ng-template>
-
-                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.next()">
-                                Continue
-                                </button>
-                                <button style="float: right; margin-right: 2.5%" class="btn btn-primary btn-upload" (click)="stepper.previous()">
-                                Back
-                                </button>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>
-                                    <span title="Assessment">Assessment</span>
-                                </ng-template>
-
-
-
-                                <p>
-                                    <span class="mandatory">*</span> Upload GAP analysis report and project identified for bridging the gap as a single document.
-                                </p>
-                            </mat-step>
-                            <mat-step>
-                                <ng-template matStepLabel>
-                                    <span title="Billing and Collection">Billing and Collection</span>
-                                </ng-template>
-                            </mat-step>
-
-                            <mat-step>
-                                <ng-template matStepLabel>
-                                    <span title="Reporting">Reporting</span>
-                                </ng-template>
-                            </mat-step>
-                            <ng-template matStepperIcon="edit">
-                                <mat-icon>check</mat-icon>
-                            </ng-template>
-
-
-                        </mat-horizontal-stepper>
+                            </mat-horizontal-stepper>
+                        </div>
                     </div>
                 </div>
+                <!-- <div class='container'>
+                    <ul class="progressbar">
+                        <li class='active'>Mobile Details</li>
+                        <li>Upload</li>
+                        <li>Payment</li>
+                    </ul>
+                </div> -->
+
             </div>
         </div>
     </div>
