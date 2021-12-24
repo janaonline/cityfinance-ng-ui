@@ -68,13 +68,15 @@
   <div
       *ngSwitchCase="5"
     >
-      <div class="d-flex justify-content-center mx-2 my-2 p-2 text-center flex-column rounded revenue-card" >
+      <div class="d-flex justify-content-center my-2 p-1 text-center flex-column rounded revenue-card">
         <h3 class="title">{{data.title}}</h3>
         <p class="subTitle">{{data.subTitle}}</p>
-        <span class="arrow-title">
-           <img class="" src="{{ data.svg }}" />
-           <span class="percentage">{{data.percentage}}</span>
-        </span>
+        <div class="dir-percent">
+          <span class="arrow-title">
+            <img src="{{ data.svg }}" />
+            <span [ngStyle]="{'color': data.color}" class="percentage">{{data.percentage}}</span>
+         </span>
+        </div>
       </div>
     </div>
   </div>

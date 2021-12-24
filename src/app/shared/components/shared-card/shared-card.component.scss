@@ -50,6 +50,10 @@ $font-Montserrat: Montserrat;
 
 // 5th card of ngSwitchcase styling starts
 .revenue-card {
+    // max-height: 100%;
+    // max-width: 100%;
+    width: 100%;
+    height: 100%;
     background-color:#EFFAFF;
     box-shadow: 0px 1px 2px #BDD8E3;
 }
@@ -61,17 +65,20 @@ $font-Montserrat: Montserrat;
   }
   .revenue-card p {
     margin-top: 0.5rem;
-    height: 45px;
+    height: 36px;
     color:#6E7281;
     font-size: $font-size-base*0.75;
     font-family: $font-Montserrat;
     font-weight: medium;
   }
-//   .north-east-arrow {
-//     margin-top: 0.5rem;
-//     color:#22C667;
-//   }
-//   .south-west-arrow {
-//     margin-top: 0.5rem;
-//     color:#E64E4E;
-//   }
+  .revenue-card  > .dir-percent {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  } 
+
+  // @media (min-width:320px) and (max-width:576px) {
+  //   .revenue-card p {
+  //     height: 30px ;
+  //   }
+  // }
+

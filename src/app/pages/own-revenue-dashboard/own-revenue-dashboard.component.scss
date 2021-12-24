@@ -8,7 +8,7 @@ $font-Montserrat: "Montserrat";
 
 .dashboard-container {
   background-color: #DAE2FD;
-  // height: 19rem;
+  padding-bottom: 7rem;
 }
 
 .perform-dashboard-heading {
@@ -26,7 +26,10 @@ $font-Montserrat: "Montserrat";
   font-weight: normal;
 }
 .two-tabs {
-  margin-top: 3.6rem;
+  z-index: 10;
+  position: sticky !important;
+  top: 44px;
+  margin-top: -2.2rem;
 }
 .tab {
   height: 4.2rem;
@@ -51,9 +54,10 @@ $font-Montserrat: "Montserrat";
   font-weight: normal;
   color: #6E7281;
 }
+.cont-p {
+  margin-top: 2.2rem;
+}
 .para-styling {
-  margin-top: 5%;
-  margin-bottom: 2.5%;
   color: #6E7281;
 } 
 .para_word_styling {
@@ -62,6 +66,7 @@ $font-Montserrat: "Montserrat";
   font-family: $font-archivo;
 }
 .filters-container {
+  margin-top: 2.1rem;
   background-color: #F7F7F7;
 }
 .filter {
@@ -83,8 +88,7 @@ $font-Montserrat: "Montserrat";
 }
 .data-availability  {
   background-color:#F0F4FF;
-  margin-top: 2.5%;
-  height: auto;
+  margin-top: 1.8rem;
 }
 .heading {
   padding-top: 1.625rem;
@@ -107,13 +111,14 @@ $font-Montserrat: "Montserrat";
   margin-top: 1.56rem;
   margin-left: 1.75rem;
   margin-bottom: 1.125rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-family: $font-archivo;
-  padding-top: 0.56rem;
-  padding-bottom: 0.56rem;
-  padding-right: 0.68rem;
+  padding: 0.7rem 0.8rem;
   font-weight: medium;
   color: $secondary;
+}
+.btn-download img {
+  padding-right: 0.4rem;
 }
 .btn-os:hover {
   background-color:#F0F4FF;
@@ -121,27 +126,26 @@ $font-Montserrat: "Montserrat";
 .btn-ghost{
   display: none;
 }
+//Data Availability Styling Starts
 .doughnut-container {
-  position: relative;
-}
-.doughnut-container canvas {
-  margin-top: 7%;
-  margin-left: 20%;
-  height: 7.8rem !important;
-  width: 18.75rem !important;
+  margin-top: 1.8rem;
 }
 .doughnut_percentage {
-  position: absolute;
-  left: 45%;
-  top: 50%;
-  font-size: 2.25rem;
-  font-weight: 600;
+  margin-top: -2.5rem !important;
+  font-family: $font-archivo;
+  color:$text-color-ord;
+  font-size: 1.625rem;
+  font-weight: 800;
 }
 .doughnut_text {
-  position: absolute;
-  left: 40%;
-  top: 75%;
+  margin-top: -1.2rem !important;
+  color:$text-color-ord;
+  font-family: $font-archivo;
+  font-size: 1rem;
+  font-weight: normal;
 }
+//Data Availability Styling Ends
+
 .total-revenue-doughnut {
   margin-top: 2.5%;
   background-color: #FFFBEF;
@@ -158,26 +162,54 @@ $font-Montserrat: "Montserrat";
   font-family: $font-archivo;
 }
 .revenue-stocks-container {
-  height: 11rem;
   margin-top: 2.5rem;
 }
-.table-container {
-  margin-top: 2.5rem;
+
+//Table Styling
+.app-table-wrapper {
+  overflow-x: scroll;
 }
-.col-attr {
-  background-color: #F2F5FF;
-  padding: 0.8rem 1rem;
-  font-family: $font-archivo;
-  font-weight: medium;
-  font-size: 0.8rem;
+
+.app-table {
+  font-size: 8px;
 }
+
+.mat-cell {
+  padding: 10px;
+  border-right: 1px solid lightgrey;
+  text-align: center;
+  min-width: 100px;
+}
+
+.mat-header-cell {
+  padding: 2px;
+  border-right: 1px solid lightgrey;
+  text-align: center;
+}
+
+// .table-container {
+//   margin-top: 2.5rem;
+// }
+// .col-attr {
+//   background-color: #F2F5FF;
+//   padding: 0.8rem 1rem;
+//   font-family: $font-archivo;
+//   font-weight: medium;
+//   font-size: 0.8rem;
+// }
+// th:first-child,td:first-child {
+//   position: sticky;
+//   background-color:grey;
+//   left: 0px;
+// }
+
+
 
 
 //Applying Responsiveness on Own-Revenue_Dashboard Component
 @media (max-width: 576px) { 
     .dashboard-container {
       width: 100%;
-      height: 23rem;
         .perform-dashboard-heading {
           font-size: 1.625rem;
           margin-top: 2.25rem;
@@ -224,34 +256,24 @@ $font-Montserrat: "Montserrat";
         font-size: 0.875rem;
         padding-left: 1.0rem;
       }
-      .read-toggle{
+     .extra-text {
+       display: none;
+     }
+      .three-dots {
+        display: block;
+      }
+      .btn-rm {
         color: #E67E15;
       }
 
       // Semi-Doughnut chart styling Start
-      .doughnut-container  canvas {
-        margin-top: 1.375rem;
-        margin-left: 6.5rem;
-        height: 5.7rem !important;
-        width: 10.31rem !important;
-      }
-      .doughnut_percentage {
-        position: absolute;
-        left: 36%;
-        top: 28%;
-        font-size: 1.25rem;
-        font-weight: 800;
-      }
-      .doughnut_text {
-        position: absolute;
-        font-size: 0.75rem;
-        left: 38%;
-        top: 75%;
-      }
       .btn-download{
         display: none;
       }
       .btn-ghost{
+        margin-top: 1.2rem;
+        margin-bottom: 0.8rem;
+        margin-left: 5%;
         display: block;
       }
       // Semi-Doughnut chart End
@@ -264,26 +286,6 @@ $font-Montserrat: "Montserrat";
     
  }
 
- @media (max-width: 992px) {
-  .doughnut-container  canvas {
-    margin-top: 4rem;
-    margin-left: 3rem;
-    height: 6rem !important;
-    width: 12.85rem !important;
-  }
-  .doughnut_percentage {
-    position: absolute;
-    left: 43%;
-    top: 40%;
-    font-size: 2.25rem;
-    font-weight: 600;
-  }
-  .doughnut_text {
-    position: absolute;
-    left: 35%;
-    top: 57%;
-  }
-  
- }
+
 
  

@@ -1,6 +1,7 @@
 import { Component, OnInit ,Input } from '@angular/core';
 import Chart from 'chart.js';
-import {OwnRevenueService}from "./own-revenue.service"
+import {OwnRevenueService}from "./own-revenue.service";
+
 
 @Component({
   selector: 'app-own-revenue-dashboard',
@@ -9,10 +10,18 @@ import {OwnRevenueService}from "./own-revenue.service"
 })
 export class OwnRevenueDashboardComponent implements OnInit {
 
-//   showShortDesciption = true
-//   alterDescriptionText() {
-//     this.showShortDesciption = !this.showShortDesciption
-//  }
+  ToggleString: string = "";
+  showButton: boolean = true;
+  
+  close() {
+    this.ToggleString = ""
+    this.showButton = true;
+  }
+  open() {
+    this.ToggleString = "the year YY. Data is not available for AA, BB and CC Municipal Corporation. For more details, download thecomplete set of ULBs for which the data is available for the year YY.";
+    this.showButton = false;
+  }
+  
 
 // Dummy data for table
  columnAttribute = [
@@ -343,7 +352,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
           tooltips:{
             enabled:true
           },
-          cutoutPercentage: 45
+          cutoutPercentage: 45,
+          responsive: true
         }
       });
   }
@@ -355,31 +365,35 @@ const revenueCollection = {
   "type": "5",  
   "title": "1000 Cr",
   "subTitle": "Own Revenue Collections",
-  "svg": "../../../assets/form-icon/north_east_black_24dp.svg",
+  "svg": "../../../assets/resources-das/north_east_green_24dp.svg",
   "percentage": "5%",
+  "color":"#22C667"
 }
 
 const revenuePerCapita = {
   "type": "5",
   "title": "1000",
   "subTitle": "Own Revenue Per Capita",
-  "svg": "../../../assets/form-icon/north_east_black_24dp.svg",
+  "svg": "../../../assets/resources-das/north_east_green_24dp.svg",
   "percentage": "3%",
+   "color":"#22C667"
 }
 
 const revenueExpenditure = {
   "type":"5",
   "title": "120",
   "subTitle": "Cities Where Own Revenue Meet Revenue Expenditure",
-  "svg": "../../../assets/form-icon/south_west_black_24dp.svg",
+  "svg": "../../../assets/resources-das/south_west_red_24dp.svg",
   "percentage": "2%",
+  "color":"#E64E4E"
 }
 
 const revenuePercentage = {
   "type":"5",
   "title": "72%",
   "subTitle": "Own Revenue As A Percentage Of Revenue Expenditure",
-  "svg": "../../../assets/form-icon/north_east_black_24dp.svg",
+  "svg": "../../../assets/resources-das/north_east_green_24dp.svg",
   "percentage": "3%",
+  "color":"#22C667"
 }
 
