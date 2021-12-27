@@ -334,6 +334,11 @@ export class DashboardMapSectionComponent
     console.log("city name", city, filterCity);
     // this.onSelectingULBFromDropdown(city);
   }
+  viewDashboard() {
+    let searchValue = this.stateList.find(e => e?.name.toLowerCase() == this.selected_state.toLowerCase());
+    console.log('view dash', searchValue)
+    this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`)
+  }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
     this._commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {

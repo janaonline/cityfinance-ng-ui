@@ -29,7 +29,7 @@
   </p>
   <div class="container rounded filters-container py-3">
     <div class="row">
-      <a href="" class="text-decoration-none">
+      <a href="" class="text-decoration-none">   
         <h5 class="text-center d-flex justify-content-center">
           <svg xmlns="http://www.w3.org/2000/svg"
                height="24px"
@@ -62,12 +62,56 @@
             <div class="col-md-2 col col-sm d-flex justify-content-end">
               <button  class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
                 Clear All 
-                <img src="../../../assets/resources-das/circled_cross_orange_20dp.svg" alt="circled_cross_icon">
+                <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg" alt="cancel_off_icon">
               </button>
             </div>
       </div>
     </div>
   </div>
+
+ <!-- Popup of Filters for Mobile devices starts  -->
+ <div class="container m-filters">
+  <div class="filters_mobile d-flex justify-content-between align-items-center">
+    <h4 class="filter_title_mobile">Filters</h4>
+    <img src="../../../assets/resources-das/close_black_24dp.svg" alt="close_icon">
+  </div>
+  <div class="selectAndOptions">
+    <select class="form-select filters_type shadow-none">
+      <option selected>State</option>
+      <option value="1">Gujarat</option>
+    </select>
+    <select class="form-select filters_type shadow-none">
+      <option selected>ULB Name</option>
+      <option value="1">Gujarat</option>
+    </select>
+    <select class="form-select filters_type shadow-none">
+      <option selected>ULB Type</option>
+      <option value="1">Gujarat</option>
+    </select>
+    <select class="form-select filters_type shadow-none">
+      <option selected>ULB Population Category</option>
+      <option value="1">Gujarat</option>
+    </select>
+    <select class="form-select filters_type shadow-none">
+      <option selected>2020-2021</option>
+      <option value="1"></option>
+    </select>
+
+    <button class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center btn_clearAll">
+      Clear All 
+      <img src="../../../assets//resources-das/cancel_off_orange_18dp.svg" alt="clear_all_icon">
+    </button>
+  </div>
+  <div class="resetAndApply d-flex justify-content-around">
+    <button class="btn btn-outline-tertiary btn-sm d-flex justify-content-center align-items-center btn_reset">
+      Reset
+    </button>
+    <button class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center btn_apply">
+      Apply
+    </button>
+  </div>
+</div>   <!-- Popup of Filters for Mobile devices ends  -->
+
    
   <!-- <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
     <div class="col-md-7">
@@ -139,7 +183,7 @@
                   </span>
             </p>
               <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
-                <img src="../../../assets/resources-das/file_download_orange_24dp.svg" alt="download_icon">
+                <img src="../../../assets/resources-das/file_download_orange_18dp.svg" alt="download_icon">
                   Download Data
               </button>
           </div>
@@ -157,7 +201,11 @@
           </div>
     </div>
 </div>
-<!-- <app-revenuechart></app-revenuechart> -->
+<!-- Full doughnut chart section -->
+<div class="container total-revenue-doughnut">
+  <app-revenuechart class="rounded"></app-revenuechart>
+</div>
+
   
 
 
@@ -268,5 +316,10 @@
     </div> -->
     <small>Please note financial data for AA, BB and CC Municipal Corporations is not available and thus, is not depicted here.</small>
   </div>
+
+  <!-- Bar chart section -->
+<div class="container total-revenue-doughnut">
+  <app-revenuechart class="rounded"></app-revenuechart>
+</div>
   
 </div>

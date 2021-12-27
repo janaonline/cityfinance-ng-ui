@@ -5,11 +5,6 @@ import { OwnRevenueDashboardRoutingModule } from './own-revenue-dashboard-routin
 import { OwnRevenueDashboardComponent } from './own-revenue-dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
-// import { MatTableDataSource } from '@angular/material/table';
-
-
-
-
 
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],

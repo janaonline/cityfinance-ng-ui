@@ -1,4 +1,5 @@
 
+import { ThrowStmt } from "@angular/compiler";
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -31,7 +32,7 @@ export class NewHomeComponent implements OnInit {
   itemsPerSlide = 1;
   singleSlideOffset = false;
   noWrap = false;
-
+  postBody;
   slides = [
     {
       image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
@@ -104,7 +105,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
       icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/own-revenue-dashboard'
     },
 
     {
@@ -121,7 +122,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Apply, review, recommend and track 15th finance commission grants',
       icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/login'
     },
     {
       title: '',
@@ -129,7 +130,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
       icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/resources-dashboard'
     },
     {
       title: '',
@@ -180,15 +181,16 @@ export class NewHomeComponent implements OnInit {
     this._commonService.getRecentSearchValue().subscribe((res:any)=>{
      console.log('recent search value', res);
 
-     for(let i=0; i<3; i++){
-       let obj = {
-         _id: res?.data[i]?._id,
-         type: 'ulb'
-       }
-       this.recentSearchArray[i] = obj ;
-      //  this.recentSearchArray[i].type = res?.data[i]?.type;
-    // this.recentSearchArray[i].push(res?.data?._id);
-     }
+    //  for(let i=0; i<3; i++){
+    //    let obj = {
+    //      _id: res?.data[i]?._id,
+    //      name: res?.data[i]?.name,
+    //      type: 'ulb'
+    //    }
+    //    this.recentSearchArray[i] = obj ;
+
+    //  }
+    this.recentSearchArray = res?.data;
      console.log('ser array', this.recentSearchArray)
 
     },
@@ -203,23 +205,54 @@ export class NewHomeComponent implements OnInit {
     let searchArray:any = this.filteredOptions;
     let searchValue = searchArray.find(e => e?.name.toLowerCase() == this.globalFormControl?.value.toLowerCase());
     console.log(searchValue);
-    let postBody = {
-      type: searchValue.type,
-      searchKeyword: searchValue._id
-    }
-    this._commonService.postRecentSearchValue(postBody).subscribe((res)=>{
+    // let postBody = {
+    //   type: searchValue.type,
+    //   searchKeyword: searchValue._id
+    // }
+
+    let type = searchValue?.type;
+    this.checkType(type);
+    this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
        console.log('serach res', res)
     },
     (error)=>{
       console.log(error)
-    })
+    });
     let option = {
       type: searchValue.type,
       _id: searchValue._id
     }
   this.dashboardNav(option);
   }
+
+
+  checkType(searchValue){
+    let type = searchValue?.type;
+    if(type == 'ulb'){
+      this.postBody = {
+       type: searchValue.type,
+       ulb: searchValue._id
+     };
+   }
+   if(type == 'state'){
+       this.postBody = {
+        type: searchValue.type,
+        state: searchValue._id
+      };
+   }
+   if(type == 'searchKeyword'){
+    this.postBody = {
+       type: searchValue.type,
+       searchKeyword: searchValue._id
+      }
+   }
+  }
   dashboardNav(option) {
+    this.checkType(option);
+    // let postBody = {
+    //   type: option.type,
+    //   searchKeyword: option._id
+    // }
     console.log('option', option)
     if(option?.type == 'state'){
      this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
@@ -227,6 +260,12 @@ export class NewHomeComponent implements OnInit {
     if(option?.type == 'ulb'){
       this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
      }
+     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
+      console.log('serach res', res)
+   },
+   (error)=>{
+     console.log(error)
+   });
   }
 
   carouselClass(e) {

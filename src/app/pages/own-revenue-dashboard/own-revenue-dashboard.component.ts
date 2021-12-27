@@ -1,4 +1,6 @@
-import { Component, OnInit ,Input } from '@angular/core';
+import { Component, OnInit ,Input, ViewChild, TemplateRef } from '@angular/core';
+// import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+
 import Chart from 'chart.js';
 import {OwnRevenueService}from "./own-revenue.service";
 
@@ -9,6 +11,8 @@ import {OwnRevenueService}from "./own-revenue.service";
   styleUrls: ['./own-revenue-dashboard.component.scss']
 })
 export class OwnRevenueDashboardComponent implements OnInit {
+  @ViewChild("ownRevenueFiltersPopup")
+  private ownRevenueFiltersPopup: TemplateRef<any>;
 
   ToggleString: string = "";
   showButton: boolean = true;
@@ -280,8 +284,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
   @Input()
   cardData = [revenueCollection, revenuePerCapita, revenueExpenditure, revenuePercentage];
 
-  constructor(private ownRevenueService:OwnRevenueService) {
-    this.ownRevenueService.test()
+  // this.ownRevenueService.test() public matdialog: MatDialog
+  constructor(private ownRevenueService:OwnRevenueService
+              ) {
+    
    }
 
   ngOnInit(): void {
@@ -360,6 +366,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
   
 }
 
+// openOwnRevenuePopup() {
+//   this.matdialog.open(this.ownRevenueFiltersPopup, {
+//     height: "fit-content",
+//     width: "50vw",
+//   });
+// }
+
 
 const revenueCollection = {
   "type": "5",  
@@ -395,5 +408,9 @@ const revenuePercentage = {
   "svg": "../../../assets/resources-das/north_east_green_24dp.svg",
   "percentage": "3%",
   "color":"#22C667"
+}
+
+function openOwnRevenuePopup() {
+  throw new Error('Function not implemented.');
 }
 
