@@ -702,7 +702,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     showMiniMap,
     skipOndropDownSelect
   ) {
-    debugger;
+    // debugger;
     if (!this.DistrictsJSONForMapCreation) {
       console.error(`district json not loaded`);
       this.showDistrictMapNotLaodedWarning();
