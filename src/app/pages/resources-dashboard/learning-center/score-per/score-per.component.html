@@ -55,25 +55,14 @@
                                     </ng-template>
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="row" style="align-items: baseline;">
+                                            <div class="row" style="align-items: baseline;" *ngFor="let item of scorePerformanceData?.enumeration">
                                                 <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.1</span>
+                                                    <span class="str-Qus">{{item?.question?.number}}</span>
                                                 </div>
                                                 <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.2</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
+                                                    <h4 class="str-Qus">
+                                                        {{item?.question?.text}}
+                                                    </h4>
                                                     <div class="btn-div">
                                                         <button class="btn btn-yes btn-stp">Yes</button>
                                                         <button class="btn btn-no btn-stp">No</button>
