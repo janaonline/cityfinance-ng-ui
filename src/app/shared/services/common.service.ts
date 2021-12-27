@@ -37,6 +37,12 @@ export class CommonService {
 
   // private states: any = [];
   constructor(private http: HttpClient) {}
+  searchUlb(body) {
+    return this.http.post(
+      `${environment.api.url}recentSearchKeyword/search`,
+      body
+    );
+  }
 
   getFinancialYearBasedOnData() {
     return this.http
@@ -234,9 +240,8 @@ export class CommonService {
       )
       .pipe(
         map((response) => {
-          const formattedResponse = this.convertULBStaticticsToIULBResponse(
-            response
-          );
+          const formattedResponse =
+            this.convertULBStaticticsToIULBResponse(response);
 
           const yearsAsString = !years.length
             ? "NoYear"
@@ -512,23 +517,19 @@ export class CommonService {
     return this.http.get(`${environment.api.url}user/nodal/${state}`);
   }
 
-  fetchSlbData(params, ulbId){
+  fetchSlbData(params, ulbId) {
     // let data = {design_year: '606aaf854dff55e6c075d219'}
     // const newData = this.jsonUtil.convert(data);
-    if(ulbId != null){
+    if (ulbId != null) {
       return this.http.get(
         `${environment.api.url}xv-fc-form/admin/${ulbId}?${params}`
       );
-    }else{
-      return this.http.get(
-        `${environment.api.url}xv-fc-form?${params}`
-      );
+    } else {
+      return this.http.get(`${environment.api.url}xv-fc-form?${params}`);
     }
-
   }
 
   postSlbData(data: any) {
-
     const newData = this.jsonUtil.convert(data);
     return this.http.post(
       `${environment.api.url}xv-fc-form`,
@@ -543,16 +544,16 @@ export class CommonService {
       JSON.stringify(newData)
     );
   }
-  setUser(get,user=null){
-    if(get){
+  setUser(get, user = null) {
+    if (get) {
       return this.userType;
     }
-    this.userType = user
+    this.userType = user;
   }
   postGlobalSearchData(data: any) {
     let dataString = {
-      matchingWord: data
-      }
+      matchingWord: data,
+    };
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search`,
       dataString
@@ -563,14 +564,9 @@ export class CommonService {
     //      type: data.type,
     //      searchKeyword: data._id
     //   }
-    return this.http.post(
-      `${environment.api.url}recentSearchKeyword`,
-      data
-    );
+    return this.http.post(`${environment.api.url}recentSearchKeyword`, data);
   }
   getRecentSearchValue() {
-    return this.http.get(
-      `${environment.api.url}recentSearchKeyword?limit=3`
-    );
+    return this.http.get(`${environment.api.url}recentSearchKeyword?limit=3`);
   }
 }
