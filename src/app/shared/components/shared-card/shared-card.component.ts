@@ -68,7 +68,6 @@ export class SharedCardComponent implements OnInit, AfterViewInit {
   guageChart;
   createGuageChart(type) {
     // Create chart
-    debugger;
     let canvas = <HTMLCanvasElement>document.getElementById(type);
     let chart1, chart2;
     switch (type) {
