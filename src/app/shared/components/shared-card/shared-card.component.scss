@@ -93,3 +93,18 @@ $font-Montserrat: Montserrat;
 //     margin-top: 0.5rem;
 //     color:#E64E4E;
 //   }  
+
+.chartText{
+    color: #0F1F40;
+    font-family: 'Archivo';
+    letter-spacing: 0px;
+}
+
+.chartNumber{
+    font-weight: 800;
+    color: #0F1F40;
+    font-family: 'Archivo';
+    letter-spacing: 0px;
+    font-size: 22px;
+    line-height: 24px;
+}
