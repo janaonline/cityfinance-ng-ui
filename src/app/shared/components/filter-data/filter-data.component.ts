@@ -29,4 +29,10 @@ export class FilterDataComponent implements OnInit {
     document.getElementById(id).classList.add("selected");
     this.lastSelectedId = id;
   }
+
+  actionFromChart(value) {
+    console.log(value, "in filter");
+    if (value.name === "expand" || value.name === "collapse")
+      this.expand = !this.expand;
+  }
 }

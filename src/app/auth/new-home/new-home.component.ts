@@ -105,7 +105,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Explore own revenue sources of municipalities and identify revenue improvement strategies',
       icon: '../../../assets/new_dashBord_ftr_hdr/revenu.svg',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/own-revenue-dashboard'
     },
 
     {
@@ -122,7 +122,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Apply, review, recommend and track 15th finance commission grants',
       icon: '../../../assets/new_dashBord_ftr_hdr/15fc.svg',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/login'
     },
     {
       title: '',
@@ -130,7 +130,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Get access to a rich repository of resources to build your knowledge, and implement municipal finance reforms',
       icon: '../../../assets/new_dashBord_ftr_hdr/resoures/Group 15547.png',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/resources-dashboard'
     },
     {
       title: '',
@@ -248,24 +248,26 @@ export class NewHomeComponent implements OnInit {
    }
   }
   dashboardNav(option) {
+    console.log('option', option)
     this.checkType(option);
     // let postBody = {
     //   type: option.type,
     //   searchKeyword: option._id
     // }
-    console.log('option', option)
-    if(option?.type == 'state'){
-     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
-    }
-    if(option?.type == 'ulb'){
-      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
-     }
-     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
+    this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
       console.log('serach res', res)
    },
    (error)=>{
      console.log(error)
    });
+    console.log('option', option)
+    if(option?.type == 'state'){
+     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    }
+    if(option?.type == 'ulb'){
+     this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+     }
+
   }
 
   carouselClass(e) {

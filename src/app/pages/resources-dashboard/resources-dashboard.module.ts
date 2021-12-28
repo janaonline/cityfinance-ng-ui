@@ -19,6 +19,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
+import { ResourcesTabsComponent } from './resources-tabs/resources-tabs.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ToolkitsComponent } from './learning-center/toolkits/toolkits.component';
+import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learning/dynamic-sub-learning.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,11 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
     DataSetsComponent,
     ReportsPublicationComponent,
     LatestNewsComponent,
-     ScorePerComponent
+     ScorePerComponent,
+
+     ResourcesTabsComponent,
+     ToolkitsComponent,
+     DynamicSubLearningComponent
     ],
   imports: [
     CommonModule,
@@ -41,6 +49,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    TabsModule.forRoot(),
 
   ],
   providers: [

@@ -22,9 +22,10 @@
           </div>
   
           <div class="row justify-content-between">
-            <div *ngFor="let item of filterList" class="mt-2 inputCheckbox col-md-4 col-sm-6">
-              <input type="checkbox" class="checkbox-round" />
-              <span>{{item}}</span>
+            <div *ngFor="let item of filterList; let i = index" class="mt-2 inputCheckbox col-md-4 col-sm-6">
+              <label >
+                <input (click)="radioSelected($event)" type="radio" value="{{item}}" name="radioBtn" class="checkbox-round" />
+                {{item}}</label>
             </div>
           </div>
   
@@ -44,9 +45,23 @@
             <div class="col-12 justify-content-around">
               <label for="">Search ULB</label>
               <div class="d-flex formInput">
-                <div class="col-md-9 col-sm-12 p-2 compareInput">
-                  <input class="w-100" type="text" />
-                </div>
+                <form class="col-md-9 col-sm-12 p-2 compareInput">
+                  <input matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <span (click)="optionSelected(option)" *ngFor="let option of filteredOptions; let i = index;" style="direction: none;">
+                        <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+                            <div class="row">
+                                <div class="col-8">
+                                    <span> {{option?.name}}</span>
+                                </div>
+                            </div>
+                        </mat-option>
+                    </span>
+                    <mat-option *ngIf="noDataFound" class="text-danger firstCls">
+                        Sorry, we can’t find anything related to your search. Try searching for a city or state
+                    </mat-option>
+                </mat-autocomplete>
+                </form>
                 <div class="col-md-3 p-2 compareButton">
                   <button>Search</button>
                 </div>
@@ -104,7 +119,7 @@
             <button>Reset</button>
           </div>
           <div class="lastButtons">
-            <button style="border: 1px solid #e67e15; color: #e67e15">
+            <button (click)="emitValues()" style="border: 1px solid #e67e15; color: #e67e15">
               Apply
             </button>
           </div>
