@@ -11,13 +11,15 @@
     <div class="col-12 col-md-7">
         <div class="row">
             <div class="col-6 col-md-4">
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" (change)="changeState($event.target.value)" aria-label="Default select example">
                   <option selected>State</option>
+                  <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                 </select>
             </div>
             <div class="col-6 col-md-4">
                 <select class="form-select" aria-label="Default select example">
-                    <option selected>Ulb</option>
+                    <option selected >Ulb</option>
+                    <option [value]="item?.code" *ngFor="let item of ulbList">{{item?.name}}</option>
                </select>
             </div>
             <div class="col-12 col-md-3 text-end">
@@ -279,23 +281,124 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class='container'>
-                    <ul class="progressbar">
-                        <li class='active'>Mobile Details</li>
-                        <li>Upload</li>
-                        <li>Payment</li>
-                    </ul>
-                </div> -->
-
             </div>
         </div>
     </div>
 </div>
 <div class="row mb-3">
     <div class="col-sm-12">
-        <div class="card-body">
-            <span>Your Property Tax Health-meter score is</span>
-            <span>6/10</span>
+        <div class="card-body score-card">
+            <span class="score-text">Your Property Tax Health-meter score is</span>
+            <span class="score">6/10</span>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3">
+        <div class="card-body report-card">
+            <div class="row mb-3">
+                <div class="col-sm-12">
+                    <div class="report-card-h mt-2">Prescription</div>
+                    <div class="report-card-sub mt-2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
+                </div>
+            </div>
+            <div class="row me-0">
+                <div class="col-sm-6 prs-div pe-0">
+                    <!-- chart--- -->
+                    <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of prescriptionData">
+                        <div class="row mt-2" style="align-items: center; padding: 5px 0 12px 0;">
+                            <div class="col-sm-4 text-end pres-name">
+                                {{item?.name}}:
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 pres-name">
+                                {{item?.value}} %
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="col-sm-6 ps-0 pres-card">
+                    <div class="card-body">
+                        <div class="pres-h">
+                            Prescription
+                        </div>
+                        <div class="pres-sub">
+                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                            sanctus est.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-sm-12">
+                    <div style="border: 1px dashed #C7C7C7; width: 100%;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="pres-h">Top 3 cities</h4>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-sm-6">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"># Rank</th>
+                                    <th scope="col">City Name</th>
+                                    <th scope="col">Score (Out of 10)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Nashik</td>
+                                    <td>9.5</td>
+
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Aurangabad</td>
+                                    <td>8.5</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Pune</td>
+                                    <td>8</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-6 prs-div pe-0">
+                    <!-- chart--- -->
+                    <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of prescriptionData">
+                        <div class="row mt-2" style="align-items: center; padding: 3px 0 9px 0;">
+                            <div class="col-sm-4 text-end pres-name">
+                                {{item?.name}}:
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 pres-name">
+                                {{item?.value}} %
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn-score btn">Check Score Of Other Cities</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

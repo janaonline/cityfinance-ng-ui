@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
+import { ResourcesServicesService } from '../../resDashboard-services/resources-services.service';
 @Component({
   selector: 'app-toolkits',
   templateUrl: './toolkits.component.html',
@@ -9,7 +10,8 @@ import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
 export class ToolkitsComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private resources_services: ResourcesServicesService
   ) {
     // this.router.events.subscribe((event:Event)=>{
     //   let urlArray;
@@ -87,13 +89,22 @@ export class ToolkitsComponent implements OnInit {
   ];
   ngOnInit(): void {
     this.isCardShow = true;
-  }
-  openScorePer(card) {
-    this.isCardShow = false;
 
-    setTimeout(()=> {
-      let intro =  document.getElementById('id_0');
-      intro.click()
-    }, 200)
+    this.resources_services.tooltikCardShow.subscribe((res)=> {
+      console.log('card', res)
+      this.isCardShow = true;
+    })
+  }
+
+  openScorePer(card) {
+    this.resources_services.tooltikCardShow.next(false);
+    this.isCardShow = false;
+    this.router.navigateByUrl('resources-dashboard/learning-center/toolkits/introduction')
+    // setTimeout(()=> {
+    //   if(!this.isCardShow){
+    //     let intro =  document.getElementById('id_0');
+    //     intro.click()
+    //   }
+    // }, 200)
   }
 }
