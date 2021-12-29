@@ -276,7 +276,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
 
   private initializeULBFilterForm() {
     this.filterForm = this._fb.group({
-      name: [null],
+      ulbName: [null],
       ulbCode: [null],
       status: [""],
       state: [""],
