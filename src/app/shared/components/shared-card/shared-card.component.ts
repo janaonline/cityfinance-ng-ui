@@ -95,6 +95,14 @@ export class SharedCardComponent implements OnInit, AfterViewInit {
         chart2.zIndex = "10";
         chart2.marginTop = "-" + chart2.height;
         chart2.marginLeft = "12px";
+
+        let num = document.getElementById("chartNum").style;
+        num.marginTop =
+          "-" +
+          (parseInt(chart2.height.split("px")[0]) / 2 - 2).toString() +
+          "px";
+        num.fontSize =
+          (parseInt(chart2.height.split("px")[0]) / 4).toString() + "px";
         break;
     }
     const ctx = canvas.getContext("2d");
@@ -105,7 +113,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit {
         datasets: [
           {
             label: "Gauge",
-            data: [10, 190],
+            data: [50, 190],
             backgroundColor: [
               "rgb(255, 99, 132)",
               "rgb(54, 162, 235)",

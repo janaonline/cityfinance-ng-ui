@@ -1,81 +1,144 @@
 <div [ngSwitch]="data.type">
-    <div *ngSwitchCase="1" class="card" [ngStyle]="cardStyle">
-        <div class="card-body">
-            <h5 class="card-title">{{ data.title }}</h5>
-            <span>{{ data.subTitle }}</span>
-            <div *ngIf="showButtons" class="text-center">
-                <button class="mr-1" *ngFor="let item of data.actionButtons" mat-button>
+  <div *ngSwitchCase="1" class="card" [ngStyle]="cardStyle">
+    <div class="card-body">
+      <h5 class="card-title">{{ data.title }}</h5>
+      <span>{{ data.subTitle }}</span>
+      <div *ngIf="showButtons" class="text-center">
+        <button class="mr-1" *ngFor="let item of data.actionButtons" mat-button>
           {{ item.name }}
         </button>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <div *ngSwitchCase="2" class="card text-center" [ngStyle]="{
+  <div
+    *ngSwitchCase="2"
+    class="card text-center"
+    [ngStyle]="{
       height: cardStyle?.height,
       'border-radius': cardStyle.borderRadius,
       width: cardStyle.width
-    }">
-        <div class="card-body">
-            <img class="mb-1 pb-1" src="{{ data.svg }}" />
-            <h5 class="card-title" style="font-weight: bold">{{ data.number }}</h5>
-            <span class="lowerText">{{ data.subTitle }}</span>
-        </div>
+    }"
+  >
+    <div class="card-body">
+      <img class="mb-1 pb-1" src="{{ data.svg }}" />
+      <h5 class="card-title" style="font-weight: bold">{{ data.number }}</h5>
+      <span class="lowerText">{{ data.subTitle }}</span>
     </div>
-    <div *ngSwitchCase="3" class="card" [ngStyle]="{
-        width: cardStyle?.width,
-        'border-radius': cardStyle.borderRadius,
-        width: cardStyle.width
-      }">
-        <div class="card-body">
-            <span class="project">Project ID:
-          <span style="font-weight: bold">{{ data.projectId }}</span></span>
-            <h5 class="card-title mt-1">{{ data.title }}</h5>
-            <span>INR
-          <span style="font: normal normal bold 18px/20px Archivo">{{
-            data.amount
-          }}</span></span>
-        </div>
+  </div>
+  <div
+    *ngSwitchCase="3"
+    class="card"
+    [ngStyle]="{
+      width: cardStyle?.width,
+      'border-radius': cardStyle.borderRadius,
+      width: cardStyle.width
+    }"
+  >
+    <div class="card-body">
+      <span class="project"
+        >Project ID:
+        <span style="font-weight: bold">{{ data.projectId }}</span></span
+      >
+      <h5 class="card-title mt-1">{{ data.title }}</h5>
+      <span
+        >INR
+        <span style="font: normal normal bold 18px/20px Archivo">{{
+          data.amount
+        }}</span></span
+      >
     </div>
-    <div *ngSwitchCase="4" class="card text-center res-card" routerLinkActive="active" [ngStyle]="{
-        height: cardStyle?.height,
-        'border-radius': cardStyle.borderRadius,
-        width: cardStyle.width
-      }">
-        <div class="card-body">
-            <img class="mb-1 pb-1" src="{{ data.svg }}" />
-            <h5 class="resources-h">{{ data.title }}</h5>
-            <span class="resources-sub-h">{{ data.subTitle }}</span>
-        </div>
+  </div>
+  <div
+    *ngSwitchCase="4"
+    class="card text-center res-card"
+    routerLinkActive="active"
+    [ngStyle]="{
+      height: cardStyle?.height,
+      'border-radius': cardStyle.borderRadius,
+      width: cardStyle.width
+    }"
+  >
+    <div class="card-body">
+      <img class="mb-1 pb-1" src="{{ data.svg }}" />
+      <h5 class="resources-h">{{ data.title }}</h5>
+      <span class="resources-sub-h">{{ data.subTitle }}</span>
     </div>
+  </div>
 
-    <div *ngSwitchCase="5">
-        <div class="d-flex justify-content-center mx-2 my-2 p-2 text-center flex-column rounded revenue-card">
-            <h3 class="title">{{data.title}}</h3>
-            <p class="subTitle">{{data.subTitle}}</p>
-            <span class="arrow-title">
-                <img class="" src="{{ data.svg }}" />
-                <span class="percentage">{{data.percentage}}</span>
-            </span>
-        </div>
+  <div *ngSwitchCase="5">
+    <div
+      class="
+        d-flex
+        justify-content-center
+        mx-2
+        my-2
+        p-2
+        text-center
+        flex-column
+        rounded
+        revenue-card
+      "
+    >
+      <h3 class="title">{{ data.title }}</h3>
+      <p class="subTitle">{{ data.subTitle }}</p>
+      <span class="arrow-title">
+        <img class="" src="{{ data.svg }}" />
+        <span class="percentage">{{ data.percentage }}</span>
+      </span>
     </div>
-    <div *ngSwitchCase="6">
-      <div class="container">
-        <div id="chart1" class="chartjs-wrapper">
-            <canvas id="chartjs-gauge"></canvas>
-          </div>
-          <div id="chart2" class="chartjs-wrapper-inner">
-            <canvas id="chartjs-gauge2"></canvas>
-          </div>
-          <div id="chart3" class="chartjs-wrapper-inner">
-            <canvas id="chartjs-gauge3"></canvas>
-          </div>
-          <h1>45%</h1>
-          <h4>455</h4>
-          <h6>coverage</h6>
-          <div class="center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12.3" height="12.3" viewBox="0 0 12.3 12.3"><defs><style>.a{fill:none;stroke:#14696e;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><g transform="translate(-3.75 -3.75)"><path class="a" d="M15.3,22.5v2.4a1.2,1.2,0,0,1-1.2,1.2H5.7a1.2,1.2,0,0,1-1.2-1.2V22.5" transform="translate(0 -10.8)"/><path class="a" d="M10.5,15l3,3,3-3" transform="translate(-3.6 -6.3)"/><path class="a" d="M18,11.7V4.5" transform="translate(-8.1)"/></g></svg>
-          </div>
+  </div>
+  <div *ngSwitchCase="6">
+    <div class="container" style="background-color: #fffbef">
+      <div id="chart1" class="chartjs-wrapper">
+        <canvas id="chartjs-gauge"></canvas>
+      </div>
+      <div id="chart2" class="chartjs-wrapper-inner">
+        <canvas id="chartjs-gauge2"></canvas>
+      </div>
+      <div id="chart3" class="chartjs-wrapper-inner">
+        <canvas id="chartjs-gauge3"></canvas>
+      </div>
+      <div class="row text-center">
+        <div id="chartNum" class="number text-center" style="z-index: 10;">
+          <span>45%</span><br />
+          <span>123</span>
+        </div>
+        <span class="chartText"> Coverage of water supply connections </span>
+      </div>
+      <div class="row">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12.3"
+          height="12.3"
+          viewBox="0 0 12.3 12.3"
+        >
+          <defs>
+            <style>
+              .a {
+                fill: none;
+                stroke: #14696e;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 1.5px;
+              }
+            </style>
+          </defs>
+          <g transform="translate(-3.75 -3.75)">
+            <path
+              class="a"
+              d="M15.3,22.5v2.4a1.2,1.2,0,0,1-1.2,1.2H5.7a1.2,1.2,0,0,1-1.2-1.2V22.5"
+              transform="translate(0 -10.8)"
+            />
+            <path
+              class="a"
+              d="M10.5,15l3,3,3-3"
+              transform="translate(-3.6 -6.3)"
+            />
+            <path class="a" d="M18,11.7V4.5" transform="translate(-8.1)" />
+          </g>
+        </svg>
       </div>
     </div>
+  </div>
 </div>
