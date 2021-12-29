@@ -1,31 +1,69 @@
 <div class="container-fluid dashboard-container">
   <div class="container">
     <div class="row justify-content-center align-items-center">
-      <h1 class="perform-dashboard-heading text-center">Performance Dashboard</h1>
-      <p class="perform-dashboard-para col-12 text-center">The performance dashboard showcases the state of Municipal own revenues and property tax revenues in the country. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.</p>  
+      <h1 class="perform-dashboard-heading text-center">
+          Performance Dashboard
+      </h1>
+      <p class="perform-dashboard-para col-12 text-center">
+         The performance dashboard showcases the state of
+         Municipal own revenues and property tax revenues
+         in the country. Know your State’s or city’s performance
+         and compare with other States and cities on various own 
+         revenue parameters.
+      </p>  
     </div>
   </div>
 </div>
 <div class="container-fluid two-tabs">
   <div class="container d-flex justify-content-center">
-    <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-center rounded-start first-tab tab">
-      <a href="" class="text-decoration-none text-center">
-        Own Revenue Performance Dashboard
+      <div class="col-6 col-md-4 col-lg-4 d-flex 
+                  align-items-center justify-content-center
+                  rounded-start first-tab tab"
+      >
+      <a href="" 
+        class="text-decoration-none text-center"
+      >
+          Own Revenue Performance Dashboard
       </a>
-    </div>
-    <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center justify-content-center rounded-end second-tab tab">
-      <a href="" class="text-decoration-none text-center">
+      </div>
+      <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center
+                justify-content-center rounded-end second-tab tab"
+      >
+        <a href=""
+          class="text-decoration-none text-center"
+      >
         Property Tax Performance Dashboard
       </a>
     </div>
   </div>
 </div>
 <div class="container cont-p">
-  <p class="para-styling">To view your performance, select <span class="para_word_styling">State</span> or <span  class="para_word_styling">ULB Name.</span>
-     If you want to view the performance of all <span  class="para_word_styling">ULBs within a ULB type</span> 
-     or <span  class="para_word_styling">ULB Population</span> Category then select your respective <span  class="para_word_styling">State</span> and 
-     the <span  class="para_word_styling">ULB type</span> or population category. Also, select the financial year
-      for which the performance should be displayed.
+  <p class="para-styling">To view your performance, select
+      <span class="para_word_styling">
+            State
+      </span>
+           or 
+      <span  class="para_word_styling">
+            ULB Name.
+      </span>
+          If you want to view the performance of all 
+      <span  class="para_word_styling">
+          ULBs within a ULB type
+      </span> 
+          or 
+      <span  class="para_word_styling">
+          ULB Population
+      </span> 
+          Category then select your respective 
+      <span  class="para_word_styling">
+            State
+      </span> and 
+              the 
+      <span  class="para_word_styling">
+            ULB type
+      </span> 
+           or population category. Also, select the financial year
+           for which the performance should be displayed.
   </p>
   <div class="container rounded filters-container py-3">
     <div class="row">
@@ -62,7 +100,8 @@
             <div class="col-md-2 col col-sm d-flex justify-content-end">
               <button  class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
                 Clear All 
-                <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg" alt="cancel_off_icon">
+                <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+                     alt="cancel_off_icon">
               </button>
             </div>
       </div>
@@ -97,16 +136,26 @@
       <option value="1"></option>
     </select>
 
-    <button class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center btn_clearAll">
+    <button class="btn btn-outline-secondary 
+                   btn-sm d-flex justify-content-center
+                   align-items-center btn_clearAll"
+    >
       Clear All 
-      <img src="../../../assets//resources-das/cancel_off_orange_18dp.svg" alt="clear_all_icon">
+          <img src="../../../assets//resources-das/cancel_off_orange_18dp.svg"
+               alt="clear_all_icon">
     </button>
   </div>
   <div class="resetAndApply d-flex justify-content-around">
-    <button class="btn btn-outline-tertiary btn-sm d-flex justify-content-center align-items-center btn_reset">
+    <button class="btn btn-outline-tertiary btn-sm
+                  d-flex justify-content-center
+                  align-items-center btn_reset"
+    >
       Reset
     </button>
-    <button class="btn btn-outline-secondary btn-sm d-flex justify-content-center align-items-center btn_apply">
+    <button class="btn btn-outline-secondary btn-sm
+                  d-flex justify-content-center 
+                  align-items-center btn_apply"
+    >
       Apply
     </button>
   </div>
@@ -178,24 +227,35 @@
                         for AA, BB and CC Municipal Corporation. For more details, download the
                         complete set of ULBs for which the data is available for the year YY.  -->
                       </span>
-                  <span class="three-dots btn-rm"  *ngIf="!showButton" (click)="close()">
-                    Read Less
+                  <span class="three-dots btn-rm" 
+                       *ngIf="!showButton"
+                        (click)="close()"
+                  >
+                        Read Less
                   </span>
             </p>
               <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
-                <img src="../../../assets/resources-das/file_download_orange_18dp.svg" alt="download_icon">
+                <img src="../../../assets/resources-das/file_download_orange_18dp.svg"
+                     alt="download_icon">
                   Download Data
               </button>
           </div>
           <div class="col-md-5 d-flex justify-content-center">
               <div class="doughnut-container">
-                <canvas id="myChart1" width="100%"></canvas>
-                <p class="doughnut_percentage text-center">75%</p>
-                <p class="doughnut_text  text-center">Data Availability</p>
-                  <button class="btn btn-outline-secondary btn-sm btn-os btn-ghost">
-                      <img src="../../../assets/resources-das/file_download_orange_24dp.svg" alt="download_icon">
-                      Download Data
-                  </button>
+                    <canvas id="myChart1" 
+                            width="100%">
+                    </canvas>
+                    <p class="doughnut_percentage text-center">
+                        75%
+                    </p>
+                    <p class="doughnut_text  text-center">
+                        Data Availability
+                    </p>
+                    <button class="btn btn-outline-secondary btn-sm btn-os btn-ghost">
+                      <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
+                           alt="download_icon">
+                        Download Data
+                    </button>
               </div>
           </div>
     </div>
@@ -268,14 +328,19 @@
           <div class="rounded revenue-card-white mx-2">
             <p>
               You can compare your performance
-              to the average or median performance of population category wise ULBs of your State.
+              to the average or median performance of population
+              category wise ULBs of your State.
             </p>
           </div>
         </div>
         <div class="col-md-10">
           <div class="row mx-0">
-           <div class="col-lg-3 col-md-6 col-6" *ngFor="let cardItem of cardData;">
-             <app-shared-card class="rc-cont" [data]="cardItem"></app-shared-card>
+           <div class="col-lg-3 col-md-6 col-6"
+                *ngFor="let cardItem of cardData;"
+           >
+                <app-shared-card class="rc-cont" 
+                                [data]="cardItem">
+                </app-shared-card>
            </div>
           </div>
          </div>
@@ -313,7 +378,10 @@
         </tbody>
       </table>
     </div> -->
-    <small>Please note financial data for AA, BB and CC Municipal Corporations is not available and thus, is not depicted here.</small>
+    <small>Please note financial data for AA, BB and
+           CC Municipal Corporations is not available and thus,
+           is not depicted here.
+    </small>
   </div>
 
   <!-- Bar chart section -->
