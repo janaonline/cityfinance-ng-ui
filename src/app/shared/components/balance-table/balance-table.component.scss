@@ -1,0 +1,30 @@
+.balanceText {
+    font-size: 1rem;
+}
+
+.dropDownDiv {
+    padding: 5px;
+}
+
+.tableDiv {
+    width: 85vw;
+    margin: 0 auto;
+}
+
+
+th:first-child {
+    font-weight: 300;
+    width: 30vw;
+    padding: 1.3rem;
+}
+
+th {
+    width: 10vw;
+    padding: 1.3rem;
+}
+
+.modalButton {
+    border: 1px solid #cfc2c2;
+    border-radius: 8px;
+    height: 68%;
+}

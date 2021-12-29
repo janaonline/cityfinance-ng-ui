@@ -15,8 +15,47 @@
   cursor: pointer;
 }
 
+
+
 .compare {
   border: 1px solid #d0d0d0;
   background-color: white;
   height: 2.3rem;
+  
 }
+
+
+
+@media only screen and (max-width: 600px) {
+  .revenueChart {
+    width: 100%;
+    height: auto;
+    margin-top: 100px !important;
+  }
+  .compare {
+    font-size: 10px;
+  }
+  .revenueHeading {
+    font-size: 14px;
+  }
+
+  // .dropDownDiv {
+  //   width: 70vw;
+  //   margin: 0 auto;
+  // }
+
+  .headerIcons {
+    position: absolute;
+    margin-top: 26%;
+    left: 0%;
+    padding: 0;
+    margin-left: -290px;
+  }
+  
+  }
+
+  @media only screen and (max-width: 400px) {
+    .headerIcons {
+      margin-left: -240px;
+    }
+  }

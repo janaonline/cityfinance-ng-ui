@@ -65,6 +65,8 @@ import { RevenuechartComponent } from "./components/revenuechart/revenuechart.co
 import { CompareDialogComponent } from "./components/compare-dialog/compare-dialog.component";
 import { AboutIndicatorComponent } from "./components/about-indicator/about-indicator.component";
 import { FilterDataComponent } from "./components/filter-data/filter-data.component";
+import { BalanceTableComponent } from "./components/balance-table/balance-table.component";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   imports: [
@@ -92,6 +94,7 @@ import { FilterDataComponent } from "./components/filter-data/filter-data.compon
       libraries: ["places"],
     }),
     MatCardModule,
+    MatTableModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -132,6 +135,7 @@ import { FilterDataComponent } from "./components/filter-data/filter-data.compon
     CompareDialogComponent,
     AboutIndicatorComponent,
     FilterDataComponent,
+    BalanceTableComponent,
   ],
   exports: [
     FormsModule,

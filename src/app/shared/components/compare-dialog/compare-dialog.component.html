@@ -46,7 +46,7 @@
               <label for="">Search ULB</label>
               <div class="d-flex formInput">
                 <form class="col-md-9 col-sm-12 p-2 compareInput">
-                  <input matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
+                  <input matInput #chipInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
                   <mat-autocomplete #auto="matAutocomplete">
                     <span (click)="optionSelected(option)" *ngFor="let option of filteredOptions; let i = index;" style="direction: none;">
                         <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
@@ -68,6 +68,16 @@
               </div>
             </div>
           </div>
+
+          <mat-chip
+      *ngFor="let ulbChips of ulbListChips"
+      (removed)="remove(ulbChips)">
+      {{ulbChips}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+        
   
           <!--- revenuechart compare end-->
         </div>
