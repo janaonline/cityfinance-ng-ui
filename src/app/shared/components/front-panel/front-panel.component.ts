@@ -67,7 +67,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 }
 
 const revenue = {
-  type: 2,
+  type: 6,
   title: "revenue",
   subTitle: "revenue",
   svg: `../../../../assets/7340549_e-commerce_online_shopping_ui_receipt_icon.svg`,

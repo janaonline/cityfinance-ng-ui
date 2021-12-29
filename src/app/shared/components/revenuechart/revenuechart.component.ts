@@ -4,6 +4,8 @@ import {
   Input,
   ViewChild,
   TemplateRef,
+  Output,
+  EventEmitter,
 } from "@angular/core";
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -319,30 +321,46 @@ export class RevenuechartComponent implements OnInit {
   @Input()
   headerActions = [
     {
-      name: "shek",
-      svg: "../../../../assets/stateform/Icon feather-menu.svg",
+      name: "expand",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
     },
     {
-      name: "shek",
-      svg: "../../../../assets/stateform/Icon feather-menu.svg",
+      name: "download",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     {
-      name: "shek",
-      svg: "../../../../assets/stateform/Icon feather-menu.svg",
+      name: "embed",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/925895_embed_development_code_coding_dev_icon.svg",
+    },
+    {
+      name: "share",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
 
+  @Output()
+  actionClicked = new EventEmitter();
+
+  myChart;
   ngOnInit(): void {
     // this.renderChart()
   }
 
-  renderChart(elementId,  graphData){
-    const canvas = <HTMLCanvasElement>document.getElementById(elementId);
+  // renderChart(elementId,  graphData){
+  //   const canvas = <HTMLCanvasElement>document.getElementById(elementId);
+  //   const ctx = canvas.getContext("2d");
+  //   const myChart = new Chart(ctx, {
+  //     type: graphData.type,
+  //   this.createChart();
+  // })
+  // }
+  createChart() {
+    const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
     const ctx = canvas.getContext("2d");
-    const myChart = new Chart(ctx, {
-      type: graphData.type,
+    this.myChart = new Chart(ctx, {
+      type: "bar",
       // type: "scatter",
-      data: graphData.data,
+      // data: graphData.data,
       // data: this.scatterData,
 
       options: {
@@ -397,8 +415,19 @@ export class RevenuechartComponent implements OnInit {
     });
   }
 
-  actionClick(i) {
-    console.log(i);
+  actionClick(value) {
+    console.log(value, "In revenue");
+    if (value.name == "expand" || value.name == "collapse") {
+      this.headerActions.map((innerVal) => {
+        if (innerVal.name === value.name) {
+          if (value.name == "expand") innerVal.name = "collapse";
+          else value.name = "expand";
+        }
+      });
+      this.myChart.destroy();
+      this.createChart();
+    }
+    this.actionClicked.emit(value);
   }
 
   dialogRef;
