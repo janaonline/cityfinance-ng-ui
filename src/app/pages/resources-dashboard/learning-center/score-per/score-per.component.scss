@@ -7,14 +7,14 @@
         color: #0F1F40;
         opacity: 1;
     }
-
+    
     p {
         font: normal normal normal 16px/25px 'Archivo';
         letter-spacing: 0px;
         color: #6E7281;
         opacity: 1;
     }
-
+    
     .btn-gS {
         background: #E67E15 0% 0% no-repeat padding-box;
         box-shadow: 0px 2px 8px #F7C199;
@@ -22,7 +22,7 @@
         opacity: 1;
         color: #fff;
     }
-
+    
     .container-cnt {
         box-sizing: border-box;
         display: flex;
@@ -32,7 +32,7 @@
         padding: 5px;
         overflow: auto;
     }
-
+    
     .card {
         box-sizing: border-box;
         padding: 10px;
@@ -42,77 +42,77 @@
         flex-shrink: 0;
         background: #FAFAFA;
     }
-
+    
     h5 {
         font: normal normal normal 16px/25px 'Archivo';
         letter-spacing: 0px;
         color: #6E7281;
         opacity: 1;
     }
-
+    
     .container-stepper {
         max-width: 1000px;
     }
-
+    
      ::ng-deep .mat-stepper-vertical,
      ::ng-deep .mat-stepper-horizontal {
         background: #FAFAFA;
     }
-
+    
      ::ng-deep .mat-step-label .mat-step-label-active {
         .mat-step-text-label {
             color: #58B46D;
         }
     }
-
+    
      ::ng-deep .mat-step-icon {}
-
+    
      ::ng-deep .mat-step-header .mat-step-icon-state-edit {
         background-color: #58B46D;
     }
-
+    
      ::ng-deep .mat-step-icon.mat-step-icon-state-number.mat-step-icon-selected {
         background-color: #3E5DB1;
     }
-
+    
      ::ng-deep .mat-step-label.mat-step-label-active {
         color: #58B46D;
         font: normal normal bold 13px/14px 'Archivo';
     }
-
+    
      ::ng-deep .mat-step-label.mat-step-label-active.mat-step-label-selected {
         color: #3E5DB1;
         font: normal normal bold 13px/14px 'Archivo';
     }
-
+    
      ::ng-deep .mat-step-icon-state-edit ::ng-deep .mat-step-label {}
-
+    
      ::ng-deep .mat-step-icon .mat-icon {
         font-weight: 700;
     }
-
+    
     .str-Qus {
         font: normal normal 600 16px/17px 'Archivo';
         letter-spacing: 0px;
         color: #0F1F40;
     }
-
+    
     .btn-div {
         margin-top: 2rem;
         margin-bottom: 2rem;
     }
-
+    
     .btn-stp {
         font: normal normal 400 14px/15px 'Archivo';
         letter-spacing: 0px;
         color: #E87A1C;
     }
-
+    
     .btn-yes {
         border: 1px solid #E87A1C;
         border-radius: 6px;
     }
-
+    
     .btn-yes:hover,
     .btn-no:hover {
         background: #E87A1C 0% 0% no-repeat padding-box;
@@ -121,13 +121,13 @@
         opacity: 1;
         color: #fff;
     }
-
+    
     .btn-no {
         border: 1px solid #E87A1C;
         border-radius: 6px;
         margin-left: 1rem;
     }
-
+    
     .btn-cont {
         background: #E67E15 0% 0% no-repeat padding-box;
         box-shadow: 0px 2px 8px #F7C199;
@@ -137,7 +137,7 @@
         padding: 12px 24px;
         margin-left: 2rem;
     }
-
+    
     .btn-back {
         font: normal normal 600 14px/15px 'Archivo';
         letter-spacing: 0px;
@@ -146,22 +146,22 @@
         border: none;
         margin-left: 1rem;
     }
-
+    
     .green {
         color: #58B46D;
     }
-
+    
      ::ng-deep .mat-horizontal-stepper-header {
         pointer-events: none !important;
     }
-
+    
      ::ng-deep .mat-stepper-horizontal-line {
         border-top-width: 2px !important;
         border-top-style: dashed !important;
         margin-left: -30px !important;
         margin-right: -30px !important;
     }
-
+    
      ::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:first-child)::before,
      ::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::before,
      ::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header:not(:last-child)::after,
@@ -169,9 +169,9 @@
         height: 0 !important;
         width: 0 !important;
     }
-
+    
     .selectedIndex0 {}
-
+    
     @for $i from 1 through 10 {
         .selectedIndex#{$i} {
             @extend .selectedIndex#{$i - 1};
@@ -184,7 +184,7 @@
             }
         }
     }
-
+    
     @media screen and (min-width: 992px) {
          ::ng-deep .mat-stepper-vertical,
          ::ng-deep .mat-stepper-horizontal {
@@ -197,7 +197,7 @@
             overflow: hidden;
         }
     }
-
+    
      ::ng-deep .mat-stepper-vertical,
      ::ng-deep .mat-stepper-horizontal {
         display: block;
@@ -205,18 +205,141 @@
         overflow-x: scroll;
         position: relative;
     }
-
+    
      ::ng-deep .mat-stepper-label-position-bottom .mat-horizontal-stepper-header-container {
         align-items: flex-start;
         width: 1000px;
         overflow: hidden;
         position: relative;
     }
-
+    
      ::ng-deep .mat-horizontal-content-container {
         overflow: hidden;
         padding: 0 24px 24px 24px;
         position: sticky !important;
         left: 0 !important;
         top: 0 !important;
+    }
+    
+    .score-card {
+        background: #E5FFF1 0% 0% no-repeat padding-box;
+        border-radius: 6px;
+        text-align: center;
+    }
+    
+    .score {
+        background: #3E5DB1 0% 0% no-repeat padding-box;
+        border-radius: 6px;
+        font: normal normal 700 20px/22px 'Archivo';
+        letter-spacing: 0px;
+        color: #5AFFF9;
+        padding: 6px 16px;
+    }
+    
+    .score-text {
+        margin-right: 1rem;
+        font: normal normal 500 18px/20px 'Archivo';
+        letter-spacing: 0px;
+        color: #3E5DB1;
+    }
+    
+    .report-card {
+        border: 1px solid #D1D1D1;
+        border-radius: 12px;
+    }
+    
+    .report-card-h {
+        font: normal normal 700 20px/22px 'Archivo';
+        letter-spacing: 0px;
+        color: #0F1F40;
+        text-align: center;
+    }
+    
+    .report-card-sub {
+        font: normal normal normal 14px/25px 'Archivo';
+        letter-spacing: 0px;
+        color: #6E7281;
+        text-align: center;
+    }
+    
+    .pres-card {
+        background: #FFF9E5 0% 0% no-repeat padding-box;
+        border-radius: 0px 12px 12px 12px;
+        opacity: 1;
+    }
+    
+    .pres-h {
+        font: normal normal 700 18px/20px 'Archivo';
+        letter-spacing: 0px;
+        color: #0F1F40;
+    }
+    
+    .pres-sub {
+        font: normal normal normal 14px/25px 'Archivo';
+        letter-spacing: 0px;
+        color: #6E7281;
+        margin-top: 1rem;
+    }
+    
+    .progress-bar {
+        background: #23BA6E 0% 0% no-repeat padding-box;
+    }
+    
+    .pres-aTag {
+        text-decoration: none;
+    }
+    
+    .pres-aTag:hover {
+        display: inline-block;
+        background: #FFF9E5 0% 0% no-repeat padding-box;
+        border-radius: 6px 0px 0px 6px;
+        opacity: 1;
+        width: 100%;
+    }
+    
+    .table {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #E4E4E4;
+        border-radius: 6px;
+    }
+    
+    .table> :not(:first-child) {
+        border-top: none;
+    }
+    
+    thead>tr>th {
+        border-right: 1px solid #E4E4E4;
+        background: #F7F9FF 0% 0% no-repeat padding-box;
+        font: normal normal 600 14px/14px 'Archivo';
+        letter-spacing: 0px;
+        color: #0F1F40;
+    }
+    
+    .table>tbody>tr>td {
+        border: none;
+        border-right: 1px solid #E4E4E4;
+        font: normal normal 500 14px/15px 'Archivo';
+        letter-spacing: 0px;
+        color: #0F1F40
+    }
+    
+    th,
+    td {
+        padding: 15px 20px !important;
+    }
+    
+    .pres-name {
+        font: normal normal 600 14px/15px 'Archivo';
+        letter-spacing: 0px;
+        color: #0F1F40;
+    }
+    
+    .btn-score {
+        background: #E67E15 0% 0% no-repeat padding-box;
+        box-shadow: 0px 2px 8px #F7C199;
+        border-radius: 8px;
+        font: normal normal 700 14px/15px 'Archivo';
+        letter-spacing: 0px;
+        color: #FFFFFF;
+        padding: 12px 22px;
     }

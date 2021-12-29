@@ -16,8 +16,8 @@
 <div *ngIf="!isCardShow">
     <div class="tabs mt-3 mb-3">
         <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
-            <li class="nav-item" *ngFor="let item of subTabData">
-                <a [routerLink]="item?.link" routerLinkActive="active" role="tab" class="nav-link" id="">
+            <li class="nav-item" *ngFor="let item of subTabData; let i = index">
+                <a [routerLink]="item?.link" routerLinkActive="active" role="tab" class="nav-link" [id]="'id_'+ i">
                     <span>{{item?.name}}</span>
                 </a>
             </li>

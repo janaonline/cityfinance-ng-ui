@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
+import { ResourcesServicesService } from '../../resDashboard-services/resources-services.service';
 
 @Component({
   selector: 'app-dynamic-sub-learning',
@@ -16,7 +17,10 @@ export class DynamicSubLearningComponent implements OnInit {
   isRepo = false;
   constructor(
     private router: Router,
+    private resources_services: ResourcesServicesService,
+
   ) {
+    // this.resources_services.tooltikCardShow.next(false);
     this.router.events.subscribe((event:Event)=>{
       let urlArray;
       if (event instanceof NavigationEnd) {
@@ -80,6 +84,10 @@ export class DynamicSubLearningComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  backToCard() {
+    this.router.navigateByUrl('resources-dashboard/learning-center/toolkits')
+   this.resources_services.tooltikCardShow.next(true);
   }
 
 }
