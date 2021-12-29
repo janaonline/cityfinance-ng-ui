@@ -19,6 +19,87 @@ export class RevenuechartComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
+
+  
+//Full Doughnut Chart Data of OwnRevenueDashboard Starts
+@Input() 
+ ownRevenueDoughnut = {
+  type: 'doughnut',
+  data: {
+    labels: [
+          'Property Tax',
+          'Advertisement Tax',
+          'Total License Fee',
+          'Water Charges',
+          'Sewerage Charges',
+          'Rental Income',
+          'Other Income'
+      ],
+    datasets: [
+      { 
+        data: [68,22,19,7,5,,15,20],
+        backgroundColor: [
+          'rgba(30, 68, 173, 1)',
+          'rgba(37, 199, 206, 1)',
+          'rgba(88, 95, 255, 1)',
+          'rgba(255, 215, 46, 1)',
+          'rgba(34, 162, 255, 1)',
+          'rgba(255, 96, 139, 1)',
+          'rgba(25, 229, 158, 1)'
+        ],
+        fill: false
+      },
+    ],
+  },
+  options: {
+    legend: {
+      display: true,
+      position: 'bottom'
+    },
+    tooltips:{
+      enabled:true
+    },
+    cutoutPercentage: 45,
+    responsive: true
+  }
+}  //Full Doughnut Chart Data of OwnRevenueDashboard Ends
+
+//Full Bar Chart Data of OwnRevenueDashboard Starts
+@Input() 
+ ownRevenueBarChart = {
+  type: 'bar',
+  labels: [
+            "Jalandhar", 
+            "Chennai", 
+            "Pune", 
+            "Amhedabad", 
+            "Mumbai",
+            "Jaipur",
+            "Rohtak",
+            "Nashik",
+            "Nagpur",
+            "Thane"
+          ],
+  datasets: [
+    {
+      data: [160, 140, 120, 100, 80, 60, 40, 20, 10, 5],
+      backgroundColor: [
+        "rgba(30, 68, 173, 1)",
+        "rgba(34, 76, 192, 1)",
+        "rgba(37, 83, 211, 1)",
+        "rgba(51, 96, 219, 1)",
+        "rgba(69, 110, 222, 1)",
+        "rgba(88, 125, 225, 1)",
+        "rgba(106, 139, 229, 1)",
+        "rgba(134, 162, 237, 1)",
+        "rgba(147, 170, 234, 1)",
+        "rgba(168, 188, 240, 1)"
+      ],
+    },
+  ],
+}; //Full Bar Chart Data of OwnRevenueDashboard Ends
+  
+
   @Input()
   data = {
     datasets: [
@@ -262,16 +343,24 @@ export class RevenuechartComponent implements OnInit {
 
   myChart;
   ngOnInit(): void {
-    this.createChart();
+    // this.renderChart()
   }
 
+  // renderChart(elementId,  graphData){
+  //   const canvas = <HTMLCanvasElement>document.getElementById(elementId);
+  //   const ctx = canvas.getContext("2d");
+  //   const myChart = new Chart(ctx, {
+  //     type: graphData.type,
+  //   this.createChart();
+  // })
+  // }
   createChart() {
     const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
     const ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, {
       type: "bar",
       // type: "scatter",
-      data: this.barData,
+      // data: graphData.data,
       // data: this.scatterData,
 
       options: {

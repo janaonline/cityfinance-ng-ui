@@ -167,7 +167,8 @@ import { FilterDataComponent } from "./components/filter-data/filter-data.compon
     DashboardTabsComponent,
     FrontPanelComponent,
     DashboardTabsComponent,
-    SharedCardComponent
+    SharedCardComponent,
+    RevenuechartComponent
   ],
   providers: [FinancialDataService],
 })
