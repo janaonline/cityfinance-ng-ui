@@ -1,0 +1,109 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 justify-content-start">
+            <p class="balanceText">
+                Below are the highlights of the ULB’s balance sheets for past five years (based on availability). Click on compare to compare Mumbai’s financials with upto five other comparable ULBs.
+            </p>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <!-- <div class="dropDownDiv"> -->
+
+                <div class=" mr-1 modalButton" >
+                    <span (click)="openModal()" class="btn compare">Compare By: Similar Type &nbsp;</span>
+                </div>
+
+                  <!-- <select class="form-select" aria-label="Default select example">
+                    <option value="null" selected>Compare By: Similar Type</option>
+                    <option  [value]="types.id" *ngFor="let types of typeList">{{types.name}}</option>
+                  </select> -->
+            <!-- </div> -->
+            <div class="dropDownDiv">
+                    <select class="form-select" aria-label="Default select example">
+                        <option value="null" selected>Select year</option>
+                        <option  [value]="year.id" *ngFor="let year of yearsList">{{year.name}}</option>
+                      </select>
+            </div>
+            <div class="dropDownDiv">
+                <select class="form-select" aria-label="Default select example">
+                    <option value="null" selected>Select Currency</option>
+                    <option  [value]="currency.id" *ngFor="let currency of currencyList">{{currency.name}}</option>
+                  </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tableDiv ">
+                <!-- <table>
+                    <thead class="table table-striped">
+                        <tr  >
+                            <div class="justify-content-between">
+                                <th *ngFor="let tableHead of balanceTableHead" >{{tableHead}}</th>
+                            </div>
+                        </tr>
+                        
+
+                    </thead>
+                </table> -->
+
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+                  
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="figures">
+                      <th mat-header-cell *matHeaderCellDef> *Figures mentioned are in Rs. Crores </th>
+                      <td mat-cell *matCellDef="let element"> {{element.figures}} </td>
+                    </ng-container>
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef> Mumbai </th>
+                      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="weight">
+                      <th mat-header-cell *matHeaderCellDef> Nasik </th>
+                      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                    </ng-container>
+                  
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="symbol">
+                      <th mat-header-cell *matHeaderCellDef> Pune </th>
+                      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    </ng-container>
+                  
+                    <!-- Header row first group -->
+                    <ng-container matColumnDef="header-row-first-group">
+                      <th mat-header-cell *matHeaderCellDef 
+                          [style.text-align]="center"
+                          [attr.colspan]="2"> 
+                      </th>
+                    </ng-container>
+                    
+                    <!-- Header row second group -->
+                    <ng-container matColumnDef="header-row-second-group">
+                      <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> 2019-2020 </th>
+                    </ng-container>
+                    <ng-container matColumnDef="header-row-third-group">
+                      <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> 2020-2021 </th>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="['header-row-first-group', 'header-row-second-group', 'header-row-third-group' ]"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  
+                  
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #template>
+    <app-compare-dialog (closeDialog)="closeModal()"></app-compare-dialog>
+</ng-template>
