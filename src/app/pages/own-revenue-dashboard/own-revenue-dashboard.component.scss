@@ -33,6 +33,7 @@ $font-Montserrat: "Montserrat";
 }
 .tab {
   height: 4.2rem;
+  box-shadow: 0px 2px 11px #00000022;
 }
 .first-tab {
   background-color: #E67E15;
@@ -132,6 +133,11 @@ $font-Montserrat: "Montserrat";
 //Data Availability Styling Starts
 .doughnut-container {
   margin-top: 1.8rem;
+  width: 50%;
+  @media (max-width: 1200px) {
+    margin-top: 4rem;
+    width: 70%;
+  }
 }
 .doughnut_percentage {
   margin-top: -2.5rem !important;

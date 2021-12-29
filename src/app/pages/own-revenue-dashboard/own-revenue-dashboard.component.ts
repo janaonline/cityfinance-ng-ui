@@ -366,7 +366,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   
 }
 
-// openOwnRevenuePopup() {
+// openOwnRevenuePopump() {
 //   this.matdialog.open(this.ownRevenueFiltersPopup, {
 //     height: "fit-content",
 //     width: "50vw",
