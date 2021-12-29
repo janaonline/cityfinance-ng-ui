@@ -1,0 +1,35 @@
+.nav {
+    justify-content: center;
+}
+
+.nav-item {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+}
+
+.nav-item:first-child {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.nav-item:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+li>a.active {
+    background-color: #E67E15 !important;
+    color: #fff;
+}
+
+.nav-pills .nav-link {
+    background: none;
+    border: 0;
+    border-radius: inherit;
+}
+
+.nav>li>a {
+    padding: .8rem 2.5rem;
+}
