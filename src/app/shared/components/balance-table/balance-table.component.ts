@@ -55,7 +55,7 @@ export class BalanceTableComponent implements OnInit {
 
   // stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   // // stateData: any = this.stateUlbData;
-
+  yearValue: string = "";
   Types = new FormControl();
   years = new FormControl();
   currency = new FormControl();
@@ -67,10 +67,10 @@ export class BalanceTableComponent implements OnInit {
     { id: "4", name: "Four" },
   ];
   yearsList: { id: string; name: string }[] = [
-    { id: "1", name: "2020-2021" },
-    { id: "2", name: "2019-2020" },
-    { id: "3", name: "2018-2019" },
-    { id: "4", name: "2017-2018" },
+    { id: "2020-2021", name: "2020-2021" },
+    { id: "2019-2020", name: "2019-2020" },
+    { id: "2018-2019", name: "2018-2019" },
+    { id: "2017-2018", name: "2017-2018" },
   ];
   currencyList: { id: string; name: string }[] = [
     { id: "1", name: "INR" },
@@ -101,10 +101,20 @@ export class BalanceTableComponent implements OnInit {
     });
   }
 
+  selectYearValue(event: any) {
+    console.log("event.target", event.target.value);
+    this.yearValue = event.target.value;
+    console.log("yearValue", this.yearValue);
+  }
   closeModal() {
     this.dialogRef.close();
   }
+
+  getTableData() {
+    // this.reportService.htt
+  }
   ngOnInit(): void {
+    console.log("yearValue", this.yearValue);
     // console.log("stateUlbData", this.stateUlbData.data);
   }
 }

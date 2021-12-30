@@ -18,7 +18,7 @@
                   </select> -->
             <!-- </div> -->
             <div class="dropDownDiv">
-                    <select class="form-select" aria-label="Default select example">
+                    <select class="form-select" aria-label="Default select example" (change)="selectYearValue($event)">
                         <option value="null" selected>Select year</option>
                         <option  [value]="year.id" *ngFor="let year of yearsList">{{year.name}}</option>
                       </select>
@@ -42,7 +42,7 @@
                                 <th *ngFor="let tableHead of balanceTableHead" >{{tableHead}}</th>
                             </div>
                         </tr>
-                        
+
 
                     </thead>
                 </table> -->
@@ -51,39 +51,39 @@
 
                     <!--- Note that these columns can be defined in any order.
                           The actual rendered columns are set as a property on the row definition" -->
-                  
+
                     <!-- Position Column -->
                     <ng-container matColumnDef="figures">
                       <th mat-header-cell *matHeaderCellDef> *Figures mentioned are in Rs. Crores </th>
                       <td mat-cell *matCellDef="let element"> {{element.figures}} </td>
                     </ng-container>
-                  
+
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">
                       <th mat-header-cell *matHeaderCellDef> Mumbai </th>
                       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                     </ng-container>
-                  
+
                     <!-- Weight Column -->
                     <ng-container matColumnDef="weight">
                       <th mat-header-cell *matHeaderCellDef> Nasik </th>
                       <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
                     </ng-container>
-                  
+
                     <!-- Symbol Column -->
                     <ng-container matColumnDef="symbol">
                       <th mat-header-cell *matHeaderCellDef> Pune </th>
                       <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
                     </ng-container>
-                  
+
                     <!-- Header row first group -->
                     <ng-container matColumnDef="header-row-first-group">
-                      <th mat-header-cell *matHeaderCellDef 
+                      <th mat-header-cell *matHeaderCellDef
                           [style.text-align]="center"
-                          [attr.colspan]="2"> 
+                          [attr.colspan]="2">
                       </th>
                     </ng-container>
-                    
+
                     <!-- Header row second group -->
                     <ng-container matColumnDef="header-row-second-group">
                       <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> 2019-2020 </th>
@@ -91,13 +91,13 @@
                     <ng-container matColumnDef="header-row-third-group">
                       <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> 2020-2021 </th>
                     </ng-container>
-                  
+
                     <tr mat-header-row *matHeaderRowDef="['header-row-first-group', 'header-row-second-group', 'header-row-third-group' ]"></tr>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
-                  
-                  
+
+
             </div>
         </div>
     </div>
