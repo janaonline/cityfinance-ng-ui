@@ -17,87 +17,7 @@ export class RevenuechartComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
-
-  
-//Full Doughnut Chart Data of OwnRevenueDashboard Starts
-@Input() 
- ownRevenueDoughnut = {
-  type: 'doughnut',
-  data: {
-    labels: [
-          'Property Tax',
-          'Advertisement Tax',
-          'Total License Fee',
-          'Water Charges',
-          'Sewerage Charges',
-          'Rental Income',
-          'Other Income'
-      ],
-    datasets: [
-      { 
-        data: [68,22,19,7,5,,15,20],
-        backgroundColor: [
-          'rgba(30, 68, 173, 1)',
-          'rgba(37, 199, 206, 1)',
-          'rgba(88, 95, 255, 1)',
-          'rgba(255, 215, 46, 1)',
-          'rgba(34, 162, 255, 1)',
-          'rgba(255, 96, 139, 1)',
-          'rgba(25, 229, 158, 1)'
-        ],
-        fill: false
-      },
-    ],
-  },
-  options: {
-    legend: {
-      display: true,
-      position: 'bottom'
-    },
-    tooltips:{
-      enabled:true
-    },
-    cutoutPercentage: 45,
-    responsive: true
-  }
-}  //Full Doughnut Chart Data of OwnRevenueDashboard Ends
-
-//Full Bar Chart Data of OwnRevenueDashboard Starts
-@Input() 
- ownRevenueBarChart = {
-  type: 'bar',
-  labels: [
-            "Jalandhar", 
-            "Chennai", 
-            "Pune", 
-            "Amhedabad", 
-            "Mumbai",
-            "Jaipur",
-            "Rohtak",
-            "Nashik",
-            "Nagpur",
-            "Thane"
-          ],
-  datasets: [
-    {
-      data: [160, 140, 120, 100, 80, 60, 40, 20, 10, 5],
-      backgroundColor: [
-        "rgba(30, 68, 173, 1)",
-        "rgba(34, 76, 192, 1)",
-        "rgba(37, 83, 211, 1)",
-        "rgba(51, 96, 219, 1)",
-        "rgba(69, 110, 222, 1)",
-        "rgba(88, 125, 225, 1)",
-        "rgba(106, 139, 229, 1)",
-        "rgba(134, 162, 237, 1)",
-        "rgba(147, 170, 234, 1)",
-        "rgba(168, 188, 240, 1)"
-      ],
-    },
-  ],
-}; //Full Bar Chart Data of OwnRevenueDashboard Ends
-  
-
+ //add your data and type when calling this comp
   @Input()
   chartData = {
     // type: "bar",
@@ -188,7 +108,7 @@ export class RevenuechartComponent implements OnInit {
           backgroundColor: "#F5B742",
         },
       ],
-    },
+    }
   };
 
   // options in case of sactter plot
@@ -243,104 +163,6 @@ export class RevenuechartComponent implements OnInit {
     },
   };
 
-  //data examoples for some chart
-  barData = {
-    labels: ["Delhi", "Mumbai", "Gurgaon", "Hissar"],
-    datasets: [
-      {
-        data: [10, 30, 40, 50, 60],
-        backgroundColor: "blue",
-      },
-    ],
-  };
-
-  scatterData = {
-    datasets: [
-      {
-        label: "Line one",
-        data: [
-          { x: 0, y: 12 },
-          { x: 50, y: 12 },
-        ],
-        showLine: true,
-        fill: false,
-        borderColor: "rgba(0, 200, 0, 1)",
-      },
-      {
-        label: "Line Two",
-        data: [
-          { x: 0, y: 8 },
-          { x: 50, y: 8 },
-        ],
-        showLine: true,
-        fill: false,
-        borderColor: "red",
-      },
-      {
-        label: "Muncipality",
-        data: [
-          { x: 12, y: 12 },
-          { x: 12, y: 4 },
-          { x: 4, y: 6 },
-          { x: 6, y: 9 },
-          {
-            x: 50,
-            y: 20,
-          },
-          {
-            x: 10,
-            y: 10,
-          },
-        ],
-        showLine: false,
-        fill: true,
-        borderColor: "#1EBFC6",
-        backgroundColor: "#1EBFC6",
-      },
-      {
-        label: "Muncipal Corporation",
-        data: [
-          { x: 9, y: 12 },
-          { x: 8, y: 4 },
-          { x: 24, y: 6 },
-          { x: 8, y: 9 },
-          {
-            x: 30,
-            y: 20,
-          },
-          {
-            x: 15,
-            y: 10,
-          },
-        ],
-        showLine: false,
-        fill: true,
-        borderColor: "#3E5DB1",
-        backgroundColor: "#3E5DB1",
-      },
-      {
-        label: "Town Panchayat",
-        data: [
-          { x: 21, y: 12 },
-          { x: 10, y: 4 },
-          { x: 18, y: 6 },
-          { x: 16, y: 9 },
-          {
-            x: 30,
-            y: 20,
-          },
-          {
-            x: 15,
-            y: 10,
-          },
-        ],
-        showLine: false,
-        fill: true,
-        borderColor: "#F5B742",
-        backgroundColor: "#F5B742",
-      },
-    ],
-  };
 
   @Input()
   headerActions = [
@@ -367,18 +189,10 @@ export class RevenuechartComponent implements OnInit {
 
   myChart;
   ngOnInit(): void {
-    // this.renderChart()
+    this.createChart()
   }
-
-  // renderChart(elementId,  graphData){
-  //   const canvas = <HTMLCanvasElement>document.getElementById(elementId);
-  //   const ctx = canvas.getContext("2d");
-  //   const myChart = new Chart(ctx, {
-  //     type: graphData.type,
-  //   this.createChart();
-  // })
-  // }
   createChart() {
+    debugger
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
     const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
@@ -416,122 +230,3 @@ export class RevenuechartComponent implements OnInit {
     this.dialogRef.close();
   }
 }
-
-// data = {
-//   datasets: [
-//     {
-//       data: [
-//         {
-//           x: -10,
-//           y: 0,
-//         },
-//         {
-//           x: 50,
-//           y: 20,
-//         },
-//         {
-//           x: 0,
-//           y: 10,
-//         },
-//         {
-//           x: 19,
-//           y: 20,
-//         },
-//         {
-//           x: 10,
-//           y: 5,
-//         },
-//         {
-//           x: 6,
-//           y: 5.5,
-//         },
-//       ],
-//       label: "Municipality",
-//       backgroundColor: "#1EBFC6",
-//     },
-//     {
-//       data: [
-//         {
-//           x: -10,
-//           y: 0,
-//         },
-//         {
-//           x: 50,
-//           y: 20,
-//         },
-//         {
-//           x: 0,
-//           y: 10,
-//         },
-//       ],
-//       label: "Muncipal Corporation",
-//       backgroundColor: "#3E5DB1",
-//     },
-//     {
-//       data: [
-//         {
-//           x: -10,
-//           y: 0,
-//         },
-//         {
-//           x: 50,
-//           y: 20,
-//         },
-//         {
-//           x: 10,
-//           y: 10,
-//         },
-//       ],
-//       label: "Town Panchayat",
-//       backgroundColor: "#F5B742",
-//     },
-
-//     {
-//       type: "line",
-//       label: "Line Dataset",
-//       data: [50, 50, 50, 50],
-//       fill: false,
-//       borderColor: "rgb(54, 162, 235)",
-//     },
-//   ],
-// };
-
-// @Input()
-// options: {
-//   elements: {
-//     point: {
-//       radius: 7;
-//     };
-//   };
-//   title: {
-//     display: true;
-//     text: "Population";
-//   };
-//   showLines: false;
-//   maintainAspectRatio: false;
-//   legend: {
-//     position: "bottom";
-//     align: "center";
-//     labels: {
-//       fontSize: 10;
-//       fontColor: "black";
-//       usePointStyle: true;
-//       padding: 28;
-//     };
-//   };
-//   // scales: {
-//   //   xAxes: [
-//   //     {
-//   //       type: "linear";
-//   //       position: "bottom";
-//   //     }
-//   //   ];
-//   //   yAxes: [
-//   //     {
-//   //       type: "linear";
-//   //       position: "left";
-//   //     }
-//   //   ];
-//   // };
-//   responsive: true;
-// };
