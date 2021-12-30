@@ -902,7 +902,7 @@ const Total = (x, param) => {
   if (param.data.Cost.value == "") {
     param.data.Cost.value = 0;
   }
-  return param.data.Cost.value == parseInt(x);
+  return param.data.Cost.value == parseFloat(x);
 };
 const dropDown = (x) => {
   if (x.length < 1) return false;
@@ -916,7 +916,7 @@ const name = (x) => {
 };
 
 const number = (x, params) => {
-  x = parseInt(x);
+  x = parseFloat(x);
   if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "Cost") return true;
     return x / 100 < params.data.Cost.value;
