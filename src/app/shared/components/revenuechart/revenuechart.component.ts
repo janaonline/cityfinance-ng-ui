@@ -192,7 +192,6 @@ export class RevenuechartComponent implements OnInit {
     this.createChart()
   }
   createChart() {
-    debugger
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
     const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
