@@ -18,7 +18,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
- //add your data and type when calling this comp
+
   @Input()
   chartData = {
     // type: "bar",
@@ -196,6 +196,7 @@ chartId;
   myChart;
   ngOnInit(): void {
   }
+  
   ngAfterViewInit(): void {
     this.createChart()
   }
