@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NewDashboardService } from "../new-dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { CityService } from "./city.service";
 
 @Component({
   selector: "app-city",
@@ -10,7 +11,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class CityComponent implements OnInit {
   constructor(
     public newDashboardService: NewDashboardService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private cityService: CityService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.cityId = param.cityId;
@@ -27,7 +29,19 @@ export class CityComponent implements OnInit {
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   mapData = mapConfig;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
+  dashboardTabData;
   ngOnInit(): void {
+    this.newDashboardService
+      .getDashboardTabData("619cc08a6abe7f5b80e45c67")
+      .subscribe(
+        (res) => {
+          console.log(res, "dashboardTabData");
+          this.dashboardTabData = res["data"];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     this.dashboardCalls(this.cityId);
   }
 

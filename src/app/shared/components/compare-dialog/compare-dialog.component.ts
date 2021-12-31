@@ -23,8 +23,6 @@ export interface Fruit {
   styleUrls: ["./compare-dialog.component.scss"],
 })
 export class CompareDialogComponent implements OnInit {
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  ulbListChips: string[] = [];
   filteredFruits: Observable<string[]>;
 
   @ViewChild("chipInput") chipInput: ElementRef<HTMLInputElement>;
@@ -58,6 +56,8 @@ export class CompareDialogComponent implements OnInit {
   ];
 
   parameters: string[] = ["one", "two", "three"];
+
+  ulbListChip: { name: string; id: string }[] = [];
 
   ngOnInit(): void {
     this.searchField.valueChanges.subscribe((value) => {
@@ -93,33 +93,7 @@ export class CompareDialogComponent implements OnInit {
     );
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || "").trim();
-
-    // Add our fruit
-    if (value) {
-      this.ulbListChips.push(value);
-    }
-
-    console.log("ulbListChips", this.ulbListChips);
-
-    // Clear the input value
-    // event.chipInput!.clear();
-
-    this.searchField.setValue(null);
-  }
-
-  remove(fruit: string): void {
-    const index = this.ulbListChips.indexOf(fruit);
-
-    if (index >= 0) {
-      this.ulbListChips.splice(index, 1);
-    }
-  }
-
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.ulbListChips.push(event.option.viewValue);
-    this.chipInput.nativeElement.value = "";
     this.searchField.setValue(null);
   }
 
@@ -140,17 +114,25 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
-    console.log(option);
+    console.log("opption", option);
     this.valuesToEmit = option;
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });
+    this.ulbListChip.push(option);
+    this.searchField.setValue(null);
+  }
+
+  remove(chips: { id: string; name: string }): void {
+    const index = this.ulbListChip.indexOf(chips);
+    if (index >= 0) {
+      this.ulbListChip.splice(index, 1);
+    }
   }
 
   emitValues() {
     console.log(this.valuesToEmit);
-    console.log("filteredOptions", this.filteredOptions, this.ulbListChips);
-
+    console.log("ulbListChip", this.ulbListChip);
     this.compareValue.emit(this.valuesToEmit);
     this.close();
   }
