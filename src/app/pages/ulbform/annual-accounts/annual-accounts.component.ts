@@ -1013,7 +1013,7 @@ export class AnnualAccountsComponent implements OnInit {
     console.log(this.actionResAn);
   }
   checkAuditReport(item) {
-    if (item.name == "Auditor Report") {
+    if ((item.name).toLowerCase() == "Auditor Report".toLowerCase()) {
       return "pdf";
     } else {
       return null;
@@ -1065,9 +1065,9 @@ export class AnnualAccountsComponent implements OnInit {
     stateData.audited.provisional_data.cash_flow.rejectReason =
       this.AuditAct[4]?.rejectReason;
     stateData.audited.provisional_data.auditor_report.status =
-      this.AuditAct[4]?.status;
+      this.AuditAct[5]?.status;
     stateData.audited.provisional_data.auditor_report.rejectReason =
-      this.AuditAct[4]?.rejectReason;
+      this.AuditAct[5]?.rejectReason;
 
     console.log(stateData, "yvugbhijnok");
     this.annualAccountsService.postActionData(stateData).subscribe(
