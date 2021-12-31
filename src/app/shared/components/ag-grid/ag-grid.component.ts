@@ -899,6 +899,7 @@ const Area = (x) => {
   return false;
 };
 const Total = (x, param) => {
+  x = Number(parseFloat(x).toFixed(3));
   if (param.data.Cost.value == "") {
     param.data.Cost.value = 0;
   }
@@ -916,7 +917,7 @@ const name = (x) => {
 };
 
 const number = (x, params) => {
-  x = parseFloat(x);
+  x = Number(parseFloat(x).toFixed(3));
   if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "Cost") return true;
     return x / 100 < params.data.Cost.value;
@@ -925,6 +926,7 @@ const number = (x, params) => {
 };
 
 const checkYear = (x, param) => {
+  x = Number(parseFloat(x).toFixed(3));
   if (x <= 0) {
     return false;
   }
@@ -952,6 +954,7 @@ const checkYear = (x, param) => {
 };
 
 const checkYear2 = (x, param) => {
+  x = Number(parseFloat(x).toFixed(3));
   if (x <= 0) {
     return false;
   }
