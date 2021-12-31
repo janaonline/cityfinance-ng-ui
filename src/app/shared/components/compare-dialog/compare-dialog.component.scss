@@ -2,13 +2,13 @@
     background-color: #F5F7FF;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    
+
 }
 
 .compareDialog {
     padding-left: 12px;
     padding-right: 12px;
-    border-radius: 8px; 
+    border-radius: 8px;
     box-shadow: 0px 13px 54px #06060696;
 }
 
@@ -202,4 +202,25 @@
   ::ng-deep #mat-option-0,
 ::ng-deep .firstCls {
     border-top: 1px solid lightgray;
+}
+
+.chipsDiv {
+  width: 50%;
+  height: auto;
+  background-color: gray;
+  border: 1px solid gray;
+  color: white;
+  border-radius:8px;
+  padding: 5px;
+  margin: 10px;
+}
+
+.chipsDiv button {
+  background: none;
+  border: none;
+  margin-top: 10px;
+}
+
+.chipsDiv button mat-icon {
+  margin-bottom: -10px;
 }

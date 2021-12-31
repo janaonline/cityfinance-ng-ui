@@ -10,7 +10,20 @@ export class NationalComponent implements OnInit {
   constructor(public newDashboardService: NewDashboardService) {}
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
+  dashboardTabData;
   ngOnInit(): void {
+    this.newDashboardService
+      .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
+      .subscribe(
+        (res) => {
+          console.log(res, "dashboardTabData");
+          this.dashboardTabData = res["data"];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
     let id = "5dd24729437ba31f7eb42eac";
     this.newDashboardService.dashboardInformation(true, id, "ulb").subscribe(
       (res: any) => {},
