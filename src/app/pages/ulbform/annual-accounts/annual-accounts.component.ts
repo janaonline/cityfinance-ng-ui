@@ -1068,7 +1068,6 @@ export class AnnualAccountsComponent implements OnInit {
       this.AuditAct[5]?.status;
     stateData.audited.provisional_data.auditor_report.rejectReason =
       this.AuditAct[5]?.rejectReason;
-
     console.log(stateData, "yvugbhijnok");
     this.annualAccountsService.postActionData(stateData).subscribe(
       (res) => {
