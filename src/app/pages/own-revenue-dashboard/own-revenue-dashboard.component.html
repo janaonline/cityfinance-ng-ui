@@ -262,7 +262,10 @@
 </div>
 <!-- Full doughnut chart section -->
 <div class="container total-revenue-doughnut">
-  <app-revenuechart class="rounded" [chartData]="barChartData"></app-revenuechart>
+  <app-revenuechart class="rounded"
+                   [chartData]="doughnutChartData" 
+                   [chartId]="doughnutChartId">
+  </app-revenuechart>
 </div>
 
 
@@ -387,7 +390,7 @@
 
   <!-- Bar chart section -->
 <div class="container total-revenue-doughnut">
-  <app-revenuechart class="rounded"></app-revenuechart>
+  <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId"></app-revenuechart>
 </div>
   
 </div>

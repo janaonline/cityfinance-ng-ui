@@ -279,7 +279,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 ]
 
-chartData= {
+doughnutChartId = `ownRevenue-doughnutChart-${Math.random()}`
+barChartId = `ownRevenue-barChart-${Math.random()}`
+
+
+doughnutChartData= {
   type: 'doughnut',
   data: {
    labels: [
@@ -361,7 +365,6 @@ barChartData = {
 
     // Half Doughnut Data
     const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
-    console.log("#####",canvas);
     const ctx = canvas.getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'doughnut',

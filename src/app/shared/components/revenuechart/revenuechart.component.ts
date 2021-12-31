@@ -5,6 +5,7 @@ import {
   ViewChild,
   Output,
   EventEmitter,
+  AfterViewInit
 } from "@angular/core";
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -13,7 +14,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
   templateUrl: "./revenuechart.component.html",
   styleUrls: ["./revenuechart.component.scss"],
 })
-export class RevenuechartComponent implements OnInit {
+export class RevenuechartComponent implements OnInit, AfterViewInit {
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
@@ -111,6 +112,11 @@ export class RevenuechartComponent implements OnInit {
     }
   };
 
+@Input()
+chartId;
+
+
+
   // options in case of sactter plot
   @Input()
   scatterOption = {
@@ -189,12 +195,15 @@ export class RevenuechartComponent implements OnInit {
 
   myChart;
   ngOnInit(): void {
+  }
+  ngAfterViewInit(): void {
     this.createChart()
   }
+
   createChart() {
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-    const canvas = <HTMLCanvasElement>document.getElementById("revenueChart");
+    const canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
     const ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, this.chartData);
   }
