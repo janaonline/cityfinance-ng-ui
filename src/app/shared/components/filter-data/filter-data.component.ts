@@ -24,6 +24,8 @@ export class FilterDataComponent implements OnInit, OnChanges {
   expand = false;
   @Input()
   data = {
+    about: "",
+    btnLabels: [],
     name: "Financial Indicators",
     subHeaders: [
       {
