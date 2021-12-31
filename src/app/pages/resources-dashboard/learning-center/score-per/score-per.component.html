@@ -11,19 +11,19 @@
     <div class="col-12 col-md-7">
         <div class="row">
             <div class="col-6 col-md-4">
-                <select class="form-select" (change)="changeState($event.target.value)" aria-label="Default select example">
+                <select class="form-select" (change)="changeState($event.target.value)" aria-label="Default select">
                   <option selected>State</option>
                   <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                 </select>
             </div>
             <div class="col-6 col-md-4">
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" aria-label="Default select" (change)="changeUlb($event.target.value)">
                     <option selected >Ulb</option>
-                    <option [value]="item?.code" *ngFor="let item of ulbList">{{item?.name}}</option>
+                    <option [value]="item?._id" *ngFor="let item of ulbList">{{item?.name}}</option>
                </select>
             </div>
             <div class="col-12 col-md-3 text-end">
-                <button class="btn btn-gS">Get Started</button>
+                <button class="btn btn-gS" [disabled]="disStartedBtn" (click)="getStartedScore()">{{btnName}}</button>
             </div>
         </div>
     </div>
@@ -50,234 +50,181 @@
                 <div class="container container-stepper">
                     <div class="row">
                         <div class="col-md-12">
-                            <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper [class]="'selectedIndex' + stepper.selectedIndex + ' mat-stepper-label-position-bottom'">
-                                <mat-step>
-                                    <ng-template matStepLabel>
-                                        <span title="Enumeration">Enumeration</span>
-                                    </ng-template>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="row" style="align-items: baseline;" *ngFor="let item of scorePerformanceData?.enumeration">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">{{item?.question?.number}}</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">
-                                                        {{item?.question?.text}}
-                                                    </h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
+                            <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm">
+                                <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper [class]="'selectedIndex' + stepper.selectedIndex + ' mat-stepper-label-position-bottom'">
+                                    <mat-step formArrayName="enumForm">
+                                        <ng-template matStepLabel>
+                                            <span title="Enumeration" [ngClass]="{'l-green' : (lGreen.enum), 'l-selected': lSelected?.enum}">Enumeration</span>
+                                        </ng-template>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row" style="align-items: baseline;" *ngFor="let item of enumForm.controls; let i=index">
+                                                    <div class="col-12 col-sm-12">
+                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <!-- </div>
+                                                <div class="col-10"> -->
+                                                        <span class="str-Qus">
+                                                        &nbsp;{{item?.question?.text}}
+                                                    </span>
+                                                        <div class="btn-div" btnRadioGroup [formControlName]="i">
+                                                            <label btnRadio="A" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label btnRadio="B" class="btn btn-no btn-stp">No</label>
+                                                            <!-- <button class="btn btn-yes btn-stp">Yes</button>
+                                                        <button class="btn btn-no btn-stp">No</button> -->
+                                                        </div>
 
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-cont" (click)="stepper.next()">
+                                            <div class="col-12">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'enumeration')">
                                             Continue
                                             </button>
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <span title="Valuation" [ngClass]="{'l-green' : lGreen?.valu, 'l-selected': lSelected.valu}">Valuation</span>
+                                        </ng-template>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row" style="align-items: baseline;" *ngFor="let item of scorePerformanceData?.valuation">
+                                                    <div class="col-12 col-sm-12">
+                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <!-- </div>
+                                              <div class="col-10"> -->
+                                                        <span class="str-Qus">
+                                                      &nbsp;{{item?.question?.text}}
+                                                  </span>
+                                                        <div class="btn-div">
+                                                            <button class="btn btn-yes btn-stp">Yes</button>
+                                                            <button class="btn btn-no btn-stp">No</button>
+                                                        </div>
 
-
-                                    <ng-content>
-
-                                    </ng-content>
-                                </mat-step>
-                                <mat-step>
-                                    <ng-template matStepLabel>
-                                        <span title="Valuation">Valuation</span>
-                                    </ng-template>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.1</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
                                                     </div>
-
                                                 </div>
                                             </div>
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.2</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-cont" (click)="stepper.next()">
-                                             Continue
+                                            <div class="col-12">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'valuation')">
+                                          Continue
                                           </button>
-                                            <button class="btn-back" (click)="stepper.previous()">
+                                                <button class="btn-back" (click)="goBack(stepper, 'valuation')">
+                                            Back
+                                           </button>
+                                            </div>
+                                        </div>
+
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <span title="Assessment">Assessment</span>
+                                        </ng-template>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row" style="align-items: baseline;" *ngFor="let item of
+                                          scorePerformanceData?.assessment">
+                                                    <div class="col-12 col-sm-12">
+                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <!-- </div>
+                                            <div class="col-10"> -->
+                                                        <span class="str-Qus">
+                                                    &nbsp;{{item?.question?.text}}
+                                                </span>
+                                                        <div class="btn-div">
+                                                            <button class="btn btn-yes btn-stp">Yes</button>
+                                                            <button class="btn btn-no btn-stp">No</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'assessment')">
+                                        Continue
+                                        </button>
+                                                <button class="btn-back" (click)="goBack(stepper, 'assessment')">
                                           Back
                                          </button>
-
+                                            </div>
                                         </div>
-                                    </div>
+                                    </mat-step>
 
-                                </mat-step>
-                                <mat-step>
-                                    <ng-template matStepLabel>
-                                        <span title="Assessment">Assessment</span>
-                                    </ng-template>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.1</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <span title="Billing and Collection">Billing and Collection</span>
+                                        </ng-template>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row" style="align-items: baseline;" *ngFor="let item of
+                                          scorePerformanceData?.billing_collection">
+                                                    <div class="col-12 col-sm-12">
+                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <!-- </div>
+                                            <div class="col-10"> -->
+                                                        <span class="str-Qus">
+                                                    &nbsp;{{item?.question?.text}}
+                                                </span>
+                                                        <div class="btn-div">
+                                                            <button class="btn btn-yes btn-stp">Yes</button>
+                                                            <button class="btn btn-no btn-stp">No</button>
+                                                        </div>
+
                                                     </div>
-
                                                 </div>
                                             </div>
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.2</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-cont" (click)="stepper.next()">
-                                           Continue
+                                            <div class="col-12">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'billing_collection')">
+                                        Continue
                                         </button>
-                                            <button class="btn-back" (click)="stepper.previous()">
-                                        Back
-                                       </button>
-
+                                                <button class="btn-back" (click)="goBack(stepper, 'billing_collection')">
+                                          Back
+                                         </button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </mat-step>
 
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <span title="Reporting">Reporting</span>
+                                        </ng-template>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row" style="align-items: baseline;" *ngFor="let item of
+                                          scorePerformanceData?.reporting">
+                                                    <div class="col-12 col-sm-12">
+                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <!-- </div>
+                                            <div class="col-10"> -->
+                                                        <span class="str-Qus">
+                                                    &nbsp;{{item?.question?.text}}
+                                                </span>
+                                                        <div class="btn-div">
+                                                            <button class="btn btn-yes btn-stp">Yes</button>
+                                                            <button class="btn btn-no btn-stp">No</button>
+                                                        </div>
 
-
-                                </mat-step>
-                                <mat-step>
-                                    <ng-template matStepLabel>
-                                        <span title="Billing and Collection">Billing and Collection</span>
-                                    </ng-template>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.1</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
                                                     </div>
-
                                                 </div>
                                             </div>
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.2</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-cont" (click)="stepper.next()">
-                                           Continue
+                                            <div class="col-12">
+                                                <button class="btn btn-cont" (click)="SubmitScoreReport()">
+                                           Submit
                                         </button>
-                                            <button class="btn-back" (click)="stepper.previous()">
-                                        Back
-                                       </button>
-
+                                                <button class="btn-back" (click)="goBack(stepper, 'reporting')">
+                                          Back
+                                         </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </mat-step>
-
-                                <mat-step>
-                                    <ng-template matStepLabel>
-                                        <span title="Reporting">Reporting</span>
+                                    </mat-step>
+                                    <ng-template matStepperIcon="edit">
+                                        <mat-icon>check</mat-icon>
                                     </ng-template>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.1</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="row" style="align-items: baseline;">
-                                                <div class="col-1 text-end">
-                                                    <span class="str-Qus">1.2</span>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h4 class="str-Qus">Do you maintain a digital GIS-based property tax register?</h4>
-                                                    <div class="btn-div">
-                                                        <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-cont" (click)="stepper.next()">
-                                            Submit
-                                        </button>
-                                            <button class="btn-back" (click)="stepper.previous()">
-                                        Back
-                                       </button>
-
-                                        </div>
-                                    </div>
-                                </mat-step>
-                                <ng-template matStepperIcon="edit">
-                                    <mat-icon>check</mat-icon>
-                                </ng-template>
 
 
-                            </mat-horizontal-stepper>
+                                </mat-horizontal-stepper>
+                            </form>
                         </div>
                     </div>
                 </div>

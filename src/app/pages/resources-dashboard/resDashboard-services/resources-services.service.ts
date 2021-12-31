@@ -18,4 +18,14 @@ export class ResourcesServicesService {
       `${environment.api.url}scorePerformance`
     );
   }
+  getReportCard(ulbId) {
+    return this.http.get(
+      `${environment.api.url}scorePerformanceByUlb/${ulbId}`
+    );
+  }
+  postScoreReport(body){
+    return this.http.post(
+      `${environment.api.url}scorePerformanceQuestionAnswer`, body
+    )
+  }
 }

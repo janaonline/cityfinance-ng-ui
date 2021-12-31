@@ -19,7 +19,6 @@
         background: #E67E15 0% 0% no-repeat padding-box;
         box-shadow: 0px 2px 8px #F7C199;
         border-radius: 8px;
-        opacity: 1;
         color: #fff;
     }
     
@@ -59,10 +58,13 @@
         background: #FAFAFA;
     }
     
-     ::ng-deep .mat-step-label .mat-step-label-active {
-        .mat-step-text-label {
-            color: #58B46D;
-        }
+    //  ::ng-deep .mat-step-label .mat-step-label-active {
+    //     .mat-step-text-label {
+    //         color: #58B46D;
+    //     }
+    // }
+    .l-green {
+        color: #58B46D !important;
     }
     
      ::ng-deep .mat-step-icon {}
@@ -76,7 +78,6 @@
     }
     
      ::ng-deep .mat-step-label.mat-step-label-active {
-        color: #58B46D;
         font: normal normal bold 13px/14px 'Archivo';
     }
     
@@ -100,6 +101,7 @@
     .btn-div {
         margin-top: 2rem;
         margin-bottom: 2rem;
+        padding-left: 2rem;
     }
     
     .btn-stp {
@@ -135,7 +137,7 @@
         color: #fff;
         font: normal normal 700 14px/15px 'Archivo';
         padding: 12px 24px;
-        margin-left: 2rem;
+        //  margin-left: 2rem;
     }
     
     .btn-back {
