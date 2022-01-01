@@ -942,10 +942,12 @@ const checkYear = (x, param) => {
       ) {
         count++;
         val += data[key].value;
+  val =  Number(val.toFixed(3))
       }
     }
   }
   val += x;
+  val =  Number(val.toFixed(3))
   let cost = param.data.Cost?.value;
   if (count == 4) {
     return cost == val;
@@ -970,10 +972,12 @@ const checkYear2 = (x, param) => {
       ) {
         count++;
         val += data[key].value;
+        val =  Number(val.toFixed(3))
       }
     }
   }
   val += x;
+  val =  Number(val.toFixed(3))
   let cost = param.data.Amount.value;
   if (count == 4) {
     return cost == val;
