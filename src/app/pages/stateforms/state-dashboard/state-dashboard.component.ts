@@ -699,8 +699,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.gaugeChart2();
     this.constChart();
     this.constChart1();
-    // this.pieChartMillion();
-    // this.pieChartNonMillion();
+    this.pieChartMillion();
+    this.pieChartNonMillion();
     // this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     // this.slbDonughtChart();
