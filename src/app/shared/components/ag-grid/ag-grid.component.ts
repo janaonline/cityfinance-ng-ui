@@ -976,6 +976,7 @@ const checkYear2 = (x, param) => {
       }
     }
   }
+  
   val += x;
   val =  Number(val.toFixed(3))
   let cost = param.data.Amount.value;
