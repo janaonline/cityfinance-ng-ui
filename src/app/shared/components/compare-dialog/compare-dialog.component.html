@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-  
+
       <div [ngSwitch]="type">
         <div *ngSwitchCase="1">
           <!--- revenuechart compare start-->
@@ -20,7 +20,7 @@
               <p class="pt-2"><mat-icon style="vertical-align: bottom;">info</mat-icon> Information about how the comparison works.....</p>
             </div>
           </div>
-  
+
           <div class="row justify-content-between">
             <div *ngFor="let item of filterList; let i = index" class="mt-2 inputCheckbox col-md-4 col-sm-6">
               <label >
@@ -28,7 +28,7 @@
                 {{item}}</label>
             </div>
           </div>
-  
+
           <div class="row mt-2">
             <div class=" d-flex">
               <div class="col-5">
@@ -40,13 +40,14 @@
               </div>
             </div>
           </div>
-  
+
+
           <div class="row">
             <div class="col-12 justify-content-around">
               <label for="">Search ULB</label>
               <div class="d-flex formInput">
                 <form class="col-md-9 col-sm-12 p-2 compareInput">
-                  <input matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
+                  <input matInput  [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
                   <mat-autocomplete #auto="matAutocomplete">
                     <span (click)="optionSelected(option)" *ngFor="let option of filteredOptions; let i = index;" style="direction: none;">
                         <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
@@ -57,23 +58,26 @@
                             </div>
                         </mat-option>
                     </span>
+
                     <mat-option *ngIf="noDataFound" class="text-danger firstCls">
                         Sorry, we can’t find anything related to your search. Try searching for a city or state
                     </mat-option>
                 </mat-autocomplete>
                 </form>
+
                 <div class="col-md-3 p-2 compareButton">
                   <button>Search</button>
                 </div>
               </div>
             </div>
           </div>
-  
+
+
           <!--- revenuechart compare end-->
         </div>
         <div *ngSwitchCase="2">
             <!--- ownrevenuechart compare start-->
-  
+
       <div class="row">
           <div class="col-12">
             <p class="text-center ownRevText">
@@ -81,7 +85,7 @@
             </p>
           </div>
         </div>
-    
+
         <div class="row justify-content-center">
           <div class="col-md-4 col-sm-12 m-2 selectDiv">
             <mat-form-field appearance="fill">
@@ -110,9 +114,20 @@
         <!--- ownrevenuechart compare start-->
         </div>
       </div>
-  
-      
-  
+
+      <div class="row">
+        <div class="col-12">
+          <!-- <mat-chip-list> -->
+            <mat-chip *ngFor="let chips of ulbListChip" (click)="remove(chips)" class="chipsDiv">
+              {{chips.name.length > 10 ? chips.name.slice(0, 10) + "..." : chips.name}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          <!-- </mat-chip-list> -->
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-12 justify-content-center m-auto d-flex">
           <div class="lastButtons">

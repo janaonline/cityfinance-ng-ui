@@ -4,14 +4,15 @@ import { CommonModule } from '@angular/common';
 import { OwnRevenueDashboardRoutingModule } from './own-revenue-dashboard-routing.module';
 import { OwnRevenueDashboardComponent } from './own-revenue-dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
-
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
   imports: [
     CommonModule,
     OwnRevenueDashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    MatTableModule
   ]
 })
 export class OwnRevenueDashboardModule { }

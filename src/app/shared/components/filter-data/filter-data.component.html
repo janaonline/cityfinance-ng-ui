@@ -2,21 +2,24 @@
   <div class="row">
     <div class="col-md-12">
       <p>
-       {{data.headLine}}
+       {{data.about}}
       </p>
     </div>
   </div>
   <div class="row">
-    <div *ngFor="let item of data.btn; let i = index" class="col-md-1">
+    <div *ngFor="let item of data.btnLabels; let i = index" class="col-md-2">
       <button (click)="changeActiveBtn(i)" [id]="'btn-'+i" class="btn deSelected" >{{item}}</button>
     </div>
   </div>
   <div class="row mb-5 mt-2">
-    <div [ngClass]="{'col-md-7': !expand,'col-md-12':expand}">
-      <app-revenuechart (actionClicked)="actionFromChart($event)"></app-revenuechart>
+    <div [ngClass]="{'col-md-7': !expand,'col-md-12':expand}" >
+      <app-revenuechart (actionClicked)="actionFromChart($event)" [chartData]="scatterData" ></app-revenuechart>
     </div>
     <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
-      <app-about-indicator></app-about-indicator>
+      <app-about-indicator [data]="aboutIndicators" ></app-about-indicator>
     </div>
   </div>
 </div>
+
+
+<!-- [ngClass]="{'col-md-7': !expand,'col-md-12':expand}" -->

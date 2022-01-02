@@ -37,6 +37,7 @@ import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-reg
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     CarouselModule.forRoot(),
     FlexLayoutModule,
     SlickCarouselModule,
+    CollapseModule.forRoot(),
 
   ],
   providers: [

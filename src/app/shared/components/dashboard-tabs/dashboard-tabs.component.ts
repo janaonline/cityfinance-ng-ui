@@ -11,22 +11,158 @@ export class DashboardTabsComponent implements OnInit {
 
   @Input()
   data = [
-    { name: "tab1", filter: ["innerTab1", "innerTab2", "innerTab3"] },
-    { name: "tab2", filter: ["innerTab4", "innerTab5", "innerTab6"] },
-    { name: "tab3", filter: ["innerTab7", "innerTab8", "innerTab9"] },
-    { name: "tab4", filter: ["innerTab10", "innerTab11", "innerTab12"] },
+    {
+      name: "Financial Indicators",
+      subHeaders: [
+        {
+          mainContent: [
+            {
+              static: {
+                indicators: [
+                  {
+                    desc: [
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Expenditure mix refers to the combination of establishment, administrative, interest & finance expenses, etc., all of which constitute the total expenditure of the ULB",
+                      },
+                    ],
+                    name: "About This indicator",
+                  },
+                  {
+                    desc: [
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Establishment expense",
+                      },
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Administrative Expense",
+                      },
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Operational & Maint. Expense",
+                      },
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Interest & Finance Expense",
+                      },
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Revenue Grants",
+                      },
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "Other Expenses",
+                      },
+                    ],
+                    name: "Calculation",
+                  },
+                  {
+                    desc: [
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "",
+                      },
+                    ],
+                    name: "How is performance assessed?",
+                  },
+                  {
+                    desc: [
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "",
+                      },
+                    ],
+                    name: "Analysis",
+                  },
+                  {
+                    desc: [
+                      {
+                        links: [
+                          {
+                            label: "",
+                            url: "",
+                          },
+                        ],
+                        text: "",
+                      },
+                    ],
+                    name: "Next Steps",
+                  },
+                ],
+              },
+              btnLabels: [],
+              about:
+                "Expenditure mix refers to the combination of establishment, administrative, interest & finance expenses, etc., all of which constitute the total expenditure of the ULB",
+              aggregateInfo:
+                "Total revenue: 2000 Cr CAGR trend of 8% for last 3 years",
+            },
+          ],
+          name: "Revenue Expenditure Mix",
+        },
+      ],
+    },
   ];
 
+  activeHeader = "";
   activeFilter = [];
-  innerActiveTab = "";
+  innerActiveTab: any = "";
 
   changeTab(event, fromInner = false) {
-    let value = JSON.parse(event.target.value);
+    let value = event?.target?.value ? JSON.parse(event.target.value) : event;
     if (fromInner) this.innerActiveTab = value;
     else {
-      this.activeFilter = value.filter;
-      this.innerActiveTab = value.filter[0];
+      this.activeHeader = value.name;
+      this.activeFilter = value.subHeaders;
+      this.innerActiveTab = value.subHeaders[0];
     }
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.changeTab(this.data[0]);
+  }
 }

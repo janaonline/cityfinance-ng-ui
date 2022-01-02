@@ -702,7 +702,6 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     showMiniMap,
     skipOndropDownSelect
   ) {
-    // debugger;
     if (!this.DistrictsJSONForMapCreation) {
       console.error(`district json not loaded`);
       this.showDistrictMapNotLaodedWarning();
@@ -873,7 +872,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
     return true;
   }
-createdDomMinId
+  createdDomMinId;
   convertDomToMiniMap(domId: string, showMiniMap = true) {
     this.isMapOnMiniMapMode = true;
     this.createdDomMinId = domId;

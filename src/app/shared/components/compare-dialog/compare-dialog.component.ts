@@ -1,6 +1,17 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { FormControl } from "@angular/forms";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { Observable } from "rxjs";
 import { CommonService } from "../../services/common.service";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 
 export interface Fruit {
   name: string;
@@ -12,6 +23,9 @@ export interface Fruit {
   styleUrls: ["./compare-dialog.component.scss"],
 })
 export class CompareDialogComponent implements OnInit {
+  filteredFruits: Observable<string[]>;
+
+  @ViewChild("chipInput") chipInput: ElementRef<HTMLInputElement>;
   constructor(private commonService: CommonService) {}
 
   @Output()
@@ -43,6 +57,8 @@ export class CompareDialogComponent implements OnInit {
 
   parameters: string[] = ["one", "two", "three"];
 
+  ulbListChip: { name: string; id: string }[] = [];
+
   ngOnInit(): void {
     this.searchField.valueChanges.subscribe((value) => {
       console.log(value);
@@ -71,10 +87,21 @@ export class CompareDialogComponent implements OnInit {
         } else {
           this.noDataFound = true;
         }
-        console.log(res);
         this.filteredOptions = res["data"];
       },
       (err) => {}
+    );
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.searchField.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.filteredOptions.filter((fruit) =>
+      fruit.toLowerCase().includes(filterValue)
     );
   }
 
@@ -87,16 +114,25 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
-    console.log(option);
+    console.log("opption", option);
     this.valuesToEmit = option;
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });
+    this.ulbListChip.push(option);
+    this.searchField.setValue(null);
+  }
+
+  remove(chips: { id: string; name: string }): void {
+    const index = this.ulbListChip.indexOf(chips);
+    if (index >= 0) {
+      this.ulbListChip.splice(index, 1);
+    }
   }
 
   emitValues() {
     console.log(this.valuesToEmit);
-
+    console.log("ulbListChip", this.ulbListChip);
     this.compareValue.emit(this.valuesToEmit);
     this.close();
   }
