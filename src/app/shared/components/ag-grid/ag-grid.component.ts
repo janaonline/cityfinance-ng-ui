@@ -920,7 +920,7 @@ const number = (x, params) => {
   x = Number(parseFloat(x).toFixed(3));
   if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "Cost") return true;
-    return x / 100 < params.data.Cost.value;
+    return x / 100 <= params.data.Cost.value;
   }
   return false;
 };
