@@ -5,10 +5,11 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  AfterViewInit
+  AfterViewInit,
 } from "@angular/core";
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { FormControl } from "@angular/forms";
 @Component({
   selector: "app-revenuechart",
   templateUrl: "./revenuechart.component.html",
@@ -109,13 +110,11 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
           backgroundColor: "#F5B742",
         },
       ],
-    }
+    },
   };
 
-@Input()
-chartId;
-
-
+  @Input()
+  chartId;
 
   // options in case of sactter plot
   @Input()
@@ -169,7 +168,6 @@ chartId;
     },
   };
 
-
   @Input()
   headerActions = [
     {
@@ -194,11 +192,16 @@ chartId;
   actionClicked = new EventEmitter();
 
   myChart;
-  ngOnInit(): void {
-  }
-  
+
+  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
+
+  year = new FormControl();
+
+  compareType = "";
+  ngOnInit(): void {}
+
   ngAfterViewInit(): void {
-    this.createChart()
+    this.createChart();
   }
 
   createChart() {
@@ -237,5 +240,10 @@ chartId;
 
   closeModal() {
     this.dialogRef.close();
+  }
+
+  getCompareCompValues(value) {
+    this.compareType = value;
+    console.log(value, "In revenue chart");
   }
 }
