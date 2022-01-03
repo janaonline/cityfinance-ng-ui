@@ -208,11 +208,14 @@
   width: 50%;
   height: auto;
   background-color: gray;
-  border: 1px solid gray;
+  border: 1px solid #3E5DB1;
   color: white;
-  border-radius:8px;
+  border-radius:46px;
   padding: 5px;
   margin: 10px;
+  background-color: #F2F5FF;
+  font-size: 14px;
+  color: #3E5DB1;
 }
 
 .chipsDiv button {
@@ -223,4 +226,10 @@
 
 .chipsDiv button mat-icon {
   margin-bottom: -10px;
+}
+
+ .cancleIcon {
+  background-color: transparent;
+  color: #3E5DB1;
+  border: 1px;
 }
