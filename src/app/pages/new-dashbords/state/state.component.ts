@@ -31,7 +31,20 @@ export class StateComponent implements OnInit {
   stateCode;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   mapData = mapConfig;
+  dashboardTabData;
   ngOnInit(): void {
+    this.newDashboardService
+      .getDashboardTabData("619cc1016abe7f5b80e45c6b")
+      .subscribe(
+        (res) => {
+          console.log(res, "dashboardTabData");
+          this.dashboardTabData = res["data"];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
     this.dashBoardData(this.stateId);
   }
 

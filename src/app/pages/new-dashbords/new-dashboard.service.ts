@@ -22,4 +22,10 @@ export class NewDashboardService {
     } else request += `state=${ulbOrStateid}`;
     return this.http.get(request, { headers });
   }
+
+  getDashboardTabData(dashboardId) {
+    return this.http.get(
+      `${environment.api.url}dashboardHeaders/${dashboardId}`
+    );
+  }
 }
