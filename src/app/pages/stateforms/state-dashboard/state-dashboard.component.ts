@@ -313,6 +313,9 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
 
 
   utilReportDonughtChart() {
+    if(this.utilreportDonughtChart){
+      this.utilreportDonughtChart.destroy();
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -361,7 +364,10 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
   }
 
   gaugeChart1() {
+if(this.gauge_provisional){
+  this.gauge_provisional.destroy();
 
+}
     let mainColor = "",
       complimentColor = "",
       borderColor = "";
@@ -461,6 +467,9 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
     });
   }
   gaugeChart2() {
+    if(this.gauge_audited){
+      this.gauge_audited.destroy();
+    }
     let mainColor = "",
       complimentColor = "",
       borderColor = "";
@@ -508,7 +517,9 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
     });
   }
   mainDonughtChart() {
-
+if(this.maindonughtChart){
+  this.maindonughtChart.destroy();
+}
     const data = {
       labels: [
         'Pending for Submission',
@@ -758,12 +769,12 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
 
     this.noDataFound_millionSLB = false
     this.noDataFound_nonMillionSLB = false
-    if (this.piechart) {
-      this.piechart.destroy();
-    }
-    if (this.piechart2) {
-      this.piechart2.destroy();
-    }
+    // if (this.piechart) {
+    //   this.piechart.destroy();
+    // }
+    // if (this.piechart2) {
+    //   this.piechart2.destroy();
+    // }
 
     console.log('selectedUA', this.selectUa)
 
@@ -784,12 +795,12 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
             this.values.nonMillion_underReviewByState = el['underReviewByState']
           }
         })
-        if (this.piechart) {
-          this.piechart.destroy();
-        }
-        if (this.piechart2) {
-          this.piechart2.destroy();
-        }
+        // if (this.piechart) {
+        //   this.piechart.destroy();
+        // }
+        // if (this.piechart2) {
+        //   this.piechart2.destroy();
+        // }
         this.pieChartMillion();
         this.pieChartNonMillion();
         if (this.values.million_approvedByState == 0 &&
@@ -799,9 +810,9 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
         ) {
           this.noDataFound_millionSLB = true
         } else {
-          if (this.piechart) {
-            this.piechart.destroy();
-          }
+          // if (this.piechart) {
+          //   this.piechart.destroy();
+          // }
           this.pieChartMillion();
         }
         if (this.values.nonMillion_approvedByState == 0 &&
@@ -811,9 +822,9 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
         ) {
           this.noDataFound_nonMillionSLB = true
         } else {
-          if (this.piechart2) {
-            this.piechart2.destroy();
-          }
+          // if (this.piechart2) {
+          //   this.piechart2.destroy();
+          // }
           this.pieChartNonMillion();
 
         }
