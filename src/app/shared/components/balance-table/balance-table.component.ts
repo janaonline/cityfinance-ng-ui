@@ -102,19 +102,43 @@ export class BalanceTableComponent implements OnInit {
   }
 
   selectYearValue(event: any) {
-    console.log("event.target", event.target.value);
-    this.yearValue = event.target.value;
-    console.log("yearValue", this.yearValue);
+    this.yearValue = event.value;
   }
+
   closeModal() {
     this.dialogRef.close();
   }
 
-  getTableData() {
-    // this.reportService.htt
+  tableData: any;
+  inputVal: any = {
+    "isComparative": false,
+    "type": "Summary",
+    "years": ["2015-16", "2016-17"],
+    "yearList": [
+      { "id": "2015-16", "itemName": "2015-16" },
+      { "id": "2016-17", "itemName": "2016-17" }
+    ],
+    "reportGroup": "Income & Expenditure Statement",
+    "ulbList": [
+      { "population": 50151, "ulbType": "Municipality", "code": "AP105", "financialYear": ["2016-17", "2015-16"], "ulb": "5e4643c247cb2749e5a56b3f", "name": "Allagadda Municipality", "_id": "5e4643c247cb2749e5a56b3f", "state": "Andhra Pradesh", "stateId": "5dcf9d7216a06aed41c748dd" },
+      { "population": 263898, "ulbType": "Municipal Corporation", "code": "AP004", "financialYear": ["2018-19", "2017-18", "2016-17", "2015-16"], "ulb": "5e4643c247cb2749e5a56b39", "name": "Anantapur Municipal Corporation", "_id": "5e4643c247cb2749e5a56b39", "state": "Andhra Pradesh", "stateId": "5dcf9d7216a06aed41c748dd" },
+      { "population": 33000, "ulbType": "Municipality", "code": "AP005", "financialYear": ["2016-17", "2015-16"], "ulb": "5dd24729437ba31f7eb42ea6", "name": "Atmakur Municipality", "_id": "5dd24729437ba31f7eb42ea6", "state": "Andhra Pradesh", "stateId": "5dcf9d7216a06aed41c748dd" }
+    ],
+    "ulbIds": ["5e4643c247cb2749e5a56b3f", "5e4643c247cb2749e5a56b39", "5dd24729437ba31f7eb42ea6"],
+    "valueType": "absolute"
   }
-  ngOnInit(): void {
-    console.log("yearValue", this.yearValue);
+
+  property: any;
+
+  async ngOnInit() {
+    // this.getTableDat();
+    //  debugger
+    this.property =  await this.reportService.ieDetailed(this.inputVal).subscribe(arg => this.property = arg);
+
+
+    console.log("getTableData", this.property)
+    console.log("tableData=>",this.tableData)
+    // console.log("yearValue", this.yearValue);
     // console.log("stateUlbData", this.stateUlbData.data);
   }
 }

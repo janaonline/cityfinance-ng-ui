@@ -119,7 +119,14 @@ export class CompareDialogComponent implements OnInit {
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });
-    this.ulbListChip.push(option);
+    // if (this.ulbListChip.find((value) => value.name === option.name)) {
+    //   this.ulbListChip.push(option);
+    // }
+
+    if(!this.ulbListChip.find(value=>value.name === option.name)){
+      this.ulbListChip.push(option);
+    }
+
     this.searchField.setValue(null);
   }
 
