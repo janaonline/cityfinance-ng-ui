@@ -116,7 +116,7 @@
       </div>
 
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 mb-2">
           <!-- <mat-chip-list> -->
             <mat-chip *ngFor="let chips of ulbListChip" (click)="remove(chips)" class="chipsDiv">
               {{chips.name.length > 10 ? chips.name.slice(0, 10) + "..." : chips.name}}

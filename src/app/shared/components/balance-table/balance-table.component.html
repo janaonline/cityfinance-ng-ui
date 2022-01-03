@@ -9,18 +9,17 @@
                 <div class=" mr-1 modalButton" >
                     <span (click)="openModal()" class="btn compare">Compare By: Similar Type &nbsp;</span>
                 </div>
-            <div class="dropDownDiv">
+            <div class="yearSelect">
                     <!-- <select class="form-select" aria-label="Default select example" (change)="selectYearValue($event)"  multiple="multiple">
                         <option value="null" selected>Select year</option>
                         <option  [value]="year.id" *ngFor="let year of yearsList">{{year.name}}</option>
                       </select> -->
-
-                      <mat-form-field appearance="fill">
+                    <mat-form-field appearance="outline">
                         <mat-label>Select Years</mat-label>
-                        <mat-select [formControl]="years" multiple  (selectionChange)="selectYearValue($event)">
-                          <mat-option  *ngFor="let year of yearsList" [value]="year.id">{{year.name}}</mat-option>
+                        <mat-select [formControl]="dropYears" multiple  (selectionChange)="selectYearValue($event)">
+                          <mat-option  *ngFor="let year of yearsList" [value]="year">{{year.itemName}}</mat-option>
                         </mat-select>
-                      </mat-form-field>
+                    </mat-form-field>
             </div>
             <div class="dropDownDiv">
                 <select class="form-select" aria-label="Default select example">

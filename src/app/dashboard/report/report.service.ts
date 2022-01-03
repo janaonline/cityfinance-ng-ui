@@ -40,22 +40,21 @@ export class ReportService {
   ieDetailed(criteria: IReportType) {
     this.setReportRequest(criteria);
 
-  return this.http
-    .post<IDetailedReportResponse>(
+    return this.http.post<IDetailedReportResponse>(
       environment.api.url + "ledger/getIE",
       criteria
-    )
-    .subscribe((res) => {
-      if (res["success"]) {
-        if (res["data2"]) {
-          this.reportResponse.next(res);
-        } else {
-          this.reportResponse.next(res["data"]);
-        }
-      } else {
-        alert("Year and ULB selection is mandatory");
-      }
-    });
+    );
+    // .subscribe((res) => {
+    //   if (res["success"]) {
+    //     if (res["data2"]) {
+    //       this.reportResponse.next(res);
+    //     } else {
+    //       this.reportResponse.next(res["data"]);
+    //     }
+    //   } else {
+    //     alert("Year and ULB selection is mandatory");
+    //   }
+    // });
   }
 
   getFinancialYearBasedOnData() {

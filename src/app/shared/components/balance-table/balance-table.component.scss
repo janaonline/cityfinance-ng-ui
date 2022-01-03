@@ -28,3 +28,18 @@ th {
     border-radius: 8px;
     height: 68%;
 }
+
+.mat-select-panel {
+  background: red !important;
+}
+
+::ng-deep .yearSelect .mat-form-field-flex  {
+   border: none !important;
+   width: 100% !important;
+   padding: 5px !important;
+   height: auto !important;
+  }
+
+  ::ng-deep .tableDiv .mat-table {
+    box-shadow: none;
+  }
