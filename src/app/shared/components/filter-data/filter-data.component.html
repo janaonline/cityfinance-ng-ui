@@ -13,7 +13,7 @@
   </div>
   <div class="row mb-5 mt-2">
     <div [ngClass]="{'col-md-7': !expand,'col-md-12':expand}" >
-      <app-revenuechart (actionClicked)="actionFromChart($event)" [chartData]="barChart" ></app-revenuechart>
+      <app-revenuechart [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" ></app-revenuechart>
     </div>
     <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
       <app-about-indicator [data]="aboutIndicators" ></app-about-indicator>

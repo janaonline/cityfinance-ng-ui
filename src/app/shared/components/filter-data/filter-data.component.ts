@@ -7,6 +7,7 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { CommonService } from "../../services/common.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-filter-data",
@@ -14,26 +15,38 @@ import { CommonService } from "../../services/common.service";
   styleUrls: ["./filter-data.component.scss"],
 })
 export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
-  constructor(private commonService: CommonService) {}
-
-  scatterData = scatterData;
-  barChart = barChart;
+  constructor(
+    private commonService: CommonService,
+    private _activatedRoute: ActivatedRoute
+  ) {
+    this._activatedRoute.queryParams.subscribe((param) => {
+      this.currentUlb = param.cityId;
+    });
+  }
+  currentUlb;
+  scatterData = JSON.parse(JSON.stringify(scatterData));
+  barChart = JSON.parse(JSON.stringify(barChartStatic));
   btnSelected = false;
   aboutIndicators;
   lastSelectedId;
   expand = false;
   @Input()
   data = incomingData;
-
+  headOfAccount;
+  chartId = `cityCharts-${Math.random()}`;
+  mySelectedYears = [
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
+    "2020-21",
+  ];
   ngOnInit(): void {
-    this.data = this.data["mainContent"][0];
-    this.aboutIndicators = this.data["static"].indicators;
-    console.log(this.data, "data in app-filter");
+    debugger;
   }
 
-  ngAfterViewInit(): void {
-    if (this.data.btnLabels.length) this.changeActiveBtn(0);
-  }
+  ngAfterViewInit(): void {}
 
   changeActiveBtn(i) {
     let id = `btn-${i}`;
@@ -55,30 +68,105 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.data.firstChange)
-      this.data = changes.data.currentValue["mainContent"][0];
+    this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
+    this.aboutIndicators = this.data["static"].indicators;
+    setTimeout(() => {
+      if (this.data.btnLabels.length) this.changeActiveBtn(0);
+    }, 0);
+    this.setHeadOfAccount();
   }
 
-  getChartData() {
+  setHeadOfAccount() {
+    let name = this.data["filterName"].toLocaleLowerCase().split(" ");
+    this.headOfAccount = name.includes("revenue")
+      ? "Revenue"
+      : name.includes("expenditure")
+      ? "Expense"
+      : "";
+  }
+
+  lastSelectedUlbs;
+
+  getChartData(data = {}) {
     let body = {
-      ulb: ["5dd24728437ba31f7eb42e7a"],
-      financialYear: ["2015-16", "2017-18", "2018-19", "2019-20", "2020-21"],
-      headOfAccount: "Revenue",
-      filterName: "property_tax",
-      isPerCapita: true,
-      compareType: "ulb",
+      ulb: [],
+      financialYear: [],
+      headOfAccount: this.headOfAccount,
+      filterName: "revenue",
     };
-    body.filterName = body.filterName.toLocaleLowerCase().split(" ").join("_");
+    body.filterName = this.data["filterName"]
+      ?.toLocaleLowerCase()
+      .split(" ")
+      .join("_");
+
+    body.ulb = data["ulbs"]?.map((value) => value._id);
+    if (!(Array.isArray(body.ulb) && body.ulb.length))
+      body.ulb = [this.currentUlb];
+    this.lastSelectedUlbs = body.ulb;
+    body.financialYear = data["year"] ?? this.mySelectedYears;
+
     this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
-        console.log(res, "getChartDataByIndicator");
+        let newData = JSON.parse(JSON.stringify(barChartStatic));
+
+        newData.data.labels = res["data"].ulbData.map(
+          (value) => value._id.financialYear
+        );
+        newData.data.labels = [...new Set(newData.data.labels)];
+
+        let temp = {};
+        res["data"].ulbData.map((value) => {
+          let dataInner = JSON.parse(JSON.stringify(innerDataset));
+          if (!temp[value._id.financialYear]) {
+            dataInner.label = value.ulbName;
+            dataInner.data = [value.amount];
+            temp[value._id.financialYear] = dataInner;
+          } else {
+            dataInner = temp[value._id.financialYear];
+            dataInner.data.push(value.amount);
+            temp[value._id.financialYear] = dataInner;
+          }
+        });
+
+        newData.data.datasets = [];
+        for (const key in temp) {
+          const element = temp[key];
+          newData.data.datasets.push(element);
+        }
+
+        this.mySelectedYears.map((value) => {
+          if (!newData.data.labels.includes(value)) {
+            newData.data.labels.push(value);
+          }
+        });
+
+        newData.data.datasets.push(JSON.parse(JSON.stringify(lineDataset)));
+
+        this.barChart = newData;
       },
-      (error) => {}
+      (error) => {
+        let preArray = [];
+        let newData = JSON.parse(JSON.stringify(barChartStatic));
+        newData.data.labels = this.mySelectedYears;
+        newData.data.datasets[0].label = this.lastSelectedUlbs;
+        newData.data.datasets[0].data = preArray.fill(
+          0,
+          0,
+          this.mySelectedYears.length
+        );
+        this.barChart = newData;
+      }
     );
+  }
+
+  filterChangeInChart(value) {
+    this.mySelectedYears = value.year;
+    this.getChartData(value);
+    console.log("filterChangeInChart", value);
   }
 }
 
-const barChart = {
+const barChartStatic = {
   type: "bar",
   data: {
     labels: ["first", "second"],
@@ -106,13 +194,6 @@ const barChart = {
         ],
         borderWidth: 1,
       },
-      {
-        type: "line",
-        label: "Line Dataset",
-        data: [12, 22, 32, 42],
-        fill: false,
-        borderColor: "rgb(54, 162, 235)",
-      },
     ],
   },
   options: {
@@ -122,6 +203,38 @@ const barChart = {
       },
     },
   },
+};
+
+const lineDataset = {
+  type: "line",
+  label: "Line Dataset",
+  data: [12, 22, 32, 42],
+  fill: false,
+  borderColor: "rgb(54, 162, 235)",
+};
+
+const innerDataset = {
+  label: "My First Dataset",
+  data: [65, 59, 80, 81, 56, 55, 40],
+  backgroundColor: [
+    "rgba(255, 99, 132, 0.2)",
+    "rgba(255, 159, 64, 0.2)",
+    "rgba(255, 205, 86, 0.2)",
+    "rgba(75, 192, 192, 0.2)",
+    "rgba(54, 162, 235, 0.2)",
+    "rgba(153, 102, 255, 0.2)",
+    "rgba(201, 203, 207, 0.2)",
+  ],
+  borderColor: [
+    "rgb(255, 99, 132)",
+    "rgb(255, 159, 64)",
+    "rgb(255, 205, 86)",
+    "rgb(75, 192, 192)",
+    "rgb(54, 162, 235)",
+    "rgb(153, 102, 255)",
+    "rgb(201, 203, 207)",
+  ],
+  borderWidth: 1,
 };
 
 const scatterData = {

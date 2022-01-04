@@ -6,6 +6,8 @@ import {
   Output,
   EventEmitter,
   AfterViewInit,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -15,11 +17,10 @@ import { FormControl } from "@angular/forms";
   templateUrl: "./revenuechart.component.html",
   styleUrls: ["./revenuechart.component.scss"],
 })
-export class RevenuechartComponent implements OnInit, AfterViewInit {
+export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
-
   @Input()
   chartData = {
     // type: "bar",
@@ -112,10 +113,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
       ],
     },
   };
-
   @Input()
   chartId;
-
   // options in case of sactter plot
   @Input()
   scatterOption = {
@@ -167,7 +166,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
       },
     },
   };
-
   @Input()
   headerActions = [
     {
@@ -187,21 +185,37 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
       svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
-
   @Output()
   actionClicked = new EventEmitter();
-
+  @Output()
+  compareChange = new EventEmitter();
   myChart;
-
   yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
-
-  year = new FormControl();
-
+  @Input()
+  mySelectedYears = ["2019-20", "2020-21"];
+  year;
   compareType = "";
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.year = new FormControl(this.mySelectedYears, { updateOn: "blur" });
+  }
 
   ngAfterViewInit(): void {
     this.createChart();
+    this.year.valueChanges.subscribe((change) => {
+      debugger;
+      return this.sendValue();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.chartData) {
+      this.myChart.destroy();
+      this.createChart();
+    }
+    if (changes?.mySelectedYears) {
+      this.year = new FormControl(this.mySelectedYears);
+    }
   }
 
   createChart() {
@@ -243,7 +257,19 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
   }
 
   getCompareCompValues(value) {
-    this.compareType = value;
-    console.log(value, "In revenue chart");
+    if (Array.isArray(value)) {
+      this.compareType = "ULBs..";
+      return this.sendValue(value);
+    } else this.compareType = value;
+    this.sendValue();
+  }
+
+  sendValue(ulbs = []) {
+    let data = {
+      year: this.year.value,
+      ulbs: ulbs,
+      compareType: this.compareType,
+    };
+    this.compareChange.emit(data);
   }
 }

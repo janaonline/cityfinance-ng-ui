@@ -115,12 +115,12 @@ export class CompareDialogComponent implements OnInit {
 
   optionSelected(option) {
     console.log("opption", option);
-    this.valuesToEmit = option;
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });
     this.ulbListChip.push(option);
     this.searchField.setValue(null);
+    this.valuesToEmit = this.ulbListChip;
   }
 
   remove(chips: { id: string; name: string }): void {
@@ -131,8 +131,6 @@ export class CompareDialogComponent implements OnInit {
   }
 
   emitValues() {
-    console.log(this.valuesToEmit);
-    console.log("ulbListChip", this.ulbListChip);
     this.compareValue.emit(this.valuesToEmit);
     this.close();
   }
