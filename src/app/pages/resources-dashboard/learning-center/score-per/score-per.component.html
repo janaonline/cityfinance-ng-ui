@@ -11,14 +11,14 @@
     <div class="col-12 col-md-7">
         <div class="row">
             <div class="col-6 col-md-4">
-                <select class="form-select" (change)="changeState($event.target.value)" aria-label="Default select">
-                  <option selected>State</option>
+                <select class="form-select" id="stateName" (change)="changeState($event.target.value)" aria-label="Default select">
+                  <option value="" selected>Select State</option>
                   <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                 </select>
             </div>
             <div class="col-6 col-md-4">
                 <select class="form-select" aria-label="Default select" (change)="changeUlb($event.target.value)">
-                    <option selected >Ulb</option>
+                    <option selected >Select Ulb</option>
                     <option [value]="item?._id" *ngFor="let item of ulbList">{{item?.name}}</option>
                </select>
             </div>
@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class="row mb-3" [ngClass]='{"hideCls" : closeScoreDiv}' *ngIf="!closeScoreDiv">
+<div class="row mb-3" [ngClass]='{"hideCls" : stepperScoreDiv}' *ngIf="stepperScoreDiv">
     <div class="col-sm-12">
         <div class="container-cnt">
             <div class="card">
@@ -52,62 +52,63 @@
                         <div class="col-md-12">
                             <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm">
                                 <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper [class]="'selectedIndex' + stepper.selectedIndex + ' mat-stepper-label-position-bottom'">
-                                    <mat-step formArrayName="enumForm">
+                                    <mat-step formArrayName="enumeration">
                                         <ng-template matStepLabel>
                                             <span title="Enumeration" [ngClass]="{'l-green' : (lGreen.enum), 'l-selected': lSelected?.enum}">Enumeration</span>
                                         </ng-template>
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" *ngFor="let item of enumForm.controls; let i=index">
+                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of enumRows?.controls; let i=index">
+
                                                     <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <span class="str-Qus">1.{{i+1}}</span>
                                                         <!-- </div>
                                                 <div class="col-10"> -->
                                                         <span class="str-Qus">
-                                                        &nbsp;{{item?.question?.text}}
+                                                        &nbsp;{{item?.value?.questionText}}
                                                     </span>
-                                                        <div class="btn-div" btnRadioGroup [formControlName]="i">
-                                                            <label btnRadio="A" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label btnRadio="B" class="btn btn-no btn-stp">No</label>
-                                                            <!-- <button class="btn btn-yes btn-stp">Yes</button>
-                                                        <button class="btn btn-no btn-stp">No</button> -->
+                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
+                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'enumeration')">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'enumeration')" [disabled]="enumRows?.status == 'INVALID'">
                                             Continue
                                             </button>
                                             </div>
                                         </div>
 
                                     </mat-step>
-                                    <mat-step>
+                                    <mat-step formArrayName="valuation">
                                         <ng-template matStepLabel>
                                             <span title="Valuation" [ngClass]="{'l-green' : lGreen?.valu, 'l-selected': lSelected.valu}">Valuation</span>
                                         </ng-template>
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" *ngFor="let item of scorePerformanceData?.valuation">
+                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of valuRows?.controls; let i = index;">
                                                     <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <span class="str-Qus">2.{{i+1}}</span>
                                                         <!-- </div>
                                               <div class="col-10"> -->
                                                         <span class="str-Qus">
-                                                      &nbsp;{{item?.question?.text}}
+                                                      &nbsp;{{item?.value?.questionText}}
                                                   </span>
-                                                        <div class="btn-div">
-                                                            <button class="btn btn-yes btn-stp">Yes</button>
-                                                            <button class="btn btn-no btn-stp">No</button>
+                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
+                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'valuation')">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'valuation')" [disabled]="valuRows?.status == 'INVALID'">
                                           Continue
                                           </button>
                                                 <button class="btn-back" (click)="goBack(stepper, 'valuation')">
@@ -117,31 +118,31 @@
                                         </div>
 
                                     </mat-step>
-                                    <mat-step>
+                                    <mat-step formArrayName="assessment">
                                         <ng-template matStepLabel>
-                                            <span title="Assessment">Assessment</span>
+                                            <span title="Assessment" [ngClass]="{'l-green' : lGreen?.asse, 'l-selected': lSelected.asse}">Assessment</span>
                                         </ng-template>
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" *ngFor="let item of
-                                          scorePerformanceData?.assessment">
+                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of assesRows?.controls; let i = index;">
                                                     <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <span class="str-Qus">3.{{i+1}}</span>
                                                         <!-- </div>
-                                            <div class="col-10"> -->
+                                          <div class="col-10"> -->
                                                         <span class="str-Qus">
-                                                    &nbsp;{{item?.question?.text}}
-                                                </span>
-                                                        <div class="btn-div">
-                                                            <button class="btn btn-yes btn-stp">Yes</button>
-                                                            <button class="btn btn-no btn-stp">No</button>
+                                                  &nbsp;{{item?.value?.questionText}}
+                                              </span>
+                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
+                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'assessment')">
+                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'assessment')" [disabled]="assesRows?.status == 'INVALID'">
                                         Continue
                                         </button>
                                                 <button class="btn-back" (click)="goBack(stepper, 'assessment')">
@@ -151,24 +152,24 @@
                                         </div>
                                     </mat-step>
 
-                                    <mat-step>
+                                    <mat-step formArrayName="billing_collection">
                                         <ng-template matStepLabel>
-                                            <span title="Billing and Collection">Billing and Collection</span>
+                                            <span title="Billing and Collection" [ngClass]="{'l-green' : lGreen?.bAndC, 'l-selected': lSelected.bAndC}">Billing and Collection</span>
                                         </ng-template>
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" *ngFor="let item of
-                                          scorePerformanceData?.billing_collection">
+                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of billingRows?.controls; let i = index;">
                                                     <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <span class="str-Qus">4.{{i+1}}</span>
                                                         <!-- </div>
-                                            <div class="col-10"> -->
+                                          <div class="col-10"> -->
                                                         <span class="str-Qus">
-                                                    &nbsp;{{item?.question?.text}}
-                                                </span>
-                                                        <div class="btn-div">
-                                                            <button class="btn btn-yes btn-stp">Yes</button>
-                                                            <button class="btn btn-no btn-stp">No</button>
+                                                  &nbsp;{{item?.value?.questionText}}
+                                              </span>
+                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
+                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+
                                                         </div>
 
                                                     </div>
@@ -178,38 +179,38 @@
                                                 <button class="btn btn-cont" (click)="stepperContinue(stepper, 'billing_collection')">
                                         Continue
                                         </button>
-                                                <button class="btn-back" (click)="goBack(stepper, 'billing_collection')">
+                                                <button class="btn-back" (click)="goBack(stepper, 'billing_collection')" [disabled]="billingRows?.status == 'INVALID'">
                                           Back
                                          </button>
                                             </div>
                                         </div>
                                     </mat-step>
 
-                                    <mat-step>
+                                    <mat-step formArrayName="reporting">
                                         <ng-template matStepLabel>
-                                            <span title="Reporting">Reporting</span>
+                                            <span title="Reporting" [ngClass]="{'l-green' : lGreen?.repo, 'l-selected': lSelected.repo}">Reporting</span>
                                         </ng-template>
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" *ngFor="let item of
-                                          scorePerformanceData?.reporting">
+                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of reportingRows?.controls; let i = index;">
                                                     <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">{{item?.question?.number}}</span>
+                                                        <span class="str-Qus">5.{{i+1}}</span>
                                                         <!-- </div>
-                                            <div class="col-10"> -->
+                                          <div class="col-10"> -->
                                                         <span class="str-Qus">
-                                                    &nbsp;{{item?.question?.text}}
-                                                </span>
-                                                        <div class="btn-div">
-                                                            <button class="btn btn-yes btn-stp">Yes</button>
-                                                            <button class="btn btn-no btn-stp">No</button>
+                                                  &nbsp;{{item?.value?.questionText}}
+                                              </span>
+                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
+                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <button class="btn btn-cont" (click)="SubmitScoreReport()">
+                                                <button class="btn btn-cont" (click)="SubmitScoreReport()" [disabled]="scorePerformanceForm?.status == 'INVALID'">
                                            Submit
                                         </button>
                                                 <button class="btn-back" (click)="goBack(stepper, 'reporting')">
@@ -232,11 +233,11 @@
         </div>
     </div>
 </div>
-<div class="row mb-3">
+<div class="row mb-3" *ngIf="reportScoreDiv">
     <div class="col-sm-12">
         <div class="card-body score-card">
             <span class="score-text">Your Property Tax Health-meter score is</span>
-            <span class="score">6/10</span>
+            <span class="score">{{scoreReportData?.currentUlb?.total}}/10</span>
         </div>
     </div>
     <div class="col-sm-12 mt-3">
@@ -250,7 +251,7 @@
             <div class="row me-0">
                 <div class="col-sm-6 prs-div pe-0">
                     <!-- chart--- -->
-                    <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of prescriptionData">
+                    <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues">
                         <div class="row mt-2" style="align-items: center; padding: 5px 0 12px 0;">
                             <div class="col-sm-4 text-end pres-name">
                                 {{item?.name}}:
@@ -301,22 +302,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Nashik</td>
-                                    <td>9.5</td>
+                                <tr *ngFor="let item of scoreReportData?.top3; let i= index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item?.ulb}}</td>
+                                    <td>{{item?.total}}</td>
 
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Aurangabad</td>
-                                    <td>8.5</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Pune</td>
-                                    <td>8</td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

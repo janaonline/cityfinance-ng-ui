@@ -10,15 +10,16 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./score-per.component.scss']
 })
 export class ScorePerComponent implements OnInit {
-  closeScoreDiv = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  stepperScoreDiv = false;
+  reportScoreDiv = false;
+  scoreReportData;
   scorePerformanceData;
   ulbList;
   stateList;
   disStartedBtn = true;
   ulb_id = '';
   btnName = 'Get Started';
+  stateName = ''
   lGreen = {
       enum: false,
       valu: false,
@@ -68,54 +69,20 @@ export class ScorePerComponent implements OnInit {
       },
     ];
 
-scorePostBody = {
-      propertyTax: {
-        ulb: {
-          id: this.ulb_id
-        },
-        Enumeration: [
-          {
-          Question: "1",
-          answer: "No"
-          },
-      ],
-        Valuation: [
-          {
-          Question: "1",
-          answer: "yes"
-          }
-      ],
-        Assesment: [
-          {
-           Question: "1",
-           answer: "yes"
-          }
-      ],
-        Billing_collection: [{
-          Question: "1",
-          answer: "No"
-        }],
-        Reporting: [
-          {
-          Question: "1",
-          answer: "yes"
-          }
-      ]
-      }
-    }
+scorePostBody;
  scorePerformanceForm;
   ngOnInit(): void {
     this.scorePerformanceForm = this.fb.group({
-      // firstName: ['', Validators.required],
-      // lastName: [''],
-      // address: this.fb.group({
-      //   street: [''],
-      //   city: [''],
-      //   state: [''],
-      //   zip: ['']
-      // }),
-      enumForm: this.fb.array([
-
+      // ulb: [this.ulb_id, Validators.required],
+      enumeration: this.fb.array([
+      ]),
+      valuation: this.fb.array([
+      ]),
+      assessment: this.fb.array([
+      ]),
+      billing_collection: this.fb.array([
+      ]),
+      reporting: this.fb.array([
       ])
     });
 
@@ -130,13 +97,14 @@ scorePostBody = {
 
     })
   }
-  get enumForm() {
-    return this.scorePerformanceForm.get('enumForm') as FormArray;
-  }
+
+
 
  changeState(e){
     console.log('eeeee', e);
     this.disStartedBtn = true;
+    this.stepperScoreDiv = false;
+      this.reportScoreDiv = false;
     this.getUlbList(e);
   }
 
@@ -154,56 +122,183 @@ getUlbList(stateCode){
       console.log('score performace value', res);
       this.scorePerformanceData = res[0];
       console.log('score performace value ------',  this.scorePerformanceData);
-      this.scorePerformanceData?.enumeration.forEach(el => {
-        console.log('el', el)
-        this.addEnum(el)
-      });
+     // this.deleteRow(0);
+       this.addFormArray();
      },
    (error)=> {
     console.log('error', error)
     }
    )
   }
-  addEnum(el) {
-    console.log(el?.question?.number)
-    if(el.question.number != null || el.question.number != undefined || el.question.number != ''){
-      this.enumForm.push(this.fb.group({
-        Question : [el?.question?.number],
+
+  get enumRows() {
+    return this.scorePerformanceForm.get('enumeration') as FormArray;
+  }
+
+  get valuRows() {
+    return this.scorePerformanceForm.get('valuation') as FormArray;
+  }
+
+  get assesRows() {
+    return this.scorePerformanceForm.get('assessment') as FormArray;
+  }
+
+  get billingRows() {
+    return this.scorePerformanceForm.get('billing_collection') as FormArray;
+  }
+
+  get reportingRows() {
+    return this.scorePerformanceForm.get('reporting') as FormArray;
+  }
+
+
+ addFormArray(){
+  this.scorePerformanceData?.enumeration.forEach(el => {
+  //  console.log('el', el)
+    this.addFormControls(el, 'enum')
+  });
+  this.scorePerformanceData?.valuation.forEach(el => {
+    this.addFormControls(el, 'valu')
+  });
+  this.scorePerformanceData?.assessment.forEach(el => {
+    this.addFormControls(el, 'assessment')
+  });
+  this.scorePerformanceData?.billing_collection.forEach(el => {
+    this.addFormControls(el, 'billing_collection')
+  });
+  this.scorePerformanceData?.reporting.forEach(el => {
+    this.addFormControls(el, 'reporting')
+  });
+ }
+
+
+  addFormControls(el, type) {
+     if(type == 'enum'){
+      this.enumRows.push(this.fb.group({
+        question : [el?.question?.number],
+        answer: ['', Validators.required],
+        questionText : [el?.question?.text]
       }));
-    }
+     }
+     if(type == 'valu'){
+      this.valuRows.push(this.fb.group({
+        question : [el?.question?.number],
+        answer: ['', Validators.required],
+        questionText : [el?.question?.text]
+      }));
+     }
+     if(type == 'assessment'){
+      this.assesRows.push(this.fb.group({
+        question : [el?.question?.number],
+        answer: ['', Validators.required],
+        questionText : [el?.question?.text]
+      }));
+     }
+     if(type == 'billing_collection'){
+      this.billingRows.push(this.fb.group({
+        question : [el?.question?.number],
+        answer: ['', Validators.required],
+        questionText : [el?.question?.text]
+      }));
+     }
+     if(type == 'reporting'){
+      this.reportingRows.push(this.fb.group({
+        question : [el?.question?.number],
+        answer: ['', Validators.required],
+        questionText : [el?.question?.text]
+      }));
+     }
+
+
 
   }
   changeUlb(e){
     this.ulb_id = e;
     console.log('ulb..', e);
+    if(this.ulb_id) this.disStartedBtn = false;
+
+  }
+  // getReportCard(){
+  //   if(this.ulb_id != '') {
+  //     this.resource_das_services.getReportCard(this.ulb_id).subscribe((res: any)=>{
+  //      console.log('responce ulb..', res, typeof(res));
+  //      this.scoreReportData = res?.data;
+  //     },
+  //   (error)=> {
+  //    console.log('error', error)
+  //    })
+  //   }
+  // }
+  closeScoreCard() {
+    this.stepperScoreDiv = false;
+  }
+  presDetails(presItem) {
+
+  }
+  getStartedScore() {
     if(this.ulb_id != '') {
-      this.disStartedBtn = false;
       this.resource_das_services.getReportCard(this.ulb_id).subscribe((res: any)=>{
        console.log('responce ulb..', res, typeof(res));
-       if(res != null){
-        this.closeScoreDiv = true;
-       }else {
+       this.scoreReportData = res?.data;
+       if(this.btnName != 'Try Again'){
+        if(this.scoreReportData){
+          this.stepperScoreDiv = false;
+         this.reportScoreDiv = true;
          this.btnName = 'Try Again'
-       }
+        }else {
+         this.stepperScoreDiv = true;
+         this.reportScoreDiv = false;
+        }
+      }
+      else {
+        // this.changeState('null');
+        // $("#stateName").val('');
+        this.stepperScoreDiv = true;
+         this.reportScoreDiv = false;
+        this.btnName = 'Get Started'
+      }
       },
     (error)=> {
      console.log('error', error)
      })
     }
 
-  }
-  closeScoreCard() {
-    this.closeScoreDiv = true;
-  }
-  presDetails(presItem) {
-
-  }
-  getStartedScore() {
 
   }
   goBack(stepper: MatStepper, label){
-    stepper.previous();
-}
+    switch(label) {
+      case 'enumeration': {
+         this.lGreen.enum = false;
+         this.lSelected.enum = true;
+         break;
+      }
+      case 'valuation': {
+        this.lGreen.enum = false;
+        this.lSelected.enum = true;
+      //  console.log('valu', this.scorePerformanceForm)
+         break;
+      }
+      case 'assessment': {
+        this.lGreen.valu = false;
+         this.lSelected.valu = true;
+       // console.log('asses', this.scorePerformanceForm)
+        break;
+     }
+     case 'billing_collection': {
+      this.lGreen.asse = false;
+      this.lSelected.asse = true;
+    //  console.log('bilii', this.scorePerformanceForm)
+      break;
+     }
+     case 'reporting': {
+      this.lGreen.bAndC = false;
+      this.lSelected.bAndC = true;
+    //console.log('repo', this.scorePerformanceForm)
+      break;
+    }
+   }
+   stepper.previous();
+  }
 
 stepperContinue(stepper: MatStepper, label){
     console.log('stepper', stepper, label);
@@ -212,38 +307,46 @@ stepperContinue(stepper: MatStepper, label){
       case 'enumeration': {
          this.lGreen.enum = true;
          this.lSelected.enum = false;
-         console.log('enum', label, this.lGreen)
+        console.log('enum', this.scorePerformanceForm)
          break;
       }
       case 'valuation': {
         this.lGreen.valu = true;
         this.lSelected.valu = false;
+      //  console.log('valu', this.scorePerformanceForm)
          break;
       }
       case 'assessment': {
-        //statements;
+        this.lGreen.asse = true;
+        this.lSelected.asse = false;
         break;
      }
      case 'billing_collection': {
-      //statements;
+    //  console.log('bilii', this.scorePerformanceForm)
+       this.lGreen.bAndC = true;
+      this.lSelected.bAndC = false;
       break;
      }
    case 'reporting': {
-    //statements;
+    this.lGreen.repo = true;
+    this.lSelected.repo = false;
+    //console.log('repo', this.scorePerformanceForm)
     break;
     }
-
-
    }
-
     stepper.next();
 
 }
-SubmitScoreReport(){
+SubmitScoreReport() {
+this.scorePostBody = {
+  ulb: this.ulb_id,
+  scorePerformance : this.scorePerformanceForm.value
+}
 
-  this.scorePostBody.propertyTax.ulb.id = this.ulb_id;
+ console.log('submit', this.scorePerformanceForm, this.scorePerformanceForm.value)
    this.resource_das_services.postScoreReport(this.scorePostBody).subscribe((res: any)=>{
-      console.log('post', res)
+      console.log('post', res);
+      this.getStartedScore();
    },
    (error)=>{
      console.log('post error', error)

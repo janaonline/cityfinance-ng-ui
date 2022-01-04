@@ -107,6 +107,8 @@
     .btn-stp {
         font: normal normal 400 14px/15px 'Archivo';
         letter-spacing: 0px;
+        outline: none !important;
+        box-shadow: none;
         color: #E87A1C;
     }
     
@@ -116,7 +118,9 @@
     }
     
     .btn-yes:hover,
-    .btn-no:hover {
+    .btn-no:hover,
+    .btn-yes.active,
+    .btn-no.active {
         background: #E87A1C 0% 0% no-repeat padding-box;
         border: 1px solid #E87A1C;
         border-radius: 6px;
