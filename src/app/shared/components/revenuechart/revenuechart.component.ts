@@ -202,10 +202,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.createChart();
-    this.year.valueChanges.subscribe((change) => {
-      debugger;
-      return this.sendValue();
-    });
+    this.year.valueChanges.subscribe((change) => this.sendValue());
   }
 
   ngOnChanges(changes: SimpleChanges): void {

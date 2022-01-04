@@ -45,9 +45,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     "2020-21",
   ];
   loading = false;
-  ngOnInit(): void {
-    debugger;
-  }
+  ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
