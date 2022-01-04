@@ -213,6 +213,7 @@
   border-radius:46px;
   padding: 5px;
   margin: 10px;
+  margin-bottom: 10px;
   background-color: #F2F5FF;
   font-size: 14px;
   color: #3E5DB1;
@@ -224,12 +225,9 @@
   margin-top: 10px;
 }
 
-.chipsDiv button mat-icon {
-  margin-bottom: -10px;
-}
-
- .cancleIcon {
+.cancleIcon {
   background-color: transparent;
   color: #3E5DB1;
   border: 1px;
+  vertical-align: bottom;
 }
