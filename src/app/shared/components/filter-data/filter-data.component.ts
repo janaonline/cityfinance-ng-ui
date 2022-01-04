@@ -33,7 +33,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   data = incomingData;
   headOfAccount;
+  lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
+  isPerCapita = false;
   mySelectedYears = [
     "2015-16",
     "2016-17",
@@ -42,9 +44,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     "2019-20",
     "2020-21",
   ];
+  loading = false;
   ngOnInit(): void {
     debugger;
   }
+
+  stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
+  ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
 
   ngAfterViewInit(): void {}
 
@@ -58,7 +64,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     document.getElementById(id).classList.add("selected");
     this.lastSelectedId = id;
 
-    this.getChartData();
+    this.isPerCapita = this.data.btnLabels[i]
+      .toLocaleLowerCase()
+      .split(" ")
+      .join("")
+      .includes("percapita");
+    this.getChartData({});
   }
 
   actionFromChart(value) {
@@ -85,14 +96,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       : "";
   }
 
-  lastSelectedUlbs;
-
   getChartData(data = {}) {
     let body = {
       ulb: [],
       financialYear: [],
       headOfAccount: this.headOfAccount,
       filterName: "revenue",
+      isPerCapita: this.isPerCapita,
+      compareType: "",
     };
     body.filterName = this.data["filterName"]
       ?.toLocaleLowerCase()
@@ -102,9 +113,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     body.ulb = data["ulbs"]?.map((value) => value._id);
     if (!(Array.isArray(body.ulb) && body.ulb.length))
       body.ulb = [this.currentUlb];
+    if (data["compareType"]) {
+      body.compareType = data["compareType"];
+    }
     this.lastSelectedUlbs = body.ulb;
     body.financialYear = data["year"] ?? this.mySelectedYears;
-
+    this.loading = true;
     this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         let newData = JSON.parse(JSON.stringify(barChartStatic));
@@ -115,18 +129,21 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         newData.data.labels = [...new Set(newData.data.labels)];
 
         let temp = {};
-        res["data"].ulbData.map((value) => {
-          let dataInner = JSON.parse(JSON.stringify(innerDataset));
-          if (!temp[value._id.financialYear]) {
-            dataInner.label = value.ulbName;
-            dataInner.data = [value.amount];
-            temp[value._id.financialYear] = dataInner;
-          } else {
-            dataInner = temp[value._id.financialYear];
-            dataInner.data.push(value.amount);
-            temp[value._id.financialYear] = dataInner;
-          }
-        });
+        for (const key in res["data"]) {
+          const element = res["data"][key];
+          element.map((value) => {
+            let dataInner = JSON.parse(JSON.stringify(innerDataset));
+            if (!temp[value.ulbName]) {
+              dataInner.label = value.ulbName;
+              dataInner.data = [value.amount];
+              temp[value.ulbName] = dataInner;
+            } else {
+              dataInner = temp[value.ulbName];
+              dataInner.data.push(value.amount);
+              temp[value.ulbName] = dataInner;
+            }
+          });
+        }
 
         newData.data.datasets = [];
         for (const key in temp) {
@@ -143,18 +160,24 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         newData.data.datasets.push(JSON.parse(JSON.stringify(lineDataset)));
 
         this.barChart = newData;
+        this.loading = false;
       },
       (error) => {
         let preArray = [];
         let newData = JSON.parse(JSON.stringify(barChartStatic));
         newData.data.labels = this.mySelectedYears;
-        newData.data.datasets[0].label = this.lastSelectedUlbs;
+        newData.data.datasets[0].label = this.lastSelectedUlbs.map((value) => {
+          this.ulbList[this.stateUlbMapping[value]].ulbs.find(
+            (value) => value._id == value
+          )?.name;
+        });
         newData.data.datasets[0].data = preArray.fill(
           0,
           0,
           this.mySelectedYears.length
         );
         this.barChart = newData;
+        this.loading = false;
       }
     );
   }
