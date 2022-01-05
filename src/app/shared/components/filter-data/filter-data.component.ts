@@ -107,9 +107,9 @@ export class FilterDataComponent implements OnInit, OnChanges {
   btnSelected = false;
   aboutIndicators;
   ngOnInit(): void {
+    console.log("data in app-filter", this.data);
     this.data = this.data["mainContent"][0];
     this.aboutIndicators = this.data["static"].indicators;
-    console.log(this.data, "data in app-filter");
   }
 
   expand = false;

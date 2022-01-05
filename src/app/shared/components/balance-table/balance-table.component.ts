@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { ReportHelperService } from "src/app/dashboard/report/report-helper.service";
@@ -48,8 +55,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: "./balance-table.component.html",
   styleUrls: ["./balance-table.component.scss"],
 })
-export class BalanceTableComponent implements OnInit {
-  property: any;
+export class BalanceTableComponent implements OnInit, OnChanges {
   // stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   // // stateData: any = this.stateUlbData;
   yearValue: any;
@@ -90,20 +96,21 @@ export class BalanceTableComponent implements OnInit {
     "2018-2019",
     "2019-2020",
   ];
-
   displayedColumns: string[] = ["figures", "name", "weight", "symbol"];
   dataSource = ELEMENT_DATA;
   reportReq: IReportType;
+  @Input() data: any;
+  reportGroup: any;
+  isComparative: any = false;
+  @ViewChild("template") template;
+  dialogRef;
+  type: string = "Summary";
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
     private _loaderService: GlobalLoaderService,
     private reportHelper: ReportHelperService
   ) {}
-
-  @ViewChild("template") template;
-
-  dialogRef;
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "39rem";
@@ -111,6 +118,7 @@ export class BalanceTableComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe((result) => {
       console.log("result", result);
     });
+    this.isComparative = true;
   }
 
   selectYearValue(event: any) {
@@ -176,47 +184,18 @@ export class BalanceTableComponent implements OnInit {
     valueType: "absolute",
   };
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.data.name == "Balance Sheet") {
+      this.reportGroup = "Balance Sheet";
+    } else {
+      this.reportGroup = "Income & Expenditure Statement";
+    }
+    console.log("this.data", this.reportGroup, this.isComparative);
+  }
+
   ngOnInit() {
     this.reportService
       .ieDetailed(this.inputVal)
       .subscribe((res) => console.log("res", res));
-    // this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
-    //   this.reportReq = reportCriteria;
-    //   this.reportService.reportResponse.subscribe(
-    //     (res) => {
-    //       this._loaderService.stopLoader();
-    //       if (res) {
-    //         this.years = [];
-    //         this.response = res;
-    //         if (this.reportReq.reportGroup == "Balance Sheet") {
-    //           this.report = this.reportHelper.getBSReportLookup();
-    //         } else {
-    //           this.report = this.reportHelper.getIEReportLookup();
-    //         }
-    //         this.reqYear = this.reportReq.years[0];
-    //         if (this.reportReq.ulbList.length > 1) {
-    //           this.years = [];
-    //           // this.transformYears_UlbVSUlb();
-    //         } else {
-    //           this.years = [];
-    //           // this.transformYears_YrVSYr();
-    //         }
-    //         this.transformResult(<any>res);
-    //         this.headerGroup.yearColspan =
-    //           this.years.length / this.reportReq.years.length;
-    //       } else {
-    //         this.isProcessed = true;
-    //         this.reportKeys = [];
-    //       }
-    //       this._loaderService.stopLoader();
-    //       this.isProcessed = true;
-    //       this.setDataNotAvailable();
-    //       this.changeDetector.detectChanges();
-    //     },
-    //     () => {
-    //       this._loaderService.stopLoader();
-    //     }
-    //   );
-    // });
   }
 }
