@@ -29,23 +29,32 @@
   <div class="d-flex mb-2">
     <div class="mr-1">
       <label (click)="openModal()" class="btn compare"
-        >Compare to state average &nbsp;<mat-icon style="vertical-align: middle"
+        >Compare to {{compareType}} &nbsp;<mat-icon style="vertical-align: middle"
           >keyboard_arrow_down</mat-icon
         ></label
       >
     </div>
     <div class="">
-      <select class="btn compare">
-        <option selected>2020 - 2021</option>
-      </select>
+      <mat-form-field appearance="fill">
+        <mat-label>Years</mat-label>
+        <mat-select [formControl]="year" multiple>
+          <mat-select-trigger>
+            {{year.value ? year.value[0] : ''}}
+            <span *ngIf="year.value?.length > 1" class="example-additional-selection">
+              (+{{year.value.length - 1}} {{year.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let year of yearList" [value]="year">{{year}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 
   <div class="revenueChart w-75 m-auto h-auto">
-    <canvas id="revenueChart" style="width: 70vw; height: 70vh;" ></canvas>
+    <canvas [id]="chartId" style="width: 70vw; height: 70vh;" ></canvas>
 </div>
 </div>
 
 <ng-template #template>
-  <app-compare-dialog (closeDialog)="closeModal()"></app-compare-dialog>
+  <app-compare-dialog (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
 </ng-template>
