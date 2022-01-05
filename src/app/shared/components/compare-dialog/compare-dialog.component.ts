@@ -57,7 +57,8 @@ export class CompareDialogComponent implements OnInit {
 
   parameters: string[] = ["one", "two", "three"];
 
-  ulbListChip: { name: string; id: string }[] = [];
+  ulbListChip: { name: string; _id: string }[] = [];
+  ulbIds: any;
 
   ngOnInit(): void {
     this.searchField.valueChanges.subscribe((value) => {
@@ -115,15 +116,23 @@ export class CompareDialogComponent implements OnInit {
 
   optionSelected(option) {
     console.log("opption", option);
-    this.valuesToEmit = option;
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });
-    this.ulbListChip.push(option);
+
+    if (!this.ulbListChip.find((value) => value.name === option.name)) {
+      this.ulbListChip.push(option);
+    }
+
+    this.ulbIds = this.ulbListChip.map((elem) => elem._id);
+
+    console.log("ulbIds", this.ulbIds, this.ulbListChip);
+
     this.searchField.setValue(null);
+    this.valuesToEmit = this.ulbListChip;
   }
 
-  remove(chips: { id: string; name: string }): void {
+  remove(chips: { _id: string; name: string }): void {
     const index = this.ulbListChip.indexOf(chips);
     if (index >= 0) {
       this.ulbListChip.splice(index, 1);
@@ -131,8 +140,6 @@ export class CompareDialogComponent implements OnInit {
   }
 
   emitValues() {
-    console.log(this.valuesToEmit);
-    console.log("ulbListChip", this.ulbListChip);
     this.compareValue.emit(this.valuesToEmit);
     this.close();
   }
