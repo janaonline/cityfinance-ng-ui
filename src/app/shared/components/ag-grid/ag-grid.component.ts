@@ -509,7 +509,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["Funding"].value
           : "",
       valueSetter: syncValueSetter(number),
-      // valueParser: "parseFloat(newValue)",
+      valueParser: "parseInt(newValue)",
       headerName: "% Funding",
       width: 85,
       editable: false,
@@ -774,7 +774,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value = 0;
       } else {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value =
-          (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) * 100;
+          ((e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) * 100).toPrecision(2);
         if (this.rowData.yearOutlay[e.rowIndex]["Funding"].value % 1 != 0) {
           this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
             (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *

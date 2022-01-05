@@ -88,6 +88,8 @@ export class AnnualAccountsComponent implements OnInit {
   modalRef;
   actionResAn;
   saveBtn = "NEXT";
+  provisionDisable = true
+     auditedDisable = true
   // actionResAu;
   ulbId = null;
   @HostBinding("")
@@ -331,6 +333,8 @@ export class AnnualAccountsComponent implements OnInit {
       takeStateAction = localStorage.getItem("takeStateAction");
     if (ulbId != null || this.finalSubmitUtiStatus == "true") {
       this.isDisabled = true;
+      this.provisionDisable = true
+      this.auditedDisable = true
     }
     this.annualAccountsService
       .getData({
@@ -720,6 +724,12 @@ export class AnnualAccountsComponent implements OnInit {
   }
   answer(question, val, isAudit = null, fromStart = false) {
     let status = isAudit ? "audited" : "unAudited";
+    if(isAudit && this.loggedInUserType == USER_TYPE.ULB){
+      this.auditedDisable = false
+    }else if (!isAudit && this.loggedInUserType == USER_TYPE.ULB){
+      this.provisionDisable = false
+    }
+    
     switch (question) {
       case "q1":
         this.answerError[status].submit_annual_accounts = false;

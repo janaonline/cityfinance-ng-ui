@@ -55,12 +55,20 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   id
   states = null;
   isMillionPlusState = null
+  eligibleForGrant = false;
+  grantTooltip =''
   ngOnInit(): void {
 
     this.stateformsService.isMillionPlusState(this.id).subscribe(res => {
       this.isMillionPlusState = res['data']
     })
-
+this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
+  this.eligibleForGrant = true
+  let acheived = res['percentage'];
+  let cutoff = res['cutOff']
+  this.grantTooltip = `${acheived}% of Annual accounts filled and Approved. Need ${cutoff}% to claim NMPC Grant`
+  // this.eligibleForGrant = res['percentage'] >= res['cutoff']
+})
 
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
