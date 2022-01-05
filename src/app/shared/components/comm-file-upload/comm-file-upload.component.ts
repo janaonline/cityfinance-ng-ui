@@ -87,7 +87,7 @@ export class CommFileUploadComponent implements OnInit, OnChanges {
     console.log("an res status", this.statusResponse);
     console.log("an data res status", this.dataFromParent);
     if (this.finalSubmitStatus == "true") {
-      this.isDisabled = true;
+      // this.isDisabled = true;
     }
     if (this.compDis == "true") {
       this.actionCompDis = true;
