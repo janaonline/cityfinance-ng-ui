@@ -569,4 +569,8 @@ export class CommonService {
   getRecentSearchValue() {
     return this.http.get(`${environment.api.url}recentSearchKeyword?limit=3`);
   }
+
+  getChartDataByIndicator(body) {
+    return this.http.post(`${environment.api.url}indicator`, body);
+  }
 }

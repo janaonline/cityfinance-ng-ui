@@ -12,19 +12,25 @@
 }
 
 
-th:first-child {
-    font-weight: 300;
-    width: 30vw;
-    padding: 1.3rem;
-}
-
-th {
-    width: 10vw;
-    padding: 1.3rem;
-}
 
 .modalButton {
     border: 1px solid #cfc2c2;
     border-radius: 8px;
     height: 68%;
+    margin-top: 5px;
 }
+
+.mat-select-panel {
+  background: red !important;
+}
+
+::ng-deep .yearSelect .mat-form-field-flex  {
+   border: none !important;
+   width: 100% !important;
+   padding: 5px !important;
+   height: auto !important;
+  }
+
+  ::ng-deep .tableDiv .mat-table {
+    box-shadow: none;
+  }

@@ -23,7 +23,7 @@ import { ResourcesTabsComponent } from './resources-tabs/resources-tabs.componen
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToolkitsComponent } from './learning-center/toolkits/toolkits.component';
 import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learning/dynamic-sub-learning.component';
-
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -50,6 +50,7 @@ import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learn
     MatIconModule,
     MatButtonModule,
     TabsModule.forRoot(),
+    ButtonsModule.forRoot()
 
   ],
   providers: [

@@ -67,6 +67,8 @@ import { AboutIndicatorComponent } from "./components/about-indicator/about-indi
 import { FilterDataComponent } from "./components/filter-data/filter-data.component";
 import { BalanceTableComponent } from "./components/balance-table/balance-table.component";
 import { MatTableModule } from "@angular/material/table";
+import { SharedTableComponent } from './components/shared-table/shared-table.component';
+import { SharedCompareTableComponent } from './components/shared-compare-table/shared-compare-table.component';
 
 @NgModule({
   imports: [
@@ -136,6 +138,8 @@ import { MatTableModule } from "@angular/material/table";
     AboutIndicatorComponent,
     FilterDataComponent,
     BalanceTableComponent,
+    SharedTableComponent,
+    SharedCompareTableComponent,
   ],
   exports: [
     FormsModule,

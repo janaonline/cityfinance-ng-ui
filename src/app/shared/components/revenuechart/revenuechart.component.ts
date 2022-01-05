@@ -5,20 +5,22 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  AfterViewInit
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { FormControl } from "@angular/forms";
 @Component({
   selector: "app-revenuechart",
   templateUrl: "./revenuechart.component.html",
   styleUrls: ["./revenuechart.component.scss"],
 })
-export class RevenuechartComponent implements OnInit, AfterViewInit {
+export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
-
   @Input()
   chartData = {
     // type: "bar",
@@ -109,14 +111,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit {
           backgroundColor: "#F5B742",
         },
       ],
-    }
+    },
   };
-
-@Input()
-chartId;
-
-
-
+  @Input()
+  chartId;
   // options in case of sactter plot
   @Input()
   scatterOption = {
@@ -168,8 +166,6 @@ chartId;
       },
     },
   };
-
-
   @Input()
   headerActions = [
     {
@@ -189,16 +185,34 @@ chartId;
       svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
-
   @Output()
   actionClicked = new EventEmitter();
-
+  @Output()
+  compareChange = new EventEmitter();
   myChart;
+  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
+  @Input()
+  mySelectedYears = ["2019-20", "2020-21"];
+  year;
+  compareType = "";
+
   ngOnInit(): void {
+    this.year = new FormControl(this.mySelectedYears, { updateOn: "blur" });
   }
-  
+
   ngAfterViewInit(): void {
-    this.createChart()
+    this.createChart();
+    this.year.valueChanges.subscribe((change) => this.sendValue());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.chartData) {
+      this.myChart.destroy();
+      this.createChart();
+    }
+    if (changes?.mySelectedYears) {
+      this.year = new FormControl(this.mySelectedYears);
+    }
   }
 
   createChart() {
@@ -237,5 +251,22 @@ chartId;
 
   closeModal() {
     this.dialogRef.close();
+  }
+
+  getCompareCompValues(value) {
+    if (Array.isArray(value)) {
+      this.compareType = "ULBs..";
+      return this.sendValue(value);
+    } else this.compareType = value;
+    this.sendValue();
+  }
+
+  sendValue(ulbs = []) {
+    let data = {
+      year: this.year.value,
+      ulbs: ulbs,
+      compareType: this.compareType,
+    };
+    this.compareChange.emit(data);
   }
 }

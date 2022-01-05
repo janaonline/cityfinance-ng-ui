@@ -205,14 +205,17 @@
 }
 
 .chipsDiv {
-  width: 50%;
-  height: auto;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   background-color: gray;
   border: 1px solid #3E5DB1;
   color: white;
   border-radius:46px;
   padding: 5px;
   margin: 10px;
+  margin-bottom: 10px;
   background-color: #F2F5FF;
   font-size: 14px;
   color: #3E5DB1;
@@ -221,15 +224,11 @@
 .chipsDiv button {
   background: none;
   border: none;
-  margin-top: 10px;
 }
 
-.chipsDiv button mat-icon {
-  margin-bottom: -10px;
-}
-
- .cancleIcon {
+.cancleIcon {
   background-color: transparent;
   color: #3E5DB1;
   border: 1px;
+  vertical-align: bottom;
 }

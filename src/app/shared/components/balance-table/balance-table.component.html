@@ -9,11 +9,13 @@
                 <div class=" mr-1 modalButton" >
                     <span (click)="openModal()" class="btn compare">Compare By: Similar Type &nbsp;</span>
                 </div>
-            <div class="dropDownDiv">
-                    <select class="form-select" aria-label="Default select example" (change)="selectYearValue($event)"  multiple="multiple">
-                        <option value="null" selected>Select year</option>
-                        <option  [value]="year.id" *ngFor="let year of yearsList">{{year.name}}</option>
-                      </select>
+            <div class="yearSelect">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Years</mat-label>
+                        <mat-select [formControl]="dropYears" multiple  (selectionChange)="selectYearValue($event)">
+                          <mat-option  *ngFor="let year of yearsList" [value]="year">{{year.itemName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
             </div>
             <div class="dropDownDiv">
                 <select class="form-select" aria-label="Default select example">
@@ -25,74 +27,19 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="tableDiv ">
-                <!-- <table>
-                    <thead class="table table-striped">
-                        <tr  >
-                            <div class="justify-content-between">
-                                <th *ngFor="let tableHead of balanceTableHead" >{{tableHead}}</th>
-                            </div>
-                        </tr>
-
-
-                    </thead>
-                </table> -->
-
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-                    <!--- Note that these columns can be defined in any order.
-                          The actual rendered columns are set as a property on the row definition" -->
-
-                    <!-- Position Column -->
-                    <ng-container matColumnDef="figures">
-                      <th mat-header-cell *matHeaderCellDef> *Figures mentioned are in Rs. Crores </th>
-                      <td mat-cell *matCellDef="let element"> {{element.figures}} </td>
-                    </ng-container>
-
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="name">
-                      <th mat-header-cell *matHeaderCellDef> Mumbai </th>
-                      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                    </ng-container>
-
-                    <!-- Weight Column -->
-                    <ng-container matColumnDef="weight">
-                      <th mat-header-cell *matHeaderCellDef> Nasik </th>
-                      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-                    </ng-container>
-
-                    <!-- Symbol Column -->
-                    <ng-container matColumnDef="symbol">
-                      <th mat-header-cell *matHeaderCellDef> Pune </th>
-                      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-                    </ng-container>
-
-                    <!-- Header row first group -->
-                    <ng-container matColumnDef="header-row-first-group">
-                      <th mat-header-cell *matHeaderCellDef
-                          [style.text-align]="center"
-                          [attr.colspan]="2">
-                      </th>
-                    </ng-container>
-
-                    <!-- Header row second group -->
-                    <ng-container matColumnDef="header-row-second-group">
-                      <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> 2019-2020 </th>
-                    </ng-container>
-                    <ng-container matColumnDef="header-row-third-group">
-                      <th mat-header-cell *matHeaderCellDef [attr.colspan]="2"> 2020-2021 </th>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="['header-row-first-group', 'header-row-second-group', 'header-row-third-group' ]"></tr>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                  </table>
-
-
-            </div>
-        </div>
+      <div class="col-md-12">
+        <app-shared-table></app-shared-table>
     </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-md-12">
+        <app-shared-compare-table></app-shared-compare-table>
+      </div>
+    </div>
+
 </div>
 
 

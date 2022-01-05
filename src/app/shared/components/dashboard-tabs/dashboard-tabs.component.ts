@@ -161,6 +161,7 @@ export class DashboardTabsComponent implements OnInit {
       this.activeFilter = value.subHeaders;
       this.innerActiveTab = value.subHeaders[0];
     }
+    console.log("innertab value", this.innerActiveTab);
   }
   ngOnInit(): void {
     this.changeTab(this.data[0]);
