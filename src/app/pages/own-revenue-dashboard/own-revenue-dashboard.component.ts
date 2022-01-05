@@ -311,21 +311,17 @@ doughnutChartData= {
      },
    ],
    options: {
-      legend: {
-        labels: {
-          boxWidth: 5,
-      },
-        display: true,
-        position: 'bottom'
-      },
-      tooltips:{
-        enabled:true
-      },
-      cutoutPercentage: 45,
-      responsive: true
+    maintainAspectRatio: false,
+    legend: {
+      position: 'bottom',
+      labels: {
+        usePointStyle: true,
+        padding: 28,
+      }
+    },
+    responsive: true
   }
- }
-
+},
 }
 
 barChartData = {

@@ -394,6 +394,41 @@
     </small>
   </div>
 
+  <div class="container">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <p class="accordion-header" id="headingOne">
+          <button class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne">
+            How is performance assessed?
+          </button>
+        </p>
+        <div id="collapseOne" class="accordion-collapse collapse show"  data-bs-parent="#accordionExample">
+          <div class="accordion-body accbody">
+            <div class="accColOneContent col-12 col-md-6 col-lg-6">
+              <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
+              <p>
+                <span class="">Upward arrow:</span> The performance has increased (by the percentage indicated
+                alongside the arrow) as compared to the previous year
+              </p>
+            </div>
+            <div class="accColTwoContent col-12 col-md-6 col-lg-6">
+              <img src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
+              <p>
+                <span class="">Downward arrow:</span> The performance has increased (by the percentage indicated
+                alongside the arrow) as compared to the previous year
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bar chart section -->
 <div class="container total-revenue-doughnut">
   <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId"></app-revenuechart>
