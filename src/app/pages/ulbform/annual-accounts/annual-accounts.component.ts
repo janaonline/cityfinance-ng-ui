@@ -624,8 +624,8 @@ export class AnnualAccountsComponent implements OnInit {
         } else {
           if (this.data.unAudited.submit_standardized_data) {
             if (
-              this.data.unAudited.standardized_data.declaration != null &&
-              this.data.unAudited.standardized_data.declaration == true
+              this.data.unAudited.standardized_data?.declaration != null &&
+              this.data.unAudited.standardized_data?.declaration == true
             ) {
               this.data.isDraft = false;
             } else {
@@ -633,8 +633,8 @@ export class AnnualAccountsComponent implements OnInit {
               return;
             }
             if (
-              this.data.unAudited.standardized_data.excel.url == null ||
-              this.data.unAudited.standardized_data.excel.name == null
+              this.data.unAudited.standardized_data?.excel?.url == null ||
+              this.data.unAudited.standardized_data?.excel?.name == null
             ) {
               this.data.isDraft = true;
             } else {
@@ -756,7 +756,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (this.isDisabled) {
       return
     }
-    let temp = this.data[fileType].standardized_data.excel;
+    let temp = this.data[fileType].standardized_data?.excel;
     for (const key in temp) {
       temp[key] = null;
     }
