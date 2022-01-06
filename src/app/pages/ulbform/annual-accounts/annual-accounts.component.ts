@@ -496,24 +496,24 @@ export class AnnualAccountsComponent implements OnInit {
         form.unAudited.provisional_data[key].pdf.name = null;
       }
     }
-    if (
-      !form.audited.submit_standardized_data ||
-      form.audited.submit_standardized_data == null ||
-      this.uploadErrors.audited.standardized_data.error
-    ) {
-      form.audited.standardized_data.excel.name = null;
-      form.audited.standardized_data.excel.url = null;
-      form.audited.standardized_data.declaration = null;
-    }
-    if (
-      !form.unAudited.submit_standardized_data ||
-      form.unAudited.submit_standardized_data == null ||
-      this.uploadErrors.unAudited.standardized_data.error
-    ) {
-      form.unAudited.standardized_data.excel.name = null;
-      form.unAudited.standardized_data.excel.url = null;
-      form.unAudited.standardized_data.declaration = null;
-    }
+    // if (
+    //   !form.audited.submit_standardized_data ||
+    //   form.audited.submit_standardized_data == null ||
+    //   this.uploadErrors.audited.standardized_data.error
+    // ) {
+    //   form.audited.standardized_data.excel.name = null;
+    //   form.audited.standardized_data.excel.url = null;
+    //   form.audited.standardized_data.declaration = null;
+    // }
+    // if (
+    //   !form.unAudited.submit_standardized_data ||
+    //   form.unAudited.submit_standardized_data == null ||
+    //   this.uploadErrors.unAudited.standardized_data.error
+    // ) {
+    //   form.unAudited.standardized_data.excel.name = null;
+    //   form.unAudited.standardized_data.excel.url = null;
+    //   form.unAudited.standardized_data.declaration = null;
+    // }
     console.log(JSON.stringify(form), "saved form.........");
     if (form.status === "N/A" && (form.unAudited.submit_annual_accounts || form.audited.submit_annual_accounts)) {
       form.status = "PENDING"
