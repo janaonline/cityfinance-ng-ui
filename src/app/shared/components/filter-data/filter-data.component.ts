@@ -108,9 +108,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("_");
 
-    body.ulb = data["ulbs"]?.map((value) => value._id);
-    if (!(Array.isArray(body.ulb) && body.ulb.length))
-      body.ulb = [this.currentUlb];
+    let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
+    body.ulb = [...ulbsToCompare, this.currentUlb];
     if (data["compareType"]) {
       body.compareType = data["compareType"];
     }
@@ -126,12 +125,18 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         );
         newData.data.labels = [...new Set(newData.data.labels)];
 
-        let temp = {};
+        let temp = {},
+          index = 0;
         for (const key in res["data"]) {
           const element = res["data"][key];
           element.map((value) => {
             let dataInner = JSON.parse(JSON.stringify(innerDataset));
+            if (!value.hasOwnProperty("ulbName")) {
+              value.ulbName = "National";
+            }
             if (!temp[value.ulbName]) {
+              dataInner.backgroundColor = backgroundColor[index];
+              dataInner.borderColor = borderColor[index++];
               dataInner.label = value.ulbName;
               dataInner.data = [value.amount];
               temp[value.ulbName] = dataInner;
@@ -195,24 +200,6 @@ const barChartStatic = {
       {
         label: "My First Dataset",
         data: [65, 59, 80, 81, 56, 55, 40],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(201, 203, 207, 0.2)",
-        ],
-        borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
-        ],
         borderWidth: 1,
       },
     ],
@@ -226,6 +213,25 @@ const barChartStatic = {
   },
 };
 
+const backgroundColor = [
+  "rgba(255, 99, 132, 0.2)",
+  "rgba(255, 159, 64, 0.2)",
+  "rgba(255, 205, 86, 0.2)",
+  "rgba(75, 192, 192, 0.2)",
+  "rgba(54, 162, 235, 0.2)",
+  "rgba(153, 102, 255, 0.2)",
+  "rgba(201, 203, 207, 0.2)",
+];
+const borderColor = [
+  "rgb(255, 99, 132)",
+  "rgb(255, 159, 64)",
+  "rgb(255, 205, 86)",
+  "rgb(75, 192, 192)",
+  "rgb(54, 162, 235)",
+  "rgb(153, 102, 255)",
+  "rgb(201, 203, 207)",
+];
+
 const lineDataset = {
   type: "line",
   label: "Line Dataset",
@@ -237,24 +243,6 @@ const lineDataset = {
 const innerDataset = {
   label: "My First Dataset",
   data: [65, 59, 80, 81, 56, 55, 40],
-  backgroundColor: [
-    "rgba(255, 99, 132, 0.2)",
-    "rgba(255, 159, 64, 0.2)",
-    "rgba(255, 205, 86, 0.2)",
-    "rgba(75, 192, 192, 0.2)",
-    "rgba(54, 162, 235, 0.2)",
-    "rgba(153, 102, 255, 0.2)",
-    "rgba(201, 203, 207, 0.2)",
-  ],
-  borderColor: [
-    "rgb(255, 99, 132)",
-    "rgb(255, 159, 64)",
-    "rgb(255, 205, 86)",
-    "rgb(75, 192, 192)",
-    "rgb(54, 162, 235)",
-    "rgb(153, 102, 255)",
-    "rgb(201, 203, 207)",
-  ],
   borderWidth: 1,
 };
 
