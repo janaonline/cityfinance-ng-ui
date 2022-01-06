@@ -56,7 +56,7 @@
     </div>
 
     <div class="row search-bar">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
             Population Category:
             <select [(ngModel)]="selectedLevel" (change)="selected()" class="dropdown">
                 <!-- <option value="0" selected>--Please Select--</option> -->
@@ -65,10 +65,10 @@
                 <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
             </select>
         </div>
-        <div class="col-sm-4" [matTooltip]="grantTooltip"
+        <!-- <div class="col-sm-4" [matTooltip]="grantTooltip"
         [matTooltipDisabled]="eligibleForGrant">
             <button class="btn btn-primary" style="margin-top:11px; width:60%" [disabled]="!eligibleForGrant" [routerLink]="['gtCertificate']" >Claim NMPC State Grant</button>
-        </div>
+        </div> -->
 
     </div>
     <div class="row statusArea">
