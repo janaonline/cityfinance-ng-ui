@@ -64,10 +64,13 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     })
 this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
   this.eligibleForGrant = true
-  let acheived = res['percentage'];
-  let cutoff = res['cutOff']
-  this.grantTooltip = `${acheived}% of Annual accounts filled and Approved. Need ${cutoff}% to claim NMPC Grant`
-  // this.eligibleForGrant = res['percentage'] >= res['cutoff']
+
+  this.grantTooltip = `Conditions Not Met to Claim NMPC-Untied Grant`
+  let secondInstallment = res['secondInstallment']
+  // if((secondInstallment['percentage'] >= secondInstallment['cutoff']) && secondInstallment['gtcSubmitted']){
+  //   this.eligibleForGrant = true
+  // }
+ 
 })
 
     this.stateDashboardService.closeDialog.subscribe((form) => {
