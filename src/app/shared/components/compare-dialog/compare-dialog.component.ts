@@ -48,7 +48,7 @@ export class CompareDialogComponent implements OnInit {
 
   filterList = [
     "State Average",
-    "Normal Average",
+    "National Average",
     "Similar ULB Cities",
     "ULB Type Average",
     "ULB category Average",

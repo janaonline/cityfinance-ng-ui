@@ -207,8 +207,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.chartData) {
-      this.myChart.destroy();
-      this.createChart();
+      if (!changes.chartData.firstChange) {
+        this.myChart.destroy();
+        this.createChart();
+      }
     }
     if (changes?.mySelectedYears) {
       this.year = new FormControl(this.mySelectedYears);
