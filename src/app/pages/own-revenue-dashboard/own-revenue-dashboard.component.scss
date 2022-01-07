@@ -55,12 +55,44 @@ $font-Montserrat: "Montserrat";
   font-weight: normal;
   color: #6E7281;
 }
+//Three buttons display while clicking on Property Tax Performance Tab.
+// .threeBtnContainer {
+//   display: none;
+// }
+// .second-tab > a:onclick {
+//   .threeBtnContainer {
+//     margin-top: 2rem;
+//     display: block;
+//   }
+// }
+.threeBtnContainer {
+  margin-top: 2rem;
+  display: block;
+}
+.btnS,.btnS:hover {
+      padding: 0.6rem 1.8rem;
+      background-color: #FFF1E3;
+      font-size: 0.8rem;
+      font-family: $font-archivo;
+      font-weight: medium;
+      color: #E57504;
+}
+.btnDT, .btnBP {
+      margin-left: 1rem;
+      padding: 0.6rem 1.6rem;
+      border: 1px solid #9299B2;
+      background-color: #fff;
+      font-size: 0.8rem;
+      font-family: $font-archivo;
+      font-weight: medium;
+      color: #8B92A8;
+}
 .cont-p {
   margin-top: 2.2rem;
 }
 .para-styling {
   color: #6E7281;
-} 
+}
 .para_word_styling {
   color: #6E7281;
   font-weight: 600;
@@ -196,6 +228,10 @@ $font-Montserrat: "Montserrat";
   text-align: center;
 }
 
+.accbody {
+  display: flex;
+}
+
 // .table-container {
 //   margin-top: 2.5rem;
 // }
@@ -216,7 +252,7 @@ $font-Montserrat: "Montserrat";
 
 
 //Applying Responsiveness on Own-Revenue_Dashboard Component
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
     .dashboard-container {
       width: 100%;
         .perform-dashboard-heading {
@@ -330,15 +366,11 @@ $font-Montserrat: "Montserrat";
         display: block;
       }
       // Semi-Doughnut chart End
-      
+
     }
 
-    .total-revenue-doughnut {
-      display: none;
-    }
-    
  }
 
 
 
- 
+

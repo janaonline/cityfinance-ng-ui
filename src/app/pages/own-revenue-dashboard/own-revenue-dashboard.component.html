@@ -8,19 +8,19 @@
          The performance dashboard showcases the state of
          Municipal own revenues and property tax revenues
          in the country. Know your State’s or city’s performance
-         and compare with other States and cities on various own 
+         and compare with other States and cities on various own
          revenue parameters.
-      </p>  
+      </p>
     </div>
   </div>
 </div>
 <div class="container-fluid two-tabs">
   <div class="container d-flex justify-content-center">
-      <div class="col-6 col-md-4 col-lg-4 d-flex 
+      <div class="col-6 col-md-4 col-lg-4 d-flex
                   align-items-center justify-content-center
                   rounded-start first-tab tab"
       >
-      <a href="" 
+      <a href=""
         class="text-decoration-none text-center"
       >
           Own Revenue Performance Dashboard
@@ -37,41 +37,47 @@
     </div>
   </div>
 </div>
+<div class="container threeBtnContainer">
+  <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
+  <button class="btn btn-outline btn-sm btnDT">Digital Tooklit</button>
+  <button class="btn btn-outline btn-sm btnBP">Best Practices</button>
+</div>
+
 <div class="container cont-p">
   <p class="para-styling">To view your performance, select
       <span class="para_word_styling">
             State
       </span>
-           or 
+           or
       <span  class="para_word_styling">
             ULB Name.
       </span>
-          If you want to view the performance of all 
+          If you want to view the performance of all
       <span  class="para_word_styling">
           ULBs within a ULB type
-      </span> 
-          or 
+      </span>
+          or
       <span  class="para_word_styling">
           ULB Population
-      </span> 
-          Category then select your respective 
+      </span>
+          Category then select your respective
       <span  class="para_word_styling">
             State
-      </span> and 
-              the 
+      </span> and
+              the
       <span  class="para_word_styling">
             ULB type
-      </span> 
+      </span>
            or population category. Also, select the financial year
            for which the performance should be displayed.
   </p>
   <div class="container rounded filters-container py-3">
     <div class="row">
-      <a href="" class="text-decoration-none">   
+      <a href="" class="text-decoration-none">
         <h5 class="text-center d-flex justify-content-center">
           <svg xmlns="http://www.w3.org/2000/svg"
                height="24px"
-               viewBox="0 0 24 24" 
+               viewBox="0 0 24 24"
                width="24px"
                fill="#000000">
                <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -99,7 +105,7 @@
             </div>
             <div class="col-md-2 col col-sm d-flex justify-content-end">
               <button  class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
-                Clear All 
+                Clear All
                 <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
                      alt="cancel_off_icon">
               </button>
@@ -136,11 +142,11 @@
       <option value="1"></option>
     </select>
 
-    <button class="btn btn-outline-secondary 
+    <button class="btn btn-outline-secondary
                    btn-sm d-flex justify-content-center
                    align-items-center btn_clearAll"
     >
-      Clear All 
+      Clear All
           <img src="../../../assets//resources-das/cancel_off_orange_18dp.svg"
                alt="clear_all_icon">
     </button>
@@ -153,7 +159,7 @@
       Reset
     </button>
     <button class="btn btn-outline-secondary btn-sm
-                  d-flex justify-content-center 
+                  d-flex justify-content-center
                   align-items-center btn_apply"
     >
       Apply
@@ -161,13 +167,13 @@
   </div>
 </div>   <!-- Popup of Filters for Mobile devices ends  -->
 
-   
+
   <!-- <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
     <div class="col-md-7">
       <h3 class="heading">Data Availability</h3>
       <p class="da-para">
         75% financial data is available for the year YY i.e. 75% of the ULBs’
-        financial statements are available for 
+        financial statements are available for
         <span class="three-dots">...</span>
         <span class="three-dots"><a href="" class="text-decoration-none read-toggle">Read More</a></span>
           <span>
@@ -211,23 +217,23 @@
             <h3 class="heading">Data Availability</h3>
             <p class="da-para">
               75% financial data is available for the year YY i.e. 75% of the ULBs’
-              financial statements are available for 
+              financial statements are available for
               <span class="extra-text">
                 the year YY. Data is not available
                 for AA, BB and CC Municipal Corporation. For more details, download the
                 complete set of ULBs for which the data is available for the year YY.
-              </span> 
-              <span class="three-dots" >...</span>
+              </span>
+              <span class="three-dots" *ngIf="showButton">...</span>
                   <span class="three-dots btn-rm" *ngIf="showButton" (click)="open()">
                     Read More
                   </span>
-                      <span  id="collapseManual"> 
+                      <span  id="collapseManual">
                         {{ToggleString}}
                         <!-- the year YY. Data is not available
                         for AA, BB and CC Municipal Corporation. For more details, download the
                         complete set of ULBs for which the data is available for the year YY.  -->
                       </span>
-                  <span class="three-dots btn-rm" 
+                  <span class="three-dots btn-rm"
                        *ngIf="!showButton"
                         (click)="close()"
                   >
@@ -242,7 +248,7 @@
           </div>
           <div class="col-md-5 d-flex justify-content-center">
               <div class="doughnut-container">
-                    <canvas id="myChart1" 
+                    <canvas id="myChart1"
                             width="100%">
                     </canvas>
                     <p class="doughnut_percentage text-center">
@@ -262,14 +268,14 @@
 </div>
 <!-- Full doughnut chart section -->
 <div class="container total-revenue-doughnut">
-  <app-revenuechart class="rounded"
-                   [chartData]="doughnutChartData" 
+  <app-revenuechart class=""
+                   [chartData]="doughnutChartData"
                    [chartId]="doughnutChartId">
   </app-revenuechart>
 </div>
 
 
-  
+
 
 
 
@@ -278,9 +284,9 @@
   <!-- <div class="container total-revenue-doughnut">
     <div class="row d-flex justify-content-between pt-3">
      <div class="col-md-6">
-      <p> 
+      <p>
         <b>
-          The following pie chart provides the 
+          The following pie chart provides the
           split of the contribution various own
            revenue streams to the total own revenue.
         </b>
@@ -342,7 +348,7 @@
            <div class="col-lg-3 col-md-6 col-6"
                 *ngFor="let cardItem of cardData;"
            >
-                <app-shared-card class="rc-cont" 
+                <app-shared-card class="rc-cont"
                                 [data]="cardItem">
                 </app-shared-card>
            </div>
@@ -362,7 +368,7 @@
         </table>
     </div>   -->
 
-    <!-- <div class="table-container table-responsive">
+    <div class="table-container table-responsive">
       <table class="table table-hover">
         <thead>
           <tr class="scrollme scrollableTH">
@@ -381,16 +387,51 @@
           </tr>
         </tbody>
       </table>
-    </div> -->
+    </div>
     <small>Please note financial data for AA, BB and
            CC Municipal Corporations is not available and thus,
            is not depicted here.
     </small>
   </div>
 
+  <div class="container">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <p class="accordion-header" id="headingOne">
+          <button class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne">
+            How is performance assessed?
+          </button>
+        </p>
+        <div id="collapseOne" class="accordion-collapse collapse show"  data-bs-parent="#accordionExample">
+          <div class="accordion-body accbody">
+            <div class="accColOneContent col-12 col-md-6 col-lg-6">
+              <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
+              <p>
+                <span class="">Upward arrow:</span> The performance has increased (by the percentage indicated
+                alongside the arrow) as compared to the previous year
+              </p>
+            </div>
+            <div class="accColTwoContent col-12 col-md-6 col-lg-6">
+              <img src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
+              <p>
+                <span class="">Downward arrow:</span> The performance has increased (by the percentage indicated
+                alongside the arrow) as compared to the previous year
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bar chart section -->
 <div class="container total-revenue-doughnut">
   <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId"></app-revenuechart>
 </div>
-  
+
 </div>
