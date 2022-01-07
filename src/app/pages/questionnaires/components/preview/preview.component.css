@@ -1,0 +1,84 @@
+table tbody tr td:nth-child(1) {
+  width: 3%;
+  position: relative;
+}
+
+table {
+  font-size: 0.5em !important;
+}
+
+table td {
+  padding-top: 1%;
+}
+
+:host {
+  position: relative;
+  display: block;
+  font-size: 2vw;
+}
+
+:host span.top-11 {
+  top: 8px;
+}
+
+:host .download-buttom {
+  position: absolute;
+  float: right;
+  right: 0px;
+  z-index: 2;
+}
+
+:host .tab-heading {
+  font-size: 1em;
+}
+
+:host .main-section-header {
+  font-size: 0.7em;
+  margin-top: 1em;
+}
+
+:host .question-number {
+  position: absolute;
+  top: 15px;
+}
+
+:host .question {
+  position: relative;
+}
+
+:host .action-plan,
+:host .implementation-plan {
+  font-size: 0.5em;
+  margin-bottom: 0px;
+  margin-top: 1%;
+}
+
+:host .download-link {
+  margin-right: 5px;
+}
+
+.loader {
+  position: fixed;
+  background: #716d6d5c;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  right: 0px;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  color: red;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.loader .loader-message {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+/*# sourceMappingURL=preview.component.css.map */

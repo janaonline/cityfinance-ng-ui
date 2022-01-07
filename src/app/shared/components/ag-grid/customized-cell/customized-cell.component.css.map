@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACF,gBAAgB,EAAE,OAAO;CAC5B;;AAED,AAAA,MAAM,CAAC;EACH,gBAAgB,EAAE,GAAG;EACrB,OAAO,EAAE,GAAG;CACf;;AAED,AAAA,KAAK,CAAC;EACF,QAAQ,EAAE,MAAM;EAChB,WAAW,EAAE,MAAM;EACnB,aAAa,EAAE,QAAQ;EACvB,KAAK,EAAE,KAAK;CACf;;AAED,AAAA,YAAY,CAAC;EACT,UAAU,EAAE,MAAM;EAClB,QAAQ,EAAE,MAAM;EAChB,aAAa,EAAE,QAAQ;CAC1B",
+    "sources": [
+        "customized-cell.component.scss"
+    ],
+    "names": [],
+    "file": "customized-cell.component.css"
+}

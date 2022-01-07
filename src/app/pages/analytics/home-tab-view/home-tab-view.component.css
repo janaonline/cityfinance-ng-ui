@@ -1,0 +1,318 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+.font-weight-light {
+  font-weight: 400;
+}
+
+::ng-deep div.mat-tab-body-content {
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+::ng-deep .year-text {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 45%;
+  right: 38%;
+}
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .table-heading-for-years {
+    z-index: 1;
+  }
+}
+
+::ng-deep .modal-uq {
+  min-width: 70vw !important;
+}
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .year-dropdown-cotnainer {
+    margin-top: 9%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .map-container {
+    margin-bottom: 5%;
+  }
+}
+
+::ng-deep .countplaceholder,
+::ng-deep .c-token {
+  font-size: 1.2rem;
+}
+
+::ng-deep .mat-tab-label {
+  padding: 24px 24px !important;
+  border: none;
+}
+
+::ng-deep .pure-checkbox input[type="checkbox"] + label:before {
+  border: 1px solid darkgrey;
+}
+
+::ng-deep .c-remove,
+::ng-deep .clear-all {
+  display: none !important;
+}
+
+::ng-deep .cuppa-dropdown .selected-list {
+  border: 1.2px solid #3a3939;
+}
+
+::ng-deep .cuppa-dropdown .selected-list .c-btn {
+  min-height: 37px;
+}
+
+.table-responsive {
+  max-height: 50vh;
+  overflow: auto;
+}
+
+#table th:last-child {
+  min-width: 100px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0px grey;
+          box-shadow: inset 0 0 0px grey;
+  border-radius: 0px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+#table-main th:first-child {
+  text-align: left;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 0px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px !important;
+  border: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 0px !important;
+  border: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}
+
+.pie-chart-container {
+  font-size: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 30%;
+  width: 30%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media (min-width: 576px) {
+  .pie-chart-container {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pie-chart-container {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .pie-chart-container {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pie-chart-container {
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 1500px) {
+  .pie-chart-container {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 551px) {
+  .pie-chart-container {
+    height: 80%;
+    width: 80%;
+    margin: auto;
+    -ms-flex-line-pack: center;
+        align-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    left: 10%;
+    margin-bottom: 25px;
+  }
+}
+
+.table-container-main {
+  max-height: 55vh;
+  width: 99%;
+  margin-right: 15px;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .table-container-main {
+    max-height: 100vh;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .table-container-main {
+    width: 100%;
+    padding: 0px !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 1500px) {
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    font-size: 1.3rem;
+  }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 560px) {
+  .table > tbody > tr > td,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > td,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > thead > tr > th {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 576px) {
+  .pie-chart-legend {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pie-chart-legend {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .pie-chart-legend {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pie-chart-legend {
+    font-size: 1.15rem;
+  }
+}
+
+@media (min-width: 1500px) {
+  .pie-chart-legend {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 551px) {
+  thead.m-bg-n {
+    background: #059b9a;
+    color: #fff;
+  }
+  thead.m-bg-n th {
+    background: #059b9a !important;
+    width: 8% !important;
+    white-space: break-spaces;
+  }
+  .ng-star-inserted {
+    white-space: normal !important;
+  }
+  .show-up {
+    top: -40px;
+  }
+}
+/*# sourceMappingURL=home-tab-view.component.css.map */

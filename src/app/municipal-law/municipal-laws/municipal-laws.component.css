@@ -1,0 +1,176 @@
+.back-link {
+  float: left;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 468px) {
+  .back-link {
+    margin-right: 10px;
+  }
+}
+
+.back-btns {
+  float: right;
+}
+
+.map-container .fil2 {
+  fill: #fff;
+}
+
+.map-container .svg_path {
+  fill: #efefef;
+  opacity: 1;
+}
+
+.map-container .svg_path:hover {
+  stroke-width: 0.9px !important;
+}
+
+.map-container .selected {
+  fill: #059b9a;
+}
+
+.state-list .btn {
+  margin: 5px auto;
+  border: unset !important;
+  width: 100%;
+  background-color: #aaa;
+}
+
+.state-list .btn:hover {
+  background-color: #ffc500;
+  color: #fff;
+}
+
+@media screen and (max-width: 551px) {
+  .state-list .btn:hover {
+    background-color: #aaa;
+    color: #000;
+  }
+}
+
+.state-list .btn-selected {
+  background-color: #ffc500 !important;
+  color: black !important;
+}
+
+#compare-table {
+  margin-bottom: 5px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 2;
+}
+
+#compare-table tr {
+  position: relative;
+}
+
+#compare-table th {
+  background-color: #059b9a;
+  color: white;
+}
+
+table td,
+table th {
+  width: 300px;
+  border: 1px solid #eee;
+}
+
+table td .glyphicon-info-sign,
+table th .glyphicon-info-sign {
+  float: left;
+  color: #059b9a;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.fixed-header {
+  height: calc(100vh - 200px);
+}
+
+@media screen and (max-width: 468px) {
+  .fixed-header {
+    height: calc(100vh - 290px);
+  }
+}
+
+.common-container {
+  padding: 30px 0 0px;
+}
+
+#finance-law-map {
+  margin-top: 4%;
+  border-radius: inherit;
+  left: 5px;
+  bottom: 0px;
+  background: transparent;
+  z-index: 1;
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  min-height: 65vh;
+  max-height: 100%;
+  -webkit-transition: all 0.8s;
+  transition: all 0.8s;
+}
+
+::ng-deep .leaflet-control-attribution,
+.leaflet-control {
+  display: none !important;
+}
+
+::ng-deep .law-page .carousel-control {
+  display: none;
+}
+
+::ng-deep .municipal-law-carousel div.carousel.slide {
+  outline: none !important;
+}
+
+:host .hide-container {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  max-height: 0px;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 800px) and (min-width: 560px) {
+  .m-law-container {
+    height: 65vh;
+    overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 551px) {
+  .m-law .btn {
+    white-space: break-spaces;
+  }
+  .m-law-container {
+    height: 59vh;
+    overflow: scroll;
+  }
+  .mv-65 {
+    height: 65vh;
+    overflow: scroll;
+  }
+}
+
+@media only screen and (max-width: 551px) {
+  .accordion-full-m {
+    padding: 0;
+  }
+  .mobile-btn-center {
+    margin: auto;
+    display: block;
+  }
+  .law-page {
+    min-height: auto;
+  }
+}
+/*# sourceMappingURL=municipal-laws.component.css.map */

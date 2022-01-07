@@ -1,0 +1,43 @@
+:host .message-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 98%;
+  height: 55vh;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+:host .message-wrapper .box {
+  -webkit-box-shadow: 1px 1px 11px 1px #b9b5b5;
+          box-shadow: 1px 1px 11px 1px #b9b5b5;
+  padding: 5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 45vw;
+  border-radius: 5px;
+  border: 1px solid #c7c5c5;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+:host .btn {
+  outline: none;
+}
+
+:host app-tick-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  display: inline-block;
+}
+/*# sourceMappingURL=completed.component.css.map */

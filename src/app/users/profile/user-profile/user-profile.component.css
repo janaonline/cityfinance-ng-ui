@@ -1,0 +1,9 @@
+.input-group {
+  width: 35%;
+  margin-top: 2%;
+}
+
+.input-group .form-control {
+  border-radius: 4px;
+}
+/*# sourceMappingURL=user-profile.component.css.map */

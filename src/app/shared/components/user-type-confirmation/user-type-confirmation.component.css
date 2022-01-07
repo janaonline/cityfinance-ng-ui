@@ -1,0 +1,51 @@
+:host .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 100%;
+  margin: auto;
+}
+
+:host .user {
+  cursor: pointer;
+  padding: 5% 5%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 95%;
+  background: silver;
+  border-radius: 5%;
+  position: relative;
+  font-size: 2rem;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+:host .user:hover {
+  background: transparent;
+}
+
+:host .user:hover i {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  text-shadow: 5px 5px 5px #7a7a7a;
+}
+
+:host .user i {
+  font-size: 6rem;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+/*# sourceMappingURL=user-type-confirmation.component.css.map */

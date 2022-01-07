@@ -1,0 +1,361 @@
+:host {
+  --greenish: #047474;
+}
+
+:host textarea:disabled {
+  border: none;
+}
+
+:host .input-group-addon {
+  background: var(--greenish);
+  color: white;
+  padding: 6px 8px;
+  border: 1px solid var(--greenish);
+}
+
+:host .form-control {
+  border-color: var(--greenish);
+}
+
+:host .question-table {
+  width: 100%;
+  margin-bottom: 3%;
+}
+
+:host .question-table tr:not(:last-child) td {
+  padding: 1% 1%;
+  border-bottom: 0.5px solid #e0e0e0;
+  position: relative;
+}
+
+:host .question-table tbody tr td:nth-child(1) {
+  padding: 0.5% 0.1%;
+  width: 2%;
+}
+
+:host .question-table tbody tr td:nth-child(3) {
+  padding: 0.5% 0.1%;
+  width: 15%;
+}
+
+:host .question-table .question {
+  width: 83%;
+  margin: 0%;
+}
+
+:host li {
+  padding: 2% 1%;
+  border-bottom: 0.5px solid #dddddd;
+  position: relative;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+:host li p {
+  margin: 1px;
+}
+
+:host button.btn-primary {
+  outline: none;
+}
+
+:host .myFile {
+  position: absolute;
+  overflow: hidden;
+  float: left;
+  clear: left;
+  top: 4px;
+}
+
+:host .myFile input[type="file"] {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  font-size: 100px;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+}
+
+:host .myFile input[type="file"]:disabled {
+  cursor: not-allowed;
+}
+
+:host .myFile:disabled {
+  cursor: not-allowed !important;
+}
+
+:host .left {
+  width: 75%;
+  display: inline-block;
+}
+
+:host .right {
+  width: 15%;
+  right: 0%;
+  display: inline-block;
+  position: absolute;
+}
+
+:host .right button {
+  float: right;
+}
+
+:host .file-list {
+  margin: 1%;
+  width: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+:host .file-list .file-tracker-name {
+  color: gray;
+  font-style: italic;
+  word-break: break-word;
+  display: inline-block;
+  width: 42%;
+}
+
+:host .progress {
+  display: inline-block;
+  width: 35%;
+  margin-bottom: 0%;
+  margin-left: 2%;
+}
+
+:host .fa-times {
+  color: red;
+  font-size: 1vw;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+:host .fa-times:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+}
+
+:host .btn-upload {
+  display: inline-block;
+}
+
+:host .btn:hover {
+  background-color: #ffc500;
+  font-weight: bold;
+}
+
+:host .download-link-icon {
+  margin-left: 2%;
+  font-size: 1.5vw;
+}
+
+:host .showList {
+  margin: 1%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+:host .benchamark-cell {
+  display: block;
+  text-align: center;
+  margin: auto;
+  width: 100%;
+}
+
+:host table {
+  width: 100%;
+}
+
+:host th {
+  color: #047474;
+}
+
+:host .non-ulb-view-table .data-input,
+:host .non-ulb-view-table .service-name,
+:host .non-ulb-view-table .benchamark-cell {
+  position: absolute;
+  top: 1rem;
+}
+
+:host .non-ulb-view-table table tbody tr td:nth-child(3),
+:host .non-ulb-view-table table thead th:nth-child(3) {
+  width: 14%;
+}
+
+:host .non-ulb-view-table table th,
+:host .non-ulb-view-table table td {
+  padding: 1% 1%;
+}
+
+:host .non-ulb-view-table table tbody td:nth-child(1) {
+  width: 21%;
+}
+
+:host .non-ulb-view-table table tbody td:last-child {
+  width: 15%;
+}
+
+:host form.ulb-view-table {
+  width: 101%;
+  -webkit-transform: none;
+          transform: none;
+}
+
+:host table tbody td,
+:host table thead th {
+  padding: 0.5%;
+  text-align: center;
+  position: relative;
+}
+
+:host table tbody td .error-message,
+:host table thead th .error-message {
+  padding: 1%;
+  border-radius: 5px;
+  z-index: 11;
+  position: absolute;
+  width: 120%;
+  font-size: 1rem;
+  background: #575757;
+  left: 0px;
+  top: 0px;
+  color: white !important;
+  opacity: 0;
+  -webkit-animation: bottom-to-top 1s forwards;
+          animation: bottom-to-top 1s forwards;
+}
+
+:host table tbody tr td:nth-child(1),
+:host table thead th:nth-child(1) {
+  text-align: left !important;
+}
+
+:host .actions {
+  width: 100%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+:host .actions .action {
+  margin-right: 20%;
+}
+
+:host table tbody tr td:nth-child(2),
+:host table thead th:nth-child(2) {
+  width: 10%;
+}
+
+@-webkit-keyframes bottom-to-top {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(-103%);
+            transform: translateY(-103%);
+  }
+}
+
+@keyframes bottom-to-top {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(-103%);
+            transform: translateY(-103%);
+  }
+}
+
+.rejected-row .input-group-addon {
+  background: red;
+  border: 1px solid red;
+}
+
+.rejected-row label {
+  color: red;
+}
+
+.rejected-row input.form-control {
+  border-color: red;
+}
+
+.footerBtnDiv {
+  margin-bottom: 10px;
+}
+
+.footerBtn {
+  width: auto;
+  height: 32px;
+  background-color: #26A1A1;
+  color: #FFFFFF;
+  font-weight: normal;
+  font-size: 12px;
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+.backbtn {
+  background-color: #CFCFCF;
+  color: #FFFFFF;
+  width: auto;
+  height: 32px;
+  padding-left: 4%;
+  font-size: 12px;
+  padding-right: 4%;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.align-vertical {
+  vertical-align: text-top;
+}
+
+.image-upload > input {
+  display: none;
+}
+
+a.anDisable {
+  pointer-events: none;
+}
+
+.btn-slb {
+  display: none;
+}
+
+.btn-p {
+  background-color: #ffc500;
+  color: #FFFFFF;
+  border: none;
+  cursor: not-allowed;
+}
+
+.btn-r {
+  background-color: red;
+  color: #FFFFFF;
+  cursor: not-allowed;
+}
+
+.btn-a {
+  background-color: green;
+  color: #FFFFFF;
+  cursor: not-allowed;
+}
+/*# sourceMappingURL=fc-slb.component.css.map */

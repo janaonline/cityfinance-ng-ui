@@ -1,0 +1,71 @@
+:host ::ng-deep div.mat-tab-label {
+  padding: 24px 24px !important;
+  border: none;
+}
+
+:host .questionnaire-tab-group {
+  width: 57vw;
+  margin: 5% auto;
+}
+
+:host .fill-questionnaire {
+  float: right;
+  position: absolute;
+  right: 0px;
+  margin-top: -3%;
+}
+
+:host .tableWrapper {
+  width: 100%;
+  display: block;
+  margin: auto;
+  margin-top: 5%;
+  overflow: hidden;
+}
+
+:host .table-heading {
+  position: relative;
+}
+
+:host .table {
+  width: 101%;
+  max-width: 101%;
+}
+
+:host .table th:nth-child(1) {
+  width: 1%;
+}
+
+:host .table th:not(:nth-child(1)) {
+  width: 28%;
+}
+
+:host .actionCell {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+:host .actionCell i {
+  cursor: pointer;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+:host .actionCell i:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  color: #0883d4;
+}
+
+::ng-deep .state-without-questionnaire-popup mat-dialog-container.mat-dialog-container {
+  overflow: visible;
+}
+
+::ng-deep .state-without-questionnaire-popup .c-btn {
+  font-size: 1.5rem;
+}
+/*# sourceMappingURL=submitted-form.component.css.map */

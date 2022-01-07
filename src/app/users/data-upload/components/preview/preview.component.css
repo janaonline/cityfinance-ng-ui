@@ -1,0 +1,26 @@
+.td-width {
+  width: 25%;
+}
+
+:host .scrol {
+  height: 62vh;
+  overflow-y: scroll;
+}
+
+:host button {
+  background: #047474;
+}
+
+:host table tbody tr:nth-child(even) {
+  background: #007c7c14;
+}
+
+:host h1,
+:host h2,
+:host h3,
+:host h4,
+:host h5,
+:host h6 {
+  font-weight: 700;
+}
+/*# sourceMappingURL=preview.component.css.map */

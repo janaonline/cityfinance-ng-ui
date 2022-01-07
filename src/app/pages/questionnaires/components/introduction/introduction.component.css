@@ -1,0 +1,22 @@
+:host {
+  font-size: 1vw;
+}
+
+:host h2 {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+:host p {
+  font-size: 1em;
+}
+
+:host .sub-list {
+  padding-left: 2%;
+  display: inline-block;
+}
+
+:host .btn-primary {
+  outline: none;
+}
+/*# sourceMappingURL=introduction.component.css.map */

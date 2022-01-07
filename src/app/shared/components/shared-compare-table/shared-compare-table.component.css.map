@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,CAAC;EACR,KAAK,EAAE,GAAG;EACV,MAAM,EAAE,MAAM;CACf;;AACD,AAAA,EAAE,AAAA,YAAY,CAAC;EACb,WAAW,EAAE,GAAG;EAChB,KAAK,EAAE,IAAI;EACX,OAAO,EAAE,MAAM;CAChB;;AAED,AAAA,EAAE,CAAC;EAED,OAAO,EAAE,MAAM;CAChB",
+    "sources": [
+        "shared-compare-table.component.scss"
+    ],
+    "names": [],
+    "file": "shared-compare-table.component.css"
+}

@@ -241,7 +241,7 @@
                   </span>
             </p>
               <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
-                <img src="../../../assets/resources-das/file_download_orange_18dp.svg"
+                <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
                      alt="download_icon">
                   Download Data
               </button>
@@ -369,10 +369,13 @@
     </div>   -->
 
     <div class="table-container table-responsive">
-      <table class="table table-hover">
+      <table style="border-radius: 10px;" class="table styletable">
         <thead>
           <tr class="scrollme scrollableTH">
-            <th class="col-attr" [class]="'th'+i" scope="col" *ngFor="let attribute of columnAttribute; let i = index;">
+            <th class="col-attr" [class]="'th'+i"
+                scope="col"
+                *ngFor="let attribute of columnAttribute;
+                let i = index;">
               {{attribute.title}}
             </th>
           </tr>
@@ -388,13 +391,14 @@
         </tbody>
       </table>
     </div>
-    <small>Please note financial data for AA, BB and
-           CC Municipal Corporations is not available and thus,
-           is not depicted here.
-    </small>
+    <p class="text-end smallText">
+      Please note financial data for AA, BB and
+      CC Municipal Corporations is not available and thus,
+      is not depicted here.
+    </p>
   </div>
 
-  <div class="container">
+  <div class="container accContainer">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
         <p class="accordion-header" id="headingOne">
@@ -404,23 +408,25 @@
                   data-bs-target="#collapseOne"
                   aria-expanded="true"
                   aria-controls="collapseOne">
-            How is performance assessed?
+            How is performance assessed
           </button>
         </p>
         <div id="collapseOne" class="accordion-collapse collapse show"  data-bs-parent="#accordionExample">
-          <div class="accordion-body accbody">
-            <div class="accColOneContent col-12 col-md-6 col-lg-6">
+          <div class="accordion-body d-flex">
+            <div class="d-flex accColOneContent col-12 col-md-6 col-lg-6">
               <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
               <p>
-                <span class="">Upward arrow:</span> The performance has increased (by the percentage indicated
+                <span class="imgTitle">Upward arrow:</span>
+                The performance has increased (by the percentage indicated
                 alongside the arrow) as compared to the previous year
               </p>
             </div>
             <div class="accColTwoContent col-12 col-md-6 col-lg-6">
               <img src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
               <p>
-                <span class="">Downward arrow:</span> The performance has increased (by the percentage indicated
-                alongside the arrow) as compared to the previous year
+                <span class="imgTitle">Downward arrow:</span>
+                The performance has decreased (by the percentage
+                indicated alongside the arrow) as compared to the previous year
               </p>
             </div>
           </div>
@@ -430,8 +436,31 @@
   </div>
 
   <!-- Bar chart section -->
-<div class="container total-revenue-doughnut">
-  <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId"></app-revenuechart>
+<div class="container barChartContainer">
+  <h2 class="barCharttitle text-center">
+      Top 10 Performing ULBs
+  </h2>
+  <p class="barChartSubTitle text-center">
+      Top 10 performing ULBs in the country in property
+      tax per capita can be viewed below.
+  </p>
+  <app-revenuechart class="rounded"
+                   [chartData]="barChartData"
+                   [chartId]="barChartId">
+  </app-revenuechart>
+
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center">
+    <p class="DataDownloadText">
+      You can also download the source data in excel format
+    </p>
+    <button class="btn btn-outline-secondary btn-sm btn-os mt-0 btn-download">
+      <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
+           alt="download_icon">
+        Download Data
+    </button>
+  </div>
+</div>
 </div>
 
 </div>

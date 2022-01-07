@@ -1,0 +1,42 @@
+:host ol,
+:host ul {
+  list-style-type: none;
+}
+
+:host mat-radio-button {
+  margin-left: 1%;
+}
+
+:host .sub-questions-list,
+:host .textarea-wrapper {
+  width: 47vw;
+}
+
+:host .sub-questions-list li {
+  margin-top: 3%;
+}
+
+:host .mat-expansion-panel {
+  margin-bottom: 2%;
+}
+
+:host button.btn-primary {
+  outline: none;
+}
+
+:host .date-field {
+  width: 55%;
+  padding: 4%;
+  border: 1px solid white;
+}
+
+::ng-deep .buttonWrapper {
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+::ng-deep .buttonWrapper button {
+  margin-left: 2%;
+}
+/*# sourceMappingURL=user-charges.component.css.map */

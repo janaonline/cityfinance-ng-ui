@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,QAAQ,CAAC;EACL,IAAI,EAAE,sCAAsC;EAC5C,cAAc,EAAE,GAAG;EACnB,KAAK,EAAE,OAAO;CACjB;;AAED,AAAA,MAAM,CAAC;EACH,IAAI,EAAE,qCAAqC;EAC3C,cAAc,EAAE,GAAG;EACnB,KAAK,EAAE,OAAO;CACjB;;AAED,AAAA,QAAQ,CAAC;EACL,IAAI,EAAE,wCAAwC;EAC9C,cAAc,EAAE,GAAG;EACnB,KAAK,EAAE,OAAO;CACjB",
+    "sources": [
+        "dynamic-sub-learning.component.scss"
+    ],
+    "names": [],
+    "file": "dynamic-sub-learning.component.css"
+}

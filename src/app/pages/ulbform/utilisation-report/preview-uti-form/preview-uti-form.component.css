@@ -1,0 +1,100 @@
+.header-p {
+  background-color: #047474;
+  text-align: center;
+  padding: 10px;
+}
+
+.heading-p {
+  color: #FFFFFF;
+  font-size: 24px;
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.header-ut-p {
+  background-color: #047474;
+  text-align: center;
+  padding: 10px;
+}
+
+.heading-ut-p {
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 700;
+  padding-top: .5rem;
+}
+
+.h-uti-p {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 1rem;
+  color: #FFFFFF;
+}
+
+.s-h-uti {
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.se-r {
+  margin-top: 2%;
+}
+
+.st-n {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.m-top {
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+tr {
+  text-align: center;
+}
+
+.f-text {
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.sig-text {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.m-b {
+  margin-bottom: 5%;
+  margin-top: 1%;
+}
+
+.pd-row {
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
+.pd-row-n {
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  padding: 10px 6px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  border-top: 1px solid #ddd;
+}
+
+.name-row {
+  text-align: center;
+  margin-top: 4%;
+}
+/*# sourceMappingURL=preview-uti-form.component.css.map */

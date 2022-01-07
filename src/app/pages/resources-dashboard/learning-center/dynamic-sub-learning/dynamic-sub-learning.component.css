@@ -1,0 +1,18 @@
+.heading {
+  font: normal normal bold 22px/24px 'Archivo';
+  letter-spacing: 0px;
+  color: #0F1F40;
+}
+
+.sub-h {
+  font: normal normal 600 18px/20px 'Archivo';
+  letter-spacing: 0px;
+  color: #0F1F40;
+}
+
+.sub-ans {
+  font: normal normal normal 16px/25px 'Archivo';
+  letter-spacing: 0px;
+  color: #6E7281;
+}
+/*# sourceMappingURL=dynamic-sub-learning.component.css.map */

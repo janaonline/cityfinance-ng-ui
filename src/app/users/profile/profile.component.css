@@ -1,0 +1,19 @@
+.profile_wrapper {
+  background-attachment: #8cd7f5;
+  margin-left: 0%;
+}
+
+.profile_wrapper .input-group {
+  width: 50%;
+  margin-top: 2%;
+}
+
+.profile_wrapper .input-group .form-control {
+  border-radius: 4px;
+}
+
+.self-profile {
+  width: 60vw;
+  margin: auto;
+}
+/*# sourceMappingURL=profile.component.css.map */

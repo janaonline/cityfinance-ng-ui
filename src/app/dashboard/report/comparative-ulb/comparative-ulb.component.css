@@ -1,0 +1,198 @@
+.table-bordered {
+  width: 100%;
+}
+
+.table-bordered th {
+  padding: 6px;
+}
+
+.table-bordered td {
+  padding: 5px;
+}
+
+:host table thead tr:not(:nth-child(1)),
+:host table thead tr:not(:nth-child(2)) {
+  background: #e2e2e2;
+}
+
+:host table thead tr:not(:nth-child(1)) th,
+:host table thead tr:not(:nth-child(1)) td,
+:host table thead tr:not(:nth-child(2)) th,
+:host table thead tr:not(:nth-child(2)) td {
+  background: #e2e2e2;
+}
+
+:host table tbody tr:nth-last-child(1),
+:host table tr.backgroundHighlight {
+  background: #f4f4f4;
+}
+
+:host table tbody tr:nth-last-child(1) th,
+:host table tbody tr:nth-last-child(1) td,
+:host table tr.backgroundHighlight th,
+:host table tr.backgroundHighlight td {
+  background: #f4f4f4;
+}
+
+:host table tbody,
+:host table thead {
+  color: #333333;
+}
+
+:host ::ng-deep .selected-list,
+:host ::ng-deep .mat-form-field-flex {
+  border: 1px solid white !important;
+  border-radius: 5px;
+  outline: none;
+}
+
+:host ::ng-deep .selected-list .c-btn,
+:host ::ng-deep .mat-form-field-flex .c-btn {
+  outline: none;
+}
+
+.sub-heading {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.aggregate-heading {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid grey;
+}
+
+td,
+th {
+  margin: 0;
+  border: 1px solid grey;
+  white-space: nowrap;
+  border-top-width: 0px;
+}
+
+.headcol {
+  position: absolute;
+  width: 5em;
+  left: 0;
+  top: auto;
+  border-top-width: 1px;
+  /*only relevant for first row*/
+  margin-top: -1px;
+  /*compensate for top border*/
+}
+
+.headcol:before {
+  content: "Row ";
+}
+
+.long {
+  background: yellow;
+  letter-spacing: 1em;
+}
+
+table tbody tr > td:nth-child(1) {
+  width: 10px;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+tr > td:nth-child(1) {
+  background: white;
+}
+
+tr > td:nth-child(2) {
+  background: white;
+  min-width: 25vw;
+  width: 30vw;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0px 0px 2px 2px #a7a7a7;
+          box-shadow: inset 0px 0px 2px 2px #a7a7a7;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #adadad;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #adadad;
+}
+
+::ng-deep .lazyContainer > * {
+  color: black;
+}
+
+::ng-deep .selected-list span {
+  fill: white !important;
+}
+
+::ng-deep angular2-multiselect span {
+  font-size: 1.2em;
+}
+
+::ng-deep .disable-form {
+  pointer-events: none;
+}
+
+::ng-deep .disable-form .c-angle-down {
+  opacity: 0;
+}
+
+.tooltipWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltipWrapper > .tooltipData {
+  position: absolute;
+  display: inline-block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 90px;
+  opacity: 0;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+  background: #3b3a3a;
+  color: white;
+  border-radius: 6%;
+  font-size: 1em;
+  text-align: center;
+  padding: 1% 0.4%;
+}
+
+.tooltipWrapper:hover .tooltipData {
+  opacity: 1;
+  -webkit-transform: translateX(-108%);
+          transform: translateX(-108%);
+}
+
+td {
+  overflow: hidden;
+}
+
+::ng-deep .clear-all {
+  visibility: hidden;
+  pointer-events: none;
+}
+/*# sourceMappingURL=comparative-ulb.component.css.map */
