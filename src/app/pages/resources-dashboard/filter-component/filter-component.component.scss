@@ -1,0 +1,24 @@
+.card-body {
+    background: #F7F7F7 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.form-select,
+.form-control {
+    font: normal normal 600 13px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+}
+
+.clearBtn {
+    border: 1px solid var(--unnamed-color-e67e15);
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #E67E15;
+    border-radius: 6px;
+    font: normal normal 600 12px/19px 'Poppins';
+    letter-spacing: 0px;
+    color: #E67E15;
+    padding: 5px 10px;
+}

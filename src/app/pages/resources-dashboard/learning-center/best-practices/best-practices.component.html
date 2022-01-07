@@ -1,0 +1,31 @@
+<div class="filter-d mt-3 mb-3">
+    <app-filter-component (filterFormData)="filterData($event)" [filterInputData]="filterComponent"></app-filter-component>
+</div>
+<div class="row">
+    <div class="col-sm-12 info-text mb-3">
+        <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+            sanctus est Lorem ipsum dolor sit amet.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData;" style="margin: 1rem 0">
+        <div class="card-body">
+            <div class="h-c">
+                {{item?.label}}
+            </div>
+            <div class="info-c mt-2 mb-3">
+                {{item?.info}}
+            </div>
+            <div class="icon_text">
+                <p class="m-0">
+                    Updated on
+                </p>
+                <p class="m-0">
+                    {{item?.updateDate}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
