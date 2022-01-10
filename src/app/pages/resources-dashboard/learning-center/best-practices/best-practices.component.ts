@@ -31,7 +31,7 @@ export class BestPracticesComponent implements OnInit {
       info: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl
       commodo aliquet. Suspendisse in posuere tellus.`,
       link: '',
-      type: 'pdf',
+      type: 'excel',
       updateDate: 'October 14, 2021'
     },
     {
@@ -47,7 +47,7 @@ export class BestPracticesComponent implements OnInit {
       info: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl
       commodo aliquet. Suspendisse in posuere tellus.`,
       link: '',
-      type: 'pdf',
+      type: 'excel',
       updateDate: '06/01/2022'
     },
     {

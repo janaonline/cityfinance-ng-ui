@@ -58,6 +58,15 @@ const routes: Routes = [
         children:[
           {
             path: 'balanceSheet', component: BalanceSheetComponent,
+          },
+          {
+            path: 'income_statement', component: BalanceSheetComponent,
+          },
+          {
+            path: 'property_tax', component: BalanceSheetComponent,
+          },
+          {
+            path: 'municipal_borrowing', component: BalanceSheetComponent,
           }
         ]
       },

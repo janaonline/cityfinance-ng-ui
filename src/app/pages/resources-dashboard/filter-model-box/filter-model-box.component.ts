@@ -1,29 +1,28 @@
-import { Component, EventEmitter, Input, OnInit, Output,TemplateRef } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { CommonService } from 'src/app/shared/services/common.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FilterModelBoxComponent } from '../filter-model-box/filter-model-box.component';
+
 @Component({
-  selector: 'app-filter-component',
-  templateUrl: './filter-component.component.html',
-  styleUrls: ['./filter-component.component.scss']
+  selector: 'app-filter-model-box',
+  templateUrl: './filter-model-box.component.html',
+  styleUrls: ['./filter-model-box.component.scss']
 })
-export class FilterComponentComponent implements OnInit {
+export class FilterModelBoxComponent implements OnInit {
+
+  constructor(
+    public dialogRef: MatDialogRef<FilterModelBoxComponent>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private _commonServices : CommonService,
+  ) { }
 
   @Output()
   filterFormData = new EventEmitter<any>();
 //  @Output() clearfilter = new EventEmitter<any>();
 
   @Input() filterInputData;
-  constructor(
-    private fb: FormBuilder,
-    private _commonServices : CommonService,
-    private modalService: BsModalService,
-    public dialog: MatDialog
-  ) { }
-
   filterForm;
   stateList;
   ulbList;
@@ -91,17 +90,7 @@ export class FilterComponentComponent implements OnInit {
 
     });
   }
-  filterModel() {
-    // this.modalRef = this.modalService.show(template);
-    const dialogRef = this.dialog.open(FilterModelBoxComponent, {
-      width: '100%',
-      height: '100%',
-     data: {},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
-    })
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

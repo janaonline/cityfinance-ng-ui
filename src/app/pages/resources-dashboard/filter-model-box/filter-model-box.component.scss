@@ -1,3 +1,7 @@
+::ng-deep .cdk-overlay-pane {
+    max-width: 100vw !important;
+}
+
 .card-body {
     background: #F7F7F7 0% 0% no-repeat padding-box;
     border-radius: 10px;
@@ -23,29 +27,25 @@
     padding: 5px 10px;
 }
 
-::ng-deep .modal.show .modal-dialog {
-    margin: 0;
-    height: 100% !important;
-    max-width: 100% !important;
-    max-height: 100%;
+.h {
+    color: #0F1F40;
+    width: 50%;
+    display: inline-block;
 }
 
-::ng-deep .modal-content {
-    border-radius: 0;
-    border: none;
+.close {
+    width: 50%;
+    display: inline-block;
+    text-align: end;
+    vertical-align: middle;
 }
 
-@media only screen and (min-width: 769px) {
-    .fil-btn {
-        pointer-events: none;
-    }
-    .f-h {
-        text-align: center !important;
-    }
+.btn-rs {
+    border: 1px solid #6E7281;
+    color: #6E7281;
 }
 
-@media only screen and (max-width: 768px) {
-    .fl-form {
-        display: none;
-    }
+.btn-ap {
+    border: 1px solid #E67E15;
+    color: #E67E15;
 }

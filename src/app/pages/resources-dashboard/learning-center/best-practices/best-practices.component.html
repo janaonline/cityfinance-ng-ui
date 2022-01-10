@@ -18,14 +18,35 @@
             <div class="info-c mt-2 mb-3">
                 {{item?.info}}
             </div>
-            <div class="icon_text">
-                <p class="m-0">
-                    Updated on
-                </p>
-                <p class="m-0">
-                    {{item?.updateDate}}
-                </p>
+            <div class="row" style="align-items: center;">
+                <div class="col-sm-2 pe-0">
+                    <span *ngIf="item?.type == 'pdf'">
+                    <img src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" class="p-i">
+                </span>
+                    <span *ngIf="item?.type == 'excel'">
+                  <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" class="p-i">
+                </span>
+                </div>
+                <div class="col-sm-9">
+                    <div class="icon-text">
+                        <p class="m-0">
+                            Updated on
+                        </p>
+                        <p class="m-0">
+                            {{item?.updateDate}}
+                        </p>
+                    </div>
+                </div>
             </div>
+
         </div>
+    </div>
+    <div class="col-sm-12 text-center mb-3 mt-3">
+        <button class="btn lmBtn">
+      <span class="material-icons" style="vertical-align: middle;">
+        refresh
+        </span>
+      <span class="ms-1">Load More</span>
+    </button>
     </div>
 </div>

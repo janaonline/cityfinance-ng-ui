@@ -28,6 +28,9 @@ import { FilterComponentComponent } from './filter-component/filter-component.co
 import { BestPracticesComponent } from './learning-center/best-practices/best-practices.component';
 import { BalanceSheetComponent } from './data-sets/balance-sheet/balance-sheet.component';
 import {MatTableModule} from '@angular/material/table';
+import { FilterModelBoxComponent } from './filter-model-box/filter-model-box.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -42,7 +45,8 @@ import {MatTableModule} from '@angular/material/table';
      DynamicSubLearningComponent,
      FilterComponentComponent,
      BestPracticesComponent,
-     BalanceSheetComponent
+     BalanceSheetComponent,
+     FilterModelBoxComponent
     ],
   imports: [
     CommonModule,
@@ -58,8 +62,9 @@ import {MatTableModule} from '@angular/material/table';
     MatButtonModule,
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
-    MatTableModule
-
+    MatTableModule,
+    ModalModule.forRoot(),
+    MatDialogModule
   ],
   providers: [
 

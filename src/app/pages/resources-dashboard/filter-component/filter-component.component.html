@@ -3,15 +3,18 @@
         <div class="card-body">
             <form [formGroup]="filterForm">
                 <div class="row">
-                    <div class="col-lg-2 col-sm-12">
-                        <span>
-                <img src="../../../../assets/new_dashBord_ftr_hdr/filter.svg" alt="">
-              </span>
-                        <span>
-                Filter by
-              </span>
+                    <div class="col-lg-2 col-sm-12 f-h">
+                        <a (click)="filterModel()" class="fil-btn" style="text-decoration: none;">
+                            <span>
+                             <img src="../../../../assets/new_dashBord_ftr_hdr/filter.svg" alt="">
+                           </span>
+                            <span>
+                             Filter by
+                            </span>
+                        </a>
+
                     </div>
-                    <div class="col-lg-10">
+                    <div class="col-lg-10 fl-form">
                         <div class="row">
                             <div class="col-lg-2">
                                 <select class="form-select" id="stateName" aria-label="Default select" formControlName="state" (change)="filterData()">
@@ -24,7 +27,7 @@
                                    <option value="" selected>City</option>
                                    <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                                </select> -->
-                                <input type="text" class="form-control" matInput formControlName="ulb" [matAutocomplete]="auto">
+                                <input type="text" class="form-control" placeholder="City" matInput formControlName="ulb" [matAutocomplete]="auto">
                                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                     <a (click)="filterData(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
                                         <mat-option [value]="option?.name">
@@ -66,6 +69,71 @@
                     </div>
                 </div>
             </form>
+
+            <!-- <ng-template #template>
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">Filters</h4>
+                    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+                  <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="filterForm">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-sm-12 mb-3">
+                                        <select class="form-select" id="stateName" aria-label="Default select" formControlName="state" (change)="filterData()">
+                                        <option value="" selected>State</option>
+                                        <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-12 mb-3">
+
+                                        <input type="text" class="form-control" placeholder="City" matInput formControlName="ulb" [matAutocomplete]="auto">
+                                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                            <a (click)="filterData(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                                                <mat-option [value]="option?.name">
+                                                    <span> {{option?.name}}</span>
+                                                </mat-option>
+                                            </a>
+                                        </mat-autocomplete>
+                                    </div>
+                                    <div class="col-sm-12 mb-3" *ngIf="filterInputData?.comp == 'dataSets'">
+                                        <select class="form-select" aria-label="Default select" formControlName="contentType">
+                                          <option value="" selected>Content Type</option>
+
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-12 mb-3" *ngIf="filterInputData?.comp == 'dataSets'">
+                                        <select class="form-select" aria-label="Default select" formControlName="sortBy">
+                                     <option value="" selected>Sort By</option>
+
+                                   </select>
+                                    </div>
+                                    <div class="col-sm-12 mb-3" *ngIf="filterInputData?.comp == 'bestPractices'">
+                                        <select class="form-select" aria-label="Default select" formControlName="sortBy">
+                                   <option value="" selected>Year</option>
+
+                                 </select>
+                                    </div>
+                                    <div class="col-sm-12 text-end mb-3" [ngClass]='{"col-lg-5": (filterInputData?.comp == "bestPractices")}'>
+                                        <button type="button" class="clearBtn" (click)="clearAll()">
+                                 <span style="vertical-align: middle;">
+                                  Clear All
+                                 </span>
+                                 <span style="padding-left: 6px; width: 12px;">
+                                  <img src="../../../../assets/new_dashBord_ftr_hdr/cancel.svg" alt="">
+                                 </span>
+
+                            </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-template> -->
         </div>
     </div>
 </div>
