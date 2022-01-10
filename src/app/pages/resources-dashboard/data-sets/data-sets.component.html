@@ -1,1 +1,13 @@
-<p>data-sets works!</p>
+<div class="tabs">
+    <app-resources-tabs [data]="tabData">
+    </app-resources-tabs>
+</div>
+
+<div class="filter-d mt-3 mb-3">
+    <app-filter-component (filterFormData)="filterData($event)" [filterInputData]="filterComponent"></app-filter-component>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <router-outlet></router-outlet>
+    </div>
+</div>

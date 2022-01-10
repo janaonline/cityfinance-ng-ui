@@ -36,7 +36,6 @@ export class ScorePerComponent implements OnInit {
 };
 
   constructor(
-    private _formBuilder: FormBuilder,
     private resource_das_services : ResourcesServicesService,
     protected _commonService: CommonService,
     private fb: FormBuilder
