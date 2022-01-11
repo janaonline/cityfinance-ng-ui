@@ -11,8 +11,7 @@ import { Subject } from "rxjs";
 export class BalanceTableService {
   constructor(private http: HttpClient) {}
 
-  sendRequest(val) {
-    let sendUrl = environment.api.url + "ledger/getIE";
-    return this.http.post(sendUrl, val);
+  getSingleUlbList(_id: any) {
+    return this.http.get(`${environment.api.url}/ulb/${_id}`);
   }
 }

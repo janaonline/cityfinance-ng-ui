@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 
 export interface PeriodicElement {
   name: number;
@@ -81,7 +87,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: "./shared-table.component.html",
   styleUrls: ["./shared-table.component.scss"],
 })
-export class SharedTableComponent implements OnInit {
+export class SharedTableComponent implements OnInit, OnChanges {
   dataSource = ELEMENT_DATA;
   displayedColumns: string[] = [
     "figures",
@@ -92,7 +98,15 @@ export class SharedTableComponent implements OnInit {
     "symbol2",
   ];
 
+  @Input() tableData: any;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("uniquetableData", this.tableData);
+  }
+
+  ngOnInit(): void {
+    // console.log("uniquetableData", this.tableData);
+  }
 }

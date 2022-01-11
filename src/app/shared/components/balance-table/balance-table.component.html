@@ -28,7 +28,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <app-shared-table></app-shared-table>
+        <app-shared-table [tableData]="singleTableData"></app-shared-table>
     </div>
     </div>
 
@@ -44,5 +44,5 @@
 
 
 <ng-template #template>
-    <app-compare-dialog (closeDialog)="closeModal()"></app-compare-dialog>
+    <app-compare-dialog (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)"></app-compare-dialog>
 </ng-template>
