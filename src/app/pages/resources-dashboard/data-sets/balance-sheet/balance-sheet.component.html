@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-sm-12 mb-3 mt-2">
+        <button class="filterBtn">Raw Data PDF</button>
+        <button class="filterBtn">Standardised Excel</button>
+        <button class="filterBtn">Raw Data Excel</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 mb-3">
+
+        <div class="cd-r">
+            <div class="card-body cd-h">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <!-- <input class="form-check-input" type="checkbox"
+                        (change)="isAllSelected($event.target.value)" [(ngModel)]="allSelected"
+                        [indeterminate]="unSelect"> -->
+                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selectedUsersList.length && isAllSelected(true)" [indeterminate]="isAllSelected(false) && !isAllSelected(true)">
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-sm-8">
+                        <span> Document Name</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span>Updated on</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body cd-repeat" *ngFor="let item of balData; let i = index;">
+                <div class="row" style="align-items: center;">
+                    <div class="col-sm-1">
+                        <!-- <input class="form-check-input" type="checkbox" [checked]="allSelected"
+                        (change)="isChecked($event.target.value, allSelected, i)"> -->
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRowSelection($event, item)" [checked]="item.isSelected">
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-sm-8 d-name">
+                        <span *ngIf="item?.type == 'pdf'">
+                        <img src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" class="p-i">
+                    </span>
+                        <span *ngIf="item?.type == 'excel'">
+                      <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" class="p-i">
+                    </span>
+                        <span>{{ item?.documentName }}</span>
+                    </div>
+                    <div class="col-sm-3 d-date">
+                        <span>{{ item?.updatedOn }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-12 text-center mb-3">
+        <button class="btn lmBtn">
+        <span class="material-icons" style="vertical-align: middle;">
+          refresh
+          </span>
+        <span class="ms-1">Load More</span>
+      </button>
+    </div>
+</div>
