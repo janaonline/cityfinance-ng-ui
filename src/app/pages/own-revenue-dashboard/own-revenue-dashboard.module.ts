@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import { OwnRevenueDashboardRoutingModule } from './own-revenue-dashboard-routing.module';
 import { OwnRevenueDashboardComponent } from './own-revenue-dashboard.component';
@@ -12,7 +14,8 @@ import { MatTableModule } from '@angular/material/table';
     CommonModule,
     OwnRevenueDashboardRoutingModule,
     SharedModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ]
 })
 export class OwnRevenueDashboardModule { }

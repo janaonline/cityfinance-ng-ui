@@ -67,7 +67,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatDialogModule
   ],
   providers: [
-
   ],
   bootstrap: [ScorePerComponent],
 })

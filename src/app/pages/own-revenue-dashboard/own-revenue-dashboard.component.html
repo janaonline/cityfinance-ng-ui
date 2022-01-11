@@ -97,7 +97,7 @@
            for which the performance should be displayed.
   </p>
   <div class="container rounded filters-container py-3">
-    <div class="row">
+    <!-- <div class="row">
       <a href="" class="text-decoration-none">
         <h5 class="text-center d-flex justify-content-center">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@
               </button>
             </div>
       </div>
-    </div>
+    </div> -->
   </div>
   <!-- Data Availability section starts -->
   <div class="container data-availability rounded">
@@ -177,7 +177,7 @@
                             width="100%">
                     </canvas>
                     <p class="doughnut_percentage text-center">
-                        75%
+                        {{ (financialYear?.data?.percent).toFixed(2) }}
                     </p>
                     <p class="doughnut_text  text-center">
                         Data Availability

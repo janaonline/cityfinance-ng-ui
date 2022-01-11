@@ -2,7 +2,7 @@ import { Component, OnInit ,Input, ViewChild, TemplateRef } from '@angular/core'
 // import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import Chart from 'chart.js';
-import {OwnRevenueService}from "./own-revenue.service";
+import { OwnRevenueService } from './own-revenue.service';
 
 
 @Component({
@@ -186,41 +186,20 @@ barChartData = {
   @Input()
   cardData = [revenueCollection, revenuePerCapita, revenueExpenditure, revenuePercentage];
 
-  // this.ownRevenueService.test() public matdialog: MatDialog
+  // this.ownRevenueService.test() public matdialog:
+
+  body: any;
+  financialYear: any;
   constructor(private ownRevenueService:OwnRevenueService
               ) {
 
    }
 
   ngOnInit(): void {
+   this.getAvailableData();
 
     // Half Doughnut Data
-    const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
-    const ctx = canvas.getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: [],
-            datasets: [
-              {
-                  label: 'Availability',
-                  data: [75,25],
-                  backgroundColor: [
-                      'rgba(51, 96, 219, 1)',
-                      'rgba(218, 226, 253, 1)',
-                    ],
-              }
-          ]
-        },
-        options: {
-          rotation: 1 * Math.PI,
-                   circumference: 1 * Math.PI,
-                   legend: {
-                       display: false
-                   },
-                   cutoutPercentage: 80
-         }
-    });
+
 
       // Full Doughnut Data
       const myChart1 = new Chart('canvas', {
@@ -263,6 +242,57 @@ barChartData = {
           responsive: true
         }
       });
+  }
+
+  getAvailableData(){
+    this.body = {
+      "financialYear": [
+        "2015-16",
+        "2016-17",
+        "2017-18",
+        "2018-19",
+        "2019-20",
+        "2020-21"
+        ]
+    }
+    this.ownRevenueService.displayDataAvailable(this.body).subscribe(
+       (res) => {
+         this.financialYear = res;
+         this.halfDoughnutChart();
+          console.log('ordResponse',res);
+        },
+        (err) => {
+          console.log('error',err)
+        }
+    )
+  }
+  halfDoughnutChart(){
+    const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
+    const ctx = canvas.getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [],
+            datasets: [
+              {
+                  label: 'Availability',
+                  data: [75,25],
+                  backgroundColor: [
+                      'rgba(51, 96, 219, 1)',
+                      'rgba(218, 226, 253, 1)',
+                    ],
+              }
+          ]
+        },
+        options: {
+          rotation: 1 * Math.PI,
+                   circumference: 1 * Math.PI,
+                   legend: {
+                       display: false
+                   },
+                   cutoutPercentage: 80
+         }
+    });
   }
 
 }
