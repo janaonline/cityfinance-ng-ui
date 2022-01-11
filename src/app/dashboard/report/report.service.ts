@@ -81,18 +81,18 @@ export class ReportService {
   BSDetailed(criteria: IReportType) {
     this.setReportRequest(criteria);
 
-    this.http
-      .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
-      .subscribe((res) => {
-        if (res["success"]) {
-          if (res["data2"]) {
-            localStorage.setItem("ulbData2", JSON.stringify(res["data2"]));
-          }
-          this.reportResponse.next(res["data"]);
-        } else {
-          alert("Year and ULB selection is mandatory");
-        }
-      });
+   return this.http
+     .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
+    //  .subscribe((res) => {
+    //    if (res["success"]) {
+    //      if (res["data2"]) {
+    //        localStorage.setItem("ulbData2", JSON.stringify(res["data2"]));
+    //      }
+    //      this.reportResponse.next(res["data"]);
+    //    } else {
+    //      alert("Year and ULB selection is mandatory");
+    //    }
+    //  });
   }
 
   getAggregate(criteria: IReportType) {

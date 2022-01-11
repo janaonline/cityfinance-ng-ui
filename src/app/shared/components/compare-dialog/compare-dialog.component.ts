@@ -6,7 +6,7 @@ import {
   ViewChild,
   ElementRef,
 } from "@angular/core";
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { COMMA, ENTER, T } from "@angular/cdk/keycodes";
 import { FormControl } from "@angular/forms";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { Observable } from "rxjs";
@@ -34,6 +34,12 @@ export class CompareDialogComponent implements OnInit {
   @Output()
   compareValue = new EventEmitter();
 
+  @Output()
+  ulbValues = new EventEmitter();
+
+  @Output()
+  ulbValueList = new EventEmitter();
+
   States = new FormControl();
   stateList: string[] = [
     "Extra cheese",
@@ -58,6 +64,7 @@ export class CompareDialogComponent implements OnInit {
   parameters: string[] = ["one", "two", "three"];
 
   ulbListChip: { name: string; _id: string }[] = [];
+
   ulbIds: any;
 
   ngOnInit(): void {
@@ -141,6 +148,8 @@ export class CompareDialogComponent implements OnInit {
 
   emitValues() {
     this.compareValue.emit(this.valuesToEmit);
+    this.ulbValues.emit(this.ulbIds);
+    this.ulbValueList.emit(this.ulbListChip);
     this.close();
   }
 }
