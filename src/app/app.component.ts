@@ -36,15 +36,15 @@ export class AppComponent implements OnDestroy {
         this.showLoader = loadingStatus;
       });
     this.addCustomScripts();
-    this.connectionService.monitor().subscribe(isConnected => {
-      if(!isConnected){
-        swal({
-          title: "No Internet Connection!",
-          text: "Please connect to internet",
-          icon: "warning",
-        });
-      }
-    })
+    // this.connectionService.monitor().subscribe(isConnected => {
+    //   if(!isConnected){
+    //     swal({
+    //       title: "No Internet Connection!",
+    //       text: "Please connect to internet",
+    //       icon: "warning",
+    //     });
+    //   }
+    // })
     let userData: any = localStorage.getItem("userData");
     if (!userData) return;
     try {

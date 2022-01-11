@@ -55,12 +55,23 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   id
   states = null;
   isMillionPlusState = null
+  eligibleForGrant = false;
+  grantTooltip =''
   ngOnInit(): void {
 
     this.stateformsService.isMillionPlusState(this.id).subscribe(res => {
       this.isMillionPlusState = res['data']
     })
+this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
+  this.eligibleForGrant = true
 
+  this.grantTooltip = `Conditions Not Met to Claim NMPC-Untied Grant`
+  let secondInstallment = res['secondInstallment']
+  // if((secondInstallment['percentage'] >= secondInstallment['cutoff']) && secondInstallment['gtcSubmitted']){
+  //   this.eligibleForGrant = true
+  // }
+ 
+})
 
     this.stateDashboardService.closeDialog.subscribe((form) => {
       console.log(form)
@@ -305,6 +316,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
 
   utilReportDonughtChart() {
+    if(this.utilreportDonughtChart){
+      this.utilreportDonughtChart.destroy();
+    }
     const data = {
       labels: [
         'Pending Completion',
@@ -353,7 +367,10 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
   }
 
   gaugeChart1() {
+if(this.gauge_provisional){
+  this.gauge_provisional.destroy();
 
+}
     let mainColor = "",
       complimentColor = "",
       borderColor = "";
@@ -453,6 +470,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     });
   }
   gaugeChart2() {
+    if(this.gauge_audited){
+      this.gauge_audited.destroy();
+    }
     let mainColor = "",
       complimentColor = "",
       borderColor = "";
@@ -500,7 +520,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     });
   }
   mainDonughtChart() {
-
+if(this.maindonughtChart){
+  this.maindonughtChart.destroy();
+}
     const data = {
       labels: [
         'Pending for Submission',
@@ -699,8 +721,8 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
     this.gaugeChart2();
     this.constChart();
     this.constChart1();
-    // this.pieChartMillion();
-    // this.pieChartNonMillion();
+    this.pieChartMillion();
+    this.pieChartNonMillion();
     // this.pfmsDonughtChart();
     this.utilReportDonughtChart();
     // this.slbDonughtChart();
@@ -750,12 +772,12 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
 
     this.noDataFound_millionSLB = false
     this.noDataFound_nonMillionSLB = false
-    if (this.piechart) {
-      this.piechart.destroy();
-    }
-    if (this.piechart2) {
-      this.piechart2.destroy();
-    }
+    // if (this.piechart) {
+    //   this.piechart.destroy();
+    // }
+    // if (this.piechart2) {
+    //   this.piechart2.destroy();
+    // }
 
     console.log('selectedUA', this.selectUa)
 
@@ -776,12 +798,12 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
             this.values.nonMillion_underReviewByState = el['underReviewByState']
           }
         })
-        if (this.piechart) {
-          this.piechart.destroy();
-        }
-        if (this.piechart2) {
-          this.piechart2.destroy();
-        }
+        // if (this.piechart) {
+        //   this.piechart.destroy();
+        // }
+        // if (this.piechart2) {
+        //   this.piechart2.destroy();
+        // }
         this.pieChartMillion();
         this.pieChartNonMillion();
         if (this.values.million_approvedByState == 0 &&
@@ -791,9 +813,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         ) {
           this.noDataFound_millionSLB = true
         } else {
-          if (this.piechart) {
-            this.piechart.destroy();
-          }
+          // if (this.piechart) {
+          //   this.piechart.destroy();
+          // }
           this.pieChartMillion();
         }
         if (this.values.nonMillion_approvedByState == 0 &&
@@ -803,9 +825,9 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         ) {
           this.noDataFound_nonMillionSLB = true
         } else {
-          if (this.piechart2) {
-            this.piechart2.destroy();
-          }
+          // if (this.piechart2) {
+          //   this.piechart2.destroy();
+          // }
           this.pieChartNonMillion();
 
         }
