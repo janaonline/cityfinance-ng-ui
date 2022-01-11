@@ -50,7 +50,7 @@ const learningCenter = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/learning.svg`,
-  link : 'learning-center',
+  link : 'learning-center/toolkits',
   img: "",
   para: "",
   actionButtons: [
@@ -75,7 +75,7 @@ const dataSets = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/dataSets.svg`,
-  link : 'data-sets',
+  link : 'data-sets/income_statement',
   img: "",
   para: "",
   actionButtons: [

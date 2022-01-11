@@ -16,7 +16,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   ToggleString: string = "";
   showButton: boolean = true;
-  
+
   close() {
     this.ToggleString = ""
     this.showButton = true;
@@ -25,7 +25,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.ToggleString = "the year YY. Data is not available for AA, BB and CC Municipal Corporation. For more details, download thecomplete set of ULBs for which the data is available for the year YY.";
     this.showButton = false;
   }
-  
+
 
 // Dummy data for table
  columnAttribute = [
@@ -296,7 +296,7 @@ doughnutChartData= {
          'Other Income'
      ],
    datasets: [
-     { 
+     {
        data: [68,22,19,7,5,,15,20],
        backgroundColor: [
          'rgba(30, 68, 173, 1)',
@@ -310,18 +310,28 @@ doughnutChartData= {
        fill: false
      },
    ],
- }
-
+   options: {
+    maintainAspectRatio: false,
+    legend: {
+      position: 'bottom',
+      labels: {
+        usePointStyle: true,
+        padding: 28,
+      }
+    },
+    responsive: true
+  }
+},
 }
 
 barChartData = {
   type: 'bar',
   data: {
       labels: [
-          "Jalandhar", 
-          "Chennai", 
-          "Pune", 
-          "Amhedabad", 
+          "Jalandhar",
+          "Chennai",
+          "Pune",
+          "Amhedabad",
           "Mumbai",
           "Jaipur",
           "Rohtak",
@@ -346,8 +356,8 @@ barChartData = {
                         "rgba(168, 188, 240, 1)"
                       ],
                   },
-               ]
-}
+               ],
+},
 }
 
   //Table Data Ends
@@ -358,7 +368,7 @@ barChartData = {
   // this.ownRevenueService.test() public matdialog: MatDialog
   constructor(private ownRevenueService:OwnRevenueService
               ) {
-    
+
    }
 
   ngOnInit(): void {
@@ -405,7 +415,7 @@ barChartData = {
                 'Other Income'
             ],
           datasets: [
-            { 
+            {
               data: [68,22,19,7,5,,15,20],
               backgroundColor: [
                 'rgba(30, 68, 173, 1)',
@@ -433,7 +443,7 @@ barChartData = {
         }
       });
   }
-  
+
 }
 
 // openOwnRevenuePopump() {
@@ -445,7 +455,7 @@ barChartData = {
 
 
 const revenueCollection = {
-  "type": "5",  
+  "type": "5",
   "title": "1000 Cr",
   "subTitle": "Own Revenue Collections",
   "svg": "../../../assets/resources-das/north_east_green_24dp.svg",
