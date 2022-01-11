@@ -35,26 +35,48 @@ $font-Montserrat: "Montserrat";
   height: 4.2rem;
   box-shadow: 0px 2px 11px #00000022;
 }
-.first-tab {
-  background-color: #E67E15;
+// .first-tab {
+//   background-color: #E67E15;
+// }
+.activeCls {
+  background-color: #F2991F;
+  color: #fff;
 }
-.second-tab {
-  background-color: #F7F8FF;
-}
-.first-tab a {
-  flex: 1;
-  font-family: $font-Montserrat;
-  font-size: 0.875rem;
-  font-weight: normal;
-  color: #FFF;
-}
-.second-tab a {
-  flex: 1;
-  font-family: $font-Montserrat;
-  font-size: 0.875rem;
-  font-weight: normal;
+.unActcls {
+  background-color: #fff;
   color: #6E7281;
 }
+
+.first-tab {
+  text-align: center;
+  font-family: $font-Montserrat;
+  font-size: 0.875rem;
+  font-weight: normal;
+}
+.second-tab {
+  text-align: center;
+  font-family: $font-Montserrat;
+  font-size: 0.875rem;
+  font-weight: normal;
+}
+
+// .second-tab {
+//   background-color: #F7F8FF;
+// }
+// .first-tab a {
+//   flex: 1;
+//   font-family: $font-Montserrat;
+//   font-size: 0.875rem;
+//   font-weight: normal;
+//   color: #FFF;
+// }
+// .second-tab a {
+//   flex: 1;
+//   font-family: $font-Montserrat;
+//   font-size: 0.875rem;
+//   font-weight: normal;
+//   color: #6E7281;
+// }
 //Three buttons display while clicking on Property Tax Performance Tab.
 // .threeBtnContainer {
 //   display: none;
@@ -261,6 +283,17 @@ $font-Montserrat: "Montserrat";
 }
 .accContainer {
   margin-top: 2.5rem;
+  p {
+    font-family: $font-archivo;
+    font-size: 0.8rem;
+    color: #6E7281;
+  }
+  .imgTitle {
+    font-family: $font-archivo;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #6E7281;
+  }
 }
 
 .barChartContainer {

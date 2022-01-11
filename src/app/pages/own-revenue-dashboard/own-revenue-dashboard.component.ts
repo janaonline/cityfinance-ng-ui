@@ -11,6 +11,26 @@ import {OwnRevenueService}from "./own-revenue.service";
   styleUrls: ['./own-revenue-dashboard.component.scss']
 })
 export class OwnRevenueDashboardComponent implements OnInit {
+
+  displayDoughnut: boolean = true;
+  displayButtons: boolean =false;
+  ownTab =true;
+  proTab=false;
+  changeTab(type){
+    if(type == 'own'){
+      this.displayDoughnut =true;
+      this.displayButtons =false;
+      this.ownTab =true;
+      this.proTab =false;
+    }
+    if(type == 'pro'){
+     this.displayDoughnut = false;
+     this.displayButtons =true;
+     this.ownTab =false;
+      this.proTab=true;
+   }
+ }
+
   @ViewChild("ownRevenueFiltersPopup")
   private ownRevenueFiltersPopup: TemplateRef<any>;
 
@@ -155,6 +175,7 @@ barChartData = {
                         "rgba(147, 170, 234, 1)",
                         "rgba(168, 188, 240, 1)"
                       ],
+                    borderRadius: 10,
                   },
                ],
 },
