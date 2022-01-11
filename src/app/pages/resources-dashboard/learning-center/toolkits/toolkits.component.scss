@@ -12,6 +12,8 @@
 
 .nav {
     justify-content: center;
+    flex-wrap: nowrap;
+    width: max-content;
 }
 
 .nav-item {
@@ -19,6 +21,7 @@
     border-radius: 6px;
     opacity: 1;
     margin: 0 0.5rem;
+    text-align: center;
 }
 
 .nav>li>a {
@@ -31,4 +34,14 @@
     border: 1px solid #3E5DB1;
     border-radius: 6px;
     opacity: 1;
+}
+
+.container-cnt {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 20px;
+    overflow: auto;
 }

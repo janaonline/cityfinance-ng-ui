@@ -20,7 +20,6 @@ export class FilterComponentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _commonServices : CommonService,
-    private modalService: BsModalService,
     public dialog: MatDialog
   ) { }
 
@@ -92,7 +91,7 @@ export class FilterComponentComponent implements OnInit {
     });
   }
   filterModel() {
-    // this.modalRef = this.modalService.show(template);
+
     const dialogRef = this.dialog.open(FilterModelBoxComponent, {
       width: '100%',
       height: '100%',
@@ -101,7 +100,7 @@ export class FilterComponentComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.animal = result;
-    })
+
+    });
   }
 }

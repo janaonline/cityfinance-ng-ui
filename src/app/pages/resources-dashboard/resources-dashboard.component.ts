@@ -31,7 +31,7 @@ export class ResourcesDashboardComponent implements OnInit {
 
   }
   private _filter(value: string): string[] {
-    // console.log('value', value)
+
     if (value != "") {
       const filterValue = this._normalizeValue(value);
       return this.autoCompleteData.filter((data) =>

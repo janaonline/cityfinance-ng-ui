@@ -1,0 +1,99 @@
+<div class="container h-c">
+
+    <div class="row">
+        <div class="col-sm-10">
+            <span class="heading">
+            Check Score Of Other Cities
+         </span>
+        </div>
+        <div class="col-sm-2 text-end">
+            <a (click)="closeDialog()">
+                <span class="close">
+              <img src="../../../../assets/new_dashBord_ftr_hdr/close_black_24dp.svg" alt="">
+             </span>
+            </a>
+
+        </div>
+    </div>
+
+</div>
+<div class="container" style="width: 60%; margin: 2rem auto;">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <form class="filter-form">
+                <div class="row">
+                    <div class="col-sm-10 pe-0">
+                        <input type="text" placeholder="Search City" class="form-control fl-input" [formControl]="globalFormControl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <!-- [routerLink]="[
+                '/dashboard/' + option?.type + '/' + option?._id]" -->
+                            <a *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                                <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span> {{option?.name}}</span>
+                                        </div>
+                                    </div>
+                                </mat-option>
+                            </a>
+                        </mat-autocomplete>
+                    </div>
+                    <div class="col-sm-2 ps-0">
+
+                        <button type="button" class="btn btnFilter" (click)="globalSearchClick()" style="">
+                          Search
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div class="container w-80">
+    <div class="row mb-3" *ngIf="reportScoreDiv">
+        <div class="col-sm-12">
+            <div class="card-body score-card">
+                <span class="score-text">Your Property Tax Health-meter score is</span>
+                <span class="score">{{scoreReportData?.currentUlb?.total}}/10</span>
+            </div>
+        </div>
+        <div class="col-sm-12 mt-3">
+            <div class="card-body report-card">
+                <div class="row me-0">
+                    <div class="col-sm-12 col-md-6 prs-div pe-0">
+                        <!-- chart--- -->
+                        <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues">
+                            <div class="row mt-2" style="align-items: center; padding: 5px 0 12px 0;">
+                                <div class="col-sm-4 text-end pres-name">
+                                    {{item?.name}}:
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 pres-name">
+                                    {{item?.value}} %
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col-sm-12 col-md-6 ps-0 pres-card">
+                        <div class="card-body">
+                            <div class="pres-h">
+                                Prescription
+                            </div>
+                            <div class="pres-sub">
+                                {{prescription}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

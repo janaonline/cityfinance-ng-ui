@@ -1,10 +1,12 @@
 .nav {
     justify-content: center;
+    flex-wrap: nowrap;
 }
 
 .nav-item {
     background: #F7F8FF 0% 0% no-repeat padding-box;
     border: 1px solid #D9DCE6;
+    text-align: center;
 }
 
 .nav-item:first-child {
@@ -32,4 +34,12 @@ li>a.active {
 
 .nav>li>a {
     padding: .8rem 2.5rem;
+}
+
+.li-w-e {
+    width: 13rem;
+}
+
+.li-w-b {
+    width: 11rem;
 }
