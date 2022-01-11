@@ -60,6 +60,10 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
 
+  isCollapsed = true;
+  isCollapsed2 = true;
+  isCollapsed3 = true;
+
   actionRes;
   stateActionA = '';
   stateActionB = '';

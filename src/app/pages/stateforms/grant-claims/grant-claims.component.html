@@ -64,6 +64,7 @@
                                                 </li>
 
                                             </ul>
+                                            <div *ngIf="viewCond_nmpc_tied_1st">
                                             <h4 style="font-size: 15px;
                                             padding-left: 15px;">
                                                 Conditions:
@@ -73,7 +74,8 @@
                                                     {{condition}}
                                                     </li>
                                             </ul>
-                                            <div class="col-md-12">
+                                        </div>
+                                            <div *ngIf="viewBtn_nmpc_tied_1st" class="col-md-12">
 
                                                 <div class="wrapper" [matTooltip]="tooltip_nmpc_tied_1st" [matTooltipDisabled]="nmpc_tied_1st_eligible" matTooltipPosition="right">
                                                     <a [ngClass]="{'disableCls': !nmpc_tied_1st_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_tied','1', nmpc_tied_1st_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_1st_eligible ?  '#5cb85c' : '#059b9a' }"  >
@@ -93,7 +95,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                                    2nd Installment :
+                                                    2nd Installment (FY 2021-22) :
                                                 </label>
                                             </div>
                                             <h4 style="font-size: 15px;
@@ -116,6 +118,7 @@
                                                 </li>
 
                                             </ul>
+                                            <div *ngIf="viewCond_nmpc_tied_2nd">
                                             <h4 style="font-size: 15px;
                                             padding-left: 15px;" *ngIf="(nmpcTiedPdfUrl_2 == '')">
                                                 Conditions:
@@ -124,7 +127,8 @@
                                                 <li *ngFor="let condition of finalConditions_nmpc_tied_2nd let i = index;">{{condition}}
                                                 </li>
                                             </ul>
-                                            <div class="col-md-12">
+                                        </div>
+                                            <div *ngIf="viewBtn_nmpc_tied_2nd" class="col-md-12">
                                                <div class="wrapper" [matTooltip]="tooltip_nmpc_tied_2nd" [matTooltipDisabled]="nmpc_tied_2nd_eligible" matTooltipPosition="left">
                                                 <a [ngClass]="{'disableCls': !nmpc_tied_2nd_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_tied','2', nmpc_tied_2nd_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_2nd_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                                     {{btnLabel_nmpc_tied_2nd}}
@@ -170,7 +174,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                                    1st Installment:
+                                                    1st Installment (FY 2021-22) :
                                                 </label>
                                             </div>
                                             <h4 style="font-size: 15px;
@@ -189,6 +193,7 @@
                                                 </li>
 
                                             </ul>
+                                            <div *ngIf="viewCond_nmpc_untied_1st"> 
                                             <h4 style="font-size: 15px;
                                           padding-left: 15px;">
                                                 Conditions:
@@ -197,7 +202,8 @@
                                                 <li *ngFor="let condition of finalConditions_nmpc_untied_1st let i = index;">{{condition}}
                                                    </li>
                                             </ul>
-                                            <div class="col-md-12">
+                                        </div>
+                                            <div *ngIf="viewBtn_nmpc_untied_1st" class="col-md-12">
                                             
                                                 <div class="wrapper" [matTooltip]="tooltip_nmpc_untied_1st" [matTooltipDisabled]="nmpc_untied_1st_eligible" matTooltipPosition="right">
                                                     <a [ngClass]="{'disableCls': !nmpc_untied_1st_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_untied','1', nmpc_untied_1st_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_1st_eligible ?  '#5cb85c' : '#059b9a' }"  >
@@ -218,7 +224,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
-                                                    2nd Installment:
+                                                    2nd Installment (FY 2021-22):
                                                 </label>
                                             </div>
                                             <h4 style="font-size: 15px;
@@ -229,14 +235,15 @@
                                                 <li>
                                                    
                                                    {{currStatus_nmpc_untied_2nd}}
-                                                    <a *ngIf="nmpcUntiedPdfUrl_2 != ''" (click)="viewHistory(template, 'nmpc_untied', '2')">
-                                                        <span class="material-icons info-icon" style="">
+                                                    <a  (click)="viewHistory(template, 'nmpc_untied', '2')">
+                                                        <span class="material-icons info-icon" >
                                                             info
                                                         </span>
                                                     </a>
                                                 </li>
 
                                             </ul>
+                                            <div *ngIf="viewCond_nmpc_untied_2nd">
                                             <h4 style="font-size: 15px;
                                           padding-left: 15px;" >
                                                 Conditions:
@@ -245,7 +252,8 @@
                                                 <li *ngFor="let condition of finalConditions_nmpc_untied_2nd">{{condition}}
                                                   </li>
                                             </ul>
-                                            <div class="col-md-12">
+                                            </div>
+                                            <div *ngIf="viewBtn_nmpc_untied_2nd" class="col-md-12">
                                                 
                                                 <div class="wrapper" [matTooltip]="tooltip_nmpc_untied_2nd" [matTooltipDisabled]="nmpc_untied_2nd_eligible" matTooltipPosition="right">
                                                     <a [ngClass]="{'disableCls': !nmpc_untied_2nd_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_untied','2', nmpc_untied_2nd_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_2nd_eligible ?  '#5cb85c' : '#059b9a' }"  >
@@ -296,7 +304,7 @@
                                 <li>
                                     
                                     {{currStatus_mpc}}
-                                    <a  (click)="viewHistory(template, 'mpc', '2')">
+                                    <a  (click)="viewHistory(template, 'mpc')">
                                       <span class="material-icons info-icon" >
                                           info
                                       </span>
@@ -307,6 +315,7 @@
 
                                 </li>
                             </ul>
+                            <div *ngIf="viewCond_mpc">
                             <h4  style="font-size: 15px;
                                             padding-left: 15px;">
                                 Conditions:
@@ -316,8 +325,8 @@
                                  
                                 </li>
                             </ul>
-
-                            <div class="wrapper" [matTooltip]="tooltip_mpc" [matTooltipDisabled]="mpc_eligible" matTooltipPosition="right">
+</div>
+                            <div *ngIf="viewBtn_mpc" class="wrapper" [matTooltip]="tooltip_mpc" [matTooltipDisabled]="mpc_eligible" matTooltipPosition="right">
                                 <a [ngClass]="{'disableCls': !mpc_eligible}" (click)="finalConfirm(finalSubmitAlert, 'mpc', '', mpc_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': mpc_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                     {{btnLabel_mpc}}
                                </a>
@@ -333,12 +342,11 @@
         </div>
     </div>
     <!-- question for GTC -->
-    <div class="row">
+    <div class="row" style="margin-top: 20px;">
         <div class="col-md-12">
-            <h5>
-                Do you want to submit <span style="text-decoration: underline;">Grant Transfer Certificate</span> for 1st installment of FY 2021-22? If yes ,
-                <a [routerLink]="['../gtCertificate']">Click Here</a>
-            </h5>
+            <h4>
+                <a [routerLink]="['../gtCertificate']">Click Here to Submit Grant Transfer Certificate</a>
+            </h4>
         </div>
     </div>
 </div>
@@ -353,7 +361,7 @@
             <h3>Tracking</h3>
         </div>
     </div>
-    <div class="table-responsive" style="max-height: 50vh; overflow-y: auto">
+    <div *ngIf="historyData.length>0"  class="table-responsive" style="max-height: 50vh; overflow-y: auto">
         <table class="table tracking-history-table">
             <thead>
                 <tr>
@@ -363,26 +371,24 @@
                     <th style="position: sticky; top: 0">Date</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center">
-                        <em class="fa fa-check-circle text-success"></em>
-                    </td>
-                    <td>1</td>
-                    <td>
-                        <div *ngIf="claimSubmitDate != ''">Submitted by State</div>
-                        <div *ngIf="claimSubmitDate == ''">Pending</div>
-                    </td>
-                    <td>
-                        <div *ngIf="claimSubmitDate != ''">{{claimSubmitDate | date:'medium':'GMT'}}</div>
-                        <div *ngIf="claimSubmitDate == ''">Pending</div>
-
-                    </td>
-                </tr>
-            </tbody>
+            
+                <tbody>
+                    <tr *ngFor="let row of historyData; let i = index">
+                       <td></td>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ row.status }}</td>
+                        <td>
+                            {{row.time | date: 'medium': 'GMT'}}
+                          
+                        </td>
+                    </tr>
+                </tbody>
+                
+           
         </table>
     </div>
-    <!-- <div *ngIf="!historyData" class="text-center alert" style="color: red;">No Data Found!</div>  -->
+    <div *ngIf="historyData.length == 0" class="text-center alert" style="color: red;">No Data Found!</div> 
+    
 
 </ng-template> 
 <ng-template #finalSubmitAlert>
