@@ -273,8 +273,7 @@
                             Prescription
                         </div>
                         <div class="pres-sub">
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-                            sanctus est.
+                            {{prescription}}
                         </div>
                     </div>
                 </div>
@@ -301,13 +300,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of scoreReportData?.top3; let i= index;">
+                                <tr (click)="trClick(item)" style="cursor: pointer;" *ngFor="let item of scoreReportData?.top3; let i= index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{item?.ulb}}</td>
+                                    <td>{{item?.ulbName}}</td>
                                     <td>{{item?.total}}</td>
 
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -334,7 +332,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn-score btn">Check Score Of Other Cities</button>
+                    <button class="btn-score btn" (click)="checkPerOtherCity()">Check Score Of Other Cities</button>
                 </div>
             </div>
         </div>

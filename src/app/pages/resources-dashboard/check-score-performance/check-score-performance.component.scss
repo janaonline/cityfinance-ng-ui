@@ -1,0 +1,122 @@
+.heading {
+    font: normal normal 600 18px/22px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.h-c {
+    background: #F5F7FF 0% 0% no-repeat padding-box;
+    border-radius: 8px 8px 0px 0px;
+    padding: 1rem;
+}
+
+.res-filter {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 11px #00000022;
+    border: 1px solid #D9DCE6;
+    border-radius: 8px;
+    width: 50%;
+    @media screen and (max-width: 768px) {
+        width: 80%;
+    }
+    margin: 1rem auto 4rem auto;
+}
+
+.form-control {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #D3D4D5;
+    border-radius: 6px 0 0 6px;
+    padding: 1.3rem 0.75rem;
+}
+
+.fl-input:focus-visible,
+.fl-input:focus {
+    box-shadow: none;
+}
+
+.btnFilter {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    border-radius: 0px 8px 8px 0px;
+    opacity: 1;
+    // height: 3rem;
+    width: 100%;
+    padding: .6rem 0.75rem;
+    color: #fff;
+    border: none;
+}
+
+.score-card {
+    background: #E5FFF1 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.score {
+    background: #3E5DB1 0% 0% no-repeat padding-box;
+    border-radius: 6px;
+    font: normal normal 700 20px/22px 'Archivo';
+    letter-spacing: 0px;
+    color: #5AFFF9;
+    padding: 6px 16px;
+}
+
+.score-text {
+    margin-right: 1rem;
+    font: normal normal 500 18px/20px 'Archivo';
+    letter-spacing: 0px;
+    color: #3E5DB1;
+}
+
+.report-card {
+    border: 1px solid #D1D1D1;
+    border-radius: 12px;
+}
+
+.report-card-h {
+    font: normal normal 700 20px/22px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+    text-align: center;
+}
+
+.report-card-sub {
+    font: normal normal normal 14px/25px 'Archivo';
+    letter-spacing: 0px;
+    color: #6E7281;
+    text-align: center;
+}
+
+.pres-card {
+    background: #FFF9E5 0% 0% no-repeat padding-box;
+    border-radius: 0px 12px 12px 12px;
+    opacity: 1;
+}
+
+.pres-h {
+    font: normal normal 700 18px/20px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.pres-sub {
+    font: normal normal normal 14px/25px 'Archivo';
+    letter-spacing: 0px;
+    color: #6E7281;
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    background: #23BA6E 0% 0% no-repeat padding-box;
+}
+
+.pres-aTag {
+    text-decoration: none;
+}
+
+.pres-aTag:hover {
+    display: inline-block;
+    background: #FFF9E5 0% 0% no-repeat padding-box;
+    border-radius: 6px 0px 0px 6px;
+    opacity: 1;
+    width: 100%;
+}
