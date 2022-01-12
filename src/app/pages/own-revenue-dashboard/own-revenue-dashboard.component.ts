@@ -248,17 +248,15 @@ barChartData = {
     this.body = {
       "financialYear": [
         "2015-16",
-        "2016-17",
-        "2017-18",
-        "2018-19",
-        "2019-20",
-        "2020-21"
-        ]
+        ],
+        "propertyTax":true,
     }
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
        (res) => {
+         res['data'].percent =Math.floor(res['data'].percent)  
          this.financialYear = res;
-         this.halfDoughnutChart();
+         debugger
+         this.halfDoughnutChart(res['data']?.percent ?? 0);
           console.log('ordResponse',res);
         },
         (err) => {
@@ -266,9 +264,10 @@ barChartData = {
         }
     )
   }
-  halfDoughnutChart(){
+  halfDoughnutChart(valueFromApi=null){
     const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
     const ctx = canvas.getContext('2d');
+    debugger
     const myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -276,7 +275,7 @@ barChartData = {
             datasets: [
               {
                   label: 'Availability',
-                  data: [75,25],
+                  data: [valueFromApi,100-valueFromApi],
                   backgroundColor: [
                       'rgba(51, 96, 219, 1)',
                       'rgba(218, 226, 253, 1)',
