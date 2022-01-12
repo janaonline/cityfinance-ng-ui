@@ -20,6 +20,9 @@
     margin-top: 5px;
 }
 
+
+
+
 .mat-select-panel {
   background: red !important;
 }
@@ -33,4 +36,21 @@
 
   ::ng-deep .tableDiv .mat-table {
     box-shadow: none;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .modalButton{
+      width: 100%;
+    }
+
+    .compare {
+      font-size: 10px;
+    }
+
+    ::ng-deep .yearSelect .mat-form-field-flex  {
+      border: none !important;
+      width: 80% !important;
+      height: auto !important;
+      margin-left: 50px;
+     }
   }
