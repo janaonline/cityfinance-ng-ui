@@ -1,28 +1,34 @@
-<div class="row" style="margin: 2.5rem auto;" *ngIf="isCardShow">
-    <div class="col-sm-12">
-        <a (click)="openScorePer(item)" *ngFor="let item of cardData">
-            <div class="card">
-                <img [src]="item?.imgUrl" class="card-img-top" [alt]="item.label">
-                <div class="card-body">
-                    <p class="card-text">
-                        {{item?.label}}
-                    </p>
+<div class="container container-cnt" *ngIf="isCardShow">
+    <div class="row" style="margin: 1rem auto  1rem auto;">
+        <div class="col-sm-12" style="display: flex;">
+            <a (click)="openScorePer(item)" *ngFor="let item of cardData">
+                <div class="card">
+                    <img [src]="item?.imgUrl" class="card-img-top" [alt]="item.label">
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{item?.label}}
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
 
+        </div>
     </div>
 </div>
+
 <div *ngIf="!isCardShow">
-    <div class="tabs mt-3 mb-3">
-        <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
-            <li class="nav-item" *ngFor="let item of subTabData; let i = index">
-                <a [routerLink]="item?.link" routerLinkActive="active" role="tab" class="nav-link" [id]="'id_'+ i">
-                    <span>{{item?.name}}</span>
-                </a>
-            </li>
-        </ul>
+    <div class="container container-cnt mb-3">
+        <div class="tabs" style="margin: .5rem auto;">
+            <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
+                <li class="nav-item" *ngFor="let item of subTabData; let i = index">
+                    <a [routerLink]="item?.link" routerLinkActive="active" role="tab" class="nav-link" [id]="'id_'+ i">
+                        <span>{{item?.name}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+
     <router-outlet></router-outlet>
     <!-- <app-score-per></app-score-per> -->
 </div>
