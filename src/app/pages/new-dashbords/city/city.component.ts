@@ -114,6 +114,7 @@ export class CityComponent implements OnInit {
       )._id;
       this.dashboardCalls(this.cityId);
     }
+    console.log("this.cityId", this.cityId);
   }
 }
 

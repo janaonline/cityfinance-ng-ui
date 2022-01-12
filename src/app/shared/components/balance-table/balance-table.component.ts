@@ -108,6 +108,7 @@ export class BalanceTableComponent
   dataSource = ELEMENT_DATA;
   reportReq: IReportType;
   @Input() data: any;
+  @Input() cityId: any;
   reportGroup: any;
   isComparative: any = false;
   @ViewChild("template") template;
@@ -125,6 +126,10 @@ export class BalanceTableComponent
   ulbIdval: any;
   ulbListVal: any;
 
+  isLoading: any = false;
+
+  singleUlbList: any;
+
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
@@ -137,8 +142,9 @@ export class BalanceTableComponent
       console.log("val", val);
       const { cityId } = val;
       if (cityId) {
-        this.id = cityId;
         console.log("stid", this.id);
+        // this.id = this.cityId;
+        this.id = cityId;
         sessionStorage.setItem("row_id", this.id);
       } else {
         this.id = sessionStorage.getItem("row_id");
@@ -173,9 +179,12 @@ export class BalanceTableComponent
 
   ulbValList(val) {
     this.ulbListVal = val;
-    console.log("ulbListVal", this.ulbListVal)
+    console.log("ulbListVal", this.ulbListVal);
   }
 
+  // setIsLoading() {
+  //   this.isLoading = true;
+  // }
   inputVal: any = {
     isComparative: false,
     type: "Summary",
@@ -275,6 +284,8 @@ export class BalanceTableComponent
     );
 
     console.log("singleTableData", this.singleTableData);
+
+    console.log("cityId==>::::", this.cityId, this.singleUlbList);
   }
 
   getUlbList() {
@@ -310,21 +321,20 @@ export class BalanceTableComponent
       //   (elem) => elem._id == this.id
       // );
 
-      this.balanceInput.ulbList = singleData[0].ulbList.filter(
-        (elem) => elem._id == this.id
+      this.singleUlbList = singleData[0].ulbList.filter(
+        (elem) => elem._id == this.cityId
+        // (elem) => elem._id == this.id
       );
-      this.balanceInput.ulbIds = [this.id];
-      // console.log(
-      //   "this.id",
-      //   this.id,
-      //   this.ulbList,
-      //   singleStateId,
-      //   singleData,
-      //   // singleULBList,
-      //   this.balanceInput
-      // );
 
-      console.log("this.ulbIds", this.ulbIdval, this.ulbListVal );
+      this.balanceInput.ulbList = this.singleUlbList;
+      this.balanceInput.ulbIds = [this.cityId];
+
+      console.log(
+        "this.ulbIds",
+        this.ulbIdval,
+        this.ulbListVal,
+        this.balanceInput
+      );
 
       await this.getBalanceTableData(this.balanceInput);
     });
@@ -347,6 +357,7 @@ export class BalanceTableComponent
         this.reportService.BSDetailed(inputValue).subscribe((res) => {
           this.singleTableData = res.data;
           console.log("sigleTableData", this.singleTableData);
+          this.isLoading = true;
           resolve();
         });
       } else if (this.reportGroup == "Income & Expenditure Statement") {
