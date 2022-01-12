@@ -68,7 +68,7 @@
         <app-filter-data [data]="innerActiveTab"></app-filter-data>
       </div>
       <div *ngSwitchCase="'Balance Sheet & Income Statement'">
-        <app-balance-table [data]="innerActiveTab"></app-balance-table>
+        <app-balance-table [cityId]="cityId" [data]="innerActiveTab"></app-balance-table>
       </div>
       <div *ngSwitchCase="'innerTab5'">
         <h1>Balance Sheet and tax</h1>

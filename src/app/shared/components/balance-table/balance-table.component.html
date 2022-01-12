@@ -27,22 +27,24 @@
     </div>
 
     <div class="row">
-      <div class="col-md-12">
-        <app-shared-table></app-shared-table>
+      <div *ngIf="!isLoading" class="col-md-12" style="width: 100px; margin: 0 auto;">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="isLoading == true" class="col-md-12">
+        <app-shared-table  [tableData]="singleTableData"></app-shared-table>
     </div>
     </div>
 
-    <hr>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-12">
         <app-shared-compare-table></app-shared-compare-table>
       </div>
-    </div>
+    </div> -->
 
 </div>
 
 
 <ng-template #template>
-    <app-compare-dialog (closeDialog)="closeModal()"></app-compare-dialog>
+    <app-compare-dialog (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)"></app-compare-dialog>
 </ng-template>

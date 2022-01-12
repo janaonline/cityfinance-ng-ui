@@ -31,6 +31,7 @@ import {MatTableModule} from '@angular/material/table';
 import { FilterModelBoxComponent } from './filter-model-box/filter-model-box.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatDialogModule} from '@angular/material/dialog';
+import { CheckScorePerformanceComponent } from './check-score-performance/check-score-performance.component';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -46,7 +47,8 @@ import {MatDialogModule} from '@angular/material/dialog';
      FilterComponentComponent,
      BestPracticesComponent,
      BalanceSheetComponent,
-     FilterModelBoxComponent
+     FilterModelBoxComponent,
+     CheckScorePerformanceComponent
     ],
   imports: [
     CommonModule,
@@ -65,6 +67,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTableModule,
     ModalModule.forRoot(),
     MatDialogModule
+  ],
+  exports: [
+    FilterComponentComponent,
+    FilterModelBoxComponent
   ],
   providers: [
   ],

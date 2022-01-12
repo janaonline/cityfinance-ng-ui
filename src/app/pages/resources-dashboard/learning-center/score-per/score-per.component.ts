@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { ResourcesServicesService } from '../../resDashboard-services/resources-services.service';
 import { MatStepper } from '@angular/material/stepper';
+import { MatDialog } from '@angular/material/dialog';
+import { CheckScorePerformanceComponent } from '../../check-score-performance/check-score-performance.component';
 
 @Component({
   selector: 'app-score-per',
@@ -38,38 +40,15 @@ export class ScorePerComponent implements OnInit {
   constructor(
     private resource_das_services : ResourcesServicesService,
     protected _commonService: CommonService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public dialog: MatDialog
     ) { }
-    prescriptionData = [
-      {
-        name: 'Enumeration',
-        value: '40',
-        class: 'cls_0'
-      },
-      {
-        name: 'Valuation',
-        value: '100',
-        class: 'cls_1'
-      },
-      {
-        name: 'Assessment',
-        value: '33',
-        class: 'cls_2'
-      },
-      {
-        name: 'Billing & Collections',
-        value: '24',
-        class: 'cls_3'
-      },
-      {
-        name: 'Reporting',
-        value: '0',
-        class: 'cls_0'
-      },
-    ];
+
 
 scorePostBody;
- scorePerformanceForm;
+scorePerformanceForm;
+prescriptionData;
+prescription;
   ngOnInit(): void {
     this.scorePerformanceForm = this.fb.group({
       // ulb: [this.ulb_id, Validators.required],
@@ -97,6 +76,11 @@ scorePostBody;
     })
   }
 
+  trClick(data){
+    this.prescriptionData = data?.partcularAnswerValues;
+    console.log('hiiiiii', data);
+
+  }
 
 
  changeState(e){
@@ -232,13 +216,16 @@ getUlbList(stateCode){
     this.stepperScoreDiv = false;
   }
   presDetails(presItem) {
-
+    console.log(presItem);
+    this.prescription = presItem?.prescription;
   }
   getStartedScore() {
     if(this.ulb_id != '') {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe((res: any)=>{
        console.log('responce ulb..', res, typeof(res));
        this.scoreReportData = res?.data;
+       this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
+       this.prescriptionData = res?.data?.top3[0]?.partcularAnswerValues;
        if(this.btnName != 'Try Again'){
         if(this.scoreReportData){
           this.stepperScoreDiv = false;
@@ -351,6 +338,19 @@ this.scorePostBody = {
      console.log('post error', error)
    }
    )
+}
+
+checkPerOtherCity() {
+  const dialogRef = this.dialog.open(CheckScorePerformanceComponent, {
+    width: '80%',
+    panelClass: "no-padding-dialog",
+   data: {},
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+
+  });
 }
 
 }

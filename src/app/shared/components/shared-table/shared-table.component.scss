@@ -1,14 +1,32 @@
-.tableDiv {
-  width: 90%;
-  margin: 0 auto;
-}
+// .tableDiv {
+//   width: 95%;
+//   margin: 0 auto;
+//   overflow: scroll;
+// }
 th:first-child {
   font-weight: 300;
   width: 30vw;
   padding: 1.3rem;
 }
 
+.table {
+  width: 95%;
+  margin: 0 auto;
+  overflow: scroll;
+}
+
 th {
-  // width: 10vw;
+  width: 10vw;
   padding: 1.3rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+  table {
+    width: 100vw !important;
+  }
+  th:first-child {
+    width: 100vw;
+  }
 }
