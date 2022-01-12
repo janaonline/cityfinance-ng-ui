@@ -109,6 +109,8 @@ annualAccounts = ""
 utilReport_nmpc = ""
 utilReport_mpc = ""
 slb_mpc = ""
+actionPlan = false;
+waterRej = false;
 gtc_nmpc_untied_1st = false
 gtc_nmpc_untied_2nd = false
 gtc_nmpc_tied_1st = false
@@ -220,7 +222,8 @@ this.gtc_nmpc_tied_1st = this.nmpc_tied_1st_Data['gtcSubmitted']
 this.utilReport_mpc = this.mpc_Data['percentage_util'];
 this.slb_mpc = this.mpc_Data['percentage_slb'];
 this.gtc_mpc = this.mpc_Data['gtcSubmitted'];
-
+this.waterRej = this.mpc_Data['waterRej'];
+this.actionPlan = this.mpc_Data['actionPlan']
 //claimAmount
 this.nmpc_untied_1st_grantAmount = this.nmpc_untied_1st_claimsData['claimAmount']
 this.nmpc_untied_2nd_grantAmount =  this.nmpc_untied_2nd_claimsData['claimAmount']
@@ -556,10 +559,19 @@ if(this.gtc_nmpc_untied_2nd){
   }else{
     this.finalConditions_mpc.push(Object.values(el)[0] + ' (Not Submitted)')
   }
-        }else if(Object.keys(el)[0]=="5"){
-          this.finalConditions_mpc.push(Object.values(el)[0]+ ` PENDING`)
         }else if(Object.keys(el)[0]=="6"){
-          this.finalConditions_mpc.push(Object.values(el)[0]+ ` PENDING`)
+if(this.actionPlan){
+  this.finalConditions_mpc.push(Object.values(el)[0]+ ` (Submitted)`)
+}else{
+  this.finalConditions_mpc.push(Object.values(el)[0]+ ` (Not Submitted)`)
+}
+        
+        }else if(Object.keys(el)[0]=="5"){
+          if(this.waterRej){
+            this.finalConditions_mpc.push(Object.values(el)[0]+ ` (Submitted)`)
+          }else{
+            this.finalConditions_mpc.push(Object.values(el)[0]+ ` (Not Submitted)`)
+          }
         }
       })
 console.log(this.finalConditions_nmpc_untied_1st,this.finalConditions_nmpc_untied_2nd, this.finalConditions_nmpc_tied_1st, this.finalConditions_nmpc_tied_2nd, this.finalConditions_mpc )
