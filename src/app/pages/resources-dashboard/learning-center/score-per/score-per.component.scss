@@ -20,6 +20,7 @@
         box-shadow: 0px 2px 8px #F7C199;
         border-radius: 8px;
         color: #fff;
+        padding: 8px 18px;
     }
     
     .container-cnt {
@@ -348,4 +349,20 @@
         letter-spacing: 0px;
         color: #FFFFFF;
         padding: 12px 22px;
+    }
+    
+    @media screen and (max-width: 429px) {
+        .score-text {
+            display: block !important;
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+        .report-card-sub,
+        .report-card-h {
+            text-align: left;
+        }
+        .pres-name {
+            padding-left: 0;
+            padding-right: 0;
+        }
     }

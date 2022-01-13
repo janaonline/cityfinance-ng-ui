@@ -120,3 +120,21 @@
     opacity: 1;
     width: 100%;
 }
+
+@media screen and (max-width: 429px) {
+    .score-text {
+        display: block !important;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    .report-card-sub,
+    .report-card-h,
+    .pres-h,
+    .pres-sub {
+        text-align: left;
+    }
+    .pres-name {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
