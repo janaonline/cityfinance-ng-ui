@@ -39,18 +39,22 @@
   }
 
   @media only screen and (max-width: 600px) {
-    .modalButton{
-      width: 100%;
+    .balanceText {
+      width: 90vw;
+      font-size: 0.8em;
+      margin-left: -20px;
     }
 
-    .compare {
+    .modalButton {
       font-size: 10px;
+      width: 80%;
+      height: auto;
     }
 
     ::ng-deep .yearSelect .mat-form-field-flex  {
       border: none !important;
-      width: 80% !important;
-      height: auto !important;
-      margin-left: 50px;
+    width: 50% !important;
+    /* height: auto !important; */
+    margin-left: 185px !important;
      }
   }
