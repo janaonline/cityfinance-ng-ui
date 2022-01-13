@@ -50,9 +50,27 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   fileName_millionTied = '';
   fileName_nonMillionTied = '';
   fileName_nonMillionUntied = '';
+  //2nd installment of 2020-21
+  fileName_millionTied_2021 = '';
+  fileName_nonMillionTied_2021 = '';
+  fileName_nonMillionUntied_2021 = '';
+  //
+  fileName_millionTied_2122 = '';
+  fileName_nonMillionTied_2122 = '';
+  fileName_nonMillionUntied_2122 = '';
+
   millionTiedProgress;
   nonMillionTiedProgress;
   nonMillionUntiedProgress;
+
+  millionTiedProgress_2021;
+  nonMillionTiedProgress_2021;
+  nonMillionUntiedProgress_2021;
+
+
+  millionTiedProgress_2122;
+  nonMillionTiedProgress_2122;
+  nonMillionUntiedProgress_2122;
   err = '';
   submitted = false;
   routerDiff = {};
@@ -68,12 +86,35 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   stateActionA = '';
   stateActionB = '';
   stateActionC = '';
+
+  stateActionA_2021 = '';
+  stateActionB_2021 = '';
+  stateActionC_2021 = '';
+
+  stateActionA_2122 = '';
+  stateActionB_2122 = '';
+  stateActionC_2122 = '';
+
+
   rejectReasonA = null;
   rejectReasonB = null;
   rejectReasonC = null;
+
+
+  rejectReasonA_2021 = null;
+  rejectReasonB_2021 = null;
+  rejectReasonC_2021 = null;
+
+
+  rejectReasonA_2122 = null;
+  rejectReasonB_2122 = null;
+  rejectReasonC_2122 = null;
+
   actionData1 = {};
   actionData2 = {};
   actionData3 = {};
+
+
   btnStyleA = false;
   btnStyleR = false;
   btnStyleB = false;
@@ -107,6 +148,14 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   millionTiedFileUrl = '';
   nonMillionTiedFileUrl = '';
   nonMillionUntiedFileUrl = '';
+
+  millionTiedFileUrl_2021 = '';
+  nonMillionTiedFileUrl_2021 = '';
+  nonMillionUntiedFileUrl_2021 = '';
+
+  millionTiedFileUrl_2122 = '';
+  nonMillionTiedFileUrl_2122 = '';
+  nonMillionUntiedFileUrl_2122 = '';
   routerNavigate = null
   ngOnDestroy() {
     this.myObserver.unsubscribe();
@@ -214,108 +263,108 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
         console.log(err.message)
       })
 
-    this.gtcService.getFiles(this.state_id)
-      .subscribe((res) => {
-        console.log('gtc responce', res);
-        this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
-        console.log('roleForm', this.actionTakenByRoleOnForm)
-        sessionStorage.setItem("StateGTC", JSON.stringify(res));
-        if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
-          this.fileName_millionTied = res['data']['million_tied']['pdfName'];
-          this.millionTiedFileUrl = res['data']['million_tied']['pdfUrl'];
-        }
-        if (res['data']['nonmillion_tied']['pdfUrl'] != '' && res['data']['nonmillion_tied']['pdfName'] != '') {
-          this.fileName_nonMillionTied = res['data']['nonmillion_tied']['pdfName'];
-          this.nonMillionTiedFileUrl = res['data']['nonmillion_tied']['pdfUrl'];
-        }
-        if (res['data']['nonmillion_untied']['pdfUrl'] != '' && res['data']['nonmillion_untied']['pdfName'] != '') {
-          this.fileName_nonMillionUntied = res['data']['nonmillion_untied']['pdfName'];
-          this.nonMillionUntiedFileUrl = res['data']['nonmillion_untied']['pdfUrl'];
-        }
+    // this.gtcService.getFiles(this.state_id)
+    //   .subscribe((res) => {
+    //     console.log('gtc responce', res);
+    //     this.actionTakenByRoleOnForm = res['data']['actionTakenByRole']
+    //     console.log('roleForm', this.actionTakenByRoleOnForm)
+    //     sessionStorage.setItem("StateGTC", JSON.stringify(res));
+    //     if (res['data']['million_tied']['pdfUrl'] != '' && res['data']['million_tied']['pdfName'] != '') {
+    //       this.fileName_millionTied = res['data']['million_tied']['pdfName'];
+    //       this.millionTiedFileUrl = res['data']['million_tied']['pdfUrl'];
+    //     }
+    //     if (res['data']['nonmillion_tied']['pdfUrl'] != '' && res['data']['nonmillion_tied']['pdfName'] != '') {
+    //       this.fileName_nonMillionTied = res['data']['nonmillion_tied']['pdfName'];
+    //       this.nonMillionTiedFileUrl = res['data']['nonmillion_tied']['pdfUrl'];
+    //     }
+    //     if (res['data']['nonmillion_untied']['pdfUrl'] != '' && res['data']['nonmillion_untied']['pdfName'] != '') {
+    //       this.fileName_nonMillionUntied = res['data']['nonmillion_untied']['pdfName'];
+    //       this.nonMillionUntiedFileUrl = res['data']['nonmillion_untied']['pdfUrl'];
+    //     }
 
-        console.log(this.fileName_nonMillionUntied, this.fileName_nonMillionTied, this.fileName_millionTied)
+    //     console.log(this.fileName_nonMillionUntied, this.fileName_nonMillionTied, this.fileName_millionTied)
 
-        const masterForm = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
-        console.log(masterForm)
+    //     const masterForm = JSON.parse(sessionStorage.getItem("allStatusStateForms"))
+    //     console.log(masterForm)
 
-        this.stateActionA = res['data']['million_tied']['status']
-        if (this.stateActionA == "APPROVED") {
-          this.btnStyleA_A = true;
-        } else if (this.stateActionA == "REJECTED") {
-          this.btnStyleR_A = true;
-        }
-        this.stateActionB = res['data']['nonmillion_tied']['status']
-        if (this.stateActionB == "APPROVED") {
-          this.btnStyleA_B = true;
-        } else if (this.stateActionB == "REJECTED") {
-          this.btnStyleR_B = true;
-        }
-        this.stateActionC = res['data']['nonmillion_untied']['status']
-        if (this.stateActionC == "APPROVED") {
-          this.btnStyleA_C = true;
-        } else if (this.stateActionC == "REJECTED") {
-          this.btnStyleR_C = true;
-        }
-        this.getStatus = res['data']['status']
-        if (res['data']['million_tied']['rejectReason']) {
+    //     this.stateActionA = res['data']['million_tied']['status']
+    //     if (this.stateActionA == "APPROVED") {
+    //       this.btnStyleA_A = true;
+    //     } else if (this.stateActionA == "REJECTED") {
+    //       this.btnStyleR_A = true;
+    //     }
+    //     this.stateActionB = res['data']['nonmillion_tied']['status']
+    //     if (this.stateActionB == "APPROVED") {
+    //       this.btnStyleA_B = true;
+    //     } else if (this.stateActionB == "REJECTED") {
+    //       this.btnStyleR_B = true;
+    //     }
+    //     this.stateActionC = res['data']['nonmillion_untied']['status']
+    //     if (this.stateActionC == "APPROVED") {
+    //       this.btnStyleA_C = true;
+    //     } else if (this.stateActionC == "REJECTED") {
+    //       this.btnStyleR_C = true;
+    //     }
+    //     this.getStatus = res['data']['status']
+    //     if (res['data']['million_tied']['rejectReason']) {
 
-          this.rejectReasonA = res['data']['million_tied']['rejectReason']
-        }
-        if (res['data']['nonmillion_tied']['rejectReason']) {
-          this.rejectReasonB = res['data']['nonmillion_tied']['rejectReason']
-        }
-        if (res['data']['nonmillion_untied']['rejectReason']) {
-          this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
-        }
-        if (this.loggedInUserType === "MoHUA") {
-          if (this.allStatus['latestFinalResponse']['role'] == 'STATE' && this.allStatus['actionTakenByRole'] === 'STATE') {
-            if (this.stateActionA != 'PENDING' && this.stateActionA) {
-              this.actionFormDisableA = true
-            }
-            if (this.stateActionB != 'PENDING' && this.stateActionB) {
-              this.actionFormDisableB = true
-            }
-            if (this.stateActionC != 'PENDING' && this.stateActionC) {
-              this.actionFormDisableC = true
-            }
-          } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
-            this.actionFormDisableA = true
-            this.actionFormDisableB = true
-            this.actionFormDisableC = true
-          }
-        }
+    //       this.rejectReasonA = res['data']['million_tied']['rejectReason']
+    //     }
+    //     if (res['data']['nonmillion_tied']['rejectReason']) {
+    //       this.rejectReasonB = res['data']['nonmillion_tied']['rejectReason']
+    //     }
+    //     if (res['data']['nonmillion_untied']['rejectReason']) {
+    //       this.rejectReasonC = res['data']['nonmillion_untied']['rejectReason']
+    //     }
+    //     if (this.loggedInUserType === "MoHUA") {
+    //       if (this.allStatus['latestFinalResponse']['role'] == 'STATE' && this.allStatus['actionTakenByRole'] === 'STATE') {
+    //         if (this.stateActionA != 'PENDING' && this.stateActionA) {
+    //           this.actionFormDisableA = true
+    //         }
+    //         if (this.stateActionB != 'PENDING' && this.stateActionB) {
+    //           this.actionFormDisableB = true
+    //         }
+    //         if (this.stateActionC != 'PENDING' && this.stateActionC) {
+    //           this.actionFormDisableC = true
+    //         }
+    //       } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+    //         this.actionFormDisableA = true
+    //         this.actionFormDisableB = true
+    //         this.actionFormDisableC = true
+    //       }
+    //     }
 
-        if (this.loggedInUserType == 'MoHUA') {
-          this.formDisableA = true;
-          this.formDisableB = true;
-          this.formDisableC = true;
+    //     if (this.loggedInUserType == 'MoHUA') {
+    //       this.formDisableA = true;
+    //       this.formDisableB = true;
+    //       this.formDisableC = true;
 
-        } else if (this.loggedInUserType == 'STATE') {
-          if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
-            this.formDisableA = true;
-            this.formDisableB = true;
-            this.formDisableC = true;
-          } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
-            if (this.stateActionA == 'APPROVED') {
-              this.formDisableA = true
-            } if (this.stateActionB == 'APPROVED') {
-              this.formDisableB = true
-            } if (this.stateActionC == 'APPROVED') {
-              this.formDisableC = true
-            }
-          }
-        }
-
-
+    //     } else if (this.loggedInUserType == 'STATE') {
+    //       if (this.allStatus['latestFinalResponse']['role'] == 'STATE') {
+    //         this.formDisableA = true;
+    //         this.formDisableB = true;
+    //         this.formDisableC = true;
+    //       } else if (this.allStatus['latestFinalResponse']['role'] == 'MoHUA') {
+    //         if (this.stateActionA == 'APPROVED') {
+    //           this.formDisableA = true
+    //         } if (this.stateActionB == 'APPROVED') {
+    //           this.formDisableB = true
+    //         } if (this.stateActionC == 'APPROVED') {
+    //           this.formDisableC = true
+    //         }
+    //       }
+    //     }
 
 
 
-      },
-        errMes => {
-          // alert(errMes)
-          console.log(errMes);
-        }
-      );
+
+
+    //   },
+    //     errMes => {
+    //       // alert(errMes)
+    //       console.log(errMes);
+    //     }
+    //   );
 
     sessionStorage.setItem("changeInGTC", "false")
     this.change = "false"
@@ -368,12 +417,12 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     if (this.loggedInUserType == 'STATE') {
       this.proceedClicked = true
       if (this.submitted) {
-        this.saveForm(this.template1);
+        this.saveForm(this.template1, this.yearInput, this.instInput);
         sessionStorage.setItem("changeInGTC", "false")
         this._router.navigate(["stateform/water-supply"]);
         return;
       } else if (this.routerNavigate) {
-        this.saveForm(this.template1);
+        this.saveForm(this.template1,  this.yearInput, this.instInput);
         sessionStorage.setItem("changeInGTC", "false")
         this._router.navigate([this.routerNavigate.url]);
         return
@@ -528,32 +577,81 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
     this.stay();
   }
   actionSubmit = false;
-  saveForm(template1) {
+  instInput;
+  yearInput;
+  saveForm(template1, year, inst) {
+
+this.instInput = inst;
+this.yearInput = year
     console.log(this.loggedInUserType)
     if (this.loggedInUserType === "STATE") {
       this.submitted = true;
+let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, actionB, rrB, nonMilUntiedUrl, nonMilUntiedName, actionc, rrC ;
+
+      if(inst == '2' && year =='2020-21'){
+        millionUrl = this.millionTiedFileUrl_2021;
+        millionName = this.fileName_millionTied_2021;
+        actionA = this.stateActionA_2021;
+        rrA = this.rejectReasonA_2021;
+        nonMilTiedUrl = this.nonMillionTiedFileUrl_2021
+         nonMilTiedName = this.fileName_nonMillionTied_2021
+          actionB = this.stateActionB_2021
+           rrB = this.rejectReasonB_2021
+           nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2021
+           nonMilUntiedName = this.fileName_nonMillionUntied_2021
+             actionc = this.stateActionC_2021
+              rrC  = this.rejectReasonC_2021
+      }else if(inst == '1' && year =='2021-22'){
+        millionUrl = this.millionTiedFileUrl;
+        millionName = this.fileName_millionTied;
+        actionA = this.stateActionA;
+        rrA = this.rejectReasonA;
+        nonMilTiedUrl = this.nonMillionTiedFileUrl
+         nonMilTiedName = this.fileName_nonMillionTied
+          actionB = this.stateActionB
+           rrB = this.rejectReasonB
+           nonMilUntiedUrl = this.nonMillionUntiedFileUrl
+           nonMilUntiedName = this.fileName_nonMillionUntied
+             actionc = this.stateActionC
+              rrC  = this.rejectReasonC
+      }else if(inst == '2' && year =='2021-22'){
+        millionUrl = this.millionTiedFileUrl_2122;
+        millionName = this.fileName_millionTied_2122;
+        actionA = this.stateActionA_2122;
+        rrA = this.rejectReasonA_2122;
+        nonMilTiedUrl = this.nonMillionTiedFileUrl_2122
+         nonMilTiedName = this.fileName_nonMillionTied_2122
+          actionB = this.stateActionB_2122
+           rrB = this.rejectReasonB_2122
+           nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2122
+           nonMilUntiedName = this.fileName_nonMillionUntied_2122
+             actionc = this.stateActionC_2122
+              rrC  = this.rejectReasonC_2122
+
+      }
       this.uploadedFiles = {
-        design_year: "606aaf854dff55e6c075d219",
+        installment:inst,
+        design_year: year =='2020-21' ? "606aadac4dff55e6c075c507" : "606aaf854dff55e6c075d219",
         million_tied:
         {
-          pdfUrl: this.millionTiedFileUrl,
-          pdfName: this.fileName_millionTied,
-          status: this.stateActionA ? this.stateActionA : 'PENDING',
-          rejectReason: this.rejectReasonA ? this.rejectReasonA : null
+          pdfUrl: millionUrl,
+          pdfName: millionName,
+          status: actionA ? actionA : 'PENDING',
+          rejectReason: rrA ? rrA: null
         },
         nonmillion_tied:
         {
-          pdfUrl: this.nonMillionTiedFileUrl,
-          pdfName: this.fileName_nonMillionTied,
-          status: this.stateActionB ? this.stateActionB : 'PENDING',
-          rejectReason: this.rejectReasonB ? this.rejectReasonB : null
+          pdfUrl: nonMilTiedUrl,
+          pdfName: nonMilTiedName,
+          status: actionB ? actionB : 'PENDING',
+          rejectReason: rrB ? rrB : null
         },
         nonmillion_untied:
         {
-          pdfUrl: this.nonMillionUntiedFileUrl,
-          pdfName: this.fileName_nonMillionUntied,
-          status: this.stateActionC ? this.stateActionC : 'PENDING',
-          rejectReason: this.rejectReasonC ? this.rejectReasonC : null
+          pdfUrl: nonMilUntiedUrl,
+          pdfName: nonMilUntiedName,
+          status: actionc ? actionc : 'PENDING',
+          rejectReason: rrC ? rrC : null
         },
         isDraft: true
       };
@@ -618,16 +716,40 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       this.millionTiedProgress = '';
       this.fileName_millionTied = '';
       this.millionTiedFileUrl = ''
+    }else if(fileName == 'fileName_millionTied_2021'){
+      this.millionTiedProgress_2021 = '';
+      this.fileName_millionTied_2021 = '';
+      this.millionTiedFileUrl_2021 = ''
+    }else if(fileName == 'fileName_millionTied_2122'){
+      this.millionTiedProgress_2122 = '';
+      this.fileName_millionTied_2122 = '';
+      this.millionTiedFileUrl_2122 = ''
     }
     if (fileName == 'fileName_nonMillionTied') {
       this.nonMillionTiedProgress = '';
       this.fileName_nonMillionTied = '';
       this.nonMillionTiedFileUrl = ''
+    }else if(fileName == 'fileName_nonMillionTied_2021'){
+      this.nonMillionTiedProgress_2021 = '';
+      this.fileName_nonMillionTied_2021 = '';
+      this.nonMillionTiedFileUrl_2021 = ''
+    }else if(fileName == 'fileName_nonMillionTied_2122'){
+      this.nonMillionTiedProgress_2122 = '';
+      this.fileName_nonMillionTied_2122 = '';
+      this.nonMillionTiedFileUrl_2122 = ''
     }
     if (fileName == 'fileName_nonMillionUntied') {
       this.nonMillionUntiedProgress = '';
       this.fileName_nonMillionUntied = '';
       this.nonMillionUntiedFileUrl = ''
+    }else if(fileName == 'fileName_nonMillionUntied_2021'){
+      this.nonMillionUntiedProgress_2021 = '';
+      this.fileName_nonMillionUntied_2021 = '';
+      this.nonMillionUntiedFileUrl_2021 = ''
+    }else if(fileName == 'fileName_nonMillionUntied_2122'){
+      this.nonMillionUntiedProgress_2122 = '';
+      this.fileName_nonMillionUntied_2122 = '';
+      this.nonMillionUntiedFileUrl_2122 = ''
     }
     this.checkDiff();
   }
@@ -707,6 +829,24 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
           } else if (fileName === 'fileName_nonMillionUntied') {
             this.stateActionC = 'PENDING';
             this.rejectReasonC = null
+          } else if (fileName === 'fileName_millionTied_2021') {
+            this.stateActionA_2021 = 'PENDING';
+            this.rejectReasonA_2021 = null
+          } else if (fileName === 'fileName_nonMillionTied_2021') {
+            this.stateActionB_2021 = 'PENDING';
+            this.rejectReasonB_2021 = null
+          } else if (fileName === 'fileName_nonMillionUntied_2021') {
+            this.stateActionC_2021 = 'PENDING';
+            this.rejectReasonC_2021 = null
+          } else if (fileName === 'fileName_millionTied_2122') {
+            this.stateActionA_2122 = 'PENDING';
+            this.rejectReasonA_2122 = null
+          } else if (fileName === 'fileName_nonMillionTied_2122') {
+            this.stateActionB_2122 = 'PENDING';
+            this.rejectReasonB_2122 = null
+          } else if (fileName === 'fileName_nonMillionUntied_2122') {
+            this.stateActionC_2122 = 'PENDING';
+            this.rejectReasonC_2122 = null
           }
         },
         (err) => {
@@ -721,7 +861,58 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
       );
     })
   }
+callGetAPI(year,inst){
+  let yearVal
+  if(year == '2021-22'){
+yearVal = '606aaf854dff55e6c075d219'
+  }else{
+    yearVal   ='606aadac4dff55e6c075c507'
+  }
+this.gtcService.getFiles(this.state_id, yearVal, inst).subscribe((res)=>{
+if(year =='2021-22' && inst =='1'){
 
+  if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+    this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
+    this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
+  }
+  if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+    this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
+    this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
+  }
+  if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+    this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
+    this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
+  }
+}else if(year =='2021-22' && inst =='2'){
+  if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+    this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
+    this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
+  }
+  if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+    this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
+    this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+  }
+  if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+    this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
+    this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];
+  }
+}else if(year =='2020-21' && inst =='2'){
+  if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+    this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
+    this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
+  }
+  if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+    this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
+    this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+  }
+  if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+    this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
+    this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
+  }
+}
+  
+})
+}
   private uploadFileToS3(
     file: File,
     s3URL: string,
@@ -747,8 +938,20 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
               this.nonMillionTiedFileUrl = fileAlias;
             } else if (progressType == 'nonMillionUntiedProgress') {
               this.nonMillionUntiedFileUrl = fileAlias;
+            } else if (progressType == 'millionTiedProgress_2021') {
+              this.millionTiedFileUrl_2021 = fileAlias;
+            } else if (progressType == 'nonMillionTiedProgress_2021') {
+              this.nonMillionTiedFileUrl_2021 = fileAlias;
+            } else if (progressType == 'nonMillionUntiedProgress_2021') {
+              this.nonMillionUntiedFileUrl_2021 = fileAlias;
+            }else if (progressType == 'millionTiedProgress_2122') {
+              this.millionTiedFileUrl_2122 = fileAlias;
+            } else if (progressType == 'nonMillionTiedProgress_2122') {
+              this.nonMillionTiedFileUrl_2122 = fileAlias;
+            } else if (progressType == 'nonMillionUntiedProgress_2122') {
+              this.nonMillionUntiedFileUrl_2122 = fileAlias;
             }
-            console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
+            // console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
             this.checkDiff();
           }
         },

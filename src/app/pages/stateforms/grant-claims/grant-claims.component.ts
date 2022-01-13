@@ -314,27 +314,27 @@ this.gtcUrl_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['gtcU
 
 if(this.nmpc_untied_1st_claimsData['claimData'] && Object.keys(this.nmpc_untied_1st_claimsData['claimData']).length != 0){
  this.viewCond_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED'
-}else{
+}else if(this.nmpc_untied_1st_claimsData['gtcUrl'] == ''){
   this.viewCond_nmpc_untied_1st = true
 }
 if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
   this.viewCond_nmpc_untied_2nd = this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else{
+ }else if(this.nmpc_untied_2nd_claimsData['gtcUrl'] == ''){
    this.viewCond_nmpc_untied_2nd = true
  }
  if(this.nmpc_tied_1st_claimsData['claimData'] && Object.keys(this.nmpc_tied_1st_claimsData['claimData']).length != 0){
   this.viewCond_nmpc_tied_1st = this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else{
+ }else if(this.nmpc_tied_1st_claimsData['gtcUrl'] == ''){
    this.viewCond_nmpc_tied_1st = true
  }
  if(this.nmpc_tied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_tied_2nd_claimsData['claimData']).length != 0){
   this.viewCond_nmpc_tied_2nd = this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else{
+ }else if(this.nmpc_tied_2nd_claimsData['gtcUrl'] == ''){
    this.viewCond_nmpc_tied_2nd = true
  }
  if(this.mpc_claimsData['claimData'] && Object.keys(this.mpc_claimsData['claimData']).length != 0){
   this.viewCond_mpc = this.mpc_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else{
+ }else if(this.mpc_claimsData['gtcUrl'] == ''){
    this.viewCond_mpc = true
  }
   }
@@ -370,39 +370,41 @@ if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_
     this.btnLabel_nmpc_tied_1st = this.btnLabelText[0] + `Rs. ${this.nmpc_tied_1st_grantAmount} Cr.`
     this.btnLabel_nmpc_tied_2nd = this.btnLabelText[0] + `Rs. ${this.nmpc_tied_2nd_grantAmount} Cr.`
     this.btnLabel_mpc = this.btnLabelText[0] + `Rs. ${this.mpc_grantAmount} Cr.`
-    if(this.nmpc_untied_1st_claimsData['grantClaimed']){
+    if(this.nmpc_untied_1st_claimsData['gtcUrl'] != ""){
       this.btnLabel_nmpc_untied_1st = this.btnLabelText[1]
     }else if(this.nmpc_untied_1st_claimsData['claimData'].hasOwnProperty('dates')){
       if(this.nmpc_untied_1st_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_untied_1st_claimsData['claimData']['dates']['releasedOn'] != null  )
       this.btnLabel_nmpc_untied_1st = this.btnLabelText[1]
     }
-    if(this.nmpc_untied_2nd_claimsData['grantClaimed']){
+    if(this.nmpc_untied_2nd_claimsData['gtcUrl'] != ""){
       this.btnLabel_nmpc_untied_2nd = this.btnLabelText[1]
     }else if(this.nmpc_untied_2nd_claimsData['claimData'].hasOwnProperty('dates')){
       if(this.nmpc_untied_2nd_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'] != null  )
       this.btnLabel_nmpc_untied_2nd = this.btnLabelText[1]
     }
-    if(this.nmpc_tied_1st_claimsData['grantClaimed']){
+    if(this.nmpc_tied_1st_claimsData['gtcUrl'] != ""){
       this.btnLabel_nmpc_tied_1st = this.btnLabelText[1]
     }else if(this.nmpc_tied_1st_claimsData['claimData'].hasOwnProperty('dates')){
       if(this.nmpc_tied_1st_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_tied_1st_claimsData['claimData']['dates']['releasedOn'] != null  )
       this.btnLabel_nmpc_tied_1st = this.btnLabelText[1]
     }
-    if(this.nmpc_tied_2nd_claimsData['grantClaimed']){
+    if(this.nmpc_tied_2nd_claimsData['gtcUrl'] != ""){
       this.btnLabel_nmpc_tied_2nd = this.btnLabelText[1]
     }else if(this.nmpc_tied_2nd_claimsData['claimData'].hasOwnProperty('dates')){
       if(this.nmpc_tied_2nd_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_tied_2nd_claimsData['claimData']['dates']['releasedOn'] != null  )
       this.btnLabel_nmpc_tied_2nd = this.btnLabelText[1]
     }
-    if(this.mpc_claimsData['grantClaimed'] ){
+    if(this.mpc_claimsData['gtcUrl'] != "" ){
       this.btnLabel_mpc = this.btnLabelText[1]
     }else if(this.mpc_claimsData['claimData'].hasOwnProperty('dates')){
       if(this.mpc_claimsData['claimData']['dates']['approvedOn'] != null || this.mpc_claimsData['claimData']['dates']['releasedOn'] != null  )
       this.btnLabel_mpc = this.btnLabelText[1]
     }
   }
+  dateNot = ' - Date Not Available'
   computeCurrentStatus(){
     //nmpc-untied 1st installment
+
     if(this.nmpc_untied_1st_claimsData['claimData'] && Object.keys(this.nmpc_untied_1st_claimsData['claimData']).length != 0){
 if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "STATE" && this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
   this.currStatus_nmpc_untied_1st = this.currentStatusText[1] +  this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['submittedOn'], 'medium');
@@ -418,7 +420,12 @@ if( this.nmpc_untied_1st_claimsData['claimData'].hasOwnProperty('dates') ){
   this.currStatus_nmpc_untied_1st = this.currentStatusText[0];
 }
     }else{
-      this.currStatus_nmpc_untied_1st = this.currentStatusText[0];
+      if(this.nmpc_untied_1st_claimsData['gtcUrl'] != ''){
+        this.currStatus_nmpc_untied_1st = this.currentStatusText[1] + this.dateNot;
+      }else{
+        this.currStatus_nmpc_untied_1st = this.currentStatusText[0];
+      }
+    
     }
 //nmpc untied 2nd installment
     if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
@@ -436,7 +443,12 @@ if( this.nmpc_untied_1st_claimsData['claimData'].hasOwnProperty('dates') ){
         this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
       }
           }else{
-            this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
+            if(this.nmpc_untied_2nd_claimsData['gtcUrl'] != ''){
+              this.currStatus_nmpc_untied_2nd = this.currentStatusText[1] + this.dateNot;
+            }else{
+              this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
+            }
+           
           }
 
 
@@ -456,7 +468,12 @@ if(this.nmpc_tied_1st_claimsData['claimData'] && Object.keys(this.nmpc_tied_1st_
     this.currStatus_nmpc_tied_1st = this.currentStatusText[0];
   }
       }else{
-        this.currStatus_nmpc_tied_1st = this.currentStatusText[0];
+        if(this.nmpc_tied_1st_claimsData['gtcUrl'] != ''){
+          this.currStatus_nmpc_tied_1st = this.currentStatusText[1] + this.dateNot;
+        }else{
+          this.currStatus_nmpc_tied_1st = this.currentStatusText[0];
+        }
+       
       }
 //2nd installment
 if(this.nmpc_tied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_tied_2nd_claimsData['claimData']).length != 0){
@@ -474,7 +491,11 @@ if(this.nmpc_tied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_tied_2nd_
     this.currStatus_nmpc_tied_2nd = this.currentStatusText[0];
   }
       }else{
-        this.currStatus_nmpc_tied_2nd = this.currentStatusText[0];
+        if(this.nmpc_tied_2nd_claimsData['gtcUrl'] != ''){
+          this.currStatus_nmpc_tied_2nd =  this.currentStatusText[1] + this.dateNot;
+        }else{
+           this.currStatus_nmpc_tied_2nd = this.currentStatusText[0];}
+       
       }
 //mpc
 
@@ -493,7 +514,11 @@ if(this.mpc_claimsData['claimData'] && Object.keys(this.mpc_claimsData['claimDat
     this.currStatus_mpc = this.currentStatusText[0];
   }
       }else{
+        if(this.mpc_claimsData['gtcUrl'] != ''){
+          this.currStatus_mpc =  this.currentStatusText[1] + this.dateNot;
+        }else{
         this.currStatus_mpc = this.currentStatusText[0];
+        }
       }
 
   }

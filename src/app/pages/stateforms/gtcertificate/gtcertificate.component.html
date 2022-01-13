@@ -21,7 +21,7 @@
             <h6 class="uplod_label">1. View/Upload GTCs for 2nd Installment of 2020-21 </h6>
         </div>
         <div class="col-md-2" style="text-align: right;">
-            <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
+            <button type="button" (click)="callGetAPI('2020-21','2')" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Select
             </button>
         </div>
     </div>
@@ -45,18 +45,20 @@
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
-                                    <label for="cin">
+                                    <label for="cin1">
+                                        <!-- upload button -->
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                                             [ngClass]="{'anDisable': formDisableA }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin" name="cin" type="file" [disabled]="formDisableA"
-                                        (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')"
+                                    <input id="cin1" name="cin1" type="file" [disabled]="formDisableA"
+                                        (change)="fileChangeEvent($event, 'millionTiedProgress_2021', 'fileName_millionTied_2021', '2020-21','2')"
                                         accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                <!-- action component -->
+                                <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableA}"
                                     *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
                                     btnRadioGroup [(ngModel)]="stateActionA"
@@ -72,15 +74,15 @@
                                 width: 82px;">Return</label>
                                     </div>
 
-                                </div>
-                                <div *ngIf="stateActionA == 'APPROVED' || stateActionB == 'REJECTED' ">
+                                </div> -->
+                                <!-- <div *ngIf="stateActionA == 'APPROVED' || stateActionB == 'REJECTED' ">
                                     <div class="btn-group float-right" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                                     " btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
                                         <label class="btn" disabled style="width: 82px;"
                                             [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
                                             {{stateActionA | titlecase}}</label>
                                     </div>
-                                </div>
+                                </div> -->
 
 
 
@@ -88,17 +90,18 @@
                             </div>
                         </div>
                     </div>
-                    <span style="color: red;" *ngIf="millionTiedFileUrl == '' && submitted">
+                    <span style="color: red;" *ngIf="millionTiedFileUrl_2021 == '' && submitted">
                         Please upload file*
                     </span>
 
 
                     <div class="row">
+                        <!-- fileupload view -->
                         <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 5px; padding-right: 2px;">
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 3px; font-weight: normal;"
-                                        *ngIf="fileName_millionTied">{{fileName_millionTied}}</label>
+                                        *ngIf="fileName_millionTied_2021">{{fileName_millionTied_2021}}</label>
                                 </div>
                                 <!-- <div class="progress-bar" role="progressbar" [ngStyle]="{
                           'width.%':
@@ -107,20 +110,20 @@
                                 {{ fileUploadTracker[question.key][file.name].percentage }} %
                             </div> -->
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="millionTiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ millionTiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress + '%' }">
-                                        {{ millionTiedProgress }}%
+                                    <div class="progress-bar" *ngIf="millionTiedProgress_2021" role="progressbar"
+                                        attr.aria-valuenow="{{ millionTiedProgress_2021 }}" aria-valuemin="0"
+                                        aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress_2021 + '%' }">
+                                        {{ millionTiedProgress_2021 }}%
                                     </div>
                                 </div>
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="millionTiedFileUrl">
-                                        <a href="{{ millionTiedFileUrl }}" target="_blank">
+                                    <ng-container *ngIf="millionTiedFileUrl_2021">
+                                        <a href="{{ millionTiedFileUrl_2021 }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                 style="height: 19px;">
                                         </a>
                                         <span style="cursor:not-allowed;">
-                                            <a (click)="clearFiles('fileName_millionTied')"
+                                            <a (click)="clearFiles('fileName_millionTied_2021')"
                                                 [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
@@ -130,7 +133,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionA =='REJECTED')
+                        <!-- action component view -->
+                        <!-- <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionA =='REJECTED')
                         || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                         && stateActionA == 'REJECTED') "
                             style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
@@ -145,7 +149,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -160,19 +164,21 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
+                                <!-- upload button -->
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
-                                    <label for="cind">
+                                    <label for="cind1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
                                             [ngClass]="{'anDisable': formDisableB }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind" name="cind" type="file" [disabled]="formDisableB"
-                                        (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')"
+                                    <input id="cind1" name="cind1" type="file" [disabled]="formDisableB"
+                                        (change)="fileChangeEvent($event, 'nonMillionTiedProgress_2021','fileName_nonMillionTied_2021', '2020-21','2')"
                                         accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                <!-- action component -->
+                                <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableB}"
                                     *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
                                     btnRadioGroup [(ngModel)]="stateActionB"
@@ -197,13 +203,13 @@
                                             [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
                                             {{stateActionB | titlecase}}</label>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
                     </div>
 
-                    <span style="color: red;" *ngIf="nonMillionTiedFileUrl == '' && submitted">
+                    <span style="color: red;" *ngIf="nonMillionTiedFileUrl_2021 == '' && submitted">
                         Please upload file*
                     </span>
 
@@ -212,26 +218,26 @@
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="fileName_nonMillionTied">
-                                        {{fileName_nonMillionTied}}</label>
+                                        *ngIf="fileName_nonMillionTied_2021">
+                                        {{fileName_nonMillionTied_2021}}</label>
                                 </div>
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="nonMillionTiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ nonMillionTiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionTiedProgress + '%' }">
-                                        {{ nonMillionTiedProgress }}%
+                                    <div class="progress-bar" *ngIf="nonMillionTiedProgress_2021" role="progressbar"
+                                        attr.aria-valuenow="{{ nonMillionTiedProgress_2021 }}" aria-valuemin="0"
+                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionTiedProgress_2021 + '%' }">
+                                        {{ nonMillionTiedProgress_2021 }}%
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="nonMillionTiedFileUrl">
-                                        <a href="{{ nonMillionTiedFileUrl }}" target="_blank">
+                                    <ng-container *ngIf="nonMillionTiedFileUrl_2021">
+                                        <a href="{{ nonMillionTiedFileUrl_2021 }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
                                         <span style="cursor:not-allowed;">
-                                            <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
+                                            <a (click)="clearFiles('fileName_nonMillionTied_2021')" style="margin-left: 3px;"
                                                 [ngClass]="{'abDisable': formDisableB }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
@@ -241,7 +247,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
+                        <!-- <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionB == 'REJECTED')"
                             style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
@@ -256,7 +262,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!-- 3rd Card -->
@@ -272,18 +278,18 @@
                             style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
-                                    <label for="cinde">
+                                    <label for="cinde1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
                                             [ngClass]="{'anDisable': formDisableC }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde" [disabled]="formDisableC" name="cinde" type="file"
-                                        (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')"
+                                    <input id="cinde1" [disabled]="formDisableC" name="cinde1" type="file"
+                                        (change)="fileChangeEvent($event, 'nonMillionUntiedProgress_2021','fileName_nonMillionUntied_2021')"
                                         accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableC}"
                                     *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
                                     btnRadioGroup [(ngModel)]="stateActionC"
@@ -298,8 +304,8 @@
                                             tabindex="0" role="button" style="margin-left: 10px;
                         width: 82px;">Return</label>
                                     </div>
-                                </div>
-                                <div *ngIf="stateActionC == 'APPROVED' || stateActionC == 'REJECTED' ">
+                                </div> -->
+                                <!-- <div *ngIf="stateActionC == 'APPROVED' || stateActionC == 'REJECTED' ">
                                     <div class="btn-group float-right"
                                         *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
                                         style="margin-bottom: 1rem; margin-left: 20%;">
@@ -307,12 +313,12 @@
                                             [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
                                             {{stateActionC | titlecase}}</label>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
 
-                    <span style="color: red;" *ngIf="nonMillionUntiedFileUrl == '' && submitted">
+                    <span style="color: red;" *ngIf="nonMillionUntiedFileUrl_2021 == '' && submitted">
                         Please upload file*
                     </span>
 
@@ -321,27 +327,27 @@
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="fileName_nonMillionUntied">
-                                        {{fileName_nonMillionUntied}}</label>
+                                        *ngIf="fileName_nonMillionUntied_2021">
+                                        {{fileName_nonMillionUntied_2021}}</label>
                                 </div>
 
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="nonMillionUntiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ nonMillionUntiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionUntiedProgress + '%' }">
-                                        {{ nonMillionUntiedProgress }}%
+                                    <div class="progress-bar" *ngIf="nonMillionUntiedProgress_2021" role="progressbar"
+                                        attr.aria-valuenow="{{ nonMillionUntiedProgress_2021 }}" aria-valuemin="0"
+                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionUntiedProgress_2021 + '%' }">
+                                        {{ nonMillionUntiedProgress_2021 }}%
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="nonMillionUntiedFileUrl">
-                                        <a href="{{ nonMillionUntiedFileUrl }}" target="_blank">
+                                    <ng-container *ngIf="nonMillionUntiedFileUrl_2021">
+                                        <a href="{{ nonMillionUntiedFileUrl_2021 }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
                                         <span style="cursor:not-allowed;">
-                                            <a (click)="clearFiles('fileName_nonMillionUntied')"
+                                            <a (click)="clearFiles('fileName_nonMillionUntied_2021')"
                                                 style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
@@ -351,7 +357,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionC =='REJECTED')
+                        <!-- <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionC =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionC == 'REJECTED')"
                             style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
@@ -367,7 +373,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -375,7 +381,7 @@
             </div>
 
         </div>
-        <div class="card" style="background-color: #FFFFFF; margin-top: 1rem" *ngIf="
+        <!-- <div class="card" style="background-color: #FFFFFF; margin-top: 1rem" *ngIf="
      allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
             <div class="card-body">
                 <b>MoHUA Review Status :</b>
@@ -394,20 +400,20 @@
 
 
             </div>
-        </div>
-        <div class="card" style="background-color: #FFFFFF; margin-top: 1rem" *ngIf="(
+        </div> -->
+        <!-- <div class="card" style="background-color: #FFFFFF; margin-top: 1rem" *ngIf="(
             (loggedInUserType === USER_TYPE.STATE) && (allStatus['latestFinalResponse']['role'] == 'STATE'))">
             <div class="card-body">
                 <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
             </div>
-        </div>
+        </div> -->
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
             <div class="col-sm-6" style="text-align: left;">
                 <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
                     [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{(change
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2020-21','2')">{{(change
                     == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
                     'SAVE AND
                     NEXT': 'NEXT'}}</button>
@@ -433,7 +439,7 @@
             <h6 class="uplod_label">2. View/Upload GTCs for 1st Installment of 2021-22 </h6>
         </div>
         <div class="col-md-2" style="text-align: right;">
-            <button type="button" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
+            <button type="button" (click)="callGetAPI('2021-22','1')" class="btn btn-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2" aria-controls="collapseBasic2">Select
             </button>
         </div>
     </div>
@@ -819,7 +825,7 @@
                     [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{(change
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22', '1')">{{(change
                     == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
                     'SAVE AND
                     NEXT': 'NEXT'}}</button>
@@ -845,7 +851,7 @@
             <h6 class="uplod_label">3. View/Upload GTCs for 2nd Installment of 2021-22 </h6>
         </div>
         <div class="col-md-2" style="text-align: right;">
-            <button type="button" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
+            <button type="button" (click)="callGetAPI('2021-22','2')" class="btn btn-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3" aria-controls="collapseBasic3">Select
             </button>
         </div>
     </div>
@@ -869,18 +875,18 @@
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
-                                    <label for="cin">
+                                    <label for="cin2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                                             [ngClass]="{'anDisable': formDisableA }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin" name="cin" type="file" [disabled]="formDisableA"
-                                        (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')"
+                                    <input id="cin2" name="cin2" type="file" [disabled]="formDisableA"
+                                        (change)="fileChangeEvent($event, 'millionTiedProgress_2122', 'fileName_millionTied_2122')"
                                         accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableA}"
                                     *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
                                     btnRadioGroup [(ngModel)]="stateActionA"
@@ -896,15 +902,15 @@
                                 width: 82px;">Return</label>
                                     </div>
 
-                                </div>
-                                <div *ngIf="stateActionA == 'APPROVED' || stateActionB == 'REJECTED' ">
+                                </div> -->
+                                <!-- <div *ngIf="stateActionA == 'APPROVED' || stateActionB == 'REJECTED' ">
                                     <div class="btn-group float-right" *ngIf="allStatus['latestFinalResponse']['role'] && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                                     " btnRadioGroup style="margin-bottom: 1rem; margin-left: 20%;">
                                         <label class="btn" disabled style="width: 82px;"
                                             [ngClass]="{'btn-a' : btnStyleA_A, 'btn-r' : btnStyleR_A}">
                                             {{stateActionA | titlecase}}</label>
                                     </div>
-                                </div>
+                                </div> -->
 
 
 
@@ -912,7 +918,7 @@
                             </div>
                         </div>
                     </div>
-                    <span style="color: red;" *ngIf="millionTiedFileUrl == '' && submitted">
+                    <span style="color: red;" *ngIf="millionTiedFileUrl_2122 == '' && submitted">
                         Please upload file*
                     </span>
 
@@ -922,7 +928,7 @@
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 3px; font-weight: normal;"
-                                        *ngIf="fileName_millionTied">{{fileName_millionTied}}</label>
+                                        *ngIf="fileName_millionTied_2122">{{fileName_millionTied_2122}}</label>
                                 </div>
                                 <!-- <div class="progress-bar" role="progressbar" [ngStyle]="{
                           'width.%':
@@ -931,20 +937,20 @@
                                 {{ fileUploadTracker[question.key][file.name].percentage }} %
                             </div> -->
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="millionTiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ millionTiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress + '%' }">
-                                        {{ millionTiedProgress }}%
+                                    <div class="progress-bar" *ngIf="millionTiedProgress_2122" role="progressbar"
+                                        attr.aria-valuenow="{{ millionTiedProgress_2122 }}" aria-valuemin="0"
+                                        aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress_2122 + '%' }">
+                                        {{ millionTiedProgress_2122 }}%
                                     </div>
                                 </div>
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="millionTiedFileUrl">
-                                        <a href="{{ millionTiedFileUrl }}" target="_blank">
+                                    <ng-container *ngIf="millionTiedFileUrl_2122">
+                                        <a href="{{ millionTiedFileUrl_2122 }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                 style="height: 19px;">
                                         </a>
                                         <span style="cursor:not-allowed;">
-                                            <a (click)="clearFiles('fileName_millionTied')"
+                                            <a (click)="clearFiles('fileName_millionTied_2122')"
                                                 [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
@@ -954,7 +960,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionA =='REJECTED')
+                        <!-- <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionA =='REJECTED')
                         || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                         && stateActionA == 'REJECTED') "
                             style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
@@ -969,7 +975,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -985,18 +991,18 @@
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
-                                    <label for="cind">
+                                    <label for="cind2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
                                             [ngClass]="{'anDisable': formDisableB }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind" name="cind" type="file" [disabled]="formDisableB"
-                                        (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')"
+                                    <input id="cind2" name="cind2" type="file" [disabled]="formDisableB"
+                                        (change)="fileChangeEvent($event, 'nonMillionTiedProgress_2122','fileName_nonMillionTied_2122')"
                                         accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableB}"
                                     *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
                                     btnRadioGroup [(ngModel)]="stateActionB"
@@ -1011,9 +1017,9 @@
                                             tabindex="0" role="button" style="margin-left: 10px;
                           width: 82px;">Return</label>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div *ngIf="stateActionB == 'APPROVED' || stateActionB == 'REJECTED' ">
+                                <!-- <div *ngIf="stateActionB == 'APPROVED' || stateActionB == 'REJECTED' ">
                                     <div class="btn-group float-right"
                                         *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
                                         style="margin-bottom: 1rem; margin-left: 20%;">
@@ -1021,13 +1027,13 @@
                                             [ngClass]="{'btn-a' : btnStyleA_B, 'btn-r' : btnStyleR_B}">
                                             {{stateActionB | titlecase}}</label>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
                     </div>
 
-                    <span style="color: red;" *ngIf="nonMillionTiedFileUrl == '' && submitted">
+                    <span style="color: red;" *ngIf="nonMillionTiedFileUrl_2122 == '' && submitted">
                         Please upload file*
                     </span>
 
@@ -1037,25 +1043,25 @@
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
                                         *ngIf="fileName_nonMillionTied">
-                                        {{fileName_nonMillionTied}}</label>
+                                        {{fileName_nonMillionTied_2122}}</label>
                                 </div>
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="nonMillionTiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ nonMillionTiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionTiedProgress + '%' }">
-                                        {{ nonMillionTiedProgress }}%
+                                    <div class="progress-bar" *ngIf="nonMillionTiedProgress_2122" role="progressbar"
+                                        attr.aria-valuenow="{{ nonMillionTiedProgress_2122 }}" aria-valuemin="0"
+                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionTiedProgress_2122 + '%' }">
+                                        {{ nonMillionTiedProgress_2122 }}%
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="nonMillionTiedFileUrl">
-                                        <a href="{{ nonMillionTiedFileUrl }}" target="_blank">
+                                    <ng-container *ngIf="nonMillionTiedFileUrl_2122">
+                                        <a href="{{ nonMillionTiedFileUrl_2122 }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
                                         <span style="cursor:not-allowed;">
-                                            <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
+                                            <a (click)="clearFiles('fileName_nonMillionTied_2122')" style="margin-left: 3px;"
                                                 [ngClass]="{'abDisable': formDisableB }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
@@ -1065,7 +1071,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
+                        <!-- <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionB =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionB == 'REJECTED')"
                             style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
@@ -1080,7 +1086,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!-- 3rd Card -->
@@ -1096,18 +1102,18 @@
                             style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
-                                    <label for="cinde">
+                                    <label for="cinde2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
                                             [ngClass]="{'anDisable': formDisableC }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde" [disabled]="formDisableC" name="cinde" type="file"
-                                        (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')"
+                                    <input id="cinde2" [disabled]="formDisableC" name="cinde2" type="file"
+                                        (change)="fileChangeEvent($event, 'nonMillionUntiedProgress_2122','fileName_nonMillionUntied_2122')"
                                         accept=".pdf" />
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
+                                <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableC}"
                                     *ngIf="loggedInUserType === USER_TYPE.MoHUA && allStatus['latestFinalResponse']['role'] == 'STATE'"
                                     btnRadioGroup [(ngModel)]="stateActionC"
@@ -1122,8 +1128,8 @@
                                             tabindex="0" role="button" style="margin-left: 10px;
                         width: 82px;">Return</label>
                                     </div>
-                                </div>
-                                <div *ngIf="stateActionC == 'APPROVED' || stateActionC == 'REJECTED' ">
+                                </div> -->
+                                <!-- <div *ngIf="stateActionC == 'APPROVED' || stateActionC == 'REJECTED' ">
                                     <div class="btn-group float-right"
                                         *ngIf="allStatus['latestFinalResponse']['role'] == 'MoHUA'" btnRadioGroup
                                         style="margin-bottom: 1rem; margin-left: 20%;">
@@ -1131,12 +1137,12 @@
                                             [ngClass]="{'btn-a' : btnStyleA_C, 'btn-r' : btnStyleR_C}">
                                             {{stateActionC | titlecase}}</label>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
 
-                    <span style="color: red;" *ngIf="nonMillionUntiedFileUrl == '' && submitted">
+                    <span style="color: red;" *ngIf="nonMillionUntiedFileUrl_2122 == '' && submitted">
                         Please upload file*
                     </span>
 
@@ -1145,27 +1151,27 @@
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="fileName_nonMillionUntied">
-                                        {{fileName_nonMillionUntied}}</label>
+                                        *ngIf="fileName_nonMillionUntied_2122">
+                                        {{fileName_nonMillionUntied_2122}}</label>
                                 </div>
 
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                    <div class="progress-bar" *ngIf="nonMillionUntiedProgress" role="progressbar"
-                                        attr.aria-valuenow="{{ nonMillionUntiedProgress }}" aria-valuemin="0"
-                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionUntiedProgress + '%' }">
-                                        {{ nonMillionUntiedProgress }}%
+                                    <div class="progress-bar" *ngIf="nonMillionUntiedProgress_2122" role="progressbar"
+                                        attr.aria-valuenow="{{ nonMillionUntiedProgress_2122 }}" aria-valuemin="0"
+                                        aria-valuemax="100" [ngStyle]="{ width: nonMillionUntiedProgress_2122 + '%' }">
+                                        {{ nonMillionUntiedProgress_2122 }}%
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0; padding-left: 2px;">
-                                    <ng-container *ngIf="nonMillionUntiedFileUrl">
-                                        <a href="{{ nonMillionUntiedFileUrl }}" target="_blank">
+                                    <ng-container *ngIf="nonMillionUntiedFileUrl_2122">
+                                        <a href="{{ nonMillionUntiedFileUrl_2122 }}" target="_blank">
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                 style="margin-left: 1px; height: 19px;">
 
                                         </a>
                                         <span style="cursor:not-allowed;">
-                                            <a (click)="clearFiles('fileName_nonMillionUntied')"
+                                            <a (click)="clearFiles('fileName_nonMillionUntied_2122')"
                                                 style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
@@ -1175,7 +1181,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionC =='REJECTED')
+                        <!-- <div class="col-sm-5 col-lg-5 col-md-5 float-right" *ngIf="(loggedInUserType === USER_TYPE.MoHUA && stateActionC =='REJECTED')
                     || (loggedInUserType === USER_TYPE.STATE && allStatus['latestFinalResponse']['role'] == 'MoHUA'
                     && stateActionC == 'REJECTED')"
                             style="margin-bottom: 2rem;  display: inline-block; margin-left: 3rem; padding-right: 0;">
@@ -1191,7 +1197,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -1199,7 +1205,7 @@
             </div>
 
         </div>
-        <div class="card" style="background-color: #FFFFFF; margin-top: 1rem" *ngIf="
+        <!-- <div class="card" style="background-color: #FFFFFF; margin-top: 1rem" *ngIf="
      allStatus['latestFinalResponse']['role'] == 'MoHUA' && actionTakenByRoleOnForm=='MoHUA' ">
             <div class="card-body">
                 <b>MoHUA Review Status :</b>
@@ -1224,14 +1230,14 @@
             <div class="card-body">
                 <p><b>MoHUA Review Status :</b>Under Review by MoHUA</p>
             </div>
-        </div>
+        </div> -->
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
             <div class="col-sm-6" style="text-align: left;">
                 <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
                     [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
             <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{(change
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22', '2')">{{(change
                     == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
                     'SAVE AND
                     NEXT': 'NEXT'}}</button>
