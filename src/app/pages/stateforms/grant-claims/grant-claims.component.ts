@@ -430,15 +430,15 @@ if( this.nmpc_untied_1st_claimsData['claimData'].hasOwnProperty('dates') ){
 //nmpc untied 2nd installment
     if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
       if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "STATE" && this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[1] +  this.nmpc_untied_2nd_claimsData['claimData']['dates']['submittedOn'];
+        this.currStatus_nmpc_untied_2nd = this.currentStatusText[1] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['submittedOn'],'medium');
       }else if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[2] +  this.nmpc_untied_2nd_claimsData['claimData']['dates']['approvedOn'];
+        this.currStatus_nmpc_untied_2nd = this.currentStatusText[2] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['approvedOn'],'medium');
       }else if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[3] +  this.nmpc_untied_2nd_claimsData['claimData']['dates']['returnedOn'];
+        this.currStatus_nmpc_untied_2nd = this.currentStatusText[3] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['returnedOn'],'medium');
       }
        if( this.nmpc_untied_2nd_claimsData['claimData'].hasOwnProperty('dates')){
         if(this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'])
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[4] +  this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'];
+        this.currStatus_nmpc_untied_2nd = this.currentStatusText[4] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'],'medium');
       }else{
         this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
       }
