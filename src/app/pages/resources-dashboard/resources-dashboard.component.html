@@ -38,10 +38,13 @@
 </div>
 
 <div class="container container-cnt mt-n">
-    <!-- <div class="card" > -->
-    <a routerLink="{{card?.link}}" class="center-aTag" style="" *ngFor="let card of cardData">
+    <a routerLink="{{card?.link}}" class="center-aTag mx-xl-auto" style="" *ngFor="let card of cardData">
         <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
     </a>
+
+
+    <!-- <div class="card" > -->
+
     <!-- </div> -->
     <!-- <div class="text-center mb-2 res-d" style="margin: 0 10px; width: 15rem; display: inline-block;" routerLinkActive="active" *ngFor="let card of cardData">
         <a routerLink="{{card?.link}}" style="text-decoration: none;">

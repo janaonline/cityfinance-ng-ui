@@ -342,7 +342,9 @@ this.scorePostBody = {
 
 checkPerOtherCity() {
   const dialogRef = this.dialog.open(CheckScorePerformanceComponent, {
-    width: '80%',
+    // width: '80%',
+    maxWidth: '95vw',
+    maxHeight: '95vh',
     panelClass: "no-padding-dialog",
    data: {},
   });
