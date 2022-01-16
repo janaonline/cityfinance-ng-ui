@@ -44,19 +44,21 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                               
+                                <div  class="col-lg-4 col-md-4 col-sm-4 image-upload wrapper" style="padding: 0;">
                                     <label for="cin1">
                                         <!-- upload button -->
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                                            [ngClass]="{'anDisable': formDisableA }">Upload Pdf
+                                            [ngClass]="{'anDisable': formDisableA_2021 }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin1" name="cin1" type="file" [disabled]="formDisableA"
+                                    <input id="cin1" name="cin1" type="file" [disabled]="formDisableA_2021"
                                         (change)="fileChangeEvent($event, 'millionTiedProgress_2021', 'fileName_millionTied_2021', '2020-21','2')"
                                         accept=".pdf" />
-                                </div>
+                           
+                            </div>
                                 <!-- action component -->
                                 <!-- <div class="col-lg-8 col-md-8 col-sm-8 btn-group"
                                     [ngClass]="{'anDisable': actionFormDisableA}"
@@ -124,7 +126,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2021')"
-                                                [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
+                                                [ngClass]="{'abDisable': formDisableA_2021 }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -168,12 +170,12 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
-                                            [ngClass]="{'anDisable': formDisableB }">Upload Pdf
+                                            [ngClass]="{'anDisable': formDisableB_2021 }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind1" name="cind1" type="file" [disabled]="formDisableB"
+                                    <input id="cind1" name="cind1" type="file" [disabled]="formDisableB_2021"
                                         (change)="fileChangeEvent($event, 'nonMillionTiedProgress_2021','fileName_nonMillionTied_2021', '2020-21','2')"
                                         accept=".pdf" />
                                 </div>
@@ -238,7 +240,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2021')" style="margin-left: 3px;"
-                                                [ngClass]="{'abDisable': formDisableB }">
+                                                [ngClass]="{'abDisable': formDisableB_2021 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -280,12 +282,12 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
-                                            [ngClass]="{'anDisable': formDisableC }">Upload Pdf
+                                            [ngClass]="{'anDisable': formDisableC_2021 }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde1" [disabled]="formDisableC" name="cinde1" type="file"
+                                    <input id="cinde1" [disabled]="formDisableC_2021" name="cinde1" type="file"
                                         (change)="fileChangeEvent($event, 'nonMillionUntiedProgress_2021','fileName_nonMillionUntied_2021')"
                                         accept=".pdf" />
                                 </div>
@@ -348,7 +350,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2021')"
-                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
+                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC_2021 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -408,15 +410,13 @@
             </div>
         </div> -->
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
-            <div class="col-sm-6" style="text-align: left;">
-                <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
-                    [routerLink]="['../review-ulb-form']">BACK</a>
+            <div class="col-sm-8"> </div>
+            <div class="col-sm-2" [ngClass]="{'anDisable': formDisableA_2021 && formDisableB_2021 && formDisableC_2021 }" style="text-align: left;">
+                <button  type="button" class="btn saveBtn btn-warning" (click)="saveForm(template1, '2020-21','2','1')"
+                    >SAVE AS DRAFT</button>
             </div>
-            <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2020-21','2')">{{(change
-                    == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
-                    'SAVE AND
-                    NEXT': 'NEXT'}}</button>
+            <div [ngClass]="{'anDisable': formDisableA_2021 && formDisableB_2021 && formDisableC_2021 }" class="col-sm-2  text-right">
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2020-21','2','0')">SUBMIT</button>
             </div>
         </div>
 
@@ -820,15 +820,13 @@
             </div>
         </div>
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
-            <div class="col-sm-6" style="text-align: left;">
-                <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
-                    [routerLink]="['../review-ulb-form']">BACK</a>
+            <div class="col-sm-8"> </div>
+            <div [ngClass]="{'anDisable': formDisableA && formDisableB && formDisableC }" class="col-sm-2" style="text-align: left;">
+                <button type="button" class="btn saveBtn btn-warning" (click)="saveForm(template1, '2021-22','1','1')"
+                    >SAVE AS DRAFT</button>
             </div>
-            <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22', '1')">{{(change
-                    == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
-                    'SAVE AND
-                    NEXT': 'NEXT'}}</button>
+            <div [ngClass]="{'anDisable': formDisableA && formDisableB && formDisableC }" class="col-sm-2  text-right">
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22','1','0')">SUBMIT</button>
             </div>
         </div>
 
@@ -877,12 +875,12 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cin2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                                            [ngClass]="{'anDisable': formDisableA }">Upload Pdf
+                                            [ngClass]="{'anDisable': formDisableA_2122 }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin2" name="cin2" type="file" [disabled]="formDisableA"
+                                    <input id="cin2" name="cin2" type="file" [disabled]="formDisableA_2122"
                                         (change)="fileChangeEvent($event, 'millionTiedProgress_2122', 'fileName_millionTied_2122')"
                                         accept=".pdf" />
                                 </div>
@@ -951,7 +949,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2122')"
-                                                [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
+                                                [ngClass]="{'abDisable': formDisableA_2122 }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -993,12 +991,12 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
-                                            [ngClass]="{'anDisable': formDisableB }">Upload Pdf
+                                            [ngClass]="{'anDisable': formDisableB_2122 }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind2" name="cind2" type="file" [disabled]="formDisableB"
+                                    <input id="cind2" name="cind2" type="file" [disabled]="formDisableB_2122"
                                         (change)="fileChangeEvent($event, 'nonMillionTiedProgress_2122','fileName_nonMillionTied_2122')"
                                         accept=".pdf" />
                                 </div>
@@ -1042,7 +1040,7 @@
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="fileName_nonMillionTied">
+                                        *ngIf="fileName_nonMillionTied_2122">
                                         {{fileName_nonMillionTied_2122}}</label>
                                 </div>
                                 <div class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
@@ -1062,7 +1060,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2122')" style="margin-left: 3px;"
-                                                [ngClass]="{'abDisable': formDisableB }">
+                                                [ngClass]="{'abDisable': formDisableB_2122 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -1104,12 +1102,12 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
-                                            [ngClass]="{'anDisable': formDisableC }">Upload Pdf
+                                            [ngClass]="{'anDisable': formDisableC_2122 }">Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde2" [disabled]="formDisableC" name="cinde2" type="file"
+                                    <input id="cinde2" [disabled]="formDisableC_2122" name="cinde2" type="file"
                                         (change)="fileChangeEvent($event, 'nonMillionUntiedProgress_2122','fileName_nonMillionUntied_2122')"
                                         accept=".pdf" />
                                 </div>
@@ -1172,7 +1170,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2122')"
-                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
+                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC_2122 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -1232,15 +1230,13 @@
             </div>
         </div> -->
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
-            <div class="col-sm-6" style="text-align: left;">
-                <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
-                    [routerLink]="['../review-ulb-form']">BACK</a>
+           <div class="col-sm-8"> </div>
+            <div [ngClass]="{'anDisable': formDisableA_2122 && formDisableB_2122 && formDisableC_2122 }" class="col-sm-2" style="text-align: left;">
+                <button type="button" class="btn saveBtn btn-warning" (click)="saveForm(template1, '2021-22','2','1')"
+                    >SAVE AS DRAFT</button>
             </div>
-            <div class="col-sm-6  text-right">
-                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22', '2')">{{(change
-                    == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
-                    'SAVE AND
-                    NEXT': 'NEXT'}}</button>
+            <div [ngClass]="{'anDisable': formDisableA_2122 && formDisableB_2122 && formDisableC_2122 }" class="col-sm-2  text-right">
+                <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22','2','0')">SUBMIT</button>
             </div>
         </div>
 
@@ -1252,7 +1248,16 @@
 </div>
 </div>
 
-
+<div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
+    <div class="col-sm-6" style="text-align: left;">
+        <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
+            [routerLink]="['../review-ulb-form']">BACK</a>
+    </div>
+    <div class="col-sm-6" style="text-align: end; width: 46%;">
+        <a type="button" class="btn saveBtn" routerLinkActive="router-link-active"
+            [routerLink]="['../water-supply']">NEXT</a>
+    </div>
+</div>
 <ng-template #template>
     <div class="modal-body text-center">
         <div class="modal-header">

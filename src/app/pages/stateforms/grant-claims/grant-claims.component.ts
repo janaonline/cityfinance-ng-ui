@@ -5,6 +5,7 @@ import { GrantClaimsService } from './grant-claims.service'
 import { GTCertificateService } from '../gtcertificate/gtcertificate.service'
 import {StateDashboardService} from '../state-dashboard/state-dashboard.service'
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
@@ -22,16 +23,15 @@ export class GrantClaimsComponent implements OnInit {
   isCollapsed3 = true;
   stateId;
   currentStatusText=[
-    'Claim yet to be submitted',
-    'Claim for grant submitted on ',
-    'Claim Recommended to Ministry of Finance on ',
-    'Claim Returned by MoHUA on ',
-    'Claim released to State on '
+    'Claim yet to be Submitted. ',
+    'Claim for grant Submitted. ',
+    'Claim Recommended to Ministry of Finance. ',
+    'Claim Returned by MoHUA. ',
+    'Claim released to State by Ministry of Finance. '
   ]
 
   btnLabelText=[
-    'Claim Grant - ',
-    'View Grant Transfer Certificate',
+    'Claim Grant - '
   ]
 
   tooltips =[
@@ -61,7 +61,8 @@ export class GrantClaimsComponent implements OnInit {
     public grantClaimsService: GrantClaimsService,
     public gTCertificateService: GTCertificateService,
     public stateDashboardService:StateDashboardService,
-    private datePipe : DatePipe
+    private datePipe : DatePipe,
+    private router: Router
   ) {
     // this.financial_year = JSON.parse(localStorage.getItem('Years'));
     this.stateId = sessionStorage.getItem("state_id");
@@ -244,7 +245,7 @@ this.computeCurrentStatus();
 this.computeButtonLabels();
 this.computeDisableandToolTips();
 this.computeViewConditions()
-this.computeViewButton();
+
       })
     })
 
@@ -263,48 +264,7 @@ return new Promise<void>((resolve, reject) => {
 })
   }
 
-  computeViewButton(){
-    if(this.nmpc_untied_1st_claimsData['claimData'] && Object.keys(this.nmpc_untied_1st_claimsData['claimData']).length != 0){
-      this.viewBtn_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['gtcAvailable'] == true
-      if(this.nmpc_untied_1st_claimsData['claimData']['gtcAvailable']){
-this.gtcUrl_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['gtcUrl']
-      }
-     }else{
-       this.viewBtn_nmpc_untied_1st = true
-     }
-     if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
-       this.viewBtn_nmpc_untied_2nd = this.nmpc_untied_2nd_claimsData['claimData']['gtcAvailable']  == true;
-       if(this.nmpc_untied_2nd_claimsData['claimData']['gtcAvailable']){
-        this.gtcUrl_nmpc_untied_2nd = this.nmpc_untied_2nd_claimsData['claimData']['gtcUrl']
-              }
-      }else{
-        this.viewBtn_nmpc_untied_2nd = true
-      }
-      if(this.nmpc_tied_1st_claimsData['claimData'] && Object.keys(this.nmpc_tied_1st_claimsData['claimData']).length != 0){
-       this.viewBtn_nmpc_tied_1st = this.nmpc_tied_1st_claimsData['claimData']['gtcAvailable']  == true;
-       if(this.nmpc_tied_1st_claimsData['claimData']['gtcAvailable']){
-        this.gtcUrl_nmpc_tied_1st = this.nmpc_tied_1st_claimsData['claimData']['gtcUrl']
-              }
-      }else{
-        this.viewBtn_nmpc_tied_1st = true
-      }
-      if(this.nmpc_tied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_tied_2nd_claimsData['claimData']).length != 0){
-       this.viewBtn_nmpc_tied_2nd = this.nmpc_tied_2nd_claimsData['claimData']['gtcAvailable']  == true;
-       if(this.nmpc_tied_2nd_claimsData['claimData']['gtcAvailable']){
-        this.gtcUrl_nmpc_tied_2nd = this.nmpc_tied_2nd_claimsData['claimData']['gtcUrl']
-              }
-      }else{
-        this.viewBtn_nmpc_tied_2nd = true
-      }
-      if(this.mpc_claimsData['claimData'] && Object.keys(this.mpc_claimsData['claimData']).length != 0){
-       this.viewBtn_mpc = this.mpc_claimsData['claimData']['gtcAvailable']  == true;
-       if(this.mpc_claimsData['claimData']['gtcAvailable']){
-        this.gtcUrl_mpc = this.mpc_claimsData['claimData']['gtcUrl']
-              }
-      }else{
-        this.viewBtn_mpc = true
-      }
-  }
+ 
   computeViewConditions(){
     // viewCond_nmpc_untied_1st = ""
     // viewCond_nmpc_untied_2nd = ""
@@ -313,29 +273,40 @@ this.gtcUrl_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['gtcU
     // viewCond_mpc = "";
 
 if(this.nmpc_untied_1st_claimsData['claimData'] && Object.keys(this.nmpc_untied_1st_claimsData['claimData']).length != 0){
- this.viewCond_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED'
-}else if(this.nmpc_untied_1st_claimsData['gtcUrl'] == ''){
-  this.viewCond_nmpc_untied_1st = true
+ this.viewCond_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED';
+ this.viewBtn_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED';
+}else {
+  this.viewCond_nmpc_untied_1st = true;
+  this.viewBtn_nmpc_untied_1st = true;
 }
 if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
   this.viewCond_nmpc_untied_2nd = this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else if(this.nmpc_untied_2nd_claimsData['gtcUrl'] == ''){
+  this.viewBtn_nmpc_untied_2nd = this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == 'REJECTED'
+ }else{
    this.viewCond_nmpc_untied_2nd = true
+   this.viewBtn_nmpc_untied_2nd = true
  }
  if(this.nmpc_tied_1st_claimsData['claimData'] && Object.keys(this.nmpc_tied_1st_claimsData['claimData']).length != 0){
   this.viewCond_nmpc_tied_1st = this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else if(this.nmpc_tied_1st_claimsData['gtcUrl'] == ''){
-   this.viewCond_nmpc_tied_1st = true
+  this.viewBtn_nmpc_tied_1st = this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == 'REJECTED'
+ }else{
+   this.viewCond_nmpc_tied_1st = true;
+   this.viewBtn_nmpc_tied_1st = true;
+
  }
  if(this.nmpc_tied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_tied_2nd_claimsData['claimData']).length != 0){
   this.viewCond_nmpc_tied_2nd = this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else if(this.nmpc_tied_2nd_claimsData['gtcUrl'] == ''){
+  this.viewBtn_nmpc_tied_2nd = this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == 'REJECTED'
+ }else{
    this.viewCond_nmpc_tied_2nd = true
+   this.viewBtn_nmpc_tied_2nd = true
  }
  if(this.mpc_claimsData['claimData'] && Object.keys(this.mpc_claimsData['claimData']).length != 0){
   this.viewCond_mpc = this.mpc_claimsData['claimData']['applicationStatus'] == 'REJECTED'
- }else if(this.mpc_claimsData['gtcUrl'] == ''){
+  this.viewBtn_mpc = this.mpc_claimsData['claimData']['applicationStatus'] == 'REJECTED'
+ }else{
    this.viewCond_mpc = true
+   this.viewBtn_mpc = true
  }
   }
 
@@ -370,156 +341,165 @@ if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_
     this.btnLabel_nmpc_tied_1st = this.btnLabelText[0] + `Rs. ${this.nmpc_tied_1st_grantAmount} Cr.`
     this.btnLabel_nmpc_tied_2nd = this.btnLabelText[0] + `Rs. ${this.nmpc_tied_2nd_grantAmount} Cr.`
     this.btnLabel_mpc = this.btnLabelText[0] + `Rs. ${this.mpc_grantAmount} Cr.`
-    if(this.nmpc_untied_1st_claimsData['gtcUrl'] != ""){
-      this.btnLabel_nmpc_untied_1st = this.btnLabelText[1]
-    }else if(this.nmpc_untied_1st_claimsData['claimData'].hasOwnProperty('dates')){
-      if(this.nmpc_untied_1st_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_untied_1st_claimsData['claimData']['dates']['releasedOn'] != null  )
-      this.btnLabel_nmpc_untied_1st = this.btnLabelText[1]
-    }
-    if(this.nmpc_untied_2nd_claimsData['gtcUrl'] != ""){
-      this.btnLabel_nmpc_untied_2nd = this.btnLabelText[1]
-    }else if(this.nmpc_untied_2nd_claimsData['claimData'].hasOwnProperty('dates')){
-      if(this.nmpc_untied_2nd_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'] != null  )
-      this.btnLabel_nmpc_untied_2nd = this.btnLabelText[1]
-    }
-    if(this.nmpc_tied_1st_claimsData['gtcUrl'] != ""){
-      this.btnLabel_nmpc_tied_1st = this.btnLabelText[1]
-    }else if(this.nmpc_tied_1st_claimsData['claimData'].hasOwnProperty('dates')){
-      if(this.nmpc_tied_1st_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_tied_1st_claimsData['claimData']['dates']['releasedOn'] != null  )
-      this.btnLabel_nmpc_tied_1st = this.btnLabelText[1]
-    }
-    if(this.nmpc_tied_2nd_claimsData['gtcUrl'] != ""){
-      this.btnLabel_nmpc_tied_2nd = this.btnLabelText[1]
-    }else if(this.nmpc_tied_2nd_claimsData['claimData'].hasOwnProperty('dates')){
-      if(this.nmpc_tied_2nd_claimsData['claimData']['dates']['approvedOn'] != null || this.nmpc_tied_2nd_claimsData['claimData']['dates']['releasedOn'] != null  )
-      this.btnLabel_nmpc_tied_2nd = this.btnLabelText[1]
-    }
-    if(this.mpc_claimsData['gtcUrl'] != "" ){
-      this.btnLabel_mpc = this.btnLabelText[1]
-    }else if(this.mpc_claimsData['claimData'].hasOwnProperty('dates')){
-      if(this.mpc_claimsData['claimData']['dates']['approvedOn'] != null || this.mpc_claimsData['claimData']['dates']['releasedOn'] != null  )
-      this.btnLabel_mpc = this.btnLabelText[1]
-    }
+
   }
   dateNot = ' - Date Not Available'
   computeCurrentStatus(){
     //nmpc-untied 1st installment
+   
 
     if(this.nmpc_untied_1st_claimsData['claimData'] && Object.keys(this.nmpc_untied_1st_claimsData['claimData']).length != 0){
-if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "STATE" && this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
-  this.currStatus_nmpc_untied_1st = this.currentStatusText[1] +  this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y');
-}else if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
-  this.currStatus_nmpc_untied_1st = this.currentStatusText[2] +  this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['approvedOn'],'MMM d, y');
-}else if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
-  this.currStatus_nmpc_untied_1st = this.currentStatusText[3] +  this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['returnedOn'],'MMM d, y');
-}
-if( this.nmpc_untied_1st_claimsData['claimData'].hasOwnProperty('dates') ){
-  if(this.nmpc_untied_1st_claimsData['claimData']['dates']['releasedOn'])
-  this.currStatus_nmpc_untied_1st = this.currentStatusText[4] +  this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['releasedOn'],'MMM d, y');
-}else{
-  this.currStatus_nmpc_untied_1st = this.currentStatusText[0];
-}
-    }else{
-      if(this.nmpc_untied_1st_claimsData['gtcUrl'] != ''){
-        this.currStatus_nmpc_untied_1st = this.currentStatusText[1] + this.dateNot;
+      let dates_nmpc_untied_1st = this.nmpc_untied_1st_claimsData['claimData']['dates']
+      if(this.nmpc_untied_1st_claimsData['claimData']['releaseStatus']){
+        this.currStatus_nmpc_untied_1st = this.currentStatusText[4].concat(dates_nmpc_untied_1st.hasOwnProperty('releasedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}` : "")
       }else{
-        this.currStatus_nmpc_untied_1st = this.currentStatusText[0];
+        if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "STATE" && 
+this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
+  this.currStatus_nmpc_untied_1st = this.currentStatusText[1].concat(` Date - ${this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}`);
+
+
+}else if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
+  this.currStatus_nmpc_untied_1st = this.currentStatusText[2].concat(dates_nmpc_untied_1st.hasOwnProperty('approvedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['approvedOn'],'MMM d, y')}` : "");
+
+
+}else if(this.nmpc_untied_1st_claimsData['claimData']['submitStatus'] == true &&
+ this.nmpc_untied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+ this.nmpc_untied_1st_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
+  this.currStatus_nmpc_untied_1st = this.currentStatusText[3].concat(dates_nmpc_untied_1st.hasOwnProperty('returnedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_untied_1st_claimsData['claimData']['dates']['returnedOn'],'MMM d, y')}`: "");
+
+}
+
       }
-    
+
+    }else{      
+        this.currStatus_nmpc_untied_1st = this.currentStatusText[0];
     }
 //nmpc untied 2nd installment
-    if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
-      if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "STATE" && this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[1] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['submittedOn'],'MMM d, y');
-      }else if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[2] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['approvedOn'],'MMM d, y');
-      }else if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[3] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['returnedOn'],'MMM d, y');
-      }
-       if( this.nmpc_untied_2nd_claimsData['claimData'].hasOwnProperty('dates')){
-        if(this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'])
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[4] +  this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['releasedOn'],'MMM d, y');
-      }else{
-        this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
-      }
-          }else{
-            if(this.nmpc_untied_2nd_claimsData['gtcUrl'] != ''){
-              this.currStatus_nmpc_untied_2nd = this.currentStatusText[1] + this.dateNot;
-            }else{
-              this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
-            }
-           
-          }
+if(this.nmpc_untied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_untied_2nd_claimsData['claimData']).length != 0){
+  let dates_nmpc_untied_2nd = this.nmpc_untied_2nd_claimsData['claimData']['dates']
+  if(this.nmpc_untied_2nd_claimsData['claimData']['releaseStatus']){
+    this.currStatus_nmpc_untied_2nd = this.currentStatusText[4].concat(dates_nmpc_untied_2nd.hasOwnProperty('releasedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}` : "")
+  }else{
+    if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "STATE" && 
+this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
+this.currStatus_nmpc_untied_2nd = this.currentStatusText[1].concat(` Date - ${this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}`);
+
+
+}else if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
+this.currStatus_nmpc_untied_2nd = this.currentStatusText[2].concat(dates_nmpc_untied_2nd.hasOwnProperty('approvedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['approvedOn'],'MMM d, y')}` : "");
+
+
+}else if(this.nmpc_untied_2nd_claimsData['claimData']['submitStatus'] == true &&
+this.nmpc_untied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_untied_2nd_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
+this.currStatus_nmpc_untied_2nd = this.currentStatusText[3].concat(dates_nmpc_untied_2nd.hasOwnProperty('returnedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_untied_2nd_claimsData['claimData']['dates']['returnedOn'],'MMM d, y')}`: "");
+
+}
+
+  }
+
+}else{      
+    this.currStatus_nmpc_untied_2nd = this.currentStatusText[0];
+}
 
 
 //nmpc-tied 1st installment
-if(this.nmpc_tied_1st_claimsData['claimData'] && Object.keys(this.nmpc_tied_1st_claimsData['claimData']).length != 0){
-  if(this.nmpc_tied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_tied_1st_claimsData['claimData']['actionTakenBy'] == "STATE" && this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
-    this.currStatus_nmpc_tied_1st = this.currentStatusText[1] +  this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y' );
-  }else if(this.nmpc_tied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_tied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
-    this.currStatus_nmpc_tied_1st = this.currentStatusText[2] +  this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['approvedOn'],'MMM d, y');
-  }else if(this.nmpc_tied_1st_claimsData['claimData']['submitStatus'] == true && this.nmpc_tied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
-    this.currStatus_nmpc_tied_1st = this.currentStatusText[3] +  this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['returnedOn'],'MMM d, y');
-  }
-   if( this.nmpc_tied_1st_claimsData['claimData'].hasOwnProperty('dates')){
-    if(this.nmpc_tied_1st_claimsData['claimData']['dates']['releasedOn'])
-    this.currStatus_nmpc_tied_1st = this.currentStatusText[4] +  this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['releasedOn'],'MMM d, y');
+if(this.nmpc_tied_1st_claimsData && Object.keys(this.nmpc_tied_1st_claimsData['claimData']).length != 0){
+  let dates_nmpc_tied_1st = this.nmpc_tied_1st_claimsData['claimData']['dates']
+  if(this.nmpc_tied_1st_claimsData['claimData']['releaseStatus']){
+    this.currStatus_nmpc_tied_1st = this.currentStatusText[4].concat(dates_nmpc_tied_1st.hasOwnProperty('releasedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}` : "")  
   }else{
-    this.currStatus_nmpc_tied_1st = this.currentStatusText[0];
+    if(this.nmpc_tied_1st_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_tied_1st_claimsData['claimData']['actionTakenBy'] == "STATE" && 
+this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
+this.currStatus_nmpc_tied_1st = this.currentStatusText[1].concat(` Date - ${this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}`);
+
+
+}else if(this.nmpc_tied_1st_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_tied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
+this.currStatus_nmpc_tied_1st = this.currentStatusText[2].concat(dates_nmpc_tied_1st.hasOwnProperty('approvedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['approvedOn'],'MMM d, y')}` : "");
+
+
+}else if(this.nmpc_tied_1st_claimsData['claimData']['submitStatus'] == true &&
+this.nmpc_tied_1st_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_tied_1st_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
+this.currStatus_nmpc_tied_1st = this.currentStatusText[3].concat(dates_nmpc_tied_1st.hasOwnProperty('returnedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_tied_1st_claimsData['claimData']['dates']['returnedOn'],'MMM d, y')}`: "");
+
+}
+
   }
-      }else{
-        if(this.nmpc_tied_1st_claimsData['gtcUrl'] != ''){
-          this.currStatus_nmpc_tied_1st = this.currentStatusText[1] + this.dateNot;
-        }else{
-          this.currStatus_nmpc_tied_1st = this.currentStatusText[0];
-        }
-       
-      }
+
+}else{      
+    this.currStatus_nmpc_tied_1st = this.currentStatusText[0]
+  }
 //2nd installment
 if(this.nmpc_tied_2nd_claimsData['claimData'] && Object.keys(this.nmpc_tied_2nd_claimsData['claimData']).length != 0){
-  if(this.nmpc_tied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_tied_2nd_claimsData['claimData']['actionTakenBy'] == "STATE" && this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
-    this.currStatus_nmpc_tied_2nd = this.currentStatusText[1] +  this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['submittedOn'],'MMM d, y');
-  }else if(this.nmpc_tied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_tied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
-    this.currStatus_nmpc_tied_2nd = this.currentStatusText[2] +  this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['approvedOn'],'MMM d, y');
-  }else if(this.nmpc_tied_2nd_claimsData['claimData']['submitStatus'] == true && this.nmpc_tied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
-    this.currStatus_nmpc_tied_2nd = this.currentStatusText[3] +  this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['returnedOn'],'MMM d, y');
-  }
-  if( this.nmpc_tied_2nd_claimsData['claimData'].hasOwnProperty('dates') ){
-    if(this.nmpc_tied_2nd_claimsData['claimData']['dates']['releasedOn'] )
-    this.currStatus_nmpc_tied_2nd = this.currentStatusText[4] +  this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['releasedOn'],'MMM d, y');
+  let dates_nmpc_tied_2nd = this.nmpc_tied_2nd_claimsData['claimData']['dates']
+  if(this.nmpc_tied_2nd_claimsData['claimData']['releaseStatus']){
+    this.currStatus_nmpc_tied_2nd = this.currentStatusText[4].concat(dates_nmpc_tied_2nd.hasOwnProperty('releasedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}` : "")
   }else{
-    this.currStatus_nmpc_tied_2nd = this.currentStatusText[0];
+    if(this.nmpc_tied_2nd_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_tied_2nd_claimsData['claimData']['actionTakenBy'] == "STATE" && 
+this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
+this.currStatus_nmpc_tied_2nd = this.currentStatusText[1].concat(` Date - ${this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}`);
+
+
+}else if(this.nmpc_tied_2nd_claimsData['claimData']['submitStatus'] == true && 
+this.nmpc_tied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
+this.currStatus_nmpc_tied_2nd = this.currentStatusText[2].concat(dates_nmpc_tied_2nd.hasOwnProperty('approvedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['approvedOn'],'MMM d, y')}` : "");
+
+
+}else if(this.nmpc_tied_2nd_claimsData['claimData']['submitStatus'] == true &&
+this.nmpc_tied_2nd_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.nmpc_tied_2nd_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
+this.currStatus_nmpc_tied_2nd = this.currentStatusText[3].concat(dates_nmpc_tied_2nd.hasOwnProperty('returnedOn') ? ` Date - ${this.datePipe.transform(this.nmpc_tied_2nd_claimsData['claimData']['dates']['returnedOn'],'MMM d, y')}`: "");
+
+}
+
   }
-      }else{
-        if(this.nmpc_tied_2nd_claimsData['gtcUrl'] != ''){
-          this.currStatus_nmpc_tied_2nd =  this.currentStatusText[1] + this.dateNot;
-        }else{
-           this.currStatus_nmpc_tied_2nd = this.currentStatusText[0];}
-       
-      }
+
+}else{      
+    this.currStatus_nmpc_tied_2nd = this.currentStatusText[0]
+  }
 //mpc
 
 if(this.mpc_claimsData['claimData'] && Object.keys(this.mpc_claimsData['claimData']).length != 0){
-  if(this.mpc_claimsData['claimData']['submitStatus'] == true && this.mpc_claimsData['claimData']['actionTakenBy'] == "STATE" && this.mpc_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
-    this.currStatus_mpc = this.currentStatusText[1] +  this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['submittedOn'],'MMM d, y');
-  }else if(this.mpc_claimsData['claimData']['submitStatus'] == true && this.mpc_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.mpc_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
-    this.currStatus_mpc = this.currentStatusText[2] +  this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['approvedOn'],'MMM d, y');
-  }else if(this.mpc_claimsData['claimData']['submitStatus'] == true && this.mpc_claimsData['claimData']['actionTakenBy'] == "MoHUA" && this.mpc_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
-    this.currStatus_mpc = this.currentStatusText[3] +  this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['returnedOn'],'MMM d, y');
-  }
-  if( this.mpc_claimsData['claimData'].hasOwnProperty('dates')){
-    if(this.mpc_claimsData['claimData']['dates']['releasedOn'])
-    this.currStatus_mpc = this.currentStatusText[4] +  this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['releasedOn'],'MMM d, y');
+  let dates_mpc = this.mpc_claimsData['claimData']['dates']
+  if(this.mpc_claimsData['claimData']['releaseStatus']){
+    this.currStatus_mpc = this.currentStatusText[4].concat(dates_mpc.hasOwnProperty('releasedOn') ? ` Date - ${this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}` : "")
   }else{
-    this.currStatus_mpc = this.currentStatusText[0];
+    if(this.mpc_claimsData['claimData']['submitStatus'] == true && 
+this.mpc_claimsData['claimData']['actionTakenBy'] == "STATE" && 
+this.mpc_claimsData['claimData']['applicationStatus'] == "PENDING"  ){
+this.currStatus_mpc = this.currentStatusText[1].concat(` Date - ${this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['submittedOn'], 'MMM d, y')}`);
+
+
+}else if(this.mpc_claimsData['claimData']['submitStatus'] == true && 
+this.mpc_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.mpc_claimsData['claimData']['applicationStatus'] == "APPROVED"  ){
+this.currStatus_mpc = this.currentStatusText[2].concat(dates_mpc.hasOwnProperty('approvedOn') ? ` Date - ${this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['approvedOn'],'MMM d, y')}` : "");
+
+
+}else if(this.mpc_claimsData['claimData']['submitStatus'] == true &&
+this.mpc_claimsData['claimData']['actionTakenBy'] == "MoHUA" && 
+this.mpc_claimsData['claimData']['applicationStatus'] == "REJECTED"  ){
+this.currStatus_mpc = this.currentStatusText[3].concat(dates_mpc.hasOwnProperty('returnedOn') ? ` Date - ${this.datePipe.transform(this.mpc_claimsData['claimData']['dates']['returnedOn'],'MMM d, y')}`: "");
+
+}
+
   }
-      }else{
-        if(this.mpc_claimsData['gtcUrl'] != ''){
-          this.currStatus_mpc =  this.currentStatusText[1] + this.dateNot;
-        }else{
-        this.currStatus_mpc = this.currentStatusText[0];
-        }
-      }
+
+}else{      
+    this.currStatus_mpc = this.currentStatusText[0]
+  }
 
   }
 
@@ -754,9 +734,9 @@ body={
     this.alertClose();
     this.grantClaimsService.claimGrantCreate(this.body).subscribe(
       (res)=>{
-        swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address`, 'success');
+        swal('Success', `Claim Request successfully generated. A confirmation email has been sent to the registered email address and a copy of submission has been emailed to MoHUA`, 'success');
         setTimeout(() => {
-          window.location.reload()
+          this.router.navigate(['/dashboard']);
         }, 500);
       },
       (err)=>{

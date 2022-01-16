@@ -77,12 +77,8 @@
                                         </div>
                                             <div *ngIf="viewBtn_nmpc_tied_1st" class="col-md-12">
                                                 
-                                                   <div *ngIf="nmpc_tied_1st_claimsData['gtcUrl'] != '' " >
-                                                    <a [href]="nmpc_tied_1st_claimsData['gtcUrl']" target="_blank"  class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_1st_eligible ?  '#5cb85c' : '#059b9a' }"  >
-                                                        {{btnLabel_nmpc_tied_1st}}
-                                                   </a>
-                                                   </div>
-                                                <div *ngIf="nmpc_tied_1st_claimsData['gtcUrl'] == '' " class="wrapper" [matTooltip]="tooltip_nmpc_tied_1st" [matTooltipDisabled]="nmpc_tied_1st_eligible" matTooltipPosition="right">
+                                                
+                                                <div class="wrapper" [matTooltip]="tooltip_nmpc_tied_1st" [matTooltipDisabled]="nmpc_tied_1st_eligible" matTooltipPosition="right">
                                                     <a [ngClass]="{'disableCls': !nmpc_tied_1st_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_tied','1', nmpc_tied_1st_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_1st_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                                         {{btnLabel_nmpc_tied_1st}}
                                                    </a>
@@ -134,12 +130,8 @@
                                             </ul>
                                         </div>
                                             <div *ngIf="viewBtn_nmpc_tied_2nd" class="col-md-12">
-                                                <div *ngIf="nmpc_tied_2nd_claimsData['gtcUrl'] != '' " >
-                                                    <a [href]="nmpc_tied_2nd_claimsData['gtcUrl']" target="_blank"  class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_2nd_eligible ?  '#5cb85c' : '#059b9a' }"  >
-                                                        {{btnLabel_nmpc_tied_2nd}}
-                                                   </a>
-                                                   </div>
-                                               <div *ngIf="nmpc_tied_2nd_claimsData['gtcUrl'] == '' " class="wrapper" [matTooltip]="tooltip_nmpc_tied_2nd" [matTooltipDisabled]="nmpc_tied_2nd_eligible" matTooltipPosition="left">
+                                               
+                                               <div class="wrapper" [matTooltip]="tooltip_nmpc_tied_2nd" [matTooltipDisabled]="nmpc_tied_2nd_eligible" matTooltipPosition="left">
                                                 <a [ngClass]="{'disableCls': !nmpc_tied_2nd_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_tied','2', nmpc_tied_2nd_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_tied_2nd_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                                     {{btnLabel_nmpc_tied_2nd}}
                                                </a>
@@ -214,12 +206,8 @@
                                             </ul>
                                         </div>
                                             <div *ngIf="viewBtn_nmpc_untied_1st" class="col-md-12">
-                                                <div *ngIf="nmpc_untied_1st_claimsData['gtcUrl'] != '' " >
-                                                    <a [href]="nmpc_untied_1st_claimsData['gtcUrl']" target="_blank"  class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_1st_eligible ?  '#5cb85c' : '#059b9a' }"  >
-                                                        {{btnLabel_nmpc_untied_1st}}
-                                                   </a>
-                                                   </div>
-                                                <div *ngIf="nmpc_untied_1st_claimsData['gtcUrl'] == '' "  class="wrapper" [matTooltip]="tooltip_nmpc_untied_1st" [matTooltipDisabled]="nmpc_untied_1st_eligible" matTooltipPosition="right">
+                                                
+                                                <div  class="wrapper" [matTooltip]="tooltip_nmpc_untied_1st" [matTooltipDisabled]="nmpc_untied_1st_eligible" matTooltipPosition="right">
                                                     <a [ngClass]="{'disableCls': !nmpc_untied_1st_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_untied','1', nmpc_untied_1st_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_1st_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                                         {{btnLabel_nmpc_untied_1st}}
                                                    </a>
@@ -268,12 +256,8 @@
                                             </ul>
                                             </div>
                                             <div *ngIf="viewBtn_nmpc_untied_2nd" class="col-md-12">
-                                                <div *ngIf="nmpc_untied_2nd_claimsData['gtcUrl'] != '' " >
-                                                    <a [href]="nmpc_untied_2nd_claimsData['gtcUrl']" target="_blank"  class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_2nd_eligible ?  '#5cb85c' : '#059b9a' }"  >
-                                                        {{btnLabel_nmpc_untied_2nd}}
-                                                   </a>
-                                                   </div>
-                                                <div *ngIf="nmpc_untied_2nd_claimsData['gtcUrl'] == '' "  class="wrapper" [matTooltip]="tooltip_nmpc_untied_2nd" [matTooltipDisabled]="nmpc_untied_2nd_eligible" matTooltipPosition="right">
+                                               
+                                                <div   class="wrapper" [matTooltip]="tooltip_nmpc_untied_2nd" [matTooltipDisabled]="nmpc_untied_2nd_eligible" matTooltipPosition="right">
                                                     <a [ngClass]="{'disableCls': !nmpc_untied_2nd_eligible}" (click)="finalConfirm(finalSubmitAlert, 'nmpc_untied','2', nmpc_untied_2nd_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': nmpc_untied_2nd_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                                         {{btnLabel_nmpc_untied_2nd}}
                                                    </a>
@@ -302,7 +286,7 @@
                         <div class="col-md-12">
                             <div class="row" style="margin: 0;">
                                 <div class="col-md-10">
-                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants:
+                                    <h6 class="uplod_label">3. Claim Million Plus Cities Tied Grants
                                     </h6>
                                 </div>
                                 <div class="col-md-2" style="text-align: right;">
@@ -346,12 +330,8 @@
 </div>
 
                             <div *ngIf="viewBtn_mpc" class="wrapper" [matTooltip]="tooltip_mpc" [matTooltipDisabled]="mpc_eligible" matTooltipPosition="right">
-                                <div *ngIf="mpc_claimsData['gtcUrl'] != '' " >
-                                    <a [href]="mpc_claimsData['gtcUrl']" target="_blank"  class="chip-btn" [ngStyle]="{'background-color': mpc_claimsData['gtcUrl'] != '' ?  '#5cb85c' : '#059b9a' }"  >
-                                        {{btnLabel_mpc}}
-                                   </a>
-                                   </div>
-                              <div *ngIf="mpc_claimsData['gtcUrl'] == '' " >
+                             
+                              <div>
                                 <a [ngClass]="{'disableCls': !mpc_eligible}" (click)="finalConfirm(finalSubmitAlert, 'mpc', '', mpc_grantAmount)"  class="chip-btn" [ngStyle]="{'background-color': mpc_eligible ?  '#5cb85c' : '#059b9a' }"  >
                                     {{btnLabel_mpc}}
                                </a>

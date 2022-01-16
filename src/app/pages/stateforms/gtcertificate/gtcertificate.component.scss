@@ -29,7 +29,7 @@
 
 
 .card {
-    width: 100%;
+    width: 96%;
     height: auto;
     margin-bottom: 2rem !important;
     background-color: #FFFFFF;
@@ -88,6 +88,10 @@
     font-size: 12px;
 }
 
+.wrapper {
+    cursor: not-allowed;
+   }
+
 .pr-btn {
     background-color: #059b9a;
     color: #FFFFFF;
@@ -140,3 +144,4 @@
     background-color: #ffc500;
     font-weight: bold;
 }
+

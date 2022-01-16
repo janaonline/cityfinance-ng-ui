@@ -18,6 +18,7 @@ import { ProfileService } from "src/app/users/profile/service/profile.service";
 import { isNull } from '@angular/compiler/src/output/output_ast';
 import { SweetAlert } from "sweetalert/typings/core";
 import { TrusteeForTheBond } from 'src/app/credit-rating/municipal-bond/models/bondIssureItemResponse';
+import { promise } from 'protractor';
 const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: 'app-gtcertificate',
@@ -204,6 +205,14 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   formDisableA = false;
   formDisableB = false;
   formDisableC = false;
+
+  formDisableA_2021 = false;
+  formDisableB_2021 = false;
+  formDisableC_2021 = false;
+
+  formDisableA_2122 = false;
+  formDisableB_2122 = false;
+  formDisableC_2122 = false;
   actionFormDisableA = false;
   actionFormDisableB = false;
   actionFormDisableC = false;
@@ -412,17 +421,18 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   }
 
   proceedClicked = false
+  inDraftMode = true;
   proceed() {
     this.dialog.closeAll();
     if (this.loggedInUserType == 'STATE') {
       this.proceedClicked = true
       if (this.submitted) {
-        this.saveForm(this.template1, this.yearInput, this.instInput);
+        this.saveForm(this.template1, this.yearInput, this.instInput, '1');
         sessionStorage.setItem("changeInGTC", "false")
         this._router.navigate(["stateform/water-supply"]);
         return;
       } else if (this.routerNavigate) {
-        this.saveForm(this.template1,  this.yearInput, this.instInput);
+        this.saveForm(this.template1,  this.yearInput, this.instInput, '1');
         sessionStorage.setItem("changeInGTC", "false")
         this._router.navigate([this.routerNavigate.url]);
         return
@@ -579,8 +589,8 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
   actionSubmit = false;
   instInput;
   yearInput;
-  saveForm(template1, year, inst) {
-
+  saveForm(template1, year, inst, isDraft) {
+     this.inDraftMode = isDraft == '1'
 this.instInput = inst;
 this.yearInput = year
     console.log(this.loggedInUserType)
@@ -653,7 +663,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
           status: actionc ? actionc : 'PENDING',
           rejectReason: rrC ? rrC : null
         },
-        isDraft: true
+        isDraft: this.inDraftMode
       };
       let changeHappen = sessionStorage.getItem("changeInGTC")
       if (changeHappen == "false") {
@@ -666,7 +676,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
           this.uploadedFiles.nonmillion_tied.pdfUrl != '' &&
           this.uploadedFiles.nonmillion_untied.pdfUrl != ''
         ) {
-          this.uploadedFiles.isDraft = false
+      
 
           this.postsDataCall();
 
@@ -784,7 +794,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
     }
     return validFiles;
   }
-
+apiData={}
   async upload(progessType, fileName) {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
@@ -861,57 +871,71 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
       );
     })
   }
-callGetAPI(year,inst){
-  let yearVal
-  if(year == '2021-22'){
-yearVal = '606aaf854dff55e6c075d219'
-  }else{
-    yearVal   ='606aadac4dff55e6c075c507'
-  }
-this.gtcService.getFiles(this.state_id, yearVal, inst).subscribe((res)=>{
-if(year =='2021-22' && inst =='1'){
-
-  if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-    this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
-    this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
-  }
-  if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-    this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
-    this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
-  }
-  if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-    this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
-    this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
-  }
-}else if(year =='2021-22' && inst =='2'){
-  if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-    this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
-    this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
-  }
-  if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-    this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
-    this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-  }
-  if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-    this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
-    this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];
-  }
-}else if(year =='2020-21' && inst =='2'){
-  if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-    this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
-    this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
-  }
-  if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-    this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
-    this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-  }
-  if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-    this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
-    this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
-  }
-}
+ callGetAPI(year,inst){
+   return new Promise((resolve, reject) => {
+    let yearVal
+    if(year == '2021-22'){
+  yearVal = '606aaf854dff55e6c075d219'
+    }else{
+      yearVal   ='606aadac4dff55e6c075c507'
+    }
+  this.gtcService.getFiles(this.state_id, yearVal, inst).subscribe((res)=>{
+  this.apiData = res['data'][0];
+  if(year =='2021-22' && inst =='1'){
   
-})
+    if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+      this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
+      this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
+      this.formDisableA = !res['data'][0]['isDraft']
+    }
+    if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+      this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
+      this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
+      this.formDisableB = !res['data'][0]['isDraft']
+  
+    }
+    if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+      this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
+      this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
+      this.formDisableC = !res['data'][0]['isDraft']
+    }
+  }else if(year =='2021-22' && inst =='2'){
+    if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+      this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
+      this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
+      this.formDisableA_2122 = !res['data'][0]['isDraft']
+    }
+    if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+      this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
+      this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+      this.formDisableB_2122 = !res['data'][0]['isDraft']
+    }
+    if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+      this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
+      this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];  
+      this.formDisableC_2122 = !res['data'][0]['isDraft']
+    }
+  }else if(year =='2020-21' && inst =='2'){
+    if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+      this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
+      this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
+      this.formDisableA_2021 = !res['data'][0]['isDraft']
+    }
+    if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+      this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
+      this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+      this.formDisableB_2021 = !res['data'][0]['isDraft']
+    }
+    if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+      this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
+      this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
+      this.formDisableC_2021 = !res['data'][0]['isDraft']
+    }
+  }
+    resolve(res['data'][0])
+  })
+   })
+  
 }
   private uploadFileToS3(
     file: File,
@@ -1032,33 +1056,29 @@ if(year =='2021-22' && inst =='1'){
       this._stateformsService.allFormsPreData.next(allFormData)
     }
   }
-  onPreview() {
+ async onPreview() {
     let PreviewFiles = {
-      state: this.state_id,
-      design_year: "606aaf854dff55e6c075d219",
-      million_tied:
-      {
-        pdfUrl: this.millionTiedFileUrl,
-        pdfName: this.fileName_millionTied
-      },
-      nonmillion_tied:
-      {
-        pdfUrl: this.nonMillionTiedFileUrl,
-        pdfName: this.fileName_nonMillionTied
-      },
-      nonmillion_untied:
-      {
-        pdfUrl: this.nonMillionUntiedFileUrl,
-        pdfName: this.fileName_nonMillionUntied
-      },
-      isDraft: (this.millionTiedFileUrl != '' && this.nonMillionTiedFileUrl != '' && this.nonMillionUntiedFileUrl != '') ? false : true
+      second_2021:{},
+      first_2122:{},
+      second_2122:{},
     };
+ 
+PreviewFiles.second_2021 = await this.callGetAPI('2020-21','2');
+
+// this.callGetAPI('2021-22','1');
+PreviewFiles.first_2122 = await this.callGetAPI('2021-22','1');
+
+// this.callGetAPI('2021-22','2');
+PreviewFiles.second_2122 = await this.callGetAPI('2021-22','2');
+    
+  
     const dialogRef = this.dialog.open(GtcertificatePreviewComponent,
       {
         data: PreviewFiles,
-        maxHeight: "95%",
+        maxHeight: "100vh",
         width: '85vw',
-        panelClass: 'no-padding-dialog'
+        panelClass: 'no-padding-dialog',
+        autoFocus:false
       });
     console.log('dialog ref')
     dialogRef.afterClosed().subscribe(result => {
