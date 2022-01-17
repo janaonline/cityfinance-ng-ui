@@ -1,12 +1,22 @@
 <div class="container-fluid">
     <div class="row">
-      <app-front-panel [cardData]="revenueData" [data]="frontPanelData"></app-front-panel>
+        <div class="col-sm-12">
+            <app-front-panel [cardData]="revenueData" [data]="frontPanelData"></app-front-panel>
+        </div>
     </div>
     <div class="row p-4">
-        <h1 class="text-center">Dashboard</h1>
+        <div class="col-sm-12">
+            <h1 class="text-center">Dashboard</h1>
+            <div class="d-a mx-auto mt-3 mb-3">
+                <!-- <span class="d-t"> -->
+                Data Availability - 75%
+                <!-- </span> -->
+            </div>
+        </div>
+
     </div>
-    <div class="row">
-      <app-dashboard-tabs [data]="dashboardTabData"></app-dashboard-tabs>
-    </div>
-  </div>
-  
+    <!-- <div class="row">
+        <app-dashboard-tabs [data]="dashboardTabData"></app-dashboard-tabs>
+    </div> -->
+
+</div>
