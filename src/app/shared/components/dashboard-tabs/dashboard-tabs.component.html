@@ -65,7 +65,14 @@
   <div class="row">
     <div [ngSwitch]="activeHeader">
       <div *ngSwitchCase="'Financial Indicators'">
-        <app-filter-data [data]="innerActiveTab"></app-filter-data>
+        <div [ngSwitch]="DashBoardType">
+          <div *ngSwitchCase="'city'">
+            <app-filter-data [data]="innerActiveTab"></app-filter-data>
+          </div>
+          <div *ngSwitchCase="'state'">
+        <app-state-filter-data></app-state-filter-data>
+          </div>
+        </div>
       </div>
       <div *ngSwitchCase="'Balance Sheet & Income Statement'">
         <app-balance-table [cityId]="cityId" [data]="innerActiveTab"></app-balance-table>
