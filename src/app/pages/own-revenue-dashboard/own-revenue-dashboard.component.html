@@ -1,174 +1,151 @@
 <div class="container-fluid dashboard-container">
-  <div class="container">
-    <div class="row justify-content-center align-items-center">
-      <h1 class="perform-dashboard-heading text-center">
-          Performance Dashboard
-      </h1>
-      <p class="perform-dashboard-para col-12 text-center">
-         The performance dashboard showcases the state of
-         Municipal own revenues and property tax revenues
-         in the country. Know your State’s or city’s performance
-         and compare with other States and cities on various own
-         revenue parameters.
-      </p>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <h1 class="perform-dashboard-heading text-center">
+                Performance Dashboard
+            </h1>
+            <p class="perform-dashboard-para col-12 text-center">
+                The performance dashboard showcases the state of Municipal own revenues and property tax revenues in the country. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.
+            </p>
+        </div>
     </div>
-  </div>
 </div>
 <div class="container-fluid two-tabs">
-  <div class="container d-flex justify-content-center">
-      <div class="col-6 col-md-4 col-lg-4 d-flex
+    <div class="container d-flex justify-content-center">
+        <div class="col-6 col-md-4 col-lg-4 d-flex
                   align-items-center justify-content-center
-                  rounded-start first-tab tab"
-      >
-      <a href=""
-        class="text-decoration-none text-center"
-      >
+                  rounded-start first-tab tab">
+            <a href="" class="text-decoration-none text-center">
           Own Revenue Performance Dashboard
       </a>
-      </div>
-      <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center
-                justify-content-center rounded-end second-tab tab"
-      >
-        <a href=""
-          class="text-decoration-none text-center"
-      >
+        </div>
+        <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center
+                justify-content-center rounded-end second-tab tab">
+            <a href="" class="text-decoration-none text-center">
         Property Tax Performance Dashboard
       </a>
+        </div>
     </div>
-  </div>
 </div>
 <div class="container threeBtnContainer">
-  <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
-  <button class="btn btn-outline btn-sm btnDT">Digital Tooklit</button>
-  <button class="btn btn-outline btn-sm btnBP">Best Practices</button>
+    <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
+    <button class="btn btn-outline btn-sm btnDT">Digital Tooklit</button>
+    <button class="btn btn-outline btn-sm btnBP">Best Practices</button>
 </div>
 
 <div class="container cont-p">
-  <p class="para-styling">To view your performance, select
-      <span class="para_word_styling">
+    <p class="para-styling">To view your performance, select
+        <span class="para_word_styling">
             State
-      </span>
-           or
-      <span  class="para_word_styling">
+      </span> or
+        <span class="para_word_styling">
             ULB Name.
-      </span>
-          If you want to view the performance of all
-      <span  class="para_word_styling">
+      </span> If you want to view the performance of all
+        <span class="para_word_styling">
           ULBs within a ULB type
-      </span>
-          or
-      <span  class="para_word_styling">
+      </span> or
+        <span class="para_word_styling">
           ULB Population
-      </span>
-          Category then select your respective
-      <span  class="para_word_styling">
+      </span> Category then select your respective
+        <span class="para_word_styling">
             State
-      </span> and
-              the
-      <span  class="para_word_styling">
+      </span> and the
+        <span class="para_word_styling">
             ULB type
-      </span>
-           or population category. Also, select the financial year
-           for which the performance should be displayed.
-  </p>
-  <div class="container rounded filters-container py-3">
-    <div class="row">
-      <a href="" class="text-decoration-none">
-        <h5 class="text-center d-flex justify-content-center">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               height="24px"
-               viewBox="0 0 24 24"
-               width="24px"
-               fill="#000000">
+      </span> or population category. Also, select the financial year for which the performance should be displayed.
+    </p>
+    <div class="container rounded filters-container py-3">
+        <div class="row">
+            <a (click)="oepnFilter()" class="text-decoration-none fil-btn">
+                <h5 class="text-center d-flex justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
                <path d="M0 0h24v24H0V0z" fill="none"/>
                <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
               </svg> Filter by
-        </h5>
-      </a>
-      <div class="col-md-12 d-flex justify-content-between pt-2">
-            <div class="col-md-10 d-flex justify-content-between">
-              <select class="form-select filter">
+                </h5>
+            </a>
+            <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
+                <div class="col-md-10 d-flex justify-content-between">
+                    <select class="form-select filter">
                 <option selected>State</option>
               </select>
-              <select class="form-select filter">
+                    <select class="form-select filter">
                 <option selected>Mumbai</option>
               </select>
-              <select class="form-select filter">
+                    <select class="form-select filter">
                 <option selected>ULB Type</option>
               </select>
-              <select class="form-select filter">
+                    <select class="form-select filter">
                 <option selected>ULB Population Category</option>
               </select>
-              <select class="form-select filter">
+                    <select class="form-select filter">
                 <option selected>2020-2021</option>
               </select>
-            </div>
-            <div class="col-md-2 col col-sm d-flex justify-content-end">
-              <button  class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
+                </div>
+                <div class="col-md-2 col col-sm d-flex justify-content-end">
+                    <button class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
                 Clear All
                 <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
                      alt="cancel_off_icon">
               </button>
+                </div>
             </div>
-      </div>
+        </div>
     </div>
-  </div>
 
- <!-- Popup of Filterst for Mobile devices starts  -->
- <div class="container m-filters">
-  <div class="filters_mobile d-flex justify-content-between align-items-center">
-    <h4 class="filter_title_mobile">Filters</h4>
-    <img src="../../../assets/resources-das/close_black_24dp.svg" alt="close_icon">
-  </div>
-  <div class="selectAndOptions">
-    <select class="form-select filters_type shadow-none">
+    <!-- Popup of Filterst for Mobile devices starts  -->
+    <div class="container m-filters">
+        <div class="filters_mobile d-flex justify-content-between align-items-center">
+            <h4 class="filter_title_mobile">Filters</h4>
+            <img src="../../../assets/resources-das/close_black_24dp.svg" alt="close_icon">
+        </div>
+        <div class="selectAndOptions">
+            <select class="form-select filters_type shadow-none">
       <option selected>State</option>
       <option value="1">Gujarat</option>
     </select>
-    <select class="form-select filters_type shadow-none">
+            <select class="form-select filters_type shadow-none">
       <option selected>ULB Name</option>
       <option value="1">Gujarat</option>
     </select>
-    <select class="form-select filters_type shadow-none">
+            <select class="form-select filters_type shadow-none">
       <option selected>ULB Type</option>
       <option value="1">Gujarat</option>
     </select>
-    <select class="form-select filters_type shadow-none">
+            <select class="form-select filters_type shadow-none">
       <option selected>ULB Population Category</option>
       <option value="1">Gujarat</option>
     </select>
-    <select class="form-select filters_type shadow-none">
+            <select class="form-select filters_type shadow-none">
       <option selected>2020-2021</option>
       <option value="1"></option>
     </select>
 
-    <button class="btn btn-outline-secondary
+            <button class="btn btn-outline-secondary
                    btn-sm d-flex justify-content-center
-                   align-items-center btn_clearAll"
-    >
+                   align-items-center btn_clearAll">
       Clear All
           <img src="../../../assets//resources-das/cancel_off_orange_18dp.svg"
                alt="clear_all_icon">
     </button>
-  </div>
-  <div class="resetAndApply d-flex justify-content-around">
-    <button class="btn btn-outline-tertiary btn-sm
+        </div>
+        <div class="resetAndApply d-flex justify-content-around">
+            <button class="btn btn-outline-tertiary btn-sm
                   d-flex justify-content-center
-                  align-items-center btn_reset"
-    >
+                  align-items-center btn_reset">
       Reset
     </button>
-    <button class="btn btn-outline-secondary btn-sm
+            <button class="btn btn-outline-secondary btn-sm
                   d-flex justify-content-center
-                  align-items-center btn_apply"
-    >
+                  align-items-center btn_apply">
       Apply
     </button>
-  </div>
-</div>   <!-- Popup of Filters for Mobile devices ends  -->
+        </div>
+    </div>
+    <!-- Popup of Filters for Mobile devices ends  -->
 
 
-  <!-- <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
+    <!-- <div class="container data-availability rounded d-flex" style="background-color:#F0F4FF;">
     <div class="col-md-7">
       <h3 class="heading">Data Availability</h3>
       <p class="da-para">
@@ -210,46 +187,41 @@
     </div>
   </div> -->
 
-  <!-- Data Availability section starts -->
-  <div class="container data-availability rounded">
-    <div class="row">
-        <div class="col-md-7">
-            <h3 class="heading">Data Availability</h3>
-            <p class="da-para">
-              75% financial data is available for the year YY i.e. 75% of the ULBs’
-              financial statements are available for
-              <span class="extra-text">
+    <!-- Data Availability section starts -->
+    <div class="container data-availability rounded">
+        <div class="row">
+            <div class="col-md-7">
+                <h3 class="heading">Data Availability</h3>
+                <p class="da-para">
+                    75% financial data is available for the year YY i.e. 75% of the ULBs’ financial statements are available for
+                    <span class="extra-text">
                 the year YY. Data is not available
                 for AA, BB and CC Municipal Corporation. For more details, download the
                 complete set of ULBs for which the data is available for the year YY.
               </span>
-              <span class="three-dots" *ngIf="showButton">...</span>
-                  <span class="three-dots btn-rm" *ngIf="showButton" (click)="open()">
+                    <span class="three-dots" *ngIf="showButton">...</span>
+                    <span class="three-dots btn-rm" *ngIf="showButton" (click)="open()">
                     Read More
                   </span>
-                      <span  id="collapseManual">
+                    <span id="collapseManual">
                         {{ToggleString}}
                         <!-- the year YY. Data is not available
                         for AA, BB and CC Municipal Corporation. For more details, download the
                         complete set of ULBs for which the data is available for the year YY.  -->
                       </span>
-                  <span class="three-dots btn-rm"
-                       *ngIf="!showButton"
-                        (click)="close()"
-                  >
+                    <span class="three-dots btn-rm" *ngIf="!showButton" (click)="close()">
                         Read Less
                   </span>
-            </p>
-              <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
+                </p>
+                <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
                 <img src="../../../assets/resources-das/file_download_orange_18dp.svg"
                      alt="download_icon">
                   Download Data
               </button>
-          </div>
-          <div class="col-md-5 d-flex justify-content-center">
-              <div class="doughnut-container">
-                    <canvas id="myChart1"
-                            width="100%">
+            </div>
+            <div class="col-md-5 d-flex justify-content-center">
+                <div class="doughnut-container">
+                    <canvas id="myChart1" width="100%">
                     </canvas>
                     <p class="doughnut_percentage text-center">
                         75%
@@ -262,17 +234,15 @@
                            alt="download_icon">
                         Download Data
                     </button>
-              </div>
-          </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<!-- Full doughnut chart section -->
-<div class="container total-revenue-doughnut">
-  <app-revenuechart class=""
-                   [chartData]="doughnutChartData"
-                   [chartId]="doughnutChartId">
-  </app-revenuechart>
-</div>
+    <!-- Full doughnut chart section -->
+    <div class="container total-revenue-doughnut">
+        <app-revenuechart class="" [chartData]="doughnutChartData" [chartId]="doughnutChartId">
+        </app-revenuechart>
+    </div>
 
 
 
@@ -281,7 +251,7 @@
 
 
 
-  <!-- <div class="container total-revenue-doughnut">
+    <!-- <div class="container total-revenue-doughnut">
     <div class="row d-flex justify-content-between pt-3">
      <div class="col-md-6">
       <p>
@@ -332,32 +302,27 @@
     </div>
   </div> -->
 
-  <div class="container revenue-stocks-container">
-      <div class="row">
-        <div class="col-lg-2 col-md-12 col-12">
-          <div class="rounded revenue-card-white mx-2">
-            <p>
-              You can compare your performance
-              to the average or median performance of population
-              category wise ULBs of your State.
-            </p>
-          </div>
+    <div class="container revenue-stocks-container">
+        <div class="row">
+            <div class="col-lg-2 col-md-12 col-12">
+                <div class="rounded revenue-card-white mx-2">
+                    <p>
+                        You can compare your performance to the average or median performance of population category wise ULBs of your State.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="row mx-0">
+                    <div class="col-lg-3 col-md-6 col-6" *ngFor="let cardItem of cardData;">
+                        <app-shared-card class="rc-cont" [data]="cardItem">
+                        </app-shared-card>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-10">
-          <div class="row mx-0">
-           <div class="col-lg-3 col-md-6 col-6"
-                *ngFor="let cardItem of cardData;"
-           >
-                <app-shared-card class="rc-cont"
-                                [data]="cardItem">
-                </app-shared-card>
-           </div>
-          </div>
-         </div>
-      </div>
-  </div>
-  <div class="container">
-    <!-- <div class="app-table-wrapper">
+    </div>
+    <div class="container">
+        <!-- <div class="app-table-wrapper">
       <table mat-table [dataSource]="dataSource" id="app-table">
           <ng-container *ngFor="let column of displayedColumns" matColumnDef={{column}} [sticky]="isSticky(column)">
               <th mat-header-cell *matHeaderCellDef> {{column}} </th>
@@ -368,70 +333,63 @@
         </table>
     </div>   -->
 
-    <div class="table-container table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr class="scrollme scrollableTH">
-            <th class="col-attr" [class]="'th'+i" scope="col" *ngFor="let attribute of columnAttribute; let i = index;">
-              {{attribute.title}}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="scrollme scrollableTB" *ngFor="let user of users">
-            <td>{{user.name}}</td>
-            <td>{{user.username}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.username}}</td>
-            <td>{{user.email}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <small>Please note financial data for AA, BB and
+        <div class="table-container table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="scrollme scrollableTH">
+                        <th class="col-attr" [class]="'th'+i" scope="col" *ngFor="let attribute of columnAttribute; let i = index;">
+                            {{attribute.title}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="scrollme scrollableTB" *ngFor="let user of users">
+                        <td>{{user.name}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <small>Please note financial data for AA, BB and
            CC Municipal Corporations is not available and thus,
            is not depicted here.
     </small>
-  </div>
+    </div>
 
-  <div class="container">
-    <div class="accordion" id="accordionExample">
-      <div class="accordion-item">
-        <p class="accordion-header" id="headingOne">
-          <button class="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="true"
-                  aria-controls="collapseOne">
+    <div class="container">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <p class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             How is performance assessed?
           </button>
-        </p>
-        <div id="collapseOne" class="accordion-collapse collapse show"  data-bs-parent="#accordionExample">
-          <div class="accordion-body accbody">
-            <div class="accColOneContent col-12 col-md-6 col-lg-6">
-              <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
-              <p>
-                <span class="">Upward arrow:</span> The performance has increased (by the percentage indicated
-                alongside the arrow) as compared to the previous year
-              </p>
+                </p>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body accbody">
+                        <div class="accColOneContent col-12 col-md-6 col-lg-6">
+                            <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
+                            <p>
+                                <span class="">Upward arrow:</span> The performance has increased (by the percentage indicated alongside the arrow) as compared to the previous year
+                            </p>
+                        </div>
+                        <div class="accColTwoContent col-12 col-md-6 col-lg-6">
+                            <img src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
+                            <p>
+                                <span class="">Downward arrow:</span> The performance has increased (by the percentage indicated alongside the arrow) as compared to the previous year
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="accColTwoContent col-12 col-md-6 col-lg-6">
-              <img src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
-              <p>
-                <span class="">Downward arrow:</span> The performance has increased (by the percentage indicated
-                alongside the arrow) as compared to the previous year
-              </p>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Bar chart section -->
-<div class="container total-revenue-doughnut">
-  <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId"></app-revenuechart>
-</div>
+    <!-- Bar chart section -->
+    <div class="container total-revenue-doughnut">
+        <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId"></app-revenuechart>
+    </div>
 
 </div>
