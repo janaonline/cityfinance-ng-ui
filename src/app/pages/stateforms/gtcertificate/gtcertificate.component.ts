@@ -880,59 +880,62 @@ apiData={}
       yearVal   ='606aadac4dff55e6c075c507'
     }
   this.gtcService.getFiles(this.state_id, yearVal, inst).subscribe((res)=>{
-  this.apiData = res['data'][0];
-  if(year =='2021-22' && inst =='1'){
+    if(res['data'].length>0){
+      this.apiData = res['data'][0];
+      if(year =='2021-22' && inst =='1'){
+      
+        if ( res['data'][0].hasOwnProperty('million_tied')  && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+          this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
+          this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
+          this.formDisableA = !res['data'][0]['isDraft']
+        }
+        if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+          this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
+          this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
+          this.formDisableB = !res['data'][0]['isDraft']
+      
+        }
+        if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+          this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
+          this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
+          this.formDisableC = !res['data'][0]['isDraft']
+        }
+      }else if(year =='2021-22' && inst =='2'){
+        if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+          this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
+          this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
+          this.formDisableA_2122 = !res['data'][0]['isDraft']
+        }
+        if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+          this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
+          this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+          this.formDisableB_2122 = !res['data'][0]['isDraft']
+        }
+        if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+          this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
+          this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];  
+          this.formDisableC_2122 = !res['data'][0]['isDraft']
+        }
+      }else if(year =='2020-21' && inst =='2'){
+        if (res['data'][0].hasOwnProperty('million_untied') && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+          this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
+          this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
+          this.formDisableA_2021 = !res['data'][0]['isDraft']
+        }
+        if (res['data'][0].hasOwnProperty('nonmillion_tied') && res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
+          this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
+          this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
+          this.formDisableB_2021 = !res['data'][0]['isDraft']
+        }
+        if (res['data'][0].hasOwnProperty('nonmillion_untied') && res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
+          this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
+          this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
+          this.formDisableC_2021 = !res['data'][0]['isDraft']
+        }
+      }
+        resolve(res['data'][0])
+    }
   
-    if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-      this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
-      this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
-      this.formDisableA = !res['data'][0]['isDraft']
-    }
-    if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-      this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
-      this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
-      this.formDisableB = !res['data'][0]['isDraft']
-  
-    }
-    if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-      this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
-      this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
-      this.formDisableC = !res['data'][0]['isDraft']
-    }
-  }else if(year =='2021-22' && inst =='2'){
-    if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-      this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
-      this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
-      this.formDisableA_2122 = !res['data'][0]['isDraft']
-    }
-    if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-      this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
-      this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-      this.formDisableB_2122 = !res['data'][0]['isDraft']
-    }
-    if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-      this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
-      this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];  
-      this.formDisableC_2122 = !res['data'][0]['isDraft']
-    }
-  }else if(year =='2020-21' && inst =='2'){
-    if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
-      this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
-      this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
-      this.formDisableA_2021 = !res['data'][0]['isDraft']
-    }
-    if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
-      this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
-      this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-      this.formDisableB_2021 = !res['data'][0]['isDraft']
-    }
-    if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
-      this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
-      this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
-      this.formDisableC_2021 = !res['data'][0]['isDraft']
-    }
-  }
-    resolve(res['data'][0])
   })
    })
   
