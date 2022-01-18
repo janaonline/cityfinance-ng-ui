@@ -79,9 +79,9 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
     })
     this.onLoad();
     window.onload = () => {
-      this.selectedUA();
+    
       this.updateCharts();
-
+      this.selectedUA();
     };
 
   }
@@ -343,7 +343,7 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
       }]
     };
     const canvas = <HTMLCanvasElement>document.getElementById('utilReport');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     this.utilreportDonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
@@ -544,7 +544,7 @@ if(this.maindonughtChart){
       }]
     };
     const canvas = <HTMLCanvasElement>document.getElementById('myChart');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     this.maindonughtChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
@@ -601,7 +601,7 @@ if(this.maindonughtChart){
 
 
     const canvas = <HTMLCanvasElement>document.getElementById('mpcf');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     this.piechart = new Chart(ctx, {
       type: 'pie',
       data: data,
@@ -655,7 +655,7 @@ if(this.maindonughtChart){
 
 
     const canvas = <HTMLCanvasElement>document.getElementById('nmpcf');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     this.piechart2 = new Chart(ctx, {
       type: 'pie',
       data: data,
@@ -717,14 +717,21 @@ if(this.maindonughtChart){
 
   updateCharts() {
     this.mainDonughtChart();
+    
+    
     this.gaugeChart1();
     this.gaugeChart2();
     this.constChart();
     this.constChart1();
-    this.pieChartMillion();
-    this.pieChartNonMillion();
-    // this.pfmsDonughtChart();
+
     this.utilReportDonughtChart();
+    this.pieChartNonMillion();
+    this.pieChartMillion();
+    
+    
+
+     // this.pfmsDonughtChart();
+  
     // this.slbDonughtChart();
 
   }
