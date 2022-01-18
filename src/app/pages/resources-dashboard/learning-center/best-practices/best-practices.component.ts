@@ -58,7 +58,6 @@ export class BestPracticesComponent implements OnInit {
       type: 'pdf',
       updateDate: '06/01/2022'
     },
-
   ]
   ngOnInit(): void {
     this.filterComponent ={

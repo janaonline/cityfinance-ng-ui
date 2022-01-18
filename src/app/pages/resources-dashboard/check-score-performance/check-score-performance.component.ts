@@ -82,5 +82,9 @@ export class CheckScorePerformanceComponent implements OnInit {
   closeDialog() {
     this.dialog.closeAll();
   }
+  presDetails(presItem) {
+    console.log(presItem);
+    this.prescription = presItem?.prescription;
+  }
 
 }

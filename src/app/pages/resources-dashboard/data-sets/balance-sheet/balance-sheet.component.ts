@@ -12,8 +12,16 @@ export class BalanceSheetComponent implements OnInit {
   constructor() { }
 
   balData = [
-    {type: 'pdf', documentName: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet.',   updatedOn: 'October 24, 2020'},
-    {type: 'excel', documentName: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet.',   updatedOn: 'October 24, 2020'},
+     {
+       type: 'pdf',
+       documentName: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet.`,
+       updatedOn: 'October 24, 2020'
+      },
+    {
+      type: 'excel', documentName: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.Morbi porta vitae nisl
+       commodo aliquet.`,
+      updatedOn: 'October 24, 2020'
+     },
     {type: 'pdf', documentName: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet.',   updatedOn: 'October 24, 2020'},
     {type: 'excel', documentName: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet.',   updatedOn: 'October 24, 2020'},
     {type: 'pdf', documentName: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet.',   updatedOn: 'October 24, 2020'},

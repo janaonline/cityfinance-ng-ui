@@ -1,60 +1,66 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
-
 $text-color-ord: #0F1F40;
 $font-archivo: "Archivo";
 $font-Montserrat: "Montserrat";
-
 .dashboard-container {
-  background-color: #DAE2FD;
-  padding-bottom: 7rem;
+    background-color: #DAE2FD;
+    padding-bottom: 7rem;
 }
 
 .perform-dashboard-heading {
-  color: $text-color-ord;
-  margin-top: 4.5rem;
-  font-size: 2.125rem;
-  font-family: $font-Montserrat;
-  font-weight: bold;
+    color: $text-color-ord;
+    margin-top: 4.5rem;
+    font-size: 2.125rem;
+    font-family: $font-Montserrat;
+    font-weight: bold;
 }
-.perform-dashboard-para  {
-  margin-top: 1.32rem;
-  font-size: 1.125rem;
-  font-family: $font-archivo;
-  color: $text-color-ord;
-  font-weight: normal;
+
+.perform-dashboard-para {
+    margin-top: 1.32rem;
+    font-size: 1.125rem;
+    font-family: $font-archivo;
+    color: $text-color-ord;
+    font-weight: normal;
 }
+
 .two-tabs {
-  z-index: 10;
-  position: sticky !important;
-  top: 44px;
-  margin-top: -2.2rem;
+    z-index: 10;
+    position: sticky !important;
+    top: 44px;
+    margin-top: -2.2rem;
 }
+
 .tab {
-  height: 4.2rem;
-  box-shadow: 0px 2px 11px #00000022;
+    height: 4.2rem;
+    box-shadow: 0px 2px 11px #00000022;
 }
+
 .first-tab {
-  background-color: #E67E15;
+    background-color: #E67E15;
 }
+
 .second-tab {
-  background-color: #F7F8FF;
+    background-color: #F7F8FF;
 }
+
 .first-tab a {
-  flex: 1;
-  font-family: $font-Montserrat;
-  font-size: 0.875rem;
-  font-weight: normal;
-  color: #FFF;
+    flex: 1;
+    font-family: $font-Montserrat;
+    font-size: 0.875rem;
+    font-weight: normal;
+    color: #FFF;
 }
+
 .second-tab a {
-  flex: 1;
-  font-family: $font-Montserrat;
-  font-size: 0.875rem;
-  font-weight: normal;
-  color: #6E7281;
+    flex: 1;
+    font-family: $font-Montserrat;
+    font-size: 0.875rem;
+    font-weight: normal;
+    color: #6E7281;
 }
+
 //Three buttons display while clicking on Property Tax Performance Tab.
 // .threeBtnContainer {
 //   display: none;
@@ -66,170 +72,196 @@ $font-Montserrat: "Montserrat";
 //   }
 // }
 .threeBtnContainer {
-  margin-top: 2rem;
-  display: block;
+    margin-top: 2rem;
+    display: block;
 }
-.btnS,.btnS:hover {
-      padding: 0.6rem 1.8rem;
-      background-color: #FFF1E3;
-      font-size: 0.8rem;
-      font-family: $font-archivo;
-      font-weight: medium;
-      color: #E57504;
+
+.btnS,
+.btnS:hover {
+    padding: 0.6rem 1.8rem;
+    background-color: #FFF1E3;
+    font-size: 0.8rem;
+    font-family: $font-archivo;
+    font-weight: medium;
+    color: #E57504;
 }
-.btnDT, .btnBP {
-      margin-left: 1rem;
-      padding: 0.6rem 1.6rem;
-      border: 1px solid #9299B2;
-      background-color: #fff;
-      font-size: 0.8rem;
-      font-family: $font-archivo;
-      font-weight: medium;
-      color: #8B92A8;
+
+.btnDT,
+.btnBP {
+    margin-left: 1rem;
+    padding: 0.6rem 1.6rem;
+    border: 1px solid #9299B2;
+    background-color: #fff;
+    font-size: 0.8rem;
+    font-family: $font-archivo;
+    font-weight: medium;
+    color: #8B92A8;
 }
+
 .cont-p {
-  margin-top: 2.2rem;
+    margin-top: 2.2rem;
 }
+
 .para-styling {
-  color: #6E7281;
+    color: #6E7281;
 }
+
 .para_word_styling {
-  color: #6E7281;
-  font-weight: 600;
-  font-family: $font-archivo;
+    color: #6E7281;
+    font-weight: 600;
+    font-family: $font-archivo;
 }
+
 .filters-container {
-  margin-top: 2.1rem;
-  background-color: #F7F7F7;
+    margin-top: 2.1rem;
+    background-color: #F7F7F7;
 }
+
 .filter {
-  font-weight: 600;
-  margin-left: 1rem;
-  margin-right: 1rem;
+    font-weight: 600;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
+
 .filter:focus {
-  border: 1px solid #F2991F;
-  outline: none;
-  box-shadow: none;
+    border: 1px solid #F2991F;
+    outline: none;
+    box-shadow: none;
 }
+
 .btn-clear-filters:hover {
-  color: #F2991F;
+    color: #F2991F;
 }
+
 .btn:focus {
-  outline: none;
-  box-shadow: none;
+    outline: none;
+    box-shadow: none;
 }
-.data-availability  {
-  background-color:#F0F4FF;
-  margin-top: 1.8rem;
+
+.data-availability {
+    background-color: #F0F4FF;
+    margin-top: 1.8rem;
 }
+
 .heading {
-  padding-top: 1.625rem;
-  padding-left: 1.75rem;
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: $text-color-ord;
+    padding-top: 1.625rem;
+    padding-left: 1.75rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: $text-color-ord;
 }
+
 .da-para {
-  margin-bottom: 0;
-  margin-top: 1.32rem;
-  color:#6E7281;
-  font-size: 0.875rem;
-  padding-left: 1.75rem;
+    margin-bottom: 0;
+    margin-top: 1.32rem;
+    color: #6E7281;
+    font-size: 0.875rem;
+    padding-left: 1.75rem;
 }
-.m-filters{
-  display: none;
+
+.m-filters {
+    display: none;
 }
+
 .three-dots {
-  display: none;
+    display: none;
 }
+
 .btn-download {
-  margin-top: 1.56rem;
-  margin-left: 1.75rem;
-  margin-bottom: 1.125rem;
-  font-size: 0.875rem;
-  font-family: $font-archivo;
-  padding: 0.7rem 0.8rem;
-  font-weight: medium;
-  color: $secondary;
+    margin-top: 1.56rem;
+    margin-left: 1.75rem;
+    margin-bottom: 1.125rem;
+    font-size: 0.875rem;
+    font-family: $font-archivo;
+    padding: 0.7rem 0.8rem;
+    font-weight: medium;
+    color: $secondary;
 }
+
 .btn-download img {
-  padding-right: 0.4rem;
+    padding-right: 0.4rem;
 }
+
 .btn-os:hover {
-  background-color:#F0F4FF;
+    background-color: #F0F4FF;
 }
-.btn-ghost{
-  display: none;
+
+.btn-ghost {
+    display: none;
 }
+
 //Data Availability Styling Starts
 .doughnut-container {
-  margin-top: 1.8rem;
-  width: 50%;
-  @media (max-width: 1200px) {
-    margin-top: 4rem;
-    width: 70%;
-  }
+    margin-top: 1.8rem;
+    width: 50%;
+    @media (max-width: 1200px) {
+        margin-top: 4rem;
+        width: 70%;
+    }
 }
-.doughnut_percentage {
-  margin-top: -2.5rem !important;
-  font-family: $font-archivo;
-  color:$text-color-ord;
-  font-size: 1.625rem;
-  font-weight: 800;
-}
-.doughnut_text {
-  margin-top: -1.2rem !important;
-  color:$text-color-ord;
-  font-family: $font-archivo;
-  font-size: 1rem;
-  font-weight: normal;
-}
-//Data Availability Styling Ends
 
+.doughnut_percentage {
+    margin-top: -2.5rem !important;
+    font-family: $font-archivo;
+    color: $text-color-ord;
+    font-size: 1.625rem;
+    font-weight: 800;
+}
+
+.doughnut_text {
+    margin-top: -1.2rem !important;
+    color: $text-color-ord;
+    font-family: $font-archivo;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+//Data Availability Styling Ends
 .total-revenue-doughnut {
-  margin-top: 2.5%;
-  background-color: #FFFBEF;
+    margin-top: 2.5%;
+    background-color: #FFFBEF;
 }
 
 .three-icons-container a {
-  text-decoration: none;
-  color: $secondary;
+    text-decoration: none;
+    color: $secondary;
 }
+
 .revenue-card-white p {
-  margin-top: 1.2rem;
-  color: $text-color-ord;
-  font-size: 0.8rem;
-  font-family: $font-archivo;
+    margin-top: 1.2rem;
+    color: $text-color-ord;
+    font-size: 0.8rem;
+    font-family: $font-archivo;
 }
+
 .revenue-stocks-container {
-  margin-top: 2.5rem;
+    margin-top: 2.5rem;
 }
 
 //Table Styling
 .app-table-wrapper {
-  overflow-x: scroll;
+    overflow-x: scroll;
 }
 
 .app-table {
-  font-size: 8px;
+    font-size: 8px;
 }
 
 .mat-cell {
-  padding: 10px;
-  border-right: 1px solid lightgrey;
-  text-align: center;
-  min-width: 100px;
+    padding: 10px;
+    border-right: 1px solid lightgrey;
+    text-align: center;
+    min-width: 100px;
 }
 
 .mat-header-cell {
-  padding: 2px;
-  border-right: 1px solid lightgrey;
-  text-align: center;
+    padding: 2px;
+    border-right: 1px solid lightgrey;
+    text-align: center;
 }
 
 .accbody {
-  display: flex;
+    display: flex;
 }
 
 // .table-container {
@@ -247,130 +279,127 @@ $font-Montserrat: "Montserrat";
 //   background-color:grey;
 //   left: 0px;
 // }
-
-
-
-
 //Applying Responsiveness on Own-Revenue_Dashboard Component
 @media (max-width: 576px) {
     .dashboard-container {
-      width: 100%;
+        width: 100%;
         .perform-dashboard-heading {
-          font-size: 1.625rem;
-          margin-top: 2.25rem;
+            font-size: 1.625rem;
+            margin-top: 2.25rem;
         }
-        .perform-dashboard-para  {
-          font-size: 1.125rem;
-          line-height: 1.5;
-          margin-top: 1.125rem;
+        .perform-dashboard-para {
+            font-size: 1.125rem;
+            line-height: 1.5;
+            margin-top: 1.125rem;
         }
         .first-tab a {
-          padding: 2px;
+            padding: 2px;
         }
         .second-tab a {
-          padding: 2px;
+            padding: 2px;
         }
     }
-
-    .para-styling  {
-      margin-top: 3.25rem;
-      font-size: 1.063rem;
-      line-height: 1.4;
+    .para-styling {
+        margin-top: 3.25rem;
+        font-size: 1.063rem;
+        line-height: 1.4;
     }
-
     .filters-container {
-      margin-top: 1.25rem;
+        margin-top: 1.25rem;
     }
-    .filters-container > .row > div {
+    .filters-container>.row>div {
         display: none !important;
     }
-
-  // Filter Popup for mobile
-  .filter_title_mobile {
-    font-family: $font-archivo;
-    font-size: 1.31rem;
-    font-weight: 600;
-    color: $text-color-ord;
-  }
-  .filters_type {
-    margin-top: 1.313rem;
-    font-size: 1.06rem;
-    font-family: $font-archivo;
-    font-weight: 600;
-  }
-  .btn_clearAll img {
-    padding-left: 0.5rem;
-  }
- .btn_clearAll {
-  margin-top: 2.8rem;
-  background-color: #FFF;
-  font-size: 1rem;
-  font-family: "Poppins";
-  font-weight: medium;
-  color: #E67E15;
- }
- .resetAndApply {
-   margin-top: 5rem;
- }
- .btn_reset {
-  background-color: #FFF;
-  font-size: 1rem;
-  padding: 0.8rem 2.5rem;
-  font-family: $font-archivo;
-  font-weight: 700;
-  color: #6E7281;
- }
- .btn_apply {
-  background-color: #FFF;
-  font-size: 1rem;
-  padding: 0.8rem 2.5rem;
-  font-family: $font-archivo;
-  font-weight: 700;
-  color: #E67E15;
- }
-
-    .data-availability {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      margin-top: 1.375rem;
-      .heading {
-        padding-top: 1.0rem;
-        padding-left: 1.0rem;
-        font-size: 1.125rem;
-        font-weight: bold;
-      }
-      .da-para {
-        margin-top: 1.0rem;
-        font-size: 0.875rem;
-        padding-left: 1.0rem;
-      }
-     .extra-text {
-       display: none;
-     }
-      .three-dots {
-        display: block;
-      }
-      .btn-rm {
-        color: #E67E15;
-      }
-
-      // Semi-Doughnut chart styling Start
-      .btn-download{
-        display: none;
-      }
-      .btn-ghost{
-        margin-top: 1.2rem;
-        margin-bottom: 0.8rem;
-        margin-left: 5%;
-        display: block;
-      }
-      // Semi-Doughnut chart End
-
+    // Filter Popup for mobile
+    .filter_title_mobile {
+        font-family: $font-archivo;
+        font-size: 1.31rem;
+        font-weight: 600;
+        color: $text-color-ord;
     }
+    .filters_type {
+        margin-top: 1.313rem;
+        font-size: 1.06rem;
+        font-family: $font-archivo;
+        font-weight: 600;
+    }
+    .btn_clearAll img {
+        padding-left: 0.5rem;
+    }
+    .btn_clearAll {
+        margin-top: 2.8rem;
+        background-color: #FFF;
+        font-size: 1rem;
+        font-family: "Poppins";
+        font-weight: medium;
+        color: #E67E15;
+    }
+    .resetAndApply {
+        margin-top: 5rem;
+    }
+    .btn_reset {
+        background-color: #FFF;
+        font-size: 1rem;
+        padding: 0.8rem 2.5rem;
+        font-family: $font-archivo;
+        font-weight: 700;
+        color: #6E7281;
+    }
+    .btn_apply {
+        background-color: #FFF;
+        font-size: 1rem;
+        padding: 0.8rem 2.5rem;
+        font-family: $font-archivo;
+        font-weight: 700;
+        color: #E67E15;
+    }
+    .data-availability {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin-top: 1.375rem;
+        .heading {
+            padding-top: 1.0rem;
+            padding-left: 1.0rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+        }
+        .da-para {
+            margin-top: 1.0rem;
+            font-size: 0.875rem;
+            padding-left: 1.0rem;
+        }
+        .extra-text {
+            display: none;
+        }
+        .three-dots {
+            display: block;
+        }
+        .btn-rm {
+            color: #E67E15;
+        }
+        // Semi-Doughnut chart styling Start
+        .btn-download {
+            display: none;
+        }
+        .btn-ghost {
+            margin-top: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-left: 5%;
+            display: block;
+        }
+        // Semi-Doughnut chart End
+    }
+}
 
- }
+@media only screen and (min-width: 769px) {
+    .fil-btn {
+        pointer-events: none;
+    }
+}
 
-
-
-
+@media only screen and (max-width: 768px) {
+    .fl-form {
+        display: none;
+    }
+}
