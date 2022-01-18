@@ -81,12 +81,16 @@
                 <div class="row">
                     <div class="col-lg-7">
                         <label for="" class="labelField">i. Unutilised Tied Grants from previous installment (INR in
-                            lakhs)</label>
+                            lakhs)  
+                       <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Please enter the balance amount brought forward from the previous instalment." matTooltipPosition="above" style="float: right;">
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span> 
+                        </label>
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
                     <div class="col-lg-5">
-                        <input class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
+                        <input  disabled = "true" class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
                         utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required" style="margin-left: 10px;">
@@ -98,8 +102,12 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-7">
-                        <label for="" class="labelField">ii. 15<sup>th</sup> F.C. Tied grant received during the year
-                            (1st & 2nd installment taken together) (INR in lakhs)</label>
+                        <label for="" class="labelField">ii. 15<sup>th</sup> F.C. Tied grant received for the year
+                            (1st & 2nd installment taken together) (INR in lakhs)
+                        
+                            <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In case, the second installment for FY 2020-21 is received in the next financial year, ie. FY 2021-22, please write the full amount with respect to allocated grant for FY 2020-21." matTooltipPosition="above" style="float: right;">
+                                <img src="../../../../assets/ticks/info_black_18dp.svg">
+                               </span> </label>
                         <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
 
                     </div>
@@ -118,7 +126,11 @@
                     <div class="col-lg-7">
                         <label for="" class="labelField">iii. Expenditure incurred during the year i.e. as on 31st March
                             2021 from Tied grant (INR in
-                            lakhs)</label>
+                            lakhs)
+                            <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total expenditure in the component wise grants must not exceed the amounts of grant received." matTooltipPosition="above" style="float: right;">
+                                <img src="../../../../assets/ticks/info_black_18dp.svg">
+                               </span> 
+                        </label>
                         <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
 
                     </div>
@@ -156,7 +168,12 @@
         <div class="card" style="background-color: #F7F7F7;">
 
             <div class="card-body" style="margin-bottom: 20px;">
-                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants<span style="color: red;">*</span></p>
+                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants as on 31st March 2021
+                    <span style="color: red;">*</span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span>
+                </p>
                 <!-- water management table -->
                 <div class="card-body" style="margin-bottom: 20px;">
                     <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
@@ -166,9 +183,13 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th scope="col">Sector</th>
-                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs)</th>
+                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021 needs The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled." matTooltipPosition="above" >
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
                                     <th scope="col">Number of Projects Undertaken</th>
-                                    <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost is for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost." matTooltipPosition="above" >
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
 
                                 </tr>
                             </thead>
@@ -210,9 +231,13 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th width="20%" scope="col">Sector</th>
-                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs)</th>
+                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2021<span  [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021 needs The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled." matTooltipPosition="above" >
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
                                     <th scope="col">Number of Projects Undertaken</th>
-                                    <th scope="col">Total Project Cost Involved(INR in lakhs)</th>
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost is for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost." matTooltipPosition="above" >
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                       </span> </th>
 
                                 </tr>
                             </thead>
@@ -263,7 +288,9 @@
                 </div>
                 <!-- project Details Table -->
                 <div class="table-responsive">
-                    <p style="margin-left: 5px; font-weight: 500;">Project Details</p>
+                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2021." matTooltipPosition="above" >
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span> </p>
                     <table class="table custom-position tableStriped">
                         <thead>
                             <tr class="thHeader">
@@ -277,8 +304,12 @@
                                 <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
                                 <!-- <th scope="col">Engineer's Name<br></th> -->
                                 <!-- <th scope="col">Engineer's Contact Number<br></th> -->
-                                <th scope="col">Total Project Cost<br> (INR in lakhs) </th>
-                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)
+                                <th scope="col">Total Project Cost<br> (INR in lakhs) <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}" >
+                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                </div> </th>
+                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred." matTooltipPosition="above" >
+                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                   </span>
                                 </th>
                                 <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
 

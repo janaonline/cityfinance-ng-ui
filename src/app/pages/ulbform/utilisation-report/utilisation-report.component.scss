@@ -257,6 +257,11 @@ label {
     margin-left: 1rem;
 }
 
+::ng-deep .tool-tip{
+    background-color:black;
+    font-size: 12px;
+}
+
 .btn-danger {
     border-color: transparent;
 }
