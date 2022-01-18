@@ -717,15 +717,18 @@ if(this.maindonughtChart){
 
   updateCharts() {
     this.mainDonughtChart();
-    this.utilReportDonughtChart();
-    this.pieChartNonMillion();
-   
-    this.pieChartMillion();
+    
+    
     this.gaugeChart1();
     this.gaugeChart2();
-
     this.constChart();
     this.constChart1();
+
+    this.utilReportDonughtChart();
+    this.pieChartNonMillion();
+    this.pieChartMillion();
+    
+    
 
      // this.pfmsDonughtChart();
   
