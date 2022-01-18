@@ -20,6 +20,7 @@
         box-shadow: 0px 2px 8px #F7C199;
         border-radius: 8px;
         color: #fff;
+        padding: 8px 18px;
     }
     
     .container-cnt {
@@ -348,4 +349,42 @@
         letter-spacing: 0px;
         color: #FFFFFF;
         padding: 12px 22px;
+    }
+    
+    @media screen and (max-width: 429px) {
+        .score-text {
+            display: block !important;
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+        .report-card-sub,
+        .report-card-h {
+            text-align: left;
+        }
+        .pres-name {
+            font: normal normal 600 12px/15px 'Archivo';
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+    
+    @media screen and (min-width: 429px) and (max-width: 769px) {
+        .pres-name {
+            font: normal normal 600 12px/15px 'Archivo';
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .prs-div {
+            margin-top: -18px;
+        }
+        .pres-row {
+            padding: 20px 0 9px 0;
+        }
+    }
+    
+    @media screen and (min-width: 770px) {
+        .pres-row {
+            align-items: center;
+            padding: 3px 0 9px 0;
+        }
     }

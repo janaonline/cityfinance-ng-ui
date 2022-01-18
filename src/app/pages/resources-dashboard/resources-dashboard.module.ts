@@ -24,6 +24,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ToolkitsComponent } from './learning-center/toolkits/toolkits.component';
 import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learning/dynamic-sub-learning.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FilterComponentComponent } from './filter-component/filter-component.component';
+import { BestPracticesComponent } from './learning-center/best-practices/best-practices.component';
+import { BalanceSheetComponent } from './data-sets/balance-sheet/balance-sheet.component';
+import {MatTableModule} from '@angular/material/table';
+import { FilterModelBoxComponent } from './filter-model-box/filter-model-box.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import {MatDialogModule} from '@angular/material/dialog';
+import { CheckScorePerformanceComponent } from './check-score-performance/check-score-performance.component';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -35,7 +43,12 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
      ResourcesTabsComponent,
      ToolkitsComponent,
-     DynamicSubLearningComponent
+     DynamicSubLearningComponent,
+     FilterComponentComponent,
+     BestPracticesComponent,
+     BalanceSheetComponent,
+     FilterModelBoxComponent,
+     CheckScorePerformanceComponent
     ],
   imports: [
     CommonModule,
@@ -50,8 +63,14 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     MatIconModule,
     MatButtonModule,
     TabsModule.forRoot(),
-    ButtonsModule.forRoot()
-
+    ButtonsModule.forRoot(),
+    MatTableModule,
+    ModalModule.forRoot(),
+    MatDialogModule
+  ],
+  exports: [
+    FilterComponentComponent,
+    FilterModelBoxComponent
   ],
   providers: [
 

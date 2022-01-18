@@ -1,78 +1,76 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from "@angular/core";
 
-export interface PeriodicElement {
-  name: number;
-  figures: string;
-  weight: number;
-  symbol: number;
-  symbol1: number;
-  symbol2: number;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
+const ELEMENT_DATA = [
   {
     figures: "Liabilities",
-    name: 200000,
-    weight: 1.0079,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 1.0079,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "Reserves & Surplus",
-    name: 200000,
-    weight: 4.0026,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 4.0026,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "Grants, Contribution For Specific Purposes",
-    name: 200000,
-    weight: 6.941,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 6.941,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "Loans",
-    name: 200000,
-    weight: 9.0122,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 9.0122,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "Current Liabilities & Provisions",
-    name: 200000,
-    weight: 10.811,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 10.811,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "Others",
-    name: 200000,
-    weight: 12.0107,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 12.0107,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "Grants, Contribution For Specific Purposes",
-    name: 200000,
-    weight: 14.0067,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 14.0067,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
   {
     figures: "others",
-    name: 200000,
-    weight: 15.9994,
-    symbol: 200000,
-    symbol1: 200000,
-    symbol2: 200000,
+    "2015-16": 200000,
+    "2016-17": 15.9994,
+    "2017-18": 200000,
+    "2018-19": 200000,
+    "2019-20": 200000,
   },
 ];
 
@@ -81,18 +79,67 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: "./shared-table.component.html",
   styleUrls: ["./shared-table.component.scss"],
 })
-export class SharedTableComponent implements OnInit {
+export class SharedTableComponent implements OnInit, OnChanges {
   dataSource = ELEMENT_DATA;
   displayedColumns: string[] = [
     "figures",
-    "name",
-    "weight",
-    "symbol",
-    "symbol1",
-    "symbol2",
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
   ];
+
+  @Input() tableData: any = ELEMENT_DATA;
+
+  checkVal: any = false;
+
+  changeVal() {
+    this.checkVal = !this.checkVal;
+    this.dataSlice(this.tableData);
+  }
+
+  finalData: any = [];
+
+  dataSlice(val: any) {
+    if (!this.checkVal) {
+      this.finalData = val.slice(0, 10);
+    } else {
+      this.finalData = val;
+    }
+    console.log("this.finalData", this.finalData, this.checkVal);
+  }
+
+  isSticky(column: string): boolean {
+    return column === "figures" ? true : false;
+  }
 
   constructor() {}
 
-  ngOnInit(): void {}
+  getAmountVal() {
+    this.tableData = this.tableData?.map((element) => {
+      let temp = {
+        "2015-16": "N/A",
+        "2016-17": "N/A",
+        "2017-18": "N/A",
+        "2018-19": "N/A",
+        "2019-20": "N/A",
+      };
+      element.budget.map((value) => {
+        temp[value.year] = value.amount || "N/A";
+      });
+      return (element = { ...element, ...temp });
+    });
+    this.dataSlice(this.tableData);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getAmountVal();
+    // if (!changes.finalData.firstChange) this.dataSlice(this.tableData);
+    console.log("uniquetableData", this.tableData, this.finalData);
+  }
+
+  ngOnInit(): void {
+    // console.log("uniquetableData", this.tableData);
+  }
 }

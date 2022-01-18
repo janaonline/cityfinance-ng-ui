@@ -1,14 +1,45 @@
-.tableDiv {
-  width: 90%;
-  margin: 0 auto;
-}
+
 th:first-child {
   font-weight: 300;
   width: 30vw;
   padding: 1.3rem;
 }
 
+.table {
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  box-shadow: none !important;
+}
+
 th {
-  // width: 10vw;
+  width: 10vw;
   padding: 1.3rem;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .mat-elevation-z8 {
+    overflow-x: scroll;
+  }
+  td:first-child {
+    width: 5rem;
+    padding: 1rem;
+  // white-space: nowrap;
+
+  }
+  td {
+    padding: 13px !important;
+  }
+  th:first-child {
+    width: 10vw;
+  }
+  .tableDiv {
+    width: 25rem;
+    overflow-x: scroll;
+    margin-left: -50px;
+  }
+
 }

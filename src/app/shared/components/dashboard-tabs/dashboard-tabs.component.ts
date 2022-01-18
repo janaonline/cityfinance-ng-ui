@@ -1,4 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
 
 @Component({
@@ -6,8 +12,13 @@ import { ThemePalette } from "@angular/material/core";
   templateUrl: "./dashboard-tabs.component.html",
   styleUrls: ["./dashboard-tabs.component.scss"],
 })
-export class DashboardTabsComponent implements OnInit {
+export class DashboardTabsComponent implements OnInit, OnChanges {
   constructor() {}
+
+  @Input()
+  cityId;
+  @Input()
+  DashBoardType;
 
   @Input()
   data = [
@@ -155,6 +166,8 @@ export class DashboardTabsComponent implements OnInit {
 
   changeTab(event, fromInner = false) {
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
+    console.log("value ==>", value);
+
     if (fromInner) this.innerActiveTab = value;
     else {
       this.activeHeader = value.name;
@@ -163,6 +176,9 @@ export class DashboardTabsComponent implements OnInit {
     }
     console.log("innertab value", this.innerActiveTab);
   }
+
+  ngOnChanges(changes: SimpleChanges): void {}
+
   ngOnInit(): void {
     this.changeTab(this.data[0]);
   }

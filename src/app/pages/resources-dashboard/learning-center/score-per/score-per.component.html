@@ -8,8 +8,8 @@
             sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
         </p>
     </div>
-    <div class="col-12 col-md-7">
-        <div class="row">
+    <div class="col-12 col-md-8 col-lg-7">
+        <div class="row" style="align-items: center;">
             <div class="col-6 col-md-4">
                 <select class="form-select" id="stateName" (change)="changeState($event.target.value)" aria-label="Default select">
                   <option value="" selected>Select State</option>
@@ -22,7 +22,7 @@
                     <option [value]="item?._id" *ngFor="let item of ulbList">{{item?.name}}</option>
                </select>
             </div>
-            <div class="col-12 col-md-3 text-end">
+            <div class="col-12 col-md-4 text-md-center mt-3 mt-md-0">
                 <button class="btn btn-gS" [disabled]="disStartedBtn" (click)="getStartedScore()">{{btnName}}</button>
             </div>
         </div>
@@ -68,9 +68,8 @@
                                                         &nbsp;{{item?.value?.questionText}}
                                                     </span>
                                                         <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
-
+                                                            <label [btnRadio]='true' class="btn btn-yes btn-stp">Yes</label>
+                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
                                                         </div>
 
                                                     </div>
@@ -99,8 +98,8 @@
                                                       &nbsp;{{item?.value?.questionText}}
                                                   </span>
                                                         <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
 
                                                         </div>
 
@@ -133,8 +132,8 @@
                                                   &nbsp;{{item?.value?.questionText}}
                                               </span>
                                                         <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
 
                                                         </div>
 
@@ -167,8 +166,8 @@
                                                   &nbsp;{{item?.value?.questionText}}
                                               </span>
                                                         <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
 
                                                         </div>
 
@@ -201,8 +200,8 @@
                                                   &nbsp;{{item?.value?.questionText}}
                                               </span>
                                                         <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label btnRadio="yes" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label btnRadio="no" class="btn btn-no btn-stp">No</label>
+                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
+                                                            <label [btnRadio]="false" class="btn btn-false btn-stp">No</label>
 
                                                         </div>
 
@@ -249,33 +248,32 @@
                 </div>
             </div>
             <div class="row me-0">
-                <div class="col-sm-6 prs-div pe-0">
+                <div class="col-sm-12 col-md-6 prs-div pe-0">
                     <!-- chart--- -->
                     <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues">
-                        <div class="row mt-2" style="align-items: center; padding: 5px 0 12px 0;">
-                            <div class="col-sm-4 text-end pres-name">
+                        <div class="row mt-2 mx-0" style="align-items: center; padding: 5px 0 12px 0;">
+                            <div class="col-sm-4 col-3 text-end pres-name">
                                 {{item?.name}}:
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-7">
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 pres-name">
+                            <div class="col-sm-2 col-2 pres-name">
                                 {{item?.value}} %
                             </div>
                         </div>
                     </a>
 
                 </div>
-                <div class="col-sm-6 ps-0 pres-card">
+                <div class="col-sm-12 col-md-6 ps-0 pres-card">
                     <div class="card-body">
                         <div class="pres-h">
                             Prescription
                         </div>
                         <div class="pres-sub">
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-                            sanctus est.
+                            {{prescription}}
                         </div>
                     </div>
                 </div>
@@ -302,13 +300,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of scoreReportData?.top3; let i= index;">
+                                <tr (click)="trClick(item)" style="cursor: pointer;" *ngFor="let item of scoreReportData?.top3; let i= index;">
                                     <td>{{i+1}}</td>
-                                    <td>{{item?.ulb}}</td>
+                                    <td>{{item?.ulbName}}</td>
                                     <td>{{item?.total}}</td>
 
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -316,16 +313,16 @@
                 <div class="col-sm-6 prs-div pe-0">
                     <!-- chart--- -->
                     <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of prescriptionData">
-                        <div class="row mt-2" style="align-items: center; padding: 3px 0 9px 0;">
-                            <div class="col-sm-4 text-end pres-name">
+                        <div class="row mt-2 mx-0 pres-row">
+                            <div class="col-sm-4 col-3 text-end pres-name">
                                 {{item?.name}}:
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 col-7">
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-                            <div class="col-sm-2 pres-name">
+                            <div class="col-sm-2 col-2 pres-name">
                                 {{item?.value}} %
                             </div>
                         </div>
@@ -335,7 +332,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn-score btn">Check Score Of Other Cities</button>
+                    <button class="btn-score btn" (click)="checkPerOtherCity()">Check Score Of Other Cities</button>
                 </div>
             </div>
         </div>

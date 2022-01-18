@@ -45,6 +45,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     "2020-21",
   ];
   loading = false;
+
   ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
@@ -83,6 +84,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       if (this.data.btnLabels.length) this.changeActiveBtn(0);
     }, 0);
     this.setHeadOfAccount();
+    console.log("this.barChart", this.barChart);
   }
 
   setHeadOfAccount() {

@@ -1,7 +1,9 @@
 import { Component, OnInit ,Input, ViewChild, TemplateRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 // import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import Chart from 'chart.js';
+import { FilterModelBoxComponent } from '../resources-dashboard/filter-model-box/filter-model-box.component';
 import {OwnRevenueService}from "./own-revenue.service";
 
 
@@ -366,7 +368,9 @@ barChartData = {
   cardData = [revenueCollection, revenuePerCapita, revenueExpenditure, revenuePercentage];
 
   // this.ownRevenueService.test() public matdialog: MatDialog
-  constructor(private ownRevenueService:OwnRevenueService
+  constructor(
+    private ownRevenueService:OwnRevenueService,
+    private dialog: MatDialog
               ) {
 
    }
@@ -443,7 +447,18 @@ barChartData = {
         }
       });
   }
+  oepnFilter() {
+    const dialogRef = this.dialog.open(FilterModelBoxComponent, {
+      width: '100%',
+      height: '100%',
+     data: {},
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
+  }
 }
 
 // openOwnRevenuePopump() {

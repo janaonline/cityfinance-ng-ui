@@ -69,6 +69,7 @@ import { BalanceTableComponent } from "./components/balance-table/balance-table.
 import { MatTableModule } from "@angular/material/table";
 import { SharedTableComponent } from './components/shared-table/shared-table.component';
 import { SharedCompareTableComponent } from './components/shared-compare-table/shared-compare-table.component';
+import { StateFilterDataComponent } from './components/state-filter-data/state-filter-data.component';
 
 @NgModule({
   imports: [
@@ -140,6 +141,7 @@ import { SharedCompareTableComponent } from './components/shared-compare-table/s
     BalanceTableComponent,
     SharedTableComponent,
     SharedCompareTableComponent,
+    StateFilterDataComponent,
   ],
   exports: [
     FormsModule,
