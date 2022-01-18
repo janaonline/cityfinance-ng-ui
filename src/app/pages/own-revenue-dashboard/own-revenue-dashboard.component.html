@@ -136,6 +136,7 @@
                    [chartId]="doughnutChartId"
                    [chartTitle]="doughnutChartTitle"
                    >
+                   <!-- [ChartOptions]="doughnutChartOptions" -->
   </app-revenuechart>
 </div>
   <div class="container revenue-stocks-container">
@@ -247,11 +248,13 @@
                     [chartData]="barChartData"
                     [chartId]="barChartId"
                     [chartTitle]="barChartTitle"
+                    [btnBesideText]="barChartCmpBtn"
                     >
+                    <!-- [ChartOptions]="barChartOptions" -->
     </app-revenuechart>
 
     <div class="container-fluid">
-      <div class="d-flex justify-content-center align-items-center">
+      <div class="chartExcelDataCont d-flex justify-content-center align-items-center">
           <p class="DataDownloadText">
             You can also download the source data in excel format
           </p>

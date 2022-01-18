@@ -22,6 +22,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   chartDialogues =false;
   chartOptions;
+  @Input()
+  btnBesideText= false;
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
@@ -172,6 +174,22 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     //   },
     // },
   };
+
+  @Input()
+  ChartOptions: {
+    maintainAspectRatio: false,
+    responsive: true,
+  legend: {
+              position: "bottom",
+    labels: {
+              // usePointStyle: false,
+              padding: 35,
+              boxWidth: 24,
+              boxHeight:18  
+        }
+    },
+  } 
+
   @Input()
   headerActions = [
     {
@@ -225,13 +243,18 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
+    // let option = this.ChartOptions;
     let option = {
       maintainAspectRatio: false,
+      responsive:true,
+      // borderRadius: 12,
     legend: {
                 position: "bottom",
       labels: {
-                usePointStyle: true,
-                padding: 40, 
+                usePointStyle: false,
+                padding: 35,
+                boxWidth: 13,
+                boxHeight:15 
           }
       },
      

@@ -8,6 +8,13 @@
   font-family: "Archivo";
   color: #0F1F40;
 }
+.revenuChartContainer{
+  margin-top: 1.8rem;
+  padding-top: 2rem;
+}
+.revenueChart {
+  padding-top: 3rem;
+}
 
 .iconImg img {
   width: 1em;
@@ -21,7 +28,17 @@
   cursor: pointer;
 }
 
-
+.btnBesideTitle > button {
+  box-shadow: 0px 2px 8px #FFDAA8;
+  border-radius: 8px;
+  background: #E67E15;
+  font-size: 0.8rem;
+  font-family: "Archivo";
+  font-weight: 600;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  color: #fff;
+}
 
 .compare {
   border: 1px solid #d0d0d0;

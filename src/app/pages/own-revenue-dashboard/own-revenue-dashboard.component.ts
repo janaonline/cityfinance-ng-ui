@@ -12,6 +12,7 @@ import { OwnRevenueService } from './own-revenue.service';
 })
 export class OwnRevenueDashboardComponent implements OnInit {
 
+  barChartCmpBtn= true;
   displayDoughnut: boolean = true;
   displayButtons: boolean =false;
   ownTab =true;
@@ -104,7 +105,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
 doughnutChartId = `ownRevenue-doughnutChart-${Math.random()}`
 barChartId = `ownRevenue-barChart-${Math.random()}`
 
-
 doughnutChartData= {
   type: 'doughnut',
   data: {
@@ -133,19 +133,31 @@ doughnutChartData= {
      },
    ],
   },
-  options: {
-    maintainAspectRatio: false,
-    responsive: true,
-  legend: {
-              position: "bottom",
-    labels: {
-              usePointStyle: true,
-              padding: 40, 
-        }
-    },
-  } 
+  // options: {
+  //   maintainAspectRatio: false,
+  //   responsive: true,
+  // legend: {
+  //             position: "bottom",
+  //   labels: {
+  //             usePointStyle: true,
+  //             padding: 40, 
+  //       }
+  //   },
+  // } 
 }
-
+doughnutChartOptions: {
+  maintainAspectRatio: false,
+  responsive: true,
+legend: {
+            position: "bottom",
+  labels: {
+            usePointStyle: false,
+            padding: 35,
+            boxWidth: 12,
+            boxHeight:10  
+      }
+  },
+} 
 doughnutChartTitle = "The following pie chart provides the split of the contribution various own revenue streams to the total own revenue."
 
 barChartData = {
@@ -185,15 +197,24 @@ barChartData = {
                       ]                      
                   },
                ],
-    options: {
-                maintainAspectRatio: false,
-                responsive: true,
-              legend: {
-                     display:false
-                },
-              }
+    // options: {
+    //             maintainAspectRatio: false,
+    //             responsive: true,
+    //           legend: {
+    //                  display:false
+    //             },
+    //           }
   },
 
+}
+barChartOptions: {
+  maintainAspectRatio: false,
+  responsive: true,
+  plugins:{
+    legend:{
+       display:false,
+    }
+ }
 }
 
   //Table Data Ends

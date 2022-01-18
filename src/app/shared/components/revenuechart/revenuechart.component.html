@@ -2,11 +2,17 @@
   class="container rounded flex-column pb-5"
   style="background: #fffbef 0% 0% no-repeat padding-box"
 >
-  <div class="col-12 revenuChartContainer d-flex mt-2">
-    <div class="col-6 col-md-6 col-lg-6 d-flex justify-content-center align-items-center">
+  <div class="col-12 revenuChartContainer d-flex">
+    <div class="col-6 col-md-6 col-lg-4 d-flex justify-content-center align-items-center">
       <p class="p-2" class="chartHeader">
          {{chartTitle}}
       </p>
+    </div>
+    <div class="col-md-2 btnBesideTitle" *ngIf="btnBesideText">
+      <button class="mt-2"  (click)="openModal()" >
+                Compare State
+                <!-- <app-compare-dialog></app-compare-dialog> -->
+      </button>
     </div>
     <div class="col-6 col-md-6 col-lg-6">
       <div
@@ -26,6 +32,7 @@
       </div>
     </div>
   </div>
+  
   <div class="d-flex"  *ngIf='chartDialogues'>
     <div class="mr-1">
       <label (click)="openModal()" 
