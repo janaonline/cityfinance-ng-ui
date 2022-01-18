@@ -245,26 +245,7 @@
                     </div>
                 </a>
             </div> -->
-            <!-- <div class="row link-div" routerLinkActive="active">
-                <a [routerLink]="['grant-claim']">
-                    <div class="col-sm-1 col-xs-1 m-l">
-                        <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
-                            <img src="../../../assets/stateform/surface1 (2).svg">
-                        </mat-icon>
-                    </div>
-                    <div class="col-sm-8 col-xs-8 linktext pd">
-                        Grant Claims from MoHUA
-                    </div>
-                    <div class="col-sm-1 col-xs-1 text-right" style="margin-left: 1rem;">
-                        <mat-icon *ngIf="gc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
-                            <img src="../../../assets/form-icon/checked.svg">
-                        </mat-icon>
-                        <mat-icon *ngIf="!gc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
-                            <img src="../../../assets/form-icon/cancel.svg">
-                        </mat-icon>
-                    </div>
-                </a>
-            </div> -->
+    
             <div class="row link-div" routerLinkActive="active" *ngIf="eligibleForms['grantAllocation']">
                 <a [routerLink]="['grant-allocation']">
                     <div class="col-sm-1 col-xs-1 m-l">
@@ -285,7 +266,7 @@
                     </div>
                 </a>
             </div>
-            <!-- <div class="row link-div" routerLinkActive="active">
+            <div class="row link-div" routerLinkActive="active">
                 <a [routerLink]="['grant-claims']">
                     <div class="col-sm-1 col-xs-1 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
@@ -303,7 +284,7 @@
                         </mat-icon>
                     </div>
                 </a>
-            </div> -->
+            </div>
 
             <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
             <ng-template #tolTemplateN>{{toolTipContentN}}</ng-template>
