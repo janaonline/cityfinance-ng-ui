@@ -20,6 +20,23 @@ import { SweetAlert } from "sweetalert/typings/core";
 import { TrusteeForTheBond } from 'src/app/credit-rating/municipal-bond/models/bondIssureItemResponse';
 import { promise } from 'protractor';
 const swal: SweetAlert = require("sweetalert");
+
+
+//query for GT Certficate (3 times)
+// db.getCollection('stategtcertificates').aggregate([
+
+//   {
+//       $match:{
+//           nonmillion_untied:{$exists: true}
+//           }
+//       },
+      
+//       {
+//           $addFields:{
+//               "nonmillion_untied.isDraft":true
+//               }
+//           }
+//   ])
 @Component({
   selector: 'app-gtcertificate',
   templateUrl: './gtcertificate.component.html',
@@ -496,7 +513,7 @@ export class GTCertificateComponent implements OnInit, OnDestroy {
           if (this.routerNavigate) {
             this._router.navigate([this.routerNavigate.url]);
           } else {
-            this._router.navigate(["stateform/water-supply"]);
+            this._router.navigate(["stateform/dashboard"]);
           }
           resolve(res)
         },
@@ -596,50 +613,59 @@ this.yearInput = year
     console.log(this.loggedInUserType)
     if (this.loggedInUserType === "STATE") {
       this.submitted = true;
-let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, actionB, rrB, nonMilUntiedUrl, nonMilUntiedName, actionc, rrC ;
+let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, actionB, rrB, nonMilUntiedUrl, nonMilUntiedName, actionc, rrC, milDisable, nonmilUntiedDisable, nonmilTiedDisable ;
 
       if(inst == '2' && year =='2020-21'){
         millionUrl = this.millionTiedFileUrl_2021;
         millionName = this.fileName_millionTied_2021;
         actionA = this.stateActionA_2021;
         rrA = this.rejectReasonA_2021;
+        milDisable = this.millionTiedDisable_2021
         nonMilTiedUrl = this.nonMillionTiedFileUrl_2021
          nonMilTiedName = this.fileName_nonMillionTied_2021
           actionB = this.stateActionB_2021
            rrB = this.rejectReasonB_2021
+           nonmilTiedDisable = this.nonmillionTiedDisable_2021
            nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2021
            nonMilUntiedName = this.fileName_nonMillionUntied_2021
              actionc = this.stateActionC_2021
               rrC  = this.rejectReasonC_2021
+              nonmilUntiedDisable = this.nonmillionUntiedDisable_2021
       }else if(inst == '1' && year =='2021-22'){
         millionUrl = this.millionTiedFileUrl;
         millionName = this.fileName_millionTied;
         actionA = this.stateActionA;
         rrA = this.rejectReasonA;
+        milDisable = this.millionTiedDisable
         nonMilTiedUrl = this.nonMillionTiedFileUrl
          nonMilTiedName = this.fileName_nonMillionTied
           actionB = this.stateActionB
            rrB = this.rejectReasonB
+           nonmilTiedDisable = this.nonmillionTiedDisable
            nonMilUntiedUrl = this.nonMillionUntiedFileUrl
            nonMilUntiedName = this.fileName_nonMillionUntied
              actionc = this.stateActionC
               rrC  = this.rejectReasonC
+              nonmilUntiedDisable = this.nonmillionUntiedDisable
       }else if(inst == '2' && year =='2021-22'){
         millionUrl = this.millionTiedFileUrl_2122;
         millionName = this.fileName_millionTied_2122;
         actionA = this.stateActionA_2122;
         rrA = this.rejectReasonA_2122;
+        milDisable = this.millionTiedDisable_2122
         nonMilTiedUrl = this.nonMillionTiedFileUrl_2122
          nonMilTiedName = this.fileName_nonMillionTied_2122
           actionB = this.stateActionB_2122
            rrB = this.rejectReasonB_2122
+           nonmilTiedDisable = this.nonmillionTiedDisable_2122
            nonMilUntiedUrl = this.nonMillionUntiedFileUrl_2122
            nonMilUntiedName = this.fileName_nonMillionUntied_2122
              actionc = this.stateActionC_2122
               rrC  = this.rejectReasonC_2122
-
+              nonmilUntiedDisable = this.nonmillionUntiedDisable_2122
       }
       this.uploadedFiles = {
+        status:"PENDING",
         installment:inst,
         design_year: year =='2020-21' ? "606aadac4dff55e6c075c507" : "606aaf854dff55e6c075d219",
         million_tied:
@@ -647,45 +673,43 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
           pdfUrl: millionUrl,
           pdfName: millionName,
           status: actionA ? actionA : 'PENDING',
-          rejectReason: rrA ? rrA: null
+          rejectReason: rrA ? rrA: null,
+          isDraft: milDisable ? false : this.inDraftMode 
         },
         nonmillion_tied:
         {
           pdfUrl: nonMilTiedUrl,
           pdfName: nonMilTiedName,
           status: actionB ? actionB : 'PENDING',
-          rejectReason: rrB ? rrB : null
+          rejectReason: rrB ? rrB : null,
+          isDraft: nonmilTiedDisable ? false : this.inDraftMode 
         },
         nonmillion_untied:
         {
           pdfUrl: nonMilUntiedUrl,
           pdfName: nonMilUntiedName,
           status: actionc ? actionc : 'PENDING',
-          rejectReason: rrC ? rrC : null
+          rejectReason: rrC ? rrC : null,
+          isDraft: nonmilUntiedDisable ? false : this.inDraftMode 
         },
-        isDraft: this.inDraftMode
+        isDraft: true
       };
+
+      if(!this.uploadedFiles['million_tied']['isDraft'] && !this.uploadedFiles['nonmillion_tied']['isDraft'] && !this.uploadedFiles['nonmillion_untied']['isDraft'] ){
+this.uploadedFiles.isDraft = false
+      }
       let changeHappen = sessionStorage.getItem("changeInGTC")
       if (changeHappen == "false") {
         this._router.navigate(["stateform/water-supply"]);
         return;
       } else {
 
-        if (
-          this.uploadedFiles.million_tied.pdfUrl != '' &&
-          this.uploadedFiles.nonmillion_tied.pdfUrl != '' &&
-          this.uploadedFiles.nonmillion_untied.pdfUrl != ''
-        ) {
-      
-
-          this.postsDataCall();
-
-        } else if (this.routerNavigate || this.proceedClicked) {
+       if (this.routerNavigate || this.proceedClicked) {
           sessionStorage.setItem("changeInGTC", "false")
           this.postsDataCall();
         }
         else {
-          this.openModal(template1);
+          this.postsDataCall()
         }
       }
     } else if (this.loggedInUserType === "MoHUA") {
@@ -761,7 +785,7 @@ let millionUrl, millionName, actionA, rrA, nonMilTiedUrl, nonMilTiedName, action
       this.fileName_nonMillionUntied_2122 = '';
       this.nonMillionUntiedFileUrl_2122 = ''
     }
-    this.checkDiff();
+    // this.checkDiff();
   }
 
   fileChangeEvent(event, progessType, fileName) {
@@ -871,6 +895,20 @@ apiData={}
       );
     })
   }
+
+
+  millionTiedDisable_2021 = false
+  nonmillionTiedDisable_2021 = false
+  nonmillionUntiedDisable_2021  = false
+
+  millionTiedDisable =   false
+  nonmillionTiedDisable  = false
+  nonmillionUntiedDisable  = false
+
+
+  millionTiedDisable_2122  = false
+  nonmillionTiedDisable_2122  = false
+  nonmillionUntiedDisable_2122  = false
  callGetAPI(year,inst){
    return new Promise((resolve, reject) => {
     let yearVal
@@ -888,49 +926,58 @@ apiData={}
           this.fileName_millionTied = res['data'][0]['million_tied']['pdfName'];
           this.millionTiedFileUrl = res['data'][0]['million_tied']['pdfUrl'];
           this.formDisableA = !res['data'][0]['isDraft']
+          this.millionTiedDisable = !res['data'][0]['million_tied']['isDraft']
+
         }
         if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
           this.fileName_nonMillionTied = res['data'][0]['nonmillion_tied']['pdfName'];
           this.nonMillionTiedFileUrl = res['data'][0]['nonmillion_tied']['pdfUrl'];
           this.formDisableB = !res['data'][0]['isDraft']
-      
+      this.nonmillionTiedDisable =  !res['data'][0]['nonmillion_tied']['isDraft']
         }
         if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
           this.fileName_nonMillionUntied = res['data'][0]['nonmillion_untied']['pdfName'];
           this.nonMillionUntiedFileUrl = res['data'][0]['nonmillion_untied']['pdfUrl'];
           this.formDisableC = !res['data'][0]['isDraft']
+          this.nonmillionUntiedDisable =  !res['data'][0]['nonmillion_untied']['isDraft']
         }
       }else if(year =='2021-22' && inst =='2'){
         if (res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
           this.fileName_millionTied_2122 = res['data'][0]['million_tied']['pdfName'];
           this.millionTiedFileUrl_2122 = res['data'][0]['million_tied']['pdfUrl'];
           this.formDisableA_2122 = !res['data'][0]['isDraft']
+          this.millionTiedDisable_2122 =  !res['data'][0]['million_tied']['isDraft']
         }
         if (res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
           this.fileName_nonMillionTied_2122 = res['data'][0]['nonmillion_tied']['pdfName'];
           this.nonMillionTiedFileUrl_2122 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-          this.formDisableB_2122 = !res['data'][0]['isDraft']
+          this.formDisableB_2122 = !res['data'][0]['isDraft'];
+          this.nonmillionTiedDisable_2122 =  !res['data'][0]['nonmillion_tied']['isDraft']
         }
         if (res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
           this.fileName_nonMillionUntied_2122 = res['data'][0]['nonmillion_untied']['pdfName'];
           this.nonMillionUntiedFileUrl_2122 = res['data'][0]['nonmillion_untied']['pdfUrl'];  
-          this.formDisableC_2122 = !res['data'][0]['isDraft']
+          this.formDisableC_2122 = !res['data'][0]['isDraft'];
+          this.nonmillionUntiedDisable_2122 =  !res['data'][0]['nonmillion_untied']['isDraft']
         }
       }else if(year =='2020-21' && inst =='2'){
-        if (res['data'][0].hasOwnProperty('million_untied') && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
+        if (res['data'][0].hasOwnProperty('million_tied') && res['data'][0]['million_tied']['pdfUrl'] != '' && res['data'][0]['million_tied']['pdfName'] != '') {
           this.fileName_millionTied_2021 = res['data'][0]['million_tied']['pdfName'];
           this.millionTiedFileUrl_2021 = res['data'][0]['million_tied']['pdfUrl'];
           this.formDisableA_2021 = !res['data'][0]['isDraft']
+          this.millionTiedDisable_2021 =  !res['data'][0]['million_tied']['isDraft']
         }
         if (res['data'][0].hasOwnProperty('nonmillion_tied') && res['data'][0]['nonmillion_tied']['pdfUrl'] != '' && res['data'][0]['nonmillion_tied']['pdfName'] != '') {
           this.fileName_nonMillionTied_2021 = res['data'][0]['nonmillion_tied']['pdfName'];
           this.nonMillionTiedFileUrl_2021 = res['data'][0]['nonmillion_tied']['pdfUrl'];
-          this.formDisableB_2021 = !res['data'][0]['isDraft']
+          this.formDisableB_2021 = !res['data'][0]['isDraft'];
+          this.nonmillionTiedDisable_2021 =  !res['data'][0]['nonmillion_tied']['isDraft']
         }
         if (res['data'][0].hasOwnProperty('nonmillion_untied') && res['data'][0]['nonmillion_untied']['pdfUrl'] != '' && res['data'][0]['nonmillion_untied']['pdfName'] != '') {
           this.fileName_nonMillionUntied_2021 = res['data'][0]['nonmillion_untied']['pdfName'];
           this.nonMillionUntiedFileUrl_2021 = res['data'][0]['nonmillion_untied']['pdfUrl'];
-          this.formDisableC_2021 = !res['data'][0]['isDraft']
+          this.formDisableC_2021 = !res['data'][0]['isDraft'];
+          this.nonmillionUntiedDisable_2021 =  !res['data'][0]['nonmillion_untied']['isDraft']
         }
       }
         resolve(res['data'][0])
@@ -979,7 +1026,7 @@ apiData={}
               this.nonMillionUntiedFileUrl_2122 = fileAlias;
             }
             // console.log('Progress -', progressType, this.millionTiedFileUrl, this.nonMillionTiedFileUrl, this.nonMillionUntiedFileUrl)
-            this.checkDiff();
+            // this.checkDiff();
           }
         },
         (err) => {

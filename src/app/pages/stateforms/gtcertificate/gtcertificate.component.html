@@ -31,7 +31,7 @@
 <div class="row" style="margin-left: 0; margin-right: 10px;">
     <div class="col" style="padding-right: 15px;">
 
-        <div class="card" style="background-color: #FFFFFF; margin-top: 5px;">
+        <div class="card block" >
             <div class="card-body ">
                 <!-- 1st Card -->
                 <div *ngIf="showQ1 ">
@@ -45,16 +45,16 @@
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
                             <div class="row">
                                
-                                <div  class="col-lg-4 col-md-4 col-sm-4 image-upload wrapper" style="padding: 0;">
+                                <div  matTooltip = "Already Uploaded" [matTooltipDisabled]="!millionTiedDisable_2021" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload wrapper" style="padding: 0;">
                                     <label for="cin1">
                                         <!-- upload button -->
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                                            [ngClass]="{'anDisable': formDisableA_2021 }">Upload Pdf
-                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                            [ngClass]="{'anDisable': millionTiedDisable_2021 }" >Upload Pdf
+                                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" 
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin1" name="cin1" type="file" [disabled]="formDisableA_2021"
+                                    <input id="cin1" name="cin1" type="file" [disabled]="millionTiedDisable_2021"
                                         (change)="fileChangeEvent($event, 'millionTiedProgress_2021', 'fileName_millionTied_2021', '2020-21','2')"
                                         accept=".pdf" />
                            
@@ -126,7 +126,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2021')"
-                                                [ngClass]="{'abDisable': formDisableA_2021 }" style="margin-left: 4px;">
+                                                [ngClass]="{'abDisable': millionTiedDisable_2021 }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -167,15 +167,15 @@
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
                                 <!-- upload button -->
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!nonmillionTiedDisable_2021" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
-                                            [ngClass]="{'anDisable': formDisableB_2021 }">Upload Pdf
+                                            [ngClass]="{'anDisable': nonmillionTiedDisable_2021 }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind1" name="cind1" type="file" [disabled]="formDisableB_2021"
+                                    <input id="cind1" name="cind1" type="file" [disabled]="nonmillionTiedDisable_2021"
                                         (change)="fileChangeEvent($event, 'nonMillionTiedProgress_2021','fileName_nonMillionTied_2021', '2020-21','2')"
                                         accept=".pdf" />
                                 </div>
@@ -240,7 +240,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2021')" style="margin-left: 3px;"
-                                                [ngClass]="{'abDisable': formDisableB_2021 }">
+                                                [ngClass]="{'abDisable': nonmillionTiedDisable_2021 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -279,15 +279,15 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 image-upload"
                             style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!nonmillionUntiedDisable_2021" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde1">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
-                                            [ngClass]="{'anDisable': formDisableC_2021 }">Upload Pdf
+                                            [ngClass]="{'anDisable': nonmillionUntiedDisable_2021 }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde1" [disabled]="formDisableC_2021" name="cinde1" type="file"
+                                    <input id="cinde1" [disabled]="nonmillionUntiedDisable_2021" name="cinde1" type="file"
                                         (change)="fileChangeEvent($event, 'nonMillionUntiedProgress_2021','fileName_nonMillionUntied_2021')"
                                         accept=".pdf" />
                                 </div>
@@ -350,7 +350,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2021')"
-                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC_2021 }">
+                                                style="margin-left: 3px;" [ngClass]="{'abDisable': nonmillionUntiedDisable_2021 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -449,7 +449,7 @@
 <div class="row" style="margin-left: 0; margin-right: 10px;">
     <div class="col" style="padding-right: 15px;">
 
-        <div class="card" style="background-color: #FFFFFF; margin-top: 5px;">
+        <div class="card block" >
             <div class="card-body ">
                 <!-- 1st Card -->
                 <div *ngIf="showQ1 ">
@@ -462,15 +462,15 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!millionTiedDisable" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cin">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                                            [ngClass]="{'anDisable': formDisableA }">Upload Pdf
+                                            [ngClass]="{'anDisable': millionTiedDisable }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin" name="cin" type="file" [disabled]="formDisableA"
+                                    <input id="cin" name="cin" type="file" [disabled]="millionTiedDisable"
                                         (change)="fileChangeEvent($event, 'millionTiedProgress', 'fileName_millionTied')"
                                         accept=".pdf" />
                                 </div>
@@ -539,7 +539,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied')"
-                                                [ngClass]="{'abDisable': formDisableA }" style="margin-left: 4px;">
+                                                [ngClass]="{'abDisable': millionTiedDisable }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -578,15 +578,15 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!nonmillionTiedDisable" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
-                                            [ngClass]="{'anDisable': formDisableB }">Upload Pdf
+                                            [ngClass]="{'anDisable': nonmillionTiedDisable }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind" name="cind" type="file" [disabled]="formDisableB"
+                                    <input id="cind" name="cind" type="file" [disabled]="nonmillionTiedDisable"
                                         (change)="fileChangeEvent($event, 'nonMillionTiedProgress','fileName_nonMillionTied')"
                                         accept=".pdf" />
                                 </div>
@@ -650,7 +650,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied')" style="margin-left: 3px;"
-                                                [ngClass]="{'abDisable': formDisableB }">
+                                                [ngClass]="{'abDisable': nonmillionTiedDisable }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -689,15 +689,15 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 image-upload"
                             style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!nonmillionUntiedDisable" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
-                                            [ngClass]="{'anDisable': formDisableC }">Upload Pdf
+                                            [ngClass]="{'anDisable': nonmillionUntiedDisable }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde" [disabled]="formDisableC" name="cinde" type="file"
+                                    <input id="cinde" [disabled]="nonmillionUntiedDisable" name="cinde" type="file"
                                         (change)="fileChangeEvent($event, 'nonMillionUntiedProgress','fileName_nonMillionUntied')"
                                         accept=".pdf" />
                                 </div>
@@ -760,7 +760,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied')"
-                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC }">
+                                                style="margin-left: 3px;" [ngClass]="{'abDisable': nonmillionUntiedDisable }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -859,7 +859,7 @@
 <div class="row" style="margin-left: 0; margin-right: 10px;">
     <div class="col" style="padding-right: 15px;">
 
-        <div class="card" style="background-color: #FFFFFF; margin-top: 5px;">
+        <div class="card block" >
             <div class="card-body ">
                 <!-- 1st Card -->
                 <div *ngIf="showQ1 ">
@@ -872,15 +872,15 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!millionTiedDisable_2122" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cin2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                                            [ngClass]="{'anDisable': formDisableA_2122 }">Upload Pdf
+                                            [ngClass]="{'anDisable': millionTiedDisable_2122 }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cin2" name="cin2" type="file" [disabled]="formDisableA_2122"
+                                    <input id="cin2" name="cin2" type="file" [disabled]="millionTiedDisable_2122"
                                         (change)="fileChangeEvent($event, 'millionTiedProgress_2122', 'fileName_millionTied_2122')"
                                         accept=".pdf" />
                                 </div>
@@ -949,7 +949,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_millionTied_2122')"
-                                                [ngClass]="{'abDisable': formDisableA_2122 }" style="margin-left: 4px;">
+                                                [ngClass]="{'abDisable': millionTiedDisable_2122 }" style="margin-left: 4px;">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -988,15 +988,15 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!nonmillionTiedDisable_2122" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('B')"
-                                            [ngClass]="{'anDisable': formDisableB_2122 }">Upload Pdf
+                                            [ngClass]="{'anDisable': nonmillionTiedDisable_2122 }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cind2" name="cind2" type="file" [disabled]="formDisableB_2122"
+                                    <input id="cind2" name="cind2" type="file" [disabled]="nonmillionTiedDisable_2122"
                                         (change)="fileChangeEvent($event, 'nonMillionTiedProgress_2122','fileName_nonMillionTied_2122')"
                                         accept=".pdf" />
                                 </div>
@@ -1060,7 +1060,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionTied_2122')" style="margin-left: 3px;"
-                                                [ngClass]="{'abDisable': formDisableB_2122 }">
+                                                [ngClass]="{'abDisable': nonmillionTiedDisable_2122 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
@@ -1099,15 +1099,15 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 image-upload"
                             style="margin-left: 3rem; margin-top: 2px;">
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
+                                <div matTooltip = "Already Uploaded" [matTooltipDisabled]="!nonmillionUntiedDisable_2122" matTooltipPosition="right" class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde2">
                                         <a class="btn btnUpload" (click)="uploadButtonClicked('C')"
-                                            [ngClass]="{'anDisable': formDisableC_2122 }">Upload Pdf
+                                            [ngClass]="{'anDisable': nonmillionUntiedDisable_2122 }" >Upload Pdf
                                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
                                                 style="margin-left: 4px;">
                                         </a>
                                     </label>
-                                    <input id="cinde2" [disabled]="formDisableC_2122" name="cinde2" type="file"
+                                    <input id="cinde2" [disabled]="nonmillionUntiedDisable_2122" name="cinde2" type="file"
                                         (change)="fileChangeEvent($event, 'nonMillionUntiedProgress_2122','fileName_nonMillionUntied_2122')"
                                         accept=".pdf" />
                                 </div>
@@ -1170,7 +1170,7 @@
                                         </a>
                                         <span style="cursor:not-allowed;">
                                             <a (click)="clearFiles('fileName_nonMillionUntied_2122')"
-                                                style="margin-left: 3px;" [ngClass]="{'abDisable': formDisableC_2122 }">
+                                                style="margin-left: 3px;" [ngClass]="{'abDisable': nonmillionUntiedDisable_2122 }">
                                                 <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
                                                     style="height: 13px;">
                                             </a>
