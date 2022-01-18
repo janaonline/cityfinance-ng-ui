@@ -166,8 +166,8 @@
                             <div class="row">
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
-                                        *ngIf="data.unAudited.standardized_data.excel.name">
-                                        {{data.unAudited.standardized_data.excel.name}}</label>
+                                        *ngIf="data.unAudited.standardized_data?.excel?.name">
+                                        {{data.unAudited.standardized_data?.excel?.name}}</label>
                                 </div>
                                 <div *ngIf="uploadErrors.unAudited.standardized_data.progress"
                                     class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
@@ -181,8 +181,8 @@
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
                                     <ng-container>
-                                        <div *ngIf="data.unAudited.standardized_data.excel.url">
-                                            <a href="{{ data.unAudited.standardized_data.excel.url }}" target="_blank">
+                                        <div *ngIf="data.unAudited.standardized_data?.excel?.url">
+                                            <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
                                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                     style="margin-left: 1px; height: 19px;">
 
@@ -357,7 +357,7 @@
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <label for="" style="margin-right: 5px; font-weight: normal;"
                                         *ngIf="data.audited.standardized_data.excel.name">
-                                        {{data.audited.standardized_data.excel.name}}</label>
+                                        {{data.audited.standardized_data?.excel?.name}}</label>
                                 </div>
                                 <div *ngIf="uploadErrors.audited.standardized_data.progress"
                                     class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
@@ -371,8 +371,8 @@
 
                                 <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
                                     <ng-container>
-                                        <div *ngIf="data.audited.standardized_data.excel.url">
-                                            <a href="{{ data.audited.standardized_data.excel.url }}" target="_blank">
+                                        <div *ngIf="data.audited.standardized_data?.excel.url">
+                                            <a href="{{ data.audited.standardized_data?.excel.url }}" target="_blank">
                                                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
                                                     style="margin-left: 1px; height: 19px;">
 
