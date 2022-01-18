@@ -7,6 +7,8 @@ import { OwnRevenueDashboardRoutingModule } from './own-revenue-dashboard-routin
 import { OwnRevenueDashboardComponent } from './own-revenue-dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
+import { ResourcesDashboardModule } from '../resources-dashboard/resources-dashboard.module';
+
 
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
@@ -15,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
     OwnRevenueDashboardRoutingModule,
     SharedModule,
     MatTableModule,
+    ResourcesDashboardModule,
     HttpClientModule
   ]
 })

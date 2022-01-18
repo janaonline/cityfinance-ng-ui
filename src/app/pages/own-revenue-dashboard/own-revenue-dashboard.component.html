@@ -24,7 +24,6 @@
        [ngClass]="{'activeCls': ownTab, 'unActcls':!ownTab }"
     >
       Own Revenue Performance Dashboard
-
     </a>
     <a class="text-decoration-none col-6
               col-md-4 col-lg-4 rounded-end
@@ -36,29 +35,6 @@
       Property Tax Performance Dashboard
     </a>
   </div>
-
-
-  <!-- <div class="container d-flex justify-content-center">
-      <div class="col-6 col-md-4 col-lg-4 d-flex
-                  align-items-center justify-content-center
-                  rounded-start first-tab tab"
-      >
-      <a href=""
-        class="text-decoration-none text-center"
-      >
-          Own Revenue Performance Dashboard
-      </a>
-      </div>
-      <div class="col-6 col-md-4 col-lg-4 d-flex align-items-center
-                justify-content-center rounded-end second-tab tab"
-      >
-        <a href=""
-          class="text-decoration-none text-center"
-      >
-        Property Tax Performance Dashboard
-      </a>
-    </div>
-  </div> -->
 </div>
 
 <div class="container threeBtnContainer" *ngIf="displayButtons">
@@ -96,47 +72,9 @@
            or population category. Also, select the financial year
            for which the performance should be displayed.
   </p>
+  
   <div class="container rounded filters-container py-3">
-    <!-- <div class="row">
-      <a href="" class="text-decoration-none">
-        <h5 class="text-center d-flex justify-content-center">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               height="24px"
-               viewBox="0 0 24 24"
-               width="24px"
-               fill="#000000">
-               <path d="M0 0h24v24H0V0z" fill="none"/>
-               <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
-              </svg> Filter by
-        </h5>
-      </a>
-      <div class="col-md-12 d-flex justify-content-between pt-2">
-            <div class="col-md-10 d-flex justify-content-between">
-              <select class="form-select filter">
-                <option selected>State</option>
-              </select>
-              <select class="form-select filter">
-                <option selected>Mumbai</option>
-              </select>
-              <select class="form-select filter">
-                <option selected>ULB Type</option>
-              </select>
-              <select class="form-select filter">
-                <option selected>ULB Population Category</option>
-              </select>
-              <select class="form-select filter">
-                <option selected>2020-2021</option>
-              </select>
-            </div>
-            <div class="col-md-2 col col-sm d-flex justify-content-end">
-              <button  class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
-                Clear All
-                <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
-                     alt="cancel_off_icon">
-              </button>
-            </div>
-      </div>
-    </div> -->
+    <app-filter-component></app-filter-component>
   </div>
   <!-- Data Availability section starts -->
   <div class="container data-availability rounded">
@@ -177,12 +115,12 @@
                             width="100%">
                     </canvas>
                     <p class="doughnut_percentage text-center">
-                        {{ (financialYear?.data?.percent) }}
+                        {{ (financialYear?.data?.percent) }}%
                     </p>
                     <p class="doughnut_text  text-center">
                         Data Availability
                     </p>
-                    <button class="btn btn-outline-secondary btn-sm btn-os btn-ghost">
+                    <button class="btn btn-outline-secondary btn-sm btn-ghost">
                       <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
                            alt="download_icon">
                         Download Data
@@ -195,7 +133,9 @@
 <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
   <app-revenuechart class=""
                    [chartData]="doughnutChartData"
-                   [chartId]="doughnutChartId">
+                   [chartId]="doughnutChartId"
+                   [chartTitle]="doughnutChartTitle"
+                   >
   </app-revenuechart>
 </div>
   <div class="container revenue-stocks-container">
@@ -263,11 +203,11 @@
                   data-bs-target="#collapseOne"
                   aria-expanded="true"
                   aria-controls="collapseOne">
-            How is performance assessed
+            How is performance assessed?
           </button>
         </p>
         <div id="collapseOne" class="accordion-collapse collapse show"  data-bs-parent="#accordionExample">
-          <div class="accordion-body d-flex">
+          <div class="accordion-body d-flex justify-content-between">
             <div class="d-flex accColOneContent col-12 col-md-6 col-lg-6">
               <div>
                 <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
@@ -305,20 +245,22 @@
     </p>
     <app-revenuechart class="rounded"
                     [chartData]="barChartData"
-                    [chartId]="barChartId">
+                    [chartId]="barChartId"
+                    [chartTitle]="barChartTitle"
+                    >
     </app-revenuechart>
 
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex justify-content-center align-items-center">
-        <p class="DataDownloadText">
-          You can also download the source data in excel format
-        </p>
-        <button class="btn btn-outline-secondary btn-sm btn-os mt-0 btn-download">
-          <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
-              alt="download_icon">
-            Download Data
-        </button>
-      </div>
-    </div>
+          <p class="DataDownloadText">
+            You can also download the source data in excel format
+          </p>
+          <button class="btn btn-outline-secondary btn-sm btn-os mt-0 btn-download">
+            <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
+                alt="download_icon">
+              Download Data
+          </button>
+       </div>
+     </div>
 </div>
 </div>

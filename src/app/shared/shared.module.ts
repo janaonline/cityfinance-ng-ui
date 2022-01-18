@@ -161,6 +161,7 @@ import { SharedCompareTableComponent } from './components/shared-compare-table/s
     UserTypeConfirmationComponent,
     FormhistoryComponent,
     MatSlideToggle,
+    CompareDialogComponent,
     MatSelect,
     MatOption,
     IncompleteProfileComponent,

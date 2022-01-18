@@ -16,7 +16,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
   displayButtons: boolean =false;
   ownTab =true;
   proTab=false;
+  barChartTitle = ""
   changeTab(type){
+    
     if(type == 'own'){
       this.displayDoughnut =true;
       this.displayButtons =false;
@@ -109,7 +111,7 @@ doughnutChartData= {
    labels: [
          'Property Tax',
          'Advertisement Tax',
-         'Total License Fee',
+         'Trade License Fee',
          'Water Charges',
          'Sewerage Charges',
          'Rental Income',
@@ -130,19 +132,21 @@ doughnutChartData= {
        fill: false
      },
    ],
-   options: {
+  },
+  options: {
     maintainAspectRatio: false,
-    legend: {
-      position: 'bottom',
-      labels: {
-        usePointStyle: true,
-        padding: 28,
-      }
+    responsive: true,
+  legend: {
+              position: "bottom",
+    labels: {
+              usePointStyle: true,
+              padding: 40, 
+        }
     },
-    responsive: true
-  }
-},
+  } 
 }
+
+doughnutChartTitle = "The following pie chart provides the split of the contribution various own revenue streams to the total own revenue."
 
 barChartData = {
   type: 'bar',
@@ -162,6 +166,10 @@ barChartData = {
     datasets: [
                   {
                     data: [160, 140, 120, 100, 80, 60, 40, 20, 10, 5],
+                    // barPercentage: 0.5,
+                    // barThickness: 6,
+                    // categoryPercentage: 0.6,
+                    // barPercentage: 1.0,
                     backgroundColor:
                      [
                         "rgba(30, 68, 173, 1)",
@@ -174,11 +182,18 @@ barChartData = {
                         "rgba(134, 162, 237, 1)",
                         "rgba(147, 170, 234, 1)",
                         "rgba(168, 188, 240, 1)"
-                      ],
-                    borderRadius: 10,
+                      ]                      
                   },
                ],
-},
+    options: {
+                maintainAspectRatio: false,
+                responsive: true,
+              legend: {
+                     display:false
+                },
+              }
+  },
+
 }
 
   //Table Data Ends
@@ -186,18 +201,13 @@ barChartData = {
   @Input()
   cardData = [revenueCollection, revenuePerCapita, revenueExpenditure, revenuePercentage];
 
-  // this.ownRevenueService.test() public matdialog:
-
   body: any;
   financialYear: any;
-  constructor(private ownRevenueService:OwnRevenueService
-              ) {
-
-   }
+  constructor(private ownRevenueService:OwnRevenueService) {}
 
   ngOnInit(): void {
    this.getAvailableData();
-
+   this.barChartTitle = 'You can compare states on various financial indicators/parameters';
     // Half Doughnut Data
 
 
@@ -255,7 +265,6 @@ barChartData = {
        (res) => {
          res['data'].percent =Math.floor(res['data'].percent)  
          this.financialYear = res;
-         debugger
          this.halfDoughnutChart(res['data']?.percent ?? 0);
           console.log('ordResponse',res);
         },
@@ -267,7 +276,6 @@ barChartData = {
   halfDoughnutChart(valueFromApi=null){
     const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
     const ctx = canvas.getContext('2d');
-    debugger
     const myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -295,14 +303,6 @@ barChartData = {
   }
 
 }
-
-// openOwnRevenuePopump() {
-//   this.matdialog.open(this.ownRevenueFiltersPopup, {
-//     height: "fit-content",
-//     width: "50vw",
-//   });
-// }
-
 
 const revenueCollection = {
   "type": "5",
