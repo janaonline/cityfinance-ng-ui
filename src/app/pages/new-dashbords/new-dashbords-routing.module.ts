@@ -13,7 +13,14 @@ const routes: Routes = [
     path: "state",
     component: StateComponent,
   },
-  { path: "national", component: NationalComponent },
+  // { path: "national", component: NationalComponent },
+  {
+    path: "national",
+    loadChildren: () =>
+      import("./national/national.module").then(
+        (m) => m.NationalModule
+      ),
+  },
 ];
 
 @NgModule({

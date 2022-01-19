@@ -1,0 +1,122 @@
+.nav {
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.nav-item {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+    text-align: center;
+}
+
+.nav-item:first-child {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.nav-item:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+li>a.active,
+li>a.active:active {
+    background-color: #E67E15 !important;
+    color: #fff;
+}
+
+.nav-pills .nav-link {
+    background: none;
+    border: 0;
+    border-radius: inherit;
+}
+
+.nav>li>a {
+    padding: .8rem 2.5rem;
+}
+
+.filterBtn {
+    border: 1px solid #9299B2;
+    border-radius: 6px;
+    font: normal normal 500 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #8B92AB;
+    background-color: #fff;
+    padding: 5px 12px;
+    margin-right: 1rem;
+}
+
+.filterBtn.active,
+.filterBtn:active,
+.filterBtn:hover {
+    background: #FFF1E3 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #FADAAD;
+    border: 1px solid #F2991F;
+    border-radius: 6px;
+    font: normal normal 500 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #E57504;
+}
+
+// .nav-sbu-l {
+//     padding: 0.4rem 2rem;
+//     width: 12rem !important;
+// }
+.form-select {
+    //  background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #D0D0D0;
+    border-radius: 6px;
+    font: normal normal 600 13px/14px 'Archivo';
+    letter-spacing: 0px;
+    padding: .6rem .75rem;
+}
+
+.res-filter {
+    border: 1px solid #D9DCE6;
+    border-radius: 8px;
+}
+
+.fl-input {
+    width: 100%;
+    //  height: 3rem;
+    border: none;
+}
+
+.fl-input:focus-visible,
+.fl-input:focus {
+    border: none;
+    outline: none;
+    outline-color: transparent;
+    box-shadow: none;
+}
+
+.btnFilter {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    border-radius: 0px 8px 8px 0px;
+    opacity: 1;
+    //   height: 3rem;
+    width: 100%;
+    //  padding: 12px 24px;
+    color: #fff;
+    border: none;
+}
+
+.btnTableView {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+    font: normal normal 500 10px/13px 'Montserrat';
+    letter-spacing: 0px;
+    color: #6E7281;
+}
+
+.btnTableView:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.btnTableView:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
