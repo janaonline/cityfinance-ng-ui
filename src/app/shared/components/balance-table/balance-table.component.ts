@@ -16,6 +16,7 @@ import { ActivatedRoute } from "@angular/router";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { CommonService } from "../../services/common.service";
 import { BalanceTableService } from "./balance-table.service";
+import { resolve } from "dns";
 
 export interface PeriodicElement {
   name: number;
@@ -112,7 +113,6 @@ export class BalanceTableComponent
   reportGroup: any;
   isComparative: any = false;
   @ViewChild("template") template;
-  // @ViewChild("com")
   dialogRef;
   type: string = "Summary";
   id = null;
@@ -129,6 +129,9 @@ export class BalanceTableComponent
   isLoading: any = false;
 
   singleUlbList: any;
+
+  stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
+  ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
 
   constructor(
     protected reportService: ReportService,
@@ -182,9 +185,6 @@ export class BalanceTableComponent
     console.log("ulbListVal", this.ulbListVal);
   }
 
-  // setIsLoading() {
-  //   this.isLoading = true;
-  // }
   inputVal: any = {
     isComparative: false,
     type: "Summary",
@@ -237,35 +237,6 @@ export class BalanceTableComponent
     valueType: "absolute",
   };
 
-  singleInputVal: any = {
-    isComparative: false,
-    type: "Summary",
-    years: ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20"],
-    yearList: [
-      { id: "2015-16", itemName: "2015-16" },
-      { id: "2016-17", itemName: "2016-17" },
-      { id: "2017-18", itemName: "2017-18" },
-      { id: "2018-19", itemName: "2018-19" },
-      { id: "2019-20", itemName: "2019-20" },
-    ],
-    reportGroup: "Balance Sheet",
-    ulbList: [
-      {
-        population: 50151,
-        ulbType: "Municipality",
-        code: "AP105",
-        financialYear: ["2016-17", "2015-16"],
-        ulb: "5e4643c247cb2749e5a56b3f",
-        name: "Allagadda Municipality",
-        _id: "5e4643c247cb2749e5a56b3f",
-        state: "Andhra Pradesh",
-        stateId: "5dcf9d7216a06aed41c748dd",
-      },
-    ],
-    ulbIds: ["5e4643c247cb2749e5a56b3f"],
-    valueType: "absolute",
-  };
-
   ngOnChanges(changes: SimpleChanges): void {
     if (this.data.name == "Balance Sheet") {
       this.reportGroup = "Balance Sheet";
@@ -276,16 +247,11 @@ export class BalanceTableComponent
     this.balanceInput.type = this.type;
     this.balanceInput.reportGroup = this.reportGroup;
     this.balanceInput.valueType = "absolute";
-    console.log(
-      "this.data",
-      this.reportGroup,
-      this.isComparative,
-      this.balanceInput
-    );
+    if (!changes.cityId?.firstChange || this.data.name) {
+      this.createUpdateTable(changes.cityId);
+    }
 
     console.log("singleTableData", this.singleTableData);
-
-    console.log("cityId==>::::", this.cityId, this.singleUlbList);
   }
 
   getUlbList() {
@@ -304,41 +270,8 @@ export class BalanceTableComponent
     });
   }
 
-  // getUlbByCity() {
-  //   return this.http
-  // }
-
-  async ngOnInit() {
-    await this.getSingleState();
-
-    this.getUlbList().then(async (val) => {
-      let singleStateId = this.singleState[0].state._id;
-      let singleData = this.ulbList.filter(
-        (elem) => elem._id.state == singleStateId
-      );
-
-      // let singleULBList = singleData[0].ulbList.filter(
-      //   (elem) => elem._id == this.id
-      // );
-
-      this.singleUlbList = singleData[0].ulbList.filter(
-        (elem) => elem._id == this.cityId
-        // (elem) => elem._id == this.id
-      );
-
-      this.balanceInput.ulbList = this.singleUlbList;
-      this.balanceInput.ulbIds = [this.cityId];
-
-      console.log(
-        "this.ulbIds",
-        this.ulbIdval,
-        this.ulbListVal,
-        this.balanceInput
-      );
-
-      await this.getBalanceTableData(this.balanceInput);
-    });
-
+  ngOnInit() {
+    this.createUpdateTable();
     console.log(
       "outerData",
       this.id,
@@ -347,36 +280,30 @@ export class BalanceTableComponent
       this.singleTableData,
       this.balanceInput
     );
+  }
 
-    // .ieDetailed(this.inputVal)
+  createUpdateTable(cityId = null) {
+    if (cityId) this.id = cityId.currentValue;
+    this.balanceInput.ulbList =
+      this.stateCode[this.ulbStateMapping[this.id]].ulbs;
+    this.balanceInput.ulbIds = [this.id];
+    this.getBalanceTableData(this.balanceInput);
   }
 
   getBalanceTableData(inputValue) {
-    return new Promise<void>((resolve, reject) => {
-      if (this.reportGroup == "Balance Sheet") {
-        this.reportService.BSDetailed(inputValue).subscribe((res) => {
-          this.singleTableData = res.data;
-          console.log("sigleTableData", this.singleTableData);
-          this.isLoading = true;
-          resolve();
-        });
-      } else if (this.reportGroup == "Income & Expenditure Statement") {
-        this.reportService
-          .ieDetailed(inputValue)
-          .subscribe((res) => (this.singleTableData = res.data));
-        resolve();
-      }
-    });
-  }
-
-  getSingleState() {
-    return new Promise<void>((resolve, reject) => {
-      this.balanceTabeleService
-        .getSingleUlbList(this.id)
-        .subscribe((res: any) => {
-          this.singleState = res.data;
-          resolve();
-        });
-    });
+    if (this.reportGroup == "Balance Sheet") {
+      this.reportService.BSDetailed(inputValue).subscribe((res) => {
+        this.singleTableData = res.data;
+        console.log("sigleTableData", this.singleTableData);
+        this.isLoading = true;
+      });
+    }
+    if (this.reportGroup == "Income & Expenditure Statement") {
+      this.reportService.ieDetailed(inputValue).subscribe((res) => {
+        this.singleTableData = res.data;
+        console.log("sigleTableData", this.singleTableData);
+        this.isLoading = true;
+      });
+    }
   }
 }

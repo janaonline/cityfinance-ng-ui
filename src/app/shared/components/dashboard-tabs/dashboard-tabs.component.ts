@@ -17,6 +17,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 
   @Input()
   cityId;
+  @Input()
+  DashBoardType;
 
   @Input()
   data = [
@@ -164,6 +166,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 
   changeTab(event, fromInner = false) {
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
+    console.log("value ==>", value);
+
     if (fromInner) this.innerActiveTab = value;
     else {
       this.activeHeader = value.name;
@@ -173,9 +177,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     console.log("innertab value", this.innerActiveTab);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("this.change cityid==>", this.cityId);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
     this.changeTab(this.data[0]);

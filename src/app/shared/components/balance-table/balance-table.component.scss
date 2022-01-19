@@ -39,18 +39,35 @@
   }
 
   @media only screen and (max-width: 600px) {
-    .modalButton{
-      width: 100%;
+    .balanceText {
+      width: 90vw;
+      font-size: 0.8em;
+      margin-left: -20px;
     }
 
-    .compare {
-      font-size: 10px;
+    .modalButton {
+      font-size: 5px;
+      width: 100%;
+      height: 50%;
     }
 
     ::ng-deep .yearSelect .mat-form-field-flex  {
       border: none !important;
-      width: 80% !important;
-      height: auto !important;
-      margin-left: 50px;
+    width: 85% !important;
+    /* height: auto !important; */
+    margin-right: -50px !important;
+     }
+
+     .compare {
+       font-size: 10px;
+     }
+
+     .dropDownDiv {
+       width: 202%;
+       margin-right: -40px;
+     }
+
+     .dropDownDiv > select {
+       font-size: 10px;
      }
   }

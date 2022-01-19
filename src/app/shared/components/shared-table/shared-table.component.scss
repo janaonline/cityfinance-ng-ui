@@ -1,8 +1,4 @@
-// .tableDiv {
-//   width: 95%;
-//   margin: 0 auto;
-//   overflow: scroll;
-// }
+
 th:first-child {
   font-weight: 300;
   width: 30vw;
@@ -10,9 +6,11 @@ th:first-child {
 }
 
 .table {
-  width: 95%;
-  margin: 0 auto;
-  overflow: scroll;
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  box-shadow: none !important;
 }
 
 th {
@@ -21,12 +19,27 @@ th {
 }
 
 
-@media only screen and (max-width: 600px) {
 
-  table {
-    width: 100vw !important;
+@media only screen and (max-width: 768px) {
+  .mat-elevation-z8 {
+    overflow-x: scroll;
+  }
+  td:first-child {
+    width: 5rem;
+    padding: 1rem;
+  // white-space: nowrap;
+
+  }
+  td {
+    padding: 13px !important;
   }
   th:first-child {
-    width: 100vw;
+    width: 10vw;
   }
+  .tableDiv {
+    width: 25rem;
+    overflow-x: scroll;
+    margin-left: -50px;
+  }
+
 }
