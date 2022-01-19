@@ -1,0 +1,144 @@
+:host .question-table {
+  width: 100%;
+  margin-bottom: 3%;
+}
+
+:host .question-table tr:not(:last-child) td {
+  padding: 1% 1%;
+  border-bottom: 0.5px solid #e0e0e0;
+  position: relative;
+}
+
+:host .question-table tbody tr td:nth-child(1) {
+  padding: 0.5% 0.1%;
+  width: 2%;
+}
+
+:host .question-table tbody tr td:nth-child(3) {
+  padding: 0.5% 0.1%;
+  width: 15%;
+}
+
+:host .question-table .question {
+  width: 83%;
+  margin: 0%;
+}
+
+:host li {
+  padding: 2% 1%;
+  border-bottom: 0.5px solid #dddddd;
+  position: relative;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+:host li p {
+  margin: 1px;
+}
+
+:host button.btn-primary {
+  outline: none;
+}
+
+:host .myFile {
+  position: absolute;
+  overflow: hidden;
+  float: left;
+  clear: left;
+  top: 4px;
+}
+
+:host .myFile input[type="file"] {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  font-size: 100px;
+  filter: alpha(opacity=0);
+  cursor: pointer;
+}
+
+:host .myFile input[type="file"]:disabled {
+  cursor: not-allowed;
+}
+
+:host .myFile:disabled {
+  cursor: not-allowed !important;
+}
+
+:host .left {
+  width: 75%;
+  display: inline-block;
+}
+
+:host .right {
+  width: 15%;
+  right: 0%;
+  display: inline-block;
+  position: absolute;
+}
+
+:host .right button {
+  float: right;
+}
+
+:host .file-list {
+  margin: 1%;
+  width: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+:host .file-list .file-tracker-name {
+  color: gray;
+  font-style: italic;
+  word-break: break-word;
+  display: inline-block;
+  width: 42%;
+}
+
+:host .progress {
+  display: inline-block;
+  width: 35%;
+  margin-bottom: 0%;
+  margin-left: 2%;
+}
+
+:host .fa-times {
+  color: red;
+  font-size: 1vw;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+:host .fa-times:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+}
+
+:host .btn-upload {
+  display: inline-block;
+}
+
+:host .download-link-icon {
+  margin-left: 2%;
+  font-size: 1.5vw;
+}
+
+:host .showList {
+  margin: 1%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+/*# sourceMappingURL=document-submit.component.css.map */

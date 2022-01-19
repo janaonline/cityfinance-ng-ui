@@ -1,0 +1,127 @@
+.mat-drawer-content {
+  position: relative;
+  z-index: 1;
+  display: block;
+  height: 120rem;
+  overflow: auto;
+}
+
+.container-fluid {
+  background-color: #FFFFFF;
+}
+
+.header1 {
+  font-family: Roboto, Medium;
+  color: #373737;
+  font-size: 24px;
+  margin-top: 30px;
+}
+
+.sideNav {
+  background-color: #F2F2F2;
+  height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+h5 {
+  display: inline-block;
+  color: white;
+  font-size: 14px;
+  font-weight: normal;
+  font-family: Segoe UI;
+  vertical-align: middle;
+}
+
+.subBtnDiv {
+  margin-top: 20px;
+}
+
+.subBtn {
+  background-color: #124A55;
+  font-size: 12px;
+  font-weight: normal;
+  font-family: Segoe UI;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+ul {
+  margin-left: 3px;
+  margin-right: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 12px;
+  padding-left: 8px;
+  vertical-align: middle;
+}
+
+ul.active {
+  background-color: #ffc500;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  color: #ffff;
+}
+
+a {
+  text-decoration: none;
+  color: #000000;
+  opacity: 1;
+  font-weight: 600;
+}
+
+a:hover,
+ul:hover {
+  background-color: #ffc500;
+  margin-left: 1px;
+  margin-right: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  color: #ffff;
+}
+
+.mat-icon {
+  width: 20px;
+  height: 0px;
+}
+
+.material-icons {
+  font-size: 12px;
+}
+
+.pull-right {
+  width: 14px;
+  margin-right: .5rem;
+}
+
+::ng-deep .tooltip-inner {
+  width: 150px;
+}
+
+.sticky {
+  position: fixed;
+  top: 9%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 10;
+  height: 69%;
+}
+
+.sticky-se {
+  position: fixed;
+  top: 9%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 10;
+  height: 90%;
+  width: 20%;
+}
+
+.stickyMain {
+  margin-left: 16.6667%;
+}
+/*# sourceMappingURL=ulbform.component.css.map */

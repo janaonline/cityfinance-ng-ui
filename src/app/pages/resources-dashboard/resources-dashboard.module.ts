@@ -73,7 +73,6 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
     FilterModelBoxComponent
   ],
   providers: [
-
   ],
   bootstrap: [ScorePerComponent],
 })

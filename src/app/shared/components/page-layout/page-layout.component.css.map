@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "page-layout.component.scss"
+    ],
+    "names": [],
+    "file": "page-layout.component.css"
+}

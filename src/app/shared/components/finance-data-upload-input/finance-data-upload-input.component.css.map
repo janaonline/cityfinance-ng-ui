@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "finance-data-upload-input.component.scss"
+    ],
+    "names": [],
+    "file": "finance-data-upload-input.component.css"
+}

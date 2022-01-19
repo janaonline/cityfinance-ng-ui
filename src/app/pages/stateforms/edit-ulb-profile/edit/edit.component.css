@@ -1,0 +1,61 @@
+.wrapper {
+  background-attachment: #8cd7f5;
+  margin-left: 2%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.wrapper h1 {
+  width: 100%;
+}
+
+.wrapper form {
+  width: 100%;
+}
+
+.wrapper form .fileName {
+  font-weight: normal;
+}
+
+.wrapper form label {
+  display: block;
+}
+
+.wrapper form input[type="file"] {
+  display: none;
+}
+
+.wrapper .input-group {
+  width: 31%;
+  margin-top: 2%;
+  margin-right: 2%;
+  display: inline-block;
+}
+
+.wrapper .input-group .form-control {
+  border-radius: 4px;
+}
+
+.is-invalid {
+  border-color: red;
+}
+
+.form-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+:host .back-button {
+  padding: 0.5% 3%;
+}
+
+:host .form-field-error-message {
+  text-align: left;
+}
+/*# sourceMappingURL=edit.component.css.map */

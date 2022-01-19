@@ -1,0 +1,572 @@
+a.ulbTabActive {
+  background: #056262 !important;
+  color: white !important;
+}
+
+::ng-deep .col-sm-6 {
+  padding: 0px;
+}
+
+.viewport {
+  height: 200px;
+  width: 100%;
+}
+
+.viewport.comparision-ulbs {
+  overflow-x: hidden;
+}
+
+#myTabContent,
+ul[id="myTabContent"] {
+  max-height: 60vh;
+  overflow-y: auto;
+  min-height: 40vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+::ng-deep .stateDropdown .mat-form-field-flex {
+  border: none !important;
+}
+
+li.disabled-ulb {
+  background: transparent !important;
+  color: gray !important;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+li.disabled-ulb label:hover {
+  cursor: not-allowed;
+}
+
+::ng-deep mat-option.mat-option[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+:host .radio-inline {
+  font-weight: 500;
+}
+
+:host ::ng-deep input#search-ulb::-webkit-input-placeholder,
+:host ::ng-deep input#search-ulb-2::-webkit-input-placeholder {
+  color: #4e4e4e;
+}
+
+:host ::ng-deep input#search-ulb:-ms-input-placeholder,
+:host ::ng-deep input#search-ulb-2:-ms-input-placeholder {
+  color: #4e4e4e;
+}
+
+:host ::ng-deep input#search-ulb::-ms-input-placeholder,
+:host ::ng-deep input#search-ulb-2::-ms-input-placeholder {
+  color: #4e4e4e;
+}
+
+:host ::ng-deep input#search-ulb::placeholder,
+:host ::ng-deep input#search-ulb-2::placeholder {
+  color: #4e4e4e;
+}
+
+:host .reset {
+  margin-top: 3em;
+}
+
+:host .popup-cotnainer-2 {
+  min-height: 40vh;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end,
+:host ::ng-deep .mat-form-field-outline-start {
+  background: #f1f1f1 !important;
+}
+
+:host mat-form-field.baseULBSearch {
+  display: block;
+  width: 100%;
+}
+
+:host mat-form-field i {
+  position: absolute;
+  right: 1%;
+  color: #989898;
+}
+
+:host mat-form-field ::ng-deep input {
+  width: 89%;
+  display: inline-block;
+}
+
+:host mat-form-field ::ng-deep .selected-list,
+:host mat-form-field ::ng-deep .mat-form-field-flex {
+  border: none !important;
+}
+
+:host mat-form-field ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0.1em;
+}
+
+:host .all-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+:host .form-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+  font-size: 1.5rem;
+}
+
+:host .form-container.form-on-left {
+  width: 20%;
+  -webkit-transition: all 0.6s;
+  transition: all 0.6s;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin-left: 2%;
+}
+
+:host .form-container.form-on-left form {
+  width: 100%;
+}
+
+:host .form-container.form-on-left .year {
+  margin: 1% 3% !important;
+}
+
+:host .form-container.form-on-left .year:nth-child(1) {
+  margin-left: 0px !important;
+}
+
+:host .form-container.form-on-left input[type="submit"] {
+  margin: 3% auto;
+}
+
+:host .form-container.form-on-left .last-container {
+  width: 100%;
+}
+
+:host .form-container.form-on-left .ulb-list-container {
+  margin-top: 2%;
+  width: 100%;
+  padding: 1% 0%;
+}
+
+:host .form-container.form-on-left .ulb-list-container .ulb {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+:host .form-container.form-on-left .source-file-wrapper {
+  width: 100%;
+}
+
+:host .form-container form {
+  -webkit-transition: all 1s;
+  transition: all 1s;
+  width: 35%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 1%;
+}
+
+:host .form-container form angular2-multiselect {
+  width: 100%;
+}
+
+:host .form-container form angular2-multiselect ::ng-deep .c-label {
+  font-size: 1.3em;
+}
+
+:host .form-container form angular2-multiselect ::ng-deep span {
+  font-size: 1em;
+}
+
+:host .form-container form angular2-multiselect ::ng-deep .c-btn span {
+  font-size: 1.3em;
+}
+
+:host .form-container form angular2-multiselect ::ng-deep .c-btn .c-remove {
+  display: none;
+}
+
+:host .form-container form angular2-multiselect ::ng-deep .countplaceholder {
+  display: none;
+}
+
+:host .form-container form angular2-multiselect ::ng-deep .dropdown-list {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+:host .form-container form small.search-condition {
+  color: gray;
+  width: 100%;
+  margin: 0 0 0 1%;
+}
+
+:host .form-container form small.popup {
+  color: #024e69;
+  text-decoration: underline;
+  margin: 0 0% 1% 0;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+:host .form-container form .years-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: visible;
+  position: relative;
+  scroll-behavior: smooth;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+:host .form-container form .years-container ::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+:host .form-container form .years-container .year {
+  min-width: 70px;
+  margin: 0 0.5% 0 0.5%;
+  border-radius: 3px;
+  padding: 1% 2%;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  cursor: pointer;
+  background: #059b9a;
+  color: white;
+}
+
+:host .form-container form .years-container .year.disabled {
+  background: #bdbdbd !important;
+  color: gray !important;
+  cursor: not-allowed;
+}
+
+:host .form-container form .years-container .year.selected {
+  background: #ffc500;
+  color: white;
+  -webkit-box-shadow: 2px 2px 3px 2px #949292;
+          box-shadow: 2px 2px 3px 2px #949292;
+}
+
+:host .form-container form input[type="submit"] {
+  padding: 1.5% 2%;
+  outline: none;
+}
+
+:host .form-container .last-container {
+  width: 35%;
+  margin: 1%;
+}
+
+:host .form-container .ulb-list-container {
+  width: 100%;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  border: 1px solid #c8c8c8;
+  background: #f3f3f3;
+  padding: 1% 0%;
+  border-radius: 3px;
+  max-height: 55vh;
+}
+
+:host .form-container .ulb-list-container h5 {
+  color: gray;
+}
+
+:host .form-container .ulb-list-container .ulb {
+  display: block;
+  width: 100%;
+  padding: 1% 2% 1% 1%;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+}
+
+:host .form-container .ulb-list-container .ulb:hover {
+  background: #dddddd;
+}
+
+:host .form-container .ulb-list-container .ulb .fa-trash {
+  float: right;
+  color: red;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+:host .form-container .ulb-list-container .ulb .fa-trash:hover {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+
+:host .source-file-wrapper {
+  width: 100%;
+}
+
+:host .report-container {
+  display: inline-block;
+  width: 73%;
+  margin-left: 2%;
+}
+
+:host .report-container form {
+  z-index: 0 !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+:host .report-container form > * {
+  z-index: 0 !important;
+}
+
+:host .report-container form .left {
+  display: inline-block;
+  width: 30%;
+}
+
+:host .report-container form .left .reportType {
+  background: lightgray;
+  padding: 3%;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+:host .report-container form .left .reportType.selected {
+  background: #059b9a !important;
+  color: white;
+}
+
+.custom-slider-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.info-box {
+  width: 50px;
+  height: 50px;
+}
+
+.arrow-right,
+.arrow-left {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 9999;
+  font-size: 4rem;
+  color: gray;
+}
+
+.arrow-right {
+  margin-left: 0.1em;
+}
+
+.no-report-right {
+  position: relative;
+  overflow: hidden;
+  width: 54%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.no-report-right img {
+  max-width: 75%;
+}
+
+.no-report-right img.calculator {
+  margin-top: 2%;
+  opacity: 0;
+  -webkit-transform: translateY(50%);
+          transform: translateY(50%);
+  -webkit-animation: calculator-animate 1s forwards ease-out;
+          animation: calculator-animate 1s forwards ease-out;
+}
+
+@-webkit-keyframes calculator-animate {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes calculator-animate {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+.no-report-right .data-point-1,
+.no-report-right .data-point-2 {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.no-report-right .data-point-1 .text,
+.no-report-right .data-point-2 .text {
+  position: absolute;
+  margin-left: 10%;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.no-report-right .data-point-1 {
+  margin-left: 5%;
+  position: relative;
+  opacity: 0;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  -webkit-animation: data-point-animate 1s forwards ease-out;
+          animation: data-point-animate 1s forwards ease-out;
+}
+
+.no-report-right .data-point-2 {
+  margin-left: 8%;
+  position: relative;
+  opacity: 0;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  -webkit-animation: data-point-animate 1s forwards ease-out;
+          animation: data-point-animate 1s forwards ease-out;
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
+}
+
+@-webkit-keyframes data-point-animate {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+
+@keyframes data-point-animate {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+
+mat-option.loader-wrapper {
+  height: 120px;
+}
+
+mat-option.loader-wrapper #scroll-bottom mat-spinner,
+mat-option.loader-wrapper #scroll-bottom-2 mat-spinner {
+  height: 100px;
+  margin: auto;
+}
+
+:host form input[type="button"].active {
+  background: #ffc500 !important;
+}
+
+:host .comparision-label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+}
+
+:host .base-ulb {
+  background: #909090;
+  color: white;
+  pointer-events: none;
+}
+
+.disabled-mat-box {
+  pointer-events: none;
+}
+/*# sourceMappingURL=financial-statement.component.css.map */

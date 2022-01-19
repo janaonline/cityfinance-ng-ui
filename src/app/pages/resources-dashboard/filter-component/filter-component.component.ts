@@ -23,9 +23,10 @@ export class FilterComponentComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
-  filterForm;
+
   stateList;
   ulbList;
+  filterForm;
   globalOptions = [];
   filteredOptions: Observable<any[]>;
   ngOnInit(): void {

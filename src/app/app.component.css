@@ -1,0 +1,53 @@
+::ng-deep .mat-tab-label {
+  color: #333333;
+  opacity: 1 !important;
+  height: 35px !important;
+  border: 1px solid black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-left: none;
+}
+
+::ng-deep .spinner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  top: 0px;
+  width: 100vw;
+  background: #bdbdbd42;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+::ng-deep .mat-ink-bar {
+  visibility: hidden !important;
+}
+
+::ng-deep .mat-tab-labels {
+  border-bottom: 1px solid #ffc500;
+}
+
+::ng-deep .mat-tab-label-active {
+  background: #ffc500;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+::ng-deep .mat-tab-header {
+  border-bottom: none;
+}
+
+.app-wrapper app-home-header {
+  display: block;
+  background-image: -webkit-gradient(linear, left top, right top, from(#022e3df0), to(#037978eb));
+  background-image: linear-gradient(to right, #022e3df0, #037978eb);
+  opacity: 1;
+  position: relative;
+  z-index: 3;
+}
+/*# sourceMappingURL=app.component.css.map */

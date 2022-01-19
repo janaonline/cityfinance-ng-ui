@@ -1,0 +1,338 @@
+::ng-deep .register .mat-form-field:last-child .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+::ng-deep .form-field-error-message {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+::ng-deep .mat-form-field-disabled .mat-form-field-outline {
+  background: #eaeaea;
+}
+
+:host ::ng-deep .selected-list,
+:host ::ng-deep .mat-form-field-flex {
+  border: none !important;
+}
+
+:host .signbtn-wrapper {
+  margin: 30px 0 30px;
+}
+
+:host button.loading-button {
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+  margin: auto !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-left: 4px solid #059b9a;
+  border-top: 4px solid #059b9a;
+  border-right: 4px solid white;
+  border-bottom: 4px solid white;
+  background: white !important;
+  pointer-events: none;
+  -webkit-animation: 1s linear rotate-clockwise infinite;
+          animation: 1s linear rotate-clockwise infinite;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+  font-size: 0px;
+}
+
+@-webkit-keyframes rotate-clockwise {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-clockwise {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+::ng-deep .mat-form-field-prefix .mat-icon,
+::ng-deep .mat-form-field-suffix .mat-icon {
+  font-size: 16px;
+  line-height: 1.125;
+}
+
+::ng-deep label {
+  font-size: 13px !important;
+}
+
+.fc-grant {
+  background-image: url("../../../assets/images/backgrounds/Path.png");
+  background-repeat: no-repeat;
+  background-position: left;
+  height: calc(100vh - 1px);
+  background-size: 74% 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.fc-grant > .container-fluid {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  width: 100%;
+}
+
+.fc-grant .text-white {
+  color: #ffffff;
+}
+
+.fc-grant h1 {
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  padding: 20px 0;
+}
+
+.fc-grant h5 {
+  font-family: Poppins, "Roboto", sans-serif;
+}
+
+.fc-grant table {
+  border-radius: 12px;
+  border-collapse: separate;
+}
+
+.fc-grant table tr:first-child td:first-child {
+  border-top-left-radius: 10px;
+}
+
+.fc-grant table tr:first-child td:last-child {
+  border-top-right-radius: 10px;
+}
+
+.fc-grant table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.fc-grant table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.fc-grant table tr td {
+  color: #fff;
+  font-size: 14px;
+  padding: 15px;
+  font-family: "Roboto", sans-serif;
+}
+
+.fc-grant h4 {
+  margin-bottom: 20px;
+}
+
+.fc-grant ul {
+  list-style-type: disc;
+}
+
+.fc-grant ul li {
+  color: #c3cb24;
+}
+
+.fc-grant .image-side p,
+.fc-grant .image-side a {
+  color: #06868c;
+  font-size: 14px;
+}
+
+.fc-grant .image-side p a {
+  text-decoration: underline;
+}
+
+.fc-grant .image-side .btn {
+  margin: 40px 15px 32px;
+  padding: 10px 20px;
+  color: #ffffff;
+  -webkit-box-shadow: 0px 3px 5px #b5b5b5;
+          box-shadow: 0px 3px 5px #b5b5b5;
+}
+
+.fc-grant .flex-wrap {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.fc-grant .bg-white {
+  background: #fff;
+}
+
+.fc-grant .selected-list,
+.fc-grant .mat-form-field-flex {
+  border: none !important;
+}
+
+.sign-in {
+  width: 85%;
+  text-align: center;
+  padding: 5px 25px 10px;
+  border-radius: 10px;
+}
+
+.sign-in .forget span {
+  color: #2c2c2c;
+  font-size: 14px;
+}
+
+.sign-in .sign-in .mat-form-field:last-child .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.sign-in .login-btn {
+  margin: 30px 0 30px;
+}
+
+.sign-in .text-dark {
+  color: #2c2c2c;
+}
+
+.sign-in .last-para {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.sign-in .last-para a {
+  color: #ffc70a;
+}
+
+.sign-in .forget-password {
+  position: relative;
+}
+
+.sign-in .forget {
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+}
+
+.sign-in .mat-form-field {
+  width: 100%;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 1024px) {
+  .fc-grant {
+    background-size: cover;
+    height: auto;
+  }
+  .image-side .btn {
+    margin: 20px 5px !important;
+    padding: 10px 20px;
+    color: #ffffff;
+  }
+  .sign-in {
+    width: 100%;
+    margin: 50px 0;
+  }
+  .image-side .btn {
+    color: #ffffff;
+  }
+  .image-side {
+    background-color: #ffffff;
+    padding: 0;
+  }
+  .image-side .img-wrapper,
+  .image-side p {
+    padding: 15px 15px;
+  }
+  .container-fluid {
+    padding: 0;
+  }
+}
+
+.container {
+  overflow-y: hidden;
+  margin-left: -1vw;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+  overflow: -moz-scrollbars-none;
+}
+
+:host .card-body {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+}
+
+:host .error-message {
+  margin-top: 1rem;
+}
+
+:host input:-webkit-autofill,
+:host input:-webkit-autofill:hover,
+:host input:-webkit-autofill:focus,
+:host input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+:host input:-webkit-autofill:disabled {
+  -webkit-box-shadow: 0 0 0 30px #eaeaea inset !important;
+}
+
+.img-wrapper {
+  margin-bottom: 30px;
+}
+
+.user {
+  margin-bottom: 20px;
+}
+
+.user {
+  margin-bottom: 20px;
+}
+
+.strike {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.strike > span {
+  position: relative;
+  display: inline-block;
+}
+
+.strike > span:before,
+.strike > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 9999px;
+  height: 1px;
+  background: #06868c;
+}
+
+.strike > span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+
+.strike > span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+.Sepline {
+  height: 1px;
+  background: #06868c;
+}
+
+.backbtn {
+  float: left;
+}
+/*# sourceMappingURL=ulb-not-registered.component.css.map */

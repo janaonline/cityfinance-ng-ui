@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,gBAAgB,CAAC;EACf,MAAM,EAAE,IAAI;EACZ,aAAa,EAAE,MAAM;CACtB",
+    "sources": [
+        "financial-data-chart.component.scss"
+    ],
+    "names": [],
+    "file": "financial-data-chart.component.css"
+}

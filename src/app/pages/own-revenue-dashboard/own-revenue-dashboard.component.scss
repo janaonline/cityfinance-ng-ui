@@ -37,40 +37,30 @@ $font-Montserrat: "Montserrat";
     box-shadow: 0px 2px 11px #00000022;
 }
 
-.first-tab {
-    background-color: #E67E15;
+.activeCls {
+    background-color: #F2991F;
+    color: #fff;
 }
 
-.second-tab {
-    background-color: #F7F8FF;
-}
-
-.first-tab a {
-    flex: 1;
-    font-family: $font-Montserrat;
-    font-size: 0.875rem;
-    font-weight: normal;
-    color: #FFF;
-}
-
-.second-tab a {
-    flex: 1;
-    font-family: $font-Montserrat;
-    font-size: 0.875rem;
-    font-weight: normal;
+.unActcls {
+    background-color: #fff;
     color: #6E7281;
 }
 
-//Three buttons display while clicking on Property Tax Performance Tab.
-// .threeBtnContainer {
-//   display: none;
-// }
-// .second-tab > a:onclick {
-//   .threeBtnContainer {
-//     margin-top: 2rem;
-//     display: block;
-//   }
-// }
+.first-tab {
+    text-align: center;
+    font-family: $font-Montserrat;
+    font-size: 0.875rem;
+    font-weight: normal;
+}
+
+.second-tab {
+    text-align: center;
+    font-family: $font-Montserrat;
+    font-size: 0.875rem;
+    font-weight: normal;
+}
+
 .threeBtnContainer {
     margin-top: 2rem;
     display: block;
@@ -173,9 +163,9 @@ $font-Montserrat: "Montserrat";
     margin-bottom: 1.125rem;
     font-size: 0.875rem;
     font-family: $font-archivo;
-    padding: 0.7rem 0.8rem;
+    padding: 0.5rem 0.8rem;
     font-weight: medium;
-    color: $secondary;
+    color: #E57504;
 }
 
 .btn-download img {
@@ -239,46 +229,96 @@ $font-Montserrat: "Montserrat";
 }
 
 //Table Styling
-.app-table-wrapper {
-    overflow-x: scroll;
-}
-
-.app-table {
-    font-size: 8px;
-}
-
-.mat-cell {
-    padding: 10px;
-    border-right: 1px solid lightgrey;
-    text-align: center;
-    min-width: 100px;
-}
-
-.mat-header-cell {
-    padding: 2px;
-    border-right: 1px solid lightgrey;
-    text-align: center;
-}
-
-.accbody {
-    display: flex;
-}
-
-// .table-container {
-//   margin-top: 2.5rem;
+// ::ng-deep .styletable {
+//   border-radius: 10px !important;
 // }
-// .col-attr {
-//   background-color: #F2F5FF;
-//   padding: 0.8rem 1rem;
-//   font-family: $font-archivo;
-//   font-weight: medium;
-//   font-size: 0.8rem;
-// }
-// th:first-child,td:first-child {
-//   position: sticky;
-//   background-color:grey;
-//   left: 0px;
-// }
+.table-container {
+    margin-top: 2.5rem;
+    tr,
+    th,
+    td {
+        border: none;
+    }
+    table {
+        border: 1px solid #D9D8D8;
+        border-radius: 10px !important;
+    }
+    .col-attr {
+        background-color: #F2F5FF;
+        padding: 0.8rem 1rem;
+        font-family: $font-archivo;
+        font-weight: 500;
+        font-size: 0.8rem;
+        color: $text-color-ord;
+    }
+    th,
+    td {
+        padding: 0.8rem 1rem;
+    }
+    th:first-child {
+        position: sticky;
+        background-color: #F2F5FF;
+        left: 0px;
+    }
+    td:first-child {
+        position: sticky;
+        background-color: #FFF;
+        left: 0px;
+        padding: 0.8rem 1rem;
+        font-family: $font-archivo;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: $text-color-ord;
+    }
+}
+
+.smallText {
+    font-family: $font-Montserrat;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: #6E7281;
+}
+
+.accContainer {
+    margin-top: 2.5rem;
+    p {
+        font-family: $font-archivo;
+        font-size: 0.8rem;
+        color: #6E7281;
+    }
+    .imgTitle {
+        font-family: $font-archivo;
+        font-weight: 500;
+        font-size: 0.8rem;
+        color: #6E7281;
+    }
+}
+
+.barChartContainer {
+    margin-top: 2.6rem;
+    .barCharttitle {
+        font-family: $font-archivo;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: $text-color-ord;
+    }
+    .barChartSubTitle {
+        font-family: $font-archivo;
+        font-weight: 500;
+        font-size: 1rem;
+        color: #6E7281;
+    }
+    .chartExcelDataCont {
+        margin-top: 2rem;
+    }
+    .DataDownloadText {
+        font-family: $font-archivo;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #6E7281;
+    }
+}
+
 //Applying Responsiveness on Own-Revenue_Dashboard Component
 @media (max-width: 576px) {
     .dashboard-container {

@@ -11,7 +11,6 @@ export class ResourcesTabsComponent implements OnInit {
 
   @Input()
   data = [
-
   ];
 
   ngOnInit(): void {

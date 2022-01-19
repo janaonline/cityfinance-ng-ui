@@ -1,0 +1,20 @@
+.not-found {
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  position: relative;
+}
+
+.not-found .text-center {
+  margin: auto;
+  max-width: 450px;
+}
+/*# sourceMappingURL=not-found.component.css.map */
