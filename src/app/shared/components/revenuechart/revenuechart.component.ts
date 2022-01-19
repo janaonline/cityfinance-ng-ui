@@ -12,15 +12,23 @@ import {
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FormControl } from "@angular/forms";
+
 @Component({
   selector: "app-revenuechart",
   templateUrl: "./revenuechart.component.html",
   styleUrls: ["./revenuechart.component.scss"],
 })
 export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
+
+  chartDialogues =false;
+  chartOptions;
+  @Input()
+  btnBesideText= false;
   constructor(public dialog: MatDialog) {}
 
   @ViewChild("template") template;
+  @Input()
+   chartTitle='Total revenue of MCGM for last 3 years compared with state average';
   @Input()
   chartData = {
     // type: "bar",
@@ -155,17 +163,33 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         },
       ],
     },
-    legend: {
-      position: "bottom",
-      align: "center",
-      labels: {
-        fontSize: 10,
-        fontColor: "black",
-        // usePointStyle: true,
-        padding: 28,
-      },
-    },
+    // legend: {
+    //   position: "bottom",
+    //   align: "center",
+    //   labels: {
+    //     fontSize: 10,
+    //     fontColor: "black",
+    //     // usePointStyle: true,
+    //     padding: 0
+    //   },
+    // },
   };
+
+  @Input()
+  ChartOptions: {
+    maintainAspectRatio: false,
+    responsive: true,
+  legend: {
+              position: "bottom",
+    labels: {
+              // usePointStyle: false,
+              padding: 35,
+              boxWidth: 24,
+              boxHeight:18  
+        }
+    },
+  } 
+
   @Input()
   headerActions = [
     {
@@ -194,10 +218,11 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   mySelectedYears = ["2019-20", "2020-21"];
   year;
-  compareType = "";
+  compareType = "";   
 
   ngOnInit(): void {
     this.year = new FormControl(this.mySelectedYears, { updateOn: "blur" });
+    console.log('chartTitle', this.chartTitle)
   }
 
   ngAfterViewInit(): void {
@@ -218,8 +243,26 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
+    debugger
+    // let option = this.ChartOptions;
+    let option = {
+      maintainAspectRatio: false,
+      responsive:true,
+      // borderRadius: 12,
+    legend: {
+                position: "bottom",
+      labels: {
+                usePointStyle: false,
+                padding: 35,
+                boxWidth: 13,
+                boxHeight:15 
+          }
+      },
+     
+    }
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
+      Object.assign(this.chartData, { options: this.ChartOptions });
     const canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
     const ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, this.chartData);

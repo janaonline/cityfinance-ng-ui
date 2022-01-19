@@ -1,0 +1,20 @@
+.m-h {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.sub-m-h {
+  text-align: center;
+  font-size: 22px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.sbDate {
+  text-align: left;
+  font-size: 16px;
+  padding-top: 1%;
+}
+/*# sourceMappingURL=state-all-preview.component.css.map */

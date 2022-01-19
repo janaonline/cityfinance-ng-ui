@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Chart } from 'chart.js';
+import { Observable } from 'rxjs/internal/Observable';
 
 import { environment } from '../../../environments/environment';
 @Injectable({
@@ -8,13 +9,16 @@ import { environment } from '../../../environments/environment';
 })
 export class OwnRevenueService {
 
-  constructor(private httpClient: HttpClient) { 
+  constructor(private httpClient: HttpClient) {
 
   }
 
-  test(){
-
+  displayDataAvailable(body: any){
+      return this.httpClient.post(
+        `${environment.api.url}data-available`, body
+    )
   }
+
 }
 
 

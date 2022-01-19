@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,EAAE,CAAC;EACC,UAAU,EAAE,IAAI;EAChB,aAAa,EAAE,IAAI;CACtB;;AACD,AAAA,MAAM,AAAA,MAAM,CAAA;EACR,MAAM,EAAE,QAAQ;CACnB",
+    "sources": [
+        "ledger.component.scss"
+    ],
+    "names": [],
+    "file": "ledger.component.css"
+}

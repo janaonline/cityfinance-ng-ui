@@ -1,0 +1,28 @@
+.input-group {
+  width: 33%;
+  margin-right: 2%;
+  margin-top: 2%;
+  display: inline-block;
+}
+
+.input-group .form-control {
+  border-radius: 4px;
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.error-message,
+.success-message {
+  width: 100%;
+}
+
+.form-field-error-message {
+  text-align: left;
+}
+/*# sourceMappingURL=common-profile.component.css.map */

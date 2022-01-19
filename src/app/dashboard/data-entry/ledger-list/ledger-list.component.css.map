@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "ledger-list.component.scss"
+    ],
+    "names": [],
+    "file": "ledger-list.component.css"
+}

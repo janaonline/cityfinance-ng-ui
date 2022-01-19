@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "map-dialog.component.scss"
+    ],
+    "names": [],
+    "file": "map-dialog.component.css"
+}

@@ -1,0 +1,127 @@
+.table-bordered {
+  width: 100%;
+}
+
+.table-bordered th {
+  padding: 6px;
+}
+
+.table-bordered td {
+  padding: 5px;
+}
+
+:host table thead tr:not(:last-child),
+:host table thead tr:not(:nth-child(1)),
+:host table thead tr:not(:nth-child(2)) {
+  background: #e2e2e2;
+}
+
+:host table thead tr:not(:last-child) th,
+:host table thead tr:not(:last-child) td,
+:host table thead tr:not(:nth-child(1)) th,
+:host table thead tr:not(:nth-child(1)) td,
+:host table thead tr:not(:nth-child(2)) th,
+:host table thead tr:not(:nth-child(2)) td {
+  background: #e2e2e2;
+}
+
+:host table tbody tr:nth-last-child(1),
+:host table tr.backgroundHighlight {
+  background: #f4f4f4;
+}
+
+:host table tbody tr:nth-last-child(1) th,
+:host table tbody tr:nth-last-child(1) td,
+:host table tr.backgroundHighlight th,
+:host table tr.backgroundHighlight td {
+  background: #f4f4f4;
+}
+
+:host table tbody,
+:host table thead {
+  color: #1a1818;
+}
+
+:host ::ng-deep .selected-list,
+:host ::ng-deep .mat-form-field-flex {
+  border: 1px solid white !important;
+  border-radius: 5px;
+  outline: none;
+}
+
+:host ::ng-deep .selected-list .c-btn,
+:host ::ng-deep .mat-form-field-flex .c-btn {
+  outline: none;
+}
+
+.sub-heading {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.aggregate-heading {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .lazyContainer > * {
+  color: black;
+}
+
+::ng-deep .selected-list span {
+  fill: white !important;
+}
+
+:host ::ng-deep angular2-multiselect span {
+  font-size: 1.2em;
+}
+
+::ng-deep .disable-form {
+  pointer-events: none;
+}
+
+::ng-deep .disable-form .c-angle-down {
+  opacity: 0;
+}
+
+.tooltipWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltipWrapper > .tooltipData {
+  position: absolute;
+  display: inline-block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-width: 90px;
+  opacity: 0;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+  background: #3b3a3a;
+  color: white;
+  border-radius: 6%;
+  font-size: 1em;
+  text-align: center;
+  padding: 1% 0.4%;
+}
+
+.tooltipWrapper:hover .tooltipData {
+  opacity: 1;
+  -webkit-transform: translateX(-108%);
+          transform: translateX(-108%);
+}
+
+td {
+  overflow: hidden;
+}
+
+::ng-deep .clear-all {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+::ng-deep .noCrossSymbol .c-angle-down svg,
+::ng-deep .noCrossSymbol .c-angle-up svg {
+  fill: white !important;
+}
+/*# sourceMappingURL=basic.component.css.map */

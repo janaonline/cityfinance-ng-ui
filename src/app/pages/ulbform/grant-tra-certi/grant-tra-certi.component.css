@@ -1,0 +1,127 @@
+.container-fluid {
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+h4 {
+  font-size: 20px;
+  margin-top: 2rem;
+  color: #124E58;
+  font-family: Roboto;
+  font-weight: 600;
+}
+
+.list1-card {
+  width: 284px;
+  height: 306px;
+  margin-top: 20px;
+}
+
+.mat-card-image:first-child {
+  margin-top: 0;
+}
+
+.ng2-pdf-viewer-container[_ngcontent-efj-c276] {
+  overflow-x: auto;
+  position: relative;
+  height: 100%;
+  width: 200px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.pdfViewer[_nghost-hjj-c276] {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.removePageBorders[_nghost-hjj-c276] {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.individualResource {
+  margin: 25px 10px 30px 10px;
+  border-radius: 3px;
+  border: 2px solid transparent;
+  -webkit-box-shadow: 3px 2px 2px 2px #cecece;
+          box-shadow: 3px 2px 2px 2px #cecece;
+  height: 380px;
+  width: 260px;
+  text-align: center;
+  padding: 20px 3px 30px 6px;
+  color: #005750;
+  background-color: #f7f7f7;
+  overflow-wrap: unset;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+.percent-49 {
+  width: 49%;
+  float: left;
+}
+
+.resourceCards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.individualResource:hover {
+  margin: 22px 15px 25px 15px;
+  -webkit-transition-timing-function: linear;
+          transition-timing-function: linear;
+  -webkit-box-shadow: 5px 5px 5px #cecece;
+          box-shadow: 5px 5px 5px #cecece;
+}
+
+.img1 {
+  margin: 0 12%;
+  width: 176px;
+  height: 230px;
+}
+
+.img2 {
+  width: 258px;
+  height: 196px;
+  margin: 0 auto;
+}
+
+.save {
+  width: 90px;
+  height: 32px;
+  background-color: #26A1A1;
+  color: #FFFFFF;
+  font-weight: normal;
+  font-size: 12px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-block;
+}
+
+.backButton {
+  background-color: #CFCFCF;
+  color: #FFFFFF;
+  width: 90px;
+  height: 32px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: #ffc500;
+  font-weight: bold;
+}
+/*# sourceMappingURL=grant-tra-certi.component.css.map */

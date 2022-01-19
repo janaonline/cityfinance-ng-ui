@@ -163,6 +163,7 @@ import { StateFilterDataComponent } from './components/state-filter-data/state-f
     UserTypeConfirmationComponent,
     FormhistoryComponent,
     MatSlideToggle,
+    CompareDialogComponent,
     MatSelect,
     MatOption,
     IncompleteProfileComponent,

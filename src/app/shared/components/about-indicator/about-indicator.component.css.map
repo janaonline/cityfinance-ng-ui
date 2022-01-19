@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,AAAA,gBAAgB,CAAC;EACf,KAAK,EAAE,OAAO;CACf;;AACD,AAAA,MAAM,CAAC;EACL,MAAM,EAAE,IAAI;EACZ,KAAK,EAAE,MAAM;CACd;;AACD,AAAA,QAAQ,CAAA;EACN,gBAAgB,EAAE,OAAO;EACzB,WAAW,EAAE,MAAM;EACnB,YAAY,EAAE,MAAM;CACrB;;AACD,AAAA,UAAU,CAAA;EACR,KAAK,EAAE,OAAO;EAAE,SAAS,EAAE,MAC7B;CAAC",
+    "sources": [
+        "about-indicator.component.scss"
+    ],
+    "names": [],
+    "file": "about-indicator.component.css"
+}

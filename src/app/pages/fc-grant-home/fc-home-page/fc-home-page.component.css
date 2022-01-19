@@ -1,0 +1,38 @@
+.btn {
+  background-color: #fcc308;
+  padding: 5px 5px;
+  color: #FFFFFF;
+  height: 36px;
+  width: 109px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #f1ba02;
+  padding: 5px 5px;
+  color: #FFFFFF;
+  height: 40px;
+  width: 115px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.container-fluid {
+  margin-top: 2px;
+  background-image: url("../../../../assets/ulbform/landingp2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 60rem;
+  font-size: 35px;
+  image-resolution: 50px;
+}
+
+.bg-img {
+  background-image: url("../../../../assets/ulbform/landingpage1.png");
+}
+
+h3 {
+  color: #FFFFFF;
+}
+/*# sourceMappingURL=fc-home-page.component.css.map */

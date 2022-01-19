@@ -1,0 +1,263 @@
+.sub-heading {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.aggregate-heading {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.report-tabs a {
+  cursor: pointer;
+}
+
+::ng-deep .modal-dialog,
+::ng-deep .modal-lg {
+  min-width: 94vw;
+}
+
+.searchUlbMobalInput {
+  margin-bottom: 0px;
+}
+
+.list-group-item {
+  border: none;
+}
+
+.state-ulb-filter {
+  background-color: lightgray;
+  padding: 5px 10px;
+  width: 100%;
+  border: 1px dashed black;
+}
+
+.ulbTypeSelected {
+  background: silver;
+}
+
+.disable-state-link {
+  cursor: not-allowed;
+  opacity: 0.5;
+  position: relative;
+  pointer-events: none;
+}
+
+.disable-state-link:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  cursor: not-allowed;
+}
+
+.stateULBSelected,
+.stateULBSelected:hover {
+  background: #f0ad4e;
+  color: white;
+}
+
+.ulbTypeSelected,
+.ulbTabActive,
+.activeState {
+  background: #216278;
+  background-color: #216278 !important;
+  color: white !important;
+}
+
+.activeState > a {
+  color: white;
+}
+
+a {
+  color: #216278;
+}
+
+.stateULBSelected > a {
+  color: white;
+}
+
+.ulbTabActive:hover,
+.ulbTypeSelected:hover,
+.activeState:hover {
+  background: #216278;
+  color: white;
+}
+
+.left-nav > li {
+  padding: 3% 0.5%;
+  border-top: 1px solid #dbdbdb;
+}
+
+.left-nav > li > a {
+  padding-left: 5%;
+}
+
+::ng-deep angular2-multiselect span {
+  font-size: 1.5em;
+}
+
+::ng-deep .c-btn {
+  min-height: 32px !important;
+}
+
+.inactive-tab {
+  color: white;
+  background: #afafaf;
+}
+
+.btn-primary:disabled,
+.btn-primary[disabled],
+button:disabled {
+  background: gray !important;
+  color: white !important;
+}
+
+::ng-deep .modal-content {
+  overflow: auto;
+  min-height: 90vh;
+}
+
+.stateULBName {
+  padding-right: 0px;
+  max-width: 214px;
+}
+
+.ulbTypeSelected,
+.stateULBName {
+  font-size: 0.8vw;
+}
+
+.ulb-category {
+  font-size: 0.8vw;
+}
+
+.finance-statement-popup ::ng-deep .mat-form-field-wrapper {
+  margin: 0px !important;
+}
+
+::ng-deep .modal .modal-header {
+  padding-bottom: 0px;
+}
+
+a.inactive-tab:hover {
+  background: #afafaf;
+}
+
+::ng-deep .selected-list {
+  border-radius: 3px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0px grey;
+          box-shadow: inset 0 0 0px grey;
+  border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f0ad4e;
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}
+
+.finance-statement-popup ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+::ng-deep .modal .modal-header {
+  padding-bottom: 15px;
+}
+
+.baseStateULB {
+  background: red;
+}
+
+::ng-deep md-input-container label {
+  color: red !important;
+}
+
+.finance-statement-popup ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.finance-statement-popup ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 0px !important;
+  border: 0px !important;
+}
+
+.financial-tab-text {
+  margin: auto;
+  width: 90%;
+}
+
+.financial-tab-text h3 {
+  margin-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.popup-cotnainer-2,
+.ulb-list-container {
+  height: 84vh;
+  overflow: hidden;
+}
+
+#myTabContent {
+  max-height: 67vh;
+  overflow: auto;
+  font-size: 0.9vw;
+}
+
+.state-list-sidebar {
+  max-height: 90%;
+  overflow: auto;
+  padding-right: 0px;
+  max-width: 214px;
+  font-size: 1vw;
+}
+
+.clear-all {
+  background: #f0ad4e;
+  color: white;
+}
+
+.generate-report {
+  position: absolute;
+  right: 5px;
+}
+
+.comparative-toggle {
+  display: inline-block;
+  width: 15%;
+  margin-right: 3px;
+  padding-left: 1%;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+.comparative-toggle ::ng-deep .mat-slide-toggle-content {
+  font-size: 0.8vw;
+}
+
+.comparative-info-circle {
+  margin-right: 10px;
+  margin-left: 0px;
+}
+
+.finance-statement-popup .nav-tabs > li.active > a {
+  background: grey;
+}
+/*# sourceMappingURL=report.component.css.map */

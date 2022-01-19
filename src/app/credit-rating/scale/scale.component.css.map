@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,EAAE,EAAE,EAAE,CAAA;EACF,OAAO,EAAE,OAAO;CACnB",
+    "sources": [
+        "scale.component.scss"
+    ],
+    "names": [],
+    "file": "scale.component.css"
+}

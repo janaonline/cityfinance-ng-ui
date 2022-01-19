@@ -1,0 +1,18 @@
+.deSelected {
+  color: #8B92A8;
+  background-color: white;
+  border-color: #8B92A8;
+}
+
+.selected {
+  color: #E57504;
+  background-color: #FFF1E3;
+  border-color: #F2991F;
+}
+
+.selected:focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.25rem #FADAAD;
+          box-shadow: 0 0 0 0.25rem #FADAAD;
+}
+/*# sourceMappingURL=filter-data.component.css.map */

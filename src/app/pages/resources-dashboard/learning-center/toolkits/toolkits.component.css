@@ -1,0 +1,41 @@
+.card {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 2px 20px #4E4E4E29;
+          box-shadow: 0px 2px 20px #4E4E4E29;
+  border: 1px solid #F4F4F4;
+  border-radius: 12px;
+  height: 16rem;
+  padding: 10px;
+  margin: 0 10px;
+  width: 18rem;
+}
+
+.nav {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.nav-item {
+  border: 1px solid #9299B2;
+  border-radius: 6px;
+  opacity: 1;
+  margin: 0 0.5rem;
+}
+
+.nav > li > a {
+  padding: 5px 15px;
+}
+
+.nav-pills .nav-link.active {
+  background: #3E5DB1 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 2px 8px #BACBFA;
+          box-shadow: 0px 2px 8px #BACBFA;
+  border: 1px solid #3E5DB1;
+  border-radius: 6px;
+  opacity: 1;
+}
+/*# sourceMappingURL=toolkits.component.css.map */

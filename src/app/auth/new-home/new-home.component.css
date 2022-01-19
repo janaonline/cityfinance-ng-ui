@@ -1,0 +1,412 @@
+.container-fluid {
+  padding-left: 0;
+}
+
+.wrap-bg {
+  background-image: url("../../../assets/new_dashBord_ftr_hdr/landingBg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 4% 2% 15% 2%;
+}
+
+@media screen and (min-width: 992px) {
+  .wrap-bg {
+    height: 44rem;
+  }
+  .city {
+    font: normal normal bold 65px/56px Cabin;
+  }
+  .fy {
+    font: normal normal normal 65px/56px Cabin;
+  }
+  .f-d {
+    height: 142px;
+  }
+  .ds-info {
+    font: normal normal 500 26px/41px 'Montserrat';
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .wrap-bg {
+    height: 50rem;
+  }
+  .city {
+    font: normal normal bold 50px/56px Cabin;
+  }
+  .fy {
+    font: normal normal normal 50px/56px Cabin;
+  }
+  .ds-info {
+    font: normal normal 500 26px/41px 'Montserrat';
+  }
+}
+
+@media (min-width: 520px) and (max-width: 767px) {
+  .wrap-bg {
+    height: 74rem;
+  }
+  .f-d {
+    height: 180px;
+  }
+  .city {
+    font: normal normal bold 50px/56px Cabin;
+  }
+  .fy {
+    font: normal normal normal 50px/56px Cabin;
+  }
+  .ds-info {
+    font: normal normal 500 24px/41px 'Montserrat';
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .wrap-bg {
+    height: 87rem;
+  }
+  .f-d {
+    height: 250px;
+  }
+  .city {
+    font: normal normal bold 45px/56px Cabin;
+  }
+  .fy {
+    font: normal normal normal 45px/56px Cabin;
+  }
+  .ds-info {
+    font: normal normal 500 22px/41px 'Montserrat';
+  }
+}
+
+.city {
+  color: #38CDFA;
+  letter-spacing: 0px;
+}
+
+.fy {
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.ds-i-div {
+  margin-top: 3rem;
+}
+
+.ds-info {
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.filter-form {
+  display: inline-block;
+}
+
+.rec-text {
+  text-align: center;
+  font: normal normal normal 13px/20px 'Archivo';
+  letter-spacing: 0px;
+  color: #E2EEFF;
+  opacity: 1;
+}
+
+.ser-chip {
+  background: #1C3555 0% 0% no-repeat padding-box;
+  border: 1px solid #5C94D9;
+  border-radius: 40px;
+  opacity: 0.57;
+  padding: 4px 18px;
+  margin-left: 15px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  display: inline-block;
+}
+
+.ser-chip:hover {
+  background-color: #E8721C;
+  border: 1px solid #E8721C;
+  opacity: 1;
+}
+
+.rec-text:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.g-filter-d {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 0px 21px #5A5A5A31;
+          box-shadow: 0px 0px 21px #5A5A5A31;
+  border-radius: 12px;
+  opacity: 1;
+  padding: 8px;
+  margin-top: 4rem;
+}
+
+.lnd-btn {
+  background: #E67E15 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 2px 8px #FFDAA8;
+          box-shadow: 0px 2px 8px #FFDAA8;
+  color: #FFFFFF;
+  border-radius: 8px;
+  padding: 8px 0px;
+  opacity: 1;
+  width: 20%;
+}
+
+.fl-input {
+  padding: 9px;
+  border: none;
+  width: 80%;
+}
+
+.fl-input:focus-visible {
+  border: none;
+  outline-color: transparent;
+}
+
+.sl-text {
+  text-align: center;
+  font: normal normal 500 15px/24px 'Montserrat';
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
+.sl-name {
+  text-align: center;
+  font: normal normal 700 14px/22px 'Montserrat';
+  letter-spacing: 0px;
+  color: #FCB23C;
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
+.sl-des {
+  text-align: center;
+  font: normal normal 500 12px/17px 'Montserrat';
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 992px) {
+  .images {
+    text-align: -webkit-center;
+    top: -50px;
+    position: relative;
+    left: 35px;
+  }
+}
+
+.cr-text {
+  width: 60%;
+}
+
+::ng-deep .carousel-indicators {
+  bottom: -45px;
+}
+
+::ng-deep .images .carousel-control.left,
+::ng-deep .images .carousel-control.right {
+  display: none;
+}
+
+::ng-deep .carousel-indicators .active {
+  background: #F2991F 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+::ng-deep .slick-dots li.slick-active button:before {
+  color: #F2991F;
+  opacity: 1;
+}
+
+::ng-deep .slick-dots li button:before {
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.w-new {
+  font: normal normal bold 30px/28px 'Archivo';
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.wrap-card {
+  position: relative;
+  margin-top: -160px;
+}
+
+.new-card-text {
+  padding: 0 10%;
+}
+
+.card-d {
+  padding: 2rem 10%;
+}
+
+.new-card {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 2px 20px #4E4E4E29;
+          box-shadow: 0px 2px 20px #4E4E4E29;
+  border: 1px solid #F4F4F4;
+  border-radius: 12px;
+  opacity: 1;
+  height: 240px;
+  display: inline-block;
+  padding: 10px;
+  margin-right: 3rem;
+}
+
+.new-card-l {
+  font: normal normal bold 16px/24px 'Archivo';
+  letter-spacing: 0px;
+  color: #262831;
+  opacity: 1;
+  padding: 8px 5px 12px 5px;
+}
+
+.slick-wrapper {
+  width: 1000px;
+  margin: 20px auto;
+}
+
+::ng-deep .slick-prev:before,
+::ng-deep .slick-next:before {
+  color: black !important;
+}
+
+.slide {
+  margin-right: 1rem;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #F4F4F4;
+  border-radius: 12px;
+  opacity: 1;
+  padding: 8px;
+}
+
+.map-bg {
+  background-color: #F8F9FF !important;
+}
+
+.res-h {
+  font: normal normal 800 30px/32px 'Archivo';
+  letter-spacing: 0px;
+  color: #0F1F40;
+}
+
+.res-s-h {
+  font: normal normal normal 18px/22px 'Archivo';
+  letter-spacing: 0px;
+  color: #6E7281;
+}
+
+.card {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 2px 33px #53525229;
+          box-shadow: 0px 2px 33px #53525229;
+  border-radius: 12px;
+  width: 325px;
+  height: 225px;
+  margin: 1rem;
+  padding: 1rem 2rem;
+}
+
+.card1:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+  -webkit-transition: all 1s ease-out 0s;
+  transition: all 1s ease-out 0s;
+  background-color: #FFF7EB;
+}
+
+.card1:hover .cd-s-head,
+.card1:hover .cd-head,
+.card1:hover .cd-icon {
+  display: none;
+}
+
+.card1:hover .hidden-text {
+  display: inline-block;
+}
+
+.hidden-text {
+  display: none;
+}
+
+.cd-head {
+  font: normal normal bold 18px/23px 'Archivo';
+  letter-spacing: 0px;
+  color: #0F1F40;
+  padding: 1rem .2rem;
+}
+
+.cd-s-head {
+  font: normal normal normal 14px/24px 'Archivo';
+  letter-spacing: 0px;
+  color: #444750;
+}
+
+.com-logo {
+  background-color: #F8F9FF;
+}
+
+.com-h {
+  font: normal normal 800 30px/32px 'Archivo';
+  letter-spacing: 0px;
+  color: #0F1F40;
+}
+
+.comp-img {
+  padding: 0 2rem;
+}
+
+.btn-view {
+  background: #E67E15 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 2px 8px #F7C199;
+          box-shadow: 0px 2px 8px #F7C199;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font: normal normal bold 14px/15px 'Archivo';
+  letter-spacing: 0px;
+  color: #FFFFFF;
+}
+
+.btn-d {
+  margin-top: 2rem;
+}
+
+.c-i {
+  padding: 1rem;
+}
+
+.noData {
+  color: #D94E4E;
+  font-size: 14px;
+}
+
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+  min-width: calc(100% + 28% + 2px);
+  margin-top: -1px;
+  margin-left: -8px;
+  border-radius: 0 0 16px 16px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  padding-top: 5px;
+}
+
+::ng-deep #mat-option-0,
+::ng-deep .firstCls {
+  border-top: 1px solid lightgray;
+}
+
+.custom-panel {
+  width: calc(100% + 30px);
+}
+/*# sourceMappingURL=new-home.component.css.map */

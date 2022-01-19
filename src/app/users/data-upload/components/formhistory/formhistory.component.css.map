@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACE,uBADqB,CACrB,KAAK,CAAC,EAAE,CAAC,EAAE,CAAC;EACV,UAAU,EAAE,OAAO;EACnB,KAAK,EAAE,KAAK;CACb;;AAJH,AAKE,uBALqB,CAKrB,KAAK,CAAC,EAAE,AAAA,UAAW,CAAA,IAAI,EAAE;EACvB,UAAU,EAAE,OAAO;CACpB",
+    "sources": [
+        "formhistory.component.scss"
+    ],
+    "names": [],
+    "file": "formhistory.component.css"
+}

@@ -1,0 +1,121 @@
+.wrapper {
+  width: 88vw;
+  margin: 2% auto;
+  padding: 1% 2%;
+  position: relative;
+}
+
+.wrapper .header {
+  padding: 0 24px;
+  text-align: center;
+  width: 96%;
+  margin: auto;
+  position: relative;
+}
+
+.tick {
+  width: 16%;
+  margin: auto;
+  display: block;
+}
+
+:host .box {
+  -webkit-box-shadow: 1px 1px 11px 1px #b9b5b5;
+          box-shadow: 1px 1px 11px 1px #b9b5b5;
+  padding: 5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 45vw;
+  border-radius: 5px;
+  border: 1px solid #c7c5c5;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 5% auto;
+}
+
+:host .btn {
+  outline: none;
+}
+
+:host app-tick-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+:host .form-editable .back_button {
+  font-size: 2rem;
+  float: left;
+  left: 0px;
+  margin-top: 0%;
+  padding: 9px 33px;
+  position: absolute;
+}
+
+:host .btn-primary {
+  outline: none;
+}
+
+:host ::ng-deep .mat-horizontal-stepper-header-container {
+  width: 75% !important;
+  margin: auto;
+}
+
+:host ::ng-deep .question-instruction {
+  font-style: italic;
+}
+
+:host ::ng-deep .mandatory {
+  color: red;
+}
+
+:host ::ng-deep .block-steeper-top-navigation .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+
+:host ::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon,
+:host ::ng-deep .mat-step-header[aria-selected="true"] .mat-step-icon {
+  background: #009a00;
+}
+
+:host ::ng-deep .mat-step-header[ng-reflect-selected="false"] .mat-step-icon,
+:host ::ng-deep .mat-step-header[aria-selected="false"] .mat-step-icon {
+  background: #059b9a;
+}
+
+:host button {
+  outline: none;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  margin-top: 1%;
+}
+
+::ng-deep .mat-calendar-controls .mat-button {
+  background: transparent !important;
+  color: gray;
+}
+
+::ng-deep .mat-step-header.cdk-program-focused {
+  background: transparent !important;
+}
+
+::ng-deep mat-radio-group.is-invalid .mat-radio-outer-circle {
+  border-color: red;
+}
+
+::ng-deep ::ng-deep .preview-wrapper .back_button {
+  position: absolute;
+  z-index: 2;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 9px 33px;
+}
+/*# sourceMappingURL=questionnaire.component.css.map */

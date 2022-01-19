@@ -1,0 +1,55 @@
+.mat-tab-label-active {
+  background-color: #e67e15;
+}
+
+.nav-pills .nav-link {
+  border: 1px solid #d9dce6;
+  border-radius: 0px;
+  min-width: 8rem;
+  min-height: 4rem;
+  text-align: center;
+  letter-spacing: 0px;
+  color: #6e7281;
+  opacity: 1;
+}
+
+.roundEdge {
+  border-radius: 8px 0px 0px 8px !important;
+}
+
+.roundEdge2 {
+  border-radius: 0px 8px 8px 0px !important;
+}
+
+.nav-link.active {
+  background-color: #e67e15;
+  color: #FFFFFF !important;
+}
+
+.nav-link2.active {
+  background-color: #3e5db1;
+  border-color: #3e5db1;
+  color: #ffffff !important;
+}
+
+.nav-pills2 .nav-link2 {
+  border: 1px solid #d9dce6;
+  margin: 0.5rem;
+  height: auto;
+  text-align: center;
+  border: 1px solid #9299b2;
+  border-radius: 6px;
+  color: #8b92a8;
+}
+
+.nav-link2 {
+  border: 1px solid #d9dce6;
+  border-radius: 0px;
+  min-width: 4rem;
+  min-height: 2.5rem;
+  text-align: center;
+  letter-spacing: 0px;
+  color: #6e7281;
+  opacity: 1;
+}
+/*# sourceMappingURL=dashboard-tabs.component.css.map */

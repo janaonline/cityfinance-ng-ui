@@ -1,0 +1,113 @@
+::ng-deep .mat-horizontal-stepper-header-container {
+  width: 100% !important;
+  margin: auto;
+}
+
+:host ::ng-deep .question-instruction {
+  font-style: italic;
+  margin-top: 0%;
+}
+
+::ng-deep .mandatory {
+  color: red;
+}
+
+:host .text-italic {
+  font-style: italic;
+}
+
+:host .text-underline {
+  text-decoration: underline;
+}
+
+:host .guidelines {
+  margin-bottom: 2%;
+  width: 90vw;
+  font-size: 1.6rem;
+}
+
+:host .guidelines h4 {
+  font-size: 1.5em;
+}
+
+:host .guidelines li {
+  padding-bottom: 0.5%;
+}
+
+:host a {
+  margin-top: 0%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+:host ::ng-deep .documentCompleted button[id="next"] {
+  display: none !important;
+}
+
+:host ol > li {
+  padding-left: 0.3%;
+}
+
+:host ::ng-deep mat-step-header[ng-reflect-index="0"] {
+  padding-left: 0px;
+}
+
+::ng-deep .mat-step-header[ng-reflect-selected="true"] .mat-step-icon,
+::ng-deep .mat-step-header[aria-selected="true"] .mat-step-icon {
+  background: #009a00;
+}
+
+::ng-deep .mat-step-header[ng-reflect-selected="false"] .mat-step-icon,
+::ng-deep .mat-step-header[aria-selected="false"] .mat-step-icon {
+  background: #059b9a;
+}
+
+button {
+  outline: none;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  margin-top: 1%;
+  padding-left: 0px !important;
+}
+
+::ng-deep .mat-calendar-controls .mat-button {
+  background: transparent !important;
+  color: gray;
+}
+
+::ng-deep .mat-step-header.cdk-program-focused {
+  background: transparent !important;
+}
+
+::ng-deep mat-radio-group.is-invalid .mat-radio-outer-circle {
+  border-color: red;
+}
+
+::ng-deep mat-radio-group.is-invalid .preview-wrapper .back_button {
+  position: absolute;
+  z-index: 2;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 9px 33px;
+}
+
+app-tick-icon {
+  display: block;
+  width: 24%;
+  margin: auto;
+}
+
+:host ::ng-deep .mat-horizontal-content-container {
+  padding: 0px;
+  overflow: visible;
+}
+
+:host ::ng-deep .action-required {
+  background: linear-gradient(45deg, #ff8181, white);
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+/*# sourceMappingURL=financial-uploads.component.css.map */

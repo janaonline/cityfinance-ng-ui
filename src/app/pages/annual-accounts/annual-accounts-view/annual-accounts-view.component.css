@@ -1,0 +1,42 @@
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+:host .container {
+  width: 90%;
+}
+
+:host table tbody tr:nth-child(even) {
+  background: #ececec !important;
+}
+
+:host table tbody tr:nth-child(odd) {
+  background: white;
+}
+
+:host table thead tr th {
+  border: 0px;
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+table .input-group {
+  width: 88%;
+}
+
+table .input-group input,
+table .input-group select {
+  border-radius: 5px;
+}
+
+.container {
+  width: 95%;
+  max-width: 100vw;
+}
+/*# sourceMappingURL=annual-accounts-view.component.css.map */

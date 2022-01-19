@@ -1,0 +1,46 @@
+::ng-deep .selected-list .c-btn {
+  font-size: 1.3rem !important;
+}
+
+::ng-deep .c-remove,
+::ng-deep .clear-all {
+  display: none !important;
+}
+
+::ng-deep .pure-checkbox input[type="checkbox"] + label:before {
+  border: 1px solid darkgrey;
+}
+
+.common-container .container {
+  width: 95%;
+}
+
+.form-control {
+  border-radius: 4px;
+}
+
+.sortable-headers > th {
+  cursor: pointer;
+}
+
+table .input-group {
+  width: 88%;
+}
+
+table .input-group input,
+table .input-group select {
+  border-radius: 5px;
+}
+
+.overlay {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  color: white;
+  z-index: 9;
+}
+/*# sourceMappingURL=data-upload.component.css.map */

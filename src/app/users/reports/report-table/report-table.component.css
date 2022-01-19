@@ -1,0 +1,75 @@
+table > thead tr {
+  background: #059b9a;
+  color: white;
+}
+
+table > thead tr th {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  background: inherit;
+}
+
+table > thead tr:nth-child(2) th {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  background: inherit;
+}
+
+table > tbody > tr > {
+  background: #e7e7e7;
+  border-bottom: 5px solid white;
+}
+
+table tbody tr:nth-child(even) {
+  background: #ececec;
+}
+
+table tbody tr:nth-child(odd) {
+  background: white;
+}
+
+.tableContainer {
+  height: 71vh;
+  overflow: auto;
+  padding: 0%;
+  border-bottom: 1px solid #e7e7e7;
+}
+
+table thead tr:nth-child(1) th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+}
+
+table thead tr:nth-child(2) th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 38px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 11px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 11px 1px 1px #f3f3f3;
+          box-shadow: inset 11px 1px 1px #f3f3f3;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #059b9a;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f0ad4e;
+}
+/*# sourceMappingURL=report-table.component.css.map */
