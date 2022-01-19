@@ -243,6 +243,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
+    debugger
     // let option = this.ChartOptions;
     let option = {
       maintainAspectRatio: false,
@@ -261,7 +262,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     }
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-      Object.assign(this.chartData, { options: option });
+      Object.assign(this.chartData, { options: this.ChartOptions });
     const canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
     const ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, this.chartData);
