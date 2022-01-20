@@ -3,7 +3,7 @@
         <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
             <li class="nav-item" *ngFor="let item of data; let i=index">
                 <!-- [routerLink]="item?._id" -->
-                <a (click)="activeTabFn(item)" role="tab" routerLinkActive="active" class="nav-link nav-m" [id]="i">
+                <a (click)="activeTabFn(item)" [routerLink]="item?._id" role="tab" routerLinkActive="active" class="nav-link nav-m" [id]="i">
                     <span>{{item?.name}}</span>
                 </a>
             </li>
@@ -27,13 +27,13 @@
                     <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
                         <li class="nav-item">
 
-                            <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
+                            <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
                                 <span>Population Category</span>
                             </a>
                         </li>
                         <li class="nav-item">
 
-                            <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" id="type" style="padding: 0.4rem 2rem; width:12rem;">
+                            <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
                                 <span>ULB Type</span>
                             </a>
                         </li>
@@ -83,30 +83,58 @@
             </div>
             <div class="row m-0">
                 <div class="col-12 col-sm-12 text-end pe-4">
-                    <button class="btnTableView">
-                     <!-- <span class="">
-                      <img src="../../../../../assets/CIty_detail_dashboard – 3/table_chart_black_24dp.svg" alt="">
-                     </span> -->
+                    <button type="button" class="btnTableView" (click)="tableViewFn()" [ngClass]="{'tb-active': tableView}">
                      <span>
-                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#6E7281">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" class="tb_svg" [ngClass]="{'tb_svg-ac': tableView}">
                         <path d="M0 0h24v24H0V0z" fill="none"/>
                         <path d="M20 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 2v3H5V5h15zm-5 14h-5v-9h5v9zM5 10h3v9H5v-9zm12 9v-9h3v9h-3z"/>
                       </svg>
                     </span>
                       Table
-                  </button>
-                    <button class="btnTableView">
+                    </button>
+                    <button type="button" class="btnTableView" (click)="graphViewFn()">
                      <!-- <span class="">
                       <img src="../../../../../assets/CIty_detail_dashboard – 3/insert_chart_outlined_black_24dp.svg" alt="">
                     </span> -->
                     <span>
-                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#6E7281">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" class="tb_svg" [ngClass]="{'tb_svg-ac': graphView}">
                         <path d="M0 0h24v24H0V0z" fill="none"/>
                         <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14zm0-16H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
                         </svg>
                     </span>
                   Graph
                 </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row m-0">
+        <div class="col-sm-12 ps-4 mb-3" *ngIf="tableView">
+            <div class="table-responsive" *ngIf="tableView">
+                <table class="table" *ngFor="let table of tableData?.data; let tableIndex = index">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                {{column?.display_name}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of table?.rows">
+                            <td *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                {{row[column.key]}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3" [hidden]="!graphView">
+            <div class="card-body barCon">
+                <div class="w-75 m-auto h-auto">
+                    <canvas id="canvas" style="width: 70vw; height: 70vh;">{{ chart }}</canvas>
                 </div>
             </div>
         </div>
