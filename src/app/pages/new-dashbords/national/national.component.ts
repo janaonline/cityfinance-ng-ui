@@ -7,16 +7,19 @@ import { NewDashboardService } from "../new-dashboard.service";
   styleUrls: ["./national.component.scss"],
 })
 export class NationalComponent implements OnInit {
-  constructor(public newDashboardService: NewDashboardService) {}
+  constructor(
+    public newDashboardService: NewDashboardService
+    ) {
+      this.loadData();
+    }
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   tabAboutData;
 
 
   ngOnInit(): void {
-    this.loadData();
+  }
 
-}
 loadData(){
   this.newDashboardService
   .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
@@ -55,8 +58,8 @@ sortTabData(res){
 
 const data = {
   showMap: false,
-  name: "Municipal Corporation of Greater Mumbai",
-  desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
+  name: "National Financial Dashboard",
+  desc: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor",
   dataIndicators: [
     {
       value: "12. 1 M",
