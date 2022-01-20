@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  Input
 } from "@angular/core";
 import { COMMA, ENTER, T } from "@angular/cdk/keycodes";
 import { FormControl } from "@angular/forms";
@@ -26,7 +27,17 @@ export class CompareDialogComponent implements OnInit {
   filteredFruits: Observable<string[]>;
 
   @ViewChild("chipInput") chipInput: ElementRef<HTMLInputElement>;
-  constructor(private commonService: CommonService) {}
+
+  
+  stateChipList:any = [] 
+
+  constructor(private commonService: CommonService) {
+    let ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
+    for (const key in ulbList) {
+      const element = ulbList[key];
+      this.stateList.push({...element})
+    }
+  }
 
   @Output()
   closeDialog = new EventEmitter();
@@ -41,15 +52,10 @@ export class CompareDialogComponent implements OnInit {
   ulbValueList = new EventEmitter();
 
   States = new FormControl();
-  stateList: string[] = [
-    "Extra cheese",
-    "Mushroom",
-    "Onion",
-    "Pepperoni",
-    "Sausage",
-    "Tomato",
-  ];
+  
+  stateList = [];
 
+  @Input()
   type = 1;
 
   filterList = [
@@ -61,17 +67,36 @@ export class CompareDialogComponent implements OnInit {
     "Similar Population ULBs",
   ];
 
-  parameters: string[] = ["one", "two", "three"];
+  @Input()
+  parameters: string[] = [];
 
   ulbListChip: { name: string; _id: string }[] = [];
 
   ulbIds: any;
+
+  selectedStateValue(event:any) {
+    
+    event.value.map((element)=>{
+      this.stateChipList.push(element.state)
+      this.stateChipList = [...new Set(this.stateChipList)]
+    })
+    console.log('stateChipList', this.stateChipList)
+    console.log('EventValue',event.value);
+  }
+  removeStateChips(chips: { _id: string; name: string }): void {
+    const index = this.stateChipList.indexOf(chips);
+    if (index >= 0) {
+      this.stateChipList.splice(index, 1);
+    }
+  }
 
   ngOnInit(): void {
     this.searchField.valueChanges.subscribe((value) => {
       console.log(value);
       if (value) this.search(value);
     });
+
+    console.log('statelist',this.stateList)
   }
 
   noDataFound = false;

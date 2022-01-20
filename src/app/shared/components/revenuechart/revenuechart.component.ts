@@ -176,7 +176,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   @Input()
-  ChartOptions: {
+  ChartOptions = {
     maintainAspectRatio: false,
     responsive: true,
   legend: {
@@ -243,25 +243,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
-    debugger
-    // let option = this.ChartOptions;
-    let option = {
-      maintainAspectRatio: false,
-      responsive:true,
-      // borderRadius: 12,
-    legend: {
-                position: "bottom",
-      labels: {
-                usePointStyle: false,
-                padding: 35,
-                boxWidth: 13,
-                boxHeight:15 
-          }
-      },
-     
-    }
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
+    else
       Object.assign(this.chartData, { options: this.ChartOptions });
     const canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
     const ctx = canvas.getContext("2d");

@@ -3,7 +3,7 @@
   style="background: #fffbef 0% 0% no-repeat padding-box"
 >
   <div class="col-12 revenuChartContainer d-flex">
-    <div class="col-6 col-md-6 col-lg-4 d-flex justify-content-center align-items-center">
+    <div class="col-6 col-md-4 col-lg-4 d-flex justify-content-center align-items-center">
       <p class="p-2" class="chartHeader">
          {{chartTitle}}
       </p>
@@ -11,7 +11,6 @@
     <div class="col-md-2 btnBesideTitle" *ngIf="btnBesideText">
       <button class="mt-2"  (click)="openModal()" >
                 Compare State
-                <!-- <app-compare-dialog></app-compare-dialog> -->
       </button>
     </div>
     <div class="col-6 col-md-6 col-lg-6">
@@ -66,5 +65,5 @@
 </div>
 
 <ng-template #template>
-  <app-compare-dialog (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
+  <app-compare-dialog [type]="2" (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
 </ng-template>

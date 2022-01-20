@@ -147,8 +147,9 @@
     </div>
     <!-- Full doughnut chart section -->
     <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
-        <app-revenuechart class="" [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle">
-            <!-- [ChartOptions]="doughnutChartOptions" -->
+        <app-revenuechart class="" [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle"
+        >
+        <!-- [ChartOptions]="doughnutChartOptions" -->
         </app-revenuechart>
     </div>
     <div class="container revenue-stocks-container">
@@ -201,23 +202,23 @@
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <p class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button accBg" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             How is performance assessed?
           </button>
                 </p>
-                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                    <div class="accordion-body d-flex justify-content-between">
-                        <div class="d-flex accColOneContent col-12 col-md-6 col-lg-6">
+                <div id="collapseOne" class="accordion-collapse collapse hide" data-bs-parent="#accordionExample">
+                    <div class="accordion-body d-flex justify-content-between accBg">
+                        <div class="d-flex accColOneContent col-12 col-md-6 col-lg-6 px-1">
                             <div>
-                                <img src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
+                                <img class="img-fluid me-4" src="../../../assets/resources-das/north_east_green_24dp.svg" alt="green_arrow_icon">
                             </div>
                             <p>
                                 <span class="imgTitle">Upward arrow:</span> The performance has increased (by the percentage indicated alongside the arrow) as compared to the previous year
                             </p>
                         </div>
-                        <div class="d-flex accColTwoContent col-12 col-md-6 col-lg-6">
+                        <div class="d-flex accColTwoContent col-12 col-md-6 col-lg-6 px-1">
                             <div>
-                                <img src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
+                                <img class="img-fluid me-4" src="../../../assets/resources-das/south_west_red_24dp.svg" alt="red_arrow_icon">
                             </div>
                             <p>
                                 <span class="imgTitle">Downward arrow:</span> The performance has decreased (by the percentage indicated alongside the arrow) as compared to the previous year
@@ -237,8 +238,9 @@
         <p class="barChartSubTitle text-center">
             Top 10 performing ULBs in the country in property tax per capita can be viewed below.
         </p>
-        <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn">
-            <!-- [ChartOptions]="barChartOptions" -->
+        <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
+        [ChartOptions]="barChartOptions"
+        >
         </app-revenuechart>
 
         <div class="container-fluid">

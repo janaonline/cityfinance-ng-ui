@@ -135,19 +135,8 @@ doughnutChartData= {
      },
    ],
   },
-  // options: {
-  //   maintainAspectRatio: false,
-  //   responsive: true,
-  // legend: {
-  //             position: "bottom",
-  //   labels: {
-  //             usePointStyle: true,
-  //             padding: 40,
-  //       }
-  //   },
-  // }
 }
-doughnutChartOptions: {
+doughnutChartOptions = {
   maintainAspectRatio: false,
   responsive: true,
 legend: {
@@ -155,8 +144,8 @@ legend: {
   labels: {
             usePointStyle: false,
             padding: 35,
-            boxWidth: 12,
-            boxHeight:10
+            boxWidth: 13,
+            boxHeight:15
       }
   },
 }
@@ -199,17 +188,10 @@ barChartData = {
                       ]
                   },
                ],
-    // options: {
-    //             maintainAspectRatio: false,
-    //             responsive: true,
-    //           legend: {
-    //                  display:false
-    //             },
-    //           }
   },
 
 }
-barChartOptions: {
+barChartOptions = {
   maintainAspectRatio: false,
   responsive: true,
   plugins:{
@@ -231,6 +213,7 @@ barChartOptions: {
 
   ngOnInit(): void {
    this.getAvailableData();
+   this.getBarChartData();
    this.barChartTitle = 'You can compare states on various financial indicators/parameters';
     // Half Doughnut Data
 
@@ -307,6 +290,22 @@ barChartOptions: {
         }
     )
   }
+
+  getBarChartData(){
+    this.body = {
+      "revenueId": "",
+        "stateIds":"",
+    }
+    this.ownRevenueService.displayBarChartData(this.body).subscribe(
+       (res) => {
+          console.log('barChartBody',res);
+        },
+        (err) => {
+          console.log('error',err)
+        }
+    )
+  }
+
   halfDoughnutChart(valueFromApi=null){
     const canvas = <HTMLCanvasElement> document.getElementById('myChart1');
     const ctx = canvas.getContext('2d');

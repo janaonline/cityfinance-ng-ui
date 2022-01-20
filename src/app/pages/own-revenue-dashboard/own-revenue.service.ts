@@ -19,6 +19,14 @@ export class OwnRevenueService {
     )
   }
 
+  
+  displayBarChartData(body: any){
+    return this.httpClient.get(
+      `${environment.api.url}LineItem`, body
+  )
 }
 
+}
+
+// {{url}}/LineItem
 
