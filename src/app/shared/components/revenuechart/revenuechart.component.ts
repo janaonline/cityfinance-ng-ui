@@ -185,10 +185,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
               // usePointStyle: false,
               padding: 35,
               boxWidth: 24,
-              boxHeight:18  
+              boxHeight:18
         }
     },
-  } 
+  }
 
   @Input()
   headerActions = [
@@ -218,7 +218,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   mySelectedYears = ["2019-20", "2020-21"];
   year;
-  compareType = "";   
+  compareType = "";
 
   ngOnInit(): void {
     this.year = new FormControl(this.mySelectedYears, { updateOn: "blur" });
@@ -243,6 +243,26 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
+<<<<<<< HEAD
+=======
+  //  debugger
+    // let option = this.ChartOptions;
+    let option = {
+      maintainAspectRatio: false,
+      responsive:true,
+      // borderRadius: 12,
+    legend: {
+                position: "bottom",
+      labels: {
+                usePointStyle: false,
+                padding: 35,
+                boxWidth: 13,
+                boxHeight:15
+          }
+      },
+
+    }
+>>>>>>> 48364e2a00a32a6e7090ac9c2dd533c0d275dd12
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
     else
