@@ -1,3 +1,10 @@
+@import "./src/scss/functions";
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+
+// .overall-container{
+//   margin-top: 90px;
+// }
 ::ng-deep .register .mat-form-field:last-child .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
@@ -151,6 +158,7 @@
 
 .sign-in {
   width: 85%;
+  margin-top: 5rem !important;
   text-align: center;
   padding: 5px 25px 10px;
   border-radius: 10px;

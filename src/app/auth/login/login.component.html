@@ -1,8 +1,9 @@
 <div class="fc-grant">
     <div class="container-fluid">
-        <div class="align-items-center d-flex flex-wrap" class="overall-container">
+        <!-- class="align-items-center d-flex flex-wrap"  overall-container classes-->
+        <div class="overall-container d-flex">
             <div class="col-xs-12 col-sm-12 col-md-6">
-                <div class="card bg-white sign-in">
+                <div class="bg-white sign-in">   <!--.card --> 
                     <div *ngIf="!isOtpLogin">
                         <ng-template #userType>
                             <app-user-type-confirmation (userTypeSelected)="onSelectingUserType($event)"></app-user-type-confirmation>
