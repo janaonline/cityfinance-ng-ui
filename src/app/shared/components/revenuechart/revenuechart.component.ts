@@ -243,8 +243,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
-<<<<<<< HEAD
-=======
   //  debugger
     // let option = this.ChartOptions;
     let option = {
@@ -262,7 +260,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       },
 
     }
->>>>>>> 48364e2a00a32a6e7090ac9c2dd533c0d275dd12
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
     else
