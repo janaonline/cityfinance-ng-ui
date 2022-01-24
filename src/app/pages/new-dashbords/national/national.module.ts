@@ -9,13 +9,17 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { DataAvailableComponent } from './data-available/data-available.component';
+import { NationalResourcesComponent } from './national-resources/national-resources.component';
 
 
 @NgModule({
   declarations: [
     NationalComponent,
     TabAboutFilterComponent,
-    NationalSubComponent
+    NationalSubComponent,
+    DataAvailableComponent,
+    NationalResourcesComponent
   ],
   imports: [
     CommonModule,
