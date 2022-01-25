@@ -3,13 +3,13 @@
         <!-- class="align-items-center d-flex flex-wrap"  overall-container classes-->
         <div class="overall-container d-flex">
             <div class="col-xs-12 col-sm-12 col-md-6">
-                <div class="bg-white sign-in">   <!--.card --> 
+                <div class="bg-white card sign-in">
                     <div *ngIf="!isOtpLogin">
                         <ng-template #userType>
                             <app-user-type-confirmation (userTypeSelected)="onSelectingUserType($event)"></app-user-type-confirmation>
                         </ng-template>
-                        <div class="card-body border" *ngIf="selectedUserType; else userType">
-                            <h5 class="text-center"><b>Sign In</b></h5>
+                        <div class="card-body" *ngIf="selectedUserType; else userType">
+                            <h5 class="text-center formTitle"><b>Sign In</b></h5>
                             <form [formGroup]="loginForm" (ngSubmit)="login()">
                                 <mat-form-field appearance="outline">
                                     <mat-label>{{ loginSet.loginName }}</mat-label>
