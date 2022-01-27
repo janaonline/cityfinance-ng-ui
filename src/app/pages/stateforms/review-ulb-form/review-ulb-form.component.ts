@@ -45,6 +45,7 @@ export class ReviewUlbFormComponent implements OnInit {
   errMessage = '';
   showLoader = false;
   actBtn = false;
+  state_id;
   constructor(
     public ulbService: UlbadminServiceService,
     public _stateformsService: StateformsService,
@@ -61,6 +62,7 @@ export class ReviewUlbFormComponent implements OnInit {
   status_s = new FormControl('');
   historyData;
   ngOnInit() {
+    this.state_id = sessionStorage.getItem("state_id")
     this.showLoader = true;
     this.loadData();
     if (this.loggedInUserType !== USER_TYPE.STATE) {
@@ -109,7 +111,7 @@ export class ReviewUlbFormComponent implements OnInit {
     this.ua_name_s.patchValue("")
     this.status_s.patchValue("")
 
-    this._stateformsService.getUlbReview()
+    this._stateformsService.getUlbReview(this.state_id)
       .subscribe((res) => {
         console.log('profile', res);
         let resData: any = res
