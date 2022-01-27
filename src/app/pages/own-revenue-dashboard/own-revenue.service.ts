@@ -21,11 +21,24 @@ export class OwnRevenueService {
 
   
   displayBarChartData(body: any){
-    return this.httpClient.get(
-      `${environment.api.url}LineItem`, body
-  )
+    return this.httpClient.post(`${environment.api.url}topPerformance`, body);
 }
 
+getULBTypeList() {
+  return this.httpClient.get(
+    `${environment.api.url}UlbType`
+  );
+}
+
+getPieChartData(body){
+  return this.httpClient.post(`${environment.api.url}chart-data`, body);
+}
+getCardsData(body){
+  return this.httpClient.post(`${environment.api.url}cards-data`, body);
+}
+getTableData(body){
+  return this.httpClient.post(`${environment.api.url}table-data`, body);
+}
 }
 
 // {{url}}/LineItem

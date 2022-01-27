@@ -29,8 +29,8 @@
 
 <div class="container threeBtnContainer" *ngIf="displayButtons">
     <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
-    <button class="btn btn-outline btn-sm btnDT">Digital Tooklit</button>
-    <button class="btn btn-outline btn-sm btnBP">Best Practices</button>
+    <button class="btn btn-outline btn-sm btnDT" [routerLink]="['/resources-dashboard/learning-center/toolkits/score-performance']" routerLinkActive="router-link-active"  >Digital Tooklit</button>
+    <button class="btn btn-outline btn-sm btnBP" [routerLink]="['/resources-dashboard/learning-center/bestPractices']" routerLinkActive="router-link-active" >Best Practices</button>
 </div>
 
 
@@ -59,44 +59,51 @@
     <!-- <div class="container rounded filters-container py-3">
     <app-filter-component></app-filter-component>
   </div> -->
-    <div class="container rounded filters-container py-3">
-        <div class="row">
-            <a (click)="oepnFilter()" class="text-decoration-none fil-btn">
-                <h5 class="text-center d-flex justify-content-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
-           <path d="M0 0h24v24H0V0z" fill="none"/>
-           <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
-          </svg> Filter by
-                </h5>
-            </a>
-            <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
-                <div class="col-md-10 d-flex justify-content-between">
-                    <select class="form-select filter">
-            <option selected>State</option>
-          </select>
-                    <select class="form-select filter">
-            <option selected>Mumbai</option>
-          </select>
-                    <select class="form-select filter">
-            <option selected>ULB Type</option>
-          </select>
-                    <select class="form-select filter">
-            <option selected>ULB Population Category</option>
-          </select>
-                    <select class="form-select filter">
-            <option selected>2020-2021</option>
-          </select>
-                </div>
-                <div class="col-md-2 col col-sm d-flex justify-content-end">
-                    <button class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
-            Clear All
-            <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
-                 alt="cancel_off_icon">
-          </button>
-                </div>
-            </div>
-        </div>
-    </div>
+  <form [formGroup]="filterGroup" >
+      <div class="container rounded filters-container py-3">
+          <div class="row">
+              <a (click)="openFilter()" class="text-decoration-none fil-btn">
+                  <h5 class="text-center d-flex justify-content-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
+             <path d="M0 0h24v24H0V0z" fill="none"/>
+             <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+            </svg> Filter by
+                  </h5>
+              </a>
+              <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
+                  <div class="col-md-10 d-flex justify-content-between">
+                      <select formControlName="stateId" class="form-select filter">
+              <option selected>State Name</option>
+              <option *ngFor="let state of stateIds | keyvalue" [value]="state.key" >{{state.value}}</option>
+            </select>
+                      <select formControlName="ulb" class="form-select filter">
+              <option selected>Ulb Name</option>
+              <option *ngFor="let ulb of ulbList | keyvalue" [value]="ulb.value._id">{{ulb.value.name}}</option>
+            </select>
+                      <select formControlName="ulbType" class="form-select filter">
+              <option selected>Ulb Type</option>
+              <option *ngFor="let ulbType of ulbTypeList" [value]="ulbType._id">{{ulbType.name}}</option>
+            </select>
+                      <select formControlName="populationCategory" class="form-select filter">
+              <option selected>Ulb Population Category</option>
+              <option *ngFor="let category of populationCategoryList">{{category}}</option>
+            </select>
+                      <select formControlName="financialYear" class="form-select filter">
+              <option >Year</option>
+              <option *ngFor="let year of yearList" [value]="year">{{year}}</option>
+            </select>
+                  </div>
+                  <div class="col-md-2 col col-sm d-flex justify-content-end">
+                      <button (click)="clearFilter()" class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters">
+              Clear All
+              <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+                   alt="cancel_off_icon">
+            </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>
     <!-- Data Availability section starts -->
     <div class="container data-availability rounded">
         <div class="row">
@@ -148,8 +155,8 @@
     <!-- Full doughnut chart section -->
     <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
         <app-revenuechart class="" [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle"
+        [ChartOptions]="doughnutChartOptions"
         >
-        <!-- [ChartOptions]="doughnutChartOptions" -->
         </app-revenuechart>
     </div>
     <div class="container revenue-stocks-container">
@@ -163,7 +170,7 @@
             </div>
             <div class="col-md-10">
                 <div class="row mx-0">
-                    <div class="col-lg-3 col-md-6 col-6" *ngFor="let cardItem of cardData;">
+                    <div class="col-md-6 col-6" [ngClass]="{'col-lg-3': ownTab,'col-lg-4':proTab}" *ngFor="let cardItem of cardData;">
                         <app-shared-card class="rc-cont" [data]="cardItem">
                         </app-shared-card>
                     </div>
@@ -176,19 +183,19 @@
             <table style="border-radius: 10px;" class="table styletable">
                 <thead>
                     <tr class="scrollme scrollableTH">
-                        <th class="col-attr" [class]="'th'+i" scope="col" *ngFor="let attribute of columnAttribute;
+                        <th class="col-attr " [class]="'th'+i" scope="col" *ngFor="let attribute of columnAttribute;
                 let i = index;">
                             {{attribute.title}}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="scrollme scrollableTB" *ngFor="let user of users">
+                    <tr class="scrollme scrollableTB text-center" *ngFor="let user of users">
                         <td>{{user.name}}</td>
-                        <td>{{user.username}}</td>
-                        <td>{{user.email}}</td>
-                        <td>{{user.username}}</td>
-                        <td>{{user.email}}</td>
+                        <td>{{user.averageRevenue}}</td>
+                        <td>{{user.perCapita}}</td>
+                        <td *ngIf="ownTab">{{user.meetsRevenue}}%</td>
+                        <td>{{user.avgRevenueMeet}}%</td>
                     </tr>
                 </tbody>
             </table>
@@ -238,7 +245,7 @@
         <p class="barChartSubTitle text-center">
             Top 10 performing ULBs in the country in property tax per capita can be viewed below.
         </p>
-        <app-revenuechart class="rounded" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
+        <app-revenuechart class="rounded" (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
         [ChartOptions]="barChartOptions"
         >
         </app-revenuechart>
