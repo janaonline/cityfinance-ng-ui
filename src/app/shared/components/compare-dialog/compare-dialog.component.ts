@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
+  Input,
 } from "@angular/core";
 import { COMMA, ENTER, T } from "@angular/cdk/keycodes";
 import { FormControl } from "@angular/forms";
@@ -12,6 +13,7 @@ import { MatChipInputEvent } from "@angular/material/chips";
 import { Observable } from "rxjs";
 import { CommonService } from "../../services/common.service";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 export interface Fruit {
   name: string;
@@ -26,7 +28,19 @@ export class CompareDialogComponent implements OnInit {
   filteredFruits: Observable<string[]>;
 
   @ViewChild("chipInput") chipInput: ElementRef<HTMLInputElement>;
-  constructor(private commonService: CommonService) {}
+
+  stateChipList: any = [];
+
+  constructor(
+    private commonService: CommonService,
+    private matSnackBar: MatSnackBar
+  ) {
+    let ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
+    for (const key in ulbList) {
+      const element = ulbList[key];
+      this.stateList.push({ ...element });
+    }
+  }
 
   @Output()
   closeDialog = new EventEmitter();
@@ -35,21 +49,19 @@ export class CompareDialogComponent implements OnInit {
   compareValue = new EventEmitter();
 
   @Output()
+  ownRevenueCompValue = new EventEmitter();
+
+  @Output()
   ulbValues = new EventEmitter();
 
   @Output()
   ulbValueList = new EventEmitter();
 
   States = new FormControl();
-  stateList: string[] = [
-    "Extra cheese",
-    "Mushroom",
-    "Onion",
-    "Pepperoni",
-    "Sausage",
-    "Tomato",
-  ];
 
+  stateList = [];
+
+  @Input()
   type = 1;
 
   filterList = [
@@ -61,27 +73,64 @@ export class CompareDialogComponent implements OnInit {
     "Similar Population ULBs",
   ];
 
-  parameters: string[] = ["one", "two", "three"];
+  @Input()
+  parameters: string[] = [];
 
   ulbListChip: { name: string; _id: string }[] = [];
 
   ulbIds: any;
+
+  valuesToEmit;
+
+  lineItems = ["11001", "130", "140", "150", "180", "110"];
+
+  noDataFound = false;
+  filteredOptions = [];
+  searchField = new FormControl();
+  selectedParameter = new FormControl();
+
+  selectedStateValue(event: any) {
+    if (this.stateChipList.length == 10) {
+      this.matSnackBar.open(`Max 10 states can be selected!`, null, {
+        duration: 6600,
+      });
+      return;
+    }
+    event.value.map((element) => {
+      this.stateChipList.push(element);
+      this.stateChipList = [...new Set(this.stateChipList)];
+    });
+  }
+  removeStateChips(chips: { _id: string; name: string }): void {
+    const index = this.stateChipList.indexOf(chips);
+    if (index >= 0) {
+      this.stateChipList.splice(index, 1);
+    }
+  }
 
   ngOnInit(): void {
     this.searchField.valueChanges.subscribe((value) => {
       console.log(value);
       if (value) this.search(value);
     });
-  }
 
-  noDataFound = false;
-  filteredOptions = [];
+    if (this.type == 2) {
+      this.commonService.getLineItems().subscribe(
+        (res) => {
+          console.log(res, "Lineitems");
+
+          this.parameters = res["data"].filter((value) =>
+            this.lineItems.includes(value.code)
+          );
+        },
+        (err) => {}
+      );
+    }
+  }
 
   close() {
     this.closeDialog.emit(true);
   }
-
-  searchField = new FormControl();
 
   search(matchingWord) {
     let body = {
@@ -112,9 +161,6 @@ export class CompareDialogComponent implements OnInit {
       fruit.toLowerCase().includes(filterValue)
     );
   }
-
-  valuesToEmit;
-
   radioSelected(event) {
     console.log(event.target.value);
     this.valuesToEmit = event.target.value;
@@ -147,9 +193,17 @@ export class CompareDialogComponent implements OnInit {
   }
 
   emitValues() {
-    this.compareValue.emit(this.valuesToEmit);
-    this.ulbValues.emit(this.ulbIds);
-    this.ulbValueList.emit(this.ulbListChip);
+    if (this.type == 2) {
+      this.valuesToEmit = { stateIds: [], revenueId: "", revenueName: "" };
+      this.valuesToEmit.stateIds = this.stateChipList.map((value) => value._id);
+      this.valuesToEmit.revenueId = this.selectedParameter.value._id;
+      this.valuesToEmit.revenueName = this.selectedParameter.value.name;
+      this.ownRevenueCompValue.emit(this.valuesToEmit);
+    } else {
+      this.compareValue.emit(this.valuesToEmit);
+      this.ulbValues.emit(this.ulbIds);
+      this.ulbValueList.emit(this.ulbListChip);
+    }
     this.close();
   }
 }
