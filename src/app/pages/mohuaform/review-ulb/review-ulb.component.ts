@@ -36,6 +36,7 @@ export class ReviewUlbComponent implements OnInit {
   nodataFound = false;
   errMessage = "";
   showLoader = false;
+  state_id
   constructor(
     public reviewUlbService: ReviewUlbService,
     public ulbService: UlbadminServiceService,
@@ -54,6 +55,7 @@ export class ReviewUlbComponent implements OnInit {
   states;
   ngOnInit() {
     this.showLoader = true;
+    this.state_id = sessionStorage.getItem("state_id")
     this.states = JSON.parse(sessionStorage.getItem("statesData"))
     this.loadData();
     console.log('user', this.loggedInUser);
@@ -87,7 +89,7 @@ export class ReviewUlbComponent implements OnInit {
     this.dialog.closeAll();
   }
   loadData() {
-    this._stateformsService.getUlbReview().subscribe(
+    this._stateformsService.getUlbReview("").subscribe(
       (res) => {
         console.log("profile", res);
         let resData: any = res;

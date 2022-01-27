@@ -24,6 +24,7 @@ export class ReviewUlbFormComponent implements OnInit {
   loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
+  state_id;
   takeStateAction = 'false';
   tableDefaultOptions = {
     itemPerPage: 10,
@@ -45,7 +46,7 @@ export class ReviewUlbFormComponent implements OnInit {
   errMessage = '';
   showLoader = false;
   actBtn = false;
-  state_id;
+  
   constructor(
     public ulbService: UlbadminServiceService,
     public _stateformsService: StateformsService,
@@ -62,7 +63,7 @@ export class ReviewUlbFormComponent implements OnInit {
   status_s = new FormControl('');
   historyData;
   ngOnInit() {
-    this.state_id = sessionStorage.getItem("state_id")
+ this.state_id = sessionStorage.getItem("state_id")
     this.showLoader = true;
     this.loadData();
     if (this.loggedInUserType !== USER_TYPE.STATE) {
