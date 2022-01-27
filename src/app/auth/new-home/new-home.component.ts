@@ -95,7 +95,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Analyze and compare the financial performance of cities',
       icon: '../../../assets/new_dashBord_ftr_hdr/perf.svg',
       hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/dashboard/national'
     },
     {
       title: '',
