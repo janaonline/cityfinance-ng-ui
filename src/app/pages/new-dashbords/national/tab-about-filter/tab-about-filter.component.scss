@@ -27,6 +27,11 @@ li>a.active:active {
     color: #fff;
 }
 
+.popActive {
+    background-color: #E67E15 !important;
+    color: #fff;
+}
+
 .nav-pills .nav-link {
     background: none;
     border: 0;
@@ -119,4 +124,62 @@ li>a.active:active {
 .btnTableView:last-child {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
+}
+
+.table {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.table> :not(:first-child) {
+    border-top: none;
+}
+
+thead>tr>th {
+    border-right: 1px solid #E4E4E4;
+    background: #F7F9FF 0% 0% no-repeat padding-box;
+    font: normal normal 600 14px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.table>tbody>tr:first-child {
+    border-right: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+    background: #FFFFFF;
+    font: normal normal 600 14px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.table>tbody>tr>td {
+    border: none;
+    border-right: 1px solid #E4E4E4;
+    font: normal normal 500 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40
+}
+
+th,
+td {
+    padding: 15px 20px !important;
+}
+
+.tb-active {
+    background: #0B3C8B 0% 0% no-repeat padding-box;
+    color: #fff;
+}
+
+.tb_svg {
+    fill: #6E7281;
+}
+
+.tb_svg-ac {
+    fill: #fff;
+}
+
+.barCon {
+    background: #FFFBEF 0% 0% no-repeat padding-box;
+    border-radius: 12px;
 }
