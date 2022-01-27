@@ -128,15 +128,23 @@
     <div class="row m-0">
         <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
             <div class="card-body barCon">
-                <div class="w-75 m-auto h-auto">
+                <div class="w-75 m-auto h-75">
                     <h3 class="chart-l text-center">National</h3>
-                    <canvas id="doughnut" style="width: 70vw; height: 70vh;"></canvas>
+                    <canvas id="doughnut" style="width: 80vw; height: 80vh;"></canvas>
                 </div>
-                <div class="row mx-auto">
-                    <div class="col-6 col-sm-6 col-md-5 col-lg-4 mb-4" *ngFor="let chart of doughnutArray; let i = index">
+                <div class="row mx-auto justify-content-center">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let chart of doughnutArray; let i = index">
                         <h3 class="chart-l text-center">{{chart.title}}</h3>
-                        <canvas id="mychart{{i}}" style="width: 100%; height: 100%;" #mycharts>{{mixRDoughnutPopulationCategory.chart}}</canvas>
+                        <canvas id="mychart{{i}}" style="width: 200px; height: 200px;" #mycharts>{{mixRDoughnutPopulationCategory.chart}}</canvas>
                     </div>
+                </div>
+                <div class="legends">
+                    <ul style="display: flex; padding: 0px; align-items: flex-start; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+                        <li *ngFor="let item of doughnutLabels" style="display: flex; align-items: center; padding: 0.6rem;">
+                            <div style="width: 30px; height: 16px; display: inline-block;" [style.background-color]="item.color"></div>
+                            <span class="ps-2">{{item.name}}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -31,6 +31,33 @@ export class NationalSubComponent implements OnInit {
   tableView = true;
   graphView = false;
   barChartsLabels;
+  doughnutLabels = [
+    {
+     name: 'Own Revenue',
+     color: '#1E44AD',
+    },
+    {
+     name: 'Assigned Revenue',
+     color: '#25C7CE',
+    },
+    {
+     name: 'Grants',
+     color: '#585FFF',
+    },
+    {
+     name: 'Interest Income',
+     color: '#FFD72E',
+    },
+    {
+     name: 'Other Income',
+     color: '#22A2FF',
+    },
+    {
+     name: 'State & Hire Charges',
+     color: '#FF608B'
+    },
+
+  ]
   yearLookup = [
     { id: "2018-19", itemName: "2018-19" },
     { id: "2019-20", itemName: "2019-20" },
@@ -127,12 +154,15 @@ export class NationalSubComponent implements OnInit {
   }
   subFilterFn(type) {
 
+    this.doughnutArray = [];
     if(type == 'popCat'){
       this.popBtn = true;
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
+     if(!this.totalRevenue){
+        this.dynamicDoughnutChartInit(this.doughnutArray);
+      }
       if(this.totalRevenue){
       this.barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
-
       if(this.graphView){
         this.barChartInit();
       }
@@ -230,6 +260,9 @@ export class NationalSubComponent implements OnInit {
     if(type == 'ulbType'){
       this.popBtn = false;
       this.doughnutArray = this.mixRDoughnutUlbType;
+      if(!this.totalRevenue){
+      this.dynamicDoughnutChartInit(this.doughnutArray);
+     }
       if(this.totalRevenue){
       this.barChartsLabels = ['Municipal Corporation', 'Municipality', 'Town Panchayat'];
       if(this.graphView){
@@ -422,7 +455,8 @@ export class NationalSubComponent implements OnInit {
       },
       options: {
         legend: {
-          position: 'bottom'
+         // position: 'bottom'
+         display: false
         },
       }
     });
