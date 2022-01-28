@@ -8,7 +8,7 @@ import { OwnRevenueDashboardComponent } from './own-revenue-dashboard.component'
 import { SharedModule } from '../../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { ResourcesDashboardModule } from '../resources-dashboard/resources-dashboard.module';
-
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
@@ -18,7 +18,9 @@ import { ResourcesDashboardModule } from '../resources-dashboard/resources-dashb
     SharedModule,
     MatTableModule,
     ResourcesDashboardModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
-export class OwnRevenueDashboardModule { }
+export class OwnRevenueDashboardModule {}
