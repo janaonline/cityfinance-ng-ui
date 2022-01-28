@@ -27,7 +27,7 @@
     </h4>
 </div>
 </div> -->
-<div class="container-fluid">
+<div class="container-fluid mainContainer">
     <div class="row header1">
         <div>
             {{headertext}}
@@ -71,7 +71,7 @@
        'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
 
                                     <img [src]="slide.image" height="22" width="27" />
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding: 0.2rem 0.2rem !important">
 
                                         <h5 class="card-title"> {{slide['title']}}</h5>
 
@@ -111,8 +111,7 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
 'linear-gradient(#9D198B, #4F0D46)' : 'linear-gradient(#73C557, #3A632C)' }">
 
                                     <img [src]="slide.image" height="22" width="27" />
-                                    <div class="card-body">
-
+                                    <div >  <!-- class="card-body" -->
                                         <h5 class="card-title"> {{slide['title']}} </h5>
 
                                     </div>
@@ -215,7 +214,7 @@ index == 4 ? 'linear-gradient(#FDCB2E, #7F6617)': index == 5 ? 'linear-gradient(
         <div class="col-sm-6 co-lg-6 col-md-6" style="padding: 0;">
             <button class="btn backButton" routerLink="/fc-home-page">BACK</button>
         </div>
-        <div class="col-sm-6 co-lg-6 col-md-6 text-right" style="padding-right: 27px">
+        <div class="col-sm-6 co-lg-6 col-md-6 text-end" style="padding-right: 27px">
             <button class="btn save" [routerLink]="[ '../grant-tra-certi']">NEXT</button>
         </div>
     </div>

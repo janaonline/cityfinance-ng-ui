@@ -2,7 +2,7 @@
     <div class="col-sm-8 col-lg-8 col-md-8 header2">
         <span>Annual Accounts</span>
     </div>
-    <div class="col-sm-4 col-lg-4 col-md-4  text-right">
+    <div class="col-sm-4 col-lg-4 col-md-4  text-end">
         <button type="button" class="btn  pr-btn" style="margin-top: 1rem;" id="prevBtn"
             (click)="clickedPreview(templateAnnual)">PREVIEW</button>
     </div>
@@ -10,8 +10,8 @@
 
 
 <div class="row">
-    <div id="checkboxes" class="col-sm-12">
-        <div class="col-sm-6 p-0">
+    <div id="checkboxes" class="d-flex col-sm-12 col-md-12 col-lg-12">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')" [checked]="true" />
             <label class="col-sm-6 square header1 text-center" for="r1">
                 <span style="vertical-align: sub;">
@@ -20,7 +20,7 @@
                 </span>
             </label>
         </div>
-        <div class="col-sm-6" style="padding-right: 0;">
+        <div class="col-sm-6 col-md-6 col-lg-6">
             <input type="radio" name="rGroup" value="2" id="r2" (change)="changeAudit('Audited')" />
             <label class="col-sm-6 square header1 text-center" for="r2">
                 <span style="vertical-align: sub;">
