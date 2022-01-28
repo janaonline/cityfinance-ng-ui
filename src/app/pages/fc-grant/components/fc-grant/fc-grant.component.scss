@@ -91,6 +91,18 @@
       font-size: 14px;
     }
   }
+
+  .list-inline > li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 0px;
+  }
+  .pdfLink {
+    text-decoration: none;
+  }
+  .pdfLink:hover {
+    text-decoration: underline;
+  }
   .flex-wrap {
     flex-wrap: wrap;
   }
@@ -218,9 +230,9 @@ div#msform {
   .container-fluid {
     height: 88vh;
   }
-  .image-side {
-    margin-top: 5rem;
-  }
+  // .image-side {
+  //   margin-top: 5rem;
+  // }
 }
 
 @media only screen and (min-width: 300px) and (max-width: 1024px) {
