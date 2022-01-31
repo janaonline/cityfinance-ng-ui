@@ -11,7 +11,7 @@
 
 <div class="row">
     <div id="checkboxes" class="d-flex col-sm-12 col-md-12 col-lg-12">
-        <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="col-sm-6 pr-1 col-md-6 col-lg-6">
             <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')" [checked]="true" />
             <label class="col-sm-6 square header1 text-center" for="r1">
                 <span style="vertical-align: sub;">
@@ -20,7 +20,7 @@
                 </span>
             </label>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="col-sm-6 pl-1 col-md-6 col-lg-6">
             <input type="radio" name="rGroup" value="2" id="r2" (change)="changeAudit('Audited')" />
             <label class="col-sm-6 square header1 text-center" for="r2">
                 <span style="vertical-align: sub;">
@@ -34,7 +34,7 @@
 
     <div *ngIf="audit_status == 'Unaudited'">
         <div class="col-sm-12 mat-card card-body">
-            <div class="mat-card-content" style="margin-top: 2rem;">
+            <div class="mat-card-content">
                 <div [ngClass]="{'col-sm-6 quesLine': data.unAudited.submit_annual_accounts}">
                     <span class="quesIn"><b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?<span
                                 style="color: red;">*</span>
@@ -465,10 +465,10 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 footerBtnDiv">
+    <div class="col-lg-12 col-md-12 col-sm-12 d-flex footerBtnDiv">
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 3px;">
             <button type="button" [routerLink]="['/ulbform/utilisation-report']" (click)="clickedBack = true"
-                routerLinkActive="router-link-active" class="btn btn-secondary backbtn">BACK</button>
+                routerLinkActive="router-link-active" class="btn backbtn">BACK</button>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
             <button type="button" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1)"

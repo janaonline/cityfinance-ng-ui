@@ -814,11 +814,11 @@
 </div>
 
 
-<div class="col-sm-12 footerBtnDiv" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
+<div class="col-sm-12 footerBtnDiv d-flex" *ngIf="loggedInUserDetails.role === USER_TYPE.ULB" style="padding: 0;">
   <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 0;">
-    <a type="button" class="btn btn-secondary backbtn" [routerLink]="['../annual_acc']">BACK</a>
+    <a type="button" class="btn backbtn" [routerLink]="['../annual_acc']">BACK</a>
   </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 text-right" style="padding-right: 0;">
+  <div class="col-lg-6 col-md-6 col-sm-6 text-end" style="padding-right: 0;">
     <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
     <!--  -->
     <button type="button" class="btn footerBtn" id="saveNext" (click)="saveNext(template1)">SAVE</button>
