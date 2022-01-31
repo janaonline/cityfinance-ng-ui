@@ -31,7 +31,9 @@ $value in $text-sizes {
         justify-content: center;
     }
 }
-
+.textIcon {
+cursor:pointer;
+}
 .btn-login {
     background: $secondary;
     color: $white;
@@ -57,3 +59,7 @@ $value in $text-sizes {
 .navbar {
     padding-bottom: 0;
 }
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed; 
+ }

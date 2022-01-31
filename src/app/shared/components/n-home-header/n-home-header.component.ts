@@ -8,8 +8,18 @@ import { Component, OnInit } from '@angular/core';
 export class NHomeHeaderComponent implements OnInit {
 
   constructor() { }
-
+size
   ngOnInit(): void {
   }
-
+setFontSize(size){
+  console.log(size)
+  this.size= size
+}
+  scroll(){
+    window.scrollTo({
+      top: 1000,
+     
+      behavior: 'smooth'
+    });
+  }
 }
