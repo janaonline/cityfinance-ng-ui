@@ -3,10 +3,10 @@
     else showLoader
   ">
   <div class="container-fluid" *ngIf="!(isULBProfileCompleted === false)">
-    <div class="align-items-center d-flex flex-wrap">
-      <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="d-flex flex-wrap justify-content-center align-items-center">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding: 0.5rem 2rem 0 0.5rem;">
         <div class="pr-lg-4">
-          <h3 style="color: white; font-size: 3rem;">
+          <h3 style="color: white; font-size: 30px;">
             15th Finance Commission<br /> Grants Management System
           </h3>
           <!-- <p>
@@ -32,46 +32,47 @@
         </div>
         <br />
         <p class="text-white">Reference Documents:-</p>
-        <ul class="list-group list-inline d-none">
+        <ul class="list-group list-inline">
           <li>
-            <a href="../../../../../assets/files/ULB Nodal Officers Manual for Claiming XV FC ULB Grants Oct 2021.pdf"
+            <a class="pdfLink" href="../../../../../assets/files/ULB Nodal Officers Manual for Claiming XV FC ULB Grants Oct 2021.pdf"
               target="_blank">
               <i class="fa fa-circle" aria-hidden="true"></i> ULB Nodal Officers Manual for Claiming XV FC ULB Grants
               for 2021-22
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/State Nodal Officers Manual for Claiming XV FC ULB Grants Oct 2021.pdf"
+            <a class="pdfLink" href="../../../../../assets/files/State Nodal Officers Manual for Claiming XV FC ULB Grants Oct 2021.pdf"
               target="_blank">
               <i class="fa fa-circle" aria-hidden="true"></i> State Nodal Officers Manual for Claiming XV FC ULB Grants
               for 2021-22
             </a>
           </li>
 
-          <li>
-            <a href="../../../../../assets/files/XVFC VOL I Main Report 2021-26.pdf" target="_blank">
+          <li style="display:inline-block;">
+            <a class="pdfLink" href="../../../../../assets/files/XVFC VOL I Main Report 2021-26.pdf" target="_blank">
               <i class="fa fa-circle" aria-hidden="true"></i> XV-FC VOL I Main Report 2021-26
             </a>
           </li>
-          <li>
-            <a href="../../../../../assets/files/XV-FC -VOL II Annexes.pdf" target="_blank">
+
+          <li style="display:inline-block;">
+            <a class="pdfLink" href="../../../../../assets/files/XV-FC -VOL II Annexes.pdf" target="_blank">
               <i class="fa fa-circle" aria-hidden="true"></i> XV-FC -VOL II Annexes
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf" target="_blank">
+            <a class="pdfLink" href="../../../../../assets/files/XV FC Marking Scheme Guidelines.pdf" target="_blank">
               <i class="fa fa-circle" aria-hidden="true"></i> MoHUA Marking Scheme
             </a>
           </li>
           <li>
-            <a href="../../../../../assets/files/FC-XV recommended Urban Local Body Final Operational Guidelines for 2021-26.pdf"
+            <a class="pdfLink" href="../../../../../assets/files/FC-XV recommended Urban Local Body Final Operational Guidelines for 2021-26.pdf"
               target="_blank">
               <i class="fa fa-circle" aria-hidden="true"></i> XV-FC recommended Urban Local Body Final Operational
               Guidelines for 2021-26</a>
           </li>
         </ul>
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-6 text-center image-side">
+      </div>  
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-center image-side">
         <div *ngIf="!loggedInUserType">
           <div class="img-wrapper text-center">
             <img src="../assets/images/Group 13309-compressed.png" class="img-responsive m-auto" alt="Back img 2" />

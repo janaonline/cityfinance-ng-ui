@@ -6,10 +6,10 @@
                 <span class="text-10px">MINISTRY OF HOUSING AND URBAN AFFAIRS | GOVERNMENT OF INDIA</span>
             </div>
             <div class="col-sm-6 text-end">
-                <span class="text-12px me-2"><a href="#" class="text-decoration-none text-secondary">Skip To Main Content</a> </span>
-                <span class="text-tiny">A</span>
-                <span class="text-regular">A</span>
-                <span class="text-large">A</span>
+                <span class="text-12px me-2"><a (click)="scroll()" class="text-decoration-none text-secondary">Skip To Main Content</a> </span>
+                <span (click)="setFontSize('1')" class="text-tiny textIcon">A</span>
+                <span (click)="setFontSize('2')" class="text-regular textIcon">A</span>
+                <span (click)="setFontSize('3')" class="text-large textIcon">A</span>
             </div>
         </div>
     </div>
@@ -30,10 +30,10 @@
               Dashboard
             </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Financial</a></li>
-                        <li><a class="dropdown-item" routerLink="/own-revenue-dashboard">Own Revenue Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Service Level Benchmarks</a></li>
-                        <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li>
+                        <li><a class="dropdown-item" href="/dashboard/national">National Financial Dashboard</a></li>
+                        <li><a class="dropdown-item" href="/own-revenue-dashboard">Own Revenue Dashboard</a></li>
+                        <li><a class="dropdown-item" [class.disabled]="true" tooltip="Work In Progress" href="#">Service Level Benchmarks</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
                     </ul>
                 </li>
                 <li class="nav-item">

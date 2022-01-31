@@ -9,7 +9,7 @@
                     <!-- "['../fc-home-page']" -->
                     <h5 style="font-size: 14px;">
                         <div class="row">
-                            <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                            <div class="col-sm-1 col-xs-1" style="padding-right: 3px">
                                 <mat-icon aria-hidden="false">
                                     <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
                                 </mat-icon>
@@ -26,7 +26,7 @@
 
             <ul class="links " routerLinkActive="active">
 
-                <a routerLink="ulbform-overview">
+                <a routerLink="ulbform-overview" class="d-flex justify-content-start">
                     <div class="row">
                         <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
                             <mat-icon aria-hidden="false ">
@@ -91,7 +91,7 @@
             <ul class="links" *ngIf="eligibleForms['gtc']" routerLinkActive="active">
                 <div class="row">
 
-                    <a routerLink="grant-tra-certi">
+                    <a routerLink="grant-tra-certi" class="d-flex justify-content-between">
                         <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
                             <mat-icon aria-hidden="false ">
 
@@ -102,18 +102,33 @@
                         <div class="col-sm-9 col-xs-9" style="padding-right: 3px;">
                             Grant Transfer Certificate
                         </div>
+
+                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+
+                            <mat-icon
+                                *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB || userLoggedInDetails.role == userTypes.ADMIN"
+                                tooltip="No Submission Required" placement="right" class="pull-right" aria-hidden="false">
+                                <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
+                                <img src="../../../assets/ticks/info_black_24dp.svg">
+                            </mat-icon>
+                            <mat-icon
+                                *ngIf="userLoggedInDetails.role != userTypes.ULB && userLoggedInDetails.role != userTypes.ADMIN"
+                                tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
+                                <img src="../../../assets/ticks/info_black_24dp.svg">
+                            </mat-icon>
+                        </div>
                     </a>
 
 
                     <!-- <mat-icon *ngIf="allStatus" class="pull-right"  aria-hidden="false">
                     <img src="../../../assets/form-icon/checked.svg">
                 </mat-icon> -->
-                    <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                    <!-- <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
 
                         <mat-icon
                             *ngIf="allStatus && userLoggedInDetails.role == userTypes.ULB || userLoggedInDetails.role == userTypes.ADMIN"
                             tooltip="No Submission Required" placement="right" class="pull-right" aria-hidden="false">
-                            <!-- <img src="../../../assets/form-icon/cancel.svg"> -->
+                            <img src="../../../assets/form-icon/cancel.svg">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
                         <mat-icon
@@ -121,38 +136,39 @@
                             tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
                             <img src="../../../assets/ticks/info_black_24dp.svg">
                         </mat-icon>
-                    </div>
+                    </div> -->
                 </div>
             </ul>
             <ul class="links" *ngIf="eligibleForms['utilReport']" routerLinkActive="active">
                 <div class="row">
-                    <a routerLink="utilisation-report">
-                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                    <a routerLink="utilisation-report" class="d-flex justify-content-between">
+                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;"> 
                             <mat-icon aria-hidden="false ">
                                 <img src="../../../assets/ulbform/Icon awesome-file-alt.svg">
                             </mat-icon>
                         </div>
-                        <div class="col-sm-9 col-xs-9" style="padding-right: 3px;">
+                        <div class="col-sm-9 col-xs-9" style="padding-right: 3px;"> 
                             Detailed Utilisation Report
                         </div>
-                    </a>
-                    <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateC" placement="right">
-                            <img src="../../../assets/form-icon/checked.svg">
-                        </mat-icon>
-                        <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false"
-                            [tooltip]="tolTemplateN" placement="right">
-                            <img src="../../../assets/form-icon/cancel.svg">
-                        </mat-icon>
-                    </div>
 
+                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">  
+                            <mat-icon *ngIf="allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false"
+                                [tooltip]="tolTemplateC" placement="right">
+                                <img src="../../../assets/form-icon/checked.svg">
+                            </mat-icon>
+                            <mat-icon *ngIf="!allStatus.utilReport.isSubmit" class="pull-right" aria-hidden="false"
+                                [tooltip]="tolTemplateN" placement="right">
+                                <img src="../../../assets/form-icon/cancel.svg">
+                            </mat-icon>
+                        </div>
+                    </a>
+                    
                 </div>
             </ul>
             <ul class="links " routerLinkActive="active">
                 <div class="row">
 
-                    <a routerLink="annual_acc">
+                    <a routerLink="annual_acc" class="d-flex justify-content-between">
                         <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
                             <mat-icon aria-hidden="false">
                                 <img src="../../../assets/ulbform/Group 13493.svg">
@@ -161,33 +177,35 @@
                         <div class="col-sm-9 col-xs-9" style="padding-right: 3px;">
                             Annual Accounts
                         </div>
+
+                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                            <mat-icon
+                                *ngIf="(allStatus.annualAccounts.isSubmit) && userLoggedInDetails.role == userTypes.ULB"
+                                class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                                <img src="../../../assets/form-icon/checked.svg">
+                            </mat-icon>
+                            <mat-icon
+                                *ngIf="!allStatus.annualAccounts.isSubmit && userLoggedInDetails.role == userTypes.ULB"
+                                class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                                <img src="../../../assets/form-icon/cancel.svg">
+                            </mat-icon>
+                            <mat-icon *ngIf="userLoggedInDetails.role != userTypes.ULB && (annualStatus == 'N/A')"
+                                tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
+                                <img src="../../../assets/ticks/info_black_24dp.svg">
+                            </mat-icon>
+                            <mat-icon *ngIf="(allStatus.annualAccounts.isSubmit) &&
+                            userLoggedInDetails.role != userTypes.ULB && (annualStatus != 'N/A')" class="pull-right"
+                                aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                                <img src="../../../assets/form-icon/checked.svg">
+                            </mat-icon>
+                            <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit &&
+                          userLoggedInDetails.role != userTypes.ULB && (annualStatus != 'N/A')" class="pull-right"
+                                aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                                <img src="../../../assets/form-icon/cancel.svg">
+                            </mat-icon>
+                        </div>
                     </a>
-                    <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon
-                            *ngIf="(allStatus.annualAccounts.isSubmit) && userLoggedInDetails.role == userTypes.ULB"
-                            class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
-                            <img src="../../../assets/form-icon/checked.svg">
-                        </mat-icon>
-                        <mat-icon
-                            *ngIf="!allStatus.annualAccounts.isSubmit && userLoggedInDetails.role == userTypes.ULB"
-                            class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
-                            <img src="../../../assets/form-icon/cancel.svg">
-                        </mat-icon>
-                        <mat-icon *ngIf="userLoggedInDetails.role != userTypes.ULB && (annualStatus == 'N/A')"
-                            tooltip="No Action Requried" placement="right" class="pull-right" aria-hidden="false">
-                            <img src="../../../assets/ticks/info_black_24dp.svg">
-                        </mat-icon>
-                        <mat-icon *ngIf="(allStatus.annualAccounts.isSubmit) &&
-                        userLoggedInDetails.role != userTypes.ULB && (annualStatus != 'N/A')" class="pull-right"
-                            aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
-                            <img src="../../../assets/form-icon/checked.svg">
-                        </mat-icon>
-                        <mat-icon *ngIf="!allStatus.annualAccounts.isSubmit &&
-                      userLoggedInDetails.role != userTypes.ULB && (annualStatus != 'N/A')" class="pull-right"
-                            aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
-                            <img src="../../../assets/form-icon/cancel.svg">
-                        </mat-icon>
-                    </div>
+                 
                 </div>
             </ul>
 
@@ -211,7 +229,7 @@
                 <!-- <a routerLink="entry-list5 ">SLB's for Water Supply and Sanitation</a> -->
                 <div class="row" *ngIf="eligibleForms['slbWaterSupplySanitation']">
 
-                    <a routerLink="slbs">
+                    <a routerLink="slbs" class="d-flex justify-content-between">
                         <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
                             <mat-icon aria-hidden="false ">
                                 <img src="../../../assets/ulbform/Group 13409.svg">
@@ -220,18 +238,19 @@
                         <div class="col-sm-9 col-xs-9" style="padding-right: 3px;">
                             SLBs for Water Supply and Sanitation
                         </div>
+
+                        <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
+                            <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
+                                aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
+                                <img src="../../../assets/form-icon/checked.svg">
+                            </mat-icon>
+                            <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
+                                aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
+                                <img src="../../../assets/form-icon/cancel.svg">
+                            </mat-icon>
+                        </div>
                     </a>
 
-                    <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
-                        <mat-icon *ngIf="allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
-                            aria-hidden="false" [tooltip]="tolTemplateC" placement="right">
-                            <img src="../../../assets/form-icon/checked.svg">
-                        </mat-icon>
-                        <mat-icon *ngIf="!allStatus.slbForWaterSupplyAndSanitation.isSubmit" class="pull-right"
-                            aria-hidden="false" [tooltip]="tolTemplateN" placement="right">
-                            <img src="../../../assets/form-icon/cancel.svg">
-                        </mat-icon>
-                    </div>
                 </div>
 
 
@@ -256,7 +275,7 @@
             <ul class="links" routerLinkActive="active" *ngIf="eligibleForms['plansWaterSupplySanitation']">
                 <!-- *ngIf="(this.isUA =='Yes' && (this.isMillionPlus == 'Yes' || this.isMillionPlus == 'No' )) ||
             (this.isUA =='No' &&  this.isMillionPlus == 'No') " -->
-                <div class="row">
+                <div class="row">   
 
                     <a routerLink="water-sanitation">
                         <div class="col-sm-1 col-xs-1" style="padding-right: 3px;">
@@ -310,7 +329,7 @@
                 <div class="row">
                     <div class="col header1">
                         <h3 class="text-center" style="text-align: center; margin-bottom: 5px; font-weight: 600;
-                        " *ngIf="loggedInUserType !== userTypes.USER;">
+                        font-size: 1.5rem;" *ngIf="loggedInUserType !== userTypes.USER;">
                             <span *ngIf="loggedInUserType === userTypes.ULB">
                                 {{ userLoggedInDetails.name }},
                             </span>
@@ -334,7 +353,7 @@
         </h3> -->
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-2">
                     <router-outlet></router-outlet>
                 </div>
 
