@@ -7,14 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NHomeHeaderComponent implements OnInit {
 
-  constructor() { }
-size
+  constructor() {
+    
+  }
+  
+  textSize = ['sm','rg','lg']
+
   ngOnInit(): void {
   }
-setFontSize(size){
-  console.log(size)
-  this.size= size
-}
+
+  setFontSize(size){
+    // console.log(size)
+    // this.size= size;
+    let elem = document.body;
+
+    this.textSize.forEach(item => elem.classList.remove(item));
+    elem.classList.add(size);
+  }
   scroll(){
     window.scrollTo({
       top: 1000,

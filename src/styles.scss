@@ -209,6 +209,7 @@ body {
     // overflow-x: hidden;
 }
 
+
 // * {
 //   overflow: visible !important;
 // }
@@ -216,6 +217,13 @@ body {
     // overflow-y: auto;
     // min-height: 100vh;
     font-family: 'Archivo', sans-serif;
+
+    &.sm{
+        font-size: .6em;
+    }
+    &.lg{
+        font-size: 2em;
+    }
 }
 
 img {

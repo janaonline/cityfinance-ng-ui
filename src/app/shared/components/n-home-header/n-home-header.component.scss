@@ -10,7 +10,7 @@
 }
 
 // text sizes
-$text-sizes: ( "tiny": $font-size-base*.75, "regular": $font-size-base, "large": $font-size-base*1.25) !default;
+$text-sizes: ( "sm": $font-size-base*.75, "rg": $font-size-base, "lg": $font-size-base*1.25) !default;
 @each $size,
 $value in $text-sizes {
     body.text-#{$size} {
@@ -46,6 +46,13 @@ cursor:pointer;
         background: shade-color($secondary, 10);
         color: $white;
         border-color: shade-color($secondary, 10);
+    }
+    
+    @include media-breakpoint-down(sm){
+        font-size: $font-size-base*.625;
+        padding-left: $spacer*.5;
+        padding-right: $spacer*.5;
+
     }
 }
 
