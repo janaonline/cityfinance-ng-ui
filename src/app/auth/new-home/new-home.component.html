@@ -38,8 +38,8 @@
 
             </div>
             <div class="row rce-s-div mt-2">
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <span class="rec-text">Recently Searched: </span>
+                <div class="col-lg-3 col-md-4 col-sm-12" style="width: 18%;">
+                    <span class="rec-text">Top Searches: </span>
                 </div>
                 <div class="col-lg-9 col-md-8 col-sm-12">
                     <div class="ser-chip" *ngFor="let item of recentSearchArray">
@@ -78,8 +78,8 @@
             <div class="card-d">
                 <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
                     <div ngxSlickItem *ngFor="let item of whatNewData;" class="slide">
-                        <img [src]="item.image" alt="" width="90%" class="card-img">
-                        <p class="card-text new-card-l">{{item.label}}</p>
+                        <img [src]="item.imageUrl" alt="" width="90%" class="card-img">
+                        <a class="card-text new-card-l" href="{{item.downloadUrl}}" target="_blank">{{item.name}}</a>
                     </div>
                 </ngx-slick-carousel>
 
@@ -114,9 +114,9 @@
                             <div class="cd-s-head">
                                 {{cardItem.text}}
                             </div>
-                            <div class="hidden-text">
+                            <!-- <div class="hidden-text">
                                 {{cardItem.hiddenText}}
-                            </div>
+                            </div> -->
                             <div class="hidden-text btn-d">
                                 <button [routerLink]="cardItem.link" class="btn btn-view">Know More</button>
                             </div>

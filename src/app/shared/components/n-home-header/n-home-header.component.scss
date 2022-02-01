@@ -10,7 +10,7 @@
 }
 
 // text sizes
-$text-sizes: ( "tiny": $font-size-base*.75, "regular": $font-size-base, "large": $font-size-base*1.25) !default;
+$text-sizes: ( "sm": $font-size-base*.75, "rg": $font-size-base, "lg": $font-size-base*1.25) !default;
 @each $size,
 $value in $text-sizes {
     body.text-#{$size} {
@@ -31,7 +31,9 @@ $value in $text-sizes {
         justify-content: center;
     }
 }
-
+.textIcon {
+cursor:pointer;
+}
 .btn-login {
     background: $secondary;
     color: $white;
@@ -45,6 +47,13 @@ $value in $text-sizes {
         color: $white;
         border-color: shade-color($secondary, 10);
     }
+    
+    @include media-breakpoint-down(sm){
+        font-size: $font-size-base*.625;
+        padding-left: $spacer*.5;
+        padding-right: $spacer*.5;
+
+    }
 }
 
 .nav-link:hover,
@@ -57,3 +66,7 @@ $value in $text-sizes {
 .navbar {
     padding-bottom: 0;
 }
+a.disabled {
+    pointer-events: none;
+    cursor: not-allowed; 
+ }

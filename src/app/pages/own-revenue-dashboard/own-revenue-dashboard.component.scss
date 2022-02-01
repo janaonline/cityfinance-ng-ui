@@ -279,8 +279,14 @@ $font-Montserrat: "Montserrat";
     color: #6E7281;
 }
 
+// @media(max-width: 576px) {
+    
+// }
 .accContainer {
     margin-top: 2.5rem;
+    .accBg {
+        background-color:#F7F7F7;
+    }
     p {
         font-family: $font-archivo;
         font-size: 0.8rem;
@@ -425,10 +431,17 @@ $font-Montserrat: "Montserrat";
         .btn-ghost {
             margin-top: 1.2rem;
             margin-bottom: 0.8rem;
-            margin-left: 5%;
+            margin-left: 4.5rem;
             display: block;
         }
         // Semi-Doughnut chart End
+    }
+    .accBg {
+        display: flex;
+        flex-direction: column;
+    }
+    .chartExcelDataCont {
+        flex-direction: column;
     }
 }
 

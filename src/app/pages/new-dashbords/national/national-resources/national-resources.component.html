@@ -1,0 +1,17 @@
+<div class="container container-cnt">
+    <div class="row" style="margin: 1rem auto  1rem auto;">
+        <div class="col-sm-12" style="display: flex;">
+            <a *ngFor="let item of cardData">
+                <div class="card">
+                    <img [src]="item?.imgUrl" class="card-img-top" [alt]="item.label">
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{item?.label}}
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>

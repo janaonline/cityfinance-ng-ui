@@ -11,6 +11,9 @@
 .revenuChartContainer{
   margin-top: 1.8rem;
   padding-top: 2rem;
+  // @include media-breakpoint-down(sm){
+  //   flex-direction: column;
+  // }
 }
 .revenueChart {
   padding-top: 3rem;

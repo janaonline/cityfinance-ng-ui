@@ -176,18 +176,18 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   };
 
   @Input()
-  ChartOptions: {
-    maintainAspectRatio: false;
-    responsive: true;
+  ChartOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
     legend: {
-      position: "bottom";
+      position: "bottom",
       labels: {
         // usePointStyle: false,
-        padding: 35;
-        boxWidth: 24;
-        boxHeight: 18;
-      };
-    };
+        padding: 35,
+        boxWidth: 24,
+        boxHeight: 18,
+      },
+    },
   };
 
   @Input()
@@ -243,24 +243,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
-    // let option = this.ChartOptions;
-    let option = {
-      maintainAspectRatio: false,
-      responsive: true,
-      // borderRadius: 12,
-      legend: {
-        position: "bottom",
-        labels: {
-          usePointStyle: false,
-          padding: 35,
-          boxWidth: 13,
-          boxHeight: 15,
-        },
-      },
-    };
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-    Object.assign(this.chartData, { options: this.ChartOptions });
+    else Object.assign(this.chartData, { options: this.ChartOptions });
     const canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
     const ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, this.chartData);
@@ -294,6 +279,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   closeModal() {
     this.dialogRef.close();
+  }
+
+  ownRevenueCompValue(value) {
+    this.compareChange.emit(value);
   }
 
   getCompareCompValues(value) {

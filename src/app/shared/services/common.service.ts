@@ -573,4 +573,8 @@ export class CommonService {
   getChartDataByIndicator(body) {
     return this.http.post(`${environment.api.url}indicator`, body);
   }
+
+  getLineItems() {
+    return this.http.get(`${environment.api.url}LineItem`);
+  }
 }

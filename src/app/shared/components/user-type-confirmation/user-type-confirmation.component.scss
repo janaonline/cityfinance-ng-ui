@@ -1,3 +1,7 @@
+@import "./src/scss/functions";
+@import "./src/scss/variables";
+@import "./src/scss/mixins";
+
 :host {
   .container {
     display: flex;
@@ -16,7 +20,7 @@
     background: rgb(192, 192, 192);
     border-radius: 5%;
     position: relative;
-    font-size: 2rem;
+    font-size: 1.25rem;
 
     flex-direction: column;
     align-items: center;
@@ -31,7 +35,7 @@
     }
 
     i {
-      font-size: 6rem;
+      font-size: 3.7rem;
       transition: all 0.5s;
     }
   }
