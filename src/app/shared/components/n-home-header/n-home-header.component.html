@@ -14,7 +14,7 @@
         </div>
     </div>
 </section>
-<nav class="navbar navbar-expand-lg navbar-light bg-white ps-4 pe-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-white ps-4 pe-4 btmBdr">
     <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,8 +40,8 @@
                     <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a>
                 </li>
             </ul>
-            <div class="d-flex pb-1">
-                <a routerLinkActive="active" routerLink="/fc-home-page" class="btn btn-login">Login for 15th FC Grants</a>
+            <div class="d-flex pb-2">
+                <a routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{btnName}}</a>
             </div>
         </div>
     </div>
