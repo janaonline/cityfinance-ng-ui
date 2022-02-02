@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  AfterViewInit,
   Input,
   ViewChild,
   TemplateRef,
@@ -18,7 +19,7 @@ import { OwnRevenueService } from "./own-revenue.service";
   templateUrl: "./own-revenue-dashboard.component.html",
   styleUrls: ["./own-revenue-dashboard.component.scss"],
 })
-export class OwnRevenueDashboardComponent implements OnInit {
+export class OwnRevenueDashboardComponent implements OnInit, AfterViewInit {
   barChartCmpBtn = true;
   displayDoughnut: boolean = true;
   displayButtons: boolean = false;
@@ -40,6 +41,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
     }
     this.allCalls();
   }
+
+  isLoading: any = false; 
 
   @ViewChild("ownRevenueFiltersPopup")
   private ownRevenueFiltersPopup: TemplateRef<any>;
@@ -221,6 +224,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog
   ) {}
+  ngAfterViewInit(): void {
+    this.isLoading = true;
+    console.log("loader",this.isLoading)
+    throw new Error("Method not implemented.");
+  }
 
   ngOnInit(): void {
     this.filterGroup.valueChanges.subscribe((value) => {

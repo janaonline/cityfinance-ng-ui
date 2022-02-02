@@ -1,10 +1,10 @@
-<div class="row" style="margin-bottom: 1rem; margin-left: 15px; margin-right: 25px;">
+<div class="row" style="margin-left: 15px; margin-right: 25px;">
     <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
         <h4 class="form-header">
             Indicators for Water Supply and Sanitation
         </h4>
     </div>
-    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right" style="padding: 0;">
+    <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 d-flex justify-content-end align-items-center" style="padding: 0;">
         <button type="button" class="btn btn-pre" (click)="onPreview()">PREVIEW</button>
     </div>
 </div>
@@ -20,8 +20,8 @@
     </div> -->
 
 
-    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;">
-        <p>The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
+    <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10" style="padding: 0;font-size: 0.875rem;">
+        <p style="font-size: 0.75rem;">The below tables denotes the aggregate indicators and targets of ULBs in respective UA</p>
     </div>
     <!-- <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
         <button type="button" class="btn  btn-pre" (click)="onPreview()">PREVIEW</button>
@@ -31,16 +31,16 @@
     style="margin-left: 15px; margin-right: 25px; margin-bottom: 10px;">
     <!-- <div class="card" style="margin-bottom: 10px;  box-shadow: 0; border-radius: 0;">
         <div class="card-body"> -->
-    <div class="row" style=" padding-top: 0px">
+    <div class="row d-flex align-items-center" style=" padding-top: 0.313rem; padding-bottom: 0.313rem;">
         <div class="col-sm-9 col-xs-9 col-md-9 col-lg-9">
             <!-- Urban Aggolmeration {{uaDetails.name.split(' ')[0]}} -->
             <h5>UA{{i+1}}: Urban Agglomeration {{ uaDetails.name.substring(0, uaDetails.name.lastIndexOf(" ")) }}
             </h5>
         </div>
-        <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 text-right" style="padding-top: 5px;">
+        <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3 d-flex justify-content-end">
             <!-- <button type="button" class="btn" style="height: 2pc;" (click)="isCollapsed[i]= !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseEvent[i]">Select
             </button> -->
-            <button class="btn pull-right" [ngClass]="{'selectBtn': isCollapsed[i]}"
+            <button class="btn pull-right btn-select" [ngClass]="{'selectBtn': isCollapsed[i]}"
                 (click)="foldCard(i,uaDetails._id)">Select</button>
         </div>
     </div>
@@ -233,7 +233,7 @@
     <div class="col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
         <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="padding: 0;">
+    <div class="col-sm-6 col-md-6 col-lg-6 text-end" style="padding: 0;">
         <button type="button " class="btn saveBtn" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
     </div>
 </div>
