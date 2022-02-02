@@ -20,4 +20,7 @@ export class FooterComponent implements OnInit {
       .getWebsiteVisitCount()
       .subscribe((res) => (this.totalUsersVisit = res));
   }
+  routerNav(navlink){
+     console.log(navlink);
+  }
 }

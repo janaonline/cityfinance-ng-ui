@@ -124,6 +124,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private onSuccessfullLogin(res) {
+    this.authService.loginLogoutCheck.next(true);
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
