@@ -39,6 +39,16 @@ export class NHomeHeaderComponent implements OnInit {
    }
   size;
 
+  textSize = ['sm','rg','lg']
+
+  setFontSize(size){
+    // console.log(size)
+    // this.size= size;
+    let elem = document.body;
+
+    this.textSize.forEach(item => elem.classList.remove(item));
+    elem.classList.add(size);
+  }
   ngOnInit(): void {
     this.authService.loginLogoutCheck.subscribe((res)=> {
       console.log('loginLogoutCheck', res);
@@ -57,10 +67,6 @@ export class NHomeHeaderComponent implements OnInit {
       sessionStorage.setItem("sessionID",sessionID);
       if(postLoginNavigation) sessionStorage.setItem("postLoginNavigation",postLoginNavigation)
     }
-    setFontSize(size){
-         console.log(size)
-          this.size= size
-      }
   scroll(){
     window.scrollTo({
       top: 1000,
