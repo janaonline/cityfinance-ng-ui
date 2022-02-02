@@ -1,0 +1,100 @@
+.heading {
+    font: normal normal 600 26px/28px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40
+}
+
+.form-select {
+    // background: #FFFFFF 0% 0% no-repeat padding-box;
+    // border: 1px solid #FFCF8E;
+    // border-radius: 6px 6px 0px 0px;
+    border: 1px solid #D0D0D0;
+    border-radius: 6px;
+    font: normal normal 600 13px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #000000;
+}
+
+.nav {
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.nav-item {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+    text-align: center;
+}
+
+.nav-item:first-child {
+    background: #F7F8FF 0% 0% no-repeat padding-box;
+    border: 1px solid #D9DCE6;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.nav-item:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+li>a.active,
+li>a.active:active {
+    background-color: #E67E15 !important;
+    color: #fff;
+}
+
+.popActive {
+    background-color: #E67E15 !important;
+    color: #fff;
+}
+
+.nav-pills .nav-link {
+    background: none;
+    border: 0;
+    border-radius: inherit;
+}
+
+.nav>li>a {
+    padding: .8rem 2.5rem;
+}
+
+.table {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.table> :not(:first-child) {
+    border-top: none;
+}
+
+thead>tr>th {
+    border-right: 1px solid #E4E4E4;
+    background: #F7F9FF 0% 0% no-repeat padding-box;
+    font: normal normal 600 14px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.table>tbody>tr:first-child {
+    border-right: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+    background: #FFFFFF;
+    font: normal normal 600 14px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.table>tbody>tr>td {
+    border: none;
+    border-right: 1px solid #E4E4E4;
+    font: normal normal 500 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40
+}
+
+th,
+td {
+    padding: 15px 20px !important;
+}

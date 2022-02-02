@@ -179,7 +179,8 @@ import { StateFilterDataComponent } from './components/state-filter-data/state-f
     FrontPanelComponent,
     DashboardTabsComponent,
     SharedCardComponent,
-    RevenuechartComponent
+    RevenuechartComponent,
+    MapWithFilterComponent
   ],
   providers: [FinancialDataService],
 })
