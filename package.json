@@ -46,7 +46,7 @@
     "d3": "^6.7.0",
     "exceljs": "1.7.0",
     "file-saver": "^2.0.5",
-    "html2canvas": "^1.0.0-rc.5",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.6.0",
     "jscharting": "^3.0.3-beta",
     "leaflet": "^1.6.0",

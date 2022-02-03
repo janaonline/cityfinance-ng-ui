@@ -12,6 +12,7 @@ import {
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FormControl } from "@angular/forms";
+import html2canvas from "html2canvas";
 
 @Component({
   selector: "app-revenuechart",
@@ -201,11 +202,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     {
-      name: "embed",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/925895_embed_development_code_coding_dev_icon.svg",
-    },
-    {
-      name: "share",
+      name: "share/embed",
       svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
@@ -263,6 +260,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       this.myChart.destroy();
       this.createChart();
     }
+    if (value.name == "share/embed") {
+      this.getImage();
+    }
     this.actionClicked.emit(value);
   }
 
@@ -300,5 +300,18 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       compareType: this.compareType,
     };
     this.compareChange.emit(data);
+  }
+
+  getImage() {
+    let html = document.getElementById("canvasDiv" + this.chartId);
+    html2canvas(html).then((canvas) => {
+      let image = canvas
+        .toDataURL("image/png", 1.0)
+        .replace("image/png", "image/octet-stream");
+      var link = document.createElement("a");
+      link.download = "my-image.png";
+      link.href = image;
+      link.click();
+    });
   }
 }
