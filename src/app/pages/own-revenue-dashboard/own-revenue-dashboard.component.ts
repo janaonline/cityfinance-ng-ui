@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
   Input,
   ViewChild,
   TemplateRef,
@@ -19,7 +18,7 @@ import { OwnRevenueService } from "./own-revenue.service";
   templateUrl: "./own-revenue-dashboard.component.html",
   styleUrls: ["./own-revenue-dashboard.component.scss"],
 })
-export class OwnRevenueDashboardComponent implements OnInit, AfterViewInit {
+export class OwnRevenueDashboardComponent implements OnInit {
   barChartCmpBtn = true;
   displayDoughnut: boolean = true;
   displayButtons: boolean = false;
@@ -42,7 +41,7 @@ export class OwnRevenueDashboardComponent implements OnInit, AfterViewInit {
     this.allCalls();
   }
 
-  isLoading: any = false; 
+  isLoading: any = false;   
 
   @ViewChild("ownRevenueFiltersPopup")
   private ownRevenueFiltersPopup: TemplateRef<any>;
@@ -223,15 +222,15 @@ export class OwnRevenueDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog
-  ) {}
-  ngAfterViewInit(): void {
+  ) {
     this.isLoading = true;
-    console.log("loader",this.isLoading)
-    throw new Error("Method not implemented.");
+    console.log("loader",this.isLoading);
+    // if(this.isLoading)(document.activeElement as HTMLElement).blur();
   }
 
   ngOnInit(): void {
-    this.filterGroup.valueChanges.subscribe((value) => {
+    this.filterGroup.valueChanges.subscribe(
+      (value) => {
       console.log(value);
       if (value.stateId) {
         for (const key in this.allUlbData) {
@@ -300,10 +299,13 @@ export class OwnRevenueDashboardComponent implements OnInit, AfterViewInit {
           res["data"].map((value) => {
             temp.data.labels.push(value._id["revenueName"]);
             temp.data.datasets[0].data.push(value.amount);
+          this.isLoading = false;
           });
           this.doughnutChartData = temp;
         },
-        (err) => {}
+        (err) => {
+          this.isLoading = false;
+        }
       );
   }
 

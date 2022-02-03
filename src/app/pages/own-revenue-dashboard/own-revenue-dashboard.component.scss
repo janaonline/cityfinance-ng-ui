@@ -8,7 +8,15 @@ $font-Montserrat: "Montserrat";
     background-color: #DAE2FD;
     padding-bottom: 7rem;
 }
-
+.spinner_overlay {
+    width: 100vw;
+    height: 85vh;
+    background-color: $gray-200;
+    filter: blur(4px);
+  -webkit-filter: blur(4px);
+    opacity: 0.3;
+    z-index: 1000;
+}
 .perform-dashboard-heading {
     color: $text-color-ord;
     margin-top: 4.5rem;
