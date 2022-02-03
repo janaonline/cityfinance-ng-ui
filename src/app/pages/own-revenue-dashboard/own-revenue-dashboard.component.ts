@@ -240,6 +240,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       }
       this.allCalls();
     });
+    window.scrollTo(0, 0)
 
     this.createDataForFilter();
     this.getBarChartData();

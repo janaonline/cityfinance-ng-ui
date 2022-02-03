@@ -6,20 +6,21 @@
                 <span class="text-10px">MINISTRY OF HOUSING AND URBAN AFFAIRS | GOVERNMENT OF INDIA</span>
             </div>
             <div class="col-sm-6 text-end">
-                <span class="text-12px me-2"><a href="#" class="text-decoration-none text-secondary">Skip To Main Content</a> </span>
-                <span class="text-tiny">A</span>
-                <span class="text-regular">A</span>
-                <span class="text-large">A</span>
+                <span class="text-12px me-2"><a (click)="scroll()" class="text-decoration-none text-secondary">Skip To Main Content</a> </span>
+                <ng-container *ngFor="let data of textSize">
+                    <span (click)="setFontSize(data)" class="text-{{data}} textIcon">A</span>
+                </ng-container>
             </div>
         </div>
     </div>
 </section>
-<nav class="navbar navbar-expand-lg navbar-light bg-white ps-4 pe-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-white ps-4 pe-4 btmBdr">
     <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -30,18 +31,18 @@
               Dashboard
             </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Financial</a></li>
+                        <li><a class="dropdown-item" routerLink="/dashboard/national">National Financial Dashboard</a></li>
                         <li><a class="dropdown-item" routerLink="/own-revenue-dashboard">Own Revenue Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Service Level Benchmarks</a></li>
-                        <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li>
+                        <li><a class="dropdown-item" [class.disabled]="true" tooltip="Work In Progress" href="#">Service Level Benchmarks</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a>
                 </li>
             </ul>
-            <div class="d-flex pb-1">
-                <a routerLinkActive="active" routerLink="/fc-home-page" class="btn btn-login">Login for 15th FC Grants</a>
+            <div class="d-flex pb-2">
+                <a routerLinkActive="active" (click)="loginLogout()" class="btn btn-login">{{btnName}}</a>
             </div>
         </div>
     </div>

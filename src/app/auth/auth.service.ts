@@ -16,6 +16,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  loginLogoutCheck = new Subject<any>();
   authenticateUser(user) {
     this.http.post(environment.api.url + "users/signin", user);
   }

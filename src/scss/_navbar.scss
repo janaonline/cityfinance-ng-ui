@@ -25,6 +25,7 @@
   padding-bottom: $navbar-padding-y;
   padding-left: $navbar-padding-x; // default: null
   @include gradient-bg();
+  box-shadow: 0px 3px 6px rgb(0 0 0 / 29%);
 
   // Because flex properties aren't inherited, we need to redeclare these first
   // few properties so that content nested within behave properly.
@@ -133,7 +134,7 @@
   &:focus {
     text-decoration: none;
     outline: 0;
-    box-shadow: 0 0 0 $navbar-toggler-focus-width;
+    // box-shadow: 0 0 0 $navbar-toggler-focus-width;
   }
 }
 

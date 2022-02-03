@@ -9,7 +9,6 @@ import { Subject } from "rxjs";
 })
 export class NewDashboardService {
   constructor(private http: HttpClient) {}
-
   dashboardInformation(ifPeople = true, ulbOrStateid, type) {
     let headers = new HttpHeaders();
     headers = headers.append("type", type);

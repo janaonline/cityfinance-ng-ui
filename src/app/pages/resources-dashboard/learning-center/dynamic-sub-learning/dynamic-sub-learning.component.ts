@@ -87,7 +87,7 @@ export class DynamicSubLearningComponent implements OnInit {
   }
   backToCard() {
     this.router.navigateByUrl('resources-dashboard/learning-center/toolkits')
-   this.resources_services.tooltikCardShow.next(true);
+     this.resources_services.tooltikCardShow.next(true);
   }
 
 }
