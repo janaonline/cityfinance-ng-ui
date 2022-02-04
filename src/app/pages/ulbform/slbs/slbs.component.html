@@ -1,12 +1,13 @@
-<div class="col-sm-12" style="margin-bottom: 1rem;">
-    <h3 style="position: relative; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
-        <span class="col-sm-6 text-left" style="padding-left: 0;">{{slbTitleText}}</span>
+<div class="col-sm-12" style="margin-top: 1rem;">
+    <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 1rem;">
+        <span class="col-sm-6 text-start subTitle" style="padding-left: 0;">{{slbTitleText}}</span>
         <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
       ULB: {{ financialData?.ulbName }}</span> -->
 
         <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
-        " style="right: 0px; float: right;  outline: none" class="btn btn-primary btn-upload"
+        " style="right: 0px; float: right;padding: 6px 12px;border-color: unset; font-size: 14px; outline: none" 
+          class="btn btn-primary btn-upload"
             (click)="openModal(template,true)">
             Preview
         </button>

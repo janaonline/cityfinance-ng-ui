@@ -12,7 +12,7 @@ a.anDisable {
     font-family: Roboto, Medium;
     color: #373737;
     font-size: 20px;
-    margin-top: 1rem;
+    // margin-top: 1rem;
     font-weight: 600;
 }
 
@@ -23,7 +23,7 @@ a.anDisable {
 }
 
 .m-ut-he {
-    margin-left: 0;
+    // margin-left: 0;
     margin-right: 0;
 }
 
@@ -51,6 +51,7 @@ p {
 
 .labelField {
     width: 100%;
+    font-size: 13px !important;
     // border: 1px solid;
     margin-top: 7px;
     margin-left: 6px;
@@ -97,7 +98,8 @@ option {
 
 .card-body {
     margin-right: 20px;
-    margin-top: 8px;
+    padding: 0px !important;
+    // margin-top: 8px;
 }
 
 #prevBtn {
@@ -107,11 +109,12 @@ option {
     font-size: 12px;
     padding-left: 4%;
     padding-right: 4%;
+    border-color: unset;
 }
 
 .prevBtnDiv {
     display: inline-block;
-    margin-bottom: 6px;
+    // margin-bottom: 6px;
     // margin-left: 55%;
 }
 
@@ -163,6 +166,7 @@ label {
 .backbtn {
     background-color: #CFCFCF;
     color: #FFFFFF;
+    border-color: unset;
     width: auto;
     height: 32px;
     font-size: 12px;
