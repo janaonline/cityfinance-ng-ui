@@ -116,7 +116,7 @@
             <div class="col-md-7">
                 <h3 class="heading">Data Availability</h3>
                 <p class="da-para">
-                    75% financial data is available for the year YY i.e. 75% of the ULBs’ financial statements are available for
+                    {{dataAvailable}}% financial data is available for the year YY i.e. {{dataAvailable}}% of the ULBs’ financial statements are available for
                     <span class="extra-text">
                 the year YY. Data is not available
                 for AA, BB and CC Municipal Corporation. For more details, download the
@@ -133,7 +133,7 @@
                         Read Less
                   </span>
                 </p>
-                <button class="btn btn-outline-secondary btn-sm btn-os btn-download">
+                <button (click)="downloadCSV('data-availability')" class="btn btn-outline-secondary btn-sm btn-os btn-download">
                 <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
                      alt="download_icon">
                   Download Data
@@ -160,7 +160,7 @@
     </div>
     <!-- Full doughnut chart section -->
     <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
-        <app-revenuechart class="" [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle"
+        <app-revenuechart class="" [headerActions]="headerActions" [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle"
         [ChartOptions]="doughnutChartOptions"
         >
         </app-revenuechart>
@@ -251,7 +251,7 @@
         <p class="barChartSubTitle text-center">
             Top 10 performing ULBs in the country in property tax per capita can be viewed below.
         </p>
-        <app-revenuechart class="rounded" (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
+        <app-revenuechart class="rounded" [headerActions]="headerActions" (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
         [ChartOptions]="barChartOptions"
         >
         </app-revenuechart>
@@ -261,7 +261,7 @@
                 <p class="DataDownloadText">
                     You can also download the source data in excel format
                 </p>
-                <button class="btn btn-outline-secondary btn-sm btn-os mt-0 btn-download">
+                <button (click)="downloadCSV('topPerformance')" class="btn btn-outline-secondary btn-sm btn-os mt-0 btn-download">
             <img src="../../../assets/resources-das/file_download_orange_24dp.svg"
                 alt="download_icon">
               Download Data
