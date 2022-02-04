@@ -81,6 +81,7 @@ export class MapWithFilterComponent
     >,
     containerId: string
   ) {
+    debugger;
     if (this.stateList.length == 0)
       this.stateList = geoData.features.map((value: any) => {
         Object.assign(this.layerMap, { [value.properties.ST_CODE]: null });
@@ -111,7 +112,7 @@ export class MapWithFilterComponent
 
     this.nationalLevelMap = map;
 
-    this.createLegendsForNationalLevelMap();
+    // this.createLegendsForNationalLevelMap();
     this.createControls(this.nationalLevelMap);
 
     this.initializeNationalLevelMapLayer(this.stateLayers);
@@ -144,10 +145,10 @@ export class MapWithFilterComponent
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
     }
-    this.hideMapLegends();
+    // this.hideMapLegends();
 
     if (this.isMapOnMiniMapMode) {
-      this.hideMapLegends();
+      // this.hideMapLegends();
       this.showStateLayerOnlyFor(
         this.nationalLevelMap,
         this.currentStateInView
@@ -166,7 +167,7 @@ export class MapWithFilterComponent
         this.selectedDistrictCode = this.mapConfig.code.city;
         type = this.districtMarkerMap[this.mapConfig.code.city];
         if (type) type.fireEvent("click");
-      }, 100);
+      }, 10);
     }
   }
 

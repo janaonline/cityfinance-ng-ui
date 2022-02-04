@@ -9,11 +9,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { ResourcesDashboardModule } from '../resources-dashboard/resources-dashboard.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
   imports: [
     CommonModule,
+    MatProgressSpinnerModule,
     OwnRevenueDashboardRoutingModule,
     SharedModule,
     MatTableModule,

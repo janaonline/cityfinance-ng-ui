@@ -84,7 +84,7 @@
       <p class="subTitle">{{ data.subTitle }}</p>
       <span class="arrow-title">
         <img class="" src="{{ data.svg }}" />
-        <span class="percentage">{{ data.percentage }}</span>
+        <span  [ngStyle]="{'color': data.color}" class="percentage">{{ data.percentage }}</span>
       </span>
     </div>
   </div>

@@ -4,7 +4,7 @@
     <div class="row m-ut-he">
         <div class="col-sm-8 col-lg-8 col-md-8 header2">Detailed Utilisation Report</div>
 
-        <div class="col-sm-4 col-md-4 col-lg-4 prevBtnDiv text-right">
+        <div class="col-sm-4 col-md-4 col-lg-4 prevBtnDiv text-end">
             <!-- (click)="onNewPre()" -->
             <!-- (click)="previewClicked()" -->
             <button type="button" class="btn btn-primary" id="prevBtn" (click)="previewClicked()">PREVIEW</button>
@@ -155,9 +155,9 @@
         <div class="card" style="background-color: #F7F7F7;">
 
             <div class="card-body" style="margin-bottom: 20px;">
-                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants<span style="color: red;">*</span></p>
+                <p style="font-weight: 500;">Component Wise Utilisation of Tied grants as on 31st March 2021<span style="color: red;">*</span></p>
                 <div class="card-body" style="margin-bottom: 20px;">
-                    <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
+                    <p style="font-weight: 500;">Water Management (WM)</p>
                     <div class="table-responsive">
                         <table class="table custom-position tableStriped">
                             <thead>
@@ -575,7 +575,7 @@
                       <span class="tableFooter">50000</span>
                       <span class="tableFooter">25000</span>
                   </div> -->
-                <div class="addMoreDiv text-right">
+                <div class="addMoreDiv text-end">
                     <button type="button" class="btn" (click)="addRow()" id="addmoreBtn" [disabled]="isDisabled">
                         <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
                             add_circle_outline
@@ -672,7 +672,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6">
         <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked = true" [routerLink]="['../grant-tra-certi']">BACK</a>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+    <div class="col-lg-6 col-md-6 col-sm-6 text-end">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
         <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">{{saveBtn}}</button>
     </div>

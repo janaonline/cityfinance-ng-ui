@@ -1,1 +1,67 @@
-<p>data-available works!</p>
+<div class="row mb-3">
+    <div class="col-12 col-sm-12 col-md-5">
+        <app-map-with-filter (changeInStateOrCity)="changeInMapFilter($event)" [mapConfig]="mapConfig"></app-map-with-filter>
+    </div>
+    <div class="col-12 col-sm-12 col-md-7">
+        <div class="row">
+            <div class="col-12">
+                <div class="heading mb-3">
+                    India Data Availability - 75%
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="stateName" aria-label="Default select">
+                  <option value="" selected>India</option>
+                  <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
+                </select>
+            </div>
+            <div class="col-md-3 ps-3">
+                <select class="form-select" id="years" aria-label="Default select">
+                <option value="2020-21" selected>2020-21</option>
+                <option value="2021-22">2021-22</option>
+              </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 mb-3 mt-3">
+                <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
+                    <li class="nav-item">
+
+                        <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
+                            <span>Population Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
+                            <span>ULB Type</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table" *ngFor="let table of tableData?.data; let tableIndex = index">
+                        <thead>
+                            <tr>
+                                <th scope="col" *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                    {{column?.display_name}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of table?.rows">
+                                <td *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                    {{row[column.key]}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

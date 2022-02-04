@@ -1,3 +1,4 @@
+import { I } from "@angular/cdk/keycodes";
 import {
   Component,
   OnInit,
@@ -8,6 +9,7 @@ import {
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 // import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import * as fileSaver from "file-saver";
 
 import Chart from "chart.js";
 import { FilterModelBoxComponent } from "../resources-dashboard/filter-model-box/filter-model-box.component";
@@ -25,6 +27,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
   ownTab = true;
   proTab = false;
   barChartTitle = "";
+  dataAvailable = 0;
+  lastBarChartValue;
   changeTab(type) {
     if (type == "own") {
       this.displayDoughnut = true;
@@ -40,6 +44,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
     }
     this.allCalls();
   }
+
+  isLoading: any = false;   
 
   @ViewChild("ownRevenueFiltersPopup")
   private ownRevenueFiltersPopup: TemplateRef<any>;
@@ -220,10 +226,15 @@ export class OwnRevenueDashboardComponent implements OnInit {
   constructor(
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.isLoading = true;
+    console.log("loader",this.isLoading);
+    // if(this.isLoading)(document.activeElement as HTMLElement).blur();
+  }
 
   ngOnInit(): void {
-    this.filterGroup.valueChanges.subscribe((value) => {
+    this.filterGroup.valueChanges.subscribe(
+      (value) => {
       console.log(value);
       if (value.stateId) {
         for (const key in this.allUlbData) {
@@ -292,10 +303,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
           res["data"].map((value) => {
             temp.data.labels.push(value._id["revenueName"]);
             temp.data.datasets[0].data.push(value.amount);
+          this.isLoading = false;
           });
           this.doughnutChartData = temp;
         },
-        (err) => {}
+        (err) => {
+          this.isLoading = false;
+        }
       );
   }
 
@@ -347,7 +361,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   barChartCompValues(value) {
     console.log(value, "barChartCompValues");
-
     this.getBarChartData(value);
   }
 
@@ -358,9 +371,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       revenueName: "Property Tax",
     }
   ) {
+    this.lastBarChartValue = body;
     this.ownRevenueService.displayBarChartData(body).subscribe(
       (res) => {
-        console.log("barChartBody", res);
         let tempData = {
           type: "bar",
           data: {
@@ -408,6 +421,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   halfDoughnutChart(valueFromApi = null) {
+    this.dataAvailable = valueFromApi;
     const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
     const ctx = canvas.getContext("2d");
     const myChart = new Chart(ctx, {
@@ -454,6 +468,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   ownTabCardsFormant(data) {
+    let yearInData = Object.keys(data);
     let revenueCollectionCopy = deepCopy(revenueCollection),
       revenuePerCapitaCopy = deepCopy(revenuePerCapita),
       revenueExpenditureCopy = deepCopy(revenueExpenditure),
@@ -466,12 +481,55 @@ export class OwnRevenueDashboardComponent implements OnInit {
     revenueExpenditureCopy.title =
       value.totalUlbMeetExpense.toFixed(2) ?? 0 + "%";
 
+    if (yearInData[1]) {
+      let oldYearValue =
+        data[
+          this.filterGroup.value.financialYear
+            .split("-")
+            .map((value) => Number(value) - 1)
+            .join("-")
+        ];
+
+      let t = this.compareValues(oldYearValue.totalRevenue, value.totalRevenue);
+      revenueCollectionCopy.percentage = t.num.toFixed(2);
+      revenueCollectionCopy.svg = t.inc ? upArrow : downArrow;
+      revenueCollectionCopy.color = t.inc ? green : red;
+
+      t = this.compareValues(oldYearValue.perCapita, value.perCapita);
+      revenuePerCapitaCopy.percentage = t.num.toFixed(2);
+      revenuePerCapitaCopy.svg = t.inc ? upArrow : downArrow;
+      revenuePerCapitaCopy.color = t.inc ? green : red;
+
+      t = this.compareValues(oldYearValue.percentage, value.percentage);
+      revenuePercentageCopy.percentage = t.num.toFixed(2);
+      revenuePercentageCopy.svg = t.inc ? upArrow : downArrow;
+      revenuePercentageCopy.color = t.inc ? green : red;
+
+      t = this.compareValues(
+        oldYearValue.totalUlbMeetExpense,
+        value.totalUlbMeetExpense
+      );
+      revenueExpenditureCopy.percentage = t.num.toFixed(2);
+      revenueExpenditureCopy.svg = t.inc ? upArrow : downArrow;
+      revenueExpenditureCopy.color = t.inc ? green : red;
+    }
+
     this.cardData = [
       revenueCollectionCopy,
       revenuePerCapitaCopy,
       revenueExpenditureCopy,
       revenuePercentageCopy,
     ];
+  }
+
+  compareValues(oldValue, newValue, inc = true) {
+    // if (oldValue > oldValue) {
+    //   let t = oldValue;
+    //   oldValue = newValue;
+    //   newValue = oldValue;
+    //   inc = false;
+    // }
+    return { num: newValue - oldValue / oldValue, inc };
   }
 
   proTabCardsFormat(data) {
@@ -543,6 +601,53 @@ export class OwnRevenueDashboardComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  headerActions = [
+    {
+      name: "download",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+    },
+    {
+      name: "share/embed",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    },
+  ];
+
+  downloadCSV(from) {
+    if (from == "topPerformance") {
+      let body = {
+        csv: true,
+        ...this.lastBarChartValue,
+      };
+      this.ownRevenueService.displayBarChartData(body).subscribe(
+        (res: any) => {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+
+          fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+        },
+        (err) => {}
+      );
+    } else {
+      let body = {
+        csv: true,
+        ...this.filterGroup.value,
+      };
+      this.ownRevenueService.displayDataAvailable(body).subscribe(
+        (res: any) => {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+
+          fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+        },
+        (error) => {}
+      );
+    }
   }
 }
 
@@ -662,3 +767,8 @@ const porpertyCards = [
     color: "#22C667",
   },
 ];
+
+const green = "#22C667";
+const red = "#E64E4E";
+const upArrow = "../../../assets/resources-das/north_east_green_24dp.svg";
+const downArrow = "../../../assets/resources-das/south_west_red_24dp.svg";
