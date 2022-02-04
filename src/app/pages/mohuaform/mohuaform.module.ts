@@ -29,9 +29,11 @@ import { NgCircleProgressModule, CircleProgressOptions } from 'ng-circle-progres
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MpcTableComponent } from './mohua-dashboard/mpc-table/mpc-table.component';
+import { MpcReuseTableComponent } from './mohua-dashboard/mpc-reuse-table/mpc-reuse-table.component';
 
 @NgModule({
-  declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent, GrantTransferMohuaComponent],
+  declarations: [MohuaDashboardComponent, MohuaformComponent, ReviewUlbComponent, ReviewStateComponent, GrantTransferMohuaComponent, MpcTableComponent, MpcReuseTableComponent],
   providers: [CircleProgressOptions],
   imports: [
     CommonModule,
