@@ -26,8 +26,8 @@
                                         </mat-icon>
                                     </mat-form-field>
 
-                                    <div class="forget text-right">
-                                        <a [routerLink]="['../password', 'request']" [queryParams]="{userType:selectedUserType}" (click)="passwordUser(selectedUserType)">Forgot
+                                    <div class="forget text-end">
+                                        <a class="text-decoration-none" style="color: #337ab7 ;" [routerLink]="['../password', 'request']" [queryParams]="{userType:selectedUserType}" (click)="passwordUser(selectedUserType)">Forgot
                       password?</a>
                                     </div>
                                 </div>
@@ -50,13 +50,14 @@
                                 <div class="strike">
                                     <span>Or</span>
                                 </div>
-                                <button class="btn-block login-btn" style="font-weight: 450; color: rgb(80, 80, 252);" (click)="startCountDown(loginForm)">
+                                <button class="btn-block login-btn btn-otp" style="font-weight: 450; color: rgb(80, 80, 252);" (click)="startCountDown(loginForm)">
                   Get OTP on your phone and email
                 </button>
                             </div>
                             <a *ngIf="selectedUserType === 'ULB'" [routerLink]="['/ulb-not-registered']"><span>Not
                   Registered?</span></a>
-                            <a *ngIf="selectedUserType === 'USER'" (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
+                            <a *ngIf="selectedUserType === 'USER'" class="text-decoration-none" style="color: #337ab7;"
+                               (click)="help = true" mat-raised-button color="primary" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger">
                 Need Help?
               </a>
 
@@ -69,10 +70,11 @@
                             </mde-popover>
 
                             <br>
-                            <div *ngIf="help" style="display: grid" class="col-md-12 text-center">
-                                <a class="row" style="margin-left: 1ch;">Not Registered?</a>
-                                <a class="row" style="margin-left: 1pc;">Update Email ID?</a>
-                                <a class="row" style="margin-left: 8em;;">Can not Access 15th FC Module?</a>
+                            <!-- style="margin-left: 8em;" style="display: grid" -->
+                            <div *ngIf="help"  class="col-md-12 d-flex justify-content-center align-items-center flex-column">
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Not Registered?</a>
+                                <a class="text-decoration-none" style="margin-left: 2em; color: #337ab7;">Update Email ID?</a>
+                                <a class="text-decoration-none" style="margin-left: 9em; color: #337ab7;">Can not Access 15th FC Module?</a>
                             </div>
                         </div>
                     </div>
@@ -83,7 +85,7 @@
                             </h4>
                             <hr class="Sepline" />
                             <div>
-                                <span><b>An OTP has been sent to {{ otpCreads?.mobile }} and
+                                <span style="font-size:0.875rem;font-weight: 700;"><b>An OTP has been sent to {{ otpCreads?.mobile }} and
                     {{ otpCreads?.email }} </b><a [routerLink]="['/ulb-not-registered']" [click]="onChangeNumber()"
                     *ngIf="selectedUserType === 'ULB'">Change?</a></span>
                             </div>

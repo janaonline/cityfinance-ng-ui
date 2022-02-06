@@ -1,5 +1,5 @@
 h5 {
-    font-size: 1.5rem;
+    font-size: 0.938rem;
     color: #373737;
     font-family: Roboto;
     font-weight: 500;
@@ -19,12 +19,16 @@ p {
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: 20px;
+    font-size: 1.25rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: 600;
 }
 
+.btn-select{
+    background-color: #efefef;
+    font-size: 0.875rem;
+}
 .saveBtn {
     background-color: #059b9a;
     color: #ffffff;
