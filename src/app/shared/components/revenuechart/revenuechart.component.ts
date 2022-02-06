@@ -197,15 +197,18 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       name: "expand",
       svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
     },
-    {
-      name: "download",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
-    },
+    // {
+    //   name: "download",
+    //   svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+    // },
     {
       name: "share/embed",
       svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
+  @Input()
+  compareDialogType = 1;
+
   @Output()
   actionClicked = new EventEmitter();
   @Output()

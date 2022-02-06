@@ -245,7 +245,7 @@
         <p class="barChartSubTitle text-center">
             Top 10 performing ULBs in the country in property tax per capita can be viewed below.
         </p>
-        <app-revenuechart class="rounded" [headerActions]="headerActions" (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
+        <app-revenuechart class="rounded" [compareDialogType]="compareDialogType" [headerActions]="headerActions" (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
         [ChartOptions]="barChartOptions"
         >
         </app-revenuechart>

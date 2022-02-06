@@ -18,7 +18,7 @@
         <app-pre-loader></app-pre-loader>
         <app-pre-loader></app-pre-loader>
     </div>
-      <app-revenuechart  *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" ></app-revenuechart>
+      <app-revenuechart [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" ></app-revenuechart>
     </div>
     <div  [ngClass]="{'col-md-5': !expand,'d-none':expand}">
       <app-about-indicator [data]="aboutIndicators" ></app-about-indicator>
