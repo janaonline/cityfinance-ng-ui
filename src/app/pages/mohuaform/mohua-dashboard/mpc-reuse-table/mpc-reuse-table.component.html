@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="table-responsive">
+      <table
+        class="table-bordered tracking-history-table my_table"
+        style="margin-bottom: 0"
+      >
+        <thead style="position: sticky; top: 0">
+          <tr style="background-color: #047474; color: #ffffff" >
+
+            <th *ngFor="let item of headerData" scope="col" class="tableHeadText">
+              {{item}}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let tab of mpctableData">
+            <td>{{tab.state}}</td>
+            <td>{{tab.gtc}}</td>
+            <td>{{tab.audited}}</td>
+            <td>{{tab.provisional}}</td>
+            <td>{{tab.submitted}}</td>
+            <td>{{tab.detail_utilization}}</td>
+            <td>{{tab.slb}}</td>
+            <td>{{tab.water_sanitaion}}</td>
+            <td>{{tab.action_plan}}</td>
+            <td>{{tab.mou}}</td>
+            <td>{{tab.mpcEligibility}}</td>
+            <td>{{tab.claimed_data}}</td>
+            <td>{{tab.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

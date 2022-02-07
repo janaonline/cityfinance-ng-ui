@@ -352,3 +352,49 @@ table {
 .mat-card-header-text {
   margin: 0;
 }
+
+//new Styles
+
+.heading {
+  font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+
+}
+
+.subHeading {
+  font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    // background-color: white;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.viewButton {
+  display: flex;
+  justify-content: center;
+
+}
+
+.viewButton button {
+  border: 1px solid white;
+  background-color: #1b7280;
+  color: #fff;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}

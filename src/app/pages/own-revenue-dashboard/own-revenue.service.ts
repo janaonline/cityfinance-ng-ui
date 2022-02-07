@@ -14,14 +14,22 @@ export class OwnRevenueService {
   }
 
   displayDataAvailable(body: any){
-      return this.httpClient.post(
-        `${environment.api.url}data-available`, body
-    )
+    if (!body.hasOwnProperty("csv")) {
+      return this.httpClient.post(`${environment.api.url}data-available`, body);
+    }
+    return this.httpClient.post(`${environment.api.url}data-available`, body, {
+      responseType: "blob",
+    });
   }
 
   
   displayBarChartData(body: any){
-    return this.httpClient.post(`${environment.api.url}topPerformance`, body);
+    if (!body.hasOwnProperty("csv")){
+      return this.httpClient.post(`${environment.api.url}topPerformance`, body);
+    }
+    return this.httpClient.post(`${environment.api.url}topPerformance`, body, {
+      responseType: "blob",
+    });
 }
 
 getULBTypeList() {

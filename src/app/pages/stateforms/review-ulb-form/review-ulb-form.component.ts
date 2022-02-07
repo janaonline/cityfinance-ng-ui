@@ -1,30 +1,29 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { UlbadminServiceService } from '../../ulb-admin/ulbadmin-service.service';
-import { StateformsService } from '../stateforms.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ReviewUlbFormService } from './review-ulb-form.service'
-import { UserUtility } from 'src/app/util/user/user';
-import { USER_TYPE } from 'src/app/models/user/userType';
+import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { UlbadminServiceService } from "../../ulb-admin/ulbadmin-service.service";
+import { StateformsService } from "../stateforms.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ReviewUlbFormService } from "./review-ulb-form.service";
+import { UserUtility } from "src/app/util/user/user";
+import { USER_TYPE } from "src/app/models/user/userType";
 import * as fileSaver from "file-saver";
 
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 @Component({
-  selector: 'app-review-ulb-form',
-  templateUrl: './review-ulb-form.component.html',
-  styleUrls: ['./review-ulb-form.component.scss']
+  selector: "app-review-ulb-form",
+  templateUrl: "./review-ulb-form.component.html",
+  styleUrls: ["./review-ulb-form.component.scss"],
 })
-export class ReviewUlbFormComponent implements OnInit {
-
+export class ReviewUlbFormComponent implements OnInit, OnChanges {
   loggedInUserDetails = new UserUtility().getLoggedInUserDetails();
   USER_TYPE = USER_TYPE;
   loggedInUserType = this.loggedInUserDetails.role;
   tabelData: any;
   currentSort = 1;
-  takeStateAction = 'false';
+  takeStateAction = "false";
   tableDefaultOptions = {
     itemPerPage: 10,
     currentPage: 1,
@@ -42,126 +41,175 @@ export class ReviewUlbFormComponent implements OnInit {
   filterObject;
   fcFormListSubscription: Subscription;
   nodataFound = false;
-  errMessage = '';
+  errMessage = "";
   showLoader = false;
   actBtn = false;
+  tabValue = "Detail-utilisation-report";
+
+  buttonTabData: any = [
+    {
+      value: "Detail-utilisation-report",
+      title: "Detail Utilisation Report",
+      controls: "Detail-utilisation-report",
+      activeBtn: true,
+    },
+    {
+      value: "annual-acount",
+      title: "Annual Accounts",
+      controls: "annual-acount",
+      activeBtn: true,
+    },
+    {
+      value: "Slb-sanitation",
+      title: "SLBs for Water Supply and Sanitation",
+      controls: "Slb-sanitation",
+      activeBtn: true,
+    },
+  ];
+  selected: any = "Detail-utilisation-report";
+
+  formValueObject: any = {
+    tab: String,
+    checkedUlbs: [],
+  };
   constructor(
     public ulbService: UlbadminServiceService,
     public _stateformsService: StateformsService,
     public dialog: MatDialog,
     private reviewUlbFormService: ReviewUlbFormService
-  ) { }
+  ) {}
 
+  isActive(item) {
+    return this.selected === item;
+  }
 
-  ulb_name_s = new FormControl('');
-  ulb_code_s = new FormControl('');
-  ulb_type_s = new FormControl('');
-  population_type_s = new FormControl('');
-  ua_name_s = new FormControl('');
-  status_s = new FormControl('');
+  ulb_name_s = new FormControl("");
+  ulb_code_s = new FormControl("");
+  ulb_type_s = new FormControl("");
+  population_type_s = new FormControl("");
+  ua_name_s = new FormControl("");
+  status_s = new FormControl("");
   historyData;
+
+  onChangeCheckbox(event) {
+    let val = event.target.value;
+    let index = this.formValueObject.checkedUlbs.indexOf(val)
+    if (index == -1) {
+      this.formValueObject.checkedUlbs.push(val);
+    } else {
+      this.formValueObject.checkedUlbs.splice(index, 1)
+    }
+    console.log("checkedArray list ==>", this.formValueObject);
+
+  }
+
+  getCheckedData() {
+    this.formValueObject.tab = this.selected;
+
+    console.log("formValueObejct final==>",this.formValueObject, this.selected)
+  }
+
   ngOnInit() {
+    console.log("formValueObject==>", this.formValueObject);
+
     this.showLoader = true;
     this.loadData();
     if (this.loggedInUserType !== USER_TYPE.STATE) {
       this.actBtn = true;
     }
   }
-  noHistorydataFound = false
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    console.log("changes==>", this.formValueObject, changes);
+  }
+
+  noHistorydataFound = false;
   viewHistory(template, formId) {
-    console.log(formId)
-    this.noHistorydataFound = false
+    console.log(formId);
+    this.noHistorydataFound = false;
     this.reviewUlbFormService.getData(formId).subscribe(
       (res) => {
-        this.historyData = res['data']
-        this.historyData.reverse()
+        this.historyData = res["data"];
+        this.historyData.reverse();
         if (this.historyData.length == 0) {
-          this.noHistorydataFound = true
+          this.noHistorydataFound = true;
         }
-        console.log(this.historyData)
-        this.openDialog(template)
+        console.log(this.historyData);
+        this.openDialog(template);
       },
       (err) => {
-        console.log(err.message)
-      })
+        console.log(err.message);
+      }
+    );
   }
 
   alertClose() {
     this.dialog.closeAll();
   }
 
-
   openDialog(template) {
-
     let dialogRef = this.dialog.open(template, {
       height: "auto",
-      width: "600px"
+      width: "600px",
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
   }
   loadData() {
-    this.ulb_name_s.patchValue("")
-    this.ulb_code_s.patchValue("")
-    this.ulb_type_s.patchValue("")
-    this.population_type_s.patchValue("")
-    this.ua_name_s.patchValue("")
-    this.status_s.patchValue("")
+    this.ulb_name_s.patchValue("");
+    this.ulb_code_s.patchValue("");
+    this.ulb_type_s.patchValue("");
+    this.population_type_s.patchValue("");
+    this.ua_name_s.patchValue("");
+    this.status_s.patchValue("");
 
-    this._stateformsService.getUlbReview()
-      .subscribe((res) => {
-        console.log('profile', res);
-        let resData: any = res
+    this._stateformsService.getUlbReview().subscribe(
+      (res) => {
+        console.log("profile", res);
+        let resData: any = res;
         this.tabelData = resData.data;
-        console.log('tabelData', this.tabelData)
+        console.log("tabelData", this.tabelData);
         this.showLoader = false;
-
       },
-        error => {
-          this.errMessage = error.message;
+      (error) => {
+        this.errMessage = error.message;
 
-          console.log(error, this.errMessage);
-          this.showLoader = false;
-          swal(this.errMessage);
-        }
-      )
+        console.log(error, this.errMessage);
+        this.showLoader = false;
+        swal(this.errMessage);
+      }
+    );
   }
   setLIstFetchOptions() {
     //  const filterKeys = ["financialYear", "auditStatus"];
     this.filterObject = {
       filter: {
-        state: '',
-        ulbType: this.ulb_type_s.value
-          ? this.ulb_type_s.value.trim()
-          : "",
+        state: "",
+        ulbType: this.ulb_type_s.value ? this.ulb_type_s.value.trim() : "",
         populationType: this.population_type_s.value
           ? this.population_type_s.value.trim()
           : "",
-        ulbName: this.ulb_name_s.value
-          ? this.ulb_name_s.value.trim()
-          : "",
-        censusCode: this.ulb_code_s.value
-          ? this.ulb_code_s.value.trim()
-          : "",
-        UA: this.ua_name_s.value
-          ? this.ua_name_s.value.trim()
-          : "",
-        status: this.status_s.value
-          ? this.status_s.value.trim()
-          : "",
-      }
-
-    }
+        ulbName: this.ulb_name_s.value ? this.ulb_name_s.value.trim() : "",
+        censusCode: this.ulb_code_s.value ? this.ulb_code_s.value.trim() : "",
+        UA: this.ua_name_s.value ? this.ua_name_s.value.trim() : "",
+        status: this.status_s.value ? this.status_s.value.trim() : "",
+      },
+    };
 
     return {
       ...this.listFetchOption,
       ...this.filterObject,
       //  ...config,
     };
-
   }
 
+  getTabValue(value: any) {
+    this.tabValue = value;
+    this.selected = value;
+    console.log("firsttabValue==>", this.tabValue, this.formValueObject);
+  }
 
   stateData(csv) {
     this.loading = true;
@@ -172,7 +220,7 @@ export class ReviewUlbFormComponent implements OnInit {
     if (this.fcFormListSubscription) {
       this.fcFormListSubscription.unsubscribe();
     }
-    this.listFetchOption.csv = csv
+    this.listFetchOption.csv = csv;
     this.fcFormListSubscription = this.ulbService
       .fetchXVFormDataList({ skip, limit: 10 }, this.listFetchOption)
       .subscribe(
@@ -193,42 +241,39 @@ export class ReviewUlbFormComponent implements OnInit {
             }
             console.log(result);
           }
-
-
         },
         (response: HttpErrorResponse) => {
-
           this.loading = false;
           console.log(response.error);
 
-          alert('Some Error Occurred')
-
+          alert("Some Error Occurred");
         }
       );
-
-
   }
   viewUlbForm(resData) {
-    console.log('review', resData);
-    sessionStorage.setItem('ulb_id', resData?.ulb)
-    sessionStorage.setItem('isMillionPlus', resData.isMillionPlus);
-    sessionStorage.setItem('isUA', resData.isUA);
-    sessionStorage.setItem('stateName', resData.state);
-    sessionStorage.setItem('ulbName', resData.ulbName);
-    if ((resData.actionTakenByUserRole == 'ULB' && resData.isSubmit == true) ||
-      (resData.actionTakenByUserRole == 'STATE' && resData.isSubmit == false)) {
-      this.takeStateAction = 'true'
-    }
-    localStorage.setItem('takeStateAction', this.takeStateAction)
-    let stActionCheck = 'false'
+    console.log("review", resData);
+    sessionStorage.setItem("ulb_id", resData?.ulb);
+    sessionStorage.setItem("isMillionPlus", resData.isMillionPlus);
+    sessionStorage.setItem("isUA", resData.isUA);
+    sessionStorage.setItem("stateName", resData.state);
+    sessionStorage.setItem("ulbName", resData.ulbName);
     if (
-      (resData.actionTakenByUserRole == "STATE") &&
-      (resData.isSubmit == true) && (resData.status != 'PENDING')
+      (resData.actionTakenByUserRole == "ULB" && resData.isSubmit == true) ||
+      (resData.actionTakenByUserRole == "STATE" && resData.isSubmit == false)
     ) {
-      stActionCheck = 'true'
+      this.takeStateAction = "true";
+    }
+    localStorage.setItem("takeStateAction", this.takeStateAction);
+    let stActionCheck = "false";
+    if (
+      resData.actionTakenByUserRole == "STATE" &&
+      resData.isSubmit == true &&
+      resData.status != "PENDING"
+    ) {
+      stActionCheck = "true";
     }
     if (resData.actionTakenByUserRole == "MoHUA") {
-      stActionCheck = 'true';
+      stActionCheck = "true";
     }
     localStorage.setItem("stateActionComDis", stActionCheck);
   }
@@ -238,5 +283,4 @@ export class ReviewUlbFormComponent implements OnInit {
       (pageNoClick - 1) * this.tableDefaultOptions.itemPerPage;
     // this.searchUsersBy(this.filterForm.value);
   }
-
 }

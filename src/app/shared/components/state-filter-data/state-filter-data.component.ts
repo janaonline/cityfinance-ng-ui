@@ -1,11 +1,19 @@
 import { Component, OnInit } from "@angular/core";
+import { BaseComponent } from "src/app/util/BaseComponent/base_component";
+import { ActivatedRoute } from "@angular/router";
+import { StateFilterDataService } from "./state-filter-data.service";
 
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
   styleUrls: ["./state-filter-data.component.scss"],
 })
-export class StateFilterDataComponent implements OnInit {
+export class StateFilterDataComponent extends BaseComponent implements OnInit {
+  stateId: any;
+  revenueId: any;
+  stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
+  ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+
   scatterData = {
     type: "scatter",
     data: {
@@ -97,7 +105,47 @@ export class StateFilterDataComponent implements OnInit {
     },
   };
 
-  constructor() {}
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    public stateFilterDataService: StateFilterDataService
+  ) {
+    super();
+    this.activatedRoute.queryParams.subscribe((val) => {
+      console.log("val", val);
+      const { stateId } = val;
+      if (stateId) {
+        console.log("stid", this.stateId);
+        this.stateId = stateId;
+        sessionStorage.setItem("row_id", this.stateId);
+      } else {
+        this.stateId = sessionStorage.getItem("row_id");
+      }
+    });
+  }
 
-  ngOnInit(): void {}
+  getScatterData() {
+    let inputVal: any = {};
+    inputVal.stateIds = this.stateId;
+    this.stateFilterDataService
+      .getScatterdData(this.stateId, this.revenueId)
+      .subscribe((res) => console.log("response data", res));
+  }
+
+  getRevenueId() {
+    this.stateFilterDataService
+      .getRevID()
+      .subscribe((res) => console.log("revenue ==>", res));
+  }
+
+  ngOnInit(): void {
+    console.log(
+      "this.statecode",
+      this.stateCode[this.stateId],
+      this.ulbStateMapping,
+      this.stateId
+    );
+
+    this.getScatterData();
+    this.getRevenueId();
+  }
 }

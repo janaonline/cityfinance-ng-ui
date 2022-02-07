@@ -176,8 +176,16 @@
   }
   .login-btn {
     display: block;    //changes in the button
+    border-color: unset;
+    border-radius: 5px;
     width: 100%;
     margin: 30px 0 30px;
+  }
+  .btn-otp {
+    font-family: "Roboto";
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgb(80, 80, 252)
   }
   .text-dark {
     color: #2c2c2c;

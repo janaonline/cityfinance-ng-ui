@@ -7,8 +7,9 @@
     .input-group-addon {
         background: var(--greenish);
         color: white;
-        padding: 6px 8px;
+        padding: 2px 8px;
         border: 1px solid var(--greenish);
+        border-radius: 6px;
     }
     .form-control {
         border-color: var(--greenish);
@@ -244,6 +245,7 @@
 }
 
 .footerBtnDiv {
+    margin-top: 20px    ;
     margin-bottom: 10px;
 }
 

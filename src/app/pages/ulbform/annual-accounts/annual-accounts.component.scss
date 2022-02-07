@@ -116,10 +116,10 @@
 
 .card-body {
     margin-right: 20px;
-    margin-left: 20px;
-    margin-top: 8px;
+    // margin-left: 20px;
+    // margin-top: 8px;
     margin-bottom: 8px;
-    width: 97%;
+    width: 100%;
     height: auto;
     background-color: #F7F7F7;
 }
@@ -130,6 +130,7 @@
     width: 72px;
     height: 30px;
     margin-top: 2rem;
+    font-size: 13px;
     background-color: #CFCFCF;
     margin-bottom: 1pc;
 }
