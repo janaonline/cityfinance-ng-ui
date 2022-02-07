@@ -295,29 +295,29 @@ myForm: FormGroup;
       }
       this.districtMap = districtMap;
 
-      options.dataPoints.forEach((dataPoint: any) => {
-        const marker = this.createDistrictMarker({
-          ...dataPoint,
-          icon: this.blueIcon,
-        }).addTo(districtMap);
-        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-        marker.on("click", (values) => {
-          let city;
-          // if (values["latlng"])
-          //   city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
-          //     (value) =>
-          //       +value.location.lat === values["latlng"].lat &&
-          //       +value.location.lng === values["latlng"].lng
-          //   );
-          // if (city) {
-          //   this.selectedDistrictCode = city.code;
-          //   this.selectCity(city.code, false);
-          // }
-          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
-        });
-        this.districtMarkerMap[dataPoint.code] = marker;
-      });
+      // options.dataPoints.forEach((dataPoint: any) => {
+      //   const marker = this.createDistrictMarker({
+      //     ...dataPoint,
+      //     icon: this.blueIcon,
+      //   }).addTo(districtMap);
+      //   marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+      //   marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+      //   marker.on("click", (values) => {
+      //     let city;
+      //     // if (values["latlng"])
+      //     //   city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
+      //     //     (value) =>
+      //     //       +value.location.lat === values["latlng"].lat &&
+      //     //       +value.location.lng === values["latlng"].lng
+      //     //   );
+      //     // if (city) {
+      //     //   this.selectedDistrictCode = city.code;
+      //     //   this.selectCity(city.code, false);
+      //     // }
+      //     this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
+      //   });
+      //   this.districtMarkerMap[dataPoint.code] = marker;
+      // });
     }, 0.5);
   }
   loadData(){
