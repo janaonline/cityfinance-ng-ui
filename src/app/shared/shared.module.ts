@@ -70,6 +70,7 @@ import { MatTableModule } from "@angular/material/table";
 import { SharedTableComponent } from './components/shared-table/shared-table.component';
 import { SharedCompareTableComponent } from './components/shared-compare-table/shared-compare-table.component';
 import { StateFilterDataComponent } from './components/state-filter-data/state-filter-data.component';
+import { NationalHeatMapComponent } from './components/re-useable-heat-map/national-heat-map/national-heat-map.component';
 
 @NgModule({
   imports: [
@@ -142,6 +143,7 @@ import { StateFilterDataComponent } from './components/state-filter-data/state-f
     SharedTableComponent,
     SharedCompareTableComponent,
     StateFilterDataComponent,
+    NationalHeatMapComponent,
   ],
   exports: [
     FormsModule,
@@ -180,7 +182,8 @@ import { StateFilterDataComponent } from './components/state-filter-data/state-f
     DashboardTabsComponent,
     SharedCardComponent,
     RevenuechartComponent,
-    MapWithFilterComponent
+    MapWithFilterComponent,
+    NationalHeatMapComponent
   ],
   providers: [FinancialDataService],
 })

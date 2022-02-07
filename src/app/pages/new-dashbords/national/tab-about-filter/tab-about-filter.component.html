@@ -1,7 +1,7 @@
 <div class="container container-cnt">
     <div class="row" style="margin: 0 auto;">
         <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
-            <li class="nav-item" *ngFor="let item of data; let i=index">
+            <li class="nav-item" *ngFor="let item of data; let i=index" [ngClass]="{'li-w-e': (item?.name == 'Deficit Or Surplus')}">
                 <!-- [routerLink]="item?._id" -->
                 <a (click)="activeTabFn(item)" [routerLink]="item?._id" role="tab" routerLinkActive="active" class="nav-link nav-m" [id]="i">
                     <span>{{item?.name}}</span>
@@ -17,5 +17,4 @@
         </div>
     </div>
 </div>
-
 <router-outlet></router-outlet>
