@@ -14,23 +14,6 @@ export class DataAvailableComponent implements OnInit {
   stateList;
   popBtn = true;
   tableData;
-  @Input()
-  mapConfig = {
-    showStateList: false,
-    showDistrictList: false,
-    stateMapContainerHeight: "23rem",
-    nationalZoomOnMobile: 3.9, // will fit map in container
-    nationalZoomOnWeb: 3.9, // will fit map in container
-    stateZoomOnMobile: 4, // will fit map in container
-    stateZoomOnWeb: 4, // will fit map in container
-    stateBlockHeight: "23.5rem", // will fit map in container
-  };
-  @Output()
-  changeInStateOrCity = new EventEmitter();
-
-  changeInMapFilter(event) {
-    this.changeInStateOrCity.emit(event);
-  }
 
   ngOnInit(): void {
     this.loadData();

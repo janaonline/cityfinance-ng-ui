@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DataAvailableComponent } from './data-available/data-available.component';
 import { NationalResourcesComponent } from './national-resources/national-resources.component';
+import { NationalMapSectionComponent } from './national-map-section/national-map-section.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { NationalResourcesComponent } from './national-resources/national-resour
     TabAboutFilterComponent,
     NationalSubComponent,
     DataAvailableComponent,
-    NationalResourcesComponent
+    NationalResourcesComponent,
+    NationalMapSectionComponent
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,8 @@ import { NationalResourcesComponent } from './national-resources/national-resour
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularMultiSelectModule,
+    FormsModule
   ]
 })
 export class NationalModule { }

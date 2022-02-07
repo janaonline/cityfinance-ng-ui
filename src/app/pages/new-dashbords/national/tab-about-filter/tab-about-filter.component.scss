@@ -40,4 +40,12 @@ li>a.active:active {
 
 .nav>li>a {
     padding: .8rem 2.5rem;
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width: 1025px) {
+    .li-w-e {
+        width: 11rem;
+    }
 }

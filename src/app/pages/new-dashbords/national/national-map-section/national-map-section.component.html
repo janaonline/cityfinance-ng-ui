@@ -1,0 +1,97 @@
+<div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0;">
+    <div class="col-12 col-sm-12 col-lg-5 stateMapContainer">
+        <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+            <app-pre-loader></app-pre-loader>
+        </div>
+        <div class="col-sm-12" id="districtMapContainer" [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }">
+        </div>
+        <div class="stateMap analytics-map mb-2" [id]="'mapidd' + randomNumber" style="background-image: url('../../../../assets/Layer\ 1.png') !important;"></div>
+
+        <div class="col-sm-12 bg-map mt-3">
+            <div class="legends" style="display: block; z-index: 99; position: relative;">
+                <ul style="display: flex; padding: 0px; align-items: flex-start; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+                    <li *ngFor="let item of mapLabels" style="display: flex; align-items: center; padding: 0.6rem;">
+                        <div style="width: 20px; height: 16px; display: inline-block;" [style.background-color]="item.color"></div>
+                        <span class="ps-2">{{item.name}}</span>
+                    </li>
+                </ul>
+                <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="isMapOnMiniMapMode">
+                    <a type="button" style="text-decoration: none;" (click)="resetNationalMap()">Reset Map To India</a>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+
+
+    </div>
+    <div class="col-12 col-sm-12 col-md-7">
+        <div class="row" style="align-items: baseline;">
+            <div class="col-12 col-sm-12">
+                <div class="heading mb-3">
+                    India Data Availability - 75%
+                </div>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4">
+                <div class="input-group inp-grp">
+                    <form [formGroup]="myForm" class="w-100">
+                        <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+                        </angular2-multiselect>
+                    </form>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 col-md-3 ps-3">
+                <select class="form-select" id="years" aria-label="Default select">
+              <option value="2020-21" selected>2020-21</option>
+              <option value="2021-22">2021-22</option>
+            </select>
+            </div>
+        </div>
+        <div class="container-cnt" style="padding: 0;">
+            <div class="row">
+                <div class="col-12 col-sm-12 mb-3 mt-3">
+                    <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
+                        <li class="nav-item">
+
+                            <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
+                                <span>Population Category</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
+                                <span>ULB Type</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table" *ngFor="let table of tableData?.data; let tableIndex = index">
+                        <thead>
+                            <tr>
+                                <th scope="col" *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                    {{column?.display_name}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of table?.rows">
+                                <td *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                    {{row[column.key]}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
