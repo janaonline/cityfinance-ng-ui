@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="table-responsive p-5">
+      <table
+        class="table-bordered tracking-history-table my_table"
+        style="margin-bottom: 0"
+      >
+        <thead>
+          <tr style="background-color: #047474; color: #ffffff">
+            <th style="padding: 10px" *ngFor="let head of items[0] | keys">
+              {{ head | humanize }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td class="text-center" *ngFor="let list of item | keys">
+              {{ item[list] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

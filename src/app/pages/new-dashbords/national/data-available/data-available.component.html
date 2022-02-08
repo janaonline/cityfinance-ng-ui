@@ -1,6 +1,6 @@
-<div class="row mb-3">
+<!-- <div class="row mb-3">
     <div class="col-12 col-sm-12 col-md-5">
-        <app-map-with-filter (changeInStateOrCity)="changeInMapFilter($event)" [mapConfig]="mapConfig"></app-map-with-filter>
+        <app-national-map-section></app-national-map-section>
     </div>
     <div class="col-12 col-sm-12 col-md-7">
         <div class="row">
@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <select class="form-select" id="stateName" aria-label="Default select">
+                <select class="form-select" id="stateName" aria-label="Default select" (change)="changeInDropdown($event)">
                   <option value="" selected>India</option>
                   <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                 </select>
@@ -64,4 +64,5 @@
         </div>
 
     </div>
-</div>
+</div> -->
+<app-national-map-section></app-national-map-section>

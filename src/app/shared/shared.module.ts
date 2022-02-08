@@ -71,6 +71,7 @@ import { SharedTableComponent } from './components/shared-table/shared-table.com
 import { SharedCompareTableComponent } from './components/shared-compare-table/shared-compare-table.component';
 import { StateFilterDataComponent } from './components/state-filter-data/state-filter-data.component';
 import { AccordionToTableComponent } from './components/dashboard-tabs/accordion-to-table/accordion-to-table.component';
+import { NationalHeatMapComponent } from './components/re-useable-heat-map/national-heat-map/national-heat-map.component';
 
 @NgModule({
   imports: [
@@ -144,6 +145,7 @@ import { AccordionToTableComponent } from './components/dashboard-tabs/accordion
     SharedCompareTableComponent,
     StateFilterDataComponent,
     AccordionToTableComponent,
+    NationalHeatMapComponent,
   ],
   exports: [
     FormsModule,
@@ -182,7 +184,8 @@ import { AccordionToTableComponent } from './components/dashboard-tabs/accordion
     DashboardTabsComponent,
     SharedCardComponent,
     RevenuechartComponent,
-    MapWithFilterComponent
+    MapWithFilterComponent,
+    NationalHeatMapComponent
   ],
   providers: [FinancialDataService],
 })

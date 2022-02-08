@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="flex">
+      <button
+        class="closeButton"
+        style="float: right; right: 0"
+        (click)="closeModal()"
+      >
+        X
+      </button>
+    </div>
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <div>
+          <button
+            [ngClass]="{ active: installTabValue === 'first' }"
+            (click)="installTabFirst()"
+          >
+            1st Insallment
+          </button>
+        </div>
+        <div>
+          <button *ngIf="installTabValue === 'first'">Download</button>
+        </div>
+      </div>
+      <div>
+        <div>
+          <button
+            [ngClass]="{ active: installTabValue === 'second' }"
+            (click)="installTabSecond()"
+          >
+            2nd Insallment
+          </button>
+        </div>
+        <div>
+          <button *ngIf="installTabValue === 'second'">Download</button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="display: flex; justify-content: center"
+      *ngIf="installTabValue === 'first'"
+    >
+      <app-mpc-reuse-table [items]="mpcTableData"></app-mpc-reuse-table>
+    </div>
+
+    <div
+      style="display: flex; justify-content: center; overflow-x: scroll"
+      *ngIf="installTabValue === 'second'"
+    >
+      <app-mpc-reuse-table [items]="mpcTableDataTwo"></app-mpc-reuse-table>
+    </div>
+  </div>
+</div>

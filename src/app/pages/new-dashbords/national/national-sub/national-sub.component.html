@@ -1,72 +1,71 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-            <div class="row m-0">
-                <div class="col-12 col-sm-12 ps-4 mb-3">
-                    <button class="filterBtn mb-2" (click)="getTotalRevenue()" [ngClass]="{'t-rev': totalRevenue}">Total Revenue</button>
-                    <button class="filterBtn mb-2" (click)="getRevenueMix()" [ngClass]="{'t-rev': !totalRevenue}">Revenue Mix</button>
-                </div>
-                <div class="col-12 col-sm-12 ps-4 mb-3">
-                    <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
-                        <li class="nav-item">
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="row m-0">
+            <div class="col-12 col-sm-12 pd-s mb-3">
+                <button class="filterBtn mb-2" (click)="getTotalRevenue()" [ngClass]="{'t-rev': totalRevenue}">Total Revenue</button>
+                <button class="filterBtn mb-2" (click)="getRevenueMix()" [ngClass]="{'t-rev': !totalRevenue}">Revenue Mix</button>
+            </div>
+            <div class="col-12 col-sm-12 pd-s mb-3">
+                <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
+                    <li class="nav-item">
 
-                            <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
-                                <span>Population Category</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
+                        <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
+                            <span>Population Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
 
-                            <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
-                                <span>ULB Type</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                        <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
+                            <span>ULB Type</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6">
-            <div class="row m-0">
-                <div class="col-sm-12 col-md-3">
-                    <select class="form-select" aria-label="Default select">
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="row m-0">
+            <div class="col-sm-12 col-md-3">
+                <select class="form-select" aria-label="Default select">
                   <option value="" selected>2020-21</option>
                  <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
                 </select>
-                </div>
-                <div class="col-sm-12 col-md-9 pe-4 mb-3">
-                    <div class="res-filter">
-                        <form class="filter-form w-100">
-                            <div class="row">
-                                <div class="col-9 col-sm-9 pe-0">
-                                    <input type="text" placeholder="Type here..." [formControl]="nationalFilter" [matAutocomplete]="auto" class="fl-input form-control">
-                                </div>
-                                <div class="col-3 col-sm-3 ps-0">
-                                    <button type="button" class="btn btnFilter">Search</button>
-                                </div>
-                                <div class="col-12 col-sm-12">
-                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                        <!-- (click)="filterData(option)" -->
-                                        <a *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
-                                            <mat-option [value]="option?.name">
-                                                <span> {{option?.name}}</span>
-                                            </mat-option>
-                                        </a>
-                                    </mat-autocomplete>
-                                </div>
-
+            </div>
+            <div class="col-sm-12 col-md-9 pd-s mb-3">
+                <div class="res-filter">
+                    <form class="filter-form w-100">
+                        <div class="row">
+                            <div class="col-9 col-sm-9 pe-0">
+                                <input type="text" placeholder="Type here..." [formControl]="nationalFilter" [matAutocomplete]="auto" class="fl-input form-control">
+                            </div>
+                            <div class="col-3 col-sm-3 ps-0">
+                                <button type="button" class="btn btnFilter">Search</button>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <!-- (click)="filterData(option)" -->
+                                    <a *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                                        <mat-option [value]="option?.name">
+                                            <span> {{option?.name}}</span>
+                                        </mat-option>
+                                    </a>
+                                </mat-autocomplete>
                             </div>
 
+                        </div>
 
-                            <!-- <div style="display: inline-block; float: right;">
+
+                        <!-- <div style="display: inline-block; float: right;">
 
                     </div> -->
-                        </form>
+                    </form>
 
-                    </div>
                 </div>
             </div>
-            <div class="row m-0" *ngIf="totalRevenue">
-                <div class="col-12 col-sm-12 text-end pe-4">
-                    <button type="button" class="btnTableView" (click)="tableViewFn()" [ngClass]="{'tb-active': tableView}">
+        </div>
+        <div class="row m-0" *ngIf="totalRevenue">
+            <div class="col-12 col-sm-12 text-end pe-4">
+                <button type="button" class="btnTableView" (click)="tableViewFn()" [ngClass]="{'tb-active': tableView}">
                  <span>
                   <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" class="tb_svg" [ngClass]="{'tb_svg-ac': tableView}">
                     <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -75,7 +74,7 @@
                 </span>
                   Table
                 </button>
-                    <button type="button" class="btnTableView" (click)="graphViewFn()" [ngClass]="{'tb-active': graphView}">
+                <button type="button" class="btnTableView" (click)="graphViewFn()" [ngClass]="{'tb-active': graphView}">
                  <!-- <span class="">
                   <img src="../../../../../assets/CIty_detail_dashboard – 3/insert_chart_outlined_black_24dp.svg" alt="">
                 </span> -->
@@ -87,16 +86,16 @@
                 </span>
               Graph
             </button>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container" *ngIf="totalRevenue">
+
+<div class="" *ngIf="totalRevenue">
     <div class="row m-0">
-        <div class="col-sm-12 ps-4 mb-3" *ngIf="tableView">
-            <div class="table-responsive" *ngIf="tableView">
+        <div class="col-sm-12 pd-s mb-3" *ngIf="tableView">
+            <div class="table-responsive table-con" *ngIf="tableView">
                 <table class="table" *ngFor="let table of tableData?.data; let tableIndex = index">
                     <thead>
                         <tr>
@@ -115,7 +114,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3" [hidden]="!graphView">
+        <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
             <div class="card-body barCon">
                 <div class="w-75 m-auto h-auto">
                     <canvas id="canvas" style="width: 70vw; height: 70vh;">{{ chart }}</canvas>
@@ -124,7 +123,7 @@
         </div>
     </div>
 </div>
-<div class="container" [hidden]="!mixRevenue">
+<div class="" [hidden]="!mixRevenue">
     <div class="row m-0">
         <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
             <div class="card-body barCon">
