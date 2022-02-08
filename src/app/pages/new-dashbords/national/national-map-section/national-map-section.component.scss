@@ -538,6 +538,16 @@ td {
     padding: 15px 20px !important;
 }
 
+@media screen and (max-width: 428px) {
+    .table-con>.table>thead>tr>th:first-child,
+    .table-con>.table>tbody>tr>td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 99;
+        background-color: #F7F9FF;
+    }
+}
+
 .inp-grp {
     // width: 40%;
     display: inline-flex;
@@ -559,7 +569,7 @@ td {
 
 @media screen and (max-width: 428px) {
     .heading {
-        text-align: center;
+        //   text-align: center;
     }
     .form-select {
         margin-top: 1rem;
