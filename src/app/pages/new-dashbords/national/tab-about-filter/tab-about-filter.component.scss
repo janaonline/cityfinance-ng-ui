@@ -7,6 +7,7 @@
     background: #F7F8FF 0% 0% no-repeat padding-box;
     border: 1px solid #D9DCE6;
     text-align: center;
+    width: max-content;
 }
 
 .nav-item:first-child {
@@ -44,8 +45,13 @@ li>a.active:active {
     width: 100%;
 }
 
-@media screen and (max-width: 1025px) {
-    .li-w-e {
-        width: 11rem;
+// @media screen and (max-width: 1025px) {
+//     .li-w-e {
+//         //   width: 11rem;
+//     }
+// }
+@media screen and (max-width: 425px) {
+    .ps-m {
+        padding-left: 0;
     }
 }

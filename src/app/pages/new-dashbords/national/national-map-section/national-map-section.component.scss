@@ -23,7 +23,7 @@
     transition: all 0.8s;
     padding-top: 2%;
     @media screen and (max-width: 768px) {
-        width: 95vw;
+        width: 99vw;
     }
     // border-left: inherit;
 }
@@ -34,7 +34,7 @@
     min-height: 530px;
     @media (max-width: 600px) {
         min-height: 550px;
-        margin-left: 10px;
+        //  margin-left: 10px;
     }
     // border: 1px solid rgb(212, 212, 212);
     border-radius: 5px;
@@ -54,6 +54,7 @@ div.miniMap {
     bottom: 10% !important;
     left: 1% !important;
     z-index: 999;
+    display: none;
 }
 
 ::ng-deep.miniMapOverlay {
