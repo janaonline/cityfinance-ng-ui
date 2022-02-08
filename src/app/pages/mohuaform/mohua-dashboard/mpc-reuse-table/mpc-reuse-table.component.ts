@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { element } from "protractor";
 
 @Component({
   selector: "app-mpc-reuse-table",
@@ -6,11 +7,9 @@ import { Component, Input, OnInit } from "@angular/core";
   styleUrls: ["./mpc-reuse-table.component.scss"],
 })
 export class MpcReuseTableComponent implements OnInit {
-  @Input() headerData: any;
-  @Input() mpctableData: any;
+  @Input() items: any;
+
   constructor() {}
 
-  ngOnInit(): void {
-    console.log("tableData", this.mpctableData);
-  }
+  ngOnInit(): void {}
 }
