@@ -33,6 +33,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   barChartTitle = "";
   dataAvailable = 0;
   lastBarChartValue;
+  compareDialogType = 2;
   changeTab(type) {
     if (type == "own") {
       this.displayDoughnut = true;
@@ -261,7 +262,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       }
       this.allCalls();
     });
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
 
     this.createDataForFilter();
     this.getBarChartData();

@@ -1,6 +1,6 @@
 .card {
-    height: 140px;
-    width: 267px;
+    height: 100px;
+    width: 250px;
     background-color: #12505A;
     border-radius: 5px;
     margin-right: 20px;
@@ -31,7 +31,7 @@
     margin-top: -3px;
     background-color: #083d44;
     // width:269px;
-    height: 142px;
+    height: 110px;
     transition: height;
     transition-duration: 150ms;
     transition-timing-function: linear;
@@ -562,4 +562,64 @@ table {
 
 ::ng-deep .mat-card-header-text {
     margin: 0 !important;
+}
+
+//new Styles
+
+.heading {
+  font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+
+}
+
+.subHeading {
+  font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+    // background-color: white;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.viewButton {
+  display: flex;
+  justify-content: center;
+
+}
+
+.viewButton button {
+  border: 1px solid white;
+  background-color: #1b7280;
+  color: #fff;
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.tableTab {
+  cursor: pointer;
+  font-size: 1.3rem;
+  width: 20%;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  border-radius: 8px;
+  margin: 10px;
+  background-color: #12505A;
+  text-align: center;
 }
