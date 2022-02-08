@@ -81,7 +81,7 @@ export class MapWithFilterComponent
     >,
     containerId: string
   ) {
-    debugger;
+    // debugger;
     if (this.stateList.length == 0)
       this.stateList = geoData.features.map((value: any) => {
         Object.assign(this.layerMap, { [value.properties.ST_CODE]: null });
