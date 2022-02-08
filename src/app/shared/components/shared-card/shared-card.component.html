@@ -80,11 +80,13 @@
         revenue-card
       "
     >
-      <h3 class="title">{{ data.title }}</h3>
+    <div *ngIf="data.isLoading" >Loading..</div> 
+    <h3 *ngIf="!data.isLoading" class="title">{{ data.title }}</h3>
       <p class="subTitle">{{ data.subTitle }}</p>
-      <span class="arrow-title">
+      <div *ngIf="data.isLoading" >Loading..</div> 
+      <span *ngIf="!data.isLoading" class="arrow-title">
         <img class="" src="{{ data.svg }}" />
-        <span  [ngStyle]="{'color': data.color}" class="percentage">{{ data.percentage }}</span>
+        <span  [ngStyle]="{'color': data.color}" class="percentage">{{ data.percentage }}%</span>
       </span>
     </div>
   </div>
