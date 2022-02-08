@@ -204,3 +204,13 @@ td {
         padding-left: .5rem;
     }
 }
+
+@media screen and (max-width: 428px) {
+    .table-con>.table>thead>tr>th:first-child,
+    .table-con>.table>tbody>tr>td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 99;
+        background-color: #F7F9FF;
+    }
+}
