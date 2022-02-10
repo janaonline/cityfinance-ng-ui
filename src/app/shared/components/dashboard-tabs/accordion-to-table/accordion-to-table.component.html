@@ -1,35 +1,230 @@
-<div class="container">
-    <div class="col-sm-12 ps-4 mb-3" >
-      <div class="row"  *ngFor="let item of TableTitles">
-          <p class="MainHeading">{{item}}</p> <!-- For main row heading -->
-          <table class="table">
-              <thead>
-                <tr class="subHeading"> <!-- For sub row heading -->
-                    <th class="border-start">
-                    Date of Instrument
-                    </th>
-                    <th class="border-top border-bottom">
-                     Instrument 1
-                    </th>
-                    <th class="border-top border-bottom border-end">
-                     Instrument 2
-                    </th>
-                </tr>
-              </thead>
-              <tbody>
-                  <tr class="subHeadingData"> 
-                      <td class="border-start">
-                        Lorem, ipsum dolor.
-                      </td>
-                      <td class="border-top border-bottom">
-                        Lorem, ipsum dolor.
-                      </td>
-                      <td class="border-top border-bottom border-end">
-                        Lorem, ipsum dolor.
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
+<div class="w-100 b-sm">
+  <div class="inner-head">
+    <div class="back-icon">
+      <a routerLink="/home"
+        ><span class="glyphicon glyphicon-arrow-left"></span
+      ></a>
+    </div>
+    <div class="head-content">
+      <h5>Municipal Bond Issuances</h5>
+    </div>
   </div>
-  </div> 
+</div>
+<!-- w-100 end -->
+<div class="common-container">
+  <div class="container municipal-bonds">
+    <h3 class="page-title text-center n-sm">Municipal Bond Issuances</h3>
+    <div
+      class="row"
+      style="
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5%;
+      "
+    >
+      <div *ngIf="!bondIssuerItemData" style="display: block; width: 80vw">
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="paginatedbondIssuerItem">
+      <div
+        style="
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          margin-bottom: 1%;
+        "
+      >
+        <form
+          class=""
+          *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+          [formGroup]="filterForm"
+          (ngSubmit)="onSubmittingFilterForm()"
+          class="filterForm w-100"
+        >
+          <!--  <angular2-multiselect
+              style="width: 70%; margin-right: 2%;"
+              formControlName="states"
+              [data]="statesAvailable"
+              [settings]="stateDropdownSettings"
+              (onDeSelectAll)="filterForm.patchValue({ states: [] })">
+            </angular2-multiselect>-->
+
+          <div class="row w-100 m-0 p-0 filterContainer">
+            <div class="col-sm-12 col-md-5 col-lg-5">
+              <div class="drop-down-bond">
+                <angular2-multiselect
+                  *ngIf="stateList"
+                  class="state-form-control"
+                  formControlName="states"
+                  [data]="stateList"
+                  [settings]="stateDropdownConfiguration"
+                  (onClose)="onStateDropdownClose()"
+                  (onDeSelectAll)="filterForm.patchValue({ states: [] })"
+                >
+                </angular2-multiselect>
+
+                <angular2-multiselect
+                  class="ulb-form-control"
+                  *ngIf="ulbFilteredByName"
+                  formControlName="ulbs"
+                  [data]="ulbFilteredByName"
+                  [settings]="ulbDropdownConfiguration"
+                  (onClose)="onULBDropdownClose()"
+                  (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })"
+                >
+                </angular2-multiselect>
+
+                <angular2-multiselect
+                  class="year-form-control"
+                  formControlName="years"
+                  [data]="yearsAvailable"
+                  (onClose)="onyearSelected()"
+                  [settings]="yearsDropdownSettings"
+                >
+                </angular2-multiselect>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+              <div class="bond-btn-top">
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <button
+                  class="btn btn-danger"
+                  (click)="resetFilters()"
+                  style="margin-left: 1%"
+                >
+                  Clear All
+                </button>
+                <button
+                  class="btn btn-primary"
+                  (click)="onClickDownload()"
+                  style="margin-left: 1%"
+                >
+                  Download
+                </button>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3" style="min-width: 30%">
+              <div class="pagination-top">
+                <pagination-controls
+                  *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+                  id="foo"
+                  (pageChange)="setPage($event)"
+                  directionLinks="true"
+                  autoHide="false"
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  maxSize="5"
+                  responsive="true"
+                  screenReaderPaginationLabel="Pagination"
+                  screenReaderPageLabel="page"
+                  screenReaderCurrentLabel="You're on page"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- form end -->
+      </div>
+
+      <div
+        class="col-md-12 municipal-bond table-mf-header"
+        style="padding-right: 0px; padding-left: 0px"
+      >
+        <div>
+          <table accordion-heading id="tableHeadings" class="table-mf">
+            <thead>
+              <th>Issuer</th>
+              <th
+                *ngFor="
+                  let bondIsuuerItem of paginatedbondIssuerItem
+                    | paginate
+                      : {
+                          id: 'foo',
+                          itemsPerPage: ulbItemLimitPerPage,
+                          currentPage: currentPageInView,
+                          totalItems: totalCount
+                        };
+                  index as i
+                "
+              >
+                {{ bondIsuuerItem.ulb }}
+              </th>
+            </thead>
+          </table>
+        </div>
+
+        <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
+          <accordion-group
+            class="table-responsive"
+            *ngFor="let row of object.keys(mainRows); let i = index"
+            [isOpen]="i === 0 ? true : false"
+          >
+            <!-- <div [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
+          <div
+            class="table-responsive"
+            *ngFor="let row of object.keys(mainRows); let i = index"
+            [isOpen]="i === 0 ? true : false"
+          > -->
+            <h4 accordion-heading class="text-capitalize">
+              {{ formattedNamesMapping[row] }}
+              <span class="fa fa-angle-down"></span>
+            </h4>
+            <table class="table table-striped accordion-body-table table-hover">
+              <div
+                *ngFor="let subRow of mainRows[row]"
+                style="border: none; width: 100vw !important"
+              >
+                <tr style="border: 0px !important; height: 1px"></tr>
+                <tr style="border: 1px solid #d9d8d8" class="mainRow">
+                  <td class="text-capitalize somepadding">
+                    {{ formattedNamesMapping[subRow] }}
+                  </td>
+                  <td
+                    *ngFor="
+                      let bondIsssuerItem of paginatedbondIssuerItem;
+                      let i = index
+                    "
+                    #i
+                  >
+                    {{
+                      bondIsssuerItem[subRow] | linkConverter: "Click here":i
+                    }}
+                  </td>
+                </tr>
+                <tr style="border: 0px !important; height: 1px"></tr>
+              </div>
+            </table>
+            <!-- </div>
+        </div> -->
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="pagination-bottom">
+        <pagination-controls
+          style="float: right; position: relative"
+          *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+          id="foo"
+          (pageChange)="setPage($event)"
+          directionLinks="true"
+          autoHide="false"
+          maxSize="5"
+          responsive="true"
+          previousLabel="Previous"
+          nextLabel="Next"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
+      </div>
+      <!-- pagination bottom-->
+    </div>
+  </div>
+</div>
