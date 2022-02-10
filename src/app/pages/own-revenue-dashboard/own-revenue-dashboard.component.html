@@ -1,9 +1,9 @@
-<div *ngIf="isLoading" 
+<!-- <div *ngIf="isLoading" 
       class="container-fluid spinner_overlay d-flex justify-content-center align-items-center"
 >
     <mat-spinner></mat-spinner>
-</div>
-<div *ngIf="!isLoading">
+</div> -->
+<!-- <div *ngIf="!isLoading"> -->
 <div class="container-fluid dashboard-container">
     <div class="container">
         <div class="row justify-content-center align-items-center">
@@ -16,7 +16,7 @@
         </div>
     </div>
 </div>
-<div class="container-fluid two-tabs">
+<div *ngIf="!sticky" class="container-fluid two-tabs">
     <div class="container d-flex justify-content-center">
         <a class="text-decoration-none col-6
               col-md-4 col-lg-4 rounded-start
@@ -32,7 +32,27 @@
     </a>
     </div>
 </div>
-
+<div *ngIf="sticky" class="  two-tabs ">
+<div  class="container-fluid" style="background-color:white ; padding-top:30px;">
+    <div class="dataavail">
+    <span  style="padding-top:30px; font-size: 0.9rem; width: 12%; color: rgb(0, 0, 134);" >Data Availability - {{dataAvailable}}% ({{body.financialYear}})</span>
+</div>
+    <div class="container d-flex justify-content-center" style="padding-bottom:15px ; background-color:white ;">
+        <a class="text-decoration-none col-6
+              col-md-4 col-lg-4 rounded-start
+              d-flex justify-content-center align-items-center
+              first-tab tab" (click)="changeTab('own')" [ngClass]="{'activeCls': ownTab, 'unActcls':!ownTab }">
+      Own Revenue Performance Dashboard
+    </a>
+        <a class="text-decoration-none col-6
+              col-md-4 col-lg-4 rounded-end
+              d-flex justify-content-center align-items-center
+              second-tab tab" (click)="changeTab('pro')" [ngClass]="{'activeCls': proTab, 'unActcls':!proTab }">
+      Property Tax Performance Dashboard
+    </a>
+    </div>
+</div>
+</div>
 <div class="container threeBtnContainer" *ngIf="displayButtons">
     <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
     <button class="btn btn-outline btn-sm btnDT" [routerLink]="['/resources-dashboard/learning-center/toolkits/score-performance']" routerLinkActive="router-link-active"  >Digital Tooklit</button>
@@ -65,6 +85,7 @@
     <!-- <div class="container rounded filters-container py-3">
     <app-filter-component></app-filter-component>
   </div> -->
+  <!-- filter component -->
   <form [formGroup]="filterGroup" >
       <div class="container rounded filters-container py-3">
           <div class="row">
@@ -116,11 +137,16 @@
             <div class="col-md-7">
                 <h3 class="heading">Data Availability</h3>
                 <p class="da-para">
-                    {{dataAvailable}}% financial data is available for the year YY i.e. {{dataAvailable}}% of the ULBs’ financial statements are available for
+                    {{dataAvailable}}% financial data is available for the year {{body.financialYear}} i.e. {{dataAvailable}}% of the ULBs’ financial statements are available for
                     <span class="extra-text">
-                the year YY. Data is not available
-                for AA, BB and CC Municipal Corporation. For more details, download the
-                complete set of ULBs for which the data is available for the year YY.
+                the year {{body.financialYear}}. </span>
+                <span *ngIf="notFoundNames.length>0">
+                Data is not available
+                for <span *ngFor="let name of notFoundNames">{{name}},</span>. 
+                </span>
+                <span>
+                For more details, download the
+                complete set of ULBs for which the data is available for the year {{body.financialYear}}.
               </span>
                     <span class="three-dots" *ngIf="showButton">...</span>
                     <span class="three-dots btn-rm" *ngIf="showButton" (click)="open()">
@@ -160,10 +186,17 @@
     </div>
     <!-- Full doughnut chart section -->
     <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
+      <div *ngIf="pieChartLoading" 
+      class="container-fluid spinner_overlay d-flex justify-content-center align-items-center"
+>
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!pieChartLoading">
         <app-revenuechart class="" [headerActions]="headerActions" [chartData]="doughnutChartData" [chartId]="doughnutChartId" [chartTitle]="doughnutChartTitle"
         [ChartOptions]="doughnutChartOptions"
         >
         </app-revenuechart>
+    </div>
     </div>
     <div class="container revenue-stocks-container">
         <div class="row">
@@ -176,10 +209,13 @@
             </div>
             <div class="col-md-10">
                 <div class="row mx-0">
-                    <div class="col-md-6 col-6" [ngClass]="{'col-lg-3': ownTab,'col-lg-4':proTab}" *ngFor="let cardItem of cardData;">
+                   
+                    
+                    <div  class="col-md-6 col-6" [ngClass]="{'col-lg-3': ownTab,'col-lg-4':proTab}" *ngFor="let cardItem of cardData;">
                         <app-shared-card class="rc-cont" [data]="cardItem">
                         </app-shared-card>
-                    </div>
+                    
+                </div>
                 </div>
             </div>
         </div>
@@ -196,9 +232,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="scrollme scrollableTB text-center" *ngFor="let user of users">
+                    <tr class="scrollme scrollableTB" *ngFor="let user of users">
                         <td>{{user.name}}</td>
-                        <td>{{user.averageRevenue}}</td>
+                        <td>{{((user.averageRevenue / 10000000) | number)}}</td>
                         <td>{{user.perCapita}}</td>
                         <td *ngIf="ownTab">{{user.meetsRevenue}}%</td>
                         <td>{{user.avgRevenueMeet}}%</td>
@@ -206,8 +242,8 @@
                 </tbody>
             </table>
         </div>
-        <p class="text-end smallText">
-            Please note financial data for AA, BB and CC Municipal Corporations is not available and thus, is not depicted here.
+        <p *ngIf="notFoundNames.length > 0" class="text-end smallText">
+            Please note financial data for <span *ngFor="let name of notFoundNames" >{{name}}, </span> is not available and thus, is not depicted here.
         </p>
     </div>
 
@@ -246,10 +282,10 @@
     <!-- Bar chart section -->
     <div class="container barChartContainer">
         <h2 class="barCharttitle text-center">
-            Top 10 Performing ULBs
+            Top 10 Performing States
         </h2>
         <p class="barChartSubTitle text-center">
-            Top 10 performing ULBs in the country in property tax per capita can be viewed below.
+            Top 10 performing States in the country in property tax per capita can be viewed below.
         </p>
         <app-revenuechart class="rounded" [compareDialogType]="compareDialogType" [headerActions]="headerActions" (compareChange)="barChartCompValues($event)" [chartData]="barChartData" [chartId]="barChartId" [chartTitle]="barChartTitle" [btnBesideText]="barChartCmpBtn"
         [ChartOptions]="barChartOptions"
@@ -270,4 +306,4 @@
         </div>
     </div>
 </div>
-</div>
+<!-- </div> -->

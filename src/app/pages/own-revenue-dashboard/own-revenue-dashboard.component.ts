@@ -5,6 +5,9 @@ import {
   Input,
   ViewChild,
   TemplateRef,
+  HostListener,
+  AfterContentInit,
+  AfterViewInit
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -21,6 +24,7 @@ import { OwnRevenueService } from "./own-revenue.service";
   styleUrls: ["./own-revenue-dashboard.component.scss"],
 })
 export class OwnRevenueDashboardComponent implements OnInit {
+ 
   barChartCmpBtn = true;
   displayDoughnut: boolean = true;
   displayButtons: boolean = false;
@@ -50,10 +54,20 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   @ViewChild("ownRevenueFiltersPopup")
   private ownRevenueFiltersPopup: TemplateRef<any>;
-
+  sticky = false
   ToggleString: string = "";
   showButton: boolean = true;
-
+  @HostListener('window:scroll', ['$event']) 
+  doSomething(event) {
+    // console.debug("Scroll Event", document.body.scrollTop);
+    // see András Szepesházi's comment below
+    console.log("Scroll Event", window.pageYOffset );
+    if(window.pageYOffset > 364){
+      this.sticky = true
+    }else{
+      this.sticky = false
+    }
+  }
   close() {
     this.ToggleString = "";
     this.showButton = true;
@@ -68,7 +82,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   columnAttribute = [
     { id: 1, title: "ULB Population Category" },
     { id: 2, title: "Average Own Revenue Collections (In Crore Rs.)" },
-    { id: 3, title: "Median Own Revenue Per Capita" },
+    { id: 3, title: "Median Own Revenue Per Capita (INR)" },
     {
       id: 4,
       title: "Percentage Of Cities Where Own Revenues Meet Revenue Expenditure",
@@ -93,42 +107,42 @@ export class OwnRevenueDashboardComponent implements OnInit {
     {
       id: 1,
       name: "4M+",
-      averageRevenue: "50",
-      perCapita: "30",
-      meetsRevenue: "30",
-      avgRevenueMeet: "30",
+      averageRevenue: "0",
+      perCapita: "0",
+      meetsRevenue: "0",
+      avgRevenueMeet: "0",
     },
     {
       id: 2,
       name: "1M-4M",
-      averageRevenue: "50",
-      perCapita: "30",
-      meetsRevenue: "30",
-      avgRevenueMeet: "30",
+      averageRevenue: "0",
+      perCapita: "0",
+      meetsRevenue: "0",
+      avgRevenueMeet: "0",
     },
     {
       id: 3,
       name: "500K-1M",
-      averageRevenue: "50",
-      perCapita: "30",
-      meetsRevenue: "30",
-      avgRevenueMeet: "30",
+      averageRevenue: "0",
+      perCapita: "0",
+      meetsRevenue: "0",
+      avgRevenueMeet: "0",
     },
     {
       id: 4,
       name: "100K-500K",
-      averageRevenue: "50",
-      perCapita: "30",
-      meetsRevenue: "30",
-      avgRevenueMeet: "30",
+      averageRevenue: "0",
+      perCapita: "0",
+      meetsRevenue: "0",
+      avgRevenueMeet: "0",
     },
     {
       id: 5,
       name: "<100K",
-      averageRevenue: "50",
-      perCapita: "30",
-      meetsRevenue: "30",
-      avgRevenueMeet: "30",
+      averageRevenue: "0",
+      perCapita: "0",
+      meetsRevenue: "0",
+      avgRevenueMeet: "0",
     },
   ];
 
@@ -274,8 +288,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       financialYear: "2018-19",
     });
   }
-
+pieChartLoading = true;
   getPieChartData() {
+    this.pieChartLoading = true
     let temp = {
       type: "doughnut",
       data: {
@@ -305,10 +320,12 @@ export class OwnRevenueDashboardComponent implements OnInit {
             temp.data.labels.push(value._id["revenueName"]);
             temp.data.datasets[0].data.push(value.amount);
           this.isLoading = false;
+          this.pieChartLoading = false
           });
           this.doughnutChartData = temp;
         },
         (err) => {
+          this.pieChartLoading = false
           this.isLoading = false;
         }
       );
@@ -342,16 +359,19 @@ export class OwnRevenueDashboardComponent implements OnInit {
       console.log("The dialog was closed");
     });
   }
+  notFoundNames = []
   getAvailableData() {
     this.body = {
       ...this.filterGroup.value,
       propertyTax: !this.ownTab,
     };
+   
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
         this.halfDoughnutChart(res["data"]?.percent ?? 0);
+this.notFoundNames = res["data"]?.names
         console.log("ordResponse", res);
       },
       (err) => {
@@ -447,14 +467,16 @@ export class OwnRevenueDashboardComponent implements OnInit {
       },
     });
   }
-
+cardsDataLoading= true
   cardsData() {
+    this.cardsDataLoading = true
     let body = {
       ...this.filterGroup.value,
       property: this.proTab,
     };
     this.ownRevenueService.getCardsData(body).subscribe(
       (res) => {
+        this.cardsDataLoading = false
         console.log(res);
         if (this.ownTab) {
           this.ownTabCardsFormant(res["data"]);
@@ -463,6 +485,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         }
       },
       (err) => {
+        this.cardsDataLoading = false
         console.log(err);
       }
     );
@@ -476,11 +499,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
       revenuePercentageCopy = deepCopy(revenuePercentage),
       value = data[this.filterGroup.value.financialYear];
 
+    
+
+    revenueCollectionCopy.isLoading = this.cardsDataLoading
+    revenuePerCapitaCopy.isLoading = this.cardsDataLoading
+    revenueExpenditureCopy.isLoading = this.cardsDataLoading
+    revenuePercentageCopy.isLoading = this.cardsDataLoading
+    
     revenueCollectionCopy.title = valueConvert(value.totalRevenue) ?? 0;
-    revenuePerCapitaCopy.title = value.perCapita.toFixed(2) ?? 0;
-    revenuePercentageCopy.title = value.percentage.toFixed(2) ?? 0;
+    revenuePerCapitaCopy.title = 'INR ' + value.perCapita.toFixed(2) ?? 0 ;
+    revenuePercentageCopy.title = (value.percentage.toFixed(2) ?? '0') + ' %';
     revenueExpenditureCopy.title =
-      value.totalUlbMeetExpense.toFixed(2) ?? 0 + "%";
+      value.totalUlbMeetExpense ?? 0 ;
 
     if (yearInData[1]) {
       let oldYearValue =
@@ -524,13 +554,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   compareValues(oldValue, newValue, inc = true) {
-    // if (oldValue > oldValue) {
-    //   let t = oldValue;
-    //   oldValue = newValue;
-    //   newValue = oldValue;
-    //   inc = false;
-    // }
-    return { num: newValue - oldValue / oldValue, inc };
+   
+    inc = newValue >= oldValue;
+
+    return { num: ((newValue - oldValue) / oldValue)*100 , inc };
   }
 
   proTabCardsFormat(data) {
@@ -545,20 +572,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
       ).toFixed(2) + "%";
     this.cardData = cards;
   }
-
+tableDataLoading = true;
   tableData() {
+    this.tableDataLoading = true
     this.ownRevenueService.getTableData(this.filterGroup.value).subscribe(
       (res) => {
+        this.tableDataLoading = false
         if (this.proTab) this.columnAttribute = this.columnAttributeProperty;
         this.users = this.users.map((value) => {
           let data = res["data"][value.name];
           if (this.ownTab) {
             value.meetsRevenue = numCheck(
-              (data.numOfUlb / data.numOfUlbMeetRevenue) * 100
+              (data.numOfUlbMeetRevenue / data.numOfUlb) * 100
             );
             if (data.totalExpense > 0) {
               value.avgRevenueMeet = numCheck(
-                (parseInt(value.averageRevenue) / data.totalExpense) * 100
+                ( data.totalRevenue / data.totalExpense) * 100
               );
             } else {
               value.avgRevenueMeet = "0";
@@ -600,7 +629,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
           return value;
         });
       },
-      (error) => {}
+      (error) => {
+        this.tableDataLoading = false
+      }
     );
   }
 
@@ -653,7 +684,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 }
 
 function valueConvert(value) {
-  return (value / 1000000).toFixed(2) + "Cr";
+  return (value / 10000000).toFixed(2) + " Cr";
 }
 
 function numCheck(value) {
@@ -667,37 +698,41 @@ function deepCopy(value) {
 
 const revenueCollection = {
   type: "5",
-  title: "1000 Cr",
+  title: "0 Cr",
+  isLoading:true,
   subTitle: "Own Revenue Collections",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
-  percentage: "5%",
+  percentage: "0%",
   color: "#22C667",
 };
 
 const revenuePerCapita = {
   type: "5",
-  title: "1000",
+  title: "0 Cr",
+  isLoading:true,
   subTitle: "Own Revenue Per Capita",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
-  percentage: "3%",
+  percentage: "0%",
   color: "#22C667",
 };
 
 const revenueExpenditure = {
   type: "5",
-  title: "120",
+  title: "0",
+  isLoading:true,
   subTitle: "Cities Where Own Revenue Meet Revenue Expenditure",
   svg: "../../../assets/resources-das/south_west_red_24dp.svg",
-  percentage: "2%",
+  percentage: "0%",
   color: "#E64E4E",
 };
 
 const revenuePercentage = {
   type: "5",
-  title: "72%",
+  title: "0%",
+  isLoading:true,
   subTitle: "Own Revenue As A Percentage Of Revenue Expenditure",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
-  percentage: "3%",
+  percentage: "0%",
   color: "#22C667",
 };
 
@@ -745,26 +780,26 @@ const barChart = {
 const porpertyCards = [
   {
     type: "5",
-    title: "1000",
+    title: "0",
     subTitle: "Property Tax Revenue",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
-    percentage: "3%",
+    percentage: "0%",
     color: "#22C667",
   },
   {
     type: "5",
-    title: "1000",
+    title: "0",
     subTitle: "Property Tax Revenue Per Capita",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
-    percentage: "3%",
+    percentage: "0%",
     color: "#22C667",
   },
   {
     type: "5",
-    title: "1000",
+    title: "0",
     subTitle: "Property Tax To Own Revenue Percentage",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
-    percentage: "3%",
+    percentage: "0%",
     color: "#22C667",
   },
 ];
