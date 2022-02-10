@@ -13,6 +13,7 @@ import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FormControl } from "@angular/forms";
 import html2canvas from "html2canvas";
+import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
 
 @Component({
   selector: "app-revenuechart",
@@ -24,7 +25,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   chartOptions;
   @Input()
   btnBesideText = false;
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,
+    public _loaderService: GlobalLoaderService) {}
 
   @ViewChild("template") template;
   @Input()
@@ -193,18 +195,18 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input()
   headerActions = [
-    {
-      name: "expand",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
-    },
     // {
-    //   name: "download",
-    //   svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+    //   name: "expand",
+    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
     // },
     {
-      name: "share/embed",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+      name: "download",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
+    // {
+    //   name: "share/embed",
+    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    // },
   ];
   @Input()
   compareDialogType = 1;
@@ -245,13 +247,21 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   createChart() {
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-    else Object.assign(this.chartData, { options: this.ChartOptions });
-    const canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-    const ctx = canvas.getContext("2d");
-    this.myChart = new Chart(ctx, this.chartData);
+    else {
+  Object.assign(this.chartData, { options: this.ChartOptions });
+    }
+
+  
+  let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+  let ctx = canvas.getContext("2d");
+  this.myChart = new Chart(ctx, this.chartData);
+
+    
+ 
   }
 
   actionClick(value) {
+    this._loaderService.showLoader()
     console.log(value, "In revenue");
     if (value.name == "expand" || value.name == "collapse") {
       this.headerActions.map((innerVal) => {
@@ -262,9 +272,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       });
       this.myChart.destroy();
       this.createChart();
-    }
-    if (value.name == "share/embed") {
+    }else if (value.name == "download") {
       this.getImage();
+     
+    return;
     }
     this.actionClicked.emit(value);
   }
@@ -304,17 +315,23 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     };
     this.compareChange.emit(data);
   }
+showLoader = false
 
   getImage() {
-    let html = document.getElementById("canvasDiv" + this.chartId);
+    
+
+let id = "canvasDiv" + this.chartId
+    let html = document.getElementById(id);
     html2canvas(html).then((canvas) => {
       let image = canvas
-        .toDataURL("image/png", 1.0)
+        .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
+        // window.open(image)
       var link = document.createElement("a");
-      link.download = "my-image.png";
       link.href = image;
+      link.download = `Chart ${this.chartId}.png`;
       link.click();
+      this._loaderService.stopLoader()
     });
   }
 }
