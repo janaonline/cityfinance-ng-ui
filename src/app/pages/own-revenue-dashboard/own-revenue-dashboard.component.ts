@@ -17,7 +17,7 @@ import * as fileSaver from "file-saver";
 import Chart from "chart.js";
 import { FilterModelBoxComponent } from "../resources-dashboard/filter-model-box/filter-model-box.component";
 import { OwnRevenueService } from "./own-revenue.service";
-
+import { GlobalLoaderService } from '../../../app/shared/services/loaders/global-loader.service';
 @Component({
   selector: "app-own-revenue-dashboard",
   templateUrl: "./own-revenue-dashboard.component.html",
@@ -35,6 +35,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   lastBarChartValue;
   compareDialogType = 2;
   changeTab(type) {
+    this._loaderService.showLoader()
     if (type == "own") {
       this.displayDoughnut = true;
       this.displayButtons = false;
@@ -146,8 +147,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
   ];
 
-  doughnutChartId = `ownRevenue-doughnutChart-${Math.random()}`;
-  barChartId = `ownRevenue-barChart-${Math.random()}`;
+  doughnutChartId = `ownRevenue-doughnutChart`;
+  barChartId = `ownRevenue-barChart`;
 
   doughnutChartData = {
     type: "doughnut",
@@ -196,14 +197,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   barChartData = barChart;
   barChartOptions = {
+    borderRadius: 5,
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
         display: false,
       },
+      scales:{
+        y:{
+          ticks:{
+          color: 'red'
+        }
+      }
     },
-  };
+  }
+}
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
   stateIds = JSON.parse(localStorage.getItem("stateIdsMap"));
@@ -240,7 +249,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
   financialYear: any;
   constructor(
     private ownRevenueService: OwnRevenueService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    public _loaderService: GlobalLoaderService
   ) {
     this.isLoading = true;
     console.log("loader",this.isLoading);
@@ -368,6 +378,7 @@ pieChartLoading = true;
    
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
+        // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
         this.halfDoughnutChart(res["data"]?.percent ?? 0);
@@ -476,6 +487,7 @@ cardsDataLoading= true
     };
     this.ownRevenueService.getCardsData(body).subscribe(
       (res) => {
+        this._loaderService.stopLoader()
         this.cardsDataLoading = false
         console.log(res);
         if (this.ownTab) {
@@ -485,6 +497,7 @@ cardsDataLoading= true
         }
       },
       (err) => {
+        this._loaderService.stopLoader()
         this.cardsDataLoading = false
         console.log(err);
       }
@@ -564,12 +577,46 @@ cardsDataLoading= true
     let value = data[this.filterGroup.value.financialYear];
     let cards = deepCopy(porpertyCards);
     cards[0].title = valueConvert(value.totalProperty) ?? 0;
-    cards[1].title = (value.totalProperty / value.population).toFixed(2) ?? 0;
+    cards[1].title = 'INR ' + (value.totalProperty / value.population).toFixed(2) ?? 0;
     cards[2].title =
       (
         (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
         100
       ).toFixed(2) + "%";
+      let yearInData = Object.keys(data);
+      if (yearInData[1]) {
+        let oldYearValue =
+          data[
+            this.filterGroup.value.financialYear
+              .split("-")
+              .map((value) => Number(value) - 1)
+              .join("-")
+          ];
+  
+        let t = this.compareValues(oldYearValue.totalProperty, value.totalProperty);
+        cards[0].percentage = t.num.toFixed(2);
+        cards[0].svg = t.inc ? upArrow : downArrow;
+        cards[0].color = t.inc ? green : red;
+  
+        t = this.compareValues(oldYearValue.totalProperty/oldYearValue.population, value.totalProperty/value.population);
+        cards[1].percentage = t.num.toFixed(2);
+        cards[1].svg = t.inc ? upArrow : downArrow;
+        cards[1].color = t.inc ? green : red;
+  
+        t['num'] = ((value.totalProperty / (value.totalRevenue - value.totalProperty)) * 100) - ((oldYearValue.totalProperty / (oldYearValue.totalRevenue - oldYearValue.totalProperty)) * 100);
+
+        let newr = (value.totalProperty / (value.totalRevenue - value.totalProperty)) * 100
+        let old = (oldYearValue.totalProperty / (oldYearValue.totalRevenue - oldYearValue.totalProperty)) * 100
+        t['inc'] =  newr >= old
+        cards[2].percentage = t.num.toFixed(2);
+        cards[2].svg = t.inc ? upArrow : downArrow;
+        cards[2].color = t.inc ? green : red;
+  
+       
+  
+      }
+  
+
     this.cardData = cards;
   }
 tableDataLoading = true;
@@ -640,10 +687,10 @@ tableDataLoading = true;
       name: "download",
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
-    {
-      name: "share/embed",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
-    },
+    // {
+    //   name: "share/embed",
+    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    // },
   ];
 
   downloadCSV(from) {
