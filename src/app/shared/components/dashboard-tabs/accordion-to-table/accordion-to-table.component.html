@@ -1,1 +1,35 @@
-<p>accordion-to-table works</p>
+<div class="container">
+    <div class="col-sm-12 ps-4 mb-3" >
+      <div class="row"  *ngFor="let item of TableTitles">
+          <p class="MainHeading">{{item}}</p> <!-- For main row heading -->
+          <table class="table">
+              <thead>
+                <tr class="subHeading"> <!-- For sub row heading -->
+                    <th class="border-start">
+                    Date of Instrument
+                    </th>
+                    <th class="border-top border-bottom">
+                     Instrument 1
+                    </th>
+                    <th class="border-top border-bottom border-end">
+                     Instrument 2
+                    </th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr class="subHeadingData"> 
+                      <td class="border-start">
+                        Lorem, ipsum dolor.
+                      </td>
+                      <td class="border-top border-bottom">
+                        Lorem, ipsum dolor.
+                      </td>
+                      <td class="border-top border-bottom border-end">
+                        Lorem, ipsum dolor.
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+  </div> 
