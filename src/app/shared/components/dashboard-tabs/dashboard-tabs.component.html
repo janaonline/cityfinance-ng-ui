@@ -70,18 +70,24 @@
             <app-filter-data [data]="innerActiveTab"></app-filter-data>
           </div>
           <div *ngSwitchCase="'state'">
-        <app-state-filter-data></app-state-filter-data>
+            <app-state-filter-data></app-state-filter-data>
           </div>
         </div>
       </div>
       <div *ngSwitchCase="'Balance Sheet & Income Statement'">
-        <app-balance-table [cityId]="cityId" [data]="innerActiveTab"></app-balance-table>
+        <app-balance-table
+          [cityId]="cityId"
+          [data]="innerActiveTab"
+        ></app-balance-table>
       </div>
       <div *ngSwitchCase="'innerTab5'">
         <h1>Balance Sheet and tax</h1>
       </div>
+      <div *ngSwitchCase="'Borrowing & Credit Rating'">
+        <app-accordion-to-table></app-accordion-to-table>
+      </div>
     </div>
   </div>
   <!-- Displaying Table on click of borrowing and credit tab -->
-  <app-accordion-to-table ></app-accordion-to-table>
+  <!-- <app-accordion-to-table ></app-accordion-to-table> -->
 </div>
