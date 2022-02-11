@@ -13,23 +13,32 @@
 <!-- w-100 end -->
 <div class="common-container">
   <div class="container municipal-bonds">
-    <h3 class="page-title text-center n-sm">
-      Municipal Bond Issuances
-    </h3>
+    <h3 class="page-title text-center n-sm">Municipal Bond Issuances</h3>
     <div
       class="row"
-      style="position: relative; display: flex; align-items: center; margin-bottom: 0.5%; "
+      style="
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5%;
+      "
     >
-      <div *ngIf="!bondIssuerItemData" style="display: block; width: 80vw;">
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
-        <app-pre-loader style="display: block; width: 100%;"></app-pre-loader>
+      <div *ngIf="!bondIssuerItemData" style="display: block; width: 80vw">
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
       </div>
     </div>
 
     <div class="row" *ngIf="paginatedbondIssuerItem">
       <div
-        style="  width: 100%;  position: relative; display: flex;  align-items: center; margin-bottom: 1%; "
+        style="
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          margin-bottom: 1%;
+        "
       >
         <form
           class=""
@@ -85,22 +94,22 @@
               <div class="bond-btn-top">
                 <input type="submit" value="Search" class="btn btn-primary" />
                 <button
-                  class="  btn btn-danger"
+                  class="btn btn-danger"
                   (click)="resetFilters()"
-                  style="margin-left: 1%;"
+                  style="margin-left: 1%"
                 >
                   Clear All
                 </button>
                 <button
-                  class="  btn btn-primary"
+                  class="btn btn-primary"
                   (click)="onClickDownload()"
-                  style="margin-left: 1%;"
+                  style="margin-left: 1%"
                 >
                   Download
                 </button>
               </div>
             </div>
-            <div class="col-sm-12 col-md-3 col-lg-3" style="min-width: 30%;">
+            <div class="col-sm-12 col-md-3 col-lg-3" style="min-width: 30%">
               <div class="pagination-top">
                 <pagination-controls
                   *ngIf="bondIssuerItemData && bondIssuerItemData.length"
@@ -126,7 +135,7 @@
 
       <div
         class="col-md-12 municipal-bond table-mf-header"
-        style="padding-right: 0px; padding-left: 0px;"
+        style="padding-right: 0px; padding-left: 0px"
       >
         <table accordion-heading id="tableHeadings" class="table-mf">
           <thead>
@@ -180,7 +189,7 @@
       </div>
       <div class="pagination-bottom">
         <pagination-controls
-          style="float: right; position: relative;"
+          style="float: right; position: relative"
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"
           id="foo"
           (pageChange)="setPage($event)"

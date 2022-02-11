@@ -67,11 +67,13 @@ import { AboutIndicatorComponent } from "./components/about-indicator/about-indi
 import { FilterDataComponent } from "./components/filter-data/filter-data.component";
 import { BalanceTableComponent } from "./components/balance-table/balance-table.component";
 import { MatTableModule } from "@angular/material/table";
-import { SharedTableComponent } from './components/shared-table/shared-table.component';
-import { SharedCompareTableComponent } from './components/shared-compare-table/shared-compare-table.component';
-import { StateFilterDataComponent } from './components/state-filter-data/state-filter-data.component';
-import { AccordionToTableComponent } from './components/dashboard-tabs/accordion-to-table/accordion-to-table.component';
-import { NationalHeatMapComponent } from './components/re-useable-heat-map/national-heat-map/national-heat-map.component';
+import { SharedTableComponent } from "./components/shared-table/shared-table.component";
+import { SharedCompareTableComponent } from "./components/shared-compare-table/shared-compare-table.component";
+import { StateFilterDataComponent } from "./components/state-filter-data/state-filter-data.component";
+import { AccordionToTableComponent } from "./components/dashboard-tabs/accordion-to-table/accordion-to-table.component";
+import { NationalHeatMapComponent } from "./components/re-useable-heat-map/national-heat-map/national-heat-map.component";
+import { LinkConverterPipe } from "./pipes/linkConverter/link-converter.pipe";
+import { NgxPaginationModule } from "ngx-pagination";
 
 @NgModule({
   imports: [
@@ -100,6 +102,7 @@ import { NationalHeatMapComponent } from './components/re-useable-heat-map/natio
     }),
     MatCardModule,
     MatTableModule,
+    NgxPaginationModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -146,6 +149,7 @@ import { NationalHeatMapComponent } from './components/re-useable-heat-map/natio
     StateFilterDataComponent,
     AccordionToTableComponent,
     NationalHeatMapComponent,
+    LinkConverterPipe,
   ],
   exports: [
     FormsModule,
@@ -185,7 +189,7 @@ import { NationalHeatMapComponent } from './components/re-useable-heat-map/natio
     SharedCardComponent,
     RevenuechartComponent,
     MapWithFilterComponent,
-    NationalHeatMapComponent
+    NationalHeatMapComponent,
   ],
   providers: [FinancialDataService],
 })
