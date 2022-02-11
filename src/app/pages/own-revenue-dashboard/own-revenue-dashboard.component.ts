@@ -7,7 +7,7 @@ import {
   TemplateRef,
   HostListener,
   AfterContentInit,
-  AfterViewInit
+  AfterViewInit,
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -17,14 +17,13 @@ import * as fileSaver from "file-saver";
 import Chart from "chart.js";
 import { FilterModelBoxComponent } from "../resources-dashboard/filter-model-box/filter-model-box.component";
 import { OwnRevenueService } from "./own-revenue.service";
-import { GlobalLoaderService } from '../../../app/shared/services/loaders/global-loader.service';
+import { GlobalLoaderService } from "../../../app/shared/services/loaders/global-loader.service";
 @Component({
   selector: "app-own-revenue-dashboard",
   templateUrl: "./own-revenue-dashboard.component.html",
   styleUrls: ["./own-revenue-dashboard.component.scss"],
 })
 export class OwnRevenueDashboardComponent implements OnInit {
- 
   barChartCmpBtn = true;
   displayDoughnut: boolean = true;
   displayButtons: boolean = false;
@@ -35,7 +34,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   lastBarChartValue;
   compareDialogType = 2;
   changeTab(type) {
-    this._loaderService.showLoader()
+    this._loaderService.showLoader();
     if (type == "own") {
       this.displayDoughnut = true;
       this.displayButtons = false;
@@ -51,22 +50,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.allCalls();
   }
 
-  isLoading: any = false;   
+  isLoading: any = false;
 
   @ViewChild("ownRevenueFiltersPopup")
   private ownRevenueFiltersPopup: TemplateRef<any>;
-  sticky = false
+  sticky: boolean = false;
   ToggleString: string = "";
   showButton: boolean = true;
-  @HostListener('window:scroll', ['$event']) 
+  @HostListener("window:scroll", ["$event"])
   doSomething(event) {
     // console.debug("Scroll Event", document.body.scrollTop);
     // see András Szepesházi's comment below
-    console.log("Scroll Event", window.pageYOffset );
-    if(window.pageYOffset > 364){
-      this.sticky = true
-    }else{
-      this.sticky = false
+    console.log("Scroll Event", window.pageYOffset);
+    if (window.pageYOffset > 364) {
+      this.sticky = true;
+    } else {
+      this.sticky = false;
     }
   }
   close() {
@@ -204,15 +203,15 @@ export class OwnRevenueDashboardComponent implements OnInit {
       legend: {
         display: false,
       },
-      scales:{
-        y:{
-          ticks:{
-          color: 'red'
-        }
-      }
+      scales: {
+        y: {
+          ticks: {
+            color: "red",
+          },
+        },
+      },
     },
-  }
-}
+  };
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
   stateIds = JSON.parse(localStorage.getItem("stateIdsMap"));
@@ -253,13 +252,12 @@ export class OwnRevenueDashboardComponent implements OnInit {
     public _loaderService: GlobalLoaderService
   ) {
     this.isLoading = true;
-    console.log("loader",this.isLoading);
+    console.log("loader", this.isLoading);
     // if(this.isLoading)(document.activeElement as HTMLElement).blur();
   }
 
   ngOnInit(): void {
-    this.filterGroup.valueChanges.subscribe(
-      (value) => {
+    this.filterGroup.valueChanges.subscribe((value) => {
       console.log(value);
       if (value.stateId) {
         for (const key in this.allUlbData) {
@@ -298,9 +296,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       financialYear: "2018-19",
     });
   }
-pieChartLoading = true;
+  pieChartLoading = true;
   getPieChartData() {
-    this.pieChartLoading = true
+    this.pieChartLoading = true;
     let temp = {
       type: "doughnut",
       data: {
@@ -329,13 +327,13 @@ pieChartLoading = true;
           res["data"].map((value) => {
             temp.data.labels.push(value._id["revenueName"]);
             temp.data.datasets[0].data.push(value.amount);
-          this.isLoading = false;
-          this.pieChartLoading = false
+            this.isLoading = false;
+            this.pieChartLoading = false;
           });
           this.doughnutChartData = temp;
         },
         (err) => {
-          this.pieChartLoading = false
+          this.pieChartLoading = false;
           this.isLoading = false;
         }
       );
@@ -369,20 +367,20 @@ pieChartLoading = true;
       console.log("The dialog was closed");
     });
   }
-  notFoundNames = []
+  notFoundNames = [];
   getAvailableData() {
     this.body = {
       ...this.filterGroup.value,
       propertyTax: !this.ownTab,
     };
-   
+
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
         this.halfDoughnutChart(res["data"]?.percent ?? 0);
-this.notFoundNames = res["data"]?.names
+        this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);
       },
       (err) => {
@@ -478,17 +476,17 @@ this.notFoundNames = res["data"]?.names
       },
     });
   }
-cardsDataLoading= true
+  cardsDataLoading = true;
   cardsData() {
-    this.cardsDataLoading = true
+    this.cardsDataLoading = true;
     let body = {
       ...this.filterGroup.value,
       property: this.proTab,
     };
     this.ownRevenueService.getCardsData(body).subscribe(
       (res) => {
-        this._loaderService.stopLoader()
-        this.cardsDataLoading = false
+        this._loaderService.stopLoader();
+        this.cardsDataLoading = false;
         console.log(res);
         if (this.ownTab) {
           this.ownTabCardsFormant(res["data"]);
@@ -497,8 +495,8 @@ cardsDataLoading= true
         }
       },
       (err) => {
-        this._loaderService.stopLoader()
-        this.cardsDataLoading = false
+        this._loaderService.stopLoader();
+        this.cardsDataLoading = false;
         console.log(err);
       }
     );
@@ -512,18 +510,15 @@ cardsDataLoading= true
       revenuePercentageCopy = deepCopy(revenuePercentage),
       value = data[this.filterGroup.value.financialYear];
 
-    
+    revenueCollectionCopy.isLoading = this.cardsDataLoading;
+    revenuePerCapitaCopy.isLoading = this.cardsDataLoading;
+    revenueExpenditureCopy.isLoading = this.cardsDataLoading;
+    revenuePercentageCopy.isLoading = this.cardsDataLoading;
 
-    revenueCollectionCopy.isLoading = this.cardsDataLoading
-    revenuePerCapitaCopy.isLoading = this.cardsDataLoading
-    revenueExpenditureCopy.isLoading = this.cardsDataLoading
-    revenuePercentageCopy.isLoading = this.cardsDataLoading
-    
     revenueCollectionCopy.title = valueConvert(value.totalRevenue) ?? 0;
-    revenuePerCapitaCopy.title = 'INR ' + value.perCapita.toFixed(2) ?? 0 ;
-    revenuePercentageCopy.title = (value.percentage.toFixed(2) ?? '0') + ' %';
-    revenueExpenditureCopy.title =
-      value.totalUlbMeetExpense ?? 0 ;
+    revenuePerCapitaCopy.title = "INR " + value.perCapita.toFixed(2) ?? 0;
+    revenuePercentageCopy.title = (value.percentage.toFixed(2) ?? "0") + " %";
+    revenueExpenditureCopy.title = value.totalUlbMeetExpense ?? 0;
 
     if (yearInData[1]) {
       let oldYearValue =
@@ -567,64 +562,76 @@ cardsDataLoading= true
   }
 
   compareValues(oldValue, newValue, inc = true) {
-   
     inc = newValue >= oldValue;
 
-    return { num: ((newValue - oldValue) / oldValue)*100 , inc };
+    return { num: ((newValue - oldValue) / oldValue) * 100, inc };
   }
 
   proTabCardsFormat(data) {
     let value = data[this.filterGroup.value.financialYear];
     let cards = deepCopy(porpertyCards);
     cards[0].title = valueConvert(value.totalProperty) ?? 0;
-    cards[1].title = 'INR ' + (value.totalProperty / value.population).toFixed(2) ?? 0;
+    cards[1].title =
+      "INR " + (value.totalProperty / value.population).toFixed(2) ?? 0;
     cards[2].title =
       (
         (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
         100
       ).toFixed(2) + "%";
-      let yearInData = Object.keys(data);
-      if (yearInData[1]) {
-        let oldYearValue =
-          data[
-            this.filterGroup.value.financialYear
-              .split("-")
-              .map((value) => Number(value) - 1)
-              .join("-")
-          ];
-  
-        let t = this.compareValues(oldYearValue.totalProperty, value.totalProperty);
-        cards[0].percentage = t.num.toFixed(2);
-        cards[0].svg = t.inc ? upArrow : downArrow;
-        cards[0].color = t.inc ? green : red;
-  
-        t = this.compareValues(oldYearValue.totalProperty/oldYearValue.population, value.totalProperty/value.population);
-        cards[1].percentage = t.num.toFixed(2);
-        cards[1].svg = t.inc ? upArrow : downArrow;
-        cards[1].color = t.inc ? green : red;
-  
-        t['num'] = ((value.totalProperty / (value.totalRevenue - value.totalProperty)) * 100) - ((oldYearValue.totalProperty / (oldYearValue.totalRevenue - oldYearValue.totalProperty)) * 100);
+    let yearInData = Object.keys(data);
+    if (yearInData[1]) {
+      let oldYearValue =
+        data[
+          this.filterGroup.value.financialYear
+            .split("-")
+            .map((value) => Number(value) - 1)
+            .join("-")
+        ];
 
-        let newr = (value.totalProperty / (value.totalRevenue - value.totalProperty)) * 100
-        let old = (oldYearValue.totalProperty / (oldYearValue.totalRevenue - oldYearValue.totalProperty)) * 100
-        t['inc'] =  newr >= old
-        cards[2].percentage = t.num.toFixed(2);
-        cards[2].svg = t.inc ? upArrow : downArrow;
-        cards[2].color = t.inc ? green : red;
-  
-       
-  
-      }
-  
+      let t = this.compareValues(
+        oldYearValue.totalProperty,
+        value.totalProperty
+      );
+      cards[0].percentage = t.num.toFixed(2);
+      cards[0].svg = t.inc ? upArrow : downArrow;
+      cards[0].color = t.inc ? green : red;
+
+      t = this.compareValues(
+        oldYearValue.totalProperty / oldYearValue.population,
+        value.totalProperty / value.population
+      );
+      cards[1].percentage = t.num.toFixed(2);
+      cards[1].svg = t.inc ? upArrow : downArrow;
+      cards[1].color = t.inc ? green : red;
+
+      t["num"] =
+        (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
+          100 -
+        (oldYearValue.totalProperty /
+          (oldYearValue.totalRevenue - oldYearValue.totalProperty)) *
+          100;
+
+      let newr =
+        (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
+        100;
+      let old =
+        (oldYearValue.totalProperty /
+          (oldYearValue.totalRevenue - oldYearValue.totalProperty)) *
+        100;
+      t["inc"] = newr >= old;
+      cards[2].percentage = t.num.toFixed(2);
+      cards[2].svg = t.inc ? upArrow : downArrow;
+      cards[2].color = t.inc ? green : red;
+    }
 
     this.cardData = cards;
   }
-tableDataLoading = true;
+  tableDataLoading = true;
   tableData() {
-    this.tableDataLoading = true
+    this.tableDataLoading = true;
     this.ownRevenueService.getTableData(this.filterGroup.value).subscribe(
       (res) => {
-        this.tableDataLoading = false
+        this.tableDataLoading = false;
         if (this.proTab) this.columnAttribute = this.columnAttributeProperty;
         this.users = this.users.map((value) => {
           let data = res["data"][value.name];
@@ -634,7 +641,7 @@ tableDataLoading = true;
             );
             if (data.totalExpense > 0) {
               value.avgRevenueMeet = numCheck(
-                ( data.totalRevenue / data.totalExpense) * 100
+                (data.totalRevenue / data.totalExpense) * 100
               );
             } else {
               value.avgRevenueMeet = "0";
@@ -677,7 +684,7 @@ tableDataLoading = true;
         });
       },
       (error) => {
-        this.tableDataLoading = false
+        this.tableDataLoading = false;
       }
     );
   }
@@ -746,7 +753,7 @@ function deepCopy(value) {
 const revenueCollection = {
   type: "5",
   title: "0 Cr",
-  isLoading:true,
+  isLoading: true,
   subTitle: "Own Revenue Collections",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
@@ -756,7 +763,7 @@ const revenueCollection = {
 const revenuePerCapita = {
   type: "5",
   title: "0 Cr",
-  isLoading:true,
+  isLoading: true,
   subTitle: "Own Revenue Per Capita",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
@@ -766,7 +773,7 @@ const revenuePerCapita = {
 const revenueExpenditure = {
   type: "5",
   title: "0",
-  isLoading:true,
+  isLoading: true,
   subTitle: "Cities Where Own Revenue Meet Revenue Expenditure",
   svg: "../../../assets/resources-das/south_west_red_24dp.svg",
   percentage: "0%",
@@ -776,7 +783,7 @@ const revenueExpenditure = {
 const revenuePercentage = {
   type: "5",
   title: "0%",
-  isLoading:true,
+  isLoading: true,
   subTitle: "Own Revenue As A Percentage Of Revenue Expenditure",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
