@@ -47,6 +47,8 @@ export class MohuaDashboardComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   options = [];
   @ViewChild("mpcTable") mpcTable;
+  @ViewChild("nmpcUntiedTable") nmpcUntiedTable;
+  @ViewChild("nmpctiedTable") nmpctiedTable;
   constructor(
     public stateDashboardService: StateDashboardService,
     public dialog: MatDialog,
@@ -56,7 +58,7 @@ export class MohuaDashboardComponent implements OnInit {
     protected _activateRoute: ActivatedRoute,
     public mohuaDashboardService: MohuaDashboardService,
     public commonService: CommonService
-  ) {}
+  ) { }
   @ViewChild("stateTable") stateTable;
   stateslist = [];
   UAs = [];
@@ -230,6 +232,32 @@ export class MohuaDashboardComponent implements OnInit {
 
   closeModal() {
     this.dialogRef.close();
+  }
+
+  nmpcDialogRef
+  openDialogNmpcTable() {
+    const dialogConfig = new MatDialogConfig();
+    this.nmpcDialogRef = this.dialog.open(this.nmpcUntiedTable, dialogConfig);
+    this.nmpcDialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+    });
+  }
+
+  closeNmpcDialog() {
+    this.nmpcDialogRef.close()
+  }
+
+  nmpcTiedDialogRef;
+  openDialogNmpcTiedTable() {
+    const dialogConfig = new MatDialogConfig();
+    this.nmpcTiedDialogRef = this.dialog.open(this.nmpctiedTable, dialogConfig);
+    this.nmpcTiedDialogRef.afterClosed().subscribe((result) => {
+      console.log("result", result);
+    });
+  }
+
+  closeNmpcTiedDialog() {
+    this.nmpcTiedDialogRef.close()
   }
 
   ngOnInit(): void {
@@ -423,7 +451,7 @@ export class MohuaDashboardComponent implements OnInit {
       (res) => {
         this.waterRejCardData = res["data"];
       },
-      (err) => {}
+      (err) => { }
     );
   }
   selected() {
@@ -459,7 +487,7 @@ export class MohuaDashboardComponent implements OnInit {
 
           resolve("success");
         },
-        (err) => {}
+        (err) => { }
       );
     });
   }
@@ -538,7 +566,7 @@ export class MohuaDashboardComponent implements OnInit {
   }
 
   addIdInGeoData(data) {
-    return new Promise((res, rej) => {});
+    return new Promise((res, rej) => { });
   }
 
   async createNationalLevelMap(
@@ -592,8 +620,8 @@ export class MohuaDashboardComponent implements OnInit {
       const color = this.getColorBasedOnPercentage(
         stateFound
           ? parseInt(
-              ((stateFound.withState / stateFound.totalULBs) * 100).toFixed(2)
-            )
+            ((stateFound.withState / stateFound.totalULBs) * 100).toFixed(2)
+          )
           : 0
       );
       MapUtil.colorStateLayer(layer, color);
@@ -1373,8 +1401,8 @@ export class MohuaDashboardComponent implements OnInit {
 
     if (
       this.values.overall_approvedByState +
-        this.values.overall_pendingForSubmission +
-        this.values.overall_underReviewByState ==
+      this.values.overall_pendingForSubmission +
+      this.values.overall_underReviewByState ==
       0
     ) {
       this.noDataFound_Overall = true;
@@ -1382,9 +1410,9 @@ export class MohuaDashboardComponent implements OnInit {
 
     if (
       this.values.util_approvedbyState +
-        this.values.util_completedAndPendingSubmission +
-        this.values.util_pendingCompletion +
-        this.values.util_underStateReview ==
+      this.values.util_completedAndPendingSubmission +
+      this.values.util_pendingCompletion +
+      this.values.util_underStateReview ==
       0
     ) {
       this.noDataFound_util = true;
@@ -1415,7 +1443,7 @@ export class MohuaDashboardComponent implements OnInit {
             this.grantTransferDate = res["data"].latestTime;
           }
         },
-        (error) => {}
+        (error) => { }
       );
     this.GrantTransferparams.csv = false;
   }

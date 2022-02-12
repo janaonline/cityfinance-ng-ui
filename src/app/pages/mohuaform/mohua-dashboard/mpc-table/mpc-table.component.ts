@@ -113,21 +113,6 @@ export class MpcTableComponent implements OnInit {
       status: "Grant released",
     },
   ];
-  tableHeaders = [
-    "State",
-    "GTC of 2nd Inst. 2020-21",
-    "Audited Annual Accounts 2019-20 ",
-    "Provisional Annual Accounts 2020-21",
-    "Submitted both accounts",
-    "Detailed Utilization Report",
-    "SLB for MPC",
-    "Projects for Water and Sanitation",
-    "Action plan for UA Service Level Indicators",
-    "MOU",
-    "Eligibility for MPC",
-    "Claimed Date",
-    "Status",
-  ];
 
   @Output()
   closeDialog = new EventEmitter();

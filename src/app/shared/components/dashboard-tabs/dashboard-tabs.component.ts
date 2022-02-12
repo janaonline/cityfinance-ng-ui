@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import {
   Component,
   OnInit,
@@ -6,6 +7,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
+import { BorrowingTabService } from "./borrowing-tab.service";
 
 @Component({
   selector: "app-dashboard-tabs",
@@ -13,7 +15,26 @@ import { ThemePalette } from "@angular/material/core";
   styleUrls: ["./dashboard-tabs.component.scss"],
 })
 export class DashboardTabsComponent implements OnInit, OnChanges {
-  constructor() {}
+  constructor(private borrowingTabService: BorrowingTabService) {}
+
+  tableView = true;
+  TableTitles:any;
+     HeaderDataOfBorrowTab(){
+       this.borrowingTabService.getHeaderName().subscribe(
+        (res : any) => {
+          console.log("HeaderName", res?.detailsOfInstrument);
+           this.TableTitles = res.detailsOfInstrument;
+          // console.log("firstTitle", this.firstTitle);
+        }
+      );
+     }
+     ColumnDataOfBorrowTab() {
+      this.borrowingTabService.getColumnData().subscribe(
+        (res:any) => {
+          console.log("ColumnData", res?.data)
+        }
+      )
+     }
 
   @Input()
   cityId;
@@ -181,5 +202,11 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.changeTab(this.data[0]);
+    this.HeaderDataOfBorrowTab();
+    this.ColumnDataOfBorrowTab();
   }
 }
+// function getHeaderName(): any {
+//   throw new Error("Function not implemented.");
+// }
+
