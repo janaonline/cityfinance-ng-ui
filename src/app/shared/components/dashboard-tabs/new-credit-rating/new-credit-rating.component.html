@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <p>
+      Below is the list of key infrastructure projects under taken by the ULB by
+      different sections
+    </p>
+    <p class="fw-bolder">CRISIL Credit Rating Summary</p>
+
+    <div
+      class="text-center p-2 m-3"
+      style="width: 10%; box-shadow: 0px 1px 2px #c4c4c4; cursor: pointer"
+      *ngFor="let grade of ratingGrades"
+    >
+      <div class="rating">
+        {{ grade }}
+      </div>
+      <div class="citiesCount">
+        {{ absCreditInfo.ratings[grade] }}
+      </div>
+    </div>
+  </div>
+</div>

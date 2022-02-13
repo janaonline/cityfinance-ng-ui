@@ -84,7 +84,31 @@
         <h1>Balance Sheet and tax</h1>
       </div>
       <div *ngSwitchCase="'Borrowing & Credit Rating'">
-        <app-accordion-to-table></app-accordion-to-table>
+        <div *ngIf="innerActiveTab.name == 'Borrowing'">
+          <app-accordion-to-table></app-accordion-to-table>
+        </div>
+        <div *ngIf="innerActiveTab.name == 'Credit Rating'">
+          <div [ngSwitch]="DashBoardType">
+            <div *ngSwitchCase="'city'">
+              <app-new-city-credit-rating></app-new-city-credit-rating>
+            </div>
+            <div *ngSwitchCase="'state'">
+              <h1>State Rating</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'Infrastructure & Borrowing'">
+        <div *ngIf="innerActiveTab.name == 'Borrowing'">
+          <app-accordion-to-table></app-accordion-to-table>
+        </div>
+        <div *ngIf="innerActiveTab.name == 'Credit Rating'">
+          <div [ngSwitch]="DashBoardType">
+            <div *ngSwitchCase="'state'">
+              <app-new-credit-rating></app-new-credit-rating>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
