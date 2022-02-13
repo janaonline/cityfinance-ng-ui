@@ -74,6 +74,7 @@ import { AccordionToTableComponent } from "./components/dashboard-tabs/accordion
 import { NationalHeatMapComponent } from "./components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { LinkConverterPipe } from "./pipes/linkConverter/link-converter.pipe";
 import { NgxPaginationModule } from "ngx-pagination";
+import { SlbChartsComponent } from './components/slb-charts/slb-charts.component';
 
 @NgModule({
   imports: [
@@ -150,6 +151,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     AccordionToTableComponent,
     NationalHeatMapComponent,
     LinkConverterPipe,
+    SlbChartsComponent,
   ],
   exports: [
     FormsModule,
