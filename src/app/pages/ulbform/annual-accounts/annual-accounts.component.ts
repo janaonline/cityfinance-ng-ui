@@ -1033,7 +1033,8 @@ export class AnnualAccountsComponent implements OnInit {
   saveStateActionData() {
     console.log("this data....", this.data);
     let stateData = this.data;
-    stateData.unAudited.provisional_data.bal_sheet.status =
+    if(this.data.hasOwnProperty('provisional_data')){
+      stateData.unAudited.provisional_data.bal_sheet.status =
       this.unAuditAct[0]?.status;
     stateData.unAudited.provisional_data.bal_sheet.rejectReason =
       this.unAuditAct[0]?.rejectReason;
@@ -1054,6 +1055,8 @@ export class AnnualAccountsComponent implements OnInit {
     stateData.unAudited.provisional_data.cash_flow.rejectReason =
       this.unAuditAct[4]?.rejectReason;
 
+    }
+   if(this.data.hasOwnProperty('provisional_data')){
     stateData.audited.provisional_data.bal_sheet.status =
       this.AuditAct[0]?.status;
     stateData.audited.provisional_data.bal_sheet.rejectReason =
@@ -1078,6 +1081,8 @@ export class AnnualAccountsComponent implements OnInit {
       this.AuditAct[5]?.status;
     stateData.audited.provisional_data.auditor_report.rejectReason =
       this.AuditAct[5]?.rejectReason;
+   }
+
     console.log(stateData, "yvugbhijnok");
     this.annualAccountsService.postActionData(stateData).subscribe(
       (res) => {
