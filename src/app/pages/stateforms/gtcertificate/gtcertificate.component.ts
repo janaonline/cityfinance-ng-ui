@@ -745,42 +745,52 @@ this.uploadedFiles.isDraft = false
 
   clearFiles(fileName) {
     sessionStorage.setItem("changeInGTC", "true")
+   
     this.change = "true"
     if (fileName == 'fileName_millionTied') {
+      this.clickedCrossB = true
       this.millionTiedProgress = '';
       this.fileName_millionTied = '';
       this.millionTiedFileUrl = ''
     }else if(fileName == 'fileName_millionTied_2021'){
+      this.clickedCrossA = true
       this.millionTiedProgress_2021 = '';
       this.fileName_millionTied_2021 = '';
       this.millionTiedFileUrl_2021 = ''
     }else if(fileName == 'fileName_millionTied_2122'){
+      this.clickedCrossC = true
       this.millionTiedProgress_2122 = '';
       this.fileName_millionTied_2122 = '';
       this.millionTiedFileUrl_2122 = ''
     }
     if (fileName == 'fileName_nonMillionTied') {
+      this.clickedCrossB = true
       this.nonMillionTiedProgress = '';
       this.fileName_nonMillionTied = '';
       this.nonMillionTiedFileUrl = ''
     }else if(fileName == 'fileName_nonMillionTied_2021'){
+      this.clickedCrossA = true
       this.nonMillionTiedProgress_2021 = '';
       this.fileName_nonMillionTied_2021 = '';
       this.nonMillionTiedFileUrl_2021 = ''
     }else if(fileName == 'fileName_nonMillionTied_2122'){
+      this.clickedCrossC = true
       this.nonMillionTiedProgress_2122 = '';
       this.fileName_nonMillionTied_2122 = '';
       this.nonMillionTiedFileUrl_2122 = ''
     }
     if (fileName == 'fileName_nonMillionUntied') {
+      this.clickedCrossB = true
       this.nonMillionUntiedProgress = '';
       this.fileName_nonMillionUntied = '';
       this.nonMillionUntiedFileUrl = ''
     }else if(fileName == 'fileName_nonMillionUntied_2021'){
+      this.clickedCrossA = true
       this.nonMillionUntiedProgress_2021 = '';
       this.fileName_nonMillionUntied_2021 = '';
       this.nonMillionUntiedFileUrl_2021 = ''
     }else if(fileName == 'fileName_nonMillionUntied_2122'){
+      this.clickedCrossC = true
       this.nonMillionUntiedProgress_2122 = '';
       this.fileName_nonMillionUntied_2122 = '';
       this.nonMillionUntiedFileUrl_2122 = ''
@@ -904,7 +914,9 @@ apiData={}
   millionTiedDisable =   false
   nonmillionTiedDisable  = false
   nonmillionUntiedDisable  = false
-
+clickedCrossA = false
+clickedCrossB = false
+clickedCrossC = false
 
   millionTiedDisable_2122  = false
   nonmillionTiedDisable_2122  = false
