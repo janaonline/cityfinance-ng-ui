@@ -6,7 +6,7 @@ let GoogleTagID: string;
 if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")||
-  window.location.hostname.includes("new-cityfinance.dhwaniris.in")
+  // window.location.hostname.includes("new-cityfinance.dhwaniris.in")
 ) {
   url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
