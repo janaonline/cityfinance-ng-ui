@@ -411,11 +411,11 @@
         </div> -->
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
             <div class="col-sm-8"> </div>
-            <div class="col-sm-2" [ngClass]="{'anDisable': formDisableA_2021 && formDisableB_2021 && formDisableC_2021 }" style="text-align: left;">
+            <div class="col-sm-2" [ngClass]="{'anDisable': formDisableA_2021 && formDisableB_2021 && formDisableC_2021 && !clickedCrossA }" style="text-align: left;">
                 <button  type="button" class="btn saveBtn btn-warning" (click)="saveForm(template1, '2020-21','2','1')"
                     >SAVE AS DRAFT</button>
             </div>
-            <div [ngClass]="{'anDisable': formDisableA_2021 && formDisableB_2021 && formDisableC_2021 }" class="col-sm-2  text-right">
+            <div [ngClass]="{'anDisable': formDisableA_2021 && formDisableB_2021 && formDisableC_2021 && !clickedCrossA }" class="col-sm-2  text-right">
                 <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2020-21','2','0')">SUBMIT</button>
             </div>
         </div>
@@ -821,11 +821,11 @@
         </div>
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
             <div class="col-sm-8"> </div>
-            <div [ngClass]="{'anDisable': formDisableA && formDisableB && formDisableC }" class="col-sm-2" style="text-align: left;">
+            <div [ngClass]="{'anDisable': formDisableA && formDisableB && formDisableC && !clickedCrossB }" class="col-sm-2" style="text-align: left;">
                 <button type="button" class="btn saveBtn btn-warning" (click)="saveForm(template1, '2021-22','1','1')"
                     >SAVE AS DRAFT</button>
             </div>
-            <div [ngClass]="{'anDisable': formDisableA && formDisableB && formDisableC }" class="col-sm-2  text-right">
+            <div [ngClass]="{'anDisable': formDisableA && formDisableB && formDisableC && !clickedCrossB }" class="col-sm-2  text-right">
                 <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22','1','0')">SUBMIT</button>
             </div>
         </div>
@@ -1231,11 +1231,11 @@
         </div> -->
         <div class=" row" style="margin-top: 20px; margin-left: 5px; margin-bottom: 2rem;">
            <div class="col-sm-8"> </div>
-            <div [ngClass]="{'anDisable': formDisableA_2122 && formDisableB_2122 && formDisableC_2122 }" class="col-sm-2" style="text-align: left;">
+            <div [ngClass]="{'anDisable': formDisableA_2122 && formDisableB_2122 && formDisableC_2122 && !clickedCrossC }" class="col-sm-2" style="text-align: left;">
                 <button type="button" class="btn saveBtn btn-warning" (click)="saveForm(template1, '2021-22','2','1')"
                     >SAVE AS DRAFT</button>
             </div>
-            <div [ngClass]="{'anDisable': formDisableA_2122 && formDisableB_2122 && formDisableC_2122 }" class="col-sm-2  text-right">
+            <div [ngClass]="{'anDisable': formDisableA_2122 && formDisableB_2122 && formDisableC_2122 && !clickedCrossC }" class="col-sm-2  text-right">
                 <button type="button" class="btn saveBtn" (click)="saveForm(template1, '2021-22','2','0')">SUBMIT</button>
             </div>
         </div>
