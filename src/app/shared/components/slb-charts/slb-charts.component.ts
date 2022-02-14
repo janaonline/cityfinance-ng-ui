@@ -8,7 +8,33 @@ import { Component, OnInit } from '@angular/core';
 export class SlbChartsComponent implements OnInit {
 
   constructor() { }
-
+  isCompare = false;
+  slbGaugeCharts = [
+    {
+      id: '',
+      data: ''
+    },
+    {
+      id: '',
+      data: ''
+    },
+    {
+      id: '',
+      data: ''
+    },
+    {
+      id: '',
+      data: ''
+    },
+    {
+      id: '',
+      data: ''
+    },
+    {
+      id: '',
+      data: ''
+    },
+  ]
   ngOnInit(): void {
   }
 

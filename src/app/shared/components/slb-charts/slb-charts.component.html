@@ -1,1 +1,52 @@
-<p>slb-charts works!</p>
+<div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of slbGaugeCharts">
+        <div class="svgCont m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid meet">
+          <defs>
+             <linearGradient id="green1svg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:green;stop-opacity:1" />
+              <stop offset="70%" style="stop-color:green;stop-opacity:1" />
+              <stop offset="70%" style="stop-color: #D6F2EB;stop-opacity:1" />
+              <stop offset="100%" style="stop-color: #D6F2EB;stop-opacity:1" />
+            </linearGradient>
+            <linearGradient id="blue2svg" x1="0%" y1="0%" x2="100%" y2="0%">
+             <stop offset="0%" style="stop-color: #224BD5;stop-opacity:1" />
+             <stop offset="50%" style="stop-color:#224BD5;stop-opacity:1" />
+             <stop offset="50%" style="stop-color: #EDF1FF;stop-opacity:1" />
+             <stop offset="100%" style="stop-color: #EDF1FF;stop-opacity:1" />
+           </linearGradient>
+           <linearGradient id="yellow2svg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color: #FFC80F;stop-opacity:1" />
+              <stop offset="80%" style="stop-color: #FFC80F;stop-opacity:1" />
+              <stop offset="80%" style="stop-color: #E5E6E6;stop-opacity:1" />
+              <stop offset="100%" style="stop-color: #E5E6E6;stop-opacity:1" />
+           </linearGradient>
+
+          </defs>
+         <g id="paths1">
+          <path d="M100 100 A 40 40 90 0 1 250 100"
+            style="fill: transparent;
+             fill-opacity: 1;
+             stroke: url(#green1svg);
+             stroke-width: 20" />
+           </g>
+         <g id="paths2">
+         <path d="M110 100 A 40 40 90 0 1 240 100"
+          style="fill: none;
+             fill-opacity: 1;
+             stroke: url(#blue2svg);
+             stroke-width: 20" />
+         </g>
+        <g id="paths3" *ngIf="isCompare">
+        <path d="M120 100 A 40 40 90 0 1 230 100"
+           style="fill: transparent;
+             fill-opacity: 1;
+             stroke: url(#yellow2svg);
+             stroke-width: 20" />
+        </g>
+        <text x="58%" y="52%" text-anchor="middle" fill="black" class="p-c" dy=".1em">75%</text>
+        <text x="58%" y="62%" text-anchor="middle" fill="black" class="p-t" dy=".2em">58536</text>
+        </svg>
+        </div>
+    </div>
+</div>
