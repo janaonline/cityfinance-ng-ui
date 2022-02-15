@@ -28,6 +28,11 @@ import { creditRatingModalHeaders } from "../../home-header/tableHeaders";
   styleUrls: ["./new-credit-rating.component.scss"],
 })
 export class NewCreditRatingComponent implements OnInit, OnDestroy {
+  id: any;
+  // stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
+  StateMapping = JSON.parse(localStorage.getItem("stateIdsMap"));
+  currentState: any;
+  finalData: any;
   constructor(
     public modalService: BsModalService,
     public commonService: CommonService,
@@ -41,6 +46,17 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     this._activatedRoute.queryParams.subscribe((params) => {
       this.queryParams = params;
       this.page = params.page || this.page;
+
+      console.log("val", params);
+      const { stateId } = params;
+      if (stateId) {
+        console.log("stid", this.id);
+        // this.id = this.cityId;
+        this.id = stateId;
+        sessionStorage.setItem("row_id", this.id);
+      } else {
+        this.id = sessionStorage.getItem("row_id");
+      }
     });
     this.geoService.loadConvertedIndiaGeoData().subscribe((data) => {
       this.createNationalLevelMap(data, "mapidd");
@@ -65,6 +81,7 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   statusSearchFormControl = new FormControl([]);
   searchStack = [];
   detailedList = [];
+  selectedIndex: number = null;
 
   selectedStates: Array<string> = [];
   absCreditInfo: {
@@ -228,6 +245,10 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.currentState = this.StateMapping[this.id];
+
+    console.log("finalData", this.finalData);
+
     this.assetService.fetchCreditRatingReport().subscribe((data: any[]) => {
       this.list = data;
       this.originalList = data;
@@ -252,7 +273,9 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
         this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb")
       );
 
-    console.log("new RatingGrades==>", ratingGrades);
+    console.log("absCreditInfo", this.absCreditInfo.ratings["AA+"]);
+
+    console.log("lists", this.list, this.originalList, this.detailedList);
   }
 
   download() {
@@ -318,13 +341,13 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
+    debugger;
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
     if (stateName) {
       for (let i = 0; i < this.list.length; i++) {
         const ulb = this.list[i];
-
         if (ulb.state.toLowerCase() == stateName.toLowerCase()) {
           ulbList.push(ulb["ulb"]);
           const rating = ulb.creditrating.trim();
@@ -336,15 +359,25 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     } else {
       for (let i = 0; i < this.list.length; i++) {
         const ulb = this.list[i];
-        ulbList.push(ulb["ulb"]);
-        const rating = ulb.creditrating.trim();
-        if (this.canAddRating(rating)) {
-          this.calculateRatings(this.absCreditInfo, rating);
+        if (this.list[i].state == this.StateMapping[this.id]) {
+          ulbList.push(ulb["ulb"]);
+          const rating = ulb.creditrating.trim();
+          if (this.canAddRating(rating)) {
+            this.calculateRatings(this.absCreditInfo, rating);
+          }
         }
       }
     }
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
+
+    // debugger;
+    // this.finalData = this.list.filter((elem) => {
+    //   if (elem.state == this.StateMapping[this.id]) {
+    //     console.log("finaliseData==>", elem);
+    //     return elem;
+    //   }
+    // });
   }
 
   private canAddRating(ratingToEvaluate: string) {
@@ -481,17 +514,26 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     return ulbInfo;
   }
 
-  openModal(ModalRef: TemplateRef<any>, grade) {
-    this.dialogData = this.list.filter(
-      (ulb) =>
-        (this.selectedStates[0].length
-          ? this.selectedStates[0]
-              .toLowerCase()
-              .includes(ulb.state.toLowerCase())
-          : true) && ulb.creditrating === grade
-    );
+  openModal(grade, i) {
+    console.log("this.list==>", this.list);
+    this.dialogData = this.list
+      .filter(
+        (ulb) =>
+          (this.selectedStates[0].length
+            ? this.selectedStates[0]
+                .toLowerCase()
+                .includes(ulb.state.toLowerCase())
+            : true) && ulb.creditrating === grade
+      )
+      .filter((elem) => {
+        if (elem.state == this.StateMapping[this.id]) {
+          return elem;
+        }
+      });
 
-    this.modalService.show(ModalRef, { class: " modal-center" });
+    this.selectedIndex = i;
+
+    // this.modalService.show(ModalRef, { class: " modal-center" });
   }
 
   private generateDropDownData() {

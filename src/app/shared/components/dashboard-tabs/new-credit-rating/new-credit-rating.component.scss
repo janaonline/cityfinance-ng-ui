@@ -5,3 +5,22 @@
 .citiesCount {
   color: #6e7281;
 }
+
+.newCard {
+  font-size: 0.8rem;
+}
+
+.active {
+  background-color: #fff1e3;
+  border: 1px solid #f2991f;
+  box-shadow: 0px 2px 8px #fadaad;
+  border-radius: 5px;
+}
+
+.active > .rating {
+  color: #e57504;
+}
+
+.active > .citiesCount {
+  color: #e57504;
+}
