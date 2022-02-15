@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-slb-charts',
@@ -12,30 +12,52 @@ export class SlbChartsComponent implements OnInit {
   slbGaugeCharts = [
     {
       id: '',
-      data: ''
+      data: '',
+      about: 'Coverage of water supply connections'
     },
     {
       id: '',
-      data: ''
+      data: '',
+      about: 'Per capita supply of water'
     },
     {
       id: '',
-      data: ''
+      data: '',
+      about: 'Extent of metering of water connections'
     },
     {
       id: '',
-      data: ''
+      data: '',
+      about: 'Coverage of water supply connections'
     },
     {
       id: '',
-      data: ''
+      data: '',
+      about: 'Coverage of water supply connections'
     },
     {
       id: '',
-      data: ''
+      data: '',
+      about: 'Coverage of water supply connections'
     },
+    {
+      id: '',
+      data: '',
+      about: 'Coverage of water supply connections'
+    },
+    {
+      id: '',
+      data: '',
+      about: 'Coverage of water supply connections'
+    },
+
   ]
+  @Input() data: any;
+  aboutSlbCharts =''
   ngOnInit(): void {
+    this.aboutSlbCharts = this.data?.mainContent[0]?.about;
+    console.log('data slb charts', this.data);
+
   }
 
 }

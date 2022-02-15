@@ -2,17 +2,19 @@
     background: #FFFBEF 0% 0% no-repeat padding-box;
     border-radius: 12px;
     opacity: 0.99;
+    height: 15rem;
 }
 
 svg {
     display: block;
     margin: auto;
     position: relative;
-    right: 30px;
+    right: 10px;
+    top: 8px;
 }
 
 .p-c {
-    font: normal normal 800 22px/24px 'Archivo';
+    font: normal normal 700 22px/24px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
@@ -21,4 +23,40 @@ svg {
     font: normal normal 500 22px/24px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
+}
+
+.about {
+    font: normal normal normal 16px/23px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.form-select {
+    // background: #FFFFFF 0% 0% no-repeat padding-box;
+    // border: 1px solid #FFCF8E;
+    // border-radius: 6px 6px 0px 0px;
+    border: 1px solid #D0D0D0;
+    border-radius: 6px;
+    font: normal normal 600 13px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #000000;
+    padding: 0.75rem 2.25rem 0.75rem 0.75rem;
+}
+
+.svg-text {
+    padding: 0 30px;
+}
+
+.chartAbout {
+    position: relative;
+    top: -26px;
+    font: normal normal normal 16px/21px Archivo;
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.icon {
+    text-align: center;
+    position: relative;
+    top: -20px;
 }
