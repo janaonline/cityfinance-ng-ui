@@ -10,7 +10,7 @@
             "prefix": "app",
             "schematics": {
                 "@schematics/angular:component": {
-                    "styleExt": "scss"
+                    "style": "scss"
                 }
             },
             "targets": {
@@ -31,8 +31,9 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.scss",
+                            "./node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "node_modules/leaflet/dist/leaflet.css",
+                            "src/styles.scss",
                             "node_modules/slick-carousel/slick/slick.scss",
                             "node_modules/slick-carousel/slick/slick-theme.scss"
                         ],
@@ -47,21 +48,21 @@
                     },
                     "configurations": {
                         "production": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
-                                }
-                            ],
+                            "fileReplacements": [{
+                                "replace": "src/environments/environment.ts",
+                                "with": "src/environments/environment.prod.ts"
+                            }],
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": true,
-                            "extractCss": true,
-                            "namedChunks": false,
-                            "aot": true,
+                            "namedChunks": true,
                             "extractLicenses": true,
                             "vendorChunk": false,
-                            "buildOptimizer": true
+                            "buildOptimizer": true,
+                            "budgets": [{
+                                "type": "anyComponentStyle",
+                                "maximumWarning": "6kb"
+                            }]
                         }
                     }
                 },
@@ -146,6 +147,6 @@
     },
     "defaultProject": "PerfectAngular",
     "cli": {
-        "analytics": "7e1af0b4-52e1-4133-950b-044934c5bb47"
+        "analytics": "cace6f27-e889-45b8-b169-d2241593758b"
     }
 }

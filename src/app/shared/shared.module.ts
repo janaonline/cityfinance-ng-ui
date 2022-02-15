@@ -74,8 +74,9 @@ import { AccordionToTableComponent } from "./components/dashboard-tabs/accordion
 import { NationalHeatMapComponent } from "./components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { LinkConverterPipe } from "./pipes/linkConverter/link-converter.pipe";
 import { NgxPaginationModule } from "ngx-pagination";
-import { NewCreditRatingComponent } from './components/dashboard-tabs/new-credit-rating/new-credit-rating.component';
-import { NewCityCreditRatingComponent } from './components/dashboard-tabs/new-city-credit-rating/new-city-credit-rating.component';
+import { NewCreditRatingComponent } from "./components/dashboard-tabs/new-credit-rating/new-credit-rating.component";
+import { NewCityCreditRatingComponent } from "./components/dashboard-tabs/new-city-credit-rating/new-city-credit-rating.component";
+import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component";
 
 @NgModule({
   imports: [
@@ -154,6 +155,7 @@ import { NewCityCreditRatingComponent } from './components/dashboard-tabs/new-ci
     LinkConverterPipe,
     NewCreditRatingComponent,
     NewCityCreditRatingComponent,
+    SlbChartsComponent,
   ],
   exports: [
     FormsModule,
