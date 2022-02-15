@@ -182,13 +182,7 @@ export const appRouter: Routes = [
         (m) => m.ResourcesDashboardModule
       ),
   },
-  {
-    path: "service-level-benchmark-dashboard",
-    loadChildren: () =>
-      import("./pages/slb-dashboard/slb-dashboard.module").then(
-        (m) => m.SlbDashboardModule
-      ),
-  },
+  
 
 
   { path: "**", redirectTo: "" },

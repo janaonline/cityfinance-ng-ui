@@ -23,8 +23,8 @@ const districtJson = require("../../../../../assets/jsonFile/state_boundries.jso
   templateUrl: './national-map-section.component.html',
   styleUrls: ['./national-map-section.component.scss']
 })
-export class NationalMapSectionComponent
-extends NationalHeatMapComponent implements OnInit {
+export class NationalMapSectionComponent extends 
+NationalHeatMapComponent implements OnInit {
 
   constructor(
     protected _commonService: CommonService,

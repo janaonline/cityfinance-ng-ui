@@ -1,0 +1,176 @@
+.hero {
+    width: 100%;
+    height: 70vh;
+    /* background: transparent url('../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/bg_cover@2x.jpg') 0% 0% no-repeat padding-box;
+    opacity: 1; */
+    background: url('../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/bg_cover@2x.jpg') no-repeat center;
+}
+.title {
+    padding-top: 7.5rem;
+    color: #FFFFFF;
+    font-size: 2rem;
+    font-family: "Archivo";
+    font-weight: 600;
+}
+.logo {
+    margin-top: 2.25rem;
+}
+.sec-splash {
+    width: 100%;
+    height: 60vh;
+    background: url('../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/splash@2x.jpg') no-repeat center;
+}
+.splash-title {
+    padding-top: 3.75rem;
+    font-family: "Montserrat";
+    font-weight: 700;
+    color: #0F1F40;
+    font-size: 2.5rem;
+}
+.splash-subTitle{
+    padding-top: 0.625rem;
+    font-family: "Archivo";
+    font-weight: 600;
+    color: #070707;
+    font-size: 2.5rem;
+}
+.sc {
+    padding-top: 1.625rem;
+    font-size: 1rem;
+    font-family: "Archivo";
+    font-weight: 500;
+    color: #070707;
+}
+.sbd-Title {
+    padding-top: 1.625rem;
+    font-size: 1.875rem;
+    font-family: "Archivo";
+    font-weight: 800;
+    color: #0F1F40;
+}
+.sbd-content {
+    padding-top: 2.5rem;
+    font-size: 1rem;
+    font-family: "Archivo";
+    font-weight: 400;
+    color:#6E7281;
+}
+
+.stateMap {
+    border-radius: inherit;
+    position: absolute;
+    //  left: 5px;
+    bottom: 0px;
+    background: #F8F9FF !important;
+    z-index: 8;
+    display: inline-block;
+    width: 98%;
+    height: 100%;
+    max-height: 100%;
+    transition: all 0.8s;
+    padding-top: 2%;
+    @media screen and (max-width: 768px) {
+        width: 99vw;
+    }
+    // border-left: inherit;
+}
+.stateMapContainer {
+    padding: 0px;
+    position: relative;
+    min-height: 530px;
+    @media (max-width: 600px) {
+        min-height: 550px;
+        //  margin-left: 10px;
+    }
+    // border: 1px solid rgb(212, 212, 212);
+    border-radius: 5px;
+    padding-top: 1%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: flex-end;
+    background: white;
+}
+
+::ng-deep .analytics-map {
+    .leaflet-bottom {
+        transform: scale(0.55);
+        width: 155px;
+        font-size: 0.7vw;
+    }
+    .leaflet-control {
+        width: fit-content;
+        transform: scale(1.6) translateY(-50%);
+        position: absolute;
+        bottom: 0px;
+        background: transparent;
+        @media screen and (max-width: 1024px) and (min-width: 560px) {
+            font-size: 12px;
+        }
+        @media screen and (max-width: 551px) {
+            font-size: 10px;
+            width: 100%;
+            margin: 0 0;
+            left: -68px;
+            padding: 0;
+            margin-left: 0 !important;
+        }
+        @media screen and (min-width: 410px) and (max-width: 415px) {
+            width: 65%;
+            left: -40px;
+        }
+        @media screen and (max-width: 405px) and (min-width: 320px) {
+            font-size: 8px;
+            width: 51%;
+        }
+        @media screen and (max-width: 319px) {
+            display: none;
+        }
+    }
+}
+
+::ng-deep {
+    .leaflet-control-attribution {
+        display: none;
+    }
+    // .mat-form-field-flex {
+    //   border: 1.2px solid #3a3939;
+    //   border-radius: 0px;
+    // }
+    .cuppa-dropdown {
+        position: relative;
+        margin-top: -2px;
+    }
+    .map-click-guide {
+        position: absolute;
+        bottom: 3vh;
+    }
+    .national-map-click-guide {
+        margin-left: 13%;
+        width: fit-content;
+        margin-top: 2%;
+        bottom: 1px;
+        font-size: 1vw;
+        @media screen and (max-width: 1024px) and (min-width: 560px) {
+            font-size: 12px;
+        }
+        @media screen and (max-width: 551px) {
+            font-size: 12px;
+            margin: auto;
+        }
+    }
+    .state-map-click-guide {
+        text-align: center;
+        left: 18%;
+        margin: 2% auto;
+        position: absolute;
+        bottom: 1px;
+        font-size: 0.8vw;
+        @media screen and (max-width: 768px) {
+            font-size: 2.8vw;
+        }
+    }
+    .map-click-guide {
+        right: 5vw;
+    }
+}
