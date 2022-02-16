@@ -1,1 +1,90 @@
-<p>slb-charts works!</p>
+<div class="row mt-3 mb-3" style="align-items: center;">
+    <div class="col-12 col-sm-12 col-md-7 col-lg-8">
+        <span class="about">{{aboutSlbCharts}}</span>
+    </div>
+    <div class="col-12 col-sm-12 col-md-5 col-lg-4">
+        <div class="row" style="align-items: center;">
+            <div class="col-7 col-sm-8 col-md-7">
+                <div class="input-group inp-grp">
+                    <select class="form-select" id="ulb" aria-label="Default select">
+                    <option value="agra" selected>Compare By: Chennai</option>
+                    <option value="basti">Compare By: Basti</option>
+                 </select>
+                </div>
+            </div>
+            <div class="col-4 col-sm-4 col-md-5 ps-3">
+                <select class="form-select" id="years" aria-label="Default select">
+                  <option value="2020-21" selected>2020-21</option>
+                   <option value="2021-22">2021-22</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-3" *ngFor="let item of slbGaugeCharts">
+        <div class="svgCont m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid meet">
+            <defs>
+               <linearGradient id="green1svg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:green;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:green;stop-opacity:1" />
+                <stop offset="70%" style="stop-color: #D6F2EB;stop-opacity:1" />
+                <stop offset="100%" style="stop-color: #D6F2EB;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="blue2svg" x1="0%" y1="0%" x2="100%" y2="0%">
+               <stop offset="0%" style="stop-color: #224BD5;stop-opacity:1" />
+               <stop offset="50%" style="stop-color:#224BD5;stop-opacity:1" />
+               <stop offset="50%" style="stop-color: #EDF1FF;stop-opacity:1" />
+               <stop offset="100%" style="stop-color: #EDF1FF;stop-opacity:1" />
+             </linearGradient>
+             <linearGradient id="yellow2svg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color: #FFC80F;stop-opacity:1" />
+                <stop offset="80%" style="stop-color: #FFC80F;stop-opacity:1" />
+                <stop offset="80%" style="stop-color: #E5E6E6;stop-opacity:1" />
+                <stop offset="100%" style="stop-color: #E5E6E6;stop-opacity:1" />
+             </linearGradient>
+
+            </defs>
+           <g id="paths1">
+            <path d="M70 100 A 40 40 90 0 1 250 100"
+              style="fill: transparent;
+               fill-opacity: 1;
+               stroke: url(#green1svg);
+               stroke-width: 20" />
+             </g>
+           <g id="paths2">
+           <path d="M80 100 A 40 40 90 0 1 240 100"
+            style="fill: none;
+               fill-opacity: 1;
+               stroke: url(#blue2svg);
+               stroke-width: 20" />
+           </g>
+          <g id="paths3" *ngIf="isCompare">
+          <path d="M90 100 A 40 40 90 0 1 230 100"
+             style="fill: transparent;
+               fill-opacity: 1;
+               stroke: url(#yellow2svg);
+               stroke-width: 20" />
+          </g>
+          <text x="53%" y="45%" text-anchor="middle" fill="black" class="p-c" dy=".1em">75%</text>
+          <text x="53%" y="58%" text-anchor="middle" fill="black" class="p-t" dy=".2em">58536</text>
+          <!-- <text x="10%" y="75%" text-anchor="bottom" fill="black"  dy=".2em">{{item.about}}</text> -->
+            </svg>
+            <div class="row">
+                <div class="col-sm-12 text-center svg-text">
+                    <span class="chartAbout"> {{item.about}} </span>
+                </div>
+                <div class="col-sm-12 icon">
+                    <span><img src="../../../../assets/CIty_detail_dashboard – 3/thumb_up_off_alt_black_24dp.svg" alt=""></span>
+                    <!-- <span>
+                    <img src="../../../../assets/CIty_detail_dashboard – 3/thumb_up_off_alt_black_24dp.svg" alt="">
+                  </span> -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
