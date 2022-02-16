@@ -20,16 +20,7 @@ export class DataSetsComponent implements OnInit {
        filter: ["innerTab4", "innerTab5", "innerTab6"],
        link: 'balanceSheet' ,
     },
-    {
-      name: "Property Tax",
-      filter: ["innerTab7", "innerTab8", "innerTab9"],
-      link: 'property_tax'
-     },
-    {
-       name: "Municipal Borrowing",
-       filter: ["innerTab10", "innerTab11", "innerTab12"],
-       link: 'municipal_borrowing'
-    },
+   
 
   ];
   ngOnInit(): void {

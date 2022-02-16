@@ -21,7 +21,7 @@ export class ResourcesDashboardComponent implements OnInit {
   filteredResources: Observable<string[]>;
 
   cardStyle = cardStyle;
-  cardData = [learningCenter, dataSets, reportsPublications, latestNewsUpdates];
+  cardData = [learningCenter, dataSets, reportsPublications];
 
   ngOnInit(): void {
     this.filteredResources = this.resourcesFilter.valueChanges.pipe(
