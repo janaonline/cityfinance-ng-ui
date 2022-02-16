@@ -19,6 +19,7 @@ $font-family: "Archivo";
     color: #6e7281;
     opacity: 1;
     width: max-content;
+    font: normal normal 600 14px/18px 'Montserrat';
 }
 
 .roundEdge {
@@ -49,6 +50,7 @@ $font-family: "Archivo";
     border-radius: 6px;
     color: #8b92a8;
     width: max-content;
+    font: normal normal 600 14px/18px 'Montserrat';
 }
 
 .nav-link2 {
@@ -70,6 +72,14 @@ $font-family: "Archivo";
     color: $font-color;
     font-family: $font-family;
     font-weight: 600;
+}
+
+.nav>li>.pd {
+    padding: .8rem 1.5rem;
+}
+
+.nav>li>.pd2 {
+    padding: .6rem .6rem;
 }
 
 .mainTitle td:nth-child(1) {}
