@@ -610,6 +610,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       datasets: [
         {
           data: [21, 39, 10, 14, 16],
+          borderWidth: 0,
           backgroundColor: [
             "#FF6384",
             "#4BC0C0",
@@ -638,6 +639,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
           labels: {
             fontSize: 10,
             fontColor: "white",
+            usePointStyle: true,
             padding: 28,
             boxWidth: 10,
           },
@@ -659,6 +661,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       datasets: [
         {
           data: [21, 39, 10, 14, 16],
+          borderWidth: 0,
           backgroundColor: [
             "#FF6384",
             "#4BC0C0",
@@ -688,6 +691,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
           labels: {
             fontSize: 10,
             fontColor: "white",
+            usePointStyle: true,
             padding: 28,
             boxWidth: 10,
           },
@@ -704,6 +708,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
         {
           label: "My First Dataset",
           data: [300, 50, 100, 200],
+          borderWidth:0,
           backgroundColor: [
             "rgb(255, 99, 132)",
             "rgb(54, 162, 235)",
@@ -735,6 +740,7 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
           labels: {
             fontSize: 10,
             fontColor: "white",
+            usePointStyle: true,
             padding: 28,
             boxWidth: 10,
           },
