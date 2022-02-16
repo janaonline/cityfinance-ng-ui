@@ -28,9 +28,9 @@
            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
            Stet clita kasd gubergren, no sea takimata sanctus est Lorem
         </p>
-         <div class="container sbd-national">
+         <div class="container-fluid sbd-national">
             <div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0;">
-                <div class="col-12 col-sm-12 col-md-5 stateMapContainer">
+                <div class="col-12 col-sm-12 col-md-6 stateMapContainer">
                     <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
                         <app-pre-loader></app-pre-loader>
                         <app-pre-loader></app-pre-loader>
@@ -60,19 +60,19 @@
             
             
             
-                <div class="col-12 col-sm-12 col-md-7">
-                    <div class="row" style="align-items: baseline;">
-                        <div class="col-12 col-sm-12">
+                <div class="col-12 col-sm-12 col-md-6">
+                    <div class="row">
+                        <!-- <div class="col-12 col-sm-12">
                             <div class="heading mb-3">
                                 India Data Availability - 75%
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-7 col-sm-8 col-md-4">
                             <div class="input-group inp-grp">
-                                <!-- <form [formGroup]="myForm" class="w-100">
+                                <form [formGroup]="myForm" class="w-100">
                                     <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
                                     </angular2-multiselect>
-                                </form> -->
+                                </form>
                             </div>
                         </div>
                         <div class="col-4 col-sm-4 col-md-3 ps-3">
@@ -82,7 +82,7 @@
                         </select>
                         </div>
                     </div>
-                    <div class="container-cnt" style="padding: 0;">
+                    <!-- <div class="container-cnt" style="padding: 0;">
                         <div class="row">
                             <div class="col-12 col-sm-12 mb-3 mt-3">
                                 <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
@@ -123,7 +123,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
             
                 </div>
             </div>

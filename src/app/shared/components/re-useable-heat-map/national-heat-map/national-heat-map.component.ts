@@ -789,7 +789,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
 
   convertMiniMapToOriginal(domId: string) {
     const element = document.getElementById(domId);
-    element.classList.remove("miniMap");
+    element?.classList.remove("miniMap");
     this.isMapOnMiniMapMode = false;
     return true;
   }
