@@ -163,4 +163,20 @@ export class DashboardService {
       ...options,
     });
   }
+
+  fetchCitySlbChartData(id, tab) {
+    return this.httpClient.get(
+      `https://democityfinanceapi.dhwaniris.in/api/v1/indicators?compUlb=&ulb=5dd24b8d91344e2300876c8b&type=water supply`
+    );
+    // `${environment.api.url}indicators?compUlb=&ulb=5dd24b8f91344e2300876cb1&type=${tab}`
+  }
+  fetchStateSlbChartData(id, tab, indicator) {
+    return this.httpClient.get(
+      `${environment.api.url}indicators?compUlb=&ulb=${id}&type=${tab}&indicatorName=${indicator}`
+    );
+  }
+
+  // indicators?compUlb=&ulb=5dd24b8d91344e2300876c8b&type=water supply&indicatorName=coverage of water supply connections
+
+
 }

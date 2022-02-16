@@ -6,10 +6,12 @@
         <div class="row" style="align-items: center;">
             <div class="col-7 col-sm-8 col-md-7">
                 <div class="input-group inp-grp">
-                    <select class="form-select" id="ulb" aria-label="Default select">
+                    <button type="button" class="btn btn-outline-secondary" (click)="openModal()">Compare By:</button>
+
+                    <!-- <select class="form-select" id="ulb" aria-label="Default select">
                     <option value="agra" selected>Compare By: Chennai</option>
                     <option value="basti">Compare By: Basti</option>
-                 </select>
+                    </select>  -->
                 </div>
             </div>
             <div class="col-4 col-sm-4 col-md-5 ps-3">
@@ -68,13 +70,13 @@
                stroke: url(#yellow2svg);
                stroke-width: 20" />
           </g>
-          <text x="53%" y="45%" text-anchor="middle" fill="black" class="p-c" dy=".1em">75%</text>
-          <text x="53%" y="58%" text-anchor="middle" fill="black" class="p-t" dy=".2em">58536</text>
+          <text x="53%" y="45%" text-anchor="middle" fill="black" class="p-c" dy=".1em">{{item?.percentage}}%</text>
+          <text x="53%" y="58%" text-anchor="middle" fill="black" class="p-t" dy=".2em">{{item?.value}}</text>
           <!-- <text x="10%" y="75%" text-anchor="bottom" fill="black"  dy=".2em">{{item.about}}</text> -->
             </svg>
             <div class="row">
                 <div class="col-sm-12 text-center svg-text">
-                    <span class="chartAbout"> {{item.about}} </span>
+                    <span class="chartAbout"> {{item.name}} </span>
                 </div>
                 <div class="col-sm-12 icon">
                     <span><img src="../../../../assets/CIty_detail_dashboard – 3/thumb_up_off_alt_black_24dp.svg" alt=""></span>
@@ -88,3 +90,6 @@
         </div>
     </div>
 </div>
+<ng-template #template>
+    <app-compare-dialog [type]="compareDialogType" (ownRevenueCompValue)="ownRevenueCompValue($event)" (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
+</ng-template>

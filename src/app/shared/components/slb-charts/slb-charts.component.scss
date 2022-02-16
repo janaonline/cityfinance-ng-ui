@@ -14,13 +14,13 @@ svg {
 }
 
 .p-c {
-    font: normal normal 700 22px/24px 'Archivo';
+    font: normal normal 500 22px/24px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
 
 .p-t {
-    font: normal normal 500 22px/24px 'Archivo';
+    font: normal normal 400 20px/24px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
@@ -41,6 +41,17 @@ svg {
     letter-spacing: 0px;
     color: #000000;
     padding: 0.75rem 2.25rem 0.75rem 0.75rem;
+}
+
+.btn-outline-secondary {
+    border: 1px solid #D0D0D0;
+    border-radius: 6px;
+    font: normal normal 600 13px/14px 'Archivo';
+    letter-spacing: 0px;
+    color: #000000;
+    padding: 0.75rem 2.25rem 0.75rem 0.75rem;
+    width: 90%;
+    text-align: inherit;
 }
 
 .svg-text {
