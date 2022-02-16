@@ -320,7 +320,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
-    debugger;
+  
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];

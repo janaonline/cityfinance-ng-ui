@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BalanceSheetComponent } from './data-sets/balance-sheet/balance-sheet.component';
 import { DataSetsComponent } from './data-sets/data-sets.component';
-import { LatestNewsComponent } from './latest-news/latest-news.component';
+
 import { BestPracticesComponent } from './learning-center/best-practices/best-practices.component';
 import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learning/dynamic-sub-learning.component';
 import { LearningCenterComponent } from './learning-center/learning-center.component';
@@ -73,9 +73,7 @@ const routes: Routes = [
       {
         path: 'report-publications', component: ReportsPublicationComponent
       },
-      {
-        path: 'latest-news', component: LatestNewsComponent
-      },
+    
       {
         path: 'res-tabs', component: ResourcesTabsComponent
       },
