@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row">
+    <div class="d-flex justify-content-between">
+      <div>
+        Below is the list of key infrastructure projects under taken by the ULB
+        by different sections
+      </div>
+      <div>
+        <select (change)="selectCreditYear($event.target.value)">
+          <!-- <option>Select A year</option> -->
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-5 mb-5">
+      <div class="rounded-top px-2 py-2" style="background-color: #e9ecf7">
+        Credit Rating
+      </div>
+
+      <div style="background-color: #f8faff" *ngFor="let item of finalList">
+        <div *ngIf="item.date == yearValue">
+          <div *ngFor="let demoData of demoArray" class="d-flex flex-wrap py-1">
+            <div class="px-3 w-25" style="color: #6e7281; font-size: 12px">
+              {{ demoData }}
+            </div>
+            <div *ngIf="item.agency == demoData" class="d-flex">
+              <!-- <div class="px-3 w-25">{{ item.agency }}</div> -->
+              <div
+                class="px-3"
+                style="color: #0f1f40; font-size: 12px; width: 110px"
+              >
+                {{ item.creditRating }}
+              </div>
+              <div class="px-3" style="width: 130px">
+                <a
+                  href="{{ item.link }}"
+                  style="color: #e67e15; font-size: 12px"
+                  >View Full Report
+                </a>
+              </div>
+            </div>
+            <div *ngIf="item.agency !== demoData" class="d-flex w-75">
+              <!-- <div class="px-3 w-25">{{ item.agency }}</div> -->
+              <div class="px-3" style="color: #0f1f40; font-size: 12px">
+                No Data Found
+              </div>
+              <div class="px-3" style="font-size: 12px">No Link Found</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

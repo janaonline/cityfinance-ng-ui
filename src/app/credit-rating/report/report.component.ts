@@ -1,26 +1,26 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FeatureCollection, Geometry } from 'geojson';
-import * as L from 'leaflet';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
-import { AssetsService } from 'src/app/shared/services/assets/assets.service';
-import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
-import { MapUtil } from 'src/app/util/map/mapUtil';
-import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
-import { UserUtility } from 'src/app/util/user/user';
+import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FeatureCollection, Geometry } from "geojson";
+import * as L from "leaflet";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { ILeafletStateClickEvent } from "src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent";
+import { AssetsService } from "src/app/shared/services/assets/assets.service";
+import { GeographicalService } from "src/app/shared/services/geographical/geographical.service";
+import { MapUtil } from "src/app/util/map/mapUtil";
+import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
+import { UserUtility } from "src/app/util/user/user";
 
-import { AuthService } from '../../../app/auth/auth.service';
-import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
-import { IDialogConfiguration } from '../../../app/shared/components/dialog/models/dialogConfiguration';
-import { creditRatingModalHeaders } from '../../shared/components/home-header/tableHeaders';
-import { CommonService } from '../../shared/services/common.service';
-import { CreditScale, ratingGrades } from '../../util/creditReportUtil';
-import { QueryParams } from './models/queryParams.interface';
-import { ULBRatings } from './ratings';
+import { AuthService } from "../../../app/auth/auth.service";
+import { DialogComponent } from "../../../app/shared/components/dialog/dialog.component";
+import { IDialogConfiguration } from "../../../app/shared/components/dialog/models/dialogConfiguration";
+import { creditRatingModalHeaders } from "../../shared/components/home-header/tableHeaders";
+import { CommonService } from "../../shared/services/common.service";
+import { CreditScale, ratingGrades } from "../../util/creditReportUtil";
+import { QueryParams } from "./models/queryParams.interface";
+import { ULBRatings } from "./ratings";
 
 // import { CreditRatingJson } from './borrowings.json';
 
@@ -186,9 +186,8 @@ export class ReportComponent implements OnInit, OnDestroy {
         fillColor: this.stateColors.selected,
       },
     };
-    const { stateLayers, map } = MapUtil.createDefaultNationalMap(
-      configuration
-    );
+    const { stateLayers, map } =
+      MapUtil.createDefaultNationalMap(configuration);
     this.nationalLevelMap = map;
 
     stateLayers.eachLayer((layer) => {
@@ -254,6 +253,8 @@ export class ReportComponent implements OnInit, OnDestroy {
       .subscribe((res) =>
         this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb")
       );
+
+    console.log("absCreditInfo oldreport", this.absCreditInfo);
   }
 
   download() {
@@ -319,6 +320,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
+    debugger;
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
