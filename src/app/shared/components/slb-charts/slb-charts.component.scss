@@ -5,7 +5,7 @@
     height: 15rem;
 }
 
-svg {
+.chart-svg {
     display: block;
     margin: auto;
     position: relative;
@@ -14,13 +14,13 @@ svg {
 }
 
 .p-c {
-    font: normal normal 500 22px/24px 'Archivo';
+    font: normal normal 700 16px/24px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
 
 .p-t {
-    font: normal normal 400 20px/24px 'Archivo';
+    font: normal normal 500 15px/24px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
