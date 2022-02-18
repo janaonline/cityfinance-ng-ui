@@ -3,7 +3,7 @@
         <app-front-panel (changeInStateOrCity)="changeInDropDown($event)" style="padding: 0;" [mapConfig]="mapData" [cardData]="revenueData" [data]="frontPanelData"></app-front-panel>
     </div>
     <div class="row p-4">
-        <h1 class="text-center">Dashboard</h1>
+        <label class="m-h text-center">Dashboard</label>
     </div>
     <div *ngIf="dashboardTabData" class="row">
         <app-dashboard-tabs [DashBoardType]="'city'" [cityId]="cityId" [data]="dashboardTabData"></app-dashboard-tabs>

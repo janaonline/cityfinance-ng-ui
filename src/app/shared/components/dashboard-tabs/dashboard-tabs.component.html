@@ -1,28 +1,37 @@
 <div class="container-fluid">
-    <div class="row">
-        <div *ngIf="data.length > 0">
-            <ul style="justify-content: center" class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li *ngFor="let tab of data; let i = index" class="nav-item" role="presentation">
-                    <button [ngClass]="{
+    <div class="container-cnt" style="justify-content: center;" *ngIf="data.length > 0">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul style="justify-content: center" class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li *ngFor="let tab of data; let i = index" class="nav-item" role="presentation">
+                        <button [ngClass]="{
               roundEdge: i == 0,
               roundEdge2: i == data.length - 1,
               active: i == 0
-            }" class="nav-link" [id]="tab.name" data-bs-toggle="pill" [data-bs-target]="tab" type="button" role="tab" [aria-controls]="tab" (click)="changeTab($event)" value="{{ tab | json }}">
+            }" class="nav-link pd" [id]="tab.name" data-bs-toggle="pill" [data-bs-target]="tab" type="button" role="tab" [aria-controls]="tab" (click)="changeTab($event)" value="{{ tab | json }}">
             {{ tab.name }}
           </button>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div *ngIf="activeFilter.length > 0" class="tab-content" id="pills-tabContent">
-            <ul class="nav nav-pills2 mb-3" id="pills-tab" role="tablist">
-                <li *ngFor="let tab of activeFilter; let i = index" class="nav-item" role="presentation">
-                    <button class="nav-link2" [ngClass]="{ active: i == 0 }" [id]="tab.name" data-bs-toggle="pill" [data-bs-target]="tab" type="button" role="tab" [aria-controls]="tab" (click)="changeTab($event, true)" value="{{ tab | json }}">
-            {{ tab.name }}
-          </button>
-                </li>
-            </ul>
-        </div>
+
     </div>
+    <div class="container-cnt tab-content" *ngIf="activeFilter.length > 0" id="pills-tabContent" style="padding: 0;">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-pills2 mb-3" id="pills-tab" role="tablist">
+                    <li *ngFor="let tab of activeFilter; let i = index" class="nav-item" role="presentation">
+                        <button class="nav-link2 pd2" [ngClass]="{ active: i == 0 }" [id]="tab.name" data-bs-toggle="pill" [data-bs-target]="tab" type="button" role="tab" [aria-controls]="tab" (click)="changeTab($event, true)" value="{{ tab | json }}">
+            {{ tab.name }}
+          </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
     <div class="row">
         <div [ngSwitch]="activeHeader">
             <div *ngSwitchCase="'Financial Indicators'">
@@ -46,6 +55,6 @@
             </div>
         </div>
     </div>
-    <!-- Displaying Table on click of borrowing and credit tab -->
-    <!-- <app-accordion-to-table ></app-accordion-to-table> -->
 </div>
+<!-- Displaying Table on click of borrowing and credit tab -->
+<!-- <app-accordion-to-table ></app-accordion-to-table> -->

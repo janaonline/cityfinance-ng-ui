@@ -95,8 +95,11 @@ export class ToolkitsComponent implements OnInit {
       this.isCardShow = true;
     })
   }
-
+showIframe = false
   openScorePer(card) {
+    if(card.label == 'Municipal Borrowing Readiness Toolkit'){
+      return this.showIframe = true;
+    }
     this.resources_services.tooltikCardShow.next(false);
     this.isCardShow = false;
     this.router.navigateByUrl('resources-dashboard/learning-center/toolkits/introduction')

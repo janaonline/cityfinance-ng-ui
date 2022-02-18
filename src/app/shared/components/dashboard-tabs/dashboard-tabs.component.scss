@@ -1,64 +1,86 @@
 $font-color: #0F1F40;
 $font-family: "Archivo";
+.nav {
+    justify-content: center;
+    flex-wrap: nowrap;
+}
 
 .mat-tab-label-active {
-  background-color: #e67e15;
+    background-color: #e67e15;
 }
+
 .nav-pills .nav-link {
-  border: 1px solid #d9dce6;
-  border-radius: 0px;
-  min-width: 8rem;
-  min-height: 4rem;
-  text-align: center;
-  letter-spacing: 0px;
-  color: #6e7281;
-  opacity: 1;
+    border: 1px solid #d9dce6;
+    border-radius: 0px;
+    min-width: 8rem;
+    min-height: 4rem;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #6e7281;
+    opacity: 1;
+    width: max-content;
+    font: normal normal 600 14px/18px 'Montserrat';
 }
-.roundEdge{
-  border-radius: 8px 0px 0px 8px !important;
+
+.roundEdge {
+    border-radius: 8px 0px 0px 8px !important;
 }
-.roundEdge2{
-  border-radius: 0px 8px 8px 0px !important;
+
+.roundEdge2 {
+    border-radius: 0px 8px 8px 0px !important;
 }
+
 .nav-link.active {
-  background-color: #e67e15;
-  color: #FFFFFF !important;
+    background-color: #e67e15;
+    color: #FFFFFF !important;
 }
 
 .nav-link2.active {
-  background-color: #3e5db1;
-  border-color: #3e5db1;
-  color: #ffffff !important;
+    background-color: #3e5db1;
+    border-color: #3e5db1;
+    color: #ffffff !important;
 }
 
 .nav-pills2 .nav-link2 {
-  border: 1px solid #d9dce6;
-  margin: 0.5rem;
-  height: auto;
-  text-align: center;
-  border: 1px solid #9299b2;
-  border-radius: 6px;
-  color: #8b92a8;
+    border: 1px solid #d9dce6;
+    margin: 0.5rem;
+    height: auto;
+    text-align: center;
+    border: 1px solid #9299b2;
+    border-radius: 6px;
+    width: max-content;
+    font: normal normal 400 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #8B92A8;
 }
 
 .nav-link2 {
-  border: 1px solid #d9dce6;
-  border-radius: 0px;
-  min-width: 4rem;
-  min-height: 2.5rem;
-  text-align: center;
-  letter-spacing: 0px;
-  color: #6e7281;
-  opacity: 1;
+    border: 1px solid #d9dce6;
+    border-radius: 0px;
+    min-width: 4rem;
+    min-height: 2.5rem;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #6e7281;
+    opacity: 1;
 }
+
 .headRow-table {
-  background-color: #E9ECF7;
+    background-color: #E9ECF7;
 }
+
 .TableTitle {
-  color: $font-color;
-  font-family: $font-family;
-  font-weight: 600;
+    color: $font-color;
+    font-family: $font-family;
+    font-weight: 600;
 }
-.mainTitle td:nth-child(1) {
- 
+
+.nav>li>.pd {
+    padding: .8rem 1.5rem;
 }
+
+.nav>li>.pd2 {
+    padding: .6rem .6rem;
+}
+
+.mainTitle td:nth-child(1) {}

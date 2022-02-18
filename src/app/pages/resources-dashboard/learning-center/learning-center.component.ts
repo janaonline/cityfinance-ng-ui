@@ -26,20 +26,16 @@ export class LearningCenterComponent implements OnInit {
       link: 'bestPractices'
      },
     {
-       name: "Videos",
-       filter: ["innerTab10", "innerTab11", "innerTab12"],
-       link: 'video'
-    },
-    {
       name: "E-Learning Modules",
       filter: ["innerTab10", "innerTab11", "innerTab12"],
       link: 'eLearning'
     },
     {
-      name: "Podcasts",
+      name: "Municipal Laws",
       filter: ["innerTab10", "innerTab11", "innerTab12"],
-      link: 'PodCast'
+      link: 'eLearning'
     },
+   
   ];
 
 
