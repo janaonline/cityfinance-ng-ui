@@ -77,6 +77,8 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { NewCreditRatingComponent } from "./components/dashboard-tabs/new-credit-rating/new-credit-rating.component";
 import { NewCityCreditRatingComponent } from "./components/dashboard-tabs/new-city-credit-rating/new-city-credit-rating.component";
 import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component";
+import { CommonChartsGraphsComponent } from './components/common-charts-graphs/common-charts-graphs.component';
+
 
 @NgModule({
   imports: [
@@ -156,6 +158,7 @@ import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component
     NewCreditRatingComponent,
     NewCityCreditRatingComponent,
     SlbChartsComponent,
+    CommonChartsGraphsComponent,
   ],
   exports: [
     FormsModule,

@@ -45,6 +45,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     "2020-21",
   ];
   loading = false;
+  tabName;
 
   ngOnInit(): void {}
 
@@ -77,6 +78,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.tabName = this.data.name;
     this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
     this.aboutIndicators = this.data["static"].indicators;
     setTimeout(() => {
