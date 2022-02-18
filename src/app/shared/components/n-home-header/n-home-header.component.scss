@@ -97,7 +97,7 @@ a.disabled {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba($color: $white, $alpha: .9);
+    background: rgba($color: $white, $alpha: .9); 
     backdrop-filter: blur(40px);
 
     &.show .navbar-toggler[aria-expanded="true"]{
