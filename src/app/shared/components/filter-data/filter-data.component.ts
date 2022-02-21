@@ -69,6 +69,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("")
       .includes("percapita");
+      this.getChartData({});
   }
 
   actionFromChart(value) {
@@ -95,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ? "Revenue"
       : name.includes("expenditure")
       ? "Expense"
-      : "";
+      : "Tax";
   }
 
   getChartData(data = {}) {
@@ -111,6 +112,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ?.toLocaleLowerCase()
       .split(" ")
       .join("_");
+    if (body.filterName == "total_property_tax_collection")
+      body.filterName = "property_tax";
 
     let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
     body.ulb = [...ulbsToCompare, this.currentUlb];
