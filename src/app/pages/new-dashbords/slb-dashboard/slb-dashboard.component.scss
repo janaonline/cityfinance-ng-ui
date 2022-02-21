@@ -1,3 +1,7 @@
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
 .hero {
     width: 100%;
     padding: 6.5rem 0;
@@ -9,7 +13,7 @@
 .title {
     // padding-top: 7.5rem;
     color: #FFFFFF;
-    font-size: 2rem;
+    font-size: $font-size-base*2;
     font-family: "Archivo";
     font-weight: 600;
 }
@@ -26,32 +30,32 @@
     font-family: "Montserrat";
     font-weight: 700;
     color: #0F1F40;
-    font-size: 2.5rem;
+    font-size: $font-size-base*2.5;
 }
 .splash-subTitle{
     padding-top: 0.625rem;
     font-family: "Archivo";
     font-weight: 600;
     color: #070707;
-    font-size: 2.5rem;
+    font-size: $font-size-base*2.5;
 }
 .sc {
     padding-top: 1.625rem;
-    font-size: 1rem;
+    font-size: $font-size-base*1;
     font-family: "Archivo";
     font-weight: 500;
     color: #070707;
 }
 .sbd-Title {
     padding-top: 1.625rem;
-    font-size: 1.875rem;
+    font-size: $font-size-base*1.875;
     font-family: "Archivo";
     font-weight: 800;
     color: #0F1F40;
 }
 .sbd-content {
     padding-top: 2.5rem;
-    font-size: 1rem;
+    font-size: $font-size-base*1;
     font-family: "Archivo";
     font-weight: 400;
     color:#6E7281;
@@ -371,7 +375,7 @@ div.miniMap {
         bottom: 0px;
         background: transparent;
         @media screen and (max-width: 1024px) and (min-width: 560px) {
-            font-size: 12px;
+            font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 551px) {
             font-size: 10px;
@@ -386,7 +390,7 @@ div.miniMap {
             left: -40px;
         }
         @media screen and (max-width: 405px) and (min-width: 320px) {
-            font-size: 8px;
+            font-size: $font-size-base*0.5;
             width: 51%;
         }
         @media screen and (max-width: 319px) {
@@ -418,10 +422,10 @@ div.miniMap {
         bottom: 1px;
         font-size: 1vw;
         @media screen and (max-width: 1024px) and (min-width: 560px) {
-            font-size: 12px;
+            font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 551px) {
-            font-size: 12px;
+            font-size: $font-size-base*0.75;
             margin: auto;
         }
     }

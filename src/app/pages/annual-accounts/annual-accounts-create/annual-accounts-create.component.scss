@@ -1,3 +1,7 @@
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
 .container {
   width: 95%;
 }
@@ -22,7 +26,7 @@
   position: absolute;
   top: -10px;
   opacity: 0;
-  font-size: 100px;
+  font-size: $font-size-base*6.25;
   filter: alpha(opacity=0);
   cursor: pointer;
   width: 94px;
@@ -55,7 +59,7 @@
 
 .icon-layout {
   margin-left: 10px;
-  font-size: 16px;
+  font-size: $font-size-base*1;
 }
 
 .spinner-layout {

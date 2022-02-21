@@ -67,7 +67,7 @@ export class PreviewComponent implements OnInit {
     #preview {
         position: relative;
         display: block;
-        font-size: 15px;
+        font-size: 0.938rem;
     }
 
     #preview .tab-heading {

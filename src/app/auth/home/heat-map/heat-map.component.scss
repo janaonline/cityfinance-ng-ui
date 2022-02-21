@@ -1,10 +1,13 @@
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss//mixins";
 .ranking {
   padding: 40px 0;
   background-color: white;
   color: #000;
 
   .ranking-intro {
-    font-size: 18px;
+    font-size: $font-size-base*1.125;
     text-align: center;
     margin-bottom: 30px;
   }
