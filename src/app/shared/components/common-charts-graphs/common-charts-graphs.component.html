@@ -8,7 +8,7 @@
                   </span>
                 </div>
                 <div class="col-sm-12 col-md-6 text-end">
-                    <div class="p-1" style="display: inline-block; text-align: center;" *ngFor="let btn of headerActionsBtn">
+                    <div class="pd-btn" style="display: inline-block; text-align: center;" *ngFor="let btn of headerActionsBtn">
                         <div>
                             <img [src]="btn.svg" alt="">
                         </div>
@@ -20,16 +20,28 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 filterDrp">
-
+                <div class="col-7 col-sm-7 col-md-4">
+                    <div class="input-group inp-grp">
+                        <button type="button" class="btn btn-outline-secondary" (click)="openModal()">Compare By:</button>
+                    </div>
+                </div>
+                <div class="col-4 col-sm-5 col-md-3 ps-2">
+                    <select class="form-select" id="years" aria-label="Default select">
+                  <option value="2020-21" selected>2020-21</option>
+                   <option value="2021-22">2021-22</option>
+                </select>
                 </div>
             </div>
             <div class="row doughnutCharts">
-                <div class="col-sm-12">
+                <div class="col-sm-12 mt-3">
                     <div class="row mx-auto justify-content-center">
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let chartItem of doughnutArray; let i = index">
-                            <h3 class="chart-l text-center">{{chartItem.title}}</h3>
-                            <canvas id="mychart{{i}}" style="width: 200px; height: 200px;" #mycharts>{{chartItem.chart}}</canvas>
+                        <div class="mb-4" [ngClass]="{'col-6 col-sm-6' : isCompareState, 'col-6 col-sm-12' : !isCompareState}">
+                            <h3 class="chart-l text-center">Mumbai</h3>
+                            <canvas id="doughnut" style="width: 95vw; height: 95vh;"></canvas>
+                        </div>
+                        <div class="mb-4" [ngClass]="{'col-6 col-sm-6' : isCompareState}" [hidden]="!isCompareState">
+                            <h3 class="chart-l text-center">State Average</h3>
+                            <canvas id="stateDoughnut" style="width: 95vw; height: 95vh;"></canvas>
                         </div>
                     </div>
                     <div class="legends">

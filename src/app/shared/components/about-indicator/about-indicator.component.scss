@@ -1,16 +1,25 @@
-
 .activeIndicator {
-  color: #e67e15;
+    color: #e67e15;
 }
+
 .thumb {
-  height: 1rem;
-  width: 1.8rem;
+    height: 1rem;
+    width: 1.8rem;
 }
-.heading{
-  background-color: #e5fff1;
-  margin-left: 0.4rem;
-  margin-right: 0.4rem;
+
+.heading {
+    background-color: #e5fff1;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
 }
-.thumbText{
-  color: #0fa755; font-size: 0.7rem
+
+.thumbText {
+    color: #0fa755;
+    font-size: 0.7rem
+}
+
+::ng-deep mat-panel-title {
+    font: normal normal 500 14px/15px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
 }

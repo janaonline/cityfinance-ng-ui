@@ -1,5 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
-import { Chart } from "chart.js";
+import  { Chart } from "chart.js";
 @Component({
   selector: 'app-common-charts-graphs',
   templateUrl: './common-charts-graphs.component.html',
@@ -10,7 +10,8 @@ export class CommonChartsGraphsComponent implements OnInit, OnChanges {
   constructor() { }
   public chart: Chart;
   public doughnut: Chart;
-  public dynamicDoughnut: Chart;
+  public stateDoughnut : Chart;
+
   headerActionsBtn = [
     {
       name: "Share",
@@ -73,60 +74,65 @@ doughnutArray:any = [
     chart: []
   },
 ];
+isCompareState = true;
 
   ngOnInit(): void {
-    this.dynamicDoughnutChartInit(this.doughnutArray);
+    this.doughnutChartInit();
+    this.stateDoughnutChartInit();
   }
   ngOnChanges(changes: SimpleChanges): void {
 
   }
 
-  dynamicDoughnutChartInit(chartArray){
-    console.log('loop val', this.allMyCanvas._results)
-    let canvasCharts = this.allMyCanvas._results;  // Get array with all canvas
-    canvasCharts.map((myCanvas, i) => {   // For each canvas, save the chart on the charts array
-      if(chartArray[i].chart) {
-       // chartArray[i].chart.destroy();
-      }
-       chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext('2d'), {
-        type: 'doughnut',
-        data: {
-          labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
-          datasets: [
-            {
-              data: chartArray[i].data,
-              backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
-              fill: false
-            },
-          ]
-        },
-        options: {
-          legend: {
-            display: false
+  doughnutChartInit(){
+    this.doughnut = new Chart('doughnut', {
+      type: 'doughnut',
+      data: {
+        labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
+        datasets: [
+          {
+            data: [40, 20, 15, 10, 10, 5],
+            backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
+            fill: false
           },
-        }
-       })
+        ]
+      },
+      options: {
+        legend: {
+         // position: 'bottom'
+         display: false
+        },
+      }
     });
-    // let dynamicDoughnut: Chart;
-    // dynamicDoughnut  = new Chart(`${val.id}`, {
-    //   type: 'doughnut',
-    //   data: {
-    //     labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
-    //     datasets: [
-    //       {
-    //         data: val.data,
-    //         backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
-    //         fill: false
-    //       },
-    //     ]
-    //   },
-    //   options: {
-    //     legend: {
-    //       display: false
-    //     },
-    //   }
-    // });
-  }
-
+}
+stateDoughnutChartInit(){
+  this.stateDoughnut = new Chart('stateDoughnut', {
+    type: 'doughnut',
+    data: {
+      labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
+      datasets: [
+        {
+          data: [40, 40, 5, 10, 0, 5],
+          backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
+          fill: false
+        },
+      ]
+    },
+    options: {
+      legend: {
+       // position: 'bottom'
+       display: false
+      },
+    }
+  });
+}
+openModal() {
+  // const dialogConfig = new MatDialogConfig();
+  // dialogConfig.width = "39rem";
+  // this.dialogRef = this.dialog.open(this.template, dialogConfig);
+  // this.dialogRef.afterClosed().subscribe((result) => {
+  //   console.log("result", result);
+  // });
+}
 
 }
