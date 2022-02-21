@@ -2,7 +2,6 @@
     background-color: #F5F7FF;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-
 }
 
 .compareDialog {
@@ -17,6 +16,7 @@
         width: 60vw !important;
     }
 }
+
 @media only screen and (max-width: 800px) {
     .compareDialog {
         width: 70vw !important;
@@ -35,13 +35,10 @@
         font-size: 13px;
         width: 100vw;
     }
-
     .compareDialog {
         width: 90vw !important;
     }
 }
-
-
 
 .checkbox-round {
     width: 1em;
@@ -61,31 +58,29 @@
     opacity: 1;
 }
 
-
-
-.inputCheckbox > label {
+.inputCheckbox>label {
     font-weight: bold;
     color: #6E7281;
     padding-left: 5px;
     font-size: 0.8em;
-
 }
 
 @media only screen and (max-width: 800px) {
-    .inputCheckbox > label {
+    .inputCheckbox>label {
         font-size: 10px;
     }
 }
+
 @media only screen and (max-width: 600px) {
     .inputCheckbox {
         width: 50%;
     }
-    .inputCheckbox > label {
+    .inputCheckbox>label {
         font-size: 10px;
     }
 }
 
-.inputCheckbox > label:checked {
+.inputCheckbox>label:checked {
     color: #0F1F40;
 }
 
@@ -95,8 +90,6 @@
     }
 }
 
-
-
 .compareInput input {
     border-radius: 8px;
     padding: 10px;
@@ -104,7 +97,7 @@
     width: 20vw;
 }
 
-.compareButton > button {
+.compareButton>button {
     box-shadow: 0px 2px 8px #FFDAA8;
     border-radius: 8px;
     background: #E67E15;
@@ -115,21 +108,20 @@
 }
 
 @media only screen and (max-width: 800px) {
-    .compareButton > button {
+    .compareButton>button {
         width: 10vw;
     }
 }
-
 
 @media only screen and (max-width: 600px) {
     .formInput {
         flex-direction: column;
     }
-    .compareInput input  {
+    .compareInput input {
         width: 100vw;
         padding: 5px;
     }
-    .compareButton > button {
+    .compareButton>button {
         width: 20vw;
         font-size: 10px;
         display: inline-block;
@@ -141,14 +133,13 @@
 }
 
 @media only screen and (max-width: 400px) {
-    .compareButton > button {
+    .compareButton>button {
         width: 20vw;
         margin: 0 auto;
         // margin-left: 90px;
         font-size: 10px;
     }
 }
-
 
 .lastButtons button {
     border: 1px solid #6E7281;
@@ -167,7 +158,6 @@
     }
 }
 
-
 .ownRevText {
     font-size: 0.8em;
 }
@@ -184,7 +174,7 @@
     }
 }
 
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 600px) {
     .selectDiv {
         // width: 100vw;
         // margin: 0 auto;
@@ -197,38 +187,43 @@
 
 .example-chip-list {
     width: 100%;
-  }
+}
 
-  ::ng-deep #mat-option-0,
+ ::ng-deep #mat-option-0,
 ::ng-deep .firstCls {
     border-top: 1px solid lightgray;
 }
 
 .chipsDiv {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  background-color: gray;
-  border: 1px solid #3E5DB1;
-  color: white;
-  border-radius:46px;
-  padding: 5px;
-  margin: 10px;
-  margin-bottom: 10px;
-  background-color: #F2F5FF;
-  font-size: 14px;
-  color: #3E5DB1;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    border: 1px solid #3E5DB1;
+    color: white;
+    border-radius: 46px;
+    padding: 5px;
+    margin: 10px;
+    margin-bottom: 10px;
+    background-color: #F2F5FF;
+    font-size: 14px;
+    color: #3E5DB1;
 }
 
 .chipsDiv button {
-  background: none;
-  border: none;
+    background: none;
+    border: none;
 }
 
 .cancleIcon {
-  background-color: transparent;
-  color: #3E5DB1;
-  border: 1px;
-  vertical-align: bottom;
+    background-color: transparent;
+    color: #3E5DB1;
+    border: 1px;
+    vertical-align: bottom;
+}
+
+.btn-check:focus+.btn,
+.btn:focus {
+    box-shadow: none;
 }

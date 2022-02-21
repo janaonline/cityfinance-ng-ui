@@ -9,7 +9,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { LearningCenterComponent } from './learning-center/learning-center.component';
 import { DataSetsComponent } from './data-sets/data-sets.component';
 import { ReportsPublicationComponent } from './reports-publication/reports-publication.component';
-import { LatestNewsComponent } from './latest-news/latest-news.component';
+
 import { ScorePerComponent } from './learning-center/score-per/score-per.component';
 
 import { MatInputModule } from '@angular/material/input';
@@ -38,7 +38,6 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
     LearningCenterComponent,
     DataSetsComponent,
     ReportsPublicationComponent,
-    LatestNewsComponent,
      ScorePerComponent,
 
      ResourcesTabsComponent,

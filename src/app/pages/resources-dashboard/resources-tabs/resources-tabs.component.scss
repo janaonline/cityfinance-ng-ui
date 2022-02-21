@@ -7,6 +7,7 @@
     background: #F7F8FF 0% 0% no-repeat padding-box;
     border: 1px solid #D9DCE6;
     text-align: center;
+    font: normal normal 600 14px/18px 'Montserrat';
 }
 
 .nav-item:first-child {
@@ -30,16 +31,17 @@ li>a.active {
     background: none;
     border: 0;
     border-radius: inherit;
+    font: normal normal 600 14px/18px 'Montserrat';
+    width: max-content;
 }
 
 .nav>li>a {
     padding: .8rem 2.5rem;
 }
 
-.li-w-e {
-    width: 13rem;
-}
-
-.li-w-b {
-    width: 11rem;
-}
+// .li-w-e {
+//     width: 13rem;
+// }
+// .li-w-b {
+//     width: 11rem;
+// }
