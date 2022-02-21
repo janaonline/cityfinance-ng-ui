@@ -1,3 +1,7 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
 .container-fluid {
     padding-left: 0;
 }
@@ -12,12 +16,12 @@
 @media screen and (min-width: 992px) {
     .wrap-bg {
         height: 44rem;
-    }
+    } 
     .city {
-        font: normal normal bold 65px/56px Cabin;
+        font: normal normal bold #{$font-size-base*4.063}/#{$font-size-base*3.5} Cabin;
     }
     .fy {
-        font: normal normal normal 65px/56px Cabin;
+        font: normal normal normal #{$font-size-base*4.063}/#{$font-size-base*3.5} Cabin;
     }
     // .pd-l-r {
     //     padding: 1.5rem 8rem;
@@ -26,7 +30,7 @@
         height: 142px;
     }
     .ds-info {
-        font: normal normal 500 26px/41px 'Montserrat';
+        font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.562} 'Montserrat';
     }
 }
 
@@ -36,6 +40,7 @@
     }
     .city {
         font: normal normal bold 50px/56px Cabin;
+
     }
     .fy {
         font: normal normal normal 50px/56px Cabin;

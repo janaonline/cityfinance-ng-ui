@@ -60,7 +60,10 @@
     margin-top: 2rem !important;
 }
 
-
+.d-tableCont {
+    padding-top: 4rem;
+    padding-left: 6rem;
+}
 // map section styles start
 ::ng-deep .tooltip-custom-1 {
     transform: translateY(-4000px);
@@ -486,7 +489,7 @@ div.miniMap {
 ::ng-deep .selected-list {
     border-radius: 8px !important;
     // width: 80%;
-    background-color: #E9ECF7;
+    // background-color: #E9ECF7;
 }
 
 ::ng-deep .c-remove,
@@ -510,7 +513,7 @@ div.miniMap {
     // background: #FFFFFF 0% 0% no-repeat padding-box;
     // border: 1px solid #FFCF8E;
     // border-radius: 6px 6px 0px 0px;
-    border: 1px solid #D0D0D0;
+    border: 1px solid #999;
     border-radius: 6px;
     font: normal normal 600 13px/14px 'Archivo';
     letter-spacing: 0px;
@@ -590,7 +593,7 @@ thead>tr>th {
 }
 
 .table>tbody>tr>td {
-    border: none;
+    // border: none;
     border-right: 1px solid #E4E4E4;
     font: normal normal 500 14px/15px 'Archivo';
     letter-spacing: 0px;
