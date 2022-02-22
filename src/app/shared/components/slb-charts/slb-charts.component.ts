@@ -27,6 +27,17 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   compareDialogType = 1;
   compareType = "";
   year;
+  chartLabels = [
+    {
+     name: 'Mumbai',
+     color: '#224BD5',
+    },
+    {
+     name: 'Benchmark',
+     color: '#29CFD6',
+    },
+
+  ];
 
   ngOnInit(): void {
     this.aboutSlbCharts = this.data?.mainContent[0]?.about;

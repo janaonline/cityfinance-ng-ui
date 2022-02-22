@@ -45,6 +45,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     "2020-21",
   ];
   loading = false;
+  tabName;
 
   ngOnInit(): void {}
 
@@ -68,7 +69,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("")
       .includes("percapita");
-    this.getChartData({});
+      this.getChartData({});
   }
 
   actionFromChart(value) {
@@ -78,10 +79,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.tabName = this.data.name;
     this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
     this.aboutIndicators = this.data["static"].indicators;
     setTimeout(() => {
       if (this.data.btnLabels.length) this.changeActiveBtn(0);
+      this.getChartData({});
     }, 0);
     this.setHeadOfAccount();
     console.log("this.barChart", this.barChart);
@@ -93,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ? "Revenue"
       : name.includes("expenditure")
       ? "Expense"
-      : "";
+      : "Tax";
   }
 
   getChartData(data = {}) {
@@ -109,6 +112,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ?.toLocaleLowerCase()
       .split(" ")
       .join("_");
+    if (body.filterName == "total_property_tax_collection")
+      body.filterName = "property_tax";
 
     let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
     body.ulb = [...ulbsToCompare, this.currentUlb];
@@ -120,51 +125,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.loading = true;
     this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
-        let newData = JSON.parse(JSON.stringify(barChartStatic));
-
-        newData.data.labels = res["data"].ulbData.map(
-          (value) => value._id.financialYear
-        );
-        newData.data.labels = [...new Set(newData.data.labels)];
-
-        let temp = {},
-          index = 0;
-        for (const key in res["data"]) {
-          const element = res["data"][key];
-          element.map((value) => {
-            let dataInner = JSON.parse(JSON.stringify(innerDataset));
-            if (!value.hasOwnProperty("ulbName")) {
-              value.ulbName = "National";
-            }
-            if (!temp[value.ulbName]) {
-              dataInner.backgroundColor = backgroundColor[index];
-              dataInner.borderColor = borderColor[index++];
-              dataInner.label = value.ulbName;
-              dataInner.data = [value.amount];
-              temp[value.ulbName] = dataInner;
-            } else {
-              dataInner = temp[value.ulbName];
-              dataInner.data.push(value.amount);
-              temp[value.ulbName] = dataInner;
-            }
-          });
-        }
-
-        newData.data.datasets = [];
-        for (const key in temp) {
-          const element = temp[key];
-          newData.data.datasets.push(element);
-        }
-
-        this.mySelectedYears.map((value) => {
-          if (!newData.data.labels.includes(value)) {
-            newData.data.labels.push(value);
-          }
-        });
-
-        newData.data.datasets.push(JSON.parse(JSON.stringify(lineDataset)));
-
-        this.barChart = newData;
+        if (body.filterName.includes("mix")) this.createPieChart(res);
+        else this.createBarChart(res);
         this.loading = false;
       },
       (error) => {
@@ -186,6 +148,67 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       }
     );
   }
+
+  createBarChart(res) {
+    let newData = JSON.parse(JSON.stringify(barChartStatic));
+
+    newData.data.labels = res["data"].ulbData.map(
+      (value) => value._id.financialYear
+    );
+    newData.data.labels = [...new Set(newData.data.labels)];
+
+    let temp = {},
+      index = 0;
+    for (const key in res["data"]) {
+      const element = res["data"][key];
+      element.map((value) => {
+        let dataInner = JSON.parse(JSON.stringify(innerDataset));
+        if (!value.hasOwnProperty("ulbName")) {
+          value.ulbName = "National";
+        }
+        if (!temp[value.ulbName]) {
+          dataInner.backgroundColor = backgroundColor[index];
+          dataInner.borderColor = borderColor[index++];
+          dataInner.label = value.ulbName;
+          dataInner.data = [value.amount];
+          temp[value.ulbName] = dataInner;
+        } else {
+          dataInner = temp[value.ulbName];
+          dataInner.data.push(value.amount);
+          temp[value.ulbName] = dataInner;
+        }
+      });
+    }
+
+    newData.data.datasets = [];
+    for (const key in temp) {
+      const element = temp[key];
+      newData.data.datasets.push(element);
+    }
+
+    this.mySelectedYears.map((value) => {
+      if (!newData.data.labels.includes(value)) {
+        newData.data.labels.push(value);
+      }
+    });
+    let tempLineData = JSON.parse(JSON.stringify(lineDataset));
+    if (newData.data.datasets.length) {
+      let value = newData.data.datasets[0];
+      if (value.data.length > 1) {
+        let CAGR =
+          Math.pow(
+            value.data[value.data.length - 1] / value.data[0],
+            1 / value.data.length
+          ) - 1;
+        tempLineData.data.push(CAGR);
+        newData.data.datasets.push(tempLineData);
+      }
+    }
+
+    this.barChart = newData;
+  }
+
+  createPieChart(res) {}
 
   filterChangeInChart(value) {
     this.mySelectedYears = value.year;
@@ -237,7 +260,7 @@ const borderColor = [
 const lineDataset = {
   type: "line",
   label: "Line Dataset",
-  data: [12, 22, 32, 42],
+  data: [],
   fill: false,
   borderColor: "rgb(54, 162, 235)",
 };

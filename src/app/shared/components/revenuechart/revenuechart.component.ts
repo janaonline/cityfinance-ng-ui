@@ -247,17 +247,17 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   createChart() {
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-    else {
-  Object.assign(this.chartData, { options: this.ChartOptions });
-    }
+     else {
+         Object.assign(this.chartData, { options: this.ChartOptions });
+      }
 
-  
+
   let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
   let ctx = canvas.getContext("2d");
   this.myChart = new Chart(ctx, this.chartData);
 
-    
- 
+
+
   }
 
   actionClick(value) {
@@ -274,7 +274,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       this.createChart();
     }else if (value.name == "download") {
       this.getImage();
-     
+
     return;
     }
     this.actionClicked.emit(value);
@@ -318,7 +318,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 showLoader = false
 
   getImage() {
-    
+
 
 let id = "canvasDiv" + this.chartId
     let html = document.getElementById(id);
