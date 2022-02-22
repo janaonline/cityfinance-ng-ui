@@ -1,3 +1,7 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
 .home-banner {
   background-image: url("/assets/images/city-banner.webp");
   background-repeat: no-repeat;
@@ -31,7 +35,7 @@
     h1 {
       color: #fff;
       margin: 120px 0 10px;
-      font-size: 24px;
+      font-size: $font-size-base*1.5;
       font-weight: 300;
       line-height: 1.7;
 
@@ -43,7 +47,7 @@
     h2 {
       color: #fff;
       margin: 0;
-      font-size: 18px;
+      font-size: $font-size-base*1.125;
       font-weight: 300;
       margin: 0 0 30px;
 
@@ -75,7 +79,7 @@
     span {
       font-size: 1.2vw;
       @media screen and (max-width: 480px) and (min-width: 470px) {
-        font-size: 12px;
+      font-size: $font-size-base*0.75;
       }
       @media screen and (max-width: 468px) {
         font-size: 3.2vw;
@@ -235,21 +239,21 @@
       ". . . . . . . ."
       ". . . . . . . .";
     @media screen and (max-width: 800px) and (min-width: 770px) {
-      font-size: 12px;
+      font-size: $font-size-base*0.75;
       grid-template: repeat(2, minmax(11vh, auto)) / repeat(4, 1fr);
       grid-template-areas:
         "l l l l "
         "r r r r ";
     }
     @media screen and (max-width: 768px) and (min-width: 600px) {
-      font-size: 12px;
+      font-size: $font-size-base*0.75;
       grid-template: repeat(2, minmax(21vh, auto)) / repeat(4, 1fr);
       grid-template-areas:
         "l l l l "
         "r r r r ";
     }
     @media screen and (max-width: 599px) and (min-width: 470px) {
-      font-size: 4px;
+      font-size: $font-size-base*0.25;
     }
     @media screen and (max-width: 480px) and (min-width: 470px) {
       grid-template: repeat(2, minmax(22vh, auto)) / repeat(8, 1fr);
@@ -388,7 +392,7 @@
           margin-top: 7%;
         }
         @media screen and (max-width: 885px) and (min-width: 500px) {
-          font-size: 12px;
+          font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 480px) and (min-width: 470px) {
           font-size: 2.5em;
@@ -399,7 +403,7 @@
           grid-area: 3 / 10 / 2 / 3;
         }
         @media screen and (max-width: 220px) {
-          font-size: 9px;
+          font-size: $font-size-base*0.563;
         }
       }
     }
@@ -565,7 +569,7 @@
 
     .fa {
       padding-top: 30px;
-      font-size: 40px;
+      font-size: $font-size-base*2.5;
       color: rgb(230, 230, 100);
     }
 
@@ -670,13 +674,13 @@
     font-weight: bold;
   }
   @media screen and (max-width: 860px) and (min-width: 770px) {
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
   }
   @media screen and (max-width: 768px) and (min-width: 500px) {
-    font-size: 14px;
+    font-size: $font-size-base*0.875;
   }
   @media screen and (max-width: 480px) {
-    font-size: 10px;
+    font-size: $font-size-base*0.625;
     margin-top: 0;
     min-height: 8em;
     padding-top: 0px;
@@ -773,7 +777,7 @@ img {
   opacity: 1;
   color: white;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: $font-size-base*1.8;
   width: 100%;
   padding: 2rem 1rem;
   transition: opacity 1s ease-out 0s;
@@ -796,13 +800,13 @@ img {
   width: 100%;
   padding: 2rem 1rem;
   @media screen and (max-width: 860px) and (min-width: 770px) {
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
   }
   @media screen and (max-width: 768px) and (min-width: 500px) {
-    font-size: 14px;
+    font-size: $font-size-base*0.875;
   }
   @media screen and (max-width: 480px) {
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
     opacity: 1;
   }
 
@@ -993,10 +997,10 @@ img.background {
     margin-right: 2%;
     @media screen and (max-width: 768px) and (min-width: 690px) {
       //  grid-area: 2 / 12 / 3 / 6;
-      font-size: 14px;
+      font-size: $font-size-base*0.875;
     }
     @media screen and (max-width: 700px) and (min-width: 500px) {
-      font-size: 14px;
+      font-size: $font-size-base*0.875;
     }
 
     // @media screen and (max-width:600px) and (min-width:500px){
@@ -1010,13 +1014,13 @@ img.background {
     .minister-name {
       font-size: 0.9vw;
       @media screen and (max-width: 1024px) {
-        font-size: 10px;
+        font-size: $font-size-base*0.625;
       }
       @media screen and (max-width: 768px) {
-        font-size: 12px;
+        font-size: $font-size-base*0.75;
       }
       @media screen and (max-width: 700px) and (min-width: 500px) {
-        font-size: 10px;
+        font-size: $font-size-base*0.625;
       }
       @media screen and (max-width: 468px) {
         font-size: 1.9vw;
@@ -1173,7 +1177,7 @@ img.background {
 
 @media screen and (max-width: 468px) {
   .imp-partner {
-    font-size: 14px;
+    font-size: $font-size-base*0.875;
   }
   .sector-info-hidden {
     opacity: 1;

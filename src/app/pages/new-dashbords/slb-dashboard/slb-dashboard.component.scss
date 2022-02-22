@@ -1,7 +1,74 @@
-@import "../../../../../scss/functions";
-@import "../../../../../scss/variables";
-@import "../../../../../scss/mixins";
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
 
+.hero {
+    width: 100%;
+    padding: 6.5rem 0;
+    // height: 70vh;
+    /* background: transparent url('../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/bg_cover@2x.jpg') 0% 0% no-repeat padding-box;
+    opacity: 1; */
+    background: url('../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/bg_cover@2x.jpg') no-repeat center;
+}
+.title {
+    // padding-top: 7.5rem;
+    color: #FFFFFF;
+    font-size: $font-size-base*2;
+    font-family: "Archivo";
+    font-weight: 600;
+}
+.logo {
+    margin-top: 2.25rem;
+}
+.sec-splash {
+    width: 100%;
+    height: 60vh;
+    background: url('../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/splash@2x.jpg') no-repeat center;
+}
+.splash-title {
+    padding-top: 3.75rem;
+    font-family: "Montserrat";
+    font-weight: 700;
+    color: #0F1F40;
+    font-size: $font-size-base*2.5;
+}
+.splash-subTitle{
+    padding-top: 0.625rem;
+    font-family: "Archivo";
+    font-weight: 600;
+    color: #070707;
+    font-size: $font-size-base*2.5;
+}
+.sc {
+    padding-top: 1.625rem;
+    font-size: $font-size-base*1;
+    font-family: "Archivo";
+    font-weight: 500;
+    color: #070707;
+}
+.sbd-Title {
+    padding-top: 1.625rem;
+    font-size: $font-size-base*1.875;
+    font-family: "Archivo";
+    font-weight: 800;
+    color: #0F1F40;
+}
+.sbd-content {
+    padding-top: 2.5rem;
+    font-size: $font-size-base*1;
+    font-family: "Archivo";
+    font-weight: 400;
+    color:#6E7281;
+}
+.sbd-national {
+    margin-top: 2rem !important;
+}
+
+.d-tableCont {
+    padding-top: 4rem;
+    padding-left: 6rem;
+}
+// map section styles start
 ::ng-deep .tooltip-custom-1 {
     transform: translateY(-4000px);
 }
@@ -311,7 +378,7 @@ div.miniMap {
             font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 551px) {
-            font-size: $font-size-base*0.625;
+            font-size: 10px;
             width: 100%;
             margin: 0 0;
             left: -68px;
@@ -323,7 +390,7 @@ div.miniMap {
             left: -40px;
         }
         @media screen and (max-width: 405px) and (min-width: 320px) {
-            font-size: $font-size-base*0.75;
+            font-size: $font-size-base*0.5;
             width: 51%;
         }
         @media screen and (max-width: 319px) {
@@ -426,7 +493,7 @@ div.miniMap {
 ::ng-deep .selected-list {
     border-radius: 8px !important;
     // width: 80%;
-    background-color: #E9ECF7;
+    // background-color: #E9ECF7;
 }
 
 ::ng-deep .c-remove,
@@ -450,7 +517,7 @@ div.miniMap {
     // background: #FFFFFF 0% 0% no-repeat padding-box;
     // border: 1px solid #FFCF8E;
     // border-radius: 6px 6px 0px 0px;
-    border: 1px solid #D0D0D0;
+    border: 1px solid #999;
     border-radius: 6px;
     font: normal normal 600 13px/14px 'Archivo';
     letter-spacing: 0px;
@@ -530,7 +597,7 @@ thead>tr>th {
 }
 
 .table>tbody>tr>td {
-    border: none;
+    // border: none;
     border-right: 1px solid #E4E4E4;
     font: normal normal 500 14px/15px 'Archivo';
     letter-spacing: 0px;
@@ -572,9 +639,9 @@ td {
 }
 
 @media screen and (max-width: 428px) {
-    .heading {
-        //   text-align: center;
-    }
+    // .heading {
+    //       text-align: center;
+    // }
     .form-select {
         margin-top: 1rem;
     }

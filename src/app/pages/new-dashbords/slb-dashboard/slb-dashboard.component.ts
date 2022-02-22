@@ -17,13 +17,15 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
-const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
+const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+
 @Component({
-  selector: 'app-national-map-section',
-  templateUrl: './national-map-section.component.html',
-  styleUrls: ['./national-map-section.component.scss']
+  selector: 'app-slb-dashboard',
+  templateUrl: './slb-dashboard.component.html',
+  styleUrls: ['./slb-dashboard.component.scss']
 })
-export class NationalMapSectionComponent extends 
+
+export class SlbDashboardComponent extends 
 NationalHeatMapComponent implements OnInit {
 
   constructor(
@@ -605,3 +607,4 @@ myForm: FormGroup;
   }
 
 }
+

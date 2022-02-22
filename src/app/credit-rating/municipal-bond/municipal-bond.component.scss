@@ -1,3 +1,6 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
 .municipal-bonds {
   font-size: 1vw;
   margin-bottom: 3%;
@@ -22,17 +25,17 @@
   max-width: 92vw !important;
   ::ng-deep {
     .c-btn {
-      font-size: 12px;
+      font-size: $font-size-base*0.75;
     }
     .dropdown-list {
-      font-size: 12px;
+      font-size: $font-size-base*0.75;
     }
   }
 
   #tableHeadings {
     thead {
       th {
-        font-size: 14px;
+        font-size: $font-size-base*0.875;
         @media screen and (max-width: 468px) {
           font-size: 2.8em;
         }
@@ -57,7 +60,7 @@
     }
     h4,
     .panel-title {
-      font-size: 14px !important;
+      font-size: $font-size-base*0.875 !important;
     }
   }
 
@@ -84,7 +87,7 @@
   // }
 
   .btn {
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
     @media screen and (max-width: 468px) {
       font-size: 1.2em;
     }
@@ -349,7 +352,7 @@
 }
 .pagination-bottom,
 .pagination-top {
-  font-size: 14px !important;
+  font-size: $font-size-base*0.875 !important;
 }
 
 @media screen and (max-width: 551px) {

@@ -1,5 +1,8 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
 ::ng-deep label {
-  font-size: 13px!important;
+  font-size: $font-size-base*0.813 !important;
 }
 ::ng-deep .selected-list,::ng-deep .mat-form-field-flex {
   border: none!important;
@@ -51,7 +54,7 @@
       }
       td {
         color: #fff;
-        font-size: 14px;
+        font-size: $font-size-base*0.875;
         padding: 15px;
         font-family: "Roboto", sans-serif;
       }
@@ -74,7 +77,7 @@
     p,
     a {
       color: #06868c;
-      font-size: 14px;
+      font-size: $font-size-base*0.875;
     }
     p a {
       text-decoration: underline;
@@ -121,7 +124,7 @@
     color: #2c2c2c;
   }
   .last-para {
-    font-size: 16px;
+    font-size: $font-size-base*1;
     font-weight: 400;
   }
   .last-para a {

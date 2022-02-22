@@ -46,7 +46,7 @@ $orange:  #E67E15 !default;
 $yellow:  #ffc107 !default;
 $green:   #198754 !default;
 $teal:    #20c997 !default;
-$cyan:    #0dcaf0 !default;
+$cyan:    #38CDFA !default;
 // scss-docs-end color-variables
 
 // scss-docs-start colors-map
@@ -1124,7 +1124,7 @@ $navbar-brand-margin-end:           1rem !default;
 
 $navbar-toggler-padding-y:          .25rem !default;
 $navbar-toggler-padding-x:          .75rem !default;
-$navbar-toggler-font-size:          $font-size-lg !default;
+$navbar-toggler-font-size:          $font-size-base !default;
 $navbar-toggler-border-radius:      $btn-border-radius !default;
 $navbar-toggler-focus-width:        0 !default;
 $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
