@@ -223,6 +223,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   compareType = "";
 
   ngOnInit(): void {
+
     this.year = new FormControl(this.mySelectedYears, { updateOn: "blur" });
     console.log("chartTitle", this.chartTitle);
   }
@@ -255,9 +256,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
   let ctx = canvas.getContext("2d");
   this.myChart = new Chart(ctx, this.chartData);
-
-
-
   }
 
   actionClick(value) {
@@ -317,13 +315,11 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 showLoader = false
 
-  getImage() {
-
-
-let id = "canvasDiv" + this.chartId
-    let html = document.getElementById(id);
-    html2canvas(html).then((canvas) => {
-      let image = canvas
+    getImage() {
+        let id = "canvasDiv" + this.chartId
+        let html = document.getElementById(id);
+        html2canvas(html).then((canvas) => {
+         let image = canvas
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
         // window.open(image)

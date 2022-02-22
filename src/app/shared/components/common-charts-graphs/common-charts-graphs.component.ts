@@ -75,7 +75,39 @@ doughnutArray:any = [
   },
 ];
 isCompareState = true;
+public barChartOptions: any = {
+  scaleShowVerticalLines: false,
+  responsive: true,
+  // cornerRadius: 50,
+  // border:50,
+  //  borderRadius: 20,
+  //  borderSkipped: false,
+  scales: {
+    xAxes: [
+      {
+        gridLines: {
+          drawOnChartArea: false,
+        },
+      },
+    ],
+    yAxes: [
+      {
+        gridLines: {
+          drawOnChartArea: false,
+        },
+      },
+    ],
+  },
+};
+public barChartLabels: string[];
+public barChartType: string = 'bar';
+public barChartLegend: boolean = true;
 
+public barChartData: any[] = [
+  { data: [], label: 'Volume Sales' },
+  { data: [], label: 'Value Sales' },
+  { data: [], label: 'Value Sales2' },
+];
   ngOnInit(): void {
     this.doughnutChartInit();
     this.stateDoughnutChartInit();
