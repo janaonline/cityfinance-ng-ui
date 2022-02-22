@@ -1,87 +1,72 @@
-<div
-  class="container rounded flex-column pb-5"
-  style="background: #fffbef 0% 0% no-repeat padding-box"
->
-  <!-- <div class="col-12 revenuChartContainer d-flex"> -->
-    <div class="row col-12">
-      <div class="col-12 col-md-4 col-lg-5">
-        <p class="p-2" class="chartHeader">
-          {{ chartTitle }}
-        </p>
-      </div>
-      <div class="col-12 col-md-2 col-lg-2 btnBesideTitle">
-        <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
+<div class="container rounded flex-column pb-5" style="background: #fffbef 0% 0% no-repeat padding-box">
+    <!-- <div class="col-12 revenuChartContainer d-flex"> -->
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-5 pt-2">
+            <p class="p-2" class="chartHeader">
+                {{ chartTitle }}
+            </p>
+        </div>
+        <div class="col-12 col-md-2 col-lg-2 btnBesideTitle">
+            <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
           Compare State
         </button>
-      </div>
-      <div class="row col-6 col-md-3 col-lg-5">
-        <div
-          *ngFor="let item of headerActions; let i = index"
-          class="p-2 col-6"
-        >
-          <div class="svg" (click)="actionClick(item)">
-            <div class="flex-center iconImg">
-              <img src="{{ item.svg }}" alt="Download" />
-            </div>
-            <div class="text-center">
-              <span class="iconText">
+        </div>
+        <div class="col-6 col-md-3 col-lg-5">
+            <div *ngFor="let item of headerActions; let i = index" class="p-2 col-6">
+                <div class="svg" (click)="actionClick(item)">
+                    <div class="flex-center iconImg">
+                        <img src="{{ item.svg }}" alt="Download" />
+                    </div>
+                    <div class="text-center">
+                        <span class="iconText">
                 {{ item.name }}
               </span>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  <!-- </div> -->
+    <!-- </div> -->
 
-  <div class="d-flex" *ngIf="chartDialogues">
-    <div class="mr-1">
-      <label (click)="openModal()" class="btn compare">
+    <div class="d-flex" *ngIf="chartDialogues">
+        <div class="mr-1">
+            <label (click)="openModal()" class="btn compare">
         Compare to {{ compareType }} &nbsp;
         <mat-icon style="vertical-align: middle">
           keyboard_arrow_down
         </mat-icon>
       </label>
-    </div>
-    <div class="">
-      <mat-form-field appearance="fill">
-        <mat-label>Years</mat-label>
-        <mat-select [formControl]="year" multiple>
-          <mat-select-trigger>
-            {{ year.value ? year.value[0] : "" }}
-            <span
-              *ngIf="year.value?.length > 1"
-              class="example-additional-selection"
-            >
+        </div>
+        <div class="">
+            <mat-form-field appearance="fill">
+                <mat-label>Years</mat-label>
+                <mat-select [formControl]="year" multiple>
+                    <mat-select-trigger>
+                        {{ year.value ? year.value[0] : "" }}
+                        <span *ngIf="year.value?.length > 1" class="example-additional-selection">
               (+{{ year.value.length - 1 }}
               {{ year.value?.length === 2 ? "other" : "others" }})
             </span>
-          </mat-select-trigger>
-          <mat-option *ngFor="let year of yearList" [value]="year">{{
-            year
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let year of yearList" [value]="year">{{ year }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
-  </div>
 
-  <!-- <div class="revenueChart w-75 m-auto h-auto">
+    <!-- <div class="revenueChart w-75 m-auto h-auto">
     <canvas [id]="chartId" style="width: 70vw; height: 70vh"> </canvas>
   </div> -->
 
-  <div [id]="'canvasDiv' + chartId" style="width: 100%; overflow-x: auto; overflow-y: hidden">
-    <div style="width: auto;min-width: 760px; height: 300px">
-      <canvas [id]="chartId" height="300" width="0"></canvas>
+    <div [id]="'canvasDiv' + chartId" style="width: 100%; overflow-x: auto; overflow-y: hidden">
+        <div style="width: auto;min-width: 760px; height: 300px">
+            <canvas [id]="chartId" height="300" width="0"></canvas>
+        </div>
     </div>
-  </div>
 </div>
 
 
 <ng-template #template>
-  <app-compare-dialog
-    [type]="compareDialogType"
-    (ownRevenueCompValue)="ownRevenueCompValue($event)"
-    (compareValue)="getCompareCompValues($event)"
-    (closeDialog)="closeModal()"
-  ></app-compare-dialog>
+    <app-compare-dialog [type]="compareDialogType" (ownRevenueCompValue)="ownRevenueCompValue($event)" (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
 </ng-template>

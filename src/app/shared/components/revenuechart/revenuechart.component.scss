@@ -1,86 +1,86 @@
 .iconText {
-  color: #e67e15;
-  font-size: 13px;
+    color: #e67e15;
+    font-size: 13px;
 }
+
 .chartHeader {
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: "Archivo";
-  color: #0F1F40;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: "Archivo";
+    color: #0F1F40;
 }
-.revenuChartContainer{
-  margin-top: 1.8rem;
-  padding-top: 2rem;
-  // @include media-breakpoint-down(sm){
-  //   flex-direction: column;
-  // }
+
+.revenuChartContainer {
+    margin-top: 1.8rem;
+    padding-top: 2rem;
+    // @include media-breakpoint-down(sm){
+    //   flex-direction: column;
+    // }
 }
+
 .revenueChart {
-  padding-top: 3rem;
+    padding-top: 3rem;
 }
 
 .iconImg img {
-  width: 1em;
-  height: 50%;
-  left: 50%;
-  transform: translate(-50%);
-  position: relative;
-  margin: 0 auto;
-}
-.svg {
-  cursor: pointer;
+    width: 1em;
+    height: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    position: relative;
+    margin: 0 auto;
 }
 
-.btnBesideTitle > button {
-  box-shadow: 0px 2px 8px #FFDAA8;
-  border-radius: 8px;
-  background: #E67E15;
-  font-size: 0.8rem;
-  font-family: "Archivo";
-  font-weight: 600;
-  border: none;
-  padding: 0.7rem 1.2rem;
-  color: #fff;
+.svg {
+    cursor: pointer;
+}
+
+.btnBesideTitle>button {
+    box-shadow: 0px 2px 8px #FFDAA8;
+    border-radius: 8px;
+    background: #E67E15;
+    font-size: 0.8rem;
+    font-family: "Archivo";
+    font-weight: 600;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    color: #fff;
+    width: max-content;
 }
 
 .compare {
-  border: 1px solid #d0d0d0;
-  background-color: white;
-  height: 2.3rem;
+    border: 1px solid #d0d0d0;
+    background-color: white;
+    height: 2.3rem;
 }
 
-
-
 @media only screen and (max-width: 600px) {
-  .revenueChart {
-    width: 100%;
-    height: auto;
-    margin-top: 100px !important;
-  }
-  .compare {
-    font-size: 10px;
-  }
-  .revenueHeading {
-    font-size: 14px;
-  }
-
-  // .dropDownDiv {
-  //   width: 70vw;
-  //   margin: 0 auto;
-  // }
-
-  .headerIcons {
-    position: absolute;
-    margin-top: 26%;
-    left: 0%;
-    padding: 0;
-    margin-left: -290px;
-  }
-  
-  }
-
-  @media only screen and (max-width: 400px) {
-    .headerIcons {
-      margin-left: -240px;
+    .revenueChart {
+        width: 100%;
+        height: auto;
+        margin-top: 100px !important;
     }
-  }
+    .compare {
+        font-size: 10px;
+    }
+    .revenueHeading {
+        font-size: 14px;
+    }
+    // .dropDownDiv {
+    //   width: 70vw;
+    //   margin: 0 auto;
+    // }
+    .headerIcons {
+        position: absolute;
+        margin-top: 26%;
+        left: 0%;
+        padding: 0;
+        margin-left: -290px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .headerIcons {
+        margin-left: -240px;
+    }
+}
