@@ -1,0 +1,177 @@
+<div class="">
+    <div class="container-fluid hero">
+        <h1 class="d-flex justify-content-center title mb-0">Water, Sanitisation & Hygiene</h1>
+        <div class="logo d-flex justify-content-center align-items-center">
+            <img src="../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/logo.svg" alt="logo">
+        </div>
+    </div>
+    <div class="container-fluid sec-splash">
+        <h1 class="splash-title mb-0 text-center">WASH</h1>
+        <h3 class="splash-subTitle mb-0 text-center">Water, Sanitisation & Hygiene</h3>
+        <p class="sc text-center">
+            Aim is to create a performance measurement and monitoring system, which 
+            can be used for policy formulation and resource allocation at state and 
+            local level.
+        </p>
+        <p class="sc mx-3 text-center"> PAS measures performance of each sector (water, sanitation,
+            solid waste and storm water drainage) across five themes and 32 key 
+            performance indicators. These indicators are monitored by state and local 
+            governments. Around 100 ‘drill-down’ indicators are also developed for better
+            understanding of key issues in service delivery and preparation of performance
+            improvement plans.    
+        </p>   
+    </div>
+    <div class="container-fluid">
+        <h2 class="sbd-Title text-center mb-0">Service Level Benchmark Dashboard</h2>
+        <p class="sbd-content mx-3 text-center">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+           nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+           sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+           Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+        </p>
+         <div class="container-fluid sbd-national">
+            <div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0;">
+                <div class="col-12 col-sm-12 col-md-6 stateMapContainer">
+                    <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+                        <app-pre-loader></app-pre-loader>
+                        <app-pre-loader></app-pre-loader>
+                        <app-pre-loader></app-pre-loader>
+                        <app-pre-loader></app-pre-loader>
+                    </div>
+                    <div id="districtMapContainer" [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }">
+                    </div>
+                    <div class="stateMap analytics-map mb-2" [id]="'mapidd' + randomNumber"
+                         style="background-image: url('../../../../assets/Layer\ 1.png') !important;">
+                    </div>
+            
+                    <div class="col-12 col-sm-12 bg-map">
+                        <div class="legends" style="display: block; z-index: 99; position: relative;">
+                            <ul style="display: flex; padding: 0px; align-items: flex-start; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+                                <li *ngFor="let item of mapLabels" style="display: flex; align-items: center; padding: 0.6rem;">
+                                    <div style="width: 20px; height: 16px; display: inline-block;" [style.background-color]="item.color"></div>
+                                    <span class="ps-2">{{item.name}}</span>
+                                </li>
+                            </ul>
+                            <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="isMapOnMiniMapMode">
+                                <a type="button" style="text-decoration: none;" (click)="resetNationalMap()">Reset Map To India</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            
+                <div class="col-12 col-sm-12 col-md-6">
+                    <div class="row d-tableCont">
+                        <div class="col-7 col-sm-8 col-md-4">
+                            <div class="input-group inp-grp">
+                                <form [formGroup]="myForm" class="w-100">
+                                    <angular2-multiselect class="expo-drp-in" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
+                                    </angular2-multiselect>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-3 ps-3">
+                            <select class="form-select" id="years" aria-label="Default select">
+                                <option value="2020-21" selected>2020-21</option>
+                                <option value="2021-22">2021-22</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- <div class="container-cnt" style="padding: 0;">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 mb-3 mt-3">
+                                <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
+                                    <li class="nav-item">
+            
+                                        <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
+                                            <span>Population Category</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+            
+                                        <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
+                                            <span>ULB Type</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive table-con">
+                                <table class="table" *ngFor="let table of tableData?.data; let tableIndex = index">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                                {{column?.display_name}}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of table?.rows">
+                                            <td *ngFor="let column of table?.columns" class="{{column?.key}}">
+                                                {{row[column.key]}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+            
+                <div class="row">
+                    <div class="table-responsive table-con rounded" style="padding-left: 7rem;">
+                        <table class="table mt-3 text-center" style="width: 65%;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        ULB Type
+                                    </th>
+                                    <th scope="col">
+                                        Number Of ULBs
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Average
+                                    </td>
+                                    <td>
+                                        1000
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Municipa Corporation
+                                    </td>
+                                    <td>
+                                        500
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Municipality
+                                    </td>
+                                    <td>
+                                        1200
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Town Panchayat
+                                    </td>
+                                    <td>
+                                        1000
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+        </div>
+</div>

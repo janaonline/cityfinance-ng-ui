@@ -42,7 +42,7 @@
     pointer-events: none;
     animation: 1s linear rotate-clockwise infinite;
     animation-delay: 0.5s;
-    font-size: 0px;
+    font-size: $font-size-base*0;
   }
 }
 
@@ -58,11 +58,11 @@
 
 ::ng-deep .mat-form-field-prefix .mat-icon,
 ::ng-deep .mat-form-field-suffix .mat-icon {
-  font-size: 16px;
+  font-size: $font-size-base*1;
   line-height: 1.125;
 }
 ::ng-deep label {
-  font-size: 13px !important;
+  font-size: $font-size-base*0.813 !important;
 }
 .fc-grant {
   background-image: url("../../../assets/images/backgrounds/Path.png");
@@ -89,7 +89,7 @@
     font-family: Poppins, "Roboto", sans-serif;
   }
   .formTitle{
-    font-size: 0.875rem;
+    font-size: $font-size-base*0.875;
   }
   table {
     border-radius: 12px;
@@ -117,7 +117,7 @@
       }
       td {
         color: #fff;
-        font-size: 14px;
+        font-size: $font-size-base*0.875;
         padding: 15px;
         font-family: "Roboto", sans-serif;
       }
@@ -137,7 +137,7 @@
     p,
     a {
       color: #06868c;
-      font-size: 14px;
+      font-size: $font-size-base*0.875;
     }
     p a {
       text-decoration: underline;
@@ -169,7 +169,7 @@
   border-radius: 10px;
   .forget span {
     color: #2c2c2c;
-    font-size: 14px;
+    font-size: $font-size-base*0.875;
   }
   .sign-in .mat-form-field:last-child .mat-form-field-wrapper {
     padding-bottom: 0 !important;
@@ -183,7 +183,7 @@
   }
   .btn-otp {
     font-family: "Roboto";
-    font-size: 0.875rem;
+    font-size: $font-size-base*0.875;
     font-weight: 600;
     color: rgb(80, 80, 252)
   }
@@ -191,7 +191,7 @@
     color: #2c2c2c;
   }
   .last-para {
-    font-size: 14px;
+    font-size: $font-size-base*0.875;
     font-weight: 400;
   }
   .last-para a {

@@ -1,6 +1,9 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
 .back-link {
   float: left;
-  font-size: 14px;
+  font-size: $font-size-base*0.875;
   // line-height: 3;
   cursor: pointer;
   margin-right: 15px;
