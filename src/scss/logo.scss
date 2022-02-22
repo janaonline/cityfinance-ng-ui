@@ -1,0 +1,76 @@
+.city {
+    color: #38CDFA;
+    font: normal normal bold #{$font-size-base*4.0625}/#{$font-size-base*3.5} Cabin;
+}
+
+.fy {
+    color: #FFFFFF;
+    font: normal normal normal 65px/56px Cabin;
+}
+
+// @media screen and (min-width: 992px) {
+//     .wrap-bg {
+//         height: 44rem;
+//     }
+//     // .pd-l-r {
+//     //     padding: 1.5rem 8rem;
+//     // }
+//     .f-d {
+//         height: 142px;
+//     }
+//     .ds-info {
+//         font: normal normal 500 26px/41px 'Montserrat';
+//     }
+// }
+
+// @media (min-width: 768px) and (max-width: 992px) {
+//     .wrap-bg {
+//         height: 50rem;
+//     }
+//     .city {
+//         font: normal normal bold 50px/56px Cabin;
+//     }
+//     .fy {
+//         font: normal normal normal 50px/56px Cabin;
+//     }
+//     .ds-info {
+//         font: normal normal 500 26px/41px 'Montserrat';
+//     }
+// }
+
+// @media (min-width: 520px) and (max-width: 767px) {
+//     .wrap-bg {
+//         height: 74rem;
+//     }
+//     .f-d {
+//         height: 180px;
+//     }
+//     .city {
+//         font: normal normal bold 50px/56px Cabin;
+//     }
+//     .fy {
+//         font: normal normal normal 50px/56px Cabin;
+//     }
+//     .ds-info {
+//         font: normal normal 500 24px/41px 'Montserrat';
+//     }
+// }
+
+// @media screen and (max-width: 520px) {
+//     .wrap-bg {
+//         height: 87rem;
+//     }
+//     .f-d {
+//         height: 250px;
+//     }
+//     .city {
+//         font: normal normal bold 45px/56px Cabin;
+//     }
+//     .fy {
+//         font: normal normal normal 45px/56px Cabin;
+//     }
+//     .ds-info {
+//         font: normal normal 500 22px/41px 'Montserrat';
+//     }
+// }
+

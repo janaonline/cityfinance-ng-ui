@@ -61,10 +61,17 @@
   @include font-size($navbar-brand-font-size);
   text-decoration: if($link-decoration == none, null, none);
   white-space: nowrap;
+  visibility:hidden;
+  opacity:0;
+  @include transition(visibility 0.3s linear,opacity 0.3s linear);
 
   &:hover,
   &:focus {
     text-decoration: if($link-hover-decoration == underline, none, null);
+  }
+  &.show{
+    visibility:visible;
+    opacity:1;
   }
 }
 
