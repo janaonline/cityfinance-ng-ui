@@ -1,5 +1,7 @@
-import { Component, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import  { Chart } from "chart.js";
+import html2canvas from 'html2canvas';
+import { GlobalLoaderService } from '../../services/loaders/global-loader.service';
 @Component({
   selector: 'app-common-charts-graphs',
   templateUrl: './common-charts-graphs.component.html',
@@ -7,7 +9,9 @@ import  { Chart } from "chart.js";
 })
 export class CommonChartsGraphsComponent implements OnInit, OnChanges {
 
-  constructor() { }
+  constructor(
+    public _loaderService: GlobalLoaderService
+  ) { }
   public chart: Chart;
   public doughnut: Chart;
   public stateDoughnut : Chart;
@@ -32,6 +36,9 @@ export class CommonChartsGraphsComponent implements OnInit, OnChanges {
 
 
 ];
+@Input() chartData;
+@Output()
+  actionClicked = new EventEmitter();
 @ViewChildren('mycharts') allMyCanvas: any;
 doughnutLabels = [
   {
@@ -75,55 +82,35 @@ doughnutArray:any = [
   },
 ];
 isCompareState = true;
-public barChartOptions: any = {
-  scaleShowVerticalLines: false,
-  responsive: true,
-  // cornerRadius: 50,
-  // border:50,
-  //  borderRadius: 20,
-  //  borderSkipped: false,
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      },
-    ],
-    yAxes: [
-      {
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      },
-    ],
-  },
-};
-public barChartLabels: string[];
-public barChartType: string = 'bar';
-public barChartLegend: boolean = true;
-
-public barChartData: any[] = [
-  { data: [], label: 'Volume Sales' },
-  { data: [], label: 'Value Sales' },
-  { data: [], label: 'Value Sales2' },
-];
+chartDataArray = [];
+chartLabels =[];
   ngOnInit(): void {
-    this.doughnutChartInit();
-    this.stateDoughnutChartInit();
+
   }
   ngOnChanges(changes: SimpleChanges): void {
-
+     console.log('changes common charts', this.chartData);
+     this.chartDataArray = [];
+     this.chartLabels =[];
+     this.chartData?.ulbData.forEach(el => {
+       console.log('ele', el);
+       this.chartDataArray.push(el?.amount)
+       this.chartLabels.push(el?.name)
+     });
+     console.log('Array',this.chartDataArray);
+     this.doughnutChartInit();
+     this.stateDoughnutChartInit();
   }
 
   doughnutChartInit(){
     this.doughnut = new Chart('doughnut', {
       type: 'doughnut',
       data: {
-        labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
+        // labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
+        labels: this.chartLabels,
         datasets: [
           {
-            data: [40, 20, 15, 10, 10, 5],
+            // data: [40, 20, 15, 10, 10, 5],
+            data: this.chartDataArray,
             backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
             fill: false
           },
@@ -165,6 +152,39 @@ openModal() {
   // this.dialogRef.afterClosed().subscribe((result) => {
   //   console.log("result", result);
   // });
+}
+actionClick(value) {
+  this._loaderService.showLoader()
+  console.log(value, "In revenue");
+  if (value.name == "Expand" || value.name == "collapse") {
+    this.headerActionsBtn.map((innerVal) => {
+      if (innerVal.name === value.name) {
+        if (value.name == "Expand") innerVal.name = "collapse";
+        else value.name = "Expand";
+      }
+    });
+ //   this.myChart.destroy();
+ //   this.createChart();
+  }else if (value.name == "Download") {
+    this.getImage();
+  return;
+  }
+  this.actionClicked.emit(value);
+}
+getImage() {
+  let id = 'doughnutCharts';
+  let html = document.getElementById(id);
+  html2canvas(html).then((canvas) => {
+   let image = canvas
+  .toDataURL("image/png")
+  .replace("image/png", "image/octet-stream");
+  // window.open(image)
+var link = document.createElement("a");
+link.href = image;
+link.download = `Chart.png`;
+link.click();
+this._loaderService.stopLoader()
+});
 }
 
 }

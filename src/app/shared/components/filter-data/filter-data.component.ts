@@ -46,6 +46,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   ];
   loading = false;
   tabName;
+  mixData;
 
   ngOnInit(): void {}
 
@@ -100,6 +101,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   getChartData(data = {}) {
+    if(this.headOfAccount == ""){
+      this.headOfAccount = 'Tax'
+    }
     let body = {
       ulb: [],
       financialYear: [],
@@ -113,7 +117,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("_");
     if (body.filterName == "total_property_tax_collection")
-      body.filterName = "property_tax";
+         body.filterName = "property_tax";
 
     let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
     body.ulb = [...ulbsToCompare, this.currentUlb];
@@ -151,12 +155,10 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   createBarChart(res) {
     let newData = JSON.parse(JSON.stringify(barChartStatic));
-
     newData.data.labels = res["data"].ulbData.map(
       (value) => value._id.financialYear
     );
     newData.data.labels = [...new Set(newData.data.labels)];
-
     let temp = {},
       index = 0;
     for (const key in res["data"]) {
@@ -179,13 +181,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         }
       });
     }
-
     newData.data.datasets = [];
     for (const key in temp) {
       const element = temp[key];
       newData.data.datasets.push(element);
     }
-
     this.mySelectedYears.map((value) => {
       if (!newData.data.labels.includes(value)) {
         newData.data.labels.push(value);
@@ -208,7 +208,10 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.barChart = newData;
   }
 
-  createPieChart(res) {}
+  createPieChart(res) {
+   console.log('mixxxxxxxxxx', res)
+   this.mixData = res?.data;
+  }
 
   filterChangeInChart(value) {
     this.mySelectedYears = value.year;
