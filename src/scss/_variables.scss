@@ -46,7 +46,7 @@ $orange:  #E67E15 !default;
 $yellow:  #ffc107 !default;
 $green:   #198754 !default;
 $teal:    #20c997 !default;
-$cyan:    #0dcaf0 !default;
+$cyan:    #38CDFA !default;
 // scss-docs-end color-variables
 
 // scss-docs-start colors-map
@@ -1124,9 +1124,9 @@ $navbar-brand-margin-end:           1rem !default;
 
 $navbar-toggler-padding-y:          .25rem !default;
 $navbar-toggler-padding-x:          .75rem !default;
-$navbar-toggler-font-size:          $font-size-lg !default;
+$navbar-toggler-font-size:          $font-size-base !default;
 $navbar-toggler-border-radius:      $btn-border-radius !default;
-$navbar-toggler-focus-width:        $btn-focus-width !default;
+$navbar-toggler-focus-width:        0 !default;
 $navbar-toggler-transition:         box-shadow .15s ease-in-out !default;
 // scss-docs-end navbar-variables
 
@@ -1138,11 +1138,12 @@ $navbar-dark-disabled-color:        rgba($white, .25) !default;
 $navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 $navbar-dark-toggler-border-color:  rgba($white, .1) !default;
 
-$navbar-light-color:                rgba($black, .55) !default;
-$navbar-light-hover-color:          rgba($black, .7) !default;
-$navbar-light-active-color:         rgba($black, .9) !default;
+$navbar-light-color:                rgba($black, 1) !default;
+$navbar-light-hover-color:          #E87A1C !default;
+$navbar-light-active-color:         #E87A1C !default;
 $navbar-light-disabled-color:       rgba($black, .3) !default;
-$navbar-light-toggler-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+$navbar-light-toggler-icon-bg:      url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMC45OSIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDIwLjk5IDE1Ij4KICA8ZyBpZD0iR3JvdXBfMTM5MzAiIGRhdGEtbmFtZT0iR3JvdXAgMTM5MzAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMy41IC02Mi41KSI+CiAgICA8bGluZSBpZD0iTGluZV8xIiBkYXRhLW5hbWU9IkxpbmUgMSIgeDI9IjE4Ljk5IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC41IDYzLjUpIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8bGluZSBpZD0iTGluZV8zIiBkYXRhLW5hbWU9IkxpbmUgMyIgeDI9IjE4Ljk5IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC41IDc2LjUpIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICA8bGluZSBpZD0iTGluZV8yIiBkYXRhLW5hbWU9IkxpbmUgMiIgeDI9IjExLjc2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNC41IDcwKSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIvPgogIDwvZz4KPC9zdmc+Cg==") !default;
+$navbar-light-toggler-icon-bg-focus:      url("data:image/svg+xml;base64,PHN2ZyBpZD0iY2xvc2VfYmxhY2tfMjRkcCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjMuMTciIGhlaWdodD0iMjMuMTciIHZpZXdCb3g9IjAgMCAyMy4xNyAyMy4xNyI+CiAgPHBhdGggaWQ9IlBhdGhfMjM1MyIgZGF0YS1uYW1lPSJQYXRoIDIzNTMiIGQ9Ik0wLDBIMjMuMTdWMjMuMTdIMFoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBpZD0iUGF0aF8yMzU0IiBkYXRhLW5hbWU9IlBhdGggMjM1NCIgZD0iTTE5LjAzNiw1LjcyN2ExLjA1MywxLjA1MywwLDAsMC0xLjQ5LDBsLTUuMTY5LDUuMTU5TDcuMjA3LDUuNzE3YTEuMDU0LDEuMDU0LDAsMSwwLTEuNDksMS40OWw1LjE2OSw1LjE2OUw1LjcxNywxNy41NDVhMS4wNTQsMS4wNTQsMCwwLDAsMS40OSwxLjQ5bDUuMTY5LTUuMTY5LDUuMTY5LDUuMTY5YTEuMDU0LDEuMDU0LDAsMCwwLDEuNDktMS40OWwtNS4xNjktNS4xNjksNS4xNjktNS4xNjlBMS4wNTksMS4wNTksMCwwLDAsMTkuMDM2LDUuNzI3WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuNzkxIC0wLjc5MSkiIGZpbGw9IiM5MzkzOTMiLz4KPC9zdmc+Cg==") !default;
 $navbar-light-toggler-border-color: rgba($black, 0) !default;
 
 $navbar-light-brand-color:                $navbar-light-active-color !default;

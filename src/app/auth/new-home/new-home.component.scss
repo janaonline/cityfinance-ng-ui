@@ -16,13 +16,8 @@
 @media screen and (min-width: 992px) {
     .wrap-bg {
         height: 44rem;
-    } 
-    .city {
-        font: normal normal bold #{$font-size-base*4.063}/#{$font-size-base*3.5} Cabin;
     }
-    .fy {
-        font: normal normal normal #{$font-size-base*4.063}/#{$font-size-base*3.5} Cabin;
-    }
+    
     // .pd-l-r {
     //     padding: 1.5rem 8rem;
     // }
@@ -38,13 +33,7 @@
     .wrap-bg {
         height: 50rem;
     }
-    .city {
-        font: normal normal bold #{$font-size-base*3.125}/#{$font-size-base*3.5} Cabin;
-
-    }
-    .fy {
-        font: normal normal normal #{$font-size-base*3.125}/#{$font-size-base*3.5} Cabin;
-    }
+    
     .ds-info {
         font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.563} 'Montserrat';
     }
@@ -57,12 +46,7 @@
     .f-d {
         height: 180px;
     }
-    .city {
-        font: normal normal bold #{$font-size-base*3.125}/#{$font-size-base*3.5} Cabin;
-    }
-    .fy {
-        font: normal normal normal #{$font-size-base*3.125}/#{$font-size-base*3.5} Cabin;
-    }
+    
     .ds-info {
         font: normal normal 500 #{$font-size-base*1.5}/#{$font-size-base*2.563} 'Montserrat';
     }
@@ -75,27 +59,13 @@
     .f-d {
         height: 250px;
     }
-    .city {
-        font: normal normal bold #{$font-size-base*2.813}/#{$font-size-base*3.5} Cabin;
-    }
-    .fy {
-        font: normal normal normal #{$font-size-base*2.813}/#{$font-size-base*3.5} Cabin;
-    }
+    
     .ds-info {
         font: normal normal 500 #{$font-size-base*1.375}/#{$font-size-base*2.563} 'Montserrat';
     }
 }
 
-.city {
-    color: #38CDFA;
-    letter-spacing: 0px;
-}
 
-.fy {
-    // font: normal normal normal 65px/56px Cabin;
-    letter-spacing: 0px;
-    color: #FFFFFF;
-}
 
 .ds-i-div {
     margin-top: 3rem;

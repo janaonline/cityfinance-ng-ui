@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
 import { UserUtility } from 'src/app/util/user/user';
 import { Login_Logout } from 'src/app/util/logout.util';
@@ -17,6 +17,8 @@ export class NHomeHeaderComponent implements OnInit {
   btnName = 'Login for 15th FC Grants';
   isLoggedIn = false;
   user: IUserLoggedInDetails = null;
+
+  sticky: boolean = false;
 
   constructor(
     public _router: Router,
@@ -59,8 +61,18 @@ export class NHomeHeaderComponent implements OnInit {
         this.btnName = 'Login for 15th FC Grants';
       }
     })
+  }
+
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      if(windowScroll >= 50){
+        this.sticky = true;
+      } else {
+        this.sticky = false;
+      }
     }
-    removeSessionItem(){
+  removeSessionItem(){
       let postLoginNavigation = sessionStorage.getItem("postLoginNavigation"),
       sessionID = sessionStorage.getItem("sessionID")
       sessionStorage.clear()
