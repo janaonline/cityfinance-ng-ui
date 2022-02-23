@@ -6,7 +6,7 @@
                 </div>
                 <div class="row" style="background-color: #FFC500; ">
                     <a [routerLink]="['../fc-home-page']" class="text-decoration-none">
-                        <h5 class="" style="font-size: 14px;">
+                        <h5 class="" style="font-size: 0.875rem;">
                             <div class="row">
                                 <div class="col-sm-1 col-xs-1 text-center">
                                     <mat-icon aria-hidden="false" [style.padding-top]="backHeadStyle ? '5px' : '0'"
@@ -347,7 +347,7 @@
         loggedInUserType === userTypes.ADMIN ||
         loggedInUserType === userTypes.MoHUA ||
         loggedInUserType === userTypes.PARTNER
-      " style="font-weight: 700; font-size: 24px;">
+      " style="font-weight: 700; font-size: 1.5rem;">
                             {{ userLoggedInDetails.role }}
                         </span> <br *ngIf="
                         loggedInUserType === userTypes.ADMIN ||
@@ -358,14 +358,14 @@
         loggedInUserType === userTypes.ADMIN ||
         loggedInUserType === userTypes.MoHUA ||
         loggedInUserType === userTypes.PARTNER
-      " style="font-size: 22px; font-size: 22px;">
+      " style="font-size: 1.375rem">
                             {{ m_stateName }}
                         </span>
                         <span *ngIf="
         states &&
         (loggedInUserType === userTypes.STATE ||
           loggedInUserType === userTypes.ULB)
-      " style="font-weight: 700; font-size: 24px;">
+      " style="font-weight: 700; font-size: 1.5rem;">
                             {{ states[userLoggedInDetails["state"]]?.name }}
                         </span>
                     </h3>
