@@ -62,7 +62,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     // console.debug("Scroll Event", document.body.scrollTop);
     // see András Szepesházi's comment below
     console.log("Scroll Event", window.pageYOffset);
-    if (window.pageYOffset > 364) {
+    if (window.pageYOffset > 354) {
       this.sticky = true;
     } else {
       this.sticky = false;
@@ -106,7 +106,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   users = [
     {
       id: 1,
-      name: "4M+",
+      name: "4 Million+",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -114,7 +114,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 2,
-      name: "1M-4M",
+      name: "1 Million - 4 Million+",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -122,7 +122,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 3,
-      name: "500K-1M",
+      name: "500 Thousand - 1 Million",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -130,7 +130,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 4,
-      name: "100K-500K",
+      name: "100 Thousand-500 Thousand",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -138,7 +138,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 5,
-      name: "<100K",
+      name: "<100 Thousand",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -227,11 +227,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
   ulbList = [];
   ulbTypeList = [];
   populationCategoryList = [
-    "4M+",
-    "500K - 1M",
-    "100K - 500K",
-    "1M - 4M",
-    "200K - 500K",
+    "4 Million+",
+    "500 Thousand - 1 Million",
+    "100 Thousand - 500 Thousand",
+    "1 Million - 4 Million",
+    "200 Thousand - 500 Thousand",
   ];
   yearList = ["2018-19", "2019-20", "2020-21", "2021-22"];
   //Table Data Ends
