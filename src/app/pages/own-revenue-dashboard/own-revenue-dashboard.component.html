@@ -11,10 +11,7 @@
         Performance Dashboard
       </h1>
       <p class="perform-dashboard-para col-12 text-center">
-        The performance dashboard showcases the state of Municipal own revenues
-        and property tax revenues in the country. Know your State’s or city’s
-        performance and compare with other States and cities on various own
-        revenue parameters.
+        The performance dashboard showcases the state of own revenues, especially property tax in ULBs across India. The data has been sourced from the financial statements uploaded on cityfinance.in. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.
       </p>
     </div>
   </div>
@@ -81,7 +78,7 @@
   <button
     class="btn btn-outline btn-sm btnDT"
     [routerLink]="[
-      '/resources-dashboard/learning-center/toolkits/score-performance'
+      '/resources-dashboard/learning-center/toolkits/introduction'
     ]"
     routerLinkActive="router-link-active"
   >
@@ -309,11 +306,12 @@
         </thead>
         <tbody>
           <tr class="scrollme scrollableTB" *ngFor="let user of users">
-            <td>{{ user.name }}</td>
-            <td>{{ user.averageRevenue / 10000000 | number }}</td>
-            <td>{{ user.perCapita }}</td>
-            <td *ngIf="ownTab">{{ user.meetsRevenue }}%</td>
-            <td>{{ user.avgRevenueMeet }}%</td>
+            <td >{{ user.name }}</td>
+            <td class="rightAlign">{{ user.averageRevenue / 10000000 | number }}</td>
+            <td class="rightAlign">{{ user.perCapita }}</td>
+            <td class="rightAlign">{{ user.avgRevenueMeet }}%</td>
+            <td class="rightAlign" *ngIf="ownTab">{{ user.meetsRevenue }}%</td>
+          
           </tr>
         </tbody>
       </table>
@@ -334,7 +332,7 @@
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#collapseOne"
-            aria-expanded="true"
+            aria-expanded="false"
             aria-controls="collapseOne"
           >
             How is performance assessed?
@@ -382,23 +380,23 @@
 
   <!-- Bar chart section -->
   <div class="container barChartContainer">
-    <h2 class="barCharttitle text-center">Top 10 Performing States</h2>
+    <h2 class="barCharttitle text-center">Top 10 Performing ULBs</h2>
     <p class="barChartSubTitle text-center">
-      Top 10 performing States in the country in property tax per capita can be
+      Top 10 performing ULBs in the country in property tax per capita can be
       viewed below.
     </p>
     <app-revenuechart
-      class="rounded"
-      [compareDialogType]="compareDialogType"
-      [headerActions]="headerActions"
-      (compareChange)="barChartCompValues($event)"
-      [chartData]="barChartData"
-      [chartId]="barChartId"
-      [chartTitle]="barChartTitle"
-      [btnBesideText]="barChartCmpBtn"
-      [ChartOptions]="barChartOptions"
-    >
-    </app-revenuechart>
+    class="rounded"
+    [compareDialogType]="compareDialogType"
+    [headerActions]="headerActions"
+    (compareChange)="barChartCompValues($event)"
+    [chartData]="barChartData"
+    [chartId]="barChartId"
+    [chartTitle]="barChartTitle"
+    [btnBesideText]="barChartCmpBtn"
+    [ChartOptions]="barChartOptions"
+  >
+  </app-revenuechart>
 
     <div class="container-fluid">
       <div
