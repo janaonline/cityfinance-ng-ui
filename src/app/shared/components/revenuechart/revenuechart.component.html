@@ -2,13 +2,17 @@
     <!-- <div class="col-12 revenuChartContainer d-flex"> -->
     <div class="row">
         <div class="col-12 col-md-4 col-lg-5 pt-2">
+            <p *ngIf="chartId == 'ownRevenue-doughnutChart'" class="chartHeader" style=" font-size: 1.5rem;
+            font-weight: 600; margin-bottom: 2%; " >
+                Own Revenue Split
+            </p>
             <p class="p-2" class="chartHeader">
                 {{ chartTitle }}
             </p>
         </div>
         <div class="col-12 col-md-2 col-lg-2 btnBesideTitle">
             <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
-          Compare State
+          Compare
         </button>
         </div>
         <div class="col-6 col-md-3 col-lg-5">

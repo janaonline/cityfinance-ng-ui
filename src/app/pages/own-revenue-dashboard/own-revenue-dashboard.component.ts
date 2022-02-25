@@ -61,8 +61,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
   doSomething(event) {
     // console.debug("Scroll Event", document.body.scrollTop);
     // see András Szepesházi's comment below
-    console.log("Scroll Event", window.pageYOffset);
-    if (window.pageYOffset > 364) {
+    // console.log("Scroll Event", window.pageYOffset);
+    if (window.pageYOffset > 354) {
       this.sticky = true;
     } else {
       this.sticky = false;
@@ -85,12 +85,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
     { id: 3, title: "Median Own Revenue Per Capita (INR)" },
     {
       id: 4,
-      title: "Percentage Of Cities Where Own Revenues Meet Revenue Expenditure",
+      title: "Average Own Revenues as percentage of Revenue Expenditure",
     },
     {
       id: 5,
-      title: "Average Own Revenues As Percentage Of Revenue Expenditure",
+      title: "Percentage of cities where Own Revenues meet Revenue Expenditure",
     },
+ 
   ];
 
   columnAttributeProperty = [
@@ -99,14 +100,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
     { id: 3, title: "Median Property Tax Revenue Per Capita" },
     {
       id: 4,
-      title: "Average Property Tax Revenue As Percentage Of Own Revenu",
+      title: "Average Property Tax Revenue as percentage of Own Revenu",
     },
   ];
 
   users = [
     {
       id: 1,
-      name: "4M+",
+      name: "4 Million+",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -114,7 +115,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 2,
-      name: "1M-4M",
+      name: "1 Million - 4 Million+",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -122,7 +123,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 3,
-      name: "500K-1M",
+      name: "500 Thousand - 1 Million",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -130,7 +131,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 4,
-      name: "100K-500K",
+      name: "100 Thousand-500 Thousand",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -138,7 +139,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 5,
-      name: "<100K",
+      name: "<100 Thousand",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -180,20 +181,29 @@ export class OwnRevenueDashboardComponent implements OnInit {
   };
   doughnutChartOptions = {
     maintainAspectRatio: false,
+    cutoutPercentage:50,
     responsive: true,
+   
     legend: {
       position: "bottom",
       labels: {
         usePointStyle: false,
+        pointStyle:'square',
         padding: 35,
-        boxWidth: 13,
-        boxHeight: 15,
+        boxWidth: 20,
+        boxHeight: 23,
+        font:{
+          size:15
+        }
+
       },
     },
   };
   doughnutChartTitle =
-    "The following pie chart provides the split of the contribution various own revenue streams to the total own revenue.";
+    "The following pie chart provides the split of the contribution of various own revenue streams to the total own revenue.";
 
+
+    
   barChartData = barChart;
   barChartOptions = {
     borderRadius: 5,
@@ -218,8 +228,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   filterGroup = new FormGroup({
     stateId: new FormControl("State Name"),
-    ulb: new FormControl("Ulb Name"),
-    ulbType: new FormControl("Ulb Type"),
+    ulb: new FormControl("ULB Name"),
+    ulbType: new FormControl("ULB Type"),
     populationCategory: new FormControl(""),
     financialYear: new FormControl("2018-19"),
   });
@@ -227,11 +237,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
   ulbList = [];
   ulbTypeList = [];
   populationCategoryList = [
-    "4M+",
-    "500K - 1M",
-    "100K - 500K",
-    "1M - 4M",
-    "200K - 500K",
+    "4 Million+",
+    "500 Thousand - 1 Million",
+    "100 Thousand - 500 Thousand",
+    "1 Million - 4 Million",
+    "200 Thousand - 500 Thousand",
   ];
   yearList = ["2018-19", "2019-20", "2020-21", "2021-22"];
   //Table Data Ends
@@ -240,8 +250,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
   cardData = [
     revenueCollection,
     revenuePerCapita,
-    revenueExpenditure,
     revenuePercentage,
+    revenueExpenditure,
+    
   ];
 
   body: any;
@@ -290,9 +301,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
   clearFilter() {
     this.filterGroup.setValue({
       stateId: "State Name",
-      ulb: "Ulb Name",
-      ulbType: "Ulb Type",
-      populationCategory: "Ulb Population Category",
+      ulb: "ULB Name",
+      ulbType: "ULB Type",
+      populationCategory: "ULB Population Category",
       financialYear: "2018-19",
     });
   }
@@ -305,6 +316,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         labels: [],
         datasets: [
           {
+      
             data: [],
             backgroundColor: [
               "rgba(30, 68, 173, 1)",
@@ -337,6 +349,17 @@ export class OwnRevenueDashboardComponent implements OnInit {
           this.isLoading = false;
         }
       );
+  }
+  myBarChart
+  createBarChart(){
+    const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
+    const ctx = canvas.getContext("2d");
+   let data: any = this.barChartData
+      this.myBarChart = new Chart(ctx, {
+        type: "bar",
+        data: data,
+      });
+  
   }
 
   createDataForFilter() {
@@ -443,6 +466,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
           }
         });
         this.barChartData = tempData;
+        this.createBarChart()
       },
       (err) => {
         console.log("error", err);
@@ -461,6 +485,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         datasets: [
           {
             label: "Availability",
+            borderWidth: 0,
             data: [valueFromApi, 100 - valueFromApi],
             backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
           },
@@ -472,7 +497,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         legend: {
           display: false,
         },
-        cutoutPercentage: 80,
+        cutoutPercentage: 75,
       },
     });
   }
@@ -556,8 +581,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.cardData = [
       revenueCollectionCopy,
       revenuePerCapitaCopy,
-      revenueExpenditureCopy,
       revenuePercentageCopy,
+      revenueExpenditureCopy,
+  
     ];
   }
 
@@ -774,7 +800,7 @@ const revenueExpenditure = {
   type: "5",
   title: "0",
   isLoading: true,
-  subTitle: "Cities Where Own Revenue Meet Revenue Expenditure",
+  subTitle: "Cities where Own Revenue meet Revenue Expenditure",
   svg: "../../../assets/resources-das/south_west_red_24dp.svg",
   percentage: "0%",
   color: "#E64E4E",
@@ -784,7 +810,7 @@ const revenuePercentage = {
   type: "5",
   title: "0%",
   isLoading: true,
-  subTitle: "Own Revenue As A Percentage Of Revenue Expenditure",
+  subTitle: "Own Revenue as a percentage of Revenue Expenditure",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
@@ -851,7 +877,7 @@ const porpertyCards = [
   {
     type: "5",
     title: "0",
-    subTitle: "Property Tax To Own Revenue Percentage",
+    subTitle: "Property Tax to Own Revenue percentage",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",
