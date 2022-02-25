@@ -15,9 +15,8 @@
                 </div>
             </div>
             <div class="col-4 col-sm-4 col-md-5 ps-3">
-                <select class="form-select" id="years" aria-label="Default select">
-                  <option value="2020-21" selected>2020-21</option>
-                   <option value="2021-22">2021-22</option>
+                <select class="form-select" (change)="yearValueChange($event.target.value)" id="years" aria-label="Default select">
+                  <option [value]="item" *ngFor="let item of yearList" >{{item}}</option>
                 </select>
             </div>
         </div>
