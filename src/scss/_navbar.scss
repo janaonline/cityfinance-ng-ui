@@ -181,6 +181,11 @@
 
           .dropdown-menu {
             position: absolute;
+            border-radius: 0 0 $border-radius $border-radius;
+            border: none;
+            border-top: 3px solid $orange;
+            box-shadow: $box-shadow;
+            top: 94%;
           }
 
           .nav-link {
