@@ -12,6 +12,14 @@
     background-size: cover;
     padding: 4% 2% 15% 2%;
 }
+.partners {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include media-breakpoint-down(sm) {
+        text-align: center !important;
+    }
+}
 
 @media screen and (min-width: 992px) {
     .wrap-bg {
@@ -25,7 +33,8 @@
         height: 142px;
     }
     .ds-info {
-        font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.562} 'Montserrat';
+        // font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.562} 'Montserrat';
+        font: normal normal 500 #{$font-size-base*1.45}/#{$font-size-base*2.25} 'Montserrat';
     }
 }
 
