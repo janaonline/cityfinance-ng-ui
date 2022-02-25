@@ -43,7 +43,7 @@
                             "node_modules/chart.js/dist/Chart.js",
                             "node_modules/sweetalert/dist/sweetalert.min.js"
                         ],
-                        "aot": true
+                        "aot": false
                     },
                     "configurations": {
                         "production": {

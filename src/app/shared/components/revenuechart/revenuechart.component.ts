@@ -245,6 +245,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
+  
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
      else {
@@ -254,7 +255,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
   let ctx = canvas.getContext("2d");
-  this.myChart = new Chart(ctx, this.chartData);
+ 
+    this.myChart = new Chart(ctx, this.chartData);
+
+  
 
 
 
