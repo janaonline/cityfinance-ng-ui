@@ -11,6 +11,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelect, MatSelectModule } from "@angular/material/select";
+
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   MatSlideToggle,
   MatSlideToggleModule,
@@ -94,6 +96,7 @@ import { CommonChartsGraphsComponent } from './components/common-charts-graphs/c
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatListModule,
+    MatTooltipModule,
     MatCardModule,
     AngularMaterialModule,
     MatExpansionModule,

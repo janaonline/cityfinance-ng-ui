@@ -191,12 +191,10 @@
   <div class="container data-availability rounded">
     <div class="row">
       <div class="col-md-7">
-        <h3 class="heading">Data Availability</h3>
+        <h3 class="heading" style="font-size: 1.5rem;">Data Availability</h3>
         <p class="da-para">
-          {{ dataAvailable }}% financial data is available for the year
-          {{ body.financialYear }} i.e. {{ dataAvailable }}% of the ULBs’
-          financial statements are available for
-          <span class="extra-text"> the year {{ body.financialYear }}. </span>
+          {{ dataAvailable }}% financial data of the ULBs in the chosen category have uploaded their financial statements for the year
+          {{ body.financialYear }}.
           <span *ngIf="notFoundNames.length > 0">
             Data is not available for
             <span *ngFor="let name of notFoundNames">{{ name }},</span>.
@@ -261,6 +259,7 @@
         [chartId]="doughnutChartId"
         [chartTitle]="doughnutChartTitle"
         [ChartOptions]="doughnutChartOptions"
+        [notFound] = "chartDataNotFound"
       >
       </app-revenuechart>
     </div>
@@ -307,7 +306,7 @@
         <tbody>
           <tr class="scrollme scrollableTB" *ngFor="let user of users">
             <td >{{ user.name }}</td>
-            <td class="rightAlign">{{ user.averageRevenue / 10000000 | number }}</td>
+            <td class="rightAlign">{{ (user.averageRevenue / 10000000).toFixed(2) }}</td>
             <td class="rightAlign">{{ user.perCapita }}</td>
             <td class="rightAlign">{{ user.avgRevenueMeet }}%</td>
             <td class="rightAlign" *ngIf="ownTab">{{ user.meetsRevenue }}%</td>
@@ -326,10 +325,11 @@
   <div class="container accContainer">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
-        <p class="accordion-header" id="headingOne">
+        <p class="accordion-header">
           <button
-            class="accordion-button accBg"
+            class="accordion-button collapsed accBg"
             type="button"
+            id="headingOne"
             data-bs-toggle="collapse"
             data-bs-target="#collapseOne"
             aria-expanded="false"

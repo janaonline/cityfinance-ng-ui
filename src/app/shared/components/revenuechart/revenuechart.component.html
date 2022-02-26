@@ -59,15 +59,28 @@
         </div>
     </div>
 
-    <!-- <div class="revenueChart w-75 m-auto h-auto">
-    <canvas [id]="chartId" style="width: 70vw; height: 70vh"> </canvas>
-  </div> -->
 
-    <div [id]="'canvasDiv' + chartId" style="width: 100%; overflow-x: auto; overflow-y: hidden">
-        <div style="width: auto;min-width: 760px; height: 300px">
+
+    <div *ngIf="!notFound" [id]="'canvasDiv' + chartId" style="width: 100%; overflow-x: auto; overflow-y: hidden">
+        <div style="width: auto;min-width: 760px; height: 350px">
             <canvas [id]="chartId" height="300" width="0"></canvas>
         </div>
     </div>
+    <div *ngIf="notFound" style="text-align: center; margin-top: 30px;margin-bottom: 30px;">
+        <img src="../../../../assets/images/sad.svg" height="82px" width="89px">
+        <div  style="color:#1E44AD; font-size:22px ; font-weight: 600;">No Data Found for chosen options</div>
+    <p style="color: #6E7281; font-size: 16px;"> Please try again with other filter options</p>
+    </div>
+    
+
+        <span 
+        *ngIf="chartId == 'ownRevenue-doughnutChart'"
+        matTooltipClass="tool-tip"
+        matTooltip="Other Income includes Deposits Forfeited, Insurance Claim Recovery, Profit on Disposal on Fixed Assets, Recovery from Employees, Unclaimed Refund Payable/ Liabilities, Excess Provisions Written Back and Miscellaneous Income" placement="right" class="pull-left" aria-hidden="false">
+        <img src="../../../../assets/ticks/info_black_24dp.svg">
+</span>
+      
+
 </div>
 
 

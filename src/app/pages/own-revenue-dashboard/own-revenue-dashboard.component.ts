@@ -115,7 +115,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     },
     {
       id: 2,
-      name: "1 Million - 4 Million+",
+      name: "1 Million - 4 Million",
       averageRevenue: "0",
       perCapita: "0",
       meetsRevenue: "0",
@@ -154,17 +154,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
     type: "doughnut",
     data: {
       labels: [
-        "Property Tax",
-        "Advertisement Tax",
-        "Trade License Fee",
-        "Water Charges",
-        "Sewerage Charges",
-        "Rental Income",
-        "Other Income",
       ],
       datasets: [
         {
-          data: [68, 22, 19, 7, 5, , 15, 20],
+          data: [],
           backgroundColor: [
             "rgba(30, 68, 173, 1)",
             "rgba(37, 199, 206, 1)",
@@ -187,17 +180,29 @@ export class OwnRevenueDashboardComponent implements OnInit {
     legend: {
       position: "bottom",
       labels: {
-        usePointStyle: false,
-        pointStyle:'square',
+        usePointStyle: true,
+        pointStyle:'rect',
         padding: 35,
         boxWidth: 20,
         boxHeight: 23,
-        font:{
-          size:15
-        }
+        fontSize: 15,
 
       },
+      onClick: (e) => e.stopPropagation()
     },
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+        	var dataset = data.datasets[tooltipItem.datasetIndex];
+          var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+            return previousValue + currentValue;
+          });
+          var currentValue = dataset.data[tooltipItem.index];
+          var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+          return percentage + "%";
+        }
+      }
+    }
   };
   doughnutChartTitle =
     "The following pie chart provides the split of the contribution of various own revenue streams to the total own revenue.";
@@ -231,7 +236,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     ulb: new FormControl("ULB Name"),
     ulbType: new FormControl("ULB Type"),
     populationCategory: new FormControl(""),
-    financialYear: new FormControl("2018-19"),
+    financialYear: new FormControl("2020-21"),
   });
 
   ulbList = [];
@@ -243,6 +248,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     "1 Million - 4 Million",
     "200 Thousand - 500 Thousand",
   ];
+
   yearList = ["2018-19", "2019-20", "2020-21", "2021-22"];
   //Table Data Ends
 
@@ -282,7 +288,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       this.allCalls();
     });
     window.scrollTo(0, 0);
-
+this.getYearList();
     this.createDataForFilter();
     this.getBarChartData();
     this.barChartTitle =
@@ -296,18 +302,40 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.cardsData();
     this.tableData();
     this.getAvailableData();
+    this.getYearList();
   }
 
+  getYearList(){
+    this.body = {
+      ...this.filterGroup.value,
+      propertyTax: !this.ownTab,
+    };
+
+    this.ownRevenueService.getYearList(this.body).subscribe(
+      (res) => {
+        // this._loaderService.stopLoader()
+      let data = res['data']
+      this.yearList =[]
+      data.forEach(el=>{
+       this.yearList.push(el._id) 
+      })
+      },
+      (err) => {
+        console.log("error", err);
+      }
+    );
+  }
   clearFilter() {
     this.filterGroup.setValue({
       stateId: "State Name",
       ulb: "ULB Name",
       ulbType: "ULB Type",
       populationCategory: "ULB Population Category",
-      financialYear: "2018-19",
+      financialYear: "2020-21",
     });
   }
   pieChartLoading = true;
+  chartDataNotFound = false
   getPieChartData() {
     this.pieChartLoading = true;
     let temp = {
@@ -336,6 +364,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       .getPieChartData(this.filterGroup.getRawValue())
       .subscribe(
         (res) => {
+          if(res['data'][0]['amount'] == null && !res['data'][1]  ){
+            this.chartDataNotFound = true
+          }
           res["data"].map((value) => {
             temp.data.labels.push(value._id["revenueName"]);
             temp.data.datasets[0].data.push(value.amount);

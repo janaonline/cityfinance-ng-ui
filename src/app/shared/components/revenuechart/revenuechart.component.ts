@@ -126,6 +126,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   };
   @Input()
   chartId;
+
+  @Input()
+  notFound
   // options in case of sactter plot
   @Input()
   scatterOption = {
