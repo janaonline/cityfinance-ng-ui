@@ -81,8 +81,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
   // Dummy data for table
   columnAttribute = [
     { id: 1, title: "ULB Population Category" },
-    { id: 2, title: "Average Own Revenue Collections (In Crore Rs.)" },
-    { id: 3, title: "Median Own Revenue Per Capita (INR)" },
+    { id: 2, title: "Average Own Revenue (In Crore Rs.)" },
+    { id: 3, title: "Median Own Revenue per Capita (INR)" },
     {
       id: 4,
       title: "Average Own Revenues as percentage of Revenue Expenditure",
@@ -97,7 +97,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   columnAttributeProperty = [
     { id: 1, title: "ULB Population Category" },
     { id: 2, title: "Average Property Tax Revenue Collections (In Crore Rs.)" },
-    { id: 3, title: "Median Property Tax Revenue Per Capita" },
+    { id: 3, title: "Median Property Tax Revenue per Capita" },
     {
       id: 4,
       title: "Average Property Tax Revenue as percentage of Own Revenu",
@@ -211,21 +211,29 @@ export class OwnRevenueDashboardComponent implements OnInit {
     
   barChartData = barChart;
   barChartOptions = {
-    borderRadius: 5,
     maintainAspectRatio: false,
     responsive: true,
-    plugins: {
+    scales: {
+      xAxes: [{
+      
+          gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+          }
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Amount in Crores'
+        },
+          gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+          }   
+      }]
+  },
+  
       legend: {
         display: false,
-      },
-      scales: {
-        y: {
-          ticks: {
-            color: "red",
-          },
-        },
-      },
-    },
+      }
   };
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -466,7 +474,7 @@ this.getYearList();
               {
                 label: body.revenueName,
                 data: [],
-                borderRadius: 10,
+                borderRadius: 15,
                 borderWidth: 1,
                 backgroundColor: [
                   "rgba(30, 68, 173, 1)",
@@ -487,7 +495,7 @@ this.getYearList();
         res["data"].map((value) => {
           let stateName = this.stateIds[value._id];
           tempData.data.labels.push(stateName);
-          tempData.data.datasets[0].data.push(value.amount);
+          tempData.data.datasets[0].data.push(value.amount/10000000);
         });
         body.stateIds.map((value) => {
           if (!res["data"].find((innerValue) => innerValue._id == value)) {
@@ -811,7 +819,7 @@ const revenueCollection = {
   type: "5",
   title: "0 Cr",
   isLoading: true,
-  subTitle: "Own Revenue Collections",
+  subTitle: "Own Revenue",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
@@ -821,7 +829,7 @@ const revenuePerCapita = {
   type: "5",
   title: "0 Cr",
   isLoading: true,
-  subTitle: "Own Revenue Per Capita",
+  subTitle: "Own Revenue per Capita",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
@@ -855,21 +863,12 @@ const barChart = {
   type: "bar",
   data: {
     labels: [
-      "Jalandhar",
-      "Chennai",
-      "Pune",
-      "Amhedabad",
-      "Mumbai",
-      "Jaipur",
-      "Rohtak",
-      "Nashik",
-      "Nagpur",
-      "Thane",
+      
     ],
     datasets: [
       {
-        data: [160, 140, 120, 100, 80, 60, 40, 20, 10, 5],
-        borderRadius: 10,
+        data: [],
+        borderRadius: 15,
         borderWidth: 1,
         backgroundColor: [
           "rgba(30, 68, 173, 1)",
@@ -900,7 +899,7 @@ const porpertyCards = [
   {
     type: "5",
     title: "0",
-    subTitle: "Property Tax Revenue Per Capita",
+    subTitle: "Property Tax Revenue per Capita",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",
