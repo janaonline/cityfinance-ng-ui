@@ -208,14 +208,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
     "The following pie chart provides the split of the contribution of various own revenue streams to the total own revenue.";
 
 
-    
+
   barChartData = barChart;
   barChartOptions = {
     maintainAspectRatio: false,
     responsive: true,
     scales: {
       xAxes: [{
-      
+        maxBarThickness: 60,
           gridLines: {
               color: "rgba(0, 0, 0, 0)",
           }
@@ -223,7 +223,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: 'Amount in Crores'
+          labelString: "Amount in Crores"
         },
           gridLines: {
               color: "rgba(0, 0, 0, 0)",
@@ -392,14 +392,24 @@ this.getYearList();
   }
   myBarChart
   createBarChart(){
-    const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
-    const ctx = canvas.getContext("2d");
-   let data: any = this.barChartData
-      this.myBarChart = new Chart(ctx, {
-        type: "bar",
-        data: data,
-      });
+    document.addEventListener("DOMContentLoaded", function(){
+      //dom is fully loaded, but maybe waiting on images & css files
+      const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
+      const ctx = canvas.getContext("2d");
+      let data: any = this.barChartData
+        this.myBarChart = new Chart(ctx, {
+          type: "bar",
+          data: data,
+        });
+    });
+ 
+
+
+ 
+   
   
+  
+   
   }
 
   createDataForFilter() {
@@ -451,12 +461,13 @@ this.getYearList();
       }
     );
   }
-
+tempDataHolder: any
   barChartCompValues(value) {
+    this.tempDataHolder = value
     console.log(value, "barChartCompValues");
     this.getBarChartData(value);
   }
-
+  barChartNotFound = false
   getBarChartData(
     bodyD = {
       list: [],
@@ -470,53 +481,99 @@ this.getYearList();
     };
     Object.assign(bodyD, this.body)
     this.lastBarChartValue = bodyD;
-    this.ownRevenueService.displayBarChartData(bodyD).subscribe(
-      (res) => {
-        let tempData = {
-          type: "bar",
-          data: {
-            labels: [],
-            datasets: [
-              {
-                label: bodyD.param,
-                data: [],
-                borderRadius: 15,
-                borderWidth: 1,
-                backgroundColor: [
-                  "rgba(30, 68, 173, 1)",
-                  "rgba(34, 76, 192, 1)",
-                  "rgba(37, 83, 211, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(69, 110, 222, 1)",
-                  "rgba(88, 125, 225, 1)",
-                  "rgba(106, 139, 229, 1)",
-                  "rgba(134, 162, 237, 1)",
-                  "rgba(147, 170, 234, 1)",
-                  "rgba(168, 188, 240, 1)",
-                ],
-              },
-            ],
-          },
-        };
-        res["data"].map((value) => {
-          // let stateName = this.stateIds[value._id];
-          tempData.data.labels.push(value.name);
-          tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
-        });
-        bodyD.list.map((value) => {
-          if (!res["data"].find((innerValue) => innerValue._id == value)) {
-            let stateName = this.stateIds[value];
-            tempData.data.labels.push(stateName);
-            tempData.data.datasets[0].data.push(0);
-          }
-        });
-        this.barChartData = tempData;
-        this.createBarChart()
-      },
-      (err) => {
-        console.log("error", err);
-      }
-    );
+    let labelStr
+
+      this.ownRevenueService.displayBarChartData(bodyD).subscribe(
+        (res) => {
+          if(this.tempDataHolder){
+            if(this.tempDataHolder && this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure'){
+            labelStr = '%'
+              }else if(this.tempDataHolder && this.tempDataHolder['param'] == 'Own Revenue per Capita'){
+            labelStr = 'Amount in INR'
+              }
+                }
+              else{
+                labelStr = 'Amount in Crores'
+              }
+          this.barChartNotFound = false
+          let tempData = {
+            type: "bar",
+            data: {
+  
+              labels: [],
+              datasets: [
+                {
+                  label: bodyD.param,
+                  data: [],
+                  borderRadius: 15,
+                  borderWidth: 1,
+                  backgroundColor: [
+                    "rgba(30, 68, 173, 1)",
+                    "rgba(34, 76, 192, 1)",
+                    "rgba(37, 83, 211, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(69, 110, 222, 1)",
+                    "rgba(88, 125, 225, 1)",
+                    "rgba(106, 139, 229, 1)",
+                    "rgba(134, 162, 237, 1)",
+                    "rgba(147, 170, 234, 1)",
+                    "rgba(168, 188, 240, 1)",
+                  ],
+                },
+              ],
+            },
+            options:{
+              scales: {
+                xAxes: [{
+                  maxBarThickness: 60,
+                    gridLines: {
+                        color: "rgba(0, 0, 0, 0)",
+                    }
+                }],
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: labelStr
+                  },
+                    gridLines: {
+                        color: "rgba(0, 0, 0, 0)",
+                    }   
+                }]
+            },
+            }
+          };
+          res["data"].map((value) => {
+            // let stateName = this.stateIds[value._id];
+            tempData.data.labels.push(value.name);
+            if(this.tempDataHolder){
+              if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' || this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
+                tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+              }  
+            }
+            else{
+              tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
+            }
+            
+          });
+          // bodyD.list.map((value) => {
+          //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
+          //     let stateName = this.stateIds[value];
+          //     tempData.data.labels.push(stateName);
+          //     tempData.data.datasets[0].data.push(0);
+          //   }
+          // });
+          this.barChartData = tempData;
+          
+            this.createBarChart()
+       
+          
+        },
+        (err) => {
+          this.barChartNotFound = true
+        }
+      );
+ 
+   
   }
 
   halfDoughnutChart(valueFromApi = null) {

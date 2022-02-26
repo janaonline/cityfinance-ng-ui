@@ -119,7 +119,8 @@ this.reset()
       this.togglerValue = newToogleValue
    });
    this.selectedVal.valueChanges.subscribe(val=> {
-    console.log("toogleValue", val);
+
+    console.log(val);
  });
    this.globalFormControl.valueChanges
    .subscribe(value => {
@@ -190,6 +191,7 @@ reset(){
     console.log('option', option)
     this.checkType(option);
     this.selectedStateValue(option)
+    this.globalFormControl.setValue("")
   }
  
 
