@@ -111,6 +111,7 @@ export class CompareDialogComponent implements OnInit {
     }
   }
 togglerValue
+typeX=""
   ngOnInit(): void {
     this.toogle.valueChanges.subscribe(newToogleValue=> {
       console.log("toogleValue", newToogleValue);
@@ -123,14 +124,14 @@ this.reset()
    this.globalFormControl.valueChanges
    .subscribe(value => {
      if(value.length >= 1){
-       let type
+       
        if(this.togglerValue){
-        type="ulb"
+        this.typeX="ulb"
        }else{
-         type ="state"
+         this.typeX ="state"
        }
 
-       this._commonService.postGlobalSearchData(value, type).subscribe((res: any) => {
+       this._commonService.postGlobalSearchData(value, this.typeX).subscribe((res: any) => {
          console.log(res?.data);
          let emptyArr:any = []
            this.filteredOptions = emptyArr;
@@ -251,14 +252,18 @@ reset(){
       this.ulbListChip.splice(index, 1);
     }
   }
-
+emptyField = true
   emitValues() {
     if (this.type == 2) {
-      this.valuesToEmit = { stateIds: [], revenueId: "", revenueName: "" };
-      this.valuesToEmit.stateIds = this.stateChipList.map((value) => value._id);
-      this.valuesToEmit.revenueId = this.selectedParameter.value._id;
-      this.valuesToEmit.revenueName = this.selectedParameter.value.name;
-      this.ownRevenueCompValue.emit(this.valuesToEmit);
+      if(this.stateChipList.length>1 && (this.selectedVal.value != 'None' || !this.selectedVal.value )){
+        this.emptyField = false
+        this.valuesToEmit = { list: this.stateChipList, param: this.selectedVal.value, type:this.typeX };
+        this.ownRevenueCompValue.emit(this.valuesToEmit);
+      }else{
+this.emptyField = true
+return
+      }
+   
     } else {
       this.compareValue.emit(this.valuesToEmit);
       this.ulbValues.emit(this.ulbIds);

@@ -4,6 +4,7 @@
       <div class="col-6 d-flex justify-content-start mt-3">
         <p>Compare With</p>
       </div>
+      
       <div class="col-6 d-flex justify-content-end">
         <button (click)="close()" class="btn btn-primay">
           <img
@@ -12,8 +13,11 @@
           />
         </button>
       </div>
+
     </div>
+
   </div>
+ 
 
   <div [ngSwitch]="type">
     <div *ngSwitchCase="1">
@@ -105,7 +109,8 @@
     </div>
     <div *ngSwitchCase="2">
       <!--- ownrevenuechart compare start-->
-
+      <span style="color:red;" *ngIf="emptyField">Note: Please select atleast two   <span *ngIf="togglerValue">ULBs</span>
+      <span *ngIf="!togglerValue">States</span> and 1 parameter for comparison</span>
       <div class="row w-80">
 <div style="line-height: 5rem;">
         <mat-label>States </mat-label>

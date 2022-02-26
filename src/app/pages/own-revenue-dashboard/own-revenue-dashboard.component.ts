@@ -311,6 +311,7 @@ this.getYearList();
     this.tableData();
     this.getAvailableData();
     this.getYearList();
+    this.getBarChartData()
   }
 
   getYearList(){
@@ -457,14 +458,19 @@ this.getYearList();
   }
 
   getBarChartData(
-    body = {
-      revenueId: "5dd10c2285c951b54ec1d737",
-      stateIds: [],
-      revenueName: "Property Tax",
+    bodyD = {
+      list: [],
+      param: "Property Tax",
+      type:"state"
     }
   ) {
-    this.lastBarChartValue = body;
-    this.ownRevenueService.displayBarChartData(body).subscribe(
+    this.body = {
+      ...this.filterGroup.value,
+      propertyTax: !this.ownTab,
+    };
+    Object.assign(bodyD, this.body)
+    this.lastBarChartValue = bodyD;
+    this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
         let tempData = {
           type: "bar",
@@ -472,7 +478,7 @@ this.getYearList();
             labels: [],
             datasets: [
               {
-                label: body.revenueName,
+                label: bodyD.param,
                 data: [],
                 borderRadius: 15,
                 borderWidth: 1,
@@ -493,11 +499,11 @@ this.getYearList();
           },
         };
         res["data"].map((value) => {
-          let stateName = this.stateIds[value._id];
-          tempData.data.labels.push(stateName);
+          // let stateName = this.stateIds[value._id];
+          tempData.data.labels.push(value.name);
           tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
         });
-        body.stateIds.map((value) => {
+        bodyD.list.map((value) => {
           if (!res["data"].find((innerValue) => innerValue._id == value)) {
             let stateName = this.stateIds[value];
             tempData.data.labels.push(stateName);
