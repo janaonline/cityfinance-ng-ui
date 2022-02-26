@@ -14,9 +14,10 @@
 $text-sizes: ( "sm": $font-size-base*.75, "rg": $font-size-base, "lg": $font-size-base*1.25) !default;
 @each $size,
 $value in $text-sizes {
-    body.text-#{$size} {
+    body.#{$size} {
         font-size: $value;
     }
+
     .text-#{$size} {
         font-size: $value;
         @include border-radius($radius: $border-radius-sm, $fallback-border-radius: false);
@@ -30,6 +31,11 @@ $value in $text-sizes {
         margin-right: $spacer*.25;
         align-items: center;
         justify-content: center;
+
+        &.active{
+            background: $black;
+            color: $white;
+        }
     }
 }
 
@@ -92,7 +98,8 @@ a.disabled {
     @include media-breakpoint-up(sm){
         display: none !important;
     }
-    position: absolute;
+    position: fixed;
+    z-index: 100;
     top: 0;
     left: 0;
     width: 100vw;
@@ -119,6 +126,27 @@ a.disabled {
 
                 &.active{
                     border-bottom: none;
+                }
+            }
+
+            & .dropdown-menu{
+                border: none;
+                background: transparent;
+                padding: 0;
+                margin-left: $spacer*2;
+
+                & li{
+                    border-bottom: 1px solid $gray-300;
+                 
+                    &:last-child{
+                        border: none;
+                    }
+
+                    & .dropdown-item{
+                        font-size: $font-size-base*.8125;
+                        color: $gray-600;
+                        padding: $spacer 0;
+                    }
                 }
             }
         }
