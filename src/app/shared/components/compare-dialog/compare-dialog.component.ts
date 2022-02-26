@@ -33,7 +33,8 @@ export class CompareDialogComponent implements OnInit {
 
   constructor(
     private commonService: CommonService,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private _commonService : CommonService
   ) {
     let ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
     for (const key in ulbList) {
@@ -58,7 +59,9 @@ export class CompareDialogComponent implements OnInit {
   ulbValueList = new EventEmitter();
 
   States = new FormControl();
-
+  toogle = new FormControl(false, []);
+  selectedVal = new FormControl();
+  globalFormControl = new FormControl();
   stateList = [];
 
   @Input()
@@ -91,15 +94,15 @@ export class CompareDialogComponent implements OnInit {
 
   selectedStateValue(event: any) {
     if (this.stateChipList.length == 10) {
-      this.matSnackBar.open(`Max 10 states can be selected!`, null, {
+      this.matSnackBar.open(`Max 10 can be selected!`, null, {
         duration: 6600,
       });
       return;
     }
-    event.value.map((element) => {
-      this.stateChipList.push(element);
+
+      this.stateChipList.push(event);
       this.stateChipList = [...new Set(this.stateChipList)];
-    });
+  
   }
   removeStateChips(chips: { _id: string; name: string }): void {
     const index = this.stateChipList.indexOf(chips);
@@ -107,30 +110,87 @@ export class CompareDialogComponent implements OnInit {
       this.stateChipList.splice(index, 1);
     }
   }
-
+togglerValue
   ngOnInit(): void {
+    this.toogle.valueChanges.subscribe(newToogleValue=> {
+      console.log("toogleValue", newToogleValue);
+this.reset()
+      this.togglerValue = newToogleValue
+   });
+   this.selectedVal.valueChanges.subscribe(val=> {
+    console.log("toogleValue", val);
+ });
+   this.globalFormControl.valueChanges
+   .subscribe(value => {
+     if(value.length >= 1){
+       let type
+       if(this.togglerValue){
+        type="ulb"
+       }else{
+         type ="state"
+       }
+
+       this._commonService.postGlobalSearchData(value, type).subscribe((res: any) => {
+         console.log(res?.data);
+         let emptyArr:any = []
+           this.filteredOptions = emptyArr;
+         if(res?.data.length > 0 ){
+           this.filteredOptions = res?.data;
+           this.noDataFound = false;
+         }else{
+
+           let emptyArr:any = []
+           this.filteredOptions = emptyArr;
+           this.noDataFound = true;
+           let noDataFoundObj = {
+             name: '',
+             id: '',
+             type: '',
+           }
+           console.log('no data found')
+         }
+       });
+     }
+     else {
+       return null;
+     }
+   })
     this.searchField.valueChanges.subscribe((value) => {
       console.log(value);
       if (value) this.search(value);
     });
 
     if (this.type == 2) {
-      this.commonService.getLineItems().subscribe(
-        (res) => {
-          console.log(res, "Lineitems");
-
-          this.parameters = res["data"].filter((value) =>
-            this.lineItems.includes(value.code)
-          );
-        },
-        (err) => {}
-      );
+      this.parameters = ['Own Revenue', 'Own Revenue per Capita', 'Own Revenue as a percentage of Revenue Expenditure']
+     
     }
   }
-
+reset(){
+  this.globalFormControl.setValue("")
+  this.selectedVal.setValue('None')
+  this.stateChipList = []
+}
   close() {
     this.closeDialog.emit(true);
   }
+  checkType(searchValue){
+    let type = searchValue?.type;
+    if(type == 'ulb'){
+      
+   }
+   if(type == 'state'){
+       
+   }
+   if(type == 'searchKeyword'){
+    
+   }
+  }
+  dashboardNav(option,event){
+    console.log('option', option)
+    this.checkType(option);
+    this.selectedStateValue(option)
+  }
+ 
 
   search(matchingWord) {
     let body = {

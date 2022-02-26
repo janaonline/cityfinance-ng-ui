@@ -300,7 +300,7 @@ this.getYearList();
     this.createDataForFilter();
     this.getBarChartData();
     this.barChartTitle =
-      "You can compare states on various financial indicators/parameters";
+      "You can compare states on various financial indicators";
 
     this.allCalls();
   }
@@ -495,7 +495,7 @@ this.getYearList();
         res["data"].map((value) => {
           let stateName = this.stateIds[value._id];
           tempData.data.labels.push(stateName);
-          tempData.data.datasets[0].data.push(value.amount/10000000);
+          tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
         });
         body.stateIds.map((value) => {
           if (!res["data"].find((innerValue) => innerValue._id == value)) {
