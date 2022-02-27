@@ -392,7 +392,9 @@ this.getYearList();
   }
   myBarChart
   createBarChart(){
-    document.addEventListener("DOMContentLoaded", function(){
+if(this.myBarChart){
+  this.myBarChart.destroy();
+}
       //dom is fully loaded, but maybe waiting on images & css files
       const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
       const ctx = canvas.getContext("2d");
@@ -401,7 +403,7 @@ this.getYearList();
           type: "bar",
           data: data,
         });
-    });
+   
  
 
 
@@ -518,6 +520,7 @@ tempDataHolder: any
                     "rgba(134, 162, 237, 1)",
                     "rgba(147, 170, 234, 1)",
                     "rgba(168, 188, 240, 1)",
+                    "rgba(79, 223, 76, 1)",
                   ],
                 },
               ],
