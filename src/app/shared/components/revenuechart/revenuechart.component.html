@@ -85,5 +85,10 @@
 
 
 <ng-template #template>
-    <app-compare-dialog [type]="compareDialogType" (ownRevenueCompValue)="ownRevenueCompValue($event)" (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
+    <app-compare-dialog 
+    [type]="compareDialogType"
+    [own]="own"
+     (ownRevenueCompValue)="ownRevenueCompValue($event)"
+      (compareValue)="getCompareCompValues($event)"
+       (closeDialog)="closeModal()"></app-compare-dialog>
 </ng-template>

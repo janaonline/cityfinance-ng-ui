@@ -223,7 +223,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: "Amount in Crores"
+          labelString: ""
         },
           gridLines: {
               color: "rgba(0, 0, 0, 0)",
@@ -393,7 +393,7 @@ this.getYearList();
   myBarChart
   createBarChart(){
 if(this.myBarChart){
-  this.myBarChart.destroy();
+ this.myBarChart.destroy();
 }
       //dom is fully loaded, but maybe waiting on images & css files
       const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
@@ -483,7 +483,7 @@ tempDataHolder: any
     };
     Object.assign(bodyD, this.body)
     this.lastBarChartValue = bodyD;
-    let labelStr
+    let labelStr=""
 
       this.ownRevenueService.displayBarChartData(bodyD).subscribe(
         (res) => {

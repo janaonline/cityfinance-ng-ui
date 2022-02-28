@@ -67,6 +67,9 @@ export class CompareDialogComponent implements OnInit {
   @Input()
   type = 1;
 
+@Input()
+own
+
   filterList = [
     "State Average",
     "National Average",
@@ -163,7 +166,12 @@ this.reset()
     });
 
     if (this.type == 2) {
-      this.parameters = ['Own Revenue', 'Own Revenue per Capita', 'Own Revenue as a percentage of Revenue Expenditure']
+      if(this.own){
+        this.parameters = ['Own Revenue', 'Own Revenue per Capita', 'Own Revenue as a percentage of Revenue Expenditure']
+      }else{
+        this.parameters = ['Property Tax', 'Property Tax per Capita', 'Property Tax as a percentage of Revenue Expenditure']
+      }
+      
      
     }
   }
