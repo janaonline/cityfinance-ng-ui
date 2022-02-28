@@ -12,15 +12,6 @@
     background-size: cover;
     padding: 4% 2% 15% 2%;
 }
-.partners {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @include media-breakpoint-down(sm) {
-        text-align: center !important;
-    }
-}
-
 @media screen and (min-width: 992px) {
     .wrap-bg {
         height: 44rem;
@@ -302,12 +293,14 @@ height:12rem;
 }
 
 .res-h {
+    margin-top: $spacer*4.375;
     font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
 
 .res-s-h {
+    margin-top: $spacer*1.25;
     font: normal normal normal #{$font-size-base*1.125}/#{$font-size-base*1.375} 'Archivo';
     letter-spacing: 0px;
     color: #6E7281;

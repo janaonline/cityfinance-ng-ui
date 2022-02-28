@@ -13,7 +13,7 @@
             <!-- <p *ngIf="currentStateInView" class="text-center" style="width: 100%;">
     Click on any ULB to view their data or click on INDIA map to go back.
   </p> -->
-            <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+            <div *ngIf="!nationalLevelMap" class="skeletonWrapper" style="z-index: 1000;">
                 <app-pre-loader></app-pre-loader>
                 <app-pre-loader></app-pre-loader>
                 <app-pre-loader></app-pre-loader>

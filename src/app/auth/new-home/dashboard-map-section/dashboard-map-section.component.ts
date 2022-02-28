@@ -139,6 +139,7 @@ export class DashboardMapSectionComponent
     >,
     containerId: string
   ) {
+    // debugger;
     this.isProcessingCompleted.emit(false);
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
@@ -289,7 +290,8 @@ export class DashboardMapSectionComponent
       // districtMap.boxZoom.disable();
       // districtMap.keyboard.disable();
       // districtMap.dragging.disable();
-
+      
+      console.log("districtMap==>", districtMap)
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.newDashboardstateColorStyle,
       }).addTo(districtMap);
@@ -389,7 +391,6 @@ export class DashboardMapSectionComponent
       return;
     }
     console.log("state layers", this.stateLayers);
-
     this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
