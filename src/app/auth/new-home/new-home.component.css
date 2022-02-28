@@ -98,7 +98,7 @@
 }
 
 .filter-form {
-  display: inline-block;
+  display: flex;
 }
 
 .rec-text {

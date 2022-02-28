@@ -29,7 +29,7 @@ export class CheckScorePerformanceComponent implements OnInit {
     this.globalFormControl.valueChanges
     .subscribe(value => {
       if(value.length >= 1){
-        this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
+        this._commonService.postGlobalSearchData(value,"").subscribe((res: any) => {
           console.log(res?.data);
           let emptyArr:any = []
             this.filteredOptions = emptyArr;

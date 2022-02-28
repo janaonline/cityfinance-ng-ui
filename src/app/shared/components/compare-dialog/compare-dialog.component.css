@@ -4,6 +4,11 @@
   border-top-right-radius: 8px;
 }
 
+.mat-slide-toggle-content {
+  vertical-align: top;
+  display: inline-block;
+  line-height: 24px;
+}
 .compareDialog {
   padding-left: 12px;
   padding-right: 12px;

@@ -116,7 +116,7 @@ export class NewHomeComponent implements OnInit {
     this.globalFormControl.valueChanges
     .subscribe(value => {
       if(value.length >= 1){
-        this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
+        this._commonService.postGlobalSearchData(value,"").subscribe((res: any) => {
           console.log(res?.data);
           let emptyArr:any = []
             this.filteredOptions = emptyArr;
@@ -218,10 +218,6 @@ export class NewHomeComponent implements OnInit {
   dashboardNav(option) {
     console.log('option', option)
     this.checkType(option);
-    // let postBody = {
-    //   type: option.type,
-    //   searchKeyword: option._id
-    // }
     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
       console.log('serach res', res)
    },
