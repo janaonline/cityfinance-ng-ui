@@ -550,12 +550,12 @@ export class CommonService {
     }
     this.userType = user;
   }
-  postGlobalSearchData(data: any) {
+  postGlobalSearchData(data: any, type) {
     let dataString = {
       matchingWord: data,
     };
     return this.http.post(
-      `${environment.api.url}recentSearchKeyword/search`,
+      `${environment.api.url}recentSearchKeyword/search?type=${type}`,
       dataString
     );
   }

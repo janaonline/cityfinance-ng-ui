@@ -19,6 +19,10 @@ export class NHomeHeaderComponent implements OnInit {
   user: IUserLoggedInDetails = null;
 
   sticky: boolean = false;
+  size;
+
+  textSize = ['sm','rg','lg'];
+  currentTextSize: any;
 
   constructor(
     public _router: Router,
@@ -39,18 +43,7 @@ export class NHomeHeaderComponent implements OnInit {
         }
 
    }
-  size;
 
-  textSize = ['sm','rg','lg']
-
-  setFontSize(size){
-    // console.log(size)
-    // this.size= size;
-    let elem = document.body;
-
-    this.textSize.forEach(item => elem.classList.remove(item));
-    elem.classList.add(size);
-  }
   ngOnInit(): void {
     this.authService.loginLogoutCheck.subscribe((res)=> {
       console.log('loginLogoutCheck', res);
@@ -61,6 +54,24 @@ export class NHomeHeaderComponent implements OnInit {
         this.btnName = 'Login for 15th FC Grants';
       }
     })
+
+    let getTextSize = JSON.parse(localStorage.getItem('myLSkey'));
+    if(getTextSize) 
+      this.setFontSize(getTextSize.currentTextSize)
+      
+  }
+
+  setFontSize(size){
+    // console.log(size)
+    // this.size= size;
+    let elem = document.body;
+
+    this.textSize.forEach(item => elem.classList.remove(item));
+    elem.classList.add(size);
+    this.currentTextSize = size;
+    localStorage.setItem('myLSkey', JSON.stringify({
+      'currentTextSize': size,
+    }));
   }
 
   @HostListener('window:scroll', ['$event'])

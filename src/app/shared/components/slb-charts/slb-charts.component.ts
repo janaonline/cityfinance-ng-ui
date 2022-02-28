@@ -3,22 +3,21 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DashboardService } from '../../services/dashboard/dashboard.service';
 
 @Component({
-  selector: 'app-slb-charts',
-  templateUrl: './slb-charts.component.html',
-  styleUrls: ['./slb-charts.component.scss']
+  selector: "app-slb-charts",
+  templateUrl: "./slb-charts.component.html",
+  styleUrls: ["./slb-charts.component.scss"],
 })
 export class SlbChartsComponent implements OnInit, OnChanges {
-
   constructor(
-    public dashboardServices : DashboardService,
+    public dashboardServices: DashboardService,
     public dialog: MatDialog
-  ) { }
+  ) {}
 
   isCompare = false;
   slbGaugeCharts;
   @Input() data: any;
   @Input() cityId: any;
-  aboutSlbCharts ='';
+  aboutSlbCharts = "";
   dialogRef;
   @ViewChild("template") template;
   @Output()
@@ -27,38 +26,62 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   compareDialogType = 1;
   compareType = "";
   year;
+  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
   chartLabels = [
     {
-     name: 'Mumbai',
-     color: '#224BD5',
+      name: "Mumbai",
+      color: "#224BD5",
     },
     {
-     name: 'Benchmark',
-     color: '#29CFD6',
+      name: "Benchmark",
+      color: "#29CFD6",
     },
-
   ];
 
-  ngOnInit(): void {
-    this.aboutSlbCharts = this.data?.mainContent[0]?.about;
-    console.log('data slb charts', this.data);
-
-  }
-  ngOnChanges(changes: SimpleChanges): void {
+  yearValueChange(value) {
+    console.log(value);
+    this.year = value;
     this.getData();
   }
-  getData(){
-    this.dashboardServices.fetchCitySlbChartData(this.cityId, this.data?.name).subscribe((res: any)=>{
-    console.log('city respo', res);
-    this.slbGaugeCharts = res?.data;
 
-    },
-    (error)=>{
-      console.log(error);
-
-    })
+  ngOnInit(): void {
+    console.log("data slb charts", this.data);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.data) {
+      this.aboutSlbCharts = this.data?.mainContent[0]?.about;
+      this.getData();
+    }
+  }
+  getData() {
+    let typeName = this.data.name;
 
+    if (this.data.name == "Storm Water Drainage") typeName = "storm water";
+    if (this.data.name == "Solid Waste Management") typeName = "solid waste";
+    if (this.data.name == "Waste Water Management") typeName = "sanitation";
+
+    let queryParams = {
+      compUlb: "",
+      ulb: this.cityId,
+      type: typeName,
+      year: this.year,
+    };
+
+    this.dashboardServices.fetchCitySlbChartData(queryParams).subscribe(
+      (res: any) => {
+        console.log("city respo", res);
+        res.data.map((value) => {
+          if (value.percentage)
+            value.percentage = Number(value.percentage.toFixed(2));
+          else value.percentage = 0;
+        });
+        this.slbGaugeCharts = res?.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
   openModal() {
     const dialogConfig = new MatDialogConfig();
@@ -92,5 +115,4 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     };
     this.compareChange.emit(data);
   }
-
 }

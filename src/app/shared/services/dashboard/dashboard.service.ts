@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Chart } from 'chart.js';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Chart } from "chart.js";
 
-import { environment } from '../../../../environments/environment';
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -164,11 +164,12 @@ export class DashboardService {
     });
   }
 
-  fetchCitySlbChartData(id, tab) {
+  fetchCitySlbChartData(queryParams) {
+    const { type, compUlb, ulb, year } = queryParams;
+
     return this.httpClient.get(
-      `https://democityfinanceapi.dhwaniris.in/api/v1/indicators?compUlb=&ulb=5dd24b8d91344e2300876c8b&type=water supply`
+      `${environment.api.url}indicators?type=${type}&compUlb=${compUlb}&ulb=${ulb}&year=${year}`
     );
-    // `${environment.api.url}indicators?compUlb=&ulb=5dd24b8f91344e2300876cb1&type=${tab}`
   }
   fetchStateSlbChartData(id, tab, indicator) {
     return this.httpClient.get(
@@ -177,6 +178,4 @@ export class DashboardService {
   }
 
   // indicators?compUlb=&ulb=5dd24b8d91344e2300876c8b&type=water supply&indicatorName=coverage of water supply connections
-
-
 }

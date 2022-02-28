@@ -159,7 +159,7 @@
 }
 
 .ownRevText {
-    font-size: 0.8em;
+    font-size: 1rem;
 }
 
 .selectDiv {
@@ -226,4 +226,263 @@
 .btn-check:focus+.btn,
 .btn:focus {
     box-shadow: none;
+}
+
+
+
+.container-fluid {
+    padding-left: 0;
+}
+
+
+
+@media screen and (min-width: 992px) {
+    .wrap-bg {
+        height: 44rem;
+    }
+    
+    // .pd-l-r {
+    //     padding: 1.5rem 8rem;
+    // }
+    .f-d {
+        height: 142px;
+    }
+    
+}
+
+
+
+
+.ds-i-div {
+    margin-top: 3rem;
+}
+
+.ds-info {
+    //font: normal normal 500 26px/41px 'Montserrat';
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+
+.filter-form {
+    display: inline-block;
+}
+
+
+.ser-chip {
+    background: #1C3555 0% 0% no-repeat padding-box;
+    border: 1px solid #5C94D9;
+    border-radius: 40px;
+    opacity: 0.57;
+    padding: 4px 18px;
+    margin-left: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: inline-block;
+}
+
+.ser-chip:hover {
+    background-color: #E8721C;
+    border: 1px solid #E8721C;
+    opacity: 1;
+}
+
+.rec-text:hover {
+    color: #fff;
+    opacity: 1;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.g-filter-d {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 21px #5A5A5A31;
+    border-radius: 12px;
+    opacity: 1;
+    padding: 8px;
+    width:65%
+  
+}
+
+.lnd-btn {
+    background: #E67E15 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 8px #FFDAA8;
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 8px 0px;
+    opacity: 1;
+    width: 20%;
+}
+
+.fl-input {
+    padding: 9px;
+    border: none;
+    width: 80%;
+}
+
+.fl-input:focus-visible {
+    border: none;
+    outline-color: transparent;
+}
+
+
+
+
+
+
+
+
+
+// .prim-img {
+//     position: relative;
+//     bottom: 69px;
+// }
+.cr-text {
+    width: 60%;
+}
+
+::ng-deep .carousel-indicators {
+    bottom: -45px;
+}
+
+::ng-deep .images .carousel-control.left,
+::ng-deep .images .carousel-control.right {
+    display: none;
+}
+
+// ::ng-deep .carousel-indicators li {
+//     width: 10px;
+//     height: 10px;
+//     background: #85ACE2 0% 0% no-repeat padding-box;
+// }
+::ng-deep .carousel-indicators .active {
+    background: #F2991F 0% 0% no-repeat padding-box;
+    opacity: 1;
+    // width: 12px;
+    // height: 12px;
+    // box-shadow: 0px 3px 6px #FFBD8D;
+    // border: 1px solid #F4AB77;
+}
+
+::ng-deep .slick-dots li.slick-active button:before {
+    color: #F2991F;
+    opacity: 1;
+}
+
+::ng-deep .slick-dots li button:before {
+    font-size: 0.75rem;
+    line-height: 24px;
+}
+
+
+
+.wrap-card {
+    position: relative;
+    margin-top: -160px;
+}
+
+.new-card-text {
+    padding: 0 10%;
+}
+
+.card-d {
+    padding: 2rem 10%;
+}
+
+.new-card {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 20px #4E4E4E29;
+    border: 1px solid #F4F4F4;
+    border-radius: 12px;
+    opacity: 1;
+    // width: 337px;
+    height: 240px;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 3rem;
+}
+
+
+.slick-wrapper {
+    width: 1000px;
+    margin: 20px auto;
+}
+
+::ng-deep .slick-prev:before,
+::ng-deep .slick-next:before {
+    color: black !important;
+}
+
+.slide {
+    margin-right: 1rem;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    //box-shadow: 0px 2px 20px #4E4E4E29;
+    border: 1px solid #F4F4F4;
+    border-radius: 12px;
+    opacity: 1;
+    padding: 8px;
+}
+
+.card-img {
+    // margin-left: 5px;
+height:12rem;
+}
+
+.map-bg {
+    background-color: #F8F9FF !important;
+}
+
+
+.card {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 33px #53525229;
+    border-radius: 12px;
+    width: 325px;
+    height: 225px;
+    margin: 1rem;
+    padding: 1rem 2rem;
+}
+
+
+
+.hidden-text {
+    display: none;
+}
+
+// .pd-l-r {
+//     padding: 1.5rem 8rem;
+// }
+
+
+
+.btn-d {
+    margin-top: 5rem;
+}
+
+.c-i {
+    padding: 1rem;
+}
+
+.noData {
+    color: #D94E4E;
+    font-size: 14px;
+}
+
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+    min-width: calc(100% + 28% + 2px);
+    margin-top: -1px;
+    margin-left: -8px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: none;
+    padding-top: 5px;
+}
+
+::ng-deep #mat-option-0,
+::ng-deep .firstCls {
+    border-top: 1px solid lightgray;
+}
+
+.custom-panel {
+    width: calc(100% + 30px);
 }

@@ -4,6 +4,7 @@
       <div class="col-6 d-flex justify-content-start mt-3">
         <p>Compare With</p>
       </div>
+      
       <div class="col-6 d-flex justify-content-end">
         <button (click)="close()" class="btn btn-primay">
           <img
@@ -12,8 +13,11 @@
           />
         </button>
       </div>
+
     </div>
+
   </div>
+ 
 
   <div [ngSwitch]="type">
     <div *ngSwitchCase="1">
@@ -105,43 +109,68 @@
     </div>
     <div *ngSwitchCase="2">
       <!--- ownrevenuechart compare start-->
-
-      <div class="row">
+      <span style="color:red;" *ngIf="emptyField">Note: Please select atleast two   <span *ngIf="togglerValue">ULBs</span>
+      <span *ngIf="!togglerValue">States</span> and one parameter for comparison</span>
+      <div class="row w-80">
+<div style="line-height: 5rem;">
+        <mat-label>States </mat-label>
+        <mat-slide-toggle [formControl]="toogle"> ULBs</mat-slide-toggle>
+      </div>
         <div class="col-12">
           <p class="text-center ownRevText">
-            You can select upto 10 states and one parameter at a time
+            You can select upto 10 
+            <span *ngIf="togglerValue">ULBs</span>
+            <span *ngIf="!togglerValue">States</span>
+ and one parameter at a time
           </p>
         </div>
       </div>
+      <div class="col-12">
+      <div class=" col-9 col-md-9 m-2 g-filter-d" >
+        <form >
+            <input type="text" placeholder="Type Something" matInput [formControl]="globalFormControl" [matAutocomplete]="auto" class="fl-input w-80">
+            <mat-autocomplete #auto="matAutocomplete">
+ 
+                <a (click)="dashboardNav(option, $event)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                    <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+                        <div class="row">
+                            <div class="col-8">
+                                <span> {{option?.name}}</span>
+                            </div>
+                            <div *ngIf="togglerValue" class="col-3">
+                              <span style="color: #8E8E8E; font-size: small;">{{option?.state?.name | titlecase }}</span>
+                          </div>
+                        </div>
+                    </mat-option>
+                </a>
+                <mat-option *ngIf="noDataFound" class="noData firstCls">
+                  Sorry, we can’t find anything related to your search.
+              </mat-option>
+                <!--     
+                <mat-option *ngIf="noDataFound" class="noData firstCls">
+                    Sorry, we can’t find anything related to your search. Try searching for a city or state
+                </mat-option> -->
+            </mat-autocomplete>
+         
+        </form>
 
-      <div class="row justify-content-center">
-        <div class="col-md-4 col-sm-12 m-2 selectDiv">
-          <mat-form-field appearance="fill">
-            <mat-label>States</mat-label>
-            <mat-select
-              [formControl]="States"
-              (selectionChange)="selectedStateValue($event)"
-              multiple
-            >
-              <mat-option *ngFor="let element of stateList" [value]="element">{{
-                element.state
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-md-4 col-sm-12 m-2 selectDiv">
-          <mat-form-field appearance="fill">
-            <mat-label>Parameter</mat-label>
-            <mat-select [formControl]="selectedParameter">
-              <mat-option>None</mat-option>
-              <mat-option
-                *ngFor="let parameter of parameters"
-                [value]="parameter"
-                >{{ parameter.name }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-        </div>
+        
+    </div>
+ 
+    <div class="col-3 col-md-3 col-sm-12 m-2 selectDiv">
+      <mat-form-field appearance="fill">
+        <mat-label>Parameter</mat-label>
+        <mat-select  matInput [formControl]="selectedVal">
+          <mat-option>None</mat-option>
+          <mat-option
+            *ngFor="let parameter of parameters"
+            [value]="parameter"
+            >{{ parameter }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
         <div class="col-12 mb-2">
           <!-- <mat-chip-list> -->
           <mat-chip
@@ -150,7 +179,7 @@
             class="chipsDiv"
           >
             <!-- {{chips.length > 10 ? chips.slice(0, 10) + "..." : chips}} -->
-            {{ chips.state }}
+            {{ chips.name }}
 
             <button matChipRemove>
               <mat-icon class="cancleIcon">cancel</mat-icon>
@@ -158,7 +187,7 @@
           </mat-chip>
           <!-- </mat-chip-list> -->
         </div>
-      </div>
+    
       <!--- ownrevenuechart compare start-->
     </div>
   </div>
@@ -185,7 +214,7 @@
   <div class="row">
     <div class="col-12 justify-content-center m-auto d-flex">
       <div class="lastButtons">
-        <button>Reset</button>
+        <button  (click)="reset()">Reset</button>
       </div>
       <div class="lastButtons">
         <button

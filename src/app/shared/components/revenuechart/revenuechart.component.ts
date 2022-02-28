@@ -126,6 +126,12 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   };
   @Input()
   chartId;
+
+  @Input()
+  own;
+
+  @Input()
+  notFound
   // options in case of sactter plot
   @Input()
   scatterOption = {
@@ -235,6 +241,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
+        if(this.myChart)
         this.myChart.destroy();
         this.createChart();
       }
@@ -252,11 +259,15 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
          Object.assign(this.chartData, { options: this.ChartOptions });
       }
 
+    
+    
+        //dom is fully loaded, but maybe waiting on images & css files
+        let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+        let ctx = canvas.getContext("2d");
+          this.myChart = new Chart(ctx, this.chartData);
+     
 
-  let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-  let ctx = canvas.getContext("2d");
- 
-    this.myChart = new Chart(ctx, this.chartData);
+     
 
   
 
@@ -300,7 +311,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ownRevenueCompValue(value) {
-    this.compareChange.emit(value);
+   
+      this.compareChange.emit(value);
+
+    
   }
 
   getCompareCompValues(value) {
