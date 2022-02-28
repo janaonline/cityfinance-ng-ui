@@ -12,7 +12,6 @@
     background-size: cover;
     padding: 4% 2% 15% 2%;
 }
-
 @media screen and (min-width: 992px) {
     .wrap-bg {
         height: 44rem;
@@ -25,7 +24,8 @@
         height: 142px;
     }
     .ds-info {
-        font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.562} 'Montserrat';
+        // font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.562} 'Montserrat';
+        font: normal normal 500 #{$font-size-base*1.45}/#{$font-size-base*2.25} 'Montserrat';
     }
 }
 
@@ -293,12 +293,14 @@ height:12rem;
 }
 
 .res-h {
+    margin-top: $spacer*4.375;
     font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
 
 .res-s-h {
+    margin-top: $spacer*1.25;
     font: normal normal normal #{$font-size-base*1.125}/#{$font-size-base*1.375} 'Archivo';
     letter-spacing: 0px;
     color: #6E7281;
@@ -403,4 +405,10 @@ height:12rem;
 
 .custom-panel {
     width: calc(100% + 30px);
+}
+
+.partner-title {
+    color: #0F1F40;
+    font-weight: 600;
+    font-size: $font-size-base*1;
 }

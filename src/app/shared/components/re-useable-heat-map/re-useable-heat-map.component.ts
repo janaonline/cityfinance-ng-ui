@@ -41,6 +41,7 @@ import { IStateWithULBS } from "./models/stateWithULBS";
   styleUrls: ["./re-useable-heat-map.component.scss"],
 })
 export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
+  isProgress: boolean = true;
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
