@@ -15,6 +15,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   constructor() {}
   panelOpenState = false;
   @Input()
+  positive;
+  @Input()
+  cagr = "";
+  @Input()
   data = [
     {
       desc: [
@@ -63,4 +67,14 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
+
+  panelOpen(item) {
+    console.log(item);
+
+    item.panelOpenState = true;
+  }
+
+  panelClose(item) {
+    item.panelOpenState = false;
+  }
 }

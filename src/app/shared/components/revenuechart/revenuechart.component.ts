@@ -21,12 +21,15 @@ import { GlobalLoaderService } from '../../../../app/shared/services/loaders/glo
   styleUrls: ["./revenuechart.component.scss"],
 })
 export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
+  @Input()
   chartDialogues = false;
   chartOptions;
   @Input()
   btnBesideText = false;
-  constructor(public dialog: MatDialog,
-    public _loaderService: GlobalLoaderService) {}
+  constructor(
+    public dialog: MatDialog,
+    public _loaderService: GlobalLoaderService
+  ) {}
 
   @ViewChild("template") template;
   @Input()
@@ -223,13 +226,16 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   compareType = "";
 
   ngOnInit(): void {
-    this.year = new FormControl(this.mySelectedYears, { updateOn: "blur" });
     console.log("chartTitle", this.chartTitle);
   }
 
   ngAfterViewInit(): void {
     this.createChart();
-    this.year.valueChanges.subscribe((change) => this.sendValue());
+  }
+
+  yearValueChange(value) {
+    this.year = value;
+    this.sendValue();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -240,32 +246,25 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
     if (changes?.mySelectedYears) {
-      this.year = new FormControl(this.mySelectedYears);
+      this.year = this.mySelectedYears[0];
     }
   }
 
   createChart() {
-  
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-     else {
-         Object.assign(this.chartData, { options: this.ChartOptions });
-      }
+    else {
+      Object.assign(this.chartData, { options: this.ChartOptions });
+    }
 
+    let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+    let ctx = canvas.getContext("2d");
 
-  let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-  let ctx = canvas.getContext("2d");
- 
     this.myChart = new Chart(ctx, this.chartData);
-
-  
-
-
-
   }
 
   actionClick(value) {
-    this._loaderService.showLoader()
+    this._loaderService.showLoader();
     console.log(value, "In revenue");
     if (value.name == "expand" || value.name == "collapse") {
       this.headerActions.map((innerVal) => {
@@ -276,10 +275,10 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       });
       this.myChart.destroy();
       this.createChart();
-    }else if (value.name == "download") {
+    } else if (value.name == "download") {
       this.getImage();
 
-    return;
+      return;
     }
     this.actionClicked.emit(value);
   }
@@ -312,30 +311,40 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   sendValue(ulbs = []) {
+    let newYears = [this.year],
+      numYear = 2,
+      newValue = this.year;
+    while (numYear--) {
+      newValue = newValue
+        .split("-")
+        .map((value) =>
+          !isNaN(Number(value)) ? (value = Number(value) - 1) : value
+        )
+        .join("-");
+      newYears.push(newValue);
+    }
     let data = {
-      year: this.year.value,
+      year: newYears,
       ulbs: ulbs,
       compareType: this.compareType,
     };
     this.compareChange.emit(data);
   }
-showLoader = false
+  showLoader = false;
 
   getImage() {
-
-
-let id = "canvasDiv" + this.chartId
+    let id = "canvasDiv" + this.chartId;
     let html = document.getElementById(id);
     html2canvas(html).then((canvas) => {
       let image = canvas
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
-        // window.open(image)
+      // window.open(image)
       var link = document.createElement("a");
       link.href = image;
       link.download = `Chart ${this.chartId}.png`;
       link.click();
-      this._loaderService.stopLoader()
+      this._loaderService.stopLoader();
     });
   }
 }

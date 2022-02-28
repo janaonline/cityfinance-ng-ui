@@ -33,20 +33,16 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   data = incomingData;
   headOfAccount;
+  filterName = "revenue";
+  headerActions = headerActions;
   lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
   isPerCapita = false;
-  mySelectedYears = [
-    "2015-16",
-    "2016-17",
-    "2017-18",
-    "2018-19",
-    "2019-20",
-    "2020-21",
-  ];
+  mySelectedYears = ["2015-16", "2014-15", "2013-14"];
   loading = false;
   tabName;
-
+  CAGR = "";
+  positiveCAGR;
   ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
@@ -69,7 +65,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("")
       .includes("percapita");
-      this.getChartData({});
+    let newName = this.data.btnLabels[i].toLocaleLowerCase();
+    if (newName.includes("mix"))
+      this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
+    else if (newName.includes("revenue")) this.filterName = "revenue";
+    this.getChartData({});
   }
 
   actionFromChart(value) {
@@ -104,14 +104,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ulb: [],
       financialYear: [],
       headOfAccount: this.headOfAccount,
-      filterName: "revenue",
+      filterName: this.filterName,
       isPerCapita: this.isPerCapita,
       compareType: "",
     };
-    body.filterName = this.data["filterName"]
-      ?.toLocaleLowerCase()
-      .split(" ")
-      .join("_");
+    body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
       body.filterName = "property_tax";
 
@@ -125,8 +122,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.loading = true;
     this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
-        if (body.filterName.includes("mix")) this.createPieChart(res);
-        else this.createBarChart(res);
+        if (body.filterName.includes("mix")) {
+          this.createPieChart(res["data"]);
+          this.calculateRevenue(res["data"]);
+        } else {
+          this.createBarChart(res);
+          this.calculateCagr(res["data"]);
+        }
         this.loading = false;
       },
       (error) => {
@@ -147,6 +149,29 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         this.loading = false;
       }
     );
+  }
+
+  calculateRevenue(data) {
+    let totalRevenue = data.ulbData.reduce(
+      (amount, value) => (amount += value.amount),
+      0
+    );
+    this.CAGR = `Total revenue is Rs ${totalRevenue} Crore`;
+    this.positiveCAGR = true;
+  }
+
+  calculateCagr(data) {
+    let yearData = data.ulbData,
+      intialYear = yearData[0].amount,
+      finalYear = yearData[yearData.length - 1].amount,
+      time = yearData.length;
+    if (yearData.length > 1) {
+      let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
+      this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
+        yearData.length
+      } years`;
+      this.positiveCAGR = CAGR > 0;
+    }
   }
 
   createBarChart(res) {
@@ -179,7 +204,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         }
       });
     }
-
     newData.data.datasets = [];
     for (const key in temp) {
       const element = temp[key];
@@ -191,24 +215,49 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         newData.data.labels.push(value);
       }
     });
-    let tempLineData = JSON.parse(JSON.stringify(lineDataset));
-    if (newData.data.datasets.length) {
-      let value = newData.data.datasets[0];
-      if (value.data.length > 1) {
-        let CAGR =
-          Math.pow(
-            value.data[value.data.length - 1] / value.data[0],
-            1 / value.data.length
-          ) - 1;
-        tempLineData.data.push(CAGR);
-        newData.data.datasets.push(tempLineData);
-      }
-    }
-
     this.barChart = newData;
   }
 
-  createPieChart(res) {}
+  createPieChart(data) {
+    let newdata = [];
+    let othersAmount = 0;
+    data["ulbData"].map((value) => {
+      if (!showTotalRevenue.includes(value.code)) {
+        othersAmount += value.amount;
+      } else {
+        newdata.push(value);
+      }
+    });
+
+    newdata.push({ amount: othersAmount, _id: { lineItem: "Others" } });
+
+    data["ulbData"] = newdata;
+
+    const doughnutChartData = {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [],
+          backgroundColor: [],
+          hoverOffset: 4,
+        },
+      ],
+    };
+    doughnutChartData.labels = data["ulbData"].map((value, index) => {
+      doughnutChartData.datasets[0].backgroundColor.push(
+        pieBackGroundColor[index]
+      );
+      doughnutChartData.datasets[0].data.push(value.amount);
+      return value._id.lineItem;
+    });
+    let config = {
+      type: "doughnut",
+      data: doughnutChartData,
+    };
+
+    this.barChart = config;
+  }
 
   filterChangeInChart(value) {
     this.mySelectedYears = value.year;
@@ -216,6 +265,19 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     console.log("filterChangeInChart", value);
   }
 }
+
+const pieBackGroundColor = [
+  "#FF608B",
+  "#FFD72E",
+  "#22A2FF",
+  "#1E44AD",
+  "#585FFF",
+  "#25C7CE",
+  "#25C7CE",
+  "#3C3C3C",
+  "#E5FFF1",
+  "#0FA755",
+];
 
 const barChartStatic = {
   type: "bar",
@@ -233,6 +295,9 @@ const barChartStatic = {
     scales: {
       y: {
         beginAtZero: true,
+        grid: {
+          display: false,
+        },
       },
     },
   },
@@ -399,3 +464,49 @@ const incomingData = {
     },
   ],
 };
+
+const headerActions = [
+  {
+    name: "expand",
+    svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
+  },
+  {
+    name: "download",
+    svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+  },
+  {
+    name: "share/embed",
+    svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+  },
+];
+
+const ownRevenue = [
+  {
+    code: "180",
+    name: "Other Income",
+  },
+  {
+    code: "140",
+    name: "Fee & User Charges",
+  },
+  {
+    code: "110",
+    name: "Tax Revenue",
+  },
+
+  {
+    code: "170",
+    name: "Income from Investment",
+  },
+
+  {
+    code: "130",
+    name: "Rental Income from Municipal Properties",
+  },
+  {
+    code: "100",
+    name: "Others",
+  },
+];
+
+const showTotalRevenue = ["160", "120", "171", "150"];
