@@ -1,94 +1,116 @@
-<div class="container rounded flex-column pb-5" style="background: #fffbef 0% 0% no-repeat padding-box">
-    <!-- <div class="col-12 revenuChartContainer d-flex"> -->
-    <div class="row">
-        <div class="col-12 col-md-4 col-lg-5 pt-2">
-            <p *ngIf="chartId == 'ownRevenue-doughnutChart'" class="chartHeader" style=" font-size: 1.5rem;
-            font-weight: 600; margin-bottom: 2%; " >
-                Own Revenue Split
-            </p>
-            <p class="p-2" class="chartHeader">
-                {{ chartTitle }}
-            </p>
-        </div>
-        <div class="col-12 col-md-2 col-lg-2 btnBesideTitle">
-            <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
-          Compare
-        </button>
-        </div>
-        <div class="col-6 col-md-3 col-lg-5">
-            <div *ngFor="let item of headerActions; let i = index" class="p-2 col-6">
-                <div class="svg" (click)="actionClick(item)">
-                    <div class="flex-center iconImg">
-                        <img src="{{ item.svg }}" alt="Download" />
-                    </div>
-                    <div class="text-center">
-                        <span class="iconText">
+<div
+  class="container rounded flex-column pb-5"
+  style="background: #fffbef 0% 0% no-repeat padding-box"
+>
+  <!-- <div class="col-12 revenuChartContainer d-flex"> -->
+  <div class="row">
+    <div class="col-12 col-md-4 col-lg-6 pt-2">
+      <p
+        *ngIf="chartId == 'ownRevenue-doughnutChart'"
+        class="chartHeader"
+        style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%"
+      >
+        Own Revenue Split
+      </p>
+      <p class="p-2" class="chartHeader">
+        {{ chartTitle }}
+      </p>
+    </div>
+    <div
+      *ngIf="!chartDialogues"
+      class="col-12 col-md-2 col-lg-2 btnBesideTitle"
+    >
+      <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
+        Compare
+      </button>
+    </div>
+    <div class="col-6 col-md-3 col-lg-6">
+      <div class="row">
+        <div
+          *ngFor="let item of headerActions; let i = index"
+          class="ml-2 col-2"
+        >
+          <div class="svg" (click)="actionClick(item)">
+            <div class="flex-center iconImg">
+              <img src="{{ item.svg }}" alt="Download" />
+            </div>
+            <div class="text-center">
+              <span class="iconText">
                 {{ item.name }}
               </span>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- </div> -->
+  </div>
+  <!-- </div> -->
 
-    <div class="d-flex" *ngIf="chartDialogues">
-        <div class="mr-1">
-            <label (click)="openModal()" class="btn compare">
+  <div class="d-flex" *ngIf="chartDialogues">
+    <div class="mr-1">
+      <label (click)="openModal()" class="btn compare">
         Compare to {{ compareType }} &nbsp;
         <mat-icon style="vertical-align: middle">
           keyboard_arrow_down
         </mat-icon>
       </label>
-        </div>
-        <div class="">
-            <mat-form-field appearance="fill">
-                <mat-label>Years</mat-label>
-                <mat-select [formControl]="year" multiple>
-                    <mat-select-trigger>
-                        {{ year.value ? year.value[0] : "" }}
-                        <span *ngIf="year.value?.length > 1" class="example-additional-selection">
-              (+{{ year.value.length - 1 }}
-              {{ year.value?.length === 2 ? "other" : "others" }})
-            </span>
-                    </mat-select-trigger>
-                    <mat-option *ngFor="let year of yearList" [value]="year">{{ year }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
     </div>
-
-
-
-    <div *ngIf="!notFound" [id]="'canvasDiv' + chartId" style="width: 100%; overflow-x: auto; overflow-y: hidden">
-        <div style="width: auto;min-width: 760px; height: 350px">
-            <canvas [id]="chartId" height="300" width="0"></canvas>
-        </div>
+    <div class="">
+      <select
+        class="btn compare"
+        (change)="yearValueChange($event.target.value)"
+      >
+        <option
+          *ngFor="let yearValue of yearList"
+          [value]="yearValue"
+          [selected]="yearValue == year"
+        >
+          {{ yearValue }}
+        </option>
+      </select>
     </div>
-    <div *ngIf="notFound" style="text-align: center; margin-top: 30px;margin-bottom: 30px;">
-        <img src="../../../../assets/images/sad.svg" height="82px" width="89px">
-        <div  style="color:#1E44AD; font-size:22px ; font-weight: 600;">No Data Found for chosen options</div>
-    <p style="color: #6E7281; font-size: 16px;"> Please try again with other filter options</p>
+  </div>
+
+  <div
+    *ngIf="!notFound"
+    [id]="'canvasDiv' + chartId"
+    style="width: 100%; overflow-x: auto; overflow-y: hidden"
+  >
+    <div style="width: auto; min-width: 760px; height: 350px">
+      <canvas [id]="chartId" height="300" width="0"></canvas>
     </div>
-    
+  </div>
+  <div
+    *ngIf="notFound"
+    style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+  >
+    <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+    <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+      No Data Found for chosen options
+    </div>
+    <p style="color: #6e7281; font-size: 16px">
+      Please try again with other filter options
+    </p>
+  </div>
 
-        <span 
-        *ngIf="chartId == 'ownRevenue-doughnutChart'"
-        matTooltipClass="tool-tip"
-        matTooltip="Other Income includes Deposits Forfeited, Insurance Claim Recovery, Profit on Disposal on Fixed Assets, Recovery from Employees, Unclaimed Refund Payable/ Liabilities, Excess Provisions Written Back and Miscellaneous Income" placement="right" class="pull-left" aria-hidden="false">
-        <img src="../../../../assets/ticks/info_black_24dp.svg">
-</span>
-      
-
+  <span
+    *ngIf="chartId == 'ownRevenue-doughnutChart'"
+    matTooltipClass="tool-tip"
+    matTooltip="Other Income includes Deposits Forfeited, Insurance Claim Recovery, Profit on Disposal on Fixed Assets, Recovery from Employees, Unclaimed Refund Payable/ Liabilities, Excess Provisions Written Back and Miscellaneous Income"
+    placement="right"
+    class="pull-left"
+    aria-hidden="false"
+  >
+    <img src="../../../../assets/ticks/info_black_24dp.svg" />
+  </span>
 </div>
 
-
 <ng-template #template>
-    <app-compare-dialog 
+  <app-compare-dialog
     [type]="compareDialogType"
     [own]="own"
-     (ownRevenueCompValue)="ownRevenueCompValue($event)"
-      (compareValue)="getCompareCompValues($event)"
-       (closeDialog)="closeModal()"></app-compare-dialog>
+    (ownRevenueCompValue)="ownRevenueCompValue($event)"
+    (compareValue)="getCompareCompValues($event)"
+    (closeDialog)="closeModal()"
+  ></app-compare-dialog>
 </ng-template>

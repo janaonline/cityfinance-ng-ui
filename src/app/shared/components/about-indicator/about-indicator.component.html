@@ -1,19 +1,22 @@
 <div class="container-fluid">
-  <div class="row heading">
-    <p class="mt-2 mb-2 thumbText">
+  <div *ngIf="cagr" class="row" [ngClass]="{'heading': positive,'heading2': !positive}">
+    <p class="mt-2 mb-2 thumbText"
+    [ngClass]="{'thumbText': positive,'thumbText2': !positive}"
+    >
       <span>
-        <svg style="vertical-align: sub" xmlns="http://www.w3.org/2000/svg" width="22.873" height="22.873" viewBox="0 0 22.873 22.873">
+        <svg *ngIf="positive" style="vertical-align: sub" xmlns="http://www.w3.org/2000/svg" width="22.873" height="22.873" viewBox="0 0 22.873 22.873">
           <path id="Icon_awesome-thumbs-up" data-name="Icon awesome-thumbs-up" d="M4.24,9.132H.978A.978.978,0,0,0,0,10.11v9.784a.978.978,0,0,0,.978.978H4.24a.978.978,0,0,0,.978-.978V10.11A.978.978,0,0,0,4.24,9.132ZM2.609,19.242a.978.978,0,1,1,.978-.978A.978.978,0,0,1,2.609,19.242ZM15.655,3.321c0,1.729-1.059,2.7-1.357,3.855h4.147a2.436,2.436,0,0,1,2.428,2.369,2.952,2.952,0,0,1-.792,2.006l0,0a3.405,3.405,0,0,1-.379,3.24,3.224,3.224,0,0,1-.668,3.048,2.164,2.164,0,0,1-.251,1.82c-.832,1.2-2.894,1.212-4.638,1.212h-.116A11.7,11.7,0,0,1,9.15,19.58,6.416,6.416,0,0,0,7,18.92a.489.489,0,0,1-.48-.489V9.716a.489.489,0,0,1,.145-.347c1.615-1.6,2.309-3.285,3.633-4.611a4.937,4.937,0,0,0,1.035-2.4C11.517,1.6,11.9,0,12.72,0,13.7,0,15.655.326,15.655,3.321Z" transform="translate(1 1)" fill="none" stroke="#0fa755" stroke-width="2"/>
         </svg>
+        <img style="max-width: 5%;" *ngIf="!positive" src="../../../../assets/dislike.png" >
         </span
-      >&nbsp; text
+      >&nbsp; {{cagr}}
     </p>
   </div>
   <div *ngFor="let item of data" class="row p-2">
     <mat-accordion >
       <mat-expansion-panel
-        (opened)="item.panelOpenState = true"
-        (closed)="item.panelOpenState = false"
+        (opened)="panelOpen(item)"
+        (closed)="panelClose(item)"
       >
         <mat-expansion-panel-header style="background-color: #F5FAFF;">
           <mat-panel-title [ngClass]="{ activeIndicator: item.panelOpenState }">
