@@ -5,6 +5,8 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AboutService } from "./about.service";
 
 @Component({
   selector: "app-about-indicator",
@@ -12,7 +14,10 @@ import {
   styleUrls: ["./about-indicator.component.scss"],
 })
 export class AboutIndicatorComponent implements OnInit, OnChanges {
-  constructor() {}
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private aboutService: AboutService
+  ) {}
   panelOpenState = false;
   @Input()
   positive;
@@ -62,16 +67,32 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       name: "Next Steps",
     },
   ];
+  @Input()
+  selectedYear = "2015-16";
   ngOnInit(): void {
+    this._activatedRoute.queryParams.subscribe((param) => {
+      this.cityId = param.cityId;
+    });
     console.log(this.data, "about indicator");
   }
+  cityId;
 
   ngOnChanges(changes: SimpleChanges): void {}
 
   panelOpen(item) {
     console.log(item);
+    if (item.name.toLowerCase() == "calculation") this.getCalculation(item);
 
     item.panelOpenState = true;
+  }
+
+  getCalculation(item) {
+    this.aboutService.avgRevenue(this.cityId, this.selectedYear).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {}
+    );
   }
 
   panelClose(item) {
