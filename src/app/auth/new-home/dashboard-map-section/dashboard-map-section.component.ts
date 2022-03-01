@@ -50,6 +50,9 @@ export class DashboardMapSectionComponent
     classes: "homepage-stateList custom-class",
   };
   districtMarkerMap = {};
+
+  national:any = { _id: null, name: "India" };
+
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -142,7 +145,6 @@ export class DashboardMapSectionComponent
     >,
     containerId: string
   ) {
-    // debugger;
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let vw = Math.max(document.documentElement.clientWidth);
@@ -362,6 +364,9 @@ export class DashboardMapSectionComponent
     this.selectedStateCode = state.code;
     this.cityName = "";
     this.selected_state = state ? state?.name : "India";
+    /* Updating the dropdown state selection. */
+    if(state._id == null)
+    this.updateDropdownStateSelection(state);
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
@@ -586,8 +591,8 @@ export class DashboardMapSectionComponent
   private isMapAtNationalLevel() {
     return this.stateSelected ? false : true;
   }
-  private updateDropdownStateSelection(state: IState) {
-    console.log(state);
+  private updateDropdownStateSelection(state: IState, ) {
+    console.log("stateName",state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }

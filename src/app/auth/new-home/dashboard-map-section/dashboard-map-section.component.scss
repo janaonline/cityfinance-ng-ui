@@ -343,17 +343,6 @@ div.miniMap {
         position: relative;
         margin-top: -2px;
     }
-    .ind-selct{
-        .cuppa-dropdown{
-            .c-btn{
-                // padding: $spacer*0.25 0 $spacer*0.25 $spacer*0.938;
-                padding: $spacer*0.25;
-            }
-        }
-    }
-    .city-dropdown{
-        padding: $spacer*0.25;
-    }
     .map-reset {
         font: normal normal bold 14px/15px 'Archivo';
         letter-spacing: 0px;
@@ -427,15 +416,6 @@ div.miniMap {
         }
     }
 }
-//ZoomIn-Out Dissappare
-:ng-deep {
-        .leaflet-control-container{
-            .leaflet-control-zoom.leaflet-bar.leaflet-control {
-                display:none;
-            }
-        }
-}
-
 ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
     stroke: #FFFFFF !important;
     stroke-width: 2px;

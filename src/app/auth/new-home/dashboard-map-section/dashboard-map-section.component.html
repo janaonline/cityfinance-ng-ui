@@ -18,7 +18,7 @@
         <mat-spinner *ngIf="isLoading"></mat-spinner>
       </div>
       <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="isMapOnMiniMapMode" style="z-index: 10000;">
-        <a type="button" style="text-decoration: none;" (click)="resetNationalMap()">Reset Map To India</a>
+        <a type="button" style="text-decoration: none;" (click)="onSelectingStateFromDropDown(national)">Reset Map To India</a>
       </div>
       <!-- <div class="ulbSelectDropdown">
     <section class="regionalDetails regionalDetails2" *ngIf="mouseHoverOnState">
@@ -196,8 +196,9 @@
               <img src="../../../../assets/ticks/info_black_18dp.svg" class="info-icon" alt=""> Click on the map or use
               the drop down to drill down to a state or city
             </div>
-            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India')">View State
-              Dashboard</button>
+            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India')">
+              View State Dashboard
+            </button>
             <!-- <button class="btn view-ds-btn" (click)="openStateDashboard($event.target)" *ngIf="(selected_state != 'India')">View State Dashboard</button> -->
           </div>
           <div class="col-sm-4">
