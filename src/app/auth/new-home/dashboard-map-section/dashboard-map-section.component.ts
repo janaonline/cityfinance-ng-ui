@@ -16,6 +16,8 @@ import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+
 
 @Component({
   selector: "app-dashboard-map-section",
@@ -87,6 +89,7 @@ export class DashboardMapSectionComponent
   totalUsersVisit: number;
 
   absCreditInfo = {};
+  isLoading:boolean = true;
 
   creditRatingList: any[];
 
@@ -140,6 +143,7 @@ export class DashboardMapSectionComponent
     containerId: string
   ) {
     // debugger;
+    this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
@@ -212,6 +216,7 @@ export class DashboardMapSectionComponent
 
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
+      this.isLoading=false;
     }
     this.hideMapLegends();
 

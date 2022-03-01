@@ -427,6 +427,14 @@ div.miniMap {
         }
     }
 }
+//ZoomIn-Out Dissappare
+:ng-deep {
+        .leaflet-control-container{
+            .leaflet-control-zoom.leaflet-bar.leaflet-control {
+                display:none;
+            }
+        }
+}
 
 ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
     stroke: #FFFFFF !important;

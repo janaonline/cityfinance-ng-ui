@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-6 stateMapContainer">
-            <!-- <div class="selectedEntity">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 stateMapContainer">
+      <!-- <div class="selectedEntity">
         <span *ngIf="currentStateInView && currentStateInView.name" style="display: inline-block; min-width: fit-content">
       {{ currentStateInView ? currentStateInView.name : ""
       }}<span *ngIf="currentULBClicked">:&nbsp; </span>
@@ -10,16 +10,17 @@
       {{ currentULBClicked.name }}
     </span>
     </div> -->
-            <!-- <p *ngIf="currentStateInView" class="text-center" style="width: 100%;">
+      <!-- <p *ngIf="currentStateInView" class="text-center" style="width: 100%;">
     Click on any ULB to view their data or click on INDIA map to go back.
   </p> -->
-            <div *ngIf="!nationalLevelMap" class="skeletonWrapper" style="z-index: 1000;">
-                <app-pre-loader></app-pre-loader>
-                <app-pre-loader></app-pre-loader>
-                <app-pre-loader></app-pre-loader>
-                <app-pre-loader></app-pre-loader>
-            </div>
-            <!-- <div class="ulbSelectDropdown">
+      <div *ngIf="!nationalLevelMap"
+            class="skeletonWrapper container-fluid spinner_overlay d-flex justify-content-center align-items-center" style="z-index: 1000;">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+      </div>
+      <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="isMapOnMiniMapMode" style="z-index: 10000;">
+        <a type="button" style="text-decoration: none;" (click)="resetNationalMap()">Reset Map To India</a>
+      </div>
+      <!-- <div class="ulbSelectDropdown">
     <section class="regionalDetails regionalDetails2" *ngIf="mouseHoverOnState">
       <div
         style="
@@ -90,115 +91,124 @@
       </span>
     </section>
   </div> -->
-            <div class="col-sm-12" id="districtMapContainer" [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }">
-                <!-- <p class="text-center" *ngIf="currentStateInView">
+      <div class="col-sm-12" id="districtMapContainer"
+        [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }">
+        <!-- <p class="text-center" *ngIf="currentStateInView">
       Click on any ULB to view their data or Click on INDIA map to go back.
     </p> -->
-            </div>
-            <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber" style="background-image: url('../../../../assets/Layer\ 1.png') !important;"></div>
-          </div>
-        <div class="col-md-12 col-lg-6 col-sm-12">
-            <div class="expo">Explore</div>
-            <div class="expo-sub">
-                Select a state or city to know more about its key municipal financial and operational information
-            </div>
-            <div class="row expo-drp expo-pd">
-                <div class="col-md-6 col-sm-12">
-                    <div class="input-group ">
-                        <form [formGroup]="myForm" class="w-100">
-                            <angular2-multiselect class="expo-drp-in ind-selct" [data]="stateList" formControlName="stateId" [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)" (onDeSelect)="onSelectingStateFromDropDown(null)">
-                            </angular2-multiselect>
-                        </form>
-                    </div>
-                </div>
-                <!-- city-dropdown inp-grp -->
-                <div class="col-md-6 col-sm-12"> 
-                    <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')">
-                        <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01" (change)="selectCity($event.target.value)">
-                          <option value="null" selected>Select City</option>
-                          <option [selected]="selectedDistrictCode == item.code" value="1" 
-                                  *ngFor="let item of cityData" [value]="item.code">{{item.name}}
-                          </option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-            <div class="expo-pd">
-                <div class="vl"></div>
-                <div class="c-n ps-1">
-                    {{selected_state}} <span *ngIf="cityName !='' && selected_state != 'India'"> > {{cityName}}</span>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
-                        <div class="num-data">
-                            {{ dataForVisualization?.coveredUlbCount || 0 | inrCurrency: { currencyTypeInUser: null } }}
-                        </div>
-                        <div class="num-text my-1">
-                            ULBs With Financial Data
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
-                        <div class="num-data">
-                            {{ dataForVisualization?.financialStatements || 0 | inrCurrency: { currencyTypeInUser: null } }}
-                        </div>
-                        <div class="num-text my-1">
-                            Financial Statements (2015-16 to 17-18)
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
-                        <div class="num-data">
-                            {{ stateselected && creditRating ? creditRating[stateselected.name] || 0 : (creditRating.total | inrCurrency: { currencyTypeInUser: null }) }}
-                        </div>
-                        <div class="num-text my-1">
-                            ULBs Credit Rating Reports
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
-                        <div class="num-data">
-                            {{ creditRatingAboveBBB_Minus | inrCurrency: { currencyTypeInUser: null } }}
-                        </div>
-                        <div class="num-text my-1">
-                            ULBs With Investment Grade Rating
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
-                        <div class="num-data">
-                            {{ creditRatingAboveA | inrCurrency: { currencyTypeInUser: null } }}
-                        </div>
-                        <div class="num-text my-1">
-                            ULBs With Rating A & Above
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
-                        <div class="num-data">
-                            {{ dataForVisualization?.totalMunicipalBonds || 0 | inrCurrency: { currencyTypeInUser: null } }}
-                        </div>
-                        <div class="num-text my-1">
-                            Municipal Bond Issuances Of Rs. {{ bondIssueAmount | inrCurrency: { currencyTypeInUser: null } }} Cr With Details
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="expo-pd py-0">
-                <div class="row" style="align-items: baseline;">
-                    <div class="col-sm-8">
-                        <div class="info-drill mt-1" *ngIf="(selected_state == 'India')">
-                            <img src="../../../../assets/ticks/info_black_18dp.svg" class="info-icon" alt=""> Click on the map or use the drop down to drill down to a state or city
-                        </div>
-                        <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India')">View State Dashboard</button>
-                        <!-- <button class="btn view-ds-btn" (click)="openStateDashboard($event.target)" *ngIf="(selected_state != 'India')">View State Dashboard</button> -->
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="up-text pt-4">
-                            Last updated on: 22/09/2021
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
+      <div class="stateMap analytics-map" [id]="'mapidd' + randomNumber"
+        style="background-image: url('../../../../assets/Layer\ 1.png') !important;"></div>
     </div>
+    <div class="col-md-12 col-lg-6 col-sm-12">
+      <div class="expo">Explore</div>
+      <div class="expo-sub">
+        Select a state or city to know more about its key municipal financial and operational information
+      </div>
+      <div class="row expo-drp expo-pd">
+        <div class="col-md-6 col-sm-12">
+          <div class="input-group ">
+            <form [formGroup]="myForm" class="w-100">
+              <angular2-multiselect class="expo-drp-in ind-selct" [data]="stateList" formControlName="stateId"
+                [settings]="DropdownSettings" (onSelect)="onSelectingStateFromDropDown($event)"
+                (onDeSelect)="onSelectingStateFromDropDown(null)">
+              </angular2-multiselect>
+            </form>
+          </div>
+        </div>
+        <!-- city-dropdown inp-grp -->
+        <div class="col-md-6 col-sm-12">
+          <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')">
+            <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01"
+              (change)="selectCity($event.target.value)">
+              <option value="null" selected>Select City</option>
+              <option [selected]="selectedDistrictCode == item.code" value="1" *ngFor="let item of cityData"
+                [value]="item.code">{{item.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="expo-pd">
+        <div class="vl"></div>
+        <div class="c-n ps-1">
+          {{selected_state}} <span *ngIf="cityName !='' && selected_state != 'India'"> > {{cityName}}</span>
+        </div>
+        <div class="row mt-4">
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
+            <div class="num-data">
+              {{ dataForVisualization?.coveredUlbCount || 0 | inrCurrency: { currencyTypeInUser: null } }}
+            </div>
+            <div class="num-text my-1">
+              ULBs With Financial Data
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
+            <div class="num-data">
+              {{ dataForVisualization?.financialStatements || 0 | inrCurrency: { currencyTypeInUser: null } }}
+            </div>
+            <div class="num-text my-1">
+              Financial Statements (2015-16 to 17-18)
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
+            <div class="num-data">
+              {{ stateselected && creditRating ? creditRating[stateselected.name] || 0 : (creditRating.total |
+              inrCurrency: { currencyTypeInUser: null }) }}
+            </div>
+            <div class="num-text my-1">
+              ULBs Credit Rating Reports
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
+            <div class="num-data">
+              {{ creditRatingAboveBBB_Minus | inrCurrency: { currencyTypeInUser: null } }}
+            </div>
+            <div class="num-text my-1">
+              ULBs With Investment Grade Rating
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
+            <div class="num-data">
+              {{ creditRatingAboveA | inrCurrency: { currencyTypeInUser: null } }}
+            </div>
+            <div class="num-text my-1">
+              ULBs With Rating A & Above
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
+            <div class="num-data">
+              {{ dataForVisualization?.totalMunicipalBonds || 0 | inrCurrency: { currencyTypeInUser: null } }}
+            </div>
+            <div class="num-text my-1">
+              Municipal Bond Issuances Of Rs. {{ bondIssueAmount | inrCurrency: { currencyTypeInUser: null } }} Cr With
+              Details
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="expo-pd py-0">
+        <div class="row" style="align-items: baseline;">
+          <div class="col-sm-8">
+            <div class="info-drill mt-1" *ngIf="(selected_state == 'India')">
+              <img src="../../../../assets/ticks/info_black_18dp.svg" class="info-icon" alt=""> Click on the map or use
+              the drop down to drill down to a state or city
+            </div>
+            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India')">View State
+              Dashboard</button>
+            <!-- <button class="btn view-ds-btn" (click)="openStateDashboard($event.target)" *ngIf="(selected_state != 'India')">View State Dashboard</button> -->
+          </div>
+          <div class="col-sm-4">
+            <div class="up-text pt-4">
+              Last updated on: 22/09/2021
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
