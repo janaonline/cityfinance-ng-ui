@@ -777,7 +777,7 @@ tempDataHolder: any
             } else {
               value.avgRevenueMeet = "0";
             }
-            if (data.numOfUlb > 0) {
+            if (data.totalRevenue > 0) {
               value.averageRevenue = numCheck(
                 data.totalRevenue
               );
