@@ -768,25 +768,25 @@ tempDataHolder: any
           let data = res["data"][value.name];
           if (this.ownTab) {
             value.meetsRevenue = numCheck(
-              (data.numOfUlbMeetRevenue / data.numOfUlb) * 100
+              (data.numOfUlbMeetRevenue)
             );
             if (data.totalExpense > 0) {
               value.avgRevenueMeet = numCheck(
-                (data.totalRevenue / data.totalExpense) * 100
+                (data.percentage)
               );
             } else {
               value.avgRevenueMeet = "0";
             }
             if (data.numOfUlb > 0) {
               value.averageRevenue = numCheck(
-                data.totalRevenue / data.numOfUlb
+                data.totalRevenue
               );
             } else {
               value.averageRevenue = "0";
             }
             if (data.population > 0) {
               value.perCapita = numCheck(
-                parseInt(value.averageRevenue) / data.population
+                (data.perCapita)
               );
             } else {
               value.perCapita = "0";
