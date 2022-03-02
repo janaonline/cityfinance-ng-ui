@@ -120,7 +120,7 @@
         <div class="col-md-6 col-sm-12">
           <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')">
             <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01"
-              (change)="selectCity($event.target.value)">
+              (change)="selectCity($event.target.value)"> 
               <option value="null" selected>Select City</option>
               <option [selected]="selectedDistrictCode == item.code" value="1" *ngFor="let item of cityData"
                 [value]="item.code">{{item.name}}
@@ -196,8 +196,11 @@
               <img src="../../../../assets/ticks/info_black_18dp.svg" class="info-icon" alt=""> Click on the map or use
               the drop down to drill down to a state or city
             </div>
-            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India')">
+            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India') && !cid">
               View State Dashboard
+            </button>
+            <button class="btn view-ds-btn" *ngIf="(selected_state != 'India') && cid " (click)="viewCityDashboard()">
+              View City Dashboard
             </button>
             <!-- <button class="btn view-ds-btn" (click)="openStateDashboard($event.target)" *ngIf="(selected_state != 'India')">View State Dashboard</button> -->
           </div>

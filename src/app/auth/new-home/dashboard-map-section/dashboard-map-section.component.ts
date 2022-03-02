@@ -93,6 +93,7 @@ export class DashboardMapSectionComponent
 
   absCreditInfo = {};
   isLoading:boolean = true;
+  cid:string;
 
   creditRatingList: any[];
 
@@ -284,7 +285,7 @@ export class DashboardMapSectionComponent
         fadeAnimation: true,
         minZoom: zoom,
         maxZoom: zoom + 5,
-        zoomControl: true,
+        zoomControl: false,
         keyboard: true,
         attributionControl: true,
         doubleClickZoom: true,
@@ -339,6 +340,8 @@ export class DashboardMapSectionComponent
     console.log("city name", city);
     let filterCity = this.cityData.find((e) => e.code == city);
     this.cityName = filterCity.name;
+    this.cid = filterCity._id;
+    console.log("cityId",this.cid); //CityId after selecting a city from dropdown
     if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
     // this.onSelectingULBFromDropdown(city);
@@ -347,6 +350,9 @@ export class DashboardMapSectionComponent
     let searchValue = this.stateList.find(e => e?.name.toLowerCase() == this.selected_state.toLowerCase());
     console.log('view dash', searchValue)
     this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`)
+  }
+  viewCityDashboard(){
+    this.router.navigateByUrl(`/dashboard/city?cityId=${this.cid}`)
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
@@ -363,6 +369,7 @@ export class DashboardMapSectionComponent
     console.log("sttts", state);
     this.selectedStateCode = state.code;
     this.cityName = "";
+    this.cid = undefined;
     this.selected_state = state ? state?.name : "India";
     /* Updating the dropdown state selection. */
     if(state._id == null)
@@ -388,7 +395,7 @@ export class DashboardMapSectionComponent
         console.log("ulb data", res);
         let ulbsData: any = res;
         this.cityData = ulbsData?.data?.ulbs;
-        //console.log('city data', this.cityData)
+        console.log('AllCity', this.cityData)
       });
   }
 
@@ -591,7 +598,7 @@ export class DashboardMapSectionComponent
   private isMapAtNationalLevel() {
     return this.stateSelected ? false : true;
   }
-  private updateDropdownStateSelection(state: IState, ) {
+  private updateDropdownStateSelection(state: IState) {
     console.log("stateName",state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
