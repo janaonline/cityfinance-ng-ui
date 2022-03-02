@@ -24,15 +24,43 @@
 }
 
 .card{
-    border:1px solid #E87A1C;
-    background-color: #FFF1E3;
+    border:1px solid #9299B2;
+    // background-color: #FFF1E3;
     width: 16rem;
-    height: 9rem;
+    height: 8rem;
     display: inline-flex;
     margin-right: 4%;
     color:#6E7281;
     padding: 2.5% 2%;
     text-align: center;
+}
+
+.card:hover{
+    background-color: #FFF1E3;
+    font-weight: 400;
+    color: black;
+    border:1px solid #E87A1C;
+    box-shadow: 0px 2px 8px #FADAAD;
+}
+
+.card:target{
+    background-color: #FFF1E3;
+    font-weight: 400;
+    color: black;
+    border:1px solid #E87A1C;
+    box-shadow: 0px 2px 8px #FADAAD;
+}
+
+.cardSuper{
+    background-color: #FFF1E3;
+    font-weight: 400;
+    color: black;
+    border:1px solid #E87A1C;
+    box-shadow: 0px 2px 8px #FADAAD;
+    width: 16rem;
+    height: 8rem;
+    display: inline-flex;
+    margin-right: 4%;
 }
 
 .just{

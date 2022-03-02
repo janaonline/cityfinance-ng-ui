@@ -53,14 +53,20 @@
             Key Recommendations
         </div>
         <div>
-            <div (click)="showRecomm(card._id)" *ngFor="let card of billingCardData" class="card">
+            <div (click)="showRecomm(card._id)" *ngFor="let card of billingCardData" class="card" [ngClass]="{'cardSuper': card._id == cardId}">
                 {{card.heading}}
 
             </div>
         </div>
-        <div *ngFor="let img of billingCardData[0].imagArr">
-<img src="img">
-        </div>
+      
+       
+
+         <p class="topBottomGaps sub-ans just ">{{billingCardData[cardId-1].content}}</p>
+     <div *ngFor="let data of billingCardData[cardId-1].imgArr; let i = index" > 
+         <div>Step: {{i+1}}</div>
+ <img src={{data}}/>
+     </div>
+        
     </div>
     <div class="col-sm-12" *ngIf="isRepo">Reporting</div>
 </div>
