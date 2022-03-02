@@ -38,6 +38,29 @@
     <div class="col-sm-12" *ngIf="isEnum">Enum</div>
     <div class="col-sm-12" *ngIf="isValu">Valuation</div>
     <div class="col-sm-12" *ngIf="isAssess">Assessment</div>
-    <div class="col-sm-12" *ngIf="isBill">Billing</div>
+    <div class="col-sm-12" *ngIf="isBill">
+        
+        <div class="heading topBottomGaps" >
+            Current Practices
+        </div>
+        <p class="sub-ans just">
+            Collection efficiency is dependent on the completeness of billing and administrative efficiencies in the collection process. In many ULBs, there is currently no process in place to ensure completeness of billing, timely billing and issuance of payment reminders for payment. Several ULBs continue to maintain manual records that are vulnerable to errors. Significant staff vacancies in revenue departments also adversely impact collection efficiencies. Some cities that have created an online billing and collection system through procurement of services of an external vendor have difficulties in managing the system due to inadequate capacity building measures being undertaken for revenue officials. Adoption of online payment of property tax has also been relatively slow and varies across cities. For instance, cities like Pune have more than 55% of the digital/online collections as on XXXX and cities like Raipur and Coimbatore– which also have relatively stronger property tax systems – have much lower rates of adoption of online payment – XX and XX in XXXX year respectively. A snapshot of current systems is as follows (some good practices are highlighted in green):
+        </p>
+        <img src="../../../../../assets/images/resources dashboard/image1-31.png">
+
+ 
+        <div class="heading topBottomGaps" style="margin-top: 2%" >
+            Key Recommendations
+        </div>
+        <div>
+            <div (click)="showRecomm(card._id)" *ngFor="let card of billingCardData" class="card">
+                {{card.heading}}
+
+            </div>
+        </div>
+        <div *ngFor="let img of billingCardData[0].imagArr">
+<img src="img">
+        </div>
+    </div>
     <div class="col-sm-12" *ngIf="isRepo">Reporting</div>
 </div>

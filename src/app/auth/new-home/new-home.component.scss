@@ -10,64 +10,21 @@
     background-image: url('../../../assets/new_dashBord_ftr_hdr/landingBg.png');
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 4% 2% 15% 2%;
-}
-@media screen and (min-width: 992px) {
-    .wrap-bg {
-        height: 44rem;
-    }
-    
-    // .pd-l-r {
-    //     padding: 1.5rem 8rem;
-    // }
-    .f-d {
-        height: 142px;
-    }
-    .ds-info {
-        font: normal normal 500 #{$font-size-base*1.45}/#{$font-size-base*2.25} 'Montserrat';
+    padding-bottom: $spacer*15;
+    @include media-breakpoint-up(sm){
+        padding-bottom: $spacer*13;
     }
 }
-
-@media (min-width: 768px) and (max-width: 992px) {
-    .wrap-bg {
-        height: 50rem;
-    }
-    
-    .ds-info {
-        font: normal normal 500 #{$font-size-base*1.625}/#{$font-size-base*2.563} 'Montserrat';
-    }
-}
-
-@media (min-width: 520px) and (max-width: 767px) {
-    .wrap-bg {
-        height: 74rem;
-    }
-    .f-d {
-        height: 180px;
-    }
-    
-    .ds-info {
-        font: normal normal 500 #{$font-size-base*1.5}/#{$font-size-base*2.563} 'Montserrat';
-    }
-}
-
-@media screen and (max-width: 520px) {
-    .wrap-bg {
-        height: 87rem;
-    }
-    .f-d {
-        height: 250px;
-    }
-    
-    .ds-info {
-        font: normal normal 500 #{$font-size-base*1.375}/#{$font-size-base*2.563} 'Montserrat';
-    }
+.ds-info {
+    // font: normal normal 500 #{$font-size-base*1.45}/#{$font-size-base*2.25} 'Montserrat';
+    font-family: 'Montserrat';
+    @include rfs($font-size-base*1.45, font-size);
 }
 
 
 
 .ds-i-div {
-    margin-top: 3rem;
+    margin-top: $spacer;
 }
 
 .ds-info {
@@ -94,7 +51,7 @@
     border-radius: 40px;
     opacity: 0.57;
     padding: 4px 18px;
-    margin-left: 15px;
+    margin-right: 15px;
     margin-top: 2px;
     margin-bottom: 2px;
     display: inline-block;
@@ -171,13 +128,14 @@
     opacity: 1;
     margin-bottom: 1rem;
 }
+.p-indi .sl-des{
+    margin-bottom: 44px;
+}
+
 
 @media screen and (min-width: 992px) {
     .images {
-        text-align: -webkit-center;
-        top: -50px;
-        position: relative;
-        left: 35px;
+        margin-top: $spacer*2;
     }
 }
 
@@ -186,7 +144,7 @@
 //     bottom: 69px;
 // }
 .cr-text {
-    width: 60%;
+    max-width: 350px;
 }
 
 ::ng-deep .carousel-indicators {
@@ -203,13 +161,18 @@
 //     height: 10px;
 //     background: #85ACE2 0% 0% no-repeat padding-box;
 // }
-::ng-deep .carousel-indicators .active {
-    background: #F2991F 0% 0% no-repeat padding-box;
+::ng-deep .carousel-indicators button {
+    background: #85ACE2 0% 0% no-repeat padding-box;
     opacity: 1;
-    // width: 12px;
-    // height: 12px;
-    // box-shadow: 0px 3px 6px #FFBD8D;
-    // border: 1px solid #F4AB77;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50%;
+    border: 4px solid transparent !important;
+
+    &.active{
+        background: #F2991F 0% 0% no-repeat padding-box;
+        border: 4px solid rgba($color: $white, $alpha: .2) !important;
+    }
 }
 
 ::ng-deep .slick-dots li.slick-active button:before {

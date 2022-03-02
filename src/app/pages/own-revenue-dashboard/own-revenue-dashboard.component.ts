@@ -81,11 +81,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
   // Dummy data for table
   columnAttribute = [
     { id: 1, title: "ULB Population Category" },
-    { id: 2, title: "Average Own Revenue (In Crore Rs.)" },
+    { id: 2, title: "Weighted average Own Revenue (In Crore Rs.)" },
     { id: 3, title: "Median Own Revenue per Capita (INR)" },
     {
       id: 4,
-      title: "Average Own Revenues as percentage of Revenue Expenditure",
+      title: "Weighted average Own Revenues as percentage of Revenue Expenditure",
     },
     {
       id: 5,
@@ -96,11 +96,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   columnAttributeProperty = [
     { id: 1, title: "ULB Population Category" },
-    { id: 2, title: "Average Property Tax Revenue Collections (In Crore Rs.)" },
+    { id: 2, title: "Weighted average Property Tax Revenue Collections (In Crore Rs.)" },
     { id: 3, title: "Median Property Tax Revenue per Capita" },
     {
       id: 4,
-      title: "Average Property Tax Revenue as percentage of Own Revenu",
+      title: "Weighted average Property Tax Revenue as percentage of Own Revenu",
     },
   ];
 
@@ -205,7 +205,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     }
   };
   doughnutChartTitle =
-    "The following pie chart provides the split of the contribution of various own revenue streams to the total own revenue.";
+    "The following pie chart provides the split of the contribution of various own revenue per capita streams to the total own revenue.";
 
 
 
@@ -223,7 +223,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       yAxes: [{
         scaleLabel: {
           display: true,
-          labelString: ""
+         labelString:"Amount in crores"
         },
           gridLines: {
               color: "rgba(0, 0, 0, 0)",
@@ -303,6 +303,9 @@ this.getYearList();
       "You can compare states on various financial indicators";
 
     this.allCalls();
+    window.onload = () => {
+      this.createBarChart()
+    }
   }
 
   allCalls() {
@@ -396,6 +399,7 @@ if(this.myBarChart){
  this.myBarChart.destroy();
 }
       //dom is fully loaded, but maybe waiting on images & css files
+      window.onload = function() {
       const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
       const ctx = canvas.getContext("2d");
       let data: any = this.barChartData
@@ -403,6 +407,7 @@ if(this.myBarChart){
           type: "bar",
           data: data,
         });
+      }
    
  
 
@@ -473,7 +478,7 @@ tempDataHolder: any
   getBarChartData(
     bodyD = {
       list: [],
-      param: "Property Tax",
+      param: "Own Revenue per Capita",
       type:"state"
     }
   ) {
@@ -484,19 +489,10 @@ tempDataHolder: any
     Object.assign(bodyD, this.body)
     this.lastBarChartValue = bodyD;
     let labelStr=""
-
+   
       this.ownRevenueService.displayBarChartData(bodyD).subscribe(
         (res) => {
-          if(this.tempDataHolder){
-            if(this.tempDataHolder && this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure'){
-            labelStr = '%'
-              }else if(this.tempDataHolder && this.tempDataHolder['param'] == 'Own Revenue per Capita'){
-            labelStr = 'Amount in INR'
-              }
-                }
-              else{
-                labelStr = 'Amount in Crores'
-              }
+         
           this.barChartNotFound = false
           let tempData = {
             type: "bar",
@@ -526,6 +522,9 @@ tempDataHolder: any
               ],
             },
             options:{
+              interaction:{
+                mode:'nearest'
+              },
               scales: {
                 xAxes: [{
                   maxBarThickness: 60,
@@ -536,7 +535,7 @@ tempDataHolder: any
                 yAxes: [{
                   scaleLabel: {
                     display: true,
-                    labelString: labelStr
+                    labelString: "Amount"
                   },
                     gridLines: {
                         color: "rgba(0, 0, 0, 0)",
@@ -545,17 +544,31 @@ tempDataHolder: any
             },
             }
           };
+          tempData.options.scales.yAxes[0].scaleLabel.display = true
+          tempData.options.scales.yAxes[0].scaleLabel.labelString = "Percentage (%)"
           res["data"].map((value) => {
             // let stateName = this.stateIds[value._id];
             tempData.data.labels.push(value.name);
-            if(this.tempDataHolder){
-              if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' || this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
+            // if(this.tempDataHolder){
+            //   if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' ){
+            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Percentage (%)"
+            //   }  else if(this.tempDataHolder['param'] == "Own Revenue"){
+            //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
+            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in Crores"
+            //   }else if(this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
+            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
+            //   }else{
+            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
+
+            //   }
+           
+            // }
+
                 tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
-              }  
-            }
-            else{
-              tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
-            }
+               
             
           });
           // bodyD.list.map((value) => {
@@ -565,9 +578,11 @@ tempDataHolder: any
           //     tempData.data.datasets[0].data.push(0);
           //   }
           // });
+          console.log(tempData)
           this.barChartData = tempData;
+        
           
-            this.createBarChart()
+            
        
           
         },
@@ -777,7 +792,7 @@ tempDataHolder: any
             } else {
               value.avgRevenueMeet = "0";
             }
-            if (data.numOfUlb > 0) {
+            if (data.totalRevenue > 0) {
               value.averageRevenue = numCheck(
                 data.totalRevenue
               );
@@ -925,7 +940,7 @@ function openOwnRevenuePopup() {
   throw new Error("Function not implemented.");
 }
 
-const barChart = {
+let barChart = {
   type: "bar",
   data: {
     labels: [
