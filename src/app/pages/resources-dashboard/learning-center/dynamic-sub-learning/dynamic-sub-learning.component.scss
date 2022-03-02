@@ -13,5 +13,29 @@
 .sub-ans {
     font: normal normal normal 16px/25px 'Archivo';
     letter-spacing: 0px;
+    line-height: 1.7;
     color: #6E7281;
+}
+
+.topBottomGaps {
+    margin-top:1%; 
+    margin-bottom: 2%;
+
+}
+
+.card{
+    border:1px solid #E87A1C;
+    background-color: #FFF1E3;
+    width: 16rem;
+    height: 9rem;
+    display: inline-flex;
+    margin-right: 4%;
+    color:#6E7281;
+    padding: 2.5% 2%;
+    text-align: center;
+}
+
+.just{
+    text-align: justify;
+  text-justify: inter-word;
 }
