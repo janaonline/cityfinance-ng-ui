@@ -16,7 +16,7 @@ export class LearningCenterComponent implements OnInit {
        link: 'toolkits'
       },
     {
-       name: "Blog",
+       name: "FAQs",
        filter: ["innerTab4", "innerTab5", "innerTab6"],
        link: 'blog' ,
     },
