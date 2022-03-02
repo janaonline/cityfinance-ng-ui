@@ -23,7 +23,9 @@ export class DynamicSubLearningComponent implements OnInit {
       content:"Moving from a manual records system to an online billing and collection system will not only improve transparency and set up an easy to administer process for tax officials but also enable easy compliance by taxpayers. The online system should also ensure that bills are distributed to taxpayers electronically and that automatic payment reminders are sent via SMS/Email.Andhra Pradesh has been fairly successful in building a centrally run online portal for billing and collection. Delhi’s Municipal Corporations, Greater Chennai Corporation are some examples of states and cities that have successfully migrated to an online system of billing and collection. In 20XX-XX, Tamil Nadu’s Municipal Corporations also migrated to Uniform Tree Information System (UTIS) – an online system of digital billing and collection – which enables online payments for property tax and other user charges and fees that are levied by the Municipal Corporations. Step-by-step process is as follows:",
     imgArr:[
       '../../../../../assets/images/resources dashboard/image3-35.png',
-      '../../../../../assets/images/resources dashboard/image4-37.png'
+      '../../../../../assets/images/resources dashboard/image4-37.png',
+      '../../../../../assets/images/resources dashboard/image5-39.png',
+      '../../../../../assets/images/resources dashboard/image6-41.png'
     ]
     },
     {
@@ -114,8 +116,13 @@ export class DynamicSubLearningComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onHover(event){
+    console.log(event)
+  }
+cardId=1
   showRecomm(cardId){
 console.log(cardId)
+this.cardId = cardId
   }
   backToCard() {
     this.router.navigateByUrl('resources-dashboard/learning-center/toolkits')
