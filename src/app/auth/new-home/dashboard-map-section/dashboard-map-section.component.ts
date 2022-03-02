@@ -53,7 +53,9 @@ export class DashboardMapSectionComponent
   districtMarkerMap = {};
 
   national:any = { _id: null, name: "India" };
-
+  actStateVl:boolean = true;
+  
+  
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -293,8 +295,8 @@ this.date = res['data']
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom: true,
-        dragging: true,
+        doubleClickZoom:false,
+        dragging: false,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
       // districtMap.touchZoom.disable();

@@ -130,11 +130,22 @@
         </div>
 
       </div>
-      <div class="expo-pd">
-        <div class="vl"></div>
+      <div class="expo-pd"> 
+        <div class="vl" *ngIf="!cid"></div>
+        <div class="c-n ps-1">
+          <span>
+            {{selected_state}}
+          </span> 
+        </div>
+        <div class="c-n ps-1">
+          <span *ngIf="cid" class="vl ms-3 ps-1">
+            <span *ngIf="cityName !='' && selected_state != 'India'"> {{cityName}}</span>
+          </span> 
+        </div>
+        <!-- <div class="vl"></div>
         <div class="c-n ps-1">
           {{selected_state}} <span *ngIf="cityName !='' && selected_state != 'India'"> {{cityName}}</span>
-        </div>
+        </div> -->
         <div class="row mt-4">
           <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
             <div class="num-data">
