@@ -94,7 +94,6 @@ export class DashboardMapSectionComponent
   absCreditInfo = {};
   isLoading:boolean = true;
   cid:string;
-
   creditRatingList: any[];
 
   // Including A
