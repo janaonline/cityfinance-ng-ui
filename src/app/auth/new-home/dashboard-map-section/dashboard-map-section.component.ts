@@ -82,6 +82,7 @@ export class DashboardMapSectionComponent
     this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
+    this.fetchMinMaxFinancialYears();
   }
   dataForVisualization: {
     financialStatements?: number;
@@ -141,6 +142,16 @@ this.date = res['data']
   private initializeform() {
     this.myForm = this.fb.group({
       stateId: [""],
+    });
+  }
+  private fetchMinMaxFinancialYears() {
+    this._commonService.getFinancialYearBasedOnData().subscribe((res) => {
+      this.financialYearTexts = {
+        min: res.data[0],
+        max: res.data[res.data.length - 1].slice(2),
+      };
+
+      console.log(this.financialYearTexts);
     });
   }
   createNationalLevelMap(
