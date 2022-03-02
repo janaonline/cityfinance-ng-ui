@@ -21,6 +21,10 @@ export class AuthService {
     this.http.post(environment.api.url + "users/signin", user);
   }
 
+  getLastUpdated(){
+    return this.http.get(environment.api.url + "ledger/lastUpdated" )
+  }
+
   signin(user) {
     return this.http.post(environment.api.url + "login", user);
   }

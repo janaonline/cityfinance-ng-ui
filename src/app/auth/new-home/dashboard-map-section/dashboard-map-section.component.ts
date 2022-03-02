@@ -18,6 +18,7 @@ import { ICreditRatingData } from "src/app/models/creditRating/creditRatingRespo
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 
+import {AuthService} from "../../auth.service"
 
 @Component({
   selector: "app-dashboard-map-section",
@@ -61,7 +62,8 @@ export class DashboardMapSectionComponent
     private fb: FormBuilder,
     private _ngZone: NgZone,
     private assetService: AssetsService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     setTimeout(() => {
@@ -122,7 +124,7 @@ export class DashboardMapSectionComponent
     color: "#403f3f",
     fillOpacity: 1,
   };
-
+date: any
   ngOnInit(): void {
     console.log(districtJson);
 
@@ -131,6 +133,10 @@ export class DashboardMapSectionComponent
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
+
+    this.authService.getLastUpdated().subscribe((res)=>{
+this.date = res['data']
+    })
   }
   private initializeform() {
     this.myForm = this.fb.group({
