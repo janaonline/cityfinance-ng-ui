@@ -32,6 +32,7 @@ import { FilterModelBoxComponent } from './filter-model-box/filter-model-box.com
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatDialogModule} from '@angular/material/dialog';
 import { CheckScorePerformanceComponent } from './check-score-performance/check-score-performance.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -65,7 +66,8 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
     ButtonsModule.forRoot(),
     MatTableModule,
     ModalModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
+    SlickCarouselModule
   ],
   exports: [
     FilterComponentComponent,

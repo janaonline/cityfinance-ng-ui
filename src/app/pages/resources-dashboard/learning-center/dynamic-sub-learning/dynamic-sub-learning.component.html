@@ -62,11 +62,36 @@
        
 
          <p class="topBottomGaps sub-ans just ">{{billingCardData[cardId-1].content}}</p>
-     <div *ngFor="let data of billingCardData[cardId-1].imgArr; let i = index" > 
+         <div>
+         <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)"  (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+            <div ngxSlickItem *ngFor="let item of billingCardData[cardId-1].imgArr;" class="slide">
+                <span class="topBottomGaps steps">{{item.text}}</span>
+                <img [src]="item.link" alt="" width="100%">
+                
+            </div>
+        
+        </ngx-slick-carousel>
+    </div>
+        <!-- <div *ngFor="let data of billingCardData[cardId-1].imgArr; let i = index" > 
          <div>Step: {{i+1}}</div>
  <img src={{data}}/>
-     </div>
-        
+     </div> -->
+         
+     <div class="heading topBottomGaps" >
+        Best Practices
+    </div>
+
+    <div  *ngFor="let item of stateList" class="practiceCard">
+<div class="practiceHead">
+{{item.stateName}}
+</div>
+<div>
+    <a href="item.guidanceLink">Policy Guidelines</a>
+</div>
+<div>
+    <a href="item.provisionsLink">Provisions in Acts</a>
+</div>
+    </div>
     </div>
     <div class="col-sm-12" *ngIf="isRepo">Reporting</div>
 </div>
