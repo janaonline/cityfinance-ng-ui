@@ -32,6 +32,9 @@ import { FilterModelBoxComponent } from './filter-model-box/filter-model-box.com
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatDialogModule} from '@angular/material/dialog';
 import { CheckScorePerformanceComponent } from './check-score-performance/check-score-performance.component';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import {FaqTableComponent} from './learning-center/faq-table/faq-table.component'
+import { ELearningModuleComponent } from './learning-center/e-learning-module/e-learning-module.component';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -39,7 +42,6 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
     DataSetsComponent,
     ReportsPublicationComponent,
      ScorePerComponent,
-
      ResourcesTabsComponent,
      ToolkitsComponent,
      DynamicSubLearningComponent,
@@ -47,7 +49,9 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
      BestPracticesComponent,
      BalanceSheetComponent,
      FilterModelBoxComponent,
-     CheckScorePerformanceComponent
+     CheckScorePerformanceComponent,
+     FaqTableComponent,
+     ELearningModuleComponent,
     ],
   imports: [
     CommonModule,
@@ -65,7 +69,8 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
     ButtonsModule.forRoot(),
     MatTableModule,
     ModalModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
+    SlickCarouselModule
   ],
   exports: [
     FilterComponentComponent,

@@ -13,5 +13,95 @@
 .sub-ans {
     font: normal normal normal 16px/25px 'Archivo';
     letter-spacing: 0px;
+    line-height: 1.7;
     color: #6E7281;
+}
+
+.topBottomGaps {
+    margin-top:1%; 
+    margin-bottom: 2%;
+
+}
+
+.card{
+    border:1px solid #9299B2;
+    // background-color: #FFF1E3;
+    width: 16rem;
+    height: 8rem;
+    display: inline-flex;
+    margin-right: 4%;
+    color:#6E7281;
+    padding: 2.5% 2%;
+    text-align: center;
+}
+
+
+
+.card:hover{
+    background-color: #FFF1E3;
+    font-weight: 400;
+    color: black;
+    border:1px solid #E87A1C;
+    box-shadow: 0px 2px 8px #FADAAD;
+}
+
+.card:target{
+    background-color: #FFF1E3;
+    font-weight: 400;
+    color: black;
+    border:1px solid #E87A1C;
+    box-shadow: 0px 2px 8px #FADAAD;
+}
+
+.cardSuper{
+    background-color: #FFF1E3;
+    font-weight: 400;
+    color: black;
+    border:1px solid #E87A1C;
+    box-shadow: 0px 2px 8px #FADAAD;
+    width: 16rem;
+    height: 8rem;
+    display: inline-flex;
+    margin-right: 4%;
+}
+
+.just{
+    text-align: justify;
+  text-justify: inter-word;
+}
+
+.slick-prev:before {
+    color: black !important;
+  }
+.slick-next:before {
+    color: black !important;
+  }
+
+  .practiceCard{
+      width:14rem;
+      height:13rem;
+      border:1px solid #E4E4E4;
+border-radius: 6px ;
+display: inline-block;
+margin-right: 5%;
+  }
+  .practiceHead{
+    font: normal normal 600 14px/22px 'Archivo';
+    height:20%;
+    border:1px solid #E4E4E4;
+background-color: #F7F9FF;
+font-size: 14px;
+padding: 8px 0px 3px 18px;
+color: #0F1F40;
+
+}
+
+.docs{
+    margin: 13%;
+}
+
+.text-effect{
+    color:#E87A1C;
+    text-decoration: none;
+    font: normal normal 500 12px/22px 'Archivo';
 }

@@ -38,6 +38,60 @@
     <div class="col-sm-12" *ngIf="isEnum">Enum</div>
     <div class="col-sm-12" *ngIf="isValu">Valuation</div>
     <div class="col-sm-12" *ngIf="isAssess">Assessment</div>
-    <div class="col-sm-12" *ngIf="isBill">Billing</div>
+    <div class="col-sm-12" *ngIf="isBill">
+        
+        <div class="heading topBottomGaps" >
+            Current Practices
+        </div>
+        <p class="sub-ans just">
+            Collection efficiency is dependent on the completeness of billing and administrative efficiencies in the collection process. In many ULBs, there is currently no process in place to ensure completeness of billing, timely billing and issuance of payment reminders for payment. Several ULBs continue to maintain manual records that are vulnerable to errors. Significant staff vacancies in revenue departments also adversely impact collection efficiencies. Some cities that have created an online billing and collection system through procurement of services of an external vendor have difficulties in managing the system due to inadequate capacity building measures being undertaken for revenue officials. Adoption of online payment of property tax has also been relatively slow and varies across cities. For instance, cities like Pune have more than 55% of the digital/online collections as on XXXX and cities like Raipur and Coimbatore– which also have relatively stronger property tax systems – have much lower rates of adoption of online payment – XX and XX in XXXX year respectively. A snapshot of current systems is as follows (some good practices are highlighted in green):
+        </p>
+        <img src="../../../../../assets/images/resources dashboard/image1-31.png">
+
+ 
+        <div class="heading topBottomGaps" style="margin-top: 2%" >
+            Key Recommendations
+        </div>
+        <div>
+            <div (click)="showRecomm(card._id)" *ngFor="let card of billingCardData" class="card" [ngClass]="{'cardSuper': card._id == cardId}">
+                {{card.heading}}
+
+            </div>
+        </div>
+      
+       
+
+         <p class="topBottomGaps sub-ans just ">{{billingCardData[cardId-1].content}}</p>
+         <div>
+         <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)"  (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+            <div ngxSlickItem *ngFor="let item of billingCardData[cardId-1].imgArr;" class="slide">
+                <span class="topBottomGaps steps">{{item.text}}</span>
+                <img [src]="item.link" alt="" width="100%">
+                
+            </div>
+        
+        </ngx-slick-carousel>
+    </div>
+        <!-- <div *ngFor="let data of billingCardData[cardId-1].imgArr; let i = index" > 
+         <div>Step: {{i+1}}</div>
+ <img src={{data}}/>
+     </div> -->
+         
+     <div class="heading topBottomGaps" >
+        Best Practices
+    </div>
+
+    <div  *ngFor="let item of stateList" class="practiceCard">
+<div class="practiceHead">
+{{item.stateName}}
+</div>
+<div class=" docs">
+    <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
+</div>
+<div class=" docs">
+    <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
+</div>
+    </div>
+    </div>
     <div class="col-sm-12" *ngIf="isRepo">Reporting</div>
 </div>

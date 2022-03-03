@@ -16,6 +16,9 @@ import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+
+import {AuthService} from "../../auth.service"
 
 @Component({
   selector: "app-dashboard-map-section",
@@ -48,6 +51,11 @@ export class DashboardMapSectionComponent
     classes: "homepage-stateList custom-class",
   };
   districtMarkerMap = {};
+
+  national:any = { _id: null, name: "India" };
+  actStateVl:boolean = true;
+  
+  
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -56,7 +64,8 @@ export class DashboardMapSectionComponent
     private fb: FormBuilder,
     private _ngZone: NgZone,
     private assetService: AssetsService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     setTimeout(() => {
@@ -75,6 +84,7 @@ export class DashboardMapSectionComponent
     this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
+    this.fetchMinMaxFinancialYears();
   }
   dataForVisualization: {
     financialStatements?: number;
@@ -87,7 +97,8 @@ export class DashboardMapSectionComponent
   totalUsersVisit: number;
 
   absCreditInfo = {};
-
+  isLoading:boolean = true;
+  cid:string;
   creditRatingList: any[];
 
   // Including A
@@ -115,7 +126,7 @@ export class DashboardMapSectionComponent
     color: "#403f3f",
     fillOpacity: 1,
   };
-
+date: any
   ngOnInit(): void {
     console.log(districtJson);
 
@@ -124,11 +135,38 @@ export class DashboardMapSectionComponent
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
+
+   
+
+    this.authService.getLastUpdated().subscribe((res)=>{
+this.date = res['data']
+    })
   }
   private initializeform() {
     this.myForm = this.fb.group({
       stateId: [""],
     });
+  }
+  private fetchMinMaxFinancialYears() {
+    this._commonService.getFinancialYearBasedOnData().subscribe((res) => {
+      this.financialYearTexts = {
+        min: res.data[0],
+        max: res.data[res.data.length - 1].slice(2),
+      };
+
+      console.log(this.financialYearTexts);
+    });
+  }
+stateDim = false
+  stateLevelData(){
+    console.log('show as it is ')
+ this.stateDim = false
+  }
+cityInfo
+  cityLevelData(){
+    console.log('show city dashboard Data ')
+    this.stateDim = true
+
   }
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -139,6 +177,7 @@ export class DashboardMapSectionComponent
     >,
     containerId: string
   ) {
+    this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let vw = Math.max(document.documentElement.clientWidth);
     vw = (vw - 1366) / 1366;
@@ -211,6 +250,7 @@ export class DashboardMapSectionComponent
 
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
+      this.isLoading=false;
     }
     this.hideMapLegends();
 
@@ -276,11 +316,11 @@ export class DashboardMapSectionComponent
         fadeAnimation: true,
         minZoom: zoom,
         maxZoom: zoom + 5,
-        zoomControl: true,
+        zoomControl: false,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom: true,
-        dragging: true,
+        doubleClickZoom:false,
+        dragging: false,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
       // districtMap.touchZoom.disable();
@@ -289,7 +329,8 @@ export class DashboardMapSectionComponent
       // districtMap.boxZoom.disable();
       // districtMap.keyboard.disable();
       // districtMap.dragging.disable();
-
+      
+      console.log("districtMap==>", districtMap)
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.newDashboardstateColorStyle,
       }).addTo(districtMap);
@@ -330,14 +371,24 @@ export class DashboardMapSectionComponent
     console.log("city name", city);
     let filterCity = this.cityData.find((e) => e.code == city);
     this.cityName = filterCity.name;
+    this.stateDim = true
+    this.cid = filterCity._id;
+    console.log("cityId",this.cid); //CityId after selecting a city from dropdown
     if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
+    this.authService.getCityData(this.cid).subscribe((res)=>{
+      this.cityInfo = res['data']
+      console.log(this.cityInfo)
+          })
     // this.onSelectingULBFromDropdown(city);
   }
   viewDashboard() {
     let searchValue = this.stateList.find(e => e?.name.toLowerCase() == this.selected_state.toLowerCase());
     console.log('view dash', searchValue)
     this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`)
+  }
+  viewCityDashboard(){
+    this.router.navigateByUrl(`/dashboard/city?cityId=${this.cid}`)
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
@@ -354,7 +405,14 @@ export class DashboardMapSectionComponent
     console.log("sttts", state);
     this.selectedStateCode = state.code;
     this.cityName = "";
+    this.cid = undefined;
+    this.stateDim = false
+   
     this.selected_state = state ? state?.name : "India";
+    /* Updating the dropdown state selection. */
+    this.showCreditInfoByState("")
+    if(state._id == null)
+    this.updateDropdownStateSelection(state);
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
@@ -376,7 +434,7 @@ export class DashboardMapSectionComponent
         console.log("ulb data", res);
         let ulbsData: any = res;
         this.cityData = ulbsData?.data?.ulbs;
-        //console.log('city data', this.cityData)
+        console.log('AllCity', this.cityData)
       });
   }
 
@@ -389,7 +447,6 @@ export class DashboardMapSectionComponent
       return;
     }
     console.log("state layers", this.stateLayers);
-
     this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
@@ -581,7 +638,7 @@ export class DashboardMapSectionComponent
     return this.stateSelected ? false : true;
   }
   private updateDropdownStateSelection(state: IState) {
-    console.log(state);
+    console.log("stateName",state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }

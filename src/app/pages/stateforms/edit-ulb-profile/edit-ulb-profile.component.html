@@ -97,10 +97,10 @@
                                                 (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.dirty ||
                                                 editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.touched)">
 
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.required">
+                                                    <div class="tooltip-inner" style="font-size: 0.625rem;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.required">
                                                         cannot be empty.
                                                     </div>
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.pattern">
+                                                    <div class="tooltip-inner" style="font-size: 0.625rem;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_name?.errors?.pattern">
                                                         must be of only Alphabet characters only and 1st letter must be capital.
                                                     </div>
                                                     <!-- utiReportFormControl.projects.controls[projectIndex].controls.expenditure.errors?.required -->
@@ -113,10 +113,10 @@
                                                 (editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.dirty ||
                                                 editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.touched)">
 
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.required">
+                                                    <div class="tooltip-inner" style="font-size: 0.625rem;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.required">
                                                         cannot be empty.
                                                     </div>
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.email === false">
+                                                    <div class="tooltip-inner" style="font-size: 0.625rem;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_email?.errors?.email === false">
                                                         is not a valid email id.
                                                     </div>
 
@@ -131,7 +131,7 @@
                                                     <!-- <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors?.required">
                                                         cannot be empty.
                                                     </div> -->
-                                                    <div class="tooltip-inner" style="font-size: 10px;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors">
+                                                    <div class="tooltip-inner" style="font-size: 0.625rem;" *ngIf="editFormControl.editDetailsArray.controls[tabelIndex+1].controls.nodal_officer_phone?.errors">
                                                         Contact No is not valid
                                                     </div>
 
@@ -157,7 +157,7 @@
                                                  class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
                                                  padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)">
                                                  Edit more</a> -->
-                                                <a class="btn btn-t" style="margin-bottom: 3px; font-size: 12px;
+                                                <a class="btn btn-t" style="margin-bottom: 3px; font-size: 0.75rem;
                                                  padding-left: 4px; background-color: #177A27;;" *ngIf="!detailsEdit && (tabelIndex == row_no)" (click)="editMore(resData._id)">Edit more</a>
                                             </td>
 
