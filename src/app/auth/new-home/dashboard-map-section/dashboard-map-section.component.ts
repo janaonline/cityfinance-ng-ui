@@ -136,6 +136,8 @@ date: any
       this.updateDropdownStateSelection(res);
     });
 
+   
+
     this.authService.getLastUpdated().subscribe((res)=>{
 this.date = res['data']
     })
@@ -154,6 +156,17 @@ this.date = res['data']
 
       console.log(this.financialYearTexts);
     });
+  }
+stateDim = false
+  stateLevelData(){
+    console.log('show as it is ')
+ this.stateDim = false
+  }
+cityInfo
+  cityLevelData(){
+    console.log('show city dashboard Data ')
+    this.stateDim = true
+
   }
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -358,10 +371,15 @@ this.date = res['data']
     console.log("city name", city);
     let filterCity = this.cityData.find((e) => e.code == city);
     this.cityName = filterCity.name;
+    this.stateDim = true
     this.cid = filterCity._id;
     console.log("cityId",this.cid); //CityId after selecting a city from dropdown
     if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
+    this.authService.getCityData(this.cid).subscribe((res)=>{
+      this.cityInfo = res['data']
+      console.log(this.cityInfo)
+          })
     // this.onSelectingULBFromDropdown(city);
   }
   viewDashboard() {
@@ -388,8 +406,11 @@ this.date = res['data']
     this.selectedStateCode = state.code;
     this.cityName = "";
     this.cid = undefined;
+    this.stateDim = false
+   
     this.selected_state = state ? state?.name : "India";
     /* Updating the dropdown state selection. */
+    this.showCreditInfoByState("")
     if(state._id == null)
     this.updateDropdownStateSelection(state);
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {

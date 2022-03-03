@@ -25,6 +25,9 @@ export class AuthService {
     return this.http.get(environment.api.url + "ledger/lastUpdated" )
   }
 
+  getCityData(ulbId){
+    return this.http.get(environment.api.url+ `all-dashboard/people-information?type=ulb&ulb=${ulbId}`)
+  }
   signin(user) {
     return this.http.post(environment.api.url + "login", user);
   }
