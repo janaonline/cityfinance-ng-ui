@@ -40,7 +40,6 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     DataSetsComponent,
     ReportsPublicationComponent,
      ScorePerComponent,
-
      ResourcesTabsComponent,
      ToolkitsComponent,
      DynamicSubLearningComponent,
@@ -48,7 +47,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
      BestPracticesComponent,
      BalanceSheetComponent,
      FilterModelBoxComponent,
-     CheckScorePerformanceComponent
+     CheckScorePerformanceComponent,
     ],
   imports: [
     CommonModule,
