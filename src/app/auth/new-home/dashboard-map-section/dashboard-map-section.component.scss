@@ -512,6 +512,14 @@ div.miniMap {
     text-align: center;
   }
 
+.pointer{
+    cursor:pointer;
+}
+
+.dim{
+    color:#6E7281;
+}
+
 .up-text {
     font: normal normal normal #{$font-size-base*0.75}/#{$font-size-base*0.875} 'Archivo';
     letter-spacing: 0px;

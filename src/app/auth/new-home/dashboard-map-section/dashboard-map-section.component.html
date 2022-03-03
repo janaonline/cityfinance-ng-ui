@@ -133,63 +133,101 @@
       <div class="expo-pd"> 
         <div class="vl" *ngIf="!cid"></div>
         <div class="c-n ps-1">
-          <span>
+          <span class="pointer" [ngClass]="{'dim':stateDim }" (click)="stateLevelData()">
             {{selected_state}}
           </span> 
         </div>
         <div class="c-n ps-1">
           <span *ngIf="cid" class="vl ms-3 ps-1">
-            <span *ngIf="cityName !='' && selected_state != 'India'"> {{cityName}}</span>
+            <span (click)="cityLevelData()" class="pointer" [ngClass]="{'dim':!stateDim }" *ngIf="cityName !='' && selected_state != 'India'"> {{cityName}}</span>
           </span> 
         </div>
         <div class="row mt-4">
-          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
-            <div class="num-data">
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2" >
+            <div *ngIf="!stateDim" class="num-data">
               {{ dataForVisualization?.coveredUlbCount || 0 | inrCurrency: { currencyTypeInUser: null } }}
             </div>
-            <div class="num-text my-1">
+            <div *ngIf="stateDim" class="num-data">
+              {{ (cityInfo?.population ? (cityInfo?.population/1000|number : '1.0-0')  :0  ) }}k
+            </div>
+            <div *ngIf="!stateDim" class="num-text my-1">
               ULBs With Financial Data
             </div>
+            <div *ngIf="stateDim" class="num-text my-1">
+              Population
+            </div>
           </div>
           <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
-            <div class="num-data">
+            <div *ngIf="!stateDim" class="num-data">
               {{ dataForVisualization?.financialStatements || 0 | inrCurrency: { currencyTypeInUser: null } }}
             </div>
-            <div class="num-text my-1">
-              Financial Statements (2015-16 to 17-18)
+            <div *ngIf="stateDim" class="num-data">
+              {{ (cityInfo?.area ? (cityInfo?.area | number : '1.0-0') :0)   }} Sq KM
+            </div>
+            <span *ngIf="!stateDim" class="data-point-name num-text my-1">
+              Financial Statements for FYs
+              <span class="num-text my-1" [ngClass]="{ 'loading-value': !financialYearTexts }">
+                {{ financialYearTexts?.min || "2015-16" }}
+              </span>
+              to
+              <span class="num-text my-1" [ngClass]="{ 'loading-value': !financialYearTexts }">
+                {{ financialYearTexts?.max || "15-16" }}
+              </span>
+            </span>
+            <div *ngIf="stateDim" class="num-text my-1">
+              Area
             </div>
           </div>
-          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2">
-            <div class="num-data">
+          <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-2" style="padding-right: 2rem !important;">
+            <div *ngIf="!stateDim" class="num-data">
               {{ stateselected && creditRating ? creditRating[stateselected.name] || 0 : (creditRating.total |
               inrCurrency: { currencyTypeInUser: null }) }}
             </div>
-            <div class="num-text my-1">
+            <div *ngIf="stateDim" class="num-data">
+              {{ (cityInfo?.area >0 ?(cityInfo?.population/cityInfo?.area | number : '1.0-0'):0 ) }}/ Sq KM
+            </div>
+            <div *ngIf="!stateDim" class="num-text my-1">
               ULBs Credit Rating Reports
+            </div>
+            <div *ngIf="stateDim" class="num-text my-1">
+              Population Density
             </div>
           </div>
 
           <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
-            <div class="num-data">
+            <div  *ngIf="!stateDim" class="num-data">
               {{ creditRatingAboveBBB_Minus | inrCurrency: { currencyTypeInUser: null } }}
             </div>
-            <div class="num-text my-1">
+            <div *ngIf="stateDim" class="num-data">
+              {{ cityInfo?.wards ? cityInfo?.wards :0  }}
+            </div>
+            <div *ngIf="!stateDim" class="num-text my-1">
               ULBs With Investment Grade Rating
             </div>
+            <div *ngIf="stateDim" class="num-text my-1">
+              Wards
+            </div>
           </div>
           <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
-            <div class="num-data">
+            <div *ngIf="!stateDim" class="num-data">
               {{ creditRatingAboveA | inrCurrency: { currencyTypeInUser: null } }}
             </div>
-            <div class="num-text my-1">
+            <div *ngIf="stateDim"  class="num-data">
+              {{ cityInfo?.dataAvailable }}
+            </div>
+            
+            <div *ngIf="!stateDim" class="num-text my-1">
               ULBs With Rating A & Above
+            </div>
+            <div *ngIf="stateDim" class="num-text my-1">
+              Years of Financial Statements
             </div>
           </div>
           <div class="col-sm-6 col-md-4 col-6 pe-xl-5 mt-4">
-            <div class="num-data">
+            <div *ngIf="!stateDim"  class="num-data">
               {{ dataForVisualization?.totalMunicipalBonds || 0 | inrCurrency: { currencyTypeInUser: null } }}
             </div>
-            <div class="num-text my-1">
+            <div *ngIf="!stateDim"  class="num-text my-1">
               Municipal Bond Issuances Of Rs. {{ bondIssueAmount | inrCurrency: { currencyTypeInUser: null } }} Cr With
               Details
             </div>
@@ -203,17 +241,17 @@
               <img src="../../../../assets/ticks/info_black_18dp.svg" class="info-icon" alt=""> Click on the map or use
               the drop down to drill down to a state or city
             </div>
-            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="(selected_state != 'India') && !cid">
+            <button class="btn view-ds-btn" (click)="viewDashboard()" *ngIf="!stateDim && selected_state != 'India' ">
               View State Dashboard
             </button>
-            <button class="btn view-ds-btn" *ngIf="(selected_state != 'India') && cid " (click)="viewCityDashboard()">
+            <button class="btn view-ds-btn" *ngIf="stateDim" (click)="viewCityDashboard()">
               View City Dashboard
             </button>
             <!-- <button class="btn view-ds-btn" (click)="openStateDashboard($event.target)" *ngIf="(selected_state != 'India')">View State Dashboard</button> -->
           </div>
           <div class="col-sm-4">
             <div class="up-text pt-4">
-              Last updated on: {{date | date:'medium': 'GMT' }}
+              Last updated on: {{date | date:'short'}}
             </div>
           </div>
         </div>

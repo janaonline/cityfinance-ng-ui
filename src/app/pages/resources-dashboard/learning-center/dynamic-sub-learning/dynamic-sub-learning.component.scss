@@ -35,6 +35,8 @@
     text-align: center;
 }
 
+
+
 .card:hover{
     background-color: #FFF1E3;
     font-weight: 400;
@@ -66,4 +68,25 @@
 .just{
     text-align: justify;
   text-justify: inter-word;
+}
+
+.slick-prev:before {
+    color: black !important;
+  }
+.slick-next:before {
+    color: black !important;
+  }
+
+  .practiceCard{
+      width:20rem;
+      height:25rem;
+      border:1px solid #E4E4E4;
+
+  }
+  .practiceHead{
+    height:5rem;
+    border:1px solid #E4E4E4;
+background-color: #F7F9FF;
+font-size: 14px;
+padding: 3px 4px;
 }
