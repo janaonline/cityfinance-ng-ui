@@ -26,13 +26,13 @@ export class LearningCenterComponent implements OnInit {
      },
     {
       name: "E-Learning Modules",
-      filter: ["innerTab10", "innerTab11", "innerTab12"],
+     
       link: 'eLearning'
     },
     {
       name: "Municipal Laws",
       filter: ["innerTab10", "innerTab11", "innerTab12"],
-      link: 'laws'
+      link: 'municipal-laws' //"earlier its link was set to'eLearning' but Abhay is changing"
     },
    
   ];

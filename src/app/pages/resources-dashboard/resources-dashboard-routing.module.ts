@@ -5,6 +5,7 @@ import { DataSetsComponent } from './data-sets/data-sets.component';
 
 import { BestPracticesComponent } from './learning-center/best-practices/best-practices.component';
 import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learning/dynamic-sub-learning.component';
+import { ELearningModuleComponent } from './learning-center/e-learning-module/e-learning-module.component';
 import { FaqTableComponent } from './learning-center/faq-table/faq-table.component';
 import { LearningCenterComponent } from './learning-center/learning-center.component';
 import { ScorePerComponent } from './learning-center/score-per/score-per.component';
@@ -50,11 +51,13 @@ const routes: Routes = [
          {
           path:'faqs', component: FaqTableComponent
         },
+        {
+          path:'eLearning', component: ELearningModuleComponent
+        },
          {
           path: 'bestPractices', component: BestPracticesComponent
         },
-        
-
+       
         ]
       },
 
