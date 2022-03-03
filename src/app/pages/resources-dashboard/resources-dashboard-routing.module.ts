@@ -48,11 +48,12 @@ const routes: Routes = [
            ]
          },
          {
+          path:'faqs', component: FaqTableComponent
+        },
+         {
           path: 'bestPractices', component: BestPracticesComponent
         },
-        {
-          path:'faqs', component: FaqTableComponent
-        }
+        
 
         ]
       },
