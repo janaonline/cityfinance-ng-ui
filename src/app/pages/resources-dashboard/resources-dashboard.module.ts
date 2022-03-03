@@ -39,7 +39,6 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
     DataSetsComponent,
     ReportsPublicationComponent,
      ScorePerComponent,
-
      ResourcesTabsComponent,
      ToolkitsComponent,
      DynamicSubLearningComponent,
@@ -47,7 +46,7 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
      BestPracticesComponent,
      BalanceSheetComponent,
      FilterModelBoxComponent,
-     CheckScorePerformanceComponent
+     CheckScorePerformanceComponent,
     ],
   imports: [
     CommonModule,
