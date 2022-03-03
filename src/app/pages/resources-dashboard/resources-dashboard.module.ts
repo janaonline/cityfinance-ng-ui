@@ -33,6 +33,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatDialogModule} from '@angular/material/dialog';
 import { CheckScorePerformanceComponent } from './check-score-performance/check-score-performance.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { ELearningModuleComponent } from './learning-center/e-learning-module/e-learning-module.component';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -48,6 +49,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
      BalanceSheetComponent,
      FilterModelBoxComponent,
      CheckScorePerformanceComponent,
+     ELearningModuleComponent,
     ],
   imports: [
     CommonModule,
