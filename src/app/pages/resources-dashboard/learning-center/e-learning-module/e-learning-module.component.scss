@@ -24,6 +24,13 @@
     text-align: center;
 }
 
+.sub-ans {
+    font: normal normal normal 22px/25px 'Archivo';
+    letter-spacing: 0px;
+    line-height: 1.7;
+    color: #6E7281;
+}
+
 .nav>li>a {
     padding: 5px 15px;
 }
@@ -34,6 +41,10 @@
     border: 1px solid #3E5DB1;
     border-radius: 6px;
     opacity: 1;
+}
+.frame{
+    text-align: center;
+    margin: 3%;
 }
 
 .container-cnt {

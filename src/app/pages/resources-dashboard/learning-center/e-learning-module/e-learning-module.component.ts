@@ -29,8 +29,9 @@ export class ELearningModuleComponent implements OnInit {
       code: ''
      },
   ]
-
+showIframe = false
   openScorePer(item){
+this.showIframe = true;
     console.log(item.label)
   }
 
