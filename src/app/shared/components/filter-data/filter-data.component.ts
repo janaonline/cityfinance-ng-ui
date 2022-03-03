@@ -33,7 +33,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   data = incomingData;
   headOfAccount;
-  filterName = "revenue";
+  filterName;
   headerActions = headerActions;
   lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
@@ -53,11 +53,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   changeActiveBtn(i) {
     let id = `btn-${i}`;
     if (this.lastSelectedId) {
-      document.getElementById(this.lastSelectedId).classList.remove("selected");
-      document.getElementById(this.lastSelectedId).classList.add("deSelected");
+      document
+        .getElementById(this.lastSelectedId)
+        ?.classList.remove("selected");
+      document.getElementById(this.lastSelectedId)?.classList.add("deSelected");
     }
-    document.getElementById(id).classList.remove("deSelected");
-    document.getElementById(id).classList.add("selected");
+    document.getElementById(id).classList?.remove("deSelected");
+    document.getElementById(id).classList?.add("selected");
     this.lastSelectedId = id;
 
     this.isPerCapita = this.data.btnLabels[i]
@@ -66,9 +68,15 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .join("")
       .includes("percapita");
     let newName = this.data.btnLabels[i].toLocaleLowerCase();
+
     if (newName.includes("mix"))
       this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
-    else if (newName.includes("revenue")) this.filterName = "revenue";
+    else if (newName.includes("revenue") && !newName.includes("own"))
+      this.filterName = "revenue";
+    else if (newName.includes("own") && newName.includes("revenue"))
+      this.filterName = newName;
+    else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
+
     this.getChartData({});
   }
 
@@ -79,7 +87,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.tabName = this.data.name;
+    this.tabName = this.data.name.toLocaleLowerCase();
     this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
     this.aboutIndicators = this.data["static"].indicators;
     setTimeout(() => {
@@ -98,6 +106,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ? "Expense"
       : "Tax";
   }
+  apiCall;
 
   getChartData(data = {}) {
     let body = {
@@ -120,7 +129,10 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.lastSelectedUlbs = body.ulb;
     body.financialYear = data["year"] ?? this.mySelectedYears;
     this.loading = true;
-    this.commonService.getChartDataByIndicator(body).subscribe(
+    if (this.apiCall) {
+      this.apiCall.unsubscribe();
+    }
+    this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
           this.createPieChart(res["data"]);
@@ -165,7 +177,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       intialYear = yearData[0].amount,
       finalYear = yearData[yearData.length - 1].amount,
       time = yearData.length;
-    if (yearData.length > 1) {
+    if (yearData.length > 1 && this.tabName == "revenue") {
       let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
       this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
         yearData.length
@@ -175,6 +187,15 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   createBarChart(res) {
+    if (
+      this.filterName.includes("capital") &&
+      this.filterName.includes("expenditure")
+    ) {
+      res["data"]["ulbData"] = this.createExpenditureData(
+        res["data"]["ulbData"]
+      );
+    }
+
     let newData = JSON.parse(JSON.stringify(barChartStatic));
 
     newData.data.labels = res["data"].ulbData.map(
@@ -218,20 +239,38 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.barChart = newData;
   }
 
+  createExpenditureData(data) {
+    let newData = {};
+    if (data.length != 2) {
+      Object.assign(newData, {
+        _id: { financialYear: data[0]._id },
+        amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
+        ulbName: data[0].yearData[0].ulbName,
+      });
+    } else {
+      let year1 = data[0],
+        year2 = data[1],
+        amount1 =
+          year2.yearData.find((value) => value.code == "410") -
+          year1.yearData.find((value) => value.code == "410"),
+        amount2 =
+          year2.yearData.find((value) => value.code == "412") -
+          year1.yearData.find((value) => value.code == "412");
+      Object.assign(newData, {
+        _id: { financialYear: year1._id },
+        amount: amount1 + amount2,
+        ulbName: year1.yearData[0].ulbName,
+      });
+    }
+
+    return [newData];
+  }
+
   createPieChart(data) {
-    let newdata = [];
-    let othersAmount = 0;
-    data["ulbData"].map((value) => {
-      if (!showTotalRevenue.includes(value.code)) {
-        othersAmount += value.amount;
-      } else {
-        newdata.push(value);
-      }
-    });
-
-    newdata.push({ amount: othersAmount, _id: { lineItem: "Others" } });
-
-    data["ulbData"] = newdata;
+    if (this.filterName == "revenue mix")
+      data["ulbData"] = this.createRevenueData(data);
+    if (this.filterName == "own revenue mix")
+      data["ulbData"] = this.createOwnRevenueData(data);
 
     const doughnutChartData = {
       labels: ["Red", "Blue", "Yellow"],
@@ -257,6 +296,26 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     };
 
     this.barChart = config;
+  }
+
+  createOwnRevenueData(data) {
+    return data["ulbData"];
+  }
+
+  createRevenueData(data) {
+    let newdata = [];
+    let othersAmount = 0;
+    data["ulbData"].map((value) => {
+      if (!showTotalRevenue.includes(value.code)) {
+        othersAmount += value.amount;
+      } else {
+        newdata.push(value);
+      }
+    });
+
+    newdata.push({ amount: othersAmount, _id: { lineItem: "Others" } });
+
+    return newdata;
   }
 
   filterChangeInChart(value) {
@@ -295,9 +354,6 @@ const barChartStatic = {
     scales: {
       y: {
         beginAtZero: true,
-        grid: {
-          display: false,
-        },
       },
     },
   },

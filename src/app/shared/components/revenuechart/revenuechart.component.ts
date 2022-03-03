@@ -191,6 +191,17 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   ChartOptions = {
     maintainAspectRatio: false,
     responsive: true,
+    scales: {
+      yAxes: [
+        {
+          gridLines: {
+            offsetGridLines: true,
+            display: false,
+          },
+          beginAtZero: true,
+        },
+      ],
+    },
     legend: {
       position: "bottom",
       labels: {
