@@ -18,8 +18,8 @@
                 <app-pre-loader></app-pre-loader>
                 <app-pre-loader></app-pre-loader>
             </div>
-            <div class="" *ngIf="tabName == 'Revenue'">
-                <app-revenuechart [chartDialogues]="true" [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" [headerActions]="headerActions"></app-revenuechart>
+            <div class="" >
+                <app-revenuechart  [chartDialogues]="true" [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" [headerActions]="headerActions"></app-revenuechart>
             </div>
             <div class="" *ngIf="tabName == 'Revenue Mix'">
                 <app-common-charts-graphs></app-common-charts-graphs>

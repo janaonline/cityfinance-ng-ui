@@ -51,12 +51,13 @@ const routes: Routes = [
          {
           path:'faqs', component: FaqTableComponent
         },
+        {
+          path:'eLearning', component: ELearningModuleComponent
+        },
          {
           path: 'bestPractices', component: BestPracticesComponent
         },
-        {
-          path:'eLearning', component: ELearningModuleComponent
-        }
+       
         ]
       },
 

@@ -148,10 +148,10 @@ export class DynamicSubLearningComponent implements OnInit {
     "slidesToScroll": 1,
     "dots": true,
     "infinite": true,
-    "autoplay" : true,
+    "autoplay" : false,
     "arrows": true,
-     "adaptiveHeight": true,
-    "autoplaySpeed" : 2000,
+     "adaptiveHeight": false,
+    
     // "responsive": [
     //   {
     //     breakpoint: 1024,

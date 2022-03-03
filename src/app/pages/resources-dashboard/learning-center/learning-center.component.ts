@@ -17,7 +17,6 @@ export class LearningCenterComponent implements OnInit {
       },
     {
        name: "FAQs",
-       filter: ["innerTab4", "innerTab5", "innerTab6"],
        link: 'faqs' ,
     },
     {
@@ -27,7 +26,7 @@ export class LearningCenterComponent implements OnInit {
      },
     {
       name: "E-Learning Modules",
-      filter: ["innerTab10", "innerTab11", "innerTab12"],
+     
       link: 'eLearning'
     },
     {

@@ -1,3 +1,27 @@
-<p>e-learning-module works!</p>
+<div class="container container-cnt" *ngIf="!showIframe">
+    <div class="row" style="margin: 1rem auto  1rem auto;">
+        <div class="col-sm-12" style="display: flex;">
+            <a (click)="openScorePer(item)" *ngFor="let item of cardData">
+                <div class="card">
+                    <img [src]="item?.imgUrl" class="card-img-top" [alt]="item.label">
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{item?.label}}
+                        </p>
+                    </div>
+                </div>
+            </a>
 
-
+        </div>
+    </div>
+</div>
+<div class="frame" *ngIf="showIframe">
+    <p class="sub-ans">You are currently at E-Learning Module Section under Resources Dashboard</p> 
+    <iframe 
+    src="https://janaagraha-space.ispring.com/s/embed_player/18b16350-8f00-11ec-9496-cef1e7d8875f" 
+    width="600" height="322" 
+    frameborder="0" border="0" 
+    scrolling="auto" allowtransparency="true" 
+    allowfullscreen="1" 
+    style="border: none; background-color: transparent;"></iframe>
+</div>

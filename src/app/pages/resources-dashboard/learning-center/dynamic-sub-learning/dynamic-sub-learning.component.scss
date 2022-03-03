@@ -78,15 +78,30 @@
   }
 
   .practiceCard{
-      width:20rem;
-      height:25rem;
+      width:14rem;
+      height:13rem;
       border:1px solid #E4E4E4;
-
+border-radius: 6px ;
+display: inline-block;
+margin-right: 5%;
   }
   .practiceHead{
-    height:5rem;
+    font: normal normal 600 14px/22px 'Archivo';
+    height:20%;
     border:1px solid #E4E4E4;
 background-color: #F7F9FF;
 font-size: 14px;
-padding: 3px 4px;
+padding: 8px 0px 3px 18px;
+color: #0F1F40;
+
+}
+
+.docs{
+    margin: 13%;
+}
+
+.text-effect{
+    color:#E87A1C;
+    text-decoration: none;
+    font: normal normal 500 12px/22px 'Archivo';
 }

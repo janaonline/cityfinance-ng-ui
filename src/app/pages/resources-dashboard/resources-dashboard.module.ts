@@ -33,6 +33,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatDialogModule} from '@angular/material/dialog';
 import { CheckScorePerformanceComponent } from './check-score-performance/check-score-performance.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import {FaqTableComponent} from './learning-center/faq-table/faq-table.component'
 import { ELearningModuleComponent } from './learning-center/e-learning-module/e-learning-module.component';
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ELearningModuleComponent } from './learning-center/e-learning-module/e-
      BalanceSheetComponent,
      FilterModelBoxComponent,
      CheckScorePerformanceComponent,
+     FaqTableComponent,
      ELearningModuleComponent,
     ],
   imports: [
