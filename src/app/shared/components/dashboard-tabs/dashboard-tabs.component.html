@@ -37,7 +37,7 @@
             <div *ngSwitchCase="'Financial Indicators'">
                 <div [ngSwitch]="DashBoardType">
                     <div *ngSwitchCase="'city'">
-                        <app-filter-data [data]="innerActiveTab"></app-filter-data>
+                        <app-filter-data [currentUlb]="cityId" [data]="innerActiveTab"></app-filter-data>
                     </div>
                     <div *ngSwitchCase="'state'">
                         <app-state-filter-data></app-state-filter-data>

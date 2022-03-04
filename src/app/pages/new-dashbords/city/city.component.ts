@@ -31,6 +31,10 @@ export class CityComponent implements OnInit {
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
   ngOnInit(): void {
+    this.dashboardDataCall()
+    this.dashboardCalls(this.cityId);
+  }
+  dashboardDataCall(){
     this.newDashboardService
       .getDashboardTabData("619cc08a6abe7f5b80e45c67")
       .subscribe(
@@ -42,7 +46,6 @@ export class CityComponent implements OnInit {
           console.log(error);
         }
       );
-    this.dashboardCalls(this.cityId);
   }
 
   dashboardCalls(cityId) {
@@ -112,6 +115,7 @@ export class CityComponent implements OnInit {
       this.cityId = this.stateUlbData.data[this.stateCode].ulbs.find(
         (value) => value.code === event.value.key
       )._id;
+      this.dashboardDataCall()
       this.dashboardCalls(this.cityId);
     }
     console.log("this.cityId", this.cityId);
