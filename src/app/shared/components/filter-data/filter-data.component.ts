@@ -18,11 +18,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private commonService: CommonService,
     private _activatedRoute: ActivatedRoute
-  ) {
-    // this._activatedRoute.queryParams.subscribe((param) => {
-    //   this.currentUlb = param.cityId;
-    // });
-  }
+  ) {}
   @Input()
   currentUlb;
   scatterData = JSON.parse(JSON.stringify(scatterData));
@@ -88,7 +84,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    debugger
     this.tabName = this.data.name.toLocaleLowerCase();
     this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
     this.aboutIndicators = this.data["static"].indicators;

@@ -69,30 +69,48 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ];
   @Input()
   selectedYear = "2015-16";
+  @Input()
+  cityId;
   ngOnInit(): void {
-    this._activatedRoute.queryParams.subscribe((param) => {
-      this.cityId = param.cityId;
-    });
     console.log(this.data, "about indicator");
   }
-  cityId;
 
   ngOnChanges(changes: SimpleChanges): void {}
 
   panelOpen(item) {
-    console.log(item);
-    if (item.name.toLowerCase() == "calculation") this.getCalculation(item);
+    let name = item.name.toLowerCase();
+    if (name == "calculation") this.getCalculation(item);
+    if (name == "peer comparison") this.getCalculation(item, "true");
 
     item.panelOpenState = true;
   }
 
-  getCalculation(item) {
-    this.aboutService.avgRevenue(this.cityId, this.selectedYear).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      (error) => {}
-    );
+  getCalculation(item, compare = "") {
+    let totalRevenue;
+    this.aboutService
+      .avgRevenue(this.cityId, this.selectedYear, compare)
+      .subscribe(
+        (res) => {
+          console.log(res, item);
+          item.desc.map((value) => {
+            let data = value.text.split("=");
+            let name = data[0].split(" ").join("").toLowerCase();
+            switch (name) {
+              case "totalrevenue":
+                data[1] = res["data"]?.amount.toFixed(2);
+                break;
+              case "stateulbtypeaverage":
+                data[1] = res["data"]?.weightedAmount.toFixed(2);
+
+              default:
+                break;
+            }
+            data = data.join("= ");
+            value.text = data;
+          });
+        },
+        (error) => {}
+      );
   }
 
   panelClose(item) {
