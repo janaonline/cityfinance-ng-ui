@@ -205,7 +205,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     legend: {
       position: "bottom",
       labels: {
-        // usePointStyle: false,
         padding: 35,
         boxWidth: 24,
         boxHeight: 18,
@@ -270,7 +269,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   createChart() {
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
-    else {
+    else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
 
