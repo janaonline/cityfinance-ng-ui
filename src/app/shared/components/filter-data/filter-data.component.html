@@ -19,7 +19,7 @@
                 <app-pre-loader></app-pre-loader>
             </div>
             <div class="" >
-                <app-revenuechart  [chartDialogues]="true" [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" [headerActions]="headerActions"></app-revenuechart>
+                <app-revenuechart [ChartOptions]="chartOptions" [chartDialogues]="true" [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" [headerActions]="headerActions"></app-revenuechart>
             </div>
             <div class="" *ngIf="tabName == 'Revenue Mix'">
                 <app-common-charts-graphs></app-common-charts-graphs>
@@ -27,7 +27,7 @@
 
         </div>
         <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
-            <app-about-indicator [cityId]="currentUlb" [positive]="positiveCAGR" [cagr]="CAGR" [data]="aboutIndicators"></app-about-indicator>
+            <app-about-indicator  [cityId]="currentUlb" [positive]="positiveCAGR" [cagr]="CAGR" [data]="aboutIndicators"></app-about-indicator>
         </div>
     </div>
 </div>

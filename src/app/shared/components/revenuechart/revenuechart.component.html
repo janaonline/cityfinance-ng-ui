@@ -71,12 +71,13 @@
     </div>
   </div>
 
-  <div
+  <div 
+  class="mt-2"
     *ngIf="!notFound"
     [id]="'canvasDiv' + chartId"
     style="width: 100%; overflow-x: auto; overflow-y: hidden"
   >
-    <div style="width: auto; min-width: 760px; height: 350px">
+    <div style="width: auto; min-width: 720px; height: 350px">
       <canvas [id]="chartId" height="300" width="0"></canvas>
     </div>
   </div>
