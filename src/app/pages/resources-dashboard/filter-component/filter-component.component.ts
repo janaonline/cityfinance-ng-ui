@@ -33,7 +33,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   filterForm;
   globalOptions = [];
   yearList=['2015-16','2016-17','2017-18','2018-19','2019-20','2020-21']
-  cType =['Raw Data PDF', 'Standardised Excel', 'Raw Data Excel']
+  cType =['Raw Data PDF', 'Standardised Excel', 'Raw Data Excel', 'Standardised PDF']
   filteredOptions: Observable<any[]>;
   ngOnInit(): void {
       console.log('daaaaa', this.filterInputData)

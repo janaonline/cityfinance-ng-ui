@@ -53,13 +53,18 @@ this.category = 'balance'
   openNewTab(url){
     window.open(url, '_blank');
   }
- 
+ noData = false;
   getData(){
     
     this.globalLoaderService.showLoader()
     this._resourcesDashboardService.getDataSets(this.year, this.type, this.category, this.state, this.ulb).subscribe((res)=>{
 
       this.balData = res['data']
+      if(this.balData.length==0){
+        this.noData = true
+      }else{
+this.noData = false
+      }
       this.globalLoaderService.stopLoader()
     },(err)=>{
       this.globalLoaderService.stopLoader()

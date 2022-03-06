@@ -70,6 +70,14 @@ table {
     color: #E87A1C;
 }
 
+.empty{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: darkblue;
+    margin: 4%;
+}
+
 .pointer{
     cursor: pointer;
 }
