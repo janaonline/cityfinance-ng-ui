@@ -12,10 +12,74 @@
 </div>
 
 <div class="filter-d mt-3 mb-3">
-    <app-filter-component (filterFormData)="filterData($event)" [filterInputData]="filterComponent"></app-filter-component>
+    <app-filter-component (filterFormData)="filterData($event)" [category]="category" [filterInputData]="filterComponent"></app-filter-component>
 </div>
+
+<div class="row">
+    <div class="col-sm-12 col-12 mb-3">
+        <div class="cd-r">
+            <div class="card-body cd-h">
+                <div class="row">
+                    <div class="col-sm-1 col-1">
+                        <!-- <input class="form-check-input" type="checkbox"
+                        (change)="isAllSelected($event.target.value)" [(ngModel)]="allSelected"
+                        [indeterminate]="unSelect"> -->
+                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selectedUsersList.length && isAllSelected(true)" [indeterminate]="isAllSelected(false) && !isAllSelected(true)">
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-sm-8 col-7">
+                        <span> Document Name</span>
+                    </div>
+                    <div class="col-sm-3 col-4">
+                        <span>Updated on</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body cd-repeat" *ngFor="let item of balData; let i = index;">
+                <div class="row align-items-md-center pointer" (click)="openNewTab(item?.fileUrl)">
+                    <div class="col-sm-1 col-1">
+                        <!-- <input class="form-check-input" type="checkbox" [checked]="allSelected"
+                        (change)="isChecked($event.target.value, allSelected, i)"> -->
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRowSelection($event, item)" [checked]="item.isSelected">
+                        </mat-checkbox>
+                    </div>
+                    <div class="col-sm-8 d-name col-8">
+                        <div class="row align-items-sm-center">
+                            <div class="col-2 col-sm-1">
+                                <span *ngIf="item?.type == 'pdf'">
+                            <img src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" class="p-i">
+                             </span>
+                                <span *ngIf="item?.type == 'excel'">
+                          <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" class="p-i">
+                        </span>
+                            </div>
+                            <div class="col-10 col-sm-11">
+                                <span>{{ item?.fileName }}</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-3 d-date col-3">
+                        <span>{{ item?.modifiedAt | date:'yyyy-MM-dd' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-12 text-center mb-3">
+        <button class="btn lmBtn">
+        <span class="material-icons" style="vertical-align: middle;">
+          refresh
+          </span>
+        <span class="ms-1">Load More</span>
+      </button>
+    </div>
+</div>
+<!-- 
 <div class="row">
     <div class="col-sm-12">
         <router-outlet></router-outlet>
     </div>
-</div>
+</div> -->

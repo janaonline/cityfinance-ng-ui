@@ -15,10 +15,7 @@ export class LearningCenterComponent implements OnInit {
        filter: ["innerTab1", "innerTab2", "innerTab3"],
        link: 'toolkits'
       },
-    {
-       name: "FAQs",
-       link: 'faqs' ,
-    },
+ 
     {
       name: "Best Practices",
       filter: ["innerTab7", "innerTab8", "innerTab9"],
@@ -34,6 +31,10 @@ export class LearningCenterComponent implements OnInit {
       filter: ["innerTab10", "innerTab11", "innerTab12"],
       link: 'municipal-laws' //"earlier its link was set to'eLearning' but Abhay is changing"
     },
+    {
+      name: "Glossary",
+      link: 'faqs' ,
+   },
    
   ];
 
