@@ -583,7 +583,9 @@ const barChartStaticOptions = {
           offsetGridLines: true,
           display: false,
         },
-        beginAtZero: true,
+        ticks: {
+          beginAtZero: true,
+        },
       },
     ],
   },

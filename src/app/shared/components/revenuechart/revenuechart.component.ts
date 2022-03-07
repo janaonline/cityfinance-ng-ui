@@ -272,8 +272,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
-
-    //dom is fully loaded, but maybe waiting on images & css files
     let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
     let ctx = canvas.getContext("2d");
     this.myChart = new Chart(ctx, this.chartData);
