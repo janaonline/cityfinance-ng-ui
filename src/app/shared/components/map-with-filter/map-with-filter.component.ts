@@ -81,7 +81,6 @@ export class MapWithFilterComponent
     >,
     containerId: string
   ) {
-    // debugger;
     if (this.stateList.length == 0)
       this.stateList = geoData.features.map((value: any) => {
         Object.assign(this.layerMap, { [value.properties.ST_CODE]: null });
@@ -216,11 +215,11 @@ export class MapWithFilterComponent
         zoom,
         minZoom: zoom,
         maxZoom: zoom + 5,
-        zoomControl: true,
+        zoomControl: false,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom: true,
-        dragging: true,
+        doubleClickZoom: false,
+        dragging: false,
         tap: true,
       }).setView([options.center.lat + 3, options.center.lng + 3], 4);
       districtMap.scrollWheelZoom.disable();
