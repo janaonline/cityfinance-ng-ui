@@ -243,6 +243,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit(): void {
     console.log("chartTitle", this.chartTitle);
+  window.onload = () =>{
+    this.createChart();
+  }
   }
 
   ngAfterViewInit(): void {
@@ -257,7 +260,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
-        if (this.myChart) this.myChart.destroy();
+      
         this.createChart();
       }
     }
@@ -267,6 +270,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
+    if(this.myChart){
+      this.myChart.destroy()
+    }
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
     else if (this.ChartOptions) {
@@ -274,9 +280,15 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     //dom is fully loaded, but maybe waiting on images & css files
-    let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-    let ctx = canvas.getContext("2d");
-    this.myChart = new Chart(ctx, this.chartData);
+console.log(this.chartId, this.chartData)
+if(this.chartData?.data?.datasets[0].data[0]){
+  let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+  let ctx = canvas.getContext("2d");
+  this.myChart = new Chart(ctx, this.chartData);
+ 
+}
+
+
   }
 
   actionClick(value) {
@@ -289,9 +301,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
           else value.name = "expand";
         }
       });
-      this.myChart.destroy();
+      
       this.createChart();
-    } else if (value.name == "download") {
+    } else if (value.name == "Download") {
       this.getImage();
 
       return;

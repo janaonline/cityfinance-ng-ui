@@ -451,14 +451,18 @@ this.allCalls()
         (res) => {
           if(res['data'][0]['amount'] == null && !res['data'][1]  ){
             this.chartDataNotFound = true
+            this.pieChartLoading = false;
+            return
           }
           res["data"].map((value) => {
-            temp.data.labels.push(value._id["revenueName"]);
-            temp.data.datasets[0].data.push(value.amount);
+            this.chartDataNotFound = false
+            temp.data.labels.push(value?._id["revenueName"]);
+            temp.data.datasets[0].data.push(value?.amount);
             this.isLoading = false;
             this.pieChartLoading = false;
           });
           this.doughnutChartData = temp;
+          
         },
         (err) => {
           this.pieChartLoading = false;
@@ -752,10 +756,10 @@ myChart: any
     revenueExpenditureCopy.isLoading = this.cardsDataLoading;
     revenuePercentageCopy.isLoading = this.cardsDataLoading;
 
-    revenueCollectionCopy.title = valueConvert(value.totalRevenue) ?? 0;
-    revenuePerCapitaCopy.title = "INR " + value.perCapita.toFixed(2) ?? 0;
-    revenuePercentageCopy.title = (value.percentage.toFixed(2) ?? "0") + " %";
-    revenueExpenditureCopy.title = value.totalUlbMeetExpense ?? 0;
+    revenueCollectionCopy.title = valueConvert(value?.totalRevenue) ?? 0;
+    revenuePerCapitaCopy.title = "INR " + value?.perCapita.toFixed(2) ?? 0;
+    revenuePercentageCopy.title = (value?.percentage.toFixed(2) ?? "0") + " %";
+    revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
 
     if (yearInData[1]) {
       let oldYearValue =

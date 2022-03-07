@@ -258,7 +258,7 @@
       <mat-spinner></mat-spinner>
     </div>
     <div *ngIf="!pieChartLoading">
-      <app-revenuechart
+      <app-revenuechart *ngIf="!pieChartLoading"
         class=""
         [headerActions]="headerActions"
         [chartData]="doughnutChartData"
