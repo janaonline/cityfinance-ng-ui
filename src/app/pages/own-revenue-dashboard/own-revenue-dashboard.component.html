@@ -131,7 +131,7 @@
         </a>
         <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
           <div class="col-md-10 d-flex justify-content-between">
-            <select formControlName="stateId" class="form-select filter">
+            <select formControlName="stateId" (change)="filterData('state','')" class="form-select filter">
               <option selected>State Name</option>
               <option
                 *ngFor="let state of stateIds | keyvalue"
@@ -140,31 +140,33 @@
                 {{ state.value }}
               </option>
             </select>
-            <select formControlName="ulb" class="form-select filter">
-              <option selected>ULB Name</option>
-              <option
-                *ngFor="let ulb of ulbList | keyvalue"
-                [value]="ulb.value._id"
-              >
-                {{ ulb.value.name }}
-              </option>
-            </select>
-            <select formControlName="ulbType" class="form-select filter">
+            
+             
+              <input type="text" class="form-select filter" placeholder="ULB" matInput formControlName="ulb" [matAutocomplete]="auto">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <a (click)="filterData('ulb',option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                      <mat-option [value]="option?.name">
+                          <span style="font-size: 10px;"> {{option?.name}}</span>
+                      </mat-option>
+                  </a>
+              </mat-autocomplete>
+          
+            <select formControlName="ulbType" (change)="filterData('ulbType','')" class="form-select filter">
               <option selected>ULB Type</option>
               <option *ngFor="let ulbType of ulbTypeList" [value]="ulbType._id">
                 {{ ulbType.name }}
               </option>
             </select>
-            <select
+            <select (change)="filterData('popCat','')"
               formControlName="populationCategory"
               class="form-select filter"
             >
               <option selected>ULB Population Category</option>
-              <option *ngFor="let category of populationCategoryList">
+              <option [value]="category" *ngFor="let category of populationCategoryList">
                 {{ category }}
               </option>
             </select>
-            <select formControlName="financialYear" class="form-select filter">
+            <select (change)="filterData('year','')" formControlName="financialYear" class="form-select filter">
               <option>Year</option>
               <option *ngFor="let year of yearList" [value]="year">
                 {{ year }}
@@ -225,13 +227,17 @@
           Download Data
         </button>
       </div>
+
       <div class="col-md-5 d-flex justify-content-center">
         <div class="doughnut-container">
-          <canvas id="myChart1" width="100%"> </canvas>
-          <p class="doughnut_percentage text-center">
+          <div *ngIf="dataAvailLoading" style="text-align: center;" >Loading...</div>
+   
+          <canvas  id="myChart1" width="100%"> </canvas>
+         
+          <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
             {{ financialYear?.data?.percent }}%
           </p>
-          <p class="doughnut_text text-center">Data Availability</p>
+          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">Data Availability</p>
           <button class="btn btn-outline-secondary btn-sm btn-os btn-ghost">
             <img
               src="../../../assets/resources-das/file_download_orange_24dp.svg"
