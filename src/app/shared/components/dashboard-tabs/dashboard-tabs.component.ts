@@ -196,7 +196,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.mySelectedYears.currentValue) {
+    if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       this.mySelectedYears = convertToPastYears(
         changes.mySelectedYears.currentValue
       );

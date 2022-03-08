@@ -86,14 +86,19 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.tabName = this.data.name.toLocaleLowerCase();
-    this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
-    this.aboutIndicators = this.data["static"].indicators;
-    setTimeout(() => {
-      if (this.data.btnLabels.length) this.changeActiveBtn(0);
-      this.getChartData({});
-    }, 0);
-    this.setHeadOfAccount();
+    if (changes.data) {
+      this.tabName = this.data.name.toLocaleLowerCase();
+      this.data = {
+        ...this.data["mainContent"][0],
+        filterName: this.data.name,
+      };
+      this.aboutIndicators = this.data["static"].indicators;
+      setTimeout(() => {
+        if (this.data.btnLabels.length) this.changeActiveBtn(0);
+        this.getChartData({});
+      }, 0);
+      this.setHeadOfAccount();
+    }
     console.log("this.barChart", this.barChart);
   }
 
