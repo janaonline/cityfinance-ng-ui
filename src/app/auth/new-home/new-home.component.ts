@@ -121,6 +121,7 @@ export class NewHomeComponent implements OnInit {
           let emptyArr:any = []
             this.filteredOptions = emptyArr;
           if(res?.data.length > 0 ){
+            
             this.filteredOptions = res?.data;
             this.noDataFound = false;
           }else{
