@@ -199,7 +199,7 @@
           {{ body.financialYear }}.
           <span *ngIf="notFoundNames.length > 0">
             Data is not available for
-            <span *ngFor="let name of notFoundNames">{{ name }},</span>.
+            <span *ngFor="let name of notFoundNames; let i = index ">{{ name }} <span *ngIf="i != notFoundNames.length -1 ">, </span></span>.
           </span>
           <span>
             For more details, download the complete set of ULBs for which the
