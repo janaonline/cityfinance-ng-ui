@@ -91,7 +91,8 @@ export class CityComponent implements OnInit {
           });
           this.frontPanelData.name = res.data.name;
           this.frontPanelData.desc = createDesc(
-            res.data?.ulbType?.name || "Municipal Corp"
+            res.data?.ulbType?.name || "Municipal Corp",
+            getPopulationType(res.data.population)
           );
           this.frontPanelData.linkName = `${res.data.state.name} Dashboard`;
           this.frontPanelData.link = `dashboard/state?stateId=${res.data.state._id}`;
@@ -208,6 +209,21 @@ const Debt = {
 function createDesc(type, population = "4M+") {
   return `This urban local body has been classified as a ${type} in the ${population} population category`;
 }
+
+function getPopulationType(population) {
+  if (population < 100000) {
+    return "<100K";
+  } else if (100000 < population && population < 500000) {
+    return "100K-500K";
+  } else if (500000 < population && population < 1000000) {
+    return "500K-1M";
+  } else if (1000000 < population && population < 4000000) {
+    return "1M-4M";
+  } else {
+    return "4M+";
+  }
+}
+
 const mapConfig = {
   code: {
     state: "GJ",
