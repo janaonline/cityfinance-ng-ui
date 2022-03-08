@@ -31,7 +31,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
       console.log("ColumnData", res?.data);
     });
   }
-
+  @Input()
+  mySelectedYears;
   @Input()
   cityId;
   @Input()
@@ -195,6 +196,11 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.mySelectedYears.currentValue) {
+      this.mySelectedYears = convertToPastYears(
+        changes.mySelectedYears.currentValue
+      );
+    }
     this.changeTab(this.data[0]);
     this.HeaderDataOfBorrowTab();
     this.ColumnDataOfBorrowTab();
@@ -205,4 +211,19 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 // function getHeaderName(): any {
 //   throw new Error("Function not implemented.");
 // }
+function convertToPastYears(year) {
+  let newYears = [year],
+    numYear = 2,
+    newValue = year;
+  while (numYear--) {
+    newValue = newValue
+      .split("-")
+      .map((value) =>
+        !isNaN(Number(value)) ? (value = Number(value) - 1) : value
+      )
+      .join("-");
+    newYears.push(newValue);
+  }
+  return newYears;
+}
 

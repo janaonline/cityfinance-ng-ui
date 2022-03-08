@@ -27,4 +27,10 @@ export class NewDashboardService {
       `${environment.api.url}dashboardHeaders/${dashboardId}`
     );
   }
+
+  getLatestDataYear(ulb) {
+    return this.http.get(
+      `${environment.api.url}all-dashboard/latest-year?ulb=${ulb}`
+    );
+  }
 }

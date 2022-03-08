@@ -130,6 +130,37 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           return value;
         });
         item.desc[0].text = descString.join(" ")
+
+        descString = item.desc[1].text;
+        descString = descString.split(" ");
+        descString = descString.map((value) => {
+          if (value == "STATE_NAME")
+            value =
+              this.ulbList[this.stateUlbMapping[res["data"].inState.ulb._id]]
+                .state;
+          if (value == "ULB_TYPE")
+            value = this.ulbList[
+              this.stateUlbMapping[res["data"].inState.ulb._id]
+            ].ulbs.find(
+              (innerVal) => innerVal._id == res["data"].inState.ulb._id
+            ).type;
+          if (value == "ULB_NAME_STATE")
+            value = this.ulbList[
+              this.stateUlbMapping[res["data"].inState.ulb._id]
+            ].ulbs.find(
+              (innerVal) => innerVal._id == res["data"].inState.ulb._id
+            ).name;
+          if (value == "ULB_INSATE")
+            value = this.toCr(res["data"].inState.amount);
+          if (value == "ULB_NAME_INDIA")
+            value =
+              this.ulbList[this.stateUlbMapping[res["data"].inIndia.ulb._id]]
+                ?.state;
+          if (value == "ULB_IN-INDIA")
+            value = this.toCr(res["data"].inIndia.amount);
+          return value;
+        });
+        item.desc[1].text = descString.join(" ");
       },
       (error) => {}
     );

@@ -261,7 +261,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         this.createChart();
       }
     }
-    if (changes?.mySelectedYears) {
+    if (changes?.mySelectedYears.currentValue) {
       this.year = this.mySelectedYears[0];
     }
   }
