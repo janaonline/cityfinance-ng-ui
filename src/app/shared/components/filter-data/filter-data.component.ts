@@ -35,6 +35,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
   isPerCapita = false;
+  @Input()
   mySelectedYears = ["2015-16", "2014-15", "2013-14"];
   loading = false;
   tabName;
@@ -166,7 +167,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       (amount, value) => (amount += value.amount),
       0
     );
-    this.CAGR = `Total revenue is Rs ${totalRevenue} Crore`;
+    this.CAGR = `Total revenue is Rs ${(totalRevenue / 10000000).toFixed(
+      2
+    )} Crore`;
     this.positiveCAGR = true;
   }
 
