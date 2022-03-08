@@ -134,7 +134,6 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   getConvertedDec(text, data, forUlbType = true) {
-    debugger;
     let descString = text;
     console.log(data[forUlbType ? "inStateUlbType" : "inState"]["ulb"]["_id"]);
 
