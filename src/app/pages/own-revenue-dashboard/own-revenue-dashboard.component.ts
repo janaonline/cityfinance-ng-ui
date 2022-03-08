@@ -177,7 +177,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     maintainAspectRatio: false,
     cutoutPercentage:50,
     responsive: true,
-   
+  
     legend: {
       position: "bottom",
       labels: {
@@ -191,6 +191,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       },
       onClick: (e) => e.stopPropagation()
     },
+    showAllTooltips: true,
     tooltips: {
       callbacks: {
         label: function(tooltipItem, data) {
@@ -214,6 +215,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   barChartOptions = {
     maintainAspectRatio: false,
     responsive: true,
+    showAllTooltips: true,
     scales: {
       xAxes: [{
         maxBarThickness: 60,
@@ -607,6 +609,7 @@ tempDataHolder: any
               ],
             },
             options:{
+              showAllTooltips: true,
               interaction:{
                 mode:'nearest'
               },
@@ -707,6 +710,7 @@ myChart: any
           ],
         },
         options: {
+          
           rotation: 1 * Math.PI,
           circumference: 1 * Math.PI,
           legend: {
