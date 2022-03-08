@@ -48,7 +48,7 @@
                 <app-balance-table [cityId]="cityId" [data]="innerActiveTab"></app-balance-table>
             </div>
             <div *ngSwitchCase="'Service Level Benchmark'">
-                <app-slb-charts [cityId]="cityId" [data]="innerActiveTab"></app-slb-charts>
+                <app-slb-charts [year]="mySelectedYears[0]" [cityId]="cityId" [data]="innerActiveTab"></app-slb-charts>
             </div>
             <div *ngSwitchCase="'Borrowing & Credit Rating'">
                 <app-accordion-to-table></app-accordion-to-table>
