@@ -124,7 +124,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           true
         );
         item.desc[1].text = this.getConvertedDec(
-          item.desc[0].text,
+          item.desc[1].text,
           res["data"],
           false
         );
@@ -134,6 +134,8 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   getConvertedDec(text, data, forUlbType = true) {
+    console.log(text, "here");
+
     let descString = text;
     console.log(data[forUlbType ? "inStateUlbType" : "inState"]["ulb"]["_id"]);
 
@@ -180,7 +182,21 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
             data[forUlbType ? "inIndiaUlbType" : "inIndia"].amount
           );
           break;
-
+        case "STATE_REVENUE":
+          value = this.toCr(data["totalRevenue"]);
+          break;
+        case "ULB_POPULATION":
+          value =
+            "(" +
+            toPopulcationCategory(
+              this.ulbList[ulbStateCode].ulbs.find(
+                (innerVal) =>
+                  innerVal._id ==
+                  data[forUlbType ? "inStateUlbType" : "inState"].ulb._id
+              ).population
+            ) +
+            ")";
+          break;
         default:
           break;
       }
@@ -195,5 +211,19 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
 
   panelClose(item) {
     item.panelOpenState = false;
+  }
+}
+
+function toPopulcationCategory(population) {
+  if (population < 100000) {
+    return "<100K";
+  } else if (100000 < population && population < 500000) {
+    return "100K-500K";
+  } else if (500000 < population && population < 1000000) {
+    return "500K-1M";
+  } else if (1000000 < population && population < 4000000) {
+    return "1M-4M";
+  } else {
+    return "4M+";
   }
 }

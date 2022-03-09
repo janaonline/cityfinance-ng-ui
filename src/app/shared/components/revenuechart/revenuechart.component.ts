@@ -260,7 +260,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
-      
+
         this.createChart();
       }
     }

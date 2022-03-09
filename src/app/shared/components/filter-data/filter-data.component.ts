@@ -119,7 +119,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: "",
+      compareType: "State Average",
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
@@ -232,10 +232,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
     newData.data.datasets = [];
+    let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
+    newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
+      if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
+    newData.data.datasets.push(newlineDataset);
 
     this.mySelectedYears.map((value) => {
       if (!newData.data.labels.includes(value)) {
@@ -385,7 +389,7 @@ const lineDataset = {
   label: "Line Dataset",
   data: [],
   fill: false,
-  borderColor: "rgb(54, 162, 235)",
+  borderColor: "#F56184",
 };
 
 const innerDataset = {
