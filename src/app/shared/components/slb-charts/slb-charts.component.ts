@@ -14,7 +14,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   ) {}
 
   isCompare = false;
-  slbGaugeCharts;
+  slbGaugeCharts=[];
   @Input() data: any;
   @Input() cityId: any;
   aboutSlbCharts = "";
@@ -83,6 +83,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           if (value.percentage)
             value.percentage = Number(value.percentage.toFixed(2));
           else value.percentage = 0;
+          if(value.value === "NA"){value.value = 0}
         });
         this.slbGaugeCharts = res?.data;
       },

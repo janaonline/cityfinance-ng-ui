@@ -33,21 +33,21 @@
     </div>
 </div>
 
-<div class="row mb-3">
-    <div class="col-sm-12 col-md-4 col-lg-3 mb-3" *ngFor="let item of slbGaugeCharts">
+<div class="row mb-3" *ngIf="slbGaugeCharts.length">
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-3" *ngFor="let item of slbGaugeCharts; let i=index">
         <div class="svgCont m-1">
             <svg class="chart-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid meet">
             <defs>
                <linearGradient id="green1svg" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" style="stop-color:green;stop-opacity:1" />
-                <stop offset="70%" style="stop-color:green;stop-opacity:1" />
-                <stop offset="70%" style="stop-color: #D6F2EB;stop-opacity:1" />
+                <stop [attr.offset]="item?.percentage+'%'" style="stop-color:green;stop-opacity:1" />
+                <stop [attr.offset]="item?.percentage+'%'" style="stop-color: #D6F2EB;stop-opacity:1" />
                 <stop offset="100%" style="stop-color: #D6F2EB;stop-opacity:1" />
               </linearGradient>
               <linearGradient id="blue2svg" x1="0%" y1="0%" x2="100%" y2="0%">
                <stop offset="0%" style="stop-color: #224BD5;stop-opacity:1" />
-               <stop offset="50%" style="stop-color:#224BD5;stop-opacity:1" />
-               <stop offset="50%" style="stop-color: #EDF1FF;stop-opacity:1" />
+               <stop [attr.offset]="item?.value+'%'" style="stop-color:#224BD5;stop-opacity:1" />
+               <stop [attr.offset]="item?.value+'%'" style="stop-color: #EDF1FF;stop-opacity:1" />
                <stop offset="100%" style="stop-color: #EDF1FF;stop-opacity:1" />
              </linearGradient>
              <linearGradient id="yellow2svg" x1="0%" y1="0%" x2="100%" y2="0%">
