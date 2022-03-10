@@ -32,6 +32,17 @@
     // border-left: inherit;
 }
 
+.fl-input {
+    padding: 9px;
+    border: none;
+    width: 80%;
+}
+
+.fl-input:focus-visible {
+    border: none;
+    outline-color: transparent;
+}
+
 .stateMapContainer {
     padding: 0px;
     position: relative;

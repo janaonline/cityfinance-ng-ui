@@ -38,7 +38,7 @@ export class NewHomeComponent implements OnInit {
       image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
       text: `"It’s our mission to strengthen our cities to meet the challenges of 21st century"`,
       name: "Narendra Modi",
-      designation: "Prime Minister of India",
+      designation: "Hon’ble Prime Minister of India",
       class: "prim-img",
       textCls: "p-t",
     },
