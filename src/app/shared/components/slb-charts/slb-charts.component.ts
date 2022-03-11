@@ -85,7 +85,11 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           else value.percentage = 0;
           if(value.value === "NA"){value.value = 0}
         });
-        this.slbGaugeCharts = res?.data;
+        this.slbGaugeCharts = res?.data.map((value,Index)=>{
+          Object.assign(value,{type:6})
+          Object.assign(value,{chartId:Index+"slb-Charts"+value.type})
+          return value
+        });
       },
       (error) => {
         console.log(error);
