@@ -104,11 +104,13 @@ export class AppComponent implements OnDestroy, OnInit {
         localStorage.setItem("ulbList", JSON.stringify(res));
         let ulbStateCodeMapping = {},
           ulbCodeMapping = {},
-          stateIdsMap = {};
+          stateIdsMap = {},
+          ulbMapping = {};
         for (const key in res.data) {
           const element = res.data[key];
           stateIdsMap[element["_id"]] = element.state;
           element.ulbs.map((value) => {
+            ulbMapping[value._id] = value;
             ulbStateCodeMapping[value._id] = key;
             ulbCodeMapping[value._id] = value.code;
           });
@@ -119,6 +121,7 @@ export class AppComponent implements OnDestroy, OnInit {
         );
         localStorage.setItem("ulbCodeMapping", JSON.stringify(ulbCodeMapping));
         localStorage.setItem("stateIdsMap", JSON.stringify(stateIdsMap));
+        localStorage.setItem("ulbMapping", JSON.stringify(ulbMapping));
         console.log(res, "ULB LIST");
       },
       (error) => {}

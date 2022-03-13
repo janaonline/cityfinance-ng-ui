@@ -1,6 +1,15 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DashboardService } from '../../services/dashboard/dashboard.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { DashboardService } from "../../services/dashboard/dashboard.service";
 
 @Component({
   selector: "app-slb-charts",
@@ -14,7 +23,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   ) {}
 
   isCompare = false;
-  slbGaugeCharts=[];
+  slbGaugeCharts = [];
   @Input() data: any;
   @Input() cityId: any;
   aboutSlbCharts = "";
@@ -23,10 +32,11 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   @Output()
   compareChange = new EventEmitter();
   @Input()
-  compareDialogType = 1;
+  compareDialogType = 3;
   compareType = "";
   @Input()
   year;
+  ulbData;
   yearList = [
     "2015-16",
     "2016-17",
@@ -38,12 +48,28 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   ];
   chartLabels = [
     {
-      name: "Mumbai",
+      name: "ulb",
       color: "#224BD5",
     },
     {
       name: "Benchmark",
       color: "#29CFD6",
+    },
+    {
+      name: "",
+      color: "",
+    },
+    {
+      name: "Good",
+      color: "#04D30C",
+    },
+    {
+      name: "Bad",
+      color: "#E64E4E",
+    },
+    {
+      name: "Ok",
+      color: "#FFC80F",
     },
   ];
 
@@ -61,16 +87,27 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       this.aboutSlbCharts = this.data?.mainContent[0]?.about;
       this.getData();
     }
+    if (changes.cityId) {
+      this.ulbData = JSON.parse(localStorage.getItem("ulbMapping"));
+      // this.ulbData = this.ulbData[changes.cityId.currentValue];
+    }
   }
   getData() {
     let typeName = this.data.name;
-
-    if (this.data.name == "Storm Water Drainage") typeName = "storm water";
-    if (this.data.name == "Solid Waste Management") typeName = "solid waste";
-    if (this.data.name == "Waste Water Management") typeName = "sanitation";
+    switch (this.data.name) {
+      case "Storm Water Drainage":
+        typeName = "storm water";
+        break;
+      case "Solid Waste Management":
+        typeName = "solid waste";
+        break;
+      case "Waste Water Management":
+        typeName = "sanitation";
+        break;
+    }
 
     let queryParams = {
-      compUlb: "",
+      compUlb: this.compareType,
       ulb: this.cityId,
       type: typeName,
       year: this.year,
@@ -79,16 +116,31 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     this.dashboardServices.fetchCitySlbChartData(queryParams).subscribe(
       (res: any) => {
         console.log("city respo", res);
+        this.chartLabels = this.chartLabels.map((value) => {
+          if (value.name == "ulb") {
+            value.name = this.ulbData[this.cityId].name;
+          }
+          if (
+            value.name === "" &&
+            res["data"][0].hasOwnProperty("compPercentage")
+          ) {
+            value.name = this.ulbData[this.compareType].name;
+            value.color = "#FFC80F";
+          }
+          return value;
+        });
         res.data.map((value) => {
           if (value.percentage)
             value.percentage = Number(value.percentage.toFixed(2));
           else value.percentage = 0;
-          if(value.value === "NA"){value.value = 0}
+          if (value.value === "NA") {
+            value.value = 0;
+          }
         });
-        this.slbGaugeCharts = res?.data.map((value,Index)=>{
-          Object.assign(value,{type:6})
-          Object.assign(value,{chartId:Index+"slb-Charts"+value.type})
-          return value
+        this.slbGaugeCharts = res?.data.map((value, Index) => {
+          Object.assign(value, { type: 6 });
+          Object.assign(value, { chartId: Index + "slb-Charts" + value.type });
+          return value;
         });
       },
       (error) => {
@@ -116,10 +168,12 @@ export class SlbChartsComponent implements OnInit, OnChanges {
 
   getCompareCompValues(value) {
     if (Array.isArray(value)) {
-      this.compareType = "ULBs..";
+      this.compareType = value[0]._id;
+      this.getData();
       return this.sendValue(value);
     } else this.compareType = value;
     this.sendValue();
+    this.getData();
   }
   sendValue(ulbs = []) {
     let data = {

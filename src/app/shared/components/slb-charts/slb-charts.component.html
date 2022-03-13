@@ -26,7 +26,8 @@
     <div class="col-sm-12 col-12">
         <ul style="display: flex; padding: 0px; align-items: flex-start; flex-wrap: wrap; margin-top: 0rem; margin-bottom: 0;">
             <li *ngFor="let item of chartLabels" style="display: flex; align-items: center; padding: 0.6rem;">
-                <div style="width: 14px; height: 14px; display: inline-block; border-radius: 3px;" [style.background-color]="item.color"></div>
+                <div style="width: 14px; height: 14px; display: inline-block; border-radius: 3px;"
+                    [style.background-color]="item.color"></div>
                 <span class="ps-2">{{item.name}}</span>
             </li>
         </ul>

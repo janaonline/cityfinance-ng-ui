@@ -65,88 +65,44 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.data.type === 6) {
       setTimeout(() => {
         this.createGuageChart(
-          "benchMark",
           `${this.data["chartId"]}chartjs-gauge`,
-          ["#29CFD6", "#D6F2EB"],
-          90,
-          "value"
+          ["#29CFD6", "#D6F2EB","#1067DE", "#E9E9E9","#FFC80F","#E9E9E9"],
+          70,
         );
-        this.createGuageChart(
-          "percentage",
-          `${this.data["chartId"]}chartjs-gauge2`,
-          ["#1067DE", "#E9E9E9"],
-          80,
-          "percentage"
-        );
-        if (this.data.hasOwnProperty("compare") && this.data["compare"])
-          this.createGuageChart(
-            "compare",
-            `${this.data["chartId"]}chartjs-gauge3`,
-            "#FFC80F",
-            70,
-            "some"
-          );
-      }, 100);
+      }, 10);
     }
   }
   guageChart;
   createGuageChart(
-    chartName,
     type,
     backgroundColor,
     getCutoutPercentage,
-    dataKey
   ) {
-    // Create chart
     let canvas = <HTMLCanvasElement>document.getElementById(type);
-    let chart1, chart2;
-    switch (type) {
-      case `${this.data["chartId"]}chartjs-gauge2`:
-        chart1 = document.getElementById(
-          `${this.data["chartId"]}chartjs-gauge`
-        ).style;
-        chart2 = document.getElementById(`${this.data["chartId"]}chart2`).style;
-        console.log(chart1, chart2, "charts");
-
-        chart2.height = parseInt(chart1.height.split("px")[0]) - 15 + "px";
-        chart2.width = parseInt(chart1.width.split("px")[0]) - 30 + "px";
-        chart2.zIndex = "9";
-        chart2.marginTop = "-" + chart2.height;
-        chart2.marginLeft = "12px";
-        break;
-
-      case `${this.data["chartId"]}chartjs-gauge3`:
-        chart1 = document.getElementById(`${this.data["chartId"]}chart2`).style;
-        chart2 = document.getElementById(`${this.data["chartId"]}chart3`).style;
-        chart2.height = parseInt(chart1.height.split("px")[0]) - 8 + "px";
-        chart2.width = parseInt(chart1.width.split("px")[0]) - 12 + "px";
-        chart2.zIndex = "10";
-        chart2.marginTop = "-" + chart2.height;
-        chart2.marginLeft = "12px";
-        break;
+    let chartData = {
+      datasets: [
+        {
+          data: [this.data["value"], 100 - this.data["value"]],
+          backgroundColor: [backgroundColor[0],backgroundColor[1]],
+        },
+        {
+          data: [this.data["percentage"], 100 - this.data["percentage"]],
+          backgroundColor: [backgroundColor[2],backgroundColor[3]],
+        },
+      ],
     }
-
-    if (chart2) {
-      let num = document.getElementById(
-        `${this.data["chartId"]}chartNum`
-      ).style;
-      num.marginTop =
-        "-" + (parseInt(chart2.height.split("px")[0]) / 2 - 2) + "px";
-      num.fontSize = parseInt(chart2.height.split("px")[0]) / 4 + "px";
+    debugger
+    if(this.data.hasOwnProperty("compPercentage")){
+      chartData.datasets.push({
+        data: [this.data["compPercentage"], 100 - this.data["compPercentage"]],
+        backgroundColor: [backgroundColor[4],backgroundColor[5]],
+      })
     }
 
     const ctx = canvas.getContext("2d");
     this.guageChart = new Chart(ctx, {
       type: "doughnut",
-      data: {
-        datasets: [
-          {
-            label: "Gauge",
-            data: [this.data[dataKey], 100 - this.data[dataKey]],
-            backgroundColor: [...backgroundColor],
-          },
-        ],
-      },
+      data: chartData,
       options: {
         circumference: Math.PI,
         rotation: Math.PI,
@@ -159,7 +115,6 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
         },
       },
     });
-    console.log(this.guageChart);
   }
   // DEMO Code: not relevant to example
   change_gauge(chart, data, key) {
