@@ -28,6 +28,7 @@ export const appRouter: Routes = [
 
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
+  { path: "card", component: SharedCardComponent },
 
   { path: "home", component: NewHomeComponent },
   {

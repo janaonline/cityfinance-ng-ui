@@ -190,6 +190,41 @@
     
       <!--- ownrevenuechart compare start-->
     </div>
+    <div *ngSwitchCase="3">
+      <div class="row">
+        <div class="col-12 justify-content-around">
+          <label for="">Search ULB</label>
+          <div class="d-flex formInput">
+            <form class="col-md-9 col-sm-12 p-2 compareInput">
+              <input matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
+              <mat-autocomplete #auto="matAutocomplete">
+                <span (click)="optionSelected(option)" *ngFor="let option of filteredOptions; let i = index"
+                  style="direction: none">
+                  <mat-option [ngClass]="{ firstCls: i == 0 }" [value]="option?.name">
+                    <div class="row">
+                      <div class="col-8">
+                        <span> {{ option?.name }}</span>
+                      </div>
+                    </div>
+                  </mat-option>
+                </span>
+    
+                <mat-option *ngIf="noDataFound" class="text-danger firstCls">
+                  Sorry, we can’t find anything related to your search. Try
+                  searching for a city or state
+                </mat-option>
+              </mat-autocomplete>
+            </form>
+    
+            <div class="col-md-3 p-2 compareButton">
+              <button>Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!--- revenuechart compare end-->
+    </div>
   </div>
 
   <div class="row">

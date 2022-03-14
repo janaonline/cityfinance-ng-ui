@@ -86,14 +86,19 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.tabName = this.data.name.toLocaleLowerCase();
-    this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
-    this.aboutIndicators = this.data["static"].indicators;
-    setTimeout(() => {
-      if (this.data.btnLabels.length) this.changeActiveBtn(0);
-      this.getChartData({});
-    }, 0);
-    this.setHeadOfAccount();
+    if (changes.data) {
+      this.tabName = this.data.name.toLocaleLowerCase();
+      this.data = {
+        ...this.data["mainContent"][0],
+        filterName: this.data.name,
+      };
+      this.aboutIndicators = this.data["static"].indicators;
+      setTimeout(() => {
+        if (this.data.btnLabels.length) this.changeActiveBtn(0);
+        this.getChartData({});
+      }, 0);
+      this.setHeadOfAccount();
+    }
     console.log("this.barChart", this.barChart);
   }
 
@@ -114,7 +119,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: "",
+      compareType: "State Average",
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
@@ -227,10 +232,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
     newData.data.datasets = [];
+    let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
+    newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
+      if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
+    newData.data.datasets.push(newlineDataset);
 
     this.mySelectedYears.map((value) => {
       if (!newData.data.labels.includes(value)) {
@@ -380,7 +389,7 @@ const lineDataset = {
   label: "Line Dataset",
   data: [],
   fill: false,
-  borderColor: "rgb(54, 162, 235)",
+  borderColor: "#F56184",
 };
 
 const innerDataset = {
