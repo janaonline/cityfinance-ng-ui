@@ -23,22 +23,34 @@
               other Municipal Finance related knowledge products.
             </div>
             <div class="res-filter">
-                <form class="filter-forms w-100">
-                    <div class="row">
-                        <div class="col-9 pe-0">
-                            <input type="text" placeholder="Type here..." [formControl]="resourcesFilter" [matAutocomplete]="auto" class="fl-input form-control">
-                        </div>
-                        <div class="col-3 p-0">
-                            <button type="button" class="btn btnFilter">Search</button>
-                        </div>
-                        <div class="col-12">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let resource of filteredResources | async" [value]="resource">
-                                    {{resource}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </div>
-
+              <form class="filter-forms w-100">
+                <div class="row">
+                  <div class="col-9 pe-0">
+                    <input
+                      type="text"
+                      placeholder="Type here..."
+                      [formControl]="resourcesFilter"
+                      [matAutocomplete]="auto"
+                      class="fl-input form-control"
+                    />
+                  </div>
+                  <div class="col-3 p-0">
+                    <button type="button" class="btn btnFilter">Search</button>
+                  </div>
+                  <div class="col-12">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option
+                        *ngFor="let resource of filteredResources | async"
+                        [value]="resource"
+                      >
+                        {{ resource }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
           <!-- <div style="display: inline-block; float: right;">
 
                     </div> -->
@@ -47,6 +59,7 @@
     </div>
   </div>
 </div>
+<!-- </div> -->
 
 <div class="container container-cnt mt-n">
   <a
