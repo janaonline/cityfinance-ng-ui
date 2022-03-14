@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";
@@ -100,6 +100,8 @@ export class DashboardMapSectionComponent
   isLoading:boolean = true;
   cid:string;
   creditRatingList: any[];
+  globalFormControl = new FormControl();
+
 
   // Including A
   creditRatingAboveA;

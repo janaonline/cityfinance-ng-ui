@@ -2,7 +2,7 @@
 <div [ngClass]="{'d-none': stateList.length <= 0}" class="flex-column row">
   <div class="row">
     
-    <div class="col-6 pull-right">
+    <div class="col-6 pull-right d-none">
       <select 
       [ngStyle]="{cursor: !mapConfig.showStateList ? 'not-allowed':''}"
        [disabled]="!mapConfig.showStateList" (change)="stateOption($event)"
@@ -16,9 +16,9 @@
       </select>
     </div>
 
-    <div class="col-6 pull-right">
+    <div class="col-6 ">
       <select  *ngIf="stateList.length > 0" [disabled]="!mapConfig.showDistrictList" (change)="districtOption($event.target)" class="form-select" aria-label="Default select example">
-        <option value="">city</option>
+        <option value="">City</option>
         <option [selected]="mapConfig.code.city == item.key" value="{{item | json}}" *ngFor="let item of districtList | keyvalue" >{{item.value}}</option>
       </select>
     </div>
