@@ -6,11 +6,11 @@
             </p>
         </div>
         <div class="col-md-6 d-flex justify-content-end">
-                <div class=" mr-1 modalButton" >
+                <div class=" mr-1 modalButton d-flex justify-content-center align-items-center" >
                     <span (click)="openModal()" class=" compare">Compare By: Similar Type &nbsp;</span>
                 </div>
             <div class="yearSelect">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" style="width: 140px;">
                         <mat-label>Select Years</mat-label>
                         <mat-select [formControl]="dropYears" multiple  (selectionChange)="selectYearValue($event)">
                           <mat-option  *ngFor="let year of yearsList" [value]="year">{{year.itemName}}</mat-option>
