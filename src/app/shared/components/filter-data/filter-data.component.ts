@@ -18,11 +18,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private commonService: CommonService,
     private _activatedRoute: ActivatedRoute
-  ) {
-    this._activatedRoute.queryParams.subscribe((param) => {
-      this.currentUlb = param.cityId;
-    });
-  }
+  ) {}
+  @Input()
   currentUlb;
   scatterData = JSON.parse(JSON.stringify(scatterData));
   barChart = JSON.parse(JSON.stringify(barChartStatic));
@@ -38,11 +35,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
   isPerCapita = false;
+  @Input()
   mySelectedYears = ["2015-16", "2014-15", "2013-14"];
   loading = false;
   tabName;
   CAGR = "";
   positiveCAGR;
+  chartOptions;
   ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
@@ -87,14 +86,19 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.tabName = this.data.name.toLocaleLowerCase();
-    this.data = { ...this.data["mainContent"][0], filterName: this.data.name };
-    this.aboutIndicators = this.data["static"].indicators;
-    setTimeout(() => {
-      if (this.data.btnLabels.length) this.changeActiveBtn(0);
-      this.getChartData({});
-    }, 0);
-    this.setHeadOfAccount();
+    if (changes.data) {
+      this.tabName = this.data.name.toLocaleLowerCase();
+      this.data = {
+        ...this.data["mainContent"][0],
+        filterName: this.data.name,
+      };
+      this.aboutIndicators = this.data["static"].indicators;
+      setTimeout(() => {
+        if (this.data.btnLabels.length) this.changeActiveBtn(0);
+        this.getChartData({});
+      }, 0);
+      this.setHeadOfAccount();
+    }
     console.log("this.barChart", this.barChart);
   }
 
@@ -115,7 +119,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: "",
+      compareType: "State Average",
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
@@ -168,7 +172,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       (amount, value) => (amount += value.amount),
       0
     );
-    this.CAGR = `Total revenue is Rs ${totalRevenue} Crore`;
+    this.CAGR = `Total revenue is Rs ${(totalRevenue / 10000000).toFixed(
+      2
+    )} Crore`;
     this.positiveCAGR = true;
   }
 
@@ -216,20 +222,24 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [value.amount];
+          dataInner.data = [convertToCr(value.amount)];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(value.amount);
+          dataInner.data.push(convertToCr(value.amount));
           temp[value.ulbName] = dataInner;
         }
       });
     }
     newData.data.datasets = [];
+    let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
+    newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
+      if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
+    newData.data.datasets.push(newlineDataset);
 
     this.mySelectedYears.map((value) => {
       if (!newData.data.labels.includes(value)) {
@@ -237,6 +247,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       }
     });
     this.barChart = newData;
+    this.chartOptions = barChartStaticOptions;
   }
 
   createExpenditureData(data) {
@@ -347,32 +358,27 @@ const barChartStatic = {
         label: "My First Dataset",
         data: [65, 59, 80, 81, 56, 55, 40],
         borderWidth: 1,
+        barThickness: 50,
+        borderRadius: 8,
       },
     ],
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
   },
 };
 
 const backgroundColor = [
-  "rgba(255, 99, 132, 0.2)",
-  "rgba(255, 159, 64, 0.2)",
-  "rgba(255, 205, 86, 0.2)",
-  "rgba(75, 192, 192, 0.2)",
+  "#1EBFC6",
+  "#1E44AD",
+  "#F56184",
+  "#3C3C3C",
   "rgba(54, 162, 235, 0.2)",
   "rgba(153, 102, 255, 0.2)",
   "rgba(201, 203, 207, 0.2)",
 ];
 const borderColor = [
-  "rgb(255, 99, 132)",
-  "rgb(255, 159, 64)",
-  "rgb(255, 205, 86)",
-  "rgb(75, 192, 192)",
+  "#1EBFC6",
+  "#1E44AD",
+  "#F56184",
+  "#3C3C3C",
   "rgb(54, 162, 235)",
   "rgb(153, 102, 255)",
   "rgb(201, 203, 207)",
@@ -383,14 +389,22 @@ const lineDataset = {
   label: "Line Dataset",
   data: [],
   fill: false,
-  borderColor: "rgb(54, 162, 235)",
+  borderColor: "#F56184",
 };
 
 const innerDataset = {
   label: "My First Dataset",
   data: [65, 59, 80, 81, 56, 55, 40],
   borderWidth: 1,
+  barThickness: 50,
+  borderRadius: 8,
 };
+
+function convertToCr(value) {
+  if (value == 0) return 0;
+  value /= 10000000;
+  return value.toFixed(2);
+}
 
 const scatterData = {
   type: "scatter",
@@ -566,3 +580,33 @@ const ownRevenue = [
 ];
 
 const showTotalRevenue = ["160", "120", "171", "150"];
+
+const barChartStaticOptions = {
+  maintainAspectRatio: false,
+  responsive: true,
+  scales: {
+    yAxes: [
+      {
+        scaleLabel: {
+          display: true,
+          labelString: "Amount in Cr.",
+        },
+        gridLines: {
+          offsetGridLines: true,
+          display: false,
+        },
+        ticks: {
+          beginAtZero: true,
+        },
+      },
+    ],
+  },
+  legend: {
+    position: "bottom",
+    labels: {
+      padding: 35,
+      boxWidth: 24,
+      boxHeight: 18,
+    },
+  },
+};

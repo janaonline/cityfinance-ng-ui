@@ -13,7 +13,7 @@ import { ToolkitsComponent } from './learning-center/toolkits/toolkits.component
 import { ReportsPublicationComponent } from './reports-publication/reports-publication.component';
 import { ResourcesDashboardComponent } from './resources-dashboard.component';
 import { ResourcesTabsComponent } from './resources-tabs/resources-tabs.component';
-
+import {MunicipalLawsComponent} from '../../municipal-law/municipal-laws/municipal-laws.component'
 const routes: Routes = [
   {
     path: "", component: ResourcesDashboardComponent,
@@ -53,6 +53,9 @@ const routes: Routes = [
         },
         {
           path:'eLearning', component: ELearningModuleComponent
+        },
+        {
+          path:'municipal-laws', component: MunicipalLawsComponent
         },
          {
           path: 'bestPractices', component: BestPracticesComponent

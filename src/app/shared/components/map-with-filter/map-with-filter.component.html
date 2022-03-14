@@ -4,6 +4,7 @@
     
     <div class="col-6 pull-right d-none">
       <select 
+      [ngStyle]="{cursor: !mapConfig.showStateList ? 'not-allowed':''}"
        [disabled]="!mapConfig.showStateList" (change)="stateOption($event)"
         *ngIf="stateList.length > 0"
         class="form-select"

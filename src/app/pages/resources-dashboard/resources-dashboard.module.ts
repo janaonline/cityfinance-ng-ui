@@ -35,6 +35,7 @@ import { CheckScorePerformanceComponent } from './check-score-performance/check-
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import {FaqTableComponent} from './learning-center/faq-table/faq-table.component'
 import { ELearningModuleComponent } from './learning-center/e-learning-module/e-learning-module.component';
+import { MunicipalLawsComponent } from './learning-center/municipal-laws/municipal-laws.component';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -52,6 +53,7 @@ import { ELearningModuleComponent } from './learning-center/e-learning-module/e-
      CheckScorePerformanceComponent,
      FaqTableComponent,
      ELearningModuleComponent,
+     MunicipalLawsComponent,
     ],
   imports: [
     CommonModule,
@@ -77,6 +79,7 @@ import { ELearningModuleComponent } from './learning-center/e-learning-module/e-
     FilterModelBoxComponent
   ],
   providers: [
+    MunicipalLawsComponent
   ],
   bootstrap: [ScorePerComponent],
 })

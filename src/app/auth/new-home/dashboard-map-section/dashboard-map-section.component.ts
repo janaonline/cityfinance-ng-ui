@@ -409,7 +409,14 @@ cityInfo
     this.cityName = "";
     this.cid = undefined;
     this.stateDim = false
-   
+    this._commonService
+    .getUlbByState(state ? state?.code : null)
+    .subscribe((res) => {
+      console.log("ulb data", res);
+      let ulbsData: any = res;
+      this.cityData = ulbsData?.data?.ulbs;
+      console.log('AllCity', this.cityData)
+    });
     this.selected_state = state ? state?.name : "India";
     /* Updating the dropdown state selection. */
     this.showCreditInfoByState("")
@@ -430,14 +437,7 @@ cityInfo
     );
     console.log("mini mode", this.isMapOnMiniMapMode);
     this.selectStateOnMap(state);
-    this._commonService
-      .getUlbByState(state ? state?.code : null)
-      .subscribe((res) => {
-        console.log("ulb data", res);
-        let ulbsData: any = res;
-        this.cityData = ulbsData?.data?.ulbs;
-        console.log('AllCity', this.cityData)
-      });
+
   }
 
   private selectStateOnMap(state?: IState) {

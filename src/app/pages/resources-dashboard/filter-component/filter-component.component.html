@@ -17,44 +17,46 @@
                     <div class="col-lg-10 fl-form">
                         <div class="row">
                             <div class="col-lg-2">
-                                <select class="form-select" id="stateName" aria-label="Default select" formControlName="state" (change)="filterData()">
+                                <select  class="form-select" id="stateName" aria-label="Default select" formControlName="state" (change)="filterData('state','')">
                                     <option value="" selected>State</option>
-                                    <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
+                                    <option [value]="item?._id" *ngFor="let item of stateList">{{item?.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-2">
                                 <!-- <select class="form-select" aria-label="Default select" formControlName="ulb">
                                    <option value="" selected>City</option>
                                    <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                                </select> -->
                                 <input type="text" class="form-control" placeholder="City" matInput formControlName="ulb" [matAutocomplete]="auto">
                                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                    <a (click)="filterData(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                                    <a (click)="filterData('ulb',option?.state?._id)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
                                         <mat-option [value]="option?.name">
-                                            <span> {{option?.name}}</span>
+                                            <span style="font-size: 10px;"> {{option?.name}}</span>
                                         </mat-option>
                                     </a>
                                 </mat-autocomplete>
                             </div>
                             <div class="col-lg-2" *ngIf="filterInputData?.comp == 'dataSets'">
-                                <select class="form-select" aria-label="Default select" formControlName="contentType">
-                                      <option value="" selected>Content Type</option>
-                                    <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
+                                <select name="selectedType" [(ngModel)]="selectedType" (change)="onChangeType($event)" class="form-control"  formControlName="contentType">
+                                   
+                                      <option *ngFor="let item of cType" [ngValue]="item" selected>{{item}}</option>
+                               
                                 </select>
                             </div>
-                            <div class="col-lg-2" *ngIf="filterInputData?.comp == 'dataSets'">
+                            <!-- <div class="col-lg-2" *ngIf="filterInputData?.comp == 'dataSets'">
                                 <select class="form-select" aria-label="Default select" formControlName="sortBy">
                                  <option value="" selected>Sort By</option>
-                    <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
+                    
                                </select>
-                            </div>
-                            <div class="col-lg-2" *ngIf="filterInputData?.comp == 'bestPractices'">
-                                <select class="form-select" aria-label="Default select" formControlName="sortBy">
-                               <option value="" selected>Year</option>
+                            </div> -->
+                            <div class="col-lg-2" *ngIf="filterInputData?.comp == 'bestPractices' || filterInputData?.comp == 'dataSets' ">
+                                <select name="selectedValue" [(ngModel)]="selectedValue" (change)="onChange($event)" class="form-control"  formControlName="year">
+                             
+                               <option *ngFor="let item of yearList" [ngValue]="item" >{{item}}</option>
                   <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
                              </select>
                             </div>
-                            <div class="col-lg-3 text-end" [ngClass]='{"col-lg-5": (filterInputData?.comp == "bestPractices")}'>
+                            <div class="col-lg-2 text-end" [ngClass]='{"col-lg-5": (filterInputData?.comp == "bestPractices")}'>
                                 <button type="button" class="clearBtn" (click)="clearAll()">
                              <span style="vertical-align: middle;">
                               Clear All

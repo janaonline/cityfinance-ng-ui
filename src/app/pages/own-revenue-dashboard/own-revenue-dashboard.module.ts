@@ -10,7 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { ResourcesDashboardModule } from '../resources-dashboard/resources-dashboard.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [OwnRevenueDashboardComponent],
   imports: [
@@ -23,6 +23,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    MatAutocompleteModule
   ],
 })
 export class OwnRevenueDashboardModule {}

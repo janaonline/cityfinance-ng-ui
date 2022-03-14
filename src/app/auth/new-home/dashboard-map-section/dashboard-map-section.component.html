@@ -147,7 +147,8 @@
             
             <!-- <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01"
               (change)="selectCity($event.target.value)"> 
-              <option value="null" selected>Select City</option>
+              <option value="null" selected>{{cityData.length>0 ?  'Select City' : 'Loading...' }}</option>
+              
               <option [selected]="selectedDistrictCode == item.code" value="1" *ngFor="let item of cityData"
                 [value]="item.code">{{item.name}}
               </option>
@@ -157,13 +158,13 @@
 
       </div>
       <div class="expo-pd"> 
-        <div class="vl" *ngIf="!cid"></div>
-        <div class="c-n ps-1">
+        <div class="vl ps-1" *ngIf="!cid"></div>
+        <div class="c-n ps-0">
           <span class="pointer" [ngClass]="{'dim':stateDim }" (click)="stateLevelData()">
             {{selected_state}}
           </span> 
         </div>
-        <div class="c-n ps-1">
+        <div class="c-n ps-0">
           <span *ngIf="cid" class="vl ms-3 ps-1">
             <span (click)="cityLevelData()" class="pointer" [ngClass]="{'dim':!stateDim }" *ngIf="cityName !='' && selected_state != 'India'"> {{cityName}}</span>
           </span> 

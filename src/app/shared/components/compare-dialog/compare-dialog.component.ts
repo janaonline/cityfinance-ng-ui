@@ -34,7 +34,7 @@ export class CompareDialogComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private matSnackBar: MatSnackBar,
-    private _commonService : CommonService
+    private _commonService: CommonService
   ) {
     let ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
     for (const key in ulbList) {
@@ -67,16 +67,16 @@ export class CompareDialogComponent implements OnInit {
   @Input()
   type = 1;
 
-@Input()
-own
+  @Input()
+  own;
 
   filterList = [
     "State Average",
     "National Average",
-    "Similar ULB Cities",
+    // "Similar ULB Cities",
     "ULB Type Average",
     "ULB category Average",
-    "Similar Population ULBs",
+    // "Similar Population ULBs",
   ];
 
   @Input()
@@ -103,9 +103,8 @@ own
       return;
     }
 
-      this.stateChipList.push(event);
-      this.stateChipList = [...new Set(this.stateChipList)];
-  
+    this.stateChipList.push(event);
+    this.stateChipList = [...new Set(this.stateChipList)];
   }
   removeStateChips(chips: { _id: string; name: string }): void {
     const index = this.stateChipList.indexOf(chips);
@@ -113,95 +112,94 @@ own
       this.stateChipList.splice(index, 1);
     }
   }
-togglerValue
-typeX=""
+  togglerValue;
+  typeX = "";
   ngOnInit(): void {
-    this.toogle.valueChanges.subscribe(newToogleValue=> {
+    this.toogle.valueChanges.subscribe((newToogleValue) => {
       console.log("toogleValue", newToogleValue);
-this.reset()
-      this.togglerValue = newToogleValue
-   });
-   this.selectedVal.valueChanges.subscribe(val=> {
+      this.reset();
+      this.togglerValue = newToogleValue;
+    });
+    this.selectedVal.valueChanges.subscribe((val) => {
+      console.log(val);
+    });
+    this.globalFormControl.valueChanges.subscribe((value) => {
+      if (value.length >= 1) {
+        if (this.togglerValue) {
+          this.typeX = "ulb";
+        } else {
+          this.typeX = "state";
+        }
 
-    console.log(val);
- });
-   this.globalFormControl.valueChanges
-   .subscribe(value => {
-     if(value.length >= 1){
-       
-       if(this.togglerValue){
-        this.typeX="ulb"
-       }else{
-         this.typeX ="state"
-       }
-
-       this._commonService.postGlobalSearchData(value, this.typeX).subscribe((res: any) => {
-         console.log(res?.data);
-         let emptyArr:any = []
-           this.filteredOptions = emptyArr;
-         if(res?.data.length > 0 ){
-           this.filteredOptions = res?.data;
-           this.noDataFound = false;
-         }else{
-
-           let emptyArr:any = []
-           this.filteredOptions = emptyArr;
-           this.noDataFound = true;
-           let noDataFoundObj = {
-             name: '',
-             id: '',
-             type: '',
-           }
-           console.log('no data found')
-         }
-       });
-     }
-     else {
-       return null;
-     }
-   })
+        this._commonService
+          .postGlobalSearchData(value, this.typeX)
+          .subscribe((res: any) => {
+            console.log(res?.data);
+            let emptyArr: any = [];
+            this.filteredOptions = emptyArr;
+            if (res?.data.length > 0) {
+              this.filteredOptions = res?.data;
+              this.noDataFound = false;
+            } else {
+              let emptyArr: any = [];
+              this.filteredOptions = emptyArr;
+              this.noDataFound = true;
+              let noDataFoundObj = {
+                name: "",
+                id: "",
+                type: "",
+              };
+              console.log("no data found");
+            }
+          });
+      } else {
+        return null;
+      }
+    });
     this.searchField.valueChanges.subscribe((value) => {
       console.log(value);
       if (value) this.search(value);
     });
 
     if (this.type == 2) {
-      if(this.own){
-        this.parameters = ['Own Revenue', 'Own Revenue per Capita', 'Own Revenue as a percentage of Revenue Expenditure']
-      }else{
-        this.parameters = ['Property Tax', 'Property Tax per Capita', 'Property Tax as a percentage of Revenue Expenditure']
+      if (this.own) {
+        this.parameters = [
+          "Own Revenue",
+          "Own Revenue per Capita",
+          "Own Revenue as a percentage of Revenue Expenditure",
+        ];
+      } else {
+        this.parameters = [
+          "Property Tax",
+          "Property Tax per Capita",
+          "Property Tax as a percentage of Revenue Expenditure",
+        ];
       }
-      
-     
     }
   }
-reset(){
-  this.globalFormControl.setValue("")
-  this.selectedVal.setValue('None')
-  this.stateChipList = []
-}
+  reset() {
+    this.globalFormControl.setValue("");
+    this.selectedVal.setValue("None");
+    this.stateChipList = [];
+  }
   close() {
     this.closeDialog.emit(true);
   }
-  checkType(searchValue){
+  checkType(searchValue) {
     let type = searchValue?.type;
-    if(type == 'ulb'){
-      
-   }
-   if(type == 'state'){
-       
-   }
-   if(type == 'searchKeyword'){
-    
-   }
+    if (type == "ulb") {
+    }
+    if (type == "state") {
+    }
+    if (type == "searchKeyword") {
+    }
   }
-  dashboardNav(option,event){
-    console.log('option', option)
+  dashboardNav(option, event) {
+    console.log("option", option);
     this.checkType(option);
-    this.selectedStateValue(option)
-    this.globalFormControl.setValue("")
+    this.selectedStateValue(option);
+    this.globalFormControl.setValue("");
   }
- 
 
   search(matchingWord) {
     let body = {
@@ -262,18 +260,24 @@ reset(){
       this.ulbListChip.splice(index, 1);
     }
   }
-emptyField = true
+  emptyField = true;
   emitValues() {
     if (this.type == 2) {
-      if(this.stateChipList.length>1 && (this.selectedVal.value != 'None' || !this.selectedVal.value )){
-        this.emptyField = false
-        this.valuesToEmit = { list: this.stateChipList, param: this.selectedVal.value, type:this.typeX };
+      if (
+        this.stateChipList.length > 1 &&
+        (this.selectedVal.value != "None" || !this.selectedVal.value)
+      ) {
+        this.emptyField = false;
+        this.valuesToEmit = {
+          list: this.stateChipList,
+          param: this.selectedVal.value,
+          type: this.typeX,
+        };
         this.ownRevenueCompValue.emit(this.valuesToEmit);
-      }else{
-this.emptyField = true
-return
+      } else {
+        this.emptyField = true;
+        return;
       }
-   
     } else {
       this.compareValue.emit(this.valuesToEmit);
       this.ulbValues.emit(this.ulbIds);
