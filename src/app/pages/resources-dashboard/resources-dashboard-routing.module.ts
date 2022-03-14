@@ -5,13 +5,15 @@ import { DataSetsComponent } from './data-sets/data-sets.component';
 
 import { BestPracticesComponent } from './learning-center/best-practices/best-practices.component';
 import { DynamicSubLearningComponent } from './learning-center/dynamic-sub-learning/dynamic-sub-learning.component';
+import { ELearningModuleComponent } from './learning-center/e-learning-module/e-learning-module.component';
+import { FaqTableComponent } from './learning-center/faq-table/faq-table.component';
 import { LearningCenterComponent } from './learning-center/learning-center.component';
 import { ScorePerComponent } from './learning-center/score-per/score-per.component';
 import { ToolkitsComponent } from './learning-center/toolkits/toolkits.component';
 import { ReportsPublicationComponent } from './reports-publication/reports-publication.component';
 import { ResourcesDashboardComponent } from './resources-dashboard.component';
 import { ResourcesTabsComponent } from './resources-tabs/resources-tabs.component';
-
+import {MunicipalLawsComponent} from '../../municipal-law/municipal-laws/municipal-laws.component'
 const routes: Routes = [
   {
     path: "", component: ResourcesDashboardComponent,
@@ -47,9 +49,18 @@ const routes: Routes = [
            ]
          },
          {
+          path:'faqs', component: FaqTableComponent
+        },
+        {
+          path:'eLearning', component: ELearningModuleComponent
+        },
+        {
+          path:'municipal-laws', component: MunicipalLawsComponent
+        },
+         {
           path: 'bestPractices', component: BestPracticesComponent
         },
-
+       
         ]
       },
 

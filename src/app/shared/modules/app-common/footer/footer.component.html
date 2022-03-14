@@ -3,25 +3,32 @@
         <div class="row">
             <!-- new footer started here -->
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <h6> <a routerLink="/home" style="text-decoration: none;"><span class="city">city</span><span class="fy">finance.in</span></a> </h6>
-
+                <h6 style="margin-top: -1rem !important;"> <a class="foot-links" routerLink="/home" style="text-decoration: none;"><span class="city">city</span><span class="fy">finance.in</span></a> </h6>
+                <h6 class="foot-links">
+                    <a style="text-decoration: none;" routerLink="/home" routerLinkActive="active">Cityfinance.in</a>
+                    <span class="foot-links lh-base">
+                        serves as a national framework of standardized, timely and credible financial 
+                        information on India’s cities, beginning with urban local bodies. It facilitates benchmarking,
+                        comparison and peer learning between cities on a range of financial indicators.
+                    </span>
+                </h6>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <h6><a style="text-decoration: none;" routerLink="/home" routerLinkActive="active">Home</a></h6>
-                <h6><a style="text-decoration: none;" routerLink="/dashboard/national">Financial</a></h6>
-                <h6><a style="text-decoration: none;" routerLink="/own-revenue-dashboard">Own Revenue</a></h6>
-                <h6><a style="text-decoration: none;">Service Level Benchmarks</a></h6>
-                <h6><a style="text-decoration: none;">Infrastructure Borrowings</a></h6>
-                <h6><a style="text-decoration: none;" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a></h6>
+                <h6><a class="foot-links" style="text-decoration: none;" routerLink="/home" routerLinkActive="active">Home</a></h6>
+                <h6><a class="foot-links" style="text-decoration: none;" routerLink="/dashboard/national">Financial</a></h6>
+                <h6><a class="foot-links" style="text-decoration: none;" routerLink="/own-revenue-dashboard">Own Revenue</a></h6>
+                <h6><a class="foot-links" style="text-decoration: none;">Service Level Benchmarks</a></h6>
+                <h6><a class="foot-links" style="text-decoration: none;">Infrastructure Borrowings</a></h6>
+                <h6><a class="foot-links" style="text-decoration: none;" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a></h6>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12  col-xs-12">
-                <h6 class="info-dir">
+                <h6 class="info-dir foot-links">
                     Director, AMRUT <br /> Ministry of Housing and Urban Affairs <br /> 210 C, Nirman Bhawan, Maulana Azad Road <br /> New Delhi-110011
                 </h6>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 email-sec">
                 <h6>Email: <br/>
-                    <a href="mailto:contact@cityfinance.in" style="color: #FF9922;">contact@cityfinance.in</a></h6>
+                    <a class="foot-links" href="mailto:contact@cityfinance.in" style="color: #FF9922;">contact@cityfinance.in</a></h6>
 
                 <div style="color: #B2BFD8;">
                     Connect With Us: <br/>
@@ -36,14 +43,13 @@
                             <img src="../../../../../assets/new_dashBord_ftr_hdr/linkdin.svg" alt="">
                         </a> &nbsp;&nbsp;
                     </div>
-
                 </div>
             </div>
             <div class="col-md-12 col-xs-12 col-lg-12">
                 <div class="visit-count">
                     <i class="fa fa-users" aria-hidden="true" style="margin-right: 6px">
                </i>
-                    <span>Visitors: {{ totalUsersVisit }} </span>
+                    <span class="foot-links">Visitors: {{ totalUsersVisit }} </span>
                 </div>
             </div>
 

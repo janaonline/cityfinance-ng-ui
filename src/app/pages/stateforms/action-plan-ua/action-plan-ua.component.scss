@@ -1,7 +1,10 @@
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: 20px;
+    font-size: $font-size-base*1.25;
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: 600;
@@ -15,7 +18,7 @@
     padding-left: 2%;
     padding-right: 2%;
     width: auto;
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
     font-weight: normal;
 }
 
@@ -25,7 +28,7 @@
     border-radius: 5px;
     height: 32px;
     padding-left: 2rem;
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
     padding-right: 2rem;
 }
 
@@ -37,7 +40,7 @@
     height: 32px;
     padding-left: 2%;
     padding-right: 2%;
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
     font-weight: normal;
 }
 

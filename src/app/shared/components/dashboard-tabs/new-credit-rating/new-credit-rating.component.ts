@@ -371,7 +371,6 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
 
-    // debugger;
     // this.finalData = this.list.filter((elem) => {
     //   if (elem.state == this.StateMapping[this.id]) {
     //     console.log("finaliseData==>", elem);

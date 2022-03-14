@@ -25,8 +25,17 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   @Input()
   compareDialogType = 1;
   compareType = "";
+  @Input()
   year;
-  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
+  yearList = [
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
+    "2020-21",
+    "2021-22",
+  ];
   chartLabels = [
     {
       name: "Mumbai",

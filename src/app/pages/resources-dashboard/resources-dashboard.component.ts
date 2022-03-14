@@ -44,8 +44,7 @@ export class ResourcesDashboardComponent implements OnInit {
 const learningCenter = {
   type: 4,
   title: "Learning Center",
-  subTitle: `Lorem ipsum dolor sit amet, consectetur
-  adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
+  subTitle: `Access our research outputs such as digital toolkits, e-learning modules, best practices on municipal finance here.`,
   svg: `../../../assets/resources-das/learning.svg`,
   link: "learning-center/toolkits",
   img: "",
@@ -69,8 +68,7 @@ const learningCenter = {
 const dataSets = {
   type: 4,
   title: "Datasets",
-  subTitle: `Lorem ipsum dolor sit amet, consectetur
-  adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
+  subTitle: `Access raw as well standardized ULB financial statements datasets here.`,
   svg: `../../../assets/resources-das/dataSets.svg`,
   link: "data-sets/income_statement",
   img: "",
@@ -94,8 +92,7 @@ const dataSets = {
 const reportsPublications = {
   type: 4,
   title: "Reports & Publications",
-  subTitle: `Lorem ipsum dolor sit amet, consectetur
-  adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
+  subTitle: `Access Municipal Finance related publications here.`,
   svg: `../../../assets/resources-das/reports.svg`,
   link: "report-publications",
   img: "",

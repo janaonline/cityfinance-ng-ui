@@ -1,6 +1,7 @@
 .city {
     color: $cyan;
-    @include rfs($font-size-base*4.0625, font-size);
+    // @include rfs($font-size-base*4.0625, font-size);
+    @include rfs($font-size-base*3.75, font-size);
     font-weight: 700;
     text-shadow: 0px 2px 9px rgba($color: $black, $alpha: .24);
     
@@ -8,7 +9,8 @@
 
 .fy {
     color: $white;
-    @include rfs($font-size-base*4.0625, font-size);
+    // @include rfs($font-size-base*4.0625, font-size);
+    @include rfs($font-size-base*3.75, font-size);
     text-shadow: 0px 2px 9px rgba($color: $black, $alpha: .24);
 }
 

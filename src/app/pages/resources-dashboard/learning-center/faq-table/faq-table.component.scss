@@ -1,0 +1,36 @@
+
+.heading {
+    padding-top: 1.625rem;
+   
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+.table-container {
+    margin-top: 2.5rem;
+    tr,
+    th,
+    td {
+        border-right: solid 1px #D9D8D8; 
+        border-left: solid 1px #D9D8D8;
+        border-top: none;
+        border-bottom: none;
+    }
+    table {
+        border: 1px solid #D9D8D8;
+        border-radius: 10px !important;
+    }
+    .col-attr {
+        background-color: #F2F5FF;
+        padding: 0.8rem 1rem;
+        font-family: "Archivo";
+        font-weight: 600;
+        font-size: 1rem;
+        color: #0F1F40;
+        width:20%;
+    }
+    th,
+    td {
+        padding: 0.8rem 1rem;
+    }
+}

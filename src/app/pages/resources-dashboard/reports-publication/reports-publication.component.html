@@ -1,1 +1,51 @@
-<p>reports-publication works!</p>
+<div class="filter-d mt-3 mb-3">
+    <app-filter-component (filterFormData)="filterData($event)" [filterInputData]="filterComponent"></app-filter-component>
+</div>
+<div class="row">
+    <div class="col-sm-12 info-text mb-3">
+        <p>
+            You are currently exploring Reports and Publications Section on the Resources Dashboard.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData;" style="margin: 1rem 0">
+        <div (click)="openFile(item.downloadUrl)" class="card-body">
+            <div class="h-c">
+                {{item?.name}}
+            </div>
+            <!-- <div class="info-c mt-2 mb-3">
+                {{item?.info}}
+            </div> -->
+            <div class="row" style="align-items: center;">
+                <div class="col-sm-2 pe-0">
+                    <span>
+                    <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" class="p-i">
+                </span>
+                    <!-- <span *ngIf="item?.type == 'excel'">
+                  <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" class="p-i">
+                </span> -->
+                </div>
+                <div class="col-sm-9">
+                    <!-- <div class="icon-text">
+                        <p class="m-0">
+                            Updated on
+                        </p>
+                        <p class="m-0">
+                            {{item?.updateDate}}
+                        </p>
+                    </div> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-12 text-center mb-3 mt-3">
+        <button class="btn lmBtn">
+      <span class="material-icons" style="vertical-align: middle;">
+        refresh
+        </span>
+      <span class="ms-1">Load More</span>
+    </button>
+    </div>
+</div>

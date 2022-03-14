@@ -1,159 +1,183 @@
-<div class="container-fluid w-100">
-    <div class="row wrap-bg">
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 f-d">
-            <div class="ds-i-c">
-                <span class="city">city</span>
-                <span class="fy">finance.in</span>
+<div class=" w-100">
+    <div class=" wrap-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                    <div class="ds-i-c mt-4 mt-lg-5">
+                        <span class="city">city</span>
+                        <span class="fy">finance.in</span>
+                    </div>
+                    <div class="ds-i-div">
+                        <span class="ds-info">Standardised, timely and credible financial information on cities of India</span>
+                    </div>
+                    <div class="g-filter-d">
+                        <form class="filter-form w-100">
+                            <input type="text" placeholder="Search for City, State, or your municipal finance area of interest" matInput [formControl]="globalFormControl" [matAutocomplete]="auto" class="fl-input w-80">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <!-- [routerLink]="[
+                              '/dashboard/' + option?.type + '/' + option?._id]" -->
+                                <a (click)="dashboardNav(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                                    <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <span> {{option?.name}}</span>
+                                            </div>
+                                            <div class="col-3">
+                                                <span style="color: #8E8E8E;">{{option.type == 'ulb' ? option.ulbType.name :option.type | titlecase }}</span>
+                                            </div>
+                                        </div>
+                                    </mat-option>
+                                </a>
+                                <mat-option *ngIf="noDataFound" class="noData firstCls">
+                                    Sorry, we can’t find anything related to your search. Try searching for a city or state
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button" class="btn lnd-btn" (click)="globalSearchClick()">
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                    <div class="row align-items-center mt-2">
+                        <div class="col-lg-auto col-sm-12">
+                            <span class="rec-text">Top Searches:</span>
+                        </div>
+                        <div class="col">
+                            <div class="ser-chip" *ngFor="let item of recentSearchArray">
+                                <a style="text-decoration: none;" (click)="dashboardNav(item)">
+                                    <span class="rec-text">{{item?.name}}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col"></div>
+                <div class="col-lg-auto">
+                    <div class="images" style="text-align: -webkit-center;">
+                        <carousel [interval]="myInterval" [isAnimated]="true" (activeSlideChange)="carouselClass($event)" [ngClass]='{"p-indi": p_indi, "m-indi": m_indi}'>
+                            <slide *ngFor="let slide of slides; let index=index">
+                                <img [src]="slide.image" alt="image slide" [ngClass]="slide.class">
+                                <div class="cr-text" [ngClass]="slide.textCls">
+                                    <div class="sl-text">{{slide.text}}</div>
+                                    <div class="sl-name">{{slide.name}}</div>
+                                    <div class="sl-des">{{slide.designation}}</div>
+                                </div>
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
             </div>
-            <div class="ds-i-div">
-                <span class="ds-info">Standardised, timely and credible financial information on cities of India</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row wrap-card">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <div class="new-card-text">
+                    <h3 class="w-new">What’s New ({{whatNewData.length}})</h3>
+                </div>
             </div>
-            <div class="g-filter-d">
-                <form class="filter-form w-100">
-                    <input type="text" placeholder="Search for City, State, or your municipal finance area of interest" matInput [formControl]="globalFormControl" [matAutocomplete]="auto" class="fl-input w-80">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <!-- [routerLink]="[
-                      '/dashboard/' + option?.type + '/' + option?._id]" -->
-                        <a (click)="dashboardNav(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
-                            <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <span> {{option?.name}}</span>
-                                    </div>
-                                    <div class="col-3">
-                                        <span style="color: #8E8E8E;">{{option.type | titlecase }}</span>
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <div class="card-d">
+                    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                        <div ngxSlickItem *ngFor="let item of whatNewData;" class="slide card-img">
+                            <img [src]="item.imageUrl" alt="" class="image" width="50%" height="100%">
+                            <a class="card-text new-card-l" href="{{item.downloadUrl}}" target="_blank">{{item.name}}</a>
+                        </div>
+                    </ngx-slick-carousel>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row map-bg">
+            <app-dashboard-map-section></app-dashboard-map-section>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <div class="res-h">
+                    Discover
+                </div>
+                <div class="res-s-h pt-2">
+                    Delve into key aspects of municipal data summarized and presented in a user-friendly manner
+                </div>
+                <div class="container">
+                    <div class="row mt-3">
+                        <div class="col-lg-4 col-md-6 col-sm-12 text-center" *ngFor="let cardItem of exploreCardData; let i=index">
+                            <div class="card card1 mx-auto">
+                                <div class="cd-icon">
+                                    <img [src]="cardItem.icon" alt="">
+                                </div>
+                                <div class="cd-head">
+                                    {{cardItem.label}}
+                                </div>
+                                <div class="cd-s-head">
+                                    {{cardItem.text}}
+                                </div>
+                                <!-- <div class="hidden-text">
+                                    {{cardItem.hiddenText}}
+                                </div> -->
+                                <div class="hidden-text btn-d">
+                                    <button [routerLink]="cardItem.link" class="btn btn-view">Know More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="com-logo">
+        <div class="container">
+            <div class="row mt-2 ">
+                <div class="container">
+                    <div class="row mt-3">
+                        <div class="col-md-6 col-12 col-lg-6  pb-4">
+                            <div class="col-12 d-flex flex-wrap">
+                                <div class="col-4">
+                                    <p class="text-center partner-title">
+                                        Conceived and Managed by
+                                    </p>
+                                    <div class="d-flex justify-content-center align-items-center pt-2">
+                                        <img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt="" class="img-fluid">
                                     </div>
                                 </div>
-                            </mat-option>
-                        </a>
-                        <mat-option *ngIf="noDataFound" class="noData firstCls">
-                            Sorry, we can’t find anything related to your search. Try searching for a city or state
-                        </mat-option>
-                    </mat-autocomplete>
-                    <button type="button" class="btn lnd-btn" (click)="globalSearchClick()" style="">
-                        Search
-                    </button>
-                </form>
-
-
-            </div>
-            <div class="row rce-s-div mt-2">
-                <div class="col-lg-3 col-md-4 col-sm-12" style="width: 19%;">
-                    <span class="rec-text">Top Searches:</span>
-                </div>
-                <div class="col-lg-9 col-md-8 col-sm-12">
-                    <div class="ser-chip" *ngFor="let item of recentSearchArray">
-                        <a style="text-decoration: none;" (click)="dashboardNav(item)">
-                            <span class="rec-text">{{item?.name}}</span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-            <div class="images" style="text-align: -webkit-center;">
-                <carousel [interval]="myInterval" [isAnimated]="true" (activeSlideChange)="carouselClass($event)" [ngClass]='{"p-indi": p_indi, "m-indi": m_indi}'>
-                    <slide *ngFor="let slide of slides; let index=index">
-                        <img [src]="slide.image" alt="image slide" style="display: block;" [ngClass]="slide.class">
-
-                        <div class="cr-text" [ngClass]="slide.textCls">
-                            <div class="sl-text">{{slide.text}}</div>
-                            <div class="sl-name">{{slide.name}}</div>
-                            <div class="sl-des">{{slide.designation}}</div>
+                                <div class="col-4">
+                                    <p class="text-center partner-title">
+                                        Knowledge Partner
+                                    </p>
+                                    <div class="d-flex justify-content-center align-items-center pt-2">
+                                        <img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt="" class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <p class="text-center partner-title">
+                                        Technology Partner
+                                    </p>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <img width="70%" src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt="" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </slide>
-                </carousel>
-            </div>
-        </div>
-    </div>
-    <div class="row wrap-card">
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <div class="new-card-text">
-                <h3 class="w-new">What’s New ({{whatNewData.length}})</h3>
-            </div>
-
-        </div>
-        <div class="col-lg-12 col-md-12 col-xs-12">
-            <div class="card-d">
-                <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
-                    <div ngxSlickItem *ngFor="let item of whatNewData;" class="slide">
-                        <img [src]="item.imageUrl" alt="" width="90%" class="card-img">
-                        <a class="card-text new-card-l" href="{{item.downloadUrl}}" target="_blank">{{item.name}}</a>
-                    </div>
-                </ngx-slick-carousel>
-
-            </div>
-
-        </div>
-
-
-
-    </div>
-    <div class="row map-bg">
-        <app-dashboard-map-section></app-dashboard-map-section>
-    </div>
-    <div class="row mt-4">
-        <div class="col-sm-12 text-center">
-            <div class="res-h">
-                Discover
-            </div>
-            <div class="res-s-h pt-2">
-                Delve into key aspects of municipal data summarized and presented in a user-friendly manner
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-12 text-center" *ngFor="let cardItem of exploreCardData; let i=index">
-                        <div class="card card1 mx-auto">
-                            <div class="cd-icon">
-                                <img [src]="cardItem.icon" alt="">
-                            </div>
-                            <div class="cd-head">
-                                {{cardItem.label}}
-                            </div>
-                            <div class="cd-s-head">
-                                {{cardItem.text}}
-                            </div>
-                            <!-- <div class="hidden-text">
-                                {{cardItem.hiddenText}}
-                            </div> -->
-                            <div class="hidden-text btn-d">
-                                <button [routerLink]="cardItem.link" class="btn btn-view">Know More</button>
+                        <div class="col-md-6 col-12 col-lg-6 d-flex flex-wrap pb-4">
+                            <div class="col-12 px-0 d-flex flex-wrap">
+                                <p class="text-center col-12 partner-title">Supported by</p>
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                        <img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                        <img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-4 d-flex justify-content-center align-items-center">
+                                    <img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt="" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row mt-2 com-logo">
-        <div class="col-sm-12 text-center mt-1">
-            <div class="com-h pt-4 pb-2">
-                Our Supporters & Partners
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center py-3">
-                <span class=""><img src="../../../assets/new_dashBord_ftr_hdr/logo-for-web1/logo-for-web1.png" alt="" class="img-fluid"></span>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center py-3">
-                <span class=""><img src="../../../assets/new_dashBord_ftr_hdr/mgc-logo.png" alt="" class="img-fluid"></span>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center py-3">
-                <span class=""><img width="70%" src="../../../assets/new_dashBord_ftr_hdr/Dhwani-Logo_Versions-e1533798168980/dhLogo.png" alt="" class="img-fluid"></span>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center py-3">
-                <span class=""><img src="../../../assets/new_dashBord_ftr_hdr/omdiyar-logo/omdiyar-logo.png" alt="" class="img-fluid"></span>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center py-3">
-                <span class=""><img src="../../../assets/new_dashBord_ftr_hdr/BMGF/BMGF.png" alt="" class="img-fluid"></span>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6 text-center py-3">
-                <span class=""><img src="../../../assets/new_dashBord_ftr_hdr/shakti-logo/shakti-logo.png" alt="" class="img-fluid"></span>
-            </div>
-        </div>
-
-    </div>
+    </section>
 
 </div>
