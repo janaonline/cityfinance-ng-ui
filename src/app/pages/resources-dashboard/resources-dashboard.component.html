@@ -1,58 +1,66 @@
 <div class="container-fluid">
-    <div class="row res-bg">
-        <div class="col-12 text-center">
-            <div class="res-h mt-5 mb-2">
-                Resources
+  <div class="row res-bg">
+    <div class="col-12 text-center">
+      <div class="res-h mt-5 mb-2">Resources</div>
+      <div class="res-sub-h mb-2">
+        This page contains a repository of all our research outputs and other
+        Municipal Finance related knowledge products.
+      </div>
+      <div class="res-filter">
+        <form class="filter-form w-100">
+          <div class="row">
+            <div class="col-9 pe-0">
+              <input
+                type="text"
+                placeholder="Type here..."
+                [formControl]="resourcesFilter"
+                [matAutocomplete]="auto"
+                class="fl-input form-control"
+              />
             </div>
-            <div class="res-sub-h mb-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.
+            <div class="col-3 p-0">
+              <button type="button" class="btn btnFilter">Search</button>
             </div>
-            <div class="res-filter">
-                <form class="filter-form w-100">
-                    <div class="row">
-                        <div class="col-9 pe-0">
-                            <input type="text" placeholder="Type here..." [formControl]="resourcesFilter" [matAutocomplete]="auto" class="fl-input form-control">
-                        </div>
-                        <div class="col-3 p-0">
-                            <button type="button" class="btn btnFilter">Search</button>
-                        </div>
-                        <div class="col-12">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let resource of filteredResources | async" [value]="resource">
-                                    {{resource}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </div>
+            <div class="col-12">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option
+                  *ngFor="let resource of filteredResources | async"
+                  [value]="resource"
+                >
+                  {{ resource }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
 
-                    </div>
-
-
-                    <!-- <div style="display: inline-block; float: right;">
+          <!-- <div style="display: inline-block; float: right;">
 
                     </div> -->
-                </form>
-
-            </div>
-        </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="container container-cnt mt-n">
-    <a routerLink="{{card?.link}}" class="center-aTag mx-xl-auto" style="" *ngFor="let card of cardData">
-        <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
-    </a>
+  <a
+    routerLink="{{ card?.link }}"
+    class="center-aTag mx-xl-auto"
+    style=""
+    *ngFor="let card of cardData"
+  >
+    <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
+  </a>
 
+  <!-- <div class="card" > -->
 
-    <!-- <div class="card" > -->
-
-    <!-- </div> -->
-    <!-- <div class="text-center mb-2 res-d" style="margin: 0 10px; width: 15rem; display: inline-block;" routerLinkActive="active" *ngFor="let card of cardData">
+  <!-- </div> -->
+  <!-- <div class="text-center mb-2 res-d" style="margin: 0 10px; width: 15rem; display: inline-block;" routerLinkActive="active" *ngFor="let card of cardData">
         <a routerLink="{{card?.link}}" style="text-decoration: none;">
             <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
         </a>
     </div> -->
-
 </div>
 <div class="container mt-3">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

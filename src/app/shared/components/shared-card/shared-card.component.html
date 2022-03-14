@@ -62,31 +62,24 @@
     <div class="card-body">
       <img class="mb-1 pb-1" src="{{ data.svg }}" />
       <h5 class="resources-h">{{ data.title }}</h5>
+
       <span class="resources-sub-h">{{ data.subTitle }}</span>
     </div>
   </div>
 
   <div *ngSwitchCase="5">
     <div
-      class="
-        d-flex
-        justify-content-center
-        mx-2
-        my-2
-        p-2
-        text-center
-        flex-column
-        rounded
-        revenue-card
-      "
+      class="d-flex justify-content-center mx-2 my-2 p-2 text-center flex-column rounded revenue-card"
     >
-    <div *ngIf="data.isLoading" >Loading..</div> 
-    <h3 *ngIf="!data.isLoading" class="title">{{ data.title }}</h3>
+      <div *ngIf="data.isLoading">Loading..</div>
+      <h3 *ngIf="!data.isLoading" class="title">{{ data.title }}</h3>
       <p class="subTitle">{{ data.subTitle }}</p>
-      <div *ngIf="data.isLoading" >Loading..</div> 
+      <div *ngIf="data.isLoading">Loading..</div>
       <span *ngIf="!data.isLoading" class="arrow-title">
         <img class="" src="{{ data.svg }}" />
-        <span  [ngStyle]="{'color': data.color}" class="percentage">{{ data.percentage }}%</span>
+        <span [ngStyle]="{ color: data.color }" class="percentage"
+          >{{ data.percentage }}%</span
+        >
       </span>
     </div>
   </div>
@@ -102,7 +95,7 @@
         <canvas id="chartjs-gauge3"></canvas>
       </div>
       <div class="row text-center">
-        <div id="chartNum" class="number text-center" style="z-index: 10;">
+        <div id="chartNum" class="number text-center" style="z-index: 10">
           <span>45%</span><br />
           <span>123</span>
         </div>
