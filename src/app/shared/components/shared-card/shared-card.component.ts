@@ -83,20 +83,20 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
       datasets: [
         {
           data: [this.data["value"], 100 - this.data["value"]],
-          backgroundColor: [backgroundColor[0],backgroundColor[1]],
+          backgroundColor: [backgroundColor[0], backgroundColor[1]],
         },
         {
           data: [this.data["percentage"], 100 - this.data["percentage"]],
-          backgroundColor: [backgroundColor[2],backgroundColor[3]],
+          backgroundColor: [backgroundColor[2], backgroundColor[3]],
         },
       ],
-    }
-    debugger
-    if(this.data.hasOwnProperty("compPercentage")){
+    };
+
+    if (this.data.hasOwnProperty("compPercentage")) {
       chartData.datasets.push({
         data: [this.data["compPercentage"], 100 - this.data["compPercentage"]],
-        backgroundColor: [backgroundColor[4],backgroundColor[5]],
-      })
+        backgroundColor: [backgroundColor[4], backgroundColor[5]],
+      });
     }
 
     const ctx = canvas.getContext("2d");

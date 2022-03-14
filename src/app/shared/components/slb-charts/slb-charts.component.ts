@@ -34,9 +34,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   @Input()
   compareDialogType = 3;
   compareType = "";
+  compareByName;
   @Input()
   year;
-  ulbData;
+  ulbList;
   yearList = [
     "2015-16",
     "2016-17",
@@ -55,22 +56,22 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       name: "Benchmark",
       color: "#29CFD6",
     },
-    {
-      name: "",
-      color: "",
-    },
-    {
-      name: "Good",
-      color: "#04D30C",
-    },
-    {
-      name: "Bad",
-      color: "#E64E4E",
-    },
-    {
-      name: "Ok",
-      color: "#FFC80F",
-    },
+    // {
+    //   name: "",
+    //   color: "",
+    // },
+    // {
+    //   name: "Good",
+    //   color: "#04D30C",
+    // },
+    // {
+    //   name: "Bad",
+    //   color: "#E64E4E",
+    // },
+    // {
+    //   name: "Ok",
+    //   color: "#FFC80F",
+    // },
   ];
 
   yearValueChange(value) {
@@ -88,8 +89,8 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       this.getData();
     }
     if (changes.cityId) {
-      this.ulbData = JSON.parse(localStorage.getItem("ulbMapping"));
-      // this.ulbData = this.ulbData[changes.cityId.currentValue];
+      this.ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
+      // this.ulbList = this.ulbList[changes.cityId.currentValue];
     }
   }
   getData() {
@@ -118,17 +119,19 @@ export class SlbChartsComponent implements OnInit, OnChanges {
         console.log("city respo", res);
         this.chartLabels = this.chartLabels.map((value) => {
           if (value.name == "ulb") {
-            value.name = this.ulbData[this.cityId].name;
-          }
-          if (
-            value.name === "" &&
-            res["data"][0].hasOwnProperty("compPercentage")
-          ) {
-            value.name = this.ulbData[this.compareType].name;
-            value.color = "#FFC80F";
+            value.name = this.ulbList[this.cityId].name;
           }
           return value;
         });
+        if (
+          res["data"].length &&
+          res["data"][0].hasOwnProperty("compPercentage")
+        )
+          this.chartLabels.push({
+            name: this.ulbList[this.compareType].name,
+            color: "#FFC80F",
+          });
+
         res.data.map((value) => {
           if (value.percentage)
             value.percentage = Number(value.percentage.toFixed(2));
@@ -169,9 +172,12 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   getCompareCompValues(value) {
     if (Array.isArray(value)) {
       this.compareType = value[0]._id;
+      this.compareByName =
+        this.ulbList[this.compareType].name.split(" ")[0] + "...";
       this.getData();
       return this.sendValue(value);
     } else this.compareType = value;
+    this.compareByName = value;
     this.sendValue();
     this.getData();
   }
@@ -182,5 +188,12 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       compareType: this.compareType,
     };
     this.compareChange.emit(data);
+  }
+
+  clearAll() {
+    this.compareByName = "";
+    this.compareType = "";
+    if (this.chartLabels.length === 3) this.chartLabels.pop();
+    this.getData();
   }
 }

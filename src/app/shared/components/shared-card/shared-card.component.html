@@ -96,15 +96,15 @@
         <canvas id="{{data.chartId}}chartjs-gauge"></canvas>
       </div>
       <div class="row text-center">
-        <div class="row" style="z-index: 10;font-size: 24px;margin-top: -20%;">
+        <div class="row" style="z-index: 10;font-size: 1.2rem;margin-top: -20%;font-weight: bold;font-family:'Archivo';">
           <span>{{data.percentage}}%</span>
         </div>
-        <div class="row" style="z-index: 8;font-size: 24px;margin-top: -12%;">
+        <div class="row" style="z-index: 8;font-size: 1.2rem;margin-top: -12%;font-weight:500;font-family:'Archivo';">
           <span>{{data.value}}</span>
         </div>
         <div class="row">
-          <div class="col-sm-12 text-center ">
-            <span class="chartAbout" style="font-size: 21px;"> {{data.name}} </span>
+          <div class="col-sm-12 text-center textPadding">
+            <span class="chartAbout"> {{data.name}} </span>
           </div>
           <div class="col-sm-12 icon">
             <span *ngIf="(data?.percentage > 70)">
