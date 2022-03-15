@@ -56,22 +56,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       name: "Benchmark",
       color: "#29CFD6",
     },
-    // {
-    //   name: "",
-    //   color: "",
-    // },
-    // {
-    //   name: "Good",
-    //   color: "#04D30C",
-    // },
-    // {
-    //   name: "Bad",
-    //   color: "#E64E4E",
-    // },
-    // {
-    //   name: "Ok",
-    //   color: "#FFC80F",
-    // },
+    {
+      name: "National",
+      color: "#FFC80F",
+    },
   ];
 
   yearValueChange(value) {
@@ -90,7 +78,6 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     }
     if (changes.cityId) {
       this.ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
-      // this.ulbList = this.ulbList[changes.cityId.currentValue];
     }
   }
   getData() {
@@ -126,11 +113,13 @@ export class SlbChartsComponent implements OnInit, OnChanges {
         if (
           res["data"].length &&
           res["data"][0].hasOwnProperty("compPercentage")
-        )
+        ) {
+          this.chartLabels.pop();
           this.chartLabels.push({
             name: this.ulbList[this.compareType].name,
             color: "#FFC80F",
           });
+        }
 
         res.data.map((value) => {
           if (value.percentage)
@@ -193,7 +182,14 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   clearAll() {
     this.compareByName = "";
     this.compareType = "";
-    if (this.chartLabels.length === 3) this.chartLabels.pop();
+    if (this.chartLabels.length === 3) {
+      this.chartLabels.pop();
+      this.chartLabels.push({
+        name: "National",
+        color: "#FFC80F",
+      });
+    }
+
     this.getData();
   }
 }

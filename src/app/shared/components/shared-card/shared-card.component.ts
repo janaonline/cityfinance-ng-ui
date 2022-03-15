@@ -66,12 +66,13 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
       setTimeout(() => {
         this.createGuageChart(
           `${this.data["chartId"]}chartjs-gauge`,
-          ["#29CFD6", "#D6F2EB","#1067DE", "#E9E9E9","#FFC80F","#E9E9E9"],
-          70,
+          ["#1067DE", "#E9E9E9","#29CFD6", "#D6F2EB","#FFC80F", "#E9E9E9",],
+          65
         );
       }, 10);
     }
   }
+  showThumb
   guageChart;
   createGuageChart(
     type,
@@ -80,21 +81,33 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
   ) {
     let canvas = <HTMLCanvasElement>document.getElementById(type);
     let chartData = {
+      labels: ['a','b','c'],
       datasets: [
         {
-          data: [this.data["value"], 100 - this.data["value"]],
-          backgroundColor: [backgroundColor[0], backgroundColor[1]],
+          label: 'My First Dataset1',
+          data: [this.data["nationalValue"], this.data["benchMarkValue"] - this.data["nationalValue"]],
+          backgroundColor: [backgroundColor[2], backgroundColor[3]],
         },
         {
-          data: [this.data["percentage"], 100 - this.data["percentage"]],
-          backgroundColor: [backgroundColor[2], backgroundColor[3]],
+          label: 'My First Dataset2',
+          data: [this.data["value"], this.data["benchMarkValue"] - this.data["value"]],
+          backgroundColor: [backgroundColor[0], backgroundColor[1]],
         },
       ],
     };
 
     if (this.data.hasOwnProperty("compPercentage")) {
-      chartData.datasets.push({
-        data: [this.data["compPercentage"], 100 - this.data["compPercentage"]],
+      chartData.datasets.unshift({
+        label: 'My First Dataset3',
+        data: [this.data["compPercentage"], this.data["benchMarkValue"] - this.data["compPercentage"]],
+        backgroundColor: [backgroundColor[4], backgroundColor[5]],
+      });
+      this.showThumb = false
+    }else{
+      this.showThumb = true
+      chartData.datasets.unshift({
+        label: 'My First Dataset4',
+        data: [this.data["benchMarkValue"], 0],
         backgroundColor: [backgroundColor[4], backgroundColor[5]],
       });
     }
@@ -111,7 +124,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
           display: false,
         },
         tooltips: {
-          enabled: false,
+          enabled: true,
         },
       },
     });

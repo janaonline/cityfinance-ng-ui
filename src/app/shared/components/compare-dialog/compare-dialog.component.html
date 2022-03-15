@@ -196,7 +196,8 @@
           <label for="">Search ULB</label>
           <div class="d-flex formInput">
             <form class="col-md-9 col-sm-12 p-2 compareInput">
-              <input matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
+              <input (keyup.enter)="optionSelected(option)" matInput [formControl]="searchField" [matAutocomplete]="auto"
+                class="w-100" type="text" />
               <mat-autocomplete #auto="matAutocomplete">
                 <span (click)="optionSelected(option)" *ngFor="let option of filteredOptions; let i = index"
                   style="direction: none">
