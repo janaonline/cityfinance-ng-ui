@@ -11,7 +11,11 @@
         Performance Dashboard
       </h1>
       <p class="perform-dashboard-para col-12 text-center">
-        The performance dashboard showcases the state of own revenues, especially property tax in ULBs across India. The data has been sourced from the financial statements uploaded on cityfinance.in. Know your State’s or city’s performance and compare with other States and cities on various own revenue parameters.
+        The performance dashboard showcases the state of own revenues,
+        especially property tax in ULBs across India. The data has been sourced
+        from the financial statements uploaded on cityfinance.in. Know your
+        State’s or city’s performance and compare with other States and cities
+        on various own revenue parameters.
       </p>
     </div>
   </div>
@@ -37,7 +41,7 @@
 <div *ngIf="sticky" class="two-tabs">
   <div
     class="container-fluid"
-    style="background-color: white; padding-top: 20px; padding-bottom: 6px;"
+    style="background-color: white; padding-top: 20px; padding-bottom: 6px"
   >
     <div class="dataavail">
       <span
@@ -193,9 +197,10 @@
   <div class="container data-availability rounded">
     <div class="row">
       <div class="col-md-7">
-        <h3 class="heading" style="font-size: 1.5rem;">Data Availability</h3>
+        <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
         <p class="da-para">
-          {{ dataAvailable }}% financial data of the ULBs in the chosen category have uploaded their financial statements for the year
+          {{ dataAvailable }}% financial data of the ULBs in the chosen category
+          have uploaded their financial statements for the year
           {{ body.financialYear }}.
           <span *ngIf="notFoundNames.length > 0">
             Data is not available for
@@ -265,7 +270,7 @@
         [chartId]="doughnutChartId"
         [chartTitle]="doughnutChartTitle"
         [ChartOptions]="doughnutChartOptions"
-        [notFound] = "chartDataNotFound"
+        [notFound]="chartDataNotFound"
       >
       </app-revenuechart>
     </div>
@@ -279,9 +284,8 @@
             performance of population category wise ULBs of your State.
           </p>
         </div>
-     
       </div>
-      
+
       <div class="col-md-10">
         <div class="row mx-0">
           <div
@@ -295,9 +299,13 @@
         </div>
       </div>
     </div>
-    <p class="text-end smallText" style="margin-top: 5px;"> Please note that this calculation is affected by the mismatch in the number of cities that have uploaded their financial statements in the previous year</p>
+    <p class="text-end smallText" style="margin-top: 5px">
+      Please note that this calculation is affected by the mismatch in the
+      number of cities that have uploaded their financial statements in the
+      previous year
+    </p>
   </div>
-  <div class="container" style="margin-left: -2%;width: 102%;">
+  <div class="container" style="margin-left: -2%; width: 102%">
     <div class="table-container table-responsive">
       <table style="border-radius: 10px" class="table styletable">
         <thead>
@@ -314,12 +322,13 @@
         </thead>
         <tbody>
           <tr class="scrollme scrollableTB" *ngFor="let user of users">
-            <td >{{ user.name }}</td>
-            <td class="rightAlign">{{ (user.averageRevenue / 10000000).toFixed(2) }}</td>
+            <td>{{ user.name }}</td>
+            <td class="rightAlign">
+              {{ (user.averageRevenue / 10000000).toFixed(2) }}
+            </td>
             <td class="rightAlign">{{ user.perCapita }}</td>
             <td class="rightAlign">{{ user.avgRevenueMeet }}%</td>
             <td class="rightAlign" *ngIf="ownTab">{{ user.meetsRevenue }}%</td>
-          
           </tr>
         </tbody>
       </table>
@@ -391,24 +400,23 @@
   <div class="container barChartContainer">
     <h2 class="barCharttitle text-center">Top 10 Performing ULBs</h2>
     <p class="barChartSubTitle text-center">
-      Top 10 performing ULBs in the country in Own Revenue can be
-      viewed below.
+      Top 10 performing ULBs in the country in Own Revenue can be viewed below.
     </p>
 
     <app-revenuechart
-    class="rounded"
-    [compareDialogType]="compareDialogType"
-    [headerActions]="headerActions"
-    (compareChange)="barChartCompValues($event)"
-    [chartData]="barChartData"
-    [chartId]="barChartId"
-    [chartTitle]="barChartTitle"
-    [btnBesideText]="barChartCmpBtn"
-    [ChartOptions]="barChartOptions"
-    [notFound]="barChartNotFound"
-    [own]="ownTab"
-  >
-  </app-revenuechart>
+      class="rounded"
+      [compareDialogType]="compareDialogType"
+      [headerActions]="headerActions"
+      (compareChange)="barChartCompValues($event)"
+      [chartData]="barChartData"
+      [chartId]="barChartId"
+      [chartTitle]="barChartTitle"
+      [btnBesideText]="barChartCmpBtn"
+      [ChartOptions]="barChartOptions"
+      [notFound]="barChartNotFound"
+      [own]="ownTab"
+    >
+    </app-revenuechart>
 
     <div class="container-fluid">
       <div

@@ -10,7 +10,7 @@
       <div *ngFor="let grade of ratingGrades; let i = index">
         <div
           class="text-center p-2 m-3"
-          *ngIf="absCreditInfo.ratings[grade] !== 0"
+          *ngIf="absCreditInfo?.ratings[grade] !== 0"
           style="box-shadow: 0px 1px 2px #c4c4c4; cursor: pointer; width: 100px"
           (click)="openModal(grade, i)"
           [class.active]="selectedIndex === i"
@@ -19,7 +19,7 @@
             {{ grade }}
           </div>
           <div class="citiesCount">
-            {{ absCreditInfo.ratings[grade] }}
+            {{ absCreditInfo?.ratings[grade] }}
           </div>
         </div>
       </div>
@@ -31,9 +31,9 @@
       style="width: 17%; box-shadow: 0px 1px 2px #c4c4c4"
       *ngFor="let data of dialogData"
     >
-      <div class="newCard">State: {{ data.state }}</div>
-      <div class="newCard">Agency: {{ data.agency }}</div>
-      <div class="newCard">Status: {{ data.status }}</div>
+      <div class="newCard">State: {{ data?.state }}</div>
+      <div class="newCard">Agency: {{ data?.agency }}</div>
+      <div class="newCard">Status: {{ data?.status }}</div>
     </div>
   </div>
 </div>

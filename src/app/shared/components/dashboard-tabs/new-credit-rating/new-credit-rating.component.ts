@@ -272,10 +272,6 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
       .subscribe((res) =>
         this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb")
       );
-
-    console.log("absCreditInfo", this.absCreditInfo.ratings["AA+"]);
-
-    console.log("lists", this.list, this.originalList, this.detailedList);
   }
 
   download() {
@@ -341,7 +337,6 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
-
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];

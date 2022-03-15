@@ -192,7 +192,6 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
       this.activeFilter = value.subHeaders;
       this.innerActiveTab = value.subHeaders[0];
     }
-    console.log("innertab value", this.innerActiveTab);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -204,9 +203,12 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     this.changeTab(this.data[0]);
     this.HeaderDataOfBorrowTab();
     this.ColumnDataOfBorrowTab();
+    console.log("innertab value", this.innerActiveTab);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("innertab value", this.innerActiveTab);
+  }
 }
 // function getHeaderName(): any {
 //   throw new Error("Function not implemented.");
@@ -226,4 +228,3 @@ function convertToPastYears(year) {
   }
   return newYears;
 }
-
