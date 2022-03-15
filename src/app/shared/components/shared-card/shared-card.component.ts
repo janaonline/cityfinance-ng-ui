@@ -66,7 +66,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
       setTimeout(() => {
         this.createGuageChart(
           `${this.data["chartId"]}chartjs-gauge`,
-          ["#1067DE", "#E9E9E9","#29CFD6", "#D6F2EB","#FFC80F", "#E9E9E9",],
+          [],
           65
         );
       }, 10);
@@ -81,34 +81,48 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
   ) {
     let canvas = <HTMLCanvasElement>document.getElementById(type);
     let chartData = {
-      labels: ['a','b','c'],
       datasets: [
         {
-          label: 'My First Dataset1',
-          data: [this.data["nationalValue"], this.data["benchMarkValue"] - this.data["nationalValue"]],
-          backgroundColor: [backgroundColor[2], backgroundColor[3]],
+          label: "National",
+          data: [
+            this.data["nationalValue"],
+            this.data["benchMarkValue"] - this.data["nationalValue"],
+          ],
+
+          hoverOffset: 4,
+          backgroundColor: ["#FFC80F", "#E9E9E9"],
         },
         {
-          label: 'My First Dataset2',
-          data: [this.data["value"], this.data["benchMarkValue"] - this.data["value"]],
-          backgroundColor: [backgroundColor[0], backgroundColor[1]],
+          label: "ULB",
+          data: [
+            this.data["value"],
+            this.data["benchMarkValue"] - this.data["value"],
+          ],
+
+          hoverOffset: 4,
+          backgroundColor: ["#224BD5", "#E9E9E9"],
         },
       ],
     };
 
     if (this.data.hasOwnProperty("compPercentage")) {
       chartData.datasets.unshift({
-        label: 'My First Dataset3',
-        data: [this.data["compPercentage"], this.data["benchMarkValue"] - this.data["compPercentage"]],
-        backgroundColor: [backgroundColor[4], backgroundColor[5]],
+        label: "CompUlb",
+        data: [
+          this.data["compPercentage"],
+          this.data["benchMarkValue"] - this.data["compPercentage"],
+        ],
+        hoverOffset: 4,
+        backgroundColor: ["#04D30C", "#E9E9E9"],
       });
-      this.showThumb = false
-    }else{
-      this.showThumb = true
+      this.showThumb = false;
+    } else {
+      this.showThumb = true;
       chartData.datasets.unshift({
-        label: 'My First Dataset4',
+        label: "BenchMarValue",
         data: [this.data["benchMarkValue"], 0],
-        backgroundColor: [backgroundColor[4], backgroundColor[5]],
+        hoverOffset: 4,
+        backgroundColor: ["#29CFD6", "#E9E9E9"],
       });
     }
 
@@ -124,7 +138,14 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
           display: false,
         },
         tooltips: {
-          enabled: true,
+          mode: "index",
+          callbacks: {
+            label: function (tooltipItem, data) {
+              console.log(tooltipItem,data);
+              let tempVal = isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[0])) ? 0 :Number(data.datasets[tooltipItem.datasetIndex].data[0]).toFixed(2) 
+              return data.datasets[tooltipItem.datasetIndex].label +" "+ tempVal;
+            },
+          },
         },
       },
     });

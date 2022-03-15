@@ -49,16 +49,16 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   ];
   chartLabels = [
     {
-      name: "ulb",
-      color: "#224BD5",
-    },
-    {
       name: "Benchmark",
       color: "#29CFD6",
     },
     {
       name: "National",
       color: "#FFC80F",
+    },
+    {
+      name: "ulb",
+      color: "#224BD5",
     },
   ];
 
@@ -69,6 +69,9 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    console.log(this.year);
+    debugger;
+
     console.log("data slb charts", this.data);
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -78,6 +81,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     }
     if (changes.cityId) {
       this.ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
+    }
+    if (changes.year) {
+      console.log(this.year);
+      debugger;
     }
   }
   getData() {
@@ -114,11 +121,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           res["data"].length &&
           res["data"][0].hasOwnProperty("compPercentage")
         ) {
-          this.chartLabels.pop();
-          this.chartLabels.push({
+          this.chartLabels[0] = {
             name: this.ulbList[this.compareType].name,
-            color: "#FFC80F",
-          });
+            color: "#04D30C",
+          };
         }
 
         res.data.map((value) => {
@@ -183,11 +189,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     this.compareByName = "";
     this.compareType = "";
     if (this.chartLabels.length === 3) {
-      this.chartLabels.pop();
-      this.chartLabels.push({
-        name: "National",
-        color: "#FFC80F",
-      });
+      this.chartLabels[0] = {
+        name: "BenchMak",
+        color: "#29CFD6",
+      };
     }
 
     this.getData();
