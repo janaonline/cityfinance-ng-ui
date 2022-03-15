@@ -118,41 +118,15 @@
         </div>
         <!-- city-dropdown inp-grp -->
         <div class="col-md-6 col-sm-12">
-          <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')"> 
-        
-            <form class="filter-form w-100">
-              <input type="text" placeholder="Search ulb's of selected state" 
-                     matInput [formControl]="globalFormControl" [matAutocomplete]="auto" class="fl-input w-100">
-              <mat-autocomplete #auto="matAutocomplete">
-                  <a (click)="dashboardNav(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
-                      <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
-                          <div class="row">
-                              <div class="col-8">
-                                  <span> {{option?.name}}</span>
-                              </div>
-                              <div class="col-3">
-                                  <span style="color: #8E8E8E;">{{option.type | titlecase }}</span>
-                              </div>
-                          </div>
-                      </mat-option>
-                  </a>
-                  <mat-option *ngIf="noDataFound" class="noData firstCls">
-                      Sorry, we can’t find anything related to your search. Try searching for a city or state
-                  </mat-option>
-              </mat-autocomplete>
-              <!-- <button type="button" class="btn lnd-btn" (click)="globalSearchClick()">
-                  Search
-              </button> -->
-          </form>
-            
-            <!-- <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01"
+          <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')">     
+            <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01"
               (change)="selectCity($event.target.value)"> 
               <option value="null" selected>{{cityData.length>0 ?  'Select City' : 'Loading...' }}</option>
               
               <option [selected]="selectedDistrictCode == item.code" value="1" *ngFor="let item of cityData"
                 [value]="item.code">{{item.name}}
               </option>
-            </select> -->
+            </select>
           </div>
         </div>
 
