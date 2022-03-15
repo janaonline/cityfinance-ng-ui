@@ -1,55 +1,14 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-
-
-export interface UserData {
-  id: string;
-  term: string;
-  defination: string;
-}
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-faq-table',
   templateUrl: './faq-table.component.html',
   styleUrls: ['./faq-table.component.scss']
 })
-export class FaqTableComponent implements OnInit, AfterViewInit {
-
-  displayedColumns: string[] = ['id', 'term', 'defination'];
-  dataSource: MatTableDataSource<UserData>;
-  // id:number =[];
-  Terms: string[]=[];
-  Definition: string[]=[];
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  constructor() { 
-    // this.id = ;
-    // this.Terms.push(this.AccountingTermsGlossary);
-    // this.Definition = ;
-   
-  }
+export class FaqTableComponent implements OnInit {
+  constructor() {}
 
   ngOnInit(): void {
   }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  
 
    AccountingTermsGlossary = [
     {
