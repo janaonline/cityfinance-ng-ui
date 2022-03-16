@@ -148,20 +148,20 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         this.loading = false;
       },
       (error) => {
-        let preArray = [];
-        let newData = JSON.parse(JSON.stringify(barChartStatic));
-        newData.data.labels = this.mySelectedYears;
-        newData.data.datasets[0].label = this.lastSelectedUlbs.map((value) => {
-          this.ulbList[this.stateUlbMapping[value]].ulbs.find(
-            (value) => value._id == value
-          )?.name;
-        });
-        newData.data.datasets[0].data = preArray.fill(
-          0,
-          0,
-          this.mySelectedYears.length
-        );
-        this.barChart = newData;
+        // let preArray = [];
+        // let newData = JSON.parse(JSON.stringify(barChartStatic));
+        // newData.data.labels = this.mySelectedYears;
+        // newData.data.datasets[0].label = this.lastSelectedUlbs.map((value) => {
+        //   this.ulbList[this.stateUlbMapping[value]].ulbs.find(
+        //     (value) => value._id == value
+        //   )?.name;
+        // });
+        // newData.data.datasets[0].data = preArray.fill(
+        //   0,
+        //   0,
+        //   this.mySelectedYears.length
+        // );
+        // this.barChart = newData;
         this.loading = false;
       }
     );

@@ -69,9 +69,6 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.year);
-    debugger;
-
     console.log("data slb charts", this.data);
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,7 +81,6 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     }
     if (changes.year) {
       console.log(this.year);
-      debugger;
     }
   }
   getData() {
@@ -138,6 +134,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
         this.slbGaugeCharts = res?.data.map((value, Index) => {
           Object.assign(value, { type: 6 });
           Object.assign(value, { chartId: Index + "slb-Charts" + value.type });
+          Object.assign(value, {
+            ulbName: this.ulbList[this.cityId].name,
+            compUlb: this.ulbList[this.compareType]?.name,
+          });
           return value;
         });
       },

@@ -93,7 +93,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
           backgroundColor: ["#FFC80F", "#E9E9E9"],
         },
         {
-          label: "ULB",
+          label: this.data["ulbName"],
           data: [
             this.data["value"],
             this.data["benchMarkValue"] - this.data["value"],
@@ -107,7 +107,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
 
     if (this.data.hasOwnProperty("compPercentage")) {
       chartData.datasets.unshift({
-        label: "CompUlb",
+        label: this.data["compUlb"],
         data: [
           this.data["compPercentage"],
           this.data["benchMarkValue"] - this.data["compPercentage"],
