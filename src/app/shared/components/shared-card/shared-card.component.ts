@@ -83,7 +83,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     let chartData = {
       datasets: [
         {
-          label: "National",
+          label: "National avg",
           data: [
             this.data["nationalValue"],
             this.data["benchMarkValue"] - this.data["nationalValue"],
@@ -119,7 +119,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     } else {
       this.showThumb = true;
       chartData.datasets.unshift({
-        label: "BenchMarValue",
+        label: "Benchmark value",
         data: [this.data["benchMarkValue"], 0],
         hoverOffset: 4,
         backgroundColor: ["#29CFD6", "#E9E9E9"],

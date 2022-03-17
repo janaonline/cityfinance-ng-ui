@@ -49,16 +49,23 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   ];
   chartLabels = [
     {
+      svg: false,
       name: "Benchmark",
       color: "#29CFD6",
     },
     {
-      name: "National",
+      svg: false,
+      name: "National avg",
       color: "#FFC80F",
     },
     {
+      svg: false,
       name: "ulb",
       color: "#224BD5",
+    },
+    {
+      svg: true,
+      name: "ULB performance is better than national avg",
     },
   ];
 
@@ -118,6 +125,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           res["data"][0].hasOwnProperty("compPercentage")
         ) {
           this.chartLabels[0] = {
+            svg: false,
             name: this.ulbList[this.compareType].name,
             color: "#04D30C",
           };
@@ -190,6 +198,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     this.compareType = "";
     if (this.chartLabels.length === 3) {
       this.chartLabels[0] = {
+        svg: false,
         name: "BenchMak",
         color: "#29CFD6",
       };
