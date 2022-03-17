@@ -196,10 +196,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   clearAll() {
     this.compareByName = "";
     this.compareType = "";
-    if (this.chartLabels.length === 3) {
+    if (this.chartLabels.length === 4) {
       this.chartLabels[0] = {
         svg: false,
-        name: "BenchMak",
+        name: "Benchmark value",
         color: "#29CFD6",
       };
     }
