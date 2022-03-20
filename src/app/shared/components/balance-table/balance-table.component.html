@@ -1,50 +1,102 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 justify-content-start">
-            <p class="balanceText">
-                Below are the highlights of the ULB’s balance sheets for past five years (based on availability). Click on compare to compare Mumbai’s financials with upto five other comparable ULBs.
-            </p>
-        </div>
-        <div class="col-md-6 d-flex justify-content-end">
-                <div class=" mr-1 modalButton d-flex justify-content-center align-items-center" >
-                    <span (click)="openModal()" class=" compare">Compare By: Similar Type &nbsp;</span>
-                </div>
-            <div class="yearSelect">
-                    <mat-form-field appearance="outline" style="width: 140px;">
-                        <mat-label>Select Years</mat-label>
-                        <mat-select [formControl]="dropYears" multiple  (selectionChange)="selectYearValue($event)">
-                          <mat-option  *ngFor="let year of yearsList" [value]="year">{{year.itemName}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-            </div>
-            <div class="dropDownDiv">
-                <select class="form-select" aria-label="Default select example">
-                    <option value="null" selected>Select Currency</option>
-                    <option  [value]="currency.id" *ngFor="let currency of currencyList">{{currency.name}}</option>
-                  </select>
-            </div>
-        </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 justify-content-start">
+      <p class="balanceText">
+        Below are the highlights of the ULB’s balance sheets for past five years
+        (based on availability). Click on compare to compare Mumbai’s financials
+        with upto five other comparable ULBs.
+      </p>
     </div>
-
-    <div class="row">
-      <div *ngIf="!isLoading" class="col-md-12" style="width: 100px; margin: 0 auto;">
-        <mat-spinner></mat-spinner>
+    <div class="col-md-6 d-flex justify-content-end">
+      <div
+        class="mr-1 modalButton d-flex justify-content-center align-items-center"
+      >
+        <span (click)="openModal()" class="compare"
+          >Compare By: Similar Type &nbsp;</span
+        >
       </div>
-      <div *ngIf="isLoading == true" class="col-md-12">
-        <app-shared-table  [tableData]="singleTableData"></app-shared-table>
-    </div>
-    </div>
+      <div class="yearSelect">
+        <mat-form-field appearance="outline" style="width: 140px">
+          <mat-label>Select Years</mat-label>
+          <mat-select
+            [formControl]="dropYears"
+            multiple
+            (selectionChange)="selectYearValue($event)"
+          >
+            <mat-option *ngFor="let year of yearsList" [value]="year">{{
+              year.itemName
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
+      <div>
+        <button
+          class="searchButton"
+          [disabled]="searchEnable()"
+          (click)="createMultipleUpdateTable()"
+          (click)="ExistingValues()"
+        >
+          Search
+        </button>
+      </div>
+      <div class="dropDownDiv">
+        <select
+          class="form-select"
+          (change)="selectCurrencyValue($event)"
+          aria-label="Default select example"
+        >
+          <option value="10000000" selected>INR Crores</option>
+          <option
+            [value]="currency.value"
+            *ngFor="let currency of currencyList"
+          >
+            {{ currency.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
 
-    <!-- <div class="row">
+  <div class="row">
+    <div
+      *ngIf="!isLoading"
+      class="col-md-12"
+      style="width: 100px; margin: 0 auto"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="isLoading == true" class="col-md-12">
+      <div *ngIf="showtable == false">
+        <app-shared-table
+          [tableData]="singleTableData"
+          [selectedCurrency]="selectedCurrency"
+        ></app-shared-table>
+      </div>
+    </div>
+    <div *ngIf="isLoading == true" class="col-md-12">
+      <div *ngIf="showtable == true">
+        <app-shared-compare-table
+          [tableData]="multipleTableData"
+          [ulbListVal]="ulbListVal"
+          [years]="years"
+          [selectedCurrency]="selectedCurrency"
+        ></app-shared-compare-table>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
       <div class="col-md-12">
         <app-shared-compare-table></app-shared-compare-table>
       </div>
     </div> -->
-
 </div>
 
-
 <ng-template #template>
-    <app-compare-dialog (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)"></app-compare-dialog>
+  <app-compare-dialog
+    (closeDialog)="closeModal()"
+    (ulbValues)="ulbVal($event)"
+    (ulbValueList)="ulbValList($event)"
+  ></app-compare-dialog>
 </ng-template>

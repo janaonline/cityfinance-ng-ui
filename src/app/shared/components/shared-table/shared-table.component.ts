@@ -6,7 +6,6 @@ import {
   SimpleChanges,
 } from "@angular/core";
 
-
 const ELEMENT_DATA = [
   {
     figures: "Liabilities",
@@ -81,6 +80,7 @@ const ELEMENT_DATA = [
 })
 export class SharedTableComponent implements OnInit, OnChanges {
   dataSource = ELEMENT_DATA;
+  figurString = "Crores";
   displayedColumns: string[] = [
     "figures",
     "2015-16",
@@ -90,7 +90,10 @@ export class SharedTableComponent implements OnInit, OnChanges {
     "2019-20",
   ];
 
+  tableShow = true;
+
   @Input() tableData: any = ELEMENT_DATA;
+  @Input() selectedCurrency: any;
 
   checkVal: any = false;
 
@@ -116,7 +119,21 @@ export class SharedTableComponent implements OnInit, OnChanges {
 
   constructor() {}
 
+  getStringValue() {
+    if (this.selectedCurrency == "10000000") {
+      this.figurString = "Crores";
+    } else if (this.selectedCurrency == "1000") {
+      this.figurString = "Thousands";
+    } else if (this.selectedCurrency == "100000") {
+      this.figurString = "Lakhs";
+    }
+
+    console.log("this.figureString", this.figurString);
+  }
+  getSelectedCurrency() {}
+
   getAmountVal() {
+    debugger;
     this.tableData = this.tableData?.map((element) => {
       let temp = {
         "2015-16": "N/A",
@@ -126,7 +143,14 @@ export class SharedTableComponent implements OnInit, OnChanges {
         "2019-20": "N/A",
       };
       element.budget.map((value) => {
-        temp[value.year] = value.amount || "N/A";
+        let dividervalue: any;
+        if (this.selectedCurrency) {
+          // debugger;
+          dividervalue = parseInt(this.selectedCurrency);
+        } else {
+          dividervalue = 10000000;
+        }
+        temp[value.year] = value.amount / dividervalue || "N/A";
       });
       return (element = { ...element, ...temp });
     });
@@ -134,12 +158,18 @@ export class SharedTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.tableData === []) {
+      this.tableShow = false;
+    }
     this.getAmountVal();
-    // if (!changes.finalData.firstChange) this.dataSlice(this.tableData);
-    console.log("uniquetableData", this.tableData, this.finalData);
+    if (changes && changes.selectedCurrency) {
+      console.log("currencyChanges", changes);
+      this.getStringValue();
+    }
   }
 
   ngOnInit(): void {
+    this.getAmountVal();
     // console.log("uniquetableData", this.tableData);
   }
 }
