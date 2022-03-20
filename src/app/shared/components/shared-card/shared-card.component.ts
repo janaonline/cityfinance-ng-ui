@@ -64,21 +64,13 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
   ngAfterViewInit() {
     if (this.data.type === 6) {
       setTimeout(() => {
-        this.createGuageChart(
-          `${this.data["chartId"]}chartjs-gauge`,
-          [],
-          65
-        );
+        this.createGuageChart(`${this.data["chartId"]}chartjs-gauge`, [], 65);
       }, 10);
     }
   }
-  showThumb
+  showThumb;
   guageChart;
-  createGuageChart(
-    type,
-    backgroundColor,
-    getCutoutPercentage,
-  ) {
+  createGuageChart(type, backgroundColor, getCutoutPercentage) {
     let canvas = <HTMLCanvasElement>document.getElementById(type);
     let chartData = {
       datasets: [
@@ -104,8 +96,9 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
         },
       ],
     };
-
+    addInLabel(this.data["ulbName"], "#224BD5");
     if (this.data.hasOwnProperty("compPercentage")) {
+      addInLabel(this.data["compUlb"], "#04D30C");
       chartData.datasets.unshift({
         label: this.data["compUlb"],
         data: [
@@ -141,9 +134,27 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
           mode: "index",
           callbacks: {
             label: function (tooltipItem, data) {
-              console.log(tooltipItem,data);
-              let tempVal = isNaN(Number(data.datasets[tooltipItem.datasetIndex].data[0])) ? 0 :Number(data.datasets[tooltipItem.datasetIndex].data[0]).toFixed(2) 
-              return data.datasets[tooltipItem.datasetIndex].label +" "+ tempVal;
+              console.log(tooltipItem, data);
+              let tempVal = isNaN(
+                Number(data.datasets[tooltipItem.datasetIndex].data[0])
+              )
+                ? 0
+                : Number(
+                    data.datasets[tooltipItem.datasetIndex].data[0]
+                  ).toFixed(2);
+              return (
+                data.datasets[tooltipItem.datasetIndex].label + " " + tempVal
+              );
+            },
+            labelColor: function (tooltipItem, chart) {
+              return {
+                borderColor: getLabelColor(
+                  chart.data.datasets[tooltipItem.datasetIndex].label
+                ),
+                backgroundColor: getLabelColor(
+                  chart.data.datasets[tooltipItem.datasetIndex].label
+                ),
+              };
             },
           },
         },
@@ -157,4 +168,17 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     });
     chart.update();
   }
+}
+
+let labelColor = {
+  ["Benchmark value"]: "#29CFD6",
+  ["National avg"]: "#FFC80F",
+};
+
+function addInLabel(name, color) {
+  Object.assign(labelColor, { [name]: color });
+}
+
+function getLabelColor(name) {
+  return labelColor[name];
 }
