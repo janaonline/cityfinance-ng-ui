@@ -71,6 +71,8 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   selectedYear = "2015-16";
   @Input()
   cityId;
+  lastOpenPanel;
+  loading = false;
   ngOnInit(): void {
     console.log(this.data, "about indicator");
   }
@@ -78,20 +80,24 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {}
 
   panelOpen(item) {
+    if (this.lastOpenPanel) {
+      this.panelClose(this.lastOpenPanel);
+    }
     let name = item.name.toLowerCase();
     if (name == "calculation") this.getCalculation(item);
     if (name == "peer comparison") this.getPeerComp(item);
 
     item.panelOpenState = true;
+    this.lastOpenPanel = item;
   }
 
   getCalculation(item, compare = "") {
     let totalRevenue;
+    this.loading = true;
     this.aboutService
       .avgRevenue(this.cityId, this.selectedYear, compare)
       .subscribe(
         (res) => {
-          console.log(res, item);
           item.desc.map((value) => {
             let data = value.text.split("=");
             let name = data[0].split(" ").join("").toLowerCase();
@@ -108,13 +114,17 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
             data = data.join("= ");
             value.text = data;
           });
+          this.loading = false;
         },
-        (error) => {}
+        (error) => {
+          this.loading = false;
+        }
       );
   }
   stateUlbMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
   getPeerComp(item) {
+    this.loading = true;
     this.aboutService.compPeer(this.cityId, this.selectedYear).subscribe(
       (res) => {
         console.log(res, item, "compPeer");
@@ -128,17 +138,16 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           res["data"],
           false
         );
+        this.loading = false;
       },
-      (error) => {}
+      (error) => {
+        this.loading = false;
+      }
     );
   }
 
   getConvertedDec(text, data, forUlbType = true) {
-    console.log(text, "here");
-
     let descString = text;
-    console.log(data[forUlbType ? "inStateUlbType" : "inState"]["ulb"]["_id"]);
-
     let ulbStateCode =
       this.stateUlbMapping[
         data[forUlbType ? "inStateUlbType" : "inState"]["ulb"]["_id"]
@@ -188,7 +197,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         case "ULB_POPULATION":
           value =
             "(" +
-            toPopulcationCategory(
+            toPopulationCategory(
               this.ulbList[ulbStateCode].ulbs.find(
                 (innerVal) =>
                   innerVal._id ==
@@ -206,7 +215,9 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   toCr(value) {
-    return (value / 10000000).toFixed(2);
+    let newVal = value / 10000000;
+    if (isNaN(newVal)) return 0;
+    return newVal.toFixed(2);
   }
 
   panelClose(item) {
@@ -214,7 +225,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 }
 
-function toPopulcationCategory(population) {
+function toPopulationCategory(population) {
   if (population < 100000) {
     return "<100K";
   } else if (100000 < population && population < 500000) {

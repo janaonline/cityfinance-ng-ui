@@ -345,6 +345,7 @@ if(this.chartData?.data?.datasets[0].data[0]){
           if (value.name == "expand") innerVal.name = "collapse";
           else value.name = "expand";
         }
+        this._loaderService.stopLoader();
       });
       
       this.createChart();
