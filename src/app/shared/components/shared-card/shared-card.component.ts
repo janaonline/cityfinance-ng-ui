@@ -64,38 +64,58 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
   ngAfterViewInit() {
     if (this.data.type === 6) {
       setTimeout(() => {
-        this.createGuageChart(
-          `${this.data["chartId"]}chartjs-gauge`,
-          ["#29CFD6", "#D6F2EB","#1067DE", "#E9E9E9","#FFC80F","#E9E9E9"],
-          70,
-        );
+        this.createGuageChart(`${this.data["chartId"]}chartjs-gauge`, [], 65);
       }, 10);
     }
   }
+  showThumb;
   guageChart;
-  createGuageChart(
-    type,
-    backgroundColor,
-    getCutoutPercentage,
-  ) {
+  createGuageChart(type, backgroundColor, getCutoutPercentage) {
     let canvas = <HTMLCanvasElement>document.getElementById(type);
     let chartData = {
       datasets: [
         {
-          data: [this.data["value"], 100 - this.data["value"]],
-          backgroundColor: [backgroundColor[0], backgroundColor[1]],
+          label: "National avg",
+          data: [
+            this.data["nationalValue"],
+            this.data["benchMarkValue"] - this.data["nationalValue"],
+          ],
+
+          hoverOffset: 4,
+          backgroundColor: ["#FFC80F", "#E9E9E9"],
         },
         {
-          data: [this.data["percentage"], 100 - this.data["percentage"]],
-          backgroundColor: [backgroundColor[2], backgroundColor[3]],
+          label: this.data["ulbName"],
+          data: [
+            this.data["value"],
+            this.data["benchMarkValue"] - this.data["value"],
+          ],
+
+          hoverOffset: 4,
+          backgroundColor: ["#224BD5", "#E9E9E9"],
         },
       ],
     };
-
+    addInLabel(this.data["ulbName"], "#224BD5");
     if (this.data.hasOwnProperty("compPercentage")) {
-      chartData.datasets.push({
-        data: [this.data["compPercentage"], 100 - this.data["compPercentage"]],
-        backgroundColor: [backgroundColor[4], backgroundColor[5]],
+      addInLabel(this.data["compUlb"], "#04D30C");
+      chartData.datasets.unshift({
+        label: this.data["compUlb"],
+        data: [
+          this.data["compPercentage"],
+          this.data["benchMarkValue"] - this.data["compPercentage"],
+        ],
+        hoverOffset: 4,
+        backgroundColor: ["#04D30C", "#E9E9E9"],
+      });
+      this.showThumb = false;
+    } else {
+      this.showThumb = true;
+      chartData.datasets.unshift({
+        label: "Benchmark value",
+        data: [this.data["benchMarkValue"], 0],
+        hoverOffset: 4,
+        backgroundColor: ["#29CFD6", "#E9E9E9"],
       });
     }
 
@@ -111,7 +131,32 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
           display: false,
         },
         tooltips: {
-          enabled: false,
+          mode: "index",
+          callbacks: {
+            label: function (tooltipItem, data) {
+              console.log(tooltipItem, data);
+              let tempVal = isNaN(
+                Number(data.datasets[tooltipItem.datasetIndex].data[0])
+              )
+                ? 0
+                : Number(
+                    data.datasets[tooltipItem.datasetIndex].data[0]
+                  ).toFixed(2);
+              return (
+                data.datasets[tooltipItem.datasetIndex].label + " " + tempVal
+              );
+            },
+            labelColor: function (tooltipItem, chart) {
+              return {
+                borderColor: getLabelColor(
+                  chart.data.datasets[tooltipItem.datasetIndex].label
+                ),
+                backgroundColor: getLabelColor(
+                  chart.data.datasets[tooltipItem.datasetIndex].label
+                ),
+              };
+            },
+          },
         },
       },
     });
@@ -123,4 +168,17 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     });
     chart.update();
   }
+}
+
+let labelColor = {
+  ["Benchmark value"]: "#29CFD6",
+  ["National avg"]: "#FFC80F",
+};
+
+function addInLabel(name, color) {
+  Object.assign(labelColor, { [name]: color });
+}
+
+function getLabelColor(name) {
+  return labelColor[name];
 }

@@ -25,6 +25,9 @@ const routes: Routes = [
            path: 'toolkits', component: ToolkitsComponent,
            children: [
             {
+              path: 'billingCollection', component: DynamicSubLearningComponent,
+             },
+            {
               path: 'introduction', component: DynamicSubLearningComponent,
              },
              {
@@ -36,9 +39,7 @@ const routes: Routes = [
              {
               path: 'valuation', component: DynamicSubLearningComponent,
              },
-             {
-              path: 'billingCollection', component: DynamicSubLearningComponent,
-             },
+             
              {
               path: 'assessment', component: DynamicSubLearningComponent,
              },

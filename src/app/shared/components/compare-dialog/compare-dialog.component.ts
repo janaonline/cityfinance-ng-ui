@@ -181,6 +181,7 @@ export class CompareDialogComponent implements OnInit {
     this.globalFormControl.setValue("");
     this.selectedVal.setValue("None");
     this.stateChipList = [];
+    this.ulbListChip = []
   }
   close() {
     this.closeDialog.emit(true);
@@ -237,7 +238,6 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
-    console.log("opption", option);
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });

@@ -2,7 +2,7 @@
 <div [ngClass]="{'d-none': stateList.length <= 0}" class="flex-column row">
   <div class="row">
     
-    <div class="col-6 pull-right d-none">
+    <div class="col-6 pull-right">
       <select 
       [ngStyle]="{cursor: !mapConfig.showStateList ? 'not-allowed':''}"
        [disabled]="!mapConfig.showStateList" (change)="stateOption($event)"
