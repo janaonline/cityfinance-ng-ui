@@ -110,7 +110,7 @@ export class StateComponent implements OnInit {
           for (const key in obj) {
             const element = obj[key];
             element.number =
-              Math.round(
+             'INR ' + Math.round(
                 res.data.find((value) => value._id == key)?.amount / 10000000
               ) + " Cr";
           }
