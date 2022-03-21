@@ -296,7 +296,7 @@ export class BalanceTableComponent
   }
 
   ExistingValues() {
-    debugger;
+  
     this.ulbIdval.push(this.id);
     let currentUlb = this.stateCode[this.ulbStateMapping[this.id]].ulbs.filter(
       (elem) => {
@@ -309,7 +309,7 @@ export class BalanceTableComponent
   }
 
   createMultipleUpdateTable() {
-    debugger;
+    
     this.showtable = true;
     // this.balanceInput.ulbList = this.newUlbData;
 

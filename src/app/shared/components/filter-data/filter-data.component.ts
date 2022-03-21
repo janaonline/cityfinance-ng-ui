@@ -386,7 +386,7 @@ const borderColor = [
 
 const lineDataset = {
   type: "line",
-  label: "Line Dataset",
+  label: "Y-o-Y Comparison",
   data: [],
   fill: false,
   borderColor: "#F56184",
