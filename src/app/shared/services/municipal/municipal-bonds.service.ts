@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { of } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 
-import { IBondIssuer } from '../../../credit-rating/municipal-bond/models/bondIssuerResponse';
-import { IBondIssureItemResponse } from '../../../credit-rating/municipal-bond/models/bondIssureItemResponse';
-import { IULBResponse } from '../../../credit-rating/municipal-bond/models/ulbsResponse';
+import { IBondIssuer } from "../../../credit-rating/municipal-bond/models/bondIssuerResponse";
+import { IBondIssureItemResponse } from "../../../credit-rating/municipal-bond/models/bondIssureItemResponse";
+import { IULBResponse } from "../../../credit-rating/municipal-bond/models/ulbsResponse";
 
 @Injectable({
   providedIn: "root",
@@ -21,9 +21,9 @@ export class MunicipalBondsService {
   }
 
   getBondIssuerItem(searchOption?: {
-    ulbs: string[];
-    years: string[];
-    states: string[];
+    ulbs?: string[];
+    years?: string[];
+    states?: string[];
   }) {
     if (this.AllBondIssuerItems) {
       return this.getBondIssuerItemFromCache(searchOption);
@@ -45,9 +45,9 @@ export class MunicipalBondsService {
   }
 
   private getBondIssuerItemFromCache(searchOption?: {
-    ulbs: string[];
-    years: string[];
-    states: string[];
+    ulbs?: string[];
+    years?: string[];
+    states?: string[];
   }) {
     if (
       !searchOption ||
@@ -78,9 +78,9 @@ export class MunicipalBondsService {
   }
 
   private filterBondIssueItem(searchOption?: {
-    ulbs: string[];
-    years: string[];
-    states: string[];
+    ulbs?: string[];
+    years?: string[];
+    states?: string[];
   }) {
     let list: IBondIssureItemResponse["data"] = [];
 

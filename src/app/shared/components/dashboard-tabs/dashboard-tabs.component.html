@@ -85,12 +85,6 @@
           </div>
         </div>
       </div>
-      <div *ngSwitchCase="'Balance Sheet & Income Statement'">
-        <app-balance-table
-          [cityId]="cityId"
-          [data]="innerActiveTab"
-        ></app-balance-table>
-      </div>
       <div *ngSwitchCase="'Service Level Benchmark'">
         <app-slb-charts
         [year]="mySelectedYears[0]"

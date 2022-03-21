@@ -27,9 +27,6 @@ import { IDialogConfiguration } from "../../dialog/models/dialogConfiguration";
   templateUrl: "./accordion-to-table.component.html",
   styleUrls: ["./accordion-to-table.component.scss"],
 })
-
-
-  
 export class AccordionToTableComponent implements OnInit {
   filterForm: FormGroup;
   ulbFilteredByName: ULB[];
@@ -125,7 +122,7 @@ export class AccordionToTableComponent implements OnInit {
     private _activatedRoute: ActivatedRoute
   ) {
     this._activatedRoute.queryParams.subscribe((params) => {
-      console.log(params);
+      console.log("queryParams==>", params);
       this.queryParams = params;
       this.initializeForm();
       this.initializeFormListeners();
@@ -302,15 +299,13 @@ export class AccordionToTableComponent implements OnInit {
     // formattedName.trim();
   }
 
-
-empty;
-emptyArray() {
-  this.empty = new Array(10).fill(null);
-}
+  empty;
+  emptyArray() {
+    this.empty = new Array(10).fill(null);
+  }
 
   ngOnInit() {
-  this.emptyArray();
-
+    this.emptyArray();
   }
 
   onSubmittingFilterForm() {
