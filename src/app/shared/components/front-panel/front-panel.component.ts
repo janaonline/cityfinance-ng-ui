@@ -8,7 +8,10 @@ import {
   Output,
   EventEmitter,
 } from "@angular/core";
-
+import * as fileSaver from "file-saver";
+import {OwnRevenueService} from '../../../pages/own-revenue-dashboard/own-revenue.service'
+import Chart from "chart.js";
+import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -18,24 +21,25 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
   data = {
     showMap: true,
-    name: "Municipal Corporation of Greater Mumbai",
+    stateId:"",
+    name: "",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
-    finance: "18",
+    finance: "",
     link: "",
-    linkName: "Maharashtra Dashboard",
-    footer: `Data shown is from audited/provisional financial statements for FY 20-21
-    and data was last updated on 21st August 2021`,
+    linkName: "",
+    footer: ``,
+    disclaimer:"",
     dataIndicators: [
-      {
-        value: "12. 1 M",
-        title: "population",
-      },
-      { value: "4335 Sq km", title: "area" },
-      { value: "2857/ Sq km", title: "populationDensity" },
-      {
-        value: "227",
-        title: "wards",
-      },
+      // {
+      //   value: "0 Million",
+      //   title: "population",
+      // },
+      // { value: "0 Sq km", title: "area" },
+      // { value: "0/ Sq km", title: "populationDensity" },
+      // {
+      //   value: "0",
+      //   title: "wards",
+      // },
     ],
   };
   @Input()
@@ -55,16 +59,117 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   };
   @Output()
   changeInStateOrCity = new EventEmitter();
-  constructor() {}
+  
+  dataAvailLoading = false
+  financialYear
+  availValue
+  dataAvailable
+  notFoundNames = []
+  showButton: boolean = true;
+  constructor(
+    public ownRevenueService: OwnRevenueService,
+    public _loaderService: GlobalLoaderService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAvailableData()
+  }
 
   ngOnChanges(changes: SimpleChanges): void {}
 
   changeInMapFilter(event) {
+    this.getAvailableData()
     this.changeInStateOrCity.emit(event);
   }
+yearVal = '2019-20'
+ulbId 
+  downloadCSV(from) {
+   
+      this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+        (res: any) => {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+
+          fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+        },
+        (error) => {}
+      );
+    
+  }
+  getAvailableData() {
+    this._loaderService.showLoader()
+    this.dataAvailLoading  = true
+   
+  let obj = {
+    financialYear: this.yearVal,
+    stateId: this.data.stateId
+  }
+    this.ownRevenueService.displayDataAvailable(obj).subscribe(
+      (res) => {
+        this._loaderService.stopLoader()
+        this.dataAvailLoading  = false
+        // this._loaderService.stopLoader()
+        res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
+        this.financialYear = res;
+      this.availValue =  res["data"]?.percent
+          this.halfDoughnutChart();
+       
+       
+        this.notFoundNames = res["data"]?.names;
+        console.log("ordResponse", res);
+      },
+      (err) => {
+        this._loaderService.stopLoader()
+        this.dataAvailLoading  = false
+        console.log("error", err);
+      }
+    );
+  }
+
+  myChart: any
+  halfDoughnutChart() {
+    if(this.myChart){
+      this.myChart.destroy();
+    }
+    
+    this.dataAvailable = this.availValue;
+  
+      const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
+      const ctx = canvas.getContext("2d");
+       this.myChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: [
+            'Data available',
+            'Data not available'
+          ],
+          datasets: [
+            {
+              label: "Availability",
+              borderWidth: 0,
+              data: [this.dataAvailable, 100 - this.dataAvailable],
+              backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
+            },
+          ],
+        },
+        options: {
+          
+          rotation: 1 * Math.PI,
+          circumference: 1 * Math.PI,
+          legend: {
+            display: false,
+          },
+          cutoutPercentage: 75,
+        },
+      });
+    
+  }
+
 }
+
+
 
 const revenue = {
   type: 6,

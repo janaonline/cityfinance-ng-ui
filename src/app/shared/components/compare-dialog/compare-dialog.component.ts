@@ -132,7 +132,7 @@ export class CompareDialogComponent implements OnInit {
         }
 
         this._commonService
-          .postGlobalSearchData(value, this.typeX)
+          .postGlobalSearchData(value, this.typeX, "x")
           .subscribe((res: any) => {
             console.log(res?.data);
             let emptyArr: any = [];

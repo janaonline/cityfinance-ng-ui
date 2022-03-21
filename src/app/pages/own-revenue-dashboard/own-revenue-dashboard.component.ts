@@ -246,7 +246,7 @@ loadData(){
   this.filterGroup?.controls?.ulb?.valueChanges
   .subscribe(value => {
     if(value?.length >= 1){
-      this._commonServices.postGlobalSearchData(value,"ulb").subscribe((res: any) => {
+      this._commonServices.postGlobalSearchData(value,"ulb", "").subscribe((res: any) => {
         console.log(res?.data);
         let emptyArr:any = []
           this.filteredOptions = emptyArr;

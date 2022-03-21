@@ -9,13 +9,13 @@ import { StateComponent } from './state/state.component';
 import { SlbDashboardComponent } from './slb-dashboard/slb-dashboard.component';
 import { SlbDashboardRoutingModule } from "./slb-dashboard/slb-dashboard-routing.module";
 import { SlbDashboardModule } from "./slb-dashboard/slb-dashboard.module";
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 //import { NationalComponent } from './national/national.component';
 
 
 @NgModule({
   declarations: [CityComponent, StateComponent],
-  imports: [CommonModule, NewDashbordsRoutingModule,
+  imports: [CommonModule, NewDashbordsRoutingModule, MatAutocompleteModule,
  SharedModule, SlbDashboardRoutingModule, SlbDashboardModule ],
 })
 export class NewDashbordsModule {}

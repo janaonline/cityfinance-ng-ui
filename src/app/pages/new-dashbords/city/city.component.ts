@@ -159,7 +159,7 @@ const data = {
       title: "Population",
       key: "population",
     },
-    { value: "4335 Sq km", title: "Area", key: "rea" },
+    { value: "4335 Sq km", title: "Area", key: "area" },
     { value: "2857/ Sq km", title: "Population Density", key: "density" },
     {
       value: "227",

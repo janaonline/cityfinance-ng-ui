@@ -12,7 +12,9 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { GeographicalService } from "src/app/shared/services/geographical/geographical.service";
 import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
-
+import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
+import {Observable} from 'rxjs'
 @Component({
   selector: "app-map-with-filter",
   templateUrl: "./map-with-filter.component.html",
@@ -32,7 +34,8 @@ export class MapWithFilterComponent
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
     protected _geoService: GeographicalService,
-    protected _activateRoute: ActivatedRoute
+    protected _activateRoute: ActivatedRoute,
+    private router : Router
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     this.ngOnChanges({
@@ -66,12 +69,44 @@ export class MapWithFilterComponent
   districtList = {};
   loaderStyle = loaderStyle;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
-
+  ulb = new FormControl();
+  noDataFound = false
   @Output()
   changeInStateOrCity = new EventEmitter();
+  filteredOptions: Observable<any[]>;
+  ngOnInit(): void {
 
-  ngOnInit(): void {}
+  }
+  callAPI(event){
+   
+   
+    
+        this._commonService.postGlobalSearchData(event.target.value,"ulb", this.mapConfig.code.state).subscribe((res: any) => {
+          console.log(res?.data);
+          let emptyArr:any = []
+            this.filteredOptions = emptyArr;
+          if(res?.data.length > 0 ){
+            
+            this.filteredOptions = res?.data;
+            this.noDataFound = false;
+          }else{
 
+            let emptyArr:any = []
+            this.filteredOptions = emptyArr;
+            this.noDataFound = true;
+            let noDataFoundObj = {
+              name: '',
+              id: '',
+              type: '',
+            }
+            console.log('no data found')
+          }
+        });
+      
+  
+ 
+
+  }
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -169,6 +204,46 @@ export class MapWithFilterComponent
       }, 10);
     }
   }
+  postBody
+  checkType(searchValue){
+    let type = searchValue?.type;
+    if(type == 'ulb'){
+      this.postBody = {
+       type: searchValue.type,
+       ulb: searchValue._id
+     };
+   }
+   if(type == 'state'){
+       this.postBody = {
+        type: searchValue.type,
+        state: searchValue._id
+      };
+   }
+   if(type == 'searchKeyword'){
+    this.postBody = {
+       type: searchValue.type,
+       searchKeyword: searchValue._id
+      }
+   }
+  }
+  dashboardNav(option) {
+    console.log('option', option)
+    this.checkType(option);
+    this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
+      console.log('serach res', res)
+   },
+   (error)=>{
+     console.log(error)
+   });
+    console.log('option', option)
+    if(option?.type == 'state'){
+     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    }
+    if(option?.type == 'ulb'){
+     this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+     }
+
+  }
 
   showMapLegends() {
     console.warn("show legends hidden");
@@ -265,6 +340,7 @@ export class MapWithFilterComponent
     console.log(event.target.value, "test");
     let layer = this.layerMap[JSON.parse(event.target.value).ST_CODE];
     if (layer) layer.fireEvent("click");
+
   }
 
   districtOption(event) {

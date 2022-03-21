@@ -1,46 +1,83 @@
 <div class="container-fluid" style="background-color: #f1f8ff">
-    <div class="row p-3">
+   <!--till indicators and map with filter  -->
+  <div class="row pad">
+      <!-- got to state /national dashboard -->
         <div class="col-sm-12" [ngClass]="{'col-md-7': data.showMap, 'col-12':!data.showMap}">
             <div class="row">
-                <a *ngIf="data.linkName" class="link mb-3" style="cursor: pointer;" href="{{ data.link }}">Go To {{ data.linkName }}</a
+                <a *ngIf="data.linkName" class="link mb-6" style="cursor: pointer;" href="{{ data.link }}">Go To {{ data.linkName }}</a
         >
-        <div class="col-12 col-md-8">
+        <!-- state name and description line -->
+        <div class="col-12 col-md-8 head">
           <span class="header mt-2 mb-1">{{ data.name }}</span>
           <br />
-          <span class="description mb-1">{{ data.desc }}</span>
+          
         </div>
+        <span class="description">{{ data.desc }}</span>
       </div>
-      <div class="row mt-5">
+      <!-- static data indicators -->
+      <div class="row mt-3">
         <div class="col-4 col-sm-4 col-md-3 mt-4 lineStyle"  *ngFor="let item of data.dataIndicators">
           <h6 class="b">{{ item.value }}</h6>
-          <span class="subtitle" >{{item.title}}</span>
+          <span class="subtitle" >{{item.title}}</span><sup *ngIf="item?.super">*</sup>
         </div>
-        <!-- <div class="col-4 col-sm-4 col-md-3">
-          <h6 class="b">{{ data.population }}</h6>
-          <span class="subtitle">Population</span>
-        </div>
-        <div class="col-4 col-sm-4 col-md-3"  >
-          <h6 class="b">{{ data.area }}</h6>
-          <span class="subtitle">Area</span>
-        </div>
-        <div class="col-4 col-sm-4 col-md-3" >
-          <h6 class="b">{{ data.populationDensity }}</h6>
-          <span class="subtitle">Population Density</span>
-        </div>
-        <div class="col-4 col-sm-4 col-md-3" >
-          <h6 class="b">{{ data.ward }}</h6>
-          <span class="subtitle">Ward</span>
-        </div> -->
-        <!-- <div class="col-4 col-sm-4 col-md-3">
-          <h6 class="b">{{ data.finance }}</h6>
-          <span class="subtitle">Municipal Finance Ranking</span>
-        </div> -->
+      <div class="disclaim">{{data?.disclaimer}}</div> 
       </div>
     </div>
+    <!-- map with filter -->
     <div *ngIf="data.showMap" class="col-md-5">
       <app-map-with-filter (changeInStateOrCity)="changeInMapFilter($event)" [mapConfig]="mapConfig"></app-map-with-filter>
     </div>
   </div>
+  <!-- data availability -->
+  <div class="container data-availability rounded">
+    <div class="row" style="border: 1px solid #CFD8E2; border-radius: 12px; margin-bottom: 2%;">
+      <div class="col-md-7">
+        <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
+        <p class="da-para">
+          {{ dataAvailable }}% of the state's ULBs have uploaded their financial statements for the year 
+          {{ yearVal }}.
+          <span *ngIf="notFoundNames.length > 0">
+            Data is not available for
+            <span *ngFor="let name of notFoundNames; let i = index "> {{ name }}<span *ngIf="i != notFoundNames.length -1 ">,</span></span>.
+          </span>
+          <span>
+            For more details, download the complete set of ULBs for which the
+            data is available for the year {{ yearVal }}.
+          </span>
+          <span class="three-dots" *ngIf="showButton">...</span>
+         
+        </p>
+        <button
+          (click)="downloadCSV('data-availability')"
+          class="btn btn-outline-secondary btn-sm btn-os btn-download"
+          style="margin: 2%;"
+        >
+          <img
+            src="../../../assets/resources-das/file_download_orange_24dp.svg"
+            alt="download_icon"
+          />
+          Download Data
+        </button>
+      </div>
+
+      <div class="col-md-5 d-flex justify-content-center">
+        <div class="doughnut-container">
+          <div *ngIf="dataAvailLoading" style="text-align: center;" >Loading...</div>
+   
+          <canvas  id="myChart1" width="100%"> </canvas>
+         
+          <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
+            {{ financialYear?.data?.percent }}%
+          </p>
+          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">Data Availability
+          </p>
+          <p class="yearText text-center">({{yearVal}})</p>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cards  -->
   <div class="row" style="padding-left: 1rem; padding-right: 1rem">
     <div
       style="width: innerWidth; float: left"
@@ -50,6 +87,7 @@
       <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
     </div>
   </div>
+  <!-- footerline -->
   <footer class="page-footer fot font-small blue">
     <div class="footer-copyright">
       {{ data.footer }}

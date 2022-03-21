@@ -1,3 +1,10 @@
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
+$text-color-ord: #0F1F40;
+$font-archivo: "Archivo";
+$font-Montserrat: "Montserrat";
 .b {
     font-weight: bold;
     margin-bottom: 0px;
@@ -19,6 +26,7 @@
     letter-spacing: 0px;
     color: #0f1f40;
     opacity: 1;
+    margin-top: 2%;
 }
 
 .header {
@@ -29,8 +37,10 @@
 }
 
 .link {
-    color: blue;
+    color: #3E5DB1;
+    font: normal normal 12px Montserrat;
     text-decoration: none;
+    margin-bottom: 2%;
 }
 
 .fot {
@@ -41,7 +51,7 @@
 }
 
 .lineStyle {
-    line-height: 1rem;
+    line-height: 1.5rem;
 }
 
 .footer-copyright {
@@ -50,4 +60,72 @@
     @media screen and (max-width: 428px) {
         text-align: left;
     }
+}
+
+.disclaim{
+    margin-top: 6%;
+    text-align: left;
+    font-size:12px;
+    font-family: $font-Montserrat;
+    letter-spacing: 0px;
+    color: #6e7281;
+}
+
+.data-availability {
+    background-color: #F0F4FF;
+    margin-top: 1.8rem;
+}
+.head{
+    margin-top: 1.5rem;
+}
+.pad{
+    padding: 2.5rem 1.7rem 2.5rem 3.5rem;
+}
+
+.heading {
+    padding-top: 1.625rem;
+    padding-left: 1.75rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: $text-color-ord;
+}
+.three-dots {
+    display: none;
+}
+.doughnut_text {
+    margin-top: -0.9rem !important;
+    color: $text-color-ord;
+    font-family: $font-archivo;
+    font-size: 12px;
+    font-weight: normal;
+}
+.doughnut_percentage {
+    margin-top: -4.0rem !important;
+    font-family: $font-archivo;
+    color: $text-color-ord;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+.yearText{
+    margin-top: -0.7rem !important;
+    color: $text-color-ord;
+    font-family: $font-archivo;
+    font-size: 10px;
+    font-weight: normal;
+}
+.doughnut-container {
+    margin-top: 1.8rem;
+    width: 50%;
+    @media (max-width: 1200px) {
+        margin-top: 4rem;
+        width: 70%;
+    }
+}
+
+.da-para {
+    margin-bottom: 0;
+    margin-top: 1.32rem;
+    color: #6E7281;
+    font-size: 0.8rem;
+    padding-left: 1.75rem;
 }
