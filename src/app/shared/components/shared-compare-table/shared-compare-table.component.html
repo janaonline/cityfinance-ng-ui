@@ -10,8 +10,8 @@
         </div>
       </th>
     </tr>
-    <tr class="text-center firstRow">
-      <th class="">
+    <tr class="firstRow">
+      <th class="text-left">
         <div class="lineItemDiv">
           * Figure mentioned are in Rs. {{ figurString }}
         </div>
@@ -22,17 +22,16 @@
           let ulbIndex = index
         "
       >
-        <th *ngFor="let ulb of ulbListVal">{{ ulb?.name }}</th>
+        <th class="text-center" *ngFor="let ulb of ulbListVal">
+          {{ ulb?.name }}
+        </th>
       </ng-container>
     </tr>
-    <tr
-      class="text-center rowData"
-      *ngFor="let data of finalData; let i = index"
-    >
-      <td>{{ data?.line_item }}</td>
+    <tr class="rowData" *ngFor="let data of finalData; let i = index">
+      <td class="text-left" style="padding-left: 1em">{{ data?.line_item }}</td>
       <ng-container *ngFor="let fy of fyList">
         <ng-container *ngFor="let ulb of ulbListVal">
-          <td>{{ data[ulb.code + fy] || "N/A" }}</td>
+          <td class="text-center">{{ data[ulb.code + fy] || "N/A" }}</td>
         </ng-container>
       </ng-container>
     </tr>
