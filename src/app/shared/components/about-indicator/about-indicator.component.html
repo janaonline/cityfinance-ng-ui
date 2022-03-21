@@ -15,6 +15,7 @@
   <div *ngFor="let item of data" class="row p-2">
     <mat-accordion >
       <mat-expansion-panel
+      [expanded]="item.panelOpenState"
         (opened)="panelOpen(item)"
         (closed)="panelClose(item)"
       >
@@ -23,7 +24,12 @@
             {{ item.name }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <p *ngFor="let innerItem of item.desc">{{ innerItem.text }}</p>
+        <ng-container *ngIf="!loading">
+          <p id="{{i + item.name}}" *ngFor="let innerItem of item.desc; let i = index">{{ innerItem.text }}</p>
+        </ng-container>
+        <ng-container *ngIf="loading">
+          <mat-spinner style="margin-left: 11rem;"></mat-spinner>
+        </ng-container>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
