@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { ActivatedRoute } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
@@ -14,30 +14,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
 
+  @Input() data;
+
   scatterData = {
     type: "scatter",
     data: {
       datasets: [
-        {
-          label: "Line one",
-          data: [
-            { x: 0, y: 12 },
-            { x: 50, y: 12 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "rgba(0, 200, 0, 1)",
-        },
-        {
-          label: "Line Two",
-          data: [
-            { x: 0, y: 8 },
-            { x: 50, y: 8 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "red",
-        },
         {
           label: "Muncipality",
           data: [
@@ -101,9 +83,117 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
+        {
+          label: "National Average",
+          data: [
+            { x: 0, y: 12 },
+            { x: 50, y: 12 },
+          ],
+          showLine: true,
+          fill: false,
+          borderColor: "rgba(0, 200, 0, 1)",
+        },
+        {
+          label: "State Average",
+          data: [
+            { x: 0, y: 8 },
+            { x: 50, y: 8 },
+          ],
+          showLine: true,
+          fill: false,
+          borderColor: "red",
+        },
       ],
     },
   };
+
+  barData = {
+    type: "bar",
+    data: {
+      labels: [
+        "Nasik",
+        "Mumbai",
+        "Pune",
+        "Nagpur",
+        "Aurangabad",
+        "Solapur",
+        "Amravati",
+        "Navi Mumbai",
+        "Nagpur",
+        "Thane",
+      ],
+      datasets: [
+        {
+          label: "City Ranking",
+          data: [100, 90, 80, 70, 60, 50, 40, 30, 20, 11],
+          backgroundColor: [
+            "#1E44AD",
+            "#224CC0",
+            "#2553D3",
+            "#3360DB",
+            "#456EDE",
+            "#587DE1",
+            "#6A8BE5",
+            "#86A2ED",
+            "#93AAEA",
+            "#A8BCF0",
+          ],
+          borderColor: ["#1E44AD"],
+          borderWidth: 1,
+        },
+      ],
+    },
+  };
+  bottomBarData = {
+    type: "bar",
+    data: {
+      labels: [
+        "Nasik",
+        "Mumbai",
+        "Pune",
+        "Nagpur",
+        "Aurangabad",
+        "Solapur",
+        "Amravati",
+        "Navi Mumbai",
+        "Nagpur",
+        "Thane",
+      ],
+      datasets: [
+        {
+          label: "City Ranking",
+          data: [13, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+          backgroundColor: [
+            "#1E44AD",
+            "#224CC0",
+            "#2553D3",
+            "#3360DB",
+            "#456EDE",
+            "#587DE1",
+            "#6A8BE5",
+            "#86A2ED",
+            "#93AAEA",
+            "#A8BCF0",
+          ],
+          borderColor: ["#1E44AD"],
+          borderWidth: 1,
+        },
+      ],
+    },
+  };
+
+  BarGraphValue = true;
+
+  headerActions = [
+    {
+      name: "Download",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
+    },
+    {
+      name: "share/embed",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    },
+  ];
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -121,6 +211,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         this.stateId = sessionStorage.getItem("row_id");
       }
     });
+  }
+
+  showBarGraph() {
+    this.BarGraphValue = true;
+    console.log("this.BarGraphValue", this.BarGraphValue);
+  }
+
+  showBottomGraph() {
+    this.BarGraphValue = false;
+  }
+
+  generateRandomId(name) {
+    let number = Math.floor(Math.random() * 100);
+    let newId = number + name;
+    return newId;
   }
 
   getScatterData() {
@@ -144,6 +249,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.ulbStateMapping,
       this.stateId
     );
+
+    console.log("this.data===>", this.data);
 
     this.getScatterData();
     this.getRevenueId();
