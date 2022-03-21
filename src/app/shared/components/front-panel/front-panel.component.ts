@@ -22,6 +22,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   data = {
     showMap: true,
     stateId:"",
+    date:"",
+    year:"",
     name: "",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
     finance: "",
@@ -59,7 +61,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   };
   @Output()
   changeInStateOrCity = new EventEmitter();
-  
+  @Output()
+  yearValue  = new EventEmitter()
   dataAvailLoading = false
   financialYear
   availValue
@@ -69,10 +72,13 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   constructor(
     public ownRevenueService: OwnRevenueService,
     public _loaderService: GlobalLoaderService
-  ) {}
+  ) {
+    this.yearValue.emit('2019-20');
+  }
 
   ngOnInit(): void {
     this.getAvailableData()
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {}

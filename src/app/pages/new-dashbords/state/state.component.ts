@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NewDashboardService } from "../new-dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import {AuthService} from "../../../auth/auth.service"
 import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
 @Component({
   selector: "app-state",
@@ -12,7 +13,9 @@ export class StateComponent implements OnInit {
     public newDashboardService: NewDashboardService,
     private _activatedRoute: ActivatedRoute,
     private router: Router,
-    public _loaderService: GlobalLoaderService
+    public _loaderService: GlobalLoaderService,
+    private authService: AuthService
+
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.stateId = param.stateId;
@@ -30,9 +33,11 @@ export class StateComponent implements OnInit {
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   stateId;
   stateCode;
+  
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   mapData = mapConfig;
   dashboardTabData;
+  date
   ngOnInit(): void {
     this._loaderService.showLoader()
     //statedashboard id
@@ -49,15 +54,25 @@ export class StateComponent implements OnInit {
           console.log(error);
         }
       );
+      this.authService.getLastUpdated().subscribe((res)=>{
+ 
+        this.date = res['data']
+data.year = res['year']
+        data.date = this.date
 
+            })
     this.dashBoardData(this.stateId);
+  }
+yearVal
+  setYear(year){
+this.yearVal = year
   }
 
   dashBoardData(stateId) {
 
     //bringing people info in front panel
     this.newDashboardService
-      .dashboardInformation(true, stateId, "state")
+      .dashboardInformation(true, stateId, "state", "2019-20")
       .subscribe(
         (res: any) => {
           this._loaderService.stopLoader()
@@ -103,25 +118,26 @@ export class StateComponent implements OnInit {
       );
       //bringing cards data on front panel
     this.newDashboardService
-      .dashboardInformation(false, stateId, "state")
+      .dashboardInformation(false, stateId, "state", "2019-20")
       .subscribe(
         (res: any) => {
-          let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
-          for (const key in obj) {
-            const element = obj[key];
-            element.number =
-             'INR ' + Math.round(
-                res.data.find((value) => value._id == key)?.amount / 10000000
-              ) + " Cr";
-          }
-          this.revenueData = [
-            obj.Revenue,
-            obj.Expense,
-            obj.Asset,
-            obj.Tax,
-            obj.Liability,
-            obj.Debt,
-          ];
+        
+            let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
+            for (const key in obj) {
+              const element = obj[key];
+              element.number =
+               'INR ' + (res.data.length > 0 ? Math.round(res.data.find((value) => value._id == key)?.amount / 10000000): '0') + " Cr";
+            }
+            this.revenueData = [
+              obj.Revenue,
+              obj.Expense,
+              obj.Asset,
+              obj.Tax,
+              obj.Liability,
+              obj.Debt,
+            ];
+         
+        
         },
         (error) => {
           console.error(error);
@@ -133,6 +149,7 @@ export class StateComponent implements OnInit {
     if (event.fromState) {
       this.stateCode = event.value.ST_CODE;
       this.stateId = this.stateUlbData.data[this.stateCode]._id;
+this.mapData.code.state = this.stateCode
       this.dashBoardData(this.stateId);
     } else if (this.stateCode) {
       let cityId = this.stateUlbData.data[this.stateCode].ulbs.find(
@@ -148,7 +165,9 @@ export class StateComponent implements OnInit {
 const data = {
   showMap: true,
   name: "",
+  year:"",
   stateId:"",
+  date:"",
   desc: "Summary of key state demographics and municipal (urban) indicators",
   link: "",
   linkName: "National Dashboard",

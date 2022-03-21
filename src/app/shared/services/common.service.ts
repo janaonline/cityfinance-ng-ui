@@ -556,7 +556,7 @@ export class CommonService {
     };
     let stateData=""
     if(state){
-      stateData = `/state=${state}`
+      stateData = `&state=${state}`
     }
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search?type=${type}${stateData}`,

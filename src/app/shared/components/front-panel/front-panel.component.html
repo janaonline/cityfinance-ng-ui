@@ -89,8 +89,8 @@
   </div>
   <!-- footerline -->
   <footer class="page-footer fot font-small blue">
-    <div class="footer-copyright">
-      {{ data.footer }}
+    <div class="disclaim_other">
+      Last updated on {{data.date | date:'mediumDate' }}; Source:<span *ngIf="data.year == '2019-20'"> Audited</span><span *ngIf="data.year != '2019-20'"> Provisional</span> financial statements for the year {{data.year}}
     </div>
   </footer>
 </div>

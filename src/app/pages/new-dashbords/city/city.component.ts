@@ -67,7 +67,7 @@ export class CityComponent implements OnInit {
       (error) => {}
     );
     this.newDashboardService
-      .dashboardInformation(true, cityId, "ulb")
+      .dashboardInformation(true, cityId, "ulb", "")
       .subscribe(
         (res: any) => {
           this.frontPanelData.dataIndicators.map((item) => {
@@ -102,7 +102,7 @@ export class CityComponent implements OnInit {
         }
       );
     this.newDashboardService
-      .dashboardInformation(false, cityId, "ulb")
+      .dashboardInformation(false, cityId, "ulb"," ")
       .subscribe(
         (res: any) => {
           let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
