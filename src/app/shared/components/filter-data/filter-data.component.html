@@ -7,8 +7,8 @@
         </div>
     </div>
     <div class="row">
-        <div *ngFor="let item of data.btnLabels; let i = index" class="col-md-2">
-            <button (click)="changeActiveBtn(i)" [id]="'btn-'+i" class="btn deSelected">{{item}}</button>
+        <div  class="col-12">
+            <button *ngFor="let item of data.btnLabels; let i = index" (click)="changeActiveBtn(i)" [id]="'btn-'+i" style="margin-left: 2pc;" class="btn deSelected">{{item}}</button>
         </div>
     </div>
     <div class="row mb-5 mt-2">
@@ -18,8 +18,8 @@
                 <app-pre-loader></app-pre-loader>
                 <app-pre-loader></app-pre-loader>
             </div>
-            <div class="" *ngIf="tabName == 'Revenue'">
-                <app-revenuechart [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart"></app-revenuechart>
+            <div class="" >
+                <app-revenuechart [ChartOptions]="chartOptions" [chartDialogues]="true" [btnBesideText]="true" *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId" (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart" [headerActions]="headerActions"></app-revenuechart>
             </div>
             <div class="" *ngIf="(tabName == 'Revenue Mix') || (tabName == 'Revenue Expenditure Mix')">
                 <app-common-charts-graphs [chartData]="mixData" (actionClicked)="actionFromChart($event)"></app-common-charts-graphs>
@@ -27,7 +27,7 @@
 
         </div>
         <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
-            <app-about-indicator [data]="aboutIndicators"></app-about-indicator>
+            <app-about-indicator  [cityId]="currentUlb" [positive]="positiveCAGR" [cagr]="CAGR" [data]="aboutIndicators"></app-about-indicator>
         </div>
     </div>
 </div>

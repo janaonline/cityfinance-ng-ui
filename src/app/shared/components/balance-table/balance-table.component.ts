@@ -17,6 +17,7 @@ import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { CommonService } from "../../services/common.service";
 import { BalanceTableService } from "./balance-table.service";
 import { resolve } from "dns";
+import { ulbType } from "src/app/dashboard/report/report/ulbTypes";
 
 export interface PeriodicElement {
   name: number;
@@ -73,10 +74,11 @@ export class BalanceTableComponent
   dropYears = new FormControl();
   currency = new FormControl();
 
-  years: any;
+  years: any[];
   response: any;
   report: any[];
   reqYear: any;
+  selectedCurrency: any;
 
   typeList: { id: string; name: string }[] = [
     { id: "1", name: "One" },
@@ -89,12 +91,13 @@ export class BalanceTableComponent
     { id: "2019-2020", itemName: "2019-2020" },
     { id: "2018-2019", itemName: "2018-2019" },
     { id: "2017-2018", itemName: "2017-2018" },
+    { id: "2016-2017", itemName: "2016-2017" },
+    { id: "2015-2016", itemName: "2015-2016" },
   ];
-  currencyList: { id: string; name: string }[] = [
-    { id: "1", name: "INR" },
-    { id: "2", name: "INR Thousand" },
-    { id: "3", name: "INR Lakhs" },
-    { id: "4", name: "INR Thousand" },
+  currencyList: { id: string; value: number; name: string }[] = [
+    // { id: "1", value: 10000000, name: "INR Crore" },
+    { id: "2", value: 1000, name: "INR Thousand" },
+    { id: "3", value: 100000, name: "INR Lakhs" },
   ];
 
   balanceTableHead: string[] = [
@@ -122,11 +125,13 @@ export class BalanceTableComponent
   balanceInput: any = {};
 
   singleTableData: any;
+  multipleTableData: any;
 
   ulbIdval: any;
   ulbListVal: any;
 
   isLoading: any = false;
+  showtable: any = false;
 
   singleUlbList: any;
 
@@ -164,11 +169,28 @@ export class BalanceTableComponent
     this.isComparative = true;
   }
 
+  newUlbData: any;
+
   selectYearValue(event: any) {
     this.yearValue = event.value;
     console.log("yearValue", this.yearValue);
-    this.years = this.yearValue.map((ele) => ele.id);
+    this.years = this.yearValue.map((ele) => ele.itemName);
+    this.newUlbData = this.ulbListVal.map((elem) => {
+      return {
+        ...elem,
+        financialYear: [...this.years],
+        state: elem?.state.name,
+        stateId: elem?.state._id,
+        ulb: elem?.ulbType._id,
+        ulbType: elem?.ulbType.name,
+      };
+    });
     console.log(this.years);
+  }
+
+  selectCurrencyValue(event) {
+    this.selectedCurrency = event.target.value;
+    console.log("currency event", this.selectedCurrency);
   }
 
   closeModal() {
@@ -237,6 +259,97 @@ export class BalanceTableComponent
     valueType: "absolute",
   };
 
+  searchEnable() {
+    if (this.ulbListVal && this.yearValue) {
+      return false;
+    }
+    return true;
+  }
+
+  // getUlbList() {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.commonService.fetchBasicLedgerData().subscribe(
+  //       (res) => {
+  //         console.log("ulbRes", res);
+  //         this.ulbList = res.data;
+  //         resolve();
+  //       },
+  //       (err) => {
+  //         console.log(err);
+  //         reject(err);
+  //       }
+  //     );
+  //   });
+  // }
+
+  createUpdateTable(cityId = null) {
+    if (cityId) this.id = cityId.currentValue;
+    this.balanceInput.ulbList =
+      this.stateCode[this.ulbStateMapping[this.id]].ulbs;
+    // .filter((elem) => {
+    //   if (elem?._id === this.id) {
+    //     return elem;
+    //   }
+    // });
+    this.balanceInput.ulbIds = [this.id];
+    this.getBalanceTableData(this.balanceInput, true);
+  }
+
+  ExistingValues() {
+  
+    this.ulbIdval.push(this.id);
+    let currentUlb = this.stateCode[this.ulbStateMapping[this.id]].ulbs.filter(
+      (elem) => {
+        if (elem?._id === this.id) {
+          return elem;
+        }
+      }
+    );
+    this.ulbListVal.push(...currentUlb);
+  }
+
+  createMultipleUpdateTable() {
+    
+    this.showtable = true;
+    // this.balanceInput.ulbList = this.newUlbData;
+
+    this.balanceInput.ulbList = this.ulbListVal;
+    this.balanceInput.ulbIds = this.ulbIdval;
+    this.balanceInput.yearList = this.yearValue;
+    this.balanceInput.years = this.years;
+    console.log("multipleTableData", this.balanceInput);
+    this.getBalanceTableData(this.balanceInput);
+  }
+
+  getBalanceTableData(inputValue, fromSingle = false) {
+    if (this.reportGroup == "Balance Sheet") {
+      this.reportService.BSDetailed(inputValue).subscribe((res) => {
+        if (fromSingle) this.singleTableData = res.data;
+        else {
+          this.multipleTableData = res.data;
+
+          console.log("sigleTableData", this.multipleTableData);
+        }
+        this.isLoading = true;
+      });
+    }
+    if (this.reportGroup == "Income & Expenditure Statement") {
+      this.reportService.ieDetailed(inputValue).subscribe((res) => {
+        if (fromSingle) this.singleTableData = res.data;
+        else {
+          this.multipleTableData = res.data;
+
+          console.log("sigleTableData", this.multipleTableData);
+        }
+        // this.singleTableData = res.data;
+        console.log("sigleTableData", this.singleTableData);
+        this.isLoading = true;
+      });
+    }
+  }
+
+  ngOnInit() {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.data.name == "Balance Sheet") {
       this.reportGroup = "Balance Sheet";
@@ -247,63 +360,15 @@ export class BalanceTableComponent
     this.balanceInput.type = this.type;
     this.balanceInput.reportGroup = this.reportGroup;
     this.balanceInput.valueType = "absolute";
-    if (!changes.cityId?.firstChange || this.data.name) {
-      this.createUpdateTable(changes.cityId);
-    }
-
-    console.log("singleTableData", this.singleTableData);
-  }
-
-  getUlbList() {
-    return new Promise<void>((resolve, reject) => {
-      this.commonService.fetchBasicLedgerData().subscribe(
-        (res) => {
-          console.log("ulbRes", res);
-          this.ulbList = res.data;
-          resolve();
-        },
-        (err) => {
-          console.log(err);
-          reject(err);
-        }
-      );
-    });
-  }
-
-  ngOnInit() {
-    this.createUpdateTable();
-    console.log(
-      "outerData",
-      this.id,
-      this.ulbList,
-      this.singleState,
-      this.singleTableData,
-      this.balanceInput
-    );
-  }
-
-  createUpdateTable(cityId = null) {
-    if (cityId) this.id = cityId.currentValue;
-    this.balanceInput.ulbList =
-      this.stateCode[this.ulbStateMapping[this.id]].ulbs;
-    this.balanceInput.ulbIds = [this.id];
-    this.getBalanceTableData(this.balanceInput);
-  }
-
-  getBalanceTableData(inputValue) {
-    if (this.reportGroup == "Balance Sheet") {
-      this.reportService.BSDetailed(inputValue).subscribe((res) => {
-        this.singleTableData = res.data;
-        console.log("sigleTableData", this.singleTableData);
-        this.isLoading = true;
-      });
-    }
-    if (this.reportGroup == "Income & Expenditure Statement") {
-      this.reportService.ieDetailed(inputValue).subscribe((res) => {
-        this.singleTableData = res.data;
-        console.log("sigleTableData", this.singleTableData);
-        this.isLoading = true;
-      });
+    if (this.years) {
+      if (this.data.name) {
+        this.createMultipleUpdateTable();
+        console.log("Multple Changes", changes);
+      }
+    } else {
+      if (!changes.cityId?.firstChange || this.data.name) {
+        this.createUpdateTable(changes.cityId);
+      }
     }
   }
 }

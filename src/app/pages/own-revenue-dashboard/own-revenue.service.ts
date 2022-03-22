@@ -47,6 +47,11 @@ getCardsData(body){
 getTableData(body){
   return this.httpClient.post(`${environment.api.url}table-data`, body);
 }
+
+getYearList(body){
+  return this.httpClient.post(`${environment.api.url}yearList`, body)
+}
+
 }
 
 // {{url}}/LineItem

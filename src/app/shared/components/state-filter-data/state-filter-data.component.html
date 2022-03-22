@@ -1,14 +1,110 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <div  >
-        <!-- <div *ngIf="loading" class="skeletonWrapper">
-          <app-pre-loader></app-pre-loader>
-          <app-pre-loader></app-pre-loader>
-          <app-pre-loader></app-pre-loader>
-      </div> -->
-        <app-revenuechart [chartData]="scatterData" ></app-revenuechart>
-      </div>
+      <p>
+        {{ data.about }}
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button
+        *ngFor="let item of data.btnLabels; let i = index"
+        (click)="changeActiveBtn(i)"
+        [id]="'btn-' + i"
+        style="margin-left: 2pc"
+        class="btn deSelected"
+      >
+        {{ item }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <app-revenuechart
+        [chartId]="generateRandomId('scatterChartId')"
+        [chartData]="scatterData"
+      ></app-revenuechart>
+    </div>
+  </div>
+  <div class="row tablerow">
+    <div class="col-3">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+    </div>
+    <div class="col-9">
+      <table class="table table-bordered">
+        <tbody>
+          <tr class="rowClass">
+            <td>ULB Population Category</td>
+            <td class="text-center">100K</td>
+            <td>100K - 500K</td>
+            <td>500K - 1M</td>
+            <td>1M - 4M</td>
+            <td>4M+</td>
+            <td>Total Cities</td>
+          </tr>
+          <tr>
+            <td>Number Of Cities</td>
+            <td>120</td>
+            <td>78</td>
+            <td>250</td>
+            <td>74</td>
+            <td>22</td>
+            <td>445</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 mt-5 mb-5">
+      City Ranking
+      <button
+        class="rankingButton"
+        [ngClass]="{ activeButton: BarGraphValue }"
+        (click)="showBarGraph()"
+      >
+        Top 10
+      </button>
+      <button
+        class="rankingButton"
+        [ngClass]="{ activeButton: !BarGraphValue }"
+        (click)="showBottomGraph()"
+      >
+        Bottom 10
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <app-revenuechart
+        *ngIf="BarGraphValue"
+        [headerActions]="headerActions"
+        [chartTitle]="
+          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
+        "
+        [chartId]="generateRandomId('topBarChartId')"
+        [chartData]="barData"
+      ></app-revenuechart>
+      <app-revenuechart
+        *ngIf="BarGraphValue === false"
+        [headerActions]="headerActions"
+        [chartTitle]="
+          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
+        "
+        [chartId]="generateRandomId('bottomBarChartId')"
+        [chartData]="bottomBarData"
+      ></app-revenuechart>
     </div>
   </div>
 </div>

@@ -1,8 +1,10 @@
+
 <div [ngClass]="{'d-none': stateList.length <= 0}" class="flex-column row">
   <div class="row">
     
     <div class="col-6 pull-right">
       <select 
+      [ngStyle]="{cursor: !mapConfig.showStateList ? 'not-allowed':''}"
        [disabled]="!mapConfig.showStateList" (change)="stateOption($event)"
         *ngIf="stateList.length > 0"
         class="form-select"
@@ -13,13 +15,29 @@
         </option>
       </select>
     </div>
-
-    <div class="col-6 pull-right">
+    <div class="col-6 ">
+    <input type="text" (keyup)="callAPI($event)" class="form-select" placeholder="Search for ULBs" matInput formControlName="ulb" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <a (click)="dashboardNav(option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+        <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+            <div class="row" >
+                <div class="col-8">
+                    <span style="font-size: 12px;"> {{option?.name}}</span>
+                </div>
+                <div class="col-4">
+                    <span style="color: #8E8E8E; font-size: 12px;">{{option.type == 'ulb' ? option.ulbType.name :option.type | titlecase }}</span>
+                </div>
+            </div>
+        </mat-option>
+    </a>
+    </mat-autocomplete>
+  </div>
+    <!-- <div class="col-6 ">
       <select  *ngIf="stateList.length > 0" [disabled]="!mapConfig.showDistrictList" (change)="districtOption($event.target)" class="form-select" aria-label="Default select example">
-        <option value="">city</option>
+        <option value="">City</option>
         <option [selected]="mapConfig.code.city == item.key" value="{{item | json}}" *ngFor="let item of districtList | keyvalue" >{{item.value}}</option>
       </select>
-    </div>
+    </div> -->
   </div>
   <div class="row col-sm-12 col-md-6 col-lg-6 stateMapContainer" [ngStyle]="{'min-height': mapConfig?.stateMapContainerHeight ? mapConfig.stateMapContainerHeight :'28rem'}">
     <div

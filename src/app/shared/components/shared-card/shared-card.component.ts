@@ -3,9 +3,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   SimpleChange,
+  SimpleChanges,
 } from "@angular/core";
 import Chart from "chart.js";
 
@@ -14,7 +16,7 @@ import Chart from "chart.js";
   templateUrl: "./shared-card.component.html",
   styleUrls: ["./shared-card.component.scss"],
 })
-export class SharedCardComponent implements OnInit, AfterViewInit {
+export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() {}
 
   @Input()
@@ -50,126 +52,133 @@ export class SharedCardComponent implements OnInit, AfterViewInit {
 
   showButtons = false;
   ngOnInit(): void {
- //   console.log("resources", this.data);
+    //   console.log("resources", this.data);
     if (this.data)
       this.showButtons = this.data?.actionButtons
         ? this.data.actionButtons.length > 0
         : false;
   }
 
+  ngOnChanges(changes: SimpleChanges): void {}
+
   ngAfterViewInit() {
     if (this.data.type === 6) {
-      this.createGuageChart("chartjs-gauge");
-      this.createGuageChart("chartjs-gauge2");
-      this.createGuageChart("chartjs-gauge3");
+      setTimeout(() => {
+        this.createGuageChart(`${this.data["chartId"]}chartjs-gauge`, [], 65);
+      }, 10);
     }
   }
-
+  showThumb;
   guageChart;
-  createGuageChart(type) {
-    // Create chart
+  createGuageChart(type, backgroundColor, getCutoutPercentage) {
     let canvas = <HTMLCanvasElement>document.getElementById(type);
-    let chart1, chart2;
-    switch (type) {
-      case "chartjs-gauge2":
-        chart1 = document.getElementById("chartjs-gauge").style;
-        chart2 = document.getElementById("chart2").style;
-        console.log(chart1, chart2, "charts");
+    let chartData = {
+      datasets: [
+        {
+          label: "National avg",
+          data: [
+            this.data["nationalValue"],
+            this.data["benchMarkValue"] - this.data["nationalValue"],
+          ],
 
-        chart2.height =
-          (parseInt(chart1.height.split("px")[0]) - 8).toString() + "px";
-        chart2.width =
-          (parseInt(chart1.width.split("px")[0]) - 12).toString() + "px";
-        chart2.zIndex = "9";
-        chart2.marginTop = "-" + chart2.height;
-        chart2.marginLeft = "6px";
-        break;
+          hoverOffset: 4,
+          backgroundColor: ["#FFC80F", "#E9E9E9"],
+        },
+        {
+          label: this.data["ulbName"],
+          data: [
+            this.data["value"],
+            this.data["benchMarkValue"] - this.data["value"],
+          ],
 
-      case "chartjs-gauge3":
-        chart1 = document.getElementById("chart2").style;
-        chart2 = document.getElementById("chart3").style;
-        chart2.height =
-          (parseInt(chart1.height.split("px")[0]) - 8).toString() + "px";
-        chart2.width =
-          (parseInt(chart1.width.split("px")[0]) - 12).toString() + "px";
-        chart2.zIndex = "10";
-        chart2.marginTop = "-" + chart2.height;
-        chart2.marginLeft = "12px";
-
-        let num = document.getElementById("chartNum").style;
-        num.marginTop =
-          "-" +
-          (parseInt(chart2.height.split("px")[0]) / 2 - 2).toString() +
-          "px";
-        num.fontSize =
-          (parseInt(chart2.height.split("px")[0]) / 4).toString() + "px";
-        break;
+          hoverOffset: 4,
+          backgroundColor: ["#224BD5", "#E9E9E9"],
+        },
+      ],
+    };
+    addInLabel(this.data["ulbName"], "#224BD5");
+    if (this.data.hasOwnProperty("compPercentage")) {
+      addInLabel(this.data["compUlb"], "#04D30C");
+      chartData.datasets.unshift({
+        label: this.data["compUlb"],
+        data: [
+          this.data["compPercentage"],
+          this.data["benchMarkValue"] - this.data["compPercentage"],
+        ],
+        hoverOffset: 4,
+        backgroundColor: ["#04D30C", "#E9E9E9"],
+      });
+      this.showThumb = false;
+    } else {
+      this.showThumb = true;
+      chartData.datasets.unshift({
+        label: "Benchmark value",
+        data: [this.data["benchMarkValue"], 0],
+        hoverOffset: 4,
+        backgroundColor: ["#29CFD6", "#E9E9E9"],
+      });
     }
+
     const ctx = canvas.getContext("2d");
     this.guageChart = new Chart(ctx, {
       type: "doughnut",
-      data: {
-        labels: ["Red", "Blue"],
-        datasets: [
-          {
-            label: "Gauge",
-            data: [50, 190],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
-          },
-        ],
-      },
+      data: chartData,
       options: {
         circumference: Math.PI,
         rotation: Math.PI,
-        cutoutPercentage: 90, // precent
-        plugins: {
-          datalabels: {
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            borderColor: "#ffffff",
-            color: function (context) {
-              return context.dataset.backgroundColor;
-            },
-            font: function (context) {
-              var w = context.chart.width;
-              return {
-                size: w < 512 ? 18 : 20,
-              };
-            },
-            align: "start",
-            anchor: "start",
-            offset: 10,
-            borderRadius: 4,
-            borderWidth: 1,
-            formatter: function (value, context) {
-              var i = context.dataIndex;
-              var len = context.dataset.data.length - 1;
-              if (i == len) {
-                return null;
-              }
-              return value + " mph";
-            },
-          },
-        },
+        cutoutPercentage: getCutoutPercentage, // precent
         legend: {
           display: false,
         },
         tooltips: {
-          enabled: false,
+          mode: "index",
+          callbacks: {
+            label: function (tooltipItem, data) {
+              console.log(tooltipItem, data);
+              let tempVal = isNaN(
+                Number(data.datasets[tooltipItem.datasetIndex].data[0])
+              )
+                ? 0
+                : Number(
+                    data.datasets[tooltipItem.datasetIndex].data[0]
+                  ).toFixed(2);
+              return (
+                data.datasets[tooltipItem.datasetIndex].label + " " + tempVal
+              );
+            },
+            labelColor: function (tooltipItem, chart) {
+              return {
+                borderColor: getLabelColor(
+                  chart.data.datasets[tooltipItem.datasetIndex].label
+                ),
+                backgroundColor: getLabelColor(
+                  chart.data.datasets[tooltipItem.datasetIndex].label
+                ),
+              };
+            },
+          },
         },
       },
     });
   }
   // DEMO Code: not relevant to example
-  change_gauge(chart, label, data) {
+  change_gauge(chart, data, key) {
     chart.data.datasets.forEach((dataset) => {
-      if (dataset.label == label) {
-        dataset.data = data;
-      }
+      dataset.data = data[key];
     });
     chart.update();
   }
+}
+
+let labelColor = {
+  ["Benchmark value"]: "#29CFD6",
+  ["National avg"]: "#FFC80F",
+};
+
+function addInLabel(name, color) {
+  Object.assign(labelColor, { [name]: color });
+}
+
+function getLabelColor(name) {
+  return labelColor[name];
 }

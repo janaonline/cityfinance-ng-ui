@@ -35,13 +35,13 @@ loadData(){
   );
 
 let id = "5dd24729437ba31f7eb42eac";
-this.newDashboardService.dashboardInformation(true, id, "ulb").subscribe(
+this.newDashboardService.dashboardInformation(true, id, "ulb", "").subscribe(
   (res: any) => {},
   (error) => {
     console.error(error);
   }
 );
-this.newDashboardService.dashboardInformation(false, id, "ulb").subscribe(
+this.newDashboardService.dashboardInformation(false, id, "ulb","").subscribe(
   (res) => {},
   (error) => {
     console.error(error);

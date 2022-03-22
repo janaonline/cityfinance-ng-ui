@@ -52,7 +52,7 @@ export class FilterModelBoxComponent implements OnInit {
     this.filterForm?.controls?.ulb?.valueChanges
     .subscribe(value => {
       if(value?.length >= 1){
-        this._commonServices.postGlobalSearchData(value).subscribe((res: any) => {
+        this._commonServices.postGlobalSearchData(value,"", "").subscribe((res: any) => {
           console.log(res?.data);
           let emptyArr:any = []
             this.filteredOptions = emptyArr;

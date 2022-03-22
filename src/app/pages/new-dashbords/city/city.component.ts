@@ -30,7 +30,12 @@ export class CityComponent implements OnInit {
   mapData = mapConfig;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
+  currentYear;
   ngOnInit(): void {
+    this.dashboardDataCall();
+    this.dashboardCalls(this.cityId);
+  }
+  dashboardDataCall() {
     this.newDashboardService
       .getDashboardTabData("619cc08a6abe7f5b80e45c67")
       .subscribe(
@@ -42,12 +47,27 @@ export class CityComponent implements OnInit {
           console.log(error);
         }
       );
-    this.dashboardCalls(this.cityId);
   }
 
   dashboardCalls(cityId) {
+    this.newDashboardService.getLatestDataYear(cityId).subscribe(
+      (res) => {
+        this.currentYear = res["data"].financialYear;
+        let tempData: any = this.frontPanelData.footer.split(" ");
+        tempData = tempData.map((value) => {
+          if (value == "finacialYear")
+            value = "FY " + res["data"].financialYear;
+          if (value == "date")
+            value = new Date(res["data"].modifiedAt).toLocaleDateString();
+          return value;
+        });
+        tempData = tempData.join(" ");
+        this.frontPanelData.footer = tempData;
+      },
+      (error) => {}
+    );
     this.newDashboardService
-      .dashboardInformation(true, cityId, "ulb")
+      .dashboardInformation(true, cityId, "ulb", "")
       .subscribe(
         (res: any) => {
           this.frontPanelData.dataIndicators.map((item) => {
@@ -71,7 +91,8 @@ export class CityComponent implements OnInit {
           });
           this.frontPanelData.name = res.data.name;
           this.frontPanelData.desc = createDesc(
-            res.data?.ulbType?.name || "Municipal Corp"
+            res.data?.ulbType?.name || "Municipal Corp",
+            getPopulationType(res.data.population)
           );
           this.frontPanelData.linkName = `${res.data.state.name} Dashboard`;
           this.frontPanelData.link = `dashboard/state?stateId=${res.data.state._id}`;
@@ -81,16 +102,23 @@ export class CityComponent implements OnInit {
         }
       );
     this.newDashboardService
-      .dashboardInformation(false, cityId, "ulb")
+      .dashboardInformation(false, cityId, "ulb"," ")
       .subscribe(
         (res: any) => {
           let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
           for (const key in obj) {
             const element = obj[key];
-            element.number =
-              Math.round(
-                res.data.find((value) => value._id == key).amount / 10000000
-              ) + " Cr";
+            if (key == "Debt") {
+              element.number =
+                (
+                  res.data.find((value) => value._id == "Revenue")?.totalGrant /
+                  10000000
+                ).toFixed(2) + "Cr";
+            } else
+              element.number =
+                Math.round(
+                  res.data.find((value) => value._id == key)?.amount / 10000000
+                ) + " Cr";
           }
           this.revenueData = [
             obj.Revenue,
@@ -112,6 +140,7 @@ export class CityComponent implements OnInit {
       this.cityId = this.stateUlbData.data[this.stateCode].ulbs.find(
         (value) => value.code === event.value.key
       )._id;
+      this.dashboardDataCall();
       this.dashboardCalls(this.cityId);
     }
     console.log("this.cityId", this.cityId);
@@ -130,7 +159,7 @@ const data = {
       title: "Population",
       key: "population",
     },
-    { value: "4335 Sq km", title: "Area", key: "rea" },
+    { value: "4335 Sq km", title: "Area", key: "area" },
     { value: "2857/ Sq km", title: "Population Density", key: "density" },
     {
       value: "227",
@@ -138,8 +167,7 @@ const data = {
       key: "ward",
     },
   ],
-  footer: `Data shown is from audited/provisional financial statements for FY 20-21
-  and data was last updated on 21st August 2021`,
+  footer: `Data shown is from audited/provisional financial statements for finacialYear and data was last updated on date`,
 };
 
 const Revenue = {
@@ -181,6 +209,21 @@ const Debt = {
 function createDesc(type, population = "4M+") {
   return `This urban local body has been classified as a ${type} in the ${population} population category`;
 }
+
+function getPopulationType(population) {
+  if (population < 100000) {
+    return "<100 Thousand";
+  } else if (100000 < population && population < 500000) {
+    return "100 Thousand - 500 Thousand";
+  } else if (500000 < population && population < 1000000) {
+    return "500 Thousand - 1 Million";
+  } else if (1000000 < population && population < 4000000) {
+    return "1 Million - 4 Million";
+  } else {
+    return "4 Million+";
+  }
+}
+
 const mapConfig = {
   code: {
     state: "GJ",

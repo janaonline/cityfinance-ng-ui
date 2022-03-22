@@ -1,3 +1,7 @@
+@import "../../../../../scss/functions";
+@import "../../../../../scss/variables";
+@import "../../../../../scss/mixins";
+
 .header-p {
     background-color: #047474;
     height: 100px;
@@ -7,7 +11,7 @@
 
 .heading-p {
     color: #FFFFFF;
-    font-size: 24px;
+    font-size: $font-size-base*1.5;
     margin-top: 1rem;
     font-weight: 700;
 }
@@ -21,18 +25,18 @@
 
 .heading-u-p {
     color: #FFFFFF;
-    font-size: 24px;
+    font-size: $font-size-base*1.5;
     font-weight: 700;
     padding-top: .5rem;
 }
 
 .sub-h {
     font-weight: 600;
-    font-size: 19px;
+    font-size: $font-size-base*1.188;
 }
 
 .form-h {
-    font-size: 21px;
+    font-size: $font-size-base*1.313;
     font-weight: 700;
     margin-bottom: 1rem;
 }

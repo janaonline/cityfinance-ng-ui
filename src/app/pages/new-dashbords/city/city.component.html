@@ -6,6 +6,6 @@
         <label class="m-h text-center">Dashboard</label>
     </div>
     <div *ngIf="dashboardTabData" class="row">
-        <app-dashboard-tabs [DashBoardType]="'city'" [cityId]="cityId" [data]="dashboardTabData"></app-dashboard-tabs>
+        <app-dashboard-tabs [mySelectedYears]="currentYear" [DashBoardType]="'city'" [cityId]="cityId" [data]="dashboardTabData"></app-dashboard-tabs>
     </div>
 </div>

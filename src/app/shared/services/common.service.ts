@@ -550,12 +550,16 @@ export class CommonService {
     }
     this.userType = user;
   }
-  postGlobalSearchData(data: any) {
+  postGlobalSearchData(data: any, type, state) {
     let dataString = {
       matchingWord: data,
     };
+    let stateData=""
+    if(state){
+      stateData = `&state=${state}`
+    }
     return this.http.post(
-      `${environment.api.url}recentSearchKeyword/search`,
+      `${environment.api.url}recentSearchKeyword/search?type=${type}${stateData}`,
       dataString
     );
   }

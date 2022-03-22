@@ -38,7 +38,7 @@ export class NewHomeComponent implements OnInit {
       image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
       text: `"It’s our mission to strengthen our cities to meet the challenges of 21st century"`,
       name: "Narendra Modi",
-      designation: "Prime Minister of India",
+      designation: "Hon’ble Prime Minister of India",
       class: "prim-img",
       textCls: "p-t",
     },
@@ -116,11 +116,12 @@ export class NewHomeComponent implements OnInit {
     this.globalFormControl.valueChanges
     .subscribe(value => {
       if(value.length >= 1){
-        this._commonService.postGlobalSearchData(value).subscribe((res: any) => {
+        this._commonService.postGlobalSearchData(value,"", "").subscribe((res: any) => {
           console.log(res?.data);
           let emptyArr:any = []
             this.filteredOptions = emptyArr;
           if(res?.data.length > 0 ){
+            
             this.filteredOptions = res?.data;
             this.noDataFound = false;
           }else{
@@ -218,10 +219,6 @@ export class NewHomeComponent implements OnInit {
   dashboardNav(option) {
     console.log('option', option)
     this.checkType(option);
-    // let postBody = {
-    //   type: option.type,
-    //   searchKeyword: option._id
-    // }
     this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
       console.log('serach res', res)
    },

@@ -28,6 +28,7 @@ export const appRouter: Routes = [
 
   { path: "revenuchart", component: RevenuechartComponent },
   { path: "compareDialog", component: CompareDialogComponent },
+  { path: "card", component: SharedCardComponent },
 
   { path: "home", component: NewHomeComponent },
   {
@@ -182,13 +183,7 @@ export const appRouter: Routes = [
         (m) => m.ResourcesDashboardModule
       ),
   },
-  {
-    path: "service-level-benchmark-dashboard",
-    loadChildren: () =>
-      import("./pages/slb-dashboard/slb-dashboard.module").then(
-        (m) => m.SlbDashboardModule
-      ),
-  },
+  
 
 
   { path: "**", redirectTo: "" },

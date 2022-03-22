@@ -1,3 +1,7 @@
+@import "../../../../scss/functions";
+@import "../../../../scss/variables";
+@import "../../../../scss/mixins";
+
 ::ng-deep .tooltip-custom-1 {
     transform: translateY(-4000px);
 }
@@ -26,6 +30,17 @@
         width: 95vw;
     }
     // border-left: inherit;
+}
+
+.fl-input {
+    padding: 9px;
+    border: none;
+    width: 80%;
+}
+
+.fl-input:focus-visible {
+    border: none;
+    outline-color: transparent;
 }
 
 .stateMapContainer {
@@ -303,10 +318,10 @@ div.miniMap {
         bottom: 0px;
         background: transparent;
         @media screen and (max-width: 1024px) and (min-width: 560px) {
-            font-size: 12px;
+            font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 551px) {
-            font-size: 10px;
+            font-size: $font-size-base*0.625;
             width: 100%;
             margin: 0 0;
             left: -68px;
@@ -318,7 +333,7 @@ div.miniMap {
             left: -40px;
         }
         @media screen and (max-width: 405px) and (min-width: 320px) {
-            font-size: 8px;
+            font-size: $font-size-base*0.5;
             width: 51%;
         }
         @media screen and (max-width: 319px) {
@@ -339,6 +354,11 @@ div.miniMap {
         position: relative;
         margin-top: -2px;
     }
+    .map-reset {
+        font: normal normal bold 14px/15px 'Archivo';
+        letter-spacing: 0px;
+        color: #E67E15;
+    }
     .map-click-guide {
         position: absolute;
         bottom: 3vh;
@@ -350,10 +370,10 @@ div.miniMap {
         bottom: 1px;
         font-size: 1vw;
         @media screen and (max-width: 1024px) and (min-width: 560px) {
-            font-size: 12px;
+            font-size: $font-size-base*0.75;
         }
         @media screen and (max-width: 551px) {
-            font-size: 12px;
+            font-size:$font-size-base*0.75;
             margin: auto;
         }
     }
@@ -406,7 +426,6 @@ div.miniMap {
         }
     }
 }
-
 ::ng-deep .leaflet-pane>svg path.leaflet-interactive {
     stroke: #FFFFFF !important;
     stroke-width: 2px;
@@ -419,7 +438,7 @@ div.miniMap {
 
 // css for new changes.............
 .expo {
-    font: normal normal 800 30px/32px Archivo;
+    font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} Archivo;
     letter-spacing: 0px;
     color: #0F1F40;
     opacity: 1;
@@ -427,7 +446,7 @@ div.miniMap {
 }
 
 .expo-sub {
-    font: normal normal normal 14px/22px Archivo;
+    font: normal normal normal #{$font-size-base*0.875}/#{$font-size-base*1.375} Archivo;
     letter-spacing: 0px;
     color: #6E7281;
     opacity: 1;
@@ -446,7 +465,7 @@ div.miniMap {
 .expo-drp-in {
     background: #E9ECF7 !important;
     border-radius: 8px !important;
-    font: normal normal 600 14px/15px 'Archivo';
+    font: normal normal 600 #{$font-size-base*0.875}/#{$font-size-base*0.938} 'Archivo';
     letter-spacing: 0px;
     color: #000000;
 }
@@ -454,24 +473,26 @@ div.miniMap {
 .vl {
     border-left: 4px solid #E8721C;
     display: inline-block;
-    height: 15px;
+    height: 26px;
 }
 
 .c-n {
     display: inline-block;
-    font: normal normal bold 22px/24px 'Archivo';
+    vertical-align: top;
+    font: normal normal bold #{$font-size-base*1.5}/#{$font-size-base*1.625} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
+   
 }
 
 .num-data {
-    font: normal normal 800 24px/26px Archivo;
+    font: normal normal 800 #{$font-size-base*1.5}/#{$font-size-base*1.625} Archivo;
     letter-spacing: 0px;
     color: #0F1F40;
 }
 
 .num-text {
-    font: normal normal normal 13px/19px Archivo;
+    font: normal normal normal #{$font-size-base*0.813}/#{$font-size-base*1.188} Archivo;
     letter-spacing: 0px;
     color: #6E7281;
 }
@@ -481,19 +502,44 @@ div.miniMap {
     box-shadow: 0px 2px 8px #F7C199;
     border-radius: 8px;
     padding: 0.8rem 1.5rem;
-    font: normal normal bold 14px/15px 'Archivo';
+    font: normal normal bold #{$font-size-base*0.75}/#{$font-size-base*0.938} 'Archivo';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
 
+.data-point-value {
+    font-size: 1.8em;
+    
+    width: 100%;
+    @media screen and (max-width: 280px) {
+      font-size: 10px;
+    }
+  }
+  .loading-value {
+    opacity: 0.1;
+  }
+  .data-point-name {
+  
+    width: 100%;
+    text-align: center;
+  }
+
+.pointer{
+    cursor:pointer;
+}
+
+.dim{
+    color:#6E7281;
+}
+
 .up-text {
-    font: normal normal normal 12px/14px 'Archivo';
+    font: normal normal normal #{$font-size-base*0.75}/#{$font-size-base*0.875} 'Archivo';
     letter-spacing: 0px;
     color: #9094A5;
 }
 
 .info-drill {
-    font: normal normal normal 12px/14px Archivo;
+    font: normal normal normal #{$font-size-base*0.75}/#{$font-size-base*0.875} Archivo;
     letter-spacing: 0px;
     color: #6E7281;
     background: #F2F3F8 0% 0% no-repeat padding-box;
@@ -509,6 +555,7 @@ div.miniMap {
     border-radius: 8px !important;
     // width: 80%;
     background-color: #E9ECF7;
+    border: none;
 }
 
 ::ng-deep .c-remove,

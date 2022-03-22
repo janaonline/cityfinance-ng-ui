@@ -28,6 +28,26 @@
   // border-left: inherit;
 }
 
+.filter-form {
+  display: flex;
+}
+
+
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible {
+  min-width: calc(100% + 28% + 2px);
+  margin-top: -1px;
+  margin-left: -8px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: none;
+  padding-top: 5px;
+}
+
+::ng-deep #mat-option-0,
+::ng-deep .firstCls {
+  border-top: 1px solid lightgray;
+}
+
+
 .stateMapContainer {
   padding: 0px;
   position: relative;

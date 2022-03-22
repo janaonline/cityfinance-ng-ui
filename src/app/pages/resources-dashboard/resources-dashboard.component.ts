@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Component, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 
 @Component({
-  selector: 'app-resources-dashboard',
-  templateUrl: './resources-dashboard.component.html',
-  styleUrls: ['./resources-dashboard.component.scss']
+  selector: "app-resources-dashboard",
+  templateUrl: "./resources-dashboard.component.html",
+  styleUrls: ["./resources-dashboard.component.scss"],
 })
 export class ResourcesDashboardComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
   resourcesFilter = new FormControl();
   autoCompleteData: string[] = [
     "Champs-Élysées 1",
@@ -28,10 +27,8 @@ export class ResourcesDashboardComponent implements OnInit {
       startWith(""),
       map((value) => this._filter(value))
     );
-
   }
   private _filter(value: string): string[] {
-
     if (value != "") {
       const filterValue = this._normalizeValue(value);
       return this.autoCompleteData.filter((data) =>
@@ -47,10 +44,9 @@ export class ResourcesDashboardComponent implements OnInit {
 const learningCenter = {
   type: 4,
   title: "Learning Center",
-  subTitle: `Lorem ipsum dolor sit amet, consectetur
-  adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
+  subTitle: `Access our research outputs such as digital toolkits, e-learning modules, best practices on municipal finance here.`,
   svg: `../../../assets/resources-das/learning.svg`,
-  link : 'learning-center/toolkits',
+  link: "learning-center/toolkits",
   img: "",
   para: "",
   actionButtons: [
@@ -72,10 +68,9 @@ const learningCenter = {
 const dataSets = {
   type: 4,
   title: "Datasets",
-  subTitle: `Lorem ipsum dolor sit amet, consectetur
-  adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
+  subTitle: `Access raw as well standardized ULB financial statements datasets here.`,
   svg: `../../../assets/resources-das/dataSets.svg`,
-  link : 'data-sets/income_statement',
+  link: "data-sets/income_statement",
   img: "",
   para: "",
   actionButtons: [
@@ -97,10 +92,9 @@ const dataSets = {
 const reportsPublications = {
   type: 4,
   title: "Reports & Publications",
-  subTitle: `Lorem ipsum dolor sit amet, consectetur
-  adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
+  subTitle: `Access Municipal Finance related publications here.`,
   svg: `../../../assets/resources-das/reports.svg`,
-  link : 'report-publications',
+  link: "report-publications",
   img: "",
   para: "",
   actionButtons: [
@@ -125,7 +119,7 @@ const latestNewsUpdates = {
   subTitle: `Lorem ipsum dolor sit amet, consectetur
   adipiscing elit. Morbi porta vitae nisl commodo aliquet. Suspendisse in posuere tellus.`,
   svg: `../../../assets/resources-das/learning.svg`,
-  link : 'latest-news',
+  link: "latest-news",
   img: "",
   para: "",
   actionButtons: [
@@ -150,5 +144,4 @@ const cardStyle = {
   borderRadius: "0.7500em",
   height: "13rem",
   // "max-height": "8rem",
-
 };

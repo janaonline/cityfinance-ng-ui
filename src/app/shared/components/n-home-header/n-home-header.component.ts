@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NavigationEnd, Router, Event } from '@angular/router';
 import { UserUtility } from 'src/app/util/user/user';
 import { Login_Logout } from 'src/app/util/logout.util';
@@ -17,6 +17,12 @@ export class NHomeHeaderComponent implements OnInit {
   btnName = 'Login for 15th FC Grants';
   isLoggedIn = false;
   user: IUserLoggedInDetails = null;
+
+  sticky: boolean = false;
+  size;
+
+  textSize = ['sm','rg','lg'];
+  currentTextSize: any;
 
   constructor(
     public _router: Router,
@@ -37,18 +43,7 @@ export class NHomeHeaderComponent implements OnInit {
         }
 
    }
-  size;
 
-  textSize = ['sm','rg','lg']
-
-  setFontSize(size){
-    // console.log(size)
-    // this.size= size;
-    let elem = document.body;
-
-    this.textSize.forEach(item => elem.classList.remove(item));
-    elem.classList.add(size);
-  }
   ngOnInit(): void {
     this.authService.loginLogoutCheck.subscribe((res)=> {
       console.log('loginLogoutCheck', res);
@@ -59,8 +54,36 @@ export class NHomeHeaderComponent implements OnInit {
         this.btnName = 'Login for 15th FC Grants';
       }
     })
+
+    let getTextSize = JSON.parse(localStorage.getItem('myLSkey'));
+    if(getTextSize) 
+      this.setFontSize(getTextSize.currentTextSize)
+      
+  }
+
+  setFontSize(size){
+    // console.log(size)
+    // this.size= size;
+    let elem = document.body;
+
+    this.textSize.forEach(item => elem.classList.remove(item));
+    elem.classList.add(size);
+    this.currentTextSize = size;
+    localStorage.setItem('myLSkey', JSON.stringify({
+      'currentTextSize': size,
+    }));
+  }
+
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      if(windowScroll >= 50){
+        this.sticky = true;
+      } else {
+        this.sticky = false;
+      }
     }
-    removeSessionItem(){
+  removeSessionItem(){
       let postLoginNavigation = sessionStorage.getItem("postLoginNavigation"),
       sessionID = sessionStorage.getItem("sessionID")
       sessionStorage.clear()

@@ -56,15 +56,22 @@
 
 .navbar-brand {
   padding-top: $navbar-brand-padding-y;
-  padding-bottom: $navbar-brand-padding-y;
+  padding-bottom: $navbar-brand-padding-y*2;
   margin-right: $navbar-brand-margin-end;
   @include font-size($navbar-brand-font-size);
   text-decoration: if($link-decoration == none, null, none);
   white-space: nowrap;
+  visibility:hidden;
+  opacity:0;
+  @include transition(visibility 0.3s linear,opacity 0.3s linear);
 
   &:hover,
   &:focus {
     text-decoration: if($link-hover-decoration == underline, none, null);
+  }
+  &.show{
+    visibility:visible;
+    opacity:1;
   }
 }
 
@@ -134,7 +141,7 @@
   &:focus {
     text-decoration: none;
     outline: 0;
-    // box-shadow: 0 0 0 $navbar-toggler-focus-width;
+    box-shadow: 0 0 0 $navbar-toggler-focus-width;
   }
 }
 
@@ -174,6 +181,11 @@
 
           .dropdown-menu {
             position: absolute;
+            border-radius: 0 0 $border-radius $border-radius;
+            border: none;
+            border-top: 3px solid $orange;
+            box-shadow: $box-shadow;
+            top: 94%;
           }
 
           .nav-link {

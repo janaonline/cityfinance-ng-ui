@@ -1,6 +1,9 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
 s.ulb-custom-text {
   float: left;
-  font-size: 16px;
+  font-size: $font-size-base*1;
   @media screen and (max-width: 768px) {
     width: 73%;
   }
@@ -31,7 +34,7 @@ table {
 .abs-credit-info {
   .click-info {
     margin-top: 30%;
-    font-size: 30px;
+    font-size:$font-size-base*1.875;
     color: #999;
   }
 }
@@ -136,7 +139,7 @@ table {
   }
 
   .c-btn {
-    font-size: 13px !important;
+    font-size: $font-size-base*0.813 !important;
   }
 }
 

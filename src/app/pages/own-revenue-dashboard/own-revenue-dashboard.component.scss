@@ -1,6 +1,7 @@
-@import "./src/scss/functions";
-@import "./src/scss/variables";
-@import "./src/scss/mixins";
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
 $text-color-ord: #0F1F40;
 $font-archivo: "Archivo";
 $font-Montserrat: "Montserrat";
@@ -20,7 +21,7 @@ $font-Montserrat: "Montserrat";
 .perform-dashboard-heading {
     color: $text-color-ord;
     margin-top: 4.5rem;
-    font-size: 2.125rem;
+    font-size: $font-size-base*2.125;
     font-family: $font-Montserrat;
     font-weight: bold;
 }
@@ -73,14 +74,17 @@ $font-Montserrat: "Montserrat";
 .first-tab {
     text-align: center;
     font-family: $font-Montserrat;
-    font-size: 0.875rem;
+    font-size: $font-size-base*0.875;
     font-weight: normal;
 }
 
+.rightAlign{
+    text-align: right;
+}
 .second-tab {
     text-align: center;
     font-family: $font-Montserrat;
-    font-size: 0.875rem;
+    font-size: $font-size-base*0.875;
     font-weight: normal;
 }
 
@@ -93,7 +97,7 @@ $font-Montserrat: "Montserrat";
 .btnS:hover {
     padding: 0.6rem 1.8rem;
     background-color: #FFF1E3;
-    font-size: 0.8rem;
+    font-size: $font-size-base*0.8;
     font-family: $font-archivo;
     font-weight: medium;
     color: #E57504;
@@ -105,7 +109,7 @@ $font-Montserrat: "Montserrat";
     padding: 0.6rem 1.6rem;
     border: 1px solid #9299B2;
     background-color: #fff;
-    font-size: 0.8rem;
+    font-size: $font-size-base*0.8;
     font-family: $font-archivo;
     font-weight: medium;
     color: #8B92A8;
@@ -134,6 +138,7 @@ $font-Montserrat: "Montserrat";
     font-weight: 600;
     margin-left: 1rem;
     margin-right: 1rem;
+    width: 14rem;
 }
 
 .filter:focus {
@@ -159,7 +164,7 @@ $font-Montserrat: "Montserrat";
 .heading {
     padding-top: 1.625rem;
     padding-left: 1.75rem;
-    font-size: 1.125rem;
+    font-size: $font-size-base*1.125;
     font-weight: bold;
     color: $text-color-ord;
 }
@@ -168,7 +173,7 @@ $font-Montserrat: "Montserrat";
     margin-bottom: 0;
     margin-top: 1.32rem;
     color: #6E7281;
-    font-size: 0.875rem;
+    font-size: $font-size-base*0.875;
     padding-left: 1.75rem;
 }
 
@@ -184,7 +189,7 @@ $font-Montserrat: "Montserrat";
     margin-top: 1.56rem;
     margin-left: 1.75rem;
     margin-bottom: 1.125rem;
-    font-size: 0.875rem;
+    font-size: $font-size-base*0.875;
     font-family: $font-archivo;
     padding: 0.5rem 0.8rem;
     font-weight: medium;
@@ -217,7 +222,7 @@ $font-Montserrat: "Montserrat";
     margin-top: -2.5rem !important;
     font-family: $font-archivo;
     color: $text-color-ord;
-    font-size: 1.625rem;
+    font-size: $font-size-base*1.625;
     font-weight: 800;
 }
 
@@ -225,7 +230,7 @@ $font-Montserrat: "Montserrat";
     margin-top: -1.2rem !important;
     color: $text-color-ord;
     font-family: $font-archivo;
-    font-size: 1rem;
+    font-size: $font-size-base*1;
     font-weight: normal;
 }
 
@@ -243,9 +248,9 @@ $font-Montserrat: "Montserrat";
 .revenue-card-white p {
     margin-top: 1.2rem;
     color: $text-color-ord;
-    font-size: 0.8rem;
+    font-size: $font-size-base*0.8;
     font-family: $font-archivo;
-    line-height: 1.5rem;
+    line-height: 1.7rem;
 }
 td {
     border-right: solid 1px #f00; 
@@ -279,8 +284,9 @@ td {
         padding: 0.8rem 1rem;
         font-family: $font-archivo;
         font-weight: 500;
-        font-size: 0.8rem;
+        font-size: $font-size-base*0.8;
         color: $text-color-ord;
+        width:20%;
     }
     th,
     td {
@@ -298,7 +304,7 @@ td {
         padding: 0.8rem 1rem;
         font-family: $font-archivo;
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: $font-size-base*0.8;
         color: $text-color-ord;
     }
 }
@@ -306,7 +312,7 @@ td {
 .smallText {
     font-family: $font-Montserrat;
     font-weight: 500;
-    font-size: 0.7rem;
+    font-size: $font-size-base*0.7;
     color: #6E7281;
 }
 
@@ -320,13 +326,13 @@ td {
     }
     p {
         font-family: $font-archivo;
-        font-size: 0.8rem;
+        font-size: $font-size-base*0.8;
         color: #6E7281;
     }
     .imgTitle {
         font-family: $font-archivo;
         font-weight: 500;
-        font-size: 0.8rem;
+        font-size: $font-size-base*0.8;
         color: #6E7281;
     }
 }
@@ -336,13 +342,13 @@ td {
     .barCharttitle {
         font-family: $font-archivo;
         font-weight: 700;
-        font-size: 1.5rem;
+        font-size: $font-size-base*1.5;
         color: $text-color-ord;
     }
     .barChartSubTitle {
         font-family: $font-archivo;
         font-weight: 500;
-        font-size: 1rem;
+        font-size: $font-size-base*1;
         color: #6E7281;
     }
     .chartExcelDataCont {
@@ -350,7 +356,7 @@ td {
     }
     .DataDownloadText {
         font-family: $font-archivo;
-        font-size: 0.8rem;
+        font-size: $font-size-base*0.8;
         font-weight: 500;
         color: #6E7281;
     }
@@ -361,11 +367,11 @@ td {
     .dashboard-container {
         width: 100%;
         .perform-dashboard-heading {
-            font-size: 1.625rem;
+            font-size: $font-size-base*1.625;
             margin-top: 2.25rem;
         }
         .perform-dashboard-para {
-            font-size: 1.125rem;
+            font-size: $font-size-base*1.125;
             line-height: 1.5;
             margin-top: 1.125rem;
         }
@@ -378,7 +384,7 @@ td {
     }
     .para-styling {
         margin-top: 3.25rem;
-        font-size: 1.063rem;
+        font-size: $font-size-base*1.063;
         line-height: 1.4;
     }
     .filters-container {
@@ -390,13 +396,13 @@ td {
     // Filter Popup for mobile
     .filter_title_mobile {
         font-family: $font-archivo;
-        font-size: 1.31rem;
+        font-size: $font-size-base*1.31;
         font-weight: 600;
         color: $text-color-ord;
     }
     .filters_type {
         margin-top: 1.313rem;
-        font-size: 1.06rem;
+        font-size: $font-size-base*1.06;
         font-family: $font-archivo;
         font-weight: 600;
     }
@@ -406,7 +412,7 @@ td {
     .btn_clearAll {
         margin-top: 2.8rem;
         background-color: #FFF;
-        font-size: 1rem;
+        font-size: $font-size-base*1;
         font-family: "Poppins";
         font-weight: medium;
         color: #E67E15;
@@ -414,9 +420,93 @@ td {
     .resetAndApply {
         margin-top: 5rem;
     }
+
+    .iconText {
+        color: #e67e15;
+        font-size: 13px;
+    }
+    
+    .chartHeader {
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: "Archivo";
+        color: #0F1F40;
+    }
+    
+    .revenuChartContainer {
+        margin-top: 1.8rem;
+        padding-top: 2rem;
+        // @include media-breakpoint-down(sm){
+        //   flex-direction: column;
+        // }
+    }
+    
+    .revenueChart {
+        padding-top: 3rem;
+    }
+    
+    .iconImg img {
+        width: 1em;
+        height: 50%;
+        left: 50%;
+        transform: translate(-50%);
+        position: relative;
+        margin: 0 auto;
+    }
+    
+    .svg {
+        cursor: pointer;
+    }
+    
+    .btnBesideTitle>button {
+        box-shadow: 0px 2px 8px #FFDAA8;
+        border-radius: 8px;
+        background: #E67E15;
+        font-size: 0.8rem;
+        font-family: "Archivo";
+        font-weight: 600;
+        border: none;
+        padding: 0.7rem 1.2rem;
+        color: #fff;
+        width: max-content;
+    }
+    
+    .compare {
+        border: 1px solid #d0d0d0;
+        background-color: white;
+        height: 2.3rem;
+    }
+    
+    @media only screen and (max-width: 600px) {
+        .revenueChart {
+            width: 100%;
+            height: auto;
+            margin-top: 100px !important;
+        }
+        .compare {
+            font-size: 10px;
+        }
+        .revenueHeading {
+            font-size: 14px;
+        }
+      
+        .headerIcons {
+            position: absolute;
+            margin-top: 26%;
+            left: 0%;
+            padding: 0;
+            margin-left: -290px;
+        }
+    }
+    
+    @media only screen and (max-width: 400px) {
+        .headerIcons {
+            margin-left: -240px;
+        }
+    }
     .btn_reset {
         background-color: #FFF;
-        font-size: 1rem;
+        font-size: $font-size-base*1;
         padding: 0.8rem 2.5rem;
         font-family: $font-archivo;
         font-weight: 700;
@@ -424,7 +514,7 @@ td {
     }
     .btn_apply {
         background-color: #FFF;
-        font-size: 1rem;
+        font-size: $font-size-base*1;
         padding: 0.8rem 2.5rem;
         font-family: $font-archivo;
         font-weight: 700;
@@ -438,12 +528,12 @@ td {
         .heading {
             padding-top: 1.0rem;
             padding-left: 1.0rem;
-            font-size: 1.125rem;
+            font-size: $font-size-base*1.125;
             font-weight: bold;
         }
         .da-para {
             margin-top: 1.0rem;
-            font-size: 0.875rem;
+            font-size:$font-size-base*0.875;
             padding-left: 1.0rem;
         }
         .extra-text {

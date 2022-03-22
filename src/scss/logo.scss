@@ -1,0 +1,98 @@
+.city {
+    color: $cyan;
+    // @include rfs($font-size-base*4.0625, font-size);
+    @include rfs($font-size-base*3.75, font-size);
+    font-weight: 700;
+    text-shadow: 0px 2px 9px rgba($color: $black, $alpha: .24);
+    
+}
+
+.fy {
+    color: $white;
+    // @include rfs($font-size-base*4.0625, font-size);
+    @include rfs($font-size-base*3.75, font-size);
+    text-shadow: 0px 2px 9px rgba($color: $black, $alpha: .24);
+}
+
+.navbar-brand{
+    @include media-breakpoint-up(sm){
+        display: none;
+    }
+    & .city {
+        font-size: $font-size-base;
+        text-shadow: none;
+    }
+    
+    & .fy {
+        color: $black;
+        text-shadow: none;
+        font-size: $font-size-base;
+    }
+}
+
+// @media screen and (min-width: 992px) {
+//     .wrap-bg {
+//         height: 44rem;
+//     }
+//     // .pd-l-r {
+//     //     padding: 1.5rem 8rem;
+//     // }
+//     .f-d {
+//         height: 142px;
+//     }
+//     .ds-info {
+//         font: normal normal 500 26px/41px 'Montserrat';
+//     }
+// }
+
+// @media (min-width: 768px) and (max-width: 992px) {
+//     .wrap-bg {
+//         height: 50rem;
+//     }
+//     .city {
+//         font: normal normal bold 50px/56px Cabin;
+//     }
+//     .fy {
+//         font: normal normal normal 50px/56px Cabin;
+//     }
+//     .ds-info {
+//         font: normal normal 500 26px/41px 'Montserrat';
+//     }
+// }
+
+// @media (min-width: 520px) and (max-width: 767px) {
+//     .wrap-bg {
+//         height: 74rem;
+//     }
+//     .f-d {
+//         height: 180px;
+//     }
+//     .city {
+//         font: normal normal bold 50px/56px Cabin;
+//     }
+//     .fy {
+//         font: normal normal normal 50px/56px Cabin;
+//     }
+//     .ds-info {
+//         font: normal normal 500 24px/41px 'Montserrat';
+//     }
+// }
+
+// @media screen and (max-width: 520px) {
+//     .wrap-bg {
+//         height: 87rem;
+//     }
+//     .f-d {
+//         height: 250px;
+//     }
+//     .city {
+//         font: normal normal bold 45px/56px Cabin;
+//     }
+//     .fy {
+//         font: normal normal normal 45px/56px Cabin;
+//     }
+//     .ds-info {
+//         font: normal normal 500 22px/41px 'Montserrat';
+//     }
+// }
+

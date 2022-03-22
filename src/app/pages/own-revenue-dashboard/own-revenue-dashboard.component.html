@@ -11,10 +11,11 @@
         Performance Dashboard
       </h1>
       <p class="perform-dashboard-para col-12 text-center">
-        The performance dashboard showcases the state of Municipal own revenues
-        and property tax revenues in the country. Know your State’s or city’s
-        performance and compare with other States and cities on various own
-        revenue parameters.
+        The performance dashboard showcases the state of own revenues,
+        especially property tax in ULBs across India. The data has been sourced
+        from the financial statements uploaded on cityfinance.in. Know your
+        State’s or city’s performance and compare with other States and cities
+        on various own revenue parameters.
       </p>
     </div>
   </div>
@@ -40,7 +41,7 @@
 <div *ngIf="sticky" class="two-tabs">
   <div
     class="container-fluid"
-    style="background-color: white; padding-top: 58px"
+    style="background-color: white; padding-top: 20px; padding-bottom: 6px"
   >
     <div class="dataavail">
       <span
@@ -55,25 +56,7 @@
         }})</span
       >
     </div>
-    <div
-      class="container d-flex justify-content-center"
-      style="padding-bottom: 15px; background-color: white"
-    >
-      <a
-        class="text-decoration-none col-6 col-md-4 col-lg-4 rounded-start d-flex justify-content-center align-items-center first-tab tab"
-        (click)="changeTab('own')"
-        [ngClass]="{ activeCls: ownTab, unActcls: !ownTab }"
-      >
-        Own Revenue Performance Dashboard
-      </a>
-      <a
-        class="text-decoration-none col-6 col-md-4 col-lg-4 rounded-end d-flex justify-content-center align-items-center second-tab tab"
-        (click)="changeTab('pro')"
-        [ngClass]="{ activeCls: proTab, unActcls: !proTab }"
-      >
-        Property Tax Performance Dashboard
-      </a>
-    </div>
+   
   </div>
 </div>
 <div class="container threeBtnContainer" *ngIf="displayButtons">
@@ -81,7 +64,7 @@
   <button
     class="btn btn-outline btn-sm btnDT"
     [routerLink]="[
-      '/resources-dashboard/learning-center/toolkits/score-performance'
+      '/resources-dashboard/learning-center/toolkits/introduction'
     ]"
     routerLinkActive="router-link-active"
   >
@@ -134,7 +117,7 @@
         </a>
         <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
           <div class="col-md-10 d-flex justify-content-between">
-            <select formControlName="stateId" class="form-select filter">
+            <select formControlName="stateId" (change)="filterData('state','')" class="form-select filter">
               <option selected>State Name</option>
               <option
                 *ngFor="let state of stateIds | keyvalue"
@@ -143,31 +126,33 @@
                 {{ state.value }}
               </option>
             </select>
-            <select formControlName="ulb" class="form-select filter">
-              <option selected>Ulb Name</option>
-              <option
-                *ngFor="let ulb of ulbList | keyvalue"
-                [value]="ulb.value._id"
-              >
-                {{ ulb.value.name }}
-              </option>
-            </select>
-            <select formControlName="ulbType" class="form-select filter">
-              <option selected>Ulb Type</option>
+            
+             
+              <input type="text" class="form-select filter" placeholder="ULB" matInput formControlName="ulb" [matAutocomplete]="auto">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <a (click)="filterData('ulb',option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+                      <mat-option [value]="option?.name">
+                          <span style="font-size: 10px;"> {{option?.name}}</span>
+                      </mat-option>
+                  </a>
+              </mat-autocomplete>
+          
+            <select formControlName="ulbType" (change)="filterData('ulbType','')" class="form-select filter">
+              <option selected>ULB Type</option>
               <option *ngFor="let ulbType of ulbTypeList" [value]="ulbType._id">
                 {{ ulbType.name }}
               </option>
             </select>
-            <select
+            <select (change)="filterData('popCat','')"
               formControlName="populationCategory"
               class="form-select filter"
             >
-              <option selected>Ulb Population Category</option>
-              <option *ngFor="let category of populationCategoryList">
+              <option selected>ULB Population Category</option>
+              <option [value]="category" *ngFor="let category of populationCategoryList">
                 {{ category }}
               </option>
             </select>
-            <select formControlName="financialYear" class="form-select filter">
+            <select (change)="filterData('year','')" formControlName="financialYear" class="form-select filter">
               <option>Year</option>
               <option *ngFor="let year of yearList" [value]="year">
                 {{ year }}
@@ -194,15 +179,14 @@
   <div class="container data-availability rounded">
     <div class="row">
       <div class="col-md-7">
-        <h3 class="heading">Data Availability</h3>
+        <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
         <p class="da-para">
-          {{ dataAvailable }}% financial data is available for the year
-          {{ body.financialYear }} i.e. {{ dataAvailable }}% of the ULBs’
-          financial statements are available for
-          <span class="extra-text"> the year {{ body.financialYear }}. </span>
+          {{ dataAvailable }}% financial data of the ULBs in the chosen category
+          have uploaded their financial statements for the year
+          {{ body.financialYear }}.
           <span *ngIf="notFoundNames.length > 0">
             Data is not available for
-            <span *ngFor="let name of notFoundNames">{{ name }},</span>.
+            <span *ngFor="let name of notFoundNames; let i = index ">{{ name }} <span *ngIf="i != notFoundNames.length -1 ">, </span></span>.
           </span>
           <span>
             For more details, download the complete set of ULBs for which the
@@ -230,13 +214,17 @@
           Download Data
         </button>
       </div>
+
       <div class="col-md-5 d-flex justify-content-center">
         <div class="doughnut-container">
-          <canvas id="myChart1" width="100%"> </canvas>
-          <p class="doughnut_percentage text-center">
+          <div *ngIf="dataAvailLoading" style="text-align: center;" >Loading...</div>
+   
+          <canvas  id="myChart1" width="100%"> </canvas>
+         
+          <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
             {{ financialYear?.data?.percent }}%
           </p>
-          <p class="doughnut_text text-center">Data Availability</p>
+          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">Data Availability</p>
           <button class="btn btn-outline-secondary btn-sm btn-os btn-ghost">
             <img
               src="../../../assets/resources-das/file_download_orange_24dp.svg"
@@ -257,13 +245,14 @@
       <mat-spinner></mat-spinner>
     </div>
     <div *ngIf="!pieChartLoading">
-      <app-revenuechart
+      <app-revenuechart *ngIf="!pieChartLoading"
         class=""
         [headerActions]="headerActions"
         [chartData]="doughnutChartData"
         [chartId]="doughnutChartId"
         [chartTitle]="doughnutChartTitle"
         [ChartOptions]="doughnutChartOptions"
+        [notFound]="chartDataNotFound"
       >
       </app-revenuechart>
     </div>
@@ -278,6 +267,7 @@
           </p>
         </div>
       </div>
+
       <div class="col-md-10">
         <div class="row mx-0">
           <div
@@ -291,8 +281,13 @@
         </div>
       </div>
     </div>
+    <p class="text-end smallText" style="margin-top: 5px">
+      Please note that this calculation is affected by the mismatch in the
+      number of cities that have uploaded their financial statements in the
+      previous year
+    </p>
   </div>
-  <div class="container">
+  <div class="container" style="margin-left: -2%; width: 102%">
     <div class="table-container table-responsive">
       <table style="border-radius: 10px" class="table styletable">
         <thead>
@@ -310,10 +305,12 @@
         <tbody>
           <tr class="scrollme scrollableTB" *ngFor="let user of users">
             <td>{{ user.name }}</td>
-            <td>{{ user.averageRevenue / 10000000 | number }}</td>
-            <td>{{ user.perCapita }}</td>
-            <td *ngIf="ownTab">{{ user.meetsRevenue }}%</td>
-            <td>{{ user.avgRevenueMeet }}%</td>
+            <td class="rightAlign">
+              {{ (user.averageRevenue / 10000000).toFixed(2) }}
+            </td>
+            <td class="rightAlign">{{ user.perCapita }}</td>
+            <td class="rightAlign">{{ user.avgRevenueMeet }}%</td>
+            <td class="rightAlign" *ngIf="ownTab">{{ user.meetsRevenue }}%</td>
           </tr>
         </tbody>
       </table>
@@ -328,13 +325,14 @@
   <div class="container accContainer">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
-        <p class="accordion-header" id="headingOne">
+        <p class="accordion-header">
           <button
-            class="accordion-button accBg"
+            class="accordion-button collapsed accBg"
             type="button"
+            id="headingOne"
             data-bs-toggle="collapse"
             data-bs-target="#collapseOne"
-            aria-expanded="true"
+            aria-expanded="false"
             aria-controls="collapseOne"
           >
             How is performance assessed?
@@ -382,11 +380,11 @@
 
   <!-- Bar chart section -->
   <div class="container barChartContainer">
-    <h2 class="barCharttitle text-center">Top 10 Performing States</h2>
+    <h2 class="barCharttitle text-center">Top 10 Performing ULBs</h2>
     <p class="barChartSubTitle text-center">
-      Top 10 performing States in the country in property tax per capita can be
-      viewed below.
+      Top 10 performing ULBs in the country in Own Revenue can be viewed below.
     </p>
+
     <app-revenuechart
       class="rounded"
       [compareDialogType]="compareDialogType"
@@ -397,6 +395,8 @@
       [chartTitle]="barChartTitle"
       [btnBesideText]="barChartCmpBtn"
       [ChartOptions]="barChartOptions"
+      [notFound]="barChartNotFound"
+      [own]="ownTab"
     >
     </app-revenuechart>
 

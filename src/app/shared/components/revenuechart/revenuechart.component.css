@@ -23,6 +23,11 @@
   height: 2.3rem;
 }
 
+::ng-deep .tool-tip{
+  background-color:black !important;
+  font-size: 12px !important;
+}
+
 @media only screen and (max-width: 600px) {
   .revenueChart {
     width: 100%;

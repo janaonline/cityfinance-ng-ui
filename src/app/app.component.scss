@@ -35,6 +35,13 @@
   }
 }
 
+.slick-prev:before {
+  color: black !important;
+}
+.slick-next:before {
+  color: black !important;
+}
+
 .app-wrapper {
   app-home-header {
     display: block;

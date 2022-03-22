@@ -1,3 +1,6 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
 .sidebar {
     // margin-top: 1px;
     // padding-left: 15px;
@@ -101,7 +104,7 @@ div.active {
 
 .subBtn {
     background-color: #124A55;
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
     font-weight: normal;
     font-family: Segoe UI;
     border-radius: 3px;
@@ -115,7 +118,7 @@ div.active {
 .header1 {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: 24px;
+    font-size: $font-size-base*1.5;
     // margin-bottom: 20px;
     margin-top: 8px;
 }
@@ -126,7 +129,7 @@ div.active {
 }
 
 .material-icons {
-    font-size: 12px;
+    font-size: $font-size-base*0.75;
 }
 
 .pull-right {

@@ -1,73 +1,79 @@
 .balanceText {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .dropDownDiv {
-    padding: 5px;
+  padding: 5px;
 }
 
 .tableDiv {
-    width: 85vw;
-    margin: 0 auto;
+  width: 85vw;
+  margin: 0 auto;
 }
-
-
 
 .modalButton {
-    border: 1px solid #cfc2c2;
-    border-radius: 8px;
-    height: 68%;
-    margin-top: 5px;
+  border: 1px solid #cfc2c2;
+  background-color: #ffffff;
+  border-radius: 8px;
+  height: 48%;
+  margin-top: 5px;
 }
-
-
-
 
 .mat-select-panel {
   background: red !important;
 }
 
-::ng-deep .yearSelect .mat-form-field-flex  {
-   border: none !important;
-   width: 100% !important;
-   padding: 5px !important;
-   height: auto !important;
+::ng-deep .yearSelect .mat-form-field-flex {
+  border: none !important;
+  width: 100% !important;
+  padding: 5px !important;
+  height: auto !important;
+}
+
+::ng-deep .tableDiv .mat-table {
+  box-shadow: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .balanceText {
+    width: 90vw;
+    font-size: 0.8em;
+    margin-left: -20px;
   }
 
-  ::ng-deep .tableDiv .mat-table {
-    box-shadow: none;
+  .modalButton {
+    font-size: 5px;
+    width: 100%;
+    height: 50%;
   }
 
-  @media only screen and (max-width: 600px) {
-    .balanceText {
-      width: 90vw;
-      font-size: 0.8em;
-      margin-left: -20px;
-    }
-
-    .modalButton {
-      font-size: 5px;
-      width: 100%;
-      height: 50%;
-    }
-
-    ::ng-deep .yearSelect .mat-form-field-flex  {
-      border: none !important;
+  ::ng-deep .yearSelect .mat-form-field-flex {
+    border: none !important;
     width: 85% !important;
     /* height: auto !important; */
     margin-right: -50px !important;
-     }
-
-     .compare {
-       font-size: 10px;
-     }
-
-     .dropDownDiv {
-       width: 202%;
-       margin-right: -40px;
-     }
-
-     .dropDownDiv > select {
-       font-size: 10px;
-     }
   }
+
+  .compare {
+    font-size: 0.8rem;
+    font-family: "Archivo";
+    font-weight: 600;
+  }
+
+  .dropDownDiv {
+    width: 202%;
+    margin-right: -40px;
+  }
+
+  .dropDownDiv > select {
+    font-size: 10px;
+  }
+}
+
+.searchButton {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 1em;
+  margin-right: 1em;
+}

@@ -4,7 +4,7 @@
         <!-- <span class="col-sm-2" *ngIf="loggedInUserDetails?.role !== USER_TYPE.ULB">
       ULB: {{ financialData?.ulbName }}</span> -->
 
-        <button [style.position]="
+            <button [style.position]="
           loggedInUserDetails?.role !== USER_TYPE.ULB ? 'absolute' : 'relative'
         " style="right: 0px; float: right;padding: 6px 12px;border-color: unset; font-size: 14px; outline: none" 
           class="btn btn-primary btn-upload"
@@ -19,35 +19,35 @@
 </div>
 <div class="col-sm-12 mb-1">
     <div class="card mt-1 mb-2 p-1 box-shadow" *ngIf="((loggedInUserType === USER_TYPE.STATE ||
-    loggedInUserType === USER_TYPE.MoHUA) &&
-  (takeStateAction == 'true') &&  (compDis == 'false'))" style="margin-top: 1rem;">
-        <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
+    loggedInUserType === USER_TYPE.MoHUA))" style="margin-top: 1rem;">
+            <!-- *ngIf="(loggedInUserType != USER_TYPE.ULB &&
   (takeStateAction == 'true')) || (loggedInUserType != USER_TYPE.ULB && compDis == 'true')" -->
-        <div class="card-body">
-            <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
-            </app-state-action-ulb>
+            <div class="card-body">
+                <app-state-action-ulb (actionValues)="checkStatus($event)" [statusResponse]='actionResSlb'>
+                </app-state-action-ulb>
+            </div>
         </div>
     </div>
-</div>
-
-<!-- (ulbFormStaus !== 'NA') -->
-
-<div class="col-sm-12 footerBtnDiv" *ngIf="
- (loggedInUserDetails.role === USER_TYPE.STATE) ||
- (loggedInUserDetails.role === USER_TYPE.ADMIN) ||
- (loggedInUserDetails.role === USER_TYPE.MoHUA)" style="padding: 0;">
-    <div class="col-lg-6 col-md-6 col-sm-6">
-        <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked=true"
-            [routerLink]="['../annual_acc']">BACK</a>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
-        <!-- <button type="button" class="btn footerBtn" id="saveDraft"
-               (click)="saveAsDraft()">SAVE AS DRAFT</button>
-           -->
-        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickActionButton()">{{btnSave}}</button>
-    </div>
-</div>
-
+    <!-- <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 d-flex footerBtnDiv">
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left: 3px;">
+                <button type="button" [routerLink]="['/ulbform/annual_acc']" (click)="clickedBack = true"
+                    routerLinkActive="router-link-active" class="btn backbtn">BACK</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 p-0"></div>
+            <div class="col-lg-1 col-md-1 col-sm-1 p-0">
+                <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'1')"
+                    id="saveNext">
+                    SAVE AS DRAFT</button>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 p-0">
+                <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'0')"
+                    id="saveNext">
+                    SUBMIT</button>
+            </div>
+            
+        </div>
+    </div> -->
 <ng-template #previewPopup>
     <app-preview-slb-component [data]="previewData"></app-preview-slb-component>
 </ng-template>

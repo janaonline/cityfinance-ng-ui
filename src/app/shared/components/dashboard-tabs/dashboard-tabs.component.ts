@@ -18,24 +18,21 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   constructor(private borrowingTabService: BorrowingTabService) {}
 
   tableView = true;
-  TableTitles:any;
-     HeaderDataOfBorrowTab(){
-       this.borrowingTabService.getHeaderName().subscribe(
-        (res : any) => {
-          console.log("HeaderName", res?.detailsOfInstrument);
-           this.TableTitles = res.detailsOfInstrument;
-          // console.log("firstTitle", this.firstTitle);
-        }
-      );
-     }
-     ColumnDataOfBorrowTab() {
-      this.borrowingTabService.getColumnData().subscribe(
-        (res:any) => {
-          console.log("ColumnData", res?.data)
-        }
-      )
-     }
-
+  TableTitles: any;
+  HeaderDataOfBorrowTab() {
+    this.borrowingTabService.getHeaderName().subscribe((res: any) => {
+      console.log("HeaderName", res?.detailsOfInstrument);
+      this.TableTitles = res.detailsOfInstrument;
+      // console.log("firstTitle", this.firstTitle);
+    });
+  }
+  ColumnDataOfBorrowTab() {
+    this.borrowingTabService.getColumnData().subscribe((res: any) => {
+      console.log("ColumnData", res?.data);
+    });
+  }
+  @Input()
+  mySelectedYears;
   @Input()
   cityId;
   @Input()
@@ -195,18 +192,39 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
       this.activeFilter = value.subHeaders;
       this.innerActiveTab = value.subHeaders[0];
     }
-    console.log("innertab value", this.innerActiveTab);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
+      this.mySelectedYears = convertToPastYears(
+        changes.mySelectedYears.currentValue
+      );
+    }
     this.changeTab(this.data[0]);
     this.HeaderDataOfBorrowTab();
     this.ColumnDataOfBorrowTab();
+    console.log("innertab value", this.innerActiveTab);
+  }
+
+  ngOnInit(): void {
+    console.log("innertab value", this.innerActiveTab);
   }
 }
 // function getHeaderName(): any {
 //   throw new Error("Function not implemented.");
 // }
-
+function convertToPastYears(year) {
+  let newYears = [year],
+    numYear = 2,
+    newValue = year;
+  while (numYear--) {
+    newValue = newValue
+      .split("-")
+      .map((value) =>
+        !isNaN(Number(value)) ? (value = Number(value) - 1) : value
+      )
+      .join("-");
+    newYears.push(newValue);
+  }
+  return newYears;
+}

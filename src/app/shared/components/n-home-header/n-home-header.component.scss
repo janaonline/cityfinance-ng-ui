@@ -1,6 +1,7 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
+
 .text-10px {
     font-size: $font-size-base*.625;
 }
@@ -13,9 +14,10 @@
 $text-sizes: ( "sm": $font-size-base*.75, "rg": $font-size-base, "lg": $font-size-base*1.25) !default;
 @each $size,
 $value in $text-sizes {
-    body.text-#{$size} {
+    body.#{$size} {
         font-size: $value;
     }
+
     .text-#{$size} {
         font-size: $value;
         @include border-radius($radius: $border-radius-sm, $fallback-border-radius: false);
@@ -29,6 +31,11 @@ $value in $text-sizes {
         margin-right: $spacer*.25;
         align-items: center;
         justify-content: center;
+
+        &.active{
+            background: $black;
+            color: $white;
+        }
     }
 }
 
@@ -42,6 +49,8 @@ $value in $text-sizes {
     border-color: $secondary;
     box-shadow: 0px 2px 6px #F7C199;
     font-size: $font-size-base*.75;
+    padding-top: $spacer*.625;
+    padding-bottom: $spacer*.625;
     padding-left: $spacer*2;
     padding-right: $spacer*2;
     &:hover {
@@ -51,24 +60,28 @@ $value in $text-sizes {
     }
     @include media-breakpoint-down(sm) {
         font-size: $font-size-base*.625;
+        padding-top: $spacer*.4375;
+        padding-bottom: $spacer*.4375;
         padding-left: $spacer*.5;
         padding-right: $spacer*.5;
     }
 }
 
-.nav-link:hover,
-.nav-link.active {
-    color: #E87A1C !important;
-    border-bottom: 2px solid;
-    padding-bottom: 15px;
+.nav-item{
+    padding-top: $spacer*.125;
+    .nav-link{
+        padding-top: $spacer*1.5;
+        padding-bottom: $spacer*1.5;
+        border-bottom: 2px solid transparent;
+
+        &:hover, &.active {
+            color: #E87A1C;
+            border-bottom: 2px solid;
+        }
+    }
 }
 
-.navbar {
-    padding-bottom: 0;
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-}
+
 
 a.disabled {
     pointer-events: none;
@@ -76,5 +89,66 @@ a.disabled {
 }
 
 .btmBdr {
-    border-bottom: 1px solid #F7C199;
+    border-bottom: $border-width solid $gray-100;
+}
+.navbar-toggler[aria-expanded="true"]{
+    visibility: hidden;
+}
+.mobile-nav{
+    @include media-breakpoint-up(sm){
+        display: none !important;
+    }
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($color: $white, $alpha: .9); 
+    backdrop-filter: blur(40px);
+
+    &.show .navbar-toggler[aria-expanded="true"]{
+        visibility: visible;
+
+        & .navbar-toggler-icon{
+            background-image: url("data:image/svg+xml,%3Csvg viewPort='0 0 32 32' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='1' y1='25' x2='25' y2='1' stroke='%23939393' stroke-width='2'/%3E%3Cline x1='1' y1='1' x2='25' y2='25' stroke='%23939393' stroke-width='2'/%3E%3C/svg%3E");
+        }
+    }
+
+    & .navbar-nav{
+        margin-top: $spacer*3;
+
+        & .nav-item{
+
+            & .nav-link{
+                padding: $spacer*.5 $spacer;
+                border-bottom: none;
+
+                &.active{
+                    border-bottom: none;
+                }
+            }
+
+            & .dropdown-menu{
+                border: none;
+                background: transparent;
+                padding: 0;
+                margin-left: $spacer*2;
+
+                & li{
+                    border-bottom: 1px solid $gray-300;
+                 
+                    &:last-child{
+                        border: none;
+                    }
+
+                    & .dropdown-item{
+                        font-size: $font-size-base*.8125;
+                        color: $gray-600;
+                        padding: $spacer 0;
+                    }
+                }
+            }
+        }
+    }
 }

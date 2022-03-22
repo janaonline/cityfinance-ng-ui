@@ -1,3 +1,7 @@
+@import "../../../../../scss/functions";
+@import "../../../../../scss/variables";
+@import "../../../../../scss/mixins";
+
 .home-footer a {
     color: #B2BFD8;
 }
@@ -72,4 +76,11 @@ h6 {
     .email-sec {
         padding-left: 15px;
     }
+}
+
+.foot-links {
+    font-size: 0.875rem;
+    @include media-breakpoint-down(sm) {
+    font-size: 0.75rem;
+     }  
 }

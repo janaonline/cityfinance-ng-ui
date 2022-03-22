@@ -1,3 +1,7 @@
+@import "../../../scss/functions";
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
 .container-fluid {
     padding-left: 0;
 }
@@ -6,109 +10,34 @@
     background-image: url('../../../assets/new_dashBord_ftr_hdr/landingBg.png');
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 4% 2% 15% 2%;
+    padding-bottom: $spacer*15;
+    @include media-breakpoint-up(sm){
+        padding-bottom: $spacer*13;
+    }
+}
+.ds-info {
+    font-family: 'Montserrat';
+    @include rfs($font-size-base*1.45, font-size);
 }
 
-@media screen and (min-width: 992px) {
-    .wrap-bg {
-        height: 44rem;
-    }
-    .city {
-        font: normal normal bold 65px/56px Cabin;
-    }
-    .fy {
-        font: normal normal normal 65px/56px Cabin;
-    }
-    // .pd-l-r {
-    //     padding: 1.5rem 8rem;
-    // }
-    .f-d {
-        height: 142px;
-    }
-    .ds-info {
-        font: normal normal 500 26px/41px 'Montserrat';
-    }
-}
 
-@media (min-width: 768px) and (max-width: 992px) {
-    .wrap-bg {
-        height: 50rem;
-    }
-    .city {
-        font: normal normal bold 50px/56px Cabin;
-    }
-    .fy {
-        font: normal normal normal 50px/56px Cabin;
-    }
-    .ds-info {
-        font: normal normal 500 26px/41px 'Montserrat';
-    }
-}
-
-@media (min-width: 520px) and (max-width: 767px) {
-    .wrap-bg {
-        height: 74rem;
-    }
-    .f-d {
-        height: 180px;
-    }
-    .city {
-        font: normal normal bold 50px/56px Cabin;
-    }
-    .fy {
-        font: normal normal normal 50px/56px Cabin;
-    }
-    .ds-info {
-        font: normal normal 500 24px/41px 'Montserrat';
-    }
-}
-
-@media screen and (max-width: 520px) {
-    .wrap-bg {
-        height: 87rem;
-    }
-    .f-d {
-        height: 250px;
-    }
-    .city {
-        font: normal normal bold 45px/56px Cabin;
-    }
-    .fy {
-        font: normal normal normal 45px/56px Cabin;
-    }
-    .ds-info {
-        font: normal normal 500 22px/41px 'Montserrat';
-    }
-}
-
-.city {
-    color: #38CDFA;
-    letter-spacing: 0px;
-}
-
-.fy {
-    // font: normal normal normal 65px/56px Cabin;
-    letter-spacing: 0px;
-    color: #FFFFFF;
-}
 
 .ds-i-div {
-    margin-top: 3rem;
+    margin-top: $spacer;
 }
 
 .ds-info {
-    //font: normal normal 500 26px/41px 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
 
 .filter-form {
-    display: inline-block;
+    display: flex;
 }
 
 .rec-text {
     text-align: center;
-    font: normal normal normal 15px/20px 'Archivo';
+    font: normal normal normal #{$font-size-base*0.938}/#{$font-size-base*1.25} 'Archivo';
     letter-spacing: 0px;
     color: #E2EEFF;
     opacity: 1;
@@ -120,7 +49,7 @@
     border-radius: 40px;
     opacity: 0.57;
     padding: 4px 18px;
-    margin-left: 15px;
+    margin-right: 15px;
     margin-top: 2px;
     margin-bottom: 2px;
     display: inline-block;
@@ -173,7 +102,7 @@
 
 .sl-text {
     text-align: center;
-    font: normal normal 500 15px/24px 'Montserrat';
+    font: normal normal 500 #{$font-size-base*0.938}/#{$font-size-base*1.5} 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
@@ -182,7 +111,7 @@
 
 .sl-name {
     text-align: center;
-    font: normal normal 700 14px/22px 'Montserrat';
+    font: normal normal 700 #{$font-size-base*0.875}/#{$font-size-base*1.375} 'Montserrat';
     letter-spacing: 0px;
     color: #FCB23C;
     opacity: 1;
@@ -191,19 +120,20 @@
 
 .sl-des {
     text-align: center;
-    font: normal normal 500 12px/17px 'Montserrat';
+    font: normal normal 500 #{$font-size-base*0.75}/#{$font-size-base*1.063} 'Montserrat';
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
     margin-bottom: 1rem;
 }
+.p-indi .sl-des{
+    margin-bottom: 44px;
+}
+
 
 @media screen and (min-width: 992px) {
     .images {
-        text-align: -webkit-center;
-        top: -50px;
-        position: relative;
-        left: 35px;
+        margin-top: $spacer*2;
     }
 }
 
@@ -212,7 +142,7 @@
 //     bottom: 69px;
 // }
 .cr-text {
-    width: 60%;
+    max-width: 350px;
 }
 
 ::ng-deep .carousel-indicators {
@@ -229,13 +159,18 @@
 //     height: 10px;
 //     background: #85ACE2 0% 0% no-repeat padding-box;
 // }
-::ng-deep .carousel-indicators .active {
-    background: #F2991F 0% 0% no-repeat padding-box;
+::ng-deep .carousel-indicators button {
+    background: #85ACE2 0% 0% no-repeat padding-box;
     opacity: 1;
-    // width: 12px;
-    // height: 12px;
-    // box-shadow: 0px 3px 6px #FFBD8D;
-    // border: 1px solid #F4AB77;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50%;
+    border: 4px solid transparent !important;
+
+    &.active{
+        background: #F2991F 0% 0% no-repeat padding-box;
+        border: 4px solid rgba($color: $white, $alpha: .2) !important;
+    }
 }
 
 ::ng-deep .slick-dots li.slick-active button:before {
@@ -244,12 +179,12 @@
 }
 
 ::ng-deep .slick-dots li button:before {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 24px;
 }
 
 .w-new {
-    font: normal normal bold 30px/28px 'Archivo';
+    font: normal normal bold #{$font-size-base*1.875}/#{$font-size-base*1.75} 'Archivo';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
@@ -281,7 +216,7 @@
 }
 
 .new-card-l {
-    font: normal normal bold 16px/24px 'Archivo';
+    font: normal normal bold #{$font-size-base*1}/#{$font-size-base*1.5} 'Archivo';
     letter-spacing: 0px;
     color: #262831;
     opacity: 1;
@@ -310,21 +245,30 @@
 
 .card-img {
     // margin-left: 5px;
-height:12rem;
+height:auto;
+
 }
 
 .map-bg {
     background-color: #F8F9FF !important;
 }
 
+.image{
+    margin-left:23%;
+    width:50%;
+     height:100%;
+}
+
 .res-h {
-    font: normal normal 800 30px/32px 'Archivo';
+    margin-top: $spacer*4.375;
+    font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
 
 .res-s-h {
-    font: normal normal normal 18px/22px 'Archivo';
+    margin-top: $spacer*1.25;
+    font: normal normal normal #{$font-size-base*1.125}/#{$font-size-base*1.375} 'Archivo';
     letter-spacing: 0px;
     color: #6E7281;
 }
@@ -363,14 +307,14 @@ height:12rem;
 //     padding: 1.5rem 8rem;
 // }
 .cd-head {
-    font: normal normal bold 18px/23px 'Archivo';
+    font: normal normal bold #{$font-size-base*1.125}/#{$font-size-base*1.438} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
     padding: 1rem .2rem;
 }
 
 .cd-s-head {
-    font: normal normal normal 14px/24px 'Archivo';
+    font: normal normal normal #{$font-size-base*0.875}/#{$font-size-base*1.5} 'Archivo';
     letter-spacing: 0px;
     color: #444750;
 }
@@ -380,7 +324,7 @@ height:12rem;
 }
 
 .com-h {
-    font: normal normal 800 30px/32px 'Archivo';
+    font: normal normal 800 #{$font-size-base*1.875}/#{$font-size-base*2} 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
 }
@@ -394,7 +338,7 @@ height:12rem;
     box-shadow: 0px 2px 8px #F7C199;
     border-radius: 8px;
     padding: 0.8rem 1.5rem;
-    font: normal normal bold 14px/15px 'Archivo';
+    font: normal normal bold #{$font-size-base*0.875}/#{$font-size-base*0.938} 'Archivo';
     letter-spacing: 0px;
     color: #FFFFFF;
 }
@@ -428,4 +372,10 @@ height:12rem;
 
 .custom-panel {
     width: calc(100% + 30px);
+}
+
+.partner-title {
+    color: #0F1F40;
+    font-weight: 600;
+    font-size: $font-size-base*1;
 }
