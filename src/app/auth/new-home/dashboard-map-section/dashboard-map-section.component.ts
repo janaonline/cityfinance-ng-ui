@@ -17,7 +17,7 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
-
+import {Observable} from 'rxjs'
 import {AuthService} from "../../auth.service"
 
 @Component({
@@ -55,7 +55,7 @@ export class DashboardMapSectionComponent
   national:any = { _id: null, name: "India" };
   actStateVl:boolean = true;
   
-  
+  filteredOptions: Observable<any[]>;
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -144,6 +144,38 @@ date: any
 this.date = res['data']
     })
   }
+  noDataFound = true
+  callAPI(event){
+   
+   
+    
+    this._commonService.postGlobalSearchData(event.target.value,"ulb",this.selectedStateCode).subscribe((res: any) => {
+      console.log(res?.data);
+      let emptyArr:any = []
+        this.filteredOptions = emptyArr;
+      if(res?.data.length > 0 ){
+        
+        this.filteredOptions = res?.data;
+        this.noDataFound = false;
+      }else{
+
+        let emptyArr:any = []
+        this.filteredOptions = emptyArr;
+        this.noDataFound = true;
+        let noDataFoundObj = {
+          name: '',
+          id: '',
+          type: '',
+        }
+        console.log('no data found')
+      }
+    });
+  
+
+
+
+}
+
   private initializeform() {
     this.myForm = this.fb.group({
       stateId: [""],
@@ -169,6 +201,11 @@ cityInfo
     console.log('show city dashboard Data ')
     this.stateDim = true
 
+  }
+
+  dashboardNav(option) {
+    console.log(option)
+    this.selectCity(option)
   }
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -371,7 +408,9 @@ cityInfo
   selectCity(city, fireEvent = true) {
     console.log("city data", this.cityData);
     console.log("city name", city);
-    let filterCity = this.cityData.find((e) => e.code == city);
+    let filterCity = this.cityData.find((e) =>{
+      return e.code == city
+    } );
     this.cityName = filterCity.name;
     this.stateDim = true
     this.cid = filterCity._id;
