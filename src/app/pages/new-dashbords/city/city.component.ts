@@ -31,9 +31,11 @@ export class CityComponent implements OnInit {
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
   currentYear;
+  component_name;
   ngOnInit(): void {
     this.dashboardDataCall();
     this.dashboardCalls(this.cityId);
+    this.component_name = 'City';
   }
   dashboardDataCall() {
     this.newDashboardService
