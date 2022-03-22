@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { ActivatedRoute } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
+import { FormControl } from "@angular/forms";
+import { CommonService } from "../../services/common.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-state-filter-data",
@@ -13,6 +16,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   revenueId: any;
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+
+  nationalFilter = new FormControl();
+
+  filteredOptions: Observable<any[]>;
 
   @Input() data;
 
@@ -197,7 +204,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public stateFilterDataService: StateFilterDataService
+    public stateFilterDataService: StateFilterDataService,
+    private _commonServices: CommonService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -243,6 +251,28 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.nationalFilter.valueChanges.subscribe((value) => {
+      if (value?.length >= 1) {
+        this._commonServices
+          .postGlobalSearchData(value, "", "")
+          .subscribe((res: any) => {
+            console.log(res?.data);
+            let emptyArr: any = [];
+            this.filteredOptions = emptyArr;
+            if (res?.data.length > 0) {
+              this.filteredOptions = res?.data;
+              //this.noDataFound = false;
+            } else {
+              let emptyArr: any = [];
+              this.filteredOptions = emptyArr;
+              // this.noDataFound = true;
+              console.log("no data found");
+            }
+          });
+      } else {
+        return null;
+      }
+    });
     console.log(
       "this.statecode",
       this.stateCode[this.stateId],
