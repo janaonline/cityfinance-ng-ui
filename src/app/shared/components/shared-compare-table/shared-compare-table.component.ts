@@ -96,7 +96,7 @@ export class SharedCompareTableComponent implements OnInit {
           dividervalue = 10000000;
         }
         let newAmount = budget.amount / dividervalue;
-        item[newKey] = newAmount;
+        item[newKey] = newAmount.toFixed(2);
       }
     }
     if (this.tableData?.length) {

@@ -9,11 +9,13 @@ td:first-child {
   font-weight: 700;
   color: #0f1f40;
   text-align: left;
+  width: 2em;
 }
 
 td {
-  width: 2em;
+  width: 6em;
   text-align: center;
+  font-size: 0.8em;
 }
 
 .rankingButton {

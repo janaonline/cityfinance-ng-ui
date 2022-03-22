@@ -7,16 +7,69 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12">
-      <button
-        *ngFor="let item of data.btnLabels; let i = index"
-        (click)="changeActiveBtn(i)"
-        [id]="'btn-' + i"
-        style="margin-left: 2pc"
-        class="btn deSelected"
-      >
-        {{ item }}
-      </button>
+    <div class="col-12 d-flex justify-content-between">
+      <div class="col-sm-12 col-md-6">
+        <button
+          *ngFor="let item of data.btnLabels; let i = index"
+          (click)="changeActiveBtn(i)"
+          [id]="'btn-' + i"
+          style="margin-left: 2pc"
+          class="btn deSelected"
+        >
+          {{ item }}
+        </button>
+      </div>
+
+      <div class="col-sm-12 col-md-6 pd-s mb-3">
+        <div class="d-flex justify-content-between">
+          <div></div>
+          <div class="d-flex" style="margin-right: 50px">
+            <div style="margin-right: 10px">
+              <select class="form-select" aria-label="Default select">
+                <option value="" selected>2020-21</option>
+                <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
+              </select>
+            </div>
+            <form class="filter-form">
+              <div>
+                <!-- <div class="pe-0 justify-content-end"> -->
+                <input
+                  type="text"
+                  placeholder="Type here..."
+                  [formControl]="nationalFilter"
+                  [matAutocomplete]="auto"
+                  class="fl-input form-control w-100"
+                  style="padding-top: 20px; padding-bottom: 15px"
+                />
+                <!-- </div> -->
+                <!-- <div class="col-3 col-sm-3 ps-0">
+                <button type="button" class="btn btnFilter">Search</button>
+              </div> -->
+                <div class="col-6 col-sm-12">
+                  <mat-autocomplete
+                    autoActiveFirstOption
+                    #auto="matAutocomplete"
+                  >
+                    <!-- (click)="filterData(option)" -->
+                    <a
+                      *ngFor="let option of filteredOptions; let i = index"
+                      style="text-decoration: none"
+                    >
+                      <mat-option [value]="option?.name">
+                        <span> {{ option?.name }}</span>
+                      </mat-option>
+                    </a>
+                  </mat-autocomplete>
+                </div>
+              </div>
+
+              <!-- <div style="display: inline-block; float: right;">
+
+            </div> -->
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -31,20 +84,20 @@
     </div>
   </div>
   <div class="row tablerow">
-    <div class="col-3">
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-      eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-    </div>
-    <div class="col-9">
+    <div class="col-12">
+      <p class="py-4">
+        Distribution of ULBs in @Maharashtra according to Population category
+      </p>
+
       <table class="table table-bordered">
         <tbody>
           <tr class="rowClass">
             <td>ULB Population Category</td>
-            <td class="text-center">100K</td>
-            <td>100K - 500K</td>
-            <td>500K - 1M</td>
-            <td>1M - 4M</td>
-            <td>4M+</td>
+            <td class="text-center">100 Thousand</td>
+            <td>100 Thousand - 500 Thousand</td>
+            <td>500 Thousand - 1Million</td>
+            <td>1 Million - 4 Million</td>
+            <td>4 Million+</td>
             <td>Total Cities</td>
           </tr>
           <tr>
