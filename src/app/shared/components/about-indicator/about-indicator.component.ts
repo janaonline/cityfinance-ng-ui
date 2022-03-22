@@ -79,19 +79,29 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {}
 
-  panelOpen(item) {
+  panelOpen(item, index) {
     if (this.lastOpenPanel) {
       this.panelClose(this.lastOpenPanel);
     }
     let name = item.name.toLowerCase();
-    if (name == "calculation") this.getCalculation(item);
+    if (name == "about this indicator") this.addAnchorTag(item, index);
+    if (name == "calculation") this.getCalculation(item, "", index);
     if (name == "peer comparison") this.getPeerComp(item);
 
     item.panelOpenState = true;
     this.lastOpenPanel = item;
   }
 
-  getCalculation(item, compare = "") {
+  addAnchorTag(item, index) {
+    let aTag = document.createElement("a");
+    aTag.href = "/resources-dashboard/learning-center/bestPractices";
+    aTag.innerHTML = "Know More...";
+    let pTag = document.getElementById(index + 1 + item.name);
+    if ((pTag.hasOwnProperty("children"), pTag.children.length == 0))
+      pTag.appendChild(aTag);
+  }
+
+  getCalculation(item, compare = "", index) {
     let totalRevenue;
     this.loading = true;
     this.aboutService
@@ -114,12 +124,26 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
             data = data.join("= ");
             value.text = data;
           });
+          setTimeout(() => {
+            this.addImage(item, index);
+          }, 0);
           this.loading = false;
         },
         (error) => {
           this.loading = false;
         }
       );
+  }
+  addImage(item, index) {
+    let elementIndex = item.desc.findIndex(
+      (value) => value.text == "FORMULA_IMG"
+    );
+    if (elementIndex === -1) return;
+    let pTag = document.getElementById(index + elementIndex + item.name);
+    pTag.innerHTML = "";
+    let imgTag = document.createElement("img");
+    imgTag.src = "../../assets/formula.png";
+    pTag.appendChild(imgTag);
   }
   stateUlbMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;

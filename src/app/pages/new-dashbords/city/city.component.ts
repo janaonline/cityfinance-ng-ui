@@ -212,15 +212,15 @@ function createDesc(type, population = "4M+") {
 
 function getPopulationType(population) {
   if (population < 100000) {
-    return "<100K";
+    return "<100 Thousand";
   } else if (100000 < population && population < 500000) {
-    return "100K-500K";
+    return "100 Thousand - 500 Thousand";
   } else if (500000 < population && population < 1000000) {
-    return "500K-1M";
+    return "500 Thousand - 1 Million";
   } else if (1000000 < population && population < 4000000) {
-    return "1M-4M";
+    return "1 Million - 4 Million";
   } else {
-    return "4M+";
+    return "4 Million+";
   }
 }
 
