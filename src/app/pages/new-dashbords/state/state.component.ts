@@ -144,7 +144,9 @@ this.yearVal = year
         }
       );
   }
-
+  setAvail(data){
+    console.log('success',data)
+  }
   changeInDropDown(event) {
     if (event.fromState) {
       this.stateCode = event.value.ST_CODE;

@@ -63,6 +63,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   changeInStateOrCity = new EventEmitter();
   @Output()
   yearValue  = new EventEmitter()
+
+  @Output()
+  dataAvailEmit  = new EventEmitter()
   dataAvailLoading = false
   financialYear
   availValue
@@ -116,6 +119,7 @@ ulbId
       (res) => {
         this._loaderService.stopLoader()
         this.dataAvailLoading  = false
+this.dataAvailEmit.emit(res)
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
