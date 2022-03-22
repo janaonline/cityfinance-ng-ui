@@ -81,7 +81,7 @@ this.yearVal = year
               case "population":
                 item.value =
                   Math.round(res.data[0].population / 1000000) + " Million";
-                if (item.value == "0 M")
+                if (item.value == "0 Million")
                   item.value = Math.round(res.data[0].population / 1000) + " Thousand";
                 break;
               case "density":
