@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   OnChanges,
   SimpleChanges,
+  ElementRef,
 } from "@angular/core";
 import Chart from "chart.js";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -41,26 +42,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     type: "scatter",
     data: {
       datasets: [
-        {
-          label: "Line one",
-          data: [
-            { x: 0, y: 12 },
-            { x: 50, y: 12 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "rgba(0, 200, 0, 1)",
-        },
-        {
-          label: "Line Two",
-          data: [
-            { x: 0, y: 8 },
-            { x: 50, y: 8 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "red",
-        },
         {
           label: "Muncipality",
           data: [
@@ -124,6 +105,26 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
+        {
+          label: "National Average",
+          data: [
+            { x: 0, y: 12 },
+            { x: 50, y: 12 },
+          ],
+          showLine: true,
+          fill: false,
+          borderColor: "rgba(0, 200, 0, 1)",
+        },
+        {
+          label: "State Average",
+          data: [
+            { x: 0, y: 8 },
+            { x: 50, y: 8 },
+          ],
+          showLine: true,
+          fill: false,
+          borderColor: "red",
+        },
       ],
     },
   };
@@ -177,14 +178,40 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     },
     // legend: {
     //   position: "bottom",
+
     //   align: "center",
     //   labels: {
-    //     fontSize: 10,
+    //     fontSize: 12,
+    //     padding: 20,
     //     fontColor: "black",
-    //     // usePointStyle: true,
-    //     padding: 0
+    //     usePointStyle: true,
     //   },
+    //   maxHeight: 20,
+    //   maxWidth: 20,
     // },
+    legendCallback: function (chart) {
+      var text = [];
+      text.push('<ul class="' + this.chartId + '-legend">');
+      for (var i = 0; i < chart.data.datasets.length; i++) {
+        text.push(
+          '<li><div class="legendValue"><span style="background-color:' +
+            chart.data.datasets[i].backgroundColor +
+            '">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+        );
+
+        if (chart.data.datasets[i].label) {
+          text.push(
+            '<span class="label">' + chart.data.datasets[i].label + "</span>"
+          );
+        }
+
+        text.push('</div></li><div class="clear"></div>');
+      }
+
+      text.push("</ul>");
+
+      return text.join("");
+    },
   };
 
   @Input()
@@ -243,11 +270,15 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit(): void {
     console.log("chartTitle", this.chartTitle);
-  window.onload = () =>{
-    this.createChart();
-  }
+    console.log("chartData===>", this.chartData);
+    window.onload = () => {
+      this.createChart();
+    };
   }
 
+  // let legendDiv = document.getElementById('legend')
+
+  // $('#legend').prepend(mybarChart.generateLegend());
   ngAfterViewInit(): void {
     this.createChart();
   }
@@ -260,7 +291,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
-
         this.createChart();
       }
     }
@@ -270,9 +300,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   createChart() {
-    
-    if(this.myChart){
-      this.myChart.destroy()
+    if (this.myChart) {
+      this.myChart.destroy();
     }
     if (this.chartData.type == "scatter")
       Object.assign(this.chartData, { options: this.scatterOption });
@@ -281,59 +310,63 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     //dom is fully loaded, but maybe waiting on images & css files
-console.log(this.chartId, this.chartData)
-if(this.chartData?.data?.datasets[0].data[0]){
-//   Chart.pluginService.register({
-//     beforeRender: function (chart) {
-//         if (chart.config.options['showAllTooltips']) {
-//             // create an array of tooltips
-//             // we can't use the chart tooltip because there is only one tooltip per chart
-//             chart['pluginTooltips'] = [];
-//             chart.config.data['datasets'].forEach(function (dataset, i) {
-//                 chart.getDatasetMeta(i).data.forEach(function (sector, j) {
-//                     chart['pluginTooltips'].push(new Chart.Tooltip({
-//                         _chart: chart['chart'],
-//                         _chartInstance: chart,
-//                         _data: chart.data,
-//                         _options: chart.options,
-//                         _active: [sector]
-//                     }, chart));
-//                 });
-//             });
+    console.log("chartId==>", this.chartId, this.chartData);
+    if (this.chartData?.data?.datasets[0].data[0]) {
+      //   Chart.pluginService.register({
+      //     beforeRender: function (chart) {
+      //         if (chart.config.options['showAllTooltips']) {
+      //             // create an array of tooltips
+      //             // we can't use the chart tooltip because there is only one tooltip per chart
+      //             chart['pluginTooltips'] = [];
+      //             chart.config.data['datasets'].forEach(function (dataset, i) {
+      //                 chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+      //                     chart['pluginTooltips'].push(new Chart.Tooltip({
+      //                         _chart: chart['chart'],
+      //                         _chartInstance: chart,
+      //                         _data: chart.data,
+      //                         _options: chart.options,
+      //                         _active: [sector]
+      //                     }, chart));
+      //                 });
+      //             });
 
-//             // turn off normal tooltips
-//             chart.options.tooltips.enabled = false;
-//         }
-//     },
-//     afterDraw: function (chart, easing) {
-//         if (chart.options['showAllTooltips']) {
-//             // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-//             if (!chart['allTooltipsOnce']) {
-//                 if (easing !== 1)
-//                     return;
-//                 chart['allTooltipsOnce'] = true;
-//             }
+      //             // turn off normal tooltips
+      //             chart.options.tooltips.enabled = false;
+      //         }
+      //     },
+      //     afterDraw: function (chart, easing) {
+      //         if (chart.options['showAllTooltips']) {
+      //             // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+      //             if (!chart['allTooltipsOnce']) {
+      //                 if (easing !== 1)
+      //                     return;
+      //                 chart['allTooltipsOnce'] = true;
+      //             }
 
-//             // turn on tooltips
-//             chart.options.tooltips.enabled = true;
-//             Chart.helpers.each(chart['pluginTooltips'], function (tooltip) {
-//                 tooltip.initialize();
-//                 tooltip.update();
-//                 // we don't actually need this since we are not animating tooltips
-//                 tooltip.pivot();
-//                 tooltip.transition(easing).draw();
-//             });
-//             chart.options.tooltips.enabled = false;
-//         }
-//     }
-// });
-  let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-  let ctx = canvas.getContext("2d");
-  this.myChart = new Chart(ctx, this.chartData);
- 
-}
+      //             // turn on tooltips
+      //             chart.options.tooltips.enabled = true;
+      //             Chart.helpers.each(chart['pluginTooltips'], function (tooltip) {
+      //                 tooltip.initialize();
+      //                 tooltip.update();
+      //                 // we don't actually need this since we are not animating tooltips
+      //                 tooltip.pivot();
+      //                 tooltip.transition(easing).draw();
+      //             });
+      //             chart.options.tooltips.enabled = false;
+      //         }
+      //     }
+      // });
+      let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+      let ctx = canvas.getContext("2d");
+      this.myChart = new Chart(ctx, this.chartData);
 
+      // chartLegendEL.innerHTML = this.myChart.generateLegend();
+      // bindChartEvents(myChart, document);
 
+      // let legendDiv = document.getElementById('legend')
+
+      // $('#legend').prepend(mybarChart.generateLegend());
+    }
   }
 
   actionClick(value) {
@@ -347,7 +380,7 @@ if(this.chartData?.data?.datasets[0].data[0]){
         }
         this._loaderService.stopLoader();
       });
-      
+
       this.createChart();
     } else if (value.name == "Download") {
       this.getImage();

@@ -1,18 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-6 stateMapContainer">
-      <!-- <div class="selectedEntity">
-        <span *ngIf="currentStateInView && currentStateInView.name" style="display: inline-block; min-width: fit-content">
-      {{ currentStateInView ? currentStateInView.name : ""
-      }}<span *ngIf="currentULBClicked">:&nbsp; </span>
-        </span>
-        <span *ngIf="currentULBClicked">
-      {{ currentULBClicked.name }}
-    </span>
-    </div> -->
-      <!-- <p *ngIf="currentStateInView" class="text-center" style="width: 100%;">
-    Click on any ULB to view their data or click on INDIA map to go back.
-  </p> -->
+ 
       <div *ngIf="!nationalLevelMap"
             class="skeletonWrapper container-fluid spinner_overlay d-flex justify-content-center align-items-center" style="z-index: 1000;">
         <mat-spinner *ngIf="isLoading"></mat-spinner>
@@ -20,77 +9,7 @@
       <div class="map-reset w-100 text-center mb-3 mt-3" *ngIf="isMapOnMiniMapMode" style="z-index: 10000;">
         <a type="button" style="text-decoration: none;" (click)="onSelectingStateFromDropDown(national)">Reset Map To India</a>
       </div>
-      <!-- <div class="ulbSelectDropdown">
-    <section class="regionalDetails regionalDetails2" *ngIf="mouseHoverOnState">
-      <div
-        style="
-          align-items: center;
-          display: inline-flex;
-          width: fit-content;
-          position: relative;
-          justify-content: center;
-          margin-right: 5%;
-        "
-      >
-        <span style="position: absolute; font-size: 0.7em">
-          {{ mouseHoverOnState.coveredUlbPercentage | number: "1.2-2" }} %
-        </span>
-        <mat-progress-spinner
-          [value]="mouseHoverOnState.coveredUlbPercentage | number: '2.2-2'"
-          [diameter]="50"
-        ></mat-progress-spinner>
-        <mat-progress-spinner
-          style="position: absolute"
-          class="unfilled"
-          [value]="100"
-          [diameter]="50"
-        ></mat-progress-spinner>
-      </div>
-
-      <div style="align-items: center; display: inline; width: fit-content">
-        <span><strong>Data Availability</strong></span
-        ><br />
-        <span> {{ mouseHoverOnState.name }}</span>
-        <br />
-        <span>
-          <span class="colorText">
-            {{ mouseHoverOnState.coveredUlbCount }}
-          </span>
-          out of
-          <span class="colorText">
-            {{ mouseHoverOnState.totalUlbs }}
-          </span>
-        </span>
-        ULBs
-        <br />
-        <span class="colorText"> {{ mouseHoverOnState.audited }}</span> ULBs
-        Audited
-      </div>
-    </section>
-
-    <section
-      class="regionalDetails ulbDetails col-sm-12"
-      *ngIf="mouseHoveredOnULB"
-    >
-      <span class="col-sm-12"
-        ><span class="bold">ULB:</span> {{ mouseHoveredOnULB.name }}</span
-      >
-      <span class="col-sm-12">
-        <span class="bold">Area:</span>
-        {{ mouseHoveredOnULB.area | rupeeConverter }} sq. km
-      </span>
-      <span class="col-sm-12">
-        <span class="bold"> Population: </span>
-        {{ mouseHoveredOnULB.population | rupeeConverter }}
-      </span>
-      <span class="col-sm-12">
-        <span class="bold"> Audit Status: </span>
-        <span class="text-capitalize">
-          {{ mouseHoveredOnULB.auditStatus }}</span
-        >
-      </span>
-    </section>
-  </div> -->
+  
       <div class="col-sm-12" id="districtMapContainer"
         [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }">
         <!-- <p class="text-center" *ngIf="currentStateInView">
@@ -117,7 +36,25 @@
           </div>
         </div>
         <!-- city-dropdown inp-grp -->
-        <div class="col-md-6 col-sm-12">
+        <div *ngIf="(selected_state != 'India')" class="col-md-6 col-sm-12">
+          <input type="text" (keyup)="callAPI($event)" class="form-select" placeholder="Search for ULBs" matInput formControlName="ulb" [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <a (click)="dashboardNav(option.code)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
+              <mat-option [ngClass]="{'firstCls': (i == 0)}" [value]="option?.name">
+                  <div class="row" >
+                      <div class="col-8">
+                          <span style="font-size: 12px;"> {{option?.name}}</span>
+                      </div>
+                      <div class="col-4">
+                          <span style="color: #8E8E8E; font-size: 12px;">{{option.type == 'ulb' ? option.ulbType.name :option.type | titlecase }}</span>
+                      </div>
+                  </div>
+              </mat-option>
+          </a>
+          </mat-autocomplete>
+        </div>
+        <!-- <div class="col-md-6 col-sm-12">
+
           <div class="input-group inp-grp selected-list" *ngIf="(selected_state != 'India')">     
             <select class="c-btn expo-drp-in  border-0" id="inputGroupSelect01"
               (change)="selectCity($event.target.value)"> 
@@ -128,7 +65,7 @@
               </option>
             </select>
           </div>
-        </div>
+        </div> -->
 
       </div>
       <div class="expo-pd"> 
