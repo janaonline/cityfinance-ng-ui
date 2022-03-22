@@ -8,25 +8,33 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between">
-      <div class="col-sm-12 col-md-6">
+      <div class="col-sm-12 col-md-9">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
           style="margin-left: 2pc"
           class="btn deSelected"
+          [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >
           {{ item }}
         </button>
       </div>
 
-      <div class="col-sm-12 col-md-6 pd-s mb-3">
+      <div class="col-sm-12 col-md-3 pd-s mb-3">
         <div class="d-flex justify-content-between">
           <div></div>
           <div class="d-flex" style="margin-right: 50px">
             <div style="margin-right: 10px">
-              <select class="form-select" aria-label="Default select">
-                <option value="" selected>2020-21</option>
+              <select
+                class="form-select"
+                aria-label="Default select"
+                (change)="getSelectedFinancialYear($event)"
+              >
+                <option value="">Select Financial Year</option>
+                <option value="2020-21" selected>2020-21</option>
+                <option value="2019-20" selected>2019-20</option>
+                <option value="2018-19" selected>2018-19</option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
               </select>
             </div>
@@ -78,7 +86,8 @@
   <div class="row">
     <div class="col-md-12">
       <app-revenuechart
-        [chartId]="generateRandomId('scatterChartId')"
+        [headerActions]="headerActions"
+        [chartId]="'StateScatterCahrtId'"
         [chartData]="scatterData"
       ></app-revenuechart>
     </div>
@@ -146,7 +155,7 @@
         [chartTitle]="
           'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
         "
-        [chartId]="generateRandomId('topBarChartId')"
+        [chartId]="'TopBarChartData'"
         [chartData]="barData"
       ></app-revenuechart>
       <app-revenuechart
@@ -155,7 +164,7 @@
         [chartTitle]="
           'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
         "
-        [chartId]="generateRandomId('bottomBarChartId')"
+        [chartId]="'BottomBarChartData'"
         [chartData]="bottomBarData"
       ></app-revenuechart>
     </div>
