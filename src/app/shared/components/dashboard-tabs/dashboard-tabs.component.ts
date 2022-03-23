@@ -221,9 +221,9 @@ export class DashboardTabsComponent
         changes?.mySelectedYears?.currentValue
       );
     }
-    if (this.data) {
-      this.changeTab(this?.data[0]);
-    }
+    // if (this.data) {
+    //   this.changeTab(this?.data[0]);
+    // }
     console.log("innertab value", this.innerActiveTab);
   }
 
