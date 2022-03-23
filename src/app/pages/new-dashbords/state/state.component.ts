@@ -33,13 +33,15 @@ export class StateComponent implements OnInit {
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   stateId;
   stateCode;
-  
+
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   mapData = mapConfig;
   dashboardTabData;
-  date
+  date;
+  component_name;
   ngOnInit(): void {
-    this._loaderService.showLoader()
+    this._loaderService.showLoader();
+    this.component_name = 'State';
     //statedashboard id
     this.newDashboardService
       .getDashboardTabData("619cc1016abe7f5b80e45c6b")
@@ -55,7 +57,7 @@ export class StateComponent implements OnInit {
         }
       );
       this.authService.getLastUpdated().subscribe((res)=>{
- 
+
         this.date = res['data']
 data.year = res['year']
         data.date = this.date
@@ -121,7 +123,7 @@ this.yearVal = year
       .dashboardInformation(false, stateId, "state", "2019-20")
       .subscribe(
         (res: any) => {
-        
+
             let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
             for (const key in obj) {
               const element = obj[key];
@@ -136,8 +138,8 @@ this.yearVal = year
               obj.Liability,
               obj.Debt,
             ];
-         
-        
+
+
         },
         (error) => {
           console.error(error);

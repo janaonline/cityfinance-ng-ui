@@ -12,6 +12,7 @@ import * as fileSaver from "file-saver";
 import {OwnRevenueService} from '../../../pages/own-revenue-dashboard/own-revenue.service'
 import Chart from "chart.js";
 import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
+import { CommonService } from "../../services/common.service";
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -49,6 +50,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
   cardStyle = cardStyle;
   @Input()
+  componentName;
+  @Input()
   mapConfig = {
     showStateList: false,
     showDistrictList: false,
@@ -66,22 +69,33 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
   @Output()
   dataAvailEmit  = new EventEmitter()
-  dataAvailLoading = false
-  financialYear
-  availValue
-  dataAvailable
-  notFoundNames = []
+  dataAvailLoading = false;
+  financialYear;
+  availValue;
+  dataAvailable;
+  stateList;
+  notFoundNames = [];
   showButton: boolean = true;
   constructor(
     public ownRevenueService: OwnRevenueService,
-    public _loaderService: GlobalLoaderService
+    public _loaderService: GlobalLoaderService,
+    public _commonServices : CommonService
+
   ) {
     this.yearValue.emit('2019-20');
   }
 
   ngOnInit(): void {
-    this.getAvailableData()
-    
+    this.getAvailableData();
+    this._commonServices.fetchStateList().subscribe((res: any)=>{
+     // console.log('res', res);
+      this.stateList = res;
+     },
+     (error)=>{
+       console.log(error)
+     });
+     console.log('component name.......', this.componentName);
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
@@ -91,9 +105,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this.changeInStateOrCity.emit(event);
   }
 yearVal = '2019-20'
-ulbId 
+ulbId
   downloadCSV(from) {
-   
+
       this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
         (res: any) => {
           let blob: any = new Blob([res], {
@@ -105,12 +119,12 @@ ulbId
         },
         (error) => {}
       );
-    
+
   }
   getAvailableData() {
     this._loaderService.showLoader()
     this.dataAvailLoading  = true
-   
+
   let obj = {
     financialYear: this.yearVal,
     stateId: this.data.stateId
@@ -125,8 +139,8 @@ this.dataAvailEmit.emit(res)
         this.financialYear = res;
       this.availValue =  res["data"]?.percent
           this.halfDoughnutChart();
-       
-       
+
+
         this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);
       },
@@ -143,9 +157,9 @@ this.dataAvailEmit.emit(res)
     if(this.myChart){
       this.myChart.destroy();
     }
-    
+
     this.dataAvailable = this.availValue;
-  
+
       const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
       const ctx = canvas.getContext("2d");
        this.myChart = new Chart(ctx, {
@@ -165,7 +179,7 @@ this.dataAvailEmit.emit(res)
           ],
         },
         options: {
-          
+
           rotation: 1 * Math.PI,
           circumference: 1 * Math.PI,
           legend: {
@@ -174,7 +188,11 @@ this.dataAvailEmit.emit(res)
           cutoutPercentage: 75,
         },
       });
-    
+
+  }
+  stateChanges(e){
+    console.log('dropdown changes......', e);
+
   }
 
 }
