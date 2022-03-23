@@ -148,7 +148,8 @@ export class SharedTableComponent implements OnInit, OnChanges {
         } else {
           dividervalue = 10000000;
         }
-        temp[value.year] = value.amount / dividervalue || "N/A";
+        let finalValue = value.amount / dividervalue;
+        temp[value.year] = finalValue.toFixed(2) || "N/A";
       });
       return (element = { ...element, ...temp });
     });

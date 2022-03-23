@@ -110,15 +110,15 @@ export class CityComponent implements OnInit {
             const element = obj[key];
             if (key == "Debt") {
               element.number =
-                (
+              'INR ' +  (
                   res.data.find((value) => value._id == "Revenue")?.totalGrant /
                   10000000
                 ).toFixed(2) + "Cr";
             } else
-              element.number =
-                Math.round(
+              element.number = 'INR ' +
+             (res.data.length >0 ? Math.round(
                   res.data.find((value) => value._id == key)?.amount / 10000000
-                ) + " Cr";
+                ) : '0' )+ " Cr";
           }
           this.revenueData = [
             obj.Revenue,

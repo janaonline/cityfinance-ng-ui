@@ -76,4 +76,13 @@
   border-radius: 5px;
   margin-left: 1em;
   margin-right: 1em;
+  background-color: #e67e15;
+  color: #ffffff;
+}
+
+.searchButton:hover {
+  background-color: #ffffff;
+  color: #e67e15;
+  transition: 0.3s;
+  border: 1px solid #e67e15;
 }

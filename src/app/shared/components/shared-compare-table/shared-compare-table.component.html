@@ -28,10 +28,14 @@
       </ng-container>
     </tr>
     <tr class="rowData" *ngFor="let data of finalData; let i = index">
-      <td class="text-left" style="padding-left: 1em">{{ data?.line_item }}</td>
+      <td class="text-left my-2" style="padding-left: 1 em">
+        {{ data?.line_item }}
+      </td>
       <ng-container *ngFor="let fy of fyList">
         <ng-container *ngFor="let ulb of ulbListVal">
-          <td class="text-center">{{ data[ulb.code + fy] || "N/A" }}</td>
+          <td class="text-center my-2">
+            {{ data[ulb.code + fy] || "N/A" }}
+          </td>
         </ng-container>
       </ng-container>
     </tr>

@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { ActivatedRoute } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
+import { FormControl } from "@angular/forms";
+import { CommonService } from "../../services/common.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-state-filter-data",
@@ -13,6 +16,19 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   revenueId: any;
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+
+  nationalFilter = new FormControl();
+
+  filteredOptions: Observable<any[]>;
+  lastSelectedId: number = 0;
+  ActiveButton: any;
+  filterName: any;
+  tabName: any;
+  headOfAccount: any;
+  chartId = `stateSCharts-${Math.random()}`;
+  financialYear;
+
+  isPerCapita = false;
 
   @Input() data;
 
@@ -197,7 +213,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public stateFilterDataService: StateFilterDataService
+    public stateFilterDataService: StateFilterDataService,
+    private _commonServices: CommonService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -222,12 +239,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.BarGraphValue = false;
   }
 
-  generateRandomId(name) {
-    let number = Math.floor(Math.random() * 100);
-    let newId = number + name;
-    return newId;
-  }
-
   getScatterData() {
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -236,21 +247,113 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe((res) => console.log("response data", res));
   }
 
+  getSelectedFinancialYear(event) {
+    console.log("financial year", event.target.value);
+    this.financialYear = event.target.value;
+  }
+
+  changeActiveBtn(i) {
+    // debugger;
+    console.log(this.data.btnLabels[i], "activeBTN");
+    this.ActiveButton = this.data.btnLabels[i];
+    this.lastSelectedId = i;
+
+    // let id = `btn-${i}`;
+    // if (this.lastSelectedId) {
+    //   document
+    //     .getElementById(this.lastSelectedId)
+    //     ?.classList.remove("selected");
+    //   document.getElementById(this.lastSelectedId)?.classList.add("deSelected");
+    // }
+    // document.getElementById(id)?.classList?.add("selected");
+    // document.getElementById(id)?.classList?.remove("deSelected");
+
+    this.isPerCapita = this.data.btnLabels[i]
+      .toLocaleLowerCase()
+      .split(" ")
+      .join("")
+      .includes("percapita");
+    let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
+
+    if (newName.includes("mix"))
+      this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    else if (newName.includes("revenue") && !newName.includes("own"))
+      this.filterName = "revenue";
+    else if (newName.includes("own") && newName.includes("revenue"))
+      this.filterName = newName;
+    else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+  }
+
   getRevenueId() {
     this.stateFilterDataService
       .getRevID()
       .subscribe((res) => console.log("revenue ==>", res));
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    // debugger;
+    // console.log("changes=>", changes);
+    if (changes.data) {
+      this.tabName = this.data.name.toLocaleLowerCase();
+      this.data = {
+        ...this.data["mainContent"][0],
+        filterName: this.data.name,
+      };
+      // this.changeActiveBtn(0);
+      // debugger;
+      // this.aboutIndicators = this.data["static"].indicators;
+      setTimeout(() => {
+        if (this.data.btnLabels.length) this.changeActiveBtn(0);
+        // this.getChartData({});
+      }, 0);
+      this.setHeadOfAccount();
+    }
+
     console.log(
-      "this.statecode",
-      this.stateCode[this.stateId],
-      this.ulbStateMapping,
-      this.stateId
+      "payloadData===>",
+      this.filterName,
+      this.headOfAccount,
+      this.isPerCapita
     );
 
-    console.log("this.data===>", this.data);
+    // console.log("this.barChart", this.barChart);
+  }
+
+  setHeadOfAccount() {
+    let name = this.data["filterName"].toLocaleLowerCase().split(" ");
+    this.headOfAccount = name.includes("revenue")
+      ? "Revenue"
+      : name.includes("expenditure")
+      ? "Expense"
+      : "Tax";
+  }
+
+  ngOnInit(): void {
+    this.changeActiveBtn(0);
+    this.nationalFilter.valueChanges.subscribe((value) => {
+      if (value?.length >= 1) {
+        this._commonServices
+          .postGlobalSearchData(value, "", "")
+          .subscribe((res: any) => {
+            console.log(res?.data);
+            let emptyArr: any = [];
+            this.filteredOptions = emptyArr;
+            if (res?.data.length > 0) {
+              this.filteredOptions = res?.data;
+              //this.noDataFound = false;
+            } else {
+              let emptyArr: any = [];
+              this.filteredOptions = emptyArr;
+              // this.noDataFound = true;
+              console.log("no data found");
+            }
+          });
+      } else {
+        return null;
+      }
+    });
+
+    console.log("this.tabName", this.data);
 
     this.getScatterData();
     this.getRevenueId();

@@ -9,11 +9,13 @@ td:first-child {
   font-weight: 700;
   color: #0f1f40;
   text-align: left;
+  width: 2em;
 }
 
 td {
-  width: 2em;
+  width: 6em;
   text-align: center;
+  font-size: 0.8em;
 }
 
 .rankingButton {
@@ -30,3 +32,22 @@ td {
   background-color: #fff1e3;
   box-shadow: 0px 2px 8px #fadaad;
 }
+
+.deSelected {
+  color: #8b92a8;
+  background-color: white;
+  border-color: #8b92a8;
+}
+
+.selected {
+  color: #e57504;
+  background-color: #fff1e3;
+  border-color: #f2991f;
+}
+
+.selected:focus {
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.25rem #fadaad;
+  box-shadow: 0 0 0 0.25rem #fadaad;
+}
+/*# sourceMappingURL=filter-data.component.css.map */
