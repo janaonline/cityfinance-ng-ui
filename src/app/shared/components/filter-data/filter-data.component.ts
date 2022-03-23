@@ -37,6 +37,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   isPerCapita = false;
   @Input()
   mySelectedYears = ["2015-16", "2014-15", "2013-14"];
+  @Input()
+  yearListForDropDown;
   loading = false;
   tabName;
   CAGR = "";

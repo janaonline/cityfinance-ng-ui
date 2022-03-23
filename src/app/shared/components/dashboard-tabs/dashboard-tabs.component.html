@@ -139,6 +139,8 @@
         <div [ngSwitch]="DashBoardType">
           <div *ngSwitchCase="'city'">
             <app-filter-data
+            [yearListForDropDown]="yearListForDropDown"
+            [mySelectedYears]="mySelectedYears"
               [currentUlb]="cityId"
               [data]="innerActiveTab"
             ></app-filter-data>

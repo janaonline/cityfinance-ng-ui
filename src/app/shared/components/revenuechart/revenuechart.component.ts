@@ -261,9 +261,11 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   @Output()
   compareChange = new EventEmitter();
   myChart;
-  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
+  @Input()
+  yearList = ["2017-18", "2018-19", "2019-20", "2020-21"];
   @Input()
   mySelectedYears = ["2019-20", "2020-21"];
+  @Input()
   year;
   compareType = "";
 

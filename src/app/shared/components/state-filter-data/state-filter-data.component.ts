@@ -253,7 +253,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   changeActiveBtn(i) {
-    // debugger;
     console.log(this.data.btnLabels[i], "activeBTN");
     this.ActiveButton = this.data.btnLabels[i];
     this.lastSelectedId = i;
@@ -291,8 +290,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // debugger;
-    // console.log("changes=>", changes);
     if (changes.data) {
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
@@ -300,7 +297,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         filterName: this.data.name,
       };
       // this.changeActiveBtn(0);
-      // debugger;
       // this.aboutIndicators = this.data["static"].indicators;
       setTimeout(() => {
         if (this.data.btnLabels.length) this.changeActiveBtn(0);
