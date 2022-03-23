@@ -41,8 +41,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   tabName;
   CAGR = "";
   positiveCAGR;
+  chartTitle = "total revenues vs State";
   chartOptions;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let cities = JSON.parse(localStorage.getItem("ulbMapping"));
+    this.chartTitle = `${
+      cities[this.currentUlb].name
+    } total revenues vs State ${cities[this.currentUlb].type} Average`;
+  }
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;

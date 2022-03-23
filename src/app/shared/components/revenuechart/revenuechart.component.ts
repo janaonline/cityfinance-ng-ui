@@ -34,8 +34,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @ViewChild("template") template;
   @Input()
-  chartTitle =
-    "Total revenue of MCGM for last 3 years compared with state average";
+  chartTitle = "ULB_NAME total revenues vs State ULB_TYPE Average";
   @Input()
   chartData = {
     // type: "bar",
