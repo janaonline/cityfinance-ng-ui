@@ -4,12 +4,12 @@
  * It is specifically made for that tabl only. For a more generic table to csv,
  * create another class using this class as base.
  */
-import { Injectable } from '@angular/core';
-import * as ExcelJs from 'exceljs';
-import * as FileSaver from 'file-saver';
+import { Injectable } from "@angular/core";
+import * as ExcelJs from "exceljs";
+import * as FileSaver from "file-saver";
 
-import * as logoFile from './base64Logo.js';
-import { IIExcelInput } from './models/excelFormat';
+import * as logoFile from "./base64Logo.js";
+import { IIExcelInput } from "./models/excelFormat";
 
 const EXCEL_TYPE =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -23,7 +23,7 @@ interface CustomArray<T> {
 @Injectable()
 export class ExcelService {
   private readonly DEFAULT = {
-    FONT_SIZE: 14
+    FONT_SIZE: 14,
   };
   constructor() {}
 
@@ -64,12 +64,12 @@ export class ExcelService {
             cellsToMerge.push({
               row: {
                 from: rowNumber,
-                to: rowNumber + (+rowspan ? +rowspan - 1 : 0)
+                to: rowNumber + (+rowspan ? +rowspan - 1 : 0),
               },
               column: {
                 from: columnCounter,
-                to: columnCounter + (+colspan ? +colspan : 0)
-              }
+                to: columnCounter + (+colspan ? +colspan : 0),
+              },
             });
             columnCounter += +colspan ? +colspan : 1;
           }
@@ -93,7 +93,7 @@ export class ExcelService {
         const tableHeaders = Array.from(
           rows[index + 1].querySelectorAll("td, th")
         );
-        tableHeaders.forEach(header => {
+        tableHeaders.forEach((header) => {
           const noOfColumnRequired = +header.getAttribute("colspan");
           const emptyColumns = new Array(noOfColumnRequired).fill("");
           emptyColumns[0] = header.textContent;
@@ -115,7 +115,7 @@ export class ExcelService {
     }
 
     excel = excel.map((columns, index) => {
-      if (excel.slice(2).every(column => column[0] === "") && index) {
+      if (excel.slice(2).every((column) => column[0] === "") && index) {
         return columns.slice(1);
       } else {
         return columns;
@@ -128,7 +128,7 @@ export class ExcelService {
     // Add Image
     const logo = workbook.addImage({
       base64: logoFile.logoBase64,
-      extension: "png"
+      extension: "png",
     });
     // worksheet.addImage(logo, {
     //   tl: { col: 0.1, row: 0.1 },
@@ -140,33 +140,33 @@ export class ExcelService {
     // Color for logo backgeound
     worksheet
       .getRow(1)
-      .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+      .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: "000001" },
-          bgColor: { argb: "000001" }
+          bgColor: { argb: "000001" },
         };
       });
     worksheet
       .getRow(2)
-      .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+      .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: "000001" },
-          bgColor: { argb: "000001" }
+          bgColor: { argb: "000001" },
         };
       });
 
     worksheet
       .getRow(3)
-      .eachCell({ includeEmpty: true }, function(cell, rowNumber) {
+      .eachCell({ includeEmpty: true }, function (cell, rowNumber) {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
           fgColor: { argb: "000001" },
-          bgColor: { argb: "000001" }
+          bgColor: { argb: "000001" },
         };
       });
   }
@@ -196,9 +196,9 @@ export class ExcelService {
     for (let i = 0; i < data.length; i++) {
       const row = worksheet.addRow(data[i]);
       const rowToMerges = cellsToMerge.filter(
-        option => option.row.from - 3 === i
+        (option) => option.row.from - 3 === i
       );
-      rowToMerges.forEach(rowToMerge => {
+      rowToMerges.forEach((rowToMerge) => {
         /**
          * Merge the rows and columns given. 65 = A, 90 = Z. Since columns in excel file are
          * in the format A1, B1, C1 and so on. We will need to merge them.
@@ -221,18 +221,18 @@ export class ExcelService {
             type: "pattern",
             pattern: "solid",
             fgColor: { argb: "FFFFFF00" },
-            bgColor: { argb: "FF0000FF" }
+            bgColor: { argb: "FF0000FF" },
           };
           cell.border = {
             top: { style: "thin" },
             left: { style: "thin" },
             bottom: { style: "thin" },
-            right: { style: "thin" }
+            right: { style: "thin" },
           };
 
           cell.alignment = {
             vertical: "bottom",
-            horizontal: this.canAlignRight(cell) ? "right" : "left"
+            horizontal: this.canAlignRight(cell) ? "right" : "left",
           };
           if (
             number === 2 &&
@@ -248,7 +248,7 @@ export class ExcelService {
               this.isAmountValue(<string>cell.value) ||
               this.canAlignRight(cell)
                 ? "right"
-                : "center"
+                : "center",
           };
           if (this.isSubHeader(cell)) {
             cell.alignment.horizontal = "left";
@@ -260,21 +260,21 @@ export class ExcelService {
             cell.alignment = {
               vertical: "middle",
               horizontal: "center",
-              wrapText: true
+              wrapText: true,
             };
           } else if (cell.value && number >= 3) {
             cell.alignment = {
               wrapText: true,
 
               vertical: "bottom",
-              horizontal: this.canAlignRight(cell) ? "right" : "left"
+              horizontal: this.canAlignRight(cell) ? "right" : "left",
             };
           }
         });
       }
 
       // Merge column here.
-      rowToMerges.forEach(option => {
+      rowToMerges.forEach((option) => {
         if (option.column.from === option.column.to) {
           return;
         }
@@ -310,8 +310,7 @@ export class ExcelService {
   private downloadFile(workbook: ExcelJs.Workbook, fileName: string) {
     workbook.xlsx.writeBuffer().then((data: any) => {
       const blob = new Blob([data], {
-        type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       FileSaver.saveAs(blob, fileName);
     });
@@ -330,14 +329,14 @@ export class ExcelService {
       type: "pattern",
       pattern: "solid",
       fgColor: { argb: "00000000" },
-      bgColor: { argb: "FFFFFFFF" }
+      bgColor: { argb: "FFFFFFFF" },
     };
     worksheet.mergeCells(`B1:${col}2`);
 
     worksheet.getCell(`A3`).fill = {
       type: "pattern",
       pattern: "solid",
-      fgColor: { argb: "FFCCFFE5" }
+      fgColor: { argb: "FFCCFFE5" },
     };
     let textFor2ndRow = `File downloaded on  ${new Date().toLocaleDateString()}. `;
     if (options && options.currencyConversionName) {
@@ -366,18 +365,18 @@ export class ExcelService {
 
   setFooter(worksheet: ExcelJs.Worksheet) {
     const footerRow = worksheet.addRow([
-      "This is system generated excel sheet."
+      "This is system generated excel sheet.",
     ]);
     footerRow.getCell(1).fill = {
       type: "pattern",
       pattern: "solid",
-      fgColor: { argb: "FFCCFFE5" }
+      fgColor: { argb: "FFCCFFE5" },
     };
     footerRow.getCell(1).border = {
       top: { style: "thin" },
       left: { style: "thin" },
       bottom: { style: "thin" },
-      right: { style: "thin" }
+      right: { style: "thin" },
     };
     // Merge Cells
     worksheet.mergeCells(`A${footerRow.number}:F${footerRow.number}`);
@@ -422,10 +421,7 @@ export class ExcelService {
     } else if (value.indexOf("%") >= 0) {
       newValue = value.slice(0, value.indexOf("%"));
     }
-    newValue = newValue
-      .split(",")
-      .pop()
-      .split(")")[0];
+    newValue = newValue.split(",").pop().split(")")[0];
     return !isNaN(<any>newValue);
   }
 
@@ -444,7 +440,7 @@ export class ExcelService {
   downloadJSONAs(data: IIExcelInput) {
     const workbook = new ExcelJs.Workbook();
     const worksheet = workbook.addWorksheet("Data", {
-      properties: { tabColor: { argb: "FFC0000" } }
+      properties: { tabColor: { argb: "FFC0000" } },
     });
 
     if (data.skipStartingRows) {
@@ -452,13 +448,13 @@ export class ExcelService {
     }
 
     data.rows.forEach((columns, rowIndex) => {
-      let texts = columns.map(cell => cell.text || "");
+      let texts = columns.map((cell) => cell.text || "");
       if (data.skipStartingColumns) {
         texts = new Array(data.skipStartingColumns).fill(" ").concat(texts);
       }
       const row = worksheet.addRow(texts);
       row.font = {
-        size: data.fontSize ? data.fontSize : this.DEFAULT.FONT_SIZE
+        size: data.fontSize ? data.fontSize : this.DEFAULT.FONT_SIZE,
       };
       row.eachCell((cell, cellIndex) => {
         const cellColumnConfig =
@@ -469,7 +465,7 @@ export class ExcelService {
           cell.fill = {
             type: "pattern",
             pattern: "solid",
-            fgColor: { argb: cellColumnConfig.backgroundColor }
+            fgColor: { argb: cellColumnConfig.backgroundColor },
           };
           /**
            * In the above line, you may be wondering why are we applying bakgrund color to

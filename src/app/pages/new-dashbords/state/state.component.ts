@@ -36,7 +36,6 @@ export class StateComponent implements OnInit {
 
   @HostListener("window:scroll", ["$event"])
   doSomething(event) {
-    console.log(window.pageYOffset);
     this.cords = window.pageYOffset;
   }
 

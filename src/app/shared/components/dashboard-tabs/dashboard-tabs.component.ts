@@ -22,7 +22,6 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   TableTitles: any;
   HeaderDataOfBorrowTab() {
     this.borrowingTabService.getHeaderName().subscribe((res: any) => {
-      console.log("HeaderName", res?.detailsOfInstrument);
       this.TableTitles = res.detailsOfInstrument;
       // console.log("firstTitle", this.firstTitle);
     });
@@ -212,7 +211,9 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
         changes.mySelectedYears.currentValue
       );
     }
-    this.changeTab(this?.data[0]);
+    if (this.data) {
+      this.changeTab(this?.data[0]);
+    }
     this.HeaderDataOfBorrowTab();
     // this.ColumnDataOfBorrowTab();
     console.log("innertab value", this.innerActiveTab);

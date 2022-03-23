@@ -99,13 +99,18 @@ export class SharedTableComponent implements OnInit, OnChanges {
 
   changeVal() {
     this.checkVal = !this.checkVal;
-    this.dataSlice(this.tableData);
+    if (this.checkVal === false) {
+      this.finalData = this.tableData.slice(0, 10);
+    } else {
+      this.finalData = this.tableData;
+    }
+    // this.dataSlice(this.tableData);
   }
 
   finalData: any = [];
 
   dataSlice(val: any) {
-    if (!this.checkVal) {
+    if (this.checkVal === false) {
       this.finalData = val.slice(0, 10);
     } else {
       this.finalData = val;

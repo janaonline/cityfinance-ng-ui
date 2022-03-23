@@ -27,6 +27,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   headOfAccount: any;
   chartId = `stateSCharts-${Math.random()}`;
   financialYear;
+  compareDialogType = 3;
 
   isPerCapita = false;
 
@@ -250,6 +251,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   getSelectedFinancialYear(event) {
     console.log("financial year", event.target.value);
     this.financialYear = event.target.value;
+  }
+
+  filterChangeInChart(value) {
+    // this.mySelectedYears = value.year;
+    // this.getChartData(value);
+    console.log("filterChangeInChart", value);
   }
 
   changeActiveBtn(i) {

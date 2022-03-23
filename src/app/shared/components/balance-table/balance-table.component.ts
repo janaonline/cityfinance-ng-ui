@@ -12,12 +12,16 @@ import { ReportHelperService } from "src/app/dashboard/report/report-helper.serv
 import { IReportType } from "src/app/models/reportType";
 import { ReportService } from "../../../dashboard/report/report.service";
 import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { CommonService } from "../../services/common.service";
 import { BalanceTableService } from "./balance-table.service";
 import { resolve } from "dns";
 import { ulbType } from "src/app/dashboard/report/report/ulbTypes";
+import { AuthService } from "src/app/auth/auth.service";
+import { ExcelService } from "src/app/dashboard/report/excel.service";
+import { DialogComponent } from "../dialog/dialog.component";
+import { IDialogConfiguration } from "../dialog/models/dialogConfiguration";
 
 export interface PeriodicElement {
   name: number;
@@ -61,6 +65,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   selector: "app-balance-table",
   templateUrl: "./balance-table.component.html",
   styleUrls: ["./balance-table.component.scss"],
+  providers: [ExcelService],
 })
 export class BalanceTableComponent
   extends BaseComponent
@@ -138,12 +143,38 @@ export class BalanceTableComponent
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
 
+  defaultDailogConfiuration: IDialogConfiguration = {
+    message:
+      "<p class='text-center'>You need to be Login to download the data.</p>",
+    buttons: {
+      signup: {
+        text: "Signup",
+        callback: () => {
+          this.router.navigate(["register/user"]);
+        },
+      },
+      confirm: {
+        text: "Proceed to Login",
+        callback: () => {
+          sessionStorage.setItem(
+            "postLoginNavigation",
+            `/financial-statement/report/basic`
+          );
+          this.router.navigate(["/", "login"]);
+        },
+      },
+      cancel: { text: "Cancel" },
+    },
+  };
+
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
     public activatedRoute: ActivatedRoute,
-    private commonService: CommonService,
-    private balanceTabeleService: BalanceTableService
+    private _authService: AuthService,
+    private _dialog: MatDialog,
+    private router: Router,
+    private excelService: ExcelService // private commonService: CommonService, // private balanceTabeleService: BalanceTableService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -207,80 +238,12 @@ export class BalanceTableComponent
     console.log("ulbListVal", this.ulbListVal);
   }
 
-  inputVal: any = {
-    isComparative: false,
-    type: "Summary",
-    years: ["2015-16", "2016-17"],
-    yearList: [
-      { id: "2015-16", itemName: "2015-16" },
-      { id: "2016-17", itemName: "2016-17" },
-    ],
-    reportGroup: "Income & Expenditure Statement",
-    ulbList: [
-      {
-        population: 50151,
-        ulbType: "Municipality",
-        code: "AP105",
-        financialYear: ["2016-17", "2015-16"],
-        ulb: "5e4643c247cb2749e5a56b3f",
-        name: "Allagadda Municipality",
-        _id: "5e4643c247cb2749e5a56b3f",
-        state: "Andhra Pradesh",
-        stateId: "5dcf9d7216a06aed41c748dd",
-      },
-      {
-        population: 263898,
-        ulbType: "Municipal Corporation",
-        code: "AP004",
-        financialYear: ["2018-19", "2017-18", "2016-17", "2015-16"],
-        ulb: "5e4643c247cb2749e5a56b39",
-        name: "Anantapur Municipal Corporation",
-        _id: "5e4643c247cb2749e5a56b39",
-        state: "Andhra Pradesh",
-        stateId: "5dcf9d7216a06aed41c748dd",
-      },
-      {
-        population: 33000,
-        ulbType: "Municipality",
-        code: "AP005",
-        financialYear: ["2016-17", "2015-16"],
-        ulb: "5dd24729437ba31f7eb42ea6",
-        name: "Atmakur Municipality",
-        _id: "5dd24729437ba31f7eb42ea6",
-        state: "Andhra Pradesh",
-        stateId: "5dcf9d7216a06aed41c748dd",
-      },
-    ],
-    ulbIds: [
-      "5e4643c247cb2749e5a56b3f",
-      "5e4643c247cb2749e5a56b39",
-      "5dd24729437ba31f7eb42ea6",
-    ],
-    valueType: "absolute",
-  };
-
   searchEnable() {
     if (this.ulbListVal && this.yearValue) {
       return false;
     }
     return true;
   }
-
-  // getUlbList() {
-  //   return new Promise<void>((resolve, reject) => {
-  //     this.commonService.fetchBasicLedgerData().subscribe(
-  //       (res) => {
-  //         console.log("ulbRes", res);
-  //         this.ulbList = res.data;
-  //         resolve();
-  //       },
-  //       (err) => {
-  //         console.log(err);
-  //         reject(err);
-  //       }
-  //     );
-  //   });
-  // }
 
   createUpdateTable(cityId = null) {
     if (cityId) this.id = cityId.currentValue;
@@ -296,7 +259,6 @@ export class BalanceTableComponent
   }
 
   ExistingValues() {
-  
     this.ulbIdval.push(this.id);
     let currentUlb = this.stateCode[this.ulbStateMapping[this.id]].ulbs.filter(
       (elem) => {
@@ -309,7 +271,6 @@ export class BalanceTableComponent
   }
 
   createMultipleUpdateTable() {
-    
     this.showtable = true;
     // this.balanceInput.ulbList = this.newUlbData;
 
@@ -349,6 +310,35 @@ export class BalanceTableComponent
   }
 
   ngOnInit() {}
+
+  download() {
+    const isUserLoggedIn = this._authService.loggedIn();
+    if (!isUserLoggedIn) {
+      const dailogboxx = this._dialog.open(DialogComponent, {
+        data: this.defaultDailogConfiuration,
+        width: "28vw",
+      });
+      return;
+    }
+    const reportTable = document.querySelector("table").outerHTML;
+    const title = this.reportReq + " " + this.reportGroup;
+    // let currencyConversionName =
+    //   this.currenyConversionForm.value.type &&
+    //   this.currenyConversionForm.value.type[0] &&
+    //   this.currenyConversionForm.value.type[0].type
+    //     ? this.currenyConversionForm.value.type[0].name
+    //     : null;
+    // if (currencyConversionName) {
+    //   currencyConversionName =
+    //     document.getElementById("currencyWarning").textContent;
+    // }
+    // if (this.reportReq.valueType === "per_capita") {
+    //   currencyConversionName = " NOTE: Values are in Per Capita format";
+    // }
+    this.excelService.transformTableToExcelData(title, reportTable, "IE", null);
+
+    this.reportService.addLogByToken("Income-Expenditure");
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.data.name == "Balance Sheet") {
