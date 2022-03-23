@@ -26,12 +26,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   tabName: any;
   headOfAccount: any;
   chartId = `stateSCharts-${Math.random()}`;
-<<<<<<< HEAD
   financialYear = '2016-17';
-=======
-  financialYear;
+  
   compareDialogType = 3;
->>>>>>> 6f94a1e711a6535f343b97a6694094939720e656
 
   isPerCapita = false;
 
