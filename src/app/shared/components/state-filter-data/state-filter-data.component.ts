@@ -35,6 +35,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   scatterData = {
     type: "scatter",
     data: {
+      labels:['sfds','sf','sdfsf'],
       datasets: [
         {
           label: "Municipality",
@@ -69,8 +70,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         {
           label: "National Average",
           data: [
-            { x: 0, y: 0 },
-            { x: 10000, y: 0 },
+          
           ],
           showLine: true,
           fill: false,
@@ -79,8 +79,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         {
           label: "State Average",
           data: [
-            { x: 0, y: 8 },
-            { x: 10000, y: 0 },
+           
           ],
           showLine: true,
           fill: false,
@@ -259,10 +258,10 @@ obj = {x:0,y:0}
                   })
     
       } else if(el.label == 'National Average'){
-el['data'][1]['y'] = natData
+el['data']['y'] = natData
 
       }else if(el.label == 'State Average'){
-        el['data'][1]['y'] = stateData
+        el['data']['y'] = stateData
       }
     })
     console.log(this.scatterData)
@@ -274,7 +273,11 @@ el['data'][1]['y'] = natData
         console.log(err.message)
       } );
   }
-
+  generateRandomId(name) {
+    let number = Math.floor(Math.random() * 100);
+    let newId = number + name;
+    return newId;
+  }
   getSelectedFinancialYear(event) {
     console.log("financial year", event.target.value);
     this.financialYear = event.target.value;
