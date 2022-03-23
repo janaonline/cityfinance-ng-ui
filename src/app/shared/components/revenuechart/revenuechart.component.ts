@@ -136,19 +136,16 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         },
       ],
     },
-    // legend: {
-    //   position: "bottom",
-
-    //   align: "center",
-    //   labels: {
-    //     fontSize: 12,
-    //     padding: 20,
-    //     fontColor: "black",
-    //     usePointStyle: true,
-    //   },
-    //   maxHeight: 20,
-    //   maxWidth: 20,
-    // },
+    tooltips: {
+      callbacks: {
+          label: function(tooltipItem, data) {
+              var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
+              var label = data.datasets[tooltipItem.datasetIndex]['labels'][tooltipItem.index];
+              var rev = data.datasets[tooltipItem.datasetIndex]['rev'][tooltipItem.index];
+              return datasetLabel + ': ' + label + `(${rev})`;
+          }
+      }
+  },
     legendCallback: function (chart) {
       var text = [];
       text.push('<ul class="' + this.chartId + '-legend">');

@@ -35,9 +35,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   scatterData = {
     type: "scatter",
     data: {
-      labels:['sfds','sf','sdfsf'],
+     
       datasets: [
         {
+          labels:[],
+          rev:[],
           label: "Municipality",
           data: [
            
@@ -48,6 +50,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           backgroundColor: "#1EBFC6",
         },
         {
+          labels:[],
+          rev:[],
           label: "Municipal Corporation",
           data: [
           
@@ -59,6 +63,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
         {
           label: "Town Panchayat",
+          labels:[],
+          rev:[],
           data: [
            
           ],
@@ -235,6 +241,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         tp_data.forEach((el2,index)=>{
 obj.x = el2.population
 obj.y = el2.totalRevenue
+el['labels'].push(el2.ulbName)
+el['rev'].push(el2.totalRevenue)
 el.data.push(obj)
 obj = {x:0,y:0}
         })
@@ -245,7 +253,10 @@ obj = {x:0,y:0}
          
           obj.x = el2.population
           obj.y = el2.totalRevenue
+          el['labels'].push(el2.ulbName)
+          el['rev'].push(el2.totalRevenue)
           el.data.push(obj)
+
           obj = {x:0,y:0}
                   })
       }else  if(el.label == 'Municipality'){
@@ -253,6 +264,8 @@ obj = {x:0,y:0}
           obj = {x:0,y:0}
           obj.x = el2.population
           obj.y = el2.totalRevenue
+          el['labels'].push(el2.ulbName)
+          el['rev'].push(el2.totalRevenue)
           el.data.push(obj)
           obj = {x:0,y:0}
                   })
