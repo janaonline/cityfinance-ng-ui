@@ -95,7 +95,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   actionFromChart(value) {
     console.log(value, "in filter");
-    if (value.name === "expand" || value.name === "collapse")
+    if (value.name === "Expand" || value.name === "Collapse")
       this.expand = !this.expand;
   }
 

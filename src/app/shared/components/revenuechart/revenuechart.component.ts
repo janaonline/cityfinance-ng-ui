@@ -291,11 +291,11 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   actionClick(value) {
     this._loaderService.showLoader();
     console.log(value, "In revenue");
-    if (value.name == "expand" || value.name == "collapse") {
+    if (value.name == "Expand" || value.name == "Collapse") {
       this.headerActions.map((innerVal) => {
         if (innerVal.name === value.name) {
-          if (value.name == "expand") innerVal.name = "collapse";
-          else value.name = "expand";
+          if (value.name == "Expand") innerVal.name = "Collapse";
+          else value.name = "Expand";
         }
         this._loaderService.stopLoader();
       });
