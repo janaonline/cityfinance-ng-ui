@@ -25,7 +25,7 @@
           margin-bottom: 10px;
         "
       >
-        Maharashtra Data Availability - {{ percentValue?.toFixed(2) }}%
+        {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}%
         (2020-2021)
       </div>
       <ul
@@ -38,6 +38,7 @@
           *ngFor="let tab of data; let i = index"
           class="nav-item"
           role="presentation"
+          style="cursor: pointer"
         >
           <button
             [ngClass]="{
