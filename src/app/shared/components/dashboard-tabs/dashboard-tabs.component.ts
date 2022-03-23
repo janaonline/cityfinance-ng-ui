@@ -37,17 +37,9 @@ export class DashboardTabsComponent
   tableView = true;
   TableTitles: any;
   stateName: any;
-  HeaderDataOfBorrowTab() {
-    this.borrowingTabService.getHeaderName().subscribe((res: any) => {
-      this.TableTitles = res.detailsOfInstrument;
-      // console.log("firstTitle", this.firstTitle);
-    });
-  }
-  ColumnDataOfBorrowTab() {
-    this.borrowingTabService.getColumnData().subscribe((res: any) => {
-      console.log("ColumnData", res?.data);
-    });
-  }
+
+  @Input()
+  yearListForDropDown;
   @Input()
   mySelectedYears;
   @Input()
@@ -207,7 +199,6 @@ export class DashboardTabsComponent
   // stateMap = json.parse(localStorage.getItem(stateIdsMap))
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   changeTab(event, fromInner = false) {
-    debugger;
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
     console.log("value ==>", value);
 
@@ -233,8 +224,6 @@ export class DashboardTabsComponent
     if (this.data) {
       this.changeTab(this?.data[0]);
     }
-    this.HeaderDataOfBorrowTab();
-    // this.ColumnDataOfBorrowTab();
     console.log("innertab value", this.innerActiveTab);
   }
 

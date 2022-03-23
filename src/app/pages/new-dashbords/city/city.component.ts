@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { NewDashboardService } from "../new-dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CityService } from "./city.service";
+import { AuthService } from "../../../auth/auth.service";
 
 @Component({
   selector: "app-city",
@@ -12,7 +13,8 @@ export class CityComponent implements OnInit {
   constructor(
     public newDashboardService: NewDashboardService,
     private _activatedRoute: ActivatedRoute,
-    private cityService: CityService
+    private cityService: CityService,
+    private authService: AuthService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.cityId = param.cityId;
@@ -31,6 +33,7 @@ export class CityComponent implements OnInit {
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
   currentYear;
+  yearListForDropDown;
   ngOnInit(): void {
     this.dashboardDataCall();
     this.dashboardCalls(this.cityId);
@@ -47,9 +50,16 @@ export class CityComponent implements OnInit {
           console.log(error);
         }
       );
+    this.authService.getLastUpdated().subscribe((res) => {
+      Object.assign(this.frontPanelData, {
+        year: res["year"],
+        date: res["data"],
+      });
+    });
   }
 
   dashboardCalls(cityId) {
+    debugger;
     this.newDashboardService.getLatestDataYear(cityId).subscribe(
       (res) => {
         this.currentYear = res["data"].financialYear;
@@ -64,7 +74,19 @@ export class CityComponent implements OnInit {
         tempData = tempData.join(" ");
         this.frontPanelData.footer = tempData;
       },
-      (error) => {}
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.newDashboardService.getYearList().subscribe(
+      (res) => {
+        debugger;
+        this.yearListForDropDown = res["data"];
+      },
+      (error) => {
+        debugger;
+        console.log(error);
+      }
     );
     this.newDashboardService
       .dashboardInformation(true, cityId, "ulb", "")
@@ -102,7 +124,7 @@ export class CityComponent implements OnInit {
         }
       );
     this.newDashboardService
-      .dashboardInformation(false, cityId, "ulb"," ")
+      .dashboardInformation(false, cityId, "ulb", " ")
       .subscribe(
         (res: any) => {
           let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
@@ -110,15 +132,22 @@ export class CityComponent implements OnInit {
             const element = obj[key];
             if (key == "Debt") {
               element.number =
-              'INR ' +  (
+                "INR " +
+                (
                   res.data.find((value) => value._id == "Revenue")?.totalGrant /
                   10000000
-                ).toFixed(2) + "Cr";
+                ).toFixed(2) +
+                "Cr";
             } else
-              element.number = 'INR ' +
-             (res.data.length >0 ? Math.round(
-                  res.data.find((value) => value._id == key)?.amount / 10000000
-                ) : '0' )+ " Cr";
+              element.number =
+                "INR " +
+                (res.data.length > 0
+                  ? Math.round(
+                      res.data.find((value) => value._id == key)?.amount /
+                        10000000
+                    )
+                  : "0") +
+                " Cr";
           }
           this.revenueData = [
             obj.Revenue,

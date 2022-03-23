@@ -1,16 +1,22 @@
 <div class="container-fluid" style="background-color: #f1f8ff">
-   <!--till indicators and map with filter  -->
-  <div class="row pad">
-      <!-- got to state /national dashboard -->
+    <!--till indicators and map with filter  -->
+    <div class="row pad">
+        <!-- got to state /national dashboard -->
         <div class="col-sm-12" [ngClass]="{'col-md-7': data.showMap, 'col-12':!data.showMap}">
-            <div class="row">
+            <div class="row" style="align-items: baseline;">
                 <a *ngIf="data.linkName" class="link mb-6" style="cursor: pointer;" href="{{ data.link }}">Go To {{ data.linkName }}</a
         >
         <!-- state name and description line -->
-        <div class="col-12 col-md-8 head">
+        <div class="col-9 col-md-8 head">
           <span class="header mt-2 mb-1">{{ data.name }}</span>
           <br />
-          
+
+        </div>
+        <div class="col-3 col-md-4" *ngIf="data?.name == 'National Financial Dashboard'">
+           <select class="form-select w-75" name="" id="" (change)="stateChanges($event.target.value)">
+             <option value="">India</option>
+             <option [value]="item?._id" *ngFor="let item of stateList">{{item?.name}}</option>
+           </select>
         </div>
         <span class="description">{{ data.desc }}</span>
       </div>
@@ -20,7 +26,7 @@
           <h6 class="b">{{ item.value }}</h6>
           <span class="subtitle" >{{item.title}}</span><sup *ngIf="item?.super">*</sup>
         </div>
-      <div class="disclaim">{{data?.disclaimer}}</div> 
+      <div class="disclaim">{{data?.disclaimer}}</div>
       </div>
     </div>
     <!-- map with filter -->
@@ -34,7 +40,7 @@
       <div class="col-md-7">
         <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
         <p class="da-para">
-          {{ dataAvailable }}% of the state's ULBs have uploaded their financial statements for the year 
+          {{ dataAvailable }}% of the state's ULBs have uploaded their financial statements for the year
           {{ yearVal }}.
           <span *ngIf="notFoundNames.length > 0">
             Data is not available for
@@ -45,7 +51,7 @@
             data is available for the year {{ yearVal }}.
           </span>
           <span class="three-dots" *ngIf="showButton">...</span>
-         
+
         </p>
         <button
           (click)="downloadCSV('data-availability')"
@@ -63,16 +69,16 @@
       <div class="col-md-5 d-flex justify-content-center">
         <div class="doughnut-container">
           <div *ngIf="dataAvailLoading" style="text-align: center;" >Loading...</div>
-   
+
           <canvas  id="myChart1" width="100%"> </canvas>
-         
+
           <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
             {{ financialYear?.data?.percent }}%
           </p>
           <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">Data Availability
           </p>
           <p class="yearText text-center">({{yearVal}})</p>
-         
+
         </div>
       </div>
     </div>

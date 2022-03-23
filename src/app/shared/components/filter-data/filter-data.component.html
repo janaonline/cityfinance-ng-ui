@@ -19,13 +19,14 @@
                 <app-pre-loader></app-pre-loader>
             </div>
             <div class="" >
-                <app-revenuechart [chartTitle]="chartTitle" [ChartOptions]="chartOptions" [chartDialogues]="true" [btnBesideText]="true"
+                <app-revenuechart [yearList]="yearListForDropDown" [chartTitle]="chartTitle" [ChartOptions]="chartOptions"
+                    [chartDialogues]="true" [btnBesideText]="true"
                     *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId"
                     (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart"
                     [headerActions]="headerActions"></app-revenuechart>
             </div>
-            <div class="" *ngIf="tabName == 'Revenue Mix'">
-                <app-common-charts-graphs></app-common-charts-graphs>
+            <div class="" *ngIf="(tabName == 'Revenue Mix') || (tabName == 'Revenue Expenditure Mix')">
+                <app-common-charts-graphs [chartData]="mixData" (actionClicked)="actionFromChart($event)"></app-common-charts-graphs>
             </div>
 
         </div>

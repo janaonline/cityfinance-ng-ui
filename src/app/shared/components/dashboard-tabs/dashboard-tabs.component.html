@@ -1,77 +1,38 @@
 <div class="container-fluid">
-  <div class="row">
-    <div
-      *ngIf="sticky == true"
-      class="col-sm-12"
-      style="
-        position: fixed;
-        top: 0;
-        background-color: white;
-        z-index: 200;
-        width: 100vw;
-      "
-    >
-      <div
-        class="px-4"
-        style="
-          background-color: #e5fff1;
-          color: #0fa755;
-          text-align: center;
-          width: 25em;
-          margin: 0 auto;
-          border-radius: 6px;
-          font-size: 0.7em;
-          margin-top: 10px;
-          margin-bottom: 10px;
-        "
-      >
-        {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}%
-        (2020-2021)
-      </div>
-      <ul
-        style="justify-content: center"
-        class="nav nav-pills mb-3"
-        id="pills-tab"
-        role="tablist"
-      >
-        <li
-          *ngFor="let tab of data; let i = index"
-          class="nav-item"
-          role="presentation"
-          style="cursor: pointer"
-        >
-          <button
-            [ngClass]="{
-              roundEdge: i == 0,
-              roundEdge2: i == data.length - 1,
-              active: i == 0
-            }"
-            class="nav-link pd"
-            [id]="tab.name"
-            data-bs-toggle="pill"
-            [data-bs-target]="tab"
-            type="button"
-            role="tab"
-            [aria-controls]="tab"
-            (click)="changeTab($event)"
-            value="{{ tab | json }}"
-          >
-            {{ tab.name }}
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="container-fluid">
   <div
     class="container-cnt"
     style="justify-content: center"
     *ngIf="data?.length > 0"
   >
-    <div class="row">
-      <div class="col-sm-12">
+    <!-- <div class="row">
+      <div
+        *ngIf="sticky == true"
+        class="col-sm-12"
+        style="
+          position: fixed;
+          top: 0;
+          background-color: white;
+          z-index: 200;
+          width: 100vw;
+        "
+      >
+        <div
+          class="px-4"
+          style="
+            background-color: #e5fff1;
+            color: #0fa755;
+            text-align: center;
+            width: 22rem;
+            margin: 0 auto;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          "
+        >
+          {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}%
+          (2020-2021)
+        </div>
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
           <li
             *ngFor="let tab of data; let i = index"
@@ -98,6 +59,55 @@
             </button>
           </li>
         </ul>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div [ngClass]="{ stickyClass: sticky == true }">
+          <div
+            class="px-4"
+            style="
+              background-color: #e5fff1;
+              color: #0fa755;
+              text-align: center;
+              width: 22rem;
+              margin: 0 auto;
+              border-radius: 6px;
+              font-size: 0.8rem;
+              margin-top: 10px;
+              margin-bottom: 10px;
+            "
+          >
+            {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}%
+            (2020-2021)
+          </div>
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li
+              *ngFor="let tab of data; let i = index"
+              class="nav-item"
+              role="presentation"
+            >
+              <button
+                [ngClass]="{
+                  roundEdge: i == 0,
+                  roundEdge2: i == data.length - 1,
+                  active: i == 0
+                }"
+                class="nav-link pd"
+                [id]="tab.name"
+                data-bs-toggle="pill"
+                [data-bs-target]="tab"
+                type="button"
+                role="tab"
+                [aria-controls]="tab"
+                (click)="changeTab($event)"
+                value="{{ tab | json }}"
+              >
+                {{ tab.name }}
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -140,6 +150,8 @@
         <div [ngSwitch]="DashBoardType">
           <div *ngSwitchCase="'city'">
             <app-filter-data
+              [yearListForDropDown]="yearListForDropDown"
+              [mySelectedYears]="mySelectedYears"
               [currentUlb]="cityId"
               [data]="innerActiveTab"
             ></app-filter-data>
@@ -181,13 +193,17 @@
         </div>
       </div>
       <div *ngSwitchCase="'Infrastructure & Borrowing'">
-        <div *ngIf="innerActiveTab.name == 'Borrowing'">
-          <app-accordion-to-table></app-accordion-to-table>
-        </div>
-        <div *ngIf="innerActiveTab.name == 'Credit Rating'">
-          <div [ngSwitch]="DashBoardType">
-            <div *ngSwitchCase="'state'">
-              <app-new-credit-rating></app-new-credit-rating>
+        <div [ngSwitch]="DashBoardType">
+          <div *ngSwitchCase="'state'">
+            <div *ngIf="innerActiveTab.name == 'Borrowing'">
+              <app-accordion-to-table></app-accordion-to-table>
+            </div>
+            <div *ngIf="innerActiveTab.name == 'Credit Rating'">
+              <div [ngSwitch]="DashBoardType">
+                <div *ngSwitchCase="'state'">
+                  <app-new-credit-rating></app-new-credit-rating>
+                </div>
+              </div>
             </div>
           </div>
         </div>

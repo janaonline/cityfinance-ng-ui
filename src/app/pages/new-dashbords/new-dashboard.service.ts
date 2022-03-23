@@ -15,8 +15,9 @@ export class NewDashboardService {
     let request = "";
     if (ifPeople)
       request = `${environment.api.url}all-dashboard/people-information?year=${year}`;
-    else request = `${environment.api.url}all-dashboard/money-information?year=${year}`;
-    
+    else
+      request = `${environment.api.url}all-dashboard/money-information?year=${year}`;
+
     if (type == "ulb") {
       request += `&ulb=${ulbOrStateid}`;
     } else request += `&state=${ulbOrStateid}`;
@@ -32,6 +33,12 @@ export class NewDashboardService {
   getLatestDataYear(ulb) {
     return this.http.get(
       `${environment.api.url}all-dashboard/latest-year?ulb=${ulb}`
+    );
+  }
+
+  getYearList() {
+    return this.http.get(
+      `${environment.api.url}all-dashboard/latest-year/list`
     );
   }
 }
