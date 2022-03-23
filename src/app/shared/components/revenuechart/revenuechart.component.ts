@@ -42,20 +42,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     data: {
       datasets: [
         {
-          label: "Muncipality",
+          label: "Municipality",
           data: [
-            { x: 12, y: 12 },
-            { x: 12, y: 4 },
-            { x: 4, y: 6 },
-            { x: 6, y: 9 },
-            {
-              x: 50,
-              y: 20,
-            },
-            {
-              x: 10,
-              y: 10,
-            },
+           
           ],
           showLine: false,
           fill: true,
@@ -63,20 +52,9 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
           backgroundColor: "#1EBFC6",
         },
         {
-          label: "Muncipal Corporation",
+          label: "Municipal Corporation",
           data: [
-            { x: 9, y: 12 },
-            { x: 8, y: 4 },
-            { x: 24, y: 6 },
-            { x: 8, y: 9 },
-            {
-              x: 30,
-              y: 20,
-            },
-            {
-              x: 15,
-              y: 10,
-            },
+            
           ],
           showLine: false,
           fill: true,
@@ -86,18 +64,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         {
           label: "Town Panchayat",
           data: [
-            { x: 21, y: 12 },
-            { x: 10, y: 4 },
-            { x: 18, y: 6 },
-            { x: 16, y: 9 },
-            {
-              x: 30,
-              y: 20,
-            },
-            {
-              x: 15,
-              y: 10,
-            },
+           
           ],
           showLine: false,
           fill: true,
@@ -150,10 +117,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
             display: true,
             labelString: "Population",
           },
-          ticks: {
-            min: 0,
-            max: 50,
-          },
+         
           offset: true,
         },
       ],
@@ -167,10 +131,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
             offsetGridLines: true,
             display: false,
           },
-          ticks: {
-            min: 0,
-            max: 30,
-          },
+         
           offset: true,
         },
       ],
@@ -313,50 +274,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data[0]) {
-      //   Chart.pluginService.register({
-      //     beforeRender: function (chart) {
-      //         if (chart.config.options['showAllTooltips']) {
-      //             // create an array of tooltips
-      //             // we can't use the chart tooltip because there is only one tooltip per chart
-      //             chart['pluginTooltips'] = [];
-      //             chart.config.data['datasets'].forEach(function (dataset, i) {
-      //                 chart.getDatasetMeta(i).data.forEach(function (sector, j) {
-      //                     chart['pluginTooltips'].push(new Chart.Tooltip({
-      //                         _chart: chart['chart'],
-      //                         _chartInstance: chart,
-      //                         _data: chart.data,
-      //                         _options: chart.options,
-      //                         _active: [sector]
-      //                     }, chart));
-      //                 });
-      //             });
-
-      //             // turn off normal tooltips
-      //             chart.options.tooltips.enabled = false;
-      //         }
-      //     },
-      //     afterDraw: function (chart, easing) {
-      //         if (chart.options['showAllTooltips']) {
-      //             // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-      //             if (!chart['allTooltipsOnce']) {
-      //                 if (easing !== 1)
-      //                     return;
-      //                 chart['allTooltipsOnce'] = true;
-      //             }
-
-      //             // turn on tooltips
-      //             chart.options.tooltips.enabled = true;
-      //             Chart.helpers.each(chart['pluginTooltips'], function (tooltip) {
-      //                 tooltip.initialize();
-      //                 tooltip.update();
-      //                 // we don't actually need this since we are not animating tooltips
-      //                 tooltip.pivot();
-      //                 tooltip.transition(easing).draw();
-      //             });
-      //             chart.options.tooltips.enabled = false;
-      //         }
-      //     }
-      // });
+  
       let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
       let ctx = canvas.getContext("2d");
       this.myChart = new Chart(ctx, this.chartData);

@@ -43,7 +43,7 @@
                 <!-- <div class="pe-0 justify-content-end"> -->
                 <input
                   type="text"
-                  placeholder="Type here..."
+                  placeholder="Search for ULB names"
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
                   class="fl-input form-control w-100"
@@ -86,8 +86,7 @@
   <div class="row">
     <div class="col-md-12">
       <app-revenuechart
-        [headerActions]="headerActions"
-        [chartId]="'StateScatterCahrtId'"
+        [chartId]="scatterChartId123"
         [chartData]="scatterData"
       ></app-revenuechart>
     </div>
@@ -155,7 +154,7 @@
         [chartTitle]="
           'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
         "
-        [chartId]="'TopBarChartData'"
+        [chartId]="topBarChartId234"
         [chartData]="barData"
       ></app-revenuechart>
       <app-revenuechart
@@ -164,7 +163,7 @@
         [chartTitle]="
           'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
         "
-        [chartId]="'BottomBarChartData'"
+        [chartId]="bottomBarChartId456"
         [chartData]="bottomBarData"
       ></app-revenuechart>
     </div>

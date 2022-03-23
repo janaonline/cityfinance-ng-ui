@@ -5,7 +5,7 @@ import { StateFilterDataService } from "./state-filter-data.service";
 import { FormControl } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
 import { Observable } from "rxjs";
-
+import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
@@ -35,22 +35,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   scatterData = {
     type: "scatter",
     data: {
+      labels:['sfds','sf','sdfsf'],
       datasets: [
         {
-          label: "Muncipality",
+          label: "Municipality",
           data: [
-            { x: 12, y: 12 },
-            { x: 12, y: 4 },
-            { x: 4, y: 6 },
-            { x: 6, y: 9 },
-            {
-              x: 50,
-              y: 20,
-            },
-            {
-              x: 10,
-              y: 10,
-            },
+           
           ],
           showLine: false,
           fill: true,
@@ -58,20 +48,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           backgroundColor: "#1EBFC6",
         },
         {
-          label: "Muncipal Corporation",
+          label: "Municipal Corporation",
           data: [
-            { x: 9, y: 12 },
-            { x: 8, y: 4 },
-            { x: 24, y: 6 },
-            { x: 8, y: 9 },
-            {
-              x: 30,
-              y: 20,
-            },
-            {
-              x: 15,
-              y: 10,
-            },
+          
           ],
           showLine: false,
           fill: true,
@@ -81,18 +60,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         {
           label: "Town Panchayat",
           data: [
-            { x: 21, y: 12 },
-            { x: 10, y: 4 },
-            { x: 18, y: 6 },
-            { x: 16, y: 9 },
-            {
-              x: 30,
-              y: 20,
-            },
-            {
-              x: 15,
-              y: 10,
-            },
+           
           ],
           showLine: false,
           fill: true,
@@ -102,8 +70,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         {
           label: "National Average",
           data: [
-            { x: 0, y: 12 },
-            { x: 50, y: 12 },
+          
           ],
           showLine: true,
           fill: false,
@@ -112,8 +79,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         {
           label: "State Average",
           data: [
-            { x: 0, y: 8 },
-            { x: 50, y: 8 },
+           
           ],
           showLine: true,
           fill: false,
@@ -214,7 +180,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
-    private _commonServices: CommonService
+    private _commonServices: CommonService,
+    public _loaderService: GlobalLoaderService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -240,13 +207,77 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getScatterData() {
+    this._loaderService.showLoader()
+    let dummyPayload = {
+      "state":"5dcf9d7216a06aed41c748e2",
+      "financialYear":"2016-17",
+      "headOfAccount":"Revenue",
+      "filterName":"revenue"
+    }
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService
-      .getScatterdData(this.stateId, this.revenueId)
-      .subscribe((res) => console.log("response data", res));
-  }
+      .getScatterdData(dummyPayload)
+      .subscribe((res) =>{
+        this._loaderService.stopLoader()
+        console.log("response data", res)
+    let mCorporation = res['mCorporation'];
+    let tp_data = res['townPanchayat'];
+    let m_data = res['municipality']
+    let natData = res['natAvg'][0]['average']
+    let stateData = res['stateAvg'][0]['average']
 
+
+    this.scatterData.data.datasets.forEach(el=>{
+      let obj = {x:0,y:0}
+      if(el.label == 'Town Panchayat'){
+        obj = {x:0,y:0}
+        tp_data.forEach((el2,index)=>{
+obj.x = el2.population
+obj.y = el2.totalRevenue
+el.data.push(obj)
+obj = {x:0,y:0}
+        })
+       
+    
+      }else  if(el.label == 'Municipal Corporation'){
+        mCorporation.forEach((el2,index)=>{
+         
+          obj.x = el2.population
+          obj.y = el2.totalRevenue
+          el.data.push(obj)
+          obj = {x:0,y:0}
+                  })
+      }else  if(el.label == 'Municipality'){
+        m_data.forEach((el2,index)=>{
+          obj = {x:0,y:0}
+          obj.x = el2.population
+          obj.y = el2.totalRevenue
+          el.data.push(obj)
+          obj = {x:0,y:0}
+                  })
+    
+      } else if(el.label == 'National Average'){
+el['data']['y'] = natData
+
+      }else if(el.label == 'State Average'){
+        el['data']['y'] = stateData
+      }
+    })
+    console.log(this.scatterData)
+    this.generateRandomId('scatterChartId123')
+    this.scatterData = {...this.scatterData}; 
+   
+      }, (err)=>{
+        this._loaderService.stopLoader()
+        console.log(err.message)
+      } );
+  }
+  generateRandomId(name) {
+    let number = Math.floor(Math.random() * 100);
+    let newId = number + name;
+    return newId;
+  }
   getSelectedFinancialYear(event) {
     console.log("financial year", event.target.value);
     this.financialYear = event.target.value;

@@ -127,6 +127,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   apiCall;
 
   getChartData(data = {}) {
+    if(this.headOfAccount == ""){
+      this.headOfAccount = 'Tax'
+    }
     let body = {
       ulb: [],
       financialYear: [],
@@ -137,7 +140,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
-      body.filterName = "property_tax";
+         body.filterName = "property_tax";
 
     let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
     body.ulb = [...ulbsToCompare, this.currentUlb];
@@ -217,12 +220,10 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     let newData = JSON.parse(JSON.stringify(barChartStatic));
-
     newData.data.labels = res["data"].ulbData.map(
       (value) => value._id.financialYear
     );
     newData.data.labels = [...new Set(newData.data.labels)];
-
     let temp = {},
       index = 0;
     for (const key in res["data"]) {

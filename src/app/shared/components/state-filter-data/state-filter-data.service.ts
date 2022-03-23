@@ -8,11 +8,10 @@ import { environment } from "../../../../environments/environment";
 export class StateFilterDataService {
   constructor(private http: HttpClient) {}
 
-  getScatterdData(revenueId, stateIds) {
+  getScatterdData(payload) {
     return this.http.post(
-      environment.api.url + "/topPerformance",
-      revenueId,
-      stateIds
+      environment.api.url + "/state-revenue",
+      payload
     );
   }
 

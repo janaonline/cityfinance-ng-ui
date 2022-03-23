@@ -12,6 +12,7 @@ import * as fileSaver from "file-saver";
 import {OwnRevenueService} from '../../../pages/own-revenue-dashboard/own-revenue.service'
 import Chart from "chart.js";
 import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
+import { CommonService } from "../../services/common.service";
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -51,6 +52,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
   cardStyle = cardStyle;
   @Input()
+  componentName;
+  @Input()
   mapConfig = {
     showStateList: false,
     showDistrictList: false,
@@ -67,22 +70,34 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   yearValue = new EventEmitter();
 
   @Output()
-  dataAvailEmit = new EventEmitter();
+  dataAvailEmit  = new EventEmitter()
   dataAvailLoading = false;
   financialYear;
   availValue;
   dataAvailable;
+  stateList;
   notFoundNames = [];
   showButton: boolean = true;
   constructor(
     public ownRevenueService: OwnRevenueService,
-    public _loaderService: GlobalLoaderService
+    public _loaderService: GlobalLoaderService,
+    public _commonServices : CommonService
+
   ) {
     this.yearValue.emit("2019-20");
   }
 
   ngOnInit(): void {
     this.getAvailableData();
+    this._commonServices.fetchStateList().subscribe((res: any)=>{
+     // console.log('res', res);
+      this.stateList = res;
+     },
+     (error)=>{
+       console.log(error)
+     });
+     console.log('component name.......', this.componentName);
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
@@ -91,30 +106,31 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this.getAvailableData();
     this.changeInStateOrCity.emit(event);
   }
-  yearVal = "2019-20";
-  ulbId;
+yearVal = '2019-20'
+ulbId
   downloadCSV(from) {
-    this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
-      (res: any) => {
-        let blob: any = new Blob([res], {
-          type: "text/json; charset=utf-8",
-        });
-        const url = window.URL.createObjectURL(blob);
 
-        fileSaver.saveAs(blob, "dataAvaliable.xlsx");
-      },
-      (error) => {}
-    );
+      this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+        (res: any) => {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+
+          fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+        },
+        (error) => {}
+      );
+
   }
   getAvailableData() {
-    if (!this.showDataAvailable) return;
-    this._loaderService.showLoader();
-    this.dataAvailLoading = true;
+    this._loaderService.showLoader()
+    this.dataAvailLoading  = true
 
-    let obj = {
-      financialYear: this.yearVal,
-      stateId: this.data.stateId,
-    };
+  let obj = {
+    financialYear: this.yearVal,
+    stateId: this.data.stateId
+  }
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
         this._loaderService.stopLoader();
@@ -123,8 +139,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
-        this.availValue = res["data"]?.percent;
-        this.halfDoughnutChart();
+      this.availValue =  res["data"]?.percent
+          this.halfDoughnutChart();
+
 
         this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);

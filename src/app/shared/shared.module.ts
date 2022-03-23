@@ -80,6 +80,7 @@ import { NewCreditRatingComponent } from "./components/dashboard-tabs/new-credit
 import { NewCityCreditRatingComponent } from "./components/dashboard-tabs/new-city-credit-rating/new-city-credit-rating.component";
 import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component";
 import { CommonChartsGraphsComponent } from './components/common-charts-graphs/common-charts-graphs.component';
+import { UlbCompareDailogComponent } from './components/common-charts-graphs/ulb-compare-dailog/ulb-compare-dailog.component';
 
 
 @NgModule({
@@ -111,6 +112,7 @@ import { CommonChartsGraphsComponent } from './components/common-charts-graphs/c
     MatCardModule,
     MatTableModule,
     NgxPaginationModule,
+
   ],
   declarations: [
     PreLoaderComponent,
@@ -162,6 +164,8 @@ import { CommonChartsGraphsComponent } from './components/common-charts-graphs/c
     NewCityCreditRatingComponent,
     SlbChartsComponent,
     CommonChartsGraphsComponent,
+    UlbCompareDailogComponent,
+
   ],
   exports: [
     FormsModule,

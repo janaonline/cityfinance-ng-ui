@@ -15,9 +15,10 @@ export class NationalComponent implements OnInit {
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   tabAboutData;
-
+  component_name;
 
   ngOnInit(): void {
+    this.component_name = 'National';
   }
 
 loadData(){
