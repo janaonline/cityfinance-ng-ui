@@ -241,49 +241,51 @@
             </div>
           </div>
         </div>
+
+        <!--- revenuechart compare end-->
       </div>
-
-      <!--- revenuechart compare end-->
     </div>
-  </div>
-  <!-- </div> -->
-  <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
 
-  <!--- revenuechart compare end-->
-  <!-- </div> -->
-  <!-- </div> -->
+    <!--- revenuechart compare end-->
+    <!-- </div> -->
+    <!-- </div> -->
 
-  <div class="row">
-    <div class="col-12 mb-2">
-      <!-- <mat-chip-list> -->
-      <mat-chip
-        *ngFor="let chips of ulbListChip"
-        (click)="remove(chips)"
-        class="chipsDiv"
-      >
-        {{
-          chips.name.length > 10 ? chips.name.slice(0, 10) + "..." : chips.name
-        }}
-        <button matChipRemove>
-          <mat-icon class="cancleIcon">cancel</mat-icon>
-        </button>
-      </mat-chip>
-      <!-- </mat-chip-list> -->
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-12 justify-content-center m-auto d-flex">
-      <div class="lastButtons">
-        <button (click)="reset()">Reset</button>
-      </div>
-      <div class="lastButtons">
-        <button
-          (click)="emitValues()"
-          style="border: 1px solid #e67e15; color: #e67e15"
+    <div class="row">
+      <div class="col-12 mb-2">
+        <!-- <mat-chip-list> -->
+        <mat-chip
+          *ngFor="let chips of ulbListChip"
+          (click)="remove(chips)"
+          class="chipsDiv"
         >
-          Apply
-        </button>
+          {{
+            chips.name.length > 10
+              ? chips.name.slice(0, 10) + "..."
+              : chips.name
+          }}
+          <button matChipRemove>
+            <mat-icon class="cancleIcon">cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <!-- </mat-chip-list> -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 justify-content-center m-auto d-flex">
+        <div class="lastButtons">
+          <button (click)="reset()">Reset</button>
+        </div>
+        <div class="lastButtons">
+          <button
+            (click)="emitValues()"
+            style="border: 1px solid #e67e15; color: #e67e15"
+          >
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   </div>
