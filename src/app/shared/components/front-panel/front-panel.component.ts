@@ -21,16 +21,16 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
   data = {
     showMap: true,
-    stateId:"",
-    date:"",
-    year:"",
+    stateId: "",
+    date: "",
+    year: "",
     name: "",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
     finance: "",
     link: "",
     linkName: "",
     footer: ``,
-    disclaimer:"",
+    disclaimer: "",
     dataIndicators: [
       // {
       //   value: "0 Million",
@@ -44,6 +44,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       // },
     ],
   };
+  @Input()
+  showDataAvailable = false;
   @Input()
   cardData = [revenue, expenditure, assets, liabilities, tax_revenue, grants];
   @Input()
@@ -62,121 +64,112 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Output()
   changeInStateOrCity = new EventEmitter();
   @Output()
-  yearValue  = new EventEmitter()
+  yearValue = new EventEmitter();
 
   @Output()
-  dataAvailEmit  = new EventEmitter()
-  dataAvailLoading = false
-  financialYear
-  availValue
-  dataAvailable
-  notFoundNames = []
+  dataAvailEmit = new EventEmitter();
+  dataAvailLoading = false;
+  financialYear;
+  availValue;
+  dataAvailable;
+  notFoundNames = [];
   showButton: boolean = true;
   constructor(
     public ownRevenueService: OwnRevenueService,
     public _loaderService: GlobalLoaderService
   ) {
-    this.yearValue.emit('2019-20');
+    this.yearValue.emit("2019-20");
   }
 
   ngOnInit(): void {
-    this.getAvailableData()
-    
+    this.getAvailableData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
 
   changeInMapFilter(event) {
-    this.getAvailableData()
+    this.getAvailableData();
     this.changeInStateOrCity.emit(event);
   }
-yearVal = '2019-20'
-ulbId 
+  yearVal = "2019-20";
+  ulbId;
   downloadCSV(from) {
-   
-      this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
-        (res: any) => {
-          let blob: any = new Blob([res], {
-            type: "text/json; charset=utf-8",
-          });
-          const url = window.URL.createObjectURL(blob);
+    this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+      (res: any) => {
+        let blob: any = new Blob([res], {
+          type: "text/json; charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(blob);
 
-          fileSaver.saveAs(blob, "dataAvaliable.xlsx");
-        },
-        (error) => {}
-      );
-    
+        fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+      },
+      (error) => {}
+    );
   }
   getAvailableData() {
-    this._loaderService.showLoader()
-    this.dataAvailLoading  = true
-   
-  let obj = {
-    financialYear: this.yearVal,
-    stateId: this.data.stateId
-  }
+    if (!this.showDataAvailable) return;
+    this._loaderService.showLoader();
+    this.dataAvailLoading = true;
+
+    let obj = {
+      financialYear: this.yearVal,
+      stateId: this.data.stateId,
+    };
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
-        this._loaderService.stopLoader()
-        this.dataAvailLoading  = false
-this.dataAvailEmit.emit(res)
+        this._loaderService.stopLoader();
+        this.dataAvailLoading = false;
+        this.dataAvailEmit.emit(res);
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
-      this.availValue =  res["data"]?.percent
-          this.halfDoughnutChart();
-       
-       
+        this.availValue = res["data"]?.percent;
+        this.halfDoughnutChart();
+
         this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);
       },
       (err) => {
-        this._loaderService.stopLoader()
-        this.dataAvailLoading  = false
+        this._loaderService.stopLoader();
+        this.dataAvailLoading = false;
         console.log("error", err);
       }
     );
   }
 
-  myChart: any
+  myChart: any;
   halfDoughnutChart() {
-    if(this.myChart){
+    if (this.myChart) {
       this.myChart.destroy();
     }
-    
-    this.dataAvailable = this.availValue;
-  
-      const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
-      const ctx = canvas.getContext("2d");
-       this.myChart = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: [
-            'Data available',
-            'Data not available'
-          ],
-          datasets: [
-            {
-              label: "Availability",
-              borderWidth: 0,
-              data: [this.dataAvailable, 100 - this.dataAvailable],
-              backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
-            },
-          ],
-        },
-        options: {
-          
-          rotation: 1 * Math.PI,
-          circumference: 1 * Math.PI,
-          legend: {
-            display: false,
-          },
-          cutoutPercentage: 75,
-        },
-      });
-    
-  }
 
+    this.dataAvailable = this.availValue;
+
+    const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
+    const ctx = canvas.getContext("2d");
+    this.myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Data available", "Data not available"],
+        datasets: [
+          {
+            label: "Availability",
+            borderWidth: 0,
+            data: [this.dataAvailable, 100 - this.dataAvailable],
+            backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
+          },
+        ],
+      },
+      options: {
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        legend: {
+          display: false,
+        },
+        cutoutPercentage: 75,
+      },
+    });
+  }
 }
 
 

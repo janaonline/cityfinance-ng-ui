@@ -90,7 +90,6 @@ export class SharedCompareTableComponent implements OnInit {
         let newKey = `${item.ulb_code}${budget.year}`;
         let dividervalue: any;
         if (this.selectedCurrency) {
-          // debugger;
           dividervalue = parseInt(this.selectedCurrency);
         } else {
           dividervalue = 10000000;

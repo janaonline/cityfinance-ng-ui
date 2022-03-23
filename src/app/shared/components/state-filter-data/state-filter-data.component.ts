@@ -190,7 +190,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     {
-      name: "share/embed",
+      name: "Share/Embed",
       svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];

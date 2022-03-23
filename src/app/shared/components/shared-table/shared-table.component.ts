@@ -133,7 +133,6 @@ export class SharedTableComponent implements OnInit, OnChanges {
   getSelectedCurrency() {}
 
   getAmountVal() {
-    debugger;
     this.tableData = this.tableData?.map((element) => {
       let temp = {
         "2015-16": "N/A",
@@ -145,7 +144,6 @@ export class SharedTableComponent implements OnInit, OnChanges {
       element.budget.map((value) => {
         let dividervalue: any;
         if (this.selectedCurrency) {
-          // debugger;
           dividervalue = parseInt(this.selectedCurrency);
         } else {
           dividervalue = 10000000;

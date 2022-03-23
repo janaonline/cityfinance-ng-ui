@@ -246,7 +246,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     //   svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
     // },
     {
-      name: "download",
+      name: "Download",
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     // {
