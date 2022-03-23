@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { ActivatedRoute } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
@@ -20,6 +20,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   nationalFilter = new FormControl();
 
   filteredOptions: Observable<any[]>;
+  lastSelectedId: number = 0;
+  ActiveButton: any;
+  filterName: any;
+  tabName: any;
+  headOfAccount: any;
+  chartId = `stateSCharts-${Math.random()}`;
+  financialYear;
+
+  isPerCapita = false;
 
   @Input() data;
 
@@ -164,7 +173,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
     {
-      name: "share/embed",
+      name: "Share/Embed",
       svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
     },
   ];
@@ -196,12 +205,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   showBottomGraph() {
     this.BarGraphValue = false;
-  }
-
-  generateRandomId(name) {
-    let number = Math.floor(Math.random() * 100);
-    let newId = number + name;
-    return newId;
   }
 
   getScatterData() {
@@ -272,13 +275,89 @@ el['data'][1]['y'] = natData
       } );
   }
 
+  getSelectedFinancialYear(event) {
+    console.log("financial year", event.target.value);
+    this.financialYear = event.target.value;
+  }
+
+  changeActiveBtn(i) {
+    // debugger;
+    console.log(this.data.btnLabels[i], "activeBTN");
+    this.ActiveButton = this.data.btnLabels[i];
+    this.lastSelectedId = i;
+
+    // let id = `btn-${i}`;
+    // if (this.lastSelectedId) {
+    //   document
+    //     .getElementById(this.lastSelectedId)
+    //     ?.classList.remove("selected");
+    //   document.getElementById(this.lastSelectedId)?.classList.add("deSelected");
+    // }
+    // document.getElementById(id)?.classList?.add("selected");
+    // document.getElementById(id)?.classList?.remove("deSelected");
+
+    this.isPerCapita = this.data.btnLabels[i]
+      .toLocaleLowerCase()
+      .split(" ")
+      .join("")
+      .includes("percapita");
+    let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
+
+    if (newName.includes("mix"))
+      this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    else if (newName.includes("revenue") && !newName.includes("own"))
+      this.filterName = "revenue";
+    else if (newName.includes("own") && newName.includes("revenue"))
+      this.filterName = newName;
+    else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+  }
+
   getRevenueId() {
     this.stateFilterDataService
       .getRevID()
       .subscribe((res) => console.log("revenue ==>", res));
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // debugger;
+    // console.log("changes=>", changes);
+    if (changes.data) {
+      this.tabName = this.data.name.toLocaleLowerCase();
+      this.data = {
+        ...this.data["mainContent"][0],
+        filterName: this.data.name,
+      };
+      // this.changeActiveBtn(0);
+      // debugger;
+      // this.aboutIndicators = this.data["static"].indicators;
+      setTimeout(() => {
+        if (this.data.btnLabels.length) this.changeActiveBtn(0);
+        // this.getChartData({});
+      }, 0);
+      this.setHeadOfAccount();
+    }
+
+    console.log(
+      "payloadData===>",
+      this.filterName,
+      this.headOfAccount,
+      this.isPerCapita
+    );
+
+    // console.log("this.barChart", this.barChart);
+  }
+
+  setHeadOfAccount() {
+    let name = this.data["filterName"].toLocaleLowerCase().split(" ");
+    this.headOfAccount = name.includes("revenue")
+      ? "Revenue"
+      : name.includes("expenditure")
+      ? "Expense"
+      : "Tax";
+  }
+
   ngOnInit(): void {
+    this.changeActiveBtn(0);
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices
@@ -301,14 +380,8 @@ el['data'][1]['y'] = natData
         return null;
       }
     });
-    console.log(
-      "this.statecode",
-      this.stateCode[this.stateId],
-      this.ulbStateMapping,
-      this.stateId
-    );
 
-    console.log("this.data===>", this.data);
+    console.log("this.tabName", this.data);
 
     this.getScatterData();
     this.getRevenueId();

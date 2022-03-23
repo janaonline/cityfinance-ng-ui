@@ -41,8 +41,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   tabName;
   CAGR = "";
   positiveCAGR;
+  chartTitle = "total revenues vs State";
   chartOptions;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let cities = JSON.parse(localStorage.getItem("ulbMapping"));
+    this.chartTitle = `${
+      cities[this.currentUlb].name
+    } total revenues vs State ${cities[this.currentUlb].type} Average`;
+  }
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -50,12 +56,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {}
 
   changeActiveBtn(i) {
-    console.log(this.data.btnLabels[i],"activeBTN");
+    console.log(this.data.btnLabels[i], "activeBTN");
     let key = this.data.btnLabels[i].toLowerCase().split(" ").join("_");
-    this.aboutIndicators = this.data["static"].indicators.map(value =>{
-      Object.assign(value,{desc : value[key]})
-      return value
-    })
+    this.aboutIndicators = this.data["static"].indicators.map((value) => {
+      Object.assign(value, { desc: value[key] });
+      return value;
+    });
     let id = `btn-${i}`;
     if (this.lastSelectedId) {
       document
@@ -98,7 +104,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         ...this.data["mainContent"][0],
         filterName: this.data.name,
       };
-      debugger;
       this.aboutIndicators = this.data["static"].indicators;
       setTimeout(() => {
         if (this.data.btnLabels.length) this.changeActiveBtn(0);
@@ -199,7 +204,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         yearData.length
       } years`;
       this.positiveCAGR = CAGR > 0;
-    }else this.CAGR = ""
+    } else this.CAGR = "";
   }
 
   createBarChart(res) {
@@ -545,15 +550,15 @@ const incomingData = {
 
 const headerActions = [
   {
-    name: "expand",
+    name: "Expand",
     svg: "../../../../assets/CIty_detail_dashboard – 3/Icon awesome-expand-arrows-alt.svg",
   },
   {
-    name: "download",
+    name: "Download",
     svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
   },
   {
-    name: "share/embed",
+    name: "Share/Embed",
     svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
   },
 ];

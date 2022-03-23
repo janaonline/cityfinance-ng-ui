@@ -22,16 +22,16 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
   data = {
     showMap: true,
-    stateId:"",
-    date:"",
-    year:"",
+    stateId: "",
+    date: "",
+    year: "",
     name: "",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
     finance: "",
     link: "",
     linkName: "",
     footer: ``,
-    disclaimer:"",
+    disclaimer: "",
     dataIndicators: [
       // {
       //   value: "0 Million",
@@ -45,6 +45,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       // },
     ],
   };
+  @Input()
+  showDataAvailable = false;
   @Input()
   cardData = [revenue, expenditure, assets, liabilities, tax_revenue, grants];
   @Input()
@@ -65,7 +67,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   @Output()
   changeInStateOrCity = new EventEmitter();
   @Output()
-  yearValue  = new EventEmitter()
+  yearValue = new EventEmitter();
 
   @Output()
   dataAvailEmit  = new EventEmitter()
@@ -82,7 +84,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     public _commonServices : CommonService
 
   ) {
-    this.yearValue.emit('2019-20');
+    this.yearValue.emit("2019-20");
   }
 
   ngOnInit(): void {
@@ -101,7 +103,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {}
 
   changeInMapFilter(event) {
-    this.getAvailableData()
+    this.getAvailableData();
     this.changeInStateOrCity.emit(event);
   }
 yearVal = '2019-20'
@@ -131,9 +133,9 @@ ulbId
   }
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
-        this._loaderService.stopLoader()
-        this.dataAvailLoading  = false
-this.dataAvailEmit.emit(res)
+        this._loaderService.stopLoader();
+        this.dataAvailLoading = false;
+        this.dataAvailEmit.emit(res);
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
@@ -145,56 +147,46 @@ this.dataAvailEmit.emit(res)
         console.log("ordResponse", res);
       },
       (err) => {
-        this._loaderService.stopLoader()
-        this.dataAvailLoading  = false
+        this._loaderService.stopLoader();
+        this.dataAvailLoading = false;
         console.log("error", err);
       }
     );
   }
 
-  myChart: any
+  myChart: any;
   halfDoughnutChart() {
-    if(this.myChart){
+    if (this.myChart) {
       this.myChart.destroy();
     }
 
     this.dataAvailable = this.availValue;
 
-      const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
-      const ctx = canvas.getContext("2d");
-       this.myChart = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: [
-            'Data available',
-            'Data not available'
-          ],
-          datasets: [
-            {
-              label: "Availability",
-              borderWidth: 0,
-              data: [this.dataAvailable, 100 - this.dataAvailable],
-              backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
-            },
-          ],
-        },
-        options: {
-
-          rotation: 1 * Math.PI,
-          circumference: 1 * Math.PI,
-          legend: {
-            display: false,
+    const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
+    const ctx = canvas.getContext("2d");
+    this.myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Data available", "Data not available"],
+        datasets: [
+          {
+            label: "Availability",
+            borderWidth: 0,
+            data: [this.dataAvailable, 100 - this.dataAvailable],
+            backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
           },
-          cutoutPercentage: 75,
+        ],
+      },
+      options: {
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        legend: {
+          display: false,
         },
-      });
-
+        cutoutPercentage: 75,
+      },
+    });
   }
-  stateChanges(e){
-    console.log('dropdown changes......', e);
-
-  }
-
 }
 
 

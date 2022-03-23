@@ -4,40 +4,42 @@
 >
   <!-- <div class="col-12 revenuChartContainer d-flex"> -->
   <div class="row">
-    <div class="col-12 col-md-4 col-lg-6 pt-2">
-      <p
-        *ngIf="chartId == 'ownRevenue-doughnutChart'"
-        class="chartHeader"
-        style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%"
-      >
-        Own Revenue Split
-      </p>
-      <p class="p-2" class="chartHeader">
-        {{ chartTitle }}
-      </p>
-    </div>
-    <div
-      *ngIf="!chartDialogues"
-      class="col-12 col-md-2 col-lg-2 btnBesideTitle"
-    >
-      <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
-        Compare
-      </button>
-    </div>
-    <div class="col-6 col-md-3 col-lg-6">
-      <div class="row">
-        <div
-          *ngFor="let item of headerActions; let i = index"
-          class="ml-2 col-2"
+    <div class="d-flex">
+      <div class="col-12 col-md-6 col-lg-6 pt-2">
+        <p
+          *ngIf="chartId == 'ownRevenue-doughnutChart'"
+          class="chartHeader"
+          style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%"
         >
-          <div class="svg" (click)="actionClick(item)">
-            <div class="flex-center iconImg">
-              <img src="{{ item.svg }}" alt="Download" />
-            </div>
-            <div class="text-center">
-              <span class="iconText">
-                {{ item.name }}
-              </span>
+          Own Revenue Split
+        </p>
+        <p class="p-2" class="chartHeader">
+          {{ chartTitle }}
+        </p>
+      </div>
+      <div
+        *ngIf="!chartDialogues"
+        class="col-12 col-md-2 col-lg-2 btnBesideTitle"
+      >
+        <button class="mt-2" *ngIf="btnBesideText" (click)="openModal()">
+          Compare
+        </button>
+      </div>
+      <div class="col-3 col-md-4 col-lg-4">
+        <div class="d-flex justify-content-end">
+          <div
+            *ngFor="let item of headerActions; let i = index"
+            class="right-0 px-2"
+          >
+            <div class="svg" (click)="actionClick(item)">
+              <div class="flex-center iconImg">
+                <img src="{{ item.svg }}" alt="Download" />
+              </div>
+              <div class="text-center">
+                <span class="iconText">
+                  {{ item.name }}
+                </span>
+              </div>
             </div>
           </div>
         </div>

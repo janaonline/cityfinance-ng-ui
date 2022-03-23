@@ -144,7 +144,6 @@ export class SharedTableComponent implements OnInit, OnChanges {
       element.budget.map((value) => {
         let dividervalue: any;
         if (this.selectedCurrency) {
-          // debugger;
           dividervalue = parseInt(this.selectedCurrency);
         } else {
           dividervalue = 10000000;

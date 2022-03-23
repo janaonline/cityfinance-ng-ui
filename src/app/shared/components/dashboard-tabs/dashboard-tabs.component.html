@@ -1,4 +1,69 @@
 <div class="container-fluid">
+  <div class="row">
+    <div
+      *ngIf="sticky == true"
+      class="col-sm-12"
+      style="
+        position: fixed;
+        top: 0;
+        background-color: white;
+        z-index: 200;
+        width: 100vw;
+      "
+    >
+      <div
+        class="px-4"
+        style="
+          background-color: #e5fff1;
+          color: #0fa755;
+          text-align: center;
+          width: 25em;
+          margin: 0 auto;
+          border-radius: 6px;
+          font-size: 0.7em;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        Maharashtra Data Availability - {{ percentValue.toFixed(2) }}%
+        (2020-2021)
+      </div>
+      <ul
+        style="justify-content: center"
+        class="nav nav-pills mb-3"
+        id="pills-tab"
+        role="tablist"
+      >
+        <li
+          *ngFor="let tab of data; let i = index"
+          class="nav-item"
+          role="presentation"
+        >
+          <button
+            [ngClass]="{
+              roundEdge: i == 0,
+              roundEdge2: i == data.length - 1,
+              active: i == 0
+            }"
+            class="nav-link pd"
+            [id]="tab.name"
+            data-bs-toggle="pill"
+            [data-bs-target]="tab"
+            type="button"
+            role="tab"
+            [aria-controls]="tab"
+            (click)="changeTab($event)"
+            value="{{ tab | json }}"
+          >
+            {{ tab.name }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
   <div
     class="container-cnt"
     style="justify-content: center"
@@ -6,12 +71,7 @@
   >
     <div class="row">
       <div class="col-sm-12">
-        <ul
-          style="justify-content: center"
-          class="nav nav-pills mb-3"
-          id="pills-tab"
-          role="tablist"
-        >
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
           <li
             *ngFor="let tab of data; let i = index"
             class="nav-item"
@@ -85,7 +145,7 @@
           </div>
           <div *ngSwitchCase="'state'">
             <app-state-filter-data
-              [data]="innerActiveTab.mainContent[0]"
+              [data]="innerActiveTab"
             ></app-state-filter-data>
           </div>
         </div>
