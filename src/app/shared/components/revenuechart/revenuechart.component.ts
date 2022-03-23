@@ -325,10 +325,13 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     this.compareChange.emit(value);
   }
 
+  ulbList: any;
   getCompareCompValues(value) {
+    console.log("compare ulbs", value);
     if (Array.isArray(value)) {
+      this.ulbList = value;
       this.compareType = "ULBs..";
-      return this.sendValue(value);
+      return this?.sendValue(value);
     } else this.compareType = value;
     this.sendValue();
   }
@@ -339,8 +342,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       newValue = this.year;
     while (numYear--) {
       newValue = newValue
-        .split("-")
-        .map((value) =>
+        ?.split("-")
+        ?.map((value) =>
           !isNaN(Number(value)) ? (value = Number(value) - 1) : value
         )
         .join("-");
@@ -348,7 +351,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     }
     let data = {
       year: newYears,
-      ulbs: ulbs,
+      ulbs: this.ulbList,
       compareType: this.compareType,
     };
     this.compareChange.emit(data);

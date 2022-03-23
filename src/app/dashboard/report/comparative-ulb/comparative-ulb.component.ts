@@ -1,23 +1,31 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
-import { IDetailedReportResponse } from 'src/app/models/detailedReport/detailedReportResponse';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/auth/auth.service";
+import { IDetailedReportResponse } from "src/app/models/detailedReport/detailedReportResponse";
 
-import { IReportType } from '../../../../app/models/reportType';
-import { DialogComponent } from '../../../../app/shared/components/dialog/dialog.component';
-import { GlobalLoaderService } from '../../../../app/shared/services/loaders/global-loader.service';
-import { currencryConversionOptions, ICurrencryConversion } from '../basic/conversionTypes';
-import { ExcelService } from '../excel.service';
-import { ReportHelperService } from '../report-helper.service';
-import { ReportService } from '../report.service';
+import { IReportType } from "../../../../app/models/reportType";
+import { DialogComponent } from "../../../../app/shared/components/dialog/dialog.component";
+import { GlobalLoaderService } from "../../../../app/shared/services/loaders/global-loader.service";
+import {
+  currencryConversionOptions,
+  ICurrencryConversion,
+} from "../basic/conversionTypes";
+import { ExcelService } from "../excel.service";
+import { ReportHelperService } from "../report-helper.service";
+import { ReportService } from "../report.service";
 
 @Component({
   selector: "app-comparative-ulb",
   templateUrl: "./comparative-ulb.component.html",
   styleUrls: ["./comparative-ulb.component.scss"],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ComparativeUlbComponent implements OnInit {
   report: any = [];
@@ -534,8 +542,8 @@ export class ComparativeUlbComponent implements OnInit {
         ? this.currenyConversionForm.value.type[0].name
         : null;
     if (currencyConversionName) {
-      currencyConversionName = document.getElementById("currencyWarning")
-        .textContent;
+      currencyConversionName =
+        document.getElementById("currencyWarning").textContent;
     }
     if (this.reportReq.valueType === "per_capita") {
       currencyConversionName = " NOTE: Values are in Per Capita format";

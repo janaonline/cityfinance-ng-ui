@@ -11,7 +11,10 @@
       <div
         class="mr-1 modalButton d-flex justify-content-center align-items-center"
       >
-        <span (click)="openModal()" class="compare"
+        <span
+          (click)="openModal()"
+          style="font-size: 0.8em; cursor: pointer"
+          class="compare"
           >Compare By: Similar Type &nbsp;</span
         >
       </div>
@@ -83,6 +86,9 @@
           [selectedCurrency]="selectedCurrency"
         ></app-shared-compare-table>
       </div>
+    </div>
+    <div *ngIf="isLoading == true">
+      <button class="searchButton mb-3" (click)="download()">Download</button>
     </div>
   </div>
 
