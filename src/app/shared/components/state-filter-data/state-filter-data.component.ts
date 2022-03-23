@@ -297,7 +297,6 @@ el['data']['y'] = natData
   }
 
   changeActiveBtn(i) {
-    // debugger;
     console.log(this.data.btnLabels[i], "activeBTN");
     this.ActiveButton = this.data.btnLabels[i];
     this.lastSelectedId = i;
@@ -335,8 +334,6 @@ el['data']['y'] = natData
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // debugger;
-    // console.log("changes=>", changes);
     if (changes.data) {
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
@@ -344,7 +341,6 @@ el['data']['y'] = natData
         filterName: this.data.name,
       };
       // this.changeActiveBtn(0);
-      // debugger;
       // this.aboutIndicators = this.data["static"].indicators;
       setTimeout(() => {
         if (this.data.btnLabels.length) this.changeActiveBtn(0);

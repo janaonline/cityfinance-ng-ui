@@ -62,8 +62,7 @@
         class="btn compare"
         (change)="yearValueChange($event.target.value)"
       >
-        <option
-          *ngFor="let yearValue of yearList"
+        <option [disabled]="i == 0" *ngFor="let yearValue of yearList; let i=index"
           [value]="yearValue"
           [selected]="yearValue == year"
         >

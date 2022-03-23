@@ -33,6 +33,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     });
   }
   @Input()
+  yearListForDropDown;
+  @Input()
   mySelectedYears;
   @Input()
   cityId;
