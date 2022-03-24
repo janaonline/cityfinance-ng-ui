@@ -299,7 +299,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     let mCorporation = res['mCorporation'];
     let tp_data = res['townPanchayat'];
     let m_data = res['municipality']
-    let natData = res['natAvg'][0]['average']
+    // let natData = res['natAvg'][0]['average']
     let stateData = res['stateAvg'][0]['average']
 
 
@@ -340,7 +340,7 @@ obj = {x:0,y:0}
                   })
     
       } else if(el.label == 'National Average'){
-el['data']['y'] = natData
+// el['data']['y'] = natData
 
       }else if(el.label == 'State Average'){
         el['data']['y'] = stateData
