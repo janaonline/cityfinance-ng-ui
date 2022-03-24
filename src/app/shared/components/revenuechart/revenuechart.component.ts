@@ -136,19 +136,16 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         },
       ],
     },
-    // legend: {
-    //   position: "bottom",
-
-    //   align: "center",
-    //   labels: {
-    //     fontSize: 12,
-    //     padding: 20,
-    //     fontColor: "black",
-    //     usePointStyle: true,
-    //   },
-    //   maxHeight: 20,
-    //   maxWidth: 20,
-    // },
+    tooltips: {
+      callbacks: {
+          label: function(tooltipItem, data) {
+              var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
+              var label = data.datasets[tooltipItem.datasetIndex]['labels'][tooltipItem.index];
+              var rev = data.datasets[tooltipItem.datasetIndex]['rev'][tooltipItem.index];
+              return datasetLabel + ': ' + label + `(${rev.toFixed(2)})`;
+          }
+      }
+  },
     legendCallback: function (chart) {
       var text = [];
       text.push('<ul class="' + this.chartId + '-legend">');
@@ -328,10 +325,13 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     this.compareChange.emit(value);
   }
 
+  ulbList: any;
   getCompareCompValues(value) {
+    console.log("compare ulbs", value);
     if (Array.isArray(value)) {
+      this.ulbList = value;
       this.compareType = "ULBs..";
-      return this.sendValue(value);
+      return this?.sendValue(value);
     } else this.compareType = value;
     this.sendValue();
   }
@@ -342,8 +342,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       newValue = this.year;
     while (numYear--) {
       newValue = newValue
-        .split("-")
-        .map((value) =>
+        ?.split("-")
+        ?.map((value) =>
           !isNaN(Number(value)) ? (value = Number(value) - 1) : value
         )
         .join("-");
@@ -351,7 +351,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     }
     let data = {
       year: newYears,
-      ulbs: ulbs,
+      ulbs: this.ulbList,
       compareType: this.compareType,
     };
     this.compareChange.emit(data);

@@ -86,8 +86,12 @@
   <div class="row">
     <div class="col-md-12">
       <app-revenuechart
-        [chartId]="scatterChartId123"
+        [chartDialogues]="true"
+        [compareDialogType]="compareDialogType"
+        [headerActions]="headerActions"
+        [chartId]="'StateScatterCahrtId'"
         [chartData]="scatterData"
+        (compareChange)="filterChangeInChart($event)"
       ></app-revenuechart>
     </div>
   </div>

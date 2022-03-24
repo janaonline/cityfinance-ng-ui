@@ -72,12 +72,14 @@
 
 .searchButton {
   border: none;
-  padding: 10px;
+  padding: 9px;
   border-radius: 5px;
   margin-left: 1em;
   margin-right: 1em;
   background-color: #e67e15;
+  border: 1px solid #e67e15;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .searchButton:hover {

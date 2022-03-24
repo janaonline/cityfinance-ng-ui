@@ -5,7 +5,7 @@ import { StateFilterDataService } from "./state-filter-data.service";
 import { FormControl } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
 import { Observable } from "rxjs";
-import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
@@ -22,11 +22,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   lastSelectedId: number = 0;
   ActiveButton: any;
-  filterName: any;
+  filterName = 'revenue';
   tabName: any;
   headOfAccount: any;
   chartId = `stateSCharts-${Math.random()}`;
-  financialYear;
+  financialYear = "2016-17";
+
+  compareDialogType = 3;
 
   isPerCapita = false;
 
@@ -35,23 +37,22 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   scatterData = {
     type: "scatter",
     data: {
-      labels:['sfds','sf','sdfsf'],
       datasets: [
         {
+          labels: [],
+          rev: [],
           label: "Municipality",
-          data: [
-           
-          ],
+          data: [],
           showLine: false,
           fill: true,
           borderColor: "#1EBFC6",
           backgroundColor: "#1EBFC6",
         },
         {
+          labels: [],
+          rev: [],
           label: "Municipal Corporation",
-          data: [
-          
-          ],
+          data: [],
           showLine: false,
           fill: true,
           borderColor: "#3E5DB1",
@@ -59,9 +60,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
         {
           label: "Town Panchayat",
-          data: [
-           
-          ],
+          labels: [],
+          rev: [],
+          data: [],
           showLine: false,
           fill: true,
           borderColor: "#F5B742",
@@ -69,18 +70,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
         {
           label: "National Average",
-          data: [
-          
-          ],
+          data: [],
           showLine: true,
           fill: false,
           borderColor: "rgba(0, 200, 0, 1)",
         },
         {
           label: "State Average",
-          data: [
-           
-          ],
+          data: [],
           showLine: true,
           fill: false,
           borderColor: "red",
@@ -206,72 +203,128 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.BarGraphValue = false;
   }
 
+  initializeScatterData() {
+    this.scatterData = {
+      type: "scatter",
+      data: {
+        datasets: [
+          {
+            labels: [],
+            rev: [],
+            label: "Municipality",
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#1EBFC6",
+            backgroundColor: "#1EBFC6",
+          },
+          {
+            labels: [],
+            rev: [],
+            label: "Municipal Corporation",
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#3E5DB1",
+            backgroundColor: "#3E5DB1",
+          },
+          {
+            label: "Town Panchayat",
+            labels: [],
+            rev: [],
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#F5B742",
+            backgroundColor: "#F5B742",
+          },
+          {
+            label: "National Average",
+            data: [],
+            showLine: true,
+            fill: false,
+            borderColor: "rgba(0, 200, 0, 1)",
+          },
+          {
+            label: "State Average",
+            data: [],
+            showLine: true,
+            fill: false,
+            borderColor: "red",
+          },
+        ],
+      },
+    };
+  }
   getScatterData() {
-    this._loaderService.showLoader()
-    let dummyPayload = {
-      "state":"5dcf9d7216a06aed41c748e2",
-      "financialYear":"2016-17",
-      "headOfAccount":"Revenue",
-      "filterName":"revenue"
-    }
+    this._loaderService.showLoader();
+    this.initializeScatterData();
+    let payload = {
+      state: this.stateId,
+      financialYear: this.financialYear,
+      headOfAccount: this.headOfAccount,
+      filterName: this.filterName,
+      isPerCapita: this.isPerCapita,
+    };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
-    this.stateFilterDataService
-      .getScatterdData(dummyPayload)
-      .subscribe((res) =>{
-        this._loaderService.stopLoader()
-        console.log("response data", res)
-    let mCorporation = res['mCorporation'];
-    let tp_data = res['townPanchayat'];
-    let m_data = res['municipality']
-    let natData = res['natAvg'][0]['average']
-    let stateData = res['stateAvg'][0]['average']
+    this.stateFilterDataService.getScatterdData(payload).subscribe(
+      (res) => {
+        this._loaderService.stopLoader();
+        console.log("response data", res);
+        let mCorporation = res["mCorporation"];
+        let tp_data = res["townPanchayat"];
+        let m_data = res["municipality"];
+        // let natData = res["natAvg"][0]["average"];
+        let stateData = res["stateAvg"][0]["average"];
 
+        this.scatterData.data.datasets.forEach((el) => {
+          let obj = { x: 0, y: 0 };
+          if (el.label == "Town Panchayat") {
+            obj = { x: 0, y: 0 };
+            tp_data.forEach((el2, index) => {
+              obj.x = el2.population;
+              obj.y = el2.totalRevenue;
+              el["labels"].push(el2.ulbName);
+              el["rev"].push(el2.totalRevenue);
+              el.data.push(obj);
+              obj = { x: 0, y: 0 };
+            });
+          } else if (el.label == "Municipal Corporation") {
+            mCorporation.forEach((el2, index) => {
+              obj.x = el2.population;
+              obj.y = el2.totalRevenue;
+              el["labels"].push(el2.ulbName);
+              el["rev"].push(el2.totalRevenue);
+              el.data.push(obj);
 
-    this.scatterData.data.datasets.forEach(el=>{
-      let obj = {x:0,y:0}
-      if(el.label == 'Town Panchayat'){
-        obj = {x:0,y:0}
-        tp_data.forEach((el2,index)=>{
-obj.x = el2.population
-obj.y = el2.totalRevenue
-el.data.push(obj)
-obj = {x:0,y:0}
-        })
-       
-    
-      }else  if(el.label == 'Municipal Corporation'){
-        mCorporation.forEach((el2,index)=>{
-         
-          obj.x = el2.population
-          obj.y = el2.totalRevenue
-          el.data.push(obj)
-          obj = {x:0,y:0}
-                  })
-      }else  if(el.label == 'Municipality'){
-        m_data.forEach((el2,index)=>{
-          obj = {x:0,y:0}
-          obj.x = el2.population
-          obj.y = el2.totalRevenue
-          el.data.push(obj)
-          obj = {x:0,y:0}
-                  })
-    
-      } else if(el.label == 'National Average'){
-el['data']['y'] = natData
-
-      }else if(el.label == 'State Average'){
-        el['data']['y'] = stateData
+              obj = { x: 0, y: 0 };
+            });
+          } else if (el.label == "Municipality") {
+            m_data.forEach((el2, index) => {
+              obj = { x: 0, y: 0 };
+              obj.x = el2.population;
+              obj.y = el2.totalRevenue;
+              el["labels"].push(el2.ulbName);
+              el["rev"].push(el2.totalRevenue);
+              el.data.push(obj);
+              obj = { x: 0, y: 0 };
+            });
+          } else if (el.label == "National Average") {
+            // el["data"]["y"] = natData;
+          } else if (el.label == "State Average") {
+            el["data"]["y"] = stateData;
+          }
+        });
+        console.log(this.scatterData);
+        this.generateRandomId("scatterChartId123");
+        this.scatterData = { ...this.scatterData };
+      },
+      (err) => {
+        this._loaderService.stopLoader();
+        console.log(err.message);
       }
-    })
-    console.log(this.scatterData)
-    this.generateRandomId('scatterChartId123')
-    this.scatterData = {...this.scatterData}; 
-   
-      }, (err)=>{
-        this._loaderService.stopLoader()
-        console.log(err.message)
-      } );
+    );
   }
   generateRandomId(name) {
     let number = Math.floor(Math.random() * 100);
@@ -281,6 +334,12 @@ el['data']['y'] = natData
   getSelectedFinancialYear(event) {
     console.log("financial year", event.target.value);
     this.financialYear = event.target.value;
+  }
+
+  filterChangeInChart(value) {
+    // this.mySelectedYears = value.year;
+    // this.getChartData(value);
+    console.log("filterChangeInChart", value);
   }
 
   changeActiveBtn(i) {
@@ -312,6 +371,7 @@ el['data']['y'] = natData
     else if (newName.includes("own") && newName.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    this.getScatterData();
   }
 
   getRevenueId() {
@@ -329,10 +389,10 @@ el['data']['y'] = natData
       };
       // this.changeActiveBtn(0);
       // this.aboutIndicators = this.data["static"].indicators;
-      setTimeout(() => {
-        if (this.data.btnLabels.length) this.changeActiveBtn(0);
-        // this.getChartData({});
-      }, 0);
+      // setTimeout(() => {
+      //   if (this.data.btnLabels.length) this.changeActiveBtn(0);
+      //   // this.getChartData({});
+      // }, 0);
       this.setHeadOfAccount();
     }
 
@@ -356,7 +416,7 @@ el['data']['y'] = natData
   }
 
   ngOnInit(): void {
-    this.changeActiveBtn(0);
+    // this.changeActiveBtn(0);
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices

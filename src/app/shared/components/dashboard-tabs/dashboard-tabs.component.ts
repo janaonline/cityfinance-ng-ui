@@ -8,6 +8,8 @@ import {
   HostListener,
 } from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
+import { ActivatedRoute } from "@angular/router";
+import { BaseComponent } from "src/app/util/baseComponent";
 import { BorrowingTabService } from "./borrowing-tab.service";
 
 @Component({
@@ -15,23 +17,27 @@ import { BorrowingTabService } from "./borrowing-tab.service";
   templateUrl: "./dashboard-tabs.component.html",
   styleUrls: ["./dashboard-tabs.component.scss"],
 })
-export class DashboardTabsComponent implements OnInit, OnChanges {
-  constructor(private borrowingTabService: BorrowingTabService) {}
+export class DashboardTabsComponent
+  extends BaseComponent
+  implements OnInit, OnChanges
+{
+  constructor(
+    private borrowingTabService: BorrowingTabService,
+    public activatedRoute: ActivatedRoute
+  ) {
+    super();
+    this.activatedRoute.queryParams.subscribe((val) => {
+      console.log("val", val);
+      const { stateId } = val;
+      this.currentStateId = stateId;
+    });
+  }
 
+  currentStateId;
   tableView = true;
   TableTitles: any;
-  HeaderDataOfBorrowTab() {
-    this.borrowingTabService.getHeaderName().subscribe((res: any) => {
-      console.log("HeaderName", res?.detailsOfInstrument);
-      this.TableTitles = res.detailsOfInstrument;
-      // console.log("firstTitle", this.firstTitle);
-    });
-  }
-  ColumnDataOfBorrowTab() {
-    this.borrowingTabService.getColumnData().subscribe((res: any) => {
-      console.log("ColumnData", res?.data);
-    });
-  }
+  stateName: any;
+
   @Input()
   yearListForDropDown;
   @Input()
@@ -190,7 +196,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   activeFilter = [];
   innerActiveTab: any = "";
   sticky = false;
-
+  // stateMap = json.parse(localStorage.getItem(stateIdsMap))
+  stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   changeTab(event, fromInner = false) {
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
     console.log("value ==>", value);
@@ -204,31 +211,31 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.scrollCords > 1082) {
+    if (this.scrollCords > 1150) {
       this.sticky = true;
     } else {
       this.sticky = false;
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       this.mySelectedYears = convertToPastYears(
-        changes.mySelectedYears.currentValue
+        changes?.mySelectedYears?.currentValue
       );
     }
-    this.changeTab(this?.data[0]);
-    this.HeaderDataOfBorrowTab();
-    // this.ColumnDataOfBorrowTab();
+    // if (this.data) {
+    //   this.changeTab(this?.data[0]);
+    // }
     console.log("innertab value", this.innerActiveTab);
   }
 
-  doSomething(event) {
-    if (window.pageYOffset > 354) {
-      this.sticky = true;
-    } else {
-      this.sticky = false;
-    }
-  }
+  // getStateName() {
+  //   for (const item of this.stateMap) {
+  //     console.log("item===>", item);
+  //   }
+  // }
 
   ngOnInit(): void {
+    // this.getStateName();
+    this.stateName = this.stateMap[this.currentStateId];
     console.log("innertab value", this.innerActiveTab);
     console.log("this.percentValue", this.percentValue);
   }

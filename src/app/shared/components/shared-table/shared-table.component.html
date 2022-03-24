@@ -10,7 +10,9 @@
       <th mat-header-cell *matHeaderCellDef>
         *Figures mentioned are in Rs. {{ figurString }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element?.line_item }}</td>
+      <td mat-cell *matCellDef="let element">
+        {{ element["line_item"] }}
+      </td>
       <!-- <td mat-cell *matCellDef="let element"> {{element.figures}} </td> -->
     </ng-container>
 
