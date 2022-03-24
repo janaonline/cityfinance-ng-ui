@@ -43,9 +43,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       datasets: [
         {
           label: "Municipality",
-          data: [
-           
-          ],
+          data: [],
           showLine: false,
           fill: true,
           borderColor: "#1EBFC6",
@@ -53,9 +51,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         },
         {
           label: "Municipal Corporation",
-          data: [
-            
-          ],
+          data: [],
           showLine: false,
           fill: true,
           borderColor: "#3E5DB1",
@@ -63,9 +59,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
         },
         {
           label: "Town Panchayat",
-          data: [
-           
-          ],
+          data: [],
           showLine: false,
           fill: true,
           borderColor: "#F5B742",
@@ -102,6 +96,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input()
   notFound;
+  @Input()
+  notFoundMessage = "Please try again with other filter options";
   // options in case of sactter plot
   @Input()
   scatterOption = {
@@ -117,7 +113,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
             display: true,
             labelString: "Population",
           },
-         
+
           offset: true,
         },
       ],
@@ -131,21 +127,26 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
             offsetGridLines: true,
             display: false,
           },
-         
+
           offset: true,
         },
       ],
     },
     tooltips: {
       callbacks: {
-          label: function(tooltipItem, data) {
-              var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
-              var label = data.datasets[tooltipItem.datasetIndex]['labels'][tooltipItem.index];
-              var rev = data.datasets[tooltipItem.datasetIndex]['rev'][tooltipItem.index];
-              return datasetLabel + ': ' + label + `(${rev.toFixed(2)})`;
-          }
-      }
-  },
+        label: function (tooltipItem, data) {
+          var datasetLabel =
+            data.datasets[tooltipItem.datasetIndex].label || "Other";
+          var label =
+            data.datasets[tooltipItem.datasetIndex]["labels"][
+              tooltipItem.index
+            ];
+          var rev =
+            data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+          return datasetLabel + ": " + label + `(${rev.toFixed(2)})`;
+        },
+      },
+    },
     legendCallback: function (chart) {
       var text = [];
       text.push('<ul class="' + this.chartId + '-legend">');
@@ -226,6 +227,14 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   year;
   compareType = "";
+  staticYearList = [
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
+    "2020-21",
+  ];
 
   ngOnInit(): void {
     console.log("chartTitle", this.chartTitle);
@@ -254,6 +263,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
+      debugger;
       this.year = this.mySelectedYears[0];
     }
   }
@@ -271,7 +281,6 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data[0]) {
-  
       let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
       let ctx = canvas.getContext("2d");
       this.myChart = new Chart(ctx, this.chartData);

@@ -62,7 +62,7 @@
         class="btn compare"
         (change)="yearValueChange($event.target.value)"
       >
-        <option [disabled]="i == 0" *ngFor="let yearValue of yearList; let i=index"
+      <option [disabled]="!yearList.includes(yearValue)" *ngFor="let yearValue of staticYearList; let i=index"
           [value]="yearValue"
           [selected]="yearValue == year"
         >
@@ -91,7 +91,7 @@
       No Data Found for chosen options
     </div>
     <p style="color: #6e7281; font-size: 16px">
-      Please try again with other filter options
+      {{notFoundMessage}}
     </p>
   </div>
 

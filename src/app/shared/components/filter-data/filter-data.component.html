@@ -19,7 +19,8 @@
                 <app-pre-loader></app-pre-loader>
             </div>
             <div class="" >
-                <app-revenuechart [yearList]="yearListForDropDown" [chartTitle]="chartTitle" [ChartOptions]="chartOptions"
+                <app-revenuechart [notFound]="notFound" [notFoundMessage]="'Please Select Year With at Least Two Years of Data'"
+                    [yearList]="yearListForDropDown" [chartTitle]="chartTitle" [ChartOptions]="chartOptions"
                     [chartDialogues]="true" [btnBesideText]="true"
                     *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId"
                     (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart"
