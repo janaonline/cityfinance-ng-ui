@@ -95,7 +95,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   actionFromChart(value) {
     console.log(value, "in filter");
-    if (value.name === "expand" || value.name === "collapse")
+    if (value.name === "Expand" || value.name === "Collapse")
       this.expand = !this.expand;
   }
 
@@ -127,8 +127,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   apiCall;
 
   getChartData(data = {}) {
-    if(this.headOfAccount == ""){
-      this.headOfAccount = 'Tax'
+    if (this.headOfAccount == "") {
+      this.headOfAccount = "Tax";
     }
     let body = {
       ulb: [],
@@ -140,7 +140,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
-         body.filterName = "property_tax";
+      body.filterName = "property_tax";
 
     let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
     body.ulb = [...ulbsToCompare, this.currentUlb];
@@ -200,7 +200,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       intialYear = yearData[0].amount,
       finalYear = yearData[yearData.length - 1].amount,
       time = yearData.length;
-    if (yearData.length > 1 && this.tabName == "revenue") {
+    if (yearData.length > 1) {
       let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
       this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
         yearData.length
@@ -214,9 +214,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.filterName.includes("capital") &&
       this.filterName.includes("expenditure")
     ) {
-      res["data"]["ulbData"] = this.createExpenditureData(
-        res["data"]["ulbData"]
-      );
+      for (const key in res["data"]) {
+        res["data"][key] = this.createExpenditureData(res["data"][key]);
+      }
     }
 
     let newData = JSON.parse(JSON.stringify(barChartStatic));
@@ -237,11 +237,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [convertToCr(value.amount)];
+          dataInner.data = [convertToCr(value.amount, this.isPerCapita)];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(convertToCr(value.amount));
+          dataInner.data.push(convertToCr(value.amount, this.isPerCapita));
           temp[value.ulbName] = dataInner;
         }
       });
@@ -288,7 +288,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         ulbName: year1.yearData[0].ulbName,
       });
     }
-
     return [newData];
   }
 
@@ -415,7 +414,8 @@ const innerDataset = {
   borderRadius: 8,
 };
 
-function convertToCr(value) {
+function convertToCr(value, isPerCapita) {
+  if (isPerCapita) return value;
   if (value == 0) return 0;
   value /= 10000000;
   return value.toFixed(2);

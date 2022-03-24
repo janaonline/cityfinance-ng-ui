@@ -59,7 +59,6 @@ export class CityComponent implements OnInit {
   }
 
   dashboardCalls(cityId) {
-    debugger;
     this.newDashboardService.getLatestDataYear(cityId).subscribe(
       (res) => {
         this.currentYear = res["data"].financialYear;
@@ -78,13 +77,11 @@ export class CityComponent implements OnInit {
         console.log(error);
       }
     );
-    this.newDashboardService.getYearList().subscribe(
+    this.newDashboardService.getYearList(this.cityId).subscribe(
       (res) => {
-        debugger;
         this.yearListForDropDown = res["data"];
       },
       (error) => {
-        debugger;
         console.log(error);
       }
     );
