@@ -36,9 +36,9 @@ export class NewDashboardService {
     );
   }
 
-  getYearList() {
+  getYearList(ulb) {
     return this.http.get(
-      `${environment.api.url}all-dashboard/latest-year/list`
+      `${environment.api.url}all-dashboard/latest-year/list?ulb=${ulb}`
     );
   }
 }
