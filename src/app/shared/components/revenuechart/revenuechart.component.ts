@@ -142,7 +142,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
               var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
               var label = data.datasets[tooltipItem.datasetIndex]['labels'][tooltipItem.index];
               var rev = data.datasets[tooltipItem.datasetIndex]['rev'][tooltipItem.index];
-              return datasetLabel + ': ' + label + `(${rev})`;
+              return datasetLabel + ': ' + label + `(${rev.toFixed(2)})`;
           }
       }
   },
