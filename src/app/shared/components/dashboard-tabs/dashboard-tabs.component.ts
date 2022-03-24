@@ -210,28 +210,28 @@ export class DashboardTabsComponent
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  getStickyValue() {
     if (this.scrollCords > 1150) {
       this.sticky = true;
     } else {
       this.sticky = false;
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("newChanges on state dashbord==>", changes);
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       this.mySelectedYears = convertToPastYears(
         changes?.mySelectedYears?.currentValue
       );
     }
-    // if (this.data) {
-    //   this.changeTab(this?.data[0]);
-    // }
-    console.log("innertab value", this.innerActiveTab);
+    if (changes.data) {
+      this.changeTab(this?.data[0]);
+    }
+    if (changes.scrollCords) {
+      this.getStickyValue();
+    }
   }
-
-  // getStateName() {
-  //   for (const item of this.stateMap) {
-  //     console.log("item===>", item);
-  //   }
-  // }
 
   ngOnInit(): void {
     // this.getStateName();
@@ -240,9 +240,6 @@ export class DashboardTabsComponent
     console.log("this.percentValue", this.percentValue);
   }
 }
-// function getHeaderName(): any {
-//   throw new Error("Function not implemented.");
-// }
 function convertToPastYears(year) {
   let newYears = [year],
     numYear = 2,
