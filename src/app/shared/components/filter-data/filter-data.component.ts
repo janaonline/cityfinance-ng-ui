@@ -45,6 +45,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   positiveCAGR;
   chartTitle = "total revenues vs State";
   chartOptions;
+  notFound = false;
   ngOnInit(): void {
     let cities = JSON.parse(localStorage.getItem("ulbMapping"));
     this.chartTitle = `${
@@ -95,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   actionFromChart(value) {
     console.log(value, "in filter");
-    if (value.name === "expand" || value.name === "collapse")
+    if (value.name === "Expand" || value.name === "Collapse")
       this.expand = !this.expand;
   }
 
@@ -127,8 +128,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   apiCall;
 
   getChartData(data = {}) {
-    if(this.headOfAccount == ""){
-      this.headOfAccount = 'Tax'
+    if (this.headOfAccount == "") {
+      this.headOfAccount = "Tax";
     }
     let body = {
       ulb: [],
@@ -140,7 +141,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
-         body.filterName = "property_tax";
+      body.filterName = "property_tax";
 
     let ulbsToCompare = data["ulbs"]?.map((value) => value._id) ?? [];
     body.ulb = [...ulbsToCompare, this.currentUlb];
@@ -179,6 +180,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         //   this.mySelectedYears.length
         // );
         // this.barChart = newData;
+        this.notFound = true;
         this.loading = false;
       }
     );
@@ -200,7 +202,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       intialYear = yearData[0].amount,
       finalYear = yearData[yearData.length - 1].amount,
       time = yearData.length;
-    if (yearData.length > 1 && this.tabName == "revenue") {
+    if (yearData.length > 1) {
       let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
       this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
         yearData.length
@@ -214,9 +216,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.filterName.includes("capital") &&
       this.filterName.includes("expenditure")
     ) {
-      res["data"]["ulbData"] = this.createExpenditureData(
-        res["data"]["ulbData"]
-      );
+      for (const key in res["data"]) {
+        res["data"][key] = this.createExpenditureData(res["data"][key]);
+      }
     }
 
     let newData = JSON.parse(JSON.stringify(barChartStatic));
@@ -237,11 +239,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [convertToCr(value.amount)];
+          dataInner.data = [convertToCr(value.amount, this.isPerCapita)];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(convertToCr(value.amount));
+          dataInner.data.push(convertToCr(value.amount, this.isPerCapita));
           temp[value.ulbName] = dataInner;
         }
       });
@@ -255,41 +257,39 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       newData.data.datasets.push(element);
     }
     newData.data.datasets.push(newlineDataset);
+    console.log(newData, "newData");
 
-    this.mySelectedYears.map((value) => {
-      if (!newData.data.labels.includes(value)) {
-        newData.data.labels.push(value);
-      }
-    });
     this.barChart = newData;
     this.chartOptions = barChartStaticOptions;
   }
 
   createExpenditureData(data) {
-    let newData = {};
-    if (data.length != 2) {
-      Object.assign(newData, {
-        _id: { financialYear: data[0]._id },
-        amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
-        ulbName: data[0].yearData[0].ulbName,
-      });
-    } else {
-      let year1 = data[0],
-        year2 = data[1],
-        amount1 =
-          year2.yearData.find((value) => value.code == "410") -
-          year1.yearData.find((value) => value.code == "410"),
+    let newData = [];
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      let year1 = data[index - 1],
+        year2 = data[index];
+      if (!year1) {
+        newData.push({
+          _id: { financialYear: data[0]._id },
+          amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
+          ulbName: data[0].yearData[0].ulbName,
+        });
+        continue;
+      }
+      let amount1 =
+          year2.yearData.find((value) => value.code == "410").amount -
+          year1.yearData.find((value) => value.code == "410").amount,
         amount2 =
-          year2.yearData.find((value) => value.code == "412") -
-          year1.yearData.find((value) => value.code == "412");
-      Object.assign(newData, {
+          year2.yearData.find((value) => value.code == "412").amount -
+          year1.yearData.find((value) => value.code == "412").amount;
+      newData.push({
         _id: { financialYear: year1._id },
         amount: amount1 + amount2,
         ulbName: year1.yearData[0].ulbName,
       });
     }
-
-    return [newData];
+    return newData;
   }
 
   createPieChart(data) {
@@ -346,6 +346,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   filterChangeInChart(value) {
     this.mySelectedYears = value.year;
+    if (this.yearListForDropDown[0] == value.year[0]) {
+      this.notFound = true;
+    } else {
+      this.notFound = false;
+    }
     this.getChartData(value);
     console.log("filterChangeInChart", value);
   }
@@ -415,7 +420,8 @@ const innerDataset = {
   borderRadius: 8,
 };
 
-function convertToCr(value) {
+function convertToCr(value, isPerCapita) {
+  if (isPerCapita) return value;
   if (value == 0) return 0;
   value /= 10000000;
   return value.toFixed(2);

@@ -97,6 +97,8 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input()
   notFound;
+  @Input()
+  notFoundMessage = "Please try again with other filter options";
   // options in case of sactter plot
   @Input()
   scatterOption = {
@@ -227,6 +229,14 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   year;
   compareType = "";
+  staticYearList = [
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
+    "2020-21",
+  ];
 
   @Input()
   multipleCharts;
@@ -266,6 +276,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
+      debugger;
       this.year = this.mySelectedYears[0];
     }
   }
@@ -327,11 +338,11 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   actionClick(value) {
     this._loaderService.showLoader();
     console.log(value, "In revenue");
-    if (value.name == "expand" || value.name == "collapse") {
+    if (value.name == "Expand" || value.name == "Collapse") {
       this.headerActions.map((innerVal) => {
         if (innerVal.name === value.name) {
-          if (value.name == "expand") innerVal.name = "collapse";
-          else value.name = "expand";
+          if (value.name == "Expand") innerVal.name = "Collapse";
+          else value.name = "Expand";
         }
         this._loaderService.stopLoader();
       });
