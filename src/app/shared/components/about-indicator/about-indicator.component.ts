@@ -20,6 +20,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ) {}
   panelOpenState = false;
   @Input()
+  headOfAccount = "Revenue";
+  @Input()
+  filterName;
+  @Input()
   positive;
   @Input()
   cagr = "";
@@ -76,7 +80,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log(this.data, "about indicator");
   }
-
+  ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnChanges(changes: SimpleChanges): void {}
 
   panelOpen(item, index) {
@@ -84,62 +88,127 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       this.panelClose(this.lastOpenPanel);
     }
     let name = item.name.toLowerCase();
-    if (name == "about this indicator") this.addAnchorTag(item, index);
+    if (name == "about this indicator")
+      this.addAnchorTag(
+        item,
+        1,
+        "/resources-dashboard/learning-center/bestPractices",
+        "Know more...",
+        index
+      );
     if (name == "calculation") this.getCalculation(item, "", index);
-    if (name == "peer comparison") this.getPeerComp(item);
+    if (name == "peer comparison" || name == "analysis")
+      this.getPeerComp(item, index);
+    if (name == "next steps") this.getNextStep(item, index);
 
     item.panelOpenState = true;
     this.lastOpenPanel = item;
   }
 
-  addAnchorTag(item, index) {
+  getNextStep(item, parentIndex) {
+    item.desc.forEach((element, i) => {
+      if (i == 1) {
+        element.text = element.text.split("STATE_NAME");
+        let stateName = this.ulbsData[this.cityId].state;
+        element.text = element.text.join(stateName);
+      }
+      if (element.text.includes("toolkit")) {
+        let temp = element.text.split(".")[1];
+        element.text = element.text.split(".")[0] + ".";
+        this.addAnchorTag(
+          item,
+          i,
+          "http://localhost:4200/resources-dashboard/learning-center/toolkits",
+          temp,
+          parentIndex
+        );
+      }
+      if (element.text.includes("E-learning")) {
+        let temp = element.text.split(".")[1];
+        element.text = element.text.split(".")[0] + ".";
+        this.addAnchorTag(
+          item,
+          i,
+          "http://localhost:4200/resources-dashboard/learning-center/eLearning",
+          temp,
+          parentIndex
+        );
+      }
+      if (element.text.includes("Best")) {
+        let temp = element.text.split(".")[1];
+        element.text = element.text.split(".")[0] + ".";
+        this.addAnchorTag(
+          item,
+          i,
+          "http://localhost:4200/resources-dashboard/learning-center/bestPractices",
+          temp,
+          parentIndex
+        );
+      }
+    });
+  }
+
+  addAnchorTag(item, index, link, text, parentIndex) {
     let aTag = document.createElement("a");
-    aTag.href = "/resources-dashboard/learning-center/bestPractices";
-    aTag.innerHTML = "Know More...";
-    let pTag = document.getElementById(index + 1 + item.name);
+    aTag.href = link;
+    aTag.innerHTML = text;
+    let pTag = document.getElementById(parentIndex + item.name + index);
+    console.log(pTag, "tag", index + 1 + item.name, "id");
+
     if ((pTag.hasOwnProperty("children"), pTag.children.length == 0))
       pTag.appendChild(aTag);
   }
 
   getCalculation(item, compare = "", index) {
     let totalRevenue;
+    let param = {
+      ulb: this.cityId,
+      financialYear: this.selectedYear,
+      compare,
+      headOfAccount: this.headOfAccount,
+      filterName: this.filterName,
+    };
     this.loading = true;
-    this.aboutService
-      .avgRevenue(this.cityId, this.selectedYear, compare)
-      .subscribe(
-        (res) => {
-          item.desc.map((value) => {
-            let data = value.text.split("=");
-            let name = data[0].split(" ").join("").toLowerCase();
-            switch (name) {
-              case "totalrevenue":
-                data[1] = res["data"]?.amount.toFixed(2);
-                break;
-              case "stateulbtypeaverage":
-                data[1] = res["data"]?.weightedAmount.toFixed(2);
+    this.aboutService.avgRevenue(param).subscribe(
+      (res) => {
+        let apiData: any = Array.isArray(res["data"])
+          ? res["data"][0]
+          : res["data"];
+        item.desc.map((value) => {
+          let data = value.text.split("=");
+          let name = data[0].split(" ").join("").toLowerCase();
+          switch (name) {
+            case "totalrevenue":
+              data[1] = apiData?.amount.toFixed(2);
+              break;
+            case "totalexpenditure":
+              data[1] = apiData?.expense.toFixed(2);
+              break;
+            case "stateulbtypeaverage":
+              data[1] = apiData?.weightedAmount.toFixed(2);
 
-              default:
-                break;
-            }
-            data = data.join("= ");
-            value.text = data;
-          });
-          setTimeout(() => {
-            this.addImage(item, index);
-          }, 0);
-          this.loading = false;
-        },
-        (error) => {
-          this.loading = false;
-        }
-      );
+            default:
+              break;
+          }
+          data = data.join("= ");
+          value.text = data;
+        });
+        setTimeout(() => {
+          this.addImage(item, index);
+        }, 0);
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
   }
   addImage(item, index) {
     let elementIndex = item.desc.findIndex(
       (value) => value.text == "FORMULA_IMG"
     );
     if (elementIndex === -1) return;
-    let pTag = document.getElementById(index + elementIndex + item.name);
+    let pTag = document.getElementById(index + item.name + elementIndex);
     pTag.innerHTML = "";
     let imgTag = document.createElement("img");
     imgTag.src = "../../assets/formula.png";
@@ -147,7 +216,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
   stateUlbMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
-  getPeerComp(item) {
+  getPeerComp(item, index) {
     this.loading = true;
     this.aboutService.compPeer(this.cityId, this.selectedYear).subscribe(
       (res) => {
@@ -163,11 +232,29 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           false
         );
         this.loading = false;
+        setTimeout(() => {
+          this.addUl(item, index);
+        }, 10);
       },
       (error) => {
         this.loading = false;
       }
     );
+  }
+
+  addUl(item, index) {
+    item.desc.forEach((value, i) => {
+      let ul = document.createElement("ul");
+      let temp = value.text.split("=>");
+      temp.forEach((val) => {
+        let li = document.createElement("li");
+        li.innerHTML = val;
+        ul.appendChild(li);
+      });
+      let tt = document.getElementById(index + item.name + i);
+      tt.innerHTML = "";
+      tt.appendChild(ul);
+    });
   }
 
   getConvertedDec(text, data, forUlbType = true) {

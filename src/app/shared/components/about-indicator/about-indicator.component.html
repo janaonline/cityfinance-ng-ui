@@ -25,7 +25,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-container *ngIf="!loading">
-          <p id="{{parentIndex + childIndex + item.name}}" *ngFor="let innerItem of item.desc; let childIndex = index">{{
+          <p id="{{parentIndex + item.name + childIndex }}" *ngFor="let innerItem of item.desc; let childIndex = index">{{
             innerItem.text }}
           </p>
         </ng-container>
