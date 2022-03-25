@@ -373,7 +373,6 @@ export class RevenueMixComponent implements OnInit {
   finalMultipleDoughnut = [];
 
   getMultipleDoughnutCharts() {
-    debugger;
     if (this.ulbTab) {
       this.finalMultipleDoughnut = this.doughnutArray;
     }
