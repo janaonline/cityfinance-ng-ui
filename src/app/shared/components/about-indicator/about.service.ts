@@ -9,9 +9,14 @@ import { environment } from "../../../../environments/environment";
 export class AboutService {
   constructor(private httpClient: HttpClient) {}
 
-  avgRevenue(id: string, year, compare = "") {
+  avgRevenue(param) {
+    let params = new HttpParams();
+    for (const key in param) {
+      const element = param[key];
+      params = params.append(key, element);
+    }
     return this.httpClient.get(
-      `${environment.api.url}about-indicator?ulb=${id}&financialYear=${year}&compare=${compare}`
+      `${environment.api.url}about-indicator?${params}`
     );
   }
   compPeer(id: string, year) {

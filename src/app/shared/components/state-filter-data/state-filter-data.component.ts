@@ -6,6 +6,7 @@ import { FormControl } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
 import { Observable } from "rxjs";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { OwnRevenueService } from "src/app/pages/own-revenue-dashboard/own-revenue.service";
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
@@ -178,7 +179,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
     private _commonServices: CommonService,
-    public _loaderService: GlobalLoaderService
+    public _loaderService: GlobalLoaderService,
+
+    private ownRevenueService: OwnRevenueService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -201,6 +204,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   showBottomGraph() {
     this.BarGraphValue = false;
+  }
+
+  yearList;
+
+  getyears() {
+    let body = {};
+    this.ownRevenueService.getYearList(body).subscribe((res) => {
+      console.log("yearsResponse", res);
+      this.yearList = res["data"];
+      console.log("this.yearList", this.yearList);
+    });
   }
 
   initializeScatterData() {
@@ -332,7 +346,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     return newId;
   }
   getSelectedFinancialYear(event) {
-    console.log("financial year", event.target.value);
     this.financialYear = event.target.value;
   }
 
@@ -387,7 +400,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         ...this.data["mainContent"][0],
         filterName: this.data.name,
       };
-      // this.changeActiveBtn(0);
+      this.changeActiveBtn(0);
       // this.aboutIndicators = this.data["static"].indicators;
       // setTimeout(() => {
       //   if (this.data.btnLabels.length) this.changeActiveBtn(0);
@@ -395,8 +408,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       // }, 0);
       this.setHeadOfAccount();
     }
-
-    console.log("activChanges", changes);
 
     // console.log("this.barChart", this.barChart);
   }
@@ -411,6 +422,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("this.innertabData", this.data);
+    this.getyears();
     this.changeActiveBtn(0);
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -434,8 +447,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         return null;
       }
     });
-
-    console.log("this.tabName", this.data);
 
     this.getScatterData();
     this.getRevenueId();

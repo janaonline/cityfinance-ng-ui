@@ -64,22 +64,13 @@
     <div class="row">
       <div class="col-sm-12">
         <div [ngClass]="{ stickyClass: sticky == true }">
-          <div
-            class="px-4"
-            style="
-              background-color: #e5fff1;
-              color: #0fa755;
-              text-align: center;
-              width: 22rem;
-              margin: 0 auto;
-              border-radius: 6px;
-              font-size: 0.8rem;
-              margin-top: 10px;
-              margin-bottom: 10px;
-            "
-          >
-            {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}%
-            (2020-2021)
+          <div [ngSwitch]="DashBoardType">
+            <div *ngSwitchCase="'state'">
+              <div class="px-4 dataAvailabiltyTab">
+                {{ stateName }} Data Availability -
+                {{ percentValue?.toFixed(2) }}% (2020-2021)
+              </div>
+            </div>
           </div>
           <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li

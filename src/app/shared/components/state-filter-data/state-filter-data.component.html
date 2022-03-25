@@ -32,9 +32,10 @@
                 (change)="getSelectedFinancialYear($event)"
               >
                 <option value="">Select Financial Year</option>
-                <option value="2020-21" selected>2020-21</option>
-                <option value="2019-20" selected>2019-20</option>
-                <option value="2018-19" selected>2018-19</option>
+
+                <option *ngFor="let year of yearList" [value]="year?._id">
+                  {{ year._id }}
+                </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
               </select>
             </div>
@@ -92,6 +93,9 @@
           [headerActions]="headerActions"
           [chartId]="'StateScatterCahrtId'"
           [chartData]="scatterData"
+          [chartTitle]="
+            'Total revenue of MCGM for last 3 years compared with state average'
+          "
           (compareChange)="filterChangeInChart($event)"
         ></app-revenuechart>
       </div>
@@ -176,6 +180,22 @@
         [chartId]="bottomBarChartId456"
         [chartData]="bottomBarData"
       ></app-revenuechart>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row my-5">
+    <div class="m-auto" style="width: 60%">
+      You can also download the source data in excel format
+      <button class="cursor-pointer bottomDownloadButton">
+        <img
+          src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
+          height="13px"
+          width="13px"
+          class="m-1"
+        />Download Data
+      </button>
     </div>
   </div>
 </div>
