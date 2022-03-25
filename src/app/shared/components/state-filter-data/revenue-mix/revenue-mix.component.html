@@ -3,16 +3,26 @@
     <button
       style="margin-left: 2pc"
       class="btn deSelected py-1"
-      [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
+      (click)="ulbFunction(1); getMultipleDoughnutCharts()"
+      [ngClass]="ulbTab == true ? 'selected' : 'deSelected'"
     >
       ULB Type
     </button>
-    <button style="margin-left: 2pc" class="btn deSelected py-1">
+    <button
+      style="margin-left: 2pc"
+      class="btn deSelected py-1"
+      (click)="ulbFunction(2); getMultipleDoughnutCharts()"
+      [ngClass]="populationTab == true ? 'selected' : 'deSelected'"
+    >
       ULB Population
+    </button>
+
+    <button (click)="ulbFunction(3)" class="returnButton">
+      Return to State Average
     </button>
   </div>
 
-  <div class="col-12 mt-3">
+  <div class="col-12 mt-3" *ngIf="!ulbTab && !populationTab">
     <app-revenuechart
       [chartOptions]="doughnutChartOptions"
       [chartData]="doughnutChartData"
@@ -20,24 +30,18 @@
       [chartTitle]="
         'The following pie chart provides the split of the contribution various own revenue streams to the total own revenue.'
       "
+      [singleDoughnutChart]="true"
     ></app-revenuechart>
   </div>
 
-  <div class="col-12">
+  <div class="col-12" *ngIf="ulbTab || populationTab">
     <app-revenuechart
       [multipleCharts]="true"
-      [multipleDoughnutCharts]="doughnutArray"
+      [multipleDoughnutCharts]="finalMultipleDoughnut"
       [chartTitle]="
         'The following pie chart provides the split of the contribution various own revenue streams to the total own revenue.'
       "
     ></app-revenuechart>
-
-    <!-- <ng-container *ngFor="let item of doughnutArray1; let i = index">
-      <app-revenuechart
-        [chartId]="item?.id"
-        [chartData]="item"
-      ></app-revenuechart>
-    </ng-container> -->
   </div>
 
   <div></div>

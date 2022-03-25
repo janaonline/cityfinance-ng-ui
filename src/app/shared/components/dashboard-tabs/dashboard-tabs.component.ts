@@ -224,6 +224,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     if (changes.scrollCords) {
       this.getStickyValue();
     }
+
+    console.log("stickyValue==>", this.sticky);
   }
 
   ngOnInit(): void {

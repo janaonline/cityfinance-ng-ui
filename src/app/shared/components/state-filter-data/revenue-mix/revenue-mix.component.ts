@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, SimpleChanges } from "@angular/core";
 
 @Component({
   selector: "app-revenue-mix",
@@ -9,7 +9,7 @@ export class RevenueMixComponent implements OnInit {
   doughnutArray: any = [
     {
       id: "p1",
-      title: "4M+",
+      title: "Maharashtra",
       data: {
         type: "doughnut",
         labels: ["Red", "Blue", "Yellow"],
@@ -26,11 +26,16 @@ export class RevenueMixComponent implements OnInit {
           },
         ],
       },
-      chart: [],
+
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
     },
     {
       id: "p2",
-      title: "1M-4M",
+      title: "Municipality",
       data: {
         type: "doughnut",
         labels: ["Red", "Blue", "Yellow"],
@@ -47,11 +52,15 @@ export class RevenueMixComponent implements OnInit {
           },
         ],
       },
-      chart: [],
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
     },
     {
       id: "p3",
-      title: "500k-1M",
+      title: "Municipal Corporation",
       data: {
         type: "doughnut",
         labels: ["Red", "Blue", "Yellow"],
@@ -68,11 +77,15 @@ export class RevenueMixComponent implements OnInit {
           },
         ],
       },
-      chart: [],
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
     },
     {
       id: "p4",
-      title: "100K-500K",
+      title: "Town Panchayat",
       data: {
         type: "doughnut",
         labels: ["Red", "Blue", "Yellow"],
@@ -89,10 +102,43 @@ export class RevenueMixComponent implements OnInit {
           },
         ],
       },
-      chart: [],
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
     },
+  ];
+
+  newDoughnutArray: any = [
     {
       id: "p5",
+      title: "Maharashtra",
+      data: {
+        type: "doughnut",
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [300, 50, 100],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      },
+
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
+    },
+    {
+      id: "p6",
       title: "<100K",
       data: {
         type: "doughnut",
@@ -110,7 +156,61 @@ export class RevenueMixComponent implements OnInit {
           },
         ],
       },
-      chart: [],
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
+    },
+    {
+      id: "p7",
+      title: "100K-500K",
+      data: {
+        type: "doughnut",
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [300, 50, 100],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
+    },
+    {
+      id: "p8",
+      title: "500k - 1M",
+      data: {
+        type: "doughnut",
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [300, 50, 100],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      multipleChartOptions: {
+        legend: {
+          display: false,
+        },
+      },
     },
   ];
 
@@ -220,6 +320,7 @@ export class RevenueMixComponent implements OnInit {
   doughnutChartData = {
     type: "doughnut",
     data: {
+      type: "doughnut",
       labels: ["Red", "Blue", "Yellow"],
       datasets: [
         {
@@ -234,6 +335,21 @@ export class RevenueMixComponent implements OnInit {
         },
       ],
     },
+    // data: {
+    //   labels: ["Red", "Blue", "Yellow"],
+    //   datasets: [
+    //     {
+    //       label: "My First Dataset",
+    //       data: [300, 50, 100],
+    //       backgroundColor: [
+    //         "rgb(255, 99, 132)",
+    //         "rgb(54, 162, 235)",
+    //         "rgb(255, 205, 86)",
+    //       ],
+    //       hoverOffset: 4,
+    //     },
+    //   ],
+    // },
   };
 
   doughnutChartOptions = {
@@ -252,7 +368,45 @@ export class RevenueMixComponent implements OnInit {
   };
   constructor() {}
 
+  ulbTab = false;
+  populationTab = false;
+  finalMultipleDoughnut = [];
+
+  getMultipleDoughnutCharts() {
+    debugger;
+    if (this.ulbTab) {
+      this.finalMultipleDoughnut = this.doughnutArray;
+    }
+    if (this.populationTab) {
+      this.finalMultipleDoughnut = this.newDoughnutArray;
+    }
+    console.log(this.finalMultipleDoughnut);
+  }
+
+  ulbFunction(value) {
+    console.log(value);
+    if (value == 1) {
+      this.ulbTab = true;
+      this.populationTab = false;
+    }
+    if (value == 2) {
+      this.ulbTab = false;
+      this.populationTab = true;
+    }
+    if (value == 3) {
+      this.ulbTab = false;
+      this.populationTab = false;
+    }
+
+    console.log("this.ulbTab", this.ulbTab, this.populationTab);
+  }
+
   ngOnInit(): void {
+    this.getMultipleDoughnutCharts();
     console.log("doughnutArray", this.doughnutArray1);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("revenue chages", changes);
   }
 }

@@ -76,25 +76,31 @@
 
   <div
     class="mt-2"
-    *ngIf="!notFound"
+    *ngIf="!notFound && !multipleCharts"
     [id]="'canvasDiv' + chartId"
     style="width: 100%; overflow-x: auto; overflow-y: hidden"
   >
     <div *ngIf="!notFound" style="width: auto; min-width: 720px; height: 350px">
+      <div *ngIf="singleDoughnutChart">
+        <p style="font-size: 2em" class="chart-l text-center">
+          {{ stateName }}
+        </p>
+      </div>
       <canvas [id]="chartId" height="300" width="0"></canvas>
     </div>
   </div>
 
-  <div
-    class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4 mt-2"
-    *ngIf="multipleCharts"
-  >
+  <div class="d-flex flex-wrap" *ngIf="multipleCharts">
     <div
-      *ngFor="let chart of doughnutArray; let i = index"
-      class="d-flex flex-wrap"
+      class="col-3"
+      *ngFor="let chart of multipleDoughnutCharts; let i = index"
     >
-      <h3 class="chart-l text-center">{{ chart.title }}</h3>
-      <canvas [id]="chart?.id" style="width: 200px; height: 200px"></canvas>
+      <p style="font-size: 1.3em" class="chart-l text-center">
+        {{ chart?.title }}
+      </p>
+      <p>
+        <canvas id="{{ chart?.id }}{{ i }}"></canvas>
+      </p>
     </div>
   </div>
 

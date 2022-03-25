@@ -16,22 +16,47 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FormControl } from "@angular/forms";
 import html2canvas from "html2canvas";
 import { GlobalLoaderService } from "../../../../app/shared/services/loaders/global-loader.service";
+import { BaseComponent } from "src/app/util/baseComponent";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-revenuechart",
   templateUrl: "./revenuechart.component.html",
   styleUrls: ["./revenuechart.component.scss"],
 })
-export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
+export class RevenuechartComponent
+  extends BaseComponent
+  implements OnInit, AfterViewInit, OnChanges
+{
   @Input()
   chartDialogues = false;
   chartOptions;
   @Input()
   btnBesideText = false;
+
+  stateId;
+  stateName;
+
+  stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   constructor(
     public dialog: MatDialog,
-    public _loaderService: GlobalLoaderService
-  ) {}
+    public _loaderService: GlobalLoaderService,
+
+    public activatedRoute: ActivatedRoute
+  ) {
+    super();
+    this.activatedRoute.queryParams.subscribe((val) => {
+      console.log("val", val);
+      const { stateId } = val;
+      if (stateId) {
+        console.log("stid", this.stateId);
+        this.stateId = stateId;
+        sessionStorage.setItem("row_id", this.stateId);
+      } else {
+        this.stateId = sessionStorage.getItem("row_id");
+      }
+    });
+  }
 
   @ViewChild("template") template;
   @Input()
@@ -242,25 +267,30 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   multipleCharts;
 
   @Input()
+  singleDoughnutChart;
+
+  @Input()
   multipleDoughnutCharts;
 
   // @ViewChildren("mycharts") allMyCanvas: any;
 
   ngOnInit(): void {
-    if (this.multipleCharts) {
-      this.createMultipleChart();
-    }
+    this.stateName = this.stateMap[this.stateId];
     console.log("chartData===>", this.chartData);
-    window.onload = () => {
-      this.createChart();
-    };
+    // window.onload = () => {
+    //   if (this.multipleCharts) {
+    //     this.createMultipleChart();
+    //   } else this.createChart();
+    // };
   }
 
   // let legendDiv = document.getElementById('legend')
 
   // $('#legend').prepend(mybarChart.generateLegend());
   ngAfterViewInit(): void {
-    this.createChart();
+    if (this.multipleCharts) {
+      this.createMultipleChart();
+    } else this.createChart();
   }
 
   yearValueChange(value) {
@@ -269,6 +299,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("revenueChaert changes", changes);
     console.log("chartTitle", this.chartTitle, this.multipleDoughnutCharts);
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
@@ -276,8 +307,15 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
-      debugger;
       this.year = this.mySelectedYears[0];
+    }
+    if (changes.multipleDoughnutCharts) {
+      if (this.lastMultipleCharts.length) {
+        this.lastMultipleCharts.forEach((val) => val.destroy());
+      }
+      setTimeout(() => {
+        this.createMultipleChart();
+      }, 100);
     }
   }
 
@@ -307,37 +345,31 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
+  lastMultipleCharts = [];
+
   createMultipleChart() {
-    // let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-    // let ctx = canvas.getContext("2d");
-    // this.myChart = new Chart(ctx, this.chartData);
-    setTimeout(() => {
-      debugger;
-      let id;
-      let newChartdata;
-      if (this.multipleDoughnutCharts) {
-        for (
-          let index = 0;
-          index < this.multipleDoughnutCharts.length;
-          index++
-        ) {
-          const element = this.multipleDoughnutCharts[index];
-          console.log("elemend", element, index);
-          // id = this.chartId + index;
-          id = this.multipleDoughnutCharts[index][id];
-          newChartdata = element.data;
-          console.log("id====>", id, this.chartId, index, newChartdata);
-          let canvas = <HTMLCanvasElement>document.getElementById(id);
-          let ctx = canvas.getContext("2d");
-          this.myChart = new Chart(ctx, newChartdata);
-        }
+    debugger;
+    let id;
+    let newChartdata;
+    if (this.multipleDoughnutCharts) {
+      for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
+        const element = this.multipleDoughnutCharts[index];
+        id = element?.id + index;
+        newChartdata = temp[index];
+        Object.assign(newChartdata, {
+          options: { ...element?.multipleChartOptions },
+        });
+        let canvas = <HTMLCanvasElement>document.getElementById(id);
+        let ctx = canvas.getContext("2d");
+        let tempChart = new Chart(ctx, newChartdata);
+        this.lastMultipleCharts.push(tempChart);
+        console.log(this.myChart, "mychart");
       }
-    }, 20000);
+    }
   }
 
   actionClick(value) {
     this._loaderService.showLoader();
-    console.log(value, "In revenue");
     if (value.name == "Expand" || value.name == "Collapse") {
       this.headerActions.map((innerVal) => {
         if (innerVal.name === value.name) {
@@ -424,3 +456,222 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
 }
+
+const temp = [
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+  {
+    type: "doughnut",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [
+        {
+          label: "My First Dataset",
+          data: [300, 50, 100],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+  },
+];
