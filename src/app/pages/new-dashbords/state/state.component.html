@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <app-front-panel
-    [showDataAvailable]="'true'"
+      [showDataAvailable]="'true'"
       (dataAvailEmit)="setAvail($event)"
       (yearValue)="setYear(yearVal)"
       (changeInStateOrCity)="changeInDropDown($event)"
@@ -16,6 +16,7 @@
   </div>
   <div class="row">
     <app-dashboard-tabs
+      [stateId]="stateId"
       [percentValue]="percentValue"
       [scrollCords]="cords"
       [DashBoardType]="'state'"

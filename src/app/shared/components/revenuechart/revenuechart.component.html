@@ -62,7 +62,9 @@
         class="btn compare"
         (change)="yearValueChange($event.target.value)"
       >
-        <option [disabled]="i == 0" *ngFor="let yearValue of yearList; let i=index"
+        <option
+          [disabled]="i == 0"
+          *ngFor="let yearValue of yearList; let i = index"
           [value]="yearValue"
           [selected]="yearValue == year"
         >
@@ -82,6 +84,20 @@
       <canvas [id]="chartId" height="300" width="0"></canvas>
     </div>
   </div>
+
+  <div
+    class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4 mt-2"
+    *ngIf="multipleCharts"
+  >
+    <div
+      *ngFor="let chart of doughnutArray; let i = index"
+      class="d-flex flex-wrap"
+    >
+      <h3 class="chart-l text-center">{{ chart.title }}</h3>
+      <canvas [id]="chart?.id" style="width: 200px; height: 200px"></canvas>
+    </div>
+  </div>
+
   <div
     *ngIf="notFound"
     style="text-align: center; margin-top: 30px; margin-bottom: 30px"
@@ -91,7 +107,7 @@
       No Data Found for chosen options
     </div>
     <p style="color: #6e7281; font-size: 16px">
-      Please try again with other filter options
+      {{ notFoundMessage }}
     </p>
   </div>
 

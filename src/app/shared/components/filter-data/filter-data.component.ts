@@ -45,6 +45,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   positiveCAGR;
   chartTitle = "total revenues vs State";
   chartOptions;
+  notFound = false;
   ngOnInit(): void {
     let cities = JSON.parse(localStorage.getItem("ulbMapping"));
     this.chartTitle = `${
@@ -179,6 +180,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         //   this.mySelectedYears.length
         // );
         // this.barChart = newData;
+        this.notFound = true;
         this.loading = false;
       }
     );
@@ -255,40 +257,39 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       newData.data.datasets.push(element);
     }
     newData.data.datasets.push(newlineDataset);
+    console.log(newData, "newData");
 
-    this.mySelectedYears.map((value) => {
-      if (!newData.data.labels.includes(value)) {
-        newData.data.labels.push(value);
-      }
-    });
     this.barChart = newData;
     this.chartOptions = barChartStaticOptions;
   }
 
   createExpenditureData(data) {
-    let newData = {};
-    if (data.length != 2) {
-      Object.assign(newData, {
-        _id: { financialYear: data[0]._id },
-        amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
-        ulbName: data[0].yearData[0].ulbName,
-      });
-    } else {
-      let year1 = data[0],
-        year2 = data[1],
-        amount1 =
-          year2.yearData.find((value) => value.code == "410") -
-          year1.yearData.find((value) => value.code == "410"),
+    let newData = [];
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      let year1 = data[index - 1],
+        year2 = data[index];
+      if (!year1) {
+        newData.push({
+          _id: { financialYear: data[0]._id },
+          amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
+          ulbName: data[0].yearData[0].ulbName,
+        });
+        continue;
+      }
+      let amount1 =
+          year2.yearData.find((value) => value.code == "410").amount -
+          year1.yearData.find((value) => value.code == "410").amount,
         amount2 =
-          year2.yearData.find((value) => value.code == "412") -
-          year1.yearData.find((value) => value.code == "412");
-      Object.assign(newData, {
+          year2.yearData.find((value) => value.code == "412").amount -
+          year1.yearData.find((value) => value.code == "412").amount;
+      newData.push({
         _id: { financialYear: year1._id },
         amount: amount1 + amount2,
         ulbName: year1.yearData[0].ulbName,
       });
     }
-    return [newData];
+    return newData;
   }
 
   createPieChart(data) {
@@ -345,6 +346,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   filterChangeInChart(value) {
     this.mySelectedYears = value.year;
+    if (this.yearListForDropDown[0] == value.year[0]) {
+      this.notFound = true;
+    } else {
+      this.notFound = false;
+    }
     this.getChartData(value);
     console.log("filterChangeInChart", value);
   }
