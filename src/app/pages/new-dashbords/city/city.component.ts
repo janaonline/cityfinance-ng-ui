@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { NewDashboardService } from "../new-dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CityService } from "./city.service";
@@ -34,6 +34,13 @@ export class CityComponent implements OnInit {
   dashboardTabData;
   currentYear;
   yearListForDropDown;
+
+  cords: any;
+
+  @HostListener("window:scroll", ["$event"])
+  doSomething(event) {
+    this.cords = window.pageYOffset;
+  }
   ngOnInit(): void {
     this.dashboardDataCall();
     this.dashboardCalls(this.cityId);

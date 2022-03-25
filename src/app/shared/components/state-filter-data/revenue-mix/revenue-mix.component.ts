@@ -12,15 +12,25 @@ export class RevenueMixComponent implements OnInit {
       title: "Maharashtra",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -38,15 +48,25 @@ export class RevenueMixComponent implements OnInit {
       title: "Municipality",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -63,15 +83,25 @@ export class RevenueMixComponent implements OnInit {
       title: "Municipal Corporation",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -88,15 +118,25 @@ export class RevenueMixComponent implements OnInit {
       title: "Town Panchayat",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -116,15 +156,25 @@ export class RevenueMixComponent implements OnInit {
       title: "Maharashtra",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -142,15 +192,25 @@ export class RevenueMixComponent implements OnInit {
       title: "<100K",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -167,15 +227,25 @@ export class RevenueMixComponent implements OnInit {
       title: "100K-500K",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -192,15 +262,25 @@ export class RevenueMixComponent implements OnInit {
       title: "500k - 1M",
       data: {
         type: "doughnut",
-        labels: ["Red", "Blue", "Yellow"],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100],
+            data: [300, 50, 100, 90, 75, 64],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
             ],
             hoverOffset: 4,
           },
@@ -321,15 +401,25 @@ export class RevenueMixComponent implements OnInit {
     type: "doughnut",
     data: {
       type: "doughnut",
-      labels: ["Red", "Blue", "Yellow"],
+      labels: [
+        "Own Revenue",
+        "Assigned Revenue",
+        "Grants",
+        "Interest Income",
+        "Other Income",
+        "State & Hire Charges",
+      ],
       datasets: [
         {
           label: "My First Dataset",
-          data: [300, 50, 100],
+          data: [300, 50, 100, 90, 75, 64],
           backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
+            "#1E44AD",
+            "#25C7CE",
+            "#585FFF",
+            "#FFD72E",
+            "#22A2FF",
+            "#FF608B",
           ],
           hoverOffset: 4,
         },
@@ -354,16 +444,23 @@ export class RevenueMixComponent implements OnInit {
 
   doughnutChartOptions = {
     scales: {
-      yAxes: [
-        {
-          display: false,
-        },
-      ],
       xAxes: [
         {
           display: false,
         },
       ],
+      yAxes: [
+        {
+          display: false,
+        },
+      ],
+    },
+    legend: {
+      display: true,
+      position: "bottom",
+      labels: {
+        usePointStyle: true,
+      },
     },
   };
   constructor() {}

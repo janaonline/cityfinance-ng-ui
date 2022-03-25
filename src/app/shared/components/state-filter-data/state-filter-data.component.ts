@@ -400,7 +400,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         ...this.data["mainContent"][0],
         filterName: this.data.name,
       };
-      // this.changeActiveBtn(0);
+      this.changeActiveBtn(0);
       // this.aboutIndicators = this.data["static"].indicators;
       // setTimeout(() => {
       //   if (this.data.btnLabels.length) this.changeActiveBtn(0);
@@ -422,6 +422,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("this.innertabData", this.data);
     this.getyears();
     this.changeActiveBtn(0);
     this.nationalFilter.valueChanges.subscribe((value) => {

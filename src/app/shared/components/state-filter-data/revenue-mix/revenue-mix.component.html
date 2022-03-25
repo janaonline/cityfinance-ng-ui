@@ -24,7 +24,7 @@
 
   <div class="col-12 mt-3" *ngIf="!ulbTab && !populationTab">
     <app-revenuechart
-      [chartOptions]="doughnutChartOptions"
+      [ChartOptions]="doughnutChartOptions"
       [chartData]="doughnutChartData"
       [chartId]="'doughnutChartId'"
       [chartTitle]="
@@ -34,7 +34,7 @@
     ></app-revenuechart>
   </div>
 
-  <div class="col-12" *ngIf="ulbTab || populationTab">
+  <div class="col-12 mt-3" *ngIf="ulbTab || populationTab">
     <app-revenuechart
       [multipleCharts]="true"
       [multipleDoughnutCharts]="finalMultipleDoughnut"
