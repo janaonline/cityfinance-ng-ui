@@ -1,4 +1,4 @@
-<div class="container container-cnt" *ngIf="!showIframe">
+<div class="container container-cnt" *ngIf="!showIframe && !showTableau">
     <div class="row" style="margin: 1rem auto  1rem auto;">
         <div class="col-sm-12" style="display: flex;">
             <a (click)="openScorePer(item)" *ngFor="let item of cardData">
@@ -24,4 +24,17 @@
     scrolling="auto" allowtransparency="true" 
     allowfullscreen="1" 
     style="border: none; background-color: transparent;"></iframe>
+</div>
+<div class="frame" *ngIf="showTableau">
+    <p class="sub-ans">You are currently at E-Learning Module Section under Resources Dashboard</p> 
+
+    <div id="vizContainer" class='tableauPlaceholder' 
+    style='width: 800px; height: 627px;'>
+    <object id="obj" class='tableauViz' width='800' height='627' style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fprod-apnortheast-a.online.tableau.com%2F' /> 
+        <param name='embed_code_version' value='3' /> 
+        <param name='site_root' value='&#47;t&#47;janaagrahadur' />
+        <param name='name' value='DURtrial2&#47;Dashboard1' />
+        <param name='tabs' value='no' /><param name='toolbar' value='yes' />
+        <param name='showAppBanner' value='false' /></object></div>
 </div>

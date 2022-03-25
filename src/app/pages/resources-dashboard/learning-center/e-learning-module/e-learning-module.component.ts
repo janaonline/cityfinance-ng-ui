@@ -8,13 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class ELearningModuleComponent implements OnInit {
 
   constructor() { }
-
+  tableau: any;
+  viz: any;
   ngOnInit(): void {
+    var placeholderDiv = document.getElementById('vizContainer');
+    var obj = document.getElementById('obj');
+    
+    this.viz = new this.tableau.Viz(placeholderDiv, 'https%3A%2F%2Fprod-apnortheast-a.online.tableau.com%2F',  obj);
   }
   cardData = [
     {
       label: "E-Learning Module : 1",
-      
       imgUrl: '../../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png',
       code: ''
      },
@@ -30,8 +34,16 @@ export class ELearningModuleComponent implements OnInit {
      },
   ]
 showIframe = false
+showTableau = false
   openScorePer(item){
-this.showIframe = true;
+    this.showIframe = false
+this.showTableau = false
+    if(item.label.includes('1')){
+      this.showTableau = true
+    }else if(item.label.includes('2')){
+      this.showIframe = true;
+    }
+
     console.log(item.label)
   }
 
