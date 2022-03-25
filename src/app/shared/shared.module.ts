@@ -81,6 +81,7 @@ import { NewCityCreditRatingComponent } from "./components/dashboard-tabs/new-ci
 import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component";
 import { CommonChartsGraphsComponent } from './components/common-charts-graphs/common-charts-graphs.component';
 import { UlbCompareDailogComponent } from './components/common-charts-graphs/ulb-compare-dailog/ulb-compare-dailog.component';
+import { RevenueMixComponent } from './components/state-filter-data/revenue-mix/revenue-mix.component';
 
 
 @NgModule({
@@ -165,6 +166,7 @@ import { UlbCompareDailogComponent } from './components/common-charts-graphs/ulb
     SlbChartsComponent,
     CommonChartsGraphsComponent,
     UlbCompareDailogComponent,
+    RevenueMixComponent,
 
   ],
   exports: [

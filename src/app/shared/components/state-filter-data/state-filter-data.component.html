@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between">
-      <div class="col-sm-12 col-md-9">
+      <div class="col-sm-12 col-md-9 pl-1">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
@@ -82,49 +82,55 @@
   </div>
 </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <app-revenuechart
-        [chartDialogues]="true"
-        [compareDialogType]="compareDialogType"
-        [headerActions]="headerActions"
-        [chartId]="'StateScatterCahrtId'"
-        [chartData]="scatterData"
-        (compareChange)="filterChangeInChart($event)"
-      ></app-revenuechart>
+<div *ngIf="ActiveButton !== 'Revenue Mix'">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <app-revenuechart
+          [chartDialogues]="true"
+          [compareDialogType]="compareDialogType"
+          [headerActions]="headerActions"
+          [chartId]="'StateScatterCahrtId'"
+          [chartData]="scatterData"
+          (compareChange)="filterChangeInChart($event)"
+        ></app-revenuechart>
+      </div>
     </div>
-  </div>
-  <div class="row tablerow">
-    <div class="col-12">
-      <p class="py-4">
-        Distribution of ULBs in @Maharashtra according to Population category
-      </p>
+    <div class="row tablerow">
+      <div class="col-12">
+        <p class="py-4">
+          Distribution of ULBs in @Maharashtra according to Population category
+        </p>
 
-      <table class="table table-bordered">
-        <tbody>
-          <tr class="rowClass">
-            <td>ULB Population Category</td>
-            <td class="text-center">100 Thousand</td>
-            <td>100 Thousand - 500 Thousand</td>
-            <td>500 Thousand - 1Million</td>
-            <td>1 Million - 4 Million</td>
-            <td>4 Million+</td>
-            <td>Total Cities</td>
-          </tr>
-          <tr>
-            <td>Number Of Cities</td>
-            <td>120</td>
-            <td>78</td>
-            <td>250</td>
-            <td>74</td>
-            <td>22</td>
-            <td>445</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="table table-bordered">
+          <tbody>
+            <tr class="rowClass">
+              <td>ULB Population Category</td>
+              <td class="text-center">100 Thousand</td>
+              <td>100 Thousand - 500 Thousand</td>
+              <td>500 Thousand - 1Million</td>
+              <td>1 Million - 4 Million</td>
+              <td>4 Million+</td>
+              <td>Total Cities</td>
+            </tr>
+            <tr>
+              <td>Number Of Cities</td>
+              <td>120</td>
+              <td>78</td>
+              <td>250</td>
+              <td>74</td>
+              <td>22</td>
+              <td>445</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="ActiveButton === 'Revenue Mix'">
+  <app-revenue-mix></app-revenue-mix>
 </div>
 
 <div class="container">

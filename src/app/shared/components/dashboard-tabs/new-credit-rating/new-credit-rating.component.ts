@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -247,10 +253,11 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentState = this.StateMapping[this.id];
 
-    console.log("finalData", this.finalData);
-
     this.assetService.fetchCreditRatingReport().subscribe((data: any[]) => {
+      debugger;
       this.list = data;
+
+      console.log("finalData", this.list);
       this.originalList = data;
       this.generateDropDownData();
       if (this.stateLayerToAutoSelect) {
@@ -337,6 +344,7 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
+    debugger;
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
@@ -365,6 +373,8 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     }
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
+
+    console.log("this.abscreditInfo", this.absCreditInfo);
 
     // this.finalData = this.list.filter((elem) => {
     //   if (elem.state == this.StateMapping[this.id]) {
@@ -634,6 +644,10 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
 
   ulbDropdownSelected(option: any) {
     this.searchDropdownItemSelected(this.ulbSearchFormControl, "ulb");
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("state credit rating  changes", changes);
   }
 
   ngOnDestroy() {}

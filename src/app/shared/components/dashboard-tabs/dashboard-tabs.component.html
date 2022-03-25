@@ -122,7 +122,7 @@
         <ul class="nav nav-pills2 mb-3" id="pills-tab" role="tablist">
           <li
             *ngFor="let tab of activeFilter; let i = index"
-            class="nav-item"
+            class="nav-item pl-1"
             role="presentation"
           >
             <button
@@ -199,11 +199,7 @@
               <app-accordion-to-table></app-accordion-to-table>
             </div>
             <div *ngIf="innerActiveTab.name == 'Credit Rating'">
-              <div [ngSwitch]="DashBoardType">
-                <div *ngSwitchCase="'state'">
-                  <app-new-credit-rating></app-new-credit-rating>
-                </div>
-              </div>
+              <app-new-credit-rating></app-new-credit-rating>
             </div>
           </div>
         </div>

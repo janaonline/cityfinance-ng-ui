@@ -22,7 +22,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   lastSelectedId: number = 0;
   ActiveButton: any;
-  filterName = 'revenue';
+  filterName = "revenue";
   tabName: any;
   headOfAccount: any;
   chartId = `stateSCharts-${Math.random()}`;
@@ -396,12 +396,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.setHeadOfAccount();
     }
 
-    console.log(
-      "payloadData===>",
-      this.filterName,
-      this.headOfAccount,
-      this.isPerCapita
-    );
+    console.log("activChanges", changes);
 
     // console.log("this.barChart", this.barChart);
   }
@@ -416,7 +411,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.changeActiveBtn(0);
+    this.changeActiveBtn(0);
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices

@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import {
   Component,
   OnInit,
@@ -7,31 +6,14 @@ import {
   SimpleChanges,
   HostListener,
 } from "@angular/core";
-import { ThemePalette } from "@angular/material/core";
-import { ActivatedRoute } from "@angular/router";
-import { BaseComponent } from "src/app/util/baseComponent";
-import { BorrowingTabService } from "./borrowing-tab.service";
 
 @Component({
   selector: "app-dashboard-tabs",
   templateUrl: "./dashboard-tabs.component.html",
   styleUrls: ["./dashboard-tabs.component.scss"],
 })
-export class DashboardTabsComponent
-  extends BaseComponent
-  implements OnInit, OnChanges
-{
-  constructor(
-    private borrowingTabService: BorrowingTabService,
-    public activatedRoute: ActivatedRoute
-  ) {
-    super();
-    this.activatedRoute.queryParams.subscribe((val) => {
-      console.log("val", val);
-      const { stateId } = val;
-      this.currentStateId = stateId;
-    });
-  }
+export class DashboardTabsComponent implements OnInit, OnChanges {
+  constructor() {}
 
   currentStateId;
   tableView = true;
@@ -51,6 +33,9 @@ export class DashboardTabsComponent
   scrollCords;
   @Input()
   percentValue;
+
+  @Input()
+  stateId;
 
   @Input()
   data = [
@@ -218,8 +203,16 @@ export class DashboardTabsComponent
     }
   }
 
+  getStateName() {
+    // debugger;
+    this.stateName = this.stateMap[this.stateId];
+    return this.stateName;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("newChanges on state dashbord==>", changes);
+    if (changes.stateId) {
+      this.getStateName();
+    }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       this.mySelectedYears = convertToPastYears(
         changes?.mySelectedYears?.currentValue
@@ -234,8 +227,6 @@ export class DashboardTabsComponent
   }
 
   ngOnInit(): void {
-    // this.getStateName();
-    this.stateName = this.stateMap[this.currentStateId];
     console.log("innertab value", this.innerActiveTab);
     console.log("this.percentValue", this.percentValue);
   }
