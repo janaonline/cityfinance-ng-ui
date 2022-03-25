@@ -254,7 +254,7 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     this.currentState = this.StateMapping[this.id];
 
     this.assetService.fetchCreditRatingReport().subscribe((data: any[]) => {
-      debugger;
+      // debugger;
       this.list = data;
 
       console.log("finalData", this.list);
@@ -344,7 +344,7 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
-    debugger;
+    // debugger;
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];

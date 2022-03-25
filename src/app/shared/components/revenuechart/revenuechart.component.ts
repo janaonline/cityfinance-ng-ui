@@ -277,7 +277,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
-      debugger;
+      // debugger;
       this.year = this.mySelectedYears[0];
     }
   }
@@ -356,7 +356,7 @@ export class RevenuechartComponent implements OnInit, AfterViewInit, OnChanges {
     // let ctx = canvas.getContext("2d");
     // this.myChart = new Chart(ctx, this.chartData);
     setTimeout(() => {
-      debugger;
+      // debugger;
       let id;
       let newChartdata;
       if (this.multipleDoughnutCharts) {
