@@ -169,7 +169,8 @@ export class RevenuechartComponent
             ];
           var rev =
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
-          return datasetLabel + ": " + label + `(${rev.toFixed(2)})`;
+
+          return datasetLabel + ": " + label + `(${(rev/10000000).toFixed(2)} Cr)`;
         },
       },
     },
@@ -201,7 +202,7 @@ export class RevenuechartComponent
   @Input()
   ChartOptions = {
     maintainAspectRatio: false,
-    showAllTooltips: true,
+    
     responsive: true,
     scales: {
       yAxes: [
@@ -308,6 +309,7 @@ export class RevenuechartComponent
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
+      // debugger;
       this.year = this.mySelectedYears[0];
     }
     if (changes.multipleDoughnutCharts) {
@@ -329,53 +331,10 @@ export class RevenuechartComponent
     else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
-    //   Chart.pluginService.register({
-    //     beforeRender: function (chart) {
-    //         if (chart.config.options.showAllTooltips) {
-    //             // create an array of tooltips
-    //             // we can't use the chart tooltip because there is only one tooltip per chart
-    //             chart.pluginTooltips = [];
-    //             chart.config.data.datasets.forEach(function (dataset, i) {
-    //                 chart.getDatasetMeta(i).data.forEach(function (sector, j) {
-    //                     chart.pluginTooltips.push(new Chart.Tooltip({
-    //                         _chart: chart.chart,
-    //                         _chartInstance: chart,
-    //                         _data: chart.data,
-    //                         _options: chart.options,
-    //                         _active: [sector]
-    //                     }, chart));
-    //                 });
-    //             });
-
-    //             // turn off normal tooltips
-    //             chart.options.tooltips.enabled = false;
-    //         }
-    //     },
-    //     afterDraw: function (chart, easing) {
-    //         if (chart.config.options.showAllTooltips) {
-    //             // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-    //             if (!chart.allTooltipsOnce) {
-    //                 if (easing !== 1)
-    //                     return;
-    //                 chart.allTooltipsOnce = true;
-    //             }
-
-    //             // turn on tooltips
-    //             chart.options.tooltips.enabled = true;
-    //             Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
-    //                 tooltip.initialize();
-    //                 tooltip.update();
-    //                 // we don't actually need this since we are not animating tooltips
-    //                 tooltip.pivot();
-    //                 tooltip.transition(easing).draw();
-    //             });
-    //             chart.options.tooltips.enabled = false;
-    //         }
-    //     }
-    // });
+    
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
-    if (this.chartData?.data?.datasets[0].data[0]) {
+    if (this.chartData?.data?.datasets[0].data.length) {
       let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
       let ctx = canvas.getContext("2d");
       this.myChart = new Chart(ctx, this.chartData);

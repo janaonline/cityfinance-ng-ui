@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from "@angular/core";
+import { Component,  Input, Output ,OnInit, SimpleChanges, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-revenue-mix",
@@ -6,6 +6,16 @@ import { Component, OnInit, SimpleChanges } from "@angular/core";
   styleUrls: ["./revenue-mix.component.scss"],
 })
 export class RevenueMixComponent implements OnInit {
+
+
+@Input() chartData;
+@Input() chartId;
+@Input() chartTitle;
+@Input() chartOptions;
+
+@Output()
+compType = new EventEmitter();
+
   doughnutArray: any = [
     {
       id: "p1",

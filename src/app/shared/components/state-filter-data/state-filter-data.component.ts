@@ -25,7 +25,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   ActiveButton: any;
   filterName = "revenue";
   tabName: any;
-  headOfAccount: any;
+  headOfAccount = 'Revenue';
   chartId = `stateSCharts-${Math.random()}`;
   financialYear = "2016-17";
 
@@ -38,6 +38,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   scatterData = {
     type: "scatter",
     data: {
+      
       datasets: [
         {
           labels: [],
@@ -87,6 +88,62 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     },
   };
 
+doughnutData = {
+  type:'doughnut',
+  data: {
+    labels: [
+     
+    ],
+    datasets: [
+      {
+     
+        data: [],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)',
+          'rgb(155, 25, 86)',
+          'rgb(55, 205, 186)',
+        ],
+        hoverOffset: 4
+
+      }
+    ]
+  }
+}
+doughnutChartOptions = {
+  maintainAspectRatio: false,
+  cutoutPercentage:50,
+  responsive: true,
+
+  legend: {
+    position: "bottom",
+    labels: {
+      usePointStyle: true,
+      pointStyle:'rect',
+      padding: 35,
+      boxWidth: 20,
+      boxHeight: 23,
+      fontSize: 15,
+
+    },
+    onClick: (e) => e.stopPropagation()
+  },
+
+  tooltips: {
+    callbacks: {
+      label: function(tooltipItem, data) {
+        var dataset = data.datasets[tooltipItem.datasetIndex];
+        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+          return previousValue + currentValue;
+        });
+        var currentValue = dataset.data[tooltipItem.index];
+        var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+        return percentage + "%";
+      }
+    }
+  }
+};
   barData = {
     type: "bar",
     data: {
@@ -270,6 +327,32 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
   }
+  initializeDonughtData(){
+  this.doughnutData =   {
+      type:'doughnut',
+      data: {
+        labels: [
+         
+        ],
+        datasets: [
+          {
+         
+            data: [],
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 205, 86)',
+              'rgb(155, 25, 86)',
+              'rgb(55, 205, 186)',
+            ],
+            hoverOffset: 4
+    
+          }
+        ]
+      }
+    }
+  }
+  compType
   getScatterData() {
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -279,6 +362,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
+      compareType: this.compType
     };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -286,11 +370,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       (res) => {
         this._loaderService.stopLoader();
         console.log("response data", res);
+        //scatter plots center
+       if(!this.filterName.includes('mix')){
         let mCorporation = res["mCorporation"];
         let tp_data = res["townPanchayat"];
         let m_data = res["municipality"];
         // let natData = res["natAvg"][0]["average"];
-        let stateData = res["stateAvg"][0]["average"];
+        // let stateData = res["stateAvg"][0]["average"];
 
         this.scatterData.data.datasets.forEach((el) => {
           let obj = { x: 0, y: 0 };
@@ -327,12 +413,28 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           } else if (el.label == "National Average") {
             // el["data"]["y"] = natData;
           } else if (el.label == "State Average") {
-            el["data"]["y"] = stateData;
+            // el["data"]["y"] = stateData;
           }
         });
         console.log(this.scatterData);
         this.generateRandomId("scatterChartId123");
         this.scatterData = { ...this.scatterData };
+       }//donught charts center
+       else if(this.filterName.includes('mix')){
+          let data =   res['data'];
+          this.initializeDonughtData()
+          data.forEach(el => {
+            this.doughnutData.data.labels.push(el._id);
+            this.doughnutData.data.datasets[0].data.push(el.amount)
+          
+          })
+          console.log(this.doughnutData);
+       
+          this.doughnutData = { ...this.doughnutData };
+         
+       }
+     
+        
       },
       (err) => {
         this._loaderService.stopLoader();
@@ -417,7 +519,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.headOfAccount = name.includes("revenue")
       ? "Revenue"
       : name.includes("expenditure")
-      ? "Expense"
+      ? "Expense"  
+      : name.includes("surplus") 
+      ? "Expense"  
       : "Tax";
   }
 
@@ -448,7 +552,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       }
     });
 
-    this.getScatterData();
+    // this.getScatterData();
     this.getRevenueId();
   }
 }
