@@ -246,9 +246,15 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     item.desc.forEach((value, i) => {
       let ul = document.createElement("ul");
       let temp = value.text.split("=>");
-      temp.forEach((val) => {
-        let li = document.createElement("li");
-        li.innerHTML = val;
+      temp.forEach((val, j) => {
+        let li;
+        if (j == 0) {
+          li = document.createElement("strong");
+          li.innerHTML = val;
+        } else {
+          li = document.createElement("li");
+          li.innerHTML = val;
+        }
         ul.appendChild(li);
       });
       let tt = document.getElementById(index + item.name + i);
