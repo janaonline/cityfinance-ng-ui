@@ -83,7 +83,7 @@
   </div>
 </div>
 
-<div *ngIf="ActiveButton !== 'Revenue Mix'">
+<div *ngIf="!ActiveButton.includes('Mix')">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -133,12 +133,18 @@
   </div>
 </div>
 
-<div *ngIf="ActiveButton === 'Revenue Mix'">
+<div *ngIf="ActiveButton.includes('Mix')">
   <app-revenue-mix   [chartId]="'doughnutDataChartId'"
   [chartData]="doughnutData"
   [chartOptions]="doughnutChartOptions"
   [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
 </div>
+<!-- <div *ngIf="ActiveButton === 'Own Revenue Mix'">
+  <app-revenue-mix   [chartId]="generateRandomId('doughnutDataChartId')"
+  [chartData]="doughnutData"
+  [chartOptions]="doughnutChartOptions"
+  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
+</div> -->
 
 <div class="container">
   <div class="row">

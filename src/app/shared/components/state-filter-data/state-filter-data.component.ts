@@ -327,6 +327,32 @@ doughnutChartOptions = {
       },
     };
   }
+  initializeDonughtData(){
+  this.doughnutData =   {
+      type:'doughnut',
+      data: {
+        labels: [
+         
+        ],
+        datasets: [
+          {
+         
+            data: [],
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 205, 86)',
+              'rgb(155, 25, 86)',
+              'rgb(55, 205, 186)',
+            ],
+            hoverOffset: 4
+    
+          }
+        ]
+      }
+    }
+  }
+  compType
   getScatterData() {
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -336,6 +362,7 @@ doughnutChartOptions = {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
+      compareType: this.compType
     };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -393,13 +420,14 @@ doughnutChartOptions = {
         this.scatterData = { ...this.scatterData };
        }else if(this.filterName.includes('mix')){
           let data =   res['data'];
+          this.initializeDonughtData()
           data.forEach(el => {
             this.doughnutData.data.labels.push(el._id);
             this.doughnutData.data.datasets[0].data.push(el.amount)
-            
+          
           })
           console.log(this.doughnutData);
-          // this.generateRandomId("doughnutDataChartId");
+       
           this.doughnutData = { ...this.doughnutData };
          
        }
