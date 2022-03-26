@@ -370,12 +370,13 @@ doughnutChartOptions = {
       (res) => {
         this._loaderService.stopLoader();
         console.log("response data", res);
+        //scatter plots center
        if(!this.filterName.includes('mix')){
         let mCorporation = res["mCorporation"];
         let tp_data = res["townPanchayat"];
         let m_data = res["municipality"];
         // let natData = res["natAvg"][0]["average"];
-        let stateData = res["stateAvg"][0]["average"];
+        // let stateData = res["stateAvg"][0]["average"];
 
         this.scatterData.data.datasets.forEach((el) => {
           let obj = { x: 0, y: 0 };
@@ -412,13 +413,14 @@ doughnutChartOptions = {
           } else if (el.label == "National Average") {
             // el["data"]["y"] = natData;
           } else if (el.label == "State Average") {
-            el["data"]["y"] = stateData;
+            // el["data"]["y"] = stateData;
           }
         });
         console.log(this.scatterData);
         this.generateRandomId("scatterChartId123");
         this.scatterData = { ...this.scatterData };
-       }else if(this.filterName.includes('mix')){
+       }//donught charts center
+       else if(this.filterName.includes('mix')){
           let data =   res['data'];
           this.initializeDonughtData()
           data.forEach(el => {
@@ -517,7 +519,9 @@ doughnutChartOptions = {
     this.headOfAccount = name.includes("revenue")
       ? "Revenue"
       : name.includes("expenditure")
-      ? "Expense"
+      ? "Expense"  
+      : name.includes("surplus") 
+      ? "Expense"  
       : "Tax";
   }
 

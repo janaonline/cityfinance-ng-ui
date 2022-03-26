@@ -169,7 +169,8 @@ export class RevenuechartComponent
             ];
           var rev =
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
-          return datasetLabel + ": " + label + `(${rev.toFixed(2)})`;
+
+          return datasetLabel + ": " + label + `(${(rev/10000000).toFixed(2)} Cr)`;
         },
       },
     },
