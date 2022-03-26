@@ -134,7 +134,10 @@
 </div>
 
 <div *ngIf="ActiveButton === 'Revenue Mix'">
-  <app-revenue-mix></app-revenue-mix>
+  <app-revenue-mix   [chartId]="'doughnutDataChartId'"
+  [chartData]="doughnutData"
+  [chartOptions]="doughnutChartOptions"
+  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
 </div>
 
 <div class="container">
