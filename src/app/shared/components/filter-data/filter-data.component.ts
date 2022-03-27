@@ -540,7 +540,7 @@ const incomingData = {
                     text: "Expenditure mix refers to the combination of establishment, administrative, interest & finance expenses, etc., all of which constitute the total expenditure of the ULB",
                   },
                 ],
-                name: "About This indicator",
+                name: "About this indicator",
               },
             ],
           },
