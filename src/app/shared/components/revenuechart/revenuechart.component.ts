@@ -33,6 +33,12 @@ export class RevenuechartComponent
   chartOptions;
   @Input()
   btnBesideText = false;
+  @Input()
+  multiChartLabel = [
+    { text: "test", color: "#FF608B" },
+    { text: "test", color: "#FF608B" },
+    { text: "test", color: "#FF608B" },
+  ];
 
   stateId;
   stateName;
@@ -170,7 +176,9 @@ export class RevenuechartComponent
           var rev =
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
-          return datasetLabel + ": " + label + `(${(rev/10000000).toFixed(2)} Cr)`;
+          return (
+            datasetLabel + ": " + label + `(${(rev / 10000000).toFixed(2)} Cr)`
+          );
         },
       },
     },
@@ -202,7 +210,7 @@ export class RevenuechartComponent
   @Input()
   ChartOptions = {
     maintainAspectRatio: false,
-    
+
     responsive: true,
     scales: {
       yAxes: [
@@ -312,7 +320,7 @@ export class RevenuechartComponent
       // debugger;
       this.year = this.mySelectedYears[0];
     }
-    if (changes.multipleDoughnutCharts) {
+    if (!changes.multipleDoughnutCharts?.firstChange && this.multipleCharts) {
       if (this.lastMultipleCharts.length) {
         this.lastMultipleCharts.forEach((val) => val.destroy());
       }
@@ -331,7 +339,7 @@ export class RevenuechartComponent
     else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
-    
+
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data.length) {
@@ -352,21 +360,35 @@ export class RevenuechartComponent
 
   createMultipleChart() {
     let id;
-    let newChartdata;
+    let newChartData;
     if (this.multipleDoughnutCharts) {
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
-        newChartdata = temp[index];
-        Object.assign(newChartdata, {
+        newChartData = element.chartData;
+        Object.assign(newChartData, {
           options: { ...element?.multipleChartOptions },
         });
         let canvas = <HTMLCanvasElement>document.getElementById(id);
         let ctx = canvas.getContext("2d");
-        let tempChart = new Chart(ctx, newChartdata);
+        let tempChart = new Chart(ctx, newChartData);
         this.lastMultipleCharts.push(tempChart);
-        console.log(this.myChart, "mychart");
       }
+      // let temp = document.getElementById("horizontal-list");
+      // newChartData.data.labels.forEach((value) => {
+      //   let li = document.createElement("li");
+      //   li.innerText = value;
+      //   li.style.display = "inline";
+      //   li.style.paddingLeft = "1rem";
+      //   let span = document.createElement("span");
+      //   span.style.backgroundColor = "#FF608B";
+      //   span.style.display = "inline";
+      //   span.style.borderRadius = "12px";
+      //   span.style.paddingLeft = "1rem";
+      //   span.style.marginLeft = "3px";
+      //   li.appendChild(span);
+      //   temp.appendChild(li);
+      // });
     }
   }
 

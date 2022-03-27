@@ -104,3 +104,19 @@ li {
 .clear {
   clear: both;
 }
+
+ul#horizontal-list {
+	min-width: 696px;
+	list-style: none;
+	padding-top: 20px;
+	}
+	ul#horizontal-list li {
+		display: inline;
+    padding-left: 1rem;
+	}
+  ul#horizontal-list li span {
+		display: inline;
+    border-radius: 12px;
+    padding-left: 1rem;
+    margin-right: 3px;
+	}

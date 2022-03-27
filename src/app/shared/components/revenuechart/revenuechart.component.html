@@ -93,7 +93,7 @@
 
   <div class="d-flex flex-wrap" *ngIf="multipleCharts">
     <div
-      class="col-3"
+      class="col-6"
       *ngFor="let chart of multipleDoughnutCharts; let i = index"
     >
       <p style="font-size: 1.3em" class="chart-l text-center">
@@ -102,6 +102,14 @@
       <p>
         <canvas id="{{ chart?.id }}{{ i }}"></canvas>
       </p>
+    </div>
+    <div class="text-center col-12">
+      <ul id="horizontal-list" class="flex-wrap">
+        <li *ngFor="let item of multiChartLabel">
+          <span [ngStyle]="{'background-color': item.color}"></span>
+          {{item.text}}
+        </li>
+      </ul>
     </div>
   </div>
 

@@ -19,6 +19,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     private commonService: CommonService,
     private _activatedRoute: ActivatedRoute
   ) {}
+  multiPie = false;
+  multipleDoughnutCharts = [];
+  multiChartLabel = [];
   @Input()
   currentUlb;
   scatterData = JSON.parse(JSON.stringify(scatterData));
@@ -157,9 +160,10 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
-          this.createPieChart(res["data"]);
+          this.createPieChart(JSON.parse(JSON.stringify(res["data"])));
           this.calculateRevenue(res["data"]);
         } else {
+          this.multiPie = false;
           this.createBarChart(res);
           this.calculateCagr(res["data"]);
         }
@@ -188,7 +192,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   calculateRevenue(data) {
     let totalRevenue = data.ulbData.reduce(
-      (amount, value) => (amount += value.amount),
+      (amount, value) => (amount += Number(value.amount)),
       0
     );
     this.CAGR = `Total revenue is Rs ${(totalRevenue / 10000000).toFixed(
@@ -293,35 +297,55 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   createPieChart(data) {
-    if (this.filterName == "revenue mix")
-      data["ulbData"] = this.createRevenueData(data);
+    if (this.filterName == "revenue mix") {
+      for (const key in data) {
+        data[key] = this.createRevenueData(data[key]);
+      }
+    }
     if (this.filterName == "own revenue mix")
       data["ulbData"] = this.createOwnRevenueData(data);
+    this.multipleDoughnutCharts = [];
+    for (const key in data) {
+      const doughnutChartData = {
+        labels: ["Red", "Blue", "Yellow"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [],
+            backgroundColor: [],
+          },
+        ],
+      };
+      doughnutChartData.labels = data[key].map((value, index) => {
+        doughnutChartData.datasets[0].backgroundColor.push(
+          pieBackGroundColor[index]
+        );
+        doughnutChartData.datasets[0].data.push(value.amount);
+        if (key == "ulbData")
+          this.multiChartLabel.push({
+            text: value._id.lineItem,
+            color: pieBackGroundColor[index],
+          });
+        return value._id.lineItem;
+      });
+      let config = {
+        type: "doughnut",
+        data: doughnutChartData,
+      };
 
-    const doughnutChartData = {
-      labels: ["Red", "Blue", "Yellow"],
-      datasets: [
-        {
-          label: "My First Dataset",
-          data: [],
-          backgroundColor: [],
-          hoverOffset: 4,
+      let val = {
+        id: `${Math.random()}-multi`,
+        chartData: config,
+        multipleChartOptions: {
+          legend: {
+            display: false,
+          },
         },
-      ],
-    };
-    doughnutChartData.labels = data["ulbData"].map((value, index) => {
-      doughnutChartData.datasets[0].backgroundColor.push(
-        pieBackGroundColor[index]
-      );
-      doughnutChartData.datasets[0].data.push(value.amount);
-      return value._id.lineItem;
-    });
-    let config = {
-      type: "doughnut",
-      data: doughnutChartData,
-    };
-
-    this.barChart = config;
+      };
+      this.multipleDoughnutCharts.push(val);
+    }
+    console.log(this.multipleDoughnutCharts, "this.multipleDoughnutCharts");
+    this.multiPie = true;
   }
 
   createOwnRevenueData(data) {
@@ -331,15 +355,19 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   createRevenueData(data) {
     let newdata = [];
     let othersAmount = 0;
-    data["ulbData"].map((value) => {
+    data.map((value) => {
       if (!showTotalRevenue.includes(value.code)) {
         othersAmount += value.amount;
       } else {
+        value.amount = convertToCr(value.amount, false);
         newdata.push(value);
       }
     });
 
-    newdata.push({ amount: othersAmount, _id: { lineItem: "Others" } });
+    newdata.push({
+      amount: convertToCr(othersAmount, false),
+      _id: { lineItem: "Others" },
+    });
 
     return newdata;
   }
@@ -357,16 +385,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 }
 
 const pieBackGroundColor = [
+  "#25C7CE",
   "#FF608B",
-  "#FFD72E",
-  "#22A2FF",
   "#1E44AD",
   "#585FFF",
-  "#25C7CE",
-  "#25C7CE",
-  "#3C3C3C",
-  "#E5FFF1",
-  "#0FA755",
+  "#FFD72E",
+  "#22A2FF",
 ];
 
 const barChartStatic = {
