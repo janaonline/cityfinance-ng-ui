@@ -115,7 +115,7 @@
           <mat-slide-toggle [formControl]="toogle"> ULBs</mat-slide-toggle>
         </div>
         <div class="col-12">
-          <p class="text-center ownRevText">
+          <p class="ownRevText">
             You can select upto 10
             <span *ngIf="togglerValue">ULBs</span>
             <span *ngIf="!togglerValue">States</span>
@@ -128,7 +128,7 @@
           <form>
             <input
               type="text"
-              placeholder="Type Something"
+              [placeholder]="placeholder"
               matInput
               [formControl]="globalFormControl"
               [matAutocomplete]="auto"
@@ -166,17 +166,19 @@
             </mat-autocomplete>
           </form>
         </div>
-
+<div>Select a compare parameter</div>
         <div class="col-3 col-md-3 col-sm-12 m-2 selectDiv">
           <mat-form-field appearance="fill">
             <mat-label>Parameter</mat-label>
-            <mat-select matInput [formControl]="selectedVal">
-              <mat-option>None</mat-option>
+            <mat-select #matmat matInput [formControl]="selectedVal">
+              <!-- <mat-option>None</mat-option> -->
+            <div (mouseleave)="matmat.close()">
               <mat-option
                 *ngFor="let parameter of parameters"
                 [value]="parameter"
                 >{{ parameter }}</mat-option
               >
+            </div>
             </mat-select>
           </mat-form-field>
         </div>

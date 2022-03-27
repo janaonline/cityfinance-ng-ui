@@ -58,6 +58,9 @@ export class CompareDialogComponent implements OnInit {
   @Output()
   ulbValueList = new EventEmitter();
 
+  @Output()
+  selectedParam = new EventEmitter();
+
   States = new FormControl();
   toogle = new FormControl(false, []);
   selectedVal = new FormControl();
@@ -114,11 +117,14 @@ export class CompareDialogComponent implements OnInit {
   }
   togglerValue;
   typeX = "";
+  placeholder="Search for States"
   ngOnInit(): void {
     this.toogle.valueChanges.subscribe((newToogleValue) => {
       console.log("toogleValue", newToogleValue);
       this.reset();
       this.togglerValue = newToogleValue;
+      if(!newToogleValue)   this.placeholder = `Search for States`
+      else this.placeholder = `Search for ULBs`
     });
     this.selectedVal.valueChanges.subscribe((val) => {
       console.log(val);
@@ -127,9 +133,12 @@ export class CompareDialogComponent implements OnInit {
       if (value.length >= 1) {
         if (this.togglerValue) {
           this.typeX = "ulb";
+          
         } else {
           this.typeX = "state";
+       
         }
+
 
         this._commonService
           .postGlobalSearchData(value, this.typeX, "")
@@ -166,20 +175,21 @@ export class CompareDialogComponent implements OnInit {
         this.parameters = [
           "Own Revenue",
           "Own Revenue per Capita",
-          "Own Revenue as a percentage of Revenue Expenditure",
+          "Own Revenue to Revenue Expenditure",
         ];
       } else {
         this.parameters = [
           "Property Tax",
           "Property Tax per Capita",
-          "Property Tax as a percentage of Revenue Expenditure",
+          "Property Tax to Revenue Expenditure",
         ];
       }
     }
   }
   reset() {
     this.globalFormControl.setValue("");
-    this.selectedVal.setValue("None");
+    
+    this.own ? this.selectedVal.setValue("Own Revenue per Capita") : this.selectedVal.setValue("Property Tax per Capita") ;
     this.stateChipList = [];
     this.ulbListChip = []
   }

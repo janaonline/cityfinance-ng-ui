@@ -59,7 +59,7 @@
    
   </div>
 </div>
-<div class="container threeBtnContainer" *ngIf="displayButtons">
+<!-- <div class="container threeBtnContainer" *ngIf="displayButtons">
   <button class="btn btn-outline-secondary btn-sm btnS">Summary</button>
   <button
     class="btn btn-outline btn-sm btnDT"
@@ -77,9 +77,10 @@
   >
     Best Practices
   </button>
-</div>
+</div> -->
 
 <div class="container cont-p">
+ <!-- para -->
   <p class="para-styling">
     To view your performance, select
     <span class="para_word_styling"> State </span> or
@@ -116,7 +117,7 @@
           </h5>
         </a>
         <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
-          <div class="col-md-10 d-flex justify-content-between">
+          <div style="display: flex" >
             <select formControlName="stateId" (change)="filterData('state','')" class="form-select filter">
               <option selected>State Name</option>
               <option
@@ -158,8 +159,18 @@
                 {{ year }}
               </option>
             </select>
+            <button
+            (click)="clearFilter()"
+            class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters"
+          >
+            Clear All
+            <img
+              src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+              alt="cancel_off_icon"
+            />
+          </button>
           </div>
-          <div class="col-md-2 col col-sm d-flex justify-content-end">
+          <!-- <div class="col-md-2 col col-sm d-flex justify-content-between">
             <button
               (click)="clearFilter()"
               class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters"
@@ -170,26 +181,24 @@
                 alt="cancel_off_icon"
               />
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
   </form>
   <!-- Data Availability section starts -->
-  <div class="container data-availability rounded">
+  <div [ngClass]="{'gap': !availValue }" class="container data-availability rounded">
     <div class="row">
       <div class="col-md-7">
         <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
         <p class="da-para">
-          {{ dataAvailable }}% financial data of the ULBs in the chosen category
+          {{ dataAvailable }}% of the ULBs in the chosen category
           have uploaded their financial statements for the year
           {{ body.financialYear }}.
           <span *ngIf="notFoundNames.length > 0">
-            Data is not available for
-            <span *ngFor="let name of notFoundNames; let i = index ">{{ name }} <span *ngIf="i != notFoundNames.length -1 ">, </span></span>.
-          </span>
-          <span>
-            For more details, download the complete set of ULBs for which the
+            Data is not available for several ULBs including 
+            <span *ngFor="let name of notFoundNames; let i = index ">{{ name }}<span *ngIf="i != notFoundNames.length -1 ">, </span></span>.</span>
+          <span> For more details, download the complete set of ULBs for which the
             data is available for the year {{ body.financialYear }}.
           </span>
           <span class="three-dots" *ngIf="showButton">...</span>
@@ -236,6 +245,7 @@
       </div>
     </div>
   </div>
+  <div *ngIf="availValue > 0">
   <!-- Full doughnut chart section -->
   <div class="container total-revenue-doughnut" *ngIf="displayDoughnut">
     <div
@@ -257,13 +267,13 @@
       </app-revenuechart>
     </div>
   </div>
+  <!-- cards section -->
   <div class="container revenue-stocks-container">
     <div class="row">
       <div class="col-lg-2 col-md-12 col-12">
         <div class="rounded revenue-card-white mx-2">
           <p>
-            You can compare your performance to the average or median
-            performance of population category wise ULBs of your State.
+            Compare your performance to average or median performance of the ULBs of your state.
           </p>
         </div>
       </div>
@@ -282,11 +292,10 @@
       </div>
     </div>
     <p class="text-end smallText" style="margin-top: 5px">
-      Please note that this calculation is affected by the mismatch in the
-      number of cities that have uploaded their financial statements in the
-      previous year
+      Please note that this calculation is affected by the mismatch in the number of cities that have uploaded their financial statements in two consecutive years
     </p>
   </div>
+  <!-- table -->
   <div class="container" style="margin-left: -2%; width: 102%">
     <div class="table-container table-responsive">
       <table style="border-radius: 10px" class="table styletable">
@@ -296,7 +305,7 @@
               class="col-attr"
               [class]="'th' + i"
               scope="col"
-              *ngFor="let attribute of columnAttribute; let i = index"
+              *ngFor="let attribute of columnAttribut; let i = index"
             >
               {{ attribute.title }}
             </th>
@@ -306,7 +315,7 @@
           <tr class="scrollme scrollableTB" *ngFor="let user of users">
             <td>{{ user.name }}</td>
             <td class="rightAlign">
-              {{ (user.averageRevenue / 10000000).toFixed(2) }}
+              {{ (user.averageRevenue / 10000000).toFixed(0) }}
             </td>
             <td class="rightAlign">{{ user.perCapita }}</td>
             <td class="rightAlign">{{ user.avgRevenueMeet }}%</td>
@@ -321,7 +330,7 @@
       available and thus, is not depicted here.
     </p>
   </div>
-
+<!-- accordion -->
   <div class="container accContainer">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
@@ -380,9 +389,9 @@
 
   <!-- Bar chart section -->
   <div class="container barChartContainer">
-    <h2 class="barCharttitle text-center">Top 10 Performing ULBs</h2>
+    <h2 class="barCharttitle text-center">Top 10 Performing {{tempDataHolder?.type | uppercase}}s</h2>
     <p class="barChartSubTitle text-center">
-      Top 10 performing ULBs in the country in Own Revenue can be viewed below.
+      Top 10 performing {{tempDataHolder?.type | uppercase}}s in the country in {{tempDataHolder?.param}} can be viewed below.
     </p>
 
     <app-revenuechart
@@ -419,6 +428,11 @@
         </button>
       </div>
     </div>
+
+    <div *ngIf="proTab" class="addText">Additional Information on Property Tax: <a class="noDecor"  [routerLink]="[
+      '/resources-dashboard/learning-center/toolkits/introduction'
+    ]" target="_blank" > Digital Toolkit</a> and <a class="noDecor"  [routerLink]="['/resources-dashboard/learning-center/bestPractices']" target="_blank">Best Practices</a></div>
   </div>
+</div>
 </div>
 <!-- </div> -->
