@@ -428,6 +428,7 @@ export class RevenuechartComponent
   }
 
   ownRevenueCompValue(value) {
+    
     this.compareChange.emit(value);
   }
 

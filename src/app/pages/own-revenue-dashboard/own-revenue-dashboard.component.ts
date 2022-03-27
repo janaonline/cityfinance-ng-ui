@@ -83,14 +83,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
   columnAttribute = [
     { id: 1, title: "ULB Population Category" },
     { id: 2, title: "Weighted Average Own Revenue (In Rs. Crores)" },
-    { id: 3, title: "Median Own Revenue per Capita (INR)" },
+    { id: 3, title: "Median Own Revenue per Capita (₹)" },
     {
       id: 4,
-      title: "Weighted Average Own Revenues as percentage of Revenue Expenditure(%)",
+      title: "Weighted Average Own Revenues to Revenue Expenditure(%)",
     },
     {
       id: 5,
-      title: "Percentage of Cities where Own Revenues meet Revenue Expenditure(%)",
+      title: "Cities where Own Revenues meet Revenue Expenditure(%)",
     },
  
   ];
@@ -207,7 +207,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     }
   };
   doughnutChartTitle =
-    "The following pie chart provides the split of the contribution of various own revenue per capita streams to the total own revenue.";
+    "The following pie chart provides the split of the contribution of own revenue streams to own revenue.";
 
 
 
@@ -321,7 +321,7 @@ this.getYearList();
     this.createDataForFilter();
     this.getBarChartData();
     this.barChartTitle =
-      "You can compare states on various financial indicators";
+      "Compare states/ULBs on various financial indicators";
 
     this.allCalls();
     this.halfDoughnutChart()
@@ -540,7 +540,7 @@ if(this.myBarChart){
       (res) => {
         this.dataAvailLoading  = false
         // this._loaderService.stopLoader()
-        res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
+        res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
         this.financialYear = res;
       this.availValue =  res["data"]?.percent
           this.halfDoughnutChart();
@@ -555,7 +555,10 @@ if(this.myBarChart){
       }
     );
   }
-tempDataHolder: any
+tempDataHolder = {
+  param : 'Own Revenue per Capita',
+  type : 'ULB'
+}
   barChartCompValues(value) {
     this.tempDataHolder = value
     console.log(value, "barChartCompValues");
@@ -593,16 +596,16 @@ tempDataHolder: any
                   borderRadius: 15,
                   borderWidth: 1,
                   backgroundColor: [
-                    "rgba(30, 68, 173, 1)",
-                    "rgba(34, 76, 192, 1)",
-                    "rgba(37, 83, 211, 1)",
                     "rgba(51, 96, 219, 1)",
-                    "rgba(69, 110, 222, 1)",
-                    "rgba(88, 125, 225, 1)",
-                    "rgba(106, 139, 229, 1)",
-                    "rgba(134, 162, 237, 1)",
-                    "rgba(147, 170, 234, 1)",
-                    "rgba(168, 188, 240, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
                     "rgba(79, 223, 76, 1)",
                   ],
                 },
@@ -639,23 +642,23 @@ tempDataHolder: any
             tempData.data.labels.push(value.name);
             // if(this.tempDataHolder){
             //   if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' ){
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
             //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Percentage (%)"
             //   }  else if(this.tempDataHolder['param'] == "Own Revenue"){
-            //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(2)));
+            //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(0)));
             //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in Crores"
             //   }else if(this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
             //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
             //   }else{
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
             //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
 
             //   }
            
             // }
 
-                tempData.data.datasets[0].data.push((Number(value.amount).toFixed(2)));
+                tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
                
             
           });
@@ -761,8 +764,8 @@ myChart: any
     revenuePercentageCopy.isLoading = this.cardsDataLoading;
 
     revenueCollectionCopy.title = valueConvert(value?.totalRevenue) ?? 0;
-    revenuePerCapitaCopy.title = "INR " + value?.perCapita.toFixed(2) ?? 0;
-    revenuePercentageCopy.title = (value?.percentage.toFixed(2) ?? "0") + " %";
+    revenuePerCapitaCopy.title = "₹ " + value?.perCapita.toFixed(0) ?? 0;
+    revenuePercentageCopy.title = (value?.percentage.toFixed(0) ?? "0") + " %";
     revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
 
     if (yearInData[1]) {
@@ -775,17 +778,17 @@ myChart: any
         ];
 
       let t = this.compareValues(oldYearValue.totalRevenue, value.totalRevenue);
-      revenueCollectionCopy.percentage = t.num.toFixed(2);
+      revenueCollectionCopy.percentage = t.num.toFixed(0);
       revenueCollectionCopy.svg = t.inc ? upArrow : downArrow;
       revenueCollectionCopy.color = t.inc ? green : red;
 
       t = this.compareValues(oldYearValue.perCapita, value.perCapita);
-      revenuePerCapitaCopy.percentage = t.num.toFixed(2);
+      revenuePerCapitaCopy.percentage = t.num.toFixed(0);
       revenuePerCapitaCopy.svg = t.inc ? upArrow : downArrow;
       revenuePerCapitaCopy.color = t.inc ? green : red;
 
       t = this.compareValues(oldYearValue.percentage, value.percentage);
-      revenuePercentageCopy.percentage = t.num.toFixed(2);
+      revenuePercentageCopy.percentage = t.num.toFixed(0);
       revenuePercentageCopy.svg = t.inc ? upArrow : downArrow;
       revenuePercentageCopy.color = t.inc ? green : red;
 
@@ -793,7 +796,7 @@ myChart: any
         oldYearValue.totalUlbMeetExpense,
         value.totalUlbMeetExpense
       );
-      revenueExpenditureCopy.percentage = t.num.toFixed(2);
+      revenueExpenditureCopy.percentage = t.num.toFixed(0);
       revenueExpenditureCopy.svg = t.inc ? upArrow : downArrow;
       revenueExpenditureCopy.color = t.inc ? green : red;
     }
@@ -816,14 +819,14 @@ myChart: any
   proTabCardsFormat(data) {
     let value = data[this.filterGroup.value.financialYear];
     let cards = deepCopy(porpertyCards);
-    cards[0].title = valueConvert(value.totalProperty) ?? 0;
+    cards[0].title = '₹ ' + valueConvert(value.totalProperty) ?? 0;
     cards[1].title =
-      "INR " + (value.totalProperty / value.population).toFixed(2) ?? 0;
+      "₹ " + (value.totalProperty / value.population).toFixed(0) ?? 0;
     cards[2].title =
       (
         (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
         100
-      ).toFixed(2) + "%";
+      ).toFixed(0) + "%";
     let yearInData = Object.keys(data);
     if (yearInData[1]) {
       let oldYearValue =
@@ -838,7 +841,7 @@ myChart: any
         oldYearValue.totalProperty,
         value.totalProperty
       );
-      cards[0].percentage = t.num.toFixed(2);
+      cards[0].percentage = t.num.toFixed(0);
       cards[0].svg = t.inc ? upArrow : downArrow;
       cards[0].color = t.inc ? green : red;
 
@@ -846,7 +849,7 @@ myChart: any
         oldYearValue.totalProperty / oldYearValue.population,
         value.totalProperty / value.population
       );
-      cards[1].percentage = t.num.toFixed(2);
+      cards[1].percentage = t.num.toFixed(0);
       cards[1].svg = t.inc ? upArrow : downArrow;
       cards[1].color = t.inc ? green : red;
 
@@ -865,7 +868,7 @@ myChart: any
           (oldYearValue.totalRevenue - oldYearValue.totalProperty)) *
         100;
       t["inc"] = newr >= old;
-      cards[2].percentage = t.num.toFixed(2);
+      cards[2].percentage = t.num.toFixed(0);
       cards[2].svg = t.inc ? upArrow : downArrow;
       cards[2].color = t.inc ? green : red;
     }
@@ -873,12 +876,14 @@ myChart: any
     this.cardData = cards;
   }
   tableDataLoading = true;
+  columnAttribut
   tableData() {
     this.tableDataLoading = true;
     this.ownRevenueService.getTableData(this.filterGroup.value).subscribe(
       (res) => {
         this.tableDataLoading = false;
-        if (this.proTab) this.columnAttribute = this.columnAttributeProperty;
+        if (this.proTab) this.columnAttribut = this.columnAttributeProperty;
+        else this.columnAttribut = this.columnAttribute
         this.users = this.users.map((value) => {
           let data = res["data"][value.name];
           if (this.ownTab) {
@@ -907,7 +912,7 @@ myChart: any
               value.perCapita = "0";
             }
           } else {
-            value.averageRevenue = data.totalProperty.toFixed(2);
+            value.averageRevenue = data.totalProperty.toFixed(0);
             if (data.population > 0) {
               value.perCapita = (data.totalProperty / data.population).toFixed(
                 2
@@ -920,7 +925,7 @@ myChart: any
                 (data.totalProperty /
                   (data.totalRevenue - data.totalProperty)) *
                 100
-              ).toFixed(2);
+              ).toFixed(0);
             } else {
               value.avgRevenueMeet = "0";
             }
@@ -984,12 +989,12 @@ myChart: any
 }
 
 function valueConvert(value) {
-  return (value / 10000000).toFixed(2) + " Cr";
+  return '₹ ' + (value / 10000000).toFixed(0) + " Cr";
 }
 
 function numCheck(value) {
   if (isNaN(value)) return "0";
-  return value.toFixed(2);
+  return value.toFixed(0);
 }
 
 function deepCopy(value) {
@@ -1052,15 +1057,16 @@ let barChart = {
         borderRadius: 15,
         borderWidth: 1,
         backgroundColor: [
-          "rgba(30, 68, 173, 1)",
-          "rgba(34, 76, 192, 1)",
-          "rgba(37, 83, 211, 1)",
           "rgba(51, 96, 219, 1)",
-          "rgba(69, 110, 222, 1)",
-          "rgba(88, 125, 225, 1)",
-          "rgba(106, 139, 229, 1)",
-          "rgba(134, 162, 237, 1)",
-          "rgba(147, 170, 234, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
+          "rgba(51, 96, 219, 1)",
           "rgba(168, 188, 240, 1)",
         ],
       },

@@ -189,13 +189,13 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           let name = data[0].split(" ").join("").toLowerCase();
           switch (name) {
             case "totalrevenue":
-              data[1] = apiData?.amount.toFixed(2);
+              data[1] = '₹ ' + apiData?.amount.toFixed(2)/10000000 + 'Cr';
               break;
             case "totalexpenditure":
-              data[1] = apiData?.expense.toFixed(2);
+              data[1] = '₹ ' + apiData?.expense.toFixed(2)/10000000 + 'Cr';
               break;
             case "stateulbtypeaverage":
-              data[1] = apiData?.weightedAmount.toFixed(2);
+              data[1] = '₹ ' + apiData?.weightedAmount.toFixed(2)/10000000 + 'Cr';
 
             default:
               break;
