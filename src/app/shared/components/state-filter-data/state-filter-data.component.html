@@ -8,45 +8,32 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between">
-      <div class="col-sm-12 col-md-6 pl-1">
+      <div class="col-sm-12 col-md-5 pl-1">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
           style="margin-left: 2pc"
-          class="btn deSelected"
+          class="btn deSelected my-2"
           [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >
           {{ item }}
         </button>
       </div>
 
-      <div class="col-sm-12 col-md-3">
+      <div class="col-sm-12 col-md-4">
         <div class="d-flex">
-          <label class="checkboxLabel">
+          <label class="checkboxLabel" *ngFor="let item of checkBoxArray">
             <input
-              type="checkbox"
-              value="1"
+              type="radio"
+              value="{{ item.value }}"
               (click)="getCheckBoxValue($event)"
-            />
-            State Average</label
+              [disabled]="item?.isDisabled"
+            />{{ item.title }}</label
           >
-          <label class="checkboxLabel">
-            <input
-              type="checkbox"
-              value="2"
-              (click)="getCheckBoxValue($event)"
-            />
-            State Average</label
-          >
-          <label class="checkboxLabel">
-            <input
-              type="checkbox"
-              value="3"
-              (click)="getCheckBoxValue($event)"
-            />
-            State Average</label
-          >
+          <button type="button" (click)="reset()" class="searchButton">
+            Reset
+          </button>
         </div>
       </div>
 
@@ -168,6 +155,7 @@
     [chartTitle]="
       'Total revenue of MCGM for last 3 years compared with state average'
     "
+    (dounghnuChartLabels)="labels($event)"
   ></app-revenue-mix>
 </div>
 <!-- <div *ngIf="ActiveButton === 'Own Revenue Mix'">
@@ -183,8 +171,10 @@
       City Ranking
 
       <div class="mx-2" *ngIf="ActiveButton.includes('Mix')">
-        <select>
-          <option>Select value</option>
+        <select class="mixSelect">
+          <option *ngFor="let item of chartLabels" [value]="item">
+            {{ item }}
+          </option>
         </select>
       </div>
       <button

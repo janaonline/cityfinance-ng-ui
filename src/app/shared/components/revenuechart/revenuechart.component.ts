@@ -34,7 +34,7 @@ export class RevenuechartComponent
   @Input()
   btnBesideText = false;
   @Input()
-  multiChartLabel = [
+  multiChartLabel: any = [
     { text: "test", color: "#FF608B" },
     { text: "test", color: "#FF608B" },
     { text: "test", color: "#FF608B" },
@@ -282,11 +282,9 @@ export class RevenuechartComponent
   @Input()
   multipleDoughnutCharts;
 
-  // @ViewChildren("mycharts") allMyCanvas: any;
-
   ngOnInit(): void {
     this.stateName = this.stateMap[this.stateId];
-    console.log("chartData===>", this.chartData);
+    console.log("chartData===>", this.multiChartLabel);
     // window.onload = () => {
     //   if (this.multipleCharts) {
     //     this.createMultipleChart();
@@ -428,7 +426,6 @@ export class RevenuechartComponent
   }
 
   ownRevenueCompValue(value) {
-    
     this.compareChange.emit(value);
   }
 

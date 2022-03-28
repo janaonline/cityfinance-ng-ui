@@ -35,6 +35,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   @Input() data;
 
+  @Input() dounghnuChartLabels;
+
+  chartLabels = [];
+
   scatterData = {
     type: "scatter",
     data: {
@@ -231,6 +235,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     },
   ];
 
+  checkBoxArray = [
+    { value: 1, title: "National Avg", isDisabled: false },
+    { value: 2, title: "ULB Type avg", isDisabled: false },
+    { value: 3, title: "Population Category avg", isDisabled: false },
+  ];
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -262,17 +272,23 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.BarGraphValue = false;
   }
 
-  disablevalue = false;
-
-  // disableCheckBox(event) {}
-
   getCheckBoxValue(event: any) {
-    // console.log("checked Value", event.target.value);
-    if (event.target.value) {
-      this.disablevalue = true;
-    } else {
-      this.disablevalue = false;
+    console.log("checked Value", event);
+    if (event && event.target && event.target.value) {
+      for (const item of this.checkBoxArray) {
+        if (item.value != event.target.value) {
+          item["isDisabled"] = true;
+        }
+      }
     }
+  }
+
+  reset() {
+    this.checkBoxArray = [
+      { value: 1, title: "National Avg", isDisabled: false },
+      { value: 2, title: "ULB Type Avg", isDisabled: false },
+      { value: 3, title: "Population Category Avg", isDisabled: false },
+    ];
   }
 
   yearList;
@@ -500,7 +516,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // if(changes.da)
+
+    console.log("state filter data changes", changes);
     if (changes.data) {
+      console.log("dounghnuChartLabels", this.dounghnuChartLabels);
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
         ...this.data["mainContent"][0],
@@ -558,5 +578,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
     // this.getScatterData();
     this.getRevenueId();
+  }
+
+  labels(data) {
+    console.log("newData====>", data);
+    this.chartLabels = data?.data?.labels;
   }
 }

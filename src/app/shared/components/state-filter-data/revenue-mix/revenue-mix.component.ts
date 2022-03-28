@@ -1,4 +1,11 @@
-import { Component,  Input, Output ,OnInit, SimpleChanges, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  SimpleChanges,
+  EventEmitter,
+} from "@angular/core";
 
 @Component({
   selector: "app-revenue-mix",
@@ -6,15 +13,15 @@ import { Component,  Input, Output ,OnInit, SimpleChanges, EventEmitter } from "
   styleUrls: ["./revenue-mix.component.scss"],
 })
 export class RevenueMixComponent implements OnInit {
+  @Input() chartData;
+  @Input() chartId;
+  @Input() chartTitle;
+  @Input() chartOptions;
 
+  @Output() dounghnuChartLabels = new EventEmitter<any>();
 
-@Input() chartData;
-@Input() chartId;
-@Input() chartTitle;
-@Input() chartOptions;
-
-@Output()
-compType = new EventEmitter();
+  @Output()
+  compType = new EventEmitter();
 
   doughnutArray: any = [
     {
@@ -473,6 +480,12 @@ compType = new EventEmitter();
       },
     },
   };
+
+  multipleChartLabelArray = [
+    { text: "test", color: "#FF608B" },
+    { text: "test", color: "#FF608B" },
+    { text: "test", color: "#FF608B" },
+  ];
   constructor() {}
 
   ulbTab = false;
@@ -489,19 +502,24 @@ compType = new EventEmitter();
     console.log(this.finalMultipleDoughnut);
   }
 
+  mulpleChartShow = false;
+
   ulbFunction(value) {
     console.log(value);
     if (value == 1) {
       this.ulbTab = true;
       this.populationTab = false;
+      this.mulpleChartShow = true;
     }
     if (value == 2) {
       this.ulbTab = false;
       this.populationTab = true;
+      this.mulpleChartShow = true;
     }
     if (value == 3) {
       this.ulbTab = false;
       this.populationTab = false;
+      this.mulpleChartShow = false;
     }
 
     console.log("this.ulbTab", this.ulbTab, this.populationTab);
@@ -514,5 +532,9 @@ compType = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("revenue chages", changes);
+    if (changes && changes.chartData && changes.chartData.currentValue) {
+      this.chartData = changes.chartData.currentValue;
+      this.dounghnuChartLabels.emit(this.chartData);
+    }
   }
 }
