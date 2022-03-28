@@ -99,9 +99,11 @@ export class CityComponent implements OnInit {
           this.frontPanelData.dataIndicators.map((item) => {
             switch (item.key) {
               case "population":
-                item.value = Math.round(res.data.population / 1000000) + " M";
-                if (item.value == "0 M")
-                  item.value = Math.round(res.data.population / 1000) + " K";
+                item.value =
+                  Math.round(res.data.population / 1000000) + " Million";
+                if (item.value == "0 Million")
+                  item.value =
+                    Math.round(res.data.population / 1000) + " Thousand";
                 break;
               case "density":
                 item.value = res.data.density + "/ Sq km";
@@ -137,10 +139,10 @@ export class CityComponent implements OnInit {
             if (key == "Debt") {
               element.number =
                 "INR " +
-                (
+                Math.round(
                   res.data.find((value) => value._id == "Revenue")?.totalGrant /
-                  10000000
-                ).toFixed(2) +
+                    10000000
+                ) +
                 "Cr";
             } else
               element.number =

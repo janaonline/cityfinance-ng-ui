@@ -213,7 +213,6 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   getStateName() {
-    // debugger;
     this.stateName = this.stateMap[this.stateId];
     return this.stateName;
   }
