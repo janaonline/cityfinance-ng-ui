@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { CommonService } from "../../services/common.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import Chart from "chart.js";
 
 @Component({
   selector: "app-filter-data",
@@ -345,7 +346,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           tooltips: {
             callbacks: {
               label: function (tooltipItem, data) {
-                debugger;
                 var dataset = data.datasets[tooltipItem.datasetIndex];
                 var total = dataset.data.reduce(function (
                   previousValue,
@@ -677,6 +677,30 @@ const barChartStaticOptions = {
       padding: 35,
       boxWidth: 24,
       boxHeight: 18,
+    },
+  },
+  animation: {
+    onComplete: function (animation) {
+      var chartInstance = this.chart,
+        ctx = chartInstance.ctx;
+      ctx.fillStyle = "#6E7281";
+      ctx.font = Chart.helpers.fontString(
+        Chart.defaults.global.defaultFontSize,
+        Chart.defaults.global.defaultFontStyle,
+        Chart.defaults.global.defaultFontFamily
+      );
+      ctx.textAlign = "center";
+      ctx.textBaseline = "bottom";
+
+      this.data.datasets.forEach(function (dataset, i) {
+        var meta = chartInstance.controller.getDatasetMeta(i);
+        if (meta.type == "line") return true;
+        meta.data.forEach(function (bar, index) {
+          var data = dataset.data[index];
+          ctx.fillText("₹ " + data + " Cr", bar._model.x, bar._model.y - 5);
+        });
+      });
+      console.log(animation, "animation");
     },
   },
 };

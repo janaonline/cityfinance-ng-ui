@@ -30,6 +30,7 @@ export class RevenuechartComponent
 {
   @Input()
   chartDialogues = false;
+  @Input()
   chartOptions;
   @Input()
   btnBesideText = false;
@@ -317,7 +318,6 @@ export class RevenuechartComponent
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
-      // debugger;
       this.year = this.mySelectedYears[0];
     }
     if (!changes.multipleDoughnutCharts?.firstChange && this.multipleCharts) {
@@ -428,7 +428,6 @@ export class RevenuechartComponent
   }
 
   ownRevenueCompValue(value) {
-    
     this.compareChange.emit(value);
   }
 
