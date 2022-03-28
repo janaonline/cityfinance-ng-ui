@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between">
-      <div class="col-sm-12 col-md-9 pl-1">
+      <div class="col-sm-12 col-md-6 pl-1">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
@@ -21,6 +21,35 @@
         </button>
       </div>
 
+      <div class="col-sm-12 col-md-3">
+        <div class="d-flex">
+          <label class="checkboxLabel">
+            <input
+              type="checkbox"
+              value="1"
+              (click)="getCheckBoxValue($event)"
+            />
+            State Average</label
+          >
+          <label class="checkboxLabel">
+            <input
+              type="checkbox"
+              value="2"
+              (click)="getCheckBoxValue($event)"
+            />
+            State Average</label
+          >
+          <label class="checkboxLabel">
+            <input
+              type="checkbox"
+              value="3"
+              (click)="getCheckBoxValue($event)"
+            />
+            State Average</label
+          >
+        </div>
+      </div>
+
       <div class="col-sm-12 col-md-3 pd-s mb-3">
         <div class="d-flex justify-content-between">
           <div></div>
@@ -31,8 +60,6 @@
                 aria-label="Default select"
                 (change)="getSelectedFinancialYear($event)"
               >
-                <option value="">Select Financial Year</option>
-
                 <option *ngFor="let year of yearList" [value]="year?._id">
                   {{ year._id }}
                 </option>
@@ -134,10 +161,14 @@
 </div>
 
 <div *ngIf="ActiveButton.includes('Mix')">
-  <app-revenue-mix   [chartId]="'doughnutDataChartId'"
-  [chartData]="doughnutData"
-  [chartOptions]="doughnutChartOptions"
-  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
+  <app-revenue-mix
+    [chartId]="'doughnutDataChartId'"
+    [chartData]="doughnutData"
+    [chartOptions]="doughnutChartOptions"
+    [chartTitle]="
+      'Total revenue of MCGM for last 3 years compared with state average'
+    "
+  ></app-revenue-mix>
 </div>
 <!-- <div *ngIf="ActiveButton === 'Own Revenue Mix'">
   <app-revenue-mix   [chartId]="generateRandomId('doughnutDataChartId')"
@@ -148,8 +179,14 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-12 mt-5 mb-5">
+    <div class="col-12 mt-5 mb-5 d-flex">
       City Ranking
+
+      <div class="mx-2" *ngIf="ActiveButton.includes('Mix')">
+        <select>
+          <option>Select value</option>
+        </select>
+      </div>
       <button
         class="rankingButton"
         [ngClass]="{ activeButton: BarGraphValue }"
