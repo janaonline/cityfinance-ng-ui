@@ -28,7 +28,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   headOfAccount = 'Revenue';
   chartId = `stateSCharts-${Math.random()}`;
   financialYear = "2016-17";
-
+  stateName
   compareDialogType = 3;
 
   isPerCapita = false;
@@ -111,6 +111,7 @@ doughnutData = {
     ]
   }
 }
+doughnutDataArr = []
 doughnutChartOptions = {
   maintainAspectRatio: false,
   cutoutPercentage:50,
@@ -353,7 +354,9 @@ doughnutChartOptions = {
     }
   }
   compType
+  multiChart = false
   getScatterData() {
+    this.multiChart = false
     this._loaderService.showLoader();
     this.initializeScatterData();
     let payload = {
@@ -362,7 +365,7 @@ doughnutChartOptions = {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: this.compType
+      compareType: this.compType ?  this.compType : "" 
     };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -419,10 +422,11 @@ doughnutChartOptions = {
         console.log(this.scatterData);
         this.generateRandomId("scatterChartId123");
         this.scatterData = { ...this.scatterData };
-       }//donught charts center
-       else if(this.filterName.includes('mix')){
+       } else if(this.filterName.includes('mix')){
+         if(payload.compareType == ''){
           let data =   res['data'];
           this.initializeDonughtData()
+          if(data.length)
           data.forEach(el => {
             this.doughnutData.data.labels.push(el._id);
             this.doughnutData.data.datasets[0].data.push(el.amount)
@@ -431,6 +435,17 @@ doughnutChartOptions = {
           console.log(this.doughnutData);
        
           this.doughnutData = { ...this.doughnutData };
+         }else if(payload.compareType == 'ulbType'){
+           let mData = res['mData']
+           let mcData = res['mcData']
+           let tpData = res['tpData']
+           this.multiChart = true
+           this.doughnutDataArr = [{mData:mData },{mcData:mcData},{tpData:tpData}] 
+           this.doughnutDataArr = [ ...this.doughnutDataArr ];
+        
+
+         }
+      
          
        }
      
@@ -456,7 +471,12 @@ doughnutChartOptions = {
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
   }
-
+  getCompType(e){
+    console.log(e)
+    this.compType = e
+    if(e)
+    this.getScatterData()
+  }
   changeActiveBtn(i) {
     console.log(this.data.btnLabels[i], "activeBTN");
     this.ActiveButton = this.data.btnLabels[i];
@@ -552,7 +572,7 @@ doughnutChartOptions = {
       }
     });
 
-    // this.getScatterData();
+    
     this.getRevenueId();
   }
 }

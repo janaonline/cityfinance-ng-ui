@@ -35,9 +35,7 @@ export class RevenuechartComponent
   btnBesideText = false;
   @Input()
   multiChartLabel = [
-    { text: "test", color: "#FF608B" },
-    { text: "test", color: "#FF608B" },
-    { text: "test", color: "#FF608B" },
+  
   ];
 
   stateId;
@@ -133,6 +131,43 @@ export class RevenuechartComponent
   // options in case of sactter plot
   @Input()
   scatterOption = {
+    legend:{
+      itemStyle: {
+        'cursor': 'default'
+    },
+      labels:{
+        usePointStyle: true,
+        pointStyle: 'circle',
+
+      },
+      position: 'bottom',
+      onHover: function(event, legendItem) {
+        event.target.style.cursor = 'pointer';
+        
+        
+      },
+      onClick: function(e, legendItem) {
+        var index = legendItem.datasetIndex;
+        var ci = this.chart;
+        var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+
+        ci.data.datasets.forEach(function(e, i) {
+          var meta = ci.getDatasetMeta(i);
+
+          if (i !== index) {
+            if (!alreadyHidden) {
+              meta.hidden = meta.hidden === null ? !meta.hidden : null;
+            } else if (meta.hidden === null) {
+              meta.hidden = true;
+            }
+          } else if (i === index) {
+            meta.hidden = null;
+          }
+        });
+
+        ci.update();
+      },
+    },
     elements: {
       point: {
         radius: 7,
@@ -300,7 +335,9 @@ export class RevenuechartComponent
   ngAfterViewInit(): void {
     if (this.multipleCharts) {
       this.createMultipleChart();
-    } else this.createChart();
+    
+    } 
+    // else this.createChart();
   }
 
   yearValueChange(value) {
@@ -334,8 +371,10 @@ export class RevenuechartComponent
     if (this.myChart) {
       this.myChart.destroy();
     }
-    if (this.chartData.type == "scatter")
+    if (this.chartData.type == "scatter"){
       Object.assign(this.chartData, { options: this.scatterOption });
+    }
+      
     else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
@@ -360,15 +399,27 @@ export class RevenuechartComponent
 
   createMultipleChart() {
     let id;
-    let newChartData;
+    let newChartData={};
     if (this.multipleDoughnutCharts) {
+    
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
+        console.log(element)
         id = element?.id + index;
-        newChartData = element.chartData;
-        Object.assign(newChartData, {
-          options: { ...element?.multipleChartOptions },
+        newChartData = element;
+        let colors = element.data.datasets[0].backgroundColor
+       if(index==0)
+        element.data['labels'].forEach((element,i) => {
+          this.multiChartLabel.push({
+            text: element,
+            color: colors[i]
+          })
         });
+      
+        // Object.assign(newChartData, {
+        //   options:  element?.multipleChartOptions ,
+        // });
+console.log(newChartData, id)
         let canvas = <HTMLCanvasElement>document.getElementById(id);
         let ctx = canvas.getContext("2d");
         let tempChart = new Chart(ctx, newChartData);
@@ -428,7 +479,7 @@ export class RevenuechartComponent
   }
 
   ownRevenueCompValue(value) {
-    
+
     this.compareChange.emit(value);
   }
 

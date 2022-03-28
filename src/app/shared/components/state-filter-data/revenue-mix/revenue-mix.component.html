@@ -4,16 +4,16 @@
     <button
       style="margin-left: 2pc"
       class="btn deSelected py-1"
-      (click)="ulbFunction(1); getMultipleDoughnutCharts()"
-      [ngClass]="ulbTab == true ? 'selected' : 'deSelected'"
+      (click)="ulbFunction(1); "
+      [ngClass]="ulbTab ? 'selected' : 'deSelected'"
     >
       ULB Type
     </button>
     <button
       style="margin-left: 2pc"
       class="btn deSelected py-1"
-      (click)="ulbFunction(2); getMultipleDoughnutCharts()"
-      [ngClass]="populationTab == true ? 'selected' : 'deSelected'"
+      (click)="ulbFunction(2);"
+      [ngClass]="populationTab ? 'selected' : 'deSelected'"
     >
       ULB Population
     </button>

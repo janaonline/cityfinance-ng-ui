@@ -309,7 +309,7 @@ cityInfo
   }
 
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "90vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -354,7 +354,7 @@ cityInfo
         scrollWheelZoom: false,
         fadeAnimation: true,
         minZoom: zoom,
-        maxZoom: zoom + 5,
+        maxZoom: zoom + 3,
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
