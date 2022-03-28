@@ -88,60 +88,70 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       this.panelClose(this.lastOpenPanel);
     }
     let name = item.name.toLowerCase();
-    if (name == "about this indicator")
-      this.addAnchorTag(
-        item,
-        1,
-        "/resources-dashboard/learning-center/bestPractices",
-        "Know more...",
-        index
-      );
-    if (name == "calculation") this.getCalculation(item, "", index);
-    if (name == "peer comparison" || name == "analysis")
-      this.getPeerComp(item, index);
-    if (name == "next steps") this.getNextStep(item, index);
-
+    switch (name) {
+      case "about this indicator":
+        this.addAnchorTag(
+          item,
+          1,
+          "/resources-dashboard/learning-center/bestPractices",
+          "Know more...",
+          index
+        );
+        break;
+      case "calculation":
+        this.getCalculation(item, "", index);
+        break;
+      case "analysis":
+      case "peer comparison":
+        this.getPeerComp(item, index);
+        break;
+      case "next steps":
+        this.getNextStep(item, index);
+        break;
+      default:
+        break;
+    }
     item.panelOpenState = true;
     this.lastOpenPanel = item;
   }
 
   getNextStep(item, parentIndex) {
     item.desc.forEach((element, i) => {
-      if (i == 1) {
+      if (element.text.includes("STATE_NAME")) {
         element.text = element.text.split("STATE_NAME");
         let stateName = this.ulbsData[this.cityId].state;
         element.text = element.text.join(stateName);
       }
-      if (element.text.includes("toolkit")) {
+      if (element.text.includes("toolkit") || element.text.includes("1")) {
         let temp = element.text.split(".")[1];
         element.text = element.text.split(".")[0] + ".";
         this.addAnchorTag(
           item,
           i,
           "http://localhost:4200/resources-dashboard/learning-center/toolkits",
-          temp,
+          temp ? temp : "Property tax reforms toolkit (published by MoHUA)",
           parentIndex
         );
       }
-      if (element.text.includes("E-learning")) {
+      if (element.text.includes("E-learning") || element.text.includes("2")) {
         let temp = element.text.split(".")[1];
         element.text = element.text.split(".")[0] + ".";
         this.addAnchorTag(
           item,
           i,
           "http://localhost:4200/resources-dashboard/learning-center/eLearning",
-          temp,
+          temp ? temp : "E-learning modules on implementing property tax reforms",
           parentIndex
         );
       }
-      if (element.text.includes("Best")) {
+      if (element.text.includes("Best") || element.text.includes("3")) {
         let temp = element.text.split(".")[1];
         element.text = element.text.split(".")[0] + ".";
         this.addAnchorTag(
           item,
           i,
           "http://localhost:4200/resources-dashboard/learning-center/bestPractices",
-          temp,
+          temp ? temp : "Best Practices on property tax reforms",
           parentIndex
         );
       }
@@ -179,13 +189,13 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           let name = data[0].split(" ").join("").toLowerCase();
           switch (name) {
             case "totalrevenue":
-              data[1] = apiData?.amount.toFixed(2);
+              data[1] = '₹ ' + apiData?.amount.toFixed(2)/10000000 + 'Cr';
               break;
             case "totalexpenditure":
-              data[1] = apiData?.expense.toFixed(2);
+              data[1] = '₹ ' + apiData?.expense.toFixed(2)/10000000 + 'Cr';
               break;
             case "stateulbtypeaverage":
-              data[1] = apiData?.weightedAmount.toFixed(2);
+              data[1] = '₹ ' + apiData?.weightedAmount.toFixed(2)/10000000 + 'Cr';
 
             default:
               break;
@@ -246,9 +256,15 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     item.desc.forEach((value, i) => {
       let ul = document.createElement("ul");
       let temp = value.text.split("=>");
-      temp.forEach((val) => {
-        let li = document.createElement("li");
-        li.innerHTML = val;
+      temp.forEach((val, j) => {
+        let li;
+        if (j == 0) {
+          li = document.createElement("strong");
+          li.innerHTML = val;
+        } else {
+          li = document.createElement("li");
+          li.innerHTML = val;
+        }
         ul.appendChild(li);
       });
       let tt = document.getElementById(index + item.name + i);

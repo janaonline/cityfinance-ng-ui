@@ -160,12 +160,15 @@
 
 .ownRevText {
     font-size: 1rem;
+    text-align: left;
 }
 
 .selectDiv {
+
     font-size: 14px;
     font-weight: 600;
     border-radius: 6px;
+    width:22rem;
 }
 
 @media only screen and (max-width: 1042px) {
