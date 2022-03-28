@@ -49,11 +49,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   chartTitle = "total revenues vs State";
   chartOptions;
   notFound = false;
+  ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnInit(): void {
-    let cities = JSON.parse(localStorage.getItem("ulbMapping"));
     this.chartTitle = `${
-      cities[this.currentUlb].name
-    } total revenues vs State ${cities[this.currentUlb].type} Average`;
+      this.ulbMapping[this.currentUlb].name
+    } total revenues vs State ${this.ulbMapping[this.currentUlb].type} Average`;
   }
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
@@ -160,7 +160,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
-          this.createPieChart(JSON.parse(JSON.stringify(res["data"])));
+          this.createPieChart(JSON.parse(JSON.stringify(res["data"])), body);
           this.calculateRevenue(res["data"]);
         } else {
           this.multiPie = false;
@@ -296,7 +296,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     return newData;
   }
 
-  createPieChart(data) {
+  createPieChart(data, body) {
     if (this.filterName == "revenue mix") {
       for (const key in data) {
         data[key] = this.createRevenueData(data[key]);
@@ -305,6 +305,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.filterName == "own revenue mix")
       data["ulbData"] = this.createOwnRevenueData(data);
     this.multipleDoughnutCharts = [];
+    this.multiChartLabel = [];
     for (const key in data) {
       const doughnutChartData = {
         labels: ["Red", "Blue", "Yellow"],
@@ -326,6 +327,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             text: value._id.lineItem,
             color: pieBackGroundColor[index],
           });
+        doughnutChartData.datasets[0].label = value._id.lineItem;
         return value._id.lineItem;
       });
       let config = {
@@ -340,7 +342,30 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           legend: {
             display: false,
           },
+          tooltips: {
+            callbacks: {
+              label: function (tooltipItem, data) {
+                debugger;
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue,
+                  currentIndex,
+                  array
+                ) {
+                  return Number(previousValue) + Number(currentValue);
+                });
+                var currentValue = Number(dataset.data[tooltipItem.index]);
+                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
+                return percentage + "%" + data.labels[tooltipItem.index];
+              },
+            },
+          },
         },
+        title:
+          key == "ulbData"
+            ? this.ulbMapping[this.currentUlb].name
+            : body.compareType,
       };
       this.multipleDoughnutCharts.push(val);
     }
