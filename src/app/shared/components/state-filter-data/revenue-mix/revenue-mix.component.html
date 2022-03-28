@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="col-sm-12 col-md-9 pl-1">
-   <!-- two buttons -->
+    <!-- two buttons -->
     <button
       style="margin-left: 2pc"
       class="btn deSelected py-1"
@@ -17,7 +17,7 @@
     >
       ULB Population
     </button>
-<!-- return to normal -->
+    <!-- return to normal -->
     <button (click)="ulbFunction(3)" class="returnButton">
       Return to State Average
     </button>
@@ -35,11 +35,12 @@
 
   <div class="col-12 mt-3" *ngIf="ulbTab || populationTab">
     <app-revenuechart
-      [multipleCharts]="true"
+      [multipleCharts]="mulpleChartShow"
       [multipleDoughnutCharts]="finalMultipleDoughnut"
       [chartTitle]="
         'The following pie chart provides the split of the contribution various own revenue streams to the total own revenue.'
       "
+      [multiChartLabel]="multiChartLabelArray"
     ></app-revenuechart>
   </div>
 

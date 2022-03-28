@@ -1,4 +1,11 @@
-import { Component,  Input, Output ,OnInit, SimpleChanges, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  SimpleChanges,
+  EventEmitter,
+} from "@angular/core";
 
 @Component({
   selector: "app-revenue-mix",
@@ -6,17 +13,16 @@ import { Component,  Input, Output ,OnInit, SimpleChanges, EventEmitter } from "
   styleUrls: ["./revenue-mix.component.scss"],
 })
 export class RevenueMixComponent implements OnInit {
+  @Input() chartData;
+  @Input() chartId;
+  @Input() chartTitle;
+  @Input() chartOptions;
 
+  @Output() dounghnuChartLabels = new EventEmitter<any>();
 
-@Input() chartData;
-@Input() chartId;
-@Input() chartTitle;
-@Input() chartOptions;
-@Input() multiChart;
+  @Output()
+  compType = new EventEmitter();
 
-@Output()
-compType = new EventEmitter();
-//ulb type based
   doughnutArray: any = [
     {
       id: "p1",
@@ -501,6 +507,12 @@ compType = new EventEmitter();
       },
     },
   };
+
+  multipleChartLabelArray = [
+    { text: "test", color: "#FF608B" },
+    { text: "test", color: "#FF608B" },
+    { text: "test", color: "#FF608B" },
+  ];
   constructor() {}
 
   ulbTab = false;
@@ -517,22 +529,27 @@ compType = new EventEmitter();
     console.log(this.finalMultipleDoughnut);
   }
 
+  mulpleChartShow = false;
+
   ulbFunction(value) {
     console.log(value);
     if (value == 1) {
       this.ulbTab = true;
       this.populationTab = false;
       this.compType.emit('ulbType')
+      this.mulpleChartShow = true;
     }
     if (value == 2) {
       this.ulbTab = false;
       this.populationTab = true;
       this.compType.emit('popType')
+      this.mulpleChartShow = true;
     }
     if (value == 3) {
       this.ulbTab = false;
       this.populationTab = false;
       this.compType.emit('default')
+      this.mulpleChartShow = false;
     }
 
     console.log("this.ulbTab", this.ulbTab, this.populationTab);

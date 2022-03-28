@@ -30,6 +30,7 @@ export class RevenuechartComponent
 {
   @Input()
   chartDialogues = false;
+  @Input()
   chartOptions;
   @Input()
   btnBesideText = false;
@@ -317,11 +318,9 @@ export class RevenuechartComponent
   @Input()
   multipleDoughnutCharts;
 
-  // @ViewChildren("mycharts") allMyCanvas: any;
-
   ngOnInit(): void {
     this.stateName = this.stateMap[this.stateId];
-    console.log("chartData===>", this.chartData);
+    console.log("chartData===>", this.multiChartLabel);
     // window.onload = () => {
     //   if (this.multipleCharts) {
     //     this.createMultipleChart();
@@ -354,7 +353,6 @@ export class RevenuechartComponent
       }
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
-      // debugger;
       this.year = this.mySelectedYears[0];
     }
     if (!changes.multipleDoughnutCharts?.firstChange && this.multipleCharts) {
@@ -479,7 +477,6 @@ console.log(newChartData, id)
   }
 
   ownRevenueCompValue(value) {
-
     this.compareChange.emit(value);
   }
 

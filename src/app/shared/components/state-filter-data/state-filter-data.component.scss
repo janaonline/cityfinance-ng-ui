@@ -61,3 +61,41 @@ td {
   background-color: white;
   margin-left: 10px;
 }
+
+.checkboxLabel {
+  font-size: 0.8em;
+  margin-left: 5px;
+  text-align: center;
+}
+
+.checkboxLabel input {
+  margin: 5px;
+}
+
+.mixSelect {
+  width: 10em;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.mixSelect > option {
+  width: 10em;
+}
+
+.searchButton {
+  border: none;
+  padding: 9px;
+  border-radius: 5px;
+  margin-right: 10px;
+  background-color: #e67e15;
+  border: 1px solid #e67e15;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.searchButton:hover {
+  background-color: #ffffff;
+  color: #e67e15;
+  transition: 0.3s;
+  border: 1px solid #e67e15;
+}
