@@ -147,16 +147,22 @@
   </div>
 </div>
 
-<div *ngIf="ActiveButton.includes('Mix')">
-  <app-revenue-mix
-    [chartId]="'doughnutDataChartId'"
-    [chartData]="doughnutData"
-    [chartOptions]="doughnutChartOptions"
-    [chartTitle]="
-      'Total revenue of MCGM for last 3 years compared with state average'
-    "
-    (dounghnuChartLabels)="labels($event)"
-  ></app-revenue-mix>
+<div *ngIf="ActiveButton.includes('Mix') && !compType">
+  <app-revenue-mix   [chartId]="'doughnutDataChartId'"
+  [chartData]="doughnutData"
+  [chartOptions]="doughnutChartOptions"
+  (compType)="getCompType($event)"
+  [multiChart]="multiChart"
+  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
+</div>
+<div *ngIf="ActiveButton.includes('Mix') && compType">
+  <app-revenue-mix   [chartId]="'doughnutDataChartId'"
+  [chartData]="doughnutDataArr"
+  [chartOptions]="doughnutChartOptions"
+  (compType)="getCompType($event)"
+  [multiChart]="multiChart"
+  (dounghnuChartLabels) = labels($event)
+  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
 </div>
 <!-- <div *ngIf="ActiveButton === 'Own Revenue Mix'">
   <app-revenue-mix   [chartId]="generateRandomId('doughnutDataChartId')"

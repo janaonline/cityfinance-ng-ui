@@ -28,7 +28,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   headOfAccount = "Revenue";
   chartId = `stateSCharts-${Math.random()}`;
   financialYear = "2016-17";
-
+  stateName
   compareDialogType = 3;
 
   isPerCapita = false;
@@ -376,8 +376,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
   }
-  compType;
+  compType
+  multiChart = false
+  doughnutDataArr = []
   getScatterData() {
+    this.multiChart = false
     this._loaderService.showLoader();
     this.initializeScatterData();
     let payload = {
@@ -386,16 +389,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: this.compType,
+      compareType: this.compType ?  this.compType : "" 
     };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getScatterdData(payload).subscribe(
       (res) => {
-        this._loaderService.stopLoader();
+
         console.log("response data", res);
         //scatter plots center
         if (!this.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
           let mCorporation = res["mCorporation"];
           let tp_data = res["townPanchayat"];
           let m_data = res["municipality"];
@@ -445,21 +449,43 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           this.scatterData = { ...this.scatterData };
         } //donught charts center
         else if (this.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
           let data = res["data"];
           this.initializeDonughtData();
-          data.forEach((el) => {
-            this.doughnutData.data.labels.push(el._id);
-            this.doughnutData.data.datasets[0].data.push(el.amount);
-          });
-          console.log(this.doughnutData);
+          if(payload.compareType == ''){
+            if(data.length){
+              data.forEach((el) => {
+                this.doughnutData.data.labels.push(el._id);
+                this.doughnutData.data.datasets[0].data.push(el.amount);
+              });
+              console.log(this.doughnutData);
+    
+              this.doughnutData = { ...this.doughnutData };
+            }
 
-          this.doughnutData = { ...this.doughnutData };
-        }
-      },
-      (err) => {
+          }else if(payload.compareType == 'ulbType'){
+            let mData = res['mData']
+            let mcData = res['mcData']
+            let tpData = res['tpData']
+            this.multiChart = true
+            this.doughnutDataArr = [{mData:mData },{mcData:mcData},{tpData:tpData}] 
+            this.doughnutDataArr = [ ...this.doughnutDataArr ];
+         
+ 
+          }
+    
+         }
+      
+         
+       },
+       (err) => {
         this._loaderService.stopLoader();
         console.log(err.message);
       }
+     
+        
+      
+      
     );
   }
   generateRandomId(name) {
@@ -476,7 +502,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
   }
-
+  getCompType(e){
+    console.log(e)
+    this.compType = e
+    if(e)
+    this.getScatterData()
+  }
   changeActiveBtn(i) {
     console.log(this.data.btnLabels[i], "activeBTN");
     this.ActiveButton = this.data.btnLabels[i];
@@ -576,12 +607,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       }
     });
 
-    // this.getScatterData();
+    
     this.getRevenueId();
   }
-
+  
   labels(data) {
-    console.log("newData====>", data);
-    this.chartLabels = data?.data?.labels;
+    
+    this.chartLabels = data;
   }
 }
