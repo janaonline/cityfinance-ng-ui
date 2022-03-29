@@ -230,6 +230,7 @@ export class BalanceTableComponent
 
   ulbVal(val) {
     this.ulbIdval = val;
+
     console.log("ulbVal", this.ulbIdval);
   }
 
@@ -286,6 +287,7 @@ export class BalanceTableComponent
   }
 
   createMultipleUpdateTable() {
+    this.ExistingValues();
     this.showtable = true;
     // this.balanceInput.ulbList = this.newUlbData;
 
@@ -381,5 +383,9 @@ export class BalanceTableComponent
         this.createUpdateTable(changes.cityId);
       }
     }
+
+    // if (changes && changes.cityId) {
+    //   this.ExistingValues();
+    // }
   }
 }

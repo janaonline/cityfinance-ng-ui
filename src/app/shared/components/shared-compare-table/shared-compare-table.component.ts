@@ -52,6 +52,9 @@ export class SharedCompareTableComponent implements OnInit {
     if (changes && changes.tableData && changes.tableData.currentValue) {
       this.tableData = changes.tableData.currentValue;
       console.log("changes", changes, this.tableData);
+      if (this.tableData === []) {
+        this.tableShow = false;
+      }
 
       this.getMultipleTableData();
     }

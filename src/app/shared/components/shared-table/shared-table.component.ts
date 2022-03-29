@@ -162,9 +162,13 @@ export class SharedTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.tableData === []) {
-      this.tableShow = false;
+    console.log("singleTable Changes", changes);
+    if (changes && changes.selectedCurrency) {
+      if (this.tableData === []) {
+        this.tableShow = false;
+      }
     }
+
     this.getAmountVal();
     if (changes && changes.selectedCurrency) {
       console.log("currencyChanges", changes);
