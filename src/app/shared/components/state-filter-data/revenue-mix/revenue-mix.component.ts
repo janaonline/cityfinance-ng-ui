@@ -518,7 +518,15 @@ export class RevenueMixComponent implements OnInit {
   ulbTab = false;
   populationTab = false;
   finalMultipleDoughnut = [];
+  getChartLabel(event){
+    console.log(event)
+    let data = []
+     event.forEach(element => {
+      data.push(element.text)
+    });
 
+    this.dounghnuChartLabels.emit(data)
+  }
   getMultipleDoughnutCharts() {
     if (this.ulbTab) {
       this.finalMultipleDoughnut = this.doughnutArray;

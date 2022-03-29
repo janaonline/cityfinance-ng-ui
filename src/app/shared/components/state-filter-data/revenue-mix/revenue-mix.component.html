@@ -37,10 +37,11 @@
     <app-revenuechart
       [multipleCharts]="mulpleChartShow"
       [multipleDoughnutCharts]="finalMultipleDoughnut"
+      (chartLabel) ="getChartLabel($event)"
       [chartTitle]="
         'The following pie chart provides the split of the contribution various own revenue streams to the total own revenue.'
       "
-      [multiChartLabel]="multiChartLabelArray"
+
     ></app-revenuechart>
   </div>
 

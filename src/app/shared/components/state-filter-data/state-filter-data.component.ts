@@ -395,10 +395,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getScatterdData(payload).subscribe(
       (res) => {
-        this._loaderService.stopLoader();
+
         console.log("response data", res);
         //scatter plots center
         if (!this.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
           let mCorporation = res["mCorporation"];
           let tp_data = res["townPanchayat"];
           let m_data = res["municipality"];
@@ -448,24 +449,31 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           this.scatterData = { ...this.scatterData };
         } //donught charts center
         else if (this.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
           let data = res["data"];
           this.initializeDonughtData();
-          data.forEach((el) => {
-            this.doughnutData.data.labels.push(el._id);
-            this.doughnutData.data.datasets[0].data.push(el.amount);
-          });
-          console.log(this.doughnutData);
+          if(payload.compareType == ''){
+            if(data.length){
+              data.forEach((el) => {
+                this.doughnutData.data.labels.push(el._id);
+                this.doughnutData.data.datasets[0].data.push(el.amount);
+              });
+              console.log(this.doughnutData);
+    
+              this.doughnutData = { ...this.doughnutData };
+            }
 
-          this.doughnutData = { ...this.doughnutData };
-         }else if(payload.compareType == 'ulbType'){
-           let mData = res['mData']
-           let mcData = res['mcData']
-           let tpData = res['tpData']
-           this.multiChart = true
-           this.doughnutDataArr = [{mData:mData },{mcData:mcData},{tpData:tpData}] 
-           this.doughnutDataArr = [ ...this.doughnutDataArr ];
-        
-
+          }else if(payload.compareType == 'ulbType'){
+            let mData = res['mData']
+            let mcData = res['mcData']
+            let tpData = res['tpData']
+            this.multiChart = true
+            this.doughnutDataArr = [{mData:mData },{mcData:mcData},{tpData:tpData}] 
+            this.doughnutDataArr = [ ...this.doughnutDataArr ];
+         
+ 
+          }
+    
          }
       
          
@@ -602,9 +610,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     
     this.getRevenueId();
   }
-
+  
   labels(data) {
-    console.log("newData====>", data);
-    this.chartLabels = data?.data?.labels;
+    
+    this.chartLabels = data;
   }
 }

@@ -34,10 +34,8 @@ export class RevenuechartComponent
   chartOptions;
   @Input()
   btnBesideText = false;
-  @Input()
-  multiChartLabel = [
-  
-  ];
+
+  multiChartLabel = [];
 
   stateId;
   stateName;
@@ -291,6 +289,9 @@ export class RevenuechartComponent
   actionClicked = new EventEmitter();
   @Output()
   compareChange = new EventEmitter();
+
+  @Output()
+  chartLabel = new EventEmitter();
   myChart;
   showMultipleCharts;
   @Input()
@@ -413,7 +414,7 @@ export class RevenuechartComponent
             color: colors[i]
           })
         });
-      
+      this.chartLabel.emit(this.multiChartLabel)
         // Object.assign(newChartData, {
         //   options:  element?.multipleChartOptions ,
         // });
