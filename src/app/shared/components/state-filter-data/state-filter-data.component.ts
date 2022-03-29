@@ -25,20 +25,23 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   ActiveButton: any;
   filterName = "revenue";
   tabName: any;
-  headOfAccount = 'Revenue';
+  headOfAccount = "Revenue";
   chartId = `stateSCharts-${Math.random()}`;
   financialYear = "2016-17";
-
+  stateName
   compareDialogType = 3;
 
   isPerCapita = false;
 
   @Input() data;
 
+  @Input() dounghnuChartLabels;
+
+  chartLabels = [];
+
   scatterData = {
     type: "scatter",
     data: {
-      
       datasets: [
         {
           labels: [],
@@ -88,62 +91,62 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     },
   };
 
-doughnutData = {
-  type:'doughnut',
-  data: {
-    labels: [
-     
-    ],
-    datasets: [
-      {
-     
-        data: [],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)',
-          'rgb(155, 25, 86)',
-          'rgb(55, 205, 186)',
-        ],
-        hoverOffset: 4
-
-      }
-    ]
-  }
-}
-doughnutChartOptions = {
-  maintainAspectRatio: false,
-  cutoutPercentage:50,
-  responsive: true,
-
-  legend: {
-    position: "bottom",
-    labels: {
-      usePointStyle: true,
-      pointStyle:'rect',
-      padding: 35,
-      boxWidth: 20,
-      boxHeight: 23,
-      fontSize: 15,
-
+  doughnutData = {
+    type: "doughnut",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          data: [],
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(54, 162, 235)",
+            "rgb(255, 205, 86)",
+            "rgb(155, 25, 86)",
+            "rgb(55, 205, 186)",
+          ],
+          hoverOffset: 4,
+        },
+      ],
     },
-    onClick: (e) => e.stopPropagation()
-  },
+  };
+  doughnutChartOptions = {
+    maintainAspectRatio: false,
+    cutoutPercentage: 50,
+    responsive: true,
 
-  tooltips: {
-    callbacks: {
-      label: function(tooltipItem, data) {
-        var dataset = data.datasets[tooltipItem.datasetIndex];
-        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-          return previousValue + currentValue;
-        });
-        var currentValue = dataset.data[tooltipItem.index];
-        var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
-        return percentage + "%";
-      }
-    }
-  }
-};
+    legend: {
+      position: "bottom",
+      labels: {
+        usePointStyle: true,
+        pointStyle: "rect",
+        padding: 35,
+        boxWidth: 20,
+        boxHeight: 23,
+        fontSize: 15,
+      },
+      onClick: (e) => e.stopPropagation(),
+    },
+
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          var total = dataset.data.reduce(function (
+            previousValue,
+            currentValue,
+            currentIndex,
+            array
+          ) {
+            return previousValue + currentValue;
+          });
+          var currentValue = dataset.data[tooltipItem.index];
+          var percentage = Math.floor((currentValue / total) * 100 + 0.5);
+          return percentage + "%";
+        },
+      },
+    },
+  };
   barData = {
     type: "bar",
     data: {
@@ -232,6 +235,12 @@ doughnutChartOptions = {
     },
   ];
 
+  checkBoxArray = [
+    { value: 1, title: "National Avg", isDisabled: false },
+    { value: 2, title: "ULB Type avg", isDisabled: false },
+    { value: 3, title: "Population Category avg", isDisabled: false },
+  ];
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -261,6 +270,25 @@ doughnutChartOptions = {
 
   showBottomGraph() {
     this.BarGraphValue = false;
+  }
+
+  getCheckBoxValue(event: any) {
+    console.log("checked Value", event);
+    if (event && event.target && event.target.value) {
+      for (const item of this.checkBoxArray) {
+        if (item.value != event.target.value) {
+          item["isDisabled"] = true;
+        }
+      }
+    }
+  }
+
+  reset() {
+    this.checkBoxArray = [
+      { value: 1, title: "National Avg", isDisabled: false },
+      { value: 2, title: "ULB Type Avg", isDisabled: false },
+      { value: 3, title: "Population Category Avg", isDisabled: false },
+    ];
   }
 
   yearList;
@@ -327,33 +355,32 @@ doughnutChartOptions = {
       },
     };
   }
-  initializeDonughtData(){
-  this.doughnutData =   {
-      type:'doughnut',
+  initializeDonughtData() {
+    this.doughnutData = {
+      type: "doughnut",
       data: {
-        labels: [
-         
-        ],
+        labels: [],
         datasets: [
           {
-         
             data: [],
             backgroundColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
-              'rgb(255, 205, 86)',
-              'rgb(155, 25, 86)',
-              'rgb(55, 205, 186)',
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+              "rgb(155, 25, 86)",
+              "rgb(55, 205, 186)",
             ],
-            hoverOffset: 4
-    
-          }
-        ]
-      }
-    }
+            hoverOffset: 4,
+          },
+        ],
+      },
+    };
   }
   compType
+  multiChart = false
+  doughnutDataArr = []
   getScatterData() {
+    this.multiChart = false
     this._loaderService.showLoader();
     this.initializeScatterData();
     let payload = {
@@ -362,84 +389,103 @@ doughnutChartOptions = {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: this.compType
+      compareType: this.compType ?  this.compType : "" 
     };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getScatterdData(payload).subscribe(
       (res) => {
-        this._loaderService.stopLoader();
+
         console.log("response data", res);
         //scatter plots center
-       if(!this.filterName.includes('mix')){
-        let mCorporation = res["mCorporation"];
-        let tp_data = res["townPanchayat"];
-        let m_data = res["municipality"];
-        // let natData = res["natAvg"][0]["average"];
-        // let stateData = res["stateAvg"][0]["average"];
+        if (!this.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
+          let mCorporation = res["mCorporation"];
+          let tp_data = res["townPanchayat"];
+          let m_data = res["municipality"];
+          // let natData = res["natAvg"][0]["average"];
+          // let stateData = res["stateAvg"][0]["average"];
 
-        this.scatterData.data.datasets.forEach((el) => {
-          let obj = { x: 0, y: 0 };
-          if (el.label == "Town Panchayat") {
-            obj = { x: 0, y: 0 };
-            tp_data.forEach((el2, index) => {
-              obj.x = el2.population;
-              obj.y = el2.totalRevenue;
-              el["labels"].push(el2.ulbName);
-              el["rev"].push(el2.totalRevenue);
-              el.data.push(obj);
+          this.scatterData.data.datasets.forEach((el) => {
+            let obj = { x: 0, y: 0 };
+            if (el.label == "Town Panchayat") {
               obj = { x: 0, y: 0 };
-            });
-          } else if (el.label == "Municipal Corporation") {
-            mCorporation.forEach((el2, index) => {
-              obj.x = el2.population;
-              obj.y = el2.totalRevenue;
-              el["labels"].push(el2.ulbName);
-              el["rev"].push(el2.totalRevenue);
-              el.data.push(obj);
+              tp_data.forEach((el2, index) => {
+                obj.x = el2.population;
+                obj.y = el2.totalRevenue;
+                el["labels"].push(el2.ulbName);
+                el["rev"].push(el2.totalRevenue);
+                el.data.push(obj);
+                obj = { x: 0, y: 0 };
+              });
+            } else if (el.label == "Municipal Corporation") {
+              mCorporation.forEach((el2, index) => {
+                obj.x = el2.population;
+                obj.y = el2.totalRevenue;
+                el["labels"].push(el2.ulbName);
+                el["rev"].push(el2.totalRevenue);
+                el.data.push(obj);
 
-              obj = { x: 0, y: 0 };
-            });
-          } else if (el.label == "Municipality") {
-            m_data.forEach((el2, index) => {
-              obj = { x: 0, y: 0 };
-              obj.x = el2.population;
-              obj.y = el2.totalRevenue;
-              el["labels"].push(el2.ulbName);
-              el["rev"].push(el2.totalRevenue);
-              el.data.push(obj);
-              obj = { x: 0, y: 0 };
-            });
-          } else if (el.label == "National Average") {
-            // el["data"]["y"] = natData;
-          } else if (el.label == "State Average") {
-            // el["data"]["y"] = stateData;
-          }
-        });
-        console.log(this.scatterData);
-        this.generateRandomId("scatterChartId123");
-        this.scatterData = { ...this.scatterData };
-       }//donught charts center
-       else if(this.filterName.includes('mix')){
-          let data =   res['data'];
-          this.initializeDonughtData()
-          data.forEach(el => {
-            this.doughnutData.data.labels.push(el._id);
-            this.doughnutData.data.datasets[0].data.push(el.amount)
-          
-          })
-          console.log(this.doughnutData);
-       
-          this.doughnutData = { ...this.doughnutData };
+                obj = { x: 0, y: 0 };
+              });
+            } else if (el.label == "Municipality") {
+              m_data.forEach((el2, index) => {
+                obj = { x: 0, y: 0 };
+                obj.x = el2.population;
+                obj.y = el2.totalRevenue;
+                el["labels"].push(el2.ulbName);
+                el["rev"].push(el2.totalRevenue);
+                el.data.push(obj);
+                obj = { x: 0, y: 0 };
+              });
+            } else if (el.label == "National Average") {
+              // el["data"]["y"] = natData;
+            } else if (el.label == "State Average") {
+              // el["data"]["y"] = stateData;
+            }
+          });
+          console.log(this.scatterData);
+          this.generateRandomId("scatterChartId123");
+          this.scatterData = { ...this.scatterData };
+        } //donught charts center
+        else if (this.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
+          let data = res["data"];
+          this.initializeDonughtData();
+          if(payload.compareType == ''){
+            if(data.length){
+              data.forEach((el) => {
+                this.doughnutData.data.labels.push(el._id);
+                this.doughnutData.data.datasets[0].data.push(el.amount);
+              });
+              console.log(this.doughnutData);
+    
+              this.doughnutData = { ...this.doughnutData };
+            }
+
+          }else if(payload.compareType == 'ulbType'){
+            let mData = res['mData']
+            let mcData = res['mcData']
+            let tpData = res['tpData']
+            this.multiChart = true
+            this.doughnutDataArr = [{mData:mData },{mcData:mcData},{tpData:tpData}] 
+            this.doughnutDataArr = [ ...this.doughnutDataArr ];
          
-       }
-     
-        
-      },
-      (err) => {
+ 
+          }
+    
+         }
+      
+         
+       },
+       (err) => {
         this._loaderService.stopLoader();
         console.log(err.message);
       }
+     
+        
+      
+      
     );
   }
   generateRandomId(name) {
@@ -456,7 +502,12 @@ doughnutChartOptions = {
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
   }
-
+  getCompType(e){
+    console.log(e)
+    this.compType = e
+    if(e)
+    this.getScatterData()
+  }
   changeActiveBtn(i) {
     console.log(this.data.btnLabels[i], "activeBTN");
     this.ActiveButton = this.data.btnLabels[i];
@@ -496,7 +547,11 @@ doughnutChartOptions = {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // if(changes.da)
+
+    console.log("state filter data changes", changes);
     if (changes.data) {
+      console.log("dounghnuChartLabels", this.dounghnuChartLabels);
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
         ...this.data["mainContent"][0],
@@ -519,9 +574,9 @@ doughnutChartOptions = {
     this.headOfAccount = name.includes("revenue")
       ? "Revenue"
       : name.includes("expenditure")
-      ? "Expense"  
-      : name.includes("surplus") 
-      ? "Expense"  
+      ? "Expense"
+      : name.includes("surplus")
+      ? "Expense"
       : "Tax";
   }
 
@@ -552,7 +607,12 @@ doughnutChartOptions = {
       }
     });
 
-    // this.getScatterData();
+    
     this.getRevenueId();
+  }
+  
+  labels(data) {
+    
+    this.chartLabels = data;
   }
 }

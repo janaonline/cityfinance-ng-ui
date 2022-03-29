@@ -197,14 +197,14 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
 
   getStickyValue() {
     if (this.stateId) {
-      if (this.scrollCords > 1150) {
+      if (this.scrollCords >= 1150) {
         this.sticky = true;
       } else {
         this.sticky = false;
       }
     }
     if (this.cityId) {
-      if (this.scrollCords > 900) {
+      if (this.scrollCords >= 870) {
         this.sticky = true;
       } else {
         this.sticky = false;
