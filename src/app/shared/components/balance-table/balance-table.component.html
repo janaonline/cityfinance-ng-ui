@@ -8,17 +8,16 @@
       </p>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
-      <div
-        class="mr-1 modalButton d-flex justify-content-center align-items-center"
-      >
-        <span
+      <div class="mr-1 d-flex justify-content-center align-items-center">
+        <button
           (click)="openModal()"
           style="font-size: 0.8em; cursor: pointer"
-          class="compare"
-          >Compare By: Similar Type &nbsp;</span
+          class="searchButton comp"
         >
+          Compare By
+        </button>
       </div>
-      <div class="yearSelect">
+      <!-- <div class="yearSelect">
         <mat-form-field appearance="outline" style="width: 140px">
           <mat-label>Select Years</mat-label>
           <mat-select
@@ -31,7 +30,7 @@
             }}</mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
+      </div> -->
 
       <div>
         <button
@@ -39,6 +38,8 @@
           [disabled]="searchEnable()"
           (click)="createMultipleUpdateTable()"
           (click)="ExistingValues()"
+          id="getMultipleChants"
+          hidden
         >
           Search
         </button>
@@ -101,8 +102,12 @@
 
 <ng-template #template>
   <app-compare-dialog
+    [type]="3"
     (closeDialog)="closeModal()"
     (ulbValues)="ulbVal($event)"
     (ulbValueList)="ulbValList($event)"
+    (SelectYearList)="selectedValueYears($event)"
+    (SelectYears)="selectedYea($event)"
+    [showDropDown]="true"
   ></app-compare-dialog>
 </ng-template>
