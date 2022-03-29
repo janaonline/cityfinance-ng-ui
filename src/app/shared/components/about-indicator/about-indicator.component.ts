@@ -71,17 +71,24 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       name: "Next Steps",
     },
   ];
+  copyData;
   @Input()
   selectedYear = "2015-16";
   @Input()
   cityId;
   lastOpenPanel;
   loading = false;
+  ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
+  stateCode = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   ngOnInit(): void {
     console.log(this.data, "about indicator");
   }
   ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.data) {
+      this.copyData = JSON.parse(JSON.stringify(this.data));
+    }
+  }
 
   panelOpen(item, index) {
     if (this.lastOpenPanel) {
@@ -119,7 +126,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     item.desc.forEach((element, i) => {
       if (element.text.includes("STATE_NAME")) {
         element.text = element.text.split("STATE_NAME");
-        let stateName = this.ulbsData[this.cityId].state;
+        let stateName = this.ulbsData[this.cityId].name;
         element.text = element.text.join(stateName);
       }
       if (element.text.includes("toolkit") || element.text.includes("1")) {
@@ -140,7 +147,9 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           item,
           i,
           "http://localhost:4200/resources-dashboard/learning-center/eLearning",
-          temp ? temp : "E-learning modules on implementing property tax reforms",
+          temp
+            ? temp
+            : "E-learning modules on implementing property tax reforms",
           parentIndex
         );
       }
@@ -155,6 +164,37 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           parentIndex
         );
       }
+      if (element.text.includes("state level")) {
+      }
+      if (element.text.includes("state level")) {
+        let text = this.copyData[parentIndex].desc[i].text;
+        if (text.includes("STATE_NAME")) {
+          text = text.split("STATE_NAME");
+          let stateName = this.ulbsData[this.cityId].name;
+          text = text.join(stateName);
+        }
+        this.addAnchorTag(
+          item,
+          i,
+          `/dashboard/state?stateId=${
+            this.ulbList[this.stateCode[this.cityId]]._id
+          }`,
+          text,
+          parentIndex
+        );
+        element.text = "";
+      }
+      if (element.text.includes("national level")) {
+        let text = this.copyData[parentIndex].desc[i].text;
+        this.addAnchorTag(
+          item,
+          i,
+          "/dashboard/national?tabIndex=1",
+          text,
+          parentIndex
+        );
+        element.text = "";
+      }
     });
   }
 
@@ -163,8 +203,6 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     aTag.href = link;
     aTag.innerHTML = text;
     let pTag = document.getElementById(parentIndex + item.name + index);
-    console.log(pTag, "tag", index + 1 + item.name, "id");
-
     if ((pTag.hasOwnProperty("children"), pTag.children.length == 0))
       pTag.appendChild(aTag);
   }
@@ -189,13 +227,14 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           let name = data[0].split(" ").join("").toLowerCase();
           switch (name) {
             case "totalrevenue":
-              data[1] = '₹ ' + apiData?.amount.toFixed(2)/10000000 + 'Cr';
+              data[1] = "₹ " + Math.round(apiData?.amount / 10000000) + "Cr";
               break;
             case "totalexpenditure":
-              data[1] = '₹ ' + apiData?.expense.toFixed(2)/10000000 + 'Cr';
+              data[1] = "₹ " + Math.round(apiData?.expense / 10000000) + "Cr";
               break;
             case "stateulbtypeaverage":
-              data[1] = '₹ ' + apiData?.weightedAmount.toFixed(2)/10000000 + 'Cr';
+              data[1] =
+                "₹ " + Math.round(apiData?.weightedAmount / 10000000) + "Cr";
 
             default:
               break;
@@ -225,7 +264,6 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     pTag.appendChild(imgTag);
   }
   stateUlbMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
-  ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
   getPeerComp(item, index) {
     this.loading = true;
     this.aboutService.compPeer(this.cityId, this.selectedYear).subscribe(
