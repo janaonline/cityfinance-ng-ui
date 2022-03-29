@@ -378,6 +378,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
   compType
   multiChart = false
+  doughnutDataArr = []
   getScatterData() {
     this.multiChart = false
     this._loaderService.showLoader();
