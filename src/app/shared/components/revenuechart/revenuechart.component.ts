@@ -339,9 +339,7 @@ export class RevenuechartComponent
   ngAfterViewInit(): void {
     if (this.multipleCharts) {
       this.createMultipleChart();
-    
-    } 
-    // else this.createChart();
+    } else this.createChart();
   }
 
   yearValueChange(value) {

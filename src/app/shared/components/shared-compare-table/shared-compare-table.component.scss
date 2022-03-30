@@ -57,9 +57,15 @@ th {
   border-bottom: 1px sloid #e9ecf7;
 }
 
-.rowData {
+// .rowData {
+// border: 1px solid #d9d8d8;
+// border-radius: 4px;
+// margin-top: 2px !important;
+// margin-bottom: 2px !important;
+// padding-top: 12px;
+// padding-bottom: 12px;
+// }
+.table tr {
+  margin: 10px 0px;
   border: 1px solid #d9d8d8;
-  border-radius: 4px;
-  margin-top: 2px !important;
-  margin-bottom: 2px !important;
 }

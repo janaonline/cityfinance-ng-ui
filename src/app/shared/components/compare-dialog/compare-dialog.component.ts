@@ -59,13 +59,24 @@ export class CompareDialogComponent implements OnInit {
   ulbValueList = new EventEmitter();
 
   @Output()
+  SelectYearList = new EventEmitter();
+
+  @Output()
+  SelectYears = new EventEmitter();
+
+  @Output()
   selectedParam = new EventEmitter();
+
+  dropYears = new FormControl();
 
   States = new FormControl();
   toogle = new FormControl(false, []);
   selectedVal = new FormControl();
   globalFormControl = new FormControl();
   stateList = [];
+
+  @Input()
+  showDropDown;
 
   @Input()
   type = 1;
@@ -88,6 +99,9 @@ export class CompareDialogComponent implements OnInit {
   ulbListChip: { name: string; _id: string }[] = [];
 
   ulbIds: any;
+
+  yearValue: any;
+  years: any;
 
   valuesToEmit;
 
@@ -115,16 +129,41 @@ export class CompareDialogComponent implements OnInit {
       this.stateChipList.splice(index, 1);
     }
   }
+  yearsList: { id: string; itemName: string }[] = [
+    { id: "2020-2021", itemName: "2020-2021" },
+    { id: "2019-2020", itemName: "2019-2020" },
+    { id: "2018-2019", itemName: "2018-2019" },
+    { id: "2017-2018", itemName: "2017-2018" },
+    { id: "2016-2017", itemName: "2016-2017" },
+    { id: "2015-2016", itemName: "2015-2016" },
+  ];
+
+  selectYearValue(event: any) {
+    this.yearValue = event.value;
+    this.years = this.yearValue.map((ele) => ele.itemName);
+    console.log("yearValue", this.yearValue, this.years);
+    // this.newUlbData = this.ulbListVal.map((elem) => {
+    //   return {
+    //     ...elem,
+    //     financialYear: [...this.years],
+    //     state: elem?.state.name,
+    //     stateId: elem?.state._id,
+    //     ulb: elem?.ulbType._id,
+    //     ulbType: elem?.ulbType.name,
+    //   };
+    // });
+    // console.log(this.years);
+  }
   togglerValue;
   typeX = "";
-  placeholder="Search for States"
+  placeholder = "Search for States";
   ngOnInit(): void {
     this.toogle.valueChanges.subscribe((newToogleValue) => {
       console.log("toogleValue", newToogleValue);
       this.reset();
       this.togglerValue = newToogleValue;
-      if(!newToogleValue)   this.placeholder = `Search for States`
-      else this.placeholder = `Search for ULBs`
+      if (!newToogleValue) this.placeholder = `Search for States`;
+      else this.placeholder = `Search for ULBs`;
     });
     this.selectedVal.valueChanges.subscribe((val) => {
       console.log(val);
@@ -133,12 +172,9 @@ export class CompareDialogComponent implements OnInit {
       if (value.length >= 1) {
         if (this.togglerValue) {
           this.typeX = "ulb";
-          
         } else {
           this.typeX = "state";
-       
         }
-
 
         this._commonService
           .postGlobalSearchData(value, this.typeX, "")
@@ -188,10 +224,12 @@ export class CompareDialogComponent implements OnInit {
   }
   reset() {
     this.globalFormControl.setValue("");
-    
-    this.own ? this.selectedVal.setValue("Own Revenue per Capita") : this.selectedVal.setValue("Property Tax per Capita") ;
+
+    this.own
+      ? this.selectedVal.setValue("Own Revenue per Capita")
+      : this.selectedVal.setValue("Property Tax per Capita");
     this.stateChipList = [];
-    this.ulbListChip = []
+    this.ulbListChip = [];
   }
   close() {
     this.closeDialog.emit(true);
@@ -292,6 +330,8 @@ export class CompareDialogComponent implements OnInit {
       this.compareValue.emit(this.valuesToEmit);
       this.ulbValues.emit(this.ulbIds);
       this.ulbValueList.emit(this.ulbListChip);
+      this.SelectYearList.emit(this.yearValue);
+      this.SelectYears.emit(this.years);
     }
     this.close();
   }

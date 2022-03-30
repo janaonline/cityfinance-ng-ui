@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NewDashboardService } from "../new-dashboard.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-national",
@@ -8,53 +9,62 @@ import { NewDashboardService } from "../new-dashboard.service";
 })
 export class NationalComponent implements OnInit {
   constructor(
-    public newDashboardService: NewDashboardService
-    ) {
-      this.loadData();
-    }
+    public newDashboardService: NewDashboardService,
+    private _activatedRoute: ActivatedRoute
+  ) {
+    this._activatedRoute.queryParams.subscribe((param) => {
+      this.tabIndex = param.tabIndex;
+    });
+    this.loadData();
+  }
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   tabAboutData;
   component_name;
+  tabIndex;
 
   ngOnInit(): void {
-    this.component_name = 'National';
+    this.component_name = "National";
   }
 
-loadData(){
-  this.newDashboardService
-  .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
-  .subscribe(
-    (res) => {
-      console.log(res, "dashboardTabData");
-      let tab = res["data"];
-      this.sortTabData(tab);
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+  loadData() {
+    this.newDashboardService
+      .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
+      .subscribe(
+        (res) => {
+          console.log(res, "dashboardTabData");
+          let tab = res["data"];
+          this.sortTabData(tab);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
 
-let id = "5dd24729437ba31f7eb42eac";
-this.newDashboardService.dashboardInformation(true, id, "ulb", "").subscribe(
-  (res: any) => {},
-  (error) => {
-    console.error(error);
+    let id = "5dd24729437ba31f7eb42eac";
+    this.newDashboardService
+      .dashboardInformation(true, id, "ulb", "")
+      .subscribe(
+        (res: any) => {},
+        (error) => {
+          console.error(error);
+        }
+      );
+    this.newDashboardService
+      .dashboardInformation(false, id, "ulb", "")
+      .subscribe(
+        (res) => {},
+        (error) => {
+          console.error(error);
+        }
+      );
   }
-);
-this.newDashboardService.dashboardInformation(false, id, "ulb","").subscribe(
-  (res) => {},
-  (error) => {
-    console.error(error);
+  sortTabData(res) {
+    console.log(res);
+    this.tabAboutData = res.sort(function (x, y) {
+      return x.position - y.position;
+    });
   }
-);
-}
-sortTabData(res){
-  console.log(res)
-  this.tabAboutData = res.sort(function (x, y) {
-    return x.position - y.position;
-});
-}
 }
 
 const data = {

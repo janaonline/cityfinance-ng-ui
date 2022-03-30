@@ -76,7 +76,7 @@ export class BalanceTableComponent
   yearValue: any;
   yearSingleList: any;
   Types = new FormControl();
-  dropYears = new FormControl();
+  // dropYears = new FormControl();
   currency = new FormControl();
 
   years: any[];
@@ -200,24 +200,24 @@ export class BalanceTableComponent
     this.isComparative = true;
   }
 
-  newUlbData: any;
+  // newUlbData: any;
 
-  selectYearValue(event: any) {
-    this.yearValue = event.value;
-    console.log("yearValue", this.yearValue);
-    this.years = this.yearValue.map((ele) => ele.itemName);
-    this.newUlbData = this.ulbListVal.map((elem) => {
-      return {
-        ...elem,
-        financialYear: [...this.years],
-        state: elem?.state.name,
-        stateId: elem?.state._id,
-        ulb: elem?.ulbType._id,
-        ulbType: elem?.ulbType.name,
-      };
-    });
-    console.log(this.years);
-  }
+  // selectYearValue(event: any) {
+  //   this.yearValue = event.value;
+  //   console.log("yearValue", this.yearValue);
+  //   this.years = this.yearValue.map((ele) => ele.itemName);
+  //   this.newUlbData = this.ulbListVal.map((elem) => {
+  //     return {
+  //       ...elem,
+  //       financialYear: [...this.years],
+  //       state: elem?.state.name,
+  //       stateId: elem?.state._id,
+  //       ulb: elem?.ulbType._id,
+  //       ulbType: elem?.ulbType.name,
+  //     };
+  //   });
+  //   console.log(this.years);
+  // }
 
   selectCurrencyValue(event) {
     this.selectedCurrency = event.target.value;
@@ -230,6 +230,7 @@ export class BalanceTableComponent
 
   ulbVal(val) {
     this.ulbIdval = val;
+
     console.log("ulbVal", this.ulbIdval);
   }
 
@@ -238,12 +239,27 @@ export class BalanceTableComponent
     console.log("ulbListVal", this.ulbListVal);
   }
 
+  selectedValueYears(val) {
+    this.yearValue = val;
+    console.log("selected year list", val);
+  }
+
+  selectedYea(val) {
+    this.years = val;
+    setTimeout(() => {
+      this.invokeHidden();
+    }, 500);
+    console.log("selected Value", val);
+  }
+
   searchEnable() {
     if (this.ulbListVal && this.yearValue) {
       return false;
     }
     return true;
   }
+
+  // document.getElementById("trigger").click();
 
   createUpdateTable(cityId = null) {
     if (cityId) this.id = cityId.currentValue;
@@ -271,6 +287,7 @@ export class BalanceTableComponent
   }
 
   createMultipleUpdateTable() {
+    this.ExistingValues();
     this.showtable = true;
     // this.balanceInput.ulbList = this.newUlbData;
 
@@ -309,6 +326,10 @@ export class BalanceTableComponent
     }
   }
 
+  invokeHidden() {
+    document.getElementById("getMultipleChants").click();
+  }
+
   ngOnInit() {}
 
   download() {
@@ -341,6 +362,8 @@ export class BalanceTableComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // this.invokeHidden();
+    console.log("balance table", changes);
     if (this.data.name == "Balance Sheet") {
       this.reportGroup = "Balance Sheet";
     } else {
@@ -360,5 +383,9 @@ export class BalanceTableComponent
         this.createUpdateTable(changes.cityId);
       }
     }
+
+    // if (changes && changes.cityId) {
+    //   this.ExistingValues();
+    // }
   }
 }
