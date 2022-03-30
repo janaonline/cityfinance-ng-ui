@@ -403,7 +403,6 @@ export class RevenuechartComponent
     if (this.multipleDoughnutCharts) {
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
-        console.log(element);
         id = element?.id + index;
         newChartData = element;
         let colors = element.data.datasets[0].backgroundColor;
@@ -415,30 +414,15 @@ export class RevenuechartComponent
             });
           });
         this.chartLabel.emit(this.multiChartLabel);
-        // Object.assign(newChartData, {
-        //   options:  element?.multipleChartOptions ,
-        // });
-        console.log(newChartData, id);
+        if (element?.multipleChartOptions)
+          Object.assign(newChartData, {
+            options: element?.multipleChartOptions,
+          });
         let canvas = <HTMLCanvasElement>document.getElementById(id);
         let ctx = canvas.getContext("2d");
         let tempChart = new Chart(ctx, newChartData);
         this.lastMultipleCharts.push(tempChart);
       }
-      // let temp = document.getElementById("horizontal-list");
-      // newChartData.data.labels.forEach((value) => {
-      //   let li = document.createElement("li");
-      //   li.innerText = value;
-      //   li.style.display = "inline";
-      //   li.style.paddingLeft = "1rem";
-      //   let span = document.createElement("span");
-      //   span.style.backgroundColor = "#FF608B";
-      //   span.style.display = "inline";
-      //   span.style.borderRadius = "12px";
-      //   span.style.paddingLeft = "1rem";
-      //   span.style.marginLeft = "3px";
-      //   li.appendChild(span);
-      //   temp.appendChild(li);
-      // });
     }
   }
 
