@@ -13,6 +13,7 @@ export class CityComponent implements OnInit {
   constructor(
     public newDashboardService: NewDashboardService,
     private _activatedRoute: ActivatedRoute,
+    private router: Router,
     private cityService: CityService,
     private authService: AuthService
   ) {
@@ -22,6 +23,9 @@ export class CityComponent implements OnInit {
       this.mapData.code.city = this.ulbCodeMapping[this.cityId];
       this.mapData.code.state = this.ulbStateCodeMapping[this.cityId];
     });
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
   }
   ulbStateCodeMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   ulbCodeMapping = JSON.parse(localStorage.getItem("ulbCodeMapping"));
