@@ -378,6 +378,10 @@ export class RevenuechartComponent
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data.length) {
       let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+      if (!canvas) {
+        console.error("no Canvas");
+        return;
+      }
       let ctx = canvas.getContext("2d");
       this.myChart = new Chart(ctx, this.chartData);
 
