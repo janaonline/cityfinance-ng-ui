@@ -9,13 +9,16 @@ export class StateFilterDataService {
   constructor(private http: HttpClient) {}
 
   getScatterdData(payload) {
-    return this.http.post(
-      environment.api.url + "/state-revenue",
-      payload
-    );
+    return this.http.post(environment.api.url + "/state-revenue", payload);
   }
 
   getRevID() {
     return this.http.get(environment.api.url + "LineItem");
+  }
+
+  getServiceDropDown(type) {
+    return this.http.get(
+      environment.api.url + `state-list-of-indics?type=${type}`
+    );
   }
 }

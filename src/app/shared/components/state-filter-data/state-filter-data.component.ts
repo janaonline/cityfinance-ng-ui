@@ -28,14 +28,18 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   headOfAccount = "Revenue";
   chartId = `stateSCharts-${Math.random()}`;
   financialYear = "2016-17";
-  stateName
+  stateName;
   compareDialogType = 3;
-
+  serviceTab;
   isPerCapita = false;
+
+  serviceTabList: [];
 
   @Input() data;
 
   @Input() dounghnuChartLabels;
+
+  @Input() stateServiceLabel;
 
   chartLabels = [];
 
@@ -294,12 +298,22 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   yearList;
 
   getyears() {
+    // debugger;
     let body = {};
     this.ownRevenueService.getYearList(body).subscribe((res) => {
       console.log("yearsResponse", res);
       this.yearList = res["data"];
       console.log("this.yearList", this.yearList);
     });
+  }
+
+  getDropDownValue() {
+    this.stateFilterDataService
+      .getServiceDropDown(this.serviceTab)
+      .subscribe((res: any) => {
+        console.log("service dropdown data", res);
+        this.serviceTabList = res?.data?.[0]?.names;
+      });
   }
 
   initializeScatterData() {
@@ -376,11 +390,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
   }
-  compType
-  multiChart = false
-  doughnutDataArr = []
+  compType;
+  multiChart = false;
+  doughnutDataArr = [];
   getScatterData() {
-    this.multiChart = false
+    // debugger;
+    this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
     let payload = {
@@ -389,13 +404,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: this.compType ?  this.compType : "" 
+      compareType: this.compType ? this.compType : "",
     };
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getScatterdData(payload).subscribe(
       (res) => {
-
         console.log("response data", res);
         //scatter plots center
         if (!this.filterName.includes("mix")) {
@@ -452,40 +466,34 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           this._loaderService.stopLoader();
           let data = res["data"];
           this.initializeDonughtData();
-          if(payload.compareType == ''){
-            if(data.length){
+          if (payload.compareType == "") {
+            if (data.length) {
               data.forEach((el) => {
                 this.doughnutData.data.labels.push(el._id);
                 this.doughnutData.data.datasets[0].data.push(el.amount);
               });
               console.log(this.doughnutData);
-    
+
               this.doughnutData = { ...this.doughnutData };
             }
-
-          }else if(payload.compareType == 'ulbType'){
-            let mData = res['mData']
-            let mcData = res['mcData']
-            let tpData = res['tpData']
-            this.multiChart = true
-            this.doughnutDataArr = [{mData:mData },{mcData:mcData},{tpData:tpData}] 
-            this.doughnutDataArr = [ ...this.doughnutDataArr ];
-         
- 
+          } else if (payload.compareType == "ulbType") {
+            let mData = res["mData"];
+            let mcData = res["mcData"];
+            let tpData = res["tpData"];
+            this.multiChart = true;
+            this.doughnutDataArr = [
+              { mData: mData },
+              { mcData: mcData },
+              { tpData: tpData },
+            ];
+            this.doughnutDataArr = [...this.doughnutDataArr];
           }
-    
-         }
-      
-         
-       },
-       (err) => {
+        }
+      },
+      (err) => {
         this._loaderService.stopLoader();
         console.log(err.message);
       }
-     
-        
-      
-      
     );
   }
   generateRandomId(name) {
@@ -495,6 +503,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
   getSelectedFinancialYear(event) {
     this.financialYear = event.target.value;
+    console.log("state financial year", this.financialYear);
+  }
+
+  getServiceLableValue(event) {
+    console.log(event.target.value);
   }
 
   filterChangeInChart(value) {
@@ -502,11 +515,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
   }
-  getCompType(e){
-    console.log(e)
-    this.compType = e
-    if(e)
-    this.getScatterData()
+  getCompType(e) {
+    console.log(e);
+    this.compType = e;
+    if (e) this.getScatterData();
   }
   changeActiveBtn(i) {
     console.log(this.data.btnLabels[i], "activeBTN");
@@ -524,17 +536,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     // document.getElementById(id)?.classList?.remove("deSelected");
 
     this.isPerCapita = this.data.btnLabels[i]
-      .toLocaleLowerCase()
+      ?.toLocaleLowerCase()
       .split(" ")
       .join("")
       .includes("percapita");
     let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
 
-    if (newName.includes("mix"))
-      this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
-    else if (newName.includes("revenue") && !newName.includes("own"))
+    if (newName?.includes("mix"))
+      this.filterName = this.data?.btnLabels[i]?.toLocaleLowerCase();
+    else if (newName?.includes("revenue") && !newName?.includes("own"))
       this.filterName = "revenue";
-    else if (newName.includes("own") && newName.includes("revenue"))
+    else if (newName?.includes("own") && newName?.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
     this.getScatterData();
@@ -547,8 +559,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if(changes.da)
-
     console.log("state filter data changes", changes);
     if (changes.data) {
       console.log("dounghnuChartLabels", this.dounghnuChartLabels);
@@ -558,19 +568,26 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         filterName: this.data.name,
       };
       this.changeActiveBtn(0);
-      // this.aboutIndicators = this.data["static"].indicators;
-      // setTimeout(() => {
-      //   if (this.data.btnLabels.length) this.changeActiveBtn(0);
-      //   // this.getChartData({});
-      // }, 0);
       this.setHeadOfAccount();
     }
 
-    // console.log("this.barChart", this.barChart);
+    if ((changes && changes.stateServiceLabel) || changes.data) {
+      if (this.data.filterName == "Water Supply")
+        this.serviceTab = "water supply";
+      if (this.data.filterName == "Waste Water Management")
+        this.serviceTab = "sanitation";
+      if (this.data.filterName == "Solid Waste Management")
+        this.serviceTab = "solid waste";
+      if (this.data.filterName == "Storm Water Drainage")
+        this.serviceTab = "storm water";
+
+      console.log("serviceTab", this.serviceTab?.toLocaleLowerCase());
+      this.getDropDownValue();
+    }
   }
 
   setHeadOfAccount() {
-    let name = this.data["filterName"].toLocaleLowerCase().split(" ");
+    let name = this.data["filterName"]?.toLocaleLowerCase().split(" ");
     this.headOfAccount = name.includes("revenue")
       ? "Revenue"
       : name.includes("expenditure")
@@ -607,12 +624,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       }
     });
 
-    
     this.getRevenueId();
   }
-  
+
   labels(data) {
-    
     this.chartLabels = data;
   }
 }

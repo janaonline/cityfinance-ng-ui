@@ -177,6 +177,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
     },
   ];
 
+  stateServiceLabel: boolean = false;
+
   activeHeader = "";
   activeFilter = [];
   innerActiveTab: any = "";

@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between">
-      <div class="col-sm-12 col-md-5 pl-1">
+      <div *ngIf="!stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
@@ -21,7 +21,15 @@
         </button>
       </div>
 
-      <div class="col-sm-12 col-md-4">
+      <div *ngIf="stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
+        <select class="form-select" (change)="getServiceLableValue($event)">
+          <option *ngFor="let item of serviceTabList" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="!stateServiceLabel" class="col-sm-12 col-md-4">
         <div class="d-flex">
           <label class="checkboxLabel" *ngFor="let item of checkBoxArray">
             <input
@@ -48,7 +56,7 @@
                 (change)="getSelectedFinancialYear($event)"
               >
                 <option *ngFor="let year of yearList" [value]="year?._id">
-                  {{ year._id }}
+                  {{ year?._id }}
                 </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
               </select>
@@ -97,12 +105,25 @@
   </div>
 </div>
 
-<div *ngIf="!ActiveButton.includes('Mix')">
+<!-- <div *ngIf="!stateServiceLabel"> -->
+<div *ngIf="!ActiveButton?.includes('Mix') || stateServiceLabel">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12" *ngIf="!stateServiceLabel">
         <app-revenuechart
           [chartDialogues]="true"
+          [compareDialogType]="compareDialogType"
+          [headerActions]="headerActions"
+          [chartId]="'StateScatterCahrtId'"
+          [chartData]="scatterData"
+          [chartTitle]="
+            'Total revenue of MCGM for last 3 years compared with state average'
+          "
+          (compareChange)="filterChangeInChart($event)"
+        ></app-revenuechart>
+      </div>
+      <div class="col-md-12" *ngIf="stateServiceLabel">
+        <app-revenuechart
           [compareDialogType]="compareDialogType"
           [headerActions]="headerActions"
           [chartId]="'StateScatterCahrtId'"
@@ -146,23 +167,37 @@
     </div>
   </div>
 </div>
+<!-- </div> -->
 
-<div *ngIf="ActiveButton.includes('Mix') && !compType">
-  <app-revenue-mix   [chartId]="'doughnutDataChartId'"
-  [chartData]="doughnutData"
-  [chartOptions]="doughnutChartOptions"
-  (compType)="getCompType($event)"
-  [multiChart]="multiChart"
-  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
+<div *ngIf="!stateServiceLabel">
+  <div *ngIf="ActiveButton?.includes('Mix') && !compType">
+    <app-revenue-mix
+      [chartId]="'doughnutDataChartId'"
+      [chartData]="doughnutData"
+      [chartOptions]="doughnutChartOptions"
+      (compType)="getCompType($event)"
+      [multiChart]="multiChart"
+      [chartTitle]="
+        'Total revenue of MCGM for last 3 years compared with state average'
+      "
+    ></app-revenue-mix>
+  </div>
 </div>
-<div *ngIf="ActiveButton.includes('Mix') && compType">
-  <app-revenue-mix   [chartId]="'doughnutDataChartId'"
-  [chartData]="doughnutDataArr"
-  [chartOptions]="doughnutChartOptions"
-  (compType)="getCompType($event)"
-  [multiChart]="multiChart"
-  (dounghnuChartLabels) = labels($event)
-  [chartTitle]="'Total revenue of MCGM for last 3 years compared with state average'"></app-revenue-mix>
+
+<div *ngIf="!stateServiceLabel">
+  <div *ngIf="ActiveButton?.includes('Mix') && compType">
+    <app-revenue-mix
+      [chartId]="'doughnutDataChartId'"
+      [chartData]="doughnutDataArr"
+      [chartOptions]="doughnutChartOptions"
+      (compType)="getCompType($event)"
+      [multiChart]="multiChart"
+      (dounghnuChartLabels)="labels($event)"
+      [chartTitle]="
+        'Total revenue of MCGM for last 3 years compared with state average'
+      "
+    ></app-revenue-mix>
+  </div>
 </div>
 <!-- <div *ngIf="ActiveButton === 'Own Revenue Mix'">
   <app-revenue-mix   [chartId]="generateRandomId('doughnutDataChartId')"
@@ -176,12 +211,14 @@
     <div class="col-12 mt-5 mb-5 d-flex">
       City Ranking
 
-      <div class="mx-2" *ngIf="ActiveButton.includes('Mix')">
-        <select class="mixSelect">
-          <option *ngFor="let item of chartLabels" [value]="item">
-            {{ item }}
-          </option>
-        </select>
+      <div *ngIf="!stateServiceLabel">
+        <div class="mx-2" *ngIf="ActiveButton.includes('Mix')">
+          <select class="mixSelect">
+            <option *ngFor="let item of chartLabels" [value]="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
       </div>
       <button
         class="rankingButton"
