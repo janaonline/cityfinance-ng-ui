@@ -318,7 +318,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           },
         ],
       };
-      doughnutChartData.labels = data[key].map((value, index) => {
+      data[key].forEach((value, index) => {
         doughnutChartData.datasets[0].backgroundColor.push(
           pieBackGroundColor[index]
         );
@@ -331,8 +331,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             color: pieBackGroundColor[index],
           });
         doughnutChartData.datasets[0].label = value._id.lineItem;
-        return value._id.lineItem;
+        // return value._id.lineItem;
       });
+      doughnutChartData.labels = this.multiChartLabel.map(
+        (value) => value.text
+      );
       let config = {
         type: "doughnut",
         data: doughnutChartData,

@@ -34,7 +34,7 @@ export class RevenuechartComponent
   chartOptions;
   @Input()
   btnBesideText = false;
-
+  @Input()
   multiChartLabel = [];
 
   stateId;
@@ -123,8 +123,6 @@ export class RevenuechartComponent
   @Input()
   own;
 
-  
-
   @Input()
   notFound;
   @Input()
@@ -134,11 +132,11 @@ export class RevenuechartComponent
   scatterOption = {
     legend: {
       itemStyle: {
-        'cursor': 'default'
-    },
-      labels:{
+        cursor: "default",
+      },
+      labels: {
         padding: 20,
-        color:"#000000",
+        color: "#000000",
         usePointStyle: true,
         pointStyle: "circle",
       },
@@ -379,12 +377,9 @@ export class RevenuechartComponent
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data.length) {
-    
-        let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-        let ctx = canvas.getContext("2d");
-        this.myChart = new Chart(ctx, this.chartData);
-      
-  
+      let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+      let ctx = canvas.getContext("2d");
+      this.myChart = new Chart(ctx, this.chartData);
 
       // chartLegendEL.innerHTML = this.myChart.generateLegend();
       // bindChartEvents(myChart, document);
@@ -406,7 +401,7 @@ export class RevenuechartComponent
         id = element?.id + index;
         newChartData = element;
         let colors = element.data.datasets[0].backgroundColor;
-        if (index == 0)
+        if (index == 0 && this.multiChartLabel.length == 0)
           element.data["labels"].forEach((element, i) => {
             this.multiChartLabel.push({
               text: element,
