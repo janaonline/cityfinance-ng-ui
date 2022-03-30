@@ -77,20 +77,20 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
-        {
-          label: "National Average",
-          data: [],
-          showLine: true,
-          fill: false,
-          borderColor: "rgba(0, 200, 0, 1)",
-        },
-        {
-          label: "State Average",
-          data: [],
-          showLine: true,
-          fill: false,
-          borderColor: "red",
-        },
+        // {
+        //   label: "National Average",
+        //   data: [],
+        //   showLine: true,
+        //   fill: false,
+        //   borderColor: "rgba(0, 200, 0, 1)",
+        // },
+        // {
+        //   label: "State Average",
+        //   data: [],
+        //   showLine: true,
+        //   fill: false,
+        //   borderColor: "red",
+        // },
       ],
     },
   };
@@ -351,20 +351,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             borderColor: "#F5B742",
             backgroundColor: "#F5B742",
           },
-          {
-            label: "National Average",
-            data: [],
-            showLine: true,
-            fill: false,
-            borderColor: "rgba(0, 200, 0, 1)",
-          },
-          {
-            label: "State Average",
-            data: [],
-            showLine: true,
-            fill: false,
-            borderColor: "red",
-          },
         ],
       },
     };
@@ -406,10 +392,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       isPerCapita: this.isPerCapita,
       compareType: this.compType ? this.compType : "",
     };
+    console.log(payload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getScatterdData(payload).subscribe(
       (res) => {
+        this.notfound = false;
         console.log("response data", res);
         //scatter plots center
         if (!this.filterName.includes("mix")) {
@@ -491,7 +479,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         }
       },
       (err) => {
-        this._loaderService.stopLoader();
+        // this._loaderService.stopLoader();
         console.log(err.message);
       }
     );
@@ -567,7 +555,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         ...this.data["mainContent"][0],
         filterName: this.data.name,
       };
-      this.changeActiveBtn(0);
+      if (!changes.data.firstChange) this.changeActiveBtn(0);
       this.setHeadOfAccount();
     }
 
@@ -596,7 +584,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       ? "Expense"
       : "Tax";
   }
-
+  notfound = true;
   ngOnInit(): void {
     console.log("this.innertabData", this.data);
     this.getyears();
@@ -604,7 +592,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices
-          .postGlobalSearchData(value, "", "")
+          .postGlobalSearchData(value, "ulb", this.stateId)
           .subscribe((res: any) => {
             console.log(res?.data);
             let emptyArr: any = [];
@@ -626,7 +614,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
     this.getRevenueId();
   }
-
+  getUlbData(event) {
+    console.log(event);
+    this.getScatterData();
+  }
   labels(data) {
     this.chartLabels = data;
   }

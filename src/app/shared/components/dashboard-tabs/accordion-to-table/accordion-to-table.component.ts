@@ -112,6 +112,9 @@ export class AccordionToTableComponent implements OnInit {
 
   queryParams = {};
   window = window;
+  ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
+  cityId;
+  notFound = false;
   constructor(
     private _formBuilder: FormBuilder,
     private _bondService: MunicipalBondsService,
@@ -124,6 +127,7 @@ export class AccordionToTableComponent implements OnInit {
     this._activatedRoute.queryParams.subscribe((params) => {
       console.log("queryParams==>", params);
       this.queryParams = params;
+      this.cityId = params?.cityId;
       this.initializeForm();
       this.initializeFormListeners();
       this._bondService
@@ -248,6 +252,14 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   private onGettingULBResponseSuccess(response: IULBResponse) {
+    if (
+      !response.data.find(
+        (value) => value.name === this.ulbList[this.cityId].name
+      )
+    ) {
+      this.notFound = true;
+      return;
+    } else this.notFound = false;
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);

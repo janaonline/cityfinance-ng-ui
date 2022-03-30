@@ -13,6 +13,7 @@ export class CityComponent implements OnInit {
   constructor(
     public newDashboardService: NewDashboardService,
     private _activatedRoute: ActivatedRoute,
+    private router: Router,
     private cityService: CityService,
     private authService: AuthService
   ) {
@@ -22,6 +23,9 @@ export class CityComponent implements OnInit {
       this.mapData.code.city = this.ulbCodeMapping[this.cityId];
       this.mapData.code.state = this.ulbStateCodeMapping[this.cityId];
     });
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
   }
   ulbStateCodeMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   ulbCodeMapping = JSON.parse(localStorage.getItem("ulbCodeMapping"));
@@ -114,6 +118,18 @@ export class CityComponent implements OnInit {
               case "area":
                 item.value = res.data.area + " Sq km";
                 break;
+              case "amrut":
+                item.value = res.data.amrut;
+                break;
+              case "isUa":
+                item.value = res.data.isUA;
+                if (res.data.isUA == "Yes") {
+                  item.value += ` (${res.data.UA.name.split(" ")[0]})`;
+                }
+                break;
+              case "dataAvailable":
+                item.value = res.data.dataAvailable;
+                break;
             }
             return item;
           });
@@ -200,6 +216,21 @@ const data = {
       value: "227",
       title: "Wards",
       key: "ward",
+    },
+    {
+      value: "227",
+      title: "Years of financial stat",
+      key: "dataAvailable",
+    },
+    {
+      value: "227",
+      title: "AMRUT City",
+      key: "amrut",
+    },
+    {
+      value: "227",
+      title: "Part of UA",
+      key: "isUa",
     },
   ],
   footer: `Data shown is from audited/provisional financial statements for finacialYear and data was last updated on date`,

@@ -11,7 +11,7 @@
   </div>
 </div>
 <!-- w-100 end -->
-<div class="common-container">
+<div *ngIf="!notFound" class="common-container">
   <div class="container municipal-bonds">
     <h3 class="page-title text-center n-sm">Municipal Bond Issuances</h3>
     <div
@@ -226,5 +226,11 @@
       </div>
       <!-- pagination bottom-->
     </div>
+  </div>
+</div>
+<div *ngIf="notFound" style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+  <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+  <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+    No Data Found for chosen options
   </div>
 </div>

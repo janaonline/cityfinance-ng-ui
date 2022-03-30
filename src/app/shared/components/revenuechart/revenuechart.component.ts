@@ -94,26 +94,26 @@ export class RevenuechartComponent
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
-        {
-          label: "National Average",
-          data: [
-            { x: 0, y: 12 },
-            { x: 50, y: 12 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "rgba(0, 200, 0, 1)",
-        },
-        {
-          label: "State Average",
-          data: [
-            { x: 0, y: 8 },
-            { x: 50, y: 8 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "red",
-        },
+        // {
+        //   label: "National Average",
+        //   data: [
+        //     { x: 0, y: 12 },
+        //     { x: 50, y: 12 },
+        //   ],
+        //   showLine: true,
+        //   fill: false,
+        //   borderColor: "rgba(0, 200, 0, 1)",
+        // },
+        // {
+        //   label: "State Average",
+        //   data: [
+        //     { x: 0, y: 8 },
+        //     { x: 50, y: 8 },
+        //   ],
+        //   showLine: true,
+        //   fill: false,
+        //   borderColor: "red",
+        // },
       ],
     },
   };
@@ -123,6 +123,8 @@ export class RevenuechartComponent
   @Input()
   own;
 
+  
+
   @Input()
   notFound;
   @Input()
@@ -130,27 +132,29 @@ export class RevenuechartComponent
   // options in case of sactter plot
   @Input()
   scatterOption = {
-    legend:{
+    legend: {
       itemStyle: {
         'cursor': 'default'
     },
       labels:{
+        padding: 20,
+        color:"#000000",
         usePointStyle: true,
-        pointStyle: 'circle',
-
+        pointStyle: "circle",
       },
-      position: 'bottom',
-      onHover: function(event, legendItem) {
-        event.target.style.cursor = 'pointer';
-        
-        
+      position: "bottom",
+      onHover: function (event, legendItem) {
+        event.target.style.cursor = "pointer";
       },
-      onClick: function(e, legendItem) {
+      onClick: function (e, legendItem) {
         var index = legendItem.datasetIndex;
         var ci = this.chart;
-        var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+        var alreadyHidden =
+          ci.getDatasetMeta(index).hidden === null
+            ? false
+            : ci.getDatasetMeta(index).hidden;
 
-        ci.data.datasets.forEach(function(e, i) {
+        ci.data.datasets.forEach(function (e, i) {
           var meta = ci.getDatasetMeta(i);
 
           if (i !== index) {
@@ -344,8 +348,6 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("revenueChaert changes", changes);
-    console.log("chartTitle", this.chartTitle, this.multipleDoughnutCharts);
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
         this.createChart();
@@ -368,20 +370,21 @@ export class RevenuechartComponent
     if (this.myChart) {
       this.myChart.destroy();
     }
-    if (this.chartData.type == "scatter"){
+    if (this.chartData.type == "scatter") {
       Object.assign(this.chartData, { options: this.scatterOption });
-    }
-      
-    else if (this.ChartOptions) {
+    } else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
 
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data.length) {
-      let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-      let ctx = canvas.getContext("2d");
-      this.myChart = new Chart(ctx, this.chartData);
+    
+        let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+        let ctx = canvas.getContext("2d");
+        this.myChart = new Chart(ctx, this.chartData);
+      
+  
 
       // chartLegendEL.innerHTML = this.myChart.generateLegend();
       // bindChartEvents(myChart, document);
@@ -396,47 +399,30 @@ export class RevenuechartComponent
 
   createMultipleChart() {
     let id;
-    let newChartData={};
+    let newChartData = {};
     if (this.multipleDoughnutCharts) {
-    
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
-        console.log(element)
         id = element?.id + index;
         newChartData = element;
-        let colors = element.data.datasets[0].backgroundColor
-       if(index==0)
-        element.data['labels'].forEach((element,i) => {
-          this.multiChartLabel.push({
-            text: element,
-            color: colors[i]
-          })
-        });
-      this.chartLabel.emit(this.multiChartLabel)
-        // Object.assign(newChartData, {
-        //   options:  element?.multipleChartOptions ,
-        // });
-console.log(newChartData, id)
+        let colors = element.data.datasets[0].backgroundColor;
+        if (index == 0)
+          element.data["labels"].forEach((element, i) => {
+            this.multiChartLabel.push({
+              text: element,
+              color: colors[i],
+            });
+          });
+        this.chartLabel.emit(this.multiChartLabel);
+        if (element?.multipleChartOptions)
+          Object.assign(newChartData, {
+            options: element?.multipleChartOptions,
+          });
         let canvas = <HTMLCanvasElement>document.getElementById(id);
         let ctx = canvas.getContext("2d");
         let tempChart = new Chart(ctx, newChartData);
         this.lastMultipleCharts.push(tempChart);
       }
-      // let temp = document.getElementById("horizontal-list");
-      // newChartData.data.labels.forEach((value) => {
-      //   let li = document.createElement("li");
-      //   li.innerText = value;
-      //   li.style.display = "inline";
-      //   li.style.paddingLeft = "1rem";
-      //   let span = document.createElement("span");
-      //   span.style.backgroundColor = "#FF608B";
-      //   span.style.display = "inline";
-      //   span.style.borderRadius = "12px";
-      //   span.style.paddingLeft = "1rem";
-      //   span.style.marginLeft = "3px";
-      //   li.appendChild(span);
-      //   temp.appendChild(li);
-      // });
     }
   }
 

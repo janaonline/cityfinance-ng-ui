@@ -86,8 +86,8 @@
                       *ngFor="let option of filteredOptions; let i = index"
                       style="text-decoration: none"
                     >
-                      <mat-option [value]="option?.name">
-                        <span> {{ option?.name }}</span>
+                      <mat-option (click)="getUlbData(option)" [value]="option?.name">
+                        <span  style="font-size: 10px;"> {{ option?.name }}</span>
                       </mat-option>
                     </a>
                   </mat-autocomplete>
