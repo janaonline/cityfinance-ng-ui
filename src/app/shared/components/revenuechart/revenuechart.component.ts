@@ -130,27 +130,27 @@ export class RevenuechartComponent
   // options in case of sactter plot
   @Input()
   scatterOption = {
-    legend:{
+    legend: {
       itemStyle: {
-        'cursor': 'default'
-    },
-      labels:{
+        cursor: "default",
+      },
+      labels: {
         usePointStyle: true,
-        pointStyle: 'circle',
-
+        pointStyle: "circle",
       },
-      position: 'bottom',
-      onHover: function(event, legendItem) {
-        event.target.style.cursor = 'pointer';
-        
-        
+      position: "bottom",
+      onHover: function (event, legendItem) {
+        event.target.style.cursor = "pointer";
       },
-      onClick: function(e, legendItem) {
+      onClick: function (e, legendItem) {
         var index = legendItem.datasetIndex;
         var ci = this.chart;
-        var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+        var alreadyHidden =
+          ci.getDatasetMeta(index).hidden === null
+            ? false
+            : ci.getDatasetMeta(index).hidden;
 
-        ci.data.datasets.forEach(function(e, i) {
+        ci.data.datasets.forEach(function (e, i) {
           var meta = ci.getDatasetMeta(i);
 
           if (i !== index) {
@@ -344,8 +344,6 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("revenueChaert changes", changes);
-    console.log("chartTitle", this.chartTitle, this.multipleDoughnutCharts);
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
         this.createChart();
@@ -368,11 +366,9 @@ export class RevenuechartComponent
     if (this.myChart) {
       this.myChart.destroy();
     }
-    if (this.chartData.type == "scatter"){
+    if (this.chartData.type == "scatter") {
       Object.assign(this.chartData, { options: this.scatterOption });
-    }
-      
-    else if (this.ChartOptions) {
+    } else if (this.ChartOptions) {
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
 
@@ -396,27 +392,26 @@ export class RevenuechartComponent
 
   createMultipleChart() {
     let id;
-    let newChartData={};
+    let newChartData = {};
     if (this.multipleDoughnutCharts) {
-    
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
-        console.log(element)
+        console.log(element);
         id = element?.id + index;
         newChartData = element;
-        let colors = element.data.datasets[0].backgroundColor
-       if(index==0)
-        element.data['labels'].forEach((element,i) => {
-          this.multiChartLabel.push({
-            text: element,
-            color: colors[i]
-          })
-        });
-      this.chartLabel.emit(this.multiChartLabel)
+        let colors = element.data.datasets[0].backgroundColor;
+        if (index == 0)
+          element.data["labels"].forEach((element, i) => {
+            this.multiChartLabel.push({
+              text: element,
+              color: colors[i],
+            });
+          });
+        this.chartLabel.emit(this.multiChartLabel);
         // Object.assign(newChartData, {
         //   options:  element?.multipleChartOptions ,
         // });
-console.log(newChartData, id)
+        console.log(newChartData, id);
         let canvas = <HTMLCanvasElement>document.getElementById(id);
         let ctx = canvas.getContext("2d");
         let tempChart = new Chart(ctx, newChartData);

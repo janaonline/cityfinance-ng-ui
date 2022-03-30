@@ -24,6 +24,7 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
   public chart: Chart;
   @Input() data = [];
   @Input() tabIndex = 0;
+  @Input() tabId = "61e150439ed0e8575c881028";
 
   tabData;
   aboutTab;
@@ -35,7 +36,7 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     if (changes.data) {
       this.activeTabFn(this.data[this.tabIndex]);
       this.router.navigate([
-        `dashboard/national/61e150439ed0e8575c881028?tabIndex=${this.tabIndex}`,
+        `dashboard/national/${this.tabId}?tabIndex=${this.tabIndex}`,
       ]);
     }
   }
