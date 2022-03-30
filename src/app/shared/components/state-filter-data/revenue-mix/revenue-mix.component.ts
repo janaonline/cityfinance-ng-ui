@@ -544,20 +544,23 @@ export class RevenueMixComponent implements OnInit {
     if (value == 1) {
       this.ulbTab = true;
       this.populationTab = false;
-      this.compType.emit('ulbType')
+      
       this.mulpleChartShow = true;
+      this.compType.emit('ulbType')
     }
     if (value == 2) {
       this.ulbTab = false;
       this.populationTab = true;
-      this.compType.emit('popType')
+      
       this.mulpleChartShow = true;
+      this.compType.emit('popType')
     }
     if (value == 3) {
       this.ulbTab = false;
       this.populationTab = false;
-      this.compType.emit('default')
+    
       this.mulpleChartShow = false;
+      this.compType.emit('default')
     }
 
     console.log("this.ulbTab", this.ulbTab, this.populationTab);

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-
+import { retry } from 'rxjs/operators';
 @Injectable({
   providedIn: "root",
 })
@@ -10,9 +10,9 @@ export class StateFilterDataService {
 
   getScatterdData(payload) {
     return this.http.post(
-      environment.api.url + "/state-revenue",
+      environment.api.url + "state-revenue",
       payload
-    );
+    )
   }
 
   getRevID() {

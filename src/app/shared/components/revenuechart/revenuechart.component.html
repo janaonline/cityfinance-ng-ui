@@ -57,21 +57,7 @@
         </mat-icon>
       </label>
     </div>
-    <div class="">
-      <select
-        class="btn compare"
-        (change)="yearValueChange($event.target.value)"
-      >
-        <option
-          [disabled]="i == 0"
-          *ngFor="let yearValue of yearList; let i = index"
-          [value]="yearValue"
-          [selected]="yearValue == year"
-        >
-          {{ yearValue }}
-        </option>
-      </select>
-    </div>
+   
   </div>
 
   <div *ngIf="singleDoughnutChart">

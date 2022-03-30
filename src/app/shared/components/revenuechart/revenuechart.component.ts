@@ -94,26 +94,26 @@ export class RevenuechartComponent
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
-        {
-          label: "National Average",
-          data: [
-            { x: 0, y: 12 },
-            { x: 50, y: 12 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "rgba(0, 200, 0, 1)",
-        },
-        {
-          label: "State Average",
-          data: [
-            { x: 0, y: 8 },
-            { x: 50, y: 8 },
-          ],
-          showLine: true,
-          fill: false,
-          borderColor: "red",
-        },
+        // {
+        //   label: "National Average",
+        //   data: [
+        //     { x: 0, y: 12 },
+        //     { x: 50, y: 12 },
+        //   ],
+        //   showLine: true,
+        //   fill: false,
+        //   borderColor: "rgba(0, 200, 0, 1)",
+        // },
+        // {
+        //   label: "State Average",
+        //   data: [
+        //     { x: 0, y: 8 },
+        //     { x: 50, y: 8 },
+        //   ],
+        //   showLine: true,
+        //   fill: false,
+        //   borderColor: "red",
+        // },
       ],
     },
   };
@@ -122,6 +122,8 @@ export class RevenuechartComponent
 
   @Input()
   own;
+
+  
 
   @Input()
   notFound;
@@ -135,6 +137,8 @@ export class RevenuechartComponent
         'cursor': 'default'
     },
       labels:{
+        padding: 20,
+        color:"#000000",
         usePointStyle: true,
         pointStyle: 'circle',
 
@@ -381,9 +385,12 @@ export class RevenuechartComponent
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     if (this.chartData?.data?.datasets[0].data.length) {
-      let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-      let ctx = canvas.getContext("2d");
-      this.myChart = new Chart(ctx, this.chartData);
+    
+        let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+        let ctx = canvas.getContext("2d");
+        this.myChart = new Chart(ctx, this.chartData);
+      
+  
 
       // chartLegendEL.innerHTML = this.myChart.generateLegend();
       // bindChartEvents(myChart, document);

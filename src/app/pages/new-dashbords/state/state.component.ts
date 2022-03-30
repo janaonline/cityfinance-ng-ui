@@ -55,12 +55,12 @@ export class StateComponent implements OnInit {
       .getDashboardTabData("619cc1016abe7f5b80e45c6b")
       .subscribe(
         (res) => {
-          this._loaderService.stopLoader();
+        
           console.log(res, "dashboardTabData");
           this.dashboardTabData = res["data"];
         },
         (error) => {
-          this._loaderService.stopLoader();
+        
           console.log(error);
         }
       );
@@ -83,7 +83,7 @@ export class StateComponent implements OnInit {
       .dashboardInformation(true, stateId, "state", "2019-20")
       .subscribe(
         (res: any) => {
-          this._loaderService.stopLoader();
+         
           this.frontPanelData.dataIndicators.map((item) => {
             switch (item.key) {
               case "population":
@@ -122,7 +122,7 @@ export class StateComponent implements OnInit {
           this.frontPanelData.stateId = this.stateId;
         },
         (error) => {
-          this._loaderService.stopLoader();
+         
           console.error(error);
         }
       );
