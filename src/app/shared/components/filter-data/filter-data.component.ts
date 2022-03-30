@@ -322,7 +322,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         doughnutChartData.datasets[0].backgroundColor.push(
           pieBackGroundColor[index]
         );
-        doughnutChartData.datasets[0].data.push(value.amount);
+        doughnutChartData.datasets[0].data.push(
+          value.amount == 0 ? "0.1" : value.amount
+        );
         if (key == "ulbData")
           this.multiChartLabel.push({
             text: value._id.lineItem,
@@ -338,7 +340,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
       let val = {
         id: `${Math.random()}-multi`,
-        chartData: config,
+        ...config,
         multipleChartOptions: {
           legend: {
             display: false,
