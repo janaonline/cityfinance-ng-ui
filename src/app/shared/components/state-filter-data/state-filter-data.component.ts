@@ -376,7 +376,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: this.compType ?  this.compType : "" 
+      compareType: this.compType ?  this.compType : "" ,
     };
     console.log(payload)
     let inputVal: any = {};
@@ -597,6 +597,7 @@ notfound = true
   }
   getUlbData(event){
     console.log(event)
+    this.getScatterData()
   }
   labels(data) {
     
