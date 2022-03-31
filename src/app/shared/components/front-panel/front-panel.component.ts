@@ -124,7 +124,7 @@ ulbId
 
   }
   getAvailableData() {
-    this._loaderService.showLoader()
+    // this._loaderService.showLoader()
     this.dataAvailLoading  = true
 
   let obj = {
@@ -133,7 +133,7 @@ ulbId
   }
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
-        this._loaderService.stopLoader();
+        // this._loaderService.stopLoader();
         this.dataAvailLoading = false;
         this.dataAvailEmit.emit(res);
         // this._loaderService.stopLoader()
@@ -147,7 +147,7 @@ ulbId
         console.log("ordResponse", res);
       },
       (err) => {
-        this._loaderService.stopLoader();
+        // this._loaderService.stopLoader();
         this.dataAvailLoading = false;
         console.log("error", err);
       }
