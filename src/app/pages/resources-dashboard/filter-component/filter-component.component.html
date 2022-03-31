@@ -120,7 +120,7 @@
                   </span>
                 </button>
 
-                <button *ngIf="downloadValue" class="clearBtn m-2">
+                <button *ngIf="downloadValue" (click)="initiateDownload()" class="clearBtn m-2">
                   Download
                 </button>
               </div>

@@ -5,7 +5,7 @@ import {
   OnInit,
   OnChanges,
   Output,
-  SimpleChange,
+  SimpleChanges,
   TemplateRef,
 } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -30,8 +30,10 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   @Input() filterInputData;
   @Input() downloadValue;
-
+@Input() data
   @Input() category;
+  @Output()
+  init = new EventEmitter();
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
@@ -112,10 +114,18 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       }
     });
   }
-  ngOnChanges(changes: { [category: string]: SimpleChange }) {
+  ngOnChanges(changes: SimpleChanges): void {
     // check the object "changes" for new data
-    console.log("chanhged happed", changes.category.currentValue);
+    // console.log("chanhged happed", changes.category.currentValue);
     this.filterData("category", "");
+
+    if(changes.data){
+      console.log(this.data)
+    }
+  }
+
+  initiateDownload(){
+this.init.emit(true)
   }
   filterData(param, val) {
     console.log("filter form", this.filterForm);

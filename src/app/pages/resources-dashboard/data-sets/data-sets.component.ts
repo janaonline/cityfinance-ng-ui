@@ -49,14 +49,12 @@ export class DataSetsComponent implements OnInit {
     // this.getData();
   }
 
-  ngOnChanges(changes: SimpleChange): void {
-    // check the object "changes"
-  }
+  
   openNewTab(data){
-    
-      const pdfUrl = data?.fileUrl;
-      const pdfName = data?.fileName;
-      FileSaver.saveAs(pdfUrl, pdfName);
+    window.open(data?.fileUrl, '_blank')
+      // const pdfUrl = data?.fileUrl;
+      // const pdfName = data?.fileName;
+      // FileSaver.saveAs(pdfUrl, pdfName);
     
 // return url;
     // window.open(url, '_blank');
@@ -126,7 +124,7 @@ export class DataSetsComponent implements OnInit {
   }
 
   checkDownloadButton() {
-    debugger;
+    // debugger;
     if (this.selectedUsersList == []) {
       this.downloadValue = false;
     } else {
@@ -163,6 +161,17 @@ export class DataSetsComponent implements OnInit {
   //   }
 
   disabledValue = false;
+  download(event){
+    if(event){
+      console.log(this.selectedUsersList)
+      for(let data of this.selectedUsersList){
+        const pdfUrl = data?.fileUrl;
+        const pdfName = data?.fileName;
+        FileSaver.saveAs(pdfUrl, pdfName);
+      }
+      
+    }
+  }
   toggleRowSelection(event, row) {
     this.checkDownloadButton();
     // debugger;
@@ -173,19 +182,19 @@ export class DataSetsComponent implements OnInit {
       console.log(index);
       if (index > -1) this.selectedUsersList.splice(index, 1);
       row.isSelected = false;
-      if (this.selectedUsersList.length >= 5) {
-        this.disabledValue = true;
-      } else if (this.selectedUsersList.length <= 5) {
-        this.disabledValue = false;
-      }
+      // if (this.selectedUsersList.length >= 5) {
+      //   this.disabledValue = true;
+      // } else if (this.selectedUsersList.length <= 5) {
+      //   this.disabledValue = false;
+      // }
       // this.checkDownloadButton();
     } else {
       this.selectedUsersList.push(row);
-      if (this.selectedUsersList.length >= 5) {
-        this.disabledValue = true;
-      } else if (this.selectedUsersList.length <= 5) {
-        this.disabledValue = false;
-      }
+      // if (this.selectedUsersList.length >= 5) {
+      //   this.disabledValue = true;
+      // } else if (this.selectedUsersList.length <= 5) {
+      //   this.disabledValue = false;
+      // }
       row.isSelected = true;
       // this.checkDownloadButton();
     }
@@ -195,5 +204,6 @@ export class DataSetsComponent implements OnInit {
     // }, 100);
 
     console.log(this.selectedUsersList);
+
   }
 }
