@@ -51,11 +51,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   chartOptions;
   notFound = false;
   ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
-  ngOnInit(): void {
-    this.chartTitle = `${
-      this.ulbMapping[this.currentUlb].name
-    } total revenues vs State ${this.ulbMapping[this.currentUlb].type} Average`;
-  }
+  hideElements = false;
+  compareType;
+  ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -158,6 +156,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.apiCall) {
       this.apiCall.unsubscribe();
     }
+    this.compareType = body["compareType"];
+    this.chartTitle = `${
+      this.ulbMapping[this.currentUlb].name
+    } total revenues vs ${body["compareType"]} ${
+      this.ulbMapping[this.currentUlb].type
+    } Average`;
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
@@ -166,7 +170,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         } else {
           this.multiPie = false;
           this.createBarChart(res);
-          this.calculateCagr(res["data"]);
+          this.calculateCagr(res["data"], this.hideElements);
         }
         this.loading = false;
       },
@@ -202,12 +206,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.positiveCAGR = true;
   }
 
-  calculateCagr(data) {
+  calculateCagr(data, hideCAGR) {
     let yearData = data.ulbData,
       intialYear = yearData[0].amount,
       finalYear = yearData[yearData.length - 1].amount,
       time = yearData.length;
-    if (yearData.length > 1) {
+    if (yearData.length > 1 && !hideCAGR) {
       let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
       this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
         yearData.length
@@ -261,8 +265,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
-    newData.data.datasets.push(newlineDataset);
-    console.log(newData, "newData");
+    if (!this.hideElements) newData.data.datasets.push(newlineDataset);
 
     this.barChart = newData;
     this.chartOptions = barChartStaticOptions;
@@ -403,6 +406,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   filterChangeInChart(value) {
+    if (value.compareType == "ULBs..") this.hideElements = true;
+    else this.hideElements = false;
     this.mySelectedYears = value.year;
     if (this.yearListForDropDown[0] == value.year[0]) {
       this.notFound = true;

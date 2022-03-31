@@ -222,11 +222,11 @@ const data = {
       title: "Years of financial stat",
       key: "dataAvailable",
     },
-    {
-      value: "227",
-      title: "AMRUT City",
-      key: "amrut",
-    },
+    // {
+    //   value: "227",
+    //   title: "AMRUT City",
+    //   key: "amrut",
+    // },
     {
       value: "227",
       title: "Part of UA",
