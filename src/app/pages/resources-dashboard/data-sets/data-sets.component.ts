@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{ResourcesDashboardService} from '../resources-dashboard.service'
 import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
 import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import * as FileSaver from "file-saver";
 @Component({
   selector: 'app-data-sets',
   templateUrl: './data-sets.component.html',
@@ -50,8 +51,15 @@ this.category = 'balance'
     this.getData()
 
   }
-  openNewTab(url){
-    window.open(url, '_blank');
+  openNewTab(data){
+    
+      const pdfUrl = data?.fileUrl;
+      const pdfName = data?.fileName;
+      FileSaver.saveAs(pdfUrl, pdfName);
+    
+// return url;
+    // window.open(url, '_blank');
+ 
   }
  noData = false;
   getData(){
