@@ -235,7 +235,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
       this.getStickyValue();
     }
 
-    console.log("stickyValue==>", this.sticky);
+    // console.log("stickyValue==>", this.sticky);
   }
 
   ngOnInit(): void {

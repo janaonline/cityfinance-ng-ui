@@ -388,4 +388,7 @@ export class BalanceTableComponent
     //   this.ExistingValues();
     // }
   }
+  resetCompare(){
+
+  }
 }
