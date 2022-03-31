@@ -588,7 +588,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     console.log("this.innertabData", this.data);
     this.getyears();
-    this.changeActiveBtn(0);
+  
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices
@@ -613,6 +613,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     });
 
     this.getRevenueId();
+    this.changeActiveBtn(0);
   }
   getUlbData(event) {
     console.log(event);
