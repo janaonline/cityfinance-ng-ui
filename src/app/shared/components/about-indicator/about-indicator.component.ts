@@ -86,6 +86,9 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data) {
+      if(this.lastOpenPanel){
+        this.panelClose(this.lastOpenPanel)
+      }
       this.copyData = JSON.parse(JSON.stringify(this.data));
     }
   }
@@ -234,8 +237,9 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
               break;
             case "stateulbtypeaverage":
               data[1] =
-                "₹ " + Math.round(apiData?.weightedAmount / 10000000) + "Cr";
-
+                "₹ " + Math.round(apiData?.weightedAmount);
+              let tt = name.split("ulbtype");
+              data[0] = tt.join(` ${this.ulbsData[this.cityId].type} `)
             default:
               break;
           }
@@ -322,21 +326,13 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     descString = descString.map((value) => {
       switch (value) {
         case "STATE_NAME":
-          value = this.ulbList[ulbStateCode].state;
+          value = this.ulbsData[this.cityId].name;
           break;
         case "ULB_TYPE":
-          value = this.ulbList[ulbStateCode].ulbs.find(
-            (innerVal) =>
-              innerVal._id ==
-              data[forUlbType ? "inStateUlbType" : "inState"].ulb._id
-          ).type;
+          value = this.ulbsData[this.cityId].type;
           break;
         case "ULB_NAME_STATE":
-          value = this.ulbList[ulbStateCode].ulbs.find(
-            (innerVal) =>
-              innerVal._id ==
-              data[forUlbType ? "inStateUlbType" : "inState"].ulb._id
-          ).name;
+          value = this.ulbsData[data[forUlbType ? "inStateUlbType" : "inState"].ulb._id].name;
           break;
         case "ULB_INSATE":
           value = this.toCr(
@@ -344,12 +340,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           );
           break;
         case "ULB_NAME_INDIA":
-          value =
-            this.ulbList[
-              this.stateUlbMapping[
-                data[forUlbType ? "inIndiaUlbType" : "inIndia"].ulb._id
-              ]
-            ]?.state;
+          value = this.ulbsData[data[forUlbType ? "inIndiaUlbType" : "inIndia"].ulb._id].name;
           break;
         case "ULB_IN-INDIA":
           value = this.toCr(
@@ -357,7 +348,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           );
           break;
         case "STATE_REVENUE":
-          value = this.toCr(data["totalRevenue"]);
+          value = this.toCr(data["totalRevenue"].amount);
           break;
         case "ULB_POPULATION":
           value =

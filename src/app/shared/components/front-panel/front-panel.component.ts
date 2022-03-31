@@ -88,7 +88,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.getAvailableData();
+    if (this.showDataAvailable) this.getAvailableData();
     this._commonServices.fetchStateList().subscribe((res: any)=>{
      // console.log('res', res);
       this.stateList = res;
