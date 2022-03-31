@@ -1,77 +1,133 @@
 <div class="row">
-    <div class="col-sm-12 f-h">
-        <div class="card-body">
-            <form [formGroup]="filterForm">
-                <div class="row">
-                    <div class="col-lg-2 col-sm-12 col-12 text-center text-md-left">
-                        <a (click)="filterModel()" class="fil-btn" style="text-decoration: none;">
-                            <span>
-                             <img src="../../../../assets/new_dashBord_ftr_hdr/filter.svg" alt="">
-                           </span>
-                            <span>
-                             Filter by
-                            </span>
-                        </a>
-
-                    </div>
-                    <div class="col-lg-10 fl-form">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <select  class="form-select" id="stateName" aria-label="Default select" formControlName="state" (change)="filterData('state','')">
-                                    <option value="" selected>State</option>
-                                    <option [value]="item?._id" *ngFor="let item of stateList">{{item?.name}}</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <!-- <select class="form-select" aria-label="Default select" formControlName="ulb">
+  <div class="col-sm-12 f-h">
+    <div class="card-body">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-lg-2 col-sm-12 col-12 text-center text-md-left">
+            <a
+              (click)="filterModel()"
+              class="fil-btn"
+              style="text-decoration: none"
+            >
+              <span>
+                <img
+                  src="../../../../assets/new_dashBord_ftr_hdr/filter.svg"
+                  alt=""
+                />
+              </span>
+              <span> Filter by </span>
+            </a>
+          </div>
+          <div class="col-lg-10 fl-form">
+            <div class="row">
+              <div class="col-lg-2">
+                <select
+                  class="form-select"
+                  id="stateName"
+                  aria-label="Default select"
+                  formControlName="state"
+                  (change)="filterData('state', '')"
+                >
+                  <option value="" selected>State</option>
+                  <option [value]="item?._id" *ngFor="let item of stateList">
+                    {{ item?.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-2">
+                <!-- <select class="form-select" aria-label="Default select" formControlName="ulb">
                                    <option value="" selected>City</option>
                                    <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
                                </select> -->
-                                <input type="text" class="form-control" placeholder="City" matInput formControlName="ulb" [matAutocomplete]="auto">
-                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                    <a (click)="filterData('ulb',option?.state?._id)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
-                                        <mat-option [value]="option?.name">
-                                            <span style="font-size: 10px;"> {{option?.name}}</span>
-                                        </mat-option>
-                                    </a>
-                                </mat-autocomplete>
-                            </div>
-                            <div class="col-lg-2" *ngIf="filterInputData?.comp == 'dataSets'">
-                                <select name="selectedType" [(ngModel)]="selectedType" (change)="onChangeType($event)" class="form-control"  formControlName="contentType">
-                                   
-                                      <option *ngFor="let item of cType" [ngValue]="item" selected>{{item}}</option>
-                               
-                                </select>
-                            </div>
-                            <!-- <div class="col-lg-2" *ngIf="filterInputData?.comp == 'dataSets'">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search for ULB"
+                  matInput
+                  formControlName="ulb"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <a
+                    (click)="filterData('ulb', option?.state?._id)"
+                    *ngFor="let option of filteredOptions; let i = index"
+                    style="text-decoration: none"
+                  >
+                    <mat-option [value]="option?.name">
+                      <span style="font-size: 10px"> {{ option?.name }}</span>
+                    </mat-option>
+                  </a>
+                </mat-autocomplete>
+              </div>
+              <div
+                class="col-lg-3 d-flex"
+                *ngIf="filterInputData?.comp == 'dataSets'"
+              >
+                <label class="rowLabel">File Type</label>
+                <select
+                  name="selectedType"
+                  [(ngModel)]="selectedType"
+                  (change)="onChangeType($event)"
+                  formControlName="contentType"
+                  class="rowPdf"
+                >
+                  <option *ngFor="let item of cType" [ngValue]="item" selected>
+                    {{ item }}
+                  </option>
+                </select>
+              </div>
+              <!-- <div class="col-lg-2" *ngIf="filterInputData?.comp == 'dataSets'">
                                 <select class="form-select" aria-label="Default select" formControlName="sortBy">
                                  <option value="" selected>Sort By</option>
                     
                                </select>
                             </div> -->
-                            <div class="col-lg-2" *ngIf="filterInputData?.comp == 'bestPractices' || filterInputData?.comp == 'dataSets' ">
-                                <select name="selectedValue" [(ngModel)]="selectedValue" (change)="onChange($event)" class="form-control"  formControlName="year">
-                             
-                               <option *ngFor="let item of yearList" [ngValue]="item" >{{item}}</option>
+              <div
+                class="col-lg-2"
+                *ngIf="
+                  filterInputData?.comp == 'bestPractices' ||
+                  filterInputData?.comp == 'dataSets'
+                "
+              >
+                <select
+                  name="selectedValue"
+                  [(ngModel)]="selectedValue"
+                  (change)="onChange($event)"
+                  class="rowPdf"
+                  formControlName="year"
+                  style="width: 75%"
+                >
+                  <option *ngFor="let item of yearList" [ngValue]="item">
+                    {{ item }}
+                  </option>
                   <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
-                             </select>
-                            </div>
-                            <div class="col-lg-2 text-end" [ngClass]='{"col-lg-5": (filterInputData?.comp == "bestPractices")}'>
-                                <button type="button" class="clearBtn" (click)="clearAll()">
-                             <span style="vertical-align: middle;">
-                              Clear All
-                             </span>
-                             <span style="padding-left: 6px; width: 12px;">
-                              <img src="../../../../assets/new_dashBord_ftr_hdr/cancel.svg" alt="">
-                             </span>
+                </select>
+              </div>
+              <div
+                class="col-lg-3 text-end d-flex"
+                style="margin-top: -10px"
+                [ngClass]="{
+                  'col-lg-5': filterInputData?.comp == 'bestPractices'
+                }"
+              >
+                <button type="button" class="clearBtn m-2" (click)="clearAll()">
+                  <span> Clear All </span>
+                  <span style="padding-left: 6px; width: 12px">
+                    <img
+                      src="../../../../assets/new_dashBord_ftr_hdr/cancel.svg"
+                      alt=""
+                    />
+                  </span>
+                </button>
 
-                        </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
+                <button *ngIf="downloadValue" class="clearBtn m-2">
+                  Download
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </div>
