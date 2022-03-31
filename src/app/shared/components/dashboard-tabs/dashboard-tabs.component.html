@@ -155,11 +155,21 @@
         </div>
       </div>
       <div *ngSwitchCase="'Service Level Benchmark'">
-        <app-slb-charts
-          [year]="mySelectedYears[0]"
-          [cityId]="cityId"
-          [data]="innerActiveTab"
-        ></app-slb-charts>
+        <div [ngSwitch]="DashBoardType">
+          <div *ngSwitchCase="'city'">
+            <app-slb-charts
+              [year]="mySelectedYears[0]"
+              [cityId]="cityId"
+              [data]="innerActiveTab"
+            ></app-slb-charts>
+          </div>
+          <div *ngSwitchCase="'state'">
+            <app-state-filter-data
+              [data]="innerActiveTab"
+              [stateServiceLabel]="true"
+            ></app-state-filter-data>
+          </div>
+        </div>
       </div>
       <div *ngSwitchCase="'Balance Sheet & Income Statement'">
         <app-balance-table
