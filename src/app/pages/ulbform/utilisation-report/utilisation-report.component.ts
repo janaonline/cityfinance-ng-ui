@@ -55,7 +55,7 @@ export class UtilisationReportComponent implements OnInit, AfterViewInit {
   takeStateAction;
   compDis;
   mohuaActionComp;
-  latLongRegex = '^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
+  latLongRegex = '^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
