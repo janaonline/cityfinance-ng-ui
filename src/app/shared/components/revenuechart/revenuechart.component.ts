@@ -302,6 +302,7 @@ export class RevenuechartComponent
   mySelectedYears = ["2019-20", "2020-21"];
   @Input()
   year;
+  @Input()
   compareType = "";
   staticYearList = [
     "2015-16",
@@ -323,7 +324,6 @@ export class RevenuechartComponent
 
   ngOnInit(): void {
     this.stateName = this.stateMap[this.stateId];
-    console.log("chartData===>", this.multiChartLabel);
     // window.onload = () => {
     //   if (this.multipleCharts) {
     //     this.createMultipleChart();
@@ -466,7 +466,6 @@ export class RevenuechartComponent
 
   ulbList: any;
   getCompareCompValues(value) {
-    console.log("compare ulbs", value);
     if (Array.isArray(value)) {
       this.ulbList = value;
       this.compareType = "ULBs..";
@@ -511,6 +510,11 @@ export class RevenuechartComponent
       link.click();
       this._loaderService.stopLoader();
     });
+  }
+
+  resetState() {
+    this.compareType = "State Average";
+    this.sendValue();
   }
 }
 
