@@ -1,4 +1,4 @@
-<div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0">
+<div class="row mb-3 mt-2 mx-auto">
   <div class="col-12 col-sm-12 col-md-5 stateMapContainer">
     <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
       <app-pre-loader></app-pre-loader>
@@ -24,18 +24,11 @@
         style="display: block; z-index: 99; position: relative"
       >
         <ul
-          style="
-            display: flex;
-            padding: 0px;
-            align-items: flex-start;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-          "
+          class="d-flex p-0 justify-content-center align-items-start flex-wrap"
         >
           <li
+            class="d-flex align-items-center px-3"
             *ngFor="let item of mapLabels"
-            style="display: flex; align-items: center; padding: 0.6rem"
           >
             <div
               style="width: 20px; height: 16px; display: inline-block"
