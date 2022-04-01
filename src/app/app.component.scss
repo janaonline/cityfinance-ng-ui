@@ -9,13 +9,19 @@
     border-bottom: none;
     border-left: none;
   }
+
+  .spinText {
+    color: rgb(0, 8, 77);
+    font-weight: 600;
+    margin-top: 2%;
+  }
   .spinner {
     // position: absolute;
     display: flex;
     top: 0px;
     // height: 100vh;
     width: 100vw;
-    background: #bdbdbd42;
+    background: #7c7c7c42;
     justify-content: center;
     align-items: center;
   }

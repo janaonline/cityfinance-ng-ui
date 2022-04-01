@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, NgZone,  Input ,OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -33,6 +33,21 @@ export class DashboardMapSectionComponent
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   selectedDistrictCode;
   selectedStateCode;
+  @Input()
+  mapConfig = {
+    code: {
+      state: "",
+      city: "",
+    },
+    showStateList: false,
+    showDistrictList: false,
+    stateMapContainerHeight: "23rem",
+    nationalZoomOnMobile: 3.9, // will fit map in container
+    nationalZoomOnWeb: 3.9, // will fit map in container
+    stateZoomOnMobile: 4, // will fit map in container
+    stateZoomOnWeb: 4, // will fit map in container
+    stateBlockHeight: "23.5rem", // will fit map in container
+  };
   yearSelected = [];
   selected_state = "India";
   stateselected: IState;
@@ -218,18 +233,21 @@ cityInfo
   ) {
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
-    let vw = Math.max(document.documentElement.clientWidth);
-    vw = (vw - 1366) / 1366;
-    let zoom = 4 + vw;
-    if (this.userUtil.isUserOnMobile()) {
-      zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
-      if (window.innerHeight < 600) zoom = 3.6;
-      const valueOf1vh = this.calculateVH(1);
-      if (valueOf1vh < 5) zoom = 3;
-      else if (valueOf1vh < 7) zoom = zoom - 0.2;
-      // return zoom;
-    }
-    zoom = 4.2;
+    let zoom;	
+    if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;	
+    else zoom = this.mapConfig.nationalZoomOnMobile;
+    // let vw = Math.max(document.documentElement.clientWidth);
+    // vw = (vw - 1366) / 1366;
+    // let zoom = 4 + vw;
+    // if (this.userUtil.isUserOnMobile()) {
+    //   zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
+    //   if (window.innerHeight < 600) zoom = 3.6;
+    //   const valueOf1vh = this.calculateVH(1);
+    //   if (valueOf1vh < 5) zoom = 3;
+    //   else if (valueOf1vh < 7) zoom = zoom - 0.2;
+    //   // return zoom;
+    // }
+ 
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,

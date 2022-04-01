@@ -293,7 +293,7 @@ export class RevenuechartComponent
   compareChange = new EventEmitter();
 
   @Output()
-  chartLabel = new EventEmitter();
+  dounghnuChartLabels = new EventEmitter();
   myChart;
   showMultipleCharts;
   @Input()
@@ -374,9 +374,13 @@ export class RevenuechartComponent
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
 
+    if(this.chartData.type == "doughnut"){
+      let data = []
+      this.dounghnuChartLabels.emit(this.chartData.data['labels']); 
+    }
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
-    if (this.chartData?.data?.datasets[0].data.length) {
+    if (this.chartData?.data?.datasets.length) {
       let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
       if (!canvas) {
         console.error("no Canvas");
@@ -412,7 +416,8 @@ export class RevenuechartComponent
               color: colors[i],
             });
           });
-        this.chartLabel.emit(this.multiChartLabel);
+          console.log(this.multiChartLabel)
+        this.dounghnuChartLabels.emit(this.multiChartLabel);
         if (element?.multipleChartOptions)
           Object.assign(newChartData, {
             options: element?.multipleChartOptions,

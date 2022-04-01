@@ -103,13 +103,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         {
           data: [],
           backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(54, 162, 235)",
-            "rgb(255, 205, 86)",
-            "rgb(155, 25, 86)",
-            "rgb(55, 205, 186)",
+            "#76d12c",
+            "#ed8e3b",
+            "#15c3eb",
+            "#eb15e3",
+            "#e6e21c",
+            "#fc3d83",
           ],
-          hoverOffset: 4,
+          hoverOffset: 2,
         },
       ],
     },
@@ -293,6 +294,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       { value: 2, title: "ULB Type Avg", isDisabled: false },
       { value: 3, title: "Population Category Avg", isDisabled: false },
     ];
+    this.nationalFilter.patchValue("")
+    this.ulbId=""
   }
 
   yearList;
@@ -364,13 +367,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             data: [],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-              "rgb(155, 25, 86)",
-              "rgb(55, 205, 186)",
+              "#76d12c",
+              "#ed8e3b",
+              "#15c3eb",
+              "#eb15e3",
+              "#e6e21c",
+              "#fc3d83",
             ],
-            hoverOffset: 4,
+            hoverOffset: 2,
           },
         ],
       },
@@ -391,6 +395,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
       compareType: this.compType ? this.compType : "",
+      ulb: this.ulbId
     };
     console.log(payload);
     let inputVal: any = {};
@@ -588,7 +593,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     console.log("this.innertabData", this.data);
     this.getyears();
-    this.changeActiveBtn(0);
+  
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices
@@ -613,12 +618,16 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     });
 
     this.getRevenueId();
+    this.changeActiveBtn(0);
   }
+  ulbId
   getUlbData(event) {
     console.log(event);
+    this.ulbId = event._id
     this.getScatterData();
   }
   labels(data) {
     this.chartLabels = data;
+    console.log(this.chartLabels)
   }
 }

@@ -524,7 +524,7 @@ export class RevenueMixComponent implements OnInit {
      event.forEach(element => {
       data.push(element.text)
     });
-
+console.log('labels',data )
     this.dounghnuChartLabels.emit(data)
   }
   getMultipleDoughnutCharts() {
