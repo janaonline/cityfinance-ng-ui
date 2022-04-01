@@ -14,6 +14,7 @@ import { Observable } from "rxjs";
 import { CommonService } from "../../services/common.service";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSelect } from "@angular/material/select";
 
 export interface Fruit {
   name: string;
@@ -28,7 +29,7 @@ export class CompareDialogComponent implements OnInit {
   filteredFruits: Observable<string[]>;
 
   @ViewChild("chipInput") chipInput: ElementRef<HTMLInputElement>;
-
+  @ViewChild(MatSelect) matSelect: MatSelect;
   stateChipList: any = [];
 
   constructor(
@@ -221,6 +222,18 @@ export class CompareDialogComponent implements OnInit {
         ];
       }
     }
+
+  }
+  ngAfterViewInit() {
+    this.matSelect.openedChange.subscribe(opened => {
+      if (opened) {
+        this.matSelect.panel.nativeElement.addEventListener('mouseleave', () => {
+          this.matSelect.close();
+        })
+      }
+    })
+
+
   }
   reset() {
     this.globalFormControl.setValue("");
@@ -335,4 +348,5 @@ export class CompareDialogComponent implements OnInit {
     }
     this.close();
   }
+
 }
