@@ -32,7 +32,7 @@ export class CityComponent implements OnInit {
   cityId;
   stateCode;
   frontPanelData = data;
-  revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
+  revenueData = [Revenue, Expense,Tax, Liability,  Asset , Debt];
   mapData = mapConfig;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
@@ -149,7 +149,7 @@ export class CityComponent implements OnInit {
       .dashboardInformation(false, cityId, "ulb", " ")
       .subscribe(
         (res: any) => {
-          let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
+          let obj = { Revenue, Expense, Tax, Liability , Asset, Debt };
           for (const key in obj) {
             const element = obj[key];
             if (key == "Debt") {
@@ -174,10 +174,10 @@ export class CityComponent implements OnInit {
           this.revenueData = [
             obj.Revenue,
             obj.Expense,
-            obj.Asset,
             obj.Tax,
             obj.Liability,
-            obj.Debt,
+            obj.Asset,
+           obj.Debt,
           ];
         },
         (error) => {
@@ -262,13 +262,13 @@ const Tax = {
 };
 const Liability = {
   type: 2,
-  subTitle: "Total Liabilities",
+  subTitle: "Total Grant",
   svg: `../../../../assets/stats.svg`,
   number: "567 Cr",
 };
 const Debt = {
   type: 2,
-  subTitle: "Total Grant",
+  subTitle: "Total Debt",
   svg: `../../../../assets/folder.svg`,
   number: "567 Cr",
 };
