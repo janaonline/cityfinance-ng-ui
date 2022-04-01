@@ -77,20 +77,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
-        // {
-        //   label: "National Average",
-        //   data: [],
-        //   showLine: true,
-        //   fill: false,
-        //   borderColor: "rgba(0, 200, 0, 1)",
-        // },
-        // {
-        //   label: "State Average",
-        //   data: [],
-        //   showLine: true,
-        //   fill: false,
-        //   borderColor: "red",
-        // },
+        {
+          label: "State Average",
+          data: [],
+          labels:['State Average'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"red",
+          borderColor: "red",
+        },
       ],
     },
   };
@@ -354,6 +349,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             borderColor: "#F5B742",
             backgroundColor: "#F5B742",
           },
+          {
+            label: "State Average",
+          data: [],
+          labels:['State Average'],
+          showLine: true,
+          fill: false,
+          backgroundColor:"red",
+          borderColor: "red",
+          },
         ],
       },
     };
@@ -411,7 +415,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           let tp_data = res["townPanchayat"];
           let m_data = res["municipality"];
           // let natData = res["natAvg"][0]["average"];
-          // let stateData = res["stateAvg"][0]["average"];
+          let stateData = res["stateAvg"][0]["average"];
 
           this.scatterData.data.datasets.forEach((el) => {
             let obj = { x: 0, y: 0 };
@@ -447,8 +451,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               });
             } else if (el.label == "National Average") {
               // el["data"]["y"] = natData;
+            
+
             } else if (el.label == "State Average") {
-              // el["data"]["y"] = stateData;
+              let obje = [{ x: 0, y: 0 },{ x: 1200000, y: 0 }]
+              obje.forEach(el2=>{
+                el2['y'] = stateData
+
+                el["data"].push(el2)
+              })
+       
+             
             }
           });
           console.log(this.scatterData);
