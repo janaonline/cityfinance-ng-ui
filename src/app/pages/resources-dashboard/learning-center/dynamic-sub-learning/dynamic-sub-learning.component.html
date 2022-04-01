@@ -47,7 +47,75 @@
   </div>
   <div class="col-sm-12" *ngIf="isEnum">Enum</div>
   <div class="col-sm-12" *ngIf="isValu">Valuation</div>
-  <div class="col-sm-12" *ngIf="isAssess">Assessment</div>
+  <div class="col-sm-12" *ngIf="isAssess">
+    
+    <div class="heading topBottomGaps">Current Practices</div>
+    <p class="sub-ans just">
+      Assessment of properties refers to the exercise of assessing the value of a particular property within the parameters defined by ULB or State for the purpose of taxation. The rules and formulae for assigning value to all properties within the city are defined by valuation. Assessment is the application of those rules and formulas to individual properties. The strength of the assessment process can be judged by the completeness and veracity of the assessment records.
+
+The process of assessment has three aspects to it –
+<br>
+1. Assessment methodology used for assessing property tax payable by individual properties
+<br>
+2. Exemptions as defined by statutory provisions
+<br>
+3. Dispute resolution mechanisms
+    </p>
+    <img src="../../../../../assets/resources-das/image1-31.png" />
+
+    <div class="heading topBottomGaps" style="margin-top: 2%">
+      Key Recommendations
+    </div>
+    <div>
+      <div
+        (click)="showRecomm(card._id)"
+        *ngFor="let card of assessmentData"
+        class="card"
+        [ngClass]="{ cardSuper: card._id == cardId }"
+      >
+        {{ card.heading }}
+      </div>
+    </div>
+
+    <div *ngFor="let line of assessmentData[cardId - 1].content" class="topBottomGaps sub-ans just">
+     <ul> <li>{{ line }}</li></ul>
+    </div>
+    <div>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+        (init)="slickInit($event)"
+        (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let item of assessmentData[cardId - 1].imgArr"
+          class="slide"
+        >
+          <span class="topBottomGaps steps">{{ item.text }}</span>
+          <img [src]="item.link" alt="" width="100%" />
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  
+
+    <div class="heading topBottomGaps">Best Practices</div>
+
+    <div *ngFor="let item of stateList" class="practiceCard">
+      <div class="practiceHead">
+        {{ item.stateName }}
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
+      </div>
+    </div>
+  
+  </div>
   <div class="col-sm-12" *ngIf="isBill">
     <div class="heading topBottomGaps">Current Practices</div>
     <p class="sub-ans just">
@@ -107,10 +175,7 @@
         </div>
       </ngx-slick-carousel>
     </div>
-    <!-- <div *ngFor="let data of billingCardData[cardId-1].imgArr; let i = index" > 
-         <div>Step: {{i+1}}</div>
- <img src={{data}}/>
-     </div> -->
+    
 
     <div class="heading topBottomGaps">Best Practices</div>
 
