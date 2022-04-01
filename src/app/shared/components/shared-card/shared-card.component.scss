@@ -1,21 +1,23 @@
 @import "./src/scss/functions";
 @import "./src/scss/variables";
 @import "./src/scss/mixins";
-//Custom Variables 
+//Custom Variables
 $font-archivo: Archivo;
 $font-Montserrat: Montserrat;
 .project {
-    background: #f4f7ff 0% 0% no-repeat padding-box;
-    border: 1px solid #6c93fc;
-    border-radius: 50px;
-    opacity: 0.8;
-    padding: 0.23em;
-    text-align: left;
-    letter-spacing: 0px;
-    color: #1e44ad;
+  background: #f4f7ff 0% 0% no-repeat padding-box;
+  border: 1px solid #6c93fc;
+  border-radius: 50px;
+  opacity: 0.8;
+  padding: 0.23em;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #1e44ad;
 }
-.textPadding{
-    padding-left: 2rem;padding-right: 2rem;font-size: 0.938rem;
+.textPadding {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-size: 0.938rem;
 }
 
 // .res-card:hover {
@@ -29,63 +31,63 @@ $font-Montserrat: Montserrat;
 //     color: #000000;
 // }
 .resources-h {
-    text-align: center;
-    font: normal normal 700 16px/19px 'Montserrat';
-    letter-spacing: 0px;
-    color: #0F1F40;
-    opacity: 1;
+  text-align: center;
+  font: normal normal 700 16px/19px "Montserrat";
+  letter-spacing: 0px;
+  color: #0f1f40;
+  opacity: 1;
 }
 
 .resources-sub-h {
-    text-align: center;
-    font: normal normal 400 12px/18px 'Montserrat';
-    letter-spacing: 0px;
-    color: #6E7281;
-    opacity: 1;
+  text-align: center;
+  font: normal normal 400 12px/18px "Montserrat";
+  letter-spacing: 0px;
+  color: #6e7281;
+  opacity: 1;
 }
 
 .lowerText {
-    font-family: "Montserrat";
-    color: #6E7281;
-    font-weight: 400;
-    font-size: 12px;
+  font-family: "Montserrat";
+  color: #6e7281;
+  font-weight: 400;
+  font-size: 12px;
 }
 
 .res-card.active {
-    background: #FFF1E3 0% 0% no-repeat padding-box;
-    box-shadow: 0px 2px 8px #FADAAD;
-    border: 1px solid #E87A1C;
-    opacity: 1;
-    border-radius: 12px;
+  background: #fff1e3 0% 0% no-repeat padding-box;
+  box-shadow: 0px 2px 8px #fadaad;
+  border: 1px solid #e87a1c;
+  opacity: 1;
+  border-radius: 12px;
 }
 
 .lowerText {
-    font-family: "Montserrat";
-    color: #6E7281;
-    font-weight: 400;
-    font-size: 12px;
+  font-family: "Montserrat";
+  color: #6e7281;
+  font-weight: 400;
+  font-size: 12px;
 }
 
 // 5th card of ngSwitchcase styling starts
 .revenue-card {
-    background-color: #EFFAFF;
-    box-shadow: 0px 1px 2px #BDD8E3;
+  background-color: #effaff;
+  box-shadow: 0px 1px 2px #bdd8e3;
 }
 
 .revenue-card h3 {
-    margin-top: 1.2rem;
-    color: #1E44AD;
-    font-size: 1.5rem;
-    font-family: $font-archivo;
+  margin-top: 1.2rem;
+  color: #1e44ad;
+  font-size: 1.5rem;
+  font-family: $font-archivo;
 }
 
 .revenue-card p {
-    margin-top: 0.5rem;
-    height: 45px;
-    color: #6E7281;
-    font-size: $font-size-base*0.75;
-    font-family: $font-Montserrat;
-    font-weight: medium;
+  margin-top: 0.5rem;
+  height: 45px;
+  color: #6e7281;
+  font-size: $font-size-base * 0.75;
+  font-family: $font-Montserrat;
+  font-weight: medium;
 }
 
 //   .north-east-arrow {
@@ -95,19 +97,27 @@ $font-Montserrat: Montserrat;
 //   .south-west-arrow {
 //     margin-top: 0.5rem;
 //     color:#E64E4E;
-//   }  
+//   }
 
-.chartText{
-    color: #0F1F40;
-    font-family: 'Archivo';
-    letter-spacing: 0px;
+.chartText {
+  color: #0f1f40;
+  font-family: "Archivo";
+  letter-spacing: 0px;
 }
 
-.chartNumber{
-    font-weight: 800;
-    color: #0F1F40;
-    font-family: 'Archivo';
-    letter-spacing: 0px;
-    font-size: 22px;
-    line-height: 24px;
+.chartNumber {
+  font-weight: 800;
+  color: #0f1f40;
+  font-family: "Archivo";
+  letter-spacing: 0px;
+  font-size: 22px;
+  line-height: 24px;
+}
+
+.activeCard {
+  background: #fff1e3 0% 0% no-repeat padding-box;
+  box-shadow: 0px 2px 8px #fadaad;
+  border: 1px solid #e87a1c;
+  opacity: 1;
+  border-radius: 12px;
 }

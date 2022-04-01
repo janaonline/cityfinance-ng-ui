@@ -18,7 +18,7 @@
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
     <div class="row m-1 mb-4" [ngClass]="{ 'hide-container': compareState }">
-      <div class="col-md-6 mt-2" style="min-height: 50vh;">
+      <div class="col-md-6 mt-2" style="min-height: 50vh">
         <carousel
           class="municipal-law-carousel"
           [noPause]="false"
@@ -48,39 +48,31 @@
         </button>
 
         <!--        <div class="col-md-12">-->
-        <h3 class="">Comparison of Municipal Finance Provisions</h3>
+        <h3 class="title">Comparison of Municipal Finance Provisions</h3>
         <!--          <br>-->
         <!--        </div>-->
         <br />
-        <p>
+        <p class="lowerText">
           Presented here is a comparison of the pronouncements of various
           Municipal Acts, underlying Rules and Regulations, and Accounts and
           Budget Manuals of different Indian states so far as they pertain to
           aspects of finance, accounts, budget, audit, financial disclosure and
           so on in municipalities.
         </p>
-        <p>
-          One will find answers to questions such as:
-        </p>
+        <p class="lowerText">One will find answers to questions such as:</p>
 
-        <ul>
-          <li>
-            What is the system of accounting prescribed?
-          </li>
-          <li>
-            What is the timeline for presenting the municipal budget?
-          </li>
+        <ul class="ulListText">
+          <li>What is the system of accounting prescribed?</li>
+          <li>What is the timeline for presenting the municipal budget?</li>
           <li>
             Is a budget calendar prescribed? if so, where is it prescribed?
           </li>
-          <li>
-            What are the limits on municipal borrowing?
-          </li>
+          <li>What are the limits on municipal borrowing?</li>
           <li>
             Do the laws require citizen participation in budget preparation?
           </li>
         </ul>
-        <p>
+        <p class="lowerText">
           The comparison attempts to answer a total of 70 questions across 13
           criteria. Answers have been kept short and precise. Where found
           necessary, additional explanations have been provided for better
@@ -99,7 +91,7 @@
           <a
             *ngIf="compareState > 0"
             class="back-link n-sm back-btns"
-            style="margin-right: 0px;"
+            style="margin-right: 0px"
             (click)="compareState = 0"
             >Back</a
           >
@@ -125,9 +117,9 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 sm-p0 ">
+      <div class="col-md-12 sm-p0">
         <br />
-        <div class="col-md-3 col-md-offset-3  col-xs-4 mb-2">
+        <div class="col-md-3 col-md-offset-3 col-xs-4 mb-2">
           <button
             class="btn btn-primary f10-sm btn-sm"
             (click)="showComparisionPage()"
@@ -147,13 +139,13 @@
         </div>
         <div class="col-md-3 col-xs-2 mb-2 b-sm">
           <button
-          *ngIf="selectedStates.length > 1"
-          (click)="clearSelectedStates()"
-          class="btn btn-sm mb-1 btn-danger right"
-        >
-          Clear All
-        </button>
-        </div>   
+            *ngIf="selectedStates.length > 1"
+            (click)="clearSelectedStates()"
+            class="btn btn-sm mb-1 btn-danger right"
+          >
+            Clear All
+          </button>
+        </div>
       </div>
       <!-- {{selectedStates | json}} -->
     </div>
@@ -182,7 +174,7 @@
             <tr>
               <th
                 *ngFor="let key of selectedStates"
-                style="text-transform: capitalize;"
+                style="text-transform: capitalize"
                 [ngStyle]="{ width: tdWidth }"
               >
                 {{ key }}
@@ -319,7 +311,7 @@
           </button>
         </a>
         <!-- <br /> -->
-        <a class="back-link n-sm " (click)="showMapView()">Back</a>
+        <a class="back-link n-sm" (click)="showMapView()">Back</a>
       </div>
       <!-- col end -->
     </div>
@@ -335,7 +327,7 @@
       class="close pull-right mt-1"
       aria-label="Close"
       (click)="modalRef.hide()"
-      style="margin-left: 2%;"
+      style="margin-left: 2%"
     >
       <span aria-hidden="true">&times;</span>
     </button>
@@ -375,13 +367,13 @@
       <div class="col-md-6 col-xs-6 b-sm">
         <br />
         <button
-      type="button"
-      class="btn btn-warning center b-sm"
-      stlye="margin-right:2% !important;"
-      (click)="clearSelectedStates()"
-    >
-      Clear All
-    </button>
+          type="button"
+          class="btn btn-warning center b-sm"
+          stlye="margin-right:2% !important;"
+          (click)="clearSelectedStates()"
+        >
+          Clear All
+        </button>
       </div>
     </div>
     <!-- row end -->

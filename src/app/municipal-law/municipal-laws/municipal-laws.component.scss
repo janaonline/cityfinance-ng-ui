@@ -3,7 +3,7 @@
 @import "../../../scss/mixins";
 .back-link {
   float: left;
-  font-size: $font-size-base*0.875;
+  font-size: $font-size-base * 0.875;
   // line-height: 3;
   cursor: pointer;
   margin-right: 15px;
@@ -189,4 +189,22 @@ table {
   .law-page {
     min-height: auto;
   }
+}
+
+.title {
+  font: normal normal 700 "Montserrat";
+}
+
+.lowerText {
+  font-family: "Montserrat";
+  color: #6e7281;
+  font-weight: 400;
+  font-size: 1em;
+}
+
+.ulListText > li {
+  font-family: "Montserrat";
+  color: #6e7281;
+  font-weight: 400;
+  font-size: 1em;
 }

@@ -1,19 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { FeatureCollection, Geometry } from 'geojson';
-import * as L from 'leaflet';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
-import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
-import { MapUtil } from 'src/app/util/map/mapUtil';
-import { UserUtility } from 'src/app/util/user/user';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { FeatureCollection, Geometry } from "geojson";
+import * as L from "leaflet";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { ILeafletStateClickEvent } from "src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent";
+import { GeographicalService } from "src/app/shared/services/geographical/geographical.service";
+import { MapUtil } from "src/app/util/map/mapUtil";
+import { UserUtility } from "src/app/util/user/user";
 
-import { AuthService } from '../../../app/auth/auth.service';
-import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
-import { IDialogConfiguration } from '../../../app/shared/components/dialog/models/dialogConfiguration';
-import { CommonService } from '../../../app/shared/services/common.service';
+import { AuthService } from "../../../app/auth/auth.service";
+import { DialogComponent } from "../../../app/shared/components/dialog/dialog.component";
+import { IDialogConfiguration } from "../../../app/shared/components/dialog/models/dialogConfiguration";
+import { CommonService } from "../../../app/shared/services/common.service";
 
 @Component({
   selector: "app-municipal-laws",
@@ -197,9 +197,8 @@ export class MunicipalLawsComponent implements OnInit {
     };
     let map;
 
-    ({ stateLayers: this.statesLayer, map } = MapUtil.createDefaultNationalMap(
-      configuration
-    ));
+    ({ stateLayers: this.statesLayer, map } =
+      MapUtil.createDefaultNationalMap(configuration));
 
     this.nationalLevelMap = map;
 
@@ -511,6 +510,7 @@ export class MunicipalLawsComponent implements OnInit {
   }
 
   showStateSelectionSection() {
+    debugger;
     this.selectedStates = ["criteria"];
     this.states.forEach((state) => {
       state.selected = false;
