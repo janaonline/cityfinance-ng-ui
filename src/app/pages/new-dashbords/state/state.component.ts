@@ -186,7 +186,7 @@ const data = {
   stateId: "",
   date: "",
   desc: "Summary of key state demographics and municipal (urban) indicators",
-  link: "",
+  link: "dashboard/national",
   linkName: "National Dashboard",
   dataIndicators: [
     {
@@ -204,15 +204,9 @@ const data = {
     },
     {
       value: "0",
-      title: "Municipal Corporations",
-      key: "Municipal_Corporation",
+      title: "Urban Local Bodies(ULBs)",
+      key: "ulbs",
       super: false,
-    },
-    {
-      value: "0",
-      title: "Municipal Council",
-      key: "Municipal_Council",
-      super: true,
     },
     {
       value: "0",
@@ -222,16 +216,24 @@ const data = {
     },
     {
       value: "0",
+      title: "Municipal Corporations",
+      key: "Municipal_Corporation",
+      super: false,
+    },
+    {
+      value: "0",
+      title: "Municipality",
+      key: "Municipal_Council",
+      super: true,
+    },
+ 
+    {
+      value: "0",
       title: "Town Panchayat",
       key: "Town_Panchayat",
       super: true,
     },
-    {
-      value: "0",
-      title: "Urban Local Bodies(ULBs)",
-      key: "ulbs",
-      super: false,
-    },
+   
   ],
   footer: `Data shown is from audited/provisional financial statements for FY 20-21
   and data was last updated on 21st August 2021`,
