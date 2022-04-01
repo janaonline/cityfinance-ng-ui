@@ -48,6 +48,14 @@ export class CityComponent implements OnInit {
   ngOnInit(): void {
     this.dashboardDataCall();
     this.dashboardCalls(this.cityId);
+    setTimeout(()=>{
+       console.log('nameeeeeeeeeeeee', this.frontPanelData?.name);
+       this.dashboardTabData.forEach((el)=>{
+        el.ulbName = this.frontPanelData?.name;
+      })
+    }, 500)
+
+
   }
   dashboardDataCall() {
     this.newDashboardService
@@ -55,6 +63,7 @@ export class CityComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log(res, "dashboardTabData");
+
           this.dashboardTabData = res["data"];
         },
         (error) => {
