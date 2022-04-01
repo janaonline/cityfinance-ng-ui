@@ -118,6 +118,7 @@ export class BalanceTableComponent
   reportReq: IReportType;
   @Input() data: any;
   @Input() cityId: any;
+  @Input() cityName: any;
   reportGroup: any;
   isComparative: any = false;
   @ViewChild("template") template;
@@ -284,6 +285,8 @@ export class BalanceTableComponent
       }
     );
     this.ulbListVal.push(...currentUlb);
+    console.log('ulb.......pk', this.ulbListVal);
+
   }
 
   createMultipleUpdateTable() {
@@ -330,7 +333,8 @@ export class BalanceTableComponent
     document.getElementById("getMultipleChants").click();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   download() {
     const isUserLoggedIn = this._authService.loggedIn();
@@ -363,7 +367,7 @@ export class BalanceTableComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     // this.invokeHidden();
-    console.log("balance table", changes);
+    console.log("balance table", changes, this.data);
     if (this.data.name == "Balance Sheet") {
       this.reportGroup = "Balance Sheet";
     } else {
@@ -389,6 +393,6 @@ export class BalanceTableComponent
     // }
   }
   resetCompare(){
-
+   this.showtable = false;
   }
 }
