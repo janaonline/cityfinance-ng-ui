@@ -18,6 +18,7 @@ export class StateComponent implements OnInit {
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.stateId = param.stateId;
+    this.frontPanelData.stateId = this.stateId  
       for (const key in this.stateUlbData.data) {
         const element = this.stateUlbData.data[key];
         if (element._id == this.stateId) {

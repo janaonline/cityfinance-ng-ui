@@ -176,7 +176,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
       ],
     },
   ];
-
+  cityName = '';
   stateServiceLabel: boolean = false;
 
   activeHeader = "";
@@ -188,7 +188,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   changeTab(event, fromInner = false) {
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
     console.log("value ==>", value);
-
+    this.cityName = value?.ulbName
     if (fromInner) this.innerActiveTab = value;
     else {
       this.activeHeader = value.name;
@@ -235,7 +235,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
       this.getStickyValue();
     }
 
-    console.log("stickyValue==>", this.sticky);
+    // console.log("stickyValue==>", this.sticky);
   }
 
   ngOnInit(): void {

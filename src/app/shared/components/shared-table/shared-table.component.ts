@@ -106,7 +106,12 @@ export class SharedTableComponent implements OnInit, OnChanges {
     }
     // this.dataSlice(this.tableData);
   }
-
+  getNumber(val: any) {
+    if (isNaN(val)) return val;
+    return Number(parseFloat(val).toFixed(4)).toLocaleString('en', {
+      minimumFractionDigits: 2
+  });;
+  }
   finalData: any = [];
 
   dataSlice(val: any) {
