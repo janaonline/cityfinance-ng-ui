@@ -1,94 +1,119 @@
 .balanceText {
-  font-size: 1rem;
+    font-size: 1rem;
 }
 
 .dropDownDiv {
-  padding: 5px;
+    padding: 5px;
 }
 
 .tableDiv {
-  width: 85vw;
-  margin: 0 auto;
+    width: 85vw;
+    margin: 0 auto;
 }
 
 .modalButton {
-  border: 1px solid #cfc2c2;
-  background-color: #ffffff;
-  border-radius: 8px;
-  height: 48%;
-  margin-top: 5px;
+    border: 1px solid #cfc2c2;
+    background-color: #ffffff;
+    border-radius: 8px;
+    height: 48%;
+    margin-top: 5px;
 }
 
 .mat-select-panel {
-  background: red !important;
+    background: red !important;
 }
 
 ::ng-deep .yearSelect .mat-form-field-flex {
-  border: none !important;
-  width: 100% !important;
-  padding: 5px !important;
-  height: auto !important;
+    border: none !important;
+    width: 100% !important;
+    padding: 5px !important;
+    height: auto !important;
 }
 
 ::ng-deep .tableDiv .mat-table {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 @media only screen and (max-width: 600px) {
-  .balanceText {
-    width: 90vw;
-    font-size: 0.8em;
-    margin-left: -20px;
-  }
-
-  .modalButton {
-    font-size: 5px;
-    width: 100%;
-    height: 50%;
-  }
-
-  ::ng-deep .yearSelect .mat-form-field-flex {
-    border: none !important;
-    width: 85% !important;
-    /* height: auto !important; */
-    margin-right: -50px !important;
-  }
-
-  .compare {
-    font-size: 0.8rem;
-    font-family: "Archivo";
-    font-weight: 600;
-  }
-
-  .dropDownDiv {
-    width: 202%;
-    margin-right: -40px;
-  }
-
-  .dropDownDiv > select {
-    font-size: 10px;
-  }
+    .balanceText {
+        width: 90vw;
+        font-size: 0.8em;
+        margin-left: -20px;
+    }
+    .modalButton {
+        font-size: 5px;
+        width: 100%;
+        height: 50%;
+    }
+     ::ng-deep .yearSelect .mat-form-field-flex {
+        border: none !important;
+        width: 85% !important;
+        /* height: auto !important; */
+        margin-right: -50px !important;
+    }
+    .compare {
+        font-size: 0.8rem;
+        font-family: "Archivo";
+        font-weight: 600;
+    }
+    .dropDownDiv {
+        width: 202%;
+        margin-right: -40px;
+    }
+    .dropDownDiv>select {
+        font-size: 10px;
+    }
 }
 
 .comp {
-  margin-top: -35px;
+    margin-top: -35px;
 }
 
 .searchButton {
-  border: none;
-  padding: 9px;
-  border-radius: 5px;
-  margin-left: 1em;
-  margin-right: 1em;
-  background-color: #e67e15;
-  border: 1px solid #e67e15;
-  color: #ffffff;
-  cursor: pointer;
+    border: none;
+    padding: 9px;
+    border-radius: 5px;
+    margin-left: 1em;
+    margin-right: 1em;
+    background-color: #e67e15;
+    border: 1px solid #e67e15;
+    color: #ffffff;
+    cursor: pointer;
 }
 
 .searchButton:hover {
-  background-color: #ffffff;
-  color: #e67e15;
-  transition: 0.3s;
-  border: 1px solid #e67e15;
+    background-color: #ffffff;
+    color: #e67e15;
+    transition: 0.3s;
+    border: 1px solid #e67e15;
+}
+
+.card-body {
+    border-radius: 4px;
+    border: 1px solid #D9D8D8;
+    margin: .5rem 0;
+    padding: .5rem .5rem;
+}
+
+.cd-repeat:nth-child(odd) {
+    border: 1px solid #D9D8D8;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.cd-repeat:nth-child(even) {
+    background: #F8F9FA 0% 0% no-repeat padding-box;
+    border: 1px solid #D9D8D8;
+    border-radius: 4px;
+}
+
+.cd-h {
+    background-color: #E9ECF7;
+    font: normal normal 600 15px/24px 'Archivo';
+    letter-spacing: 0px;
+    color: #0F1F40;
+}
+
+.cd-d {
+    padding: 0 1.3rem
 }

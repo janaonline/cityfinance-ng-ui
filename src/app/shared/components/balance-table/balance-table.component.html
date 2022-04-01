@@ -70,6 +70,72 @@
         <div *ngIf="isLoading == true">
             <button class="searchButton mb-3 ms-0" (click)="download()">Download</button>
         </div>
+        <div *ngIf="isLoading == true">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="cd-r">
+                        <div class="card-body cd-h">
+                            <div class="row">
+                                <div class="col-sm-12 col-12">
+                                    <span>Download Report</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body cd-repeat" *ngFor="let item of downLoadArray[0].rows; let i = index;">
+                            <div class="row align-items-md-center">
+                                <div class="col-sm-3 cd-d" style="width: 35vw;">
+                                    {{item?.lineItem}}
+                                </div>
+                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
+
+                                    <a [href]="item['2015-16']" *ngIf="item?.lineItem === 'Row Pdf'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
+                                    </a>
+                                    <a [href]="item['2015-16']" *ngIf="item?.lineItem === 'Row Excel'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
+                                    </a>
+                                </div>
+                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
+                                    <!-- {{item['2016-17']}} -->
+                                    <a [href]="item['2016-17']" *ngIf="item?.lineItem === 'Row Pdf'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
+                                    </a>
+                                    <a [href]="item['2016-17']" *ngIf="item?.lineItem === 'Row Excel'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
+                                    </a>
+                                </div>
+                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
+                                    <a [href]="item['2017-18']" *ngIf="item?.lineItem === 'Row Pdf'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
+                                    </a>
+                                    <a [href]="item['2017-18']" *ngIf="item?.lineItem === 'Row Excel'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
+                                    </a>
+                                </div>
+                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
+                                    <a [href]="item['2018-19']" *ngIf="item?.lineItem === 'Row Pdf'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
+                                    </a>
+                                    <a [href]="item['2018-19']" *ngIf="item?.lineItem === 'Row Excel'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
+                                    </a>
+                                </div>
+                                <div class="col-sm-1 text-end cd-d" style="width: 10vw;">
+                                    <a [href]="item['2019-20']" *ngIf="item?.lineItem === 'Row Pdf'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" width="24px">
+                                    </a>
+                                    <a [href]="item['2019-20']" *ngIf="item?.lineItem === 'Row Excel'">
+                                        <img src="../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" width="24px">
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <!-- <div class="row">
