@@ -510,7 +510,7 @@ export class MunicipalLawsComponent implements OnInit {
   }
 
   showStateSelectionSection() {
-    debugger;
+    // debugger;
     this.selectedStates = ["criteria"];
     this.states.forEach((state) => {
       state.selected = false;
