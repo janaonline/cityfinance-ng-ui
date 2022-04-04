@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     userGeneratedKey: null,
   };
   public hide = true;
-
+  directLogin = false
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -70,6 +70,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.activatedRoute.queryParams.subscribe((param) => {
+      if(param.user && param.user == 'USER' ){
+       this.directLogin = true
+      }
       if (param.message) {
         this.otpVerificationMessage = true
         setTimeout(() => {
@@ -203,7 +206,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem("postLoginNavigation");
   }
-  onSelectingUserType(value: USER_TYPE) {
+  onSelectingUserType(value) {
+if(this.directLogin){
+  value = 'USER'
+}
     this.selectedUserType = value;
     this.loginSet = this.loginDetails.find(
       (item) => item.role == this.selectedUserType

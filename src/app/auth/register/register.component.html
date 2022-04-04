@@ -693,7 +693,7 @@
               <div class="text-dark last-para" style="text-align: center">
                 <span class="mt-1">
                   Already have an Account?
-                  <a routerLink="/login">Sign in here</a></span
+                  <a [routerLink]="['/login']" [queryParams]="{user: 'USER'}">Sign in here</a></span
                 >
               </div>
             </div>

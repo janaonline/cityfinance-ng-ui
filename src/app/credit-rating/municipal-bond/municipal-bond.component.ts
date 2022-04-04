@@ -89,7 +89,7 @@ export class MunicipalBondComponent implements OnInit {
         text: "Proceed to Login",
         callback: () => {
           sessionStorage.setItem("postLoginNavigation", this.router.url);
-          this.router.navigate(["/", "login"]);
+          this.router.navigate(["/", "login"],{ queryParams: { user: 'USER' } } );
         },
       },
       signup: {

@@ -391,7 +391,7 @@ export class WaterRejenuvationComponent implements OnInit {
         ]),
         targetCust: this.fb.control(data.targetCust, [
           Validators.required,
-          Validators.maxLength(25),
+          Validators.maxLength(300),
         ]),
         lat: this.fb.control(data.lat, [
           Validators.required,
@@ -576,7 +576,7 @@ export class WaterRejenuvationComponent implements OnInit {
           ]),
           targetCust: this.fb.control(null, [
             Validators.required,
-            Validators.maxLength(25),
+            Validators.maxLength(300),
           ]),
           lat: this.fb.control(null, [
             Validators.required,

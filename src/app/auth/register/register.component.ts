@@ -111,7 +111,7 @@ export class RegisterComponent implements OnInit {
 
         if (this.registrationType === "user") {
           this.respone.successMessage =
-            "User Registration successful. Kindly check your email for further information.";
+            "User Registration successful. Please proceed with Login.";
         } else {
           this.respone.successMessage =
             "ULB registered successfully. Please check your email for setting up password. Please check spam in case email is not found.";
