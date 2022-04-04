@@ -94,26 +94,15 @@ export class RevenuechartComponent
           borderColor: "#F5B742",
           backgroundColor: "#F5B742",
         },
-        // {
-        //   label: "National Average",
-        //   data: [
-        //     { x: 0, y: 12 },
-        //     { x: 50, y: 12 },
-        //   ],
-        //   showLine: true,
-        //   fill: false,
-        //   borderColor: "rgba(0, 200, 0, 1)",
-        // },
-        // {
-        //   label: "State Average",
-        //   data: [
-        //     { x: 0, y: 8 },
-        //     { x: 50, y: 8 },
-        //   ],
-        //   showLine: true,
-        //   fill: false,
-        //   borderColor: "red",
-        // },
+        {
+          label: "State Average",
+          data: [
+        
+          ],
+          showLine: true,
+          fill: false,
+          borderColor: "red",
+        },
       ],
     },
   };
