@@ -143,6 +143,59 @@ export class BalanceTableComponent
 
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+  downLoadArray = [
+    {
+      tableId:1,
+      name:"City Dasboard Download",
+      tableClass: 'd_table',
+      columns : [
+        {
+          key: 'lineItem',
+          display_name: "",
+         },
+        {
+        key: '2015-16',
+        display_name: "",
+        },
+      {
+        key: '2016-17',
+        display_name: "",
+      },
+      {
+        key: '2017-18',
+        display_name: "",
+      },
+       {
+          key : '2018-19',
+          display_name: ''
+       },
+       {
+        key : '2019-20',
+        display_name: ''
+     },
+
+      ],
+      rows: [
+        {
+          lineItem: 'Row Pdf',
+          '2015-16': 'asdfg',
+          '2016-17': 'dgfghj',
+          '2017-18': '',
+          '2018-19': '',
+          '2019-20': '',
+        },
+        {
+          lineItem: 'Row Excel',
+          '2015-16': '',
+          '2016-17': 'xdgcfgvbh',
+          '2017-18': '',
+          '2018-19': '',
+          '2019-20': '',
+        },
+      ]
+    },
+  ]
+
 
   defaultDailogConfiuration: IDialogConfiguration = {
     message:

@@ -48,11 +48,11 @@
 
         <div *ngIf="lastTableData">
             <p *ngIf="!checkVal" (click)="changeVal()" style="cursor: pointer; color: #e67e15; font-size: 12px">
-                View more
+                View more +
             </p>
         </div>
         <p *ngIf="checkVal" (click)="changeVal()" style="cursor: pointer; color: #e67e15; font-size: 12px">
-            View Less
+            View Less -
         </p>
     </div>
 </ng-template>
