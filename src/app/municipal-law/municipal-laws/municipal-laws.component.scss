@@ -64,8 +64,8 @@
     position: relative;
   }
   th {
-    background-color: #059b9a;
-    color: white;
+    background-color: #f1f8ff;
+    color: black;
   }
 
   //     cursor: alias;
@@ -143,10 +143,14 @@ table {
   div.carousel.slide {
     outline: none !important;
   }
+  div.carousel-indicators > button {
+    background-color: #e67e15;
+  }
 }
 
 :host {
   .hide-container {
+    // display: none;
     position: absolute;
     opacity: 0;
     z-index: -1;
@@ -219,9 +223,47 @@ table {
   cursor: pointer;
 }
 
+.stateSearchButton {
+  border: none;
+  padding: 9px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  border: 1px solid #e67e15;
+  color: #e67e15;
+  cursor: pointer;
+}
+
+.stateSearchButton:hover {
+  background-color: #e67e15;
+  color: #fff;
+  transition: 0.3s;
+  border: 1px solid #e67e15;
+}
+
+.clearButton {
+  background-color: #f2f5ff;
+  border: 1px solid #f2f5ff;
+  color: black;
+}
+
 .searchButton:hover {
   background-color: #ffffff;
   color: #e67e15;
   transition: 0.3s;
   border: 1px solid #e67e15;
+}
+
+// .headTable {
+//   background-color: #f1f8ff;
+//   color: black;
+// }
+
+.close {
+  background: none;
+  border: none;
+}
+
+.close span {
+  font-size: 2.5em;
+  color: red;
 }

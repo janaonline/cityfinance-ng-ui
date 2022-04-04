@@ -17,7 +17,7 @@
     <!-- {{tempStates | json}} -->
     <!-- {{keys | json}} -->
     <!-- {{list | json}}  -->
-    <div class="row m-1 mb-4" [ngClass]="{ 'hide-container': compareState }">
+    <div class="row m-1 mb-4" *ngIf="!compareState || compareState == 0">
       <div class="col-md-6 mt-2" style="min-height: 50vh">
         <carousel
           class="municipal-law-carousel"
@@ -31,7 +31,7 @@
 
             <!-- <img [src]="item.imgUrl" /> -->
             <div class="carousel-caption d-none d-md-block">
-              <h4 class="title">{{ item.caption }}</h4>
+              <h4 class="title" style="font: 1.5em">{{ item.caption }}</h4>
             </div>
           </slide>
           <div id="finance-law-map"></div>
@@ -99,9 +99,9 @@
       </div>
       <div class="col-md-12 n-sm">
         <button
-          *ngIf="selectedStates.length > 1"
+          *ngIf="selectedStates.length >= 1"
           (click)="clearSelectedStates()"
-          class="btn btn-sm mb-1 btn-danger"
+          class="btn btn-sm mb-1 btn-danger clearButton"
         >
           Clear All
         </button>
@@ -112,7 +112,10 @@
           class="col-sm-6 col-xs-12 col-md-3 col-lg-3 state-list m-law"
           (click)="addToCompare(state)"
         >
-          <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
+          <div
+            class="stateSearchButton my-2"
+            [ngClass]="{ 'btn-selected': state.selected }"
+          >
             {{ state.name }}
           </div>
         </div>
@@ -121,7 +124,7 @@
         <br />
         <div class="col-md-3 col-md-offset-3 col-xs-4 mb-2">
           <button
-            class="btn btn-primary f10-sm btn-sm"
+            class="f10-sm btn-sm searchButton"
             (click)="showComparisionPage()"
             [tooltipEnable]="selectedStates.length < 2"
             tooltip="Select atleast 1 states"
@@ -131,7 +134,7 @@
         </div>
         <div class="col-md-3 col-xs-6 mb-2">
           <button
-            class="btn btn-danger btn-sm col-md-12 f10-sm center"
+            class="btn btn-danger btn-sm col-md-12 f10-sm center clearButton"
             (click)="compareAllStates()"
           >
             Compare All
@@ -154,7 +157,7 @@
       class="row container accordion-full-m m-auto"
       *ngIf="compareState == 2"
     >
-      <div class="col-md-10 col-sm-12 accordion-full-m">
+      <div class="col-md-12 col-sm-12 accordion-full-m">
         <!-- <h3>State comparision -->
 
         <!-- <a class="back-link" style="margin-top: 100px;" (click)="backToStateSelection()">Back</a> -->
@@ -163,10 +166,31 @@
 
         <!--*ngIf="selectedStates.length > 1"-->
         <!-- {{list | json}} -->
+        <!-- col end -->
+        <div class="col-md-12 d-flex col-sm-12 mt-3">
+          <button
+            (click)="openStateSelectionModal(template)"
+            class="btn btn-warning back-link clearButton"
+          >
+            Compare States
+          </button>
+          <!-- <br /> -->
+          <a>
+            <button
+              class="btn btn-danger back-link searchButton"
+              (click)="download()"
+            >
+              Download
+            </button>
+          </a>
+          <!-- <br /> -->
+          <a class="back-link n-sm" (click)="showMapView()">Back</a>
+        </div>
+        <!-- col end -->
 
-        <div class="table-responsive mt-3">
+        <div class="table-responsive mt-3 col-12">
           <table
-            class="table table-striped table-hover"
+            class="table table-striped table-hover text-center"
             border="1"
             id="compare-table"
             [ngStyle]="{ width: tableWidth }"
@@ -176,6 +200,7 @@
                 *ngFor="let key of selectedStates"
                 style="text-transform: capitalize"
                 [ngStyle]="{ width: tdWidth }"
+                class="headTable"
               >
                 {{ key }}
               </th>
@@ -204,9 +229,11 @@
                       >
                         <div *ngIf="i == 0">
                           <div *ngIf="messages[title]">
-                            <b>{{ messages[title] }}</b>
+                            <b class="lowerText">{{ messages[title] }}</b>
                           </div>
-                          <div *ngIf="!messages[title]">{{ title }}</div>
+                          <div *ngIf="!messages[title]" class="lowerText">
+                            {{ title }}
+                          </div>
                         </div>
                         <div *ngIf="i > 0">
                           <div *ngIf="!(list[key] && list[key][title])">
@@ -236,7 +263,7 @@
                                 let i = index
                               "
                             >
-                              <div>
+                              <div class="ulListText">
                                 <span
                                   *ngIf="
                                     list[key][title].titleWithCaptions.length >
@@ -245,12 +272,17 @@
                                   >{{ i + 1 }}.</span
                                 >
                                 <span *ngIf="cell.titles">
-                                  <div *ngFor="let item of titles">
+                                  <div
+                                    *ngFor="let item of titles"
+                                    class="lowerText"
+                                  >
                                     {{ item }}
                                   </div>
                                 </span>
-                                <span *ngIf="cell.title">{{ cell.title }}</span>
-                                <span class="text-primary">{{
+                                <span *ngIf="cell.title" class="lowerText">{{
+                                  cell.title
+                                }}</span>
+                                <span class="text-primary" class="lowerText">{{
                                   cell.caption
                                 }}</span>
                               </div>
@@ -268,8 +300,10 @@
                                 let cell of list[key][title].titleThenCaptions
                               "
                             >
-                              <div>{{ cell.title }}</div>
-                              <div class="text-primary">{{ cell.caption }}</div>
+                              <div class="lowerText">{{ cell.title }}</div>
+                              <div class="text-primary" class="lowerText">
+                                {{ cell.caption }}
+                              </div>
                             </div>
                           </div>
 
@@ -296,24 +330,6 @@
           </accordion>
         </div>
       </div>
-      <!-- col end -->
-      <div class="col-md-2 col-sm-12 mt-3">
-        <button
-          (click)="openStateSelectionModal(template)"
-          class="btn btn-warning back-link"
-        >
-          Compare States
-        </button>
-        <!-- <br /> -->
-        <a>
-          <button class="btn btn-danger back-link" (click)="download()">
-            Download
-          </button>
-        </a>
-        <!-- <br /> -->
-        <a class="back-link n-sm" (click)="showMapView()">Back</a>
-      </div>
-      <!-- col end -->
     </div>
   </ng-container>
 </div>
@@ -324,6 +340,15 @@
     <h4 class="modal-title pull-left">Add / Remove states from comparison</h4>
     <button
       type="button"
+      style="width: 30%"
+      class="pull-right n-sm stateSearchButton"
+      stlye="margin-right:2% !important;"
+      (click)="clearSelectedStates()"
+    >
+      Clear All
+    </button>
+    <button
+      type="button"
       class="close pull-right mt-1"
       aria-label="Close"
       (click)="modalRef.hide()"
@@ -331,24 +356,20 @@
     >
       <span aria-hidden="true">&times;</span>
     </button>
-    <button
-      type="button"
-      class="btn btn-warning pull-right n-sm"
-      stlye="margin-right:2% !important;"
-      (click)="clearSelectedStates()"
-    >
-      Clear All
-    </button>
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="mv-65">
+      <div class="mv-65 my-2 d-flex flex-wrap">
         <div
           *ngFor="let state of states"
           class="col-sm-6 col-xs-12 col-md-3 col-lg-3 state-list"
           (click)="addToCompare(state)"
+          style="width: auto"
         >
-          <div class="btn" [ngClass]="{ 'btn-selected': state.selected }">
+          <div
+            class="stateSearchButton mx-2 my-2"
+            [ngClass]="{ 'btn-selected': state.selected }"
+          >
             {{ state.name }}
           </div>
         </div>
@@ -358,7 +379,7 @@
         <button
           [tooltipEnable]="selectedStates.length > 1"
           [tooltip]="'Select 1 or more states'"
-          class="btn btn-primary center"
+          class="center searchButton"
           (click)="selectedStates.length > 1 ? modalRef.hide() : null"
         >
           Apply Selection
