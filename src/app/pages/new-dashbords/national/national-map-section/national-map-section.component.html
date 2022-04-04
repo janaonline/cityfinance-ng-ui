@@ -125,15 +125,12 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="table-responsive table-con">
-          <table
-            class="table"
-            *ngFor="let table of tableData; let tableIndex = index"
-          >
+          <table class="table">
             <thead>
               <tr>
                 <th
                   scope="col"
-                  *ngFor="let column of table?.columns"
+                  *ngFor="let column of tableData?.columns"
                   class="{{ column?.key }}"
                 >
                   {{ column?.display_name }}
@@ -141,9 +138,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let row of table?.rows">
+              <tr *ngFor="let row of tableData?.rows">
                 <td
-                  *ngFor="let column of table?.columns"
+                  *ngFor="let column of tableData?.columns"
                   class="{{ column?.key }}"
                 >
                   {{ row[column.key] }}
