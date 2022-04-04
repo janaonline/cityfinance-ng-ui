@@ -52,7 +52,7 @@
   <div
     *ngSwitchCase="4"
     class="card text-center res-card"
-    routerLinkActive="active"
+    [ngClass]="{ activeCard: cardActive }"
     [ngStyle]="{
       height: cardStyle?.height,
       'border-radius': cardStyle.borderRadius,
@@ -92,7 +92,7 @@
         <div
           class="row"
           style="
-          padding-left: 10%;
+            padding-left: 10%;
             z-index: 8;
             font-size: 1.2rem;
             margin-top: -16%;
@@ -100,8 +100,16 @@
             font-family: 'Archivo';
           "
         >
-          <span>{{ data.value }} {{data?.unitType == "Percent" ? "%" : data?.unitType == "litres per capita per day (lpcd)" ?
-            "LPCD":"hr"}}</span>
+          <span
+            >{{ data.value }}
+            {{
+              data?.unitType == "Percent"
+                ? "%"
+                : data?.unitType == "litres per capita per day (lpcd)"
+                ? "LPCD"
+                : "hr"
+            }}</span
+          >
         </div>
         <div class="row">
           <div class="col-sm-12 text-center textPadding">

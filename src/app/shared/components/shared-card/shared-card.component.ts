@@ -9,6 +9,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import Chart from "chart.js";
 
 @Component({
@@ -17,7 +18,7 @@ import Chart from "chart.js";
   styleUrls: ["./shared-card.component.scss"],
 })
 export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
-  constructor() {}
+  constructor(private router: Router) {}
 
   @Input()
   cardStyle = {
@@ -25,6 +26,10 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     borderRadius: "0.7500em",
     height: "8rem",
   };
+
+  @Input()
+  cardActive: boolean = false;
+
   @Input()
   data = {
     type: 6,
@@ -52,14 +57,15 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
 
   showButtons = false;
   ngOnInit(): void {
-    //   console.log("resources", this.data);
     if (this.data)
       this.showButtons = this.data?.actionButtons
         ? this.data.actionButtons.length > 0
         : false;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("route url==>", this.router.url);
+  }
 
   ngAfterViewInit() {
     if (this.data.type === 6) {

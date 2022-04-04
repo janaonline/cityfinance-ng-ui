@@ -30,10 +30,11 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   @Input() filterInputData;
   @Input() downloadValue;
-@Input() data
+  @Input() data;
   @Input() category;
   @Output()
   init = new EventEmitter();
+  @Output() download = new EventEmitter();
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
@@ -117,16 +118,22 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // check the object "changes" for new data
     // console.log("chanhged happed", changes.category.currentValue);
-    this.filterData("category", "");
+    if (changes && changes.category && changes.category.currentValue) {
+      this.filterData("category", "");
+    }
 
-    if(changes.data){
-      console.log(this.data)
+    if (changes.data) {
+      console.log(this.data);
+    }
+    if (changes && changes.download && changes.download.currentValue) {
+      this.download = changes.download.currentValue;
     }
   }
 
-  initiateDownload(){
-this.init.emit(true)
+  initiateDownload() {
+    this.download.emit(true);
   }
+
   filterData(param, val) {
     console.log("filter form", this.filterForm);
     if (param == "ulb") {

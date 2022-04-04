@@ -36,9 +36,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { UlbNotRegisteredComponent } from "./auth/ulb-not-registered/ulb-not-registered.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { NewHomeComponent } from "./auth/new-home/new-home.component";
-import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-
+import { SlickCarouselModule } from "ngx-slick-carousel";
+import { CollapseModule } from "ngx-bootstrap/collapse";
+import { MunicipalLawModule } from "./municipal-law/municipal-law.module";
 
 @NgModule({
   entryComponents: [DialogComponent],
@@ -72,7 +72,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     FlexLayoutModule,
     SlickCarouselModule,
     CollapseModule.forRoot(),
-
+    MunicipalLawModule,
   ],
   providers: [
     CustomHttpInterceptor,
@@ -97,9 +97,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     NewHomeComponent,
     // InrCurrencyPipe,
   ],
-  exports: [
-
-  ],
+  exports: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

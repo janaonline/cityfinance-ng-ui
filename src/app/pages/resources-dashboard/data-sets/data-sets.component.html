@@ -15,8 +15,8 @@
     (filterFormData)="filterData($event)"
     [category]="category"
     [filterInputData]="filterComponent"
-    [downloadValue]="downloadValue"
-    (init) = "download($event)"
+    [downloadValue]="selectedUsersList.length"
+    (download)="download($event)"
   ></app-filter-component>
 </div>
 

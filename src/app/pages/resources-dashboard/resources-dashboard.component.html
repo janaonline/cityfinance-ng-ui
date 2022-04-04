@@ -43,12 +43,17 @@
 
 <div class="container container-cnt mt-n">
   <a
+    (click)="activeCard(cardIndex, cardData)"
     routerLink="{{ card?.link }}"
     class="center-aTag mx-xl-auto"
-    style=""
-    *ngFor="let card of cardData"
+    *ngFor="let card of cardData; let cardIndex = index"
   >
-    <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
+    <app-shared-card
+      [data]="card"
+      [links]="card?.link"
+      [cardStyle]="cardStyle"
+      [cardActive]="card.activeCard"
+    ></app-shared-card>
   </a>
 
   <!-- <div class="card" > -->

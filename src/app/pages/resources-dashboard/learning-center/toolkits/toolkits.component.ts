@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
-import { ResourcesServicesService } from '../../resDashboard-services/resources-services.service';
+import { Router, NavigationStart, Event, NavigationEnd } from "@angular/router";
+import { ResourcesServicesService } from "../../resDashboard-services/resources-services.service";
 @Component({
-  selector: 'app-toolkits',
-  templateUrl: './toolkits.component.html',
-  styleUrls: ['./toolkits.component.scss']
+  selector: "app-toolkits",
+  templateUrl: "./toolkits.component.html",
+  styleUrls: ["./toolkits.component.scss"],
 })
 export class ToolkitsComponent implements OnInit {
-
   constructor(
     private router: Router,
     private resources_services: ResourcesServicesService
@@ -23,77 +22,76 @@ export class ToolkitsComponent implements OnInit {
     //       this.isCardShow = true;
     //       console.log('if',   this.isCardShow, event.url)
     //     }
-
     //   }else {
     //     this.isCardShow = false;
     //     console.log('else',   this.isCardShow, event)
     //   }
     // })
-
   }
   isCardShow = true;
   cardData = [
     {
       label: "Digital Property Tax Toolkit",
-      imgUrl: '../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png',
-      link: ''
-     },
- 
-  ]
+      imgUrl:
+        "../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
+      link: "",
+    },
+  ];
 
   subTabData = [
     {
-       name: "Introduction",
-       filter: ["innerTab1", "innerTab2", "innerTab3"],
-       link: 'introduction'
-      },
+      name: "Introduction",
+      filter: ["innerTab1", "innerTab2", "innerTab3"],
+      link: "introduction",
+    },
     {
-       name: "Score Your Performance",
-       link: 'score-performance' ,
+      name: "Score Your Performance",
+      link: "score-performance",
     },
     {
       name: "Enumeration",
       filter: ["innerTab7", "innerTab8", "innerTab9"],
-      link: 'enumeration'
-     },
+      link: "enumeration",
+    },
     {
-       name: "Valuation",
-       filter: ["innerTab10", "innerTab11", "innerTab12"],
-       link: 'valuation'
+      name: "Valuation",
+      filter: ["innerTab10", "innerTab11", "innerTab12"],
+      link: "valuation",
     },
     {
       name: "Assessment",
       filter: ["innerTab10", "innerTab11", "innerTab12"],
-      link: 'assessment'
+      link: "assessment",
     },
     {
       name: "Billing and Collection",
       filter: ["innerTab10", "innerTab11", "innerTab12"],
-      link: 'billingCollection'
+      link: "billingCollection",
     },
     {
       name: "Reporting",
       filter: ["innerTab10", "innerTab11", "innerTab12"],
-      link: 'reporting'
+      link: "reporting",
     },
-
   ];
   ngOnInit(): void {
     this.isCardShow = true;
 
-    this.resources_services.tooltikCardShow.subscribe((res)=> {
-      console.log('card', res)
+    this.resources_services.tooltikCardShow.subscribe((res) => {
+      console.log("card", res);
       this.isCardShow = true;
-    })
+    });
   }
-showIframe = false
+  showIframe = false;
   openScorePer(card) {
-    if(card.label == 'Municipal Borrowing Readiness Toolkit'){
-      return this.showIframe = true;
+    if (card.label == "Municipal Borrowing Readiness Toolkit") {
+      return (this.showIframe = true);
     }
     this.resources_services.tooltikCardShow.next(false);
     this.isCardShow = false;
-    this.router.navigateByUrl('resources-dashboard/learning-center/toolkits/introduction')
+    this.router.navigateByUrl(
+      "resources-dashboard/learning-center/toolkits/introduction"
+    );
     // setTimeout(()=> {
     //   if(!this.isCardShow){
     //     let intro =  document.getElementById('id_0');
