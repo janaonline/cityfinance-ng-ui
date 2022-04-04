@@ -35,6 +35,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   data = incomingData;
   headOfAccount;
   filterName;
+  selectedTab;
   headerActions = headerActions;
   lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
@@ -83,8 +84,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("")
       .includes("percapita");
+    this.selectedTab = this.data.btnLabels[i];
     let newName = this.data.btnLabels[i].toLocaleLowerCase();
-
     if (newName.includes("mix"))
       this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
     else if (newName.includes("revenue") && !newName.includes("own"))
@@ -213,9 +214,21 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       time = yearData.length;
     if (yearData.length > 1 && !hideCAGR) {
       let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
-      this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
-        yearData.length
-      } years`;
+      this.CAGR = `CAGR of ${CAGR.toFixed(2)}% between ${
+        yearData[0]._id.financialYear +
+        " and " +
+        yearData[yearData.length - 1]._id.financialYear
+      } years (ULB ${this.selectedTab} for FY' ${
+        yearData[0]._id.financialYear
+      } is Rs.${convertToCr(yearData[0].amount, this.isPerCapita)} ${
+        this.isPerCapita ? "" : "Cr"
+      }.
+ULB ${this.selectedTab} for FY' ${
+        yearData[1]._id.financialYear
+      } is Rs. ${convertToCr(
+        yearData[yearData.length - 1].amount,
+        this.isPerCapita
+      )} ${this.isPerCapita ? "" : "Cr"}.)`;
       this.positiveCAGR = CAGR > 0;
     } else this.CAGR = "";
   }
@@ -259,15 +272,20 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
+    newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;
     newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
       if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
-    if (!this.hideElements) newData.data.datasets.push(newlineDataset);
+    if (!this.hideElements && !this.isPerCapita)
+      newData.data.datasets.push(newlineDataset);
 
     this.barChart = newData;
+    barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
+      this.isPerCapita ? "Rs" : "Cr"
+    }`;
     this.chartOptions = barChartStaticOptions;
   }
 
@@ -480,7 +498,7 @@ const innerDataset = {
 };
 
 function convertToCr(value, isPerCapita) {
-  if (isPerCapita) return value;
+  if (isPerCapita) return value.toFixed(2);
   if (value == 0) return 0;
   value /= 10000000;
   return value.toFixed(2);
@@ -660,7 +678,6 @@ const ownRevenue = [
 ];
 
 const showTotalRevenue = ["160", "120", "171", "150"];
-
 const barChartStaticOptions = {
   maintainAspectRatio: false,
   responsive: true,
@@ -707,7 +724,7 @@ const barChartStaticOptions = {
         if (meta.type == "line") return true;
         meta.data.forEach(function (bar, index) {
           var data = dataset.data[index];
-          ctx.fillText("₹ " + data + " Cr", bar._model.x, bar._model.y - 5);
+          ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
         });
       });
       console.log(animation, "animation");

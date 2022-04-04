@@ -211,50 +211,16 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   getCalculation(item, compare = "", index) {
-    let totalRevenue;
-    let param = {
-      ulb: this.cityId,
-      financialYear: this.selectedYear,
-      compare,
-      headOfAccount: this.headOfAccount,
-      filterName: this.filterName,
-    };
-    this.loading = true;
-    this.aboutService.avgRevenue(param).subscribe(
-      (res) => {
-        let apiData: any = Array.isArray(res["data"])
-          ? res["data"][0]
-          : res["data"];
-        item.desc.map((value) => {
-          let data = value.text.split("=");
-          let name = data[0].split(" ").join("").toLowerCase();
-          switch (name) {
-            case "totalrevenue":
-              data[1] = "₹ " + Math.round(apiData?.amount / 10000000) + "Cr";
-              break;
-            case "totalexpenditure":
-              data[1] = "₹ " + Math.round(apiData?.expense / 10000000) + "Cr";
-              break;
-            case "stateulbtypeaverage":
-              data[1] =
-                "₹ " + Math.round(apiData?.weightedAmount);
-              let tt = name.split("ulbtype");
-              data[0] = tt.join(` ${this.ulbsData[this.cityId].type} `)
-            default:
-              break;
-          }
-          data = data.join("= ");
-          value.text = data;
-        });
-        setTimeout(() => {
-          this.addImage(item, index);
-        }, 0);
-        this.loading = false;
-      },
-      (error) => {
-        this.loading = false;
+    item.desc = item.desc.map((val) => {
+      while (val.text.includes("ULB_TYPE")) {
+        val.text = val.text.replace(
+          "ULB_TYPE",
+          this.ulbsData[this.cityId].type
+        );
       }
-    );
+      return val;
+    });
+    this.addImage(item, index);
   }
   addImage(item, index) {
     let elementIndex = item.desc.findIndex(
