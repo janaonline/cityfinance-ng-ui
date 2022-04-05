@@ -167,15 +167,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       (res) => {
         if (body.filterName.includes("mix")) {
           this.createPieChart(JSON.parse(JSON.stringify(res["data"])), body);
-          this.calculateRevenue(res["data"]);
+          // this.calculateRevenue(res["data"]);
         } else {
           this.multiPie = false;
           this.createBarChart(res);
-          if(this.selectedTab.toLowerCase() == "total revenue")
-          this.calculateCagr(res["data"], this.hideElements);
+          if (this.selectedTab.toLowerCase() == "total revenue")
+            this.calculateCagr(res["data"], this.hideElements);
           if (this.selectedTab.toLowerCase() == "revenue per capita")
             this.calculatePerCapita(res["data"]);
-
         }
         this.loading = false;
       },
@@ -200,6 +199,35 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     );
   }
 
+  calculateRevenueMix(data) {
+    let totalRevenue = 0,
+      totalRevenueState = 0,
+      ownRevenue = 0,
+      ownRevenueState = 0;
+    for (const key in data) {
+      const element = data[key];
+      element.forEach((val) => {
+        if (val._id.lineItem == "Own Revenue") {
+          ownRevenue += val.amount;
+          ownRevenueState += val.amount;
+        }
+        totalRevenue += val.amount;
+        totalRevenueState += val.amount;
+      });
+    }
+
+    let c = (ownRevenue / totalRevenue) * 100;
+    let f = (ownRevenueState / totalRevenueState) * 100;
+    let x = c - f;
+
+    this.CAGR = `Share of Own Revenue to Total Revenue is  ${x.toFixed(2)}% ${
+      c > f ? "higher" : "lower"
+    } than state average for FY${this.mySelectedYears[0]}
+    (ULB Own Revenue to Total Revenue is  ${c.toFixed(2)}% ;
+    State Average Own Revenue to Total Revenue is  ${f.toFixed(2)}%)`;
+    this.positiveCAGR = c > f;
+  }
+
   calculateRevenue(data) {
     let totalRevenue = data.ulbData.reduce(
       (amount, value) => (amount += Number(value.amount)),
@@ -211,14 +239,17 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.positiveCAGR = true;
   }
 
-  calculatePerCapita(data){
-    console.log(data,"percapita cagr");
-    let totalState = data.compData.reduce((sum,val)=>sum+val.amount,0)
-    let totalUlb = data.ulbData.reduce((sum,val)=>sum+val.amount,0)
-    this.CAGR = `Rs ${(totalState - totalUlb).toFixed(2)} ${totalUlb > totalState ?'higher':'lower' } than the state average between FY${data.ulbData[0]._id.financialYear} and FY${data.ulbData[data.ulbData.length-1]._id.financialYear}
+  calculatePerCapita(data) {
+    let totalState = data.compData.reduce((sum, val) => sum + val.amount, 0);
+    let totalUlb = data.ulbData.reduce((sum, val) => sum + val.amount, 0);
+    this.CAGR = `Rs ${(totalState - totalUlb).toFixed(2)} ${
+      totalUlb > totalState ? "higher" : "lower"
+    } than the state average between FY${
+      data.ulbData[0]._id.financialYear
+    } and FY${data.ulbData[data.ulbData.length - 1]._id.financialYear}
 
-    (Avg. ULB ${this.selectedTab} is Rs.${(totalUlb).toFixed(2)} ;
-    State Average Total Revenue per capita is Rs.${(totalState).toFixed(2)})`
+    (Avg. ULB ${this.selectedTab} is Rs.${totalUlb.toFixed(2)} ;
+    State Average Total Revenue per capita is Rs.${totalState.toFixed(2)})`;
     this.positiveCAGR = totalUlb > totalState;
   }
 
@@ -338,6 +369,7 @@ ULB ${this.selectedTab} for FY' ${
       for (const key in data) {
         data[key] = this.createRevenueData(data[key]);
       }
+      this.calculateRevenueMix(data);
     }
     if (this.filterName == "own revenue mix")
       data["ulbData"] = this.createOwnRevenueData(data);
@@ -419,22 +451,51 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createRevenueData(data) {
-    let newdata = [];
-    let othersAmount = 0;
+    let own = {
+      _id: { lineItem: "Own Revenue" },
+      amount: 0,
+    };
+    let other_receipt = {
+      _id: { lineItem: "Other Receipts" },
+      amount: 0,
+    };
+    let assigned_revenues_compensations = {
+      _id: { lineItem: "Assigned Revenues Compensation" },
+      amount: 0,
+    };
+    let grant = {
+      _id: { lineItem: "Grants" },
+      amount: 0,
+    };
+    let interest_incomes = {
+      _id: { lineItem: "Interest Income" },
+      amount: 0,
+    };
+    let newdata = [
+      own,
+      other_receipt,
+      assigned_revenues_compensations,
+      grant,
+      interest_incomes,
+    ];
+
     data.map((value) => {
-      if (!showTotalRevenue.includes(value.code)) {
-        othersAmount += value.amount;
-      } else {
-        value.amount = convertToCr(value.amount, false);
-        newdata.push(value);
+      if (ownRevenues.includes(value.code)) {
+        own.amount += value.amount;
+      }
+      if (other_receipts.includes(value.code)) {
+        other_receipt.amount += value.amount;
+      }
+      if (assigned_revenues_compensation.includes(value.code)) {
+        assigned_revenues_compensations.amount += value.amount;
+      }
+      if (grants.includes(value.code)) {
+        grant.amount += value.amount;
+      }
+      if (interest_income.includes(value.code)) {
+        interest_incomes.amount += value.amount;
       }
     });
-
-    newdata.push({
-      amount: convertToCr(othersAmount, false),
-      _id: { lineItem: "Others" },
-    });
-
     return newdata;
   }
 
@@ -692,7 +753,11 @@ const ownRevenue = [
   },
 ];
 
-const showTotalRevenue = ["160", "120", "171", "150"];
+const ownRevenues = ["110", "130", "140", "150", "180"];
+const assigned_revenues_compensation = ["120"];
+const grants = ["160"];
+const interest_income = ["171"];
+const other_receipts = ["170", "100"];
 const barChartStaticOptions = {
   maintainAspectRatio: false,
   responsive: true,
