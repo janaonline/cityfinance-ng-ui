@@ -147,43 +147,44 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     },
   };
-  barData = {
-    type: "bar",
-    data: {
-      labels: [
-        "Nasik",
-        "Mumbai",
-        "Pune",
-        "Nagpur",
-        "Aurangabad",
-        "Solapur",
-        "Amravati",
-        "Navi Mumbai",
-        "Nagpur",
-        "Thane",
-      ],
-      datasets: [
-        {
-          label: "City Ranking",
-          data: [100, 90, 80, 70, 60, 50, 40, 30, 20, 11],
-          backgroundColor: [
-            "#1E44AD",
-            "#224CC0",
-            "#2553D3",
-            "#3360DB",
-            "#456EDE",
-            "#587DE1",
-            "#6A8BE5",
-            "#86A2ED",
-            "#93AAEA",
-            "#A8BCF0",
-          ],
-          borderColor: ["#1E44AD"],
-          borderWidth: 1,
-        },
-      ],
-    },
-  };
+  barData: any;
+  // barData = {
+  //   type: "bar",
+  //   data: {
+  //     labels: [
+  //       "Nasik",
+  //       "Mumbai",
+  //       "Pune",
+  //       "Nagpur",
+  //       "Aurangabad",
+  //       "Solapur",
+  //       "Amravati",
+  //       "Navi Mumbai",
+  //       "Nagpur",
+  //       "Thane",
+  //     ],
+  //     datasets: [
+  //       {
+  //         label: "City Ranking",
+  //         data: [100, 90, 80, 70, 60, 50, 40, 30, 20, 11],
+  //         backgroundColor: [
+  //           "#1E44AD",
+  //           "#224CC0",
+  //           "#2553D3",
+  //           "#3360DB",
+  //           "#456EDE",
+  //           "#587DE1",
+  //           "#6A8BE5",
+  //           "#86A2ED",
+  //           "#93AAEA",
+  //           "#A8BCF0",
+  //         ],
+  //         borderColor: ["#1E44AD"],
+  //         borderWidth: 1,
+  //       },
+  //     ],
+  //   },
+  // };
   bottomBarData = {
     type: "bar",
     data: {
@@ -241,6 +242,70 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     { value: 3, title: "Population Category avg", isDisabled: false },
   ];
 
+  stateUlbsPopulation: any = {
+    "tableHeading": [],
+    "tableDataSource": []
+  };
+
+  barChartOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      xAxes: [{
+        maxBarThickness: 60,
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)",
+          },
+          scaleLabel: {
+            display: true,
+            labelString:"City Ranking",
+            fontStyle: 'bold'
+          },
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString:"Amount (Cr.)",
+          fontStyle: 'bold'
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, 0)",
+        },
+        ticks: {
+      /* Formatting the value of the column as a number with the correct format for India. */
+        callback: function(value, index, values) {
+          return new Intl.NumberFormat("en-IN").format(value);
+        }
+      }
+      }]
+    },
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          console.log('function', tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log('dataset', dataset);
+          var currentValue = Number(dataset.data[tooltipItem.index]);
+          console.log('currentValue', currentValue);
+          return new Intl.NumberFormat("en-IN").format(currentValue);
+        },
+      },
+    },
+  };
+  barChartNotFound: boolean = false;
+  chartDropdownList = [
+    {'name': 'Own Revenues', value: ["110", "130", "140", "150", "180"]},
+    {'name': 'Assigned Revenue', value: ["120"]},
+    {'name': 'Grants', value: ["160"]},
+    {'name': 'Interest Income', value: ["171"]},
+    {'name': 'Other Receipts', value: ["170", "100"]}
+  ];
+  chartDropdownValue: any;
+  chartTitle: string= 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.';
+  selectedServiceLevelBenchmark: any; 
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -266,21 +331,26 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   showBarGraph() {
     this.BarGraphValue = true;
     console.log("this.BarGraphValue", this.BarGraphValue);
+    this.getStateRevenue();
   }
 
   showBottomGraph() {
     this.BarGraphValue = false;
+    this.getStateRevenue();
   }
 
+  selectedRadioBtnValue: any;
   getCheckBoxValue(event: any) {
     console.log("checked Value", event);
     if (event && event.target && event.target.value) {
+      this.selectedRadioBtnValue = event.target.value;
       for (const item of this.checkBoxArray) {
         if (item.value != event.target.value) {
           item["isDisabled"] = true;
         }
       }
     }
+    // this.getScatterData();
   }
 
   reset() {
@@ -310,7 +380,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .getServiceDropDown(this.serviceTab)
       .subscribe((res: any) => {
         console.log("service dropdown data", res);
-        this.serviceTabList = res?.data?.[0]?.names;
+        this.serviceTabList = res?.data?.names;
       });
   }
 
@@ -497,7 +567,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         }
       },
       (err) => {
-        // this._loaderService.stopLoader();
+        this._loaderService.stopLoader();
+        this.notfound = true;
         console.log(err.message);
       }
     );
@@ -510,10 +581,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   getSelectedFinancialYear(event) {
     this.financialYear = event.target.value;
     console.log("state financial year", this.financialYear);
+    this.getScatterData();
+    this.getStateRevenue();
   }
 
-  getServiceLableValue(event) {
-    console.log(event.target.value);
+  getServiceLevelBenchmark(event: any) {
+    console.log('getServiceLevelBenchmark', event.target.value);
+    if (event && event.target && event.target.value) {
+      this.selectedServiceLevelBenchmark = event.target.value;
+    }
   }
 
   filterChangeInChart(value) {
@@ -556,6 +632,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
     this.getScatterData();
+    this.getStateRevenue();
   }
 
   getRevenueId() {
@@ -604,6 +681,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
   notfound = true;
   ngOnInit(): void {
+    this.chartDropdownList
     console.log("this.innertabData", this.data);
     this.getyears();
   
@@ -632,6 +710,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
     this.getRevenueId();
     this.changeActiveBtn(0);
+
+    this.getStateUlbsPopulation();
+    // this.getStateRevenue();
   }
   ulbId
   getUlbData(event) {
@@ -642,5 +723,117 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   labels(data) {
     this.chartLabels = data;
     console.log(this.chartLabels)
+  }
+
+  getChartDropdownValue(event: any) {
+    console.log('getChartDropdownValue', event);
+    this.chartDropdownValue = event && event.target && event.target.value;
+    this.getStateRevenue();
+  }
+
+  getStateUlbsPopulation() {
+    const paramContent: any = {
+      "stateId": this.stateId
+    };
+    this.stateFilterDataService.getStateUlbsGroupedByPopulation(paramContent)
+    .subscribe(
+      (response) => {
+        if (response && response["success"]) {
+          console.log("getStateUlbsGroupedByPopulation", response);
+          if (response && response['data'] && response['data'][0]) {
+            this.stateUlbsPopulation.tableHeading = Object.keys(response['data'][0]);
+            this.stateUlbsPopulation.tableDataSource = response['data'][0];
+          }
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getStateRevenue() {
+    console.log('BarGraphValue', this.BarGraphValue)
+    console.log('ActiveButton', this.ActiveButton)
+    console.log('filterName', this.filterName)
+    console.log('isPerCapita', this.isPerCapita)
+    console.log('financialYear', this.financialYear)
+    // return
+    const paramContent: any = {
+      "tabType": this.ActiveButton?.split(' ').join(''),
+      "financialYear": this.financialYear,
+      "stateId": this.stateId,
+      "sortBy": this.BarGraphValue ? 'top' : 'bottom'
+    };
+    if (paramContent?.tabType == 'RevenueMix') {
+      paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].value
+    } else {
+      this.chartDropdownValue = '';
+    };
+    console.log('paramContent', paramContent)
+    this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
+    .subscribe(
+      (response) => {
+        if (response && response["success"]) {
+          console.log("getStateRevenue", response, this.barData);
+          this.filterCityRankingChartData(response['data'], paramContent?.tabType);
+          this.barChartNotFound = false;
+        } else {
+          this.barChartNotFound = true;
+        }
+      },
+      (error) => {
+        this.barChartNotFound = true;
+        console.log(error);
+      }
+    );
+  }
+
+  filterCityRankingChartData(responseData: any, tabType: string) {
+    console.log('filterCityRankingChartData', responseData, tabType);
+    let barData = {
+      type: "bar",
+      data: {
+        labels: responseData.map((item: { ulbName: any; }) => item.ulbName),
+        datasets: [
+          {
+            label: "City Ranking",
+            displayLabel: false,
+            data: this.getChartData(responseData, tabType),
+            backgroundColor: [
+              "#1E44AD",
+              "#224CC0",
+              "#2553D3",
+              "#3360DB",
+              "#456EDE",
+              "#587DE1",
+              "#6A8BE5",
+              "#86A2ED",
+              "#93AAEA",
+              "#A8BCF0",
+            ],
+            borderColor: ["#1E44AD"],
+            borderWidth: 1,
+          },
+        ],
+      },
+    };
+    this.barData = {};
+    this.barData = barData;
+    console.log('this.barData', this.barData);
+  }
+
+  getChartData(responseData: any, tabType: string) {
+    switch(tabType) {
+      case 'TotalRevenue':
+      case 'RevenueMix':
+        this.barChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = 'Amount (in Cr.)';
+        return responseData.map((item: { sum: any; }) => item.sum);
+      case 'RevenuePerCapita':
+        this.barChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = 'Amount (in Lakhs)';
+        return responseData.map((item: { revenuePerCapita: any; }) => item.revenuePerCapita);
+      default:
+        break;
+    }
   }
 }
