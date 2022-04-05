@@ -142,15 +142,20 @@ export class NationalMapSectionComponent
     // console.log("selected Financial",event.target.value);
   }
 
+  showLoader: boolean = true;
+
   getNationalTableData() {
+    this.showLoader = true;
     // debugger;
     this.nationalMapService
       .getNationalData(this.nationalInput)
       .subscribe((res: any) => {
+        this.showLoader = false;
         this.tableData = res?.data;
 
         console.log("national table Data", res, this.tableData);
       });
+    // this.showLoader = false;
   }
   private initializeform() {
     this.myForm = this.fb.group({
