@@ -753,12 +753,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getStateRevenue() {
-    console.log('BarGraphValue', this.BarGraphValue)
-    console.log('ActiveButton', this.ActiveButton)
-    console.log('filterName', this.filterName)
-    console.log('isPerCapita', this.isPerCapita)
-    console.log('financialYear', this.financialYear)
-    // return
     const paramContent: any = {
       "tabType": this.ActiveButton?.split(' ').join(''),
       "financialYear": this.financialYear,
