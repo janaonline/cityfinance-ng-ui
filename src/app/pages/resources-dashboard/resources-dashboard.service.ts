@@ -25,4 +25,9 @@ export class ResourcesDashboardService {
       `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}`
     );
   }
+  getSearchedData(filter){
+    return this.https.get(
+      `${environment.api.url}?search=${filter}`
+    );
+  }
 }
