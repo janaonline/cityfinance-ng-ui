@@ -170,7 +170,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           // this.calculateRevenue(res["data"]);
         } else {
           this.multiPie = false;
+          console.log(JSON.stringify(res['data']),body.ulb);
+          if(body.ulb.length == 1)
           this.createBarChart(res);
+          else
+          this.createDataForUlbs(res["data"]["ulbData"],[...new Set(body.ulb)])
           if (this.selectedTab.toLowerCase() == "total revenue")
             this.calculateCagr(res["data"], this.hideElements);
           if (this.selectedTab.toLowerCase() == "revenue per capita")
@@ -199,6 +203,38 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     );
   }
 
+  createDataForUlbs(res,ulbs){
+    let obj = {
+      type: "bar",
+      data: {
+        labels: this.mySelectedYears,
+        datasets: [
+          ...new Set(ulbs.map((ulb,i)=>{
+            let innerObj ={
+              label: this.ulbMapping[ulb].name,
+              data: [],
+              borderWidth: 1,
+              barThickness: 50,
+              borderRadius: 8,
+              backgroundColor:backgroundColor[i],
+              borderColor:borderColor[i]
+            }
+            this.mySelectedYears.forEach(year=>{
+            let foundUlb = res.find((val)=>(val._id.financialYear == year && val._id.ulb == ulb))
+            if(foundUlb)
+            innerObj.data.push(convertToCr(foundUlb.amount,this.isPerCapita))
+            else
+            innerObj.data.push(0)
+            })
+            return innerObj
+          }))
+        ],
+      },
+    }
+    this.barChart = obj
+    this.chartOptions = barChartStaticOptions;
+  }
+
   calculateRevenueMix(data) {
     let totalRevenue = 0,
       totalRevenueState = 0,
@@ -209,10 +245,10 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       element.forEach((val) => {
         if (val._id.lineItem == "Own Revenue") {
           ownRevenue += val.amount;
-          ownRevenueState += val.amount;
+          if (key == "compData") ownRevenueState += val.amount;
         }
         totalRevenue += val.amount;
-        totalRevenueState += val.amount;
+        if (key == "compData") totalRevenueState += val.amount;
       });
     }
 
