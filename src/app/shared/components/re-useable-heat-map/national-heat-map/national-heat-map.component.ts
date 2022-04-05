@@ -36,12 +36,11 @@ import { ILeafletStateClickEvent } from "../models/leafletStateClickEvent";
 import { IStateWithULBS } from "../models/stateWithULBS";
 
 @Component({
-  selector: 'app-national-heat-map',
-  templateUrl: './national-heat-map.component.html',
-  styleUrls: ['./national-heat-map.component.scss']
+  selector: "app-national-heat-map",
+  templateUrl: "./national-heat-map.component.html",
+  styleUrls: ["./national-heat-map.component.scss"],
 })
 export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
-
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -141,6 +140,7 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(newULBId);
       }
     }
+    // debugger;
     if (changes.yearSelected) {
       this.stateAndULBDataMerged = {};
       this.clearNationalMapContainer();
@@ -181,13 +181,15 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     const body = { year: this.yearSelected || [] };
     const subscriptions: any[] = [];
     subscriptions.push(
-      this._commonService.getStateUlbCovered(body)
-       .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
+      this._commonService
+        .getStateUlbCovered(body)
+        .pipe(map((res) => this.onGettingStateULBCoveredSuccess(res)))
     );
 
     subscriptions.push(
-      this._commonService.getULBSWithPopulationAndCoordinates(body)
-       .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
+      this._commonService
+        .getULBSWithPopulationAndCoordinates(body)
+        .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
     );
     return forkJoin(subscriptions);
   }
@@ -436,8 +438,8 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       const stateFound = this.stateData.find(
         (state) => state.code === stateCode
       );
-//for map coloring........
- //  console.log('ssssss', stateFound)
+      //for map coloring........
+      //  console.log('ssssss', stateFound)
       const count = stateFound ? stateFound.coveredUlbPercentage : 0;
       const color = this.getColorBasedOnPercentage(count);
       MapUtil.colorStateLayer(layer, color);
@@ -1171,6 +1173,3 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     element.remove();
   }
 }
-
-
-

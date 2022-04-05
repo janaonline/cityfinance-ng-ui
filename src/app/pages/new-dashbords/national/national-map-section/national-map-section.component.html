@@ -1,6 +1,41 @@
 <div class="row mb-3 mt-2 mx-auto">
   <div class="col-12 col-sm-12 col-md-5 stateMapContainer">
-    <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
+    <!-- <div class="col-sm-12 col-md-12 col-lg-6 stateMapContainer"> -->
+
+    <div
+      *ngIf="!nationalLevelMap"
+      class="skeletonWrapper container-fluid spinner_overlay d-flex justify-content-center align-items-center"
+      style="z-index: 1000"
+    >
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
+    <!-- <div
+      class="map-reset w-100 text-center mb-3 mt-3"
+      *ngIf="isMapOnMiniMapMode"
+      style="z-index: 10000"
+    >
+      <a
+        type="button"
+        style="text-decoration: none"
+        (click)="onSelectingStateFromDropDown(national)"
+        >Reset Map To India</a
+      >
+    </div> -->
+
+    <div class="col-sm-12" id="districtMapContainer">
+      <!-- <p class="text-center" *ngIf="currentStateInView">
+      Click on any ULB to view their data or Click on INDIA map to go back.
+    </p> -->
+    </div>
+    <div
+      class="stateMap analytics-map"
+      [id]="'mapidd' + randomNumber"
+      style="
+        background-image: url('../../../../assets/Layer\ 1.png') !important;
+      "
+    ></div>
+    <!-- </div> -->
+    <!-- <div *ngIf="!nationalLevelMap" class="skeletonWrapper">
       <app-pre-loader></app-pre-loader>
       <app-pre-loader></app-pre-loader>
       <app-pre-loader></app-pre-loader>
@@ -16,7 +51,7 @@
       style="
         background-image: url('../../../../assets/Layer\ 1.png') !important;
       "
-    ></div>
+    ></div> -->
 
     <div class="col-12 col-sm-12 bg-map">
       <div
@@ -44,7 +79,7 @@
           <a
             type="button"
             style="text-decoration: none"
-            (click)="resetNationalMap()"
+            (click)="onSelectingStateFromDropDown(national)"
             >Reset Map To India</a
           >
         </div>
@@ -55,7 +90,10 @@
   <div class="col-12 col-sm-12 col-md-7">
     <div class="row" style="align-items: baseline">
       <div class="col-12 col-sm-12">
-        <div class="heading mb-3">India Data Availability - 75%</div>
+        <div class="heading mb-3" *ngIf="!showLoader">
+          {{ AvailabilityTitle }} Data Availability -
+          {{ dataAvailabilityvalue?.toFixed(2) }}%
+        </div>
       </div>
       <div class="col-7 col-sm-8 col-md-4">
         <div class="input-group inp-grp">
@@ -123,8 +161,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
-        <div class="table-responsive table-con">
+      <div class="col-sm-12" *ngIf="!showLoader">
+        <div class="table-responsive table-con" *ngIf="tableData">
           <table class="table">
             <thead>
               <tr>
@@ -149,6 +187,12 @@
             </tbody>
           </table>
         </div>
+        <div *ngIf="!tableData">
+          <h1>No Data Found</h1>
+        </div>
+      </div>
+      <div *ngIf="showLoader">
+        <h1 class="text-center">Loading....</h1>
       </div>
     </div>
   </div>

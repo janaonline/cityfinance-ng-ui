@@ -1,48 +1,48 @@
 .nav {
-    justify-content: center;
-    flex-wrap: nowrap;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 
 .nav-item {
-    background: #F7F8FF 0% 0% no-repeat padding-box;
-    border: 1px solid #D9DCE6;
-    text-align: center;
-    width: max-content;
+  background: #f7f8ff 0% 0% no-repeat padding-box;
+  border: 1px solid #d9dce6;
+  text-align: center;
+  width: max-content;
 }
 
 .nav-item:first-child {
-    background: #F7F8FF 0% 0% no-repeat padding-box;
-    border: 1px solid #D9DCE6;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
+  background: #f7f8ff 0% 0% no-repeat padding-box;
+  border: 1px solid #d9dce6;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .nav-item:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
-li>a.active,
-li>a.active:active {
-    background-color: #E67E15 !important;
-    color: #fff;
+li > a.active,
+li > a.active:active {
+  background-color: #e67e15 !important;
+  color: #fff;
 }
 
 .popActive {
-    background-color: #E67E15 !important;
-    color: #fff;
+  background-color: #e67e15 !important;
+  color: #fff;
 }
 
 .nav-pills .nav-link {
-    background: none;
-    border: 0;
-    border-radius: inherit;
+  background: none;
+  border: 0;
+  border-radius: inherit;
 }
 
-.nav>li>a {
-    padding: .8rem 2.5rem;
-    height: 100%;
-    width: 100%;
+.nav > li > a {
+  padding: 0.8rem 2.5rem;
+  height: 100%;
+  width: 100%;
 }
 
 // @media screen and (max-width: 1025px) {
@@ -51,7 +51,7 @@ li>a.active:active {
 //     }
 // }
 @media screen and (max-width: 425px) {
-    .ps-m {
-        padding-left: 0;
-    }
+  .ps-m {
+    padding-left: 0;
+  }
 }
