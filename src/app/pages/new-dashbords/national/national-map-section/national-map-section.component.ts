@@ -47,16 +47,17 @@ export class NationalMapSectionComponent
     private nationalMapService: NationalMapSectionService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
-    // setTimeout(() => {
-    //   this.ngOnChanges({
-    //     yearSelected: {
-    //       currentValue: ["2016-17"],
-    //       previousValue: null,
-    //       firstChange: true,
-    //       isFirstChange: () => true,
-    //     },
-    //   });
-    // }, 1000);
+    // debugger;
+    setTimeout(() => {
+      this.ngOnChanges({
+        yearSelected: {
+          currentValue: ["2016-17"],
+          previousValue: null,
+          firstChange: true,
+          isFirstChange: () => true,
+        },
+      });
+    }, 1000);
     this.initializeform();
     this.fetchStateList();
   }
@@ -126,6 +127,29 @@ export class NationalMapSectionComponent
     populationCat: true,
     ulbType: "",
   };
+
+  AvailabilityTitle: String = "India";
+
+  showLoader: boolean = true;
+  dataAvailabilityvalue: Number;
+  isLoading: boolean = true;
+
+  mapConfig = {
+    code: {
+      state: "",
+      city: "",
+    },
+    showStateList: false,
+    showDistrictList: false,
+    stateMapContainerHeight: "23rem",
+    nationalZoomOnMobile: 3.9, // will fit map in container
+    nationalZoomOnWeb: 3.9, // will fit map in container
+    stateZoomOnMobile: 4, // will fit map in container
+    stateZoomOnWeb: 4, // will fit map in container
+    stateBlockHeight: "23.5rem", // will fit map in container
+  };
+
+  national: any = { _id: "", name: "India" };
   ngOnInit(): void {
     this.getNationalTableData();
     this.loadData();
@@ -133,29 +157,24 @@ export class NationalMapSectionComponent
     console.log("this.tableData", this.tableData);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("national dashboard changes", changes);
-  }
   selectFinancialYear(event) {
     this.nationalInput.financialYear = event.target.value;
     this.getNationalTableData();
     // console.log("selected Financial",event.target.value);
   }
 
-  showLoader: boolean = true;
-
   getNationalTableData() {
     this.showLoader = true;
-    // debugger;
-    this.nationalMapService
-      .getNationalData(this.nationalInput)
-      .subscribe((res: any) => {
+    this.nationalMapService.getNationalData(this.nationalInput).subscribe(
+      (res: any) => {
         this.showLoader = false;
         this.tableData = res?.data;
-
-        console.log("national table Data", res, this.tableData);
-      });
-    // this.showLoader = false;
+        this.dataAvailabilityvalue = res?.dataAvailability;
+      },
+      (err) => {
+        this.showLoader = false;
+      }
+    );
   }
   private initializeform() {
     this.myForm = this.fb.group({
@@ -167,6 +186,101 @@ export class NationalMapSectionComponent
     this.onStateLayerClick(e);
     //  this.changeInStateOrCity.emit(e);
   }
+  // createNationalLevelMap(
+  //   geoData: FeatureCollection<
+  //     Geometry,
+  //     {
+  //       [name: string]: any;
+  //     }
+  //   >,
+  //   containerId: string
+  // ) {
+  //   this.isProcessingCompleted.emit(false);
+  //   let vw = Math.max(document.documentElement.clientWidth);
+  //   vw = (vw - 1366) / 1366;
+  //   let zoom = 4 + vw;
+  //   if (this.userUtil.isUserOnMobile()) {
+  //     zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
+  //     if (window.innerHeight < 600) zoom = 3.6;
+  //     const valueOf1vh = this.calculateVH(1);
+  //     if (valueOf1vh < 5) zoom = 3;
+  //     else if (valueOf1vh < 7) zoom = zoom - 0.2;
+  //     // return zoom;
+  //   }
+  //   zoom = 4.2;
+  //   const configuration: IMapCreationConfig = {
+  //     containerId,
+  //     geoData,
+  //     options: {
+  //       zoom,
+  //       maxZoom: zoom,
+  //       minZoom: zoom,
+  //       attributionControl: false,
+  //       doubleClickZoom: false,
+  //       dragging: false,
+  //       tap: false,
+  //     },
+  //   };
+  //   let map: L.Map;
+
+  //   ({ stateLayers: this.stateLayers, map } =
+  //     MapUtil.createDefaultNationalMap(configuration));
+
+  //   this.nationalLevelMap = map;
+
+  //   this.createLegendsForNationalLevelMap();
+  //   this.createControls(this.nationalLevelMap);
+
+  //   this.initializeNationalLevelMapLayer(this.stateLayers);
+
+  //   // Prepare to auto select state from query Params.
+  //   let stateToAutoSelect: IStateULBCovered;
+  //   let layerToAutoSelect;
+  //   if (this.queryParams.state) {
+  //     const stateFound = this.stateData.find(
+  //       (state) => state._id === this.queryParams.state
+  //     );
+  //     if (stateFound) stateToAutoSelect = stateFound;
+  //   }
+
+  //   this.stateLayers.eachLayer((layer) => {
+  //     if (stateToAutoSelect) {
+  //       if (MapUtil.getStateName(layer) === stateToAutoSelect.name) {
+  //         layerToAutoSelect = { sourceTarget: layer };
+  //       }
+  //     }
+  //     (layer as any).bringToBack();
+  //     (layer as any).on({
+  //       mouseover: () => this.createTooltip(layer, this.stateLayers),
+  //       click: (args: ILeafletStateClickEvent) => {
+  //         //  this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+  //         this.onStateLayerClick(args, false, false);
+  //       },
+  //       mouseout: () => (this.mouseHoverOnState = null),
+  //     });
+  //   });
+
+  //   /**
+  //    * @description If the map is already on mini mode, then it means the state is already selected, and its state map
+  //    * is in the view.
+  //    */
+
+  //   if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
+  //     this.onStateLayerClick(layerToAutoSelect);
+  //   }
+  //   this.hideMapLegends();
+
+  //   if (this.isMapOnMiniMapMode) {
+  //     this.hideMapLegends();
+  //     this.showStateLayerOnlyFor(
+  //       this.nationalLevelMap,
+  //       this.currentStateInView
+  //     );
+  //   }
+
+  //   this.isProcessingCompleted.emit(true);
+  // }
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -176,19 +290,23 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
+    this.isLoading = true;
     this.isProcessingCompleted.emit(false);
-    let vw = Math.max(document.documentElement.clientWidth);
-    vw = (vw - 1366) / 1366;
-    let zoom = 4 + vw;
-    if (this.userUtil.isUserOnMobile()) {
-      zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
-      if (window.innerHeight < 600) zoom = 3.6;
-      const valueOf1vh = this.calculateVH(1);
-      if (valueOf1vh < 5) zoom = 3;
-      else if (valueOf1vh < 7) zoom = zoom - 0.2;
-      // return zoom;
-    }
-    zoom = 4.2;
+    let zoom;
+    if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;
+    else zoom = this.mapConfig.nationalZoomOnMobile;
+    // let vw = Math.max(document.documentElement.clientWidth);
+    // vw = (vw - 1366) / 1366;
+    // let zoom = 4 + vw;
+    // if (this.userUtil.isUserOnMobile()) {
+    //   zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
+    //   if (window.innerHeight < 600) zoom = 3.6;
+    //   const valueOf1vh = this.calculateVH(1);
+    //   if (valueOf1vh < 5) zoom = 3;
+    //   else if (valueOf1vh < 7) zoom = zoom - 0.2;
+    //   // return zoom;
+    // }
+
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -234,7 +352,7 @@ export class NationalMapSectionComponent
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
-          //  this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+          this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
           this.onStateLayerClick(args, false, false);
         },
         mouseout: () => (this.mouseHoverOnState = null),
@@ -248,6 +366,7 @@ export class NationalMapSectionComponent
 
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
+      this.isLoading = false;
     }
     this.hideMapLegends();
 
@@ -364,7 +483,6 @@ export class NationalMapSectionComponent
   loadData() {
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
-        console.log("res", res);
         this.stateList = res;
       },
       (error) => {
@@ -547,13 +665,27 @@ export class NationalMapSectionComponent
       // };
     }
   }
+
   onSelectingStateFromDropDown(state: any | null) {
+    // debugger;
     console.log("sttts", state);
+    this.AvailabilityTitle = state?.name;
     this.nationalInput.stateId = state._id;
     this.getNationalTableData();
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
+      // this.stateList = [];
+      this._commonService.fetchStateList().subscribe((res) => {
+        this.stateList = [{ _id: "", name: "India" }].concat(res);
+      });
+      this.updateDropdownStateSelection(state);
+      //  {
+      //   console.log(state);
+      //   this.stateselected = state;
+      //   this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
+      // }
+      // this.stateAndULBDataMerged
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
 

@@ -1,22 +1,24 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CommonService } from 'src/app/shared/services/common.service';
+import { Component, OnInit, ViewChildren } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { CommonService } from "src/app/shared/services/common.service";
 import { Chart } from "chart.js";
-import { I } from '@angular/cdk/keycodes';
+import { I } from "@angular/cdk/keycodes";
+import { NationalService } from "../national.service";
 
 @Component({
-  selector: 'app-national-sub',
-  templateUrl: './national-sub.component.html',
-  styleUrls: ['./national-sub.component.scss']
+  selector: "app-national-sub",
+  templateUrl: "./national-sub.component.html",
+  styleUrls: ["./national-sub.component.scss"],
 })
 export class NationalSubComponent implements OnInit {
   constructor(
     protected router: Router,
     private activateRoute: ActivatedRoute,
-    private _commonServices: CommonService
-  ) { }
+    private _commonServices: CommonService,
+    private nationalService: NationalService
+  ) {}
   public chart: Chart;
   public doughnut: Chart;
   public dynamicDoughnut: Chart;
@@ -33,31 +35,30 @@ export class NationalSubComponent implements OnInit {
   barChartsLabels;
   doughnutLabels = [
     {
-     name: 'Own Revenue',
-     color: '#1E44AD',
+      name: "Own Revenue",
+      color: "#1E44AD",
     },
     {
-     name: 'Assigned Revenue',
-     color: '#25C7CE',
+      name: "Assigned Revenue",
+      color: "#25C7CE",
     },
     {
-     name: 'Grants',
-     color: '#585FFF',
+      name: "Grants",
+      color: "#585FFF",
     },
     {
-     name: 'Interest Income',
-     color: '#FFD72E',
+      name: "Interest Income",
+      color: "#FFD72E",
     },
     {
-     name: 'Other Income',
-     color: '#22A2FF',
+      name: "Other Income",
+      color: "#22A2FF",
     },
     {
-     name: 'State & Hire Charges',
-     color: '#FF608B'
+      name: "State & Hire Charges",
+      color: "#FF608B",
     },
-
-  ]
+  ];
   yearLookup = [
     { id: "2018-19", itemName: "2018-19" },
     { id: "2019-20", itemName: "2019-20" },
@@ -66,302 +67,350 @@ export class NationalSubComponent implements OnInit {
   ];
   totalRevenue = true;
   mixRevenue = false;
+
+  nationalInput: any = {
+    type: "totalRevenue",
+    financialYear: "2020-21",
+    stateId: "",
+    formType: "populationCategory",
+  };
   doughnutArray;
-  @ViewChildren('mycharts') allMyCanvas: any;
-  mixRDoughnutPopulationCategory:any = [
+  @ViewChildren("mycharts") allMyCanvas: any;
+  mixRDoughnutPopulationCategory: any = [
     {
-      id: 'p1',
-      title: '4M+',
+      id: "p1",
+      title: "4M+",
       data: [40, 20, 15, 10, 10, 5],
-      chart: []
+      chart: [],
     },
     {
-      id: 'p2',
-      title: '1M-4M',
+      id: "p2",
+      title: "1M-4M",
       data: [10, 10, 10, 10, 10, 50],
-      chart: []
+      chart: [],
     },
     {
-      id: 'p3',
-      title: '500k-1M',
+      id: "p3",
+      title: "500k-1M",
       data: [25, 5, 25, 15, 25, 5],
-      chart: []
+      chart: [],
     },
     {
-      id: 'p4',
-      title: '100K-500K',
+      id: "p4",
+      title: "100K-500K",
       data: [5, 10, 10, 15, 20, 40],
-      chart: []
+      chart: [],
     },
     {
-      id: 'p5',
-      title: '<100K',
+      id: "p5",
+      title: "<100K",
       data: [40, 20, 15, 10, 10, 5],
-      chart: []
+      chart: [],
     },
-  ]
-  mixRDoughnutUlbType:any = [
+  ];
+  mixRDoughnutUlbType: any = [
     {
-      id: 't1',
-      title: 'Municipal Corporation',
+      id: "t1",
+      title: "Municipal Corporation",
       data: [40, 20, 15],
-      chart: []
+      chart: [],
     },
     {
-      id: 't2',
-      title: 'Municipality',
+      id: "t2",
+      title: "Municipality",
       data: [40, 20, 15],
-      chart: []
+      chart: [],
     },
     {
-      id: 't3',
-      title: 'Town Panchayat',
+      id: "t3",
+      title: "Town Panchayat",
       data: [10, 10, 5],
-      chart: []
+      chart: [],
     },
-  ]
+  ];
+
+  showLoader: boolean = false;
+
+  selectFinancialYear(event) {
+    this.nationalInput.financialYear = event.target.value;
+    this.getNationalTableData();
+    // console.log("selected Financial",event.target.value);
+  }
+  getNationalTableData() {
+    this.showLoader = true;
+    try {
+      this.nationalService
+        .getNationalRevenueData(this.nationalInput)
+        .subscribe((res: any) => {
+          this.showLoader = false;
+          this.tableData = res?.data;
+          console.log("revenue table data", res);
+          // this.dataAvailabilityvalue = res?.dataAvailability;
+
+          console.log("national table Data", res, this.tableData);
+        });
+    } catch (err) {
+      this.showLoader = false;
+    }
+  }
   ngOnInit(): void {
-   this.nationalFilter.valueChanges
-   .subscribe(value => {
-     if(value?.length >= 1){
-       this._commonServices.postGlobalSearchData(value,"", "").subscribe((res: any) => {
-         console.log(res?.data);
-         let emptyArr:any = []
-           this.filteredOptions = emptyArr;
-         if(res?.data.length > 0 ){
-           this.filteredOptions = res?.data;
-           //this.noDataFound = false;
-         }else{
-
-           let emptyArr:any = []
-           this.filteredOptions = emptyArr;
-          // this.noDataFound = true;
-           console.log('no data found')
-         }
-       });
-     }
-     else {
-       return null;
-     }
-   })
-   this.subFilterFn('popCat');
-
+    this.getNationalTableData();
+    this.nationalFilter.valueChanges.subscribe((value) => {
+      if (value?.length >= 1) {
+        this._commonServices
+          .postGlobalSearchData(value, "", "")
+          .subscribe((res: any) => {
+            console.log(res?.data);
+            let emptyArr: any = [];
+            this.filteredOptions = emptyArr;
+            if (res?.data.length > 0) {
+              this.filteredOptions = res?.data;
+              //this.noDataFound = false;
+            } else {
+              let emptyArr: any = [];
+              this.filteredOptions = emptyArr;
+              // this.noDataFound = true;
+              console.log("no data found");
+            }
+          });
+      } else {
+        return null;
+      }
+    });
+    this.subFilterFn("popCat");
   }
 
-  activeTabFn(item){
-   this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
-  // this.router.navigate([`dashboard/national/${item._id}`]);
+  activeTabFn(item) {
+    this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
+    // this.router.navigate([`dashboard/national/${item._id}`]);
   }
+
+  getSelectedvalue(value) {
+    console.log("selected vale", value);
+    this.nationalInput.stateId = value?._id;
+    this.getNationalTableData();
+  }
+
   subFilterFn(type) {
-
     this.doughnutArray = [];
-    if(type == 'popCat'){
+    if (type == "popCat") {
+      this.nationalInput.formType = "populationCategory";
+
+      this.getNationalTableData();
       this.popBtn = true;
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
-     if(!this.totalRevenue){
+      if (!this.totalRevenue) {
         this.dynamicDoughnutChartInit(this.doughnutArray);
       }
-      if(this.totalRevenue){
-      this.barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
-      if(this.graphView){
-        this.barChartInit();
-      }
-      this.tableData = {
-          timeStamp : 12332323434,
-          success:true,
-          message: 'success',
+      if (this.totalRevenue) {
+        this.barChartsLabels = [
+          "<100k",
+          "100K-500K",
+          "500K-1M",
+          "1M-4M",
+          "4M+",
+        ];
+        if (this.graphView) {
+          this.barChartInit();
+        }
+        this.tableData = {
+          timeStamp: 12332323434,
+          success: true,
+          message: "success",
           data: [
             {
-              tableId:1,
-              name:"Revenue Table",
-              tableClass: 'revenue_tb',
-              border:"1",
-              bgColor: '#9D84B7',
-              columns : [
+              tableId: 1,
+              name: "Revenue Table",
+              tableClass: "revenue_tb",
+              border: "1",
+              bgColor: "#9D84B7",
+              columns: [
                 {
-                key: 'ulb_pop_category',
-                display_name: "ULB Population Category",
+                  key: "ulb_pop_category",
+                  display_name: "ULB Population Category",
                 },
-              {
-                key: 'revenue',
-                display_name: "Revenue (in Cr)",
-              },
-              {
-                key: 'revenuePerCapita',
-                display_name: "Revenue Per Capita (in Rs.)",
-                // th_style: {
-                //   backgroundColor : 'gray',
-                //   fontSize: '15px',
-                //   color: 'blue'
-                // },
-                // td_style: {
-                //   backgroundColor : 'white',
-                //   fontSize: '15px',
-                //   color: 'red'
-                // }
-              },
-               {
-                  key : 'DataAvailPercentage',
-                  display_name: 'Data Availability Percentage'
-               },
+                {
+                  key: "revenue",
+                  display_name: "Revenue (in Cr)",
+                },
+                {
+                  key: "revenuePerCapita",
+                  display_name: "Revenue Per Capita (in Rs.)",
+                  // th_style: {
+                  //   backgroundColor : 'gray',
+                  //   fontSize: '15px',
+                  //   color: 'blue'
+                  // },
+                  // td_style: {
+                  //   backgroundColor : 'white',
+                  //   fontSize: '15px',
+                  //   color: 'red'
+                  // }
+                },
+                {
+                  key: "DataAvailPercentage",
+                  display_name: "Data Availability Percentage",
+                },
               ],
               rows: [
                 {
-                 // lineItem: 'Average',
-                  ulb_pop_category:'Average',
-                  revenue: '12000',
-                  revenuePerCapita: '12000',
-                  DataAvailPercentage: '75%'
+                  // lineItem: 'Average',
+                  ulb_pop_category: "Average",
+                  revenue: "12000",
+                  revenuePerCapita: "12000",
+                  DataAvailPercentage: "75%",
                 },
                 {
                   // lineItem: 'Average',
-                   ulb_pop_category:'4M+',
-                   revenue: '500',
-                   revenuePerCapita: '500',
-                   DataAvailPercentage: '50%'
-                 },
-                {
-                 // lineItem: 'Municipal Corporation',
-                  ulb_pop_category:'1M-4M',
-                  revenue: '501',
-                  revenuePerCapita: '121',
-                  DataAvailPercentage: '50%'
+                  ulb_pop_category: "4M+",
+                  revenue: "500",
+                  revenuePerCapita: "500",
+                  DataAvailPercentage: "50%",
                 },
                 {
-                 // lineItem: 'Municipality',
-                  ulb_pop_category:'500K-1M',
-                  revenue: '1500',
-                  revenuePerCapita: '111',
-                  DataAvailPercentage: '30%'
+                  // lineItem: 'Municipal Corporation',
+                  ulb_pop_category: "1M-4M",
+                  revenue: "501",
+                  revenuePerCapita: "121",
+                  DataAvailPercentage: "50%",
                 },
                 {
-                 // lineItem: 'Town Panchayat',
-                  ulb_pop_category:'100K-500K',
-                  revenue: '1200',
-                  revenuePerCapita: '600',
-                  DataAvailPercentage: '10%'
+                  // lineItem: 'Municipality',
+                  ulb_pop_category: "500K-1M",
+                  revenue: "1500",
+                  revenuePerCapita: "111",
+                  DataAvailPercentage: "30%",
                 },
                 {
                   // lineItem: 'Town Panchayat',
-                   ulb_pop_category:'<100K',
-                   revenue: '1200',
-                   revenuePerCapita: '600',
-                   DataAvailPercentage: '5%'
-                 },
-
-              ]
+                  ulb_pop_category: "100K-500K",
+                  revenue: "1200",
+                  revenuePerCapita: "600",
+                  DataAvailPercentage: "10%",
+                },
+                {
+                  // lineItem: 'Town Panchayat',
+                  ulb_pop_category: "<100K",
+                  revenue: "1200",
+                  revenuePerCapita: "600",
+                  DataAvailPercentage: "5%",
+                },
+              ],
             },
-
-          ]
+          ],
+        };
       }
     }
+    if (type == "ulbType") {
+      this.nationalInput.formType = "ulbType";
 
-    }
-    if(type == 'ulbType'){
+      this.getNationalTableData();
       this.popBtn = false;
       this.doughnutArray = this.mixRDoughnutUlbType;
-      if(!this.totalRevenue){
-      this.dynamicDoughnutChartInit(this.doughnutArray);
-     }
-      if(this.totalRevenue){
-      this.barChartsLabels = ['Municipal Corporation', 'Municipality', 'Town Panchayat'];
-      if(this.graphView){
-        this.barChartInit();
+      if (!this.totalRevenue) {
+        this.dynamicDoughnutChartInit(this.doughnutArray);
       }
-      this.tableData = {
-        timeStamp : 12332323434,
-        success:true,
-        message: 'success',
-        data: [
-          {
-            tableId:1,
-            name:"Revenue Table",
-            tableClass: 'revenue_tb',
-            border:"1",
-            bgColor: '#9D84B7',
-            columns : [
-              {
-              key: 'ulb_pop_category',
-              display_name: "ULB Population Category",
-              },
+      if (this.totalRevenue) {
+        this.barChartsLabels = [
+          "Municipal Corporation",
+          "Municipality",
+          "Town Panchayat",
+        ];
+        if (this.graphView) {
+          this.barChartInit();
+        }
+        this.tableData = {
+          timeStamp: 12332323434,
+          success: true,
+          message: "success",
+          data: [
             {
-              key: 'revenue',
-              display_name: "Revenue (in Cr)",
+              tableId: 1,
+              name: "Revenue Table",
+              tableClass: "revenue_tb",
+              border: "1",
+              bgColor: "#9D84B7",
+              columns: [
+                {
+                  key: "ulb_pop_category",
+                  display_name: "ULB Population Category",
+                },
+                {
+                  key: "revenue",
+                  display_name: "Revenue (in Cr)",
+                },
+                {
+                  key: "revenuePerCapita",
+                  display_name: "Revenue Per Capita (in Rs.)",
+                  // th_style: {
+                  //   backgroundColor : 'gray',
+                  //   fontSize: '15px',
+                  //   color: 'blue'
+                  // },
+                  // td_style: {
+                  //   backgroundColor : 'white',
+                  //   fontSize: '15px',
+                  //   color: 'red'
+                  // }
+                },
+                {
+                  key: "DataAvailPercentage",
+                  display_name: "Data Availability Percentage",
+                },
+              ],
+              rows: [
+                {
+                  // lineItem: 'Average',
+                  ulb_pop_category: "Average",
+                  revenue: "12000",
+                  revenuePerCapita: "12000",
+                  DataAvailPercentage: "75%",
+                },
+                {
+                  // lineItem: 'Municipal Corporation',
+                  ulb_pop_category: "Municipal Corporation",
+                  revenue: "501",
+                  revenuePerCapita: "121",
+                  DataAvailPercentage: "50%",
+                },
+                {
+                  // lineItem: 'Municipality',
+                  ulb_pop_category: "Municipality",
+                  revenue: "1500",
+                  revenuePerCapita: "111",
+                  DataAvailPercentage: "30%",
+                },
+                {
+                  // lineItem: 'Town Panchayat',
+                  ulb_pop_category: "Town Panchayat",
+                  revenue: "1200",
+                  revenuePerCapita: "600",
+                  DataAvailPercentage: "10%",
+                },
+              ],
             },
-            {
-              key: 'revenuePerCapita',
-              display_name: "Revenue Per Capita (in Rs.)",
-              // th_style: {
-              //   backgroundColor : 'gray',
-              //   fontSize: '15px',
-              //   color: 'blue'
-              // },
-              // td_style: {
-              //   backgroundColor : 'white',
-              //   fontSize: '15px',
-              //   color: 'red'
-              // }
-            },
-             {
-                key : 'DataAvailPercentage',
-                display_name: 'Data Availability Percentage'
-             },
-            ],
-            rows: [
-              {
-               // lineItem: 'Average',
-                ulb_pop_category:'Average',
-                revenue: '12000',
-                revenuePerCapita: '12000',
-                DataAvailPercentage: '75%'
-              },
-              {
-               // lineItem: 'Municipal Corporation',
-                ulb_pop_category:'Municipal Corporation',
-                revenue: '501',
-                revenuePerCapita: '121',
-                DataAvailPercentage: '50%'
-              },
-              {
-               // lineItem: 'Municipality',
-                ulb_pop_category:'Municipality',
-                revenue: '1500',
-                revenuePerCapita: '111',
-                DataAvailPercentage: '30%'
-              },
-              {
-               // lineItem: 'Town Panchayat',
-                ulb_pop_category:'Town Panchayat',
-                revenue: '1200',
-                revenuePerCapita: '600',
-                DataAvailPercentage: '10%'
-              },
-
-            ]
-          },
-
-        ]
+          ],
+        };
       }
     }
-    }
-   console.log('btn', type)
+    console.log("btn", type);
   }
 
   graphViewFn() {
-    console.log('graph......');
+    console.log("graph......");
 
     this.tableView = false;
     this.graphView = true;
     this.barChartInit();
   }
-  tableViewFn(){
-    console.log('table......');
+  tableViewFn() {
+    console.log("table......");
     this.tableView = true;
     this.graphView = false;
   }
 
-  barChartInit(){
-    if(this.chart){
+  barChartInit() {
+    if (this.chart) {
       this.chart.destroy();
     }
     this.chart = new Chart("canvas", {
@@ -371,53 +420,53 @@ export class NationalSubComponent implements OnInit {
         datasets: [
           {
             // label: "Average",
-            data: [20, 80, 23, 80, 120,160],
-            backgroundColor: '#456EDE',
+            data: [20, 80, 23, 80, 120, 160],
+            backgroundColor: "#456EDE",
             borderWidth: 1,
-            barThickness: 40
+            barThickness: 40,
           },
           {
-            type: 'line',
-            label: 'Average',
+            type: "line",
+            label: "Average",
             data: [80, 80, 80, 80, 80, 80],
             fill: false,
-            borderColor: 'rgb(54, 162, 235)'
-          }
-        ]
+            borderColor: "rgb(54, 162, 235)",
+          },
+        ],
       },
       options: {
         legend: {
-            position: 'bottom',
-            display : false
+          position: "bottom",
+          display: false,
         },
         scales: {
           yAxes: [
             {
               ticks: {
-                beginAtZero: true
+                beginAtZero: true,
               },
               gridLines: {
-                display:false
-               // drawOnChartArea: false
-            }
-            }
+                display: false,
+                // drawOnChartArea: false
+              },
+            },
           ],
           xAxes: [
             {
               ticks: {
-                beginAtZero:true
+                beginAtZero: true,
+              },
+              gridLines: {
+                //  display:false
+                drawOnChartArea: false,
+              },
             },
-            gridLines: {
-              //  display:false
-              drawOnChartArea: false
-            }
-          }
-      ],
-        }
-      }
+          ],
+        },
+      },
     });
   }
-  getTotalRevenue(){
+  getTotalRevenue() {
     this.totalRevenue = true;
     this.mixRevenue = false;
     this.tableView = true;
@@ -427,87 +476,114 @@ export class NationalSubComponent implements OnInit {
     this.totalRevenue = false;
     this.mixRevenue = true;
     this.doughnutChartInit();
-    if(this.popBtn){
+    if (this.popBtn) {
       this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
       // this.mixRDoughnutPopulationCategory.forEach((el)=>{
       //   this.dynamicDoughnutChartInit();
       // })
     }
-    if(!this.popBtn){
+    if (!this.popBtn) {
       this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
       // this.mixRDoughnutUlbType.forEach((el)=>{
       //   this.dynamicDoughnutChartInit(el);
       // })
     }
   }
-  doughnutChartInit(){
-    this.doughnut = new Chart('doughnut', {
-      type: 'doughnut',
+  doughnutChartInit() {
+    this.doughnut = new Chart("doughnut", {
+      type: "doughnut",
       data: {
-        labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
+        labels: [
+          "Own Revenue",
+          "Assigned Revenue",
+          "Grants",
+          "Interest Income",
+          "Other Income",
+          "State & Hire Charges",
+        ],
         datasets: [
           {
             data: [40, 20, 15, 10, 10, 5],
-            backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
-            fill: false
+            backgroundColor: [
+              "#1E44AD",
+              "#25C7CE",
+              "#585FFF",
+              "#FFD72E",
+              "#22A2FF",
+              "#FF608B",
+            ],
+            fill: false,
           },
-        ]
+        ],
       },
       options: {
         legend: {
-         // position: 'bottom'
-         display: false
+          // position: 'bottom'
+          display: false,
         },
-      }
+      },
     });
-}
+  }
 
-
-dynamicDoughnutChartInit(chartArray){
-  console.log('loop val', this.allMyCanvas._results)
-  let canvasCharts = this.allMyCanvas._results;  // Get array with all canvas
-  canvasCharts.map((myCanvas, i) => {   // For each canvas, save the chart on the charts array
-    if(chartArray[i].chart) {
-     // chartArray[i].chart.destroy();
-    }
-     chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext('2d'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
-        datasets: [
-          {
-            data: chartArray[i].data,
-            backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
-            fill: false
-          },
-        ]
-      },
-      options: {
-        legend: {
-          display: false
-        },
+  dynamicDoughnutChartInit(chartArray) {
+    console.log("loop val", this.allMyCanvas._results);
+    let canvasCharts = this.allMyCanvas._results; // Get array with all canvas
+    canvasCharts.map((myCanvas, i) => {
+      // For each canvas, save the chart on the charts array
+      if (chartArray[i].chart) {
+        // chartArray[i].chart.destroy();
       }
-     })
-  });
-  // let dynamicDoughnut: Chart;
-  // dynamicDoughnut  = new Chart(`${val.id}`, {
-  //   type: 'doughnut',
-  //   data: {
-  //     labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
-  //     datasets: [
-  //       {
-  //         data: val.data,
-  //         backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
-  //         fill: false
-  //       },
-  //     ]
-  //   },
-  //   options: {
-  //     legend: {
-  //       display: false
-  //     },
-  //   }
-  // });
+      chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext("2d"), {
+        type: "doughnut",
+        data: {
+          labels: [
+            "Own Revenue",
+            "Assigned Revenue",
+            "Grants",
+            "Interest Income",
+            "Other Income",
+            "State & Hire Charges",
+          ],
+          datasets: [
+            {
+              data: chartArray[i].data,
+              backgroundColor: [
+                "#1E44AD",
+                "#25C7CE",
+                "#585FFF",
+                "#FFD72E",
+                "#22A2FF",
+                "#FF608B",
+              ],
+              fill: false,
+            },
+          ],
+        },
+        options: {
+          legend: {
+            display: false,
+          },
+        },
+      });
+    });
+    // let dynamicDoughnut: Chart;
+    // dynamicDoughnut  = new Chart(`${val.id}`, {
+    //   type: 'doughnut',
+    //   data: {
+    //     labels: ['Own Revenue','Assigned Revenue', 'Grants', 'Interest Income', 'Other Income', 'State & Hire Charges'],
+    //     datasets: [
+    //       {
+    //         data: val.data,
+    //         backgroundColor: ['#1E44AD','#25C7CE', '#585FFF', '#FFD72E', '#22A2FF', '#FF608B'],
+    //         fill: false
+    //       },
+    //     ]
+    //   },
+    //   options: {
+    //     legend: {
+    //       display: false
+    //     },
+    //   }
+    // });
+  }
 }
-}
-

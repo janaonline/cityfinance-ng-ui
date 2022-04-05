@@ -183,8 +183,6 @@ export const appRouter: Routes = [
         (m) => m.ResourcesDashboardModule
       ),
   },
-  
-
 
   { path: "**", redirectTo: "" },
 ];
