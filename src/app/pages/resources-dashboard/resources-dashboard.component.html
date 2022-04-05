@@ -16,11 +16,12 @@
                   placeholder="Type here..."
                   [formControl]="resourcesFilter"
                   [matAutocomplete]="auto"
-                  class="fl-input form-control"
+                  class="fl-input form-control" 
+                  #resourcesFilter
                 />
               </div>
               <div class="col-3 p-0">
-                <button type="button" class="btn btnFilter">Search</button>
+                <button type="button" class="btn btnFilter" (click)="searchFilter(resourcesFilter.value)">Search</button>
               </div>
               <div class="col-12">
                 <mat-autocomplete #auto="matAutocomplete">
