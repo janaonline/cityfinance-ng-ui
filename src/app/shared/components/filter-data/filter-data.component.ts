@@ -171,7 +171,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         } else {
           this.multiPie = false;
           this.createBarChart(res);
+          if(this.selectedTab.toLowerCase() == "total revenue")
           this.calculateCagr(res["data"], this.hideElements);
+          if (this.selectedTab.toLowerCase() == "revenue per capita")
+            this.calculatePerCapita(res["data"]);
+
         }
         this.loading = false;
       },
@@ -205,6 +209,17 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       2
     )} Crore`;
     this.positiveCAGR = true;
+  }
+
+  calculatePerCapita(data){
+    console.log(data,"percapita cagr");
+    let totalState = data.compData.reduce((sum,val)=>sum+val.amount,0)
+    let totalUlb = data.ulbData.reduce((sum,val)=>sum+val.amount,0)
+    this.CAGR = `Rs ${(totalState - totalUlb).toFixed(2)} ${totalUlb > totalState ?'higher':'lower' } than the state average between FY${data.ulbData[0]._id.financialYear} and FY${data.ulbData[data.ulbData.length-1]._id.financialYear}
+
+    (Avg. ULB ${this.selectedTab} is Rs.${(totalUlb).toFixed(2)} ;
+    State Average Total Revenue per capita is Rs.${(totalState).toFixed(2)})`
+    this.positiveCAGR = totalUlb > totalState;
   }
 
   calculateCagr(data, hideCAGR) {
