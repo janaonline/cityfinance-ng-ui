@@ -54,6 +54,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
   hideElements = false;
   compareType;
+  btnListInAboutIndicator;
   ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
@@ -62,7 +63,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {}
 
   changeActiveBtn(i) {
+    this.hideElements = false;
     console.log(this.data.btnLabels[i], "activeBTN");
+    this.btnListInAboutIndicator = this.data.btnLabels.filter(
+      (val, index) => i != index
+    );
     let key = this.data.btnLabels[i].toLowerCase().split(" ").join("_");
     this.aboutIndicators = this.data["static"].indicators.map((value) => {
       Object.assign(value, { desc: value[key] });
@@ -93,7 +98,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     else if (newName.includes("own") && newName.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
-
+    if (this.selectedTab.toLowerCase() == "own revenue mix") this.resetCAGR();
     this.getChartData({});
   }
 
@@ -158,9 +163,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.apiCall.unsubscribe();
     }
     this.compareType = body["compareType"];
-    this.chartTitle = `${
-      this.ulbMapping[this.currentUlb].name
-    } total revenues vs ${body["compareType"]} ${
+    this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
+      this.selectedTab
+    } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } Average`;
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
@@ -170,14 +175,15 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           // this.calculateRevenue(res["data"]);
         } else {
           this.multiPie = false;
-          console.log(JSON.stringify(res['data']),body.ulb);
-          if(body.ulb.length == 1)
-          this.createBarChart(res);
+          console.log(JSON.stringify(res["data"]), body.ulb);
+          if (body.ulb.length == 1) this.createBarChart(res);
           else
-          this.createDataForUlbs(res["data"]["ulbData"],[...new Set(body.ulb)])
-          if (this.selectedTab.toLowerCase() == "total revenue")
+            this.createDataForUlbs(res["data"]["ulbData"], [
+              ...new Set(body.ulb),
+            ]);
+          if (showCagrIn.includes(this.selectedTab.toLowerCase()))
             this.calculateCagr(res["data"], this.hideElements);
-          if (this.selectedTab.toLowerCase() == "revenue per capita")
+          if (showPerCapita.includes(this.selectedTab.toLowerCase()))
             this.calculatePerCapita(res["data"]);
         }
         this.loading = false;
@@ -203,35 +209,40 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     );
   }
 
-  createDataForUlbs(res,ulbs){
+  createDataForUlbs(res, ulbs) {
     let obj = {
       type: "bar",
       data: {
         labels: this.mySelectedYears,
         datasets: [
-          ...new Set(ulbs.map((ulb,i)=>{
-            let innerObj ={
-              label: this.ulbMapping[ulb].name,
-              data: [],
-              borderWidth: 1,
-              barThickness: 50,
-              borderRadius: 8,
-              backgroundColor:backgroundColor[i],
-              borderColor:borderColor[i]
-            }
-            this.mySelectedYears.forEach(year=>{
-            let foundUlb = res.find((val)=>(val._id.financialYear == year && val._id.ulb == ulb))
-            if(foundUlb)
-            innerObj.data.push(convertToCr(foundUlb.amount,this.isPerCapita))
-            else
-            innerObj.data.push(0)
+          ...new Set(
+            ulbs.map((ulb, i) => {
+              let innerObj = {
+                label: this.ulbMapping[ulb].name,
+                data: [],
+                borderWidth: 1,
+                barThickness: 50,
+                borderRadius: 8,
+                backgroundColor: backgroundColor[i],
+                borderColor: borderColor[i],
+              };
+              this.mySelectedYears.forEach((year) => {
+                let foundUlb = res.find(
+                  (val) => val._id.financialYear == year && val._id.ulb == ulb
+                );
+                if (foundUlb)
+                  innerObj.data.push(
+                    convertToCr(foundUlb.amount, this.isPerCapita)
+                  );
+                else innerObj.data.push(0);
+              });
+              return innerObj;
             })
-            return innerObj
-          }))
+          ),
         ],
       },
-    }
-    this.barChart = obj
+    };
+    this.barChart = obj;
     this.chartOptions = barChartStaticOptions;
   }
 
@@ -336,9 +347,18 @@ ULB ${this.selectedTab} for FY' ${
       const element = res["data"][key];
       element.map((value) => {
         let dataInner = JSON.parse(JSON.stringify(innerDataset));
-        if (!value.hasOwnProperty("ulbName")) {
+        if (this.compareType == "National Average" && key == "compData") {
           value.ulbName = "National";
         }
+        if (this.compareType == "ULB Type Average" && key == "compData") {
+          value.ulbName = this.ulbMapping[this.currentUlb].type;
+        }
+        if (this.compareType == "ULB category Average" && key == "compData") {
+          value.ulbName = getPopulationType(
+            this.ulbMapping[this.currentUlb].population
+          );
+        }
+
         if (!temp[value.ulbName]) {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
@@ -546,6 +566,15 @@ ULB ${this.selectedTab} for FY' ${
     }
     this.getChartData(value);
     console.log("filterChangeInChart", value);
+  }
+
+  btnClickInAboutIndicator(val) {
+    console.log(val, "btn val in filterData");
+    this.changeActiveBtn(this.data.btnLabels.indexOf(val));
+  }
+
+  resetCAGR() {
+    this.CAGR = "";
   }
 }
 
@@ -847,3 +876,19 @@ const barChartStaticOptions = {
     },
   },
 };
+
+function getPopulationType(population) {
+  if (population < 100000) {
+    return "<100 Thousand";
+  } else if (100000 < population && population < 500000) {
+    return "100 Thousand - 500 Thousand";
+  } else if (500000 < population && population < 1000000) {
+    return "500 Thousand - 1 Million";
+  } else if (1000000 < population && population < 4000000) {
+    return "1 Million - 4 Million";
+  } else {
+    return "4 Million+";
+  }
+}
+let showCagrIn = ["total revenue", "total own revenue"];
+let showPerCapita = ["revenue per capita", "own revenue per capita"];

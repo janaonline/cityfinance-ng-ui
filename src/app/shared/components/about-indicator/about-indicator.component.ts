@@ -4,6 +4,8 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  Output,
+  EventEmitter,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AboutService } from "./about.service";
@@ -71,6 +73,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       name: "Next Steps",
     },
   ];
+  @Input()
+  btnList = ["Total Revenue", "Revenue Per Capita"];
+  @Output()
+  btnListClick = new EventEmitter();
   copyData;
   @Input()
   selectedYear = "2015-16";
@@ -86,11 +92,16 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data) {
-      if(this.lastOpenPanel){
-        this.panelClose(this.lastOpenPanel)
+      if (this.lastOpenPanel) {
+        this.panelClose(this.lastOpenPanel);
       }
       this.copyData = JSON.parse(JSON.stringify(this.data));
     }
+  }
+
+  stepBtnClick(data) {
+    console.log(data, "btn val in about indicator");
+    this.btnListClick.emit(data);
   }
 
   panelOpen(item, index) {
@@ -198,6 +209,17 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         );
         element.text = "";
       }
+      if (element.text.includes("Deep-dive")) {
+        let text = this.copyData[parentIndex].desc[i].text;
+        this.addAnchorTag(
+          item,
+          i,
+          `/own-revenue-dashboard?cityName=${this.ulbsData[this.cityId].name}`,
+          text,
+          parentIndex
+        );
+        element.text = "";
+      }
     });
   }
 
@@ -205,8 +227,9 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     let aTag = document.createElement("a");
     aTag.href = link;
     aTag.innerHTML = text;
+    aTag.target = "blank";
     let pTag = document.getElementById(parentIndex + item.name + index);
-    if ((pTag.hasOwnProperty("children"), pTag.children.length == 0))
+    if (pTag && (pTag.hasOwnProperty("children"), pTag.children.length == 0))
       pTag.appendChild(aTag);
   }
 
@@ -298,7 +321,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           value = this.ulbsData[this.cityId].type;
           break;
         case "ULB_NAME_STATE":
-          value = this.ulbsData[data[forUlbType ? "inStateUlbType" : "inState"].ulb._id].name;
+          value =
+            this.ulbsData[
+              data[forUlbType ? "inStateUlbType" : "inState"].ulb._id
+            ].name;
           break;
         case "ULB_INSATE":
           value = this.toCr(
@@ -306,7 +332,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           );
           break;
         case "ULB_NAME_INDIA":
-          value = this.ulbsData[data[forUlbType ? "inIndiaUlbType" : "inIndia"].ulb._id].name;
+          value =
+            this.ulbsData[
+              data[forUlbType ? "inIndiaUlbType" : "inIndia"].ulb._id
+            ].name;
           break;
         case "ULB_IN-INDIA":
           value = this.toCr(
