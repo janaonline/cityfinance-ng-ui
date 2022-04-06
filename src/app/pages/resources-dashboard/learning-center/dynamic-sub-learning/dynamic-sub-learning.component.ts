@@ -90,9 +90,39 @@ export class DynamicSubLearningComponent implements OnInit {
   reportCardData = [
     {
       _id:1,
-      heading:"Digital billing and online system for collection",
-      content:"<b>1) Creation of a MIS System for performance tracking</b><br><br> Data-driven decision making and performance management are essential for a robust property tax system. Quarterly reviews of property tax MIS at city/ward/revenue official level should be institutionalized.MIS dashboards could include performance metrics such as current collection efficiency, arrear collection efficiency, track pending demands in high value properties, besides other metrics.<br><br><b>2) Ranking of Revenue Officials to improve performance and enhance collections</b><br><br> Ranking revenue officials through MIS dashboards, and recognising and rewarding their performance through regular competitions would help motivate revenue officials, foster adoption of best practices and, subsequently, enhance revenue collections for the ULB.<br><br><b>Introduction to (Guide to MPL): A step-by-step implementation guide for running a state/city/ULB level competition for revenue official</b><br><br><b>3) Publishing data in public forum for increased transparency and accountability</b><br><br>Publishing ward-wise demand and collection data, especially defaulters’ data, in public domain can help in building transparency and accountability among ULBs and taxpayers.",
-    }
+      heading:"1)	Creation of a MIS System for performance tracking",
+      content:["Data-driven decision making and performance management are essential for a robust property tax system. Quarterly reviews of property tax MIS at city/ward/revenue official level should be institutionalized.MIS dashboards could include performance metrics such as current collection efficiency, arrear collection efficiency, track pending demands in high value properties, besides other metrics."
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/img-reporting2.png',
+        text:'Figure: Current Landscape of Reporting Practices (good practices marked in green)'
+      },]
+    },
+    {
+      _id:2,
+      heading:"2)	Ranking of Revenue Officials to improve performance and enhance collections",
+      content:["Ranking revenue officials through MIS dashboards, and recognising and rewarding their performance through regular competitions would help motivate revenue officials, foster adoption of best practices and, subsequently, enhance revenue collections for the ULB.<br><b> Introduction to (Guide to MPL): A step-by-step implementation guide for running a state/city/ULB level competition for revenue officials<b>"
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/img-reporting2.png',
+        text:'Figure: Current Landscape of Reporting Practices (good practices marked in green)'
+      },]
+    },
+    {
+      _id:3,
+      heading:"3)	Publishing data in public forum for increased transparency and accountability",
+      content:["Publishing ward-wise demand and collection data, especially defaulters’ data, in public domain can help in building transparency and accountability among ULBs and taxpayers."
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/img-reporting2.png',
+        text:'Figure: Current Landscape of Reporting Practices (good practices marked in green)'
+      },]
+    },
+
+   
   ]
   assessmentData = [
     {
