@@ -681,7 +681,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
   notfound = true;
   ngOnInit(): void {
-    this.chartDropdownList
     console.log("this.innertabData", this.data);
     this.getyears();
   
@@ -740,7 +739,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       (response) => {
         if (response && response["success"]) {
           console.log("getStateUlbsGroupedByPopulation", response);
-          if (response && response['data'] && response['data'][0]) {
+          if (response && response['data'] && response['data']?.length) {
             this.stateUlbsPopulation.tableHeading = Object.keys(response['data'][0]);
             this.stateUlbsPopulation.tableDataSource = response['data'][0];
           }
@@ -759,11 +758,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       "stateId": this.stateId,
       "sortBy": this.BarGraphValue ? 'top' : 'bottom'
     };
+    this.chartDropdownValue = '';
     if (paramContent?.tabType == 'RevenueMix') {
       paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].value
-    } else {
-      this.chartDropdownValue = '';
-    };
+    }
     console.log('paramContent', paramContent)
     this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
     .subscribe(
