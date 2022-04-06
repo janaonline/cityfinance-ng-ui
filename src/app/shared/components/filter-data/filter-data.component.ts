@@ -98,7 +98,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     else if (newName.includes("own") && newName.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
-
+    if (this.selectedTab.toLowerCase() == "own revenue mix") this.resetCAGR();
     this.getChartData({});
   }
 
@@ -163,9 +163,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.apiCall.unsubscribe();
     }
     this.compareType = body["compareType"];
-    this.chartTitle = `${
-      this.ulbMapping[this.currentUlb].name
-    } total revenues vs ${body["compareType"]} ${
+    this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
+      this.selectedTab
+    } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } Average`;
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
@@ -181,9 +181,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
             ]);
-          if (this.selectedTab.toLowerCase() == "total revenue")
+          if (showCagrIn.includes(this.selectedTab.toLowerCase()))
             this.calculateCagr(res["data"], this.hideElements);
-          if (this.selectedTab.toLowerCase() == "revenue per capita")
+          if (showPerCapita.includes(this.selectedTab.toLowerCase()))
             this.calculatePerCapita(res["data"]);
         }
         this.loading = false;
@@ -572,6 +572,10 @@ ULB ${this.selectedTab} for FY' ${
     console.log(val, "btn val in filterData");
     this.changeActiveBtn(this.data.btnLabels.indexOf(val));
   }
+
+  resetCAGR() {
+    this.CAGR = "";
+  }
 }
 
 const pieBackGroundColor = [
@@ -886,3 +890,5 @@ function getPopulationType(population) {
     return "4 Million+";
   }
 }
+let showCagrIn = ["total revenue", "total own revenue"];
+let showPerCapita = ["revenue per capita", "own revenue per capita"];
