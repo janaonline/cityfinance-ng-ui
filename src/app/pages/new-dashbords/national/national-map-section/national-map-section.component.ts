@@ -1,5 +1,6 @@
 import {
   Component,
+  EventEmitter,
   Input,
   NgZone,
   OnInit,
@@ -24,6 +25,7 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { NationalMapSectionService } from "./national-map-section.service";
+// import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
 @Component({
@@ -61,6 +63,9 @@ export class NationalMapSectionComponent
     this.initializeform();
     this.fetchStateList();
   }
+
+  @Output()
+  AllDataAavailability = new EventEmitter();
 
   selected_state = "India";
   stateselected: IState;
@@ -170,7 +175,9 @@ export class NationalMapSectionComponent
         this.showLoader = false;
         this.tableData = res?.data;
         this.dataAvailabilityvalue = res?.dataAvailability;
+        this.AllDataAavailability = res?.dataAvailability;
       },
+
       (err) => {
         this.showLoader = false;
       }
