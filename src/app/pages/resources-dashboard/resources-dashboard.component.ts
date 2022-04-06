@@ -74,6 +74,15 @@ export class ResourcesDashboardComponent implements OnInit {
       }
     });
   }
+  searchFilter(searchFilter:any){
+    //queryparam used for url
+    this.router.navigate( ['/resources-dashboard/learning-center/toolkits'],
+    { queryParams: { search: searchFilter } })
+  
+    this.resourcedashboard.getSearchedData(searchFilter).subscribe(data => {
+      console.log(data)
+    })  
+  }
 }
 const learningCenter = {
   type: 4,

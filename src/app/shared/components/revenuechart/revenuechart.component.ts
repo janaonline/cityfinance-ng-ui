@@ -302,8 +302,7 @@ export class RevenuechartComponent
     "2020-21",
   ];
 
-  @Input()
-  multipleCharts;
+  @Input() multipleCharts: boolean = false;
 
   @Input()
   singleDoughnutChart;
@@ -335,6 +334,7 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges', changes)
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
         this.createChart();
