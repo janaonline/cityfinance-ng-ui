@@ -34,7 +34,8 @@
 
         </div>
         <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
-            <app-about-indicator [selectedYear]="mySelectedYears[0]" [headOfAccount]="headOfAccount" [filterName]="filterName"
+            <app-about-indicator (btnListClick)="btnClickInAboutIndicator($event)" [btnList]="btnListInAboutIndicator"
+                [selectedYear]="mySelectedYears[0]" [headOfAccount]="headOfAccount" [filterName]="filterName"
                 [cityId]="currentUlb"
                 [positive]="positiveCAGR" [cagr]="CAGR" [data]="aboutIndicators"></app-about-indicator>
         </div>
