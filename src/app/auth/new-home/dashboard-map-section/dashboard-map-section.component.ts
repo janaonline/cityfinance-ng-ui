@@ -96,7 +96,7 @@ export class DashboardMapSectionComponent
     this.initializeform();
     this.fetchStateList();
     this.fetchDataForVisualization();
-    this.fetchDataForVisualization();
+    // this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
     this.fetchMinMaxFinancialYears();
@@ -636,6 +636,7 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
+    // debugger;
     const ulbList = [];
     if (stateName) {
       for (let i = 0; i < this.creditRatingList?.length; i++) {
@@ -665,12 +666,15 @@ export class DashboardMapSectionComponent
       this.absCreditInfo["ratings"]["AAA+"] +
       this.absCreditInfo["ratings"]["AAA-"];
 
+    console.log("creditRatingAboveA", this.creditRatingAboveA);
+
     this.creditRatingAboveBBB_Minus =
       this.creditRatingAboveA +
       this.absCreditInfo["ratings"]["A-"] +
       this.absCreditInfo["ratings"]["BBB"] +
       this.absCreditInfo["ratings"]["BBB+"] +
       this.absCreditInfo["ratings"]["BBB-"];
+    console.log("creditRatingAboveBBB_Minus", this.creditRatingAboveBBB_Minus);
 
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
@@ -709,6 +713,7 @@ export class DashboardMapSectionComponent
       computedData["India"] += 1;
     });
 
+    console.log("computedData", computedData); //store this
     this.creditRating = computedData;
   }
   openStateDashboard(event) {
