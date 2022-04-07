@@ -185,6 +185,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             this.calculateCagr(res["data"], this.hideElements);
           if (showPerCapita.includes(this.selectedTab.toLowerCase()))
             this.calculatePerCapita(res["data"]);
+          if(this.selectedTab.toLowerCase() == "total surplus/deficit")
+          this.calculateCagrOfDeficit(res["data"])
         }
         this.loading = false;
       },
@@ -207,6 +209,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         this.loading = false;
       }
     );
+  }
+  calculateCagrOfDeficit(res){
+    console.log(res);
+    let total = res["ulbData"].reduce((sum,val)=>sum+val.amount,0)
+    this.CAGR = `Rs. ${convertToCr(total,this.isPerCapita)} Cr. Total Surplus/Deficit of the FY'${this.mySelectedYears[0]}`
+    this.positiveCAGR = total > 0
   }
 
   createDataForUlbs(res, ulbs) {
@@ -485,7 +493,7 @@ ULB ${this.selectedTab} for FY' ${
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
+                var percentage = ((currentValue / total) * 100).toFixed(2);
                 return percentage + "%" + data.labels[tooltipItem.index];
               },
             },
