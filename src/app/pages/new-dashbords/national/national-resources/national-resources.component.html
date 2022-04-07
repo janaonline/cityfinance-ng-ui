@@ -2,9 +2,9 @@
     <div class="row" style="margin: 1rem auto  1rem auto;">
         <div class="col-sm-12" style="display: flex;">
             <div class="row row-cols-1 row-cols-md-4">
-                <a *ngFor="let item of whatNewData">
+                <a *ngFor="let item of whatNewData" [href]="item?.downloadUrl" target="_blank">
                     <div class="card">
-                        <img [src]="item?.imageUrl" class="card-img-top" [alt]="item.label">
+                        <img [src]="item?.imageUrl" class="card-img-top" [alt]="item.label" width="250" height="200">
                         <div class="card-body">
                             <p class="card-text">
                                 {{item?.name}}
@@ -12,8 +12,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
-            
+            </div>         
         </div>
     </div>
 </div>

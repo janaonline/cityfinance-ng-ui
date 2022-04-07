@@ -8,17 +8,16 @@ import { CommonService } from "src/app/shared/services/common.service";
   styleUrls: ['./national-resources.component.scss']
 })
 export class NationalResourcesComponent implements OnInit {
-
+  whatNewData=[];
   constructor(
     protected _commonService: CommonService,
     private router: Router
   ) {
     this._commonService.getPublicFileList().subscribe((res)=>{
       this.whatNewData = res
-      console.log(this.whatNewData)
     })
   }
-  whatNewData=[]
+  
   // cardData = [
   //   {
   //     label: "Digital Property Tax Toolkit",
