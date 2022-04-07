@@ -180,32 +180,33 @@ The process of assessment has three aspects to it –
     </div>
   </div>
   <div class="col-sm-12" *ngIf="isRepo">
+    
     <div class="heading topBottomGaps">Current Practices</div>
     <p class="sub-ans just">
-      Property Tax Management Information System (MIS) exists in all ULBs that have an online property register integrated with payment channels. However, the MIS systems have generally not been integrated with decision-making to improve coverage and collections. There are very few examples of States in which MIS systems are used by different levels of Municipal and State authorities for decision-making as well as monitoring and managing performance. Property tax collection and pendency (defaulters) data is also not available in public domain in majority of the ULBs.<br><br>
-      Most ULBs also lack an ‘incentives mechanism’ which recognizes and rewards/ awards above-par revenue officials. Without systematic and systemic tracking of property tax revenue collections, and an institutional arrangement of rewarding better performing revenue officials, the revenue collections of ULBs are likely to remain sub-optimal.  
+      Property Tax Management Information System (MIS) exists in all ULBs that have an online property register integrated with payment channels. However, the MIS systems have generally not been integrated with decision-making to improve coverage and collections. There are very few examples of States in which MIS systems are used by different levels of Municipal and State authorities for decision-making as well as monitoring and managing performance. Property tax collection and pendency (defaulters) data is also not available in public domain in majority of the ULBs.
+      <br><br> Most ULBs also lack an ‘incentives mechanism’ which recognizes and rewards/ awards above-par revenue officials. Without systematic and systemic tracking of property tax revenue collections, and an institutional arrangement of rewarding better performing revenue officials, the revenue collections of ULBs are likely to remain sub-optimal.  
       
     </p>
-    <img src="../../../../../assets/resources-das/img-reporting.png" />
+    <img src="../../../../../assets/resources-das/image1-31.png" />
 
     <div class="heading topBottomGaps" style="margin-top: 2%">
-     Recommendations:
+      Key Recommendations
     </div>
-    <!-- <div>
+    <div>
       <div
         (click)="showRecomm(card._id)"
-        *ngFor="let card of billingCardData"
+        *ngFor="let card of reportCardData"
         class="card"
         [ngClass]="{ cardSuper: card._id == cardId }"
       >
         {{ card.heading }}
       </div>
-    </div> -->
-    <img src="../../../../../assets/resources-das/img-reporting2.png" />
-    <p class="topBottomGaps sub-ans just" [innerHTML]="reportCardData[cardId - 1].content">
-    
-    </p>
-    <!-- <div>
+    </div>
+
+    <div *ngFor="let line of reportCardData[cardId - 1].content" class="topBottomGaps sub-ans just">
+     <ul> <li [innerHTML]="line"></li></ul>
+    </div>
+    <div>
       <ngx-slick-carousel
         class="carousel"
         #slickModal="slick-carousel"
@@ -216,16 +217,15 @@ The process of assessment has three aspects to it –
       >
         <div
           ngxSlickItem
-          *ngFor="let item of billingCardData[cardId - 1].imgArr"
+          *ngFor="let item of reportCardData[cardId - 1].imgArr"
           class="slide"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
           <img [src]="item.link" alt="" width="100%" />
-          <span class="topBottomGaps steps" [innerHTML]="item.description"></span>
         </div>
       </ngx-slick-carousel>
-    </div> -->
-    
+    </div>
+  
 
     <div class="heading topBottomGaps">Best Practices</div>
 
@@ -240,5 +240,6 @@ The process of assessment has three aspects to it –
         <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
       </div>
     </div>
+  
   </div>
 </div>
