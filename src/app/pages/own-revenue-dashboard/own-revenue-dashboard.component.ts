@@ -19,6 +19,7 @@ import { FilterModelBoxComponent } from "../resources-dashboard/filter-model-box
 import { OwnRevenueService } from "./own-revenue.service";
 import { CommonService } from 'src/app/shared/services/common.service';
 import { GlobalLoaderService } from "../../../app/shared/services/loaders/global-loader.service";
+import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-own-revenue-dashboard",
   templateUrl: "./own-revenue-dashboard.component.html",
@@ -92,16 +93,19 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 5,
       title: "Cities where Own Revenues meet Revenue Expenditure(%)",
     },
- 
   ];
 
   columnAttributeProperty = [
     { id: 1, title: "ULB Population Category" },
-    { id: 2, title: "Weighted Average Property Tax Revenue Collections (In Crore Rs.)" },
+    {
+      id: 2,
+      title: "Weighted Average Property Tax Revenue Collections (In Crore Rs.)",
+    },
     { id: 3, title: "Median Property Tax Revenue per Capita" },
     {
       id: 4,
-      title: "Weighted Average Property Tax Revenue as percentage of Own Revenue",
+      title:
+        "Weighted Average Property Tax Revenue as percentage of Own Revenue",
     },
   ];
 
@@ -154,8 +158,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   doughnutChartData = {
     type: "doughnut",
     data: {
-      labels: [
-      ],
+      labels: [],
       datasets: [
         {
           data: [],
@@ -174,100 +177,109 @@ export class OwnRevenueDashboardComponent implements OnInit {
   };
   doughnutChartOptions = {
     maintainAspectRatio: false,
-    cutoutPercentage:50,
+    cutoutPercentage: 50,
     responsive: true,
-  
+
     legend: {
       position: "bottom",
       labels: {
         usePointStyle: true,
-        pointStyle:'rect',
+        pointStyle: "rect",
         padding: 35,
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 15,
-
       },
-      onClick: (e) => e.stopPropagation()
+      onClick: (e) => e.stopPropagation(),
     },
-    
+
     tooltips: {
       callbacks: {
-        label: function(tooltipItem, data) {
-        	var dataset = data.datasets[tooltipItem.datasetIndex];
-          var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+        label: function (tooltipItem, data) {
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          var total = dataset.data.reduce(function (
+            previousValue,
+            currentValue,
+            currentIndex,
+            array
+          ) {
             return previousValue + currentValue;
           });
           var currentValue = dataset.data[tooltipItem.index];
-          var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+          var percentage = Math.floor((currentValue / total) * 100 + 0.5);
           return percentage + "%";
-        }
-      }
-    }
+        },
+      },
+    },
   };
   doughnutChartTitle =
     "The following pie chart provides the split of the contribution of own revenue streams to own revenue.";
-
-
 
   barChartData = barChart;
   barChartOptions = {
     maintainAspectRatio: false,
     responsive: true,
-   
+
     scales: {
-      xAxes: [{
-        maxBarThickness: 60,
+      xAxes: [
+        {
+          maxBarThickness: 60,
           gridLines: {
-              color: "rgba(0, 0, 0, 0)",
-          }
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-         labelString:"Amount in crores"
+            color: "rgba(0, 0, 0, 0)",
+          },
         },
+      ],
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: "Amount in crores",
+          },
           gridLines: {
-              color: "rgba(0, 0, 0, 0)",
-          }   
-      }]
-  },
-  
-      legend: {
-        display: false,
-      }
+            color: "rgba(0, 0, 0, 0)",
+          },
+        },
+      ],
+    },
+
+    legend: {
+      display: false,
+    },
   };
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
   stateIds = JSON.parse(localStorage.getItem("stateIdsMap"));
-  filteredOptions
-loadData(){
-  this.filterGroup?.controls?.ulb?.valueChanges
-  .subscribe(value => {
-    if(value?.length >= 1){
-      this._commonServices.postGlobalSearchData(value,"ulb", "").subscribe((res: any) => {
-        console.log(res?.data);
-        let emptyArr:any = []
-          this.filteredOptions = emptyArr;
-        if(res?.data.length > 0 ){
+  filteredOptions;
+  loadData() {
+    this.filterGroup?.controls?.ulb?.valueChanges.subscribe((value) => {
+      if (value?.length >= 1) {
+        this.getUlbForAutoComplete(value);
+      } else {
+        return null;
+      }
+    });
+  }
+  getUlbForAutoComplete(value, autoSelectUlb = false) {
+    this._commonServices
+      .postGlobalSearchData(value, "ulb", "")
+      .subscribe((res: any) => {
+        console.log(res?.data, "getUlbForAutoComplete");
+        let emptyArr: any = [];
+        this.filteredOptions = emptyArr;
+        if (res?.data.length > 0) {
           this.filteredOptions = res?.data;
+          if(autoSelectUlb){
+            this.filterData('ulb',res['data'][0])
+        }
           //this.noDataFound = false;
-        }else{
-
-          let emptyArr:any = []
+        } else {
+          let emptyArr: any = [];
           this.filteredOptions = emptyArr;
-         // this.noDataFound = true;
-          console.log('no data found')
+          // this.noDataFound = true;
+          console.log("no data found");
         }
       });
-    }
-    else {
-      return null;
-    }
-  })
-}
- 
-
+  }
 
   filterGroup = new FormGroup({
     stateId: new FormControl("State Name"),
@@ -296,7 +308,6 @@ loadData(){
     revenuePerCapita,
     revenuePercentage,
     revenueExpenditure,
-    
   ];
 
   body: any;
@@ -305,80 +316,83 @@ loadData(){
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog,
     public _loaderService: GlobalLoaderService,
-    public _commonServices : CommonService
+    public _commonServices: CommonService,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.isLoading = true;
     console.log("loader", this.isLoading);
     // if(this.isLoading)(document.activeElement as HTMLElement).blur();
+    this._activatedRoute.queryParams.subscribe((param) => {
+      this.cityName = param.cityName
+    });
   }
-
+  cityName
   ngOnInit(): void {
-    this.loadData()
-  
+    this.loadData();
+
     window.scrollTo(0, 0);
-this.getYearList();
+    this.getYearList();
     this.createDataForFilter();
     this.getBarChartData();
-    this.barChartTitle =
-      "Compare states/ULBs on various financial indicators";
+    this.barChartTitle = "Compare states/ULBs on various financial indicators";
 
+    if(this.cityName){
+      this.filterGroup.controls.ulb.setValue(this.cityName)
+      this.getUlbForAutoComplete(this.cityName,true)
+    }else{
     this.allCalls();
-    this.halfDoughnutChart()
+    this.halfDoughnutChart();
     window.onload = () => {
-     
-      this.createBarChart()
-   
-    
-    }
+      this.createBarChart();
+    };}
   }
 
   filterData(param, val) {
-    console.log('filter form', this.filterGroup);
-  if(param == 'ulb'){
-    console.log(val)
-    let pop;
-    if(val?.population > 4000000){
-pop = '4 Million+'
-    }else if(val?.population < 4000000 && val?.population > 1000000 ){
-      pop = '1 Million - 4 Million'
-    }else if(val?.population < 1000000 && val?.population > 500000 ){
-      pop = '500 Thousand - 1 Million'
-    }else if(val?.population < 500000 && val?.population > 100000 ){
-      pop = '100 Thousand - 500 Thousand'
-    }else if(val?.population < 100000 ){
-      pop = '<100 Thousand'
+    
+    console.log("filter form", this.filterGroup);
+    if (param == "ulb") {
+      console.log(val);
+      let pop;
+      if (val?.population > 4000000) {
+        pop = "4 Million+";
+      } else if (val?.population < 4000000 && val?.population > 1000000) {
+        pop = "1 Million - 4 Million";
+      } else if (val?.population < 1000000 && val?.population > 500000) {
+        pop = "500 Thousand - 1 Million";
+      } else if (val?.population < 500000 && val?.population > 100000) {
+        pop = "100 Thousand - 500 Thousand";
+      } else if (val?.population < 100000) {
+        pop = "<100 Thousand";
+      }
+      this.filterGroup.patchValue({
+        stateId: val?.state?._id,
+        ulbType: val?.ulbType?._id,
+        populationCategory: pop,
+      });
+    } else if (param == "state") {
+      this.filterGroup.patchValue({
+        ulb: "",
+        ulbType: "ULB Type",
+        populationCategory: "",
+      });
+    } else if (param == "ulbType") {
+      this.filterGroup.patchValue({
+        ulb: "",
+        stateId: "",
+        populationCategory: "",
+      });
+    } else if (param == "popCat") {
+      this.filterGroup.patchValue({
+        ulb: "",
+        stateId: "",
+        ulbType: "ULB Type",
+      });
+    } else if (param == "year") {
+      // this.filterGroup.patchValue({
+      //   ulb: ""
+      // })
     }
-    this.filterGroup.patchValue({
-      stateId: val?.state?._id,
-      ulbType: val?.ulbType?._id ,
-      populationCategory : pop ,
-    })
-  }else if(param == 'state'){
-    this.filterGroup.patchValue({
-  
-      ulb: "",
-      ulbType: "ULB Type",
-      populationCategory:"" ,
-    })
-  }
-  else if(param == 'ulbType'){
-    this.filterGroup.patchValue({
-      ulb: "",
-      stateId:"",
-      populationCategory:"" ,
-    })
-  } else if(param == 'popCat'){
-    this.filterGroup.patchValue({
-      ulb: "",
-      stateId:"",
-      ulbType: "ULB Type",
-    })
-  }else if(param == 'year'){
-    // this.filterGroup.patchValue({
-    //   ulb: ""
-    // })
-  }
-this.allCalls()
+    this.allCalls();
   }
 
   allCalls() {
@@ -387,10 +401,10 @@ this.allCalls()
     this.tableData();
     this.getAvailableData();
     this.getYearList();
-    this.getBarChartData()
+    this.getBarChartData();
   }
 
-  getYearList(){
+  getYearList() {
     this.body = {
       ...this.filterGroup.value,
       propertyTax: !this.ownTab,
@@ -399,11 +413,11 @@ this.allCalls()
     this.ownRevenueService.getYearList(this.body).subscribe(
       (res) => {
         // this._loaderService.stopLoader()
-      let data = res['data']
-      this.yearList =[]
-      data.forEach(el=>{
-       this.yearList.push(el._id) 
-      })
+        let data = res["data"];
+        this.yearList = [];
+        data.forEach((el) => {
+          this.yearList.push(el._id);
+        });
       },
       (err) => {
         console.log("error", err);
@@ -421,7 +435,7 @@ this.allCalls()
     this.allCalls();
   }
   pieChartLoading = true;
-  chartDataNotFound = false
+  chartDataNotFound = false;
   getPieChartData() {
     this.pieChartLoading = true;
     let temp = {
@@ -430,7 +444,6 @@ this.allCalls()
         labels: [],
         datasets: [
           {
-      
             data: [],
             backgroundColor: [
               "#76d12c",
@@ -449,20 +462,19 @@ this.allCalls()
       .getPieChartData(this.filterGroup.getRawValue())
       .subscribe(
         (res) => {
-          if(res['data'][0]['amount'] == null && !res['data'][1]  ){
-            this.chartDataNotFound = true
+          if (res["data"][0]["amount"] == null && !res["data"][1]) {
+            this.chartDataNotFound = true;
             this.pieChartLoading = false;
-            return
+            return;
           }
           res["data"].map((value) => {
-            this.chartDataNotFound = false
+            this.chartDataNotFound = false;
             temp.data.labels.push(value?._id["revenueName"]);
             temp.data.datasets[0].data.push(value?.amount);
             this.isLoading = false;
             this.pieChartLoading = false;
           });
           this.doughnutChartData = temp;
-          
         },
         (err) => {
           this.pieChartLoading = false;
@@ -470,30 +482,23 @@ this.allCalls()
         }
       );
   }
-  myBarChart
-  createBarChart(){
-if(this.myBarChart){
- this.myBarChart.destroy();
-}
-      //dom is fully loaded, but maybe waiting on images & css files
-      window.onload = function() {
-      const canvas = <HTMLCanvasElement>document.getElementById("ownRevenue-barChart");
+  myBarChart;
+  createBarChart() {
+    if (this.myBarChart) {
+      this.myBarChart.destroy();
+    }
+    //dom is fully loaded, but maybe waiting on images & css files
+    window.onload = function () {
+      const canvas = <HTMLCanvasElement>(
+        document.getElementById("ownRevenue-barChart")
+      );
       const ctx = canvas.getContext("2d");
-      let data: any = this.barChartData
-        this.myBarChart = new Chart(ctx, {
-          type: "bar",
-          data: data,
-        });
-      }
-   
- 
-
-
- 
-   
-  
-  
-   
+      let data: any = this.barChartData;
+      this.myBarChart = new Chart(ctx, {
+        type: "bar",
+        data: data,
+      });
+    };
   }
 
   createDataForFilter() {
@@ -525,10 +530,10 @@ if(this.myBarChart){
     });
   }
   notFoundNames = [];
-  dataAvailLoading = false
-  availValue = 0
+  dataAvailLoading = false;
+  availValue = 0;
   getAvailableData() {
-    this.dataAvailLoading  = true
+    this.dataAvailLoading = true;
     this.body = {
       ...this.filterGroup.value,
       propertyTax: !this.ownTab,
@@ -536,191 +541,177 @@ if(this.myBarChart){
 
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
-        this.dataAvailLoading  = false
+        this.dataAvailLoading = false;
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
         this.financialYear = res;
-      this.availValue =  res["data"]?.percent
-          this.halfDoughnutChart();
-       
-       
+        this.availValue = res["data"]?.percent;
+        this.halfDoughnutChart();
+
         this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);
       },
       (err) => {
-        this.dataAvailLoading  = false
+        this.dataAvailLoading = false;
         console.log("error", err);
       }
     );
   }
-tempDataHolder = {
-  param : 'Own Revenue per Capita',
-  type : 'ULB'
-}
+  tempDataHolder = {
+    param: "Own Revenue per Capita",
+    type: "ULB",
+  };
   barChartCompValues(value) {
-    this.tempDataHolder = value
+    this.tempDataHolder = value;
     console.log(value, "barChartCompValues");
     this.getBarChartData(value);
   }
-  barChartNotFound = false
+  barChartNotFound = false;
   getBarChartData(
     bodyD = {
       list: [],
       param: "Own Revenue per Capita",
-      type:"state"
+      type: "state",
     }
   ) {
     this.body = {
       ...this.filterGroup.value,
       propertyTax: !this.ownTab,
     };
-    Object.assign(bodyD, this.body)
+    Object.assign(bodyD, this.body);
     this.lastBarChartValue = bodyD;
-    let labelStr=""
-   
-      this.ownRevenueService.displayBarChartData(bodyD).subscribe(
-        (res) => {
-         
-          this.barChartNotFound = false
-          let tempData = {
-            type: "bar",
-            data: {
-  
-              labels: [],
-              datasets: [
+    let labelStr = "";
+
+    this.ownRevenueService.displayBarChartData(bodyD).subscribe(
+      (res) => {
+        this.barChartNotFound = false;
+        let tempData = {
+          type: "bar",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: bodyD.param,
+                data: [],
+                borderRadius: 15,
+                borderWidth: 1,
+                backgroundColor: [
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(51, 96, 219, 1)",
+                  "rgba(79, 223, 76, 1)",
+                ],
+              },
+            ],
+          },
+          options: {
+            interaction: {
+              mode: "nearest",
+            },
+            scales: {
+              xAxes: [
                 {
-                  label: bodyD.param,
-                  data: [],
-                  borderRadius: 15,
-                  borderWidth: 1,
-                  backgroundColor: [
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(51, 96, 219, 1)",
-                    "rgba(79, 223, 76, 1)",
-                  ],
+                  maxBarThickness: 60,
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                  },
+                },
+              ],
+              yAxes: [
+                {
+                  scaleLabel: {
+                    display: true,
+                    labelString: "Amount",
+                  },
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                  },
                 },
               ],
             },
-            options:{
-            
-              interaction:{
-                mode:'nearest'
-              },
-              scales: {
-                xAxes: [{
-                  maxBarThickness: 60,
-                    gridLines: {
-                        color: "rgba(0, 0, 0, 0)",
-                    }
-                }],
-                yAxes: [{
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Amount"
-                  },
-                    gridLines: {
-                        color: "rgba(0, 0, 0, 0)",
-                    }   
-                }]
-            },
-            }
-          };
-          tempData.options.scales.yAxes[0].scaleLabel.display = true
-          tempData.options.scales.yAxes[0].scaleLabel.labelString = "Percentage (%)"
-          res["data"].map((value) => {
-            // let stateName = this.stateIds[value._id];
-            tempData.data.labels.push(value.name);
-            // if(this.tempDataHolder){
-            //   if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' ){
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Percentage (%)"
-            //   }  else if(this.tempDataHolder['param'] == "Own Revenue"){
-            //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in Crores"
-            //   }else if(this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
-            //   }else{
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
+          },
+        };
+        tempData.options.scales.yAxes[0].scaleLabel.display = true;
+        tempData.options.scales.yAxes[0].scaleLabel.labelString =
+          "Percentage (%)";
+        res["data"].map((value) => {
+          // let stateName = this.stateIds[value._id];
+          tempData.data.labels.push(value.name);
+          // if(this.tempDataHolder){
+          //   if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' ){
+          //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
+          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Percentage (%)"
+          //   }  else if(this.tempDataHolder['param'] == "Own Revenue"){
+          //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(0)));
+          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in Crores"
+          //   }else if(this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
+          //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
+          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
+          //   }else{
+          //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
+          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
 
-            //   }
-           
-            // }
-
-                tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-               
-            
-          });
-          // bodyD.list.map((value) => {
-          //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
-          //     let stateName = this.stateIds[value];
-          //     tempData.data.labels.push(stateName);
-          //     tempData.data.datasets[0].data.push(0);
           //   }
-          // });
-          console.log(tempData)
-          this.barChartData = tempData;
-        
-          
-            
-       
-          
-        },
-        (err) => {
-          this.barChartNotFound = true
-        }
-      );
- 
-   
+
+          // }
+
+          tempData.data.datasets[0].data.push(Number(value.amount).toFixed(0));
+        });
+        // bodyD.list.map((value) => {
+        //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
+        //     let stateName = this.stateIds[value];
+        //     tempData.data.labels.push(stateName);
+        //     tempData.data.datasets[0].data.push(0);
+        //   }
+        // });
+        console.log(tempData);
+        this.barChartData = tempData;
+      },
+      (err) => {
+        this.barChartNotFound = true;
+      }
+    );
   }
 
-  
-myChart: any
+  myChart: any;
   halfDoughnutChart() {
-    if(this.myChart){
-      this.myChart.destroy()
+    if (this.myChart) {
+      this.myChart.destroy();
     }
-    
+
     this.dataAvailable = this.availValue;
-  
-      const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
-      const ctx = canvas.getContext("2d");
-       this.myChart = new Chart(ctx, {
-        type: "doughnut",
-        data: {
-          labels: [
-            'Data available',
-            'Data not available'
-          ],
-          datasets: [
-            {
-              label: "Availability",
-              borderWidth: 0,
-              data: [this.dataAvailable, 100 - this.dataAvailable],
-              backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
-            },
-          ],
-        },
-        options: {
-          
-          rotation: 1 * Math.PI,
-          circumference: 1 * Math.PI,
-          legend: {
-            display: false,
+
+    const canvas = <HTMLCanvasElement>document.getElementById("myChart1");
+    const ctx = canvas.getContext("2d");
+    this.myChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Data available", "Data not available"],
+        datasets: [
+          {
+            label: "Availability",
+            borderWidth: 0,
+            data: [this.dataAvailable, 100 - this.dataAvailable],
+            backgroundColor: ["rgba(51, 96, 219, 1)", "rgba(218, 226, 253, 1)"],
           },
-          cutoutPercentage: 75,
+        ],
+      },
+      options: {
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        legend: {
+          display: false,
         },
-      });
-    
+        cutoutPercentage: 75,
+      },
+    });
   }
   cardsDataLoading = true;
   cardsData() {
@@ -804,7 +795,6 @@ myChart: any
       revenuePerCapitaCopy,
       revenuePercentageCopy,
       revenueExpenditureCopy,
-  
     ];
   }
 
@@ -817,7 +807,7 @@ myChart: any
   proTabCardsFormat(data) {
     let value = data[this.filterGroup.value.financialYear];
     let cards = deepCopy(porpertyCards);
-    cards[0].title = '₹ ' + valueConvert(value.totalProperty) ?? 0;
+    cards[0].title = "₹ " + valueConvert(value.totalProperty) ?? 0;
     cards[1].title =
       "₹ " + (value.totalProperty / value.population).toFixed(0) ?? 0;
     cards[2].title =
@@ -874,38 +864,30 @@ myChart: any
     this.cardData = cards;
   }
   tableDataLoading = true;
-  columnAttribut
+  columnAttribut;
   tableData() {
     this.tableDataLoading = true;
     this.ownRevenueService.getTableData(this.filterGroup.value).subscribe(
       (res) => {
         this.tableDataLoading = false;
         if (this.proTab) this.columnAttribut = this.columnAttributeProperty;
-        else this.columnAttribut = this.columnAttribute
+        else this.columnAttribut = this.columnAttribute;
         this.users = this.users.map((value) => {
           let data = res["data"][value.name];
           if (this.ownTab) {
-            value.meetsRevenue = numCheck(
-              (data.numOfUlbMeetRevenue)
-            );
+            value.meetsRevenue = numCheck(data.numOfUlbMeetRevenue);
             if (data.totalExpense > 0) {
-              value.avgRevenueMeet = numCheck(
-                (data.percentage)
-              );
+              value.avgRevenueMeet = numCheck(data.percentage);
             } else {
               value.avgRevenueMeet = "0";
             }
             if (data.totalRevenue > 0) {
-              value.averageRevenue = numCheck(
-                data.totalRevenue
-              );
+              value.averageRevenue = numCheck(data.totalRevenue);
             } else {
               value.averageRevenue = "0";
             }
             if (data.population > 0) {
-              value.perCapita = numCheck(
-                (data.perCapita)
-              );
+              value.perCapita = numCheck(data.perCapita);
             } else {
               value.perCapita = "0";
             }
