@@ -585,4 +585,16 @@ export class CommonService {
   formatNumber(num) {
     return new Intl.NumberFormat("en-IN").format(num);
   }
+
+  changeCountFormat(value: any) {
+    let formattedValue: any;
+    if (value >= 10000000) {
+      formattedValue = (value / 10000000).toFixed(2);
+    } else if (value >= 1000000) {
+      formattedValue = (value / 1000000).toFixed(2);
+    } else {
+      formattedValue = value.toFixed(2);
+    }
+    return formattedValue;
+  }
 }

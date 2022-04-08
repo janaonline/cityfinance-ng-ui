@@ -41,6 +41,10 @@ export class RevenuechartComponent
   stateName;
 
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
+  @Input() nestedChartFilterOption: any = {
+    showFinancialYear: true,
+    showResetButton: true
+  };
   constructor(
     public dialog: MatDialog,
     public _loaderService: GlobalLoaderService,

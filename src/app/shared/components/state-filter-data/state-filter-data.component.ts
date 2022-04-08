@@ -7,12 +7,15 @@ import { CommonService } from "../../services/common.service";
 import { Observable } from "rxjs";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { OwnRevenueService } from "src/app/pages/own-revenue-dashboard/own-revenue.service";
+import Chart from "chart.js";
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
   styleUrls: ["./state-filter-data.component.scss"],
 })
+
 export class StateFilterDataComponent extends BaseComponent implements OnInit {
+
   stateId: any;
   revenueId: any;
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -28,7 +31,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   headOfAccount = "Revenue";
   chartId = `stateSCharts-${Math.random()}`;
   financialYear = "2016-17";
-  stateName;
+  stateName: string;
+  statesList: any;
   compareDialogType = 3;
   serviceTab;
   isPerCapita = false;
@@ -237,9 +241,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   ];
 
   checkBoxArray = [
-    { value: 1, title: "National Avg", isDisabled: false },
-    { value: 2, title: "ULB Type avg", isDisabled: false },
-    { value: 3, title: "Population Category avg", isDisabled: false },
+    { value: 'national', title: "National Avg", isDisabled: false },
+    { value: 'ulbType', title: "ULB Type Avg", isDisabled: false },
+    { value: 'popCat', title: "Population Category Avg", isDisabled: false },
   ];
 
   stateUlbsPopulation: any = {
@@ -247,65 +251,23 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     "tableDataSource": []
   };
 
-  barChartOptions = {
-    maintainAspectRatio: false,
-    responsive: true,
-    scales: {
-      xAxes: [{
-        maxBarThickness: 60,
-          gridLines: {
-            color: "rgba(0, 0, 0, 0)",
-          },
-          scaleLabel: {
-            display: true,
-            labelString:"City Ranking",
-            fontStyle: 'bold'
-          },
-      }],
-      yAxes: [{
-        scaleLabel: {
-          display: true,
-          labelString:"Amount (Cr.)",
-          fontStyle: 'bold'
-        },
-        gridLines: {
-          color: "rgba(0, 0, 0, 0)",
-        },
-        ticks: {
-      /* Formatting the value of the column as a number with the correct format for India. */
-        callback: function(value, index, values) {
-          return new Intl.NumberFormat("en-IN").format(value);
-        }
-      }
-      }]
-    },
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      callbacks: {
-        label: function (tooltipItem, data) {
-          console.log('function', tooltipItem, data);
-          var dataset = data.datasets[tooltipItem.datasetIndex];
-          console.log('dataset', dataset);
-          var currentValue = Number(dataset.data[tooltipItem.index]);
-          console.log('currentValue', currentValue);
-          return new Intl.NumberFormat("en-IN").format(currentValue);
-        },
-      },
-    },
-  };
+  barChartOptions: any;
   barChartNotFound: boolean = false;
-  chartDropdownList = [
-    {'name': 'Own Revenues', value: ["110", "130", "140", "150", "180"]},
-    {'name': 'Assigned Revenue', value: ["120"]},
-    {'name': 'Grants', value: ["160"]},
-    {'name': 'Interest Income', value: ["171"]},
-    {'name': 'Other Receipts', value: ["170", "100"]}
-  ];
+  // chartDropdownList = [
+  //   {'name': 'Own Revenues', value: ["110", "130", "140", "150", "180"]},
+  //   {'name': 'Assigned Revenue', value: ["120"]},
+  //   {'name': 'Grants', value: ["160"]},
+  //   {'name': 'Interest Income', value: ["171"]},
+  //   {'name': 'Other Receipts', value: ["170", "100"]}
+  // ];
+  chartDropdownList: any;
   chartDropdownValue: any;
   chartTitle: string= 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.';
   selectedServiceLevelBenchmark: any; 
+  nestedChartFilterOption: any = {
+    showFinancialYear: false,
+    showResetButton: false
+  };
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -344,23 +306,27 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     console.log("checked Value", event);
     if (event && event.target && event.target.value) {
       this.selectedRadioBtnValue = event.target.value;
-      for (const item of this.checkBoxArray) {
-        if (item.value != event.target.value) {
-          item["isDisabled"] = true;
-        }
-      }
+      // for (const item of this.checkBoxArray) {
+      //   if (item.value != event.target.value) {
+      //     item["isDisabled"] = true;
+      //   }
+      // }
+      this.getScatterData();
     }
-    // this.getScatterData();
   }
 
   reset() {
     this.checkBoxArray = [
-      { value: 1, title: "National Avg", isDisabled: false },
-      { value: 2, title: "ULB Type Avg", isDisabled: false },
-      { value: 3, title: "Population Category Avg", isDisabled: false },
+      { value: '', title: "Select an Option", isDisabled: true },
+      { value: 'national', title: "National Avg", isDisabled: false },
+      { value: 'ulbType', title: "ULB Type Avg", isDisabled: false },
+      { value: 'popCat', title: "Population Category Avg", isDisabled: false },
     ];
     this.nationalFilter.patchValue("")
     this.ulbId=""
+    this.selectedRadioBtnValue = '';
+    this.getScatterData();
+    this.getStateRevenue();
   }
 
   yearList;
@@ -371,6 +337,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.ownRevenueService.getYearList(body).subscribe((res) => {
       console.log("yearsResponse", res);
       this.yearList = res["data"];
+      // this.financialYear = this.yearList[0];
       console.log("this.yearList", this.yearList);
     });
   }
@@ -468,7 +435,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: this.compType ? this.compType : "",
+      compareType: '',
+      compareCategory: this.selectedRadioBtnValue, 
       ulb: this.ulbId
     };
     console.log(payload);
@@ -541,6 +509,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         else if (this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let data = res["data"];
+          this.chartDropdownList = data;
+          if (this.chartDropdownList?.length > 0) {
+            this.getStateRevenue();
+          }
+          console.log('chartDropdownList', this.chartDropdownList)
           this.initializeDonughtData();
           if (payload.compareType == "") {
             if (data.length) {
@@ -681,6 +654,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
   notfound = true;
   ngOnInit(): void {
+    this.statesList = localStorage.getItem('stateIdsMap') ? JSON.parse(localStorage.getItem('stateIdsMap')) : null;
+    if (this.statesList) {
+      this.stateName = this.statesList[this.stateId]
+    }
     console.log("this.innertabData", this.data);
     this.getyears();
   
@@ -751,25 +728,68 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     );
   }
 
+  activeButtonList: any = [
+    // Revenue Tab -> Sub Tabs
+    {name: "Total Revenue", code: "TotalRevenue", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
+    {name: "Revenue Per Capita", code: "RevenuePerCapita", yAxisLabel: 'Amount (in INR)', countAccessKey: "revenuePerCapita", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
+    {name: "Revenue Mix", code: "RevenueMix", yAxisLabel: 'Amount (in INR)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: true},
+    
+    // Expenditure Tab -> Sub Tabs
+    
+    {name: "Total Surplus/Deficit", code: "DeficitOrSurplus", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "deficitOrSurplus", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
+    {name: "Expenditure Mix", code: "ExpenditureMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: true},
+    {name: "Revenue Expenditure Mix", code: "RevenueExpenditureMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
+    {name: "Revenue Expenditure", code: "RevenueTotalExpenditure", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
+
+    // Own Revenue Tab -> Sub Tabs
+
+    {name: "Total Own Revenue", code: "TotalOwnRevenue", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
+    {name: "Own Revenue per Capita", code: "OwnRevenuePerCapita", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
+    {name: "Own Revenue Mix", code: "OwnRevenueMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: true},
+
+    // Capital Expenditure Tab -> Sub Tabs
+
+    {name: "Capital Expenditure", code: "CapitalTotalExpenditure", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
+    {name: "Capital Expenditure Per Capita", code: "CapitalExpenditurePerCapita", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "revenueExpendPerCapita", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
+  ];
+  
+  getTabType() {
+    let findTabType = this.activeButtonList.find(tabName => tabName.name == this.ActiveButton);
+    if (findTabType) {
+      return findTabType;
+    } else {
+      console.log('error');
+    }
+  };
+
   getStateRevenue() {
+    const tabType = this.getTabType();
     const paramContent: any = {
-      "tabType": this.ActiveButton?.split(' ').join(''),
+      // "tabType": this.ActiveButton?.split(' ').join(''),
+      "tabType": tabType ? tabType?.code : '',
       "financialYear": this.financialYear,
       "stateId": this.stateId,
       "sortBy": this.BarGraphValue ? 'top' : 'bottom'
     };
     this.chartDropdownValue = '';
-    if (paramContent?.tabType == 'RevenueMix') {
-      paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].value
+    if (tabType?.isCodeRequired) {
+      paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
     }
     console.log('paramContent', paramContent)
     this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
     .subscribe(
       (response) => {
         if (response && response["success"]) {
-          console.log("getStateRevenue", response, this.barData);
-          this.filterCityRankingChartData(response['data'], paramContent?.tabType);
-          this.barChartNotFound = false;
+          console.log("getStateRevenue", response, this.barData,tabType?.countAccessKey);
+          if (response['data'] && response['data'].length) {
+            for (const data of response['data']) {
+              data['count'] = this._commonServices.changeCountFormat(data[tabType?.countAccessKey]);
+            }
+            this.filterCityRankingChartData(response['data'], paramContent?.tabType, tabType?.yAxisLabel);
+            this.barChartNotFound = false;
+          } else {
+            this.barChartNotFound = false;
+          }
         } else {
           this.barChartNotFound = true;
         }
@@ -781,7 +801,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     );
   }
 
-  filterCityRankingChartData(responseData: any, tabType: string) {
+  filterCityRankingChartData(responseData: any, tabType: string, yAxisLabel: string) {
     console.log('filterCityRankingChartData', responseData, tabType);
     let barData = {
       type: "bar",
@@ -791,7 +811,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             label: "City Ranking",
             displayLabel: false,
-            data: this.getChartData(responseData, tabType),
+            data: this.getChartData(responseData, tabType, yAxisLabel),
             backgroundColor: [
               "#1E44AD",
               "#224CC0",
@@ -815,17 +835,31 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     console.log('this.barData', this.barData);
   }
 
-  getChartData(responseData: any, tabType: string) {
-    switch(tabType) {
-      case 'TotalRevenue':
-      case 'RevenueMix':
-        this.barChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = 'Amount (in Cr.)';
-        return responseData.map((item: { sum: any; }) => item.sum);
-      case 'RevenuePerCapita':
-        this.barChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = 'Amount (in Lakhs)';
-        return responseData.map((item: { revenuePerCapita: any; }) => item.revenuePerCapita);
-      default:
-        break;
-    }
+  getChartData(responseData: any, tabType: string, yAxisLabel: string) {
+    this.setChartAnimation(tabType, yAxisLabel);
+    let mappedCountList = responseData.map((item: { count: any; }) => item.count)
+    return mappedCountList;
+    // switch(tabType) {
+    //   case 'TotalRevenue':
+    //   case 'RevenueMix':
+    //     return responseData.map((item: { sum: any; }) => item.sum);
+    //   case 'RevenuePerCapita':
+    //     return responseData.map((item: { revenuePerCapita: any; }) => item.revenuePerCapita);
+    //   default:
+    //     break;
+    // }
   }
+
+  setChartAnimation(tabType: string, yAxisLabel: string) {
+    let animationConfig: any;
+    let animationConfigAccessKey: any = this.getTabType().chartAnimation;
+    animationConfig = this.stateFilterDataService[animationConfigAccessKey];
+    Object.assign(animationConfig);
+    this.barChartOptions = animationConfig;
+    // let yAxesLabelName = tabType == 'TotalRevenue' ? 'Amount (in Cr.)' : 'Amount (in INR)';
+    this.barChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = yAxisLabel;
+
+    console.log('barChartOptions', this.barChartOptions)
+  }
+
 }
