@@ -1,62 +1,93 @@
 <div class="container-fluid" style="background-color: #f1f8ff">
-    <!--till indicators and map with filter  -->
-    <div class="row pad">
-        <!-- got to state /national dashboard -->
-        <div class="col-sm-12" [ngClass]="{'col-md-7': data.showMap, 'col-12':!data.showMap}">
-            <div class="row" style="align-items: baseline;">
-                <a *ngIf="data.linkName" class="link mb-6" style="cursor: pointer;" href="{{ data.link }}">Go To {{ data.linkName }}</a
+  <!--till indicators and map with filter  -->
+  <div class="row pad">
+    <!-- got to state /national dashboard -->
+    <div
+      class="col-sm-12"
+      [ngClass]="{ 'col-md-7': data.showMap, 'col-12': !data.showMap }"
+    >
+      <div class="row" style="align-items: baseline">
+        <a
+          *ngIf="data.linkName"
+          class="link mb-6"
+          style="cursor: pointer"
+          href="{{ data.link }}"
+          >Go To {{ data.linkName }}</a
         >
         <!-- state name and description line -->
         <div class="col-9 col-md-8 head">
           <span class="header mt-2 mb-1">{{ data.name }}</span>
           <br />
-
         </div>
-        <div class="col-3 col-md-4" *ngIf="data?.name == 'National Financial Dashboard'">
-           <select class="form-select w-75" name="" id="" (change)="stateChanges($event.target.value)">
-             <option value="">India</option>
-             <option [value]="item?._id" *ngFor="let item of stateList">{{item?.name}}</option>
-           </select>
+        <div
+          class="col-3 col-md-4"
+          *ngIf="data?.name == 'National Financial Dashboard'"
+        >
+          <select
+            class="form-select w-75"
+            name=""
+            id=""
+            (change)="stateChanges($event.target.value)"
+          >
+            <option value="">India</option>
+            <option [value]="item?._id" *ngFor="let item of stateList">
+              {{ item?.name }}
+            </option>
+          </select>
         </div>
         <span class="description">{{ data.desc }}</span>
       </div>
       <!-- static data indicators -->
       <div class="row mt-3">
-        <div class="col-4 col-sm-4 col-md-3 mt-4 lineStyle"  *ngFor="let item of data.dataIndicators">
-          <h6 class="b">{{ item.value }}</h6>
-          <span class="subtitle" >{{item.title}}</span><sup *ngIf="item?.super">*</sup>
+        <div
+          class="col-4 col-sm-4 col-md-3 mt-4 lineStyle"
+          *ngFor="let item of data.dataIndicators"
+        >
+          <h6 class="b" *ngIf="item.value">
+            {{ item.value | inrCurrency: { currencyTypeInUser: null } }}
+          </h6>
+          <span class="subtitle">{{ item.title }}</span
+          ><sup *ngIf="item?.super">*</sup>
         </div>
-      <div class="disclaim">{{data?.disclaimer}}</div>
+        <div class="disclaim">{{ data?.disclaimer }}</div>
       </div>
     </div>
     <!-- map with filter -->
     <div *ngIf="data.showMap" class="col-md-5">
-      <app-map-with-filter (changeInStateOrCity)="changeInMapFilter($event)" [mapConfig]="mapConfig"></app-map-with-filter>
+      <app-map-with-filter
+        (changeInStateOrCity)="changeInMapFilter($event)"
+        [mapConfig]="mapConfig"
+      ></app-map-with-filter>
     </div>
   </div>
   <!-- data availability -->
   <div *ngIf="showDataAvailable" class="container data-availability rounded">
-    <div class="row" style="border: 1px solid #CFD8E2; border-radius: 12px; margin-bottom: 2%;">
+    <div
+      class="row"
+      style="border: 1px solid #cfd8e2; border-radius: 12px; margin-bottom: 2%"
+    >
       <div class="col-md-7">
         <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
         <p class="da-para">
-          {{ dataAvailable }}% of the state's ULBs have uploaded their financial statements for the year
-          {{ yearVal }}.
+          {{ dataAvailable }}% of the state's ULBs have uploaded their financial
+          statements for the year {{ yearVal }}.
           <span *ngIf="notFoundNames.length > 0">
             Data is not available for several ULBs including
-            <span *ngFor="let name of notFoundNames; let i = index "> {{ name }}<span *ngIf="i != notFoundNames.length -1 ">,</span></span>.
+            <span *ngFor="let name of notFoundNames; let i = index">
+              {{ name
+              }}<span *ngIf="i != notFoundNames.length - 1">,</span></span
+            >.
           </span>
           <span>
             For more details, download the complete set of ULBs for which the
             data is available for the year {{ yearVal }}.
           </span>
           <span class="three-dots" *ngIf="showButton">...</span>
-
         </p>
         <button
           (click)="downloadCSV('data-availability')"
           class="btn btn-outline-secondary btn-sm btn-os btn-download"
-          style="margin: 2%;"
+          style="margin: 2%"
         >
           <img
             src="../../../assets/resources-das/file_download_orange_24dp.svg"
@@ -68,17 +99,19 @@
 
       <div class="col-md-5 d-flex justify-content-center">
         <div class="doughnut-container">
-          <div *ngIf="dataAvailLoading" style="text-align: center;" >Loading...</div>
+          <div *ngIf="dataAvailLoading" style="text-align: center">
+            Loading...
+          </div>
 
-          <canvas  id="myChart1" width="100%"> </canvas>
+          <canvas id="myChart1" width="100%"> </canvas>
 
           <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
             {{ financialYear?.data?.percent }}%
           </p>
-          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">Data Availability
+          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">
+            Data Availability
           </p>
-          <p class="yearText text-center">({{yearVal}})</p>
-
+          <p class="yearText text-center">({{ yearVal }})</p>
         </div>
       </div>
     </div>
@@ -96,7 +129,12 @@
   <!-- footerline -->
   <footer class="page-footer fot font-small blue">
     <div class="disclaim_other">
-      Last updated on {{data.date | date:'mediumDate' }}; Source:<span *ngIf="data.year == '2019-20'"> Audited</span><span *ngIf="data.year != '2019-20'"> Provisional</span> financial statements for the year {{data.year}}
+      Last updated on {{ data.date | date: "mediumDate" }}; Source:<span
+        *ngIf="data.year == '2019-20'"
+      >
+        Audited</span
+      ><span *ngIf="data.year != '2019-20'"> Provisional</span> financial
+      statements for the year {{ data.year }}
     </div>
   </footer>
 </div>

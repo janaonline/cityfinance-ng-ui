@@ -13,6 +13,9 @@ export class NewDashboardService {
     let headers = new HttpHeaders();
     headers = headers.append("type", type);
     let request = "";
+    // if (national) {
+    //   request = `${environment.api.url}all-dashboard/people-information?year=${year}?national=${national}`;
+    // }
     if (ifPeople)
       request = `${environment.api.url}all-dashboard/people-information?year=${year}`;
     else
@@ -20,6 +23,8 @@ export class NewDashboardService {
 
     if (type == "ulb") {
       request += `&ulb=${ulbOrStateid}`;
+    } else if (type == "national") {
+      request += `&type=${type}`;
     } else request += `&state=${ulbOrStateid}`;
     return this.http.get(request, { headers });
   }

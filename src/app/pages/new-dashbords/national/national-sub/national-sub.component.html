@@ -73,7 +73,7 @@
               <div class="col-9 col-sm-9 pe-0">
                 <input
                   type="text"
-                  placeholder="Search ULB names"
+                  placeholder="Search for States"
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
                   class="fl-input form-control"
@@ -109,6 +109,10 @@
     </div>
     <div class="row m-0" *ngIf="totalRevenue">
       <div class="col-12 col-sm-12 text-end pe-4">
+        <select (change)="selectGraphMode($event)">
+          <option value="revenue">Revenue</option>
+          <option value="revenuePerCapita">Revenue Per Capita</option>
+        </select>
         <button
           type="button"
           class="btnTableView"
