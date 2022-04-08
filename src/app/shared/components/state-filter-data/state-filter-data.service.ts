@@ -234,11 +234,14 @@ export class StateFilterDataService {
       },
     }
   };
+  
+  stateLevelDashboardAPIs: any []
   constructor(private http: HttpClient,
     private commonService: CommonService) {}
 
-  getScatterdData(payload) {
-    return this.http.post(environment.api.url + "/state-revenue", payload);
+  getScatterdData(payload: any, apiEndPoint: string) {
+    // return this.http.post(environment.api.url + "/state-revenue", payload);
+    return this.http.post(environment.api.url + `${apiEndPoint}`, payload);
   }
 
   getRevID() {

@@ -38,7 +38,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   serviceTab;
   isPerCapita = false;
 
-  serviceTabList: [];
+  serviceTabList:any = [];
 
   @Input() data;
 
@@ -385,6 +385,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("service dropdown data", res);
         this.serviceTabList = res?.data?.names;
+        this.filterName = this.serviceTabList[0];
+        this.getScatterData();
+        // this.getStateRevenue();
       });
   }
 
@@ -466,31 +469,50 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
+
     let payload = {
-      state: this.stateId,
+      [this.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
       financialYear: this.financialYear,
-      headOfAccount: this.headOfAccount,
+      headOfAccount: this.stateServiceLabel ? undefined : this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: '',
+      compareType: this.stateServiceLabel ? undefined : '',
       compareCategory: this.selectedRadioBtnValue, 
-      ulb: this.ulbId
+      ulb: this.ulbId,
     };
+    let apiEndPoint = 'state-revenue';
+    if (this.stateServiceLabel) {
+      payload = {...payload, "sortBy": this.BarGraphValue ? 'top10' : 'bottom10'}
+      apiEndPoint = 'state-slb';
+    }
     console.log(payload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
-    this.stateFilterDataService.getScatterdData(payload).subscribe(
+    this.stateFilterDataService.getScatterdData(payload, apiEndPoint).subscribe(
       (res) => {
         this.notfound = false;
         console.log("response data", res);
         //scatter plots center
         if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
-          let mCorporation = res["mCorporation"];
-          let tp_data = res["townPanchayat"];
-          let m_data = res["municipality"];
-          // let natData = res["natAvg"][0]["average"];
-          let stateData = res["stateAvg"][0]["average"];
+          let mCorporation: any;
+          let tp_data: any;
+          let m_data: any;
+          let stateData: any;
+          if (this.stateServiceLabel) {
+            m_data = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["m_data"];
+            mCorporation = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["mc_data"];
+            tp_data = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["tp_data"];
+            // stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"][0]["average"];
+            stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["tenData"][0]["average"];
+            // let natData = res["natAvg"][0]["average"];
+          } else {
+            mCorporation = res["mCorporation"];
+            tp_data = res["townPanchayat"];
+            m_data = res["municipality"];
+            // let natData = res["natAvg"][0]["average"];
+            stateData = res["stateAvg"][0]["average"];
+          }
 
           this.scatterData.data.datasets.forEach((el) => {
             let obj = { x: 0, y: 0 };
@@ -599,6 +621,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     console.log('getServiceLevelBenchmark', event.target.value);
     if (event && event.target && event.target.value) {
       this.selectedServiceLevelBenchmark = event.target.value;
+      this.filterName = this.selectedServiceLevelBenchmark;
+      this.getScatterData();
     }
   }
 
@@ -642,8 +666,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
 
-    this.getScatterData();
-    this.getStateRevenue();
+    if (this.stateServiceLabel) {
+      this.getDropDownValue();
+    } else {
+      this.getScatterData();
+      this.getStateRevenue();
+    }
+    // this.getScatterData();
+    // this.getStateRevenue();
   }
 
   getRevenueId() {
@@ -654,6 +684,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("state filter data changes", changes, this.data);
+    if (changes && changes.stateServiceLabel && changes.stateServiceLabel.currentValue) {
+      this.stateServiceLabel = changes.stateServiceLabel.currentValue;
+    }
+
     if (changes.data) {
       console.log("dounghnuChartLabels", this.dounghnuChartLabels);
       this.tabName = this.data.name.toLocaleLowerCase();
@@ -661,7 +695,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         ...this.data["mainContent"][0],
         filterName: this.data.name,
       };
-      if (!changes.data.firstChange) this.changeActiveBtn(0);
+      // if (!changes.data.firstChange) this.changeActiveBtn(0);
       this.setHeadOfAccount();
     }
 
@@ -676,7 +710,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         this.serviceTab = "storm water";
 
       console.log("serviceTab", this.serviceTab?.toLocaleLowerCase());
-      this.getDropDownValue();
+      // this.getDropDownValue();
+      this.changeActiveBtn(0);
+
     }
   }
 
@@ -723,7 +759,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     });
 
     this.getRevenueId();
-    this.changeActiveBtn(0);
+    // this.changeActiveBtn(0);
 
     this.getStateUlbsPopulation();
     // this.getStateRevenue();
