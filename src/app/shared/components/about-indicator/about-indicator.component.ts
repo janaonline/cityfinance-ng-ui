@@ -209,6 +209,20 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         );
         element.text = "";
       }
+      if (element.text.includes("Deep-dive")) {
+        let text = this.copyData[parentIndex].desc[i].text;
+        text = text.split("STATE_NAME");
+        let stateName = this.ulbsData[this.cityId].name;
+        text = text.join(stateName);
+        this.addAnchorTag(
+          item,
+          i,
+          `/own-revenue-dashboard?cityName=${this.ulbsData[this.cityId].name}`,
+          text,
+          parentIndex
+        );
+        element.text = "";
+      }
     });
   }
 
@@ -218,7 +232,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     aTag.innerHTML = text;
     aTag.target = "blank";
     let pTag = document.getElementById(parentIndex + item.name + index);
-    if ((pTag.hasOwnProperty("children"), pTag.children.length == 0))
+    if (pTag && (pTag.hasOwnProperty("children"), pTag.children.length == 0))
       pTag.appendChild(aTag);
   }
 

@@ -91,14 +91,16 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .includes("percapita");
     this.selectedTab = this.data.btnLabels[i];
     let newName = this.data.btnLabels[i].toLocaleLowerCase();
-    if (newName.includes("mix"))
+    if (newName == "revenue expenditure") {
+      this.filterName = newName
+    } else if (newName.includes("mix"))
       this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
     else if (newName.includes("revenue") && !newName.includes("own"))
       this.filterName = "revenue";
     else if (newName.includes("own") && newName.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
-
+    if (this.selectedTab.toLowerCase() == "own revenue mix") this.resetCAGR();
     this.getChartData({});
   }
 
@@ -163,9 +165,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.apiCall.unsubscribe();
     }
     this.compareType = body["compareType"];
-    this.chartTitle = `${
-      this.ulbMapping[this.currentUlb].name
-    } total revenues vs ${body["compareType"]} ${
+    this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
+      this.selectedTab
+    } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } Average`;
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
@@ -181,32 +183,29 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             this.createDataForUlbs(res["data"]["ulbData"], [
               ...new Set(body.ulb),
             ]);
-          if (this.selectedTab.toLowerCase() == "total revenue")
+          if (showCagrIn.includes(this.selectedTab.toLowerCase()))
             this.calculateCagr(res["data"], this.hideElements);
-          if (this.selectedTab.toLowerCase() == "revenue per capita")
+          if (showPerCapita.includes(this.selectedTab.toLowerCase()))
             this.calculatePerCapita(res["data"]);
+          if (this.selectedTab.toLowerCase() == "total surplus/deficit")
+            this.calculateCagrOfDeficit(res["data"]);
         }
         this.loading = false;
       },
       (error) => {
-        // let preArray = [];
-        // let newData = JSON.parse(JSON.stringify(barChartStatic));
-        // newData.data.labels = this.mySelectedYears;
-        // newData.data.datasets[0].label = this.lastSelectedUlbs.map((value) => {
-        //   this.ulbList[this.stateUlbMapping[value]].ulbs.find(
-        //     (value) => value._id == value
-        //   )?.name;
-        // });
-        // newData.data.datasets[0].data = preArray.fill(
-        //   0,
-        //   0,
-        //   this.mySelectedYears.length
-        // );
-        // this.barChart = newData;
         this.notFound = true;
         this.loading = false;
       }
     );
+  }
+  calculateCagrOfDeficit(res) {
+    console.log(res);
+    let total = res["ulbData"].reduce((sum, val) => sum + val.amount, 0);
+    this.CAGR = `Rs. ${convertToCr(
+      total,
+      this.isPerCapita
+    )} Cr. Total Surplus/Deficit of the FY'${this.mySelectedYears[0]}`;
+    this.positiveCAGR = total > 0;
   }
 
   createDataForUlbs(res, ulbs) {
@@ -327,6 +326,8 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createBarChart(res) {
+    if (this.selectedTab.toLowerCase() == "revenue expenditure")
+      return this.createLineChartForRevenueExpenditure(res["data"]);
     if (
       this.filterName.includes("capital") &&
       this.filterName.includes("expenditure")
@@ -391,6 +392,103 @@ ULB ${this.selectedTab} for FY' ${
     this.chartOptions = barChartStaticOptions;
   }
 
+  createLineChartForRevenueExpenditure(data) {
+    let chartLabels = [];
+    let chartData = {
+      labels: chartLabels,
+      datasets: [
+        data["ulbData"].reduce(
+          (dataSet, value, index) => {
+            dataSet.borderColor = borderColor[0];
+            dataSet.backgroundColor = backgroundColor[0];
+            dataSet.data.push(((value.revenue/(value.revenue+value.expense))*100).toPrecision(2));
+            chartLabels.push(value._id.financialYear);
+            return dataSet;
+          },
+          {
+            label: this.ulbMapping[this.currentUlb].name,
+            data: [],
+            borderColor: "",
+            backgroundColor: "",
+            fill: false,
+          }
+        ),
+        data["compData"].reduce(
+          (dataSet, value, index) => {
+            dataSet.borderColor = borderColor[1];
+            dataSet.backgroundColor = backgroundColor[1];
+            dataSet.data.push(((value.revenue/(value.revenue+value.expense))*100).toPrecision(2));
+            return dataSet;
+          },
+          {
+            label: this.compareType,
+            data: [],
+            borderColor: "",
+            backgroundColor: "",
+            fill: false,
+          }
+        ),
+      ],
+    };
+    const config = {
+      type: "line",
+      data: chartData,
+    };
+    this.barChart = config;
+    this.chartOptions = {
+      scales: {
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "Own revenue to expenditure revenue ration %",
+            },
+            gridLines: {
+              offsetGridLines: true,
+              display: false,
+            },
+            ticks: {
+              // beginAtZero: true,
+              steps: 10,
+              stepValue: 5,
+              max: 100
+            },
+          },
+        ],
+      },
+      legend: {
+        position: "bottom",
+        labels: {
+          padding: 35,
+          boxWidth: 24,
+          boxHeight: 18,
+        },
+      },
+      responsive: true,
+    };
+
+    this.calculateRevenueExpenditure(data);
+  }
+
+  calculateRevenueExpenditure(data) {
+    let C, F;
+    for (const key in data) {
+      const element = data[key];
+      let A = element.reduce((sum, val) => sum + val?.revenue, 0);
+      let B = element.reduce((sum, val) => sum + val?.expense, 0);
+      if (key == "ulbData") C = (A / B) * 100;
+      else F = (A / B) * 100;
+    }
+    this.CAGR = `Own Revenue to Revenue expenditure is ${C - F}% ${
+      C > F ? "higher" : "lower"
+    } than state average between FY'${this.mySelectedYears[0]} and FY'${
+      this.mySelectedYears[this.mySelectedYears.length - 1]
+    }
+
+    (ULB Own Revenue to Revenue expenditure is ${C}% ;
+    State Own Revenue to Revenue expenditure is ${F}% )`;
+  }
+
   createExpenditureData(data) {
     let newData = [];
     for (let index = 0; index < data.length; index++) {
@@ -429,6 +527,12 @@ ULB ${this.selectedTab} for FY' ${
     }
     if (this.filterName == "own revenue mix")
       data["ulbData"] = this.createOwnRevenueData(data);
+    if (this.filterName == "expenditure mix") {
+      for (const key in data) {
+        data[key] = this.createExpenditureMixData(data[key]);
+      }
+      this.resetCAGR();
+    }
     this.multipleDoughnutCharts = [];
     this.multiChartLabel = [];
     for (const key in data) {
@@ -455,7 +559,6 @@ ULB ${this.selectedTab} for FY' ${
             color: pieBackGroundColor[index],
           });
         doughnutChartData.datasets[0].label = value._id.lineItem;
-        // return value._id.lineItem;
       });
       doughnutChartData.labels = this.multiChartLabel.map(
         (value) => value.text
@@ -485,7 +588,7 @@ ULB ${this.selectedTab} for FY' ${
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
+                var percentage = ((currentValue / total) * 100).toFixed(2);
                 return percentage + "%" + data.labels[tooltipItem.index];
               },
             },
@@ -500,6 +603,18 @@ ULB ${this.selectedTab} for FY' ${
     }
     console.log(this.multipleDoughnutCharts, "this.multipleDoughnutCharts");
     this.multiPie = true;
+  }
+
+  createExpenditureMixData(data) {
+    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 }];
+    data.forEach((element) => {
+      if (includeInExpenditure.includes(element.code)) {
+        tempArray.push(element);
+      } else {
+        tempArray[0].amount += element.amount;
+      }
+    });
+    return tempArray;
   }
 
   createOwnRevenueData(data) {
@@ -571,6 +686,10 @@ ULB ${this.selectedTab} for FY' ${
   btnClickInAboutIndicator(val) {
     console.log(val, "btn val in filterData");
     this.changeActiveBtn(this.data.btnLabels.indexOf(val));
+  }
+
+  resetCAGR() {
+    this.CAGR = "";
   }
 }
 
@@ -886,3 +1005,10 @@ function getPopulationType(population) {
     return "4 Million+";
   }
 }
+let showCagrIn = ["total revenue", "total own revenue", "capital expenditure"];
+let showPerCapita = [
+  "revenue per capita",
+  "own revenue per capita",
+  "capital expenditure per capita",
+];
+const includeInExpenditure = ["210", "220", "230", "240", "200"];
