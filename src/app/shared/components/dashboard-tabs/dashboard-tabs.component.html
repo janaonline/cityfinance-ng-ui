@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="container-cnt" style="justify-content: center" *ngIf="data?.length > 0">
+    <div class="container-cnt bg-white" style="justify-content: center" *ngIf="data?.length > 0">
         <!-- <div class="row">
       <div
         *ngIf="sticky == true"
@@ -60,15 +60,16 @@
         <div class="row">
             <div class="col-sm-12">
                 <div [ngClass]="{ stickyClass: sticky == true }">
+                <!-- <div id="nav" class="col-sm-12"> -->
                     <div [ngSwitch]="DashBoardType">
-                        <div *ngSwitchCase="'state'">
+                        <div class="d-flex justify-content-center" *ngSwitchCase="'state'">
                             <div class="px-4 dataAvailabiltyTab">
                                 {{ stateName }} Data Availability - {{ percentValue?.toFixed(2) }}% (2020-2021)
                             </div>
                         </div>
                     </div>
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li *ngFor="let tab of data; let i = index" class="nav-item" role="presentation">
+                        <li *ngFor="let tab of data; let i = index" class="nav-item bg-white" role="presentation">
                             <button [ngClass]="{
                   roundEdge: i == 0,
                   roundEdge2: i == data.length - 1,

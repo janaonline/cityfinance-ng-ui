@@ -17,7 +17,8 @@ export class RevenueMixComponent implements OnInit {
   @Input() chartId;
   @Input() chartTitle;
   @Input() chartOptions;
-
+  @Input() multiChart: boolean = false;
+  @Input() returnCompType: boolean = false;
   @Output() dounghnuChartLabels = new EventEmitter<any>();
 
   @Output()
@@ -515,8 +516,9 @@ export class RevenueMixComponent implements OnInit {
   ];
   constructor() {}
 
-  ulbTab = false;
-  populationTab = false;
+  ulbTab:boolean = false;
+  populationTab:boolean = false;
+
   finalMultipleDoughnut = [];
   getChartLabel(event){
     console.log(event)
@@ -574,6 +576,18 @@ console.log('labels',data )
   ngOnChanges(changes: SimpleChanges): void {
     console.log("revenue chages", changes);
 
+    if (changes && changes.returnCompType && changes.returnCompType.currentValue) {
+      if (changes.returnCompType.currentValue == 'ulbType') {
+        this.ulbTab = true;
+        this.populationTab = false;
+      } else if (changes.returnCompType.currentValue == 'popType') {
+        this.ulbTab = false;
+        this.populationTab = true;
+      } else {
+        this.ulbTab = false;
+        this.populationTab = false;
+      }
+    }
     if(!changes.chartData.firstChange){
 console.log(this.chartData)
 if(Array.isArray(this.chartData)){
