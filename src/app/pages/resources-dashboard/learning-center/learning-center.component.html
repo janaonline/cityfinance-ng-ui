@@ -1,15 +1,15 @@
 <div class="container container-cnt">
   <div class="row" style="margin: 0 auto">
     <div class="col-sm-12 mb-3" (click)="getSubTabs(tabData)" *ngIf="dataReceived">
-       <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for '{{searchedValue}}' in Learning Center</p>
+       <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Learning Center</p>
       <app-resources-tabs [data]="tabData"> </app-resources-tabs>
 
     </div>
-    <div class="col-sm-12 mb-3">
-       <p *ngIf="noData" class="noData">
-        Sorry we couldn’t find any matches for ‘Ratings’. Please try searching with another term.
+    <div class="col-sm-12 mb-3" *ngIf="noData">
+      <img src="assets/images/sad.svg"/>
+       <p  class="noData">
+        Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
        </p>
-
     </div>
   </div>
 </div>

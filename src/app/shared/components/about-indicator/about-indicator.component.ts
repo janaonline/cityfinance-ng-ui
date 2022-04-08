@@ -211,6 +211,9 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       }
       if (element.text.includes("Deep-dive")) {
         let text = this.copyData[parentIndex].desc[i].text;
+        text = text.split("STATE_NAME");
+        let stateName = this.ulbsData[this.cityId].name;
+        text = text.join(stateName);
         this.addAnchorTag(
           item,
           i,

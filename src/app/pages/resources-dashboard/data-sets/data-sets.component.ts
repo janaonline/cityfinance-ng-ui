@@ -28,6 +28,9 @@ export class DataSetsComponent implements OnInit {
         this.category = "balance";
       }
     });
+    this._resourcesDashboardService.castSearchedData.subscribe(data =>{
+      this.learningToggle =data
+    }) 
     this._resourcesDashboardService.castCount.subscribe(data =>{
       this.learningCount =data?.key?.dataset
       this.searchedValue = data?.name

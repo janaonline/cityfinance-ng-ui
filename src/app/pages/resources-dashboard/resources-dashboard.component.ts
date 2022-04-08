@@ -87,6 +87,7 @@ export class ResourcesDashboardComponent implements OnInit {
   totalCount:any
   searchedValue:any
   toggle:boolean=true
+  defaultPlaceholder:boolean=false
   searchFilter(searchFilter:any){
     //sending data to resource count to card
     this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
@@ -110,6 +111,7 @@ export class ResourcesDashboardComponent implements OnInit {
     this.searchValue = null
     this.search = true
     this.crossIcon = false
+    this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
   }
 }
 const learningCenter = {

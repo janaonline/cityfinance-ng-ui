@@ -19,6 +19,9 @@ export class ReportsPublicationComponent implements OnInit {
       this.cardData = res
       console.log(this.cardData)
     })
+    this.resourcesDashboard.castSearchedData.subscribe(data =>{
+      this.learningToggle =data
+    }) 
     this.resourcesDashboard.castCount.subscribe(data =>{
       this.learningCount =data?.key?.report
       this.searchedValue = data?.name

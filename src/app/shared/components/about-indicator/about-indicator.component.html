@@ -27,7 +27,7 @@
         <ng-container *ngIf="!loading">
           <ng-container *ngIf="item.name == 'Next Steps'">
             <p *ngFor="let item of btnList">
-              <span>Explore <strong (click)="stepBtnClick(item)">{{item}}</strong> stats for {{ulbsData[cityId].name}}</span>
+              <span>Explore <strong style="cursor: pointer;" (click)="stepBtnClick(item)">{{item}}</strong> stats for {{ulbsData[cityId].name}}</span>
             </p>
           </ng-container>
           <p id="{{parentIndex + item.name + childIndex }}" *ngFor="let innerItem of item.desc; let childIndex = index">{{

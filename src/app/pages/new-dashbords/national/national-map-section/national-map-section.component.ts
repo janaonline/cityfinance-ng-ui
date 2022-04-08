@@ -64,9 +64,6 @@ export class NationalMapSectionComponent
     this.fetchStateList();
   }
 
-  @Output()
-  AllDataAavailability = new EventEmitter();
-
   selected_state = "India";
   stateselected: IState;
   creditRating: { [stateName: string]: number; total?: number } = {};
@@ -154,6 +151,8 @@ export class NationalMapSectionComponent
     stateBlockHeight: "23.5rem", // will fit map in container
   };
 
+  currentStateId: any = "";
+
   national: any = { _id: "", name: "India" };
   ngOnInit(): void {
     this.getNationalTableData();
@@ -165,9 +164,21 @@ export class NationalMapSectionComponent
   selectFinancialYear(event) {
     this.nationalInput.financialYear = event.target.value;
     this.getNationalTableData();
+    this.nationalMapService.setCurrentSelectYear({
+      data: event.target.value,
+    });
     // console.log("selected Financial",event.target.value);
   }
 
+  viewDashboard() {
+    // let searchValue = this.stateList.find(
+    //   (e) => e?.name.toLowerCase() == this.selected_state.toLowerCase()
+    // );
+    // console.log("view dash", searchValue);
+    this.router.navigateByUrl(
+      `/dashboard/state?stateId=${this.currentStateId}`
+    );
+  }
   getNationalTableData() {
     this.showLoader = true;
     this.nationalMapService.getNationalData(this.nationalInput).subscribe(
@@ -175,7 +186,9 @@ export class NationalMapSectionComponent
         this.showLoader = false;
         this.tableData = res?.data;
         this.dataAvailabilityvalue = res?.dataAvailability;
-        this.AllDataAavailability = res?.dataAvailability;
+        this.nationalMapService.setDataAvailabilityValue({
+          data: res.dataAvailability,
+        });
       },
 
       (err) => {
@@ -674,8 +687,12 @@ export class NationalMapSectionComponent
   }
 
   onSelectingStateFromDropDown(state: any | null) {
+    this.nationalMapService.setCurrentSelectedId({
+      data: state?._id,
+    });
     // debugger;
     console.log("sttts", state);
+    this.currentStateId = state?._id;
     this.AvailabilityTitle = state?.name;
     this.nationalInput.stateId = state._id;
     this.getNationalTableData();

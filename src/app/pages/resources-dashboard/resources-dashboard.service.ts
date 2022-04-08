@@ -14,6 +14,8 @@ export class ResourcesDashboardService {
   showCard = new Subject<any>();
   resourceCount: BehaviorSubject<any> = new BehaviorSubject([]);
   castCount = this.resourceCount.asObservable()
+  hideSearchedData: BehaviorSubject<any> = new BehaviorSubject([]);
+  castSearchedData = this.hideSearchedData.asObservable()
   constructor(private https: HttpClient) {}
   getShowCardValue() {
     return this.showCard;
@@ -35,4 +37,7 @@ export class ResourcesDashboardService {
   updateResouceCount(resourceCount){
       this.resourceCount.next(resourceCount);
   }
+  updateSearchedData(hideSearchedData){
+    this.hideSearchedData.next(hideSearchedData);
+}
 }

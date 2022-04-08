@@ -88,4 +88,9 @@ table {
 }
 .noData{
     color:#1E44AD;
+    text-align: center;
+    justify-content: center;
+}
+img{
+    margin-left: 42%;
 }

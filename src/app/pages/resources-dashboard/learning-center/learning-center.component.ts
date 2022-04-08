@@ -14,6 +14,9 @@ export class LearningCenterComponent implements OnInit {
   noData:boolean=false
   dataReceived:boolean=true
   constructor(private router: Router,private resourcesDashboard: ResourcesDashboardService) {
+    this.resourcesDashboard.castSearchedData.subscribe(data =>{
+      this.learningToggle =data
+    }) 
       this.resourcesDashboard.castCount.subscribe(data =>{
         this.learningCount =data?.key?.learning
         this.searchedValue = data?.name
@@ -21,7 +24,8 @@ export class LearningCenterComponent implements OnInit {
          if(data?.key?.total == 0){
           this.noData = true
           this.dataReceived = false;
-        }           
+        }
+                  
       })
   }
 

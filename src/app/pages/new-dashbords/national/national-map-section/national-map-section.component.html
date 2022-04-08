@@ -194,6 +194,15 @@
       <div *ngIf="showLoader">
         <h1 class="text-center">Loading....</h1>
       </div>
+      <div class="col-12" *ngIf="currentStateId">
+        <button
+          *ngIf="!showLoader"
+          (click)="viewDashboard()"
+          class="searchButton"
+        >
+          View State Dashboard
+        </button>
+      </div>
     </div>
   </div>
 </div>
