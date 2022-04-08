@@ -7,6 +7,7 @@ import { CommonService } from "../../services/common.service";
 import { Observable } from "rxjs";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { OwnRevenueService } from "src/app/pages/own-revenue-dashboard/own-revenue.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import Chart from "chart.js";
 @Component({
   selector: "app-state-filter-data",
@@ -30,7 +31,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   tabName: any;
   headOfAccount = "Revenue";
   chartId = `stateSCharts-${Math.random()}`;
-  financialYear = "2016-17";
+  financialYear: string = "";
   stateName: string;
   statesList: any;
   compareDialogType = 3;
@@ -273,10 +274,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     public stateFilterDataService: StateFilterDataService,
     private _commonServices: CommonService,
     public _loaderService: GlobalLoaderService,
-
-    private ownRevenueService: OwnRevenueService
+    private ownRevenueService: OwnRevenueService,
+    private snackbar: MatSnackBar,
   ) {
     super();
+    this.getYears();
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -329,17 +331,52 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getStateRevenue();
   }
 
-  yearList;
+  yearList: any;
 
-  getyears() {
+  getYears() {
     // debugger;
-    let body = {};
-    this.ownRevenueService.getYearList(body).subscribe((res) => {
-      console.log("yearsResponse", res);
-      this.yearList = res["data"];
-      // this.financialYear = this.yearList[0];
-      console.log("this.yearList", this.yearList);
-    });
+    /**
+     * below api was previously used but now new api is used to get the data of state wise FYs
+     */
+    // let body = {};
+    // this.ownRevenueService.getYearList(body).subscribe((res) => {
+    //   console.log("yearsResponse", res);
+    //   this.yearList = res["data"];
+    //   // this.financialYear = this.yearList[0];
+    //   console.log("this.yearList", this.yearList);
+    // });
+    this.yearList = sessionStorage.getItem('financialYearList') ? JSON.parse(sessionStorage.getItem('financialYearList')) : [];
+    if (this.yearList?.length) {
+      console.log('this.yearList', this.yearList)
+      this.financialYear = this.yearList[0];
+      console.log('financial Year', this.financialYear);
+    } else {
+      this.showSnackbarMessage('No Financial year data found');
+      return false;
+    }
+    // const paramContent: any = {
+    //   "state": this.stateId
+    // };
+    // this._loaderService.showLoader();
+    // this.stateFilterDataService.getStateWiseFYs(paramContent).subscribe((res: any) => {
+    //   if (res && res.success) {
+    //     this.yearList = res["data"] && res["data"].length ? res["data"][0]['FYs'] : [];
+    //     if (this.yearList?.length) {
+    //       console.log('this.yearList', this.yearList)
+    //       this.financialYear = this.yearList[0];
+    //       console.log('financial Year', this.financialYear);
+    //     } else {
+    //       this.showSnackbarMessage('No Financial year data found');
+    //       return false;
+    //     }
+
+    //   } else {
+    //     this._loaderService.stopLoader();
+    //   }
+    // }, (err) => {
+    //   this._loaderService.stopLoader();
+    //   console.log(err.message);
+    // });
   }
 
   getDropDownValue() {
@@ -576,7 +613,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     if (e) this.getScatterData();
   }
   changeActiveBtn(i) {
-    console.log(this.data.btnLabels[i], "activeBTN");
+    console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
     this.ActiveButton = this.data.btnLabels[i];
     this.lastSelectedId = i;
 
@@ -604,6 +641,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     else if (newName?.includes("own") && newName?.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+
     this.getScatterData();
     this.getStateRevenue();
   }
@@ -615,7 +653,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("state filter data changes", changes);
+    console.log("state filter data changes", changes, this.data);
     if (changes.data) {
       console.log("dounghnuChartLabels", this.dounghnuChartLabels);
       this.tabName = this.data.name.toLocaleLowerCase();
@@ -653,13 +691,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       : "Tax";
   }
   notfound = true;
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.statesList = localStorage.getItem('stateIdsMap') ? JSON.parse(localStorage.getItem('stateIdsMap')) : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId]
     }
     console.log("this.innertabData", this.data);
-    this.getyears();
+    // await this.getYears();
   
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -862,4 +900,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     console.log('barChartOptions', this.barChartOptions)
   }
 
+  showSnackbarMessage(message: string) {
+    this.snackbar.open(message, null, {
+      duration: 5000,
+      verticalPosition: "bottom",
+    });
+  }
 }

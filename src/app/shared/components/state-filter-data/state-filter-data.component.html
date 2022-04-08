@@ -70,8 +70,8 @@
                 aria-label="Default select"
                 (change)="getSelectedFinancialYear($event)"
               >
-                <option *ngFor="let year of yearList" [value]="year?._id">
-                  {{ year?._id }}
+                <option *ngFor="let year of yearList" [value]="year">
+                  {{ year}}
                 </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
               </select>
@@ -165,7 +165,7 @@
             <tr>
               <td>Number Of Cities</td>
               <td *ngFor="let heading of stateUlbsPopulation?.tableHeading">
-                {{stateUlbsPopulation?.tableDataSource[heading]}}
+                {{ _commonServices.formatNumber( stateUlbsPopulation?.tableDataSource[heading] )}}
               </td>
             </tr>
           </tbody>

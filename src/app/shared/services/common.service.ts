@@ -597,4 +597,14 @@ export class CommonService {
     }
     return formattedValue;
   }
+
+  getStateWiseFYs(paramContent: any) {
+    let bodyParams: any;
+    bodyParams = this.getHttpClientParams(paramContent);
+    return this.http.get(
+      `${environment.api.url}get-FYs-with-specification`, {
+        params: bodyParams,
+      }
+    );
+  }
 }
