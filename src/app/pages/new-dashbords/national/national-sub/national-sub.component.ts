@@ -128,14 +128,17 @@ export class NationalSubComponent implements OnInit {
       chart: [],
     },
   ];
+  revnueData: any;
 
   showLoader: boolean = false;
+  revnueChartData: any;
 
   selectFinancialYear(event) {
     this.nationalInput.financialYear = event.target.value;
     this.getNationalTableData();
     // console.log("selected Financial",event.target.value);
   }
+
   getNationalTableData() {
     this.showLoader = true;
     try {
@@ -144,10 +147,10 @@ export class NationalSubComponent implements OnInit {
         .subscribe((res: any) => {
           this.showLoader = false;
           this.tableData = res?.data;
-          console.log("revenue table data", res);
           // this.dataAvailabilityvalue = res?.dataAvailability;
 
-          console.log("national table Data", res, this.tableData);
+          this.creatBarChartData("revenue");
+          // console.log("national table Data", res, this.tableData);
         });
     } catch (err) {
       this.showLoader = false;
@@ -185,6 +188,24 @@ export class NationalSubComponent implements OnInit {
     // this.router.navigate([`dashboard/national/${item._id}`]);
   }
 
+  creatBarChartData(value) {
+    let newValue = value == "revenue" ? "revenue" : "revenuePerCapita";
+    if (this.tableData)
+      this.revnueChartData = this.tableData?.rows?.map((elem) => {
+        return parseInt(elem[newValue]);
+      });
+    this.barChartInit();
+    console.log("final revenueChartData===>", this.revnueChartData);
+  }
+
+  selectGraphMode(event) {
+    console.log("event value", event.target.value);
+    this.creatBarChartData(event.target.value);
+    // debugger;
+
+    console.log("revenueChartData====>", this.revnueChartData);
+  }
+
   getSelectedvalue(value) {
     console.log("selected vale", value);
     this.nationalInput.stateId = value?._id;
@@ -213,92 +234,6 @@ export class NationalSubComponent implements OnInit {
         if (this.graphView) {
           this.barChartInit();
         }
-        this.tableData = {
-          timeStamp: 12332323434,
-          success: true,
-          message: "success",
-          data: [
-            {
-              tableId: 1,
-              name: "Revenue Table",
-              tableClass: "revenue_tb",
-              border: "1",
-              bgColor: "#9D84B7",
-              columns: [
-                {
-                  key: "ulb_pop_category",
-                  display_name: "ULB Population Category",
-                },
-                {
-                  key: "revenue",
-                  display_name: "Revenue (in Cr)",
-                },
-                {
-                  key: "revenuePerCapita",
-                  display_name: "Revenue Per Capita (in Rs.)",
-                  // th_style: {
-                  //   backgroundColor : 'gray',
-                  //   fontSize: '15px',
-                  //   color: 'blue'
-                  // },
-                  // td_style: {
-                  //   backgroundColor : 'white',
-                  //   fontSize: '15px',
-                  //   color: 'red'
-                  // }
-                },
-                {
-                  key: "DataAvailPercentage",
-                  display_name: "Data Availability Percentage",
-                },
-              ],
-              rows: [
-                {
-                  // lineItem: 'Average',
-                  ulb_pop_category: "Average",
-                  revenue: "12000",
-                  revenuePerCapita: "12000",
-                  DataAvailPercentage: "75%",
-                },
-                {
-                  // lineItem: 'Average',
-                  ulb_pop_category: "4M+",
-                  revenue: "500",
-                  revenuePerCapita: "500",
-                  DataAvailPercentage: "50%",
-                },
-                {
-                  // lineItem: 'Municipal Corporation',
-                  ulb_pop_category: "1M-4M",
-                  revenue: "501",
-                  revenuePerCapita: "121",
-                  DataAvailPercentage: "50%",
-                },
-                {
-                  // lineItem: 'Municipality',
-                  ulb_pop_category: "500K-1M",
-                  revenue: "1500",
-                  revenuePerCapita: "111",
-                  DataAvailPercentage: "30%",
-                },
-                {
-                  // lineItem: 'Town Panchayat',
-                  ulb_pop_category: "100K-500K",
-                  revenue: "1200",
-                  revenuePerCapita: "600",
-                  DataAvailPercentage: "10%",
-                },
-                {
-                  // lineItem: 'Town Panchayat',
-                  ulb_pop_category: "<100K",
-                  revenue: "1200",
-                  revenuePerCapita: "600",
-                  DataAvailPercentage: "5%",
-                },
-              ],
-            },
-          ],
-        };
       }
     }
     if (type == "ulbType") {
@@ -319,78 +254,6 @@ export class NationalSubComponent implements OnInit {
         if (this.graphView) {
           this.barChartInit();
         }
-        this.tableData = {
-          timeStamp: 12332323434,
-          success: true,
-          message: "success",
-          data: [
-            {
-              tableId: 1,
-              name: "Revenue Table",
-              tableClass: "revenue_tb",
-              border: "1",
-              bgColor: "#9D84B7",
-              columns: [
-                {
-                  key: "ulb_pop_category",
-                  display_name: "ULB Population Category",
-                },
-                {
-                  key: "revenue",
-                  display_name: "Revenue (in Cr)",
-                },
-                {
-                  key: "revenuePerCapita",
-                  display_name: "Revenue Per Capita (in Rs.)",
-                  // th_style: {
-                  //   backgroundColor : 'gray',
-                  //   fontSize: '15px',
-                  //   color: 'blue'
-                  // },
-                  // td_style: {
-                  //   backgroundColor : 'white',
-                  //   fontSize: '15px',
-                  //   color: 'red'
-                  // }
-                },
-                {
-                  key: "DataAvailPercentage",
-                  display_name: "Data Availability Percentage",
-                },
-              ],
-              rows: [
-                {
-                  // lineItem: 'Average',
-                  ulb_pop_category: "Average",
-                  revenue: "12000",
-                  revenuePerCapita: "12000",
-                  DataAvailPercentage: "75%",
-                },
-                {
-                  // lineItem: 'Municipal Corporation',
-                  ulb_pop_category: "Municipal Corporation",
-                  revenue: "501",
-                  revenuePerCapita: "121",
-                  DataAvailPercentage: "50%",
-                },
-                {
-                  // lineItem: 'Municipality',
-                  ulb_pop_category: "Municipality",
-                  revenue: "1500",
-                  revenuePerCapita: "111",
-                  DataAvailPercentage: "30%",
-                },
-                {
-                  // lineItem: 'Town Panchayat',
-                  ulb_pop_category: "Town Panchayat",
-                  revenue: "1200",
-                  revenuePerCapita: "600",
-                  DataAvailPercentage: "10%",
-                },
-              ],
-            },
-          ],
-        };
       }
     }
     console.log("btn", type);
@@ -410,6 +273,7 @@ export class NationalSubComponent implements OnInit {
   }
 
   barChartInit() {
+    // console.log("revenueData==>", this.revnueChartData);
     if (this.chart) {
       this.chart.destroy();
     }
@@ -420,7 +284,7 @@ export class NationalSubComponent implements OnInit {
         datasets: [
           {
             // label: "Average",
-            data: [20, 80, 23, 80, 120, 160],
+            data: this.revnueChartData,
             backgroundColor: "#456EDE",
             borderWidth: 1,
             barThickness: 40,

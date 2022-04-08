@@ -128,7 +128,6 @@ export class NationalComponent implements OnInit {
   }
 
   getCardsData() {
-    // debugger;
     this.newDashboardService
       .dashboardInformation(false, "", "national", this.yearValue)
       .subscribe((res: any) => {
