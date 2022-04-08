@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { ResourcesDashboardService } from "../resources-dashboard.service";
 
 @Component({
   selector: "app-learning-center",
@@ -7,7 +8,22 @@ import { Router } from "@angular/router";
   styleUrls: ["./learning-center.component.scss"],
 })
 export class LearningCenterComponent implements OnInit {
-  constructor(private router: Router) {}
+  learningCount:any
+  searchedValue:any
+  learningToggle:boolean=false
+  noData:boolean=false
+  dataReceived:boolean=true
+  constructor(private router: Router,private resourcesDashboard: ResourcesDashboardService) {
+      this.resourcesDashboard.castCount.subscribe(data =>{
+        this.learningCount =data?.key?.learning
+        this.searchedValue = data?.name
+         this.learningToggle =data?.toggle ? true : false;
+         if(data?.key?.total == 0){
+          this.noData = true
+          this.dataReceived = false;
+        }           
+      })
+  }
 
   tabData = [
     {

@@ -1,14 +1,23 @@
-<div class="filter-d mt-3 mb-3">
+<div class="row">
+    <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for '{{searchedValue}}' in Reports and Publications</p>
+</div>
+<div class="col-sm-12 mb-3">
+    <p *ngIf="noData" class="noData">
+     Sorry we couldn’t find any matches for ‘Ratings’. Please try searching with another term.
+    </p>
+
+ </div>
+<div class="filter-d mt-3 mb-3" *ngIf="dataReceived">
     <app-filter-component (filterFormData)="filterData($event)" [filterInputData]="filterComponent"></app-filter-component>
 </div>
-<div class="row">
+<div class="row" *ngIf="dataReceived">
     <div class="col-sm-12 info-text mb-3">
         <p>
             You are currently exploring Reports and Publications Section on the Resources Dashboard.
         </p>
     </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="dataReceived">
     <div class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData;" style="margin: 1rem 0">
         <div (click)="openFile(item.downloadUrl)" class="card-body">
             <div class="h-c">
