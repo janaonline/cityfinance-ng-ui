@@ -727,13 +727,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       : "Tax";
   }
   notfound = true;
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.statesList = localStorage.getItem('stateIdsMap') ? JSON.parse(localStorage.getItem('stateIdsMap')) : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId]
     }
     console.log("this.innertabData", this.data);
-    // await this.getYears();
   
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
