@@ -316,7 +316,7 @@ export class DashboardMapSectionComponent
   }
 
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "23.5vh";
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -347,69 +347,69 @@ export class DashboardMapSectionComponent
     }
     this.clearDistrictMapContainer();
 
-    setTimeout(() => {
-      let vw = Math.max(document.documentElement.clientWidth);
-      vw = (vw - 1366) / 1366;
-      let zoom = 5.5 + vw;
-      if (this.userUtil.isUserOnMobile()) {
-        zoom = 5.5;
-      }
+    // setTimeout(() => {
+    //   let vw = Math.max(document.documentElement.clientWidth);
+    //   vw = (vw - 1366) / 1366;
+    //   let zoom = 5.5 + vw;
+    //   if (this.userUtil.isUserOnMobile()) {
+    //     zoom = 5.5;
+    //   }
 
-      zoom = 5.5;
+    //   zoom = 5.5;
 
-      const districtMap = L.map("districtMapId", {
-        scrollWheelZoom: false,
-        fadeAnimation: true,
-        minZoom: zoom,
-        maxZoom: zoom + 3,
-        zoomControl: false,
-        keyboard: true,
-        attributionControl: true,
-        doubleClickZoom: false,
-        dragging: false,
-        tap: true,
-      }).setView([options.center.lat, options.center.lng], 4);
-      // districtMap.touchZoom.disable();
-      // districtMap.doubleClickZoom.disable();
-      districtMap.scrollWheelZoom.disable();
-      // districtMap.boxZoom.disable();
-      // districtMap.keyboard.disable();
-      // districtMap.dragging.disable();
+    //   const districtMap = L.map("districtMapId", {
+    //     scrollWheelZoom: false,
+    //     fadeAnimation: true,
+    //     minZoom: zoom,
+    //     maxZoom: zoom + 3,
+    //     zoomControl: false,
+    //     keyboard: true,
+    //     attributionControl: true,
+    //     doubleClickZoom: false,
+    //     dragging: false,
+    //     tap: true,
+    //   }).setView([options.center.lat, options.center.lng], 4);
+    //   // districtMap.touchZoom.disable();
+    //   // districtMap.doubleClickZoom.disable();
+    //   districtMap.scrollWheelZoom.disable();
+    //   // districtMap.boxZoom.disable();
+    //   // districtMap.keyboard.disable();
+    //   // districtMap.dragging.disable();
 
-      console.log("districtMap==>", districtMap);
-      const districtLayer = L.geoJSON(districtGeoJSON, {
-        style: this.newDashboardstateColorStyle,
-      }).addTo(districtMap);
+    //   console.log("districtMap==>", districtMap);
+    //   const districtLayer = L.geoJSON(districtGeoJSON, {
+    //     style: this.newDashboardstateColorStyle,
+    //   }).addTo(districtMap);
 
-      if (districtLayer) {
-        districtMap.fitBounds(districtLayer.getBounds());
-      }
-      this.districtMap = districtMap;
+    //   if (districtLayer) {
+    //     districtMap.fitBounds(districtLayer.getBounds());
+    //   }
+    //   this.districtMap = districtMap;
 
-      options.dataPoints.forEach((dataPoint: any) => {
-        const marker = this.createDistrictMarker({
-          ...dataPoint,
-          icon: this.blueIcon,
-        }).addTo(districtMap);
-        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-        marker.on("click", (values) => {
-          let city;
-          if (values["latlng"])
-            city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
-              (value) =>
-                +value.location.lat === values["latlng"].lat &&
-                +value.location.lng === values["latlng"].lng
-            );
-          if (city) {
-            this.selectedDistrictCode = city.code;
-            this.selectCity(city.code, false);
-          }
-          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
-        });
-        this.districtMarkerMap[dataPoint.code] = marker;
-      });
-    }, 0.5);
+    //   options.dataPoints.forEach((dataPoint: any) => {
+    //     const marker = this.createDistrictMarker({
+    //       ...dataPoint,
+    //       icon: this.blueIcon,
+    //     }).addTo(districtMap);
+    //     marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+    //     marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+    //     marker.on("click", (values) => {
+    //       let city;
+    //       if (values["latlng"])
+    //         city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
+    //           (value) =>
+    //             +value.location.lat === values["latlng"].lat &&
+    //             +value.location.lng === values["latlng"].lng
+    //         );
+    //       if (city) {
+    //         this.selectedDistrictCode = city.code;
+    //         this.selectCity(city.code, false);
+    //       }
+    //       this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
+    //     });
+    //     this.districtMarkerMap[dataPoint.code] = marker;
+    //   });
+    // }, 0.5);
   }
 
   selectCity(city, fireEvent = true) {
