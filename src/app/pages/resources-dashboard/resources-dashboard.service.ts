@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { HttpClient } from "@angular/common/http";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 import { Chart } from "chart.js";
 import { Observable } from "rxjs/internal/Observable";
@@ -12,6 +12,10 @@ import { environment } from "../../../environments/environment";
 })
 export class ResourcesDashboardService {
   showCard = new Subject<any>();
+  resourceCount: BehaviorSubject<any> = new BehaviorSubject([]);
+  castCount = this.resourceCount.asObservable()
+  hideSearchedData: BehaviorSubject<any> = new BehaviorSubject([]);
+  castSearchedData = this.hideSearchedData.asObservable()
   constructor(private https: HttpClient) {}
   getShowCardValue() {
     return this.showCard;
@@ -30,4 +34,10 @@ export class ResourcesDashboardService {
       `${environment.api.url}?search=${filter}`
     );
   }
+  updateResouceCount(resourceCount){
+      this.resourceCount.next(resourceCount);
+  }
+  updateSearchedData(hideSearchedData){
+    this.hideSearchedData.next(hideSearchedData);
+}
 }

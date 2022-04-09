@@ -109,10 +109,6 @@
     </div>
     <div class="row m-0" *ngIf="totalRevenue">
       <div class="col-12 col-sm-12 text-end pe-4">
-        <select (change)="selectGraphMode($event)">
-          <option value="revenue">Revenue</option>
-          <option value="revenuePerCapita">Revenue Per Capita</option>
-        </select>
         <button
           type="button"
           class="btnTableView"
@@ -202,6 +198,12 @@
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
       <div class="card-body barCon">
+        <div class="float-right right">
+          <select (change)="selectGraphMode($event)" class="form-select">
+            <option value="revenue">Revenue</option>
+            <option value="revenuePerCapita">Revenue Per Capita</option>
+          </select>
+        </div>
         <div class="w-75 m-auto h-auto">
           <canvas id="canvas" style="width: 70vw; height: 70vh">{{
             chart
