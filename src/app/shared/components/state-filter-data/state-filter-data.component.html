@@ -70,7 +70,7 @@
                 aria-label="Default select"
                 (change)="getSelectedFinancialYear($event)"
               >
-                <option *ngFor="let year of yearList" [value]="year">
+                <option *ngFor="let year of yearList" [value]="year" [selected]="year == financialYear">
                   {{ year}}
                 </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
@@ -113,7 +113,8 @@
 
             </div> -->
             </form>
-            <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem">
+            <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem"> -->
+            <button type="button" (click)="reset()" class="btn btn-sm searchButton" style="padding: 0.25rem 0.5rem">
               Reset
             </button>
           </div>
@@ -147,6 +148,7 @@
           [chartData]="scatterData"
           [chartTitle]="''"
           (compareChange)="filterChangeInChart($event)"
+          [scatterOption]="serviceLevelBenchmarkScatterOption"
         ></app-revenuechart>
       </div>
     </div>

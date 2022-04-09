@@ -311,7 +311,7 @@ export class NewHomeComponent implements OnInit {
     let promise = new Promise((resolve, reject) => {
       this._commonService.getStateWiseFYs(paramContent).subscribe((res: any) => {
         if (res && res.success) {
-          resolve(res["data"] && res["data"].length ? res["data"][0]['FYs'] : []);
+          resolve(res["data"] && res["data"]['FYs'] ? res["data"]['FYs'] : []);
         }
       }, (err) => {
         console.log(err.message);
