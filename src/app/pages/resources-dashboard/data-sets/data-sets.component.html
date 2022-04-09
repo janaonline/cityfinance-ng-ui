@@ -2,7 +2,16 @@
     <app-resources-tabs [data]="tabData">
     </app-resources-tabs>
 </div> -->
-<div class="container container-cnt">
+<div class="row" *ngIf="dataReceived">
+  <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Datasets</p>
+</div>
+<div class="col-sm-12 mb-3" *ngIf="noDataa">
+  <img src="assets/images/sad.svg"/>
+  <p class="noData">
+   Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
+  </p>
+</div>
+<div class="container container-cnt" *ngIf="dataReceived">
   <div class="row" style="margin: 0 auto">
     <div class="col-sm-12 mb-3">
       <app-resources-tabs [data]="tabData"> </app-resources-tabs>
@@ -10,7 +19,7 @@
   </div>
 </div>
 
-<div class="filter-d mt-3 mb-3">
+<div class="filter-d mt-3 mb-3" *ngIf="dataReceived">
   <app-filter-component
     (filterFormData)="filterData($event)"
     [category]="category"
@@ -20,7 +29,7 @@
   ></app-filter-component>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="dataReceived">
   <div class="d-name">You can Download Upto 5 files</div>
   <div class="col-sm-12 col-12 mb-3">
     <div class="cd-r">
