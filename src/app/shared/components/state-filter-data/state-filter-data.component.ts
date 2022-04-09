@@ -711,6 +711,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     console.log("state filter data changes", changes, this.data);
     if (changes && changes.stateServiceLabel && changes.stateServiceLabel.currentValue) {
       this.stateServiceLabel = changes.stateServiceLabel.currentValue;
+    } else {
+      this.stateServiceLabel = false;
     }
 
     if (changes.data) {
