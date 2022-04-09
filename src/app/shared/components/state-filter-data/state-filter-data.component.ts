@@ -709,12 +709,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("state filter data changes", changes, this.data);
-    if (changes && changes.stateServiceLabel && changes.stateServiceLabel.currentValue) {
-      this.stateServiceLabel = changes.stateServiceLabel.currentValue;
-    } else {
-      this.stateServiceLabel = false;
-    }
-
+    // if (changes && changes.stateServiceLabel && changes.stateServiceLabel.currentValue) {
+    //   this.stateServiceLabel = changes.stateServiceLabel.currentValue;
+    // }
+    this.stateServiceLabel = false;
     if (changes.data) {
       console.log("dounghnuChartLabels", this.dounghnuChartLabels);
       this.tabName = this.data.name.toLocaleLowerCase();
@@ -727,14 +725,20 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
-      if (this.data.filterName == "Water Supply")
+      console.log('this.data.filterName', this.data.filterName)
+      if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
-      if (this.data.filterName == "Waste Water Management")
+        this.stateServiceLabel = true;
+      } else if (this.data.filterName == "Waste Water Management") {
         this.serviceTab = "sanitation";
-      if (this.data.filterName == "Solid Waste Management")
+        this.stateServiceLabel = true;
+      } else if (this.data.filterName == "Solid Waste Management") {
         this.serviceTab = "solid waste";
-      if (this.data.filterName == "Storm Water Drainage")
+        this.stateServiceLabel = true;
+      } else if (this.data.filterName == "Storm Water Drainage") {
         this.serviceTab = "storm water";
+        this.stateServiceLabel = true;
+      }
 
       console.log("serviceTab", this.serviceTab?.toLocaleLowerCase());
       // this.getDropDownValue();
