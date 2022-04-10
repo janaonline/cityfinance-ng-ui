@@ -36,4 +36,11 @@ export class NationalMapSectionService {
         `national-dashboard/data-availability?financialYear=${nationalInput.financialYear}&stateId=${nationalInput.stateId}&population=${nationalInput.populationCat}&ulbType=${nationalInput.ulbType}`
     );
   }
+
+  getNationalMapData(financialYear: any) {
+    return this.http.get(
+      environment.api.url +
+        `get-statewise-data-availability?financialYear=${financialYear}`
+    );
+  }
 }
