@@ -304,6 +304,7 @@ export class CompareDialogComponent implements OnInit {
     });
 
     if (!this.ulbListChip.find((value) => value.name === option.name)) {
+      if(this.ulbListChip.length == 3)return
       this.ulbListChip.push(option);
     }
 
