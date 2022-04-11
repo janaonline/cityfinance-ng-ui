@@ -43,4 +43,8 @@ export class NationalMapSectionService {
         `get-statewise-data-availability?financialYear=${financialYear}`
     );
   }
+
+  getNationalFinancialYear() {
+    return this.http.get(environment.api.url + `get-FYs-with-specification`);
+  }
 }

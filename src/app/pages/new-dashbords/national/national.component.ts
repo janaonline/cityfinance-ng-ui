@@ -108,7 +108,6 @@ export class NationalComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    console.log("national Cords", this.cords);
     this.getIndicatorData(this.stateId);
     this.getCardsData();
     this.component_name = "National";
@@ -131,7 +130,6 @@ export class NationalComponent implements OnInit {
     this.newDashboardService
       .dashboardInformation(false, "", "national", this.yearValue)
       .subscribe((res: any) => {
-        console.log("card response", res);
         let obj = { Revenue, Expense, Tax, Liability, Asset, Debt };
         let data = res.data;
         for (const key in obj) {
@@ -194,7 +192,6 @@ export class NationalComponent implements OnInit {
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
     this._commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
-      console.log(res);
       try {
         this.bondIssueAmount = Math.round(res["data"][0]["totalAmount"]);
       } catch (error) {
@@ -209,12 +206,10 @@ export class NationalComponent implements OnInit {
         }
       });
     });
-    console.log("this.bondIssueAmount", this.bondIssueAmount);
   }
 
   getIndicatorData(state) {
     this._commonService.fetchDataForHomepageMap(state).subscribe((res: any) => {
-      console.log("indicatorData====>", res);
       this.frontPanelData.dataIndicators.map((elem) => {
         // debugger;
         switch (elem.key) {
@@ -254,8 +249,6 @@ export class NationalComponent implements OnInit {
       this.absCreditInfo["ratings"]["AAA+"] +
       this.absCreditInfo["ratings"]["AAA-"];
 
-    console.log("this.creditRatingAboveA", this.creditRatingAboveA);
-
     this.creditRatingAboveBBB_Minus =
       this.creditRatingAboveA +
       this.absCreditInfo["ratings"]["A-"] +
@@ -265,7 +258,6 @@ export class NationalComponent implements OnInit {
 
     this.absCreditInfo["title"] = "India";
     this.absCreditInfo["ulbs"] = ulbList;
-    console.log("creditRatingAboveBBB_Minus", this.creditRatingAboveBBB_Minus);
 
     this.frontPanelData.dataIndicators.map((elem) => {
       if (elem.key == "ulbsWithA") {
@@ -292,7 +284,6 @@ export class NationalComponent implements OnInit {
       .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
       .subscribe(
         (res) => {
-          console.log(res, "dashboardTabData");
           let tab = res["data"];
           this.sortTabData(tab);
         },
@@ -320,7 +311,6 @@ export class NationalComponent implements OnInit {
       );
   }
   sortTabData(res) {
-    console.log(res);
     this.tabAboutData = res.sort(function (x, y) {
       return x.position - y.position;
     });
@@ -345,7 +335,6 @@ export class NationalComponent implements OnInit {
       computedData["India"] += 1;
     });
 
-    console.log("national Computed Data==>", computedData); //store this
     this.creditRating = computedData;
     this.frontPanelData.dataIndicators.map((elem) => {
       if (elem.key == "ULBCreditRating") {

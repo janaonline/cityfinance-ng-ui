@@ -60,10 +60,14 @@
           aria-label="Default select"
           (change)="selectFinancialYear($event)"
         >
-          <option value="2020-21" selected>2020-21</option>
-          <option value="2019-20">2019-20</option>
+          <!-- <option value="2020-21" selected>2020-21</option> -->
+
+          <option value="{{ item }}" *ngFor="let item of financialYearList">
+            {{ item }}
+          </option>
+          <!-- <option value="2019-20">2019-20</option>
           <option value="2018-19">2018-19</option>
-          <option value="2017-18">2017-18</option>
+          <option value="2017-18">2017-18</option> -->
         </select>
       </div>
       <div class="col-sm-12 col-md-9 pd-s mb-3">

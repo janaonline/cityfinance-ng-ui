@@ -89,7 +89,6 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log("financial Data==>", this.data);
     if (this.showDataAvailable) this.getAvailableData();
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
@@ -100,7 +99,6 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         console.log(error);
       }
     );
-    console.log("component name.......", this.componentName);
   }
 
   stateChanges(event) {

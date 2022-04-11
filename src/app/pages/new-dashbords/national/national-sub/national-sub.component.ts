@@ -6,6 +6,7 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { Chart } from "chart.js";
 import { I } from "@angular/cdk/keycodes";
 import { NationalService } from "../national.service";
+import { NationalMapSectionService } from "../national-map-section/national-map-section.service";
 
 @Component({
   selector: "app-national-sub",
@@ -17,7 +18,8 @@ export class NationalSubComponent implements OnInit {
     protected router: Router,
     private activateRoute: ActivatedRoute,
     private _commonServices: CommonService,
-    private nationalService: NationalService
+    private nationalService: NationalService,
+    private nationalMapService: NationalMapSectionService
   ) {}
   public chart: Chart;
   public doughnut: Chart;
@@ -132,8 +134,10 @@ export class NationalSubComponent implements OnInit {
 
   showLoader: boolean = false;
   revnueChartData: any;
+  financialYearList: any = [];
 
   selectFinancialYear(event) {
+    console.log(event.target.value);
     this.nationalInput.financialYear = event.target.value;
     this.getNationalTableData();
     // console.log("selected Financial",event.target.value);
@@ -157,6 +161,7 @@ export class NationalSubComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.getFinancialYearList();
     this.getNationalTableData();
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -188,14 +193,21 @@ export class NationalSubComponent implements OnInit {
     // this.router.navigate([`dashboard/national/${item._id}`]);
   }
 
+  getFinancialYearList() {
+    this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
+      this.financialYearList = res?.data?.FYs;
+    });
+  }
+
   creatBarChartData(value) {
     let newValue = value == "revenue" ? "revenue" : "revenuePerCapita";
     if (this.tableData)
       this.revnueChartData = this.tableData?.rows?.map((elem) => {
         return parseInt(elem[newValue]);
       });
+
+    this.revnueChartData = this.revnueChartData.slice(1);
     this.barChartInit();
-    console.log("final revenueChartData===>", this.revnueChartData);
   }
 
   selectGraphMode(event) {
@@ -256,7 +268,6 @@ export class NationalSubComponent implements OnInit {
         }
       }
     }
-    console.log("btn", type);
   }
 
   graphViewFn() {
@@ -273,7 +284,6 @@ export class NationalSubComponent implements OnInit {
   }
 
   barChartInit() {
-    // console.log("revenueData==>", this.revnueChartData);
     if (this.chart) {
       this.chart.destroy();
     }

@@ -13,7 +13,6 @@ export class NationalService {
       environment.api.url +
         `national-dashboard/revenue?financialYear=${nationalInput.financialYear}&type=${nationalInput.type}&formType=${nationalInput.formType}&stateId=${nationalInput.stateId}
       `
-      // `national-dashboard/data-availability?financialYear=${nationalInput.financialYear}&stateId=${nationalInput.stateId}&population=${nationalInput.populationCat}&ulbType=${nationalInput.ulbType}`
     );
   }
 }
