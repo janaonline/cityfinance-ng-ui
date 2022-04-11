@@ -349,7 +349,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   yearList: any;
 
   getYears() {
-    // debugger;
+    if(this.stateServiceLabel){
+this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+
+  this.yearList = res['data']
+}, (err)=> {
+console.log(err.message)
+})
+    }else{
+   // debugger;
     /**
      * below api was previously used but now new api is used to get the data of state wise FYs
      */
@@ -369,29 +377,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.showSnackbarMessage('No Financial year data found');
       return false;
     }
-    // const paramContent: any = {
-    //   "state": this.stateId
-    // };
-    // this._loaderService.showLoader();
-    // this.stateFilterDataService.getStateWiseFYs(paramContent).subscribe((res: any) => {
-    //   if (res && res.success) {
-    //     this.yearList = res["data"] && res["data"].length ? res["data"][0]['FYs'] : [];
-    //     if (this.yearList?.length) {
-    //       console.log('this.yearList', this.yearList)
-    //       this.financialYear = this.yearList[0];
-    //       console.log('financial Year', this.financialYear);
-    //     } else {
-    //       this.showSnackbarMessage('No Financial year data found');
-    //       return false;
-    //     }
-
-    //   } else {
-    //     this._loaderService.stopLoader();
-    //   }
-    // }, (err) => {
-    //   this._loaderService.stopLoader();
-    //   console.log(err.message);
-    // });
+    }
+ 
+  
   }
 
   getDropDownValue() {
@@ -725,6 +713,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
+   if(changes.stateServiceLabel){
+    this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+        
+      this.yearList = res['data']
+    }, (err)=> {
+    console.log(err.message)
+    })
+   }
+     
       console.log('this.data.filterName', this.data.filterName)
       if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
