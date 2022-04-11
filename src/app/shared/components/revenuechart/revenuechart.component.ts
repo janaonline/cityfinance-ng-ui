@@ -17,8 +17,10 @@ import { FormControl } from "@angular/forms";
 import html2canvas from "html2canvas";
 import { GlobalLoaderService } from "../../../../app/shared/services/loaders/global-loader.service";
 import { BaseComponent } from "src/app/util/baseComponent";
-import { ActivatedRoute } from "@angular/router";
-
+import { ActivatedRoute, Router } from "@angular/router";
+import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
+import { CommonService } from "../../services/common.service";
+import { StateFilterDataService } from "../state-filter-data/state-filter-data.service";
 @Component({
   selector: "app-revenuechart",
   templateUrl: "./revenuechart.component.html",
@@ -31,7 +33,7 @@ export class RevenuechartComponent
   @Input()
   chartDialogues = false;
   @Input()
-  chartOptions;
+  chartOptions: any;
   @Input()
   btnBesideText = false;
   @Input()
@@ -48,8 +50,12 @@ export class RevenuechartComponent
   constructor(
     public dialog: MatDialog,
     public _loaderService: GlobalLoaderService,
-
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    private commonService: CommonService,
+    private router: Router,
+    private readonly route: ActivatedRoute,
+    public stateFilterDataService: StateFilterDataService,
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -69,7 +75,7 @@ export class RevenuechartComponent
   @Input()
   chartTitle = "ULB_NAME total revenues vs State ULB_TYPE Average";
   @Input()
-  chartData = {
+  chartData: any = {
     // type: "bar",
     type: "scatter",
     data: {
@@ -316,6 +322,9 @@ export class RevenuechartComponent
   @Input()
   multipleDoughnutCharts;
 
+  widgetMode: boolean = false;
+  apiParamData: any;
+
   ngOnInit(): void {
     this.stateName = this.stateMap[this.stateId];
     // window.onload = () => {
@@ -323,15 +332,26 @@ export class RevenuechartComponent
     //     this.createMultipleChart();
     //   } else this.createChart();
     // };
+    this.route.queryParams.subscribe((params) => {
+      console.log("param", params);
+      this.widgetMode = params?.widgetMode;
+      this.apiParamData = params;
+      this.commonService.isEmbedModeEnable.next(this.widgetMode);
+    });
   }
 
   // let legendDiv = document.getElementById('legend')
 
   // $('#legend').prepend(mybarChart.generateLegend());
   ngAfterViewInit(): void {
-    if (this.multipleCharts) {
-      this.createMultipleChart();
-    } else this.createChart();
+    console.log('widgetMode', this.widgetMode)
+    if (this.widgetMode) {
+      this.getStateRevenue();
+    } else {
+      if (this.multipleCharts) {
+        this.createMultipleChart();
+      } else this.createChart();
+    }
   }
 
   yearValueChange(value) {
@@ -426,6 +446,19 @@ export class RevenuechartComponent
   }
 
   actionClick(value) {
+    console.log('actionClick', value);
+    if (value.name == 'Share/Embed') {
+      const paramContent: any = {
+        "tabType": "TotalRevenue",
+        "financialYear": "2020-21",
+        "stateId": "5dcf9d7316a06aed41c748eb",
+        "sortBy": 'bottom',
+        "apiEndPoint": "state-revenue-tabs",
+        "widgetMode": true
+      };
+      this.commonService.createEmbedUrl(paramContent)
+    }
+
     this._loaderService.showLoader();
     if (value.name == "Expand" || value.name == "Collapse") {
       this.headerActions.map((innerVal) => {
@@ -516,6 +549,102 @@ export class RevenuechartComponent
     this.compareType = "State Average";
     this.sendValue();
   }
+
+  getStateRevenue() {
+    // const tabType = this.getTabType();
+    const paramContent: any = {
+      "tabType": this.apiParamData?.tabType,
+      "financialYear": this.apiParamData?.financialYear,
+      "stateId": this.apiParamData?.stateId,
+      "sortBy": this.apiParamData?.sortBy
+    };
+
+    // if (tabType?.isCodeRequired) {
+    //   paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
+    // }
+    console.log('paramContent', paramContent);
+    this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
+    .subscribe(
+      (response) => {
+        if (response && response["success"]) {
+          console.log("getStateRevenue", response );
+          if (response['data'] && response['data'].length) {
+            for (const data of response['data']) {
+              data['count'] = this.commonService.changeCountFormat(data?.sum);
+            }
+            // this.filterCityRankingChartData(response['data'], paramContent?.tabType, tabType?.yAxisLabel);
+            this.filterCityRankingChartData(response['data'], paramContent?.tabType, 'Amount (in Cr.)');
+            this.notFound = false;
+          } else {
+            this.notFound = false;
+          }
+        } else {
+          this.notFound = true;
+        }
+      },
+      (error) => {
+        this.notFound = true;
+        console.log(error);
+      }
+    );
+  }
+
+  filterCityRankingChartData(responseData: any, tabType: string, yAxisLabel: string) {
+    console.log('filterCityRankingChartData', responseData, tabType);
+    let barData = {
+      type: "bar",
+      data: {
+        labels: responseData.map((item: { ulbName: any; }) => item.ulbName),
+        datasets: [
+          {
+            label: "City Ranking",
+            displayLabel: false,
+            data: this.getChartData(responseData, tabType, yAxisLabel),
+            backgroundColor: [
+              "#1E44AD",
+              "#224CC0",
+              "#2553D3",
+              "#3360DB",
+              "#456EDE",
+              "#587DE1",
+              "#6A8BE5",
+              "#86A2ED",
+              "#93AAEA",
+              "#A8BCF0",
+            ],
+            borderColor: ["#1E44AD"],
+            borderWidth: 1,
+          },
+        ],
+      },
+    };
+    this.chartData = {};
+    this.chartData = barData;
+    console.log('this.barData', this.chartData);
+    this.createChart();
+  }
+
+  getChartData(responseData: any, tabType: string, yAxisLabel: string) {
+    this.setChartAnimation(tabType, yAxisLabel);
+    let mappedCountList = responseData.map((item: { count: any; }) => item.count)
+    return mappedCountList;
+  }
+
+  setChartAnimation(tabType: string, yAxisLabel: string) {
+    let animationConfig: any;
+    // let animationConfigAccessKey: any = this.stateServiceLabel ? 'serviceLevelBenchmarkBarChartOptions' : this.getTabType().chartAnimation;
+    let animationConfigAccessKey: any = 'croreBarChartOptions';
+
+    animationConfig = this.stateFilterDataService[animationConfigAccessKey];
+    Object.assign(animationConfig);
+    this.ChartOptions = animationConfig;
+    // let yAxesLabelName = tabType == 'TotalRevenue' ? 'Amount (in Cr.)' : 'Amount (in INR)';
+    this.ChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = yAxisLabel;
+
+    console.log('barChartOptions', this.ChartOptions)
+  }
+
+
 }
 
 const temp = [
