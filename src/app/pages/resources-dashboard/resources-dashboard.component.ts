@@ -74,15 +74,44 @@ export class ResourcesDashboardComponent implements OnInit {
       }
     });
   }
-  searchFilter(searchFilter: any) {
+  crossIcon: boolean=false;
+  search:boolean=true;
+  searchValue:string='';
+  data:any={
+    total:500,
+    learning:220,
+    dataset:180,
+    report:100
+  }
+  passedCount:any
+  totalCount:any
+  searchedValue:any
+  toggle:boolean=true
+  defaultPlaceholder:boolean=false
+  searchFilter(searchFilter:any){
+    //sending data to resource count to card
+    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
+    this.resourcedashboard.updateResouceCount(this.passedCount);
     //queryparam used for url
-    this.router.navigate(["/resources-dashboard/learning-center/toolkits"], {
-      queryParams: { search: searchFilter },
-    });
-
-    this.resourcedashboard.getSearchedData(searchFilter).subscribe((data) => {
-      console.log(data);
-    });
+    this.router.navigate( ['/resources-dashboard/learning-center/toolkits'],
+    { queryParams: { search: searchFilter } })
+    this.totalCount = this.data.total
+    console.log(this.totalCount)
+    this.searchedValue = searchFilter
+    this.resourcedashboard.getSearchedData(searchFilter).subscribe(data => {
+      console.log(data)
+    })  
+    if(searchFilter.length){
+       this.crossIcon = true
+       this.search = false
+    }
+    
+  }
+  crossButton(){
+    this.searchValue = null
+    this.search = true
+    this.crossIcon = false
+    this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
   }
 }
 const learningCenter = {

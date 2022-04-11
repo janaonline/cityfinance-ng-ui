@@ -9,6 +9,11 @@ import * as FileSaver from "file-saver";
   styleUrls: ["./data-sets.component.css"],
 })
 export class DataSetsComponent implements OnInit {
+  learningCount:any
+  searchedValue:any
+  learningToggle:boolean=false
+  noDataa:boolean=false
+  dataReceived:boolean=true
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -23,6 +28,18 @@ export class DataSetsComponent implements OnInit {
         this.category = "balance";
       }
     });
+    this._resourcesDashboardService.castSearchedData.subscribe(data =>{
+      this.learningToggle =data
+    }) 
+    this._resourcesDashboardService.castCount.subscribe(data =>{
+      this.learningCount =data?.key?.dataset
+      this.searchedValue = data?.name
+       this.learningToggle =data?.toggle ? true : false;
+       if(data?.key?.total == 0){
+        this.noDataa = true
+        this.dataReceived = false;
+      }  
+    })
   }
   category;
   filterComponent;

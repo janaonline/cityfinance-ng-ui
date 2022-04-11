@@ -92,7 +92,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.selectedTab = this.data.btnLabels[i];
     let newName = this.data.btnLabels[i].toLocaleLowerCase();
     if (newName == "revenue expenditure") {
-      this.filterName = newName
+      this.filterName = newName;
     } else if (newName.includes("mix"))
       this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
     else if (newName.includes("revenue") && !newName.includes("own"))
@@ -401,7 +401,12 @@ ULB ${this.selectedTab} for FY' ${
           (dataSet, value, index) => {
             dataSet.borderColor = borderColor[0];
             dataSet.backgroundColor = backgroundColor[0];
-            dataSet.data.push(((value.revenue/(value.revenue+value.expense))*100).toPrecision(2));
+            dataSet.data.push(
+              (
+                (value.revenue / (value.revenue + value.expense)) *
+                100
+              ).toPrecision(2)
+            );
             chartLabels.push(value._id.financialYear);
             return dataSet;
           },
@@ -417,7 +422,12 @@ ULB ${this.selectedTab} for FY' ${
           (dataSet, value, index) => {
             dataSet.borderColor = borderColor[1];
             dataSet.backgroundColor = backgroundColor[1];
-            dataSet.data.push(((value.revenue/(value.revenue+value.expense))*100).toPrecision(2));
+            dataSet.data.push(
+              (
+                (value.revenue / (value.revenue + value.expense)) *
+                100
+              ).toPrecision(2)
+            );
             return dataSet;
           },
           {
@@ -451,7 +461,7 @@ ULB ${this.selectedTab} for FY' ${
               // beginAtZero: true,
               steps: 10,
               stepValue: 5,
-              max: 100
+              max: 100,
             },
           },
         ],
@@ -519,14 +529,17 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createPieChart(data, body) {
+    if (this.compareType == "ULBs..") {
+      data = this.createMultiUlbData(data["ulbData"]);
+    }
     if (this.filterName == "revenue mix") {
       for (const key in data) {
         data[key] = this.createRevenueData(data[key]);
       }
-      this.calculateRevenueMix(data);
+      if (this.compareType == "ULBs..") {
+        this.resetCAGR();
+      } else this.calculateRevenueMix(data);
     }
-    if (this.filterName == "own revenue mix")
-      data["ulbData"] = this.createOwnRevenueData(data);
     if (this.filterName == "expenditure mix") {
       for (const key in data) {
         data[key] = this.createExpenditureMixData(data[key]);
@@ -553,7 +566,7 @@ ULB ${this.selectedTab} for FY' ${
         doughnutChartData.datasets[0].data.push(
           value.amount == 0 ? "0.1" : value.amount
         );
-        if (key == "ulbData")
+        if (key != "compData")
           this.multiChartLabel.push({
             text: value._id.lineItem,
             color: pieBackGroundColor[index],
@@ -597,11 +610,24 @@ ULB ${this.selectedTab} for FY' ${
         title:
           key == "ulbData"
             ? this.ulbMapping[this.currentUlb].name
-            : body.compareType,
+            : key == "compData"
+            ? body.compareType
+            : this.ulbMapping[key].name,
       };
       this.multipleDoughnutCharts.push(val);
     }
-    console.log(this.multipleDoughnutCharts, "this.multipleDoughnutCharts");
+    console.log(this.multipleDoughnutCharts,"multipleDoughnutCharts");
+    
+    this.multiChartLabel = this.multiChartLabel.reduce(
+      (res, val) => {
+        if (!res.stack.includes(val.text)) {
+          res.unique.push(val);
+          res.stack.push(val.text);
+        }
+        return res;
+      },
+      { stack: [], unique: [] }
+    ).unique;
     this.multiPie = true;
   }
 
@@ -617,8 +643,14 @@ ULB ${this.selectedTab} for FY' ${
     return tempArray;
   }
 
-  createOwnRevenueData(data) {
-    return data["ulbData"];
+  createMultiUlbData(data) {
+    let newData = data.reduce((res, value) => {
+      if (res.hasOwnProperty(value._id.ulb)) {
+        res[value._id.ulb].push(value);
+      } else res[value._id.ulb] = [value];
+      return res;
+    }, {});
+    return newData;
   }
 
   createRevenueData(data) {
@@ -650,7 +682,7 @@ ULB ${this.selectedTab} for FY' ${
       interest_incomes,
     ];
 
-    data.map((value) => {
+    data.forEach((value) => {
       if (ownRevenues.includes(value.code)) {
         own.amount += value.amount;
       }
