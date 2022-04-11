@@ -32,7 +32,8 @@
   #tableHeadings {
     thead {
       th {
-        font-size: 14px;
+        font-size: 17px;
+        text-align: left;
         @media screen and (max-width: 468px) {
           font-size: 2.8em;
         }
@@ -57,7 +58,8 @@
     }
     h4,
     .panel-title {
-      font-size: 14px !important;
+      font-size: 15px !important;
+      padding: 0.3%;
     }
   }
 
@@ -108,20 +110,20 @@
 
   .fixed-header {
     // max-height: calc(100vh - 330px);
-    overflow: auto;
+    // overflow: auto;
     height: fit-content;
   }
   table {
     min-width: 100%;
     th {
-      background-color: #059b9a;
-      color: white;
-      padding: 5px 10px;
+      background-color: #EFF2F9;
+      color: black;
+      padding: 20px 10px;
       // font-size: 14px;
       font-weight: 500;
     }
     td {
-      padding: 3px 5px;
+      padding: 5px;
     }
   }
 
@@ -194,8 +196,8 @@
 
   th,
   td {
-    min-width: 230px;
-    max-width: 230px;
+    min-width: 343px;
+    max-width: 411px;
 
     @media screen and (max-width: 551px) {
       min-width: 120px;
@@ -204,7 +206,7 @@
   }
 
   .municipal-bond {
-    overflow-x: auto;
+    overflow-x: hidden;
     margin-bottom: 1%;
     min-width: 100%;
   }
@@ -375,6 +377,11 @@
 .table {
   //   border-collapse: separate;
   border-spacing: 0 20px;
+  // border:1px solid black;
+}
+.customTr{
+  width:1px;
+  height:4px;
 }
 
 .border-left {
@@ -382,6 +389,10 @@
 }
 table > tr {
   border-radius: 10px !important;
+}
+tr{
+  border:1px solid #d9d8d8;
+
 }
 .border-spacing {
   border: 1px solid #d9d8d8 !important;
