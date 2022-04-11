@@ -4,6 +4,8 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  Output,
+  EventEmitter,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AboutService } from "./about.service";
@@ -71,6 +73,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       name: "Next Steps",
     },
   ];
+  @Input()
+  btnList = ["Total Revenue", "Revenue Per Capita"];
+  @Output()
+  btnListClick = new EventEmitter();
   copyData;
   @Input()
   selectedYear = "2015-16";
@@ -86,11 +92,16 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data) {
-      if(this.lastOpenPanel){
-        this.panelClose(this.lastOpenPanel)
+      if (this.lastOpenPanel) {
+        this.panelClose(this.lastOpenPanel);
       }
       this.copyData = JSON.parse(JSON.stringify(this.data));
     }
+  }
+
+  stepBtnClick(data) {
+    console.log(data, "btn val in about indicator");
+    this.btnListClick.emit(data);
   }
 
   panelOpen(item, index) {
@@ -198,6 +209,20 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         );
         element.text = "";
       }
+      if (element.text.includes("Deep-dive")) {
+        let text = this.copyData[parentIndex].desc[i].text;
+        text = text.split("STATE_NAME");
+        let stateName = this.ulbsData[this.cityId].name;
+        text = text.join(stateName);
+        this.addAnchorTag(
+          item,
+          i,
+          `/own-revenue-dashboard?cityName=${this.ulbsData[this.cityId].name}`,
+          text,
+          parentIndex
+        );
+        element.text = "";
+      }
     });
   }
 
@@ -205,56 +230,23 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     let aTag = document.createElement("a");
     aTag.href = link;
     aTag.innerHTML = text;
+    aTag.target = "blank";
     let pTag = document.getElementById(parentIndex + item.name + index);
-    if ((pTag.hasOwnProperty("children"), pTag.children.length == 0))
+    if (pTag && (pTag.hasOwnProperty("children"), pTag.children.length == 0))
       pTag.appendChild(aTag);
   }
 
   getCalculation(item, compare = "", index) {
-    let totalRevenue;
-    let param = {
-      ulb: this.cityId,
-      financialYear: this.selectedYear,
-      compare,
-      headOfAccount: this.headOfAccount,
-      filterName: this.filterName,
-    };
-    this.loading = true;
-    this.aboutService.avgRevenue(param).subscribe(
-      (res) => {
-        let apiData: any = Array.isArray(res["data"])
-          ? res["data"][0]
-          : res["data"];
-        item.desc.map((value) => {
-          let data = value.text.split("=");
-          let name = data[0].split(" ").join("").toLowerCase();
-          switch (name) {
-            case "totalrevenue":
-              data[1] = "₹ " + Math.round(apiData?.amount / 10000000) + "Cr";
-              break;
-            case "totalexpenditure":
-              data[1] = "₹ " + Math.round(apiData?.expense / 10000000) + "Cr";
-              break;
-            case "stateulbtypeaverage":
-              data[1] =
-                "₹ " + Math.round(apiData?.weightedAmount);
-              let tt = name.split("ulbtype");
-              data[0] = tt.join(` ${this.ulbsData[this.cityId].type} `)
-            default:
-              break;
-          }
-          data = data.join("= ");
-          value.text = data;
-        });
-        setTimeout(() => {
-          this.addImage(item, index);
-        }, 0);
-        this.loading = false;
-      },
-      (error) => {
-        this.loading = false;
+    item.desc = item.desc.map((val) => {
+      while (val.text.includes("ULB_TYPE")) {
+        val.text = val.text.replace(
+          "ULB_TYPE",
+          this.ulbsData[this.cityId].type
+        );
       }
-    );
+      return val;
+    });
+    this.addImage(item, index);
   }
   addImage(item, index) {
     let elementIndex = item.desc.findIndex(
@@ -332,7 +324,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           value = this.ulbsData[this.cityId].type;
           break;
         case "ULB_NAME_STATE":
-          value = this.ulbsData[data[forUlbType ? "inStateUlbType" : "inState"].ulb._id].name;
+          value =
+            this.ulbsData[
+              data[forUlbType ? "inStateUlbType" : "inState"].ulb._id
+            ].name;
           break;
         case "ULB_INSATE":
           value = this.toCr(
@@ -340,7 +335,10 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           );
           break;
         case "ULB_NAME_INDIA":
-          value = this.ulbsData[data[forUlbType ? "inIndiaUlbType" : "inIndia"].ulb._id].name;
+          value =
+            this.ulbsData[
+              data[forUlbType ? "inIndiaUlbType" : "inIndia"].ulb._id
+            ].name;
           break;
         case "ULB_IN-INDIA":
           value = this.toCr(

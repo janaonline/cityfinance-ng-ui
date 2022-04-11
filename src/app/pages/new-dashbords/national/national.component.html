@@ -1,23 +1,34 @@
 <div class="container-fluid">
-    <div class="row">
-        <!--   <div class="col-sm-12"> -->
-        <app-front-panel [cardData]="revenueData" [data]="frontPanelData" [componentName]="component_name" style="padding: 0;"></app-front-panel>
+  <div class="row">
+    <!--   <div class="col-sm-12"> -->
+    <app-front-panel
+      [cardData]="revenueData"
+      [data]="frontPanelData"
+      [componentName]="component_name"
+      style="padding: 0"
+    ></app-front-panel>
+  </div>
+  <!--  </div> -->
+  <!-- <div> -->
+  <div class="row pt-3">
+    <div class="col-sm-12">
+      <h1 class="text-center">Dashboard</h1>
+      <div
+        class="d-a mx-auto mb-3"
+        [ngClass]="{ stickyClass: checkStickyValue == true }"
+      >
+        <!-- <span class="d-t"> -->
+        Data Availability - {{ nationalDataAvailability }}%
+        <!-- </span> -->
+      </div>
     </div>
-    <!--  </div> -->
-    <div class="row pt-3">
-        <div class="col-sm-12">
-            <h1 class="text-center">Dashboard</h1>
-            <div class="d-a mx-auto mt-3 mb-3">
-                <!-- <span class="d-t"> -->
-                Data Availability - 75%
-                <!-- </span> -->
-            </div>
-        </div>
-
-    </div>
-    <!-- <div class="row">
+  </div>
+  <!-- </div> -->
+  <!-- <div class="row">
         <app-dashboard-tabs [data]="dashboardTabData"></app-dashboard-tabs>
     </div> -->
-    <app-tab-about-filter [tabIndex]="tabIndex" [data]="tabAboutData"></app-tab-about-filter>
-
+  <app-tab-about-filter
+    [tabIndex]="tabIndex"
+    [data]="tabAboutData"
+  ></app-tab-about-filter>
 </div>

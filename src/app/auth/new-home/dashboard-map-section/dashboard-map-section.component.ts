@@ -1,4 +1,4 @@
-import { Component, NgZone,  Input ,OnInit } from "@angular/core";
+import { Component, NgZone, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -17,8 +17,8 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
-import {Observable} from 'rxjs'
-import {AuthService} from "../../auth.service"
+import { Observable } from "rxjs";
+import { AuthService } from "../../auth.service";
 
 @Component({
   selector: "app-dashboard-map-section",
@@ -67,9 +67,9 @@ export class DashboardMapSectionComponent
   };
   districtMarkerMap = {};
 
-  national:any = { _id: null, name: "India" };
-  actStateVl:boolean = true;
-  
+  national: any = { _id: null, name: "India" };
+  actStateVl: boolean = true;
+
   filteredOptions: Observable<any[]>;
   constructor(
     protected _commonService: CommonService,
@@ -96,7 +96,7 @@ export class DashboardMapSectionComponent
     this.initializeform();
     this.fetchStateList();
     this.fetchDataForVisualization();
-    this.fetchDataForVisualization();
+    // this.fetchDataForVisualization();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout();
     this.fetchMinMaxFinancialYears();
@@ -112,11 +112,10 @@ export class DashboardMapSectionComponent
   totalUsersVisit: number;
 
   absCreditInfo = {};
-  isLoading:boolean = true;
-  cid:string;
+  isLoading: boolean = true;
+  cid: string;
   creditRatingList: any[];
   globalFormControl = new FormControl();
-
 
   // Including A
   creditRatingAboveA;
@@ -143,7 +142,7 @@ export class DashboardMapSectionComponent
     color: "#403f3f",
     fillOpacity: 1,
   };
-date: any
+  date: any;
   ngOnInit(): void {
     console.log(districtJson);
 
@@ -153,43 +152,34 @@ date: any
       this.updateDropdownStateSelection(res);
     });
 
-   
-
-    this.authService.getLastUpdated().subscribe((res)=>{
-this.date = res['data']
-    })
-  }
-  noDataFound = true
-  callAPI(event){
-   
-   
-    
-    this._commonService.postGlobalSearchData(event.target.value,"ulb",this.selectedStateCode).subscribe((res: any) => {
-      console.log(res?.data);
-      let emptyArr:any = []
-        this.filteredOptions = emptyArr;
-      if(res?.data.length > 0 ){
-        
-        this.filteredOptions = res?.data;
-        this.noDataFound = false;
-      }else{
-
-        let emptyArr:any = []
-        this.filteredOptions = emptyArr;
-        this.noDataFound = true;
-        let noDataFoundObj = {
-          name: '',
-          id: '',
-          type: '',
-        }
-        console.log('no data found')
-      }
+    this.authService.getLastUpdated().subscribe((res) => {
+      this.date = res["data"];
     });
-  
-
-
-
-}
+  }
+  noDataFound = true;
+  callAPI(event) {
+    this._commonService
+      .postGlobalSearchData(event.target.value, "ulb", this.selectedStateCode)
+      .subscribe((res: any) => {
+        console.log(res?.data);
+        let emptyArr: any = [];
+        this.filteredOptions = emptyArr;
+        if (res?.data.length > 0) {
+          this.filteredOptions = res?.data;
+          this.noDataFound = false;
+        } else {
+          let emptyArr: any = [];
+          this.filteredOptions = emptyArr;
+          this.noDataFound = true;
+          let noDataFoundObj = {
+            name: "",
+            id: "",
+            type: "",
+          };
+          console.log("no data found");
+        }
+      });
+  }
 
   private initializeform() {
     this.myForm = this.fb.group({
@@ -206,21 +196,20 @@ this.date = res['data']
       console.log(this.financialYearTexts);
     });
   }
-stateDim = false
-  stateLevelData(){
-    console.log('show as it is ')
- this.stateDim = false
+  stateDim = false;
+  stateLevelData() {
+    console.log("show as it is ");
+    this.stateDim = false;
   }
-cityInfo
-  cityLevelData(){
-    console.log('show city dashboard Data ')
-    this.stateDim = true
-
+  cityInfo;
+  cityLevelData() {
+    console.log("show city dashboard Data ");
+    this.stateDim = true;
   }
 
   dashboardNav(option) {
-    console.log(option)
-    this.selectCity(option)
+    console.log(option);
+    this.selectCity(option);
   }
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -233,8 +222,8 @@ cityInfo
   ) {
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
-    let zoom;	
-    if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;	
+    let zoom;
+    if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;
     else zoom = this.mapConfig.nationalZoomOnMobile;
     // let vw = Math.max(document.documentElement.clientWidth);
     // vw = (vw - 1366) / 1366;
@@ -247,7 +236,7 @@ cityInfo
     //   else if (valueOf1vh < 7) zoom = zoom - 0.2;
     //   // return zoom;
     // }
- 
+
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -307,7 +296,7 @@ cityInfo
 
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
-      this.isLoading=false;
+      this.isLoading = false;
     }
     this.hideMapLegends();
 
@@ -376,7 +365,7 @@ cityInfo
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom:false,
+        doubleClickZoom: false,
         dragging: false,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
@@ -386,8 +375,8 @@ cityInfo
       // districtMap.boxZoom.disable();
       // districtMap.keyboard.disable();
       // districtMap.dragging.disable();
-      
-      console.log("districtMap==>", districtMap)
+
+      console.log("districtMap==>", districtMap);
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.newDashboardstateColorStyle,
       }).addTo(districtMap);
@@ -426,28 +415,30 @@ cityInfo
   selectCity(city, fireEvent = true) {
     console.log("city data", this.cityData);
     console.log("city name", city);
-    let filterCity = this.cityData.find((e) =>{
-      return e.code == city
-    } );
+    let filterCity = this.cityData.find((e) => {
+      return e.code == city;
+    });
     this.cityName = filterCity.name;
-    this.stateDim = true
+    this.stateDim = true;
     this.cid = filterCity._id;
-    console.log("cityId",this.cid); //CityId after selecting a city from dropdown
+    console.log("cityId", this.cid); //CityId after selecting a city from dropdown
     if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
-    this.authService.getCityData(this.cid).subscribe((res)=>{
-      this.cityInfo = res['data']
-      console.log(this.cityInfo)
-          })
+    this.authService.getCityData(this.cid).subscribe((res) => {
+      this.cityInfo = res["data"];
+      console.log(this.cityInfo);
+    });
     // this.onSelectingULBFromDropdown(city);
   }
   viewDashboard() {
-    let searchValue = this.stateList.find(e => e?.name.toLowerCase() == this.selected_state.toLowerCase());
-    console.log('view dash', searchValue)
-    this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`)
+    let searchValue = this.stateList.find(
+      (e) => e?.name.toLowerCase() == this.selected_state.toLowerCase()
+    );
+    console.log("view dash", searchValue);
+    this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`);
   }
-  viewCityDashboard(){
-    this.router.navigateByUrl(`/dashboard/city?cityId=${this.cid}`)
+  viewCityDashboard() {
+    this.router.navigateByUrl(`/dashboard/city?cityId=${this.cid}`);
   }
   private fetchBondIssueAmout(stateId?: string) {
     this.isBondIssueAmountInProgress = true;
@@ -465,20 +456,19 @@ cityInfo
     this.selectedStateCode = state.code;
     this.cityName = "";
     this.cid = undefined;
-    this.stateDim = false
+    this.stateDim = false;
     this._commonService
-    .getUlbByState(state ? state?.code : null)
-    .subscribe((res) => {
-      console.log("ulb data", res);
-      let ulbsData: any = res;
-      this.cityData = ulbsData?.data?.ulbs;
-      console.log('AllCity', this.cityData)
-    });
+      .getUlbByState(state ? state?.code : null)
+      .subscribe((res) => {
+        console.log("ulb data", res);
+        let ulbsData: any = res;
+        this.cityData = ulbsData?.data?.ulbs;
+        console.log("AllCity", this.cityData);
+      });
     this.selected_state = state ? state?.name : "India";
     /* Updating the dropdown state selection. */
-    this.showCreditInfoByState("")
-    if(state._id == null)
-    this.updateDropdownStateSelection(state);
+    this.showCreditInfoByState("");
+    if (state._id == null) this.updateDropdownStateSelection(state);
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
@@ -494,7 +484,6 @@ cityInfo
     );
     console.log("mini mode", this.isMapOnMiniMapMode);
     this.selectStateOnMap(state);
-
   }
 
   private selectStateOnMap(state?: IState) {
@@ -647,6 +636,7 @@ cityInfo
     });
   };
   showCreditInfoByState(stateName = "") {
+    // debugger;
     const ulbList = [];
     if (stateName) {
       for (let i = 0; i < this.creditRatingList?.length; i++) {
@@ -676,12 +666,15 @@ cityInfo
       this.absCreditInfo["ratings"]["AAA+"] +
       this.absCreditInfo["ratings"]["AAA-"];
 
+    console.log("creditRatingAboveA", this.creditRatingAboveA);
+
     this.creditRatingAboveBBB_Minus =
       this.creditRatingAboveA +
       this.absCreditInfo["ratings"]["A-"] +
       this.absCreditInfo["ratings"]["BBB"] +
       this.absCreditInfo["ratings"]["BBB+"] +
       this.absCreditInfo["ratings"]["BBB-"];
+    console.log("creditRatingAboveBBB_Minus", this.creditRatingAboveBBB_Minus);
 
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
@@ -697,7 +690,7 @@ cityInfo
     return this.stateSelected ? false : true;
   }
   private updateDropdownStateSelection(state: IState) {
-    console.log("stateName",state);
+    console.log("stateName", state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
@@ -720,6 +713,7 @@ cityInfo
       computedData["India"] += 1;
     });
 
+    console.log("computedData", computedData); //store this
     this.creditRating = computedData;
   }
   openStateDashboard(event) {

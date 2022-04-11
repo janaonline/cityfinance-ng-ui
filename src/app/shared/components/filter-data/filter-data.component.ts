@@ -35,6 +35,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   data = incomingData;
   headOfAccount;
   filterName;
+  selectedTab;
   headerActions = headerActions;
   lastSelectedUlbs;
   chartId = `cityCharts-${Math.random()}`;
@@ -53,6 +54,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
   hideElements = false;
   compareType;
+  btnListInAboutIndicator;
   ngOnInit(): void {}
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
@@ -61,7 +63,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {}
 
   changeActiveBtn(i) {
+    this.hideElements = false;
     console.log(this.data.btnLabels[i], "activeBTN");
+    this.btnListInAboutIndicator = this.data.btnLabels.filter(
+      (val, index) => i != index
+    );
     let key = this.data.btnLabels[i].toLowerCase().split(" ").join("_");
     this.aboutIndicators = this.data["static"].indicators.map((value) => {
       Object.assign(value, { desc: value[key] });
@@ -83,16 +89,18 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       .split(" ")
       .join("")
       .includes("percapita");
+    this.selectedTab = this.data.btnLabels[i];
     let newName = this.data.btnLabels[i].toLocaleLowerCase();
-
-    if (newName.includes("mix"))
+    if (newName == "revenue expenditure") {
+      this.filterName = newName;
+    } else if (newName.includes("mix"))
       this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
     else if (newName.includes("revenue") && !newName.includes("own"))
       this.filterName = "revenue";
     else if (newName.includes("own") && newName.includes("revenue"))
       this.filterName = newName;
     else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
-
+    if (this.selectedTab.toLowerCase() == "own revenue mix") this.resetCAGR();
     this.getChartData({});
   }
 
@@ -157,42 +165,113 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.apiCall.unsubscribe();
     }
     this.compareType = body["compareType"];
-    this.chartTitle = `${
-      this.ulbMapping[this.currentUlb].name
-    } total revenues vs ${body["compareType"]} ${
+    this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
+      this.selectedTab
+    } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } Average`;
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
           this.createPieChart(JSON.parse(JSON.stringify(res["data"])), body);
-          this.calculateRevenue(res["data"]);
+          // this.calculateRevenue(res["data"]);
         } else {
           this.multiPie = false;
-          this.createBarChart(res);
-          this.calculateCagr(res["data"], this.hideElements);
+          console.log(JSON.stringify(res["data"]), body.ulb);
+          if (body.ulb.length == 1) this.createBarChart(res);
+          else
+            this.createDataForUlbs(res["data"]["ulbData"], [
+              ...new Set(body.ulb),
+            ]);
+          if (showCagrIn.includes(this.selectedTab.toLowerCase()))
+            this.calculateCagr(res["data"], this.hideElements);
+          if (showPerCapita.includes(this.selectedTab.toLowerCase()))
+            this.calculatePerCapita(res["data"]);
+          if (this.selectedTab.toLowerCase() == "total surplus/deficit")
+            this.calculateCagrOfDeficit(res["data"]);
         }
         this.loading = false;
       },
       (error) => {
-        // let preArray = [];
-        // let newData = JSON.parse(JSON.stringify(barChartStatic));
-        // newData.data.labels = this.mySelectedYears;
-        // newData.data.datasets[0].label = this.lastSelectedUlbs.map((value) => {
-        //   this.ulbList[this.stateUlbMapping[value]].ulbs.find(
-        //     (value) => value._id == value
-        //   )?.name;
-        // });
-        // newData.data.datasets[0].data = preArray.fill(
-        //   0,
-        //   0,
-        //   this.mySelectedYears.length
-        // );
-        // this.barChart = newData;
         this.notFound = true;
         this.loading = false;
       }
     );
+  }
+  calculateCagrOfDeficit(res) {
+    console.log(res);
+    let total = res["ulbData"].reduce((sum, val) => sum + val.amount, 0);
+    this.CAGR = `Rs. ${convertToCr(
+      total,
+      this.isPerCapita
+    )} Cr. Total Surplus/Deficit of the FY'${this.mySelectedYears[0]}`;
+    this.positiveCAGR = total > 0;
+  }
+
+  createDataForUlbs(res, ulbs) {
+    let obj = {
+      type: "bar",
+      data: {
+        labels: this.mySelectedYears,
+        datasets: [
+          ...new Set(
+            ulbs.map((ulb, i) => {
+              let innerObj = {
+                label: this.ulbMapping[ulb].name,
+                data: [],
+                borderWidth: 1,
+                barThickness: 50,
+                borderRadius: 8,
+                backgroundColor: backgroundColor[i],
+                borderColor: borderColor[i],
+              };
+              this.mySelectedYears.forEach((year) => {
+                let foundUlb = res.find(
+                  (val) => val._id.financialYear == year && val._id.ulb == ulb
+                );
+                if (foundUlb)
+                  innerObj.data.push(
+                    convertToCr(foundUlb.amount, this.isPerCapita)
+                  );
+                else innerObj.data.push(0);
+              });
+              return innerObj;
+            })
+          ),
+        ],
+      },
+    };
+    this.barChart = obj;
+    this.chartOptions = barChartStaticOptions;
+  }
+
+  calculateRevenueMix(data) {
+    let totalRevenue = 0,
+      totalRevenueState = 0,
+      ownRevenue = 0,
+      ownRevenueState = 0;
+    for (const key in data) {
+      const element = data[key];
+      element.forEach((val) => {
+        if (val._id.lineItem == "Own Revenue") {
+          ownRevenue += val.amount;
+          if (key == "compData") ownRevenueState += val.amount;
+        }
+        totalRevenue += val.amount;
+        if (key == "compData") totalRevenueState += val.amount;
+      });
+    }
+
+    let c = (ownRevenue / totalRevenue) * 100;
+    let f = (ownRevenueState / totalRevenueState) * 100;
+    let x = c - f;
+
+    this.CAGR = `Share of Own Revenue to Total Revenue is  ${x.toFixed(2)}% ${
+      c > f ? "higher" : "lower"
+    } than state average for FY${this.mySelectedYears[0]}
+    (ULB Own Revenue to Total Revenue is  ${c.toFixed(2)}% ;
+    State Average Own Revenue to Total Revenue is  ${f.toFixed(2)}%)`;
+    this.positiveCAGR = c > f;
   }
 
   calculateRevenue(data) {
@@ -206,6 +285,20 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     this.positiveCAGR = true;
   }
 
+  calculatePerCapita(data) {
+    let totalState = data.compData.reduce((sum, val) => sum + val.amount, 0);
+    let totalUlb = data.ulbData.reduce((sum, val) => sum + val.amount, 0);
+    this.CAGR = `Rs ${(totalState - totalUlb).toFixed(2)} ${
+      totalUlb > totalState ? "higher" : "lower"
+    } than the state average between FY${
+      data.ulbData[0]._id.financialYear
+    } and FY${data.ulbData[data.ulbData.length - 1]._id.financialYear}
+
+    (Avg. ULB ${this.selectedTab} is Rs.${totalUlb.toFixed(2)} ;
+    State Average Total Revenue per capita is Rs.${totalState.toFixed(2)})`;
+    this.positiveCAGR = totalUlb > totalState;
+  }
+
   calculateCagr(data, hideCAGR) {
     let yearData = data.ulbData,
       intialYear = yearData[0].amount,
@@ -213,14 +306,28 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       time = yearData.length;
     if (yearData.length > 1 && !hideCAGR) {
       let CAGR = (Math.pow(finalYear / intialYear, 1 / time) - 1) * 100;
-      this.CAGR = `CAGR of ${CAGR.toFixed(2)}% for last ${
-        yearData.length
-      } years`;
+      this.CAGR = `CAGR of ${CAGR.toFixed(2)}% between ${
+        yearData[0]._id.financialYear +
+        " and " +
+        yearData[yearData.length - 1]._id.financialYear
+      } years (ULB ${this.selectedTab} for FY' ${
+        yearData[0]._id.financialYear
+      } is Rs.${convertToCr(yearData[0].amount, this.isPerCapita)} ${
+        this.isPerCapita ? "" : "Cr"
+      }.
+ULB ${this.selectedTab} for FY' ${
+        yearData[1]._id.financialYear
+      } is Rs. ${convertToCr(
+        yearData[yearData.length - 1].amount,
+        this.isPerCapita
+      )} ${this.isPerCapita ? "" : "Cr"}.)`;
       this.positiveCAGR = CAGR > 0;
     } else this.CAGR = "";
   }
 
   createBarChart(res) {
+    if (this.selectedTab.toLowerCase() == "revenue expenditure")
+      return this.createLineChartForRevenueExpenditure(res["data"]);
     if (
       this.filterName.includes("capital") &&
       this.filterName.includes("expenditure")
@@ -241,9 +348,18 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       const element = res["data"][key];
       element.map((value) => {
         let dataInner = JSON.parse(JSON.stringify(innerDataset));
-        if (!value.hasOwnProperty("ulbName")) {
+        if (this.compareType == "National Average" && key == "compData") {
           value.ulbName = "National";
         }
+        if (this.compareType == "ULB Type Average" && key == "compData") {
+          value.ulbName = this.ulbMapping[this.currentUlb].type;
+        }
+        if (this.compareType == "ULB category Average" && key == "compData") {
+          value.ulbName = getPopulationType(
+            this.ulbMapping[this.currentUlb].population
+          );
+        }
+
         if (!temp[value.ulbName]) {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
@@ -259,16 +375,128 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
+    newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;
     newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
       if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
-    if (!this.hideElements) newData.data.datasets.push(newlineDataset);
+    if (!this.hideElements && !this.isPerCapita)
+      newData.data.datasets.push(newlineDataset);
 
     this.barChart = newData;
+    barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
+      this.isPerCapita ? "Rs" : "Cr"
+    }`;
     this.chartOptions = barChartStaticOptions;
+  }
+
+  createLineChartForRevenueExpenditure(data) {
+    let chartLabels = [];
+    let chartData = {
+      labels: chartLabels,
+      datasets: [
+        data["ulbData"].reduce(
+          (dataSet, value, index) => {
+            dataSet.borderColor = borderColor[0];
+            dataSet.backgroundColor = backgroundColor[0];
+            dataSet.data.push(
+              (
+                (value.revenue / (value.revenue + value.expense)) *
+                100
+              ).toPrecision(2)
+            );
+            chartLabels.push(value._id.financialYear);
+            return dataSet;
+          },
+          {
+            label: this.ulbMapping[this.currentUlb].name,
+            data: [],
+            borderColor: "",
+            backgroundColor: "",
+            fill: false,
+          }
+        ),
+        data["compData"].reduce(
+          (dataSet, value, index) => {
+            dataSet.borderColor = borderColor[1];
+            dataSet.backgroundColor = backgroundColor[1];
+            dataSet.data.push(
+              (
+                (value.revenue / (value.revenue + value.expense)) *
+                100
+              ).toPrecision(2)
+            );
+            return dataSet;
+          },
+          {
+            label: this.compareType,
+            data: [],
+            borderColor: "",
+            backgroundColor: "",
+            fill: false,
+          }
+        ),
+      ],
+    };
+    const config = {
+      type: "line",
+      data: chartData,
+    };
+    this.barChart = config;
+    this.chartOptions = {
+      scales: {
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "Own revenue to expenditure revenue ration %",
+            },
+            gridLines: {
+              offsetGridLines: true,
+              display: false,
+            },
+            ticks: {
+              // beginAtZero: true,
+              steps: 10,
+              stepValue: 5,
+              max: 100,
+            },
+          },
+        ],
+      },
+      legend: {
+        position: "bottom",
+        labels: {
+          padding: 35,
+          boxWidth: 24,
+          boxHeight: 18,
+        },
+      },
+      responsive: true,
+    };
+
+    this.calculateRevenueExpenditure(data);
+  }
+
+  calculateRevenueExpenditure(data) {
+    let C, F;
+    for (const key in data) {
+      const element = data[key];
+      let A = element.reduce((sum, val) => sum + val?.revenue, 0);
+      let B = element.reduce((sum, val) => sum + val?.expense, 0);
+      if (key == "ulbData") C = (A / B) * 100;
+      else F = (A / B) * 100;
+    }
+    this.CAGR = `Own Revenue to Revenue expenditure is ${C - F}% ${
+      C > F ? "higher" : "lower"
+    } than state average between FY'${this.mySelectedYears[0]} and FY'${
+      this.mySelectedYears[this.mySelectedYears.length - 1]
+    }
+
+    (ULB Own Revenue to Revenue expenditure is ${C}% ;
+    State Own Revenue to Revenue expenditure is ${F}% )`;
   }
 
   createExpenditureData(data) {
@@ -301,13 +529,23 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   createPieChart(data, body) {
+    if (this.compareType == "ULBs..") {
+      data = this.createMultiUlbData(data["ulbData"]);
+    }
     if (this.filterName == "revenue mix") {
       for (const key in data) {
         data[key] = this.createRevenueData(data[key]);
       }
+      if (this.compareType == "ULBs..") {
+        this.resetCAGR();
+      } else this.calculateRevenueMix(data);
     }
-    if (this.filterName == "own revenue mix")
-      data["ulbData"] = this.createOwnRevenueData(data);
+    if (this.filterName == "expenditure mix") {
+      for (const key in data) {
+        data[key] = this.createExpenditureMixData(data[key]);
+      }
+      this.resetCAGR();
+    }
     this.multipleDoughnutCharts = [];
     this.multiChartLabel = [];
     for (const key in data) {
@@ -328,13 +566,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         doughnutChartData.datasets[0].data.push(
           value.amount == 0 ? "0.1" : value.amount
         );
-        if (key == "ulbData")
+        if (key != "compData")
           this.multiChartLabel.push({
             text: value._id.lineItem,
             color: pieBackGroundColor[index],
           });
         doughnutChartData.datasets[0].label = value._id.lineItem;
-        // return value._id.lineItem;
       });
       doughnutChartData.labels = this.multiChartLabel.map(
         (value) => value.text
@@ -364,7 +601,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
+                var percentage = ((currentValue / total) * 100).toFixed(2);
                 return percentage + "%" + data.labels[tooltipItem.index];
               },
             },
@@ -373,35 +610,95 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         title:
           key == "ulbData"
             ? this.ulbMapping[this.currentUlb].name
-            : body.compareType,
+            : key == "compData"
+            ? body.compareType
+            : this.ulbMapping[key].name,
       };
       this.multipleDoughnutCharts.push(val);
     }
-    console.log(this.multipleDoughnutCharts, "this.multipleDoughnutCharts");
+    console.log(this.multipleDoughnutCharts,"multipleDoughnutCharts");
+    
+    this.multiChartLabel = this.multiChartLabel.reduce(
+      (res, val) => {
+        if (!res.stack.includes(val.text)) {
+          res.unique.push(val);
+          res.stack.push(val.text);
+        }
+        return res;
+      },
+      { stack: [], unique: [] }
+    ).unique;
     this.multiPie = true;
   }
 
-  createOwnRevenueData(data) {
-    return data["ulbData"];
+  createExpenditureMixData(data) {
+    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 }];
+    data.forEach((element) => {
+      if (includeInExpenditure.includes(element.code)) {
+        tempArray.push(element);
+      } else {
+        tempArray[0].amount += element.amount;
+      }
+    });
+    return tempArray;
+  }
+
+  createMultiUlbData(data) {
+    let newData = data.reduce((res, value) => {
+      if (res.hasOwnProperty(value._id.ulb)) {
+        res[value._id.ulb].push(value);
+      } else res[value._id.ulb] = [value];
+      return res;
+    }, {});
+    return newData;
   }
 
   createRevenueData(data) {
-    let newdata = [];
-    let othersAmount = 0;
-    data.map((value) => {
-      if (!showTotalRevenue.includes(value.code)) {
-        othersAmount += value.amount;
-      } else {
-        value.amount = convertToCr(value.amount, false);
-        newdata.push(value);
+    let own = {
+      _id: { lineItem: "Own Revenue" },
+      amount: 0,
+    };
+    let other_receipt = {
+      _id: { lineItem: "Other Receipts" },
+      amount: 0,
+    };
+    let assigned_revenues_compensations = {
+      _id: { lineItem: "Assigned Revenues Compensation" },
+      amount: 0,
+    };
+    let grant = {
+      _id: { lineItem: "Grants" },
+      amount: 0,
+    };
+    let interest_incomes = {
+      _id: { lineItem: "Interest Income" },
+      amount: 0,
+    };
+    let newdata = [
+      own,
+      other_receipt,
+      assigned_revenues_compensations,
+      grant,
+      interest_incomes,
+    ];
+
+    data.forEach((value) => {
+      if (ownRevenues.includes(value.code)) {
+        own.amount += value.amount;
+      }
+      if (other_receipts.includes(value.code)) {
+        other_receipt.amount += value.amount;
+      }
+      if (assigned_revenues_compensation.includes(value.code)) {
+        assigned_revenues_compensations.amount += value.amount;
+      }
+      if (grants.includes(value.code)) {
+        grant.amount += value.amount;
+      }
+      if (interest_income.includes(value.code)) {
+        interest_incomes.amount += value.amount;
       }
     });
-
-    newdata.push({
-      amount: convertToCr(othersAmount, false),
-      _id: { lineItem: "Others" },
-    });
-
     return newdata;
   }
 
@@ -416,6 +713,15 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
     this.getChartData(value);
     console.log("filterChangeInChart", value);
+  }
+
+  btnClickInAboutIndicator(val) {
+    console.log(val, "btn val in filterData");
+    this.changeActiveBtn(this.data.btnLabels.indexOf(val));
+  }
+
+  resetCAGR() {
+    this.CAGR = "";
   }
 }
 
@@ -480,7 +786,7 @@ const innerDataset = {
 };
 
 function convertToCr(value, isPerCapita) {
-  if (isPerCapita) return value;
+  if (isPerCapita) return value.toFixed(2);
   if (value == 0) return 0;
   value /= 10000000;
   return value.toFixed(2);
@@ -659,8 +965,11 @@ const ownRevenue = [
   },
 ];
 
-const showTotalRevenue = ["160", "120", "171", "150"];
-
+const ownRevenues = ["110", "130", "140", "150", "180"];
+const assigned_revenues_compensation = ["120"];
+const grants = ["160"];
+const interest_income = ["171"];
+const other_receipts = ["170", "100"];
 const barChartStaticOptions = {
   maintainAspectRatio: false,
   responsive: true,
@@ -707,10 +1016,31 @@ const barChartStaticOptions = {
         if (meta.type == "line") return true;
         meta.data.forEach(function (bar, index) {
           var data = dataset.data[index];
-          ctx.fillText("₹ " + data + " Cr", bar._model.x, bar._model.y - 5);
+          ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
         });
       });
       console.log(animation, "animation");
     },
   },
 };
+
+function getPopulationType(population) {
+  if (population < 100000) {
+    return "<100 Thousand";
+  } else if (100000 < population && population < 500000) {
+    return "100 Thousand - 500 Thousand";
+  } else if (500000 < population && population < 1000000) {
+    return "500 Thousand - 1 Million";
+  } else if (1000000 < population && population < 4000000) {
+    return "1 Million - 4 Million";
+  } else {
+    return "4 Million+";
+  }
+}
+let showCagrIn = ["total revenue", "total own revenue", "capital expenditure"];
+let showPerCapita = [
+  "revenue per capita",
+  "own revenue per capita",
+  "capital expenditure per capita",
+];
+const includeInExpenditure = ["210", "220", "230", "240", "200"];

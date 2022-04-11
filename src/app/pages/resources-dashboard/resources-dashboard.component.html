@@ -16,12 +16,15 @@
                   placeholder="Type here..."
                   [formControl]="resourcesFilter"
                   [matAutocomplete]="auto"
-                  class="fl-input form-control"
+                  class="fl-input form-control" 
+                  #resourcesFilter
+                  [value]="searchValue"
                 />
               </div>
               <div class="col-3 p-0">
-                <button type="button" class="btn btnFilter">Search</button>
-              </div>
+                <button type="button" class="btn btnFilter" *ngIf="search" (click)="searchFilter(resourcesFilter.value)">Search</button>
+                <button type="button" class="btn btnFilter" *ngIf="crossIcon" (click)="crossButton()"><i class="fa fa-close" style="font-size:25px"></i></button>
+              </div>             
               <div class="col-12">
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option
@@ -35,7 +38,12 @@
             </div>
           </form>
         </div>
-      </div>
+      </div>   
+      <div class="row">
+        <div class="mb-4 totalCount" *ngIf="crossIcon">
+          <b>{{totalCount}}</b> Search results for <b>'{{searchedValue}}'</b>
+        </div>
+      </div> 
     </div>
   </div>
 </div>
@@ -43,12 +51,17 @@
 
 <div class="container container-cnt mt-n">
   <a
+    (click)="activeCard(cardIndex, cardData)"
     routerLink="{{ card?.link }}"
     class="center-aTag mx-xl-auto"
-    style=""
-    *ngFor="let card of cardData"
+    *ngFor="let card of cardData; let cardIndex = index"
   >
-    <app-shared-card [data]="card" [cardStyle]="cardStyle"></app-shared-card>
+    <app-shared-card
+      [data]="card"
+      [links]="card?.link"
+      [cardStyle]="cardStyle"
+      [cardActive]="card.activeCard"
+    ></app-shared-card>
   </a>
 
   <!-- <div class="card" > -->

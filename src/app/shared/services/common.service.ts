@@ -492,7 +492,7 @@ export class CommonService {
     let params = new HttpParams();
     if (obj) {
       Object.keys(obj).forEach((key) => {
-        if (obj[key]) {
+        if (obj[key] || obj[key] === 0) {
           params = params.set(key, obj[key]);
         }
       });
@@ -580,5 +580,21 @@ export class CommonService {
 
   getLineItems() {
     return this.http.get(`${environment.api.url}LineItem`);
+  }
+
+  formatNumber(num) {
+    return new Intl.NumberFormat("en-IN").format(num);
+  }
+
+  changeCountFormat(value: any) {
+    let formattedValue: any;
+    if (value >= 10000000) {
+      formattedValue = (value / 10000000).toFixed(2);
+    } else if (value >= 1000000) {
+      formattedValue = (value / 1000000).toFixed(2);
+    } else {
+      formattedValue = value.toFixed(2);
+    }
+    return formattedValue;
   }
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, SimpleChange } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { ResourcesDashboardService } from "./resources-dashboard.service";
 
 @Component({
   selector: "app-resources-dashboard",
@@ -9,7 +11,10 @@ import { map, startWith } from "rxjs/operators";
   styleUrls: ["./resources-dashboard.component.scss"],
 })
 export class ResourcesDashboardComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private router: Router,
+    protected resourcedashboard: ResourcesDashboardService
+  ) {}
   resourcesFilter = new FormControl();
   autoCompleteData: string[] = [
     "Champs-Élysées 1",
@@ -22,7 +27,14 @@ export class ResourcesDashboardComponent implements OnInit {
   cardStyle = cardStyle;
   cardData = [learningCenter, dataSets, reportsPublications];
 
+  // ngOnChanges(changes: SimpleChange): void {
+  //   console.log("chanhessss==>", changes);
+  // }
+
   ngOnInit(): void {
+    // this.subscribeValue();
+    console.log("======>>>>>", this.cardData);
+    this.activeCard(0, this.cardData);
     this.filteredResources = this.resourcesFilter.valueChanges.pipe(
       startWith(""),
       map((value) => this._filter(value))
@@ -37,8 +49,69 @@ export class ResourcesDashboardComponent implements OnInit {
     }
   }
 
+  ngDoCheck() {
+    let url = this.router.url;
+    this.cardData.map((elem) => {
+      let link = elem.link.split("/")[0];
+      if (url.includes(link)) {
+        elem[`activeCard`] = true;
+      } else {
+        elem[`activeCard`] = false;
+      }
+    });
+  }
+
   private _normalizeValue(value: string): string {
     return value.toLowerCase().replace(/\s/g, "");
+  }
+
+  activeCard(cardIndex: number, cardData: any) {
+    cardData.map((elem, index) => {
+      if (index == cardIndex) {
+        elem[`activeCard`] = true;
+      } else {
+        elem[`activeCard`] = false;
+      }
+    });
+  }
+  crossIcon: boolean=false;
+  search:boolean=true;
+  searchValue:string='';
+  data:any={
+    total:500,
+    learning:220,
+    dataset:180,
+    report:100
+  }
+  passedCount:any
+  totalCount:any
+  searchedValue:any
+  toggle:boolean=true
+  defaultPlaceholder:boolean=false
+  searchFilter(searchFilter:any){
+    //sending data to resource count to card
+    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
+    this.resourcedashboard.updateResouceCount(this.passedCount);
+    //queryparam used for url
+    this.router.navigate( ['/resources-dashboard/learning-center/toolkits'],
+    { queryParams: { search: searchFilter } })
+    this.totalCount = this.data.total
+    console.log(this.totalCount)
+    this.searchedValue = searchFilter
+    this.resourcedashboard.getSearchedData(searchFilter).subscribe(data => {
+      console.log(data)
+    })  
+    if(searchFilter.length){
+       this.crossIcon = true
+       this.search = false
+    }
+    
+  }
+  crossButton(){
+    this.searchValue = null
+    this.search = true
+    this.crossIcon = false
+    this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
   }
 }
 const learningCenter = {

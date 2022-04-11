@@ -9,10 +9,11 @@ import {
   EventEmitter,
 } from "@angular/core";
 import * as fileSaver from "file-saver";
-import {OwnRevenueService} from '../../../pages/own-revenue-dashboard/own-revenue.service'
+import { OwnRevenueService } from "../../../pages/own-revenue-dashboard/own-revenue.service";
 import Chart from "chart.js";
-import {GlobalLoaderService} from 'src/app/shared/services/loaders/global-loader.service'
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { CommonService } from "../../services/common.service";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -70,7 +71,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   yearValue = new EventEmitter();
 
   @Output()
-  dataAvailEmit  = new EventEmitter()
+  dataAvailEmit = new EventEmitter();
   dataAvailLoading = false;
   financialYear;
   availValue;
@@ -81,56 +82,64 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   constructor(
     public ownRevenueService: OwnRevenueService,
     public _loaderService: GlobalLoaderService,
-    public _commonServices : CommonService
-
+    public _commonServices: CommonService,
+    private router: Router
   ) {
     this.yearValue.emit("2019-20");
   }
 
   ngOnInit(): void {
+    console.log("financial Data==>", this.data);
     if (this.showDataAvailable) this.getAvailableData();
-    this._commonServices.fetchStateList().subscribe((res: any)=>{
-     // console.log('res', res);
-      this.stateList = res;
-     },
-     (error)=>{
-       console.log(error)
-     });
-     console.log('component name.......', this.componentName);
-
+    this._commonServices.fetchStateList().subscribe(
+      (res: any) => {
+        // console.log('res', res);
+        this.stateList = res;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    console.log("component name.......", this.componentName);
   }
 
+  stateChanges(event) {
+    console.log("new Event", event);
+    this.viewDashboard(event);
+  }
+
+  viewDashboard(stateId) {
+    this.router.navigateByUrl(`/dashboard/state?stateId=${stateId}`);
+  }
   ngOnChanges(changes: SimpleChanges): void {}
 
   changeInMapFilter(event) {
     this.getAvailableData();
     this.changeInStateOrCity.emit(event);
   }
-yearVal = '2019-20'
-ulbId
+  yearVal = "2019-20";
+  ulbId;
   downloadCSV(from) {
+    this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+      (res: any) => {
+        let blob: any = new Blob([res], {
+          type: "text/json; charset=utf-8",
+        });
+        const url = window.URL.createObjectURL(blob);
 
-      this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
-        (res: any) => {
-          let blob: any = new Blob([res], {
-            type: "text/json; charset=utf-8",
-          });
-          const url = window.URL.createObjectURL(blob);
-
-          fileSaver.saveAs(blob, "dataAvaliable.xlsx");
-        },
-        (error) => {}
-      );
-
+        fileSaver.saveAs(blob, "dataAvaliable.xlsx");
+      },
+      (error) => {}
+    );
   }
   getAvailableData() {
     // this._loaderService.showLoader()
-    this.dataAvailLoading  = true
+    this.dataAvailLoading = true;
 
-  let obj = {
-    financialYear: this.yearVal,
-    stateId: this.data.stateId
-  }
+    let obj = {
+      financialYear: this.yearVal,
+      stateId: this.data.stateId,
+    };
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
         // this._loaderService.stopLoader();
@@ -139,9 +148,8 @@ ulbId
         // this._loaderService.stopLoader()
         res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
         this.financialYear = res;
-      this.availValue =  res["data"]?.percent
-          this.halfDoughnutChart();
-
+        this.availValue = res["data"]?.percent;
+        this.halfDoughnutChart();
 
         this.notFoundNames = res["data"]?.names;
         console.log("ordResponse", res);
@@ -188,8 +196,6 @@ ulbId
     });
   }
 }
-
-
 
 const revenue = {
   type: 6,

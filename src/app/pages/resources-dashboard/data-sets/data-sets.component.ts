@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import{ResourcesDashboardService} from '../resources-dashboard.service'
-import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
-import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
+import { Component, OnInit, SimpleChange } from "@angular/core";
+import { ResourcesDashboardService } from "../resources-dashboard.service";
+import { Router, NavigationStart, Event, NavigationEnd } from "@angular/router";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import * as FileSaver from "file-saver";
 @Component({
   selector: "app-data-sets",
@@ -9,6 +9,11 @@ import * as FileSaver from "file-saver";
   styleUrls: ["./data-sets.component.css"],
 })
 export class DataSetsComponent implements OnInit {
+  learningCount:any
+  searchedValue:any
+  learningToggle:boolean=false
+  noDataa:boolean=false
+  dataReceived:boolean=true
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -23,6 +28,18 @@ export class DataSetsComponent implements OnInit {
         this.category = "balance";
       }
     });
+    this._resourcesDashboardService.castSearchedData.subscribe(data =>{
+      this.learningToggle =data
+    }) 
+    this._resourcesDashboardService.castCount.subscribe(data =>{
+      this.learningCount =data?.key?.dataset
+      this.searchedValue = data?.name
+       this.learningToggle =data?.toggle ? true : false;
+       if(data?.key?.total == 0){
+        this.noDataa = true
+        this.dataReceived = false;
+      }  
+    })
   }
   category;
   filterComponent;
@@ -49,20 +66,23 @@ export class DataSetsComponent implements OnInit {
     // this.getData();
   }
 
-  
-  openNewTab(data){
-    window.open(data?.fileUrl, '_blank')
-      // const pdfUrl = data?.fileUrl;
-      // const pdfName = data?.fileName;
-      // FileSaver.saveAs(pdfUrl, pdfName);
-    
-// return url;
+  // ngOnChanges(changes: SimpleChange) {
+  //   console.log("changes===//>", changes);
+  // }
+
+  openNewTab(data) {
+    window.open(data?.fileUrl, "_blank");
+    // const pdfUrl = data?.fileUrl;
+    // const pdfName = data?.fileName;
+    // FileSaver.saveAs(pdfUrl, pdfName);
+
+    // return url;
     // window.open(url, '_blank');
- 
   }
   noData = false;
   getData() {
     // debugger;
+    console.log("getData");
 
     this.globalLoaderService.showLoader();
     this._resourcesDashboardService
@@ -90,12 +110,15 @@ export class DataSetsComponent implements OnInit {
   state;
   ulb;
   filterData(e) {
+    // debugger;
     console.log("Data sets", e);
     this.year = e?.controls?.year?.value ?? "2020-21";
     this.type = e?.controls?.contentType?.value ?? "Raw Data PDF";
     this.state = e?.controls?.state?.value;
     this.ulb = e?.controls?.ulb?.value;
+    // if (e) {
     this.getData();
+    // }
   }
 
   isAllSelected(All: boolean = false) {
@@ -124,8 +147,9 @@ export class DataSetsComponent implements OnInit {
   }
 
   checkDownloadButton() {
+    // this.globalLoaderService.stopLoader();
     // debugger;
-    if (this.selectedUsersList == []) {
+    if (!this.checkValue) {
       this.downloadValue = false;
     } else {
       this.downloadValue = true;
@@ -161,19 +185,22 @@ export class DataSetsComponent implements OnInit {
   //   }
 
   disabledValue = false;
-  download(event){
-    if(event){
-      console.log(this.selectedUsersList)
-      for(let data of this.selectedUsersList){
+  download(event) {
+    if (event) {
+      console.log(this.selectedUsersList);
+      for (let data of this.selectedUsersList) {
         const pdfUrl = data?.fileUrl;
         const pdfName = data?.fileName;
         FileSaver.saveAs(pdfUrl, pdfName);
       }
-      
     }
   }
+
+  newArray = [];
+  checkValue = false;
   toggleRowSelection(event, row) {
-    this.checkDownloadButton();
+    // this.checkDownloadButton();
+
     // debugger;
     console.log("selected event", event.source, row.fileName);
 
@@ -182,28 +209,29 @@ export class DataSetsComponent implements OnInit {
       console.log(index);
       if (index > -1) this.selectedUsersList.splice(index, 1);
       row.isSelected = false;
+
       // if (this.selectedUsersList.length >= 5) {
       //   this.disabledValue = true;
       // } else if (this.selectedUsersList.length <= 5) {
       //   this.disabledValue = false;
       // }
-      // this.checkDownloadButton();
     } else {
       this.selectedUsersList.push(row);
+
+      this.checkValue = true;
       // if (this.selectedUsersList.length >= 5) {
       //   this.disabledValue = true;
       // } else if (this.selectedUsersList.length <= 5) {
       //   this.disabledValue = false;
       // }
       row.isSelected = true;
-      // this.checkDownloadButton();
     }
+    // this.checkDownloadButton();
 
     // setTimeout(() => {
 
     // }, 100);
 
     console.log(this.selectedUsersList);
-
   }
 }

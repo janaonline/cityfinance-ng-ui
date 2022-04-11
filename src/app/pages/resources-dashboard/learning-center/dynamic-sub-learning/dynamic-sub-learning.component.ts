@@ -20,28 +20,28 @@ export class DynamicSubLearningComponent implements OnInit {
     {
       _id:1,
       heading:"Digital billing and online system for collection",
-      content:"Moving from a manual records system to an online billing and collection system will not only improve transparency and set up an easy to administer process for tax officials but also enable easy compliance by taxpayers. The online system should also ensure that bills are distributed to taxpayers electronically and that automatic payment reminders are sent via SMS/Email.Andhra Pradesh has been fairly successful in building a centrally run online portal for billing and collection. Delhi’s Municipal Corporations, Greater Chennai Corporation are some examples of states and cities that have successfully migrated to an online system of billing and collection. In 20XX-XX, Tamil Nadu’s Municipal Corporations also migrated to Uniform Tree Information System (UTIS) – an online system of digital billing and collection – which enables online payments for property tax and other user charges and fees that are levied by the Municipal Corporations. Step-by-step process is as follows:",
+      content:"It is imperative for all ULBs to discontinue manual records system at the earliest and move to an online billing and collection system which will improve transparency, set up an easy to administer process for tax officials, and enable easy compliance by taxpayers. The online system should enable electronic generation & distribution of bills to taxpayers as well as automatic payment reminders to defaulters via SMS/Email.Andhra Pradesh has seen success in building such a centrally run online portal for billing and collection. Delhi’s Municipal Corporations and Greater Chennai Corporation are also some examples where successful migration to an online system of billing and collection has been achieved. Tamil Nadu’s Municipal Corporations have also, migrated to Uniform Tree Information System (UTIS) – an online system of digital billing and collection – which enables online payments for property tax and other user charges and fees that are levied by the Municipal Corporations.",
     imgArr:[
       {
-        link:'../../../../../assets/images/resources dashboard/image3-35.png',
-        text:'Step 1: Step One: Digitise manual records and create a Digital Property Tax Register'
+        link:'../../../../../assets/resources-das/img-digitalBilling.png',
+        text:''
       },
-      {
-        link:'../../../../../assets/images/resources dashboard/image4-37.png',
-        text:'Step 2: Generate bills against all property tax assessees using an online billing system Step Three: Notify taxpayers of pending dues through SMS, Email, Door-to-Door Distribution using the online billing system'
-      },
-      {
-        link:'../../../../../assets/images/resources dashboard/image5-39.png',
-        text:'Step 3: Taxpayer logs into the website (or any payment portal integrated with the online system) and pays online through various modes of payment such as Credit/Debit Card/ Net Banking, UPI ID or QR code, Mobile Wallets'
-      },
-      {
-        link:'../../../../../assets/images/resources dashboard/image6-41.png',
-        text:'Step 3:  Property Tax Records are updated post successful payment and Electronic Receipt is generated'
-      },
-      {
-        link:'',
-        text:'Step 4: Property Tax Records are updated post successful payment and Electronic Receipt is generated'
-      },
+      // {
+      //   link:'../../../../../assets/images/resources dashboard/image4-37.png',
+      //   text:''
+      // },
+      // {
+      //   link:'../../../../../assets/images/resources dashboard/image5-39.png',
+      //   text:''
+      // },
+      // {
+      //   link:'../../../../../assets/images/resources dashboard/image6-41.png',
+      //   text:''
+      // },
+      // {
+      //   link:'',
+      //   text:''
+      // }
       
       
       
@@ -51,14 +51,78 @@ export class DynamicSubLearningComponent implements OnInit {
     {
       _id:2,
       heading:"Technological Interventions",
-      content:"Following technological interventions coupled with administrative changes can radically improve tax collections–"
-    },
-    
+      content:"Technology can radically transform collections in the immediate term. Combining technological and administrative interventions, as depicted in the figure below, can help in transforming the collection process and improving tax collections.",
+      imgArr:[
+        {
+          link:'../../../../../assets/resources-das/img-digitalBilling.png',
+          text:'Step One: Creation of a single digital property register',
+          description:'The creation of a single digital property register that integrates all Municipal databases and eventually integrates Municipal databases with State Stamp Duties and Registration Records and Electricity Department/Agency’s records is the backbone.'
+        },
+        {
+          link:'../../../../../assets/resources-das/img-digitalBilling.png',
+          text:'Step Two: Integrated or Unified Billing of all Municipal Taxes and Charges',
+          description:'Every household or commercial property is liable to not only pay property tax but also various other user charges such as water, sewerage, professional taxes (where levied), trade licence fees etc. Having a system of unified billing and collection for every household/commercial property – which means ‘One Household, One Collector’ – will help increase efficiency at the ULB/Agency level by avoiding duplication of efforts for billing and collection, as well as reduce the burden of compliance for citizens and establishments by establishing a single relationship with the Local Government.'
+        },
+        {
+          link:'../../../../../assets/resources-das/img-digitalBilling.png',
+          text:'Step Three: Increase channels and modes of payments',
+          description:'States/ULBs need to increase both channels (places where taxpayers can pay) and modes (type/options) for payment that are available to taxpayers. By enabling multiple payment channels – including payments at physical centres like ULB’s collection centres, bank branches, door-to-door collections by bill collectors; and online payments through the state or ULB’s website, as well as via payment portals like Google Pay, Paytm, Amazon Pay etc.<br><br><b> Bill Collectors/ Revenue Collectors for Door-to-door collection:</b><br><br>Provide Mobile Point of Sale (MPOS) Devices for enabling all modes of digital payments. With the necessary infrastructure in place for digital payments, including both increased modes and channels of digital payment, ULBs can also explore sending Payment Link Reminders through SMS/Whatsapp/Email. Besides augmenting digital payments, this would help reduce reliance on cash/cheque/DD collections and dependence on physical collection centres.<br><br><b>Payment Link Reminders:</b><br><br>Taxpayers should get alerts via SMS/Whatsapp/Email about pending dues. After clicking on the link, the taxpayer is directed straight to the payment gateway which displays the pending tax. Post payment, an online receipt is generated. The strategy can be used in a targeted fashion by focusing on taxpayers that have the highest arrears, have not paid their dues over 6 months etc.'
+        },
+        {
+          link:'../../../../../assets/resources-das/img-digitalBilling.png',
+          text:'Step Four: De-linking the functions of assessment and billing & collections',
+          description:'There is a strong case to delink assessment, and billing & collections, both from the perspective of internal controls (segregation of duties) and outsourcing / specialization. A unified cadre of collectors who focus on collections from specific categories of properties (residential, commercial, high value), or different categories of taxpayers (defaulters, and within that hard, soft buckets etc.), or by geography (by ward, by ULB), and who are enabled by MPOS with a map and timetabling, can deliver transformative results in collections and drive operational efficiencies within ULBs at a broader level.The success story of Ranchi Municipal Corporation, where there was a fourfold increase in collections between FY14-15 and FY17-18 post outsourcing of collection, merits serious evaluation for adoption. Several cities like Ludhiana and Amritsar have tackled the issue of staff deficit by outsourcing collection centres. They have created Citizen Facility Centers (CFC) in zonal offices responsible for filling the assessment forms of all walk-in taxpayers and collecting taxes through cash, online and digital channels.'      
+        },
+      ]
+    },    
     {
       _id:3,
       heading:"Stronger penal provisions for defaulters",
-      content:"Enabling penal provisions in State/City Acts for defaulters will strengthen the hands of revenue officials in ensuring compliance by assessees. These provisions should also be combined with dissemination of defaulters’ list in public domain, for instance, at the ULB’s offices, collection centres, website, etc. and through the communication to the defaulter via demand notices. For instance, as per the XXXX amendment to the Chennai City Municipal Corporation Act, 1919, assesses who pay advance property tax, i.e. before October 15 of each year will be given a 5% incentive (upto a maximum of Rs. 5,000/-) and payments made after October 15 of each year will attract a penalty of 2% p.a. This amendment has led to Rs. xxxx crore collections in XX year (XX% increase) as compared to XX year. Early bird discounts and late payment penalties have also shown positive results in Pune, Hyderabad and Delhi’s Municipal Corporations by boosting early payments by taxpayers which consequently has helped improve availability of cash flows throughout the year. International examples also showcase that a strong emphasis on improving administrative processes leads to an uptake in collections. For example, in Quezon City, Philippines, the Local Government Code provides for various enforcement provisions including seizure and auctioning of delinquent properties. To boost revenue collections, the Local Government has adopted a system of implementing enforcement provisions coupled with an incentives mechanism for taxpayers- discounts for early payment and penalties for late payment which led to more timely payments."
+      content:"Stronger penal provisions in State/City Acts for defaulters will strengthen the hands of revenue officials in ensuring compliance by assessees. These provisions should also be combined with dissemination of defaulters’ list in public domain, for instance, at the ULB’s offices, collection centres, website, etc. and through the communication to the defaulter via demand notices.For instance, as per an amendment to the Chennai City Municipal Corporation Act, 1919, assessees who pay advance property tax, i.e. before October 15 of each year, will be given a 5% incentive (upto a maximum of Rs. 5,000/-) and payments made after October 15 of each year will attract a penalty of 2% p.a.Early bird discounts and late payment penalties have also shown positive results in Pune, Hyderabad and Delhi’s Municipal Corporations by boosting early payments by taxpayers which consequently has helped improve availability of cash flows throughout the year.International examples also showcase that a strong emphasis on improving administrative processes leads to an uptake in collections. For example, in Quezon City, Philippines, the Local Government Code provides for various enforcement provisions including seizure and auctioning of delinquent properties. To boost revenue collections, the Local Government has adopted a system of implementing enforcement provisions coupled with an incentives mechanism for taxpayers- discounts for early payment and penalties for late payment which led to more timely payments.",
+      imgArr:[
+        {
+          link:'../../../../../assets/resources-das/img-strongerPanel.png',
+          text:''
+        }
+      ]
     }
+  ]
+  reportCardData = [
+    {
+      _id:1,
+      heading:"1)	Creation of a MIS System for performance tracking",
+      content:["Data-driven decision making and performance management are essential for a robust property tax system. Quarterly reviews of property tax MIS at city/ward/revenue official level should be institutionalized.MIS dashboards could include performance metrics such as current collection efficiency, arrear collection efficiency, track pending demands in high value properties, besides other metrics."
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/img-reporting2.png',
+        text:'Figure: Current Landscape of Reporting Practices (good practices marked in green)'
+      },]
+    },
+    {
+      _id:2,
+      heading:"2)	Ranking of Revenue Officials to improve performance and enhance collections",
+      content:["Ranking revenue officials through MIS dashboards, and recognising and rewarding their performance through regular competitions would help motivate revenue officials, foster adoption of best practices and, subsequently, enhance revenue collections for the ULB.<br><b> Introduction to (Guide to MPL): A step-by-step implementation guide for running a state/city/ULB level competition for revenue officials<b>"
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/img-reporting2.png',
+        text:'Figure: Current Landscape of Reporting Practices (good practices marked in green)'
+      },]
+    },
+    {
+      _id:3,
+      heading:"3)	Publishing data in public forum for increased transparency and accountability",
+      content:["Publishing ward-wise demand and collection data, especially defaulters’ data, in public domain can help in building transparency and accountability among ULBs and taxpayers."
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/img-reporting2.png',
+        text:'Figure: Current Landscape of Reporting Practices (good practices marked in green)'
+      },]
+    },
+
+   
   ]
   assessmentData = [
     {

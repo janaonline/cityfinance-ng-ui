@@ -41,6 +41,10 @@ export class RevenuechartComponent
   stateName;
 
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
+  @Input() nestedChartFilterOption: any = {
+    showFinancialYear: true,
+    showResetButton: true
+  };
   constructor(
     public dialog: MatDialog,
     public _loaderService: GlobalLoaderService,
@@ -302,8 +306,7 @@ export class RevenuechartComponent
     "2020-21",
   ];
 
-  @Input()
-  multipleCharts;
+  @Input() multipleCharts: boolean = false;
 
   @Input()
   singleDoughnutChart;
@@ -335,6 +338,7 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges', changes)
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
         this.createChart();

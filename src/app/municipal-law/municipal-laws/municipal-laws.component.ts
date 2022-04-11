@@ -1,19 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { FeatureCollection, Geometry } from 'geojson';
-import * as L from 'leaflet';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ILeafletStateClickEvent } from 'src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent';
-import { GeographicalService } from 'src/app/shared/services/geographical/geographical.service';
-import { MapUtil } from 'src/app/util/map/mapUtil';
-import { UserUtility } from 'src/app/util/user/user';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, SimpleChange, TemplateRef } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { FeatureCollection, Geometry } from "geojson";
+import * as L from "leaflet";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { ILeafletStateClickEvent } from "src/app/shared/components/re-useable-heat-map/models/leafletStateClickEvent";
+import { GeographicalService } from "src/app/shared/services/geographical/geographical.service";
+import { MapUtil } from "src/app/util/map/mapUtil";
+import { UserUtility } from "src/app/util/user/user";
 
-import { AuthService } from '../../../app/auth/auth.service';
-import { DialogComponent } from '../../../app/shared/components/dialog/dialog.component';
-import { IDialogConfiguration } from '../../../app/shared/components/dialog/models/dialogConfiguration';
-import { CommonService } from '../../../app/shared/services/common.service';
+import { AuthService } from "../../../app/auth/auth.service";
+import { DialogComponent } from "../../../app/shared/components/dialog/dialog.component";
+import { IDialogConfiguration } from "../../../app/shared/components/dialog/models/dialogConfiguration";
+import { CommonService } from "../../../app/shared/services/common.service";
 
 @Component({
   selector: "app-municipal-laws",
@@ -40,7 +40,7 @@ export class MunicipalLawsComponent implements OnInit {
   modalRef: BsModalRef;
 
   states: any;
-  compareState = 0;
+  compareState: any;
 
   list = [];
   selectedStates = ["criteria"];
@@ -127,6 +127,9 @@ export class MunicipalLawsComponent implements OnInit {
     this.loadSkeleton();
   }
 
+  ngOnChanges(changes: SimpleChange) {
+    console.log("changes===//>", changes);
+  }
   fetchMunicipalLawJSONFile() {
     this.http
       .get("/assets/files/municipal-laws.json")
@@ -197,9 +200,8 @@ export class MunicipalLawsComponent implements OnInit {
     };
     let map;
 
-    ({ stateLayers: this.statesLayer, map } = MapUtil.createDefaultNationalMap(
-      configuration
-    ));
+    ({ stateLayers: this.statesLayer, map } =
+      MapUtil.createDefaultNationalMap(configuration));
 
     this.nationalLevelMap = map;
 
@@ -218,7 +220,7 @@ export class MunicipalLawsComponent implements OnInit {
     if (!this.compareState) {
       this.router.navigate(["/home"]);
     } else {
-      this.compareState = 0;
+      this.compareState = "0";
     }
     // const homePagePath = '/home'
     // window.location.pathname = homePagePath;
@@ -276,7 +278,7 @@ export class MunicipalLawsComponent implements OnInit {
   }
 
   showMapView() {
-    this.compareState = 0;
+    this.compareState = "0";
     setTimeout(() => {
       this.reRenderMap();
       const currentSlide = this.slides[this.currentSlideIndex];
@@ -510,12 +512,27 @@ export class MunicipalLawsComponent implements OnInit {
     this.selectedStates = ["criteria"];
   }
 
+  // showValue: boolean = false;
+
   showStateSelectionSection() {
+    // debugger;
     this.selectedStates = ["criteria"];
     this.states.forEach((state) => {
       state.selected = false;
     });
     this.compareState = 1;
+    console.log(
+      "this.compareState",
+      this.compareState,
+      this.selectedStates,
+      this.states
+      // this.showValue
+    );
+    // if (this.compareState == 1 || this.compareState == 2) {
+    //   this.showValue = true;
+    // } else if (this.compareState == 0) {
+    //   this.showValue = false;
+    // }
   }
 
   clearSelectedStates() {

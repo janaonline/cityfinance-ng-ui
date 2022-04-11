@@ -1,5 +1,6 @@
 import {
   Component,
+  EventEmitter,
   Input,
   NgZone,
   OnInit,
@@ -24,6 +25,7 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { NationalMapSectionService } from "./national-map-section.service";
+// import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
 @Component({
@@ -47,20 +49,22 @@ export class NationalMapSectionComponent
     private nationalMapService: NationalMapSectionService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
-    // setTimeout(() => {
-    //   this.ngOnChanges({
-    //     yearSelected: {
-    //       currentValue: ["2016-17"],
-    //       previousValue: null,
-    //       firstChange: true,
-    //       isFirstChange: () => true,
-    //     },
-    //   });
-    // }, 1000);
+    // debugger;
+    setTimeout(() => {
+      this.ngOnChanges({
+        yearSelected: {
+          currentValue: ["2016-17"],
+          previousValue: null,
+          firstChange: true,
+          isFirstChange: () => true,
+        },
+      });
+    }, 1000);
     this.initializeform();
     this.fetchStateList();
   }
 
+  nationalLevelMap: any;
   selected_state = "India";
   stateselected: IState;
   creditRating: { [stateName: string]: number; total?: number } = {};
@@ -78,32 +82,33 @@ export class NationalMapSectionComponent
   totalUsersVisit: number;
   StyleForSelectedState = {
     weight: 2,
-    color: "black",
+    color: "#a6b9b4",
     fillOpacity: 1,
   };
   defaultStateLayerColorOption = {
     fillColor: "#efefef",
+    // fillColor: this.getColor(540),
     weight: 1,
     opacity: 1,
-    color: "#403f3f",
+    color: "#a6b9b4",
     fillOpacity: 1,
   };
   mapLabels = [
     {
       name: "0%",
-      color: "#A6B9B4",
+      color: "#a6b9b4",
     },
     {
       name: "25%",
-      color: "#FCDA4A",
+      color: "#fcda4a",
     },
     {
       name: "60%",
-      color: "#4A6CCB",
+      color: "#4a6ccb",
     },
     {
       name: "Above 80%",
-      color: "#12A6DD",
+      color: "#12a6dd",
     },
   ];
   popBtn = true;
@@ -126,30 +131,116 @@ export class NationalMapSectionComponent
     populationCat: true,
     ulbType: "",
   };
+
+  AvailabilityTitle: String = "India";
+
+  showLoader: boolean = true;
+  dataAvailabilityvalue: Number;
+  isLoading: boolean = true;
+
+  mapConfig = {
+    code: {
+      state: "",
+      city: "",
+    },
+    showStateList: false,
+    showDistrictList: false,
+    stateMapContainerHeight: "23rem",
+    nationalZoomOnMobile: 3.9, // will fit map in container
+    nationalZoomOnWeb: 3.9, // will fit map in container
+    stateZoomOnMobile: 4, // will fit map in container
+    stateZoomOnWeb: 4, // will fit map in container
+    stateBlockHeight: "23.5rem", // will fit map in container
+  };
+
+  currentStateId: any = "";
+  colorCoding: any = [];
+
+  StatesJSONForMapCreation: any;
+  national: any = { _id: "", name: "India" };
   ngOnInit(): void {
+    this.getNationalLevelMapData("2020-21");
     this.getNationalTableData();
     this.loadData();
     this.subFilterFn("popCat");
+    this.createNationalMapJson();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("national dashboard changes", changes);
+  createNationalMapJson() {
+    const prmsArr = [];
+    const prms1 = this._geoService.loadConvertedIndiaGeoData().toPromise();
+    prmsArr.push(prms1);
+
+    prms1.then((data) => (this.StatesJSONForMapCreation = data));
+
+    return Promise.all(prmsArr);
   }
+
+  getNationalLevelMapData(year) {
+    let randomNumber = Math.random();
+    this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
+      console.log("mapData", res);
+      this.colorCoding = res?.data;
+      if (res) {
+        // this.createNationalLevelMap(
+        //   this.StatesJSONForMapCreation,
+        //   "mapidd" + Math.random()
+        // );
+        this.createNationalLevelMap(
+          this.StatesJSONForMapCreation,
+          "mapidd" + randomNumber
+        );
+        // this.initializeNationalLevelMapLayer(this.StatesJSONForMapCreation);
+      }
+    });
+  }
+
+  getColor(d) {
+    let color;
+    if (d >= 80) {
+      color = "#12a6dd";
+    } else if (d >= 60 && d < 80) {
+      color = "#4a6ccb";
+    } else if (d >= 25 && d < 60) {
+      color = "#fcda4a";
+    } else if (d < 25) {
+      color = "#a6b9b4";
+    } else {
+      color = "#a6b9b4";
+    }
+    return color;
+  }
+
   selectFinancialYear(event) {
     this.nationalInput.financialYear = event.target.value;
     this.getNationalTableData();
-    // console.log("selected Financial",event.target.value);
+    this.nationalMapService.setCurrentSelectYear({
+      data: event.target.value,
+    });
+    this.getNationalLevelMapData(event.target.value);
   }
 
+  viewDashboard() {
+    this.router.navigateByUrl(
+      `/dashboard/state?stateId=${this.currentStateId}`
+    );
+  }
   getNationalTableData() {
-    // debugger;
-    this.nationalMapService
-      .getNationalData(this.nationalInput)
-      .subscribe((res: any) => {
+    this.showLoader = true;
+    this.nationalMapService.getNationalData(this.nationalInput).subscribe(
+      (res: any) => {
+        this.showLoader = false;
         this.tableData = res?.data;
+        this.dataAvailabilityvalue = res?.dataAvailability;
+        this.nationalMapService.setDataAvailabilityValue({
+          data: res.dataAvailability,
+        });
+      },
 
-        console.log("national table Data", res, this.tableData);
-      });
+      (err) => {
+        this.showLoader = false;
+      }
+    );
   }
   private initializeform() {
     this.myForm = this.fb.group({
@@ -161,6 +252,7 @@ export class NationalMapSectionComponent
     this.onStateLayerClick(e);
     //  this.changeInStateOrCity.emit(e);
   }
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -170,19 +262,24 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
+    // debugger;
+    this.isLoading = true;
     this.isProcessingCompleted.emit(false);
-    let vw = Math.max(document.documentElement.clientWidth);
-    vw = (vw - 1366) / 1366;
-    let zoom = 4 + vw;
-    if (this.userUtil.isUserOnMobile()) {
-      zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
-      if (window.innerHeight < 600) zoom = 3.6;
-      const valueOf1vh = this.calculateVH(1);
-      if (valueOf1vh < 5) zoom = 3;
-      else if (valueOf1vh < 7) zoom = zoom - 0.2;
-      // return zoom;
-    }
-    zoom = 4.2;
+    let zoom;
+    if (window.innerWidth > 1050) zoom = this.mapConfig.nationalZoomOnWeb;
+    else zoom = this.mapConfig.nationalZoomOnMobile;
+    // let vw = Math.max(document.documentElement.clientWidth);
+    // vw = (vw - 1366) / 1366;
+    // let zoom = 4 + vw;
+    // if (this.userUtil.isUserOnMobile()) {
+    //   zoom = 3.5 + (window.devicePixelRatio - 2) / 10;
+    //   if (window.innerHeight < 600) zoom = 3.6;
+    //   const valueOf1vh = this.calculateVH(1);
+    //   if (valueOf1vh < 5) zoom = 3;
+    //   else if (valueOf1vh < 7) zoom = zoom - 0.2;
+    //   // return zoom;
+    // }
+
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -228,7 +325,7 @@ export class NationalMapSectionComponent
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
-          //  this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+          this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
           this.onStateLayerClick(args, false, false);
         },
         mouseout: () => (this.mouseHoverOnState = null),
@@ -242,6 +339,7 @@ export class NationalMapSectionComponent
 
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
+      this.isLoading = false;
     }
     this.hideMapLegends();
 
@@ -286,7 +384,10 @@ export class NationalMapSectionComponent
       }[];
     }
   ) {
-    console.log("json", districtGeoJSON);
+    // debugger;
+    console.log("selectedStateCode", this.selectedStateCode);
+
+    console.log("json", districtGeoJSON, options);
     if (this.districtMap) {
       return;
     }
@@ -322,13 +423,33 @@ export class NationalMapSectionComponent
       // districtMap.dragging.disable();
 
       const districtLayer = L.geoJSON(districtGeoJSON, {
-        style: this.newDashboardstateColorStyle,
+        style: {
+          fill: true,
+          fillColor: "red",
+        },
+        // style: this.newDashboardstateColorStyle,
+        // style: {
+        //   color: "#0000",
+        // },
       }).addTo(districtMap);
+      console.log("districtLayer", districtLayer);
 
       if (districtLayer) {
         districtMap.fitBounds(districtLayer.getBounds());
       }
       this.districtMap = districtMap;
+
+      let color;
+      if (this.colorCoding) {
+        this.colorCoding.forEach((elem) => {
+          if (elem?.code == this.selectedStateCode) {
+            color = this.getColor(elem?.percentage);
+          }
+          // return;
+          MapUtil.colorStateLayer(districtLayer, color);
+        });
+      }
+      // console.log("this.districtMap", this.districtMap);
 
       // options.dataPoints.forEach((dataPoint: any) => {
       //   const marker = this.createDistrictMarker({
@@ -358,7 +479,6 @@ export class NationalMapSectionComponent
   loadData() {
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
-        console.log("res", res);
         this.stateList = res;
       },
       (error) => {
@@ -366,7 +486,7 @@ export class NationalMapSectionComponent
       }
     );
     this._commonService.state_name_data.subscribe((res) => {
-      console.log("sub....", res, res.name);
+      console.log("sub....", res, res.name, res?.code);
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
@@ -377,177 +497,39 @@ export class NationalMapSectionComponent
       this.nationalInput.populationCat = true;
       this.nationalInput.ulbType = "";
       this.getNationalTableData();
-      this.tableData = {
-        timeStamp: 12332323434,
-        success: true,
-        message: "success",
-        data: [
-          {
-            tableId: 1,
-            name: "Revenue Table",
-            tableClass: "revenue_tb",
-            border: "1",
-            bgColor: "#9D84B7",
-            columns: [
-              {
-                key: "ulbType",
-                display_name: "ULB Type",
-              },
-              {
-                key: "numberOfULBs",
-                display_name: "Number Of ULBs",
-              },
-              {
-                key: "ulbsWithData",
-                display_name: "ULBs With Data",
-              },
-              {
-                key: "DataAvailPercentage",
-                display_name: "Data Availability Percentage",
-              },
-              {
-                key: "urbanPopulationPercentage",
-                display_name: "Urban population percentage",
-              },
-            ],
-            rows: [
-              {
-                // lineItem: 'Average',
-                ulbType: "Average",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-              {
-                // lineItem: 'Average',
-                ulbType: "4M+",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-              {
-                // lineItem: 'Municipal Corporation',
-                ulbType: "1M-4M",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-              {
-                // lineItem: 'Municipality',
-                ulbType: "500K-1M",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-              {
-                // lineItem: 'Town Panchayat',
-                ulbType: "100K-500K",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-              {
-                // lineItem: 'Town Panchayat',
-                ulbType: "<100K",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-            ],
-          },
-        ],
-      };
     }
     if (type == "ulbType") {
       this.popBtn = false;
       this.nationalInput.populationCat = "";
       this.nationalInput.ulbType = true;
       this.getNationalTableData();
-      this.tableData = {
-        timeStamp: 12332323434,
-        success: true,
-        message: "success",
-        data: [
-          {
-            tableId: 1,
-            name: "Data availability table",
-            tableClass: "revenue_tb",
-            border: "1",
-            bgColor: "#9D84B7",
-            columns: [
-              {
-                key: "ulbType",
-                display_name: "ULB Type",
-              },
-              {
-                key: "numberOfULBs",
-                display_name: "Number Of ULBs",
-              },
-              {
-                key: "ulbsWithData",
-                display_name: "ULBs With Data",
-              },
-              {
-                key: "DataAvailPercentage",
-                display_name: "Data Availability Percentage",
-              },
-              {
-                key: "urbanPopulationPercentage",
-                display_name: "Urban population percentage",
-              },
-            ],
-            rows: [
-              {
-                // lineItem: 'Average',
-                ulbType: "Average",
-                numberOfULBs: "12000",
-                ulbsWithData: "12000",
-                DataAvailPercentage: "75%",
-                urbanPopulationPercentage: "50%",
-              },
-              {
-                // lineItem: 'Municipal Corporation',
-                ulbType: "Municipal Corporation",
-                numberOfULBs: "501",
-                ulbsWithData: "121",
-                DataAvailPercentage: "50%",
-                urbanPopulationPercentage: "30%",
-              },
-              {
-                // lineItem: 'Municipality',
-                ulbType: "Municipality",
-                numberOfULBs: "1500",
-                ulbsWithData: "111",
-                DataAvailPercentage: "30%",
-                urbanPopulationPercentage: "20%",
-              },
-              {
-                // lineItem: 'Town Panchayat',
-                ulbType: "Town Panchayat",
-                numberOfULBs: "1200",
-                ulbsWithData: "600",
-                DataAvailPercentage: "10%",
-                urbanPopulationPercentage: "8%",
-              },
-            ],
-          },
-        ],
-      };
     }
   }
+
   onSelectingStateFromDropDown(state: any | null) {
+    this.nationalMapService.setCurrentSelectedId({
+      data: state?._id,
+    });
+    // debugger;
     console.log("sttts", state);
+    this.currentStateId = state?._id;
+    this.AvailabilityTitle = state?.name;
     this.nationalInput.stateId = state._id;
     this.getNationalTableData();
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
+      // this.stateList = [];
+      this._commonService.fetchStateList().subscribe((res) => {
+        this.stateList = [{ _id: "", name: "India" }].concat(res);
+      });
+      this.updateDropdownStateSelection(state);
+      //  {
+      //   console.log(state);
+      //   this.stateselected = state;
+      //   this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
+      // }
+      // this.stateAndULBDataMerged
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
 
@@ -572,9 +554,36 @@ export class NationalMapSectionComponent
       });
   }
 
+  initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
+    // debugger;
+    map.eachLayer((layer: any) => {
+      const stateCode = MapUtil.getStateCode(layer);
+      if (!stateCode) {
+        return;
+      }
+
+      const stateFound = this.stateData.find(
+        (state) => state.code === stateCode
+      );
+      const count = stateFound ? stateFound.coveredUlbPercentage : 0;
+      // this.colorCoding = [
+      // const color = this.getColorBasedOnPercentage(count);
+      let color;
+      if (this.colorCoding) {
+        this.colorCoding.forEach((elem) => {
+          if (elem?.code == layer?.feature?.properties?.ST_CODE) {
+            color = this.getColor(elem?.percentage);
+          }
+          // return;
+          MapUtil.colorStateLayer(layer, color);
+        });
+      }
+    });
+  }
+
   private selectStateOnMap(state?: IState) {
     if (this.previousStateLayer) {
-      this.resetStateLayer(this.previousStateLayer);
+      // this.resetStateLayer(this.previousStateLayer);
       this.previousStateLayer = null;
     }
     if (!state) {
@@ -593,7 +602,42 @@ export class NationalMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
-    console.log(stateLayer);
+    // debugger;
+    console.log(
+      "clicked state==>",
+      stateLayer,
+      stateLayer?.feature?.properties?.ST_CODE
+    );
+    const colorCoding = [
+      {
+        code: "BR",
+        percent: 20,
+      },
+      {
+        code: "AP",
+        percent: 50,
+      },
+      {
+        code: "PB",
+        percent: 90,
+      },
+      {
+        code: "OD",
+        percent: 70,
+      },
+      {
+        code: "HR",
+        percent: 70,
+      },
+    ];
+    let color;
+    let selectedCode = stateLayer?.feature?.properties?.ST_CODE;
+    colorCoding.forEach((elem) => {
+      if (elem?.code == selectedCode) {
+        color = this.getColor(elem?.percent);
+      }
+      // return;
+    });
     let obj: any = {
       containerPoint: {},
       latlng: {
@@ -607,10 +651,15 @@ export class NationalMapSectionComponent
       type: "click",
     };
     this.onStateLayerClick(obj);
+    // debugger;
+    console.log("lastColor==>", color);
     stateLayer.setStyle({
       fillColor: "#3E5DB1",
+      color: color,
+      // fillColor: this.getColor(540),
       fillOpacity: 1,
     });
+    stateLayer.options.style.color = color;
     // stateLayer.setStyle(this.StyleForSelectedState);
     // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     //   stateLayer.bringToFront();

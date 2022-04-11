@@ -33,10 +33,11 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.data) {
+    if (changes.data && changes.data.currentValue) {
       this.activeTabFn(this.data[this.tabIndex]);
       this.router.navigate([
-        `dashboard/national/${this.tabId}?tabIndex=${this.tabIndex}`,
+        // `dashboard/national/${this.tabId}?tabIndex=${this.tabIndex}`,
+        `dashboard/national/${this.tabId}`,
       ]);
     }
   }
