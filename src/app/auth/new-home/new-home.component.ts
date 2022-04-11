@@ -226,6 +226,7 @@ export class NewHomeComponent implements OnInit {
      console.log(error)
    });
     console.log('option', option)
+    this.getYears(option._id);
     if(option?.type == 'state'){
      this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
     }
@@ -299,6 +300,29 @@ export class NewHomeComponent implements OnInit {
 
   beforeChange(e) {
     console.log('beforeChange');
+  }
+
+  getYears(searchStateId: string) {
+    const paramContent: any = {
+      "state": searchStateId
+    };
+    console.log('paramContent', paramContent)
+    let financialYearList: any = [];
+    let promise = new Promise((resolve, reject) => {
+      this._commonService.getStateWiseFYs(paramContent).subscribe((res: any) => {
+        if (res && res.success) {
+          resolve(res["data"] && res["data"]['FYs'] ? res["data"]['FYs'] : []);
+        }
+      }, (err) => {
+        console.log(err.message);
+      });
+    });
+    financialYearList.push(promise);
+    Promise.all(financialYearList).then(value => {
+      console.log('financialYearList', value);
+      let yearList = value && value.length ? value[0] : [];
+      sessionStorage.setItem('financialYearList', JSON.stringify(yearList));
+    })
   }
 
 }

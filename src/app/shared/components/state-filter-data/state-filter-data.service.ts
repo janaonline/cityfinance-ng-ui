@@ -234,11 +234,90 @@ export class StateFilterDataService {
       },
     }
   };
+
+  serviceLevelBenchmarkBarChartOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      xAxes: [{
+        maxBarThickness: 60,
+          gridLines: {
+            color: "rgba(0, 0, 0, 0)",
+          },
+          scaleLabel: {
+            display: true,
+            labelString:"City Ranking",
+            fontStyle: 'bold'
+          },
+      }],
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString:"Percentage",
+          fontStyle: 'bold'
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, 0)",
+        },
+        ticks: {
+      /* Formatting the value of the column as a number with the correct format for India. */
+        callback: function(value, index, values) {
+          return value
+          // return new Intl.NumberFormat("en-IN").format(value);
+        }
+      }
+      }]
+    },
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          console.log('function', tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log('dataset', dataset);
+          var currentValue = Number(dataset.data[tooltipItem.index]);
+          console.log('currentValue', currentValue);
+          return `${currentValue.toFixed(2)} %`;
+          // return new Intl.NumberFormat("en-IN").format(currentValue);
+        },
+      },
+    },
+    animation: {
+      onComplete: function (animation) {
+        var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+        ctx.fillStyle = "#6E7281";
+        ctx.font = Chart.helpers.fontString(
+          Chart.defaults.global.defaultFontSize,
+          Chart.defaults.global.defaultFontStyle,
+          Chart.defaults.global.defaultFontFamily
+        );
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+  
+        this.data.datasets.forEach(function (dataset, i) {
+          var meta = chartInstance.controller.getDatasetMeta(i);
+          if (meta.type == "line") return true;
+          meta.data.forEach(function (bar, index) {
+            var data = dataset.data[index];
+            console.log('data', data)
+            ctx.fillText(data.toFixed(2) + " %", bar._model.x, bar._model.y - 5);
+          });
+        });
+        console.log(animation, "animation");
+      },
+    }
+  };
+
+  stateLevelDashboardAPIs: any [];
   constructor(private http: HttpClient,
     private commonService: CommonService) {}
 
-  getScatterdData(payload) {
-    return this.http.post(environment.api.url + "/state-revenue", payload);
+  getScatterdData(payload: any, apiEndPoint: string) {
+    // return this.http.post(environment.api.url + "/state-revenue", payload);
+    return this.http.post(environment.api.url + `${apiEndPoint}`, payload);
   }
 
   getRevID() {
@@ -250,6 +329,12 @@ export class StateFilterDataService {
       environment.api.url + `state-list-of-indics?type=${type}`
     );
   }
+
+getYearListSLB(){
+  return this.http.get(
+    environment.api.url + `get-FYs-slb`
+  );
+}
 
   getStateUlbsGroupedByPopulation(paramContent: any) {
     let bodyParams: any;

@@ -597,4 +597,22 @@ export class CommonService {
     }
     return formattedValue;
   }
+
+  toTitleCase(phrase: string) {
+    return phrase
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  getStateWiseFYs(paramContent: any) {
+    let bodyParams: any;
+    bodyParams = this.getHttpClientParams(paramContent);
+    return this.http.get(
+      `${environment.api.url}get-FYs-with-specification`, {
+        params: bodyParams,
+      }
+    );
+  }
 }
