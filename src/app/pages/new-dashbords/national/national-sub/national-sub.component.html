@@ -220,6 +220,7 @@
 <div class="" [hidden]="!mixRevenue">
   <div class="row m-0">
     <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
+      <!-- <div *ngIf="loader">Loading</div> -->
       <div class="card-body barCon">
         <div class="w-75 m-auto h-75">
           <h3 class="chart-l text-center">National</h3>
@@ -231,12 +232,14 @@
             *ngFor="let chart of doughnutArray; let i = index"
           >
             <h3 class="chart-l text-center">{{ chart.title }}</h3>
-            <canvas
-              id="mychart{{ i }}"
-              style="width: 200px; height: 200px"
-              #mycharts
-              >{{ mixRDoughnutPopulationCategory.chart }}</canvas
-            >
+            <div id="container_{{ i }}">
+              <canvas
+                id="mychart{{ i }}"
+                style="width: 200px; height: 200px"
+                #mycharts
+                >{{ mixRDoughnutPopulationCategory.chart }}</canvas
+              >
+            </div>
           </div>
         </div>
         <div class="legends">

@@ -1,4 +1,10 @@
-import { Component, OnInit, SimpleChange, ViewChildren } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  SimpleChange,
+  ViewChildren,
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
@@ -7,6 +13,7 @@ import { Chart } from "chart.js";
 import { I } from "@angular/cdk/keycodes";
 import { NationalService } from "../national.service";
 import { NationalMapSectionService } from "../national-map-section/national-map-section.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 
 @Component({
   selector: "app-national-sub",
@@ -19,7 +26,8 @@ export class NationalSubComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private _commonServices: CommonService,
     private nationalService: NationalService,
-    private nationalMapService: NationalMapSectionService
+    private nationalMapService: NationalMapSectionService,
+    private _loaderService: GlobalLoaderService
   ) {}
   public chart: Chart;
   public doughnut: Chart;
@@ -176,9 +184,20 @@ export class NationalSubComponent implements OnInit {
     "#FF608B",
   ];
 
+  loader: boolean = true;
+  chartArray: any = [];
+
+  destroyMultipleCharts() {
+    for (const chartData of this.chartArray) {
+      if (chartData?.chart) {
+        chartData?.chart.destroy();
+      }
+    }
+  }
   selectFinancialYear(event) {
     console.log(event.target.value);
     this.nationalInput.financialYear = event.target.value;
+    this.destroyMultipleCharts();
     this.getNationalTableData();
     this.RevenueMixInput.financialYear = event.target.value;
     this.getRevenueMixData(this.RevenueMixInput);
@@ -186,10 +205,14 @@ export class NationalSubComponent implements OnInit {
   }
 
   getRevenueMixData(revenueMixInput) {
+    this.loader = true;
+    this._loaderService.showLoader();
     this.nationalService
       .getNationalRevenueMixData(revenueMixInput)
       .subscribe((res: any) => {
         // debugger;
+
+        this._loaderService.stopLoader();
         console.log("revenueMixData", res);
         if (res?.data) {
           if (revenueMixInput.formType == "populationCategory") {
@@ -325,7 +348,7 @@ export class NationalSubComponent implements OnInit {
   }
 
   subFilterFn(type) {
-    debugger;
+    // debugger;
     this.doughnutArray = [];
     if (type == "popCat") {
       this.nationalInput.formType = "populationCategory";
@@ -523,9 +546,6 @@ export class NationalSubComponent implements OnInit {
     let canvasCharts = this.allMyCanvas._results; // Get array with all canvas
     canvasCharts.map((myCanvas, i) => {
       // For each canvas, save the chart on the charts array
-      if (chartArray[i].chart) {
-        // chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext("2d"),{})
-      }
       chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext("2d"), {
         type: "doughnut",
         data: {
@@ -545,6 +565,9 @@ export class NationalSubComponent implements OnInit {
         },
       });
     });
+
+    this.chartArray = chartArray;
+
     // let dynamicDoughnut: Chart;
     // dynamicDoughnut  = new Chart(`${val.id}`, {
     //   type: 'doughnut',
