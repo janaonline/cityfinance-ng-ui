@@ -18,7 +18,7 @@
             </div>
             <div class="col-6 col-md-4">
                 <select class="form-select" aria-label="Default select" (change)="changeUlb($event.target.value)">
-                    <option selected >Select Ulb</option>
+                    <option selected >Select ULB</option>
                     <option [value]="item?._id" *ngFor="let item of ulbList">{{item?.name}}</option>
                </select>
             </div>
@@ -201,7 +201,7 @@
                                               </span>
                                                         <div class="btn-div" btnRadioGroup formControlName='answer'>
                                                             <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label [btnRadio]="false" class="btn btn-false btn-stp">No</label>
+                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
 
                                                         </div>
 
@@ -250,7 +250,7 @@
             <div class="row me-0">
                 <div class="col-sm-12 col-md-6 prs-div pe-0">
                     <!-- chart--- -->
-                    <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues">
+                    <a (click)="presDetails(item, i, 'uperPres')" class="pres-aTag" [ngClass]="{'pres-active': item?.isActive}" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues; let i = index">
                         <div class="row mt-2 mx-0" style="align-items: center; padding: 5px 0 12px 0;">
                             <div class="col-sm-4 col-3 text-end pres-name">
                                 {{item?.name}}:
@@ -291,7 +291,7 @@
             <div class="row mt-3 mb-3">
                 <div class="col-sm-6">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table mb-0">
                             <thead>
                                 <tr>
                                     <th scope="col"># Rank</th>
@@ -300,7 +300,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr (click)="trClick(item)" style="cursor: pointer;" *ngFor="let item of scoreReportData?.top3; let i= index;">
+                                <tr (click)="trClick(item)" [ngClass]="{'t-r-active':item?.isActiveRow}" style="cursor: pointer;" *ngFor="let item of scoreReportData?.top3; let i= index;">
                                     <td>{{i+1}}</td>
                                     <td>{{item?.ulbName}}</td>
                                     <td>{{item?.total}}</td>
@@ -310,9 +310,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-sm-6 prs-div pe-0">
+                <div class="col-sm-6 prs-div2 pe-0">
                     <!-- chart--- -->
-                    <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of prescriptionData">
+                    <a (click)="presDetails(item,i, 'top3Table')" class="pres-aTag2" *ngFor="let item of prescriptionData; let i = index">
                         <div class="row mt-2 mx-0 pres-row">
                             <div class="col-sm-4 col-3 text-end pres-name">
                                 {{item?.name}}:

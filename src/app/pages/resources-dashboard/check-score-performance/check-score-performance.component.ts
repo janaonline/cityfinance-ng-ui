@@ -62,7 +62,12 @@ export class CheckScorePerformanceComponent implements OnInit {
        console.log('responce ulb..', res, typeof(res));
        this.reportScoreDiv = true;
        this.scoreReportData = res?.data;
+       this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
+        el.isActive = false;
+       })
        this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
+        res.data.currentUlb.partcularAnswerValues[0].isActive = true;
+      // this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
         if(this.scoreReportData){
         //   this.stepperScoreDiv = false;
         //  this.reportScoreDiv = true;
@@ -83,8 +88,13 @@ export class CheckScorePerformanceComponent implements OnInit {
     this.dialog.closeAll();
   }
   presDetails(presItem) {
-    console.log(presItem);
+    // console.log(presItem);
     this.prescription = presItem?.prescription;
+    this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
+      el.isActive = false;
+     });
+     presItem.isActive = true;
+     console.log(presItem);
   }
 
 }
