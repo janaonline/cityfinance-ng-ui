@@ -173,6 +173,7 @@ export class RevenuechartComponent
           scaleLabel: {
             display: true,
             labelString: "Population",
+            fontStyle: 'bold'
           },
 
           offset: true,
@@ -183,6 +184,7 @@ export class RevenuechartComponent
           scaleLabel: {
             display: true,
             labelString: "Total Revenue",
+            fontStyle: 'bold'
           },
           gridLines: {
             offsetGridLines: true,

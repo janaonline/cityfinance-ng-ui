@@ -20,7 +20,7 @@
           {{ item }}
         </button>
       </div>
-
+<!-- list of dropdown for slb in state dashboard -->
       <div *ngIf="stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
         <select class="form-select text-capitalize" (change)="getServiceLevelBenchmark($event)">
           <option *ngFor="let item of serviceTabList" [value]="item">
@@ -70,12 +70,13 @@
                 aria-label="Default select"
                 (change)="getSelectedFinancialYear($event)"
               >
-                <option *ngFor="let year of yearList" [value]="year?._id">
-                  {{ year?._id }}
+                <option *ngFor="let year of yearList" [value]="year" [selected]="year == financialYear">
+                  {{ year}}
                 </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
               </select>
             </div>
+            <!-- Search for ULB Names -->
             <form class="filter-form mr-1">
               <div>
                 <!-- <div class="pe-0 justify-content-end"> -->
@@ -114,6 +115,7 @@
             </div> -->
             </form>
             <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem">
+            <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" style="padding: 0.25rem 0.5rem"> -->
               Reset
             </button>
           </div>
@@ -132,7 +134,7 @@
           [chartDialogues]="true"
           [compareDialogType]="compareDialogType"
           [headerActions]="headerActions"
-          [chartId]="'StateScatterCahrtId'"
+          [chartId]="'StateScatterChartId'"
           [chartData]="scatterData"
           [chartTitle]="''"
           (compareChange)="filterChangeInChart($event)"
@@ -143,10 +145,11 @@
         <app-revenuechart
           [compareDialogType]="compareDialogType"
           [headerActions]="headerActions"
-          [chartId]="'StateScatterCahrtId'"
+          [chartId]="'StateScatterChartId'"
           [chartData]="scatterData"
           [chartTitle]="''"
           (compareChange)="filterChangeInChart($event)"
+          [scatterOption]="serviceLevelBenchmarkScatterOption"
         ></app-revenuechart>
       </div>
     </div>
@@ -165,7 +168,7 @@
             <tr>
               <td>Number Of Cities</td>
               <td *ngFor="let heading of stateUlbsPopulation?.tableHeading">
-                {{stateUlbsPopulation?.tableDataSource[heading]}}
+                {{ _commonServices.formatNumber( stateUlbsPopulation?.tableDataSource[heading] )}}
               </td>
             </tr>
           </tbody>
