@@ -214,13 +214,17 @@ export class NationalComponent implements OnInit {
         // debugger;
         switch (elem.key) {
           case "coveredUlbCount":
-            elem.value = res?.coveredUlbCount;
+            elem.value = this._commonService.formatNumber(res?.coveredUlbCount);
             break;
           case "financialStatements":
-            elem.value = res?.financialStatements;
+            elem.value = this._commonService.formatNumber(
+              res?.financialStatements
+            );
             break;
           case "totalMunicipalBonds":
-            elem.value = res?.totalMunicipalBonds;
+            elem.value = this._commonService.formatNumber(
+              res?.totalMunicipalBonds
+            );
             break;
         }
         return elem;

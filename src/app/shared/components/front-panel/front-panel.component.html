@@ -44,7 +44,8 @@
           *ngFor="let item of data.dataIndicators"
         >
           <h6 class="b" *ngIf="item.value">
-            {{ item.value | inrCurrency: { currencyTypeInUser: null } }}
+            <!-- {{ item.value | inrCurrency: { currencyTypeInUser: null } }} -->
+            {{ item.value }}
           </h6>
           <span class="subtitle">{{ item.title }}</span
           ><sup *ngIf="item?.super">*</sup>

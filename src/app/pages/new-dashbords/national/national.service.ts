@@ -15,4 +15,11 @@ export class NationalService {
       `
     );
   }
+
+  getNationalRevenueMixData(RevenueMixInput) {
+    return this.http.get(
+      environment.api.url +
+        `national-dashboard/revenue?financialYear=${RevenueMixInput?.financialYear}&formType=${RevenueMixInput?.formType}&stateId=${RevenueMixInput?.stateId}&type=${RevenueMixInput?.type} `
+    );
+  }
 }
