@@ -58,8 +58,10 @@
     }
     h4,
     .panel-title {
-      font-size: 15px !important;
-      padding: 0.3%;
+      padding-left: 9px;
+      font-weight: 600;
+      padding-top: 9px;
+      font-size: 17px;
     }
   }
 
@@ -118,12 +120,15 @@
     th {
       background-color: #EFF2F9;
       color: black;
-      padding: 20px 10px;
+      padding: 9px;
       // font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
     }
     td {
       padding: 1px;
+      font-size:16px;
+      font-weight: 500;
+
     }
   }
   tr {
@@ -132,8 +137,9 @@
     
 }
   .solid {
-    border: 1px solid black;
-    border-radius: 6px;
+    border: 1px solid #D9D8D8;;
+    border-radius: 4px;
+    padding-left:7px;
 }
   .scrolling table {
     table-layout: inherit;
