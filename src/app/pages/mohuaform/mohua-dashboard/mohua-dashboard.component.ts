@@ -422,7 +422,7 @@ export class MohuaDashboardComponent implements OnInit {
       const color = this.getColorBasedOnPercentage(
         stateFound
           ? parseInt(
-            ((stateFound.withState / stateFound.totalULBs) * 100).toFixed(2)
+            ((stateFound.approvedByState / stateFound.totalULBs) * 100).toFixed(2)
           )
           : 0
       );
