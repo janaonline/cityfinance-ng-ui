@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of, Subject } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { IBasicLedgerData } from "src/app/dashboard/report/models/basicLedgerData.interface";
 import { IULBResponse } from "src/app/models/IULBResponse";
@@ -18,6 +18,8 @@ import { IStateULBCoveredResponse } from "../models/stateUlbConvered";
 import { IULBWithPopulationResponse } from "../models/ulbsForMapResponse";
 import { environment } from "./../../../environments/environment";
 import { JSONUtility } from "src/app/util/jsonUtil";
+import { DomSanitizer } from "@angular/platform-browser";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: "root",
@@ -36,8 +38,14 @@ export class CommonService {
   } = {};
 
   // private states: any = [];
-  constructor(private http: HttpClient) {}
-  searchUlb(body) {
+  isEmbedModeEnable: BehaviorSubject<any> = new BehaviorSubject<any>(false);
+  constructor(
+    private http: HttpClient,
+    private sanitizer: DomSanitizer,
+    private snackbar: MatSnackBar,
+    ) { }
+
+    searchUlb(body) {
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search`,
       body
@@ -614,5 +622,43 @@ export class CommonService {
         params: bodyParams,
       }
     );
+  }
+
+  createEmbedUrl(paramContent: any) {
+    let queryString = new URLSearchParams(paramContent).toString();
+    let embeddedRoute = 'revenuchart';
+    console.log('queryString', queryString);
+    // let finalURL = `${environment.api.url}${embeddedRoute}?${queryString}`;
+    let finalURL = `${window.location.origin}/${embeddedRoute}?${queryString}`;
+    // window.open(finalURL, '_blank');
+    var HtmlIframe = `<iframe width="920px" height="580px" src="${finalURL}" frameborder="0" ></iframe>`;
+    var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
+    console.log('sanitizedURL', sanitizedURL)
+    this.copyToClipboard(sanitizedURL);
+
+    window.open(finalURL, '_blank');
+  }
+
+  showSnackbarMessage(message: string) {
+    this.snackbar.open(message, null, {
+      duration: 200,
+      verticalPosition: "bottom",
+    });
+  }
+
+  copyToClipboard(copyHTMLElement: any) {
+    this.showSnackbarMessage('Visualization Copied');
+
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = copyHTMLElement;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 }

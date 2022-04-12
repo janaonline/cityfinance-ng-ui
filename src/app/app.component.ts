@@ -23,7 +23,7 @@ export class AppComponent implements OnDestroy, OnInit {
   googleTagId = environment.GoogleTagID;
   showLoader = false;
   sessionId: string;
-
+  isEmbedModeEnable: boolean = false;
   constructor(
     public globalLoader: GlobalLoaderService,
     private sessionService: SessionService,
@@ -99,6 +99,12 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.commonService.isEmbedModeEnable.subscribe(data => {
+      console.log('isEmbedModeEnable', data)
+      if (data) {
+        this.isEmbedModeEnable = data;
+      }
+    });
     this.commonService.getAllUlbs().subscribe(
       (res) => {
         localStorage.setItem("ulbList", JSON.stringify(res));

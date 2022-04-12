@@ -1,10 +1,10 @@
-<div class="wrapper app-wrapper">
+<div class="wrapper app-wrapper" [ngClass]="isEmbedModeEnable ? 'mt-4' : ''">
     <!-- <app-home-header></app-home-header> -->
-    <app-n-home-header></app-n-home-header>
+    <app-n-home-header *ngIf="!isEmbedModeEnable"></app-n-home-header>
 
     <router-outlet></router-outlet>
 </div>
-<app-footer></app-footer>
+<app-footer *ngIf="!isEmbedModeEnable"></app-footer>
 
 <div class="spinner" *ngIf="showLoader" style="z-index: 999999; display: flex; flex-direction: column;  position: fixed; top: 0px; bottom: 0px">
    <div class="row">
