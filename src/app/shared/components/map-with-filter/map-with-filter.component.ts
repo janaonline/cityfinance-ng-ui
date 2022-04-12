@@ -313,12 +313,17 @@ export class MapWithFilterComponent
         marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
         marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values: any) => {
+          console.log("clicked values", values, this.mapConfig.code.state);
           let city;
           if (values["latlng"])
             city = this.stateUlbData.data[this.mapConfig.code.state].ulbs.find(
-              (value) =>
-                +value.location.lat === values["latlng"].lat &&
-                +value.location.lng === values["latlng"].lng
+              (value) => {
+                console.log("innerValue", value);
+                return (
+                  +value.location.lat === values["latlng"].lat &&
+                  +value.location.lng === values["latlng"].lng
+                );
+              }
             );
           if (city) this.selectedDistrictCode = city.code;
           this.onDistrictMarkerClick(values, marker);
