@@ -82,6 +82,7 @@ import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component
 import { CommonChartsGraphsComponent } from './components/common-charts-graphs/common-charts-graphs.component';
 import { UlbCompareDailogComponent } from './components/common-charts-graphs/ulb-compare-dailog/ulb-compare-dailog.component';
 import { RevenueMixComponent } from './components/state-filter-data/revenue-mix/revenue-mix.component';
+import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
 
 
 @NgModule({
@@ -167,6 +168,7 @@ import { RevenueMixComponent } from './components/state-filter-data/revenue-mix/
     CommonChartsGraphsComponent,
     UlbCompareDailogComponent,
     RevenueMixComponent,
+    ShareDialogComponent,
 
   ],
   exports: [

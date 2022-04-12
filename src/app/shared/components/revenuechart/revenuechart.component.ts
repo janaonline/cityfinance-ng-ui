@@ -18,6 +18,7 @@ import html2canvas from "html2canvas";
 import { GlobalLoaderService } from "../../../../app/shared/services/loaders/global-loader.service";
 import { BaseComponent } from "src/app/util/baseComponent";
 import { ActivatedRoute } from "@angular/router";
+import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
 
 @Component({
   selector: "app-revenuechart",
@@ -427,6 +428,7 @@ export class RevenuechartComponent
 
   actionClick(value) {
     this._loaderService.showLoader();
+    console.log(value)
     if (value.name == "Expand" || value.name == "Collapse") {
       this.headerActions.map((innerVal) => {
         if (innerVal.name === value.name) {
@@ -441,12 +443,26 @@ export class RevenuechartComponent
       this.getImage();
 
       return;
+    } else if(value.name == "Share/Embed"){
+      this._loaderService.stopLoader();
+      this.openDialog()
     }
     this.actionClicked.emit(value);
   }
 
   dialogRef;
+  openDialog(){
+    console.log('hhsssssssssssssssssss')
+    const dialogRef = this.dialog.open(ShareDialogComponent, {
+      width: '600px',
+      height: '300px',
+      data: {  }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "39rem";
