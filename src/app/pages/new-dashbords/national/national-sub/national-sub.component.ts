@@ -201,7 +201,6 @@ export class NationalSubComponent implements OnInit {
   selectGraphMode(event) {
     console.log("event value", event.target.value);
     this.creatBarChartData(event.target.value);
-    // debugger;
 
     console.log("revenueChartData====>", this.revnueChartData);
   }

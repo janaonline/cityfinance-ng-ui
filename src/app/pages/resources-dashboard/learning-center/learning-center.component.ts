@@ -59,7 +59,6 @@ export class LearningCenterComponent implements OnInit {
 
   currentUrl;
   getSubTabs(data) {
-    // debugger;
     data.map((elem) => {
       if (this.currentUrl.includes(elem.link)) {
         // return this.currentUrl;

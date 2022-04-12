@@ -216,7 +216,6 @@ export class NationalComponent implements OnInit {
     this._commonService.fetchDataForHomepageMap(state).subscribe((res: any) => {
       console.log("indicatorData====>", res);
       this.frontPanelData.dataIndicators.map((elem) => {
-        // debugger;
         switch (elem.key) {
           case "coveredUlbCount":
             elem.value = res?.coveredUlbCount;

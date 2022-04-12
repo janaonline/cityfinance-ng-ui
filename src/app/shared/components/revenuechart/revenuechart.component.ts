@@ -39,6 +39,8 @@ export class RevenuechartComponent
 
   stateId;
   stateName;
+  @Input()
+  disableFirstYear = true
 
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   @Input() nestedChartFilterOption: any = {

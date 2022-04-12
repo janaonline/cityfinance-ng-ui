@@ -357,7 +357,7 @@ this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
 console.log(err.message)
 })
     }else{
-   // debugger;
+   
     /**
      * below api was previously used but now new api is used to get the data of state wise FYs
      */
@@ -470,7 +470,7 @@ console.log(err.message)
   multiChart = false;
   doughnutDataArr = [];
   getScatterData() {
-    // debugger;
+    
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();

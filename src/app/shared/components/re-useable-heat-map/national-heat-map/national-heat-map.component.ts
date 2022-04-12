@@ -140,7 +140,6 @@ export class NationalHeatMapComponent implements OnInit, OnChanges, OnDestroy {
         this.onSelectingULBFromDropdown(newULBId);
       }
     }
-    // debugger;
     if (changes.yearSelected) {
       this.stateAndULBDataMerged = {};
       this.clearNationalMapContainer();

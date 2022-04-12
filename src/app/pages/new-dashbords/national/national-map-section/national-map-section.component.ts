@@ -49,7 +49,7 @@ export class NationalMapSectionComponent
     private nationalMapService: NationalMapSectionService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
-    // debugger;
+    
     setTimeout(() => {
       this.ngOnChanges({
         yearSelected: {
@@ -262,7 +262,7 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
-    // debugger;
+    
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let zoom;
@@ -384,7 +384,7 @@ export class NationalMapSectionComponent
       }[];
     }
   ) {
-    // debugger;
+    
     console.log("selectedStateCode", this.selectedStateCode);
 
     console.log("json", districtGeoJSON, options);
@@ -510,7 +510,7 @@ export class NationalMapSectionComponent
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
-    // debugger;
+    
     console.log("sttts", state);
     this.currentStateId = state?._id;
     this.AvailabilityTitle = state?.name;
@@ -555,7 +555,7 @@ export class NationalMapSectionComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
-    // debugger;
+    
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {
@@ -602,7 +602,7 @@ export class NationalMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
-    // debugger;
+    
     console.log(
       "clicked state==>",
       stateLayer,
@@ -651,7 +651,7 @@ export class NationalMapSectionComponent
       type: "click",
     };
     this.onStateLayerClick(obj);
-    // debugger;
+    
     console.log("lastColor==>", color);
     stateLayer.setStyle({
       fillColor: "#3E5DB1",

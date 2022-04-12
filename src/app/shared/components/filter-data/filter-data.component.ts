@@ -59,6 +59,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
+  disableFirstYear = true
 
   ngAfterViewInit(): void {}
 
@@ -160,6 +161,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
     this.lastSelectedUlbs = body.ulb;
     body.financialYear = data["year"] ?? this.mySelectedYears;
+    if(this.selectedTab.includes("Mix")){
+      this.disableFirstYear= false
+      body.financialYear = [body.financialYear[0]]}else{
+      this.disableFirstYear = true
+    }
     this.loading = true;
     if (this.apiCall) {
       this.apiCall.unsubscribe();
@@ -706,7 +712,7 @@ ULB ${this.selectedTab} for FY' ${
     if (value.compareType == "ULBs..") this.hideElements = true;
     else this.hideElements = false;
     this.mySelectedYears = value.year;
-    if (this.yearListForDropDown[0] == value.year[0]) {
+    if (this.yearListForDropDown[0] == value.year[0] && !this.selectedTab.includes("Mix")) {
       this.notFound = true;
     } else {
       this.notFound = false;

@@ -63,7 +63,7 @@
             (change)="yearValueChange($event.target.value)"
           >
             <option
-              [disabled]="i == 0"
+              [disabled]="i == 0 && disableFirstYear"
               *ngFor="let yearValue of yearList; let i = index"
               [value]="yearValue"
               [selected]="yearValue == year"
