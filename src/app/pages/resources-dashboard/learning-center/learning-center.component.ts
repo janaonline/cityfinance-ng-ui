@@ -16,7 +16,7 @@ export class LearningCenterComponent implements OnInit {
   constructor(private router: Router,private resourcesDashboard: ResourcesDashboardService) {
     this.resourcesDashboard.castSearchedData.subscribe(data =>{
       this.learningToggle =data
-    }) 
+    })
       this.resourcesDashboard.castCount.subscribe(data =>{
         this.learningCount =data?.key?.learning
         this.searchedValue = data?.name
@@ -25,7 +25,7 @@ export class LearningCenterComponent implements OnInit {
           this.noData = true
           this.dataReceived = false;
         }
-                  
+
       })
   }
 
@@ -61,7 +61,7 @@ export class LearningCenterComponent implements OnInit {
   getSubTabs(data) {
     // debugger;
     data.map((elem) => {
-      if (this.currentUrl.includes(elem.link)) {
+      if (this.currentUrl?.includes(elem.link)) {
         // return this.currentUrl;
         this.router.navigate(this.currentUrl);
       }

@@ -270,7 +270,7 @@
     }
     
     .pres-card {
-        background: #FFF9E5 0% 0% no-repeat padding-box;
+        background: #f08181a3 0% 0% no-repeat padding-box;
         border-radius: 0px 12px 12px 12px;
         opacity: 1;
     }
@@ -298,7 +298,15 @@
     
     .pres-aTag:hover {
         display: inline-block;
-        background: #FFF9E5 0% 0% no-repeat padding-box;
+        background: #f08181a3 0% 0% no-repeat padding-box;
+        border-radius: 6px 0px 0px 6px;
+        opacity: 1;
+        width: 100%;
+    }
+    
+    .pres-active {
+        display: inline-block;
+        background: #f08181a3 0% 0% no-repeat padding-box;
         border-radius: 6px 0px 0px 6px;
         opacity: 1;
         width: 100%;
@@ -374,7 +382,8 @@
             padding-left: 0;
             padding-right: 0;
         }
-        .prs-div {
+        .prs-div,
+        .prs-div2 {
             margin-top: -18px;
         }
         .pres-row {
@@ -387,4 +396,16 @@
             align-items: center;
             padding: 3px 0 9px 0;
         }
+    }
+    
+    .t-r-active {
+        background: #f08181a3 0% 0% no-repeat padding-box;
+    }
+    
+    .pres-aTag2 {
+        text-decoration: none;
+    }
+    
+    .prs-div2 {
+        background: #f08181a3 0% 0% no-repeat padding-box;
     }
