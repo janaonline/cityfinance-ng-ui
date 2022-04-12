@@ -139,7 +139,9 @@
       >
         <div style="height: 83px;">
           <table accordion-heading id="tableHeadings" >
-            <thead>
+            <thead style="border-radius: 6px;
+            display: block;
+            border: 1px solid black;">
               <th>Issuer</th>
               <th
                 *ngFor="
@@ -181,9 +183,9 @@
                 *ngFor="let subRow of mainRows[row]"
                 
               >
-                <tr style="height: 2px;
-                border: none;"></tr>
-                <tr>
+                <tr style="height: 1px;
+                border: none;" class='solid'></tr>
+                <tr class='solid'>
                   <td class="text-capitalize">
                     {{ formattedNamesMapping[subRow] }}
                   </td>
@@ -199,8 +201,8 @@
                     }}
                   </td>
                 </tr>
-                <tr style="height: 2px;
-                border: none;"></tr>
+                <tr style="height: 1px;
+                border: none;" class='solid'></tr>
               </div>
             </table>
             <!-- </div>
