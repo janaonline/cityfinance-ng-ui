@@ -4,7 +4,7 @@
           <h5>Share/Embed</h5>
         </div>
         <div class="col-md-6 col-lg-6">
-            <i (click)="onNoClick()" class="fa fa-times" aria-hidden="true" style="font-size: 25px;color: orange;float: right;"></i>
+            <i (click)="onNoClick()" class="fa fa-times" aria-hidden="true" style="font-size: 30px;color: orange;float: right;cursor: pointer;"></i>
         </div>
     </div>
     <div class="row" style="margin-top: 33px;">
@@ -20,7 +20,7 @@
     </div>
     <div class="row code">
         <div class="col-md-1 col-lg-1">
-            <i class="fa fa-code" aria-hidden="true"></i>
+            <i class="fa fa-code" aria-hidden="true" style="margin-top: 6px;margin-left: 8px;"></i>
         </div>
         <div class="col-md-10 col-lg-10">
              <input type="text" [value]="iFrame" #userinput onClick="this.setSelectionRange(0, this.value.length)">
@@ -29,6 +29,9 @@
             <button (click)="copyInputMessage(userinput)" value="" style="border: none;margin-left: -21px;margin-top: 2px;">Copy</button>
         </div>
         
+    </div>
+    <div class="row" *ngIf="copyMessege">
+        <p class="copiedText">Copied</p>
     </div>
     
     <br>

@@ -20,7 +20,7 @@ export class ShareDialogComponent implements OnInit {
   ];
   src="https://datausa.io/profile/naics/oil-gas-extraction/workforce/monthly-employment?viz=true"
   iFrame:any;
-    
+  copyMessege:boolean=false;
   constructor(
     public dialogRef: MatDialogRef<RevenuechartComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
@@ -49,6 +49,10 @@ export class ShareDialogComponent implements OnInit {
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);
+    this.copyMessege =true;
+    setTimeout(() =>{
+      this.copyMessege =false
+    },2000)
   }
 
 

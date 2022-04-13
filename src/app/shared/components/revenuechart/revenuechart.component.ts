@@ -455,7 +455,7 @@ export class RevenuechartComponent
     console.log('hhsssssssssssssssssss')
     const dialogRef = this.dialog.open(ShareDialogComponent, {
       width: '600px',
-      height: '300px',
+      height: '350px',
       data: {  }
     });
 
