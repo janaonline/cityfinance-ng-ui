@@ -134,12 +134,14 @@
       </div>
 
       <div
-        class="col-md-12 municipal-bond table-mf-header"
-        style="padding-right: 0px; padding-left: 0px"
+        class="col-md-12"
+        
       >
-        <div>
-          <table accordion-heading id="tableHeadings" class="table-mf">
-            <thead>
+        <div style="height: 53px;">
+          <table accordion-heading id="tableHeadings" >
+            <thead style="border-radius: 4px;
+            display: block;
+            border: 1px solid #EFF2F9;">
               <th>Issuer</th>
               <th
                 *ngFor="
@@ -176,14 +178,15 @@
               {{ formattedNamesMapping[row] }}
               <span class="fa fa-angle-down"></span>
             </h4>
-            <table class="table table-striped accordion-body-table table-hover">
+            <table>
               <div
                 *ngFor="let subRow of mainRows[row]"
-                style="border: none; width: 100vw !important"
+                
               >
-                <tr style="border: 0px !important; height: 1px"></tr>
-                <tr style="border: 1px solid #d9d8d8" class="mainRow">
-                  <td class="text-capitalize somepadding">
+                <tr style="height: 1px;
+                border: none;" class='solid'></tr>
+                <tr class='solid'>
+                  <td class="text-capitalize">
                     {{ formattedNamesMapping[subRow] }}
                   </td>
                   <td
@@ -198,7 +201,8 @@
                     }}
                   </td>
                 </tr>
-                <tr style="border: 0px !important; height: 1px"></tr>
+                <tr style="height: 1px;
+                border: none;" class='solid'></tr>
               </div>
             </table>
             <!-- </div>
