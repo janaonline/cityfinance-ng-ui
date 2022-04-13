@@ -498,10 +498,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       ulb: this.ulbId,
     };
     let apiEndPoint = this.stateServiceLabel ? 'state-slb' : 'state-revenue';
-    if (this.stateServiceLabel) {
-      // payload = {...payload, "sortBy": this.BarGraphValue ? 'top10' : 'bottom10'}
-      // apiEndPoint = 'state-slb';
-    }
+
     console.log(payload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -1128,5 +1125,70 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  returnChartPayload: any = {};
+  getClickedAction(event: any) {
+    console.log('getClickedAction', event);
+    let apiRequestData: any;
+    switch (event?.chartType) {
+      case "bar":
+        if (this.stateServiceLabel) {
+          apiRequestData = {
+            "financialYear": this.financialYear,
+            "stateId": this.stateId,
+            "sortBy": this.BarGraphValue ? 'top10' : 'bottom10',
+            "filterName": this.filterName,
+            "ulb": this.ulbId,
+            "apiEndPoint": "state-slb",
+            "widgetMode": true,
+            "apiMethod": "get",
+            "chartType": event?.chartType,
+            "stateServiceLabel": this.stateServiceLabel
+          };
+          console.log('if apiRequestData', apiRequestData);
+        } else {
+          const tabType = this.getTabType();
+          apiRequestData = {
+            "tabType": tabType ? tabType?.code : '',
+            "financialYear": this.financialYear,
+            "stateId": this.stateId,
+            "sortBy": this.BarGraphValue ? 'top' : 'bottom',
+            "apiEndPoint": "state-revenue-tabs",
+            "widgetMode": true,
+            "apiMethod": "get",
+            "chartType": event?.chartType
+          };
+          if (tabType?.isCodeRequired) {
+            apiRequestData['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
+          }
+        }
+        break;
+      case "scatter":
+        apiRequestData = {
+          [this.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
+          financialYear: this.financialYear,
+          headOfAccount: this.stateServiceLabel ? undefined : this.headOfAccount,
+          filterName: this.filterName,
+          isPerCapita: this.isPerCapita,
+          compareType: this.stateServiceLabel ? undefined : '',
+          compareCategory: this.selectedRadioBtnValue, 
+          ulb: this.ulbId,
+          "apiEndPoint": this.stateServiceLabel ? 'state-slb' : 'state-revenue',
+          "widgetMode": true,
+          "apiMethod": "post",
+          "chartType": event?.chartType,
+          "stateServiceLabel": this.stateServiceLabel
+        };
+        console.log(event?.chartType, apiRequestData);
+        break;
+      case "pie":
+      case "doughnut":
+        break;
+      default:
+        break;
+    }
+    return this._commonServices.createEmbedUrl(apiRequestData)
+    // return this.returnChartPayload = JSON.parse(JSON.stringify(apiRequestData));
   }
 }

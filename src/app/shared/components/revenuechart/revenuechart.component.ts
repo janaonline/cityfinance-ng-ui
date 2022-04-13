@@ -325,6 +325,11 @@ export class RevenuechartComponent
   widgetMode: boolean = false;
   apiParamData: any;
 
+  @Input() getChartPayload: any = {};
+  multiChart: boolean = false;
+  scatterData: any;
+  iFrameApiPayload: any;
+
   ngOnInit(): void {
     this.stateName = this.stateMap[this.stateId];
     // window.onload = () => {
@@ -361,6 +366,14 @@ export class RevenuechartComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges', changes)
+    if (changes && changes.getChartPayload && changes.getChartPayload.currentValue) {
+      this.iFrameApiPayload = changes.getChartPayload.currentValue;
+      if (this.iFrameApiPayload.chartType == 'scatter') {
+        this.getScatterData();
+      } else if (this.iFrameApiPayload.chartType == 'bar') {
+        this.getStateRevenue()
+      }
+    }
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
         this.createChart();
@@ -448,6 +461,8 @@ export class RevenuechartComponent
   actionClick(value) {
     console.log('actionClick', value);
     if (value.name == 'Share/Embed') {
+      // this._loaderService.stopLoader();
+      // this.actionClicked.emit(value);
       const paramContent: any = {
         "tabType": "TotalRevenue",
         "financialYear": "2020-21",
@@ -475,7 +490,9 @@ export class RevenuechartComponent
 
       return;
     }
-    this.actionClicked.emit(value);
+    this.actionClicked.emit({...value, chartType: this.chartData.type});
+    
+    this._loaderService.stopLoader();
   }
 
   dialogRef;
@@ -644,6 +661,196 @@ export class RevenuechartComponent
     console.log('barChartOptions', this.ChartOptions)
   }
 
+  initializeScatterData() {
+    this.scatterData = {
+      type: "scatter",
+      data: {
+        datasets: [
+          {
+            labels: [],
+            rev: [],
+            label: "Municipality",
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#1EBFC6",
+            backgroundColor: "#1EBFC6",
+          },
+          {
+            labels: [],
+            rev: [],
+            label: "Municipal Corporation",
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#3E5DB1",
+            backgroundColor: "#3E5DB1",
+          },
+          {
+            label: "Town Panchayat",
+            labels: [],
+            rev: [],
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#F5B742",
+            backgroundColor: "#F5B742",
+          },
+          {
+            label: "State Average",
+          data: [],
+          labels:['State Average'],
+          showLine: true,
+          fill: false,
+          backgroundColor:"red",
+          borderColor: "red",
+          },
+        ],
+      },
+    };
+  }
+
+  getScatterData() {
+    // debugger;
+    this.multiChart = false;
+    this._loaderService.showLoader();
+    this.initializeScatterData();
+
+    let payload = {
+      [this.iFrameApiPayload?.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
+      financialYear: this.iFrameApiPayload?.financialYear,
+      headOfAccount: this.iFrameApiPayload?.stateServiceLabel ? undefined : this.iFrameApiPayload?.headOfAccount,
+      filterName: this.iFrameApiPayload?.filterName,
+      isPerCapita: this.iFrameApiPayload?.isPerCapita,
+      compareType: this.iFrameApiPayload?.stateServiceLabel ? undefined : '',
+      compareCategory: this.iFrameApiPayload?.compareCategory, 
+      ulb: this.iFrameApiPayload?.ulb,
+    };
+    let apiEndPoint = this.iFrameApiPayload?.stateServiceLabel ? 'state-slb' : 'state-revenue';
+
+    console.log(payload);
+    let inputVal: any = {};
+    inputVal.stateIds = this.stateId;
+    this.stateFilterDataService.getScatterdData(payload, apiEndPoint).subscribe(
+      (res) => {
+        this.notFound = false;
+        console.log("response data", res);
+        //scatter plots center
+        if (!this.iFrameApiPayload?.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
+          let mCorporation: any;
+          let tp_data: any;
+          let m_data: any;
+          let stateData: any;
+          if (this.iFrameApiPayload?.stateServiceLabel) {
+            // this.setServiceLevelBenchmarkScatteredChartOption('Population', this.iFrameApiPayload?.filterName);
+            m_data = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["m_data"];
+            mCorporation = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["mc_data"];
+            tp_data = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["tp_data"];
+            // stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"][0]["average"];
+            stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0]&& res['data']['scatterData']["stateAvg"][0]["average"];
+            // let natData = res["natAvg"][0]["average"];
+          } else {
+            mCorporation = res["mCorporation"];
+            tp_data = res["townPanchayat"];
+            m_data = res["municipality"];
+            // let natData = res["natAvg"][0]["average"];
+            stateData = res["stateAvg"][0]["average"];
+          }
+
+          this.scatterData.data.datasets.forEach((el) => {
+            let obj = { x: 0, y: 0 };
+            if (el.label == "Town Panchayat") {
+              obj = { x: 0, y: 0 };
+              tp_data.forEach((el2, index) => {
+                obj.x = el2.population;
+                obj.y = this.iFrameApiPayload?.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                el["labels"].push(el2.ulbName);
+                el["rev"].push(this.iFrameApiPayload?.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el.data.push(obj);
+                obj = { x: 0, y: 0 };
+              });
+            } else if (el.label == "Municipal Corporation") {
+              mCorporation.forEach((el2, index) => {
+                obj.x = el2.population;
+                obj.y = this.iFrameApiPayload?.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                el["labels"].push(el2.ulbName);
+                el["rev"].push(this.iFrameApiPayload?.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el.data.push(obj);
+
+                obj = { x: 0, y: 0 };
+              });
+            } else if (el.label == "Municipality") {
+              m_data.forEach((el2, index) => {
+                obj = { x: 0, y: 0 };
+                obj.x = el2.population;
+                obj.y = this.iFrameApiPayload?.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                el["labels"].push(el2.ulbName);
+                el["rev"].push(this.iFrameApiPayload?.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el.data.push(obj);
+                obj = { x: 0, y: 0 };
+              });
+            } else if (el.label == "National Average") {
+              // el["data"]["y"] = natData;
+            
+
+            } else if (el.label == "State Average") {
+              let obje = [{ x: 0, y: 0 },{ x: 1200000, y: 0 }]
+              obje.forEach(el2=>{
+                el2['y'] = stateData
+
+                el["data"].push(el2)
+              })
+       
+             
+            }
+          });
+          console.log(this.scatterData);
+          // this.generateRandomId("scatterChartId123");
+          this.scatterData = { ...this.scatterData };
+          this.chartData = {};
+          this.chartData = this.scatterData;
+        } //donught charts center
+        // else if (this.iFrameApiPayload?.filterName.includes("mix")) {
+        //   this._loaderService.stopLoader();
+        //   let data = res["data"];
+        //   // this.chartDropdownList = data;
+        //   // if (this.chartDropdownList?.length > 0) {
+        //   //   this.getStateRevenue();
+        //   // }
+        //   // console.log('chartDropdownList', this.chartDropdownList)
+        //   this.initializeDonughtData();
+        //   if (payload.compareType == "") {
+        //     if (data.length) {
+        //       data.forEach((el) => {
+        //         this.doughnutData.data.labels.push(el._id);
+        //         this.doughnutData.data.datasets[0].data.push(el.amount);
+        //       });
+        //       console.log(this.doughnutData);
+
+        //       this.doughnutData = { ...this.doughnutData };
+        //     }
+        //   } else if (payload.compareType == "ulbType") {
+        //     let mData = res["mData"];
+        //     let mcData = res["mcData"];
+        //     let tpData = res["tpData"];
+        //     this.multiChart = true;
+        //     this.doughnutDataArr = [
+        //       { mData: mData },
+        //       { mcData: mcData },
+        //       { tpData: tpData },
+        //     ];
+        //     this.doughnutDataArr = [...this.doughnutDataArr];
+        //   }
+        // }
+      },
+      (err) => {
+        this._loaderService.stopLoader();
+        this.notFound = true;
+        console.log(err.message);
+      }
+    );
+  }
 
 }
 

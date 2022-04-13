@@ -628,15 +628,16 @@ export class CommonService {
     let queryString = new URLSearchParams(paramContent).toString();
     let embeddedRoute = 'revenuchart';
     console.log('queryString', queryString);
-    // let finalURL = `${environment.api.url}${embeddedRoute}?${queryString}`;
     let finalURL = `${window.location.origin}/${embeddedRoute}?${queryString}`;
-    // window.open(finalURL, '_blank');
-    var HtmlIframe = `<iframe width="920px" height="580px" src="${finalURL}" frameborder="0" ></iframe>`;
-    var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
-    console.log('sanitizedURL', sanitizedURL)
-    this.copyToClipboard(sanitizedURL);
+    return finalURL;
 
-    window.open(finalURL, '_blank');
+    var HtmlIframe = `<iframe width="1120px" height="780px" src="${finalURL}" frameborder="0" ></iframe>`;
+    // var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
+    // console.log('sanitizedURL', sanitizedURL)
+    // this.copyToClipboard(sanitizedURL);
+    // this.copyToClipboard(HtmlIframe);
+
+    // window.open(finalURL, '_blank');
   }
 
   showSnackbarMessage(message: string) {
