@@ -1,0 +1,37 @@
+<div>
+    <div class="dialog-header">
+        <div class="">
+          <h5>Share/Embed</h5>
+        </div>
+        <div class="">
+            <i (click)="onClose()" class="fa fa-times cancel-btn" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="d-flex mt-3">
+        <img src="../../../../assets/images/shareImage.png" width="130" height="100">
+        <div class="col-md-9 col-lg-9 sub-container">
+            <p>Copy and paste the following code to place an interactive version of this visualization on your website.</p>
+            <select (change)="changeSize($event)" class="shareIFrame">
+                <option *ngFor="let size of iFrameSize" [value]="size.code">{{size.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="code mt-3">
+        <div class="ms-2">
+             <input class="iframe-input" type="text" [value]="iFrameElement" readonly #userinput onClick="this.setSelectionRange(0, this.value.length)">
+        </div>
+        <div class="col-md-1 col-lg-1 me-1 copy-btn" (click)="copyIframeLink(userinput)">
+            COPY
+        </div>
+        
+    </div>
+    <div class="row" *ngIf="copyMessage">
+        <p class="copiedText">Copied</p>
+    </div>
+    
+    <br>
+    
+ 
+</div>
+    

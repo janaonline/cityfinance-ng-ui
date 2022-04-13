@@ -349,7 +349,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   yearList: any;
 
   getYears() {
-    // debugger;
+    if(this.stateServiceLabel){
+this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+
+  this.yearList = res['data']
+}, (err)=> {
+console.log(err.message)
+})
+    }else{
+   // debugger;
     /**
      * below api was previously used but now new api is used to get the data of state wise FYs
      */
@@ -369,29 +377,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.showSnackbarMessage('No Financial year data found');
       return false;
     }
-    // const paramContent: any = {
-    //   "state": this.stateId
-    // };
-    // this._loaderService.showLoader();
-    // this.stateFilterDataService.getStateWiseFYs(paramContent).subscribe((res: any) => {
-    //   if (res && res.success) {
-    //     this.yearList = res["data"] && res["data"].length ? res["data"][0]['FYs'] : [];
-    //     if (this.yearList?.length) {
-    //       console.log('this.yearList', this.yearList)
-    //       this.financialYear = this.yearList[0];
-    //       console.log('financial Year', this.financialYear);
-    //     } else {
-    //       this.showSnackbarMessage('No Financial year data found');
-    //       return false;
-    //     }
-
-    //   } else {
-    //     this._loaderService.stopLoader();
-    //   }
-    // }, (err) => {
-    //   this._loaderService.stopLoader();
-    //   console.log(err.message);
-    // });
+    }
+ 
+  
   }
 
   getDropDownValue() {
@@ -722,6 +710,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
+   if(changes.stateServiceLabel){
+    this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+        
+      this.yearList = res['data']
+    }, (err)=> {
+    console.log(err.message)
+    })
+   }
+     
       console.log('this.data.filterName', this.data.filterName)
       if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
@@ -1127,7 +1124,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     );
   }
 
-  returnChartPayload: any = {};
+  returnChartPayload: any = '';
   getClickedAction(event: any) {
     console.log('getClickedAction', event);
     let apiRequestData: any;
@@ -1141,7 +1138,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             "filterName": this.filterName,
             "ulb": this.ulbId,
             "apiEndPoint": "state-slb",
-            "widgetMode": true,
             "apiMethod": "get",
             "chartType": event?.chartType,
             "stateServiceLabel": this.stateServiceLabel
@@ -1155,7 +1151,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             "stateId": this.stateId,
             "sortBy": this.BarGraphValue ? 'top' : 'bottom',
             "apiEndPoint": "state-revenue-tabs",
-            "widgetMode": true,
             "apiMethod": "get",
             "chartType": event?.chartType
           };
@@ -1166,16 +1161,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         break;
       case "scatter":
         apiRequestData = {
-          [this.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
-          financialYear: this.financialYear,
-          headOfAccount: this.stateServiceLabel ? undefined : this.headOfAccount,
-          filterName: this.filterName,
-          isPerCapita: this.isPerCapita,
-          compareType: this.stateServiceLabel ? undefined : '',
-          compareCategory: this.selectedRadioBtnValue, 
-          ulb: this.ulbId,
+          "stateId": this.stateId,
+          "financialYear": this.financialYear,
+          "headOfAccount": this.headOfAccount ? this.headOfAccount : '',
+          "filterName": this.filterName,
+          "isPerCapita": this.isPerCapita,
+          "compareType": '',
+          "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
+          "ulb": this.ulbId ? this.ulbId : '',
           "apiEndPoint": this.stateServiceLabel ? 'state-slb' : 'state-revenue',
-          "widgetMode": true,
           "apiMethod": "post",
           "chartType": event?.chartType,
           "stateServiceLabel": this.stateServiceLabel
@@ -1188,7 +1182,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       default:
         break;
     }
-    return this._commonServices.createEmbedUrl(apiRequestData)
+    this.returnChartPayload = this._commonServices.createEmbedUrl(apiRequestData);
     // return this.returnChartPayload = JSON.parse(JSON.stringify(apiRequestData));
   }
 }

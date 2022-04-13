@@ -155,10 +155,12 @@ export class NationalMapSectionComponent
 
   currentStateId: any = "";
   colorCoding: any = [];
+  financialYearList: any = [];
 
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
   ngOnInit(): void {
+    this.getFinancialYearList();
     this.getNationalLevelMapData("2020-21");
     this.getNationalTableData();
     this.loadData();
@@ -177,9 +179,8 @@ export class NationalMapSectionComponent
   }
 
   getNationalLevelMapData(year) {
-    let randomNumber = Math.random();
+    let randomNumber = Math.round(Math.random());
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
-      console.log("mapData", res);
       this.colorCoding = res?.data;
       if (res) {
         // this.createNationalLevelMap(
@@ -359,12 +360,13 @@ export class NationalMapSectionComponent
   }
 
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "90vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    console.log(height);
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
     class="col-sm-12"
-    style="background-color: #F8F9FF; background-image: url('../../../../assets/Layer\ 1.png');
+    style="background-color: #F8F9FF;
     display: inline-block; width: 100%;height: ${height};"
   >
   </div>`;
@@ -506,12 +508,16 @@ export class NationalMapSectionComponent
     }
   }
 
+  getFinancialYearList() {
+    this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
+      this.financialYearList = res?.data?.FYs;
+    });
+  }
+
   onSelectingStateFromDropDown(state: any | null) {
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
-    // debugger;
-    console.log("sttts", state);
     this.currentStateId = state?._id;
     this.AvailabilityTitle = state?.name;
     this.nationalInput.stateId = state._id;

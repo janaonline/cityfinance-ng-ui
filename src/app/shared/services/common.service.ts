@@ -628,9 +628,10 @@ export class CommonService {
     let queryString = new URLSearchParams(paramContent).toString();
     let embeddedRoute = 'revenuchart';
     console.log('queryString', queryString);
-    let finalURL = `${window.location.origin}/${embeddedRoute}?${queryString}`;
+    let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&${queryString}`;
+    // let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&data=${btoa(queryString)}`;
     return finalURL;
-
+    // return btoa(finalURL);
     var HtmlIframe = `<iframe width="1120px" height="780px" src="${finalURL}" frameborder="0" ></iframe>`;
     // var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
     // console.log('sanitizedURL', sanitizedURL)
@@ -641,14 +642,14 @@ export class CommonService {
   }
 
   showSnackbarMessage(message: string) {
-    this.snackbar.open(message, null, {
-      duration: 200,
+    this.snackbar.open(message, '', {
+      duration: 1500,
       verticalPosition: "bottom",
     });
   }
 
-  copyToClipboard(copyHTMLElement: any) {
-    this.showSnackbarMessage('Visualization Copied');
+  copyToClipboard(copyHTMLElement: any, copyMessage: string = '') {
+    this.showSnackbarMessage(copyMessage);
 
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -661,5 +662,23 @@ export class CommonService {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+  }
+
+  decodeIframeUrl(dataUrl: any) {
+    console.log('decodeIframeUrl', dataUrl);
+    let decodedUrl = atob(dataUrl);
+    return decodedUrl;
+  }
+
+  paramsToObject(queryParamContent: any) {
+    console.log('queryParamContent', queryParamContent)
+    var paramObject = {};
+    var pairs = queryParamContent.split('&');
+    for (let key in pairs) {
+      var split = pairs[key].split('=');
+      paramObject[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
+    }
+    console.log('paramObject', paramObject)
+    return paramObject;
   }
 }

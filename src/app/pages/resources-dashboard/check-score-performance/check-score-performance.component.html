@@ -65,7 +65,7 @@
                 <div class="row me-0 mx-0">
                     <div class="col-12 col-sm-12 col-md-6 prs-div pe-0">
                         <!-- chart--- -->
-                        <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues">
+                        <a (click)="presDetails(item)" class="pres-aTag" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues" [ngClass]="{'pres-active': item?.isActive}">
                             <div class="row mt-2" style="align-items: center; padding: 5px 0 12px 0;">
                                 <div class="col-sm-4 col-3 text-end pres-name">
                                     {{item?.name}}:

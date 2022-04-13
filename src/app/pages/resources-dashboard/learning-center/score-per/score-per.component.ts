@@ -78,6 +78,10 @@ prescription;
 
   trClick(data){
     this.prescriptionData = data?.partcularAnswerValues;
+    this.scoreReportData?.top3.forEach(el => {
+      el.isActiveRow = false
+    });
+    data.isActiveRow = true;
     console.log('hiiiiii', data);
 
   }
@@ -85,9 +89,10 @@ prescription;
 
  changeState(e){
     console.log('eeeee', e);
+    this.btnName = 'Get Started'
     this.disStartedBtn = true;
     this.stepperScoreDiv = false;
-      this.reportScoreDiv = false;
+    this.reportScoreDiv = false;
     this.getUlbList(e);
   }
 
@@ -96,6 +101,7 @@ getUlbList(stateCode){
     this._commonService.getUlbByState(stateCode).subscribe((res: any)=> {
       console.log('res ulb list', res?.data);
       this.ulbList = res?.data?.ulbs;
+
        })
   }
 
@@ -197,6 +203,7 @@ getUlbList(stateCode){
   }
   changeUlb(e){
     this.ulb_id = e;
+    this.btnName = 'Get Started';
     console.log('ulb..', e);
     if(this.ulb_id) this.disStartedBtn = false;
 
@@ -215,17 +222,39 @@ getUlbList(stateCode){
   closeScoreCard() {
     this.stepperScoreDiv = false;
   }
-  presDetails(presItem) {
+  presDetails(presItem, index, type) {
     console.log(presItem);
     this.prescription = presItem?.prescription;
+     if(type == 'uperPres'){
+      this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
+        el.isActive = false;
+       });
+       presItem.isActive = true;
+       console.log(presItem);
+    }
+    // if(type == 'top3Table'){
+    //   this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
+    //     el.isActive = false;
+    //    });
+    //    presItem.isActive = true;
+    //    console.log(presItem);
+    // }
   }
   getStartedScore() {
     if(this.ulb_id != '') {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe((res: any)=>{
        console.log('responce ulb..', res, typeof(res));
        this.scoreReportData = res?.data;
+       this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
+        el.isActive = false;
+       })
+       this.scoreReportData?.top3.forEach((el)=>{
+        el.isActiveRow = false;
+       })
        this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
+        res.data.currentUlb.partcularAnswerValues[0].isActive = true;
        this.prescriptionData = res?.data?.top3[0]?.partcularAnswerValues;
+       this.scoreReportData.top3[0].isActiveRow = true;
        if(this.btnName != 'Try Again'){
         if(this.scoreReportData){
           this.stepperScoreDiv = false;

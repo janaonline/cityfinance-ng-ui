@@ -16,17 +16,20 @@
     </div>
 </div>
 <div *ngIf="showIframe">
-    <iframe 
-    src="https://janaagraha-space.ispring.com/s/embed_player/18b16350-8f00-11ec-9496-cef1e7d8875f" 
-    width="560" height="315" 
-    frameborder="0" border="0" 
-    scrolling="auto" allowtransparency="true" 
-    allowfullscreen="1" 
-    style="border: none; background-color: transparent;"></iframe>
+    <iframe src="https://janaagraha-space.ispring.com/s/embed_player/18b16350-8f00-11ec-9496-cef1e7d8875f" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
 </div>
 
 <div *ngIf="!isCardShow && !showIframe">
+    <div class="row">
+        <div class="col-sm-12 mt-3">
+            <a class="h-a" style="text-decoration: none;" routerLink="/resources-dashboard/learning-center/toolkits/introduction">
+                <span class="heading"> Property Tax Toolkit</span>
+            </a>
+
+        </div>
+    </div>
     <div class="container container-cnt mb-3">
+
         <div class="tabs" style="margin: .5rem auto;">
             <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
                 <li class="nav-item" *ngFor="let item of subTabData; let i = index">

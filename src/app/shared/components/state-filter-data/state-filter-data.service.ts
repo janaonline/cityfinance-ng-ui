@@ -333,6 +333,12 @@ export class StateFilterDataService {
     );
   }
 
+getYearListSLB(){
+  return this.http.get(
+    environment.api.url + `get-FYs-slb`
+  );
+}
+
   getStateUlbsGroupedByPopulation(paramContent: any) {
     let bodyParams: any;
     bodyParams = this.commonService.getHttpClientParams(paramContent);

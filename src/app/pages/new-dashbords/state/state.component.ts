@@ -3,6 +3,7 @@ import { NewDashboardService } from "../new-dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../../auth/auth.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import { CommonService } from "src/app/shared/services/common.service";
 @Component({
   selector: "app-state",
   templateUrl: "./state.component.html",
@@ -14,11 +15,12 @@ export class StateComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private router: Router,
     public _loaderService: GlobalLoaderService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _commonService: CommonService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.stateId = param.stateId;
-    this.frontPanelData.stateId = this.stateId  
+      this.frontPanelData.stateId = this.stateId;
       for (const key in this.stateUlbData.data) {
         const element = this.stateUlbData.data[key];
         if (element._id == this.stateId) {
@@ -56,12 +58,10 @@ export class StateComponent implements OnInit {
       .getDashboardTabData("619cc1016abe7f5b80e45c6b")
       .subscribe(
         (res) => {
-        
           console.log(res, "dashboardTabData");
           this.dashboardTabData = res["data"];
         },
         (error) => {
-        
           console.log(error);
         }
       );
@@ -84,18 +84,23 @@ export class StateComponent implements OnInit {
       .dashboardInformation(true, stateId, "state", "2019-20")
       .subscribe(
         (res: any) => {
-         
           this.frontPanelData.dataIndicators.map((item) => {
             switch (item.key) {
               case "population":
                 item.value =
-                  Math.round(res.data[0].population / 1000000) + " Million";
+                  this._commonService.formatNumber(
+                    Math.round(res.data[0].population / 1000000)
+                  ) + " Million";
                 if (item.value == "0 Million")
                   item.value =
-                    Math.round(res.data[0].population / 1000) + " Thousand";
+                    this._commonService.formatNumber(
+                      Math.round(res.data[0].population / 1000)
+                    ) + " Thousand";
                 break;
               case "density":
-                item.value = (res.data[0].density || 0) + "/ Sq km";
+                item.value =
+                  this._commonService.formatNumber(res.data[0].density || 0) +
+                  "/ Sq km";
                 break;
               case "area":
                 item.value =
@@ -123,7 +128,6 @@ export class StateComponent implements OnInit {
           this.frontPanelData.stateId = this.stateId;
         },
         (error) => {
-         
           console.error(error);
         }
       );
@@ -227,14 +231,13 @@ const data = {
       key: "Municipal_Council",
       super: true,
     },
- 
+
     {
       value: "0",
       title: "Town Panchayat",
       key: "Town_Panchayat",
       super: true,
     },
-   
   ],
   footer: `Data shown is from audited/provisional financial statements for FY 20-21
   and data was last updated on 21st August 2021`,
