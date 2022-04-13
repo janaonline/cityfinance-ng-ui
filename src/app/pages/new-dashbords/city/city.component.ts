@@ -192,10 +192,10 @@ export class CityComponent implements OnInit {
           this.revenueData = [
             obj.Revenue,
             obj.Expense,
-            obj.Tax,
-            obj.Liability,
             obj.Asset,
+            obj.Tax,
             obj.Debt,
+            obj.Liability
           ];
         },
         (error) => {

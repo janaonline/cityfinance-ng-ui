@@ -62,6 +62,66 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   disableFirstYear = true
 
   ngAfterViewInit(): void {}
+  latest:any
+   barChartStaticOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: "Amount in Cr.",
+          },
+          gridLines: {
+            offsetGridLines: true,
+            display: false,
+          },
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+    legend: {
+      position: "bottom",
+      labels: {
+        padding: 35,
+        boxWidth: 24,
+        boxHeight: 18,
+      },
+    },
+    animation: {
+      onComplete: function (animation) {
+        var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+        ctx.fillStyle = "#6E7281";
+        ctx.font = Chart.helpers.fontString(
+          Chart.defaults.global.defaultFontSize,
+          Chart.defaults.global.defaultFontStyle,
+          Chart.defaults.global.defaultFontFamily
+        );
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+  
+        this.data.datasets.forEach(function (dataset, i) {
+          var meta = chartInstance.controller.getDatasetMeta(i);
+          if (meta.type == "line") return true;
+          meta.data.forEach(function (bar, index) {
+            var data = dataset.data[index];
+            console.log("chartOption Data",  data);
+            if(isNaN(data)){
+              return
+            } else {   
+              data = new Intl.NumberFormat("en-IN").format(data*1);
+            }
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+          });
+        });
+        console.log(animation, "animation");
+      },
+    },
+  };
 
   changeActiveBtn(i) {
     this.hideElements = false;
@@ -248,7 +308,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       },
     };
     this.barChart = obj;
-    this.chartOptions = barChartStaticOptions;
+    this.chartOptions = this.barChartStaticOptions;
   }
 
   calculateRevenueMix(data) {
@@ -370,11 +430,11 @@ ULB ${this.selectedTab} for FY' ${
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [convertToCr(value.amount, this.isPerCapita)];
+          dataInner.data = [value.amount, this.isPerCapita];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(convertToCr(value.amount, this.isPerCapita));
+          dataInner.data.push(value.amount, this.isPerCapita);
           temp[value.ulbName] = dataInner;
         }
       });
@@ -392,10 +452,10 @@ ULB ${this.selectedTab} for FY' ${
       newData.data.datasets.push(newlineDataset);
 
     this.barChart = newData;
-    barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
+    this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "Rs" : "Cr"
     }`;
-    this.chartOptions = barChartStaticOptions;
+    this.chartOptions = this.barChartStaticOptions;
   }
 
   createLineChartForRevenueExpenditure(data) {
@@ -976,59 +1036,7 @@ const assigned_revenues_compensation = ["120"];
 const grants = ["160"];
 const interest_income = ["171"];
 const other_receipts = ["170", "100"];
-const barChartStaticOptions = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    yAxes: [
-      {
-        scaleLabel: {
-          display: true,
-          labelString: "Amount in Cr.",
-        },
-        gridLines: {
-          offsetGridLines: true,
-          display: false,
-        },
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-  },
-  legend: {
-    position: "bottom",
-    labels: {
-      padding: 35,
-      boxWidth: 24,
-      boxHeight: 18,
-    },
-  },
-  animation: {
-    onComplete: function (animation) {
-      var chartInstance = this.chart,
-        ctx = chartInstance.ctx;
-      ctx.fillStyle = "#6E7281";
-      ctx.font = Chart.helpers.fontString(
-        Chart.defaults.global.defaultFontSize,
-        Chart.defaults.global.defaultFontStyle,
-        Chart.defaults.global.defaultFontFamily
-      );
-      ctx.textAlign = "center";
-      ctx.textBaseline = "bottom";
 
-      this.data.datasets.forEach(function (dataset, i) {
-        var meta = chartInstance.controller.getDatasetMeta(i);
-        if (meta.type == "line") return true;
-        meta.data.forEach(function (bar, index) {
-          var data = dataset.data[index];
-          ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
-        });
-      });
-      console.log(animation, "animation");
-    },
-  },
-};
 
 function getPopulationType(population) {
   if (population < 100000) {
