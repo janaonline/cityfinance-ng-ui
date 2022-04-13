@@ -14,7 +14,7 @@ import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
-import {Observable} from 'rxjs'
+import { Observable } from "rxjs";
 @Component({
   selector: "app-map-with-filter",
   templateUrl: "./map-with-filter.component.html",
@@ -35,7 +35,7 @@ export class MapWithFilterComponent
     protected _snackbar: MatSnackBar,
     protected _geoService: GeographicalService,
     protected _activateRoute: ActivatedRoute,
-    private router : Router
+    private router: Router
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     this.ngOnChanges({
@@ -70,42 +70,37 @@ export class MapWithFilterComponent
   loaderStyle = loaderStyle;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   ulb = new FormControl();
-  noDataFound = false
+  noDataFound = false;
   @Output()
   changeInStateOrCity = new EventEmitter();
   filteredOptions: Observable<any[]>;
-  ngOnInit(): void {
-
-  }
-  callAPI(event){
-   
-   
-    
-        this._commonService.postGlobalSearchData(event.target.value,"ulb", this.mapConfig.code.state).subscribe((res: any) => {
-          console.log(res?.data);
-          let emptyArr:any = []
-            this.filteredOptions = emptyArr;
-          if(res?.data.length > 0 ){
-            
-            this.filteredOptions = res?.data;
-            this.noDataFound = false;
-          }else{
-
-            let emptyArr:any = []
-            this.filteredOptions = emptyArr;
-            this.noDataFound = true;
-            let noDataFoundObj = {
-              name: '',
-              id: '',
-              type: '',
-            }
-            console.log('no data found')
-          }
-        });
-      
-  
- 
-
+  ngOnInit(): void {}
+  callAPI(event) {
+    this._commonService
+      .postGlobalSearchData(
+        event.target.value,
+        "ulb",
+        this.mapConfig.code.state
+      )
+      .subscribe((res: any) => {
+        console.log(res?.data);
+        let emptyArr: any = [];
+        this.filteredOptions = emptyArr;
+        if (res?.data.length > 0) {
+          this.filteredOptions = res?.data;
+          this.noDataFound = false;
+        } else {
+          let emptyArr: any = [];
+          this.filteredOptions = emptyArr;
+          this.noDataFound = true;
+          let noDataFoundObj = {
+            name: "",
+            id: "",
+            type: "",
+          };
+          console.log("no data found");
+        }
+      });
   }
   createNationalLevelMap(
     geoData: FeatureCollection<
@@ -204,45 +199,46 @@ export class MapWithFilterComponent
       }, 10);
     }
   }
-  postBody
-  checkType(searchValue){
+  postBody;
+  checkType(searchValue) {
     let type = searchValue?.type;
-    if(type == 'ulb'){
+    if (type == "ulb") {
       this.postBody = {
-       type: searchValue.type,
-       ulb: searchValue._id
-     };
-   }
-   if(type == 'state'){
-       this.postBody = {
         type: searchValue.type,
-        state: searchValue._id
+        ulb: searchValue._id,
       };
-   }
-   if(type == 'searchKeyword'){
-    this.postBody = {
-       type: searchValue.type,
-       searchKeyword: searchValue._id
-      }
-   }
+    }
+    if (type == "state") {
+      this.postBody = {
+        type: searchValue.type,
+        state: searchValue._id,
+      };
+    }
+    if (type == "searchKeyword") {
+      this.postBody = {
+        type: searchValue.type,
+        searchKeyword: searchValue._id,
+      };
+    }
   }
   dashboardNav(option) {
-    console.log('option', option)
+    console.log("option", option);
     this.checkType(option);
-    this._commonService.postRecentSearchValue(this.postBody).subscribe((res)=>{
-      console.log('serach res', res)
-   },
-   (error)=>{
-     console.log(error)
-   });
-    console.log('option', option)
-    if(option?.type == 'state'){
-     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    this._commonService.postRecentSearchValue(this.postBody).subscribe(
+      (res) => {
+        console.log("serach res", res);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    console.log("option", option);
+    if (option?.type == "state") {
+      this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`);
     }
-    if(option?.type == 'ulb'){
-     this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
-     }
-
+    if (option?.type == "ulb") {
+      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`);
+    }
   }
 
   showMapLegends() {
@@ -317,12 +313,17 @@ export class MapWithFilterComponent
         marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
         marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values: any) => {
+          console.log("clicked values", values, this.mapConfig.code.state);
           let city;
           if (values["latlng"])
             city = this.stateUlbData.data[this.mapConfig.code.state].ulbs.find(
-              (value) =>
-                +value.location.lat === values["latlng"].lat &&
-                +value.location.lng === values["latlng"].lng
+              (value) => {
+                console.log("innerValue", value);
+                return (
+                  +value.location.lat === values["latlng"].lat &&
+                  +value.location.lng === values["latlng"].lng
+                );
+              }
             );
           if (city) this.selectedDistrictCode = city.code;
           this.onDistrictMarkerClick(values, marker);
@@ -340,7 +341,6 @@ export class MapWithFilterComponent
     console.log(event.target.value, "test");
     let layer = this.layerMap[JSON.parse(event.target.value).ST_CODE];
     if (layer) layer.fireEvent("click");
-
   }
 
   districtOption(event) {

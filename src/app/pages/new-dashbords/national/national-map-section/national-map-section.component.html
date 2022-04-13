@@ -4,10 +4,11 @@
 
     <div
       *ngIf="!nationalLevelMap"
+      style="z-index: 1000 !important; opacity: 1"
       class="skeletonWrapper container-fluid spinner_overlay d-flex justify-content-center align-items-center"
-      style="z-index: 1000"
     >
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <h1>Loading...</h1>
+      <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
     </div>
     <!-- <div
       class="map-reset w-100 text-center mb-3 mt-3"
@@ -116,10 +117,12 @@
           id="years"
           (change)="selectFinancialYear($event)"
         >
-          <option value="2020-21" selected>2020-21</option>
-          <option value="2019-20">2019-20</option>
+          <option *ngFor="let item of financialYearList" value="{{ item }}">
+            {{ item }}
+          </option>
+          <!-- <option value="2019-20">2019-20</option>
           <option value="2018-19">2018-19</option>
-          <option value="2017-18">2017-18</option>
+          <option value="2017-18">2017-18</option> -->
         </select>
       </div>
     </div>
@@ -203,6 +206,22 @@
           View State Dashboard
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row my-5">
+    <div class="m-auto" style="width: 60%">
+      You can also download the source data in excel format
+      <button class="cursor-pointer bottomDownloadButton py-2">
+        <img
+          src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
+          height="13px"
+          width="13px"
+          class="m-1"
+        />Download Data
+      </button>
     </div>
   </div>
 </div>

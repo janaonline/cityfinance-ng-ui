@@ -6,6 +6,7 @@ import { of, throwError } from "rxjs";
 import { CommonService } from "../../services/common.service";
 import Chart from "chart.js";
 // ./shared/services/common.service
+import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 @Injectable({
   providedIn: "root",
 })
@@ -313,7 +314,9 @@ export class StateFilterDataService {
 
   stateLevelDashboardAPIs: any [];
   constructor(private http: HttpClient,
-    private commonService: CommonService) {}
+    private commonService: CommonService,
+    private sanitizer: DomSanitizer,
+    ) {}
 
   getScatterdData(payload: any, apiEndPoint: string) {
     // return this.http.post(environment.api.url + "/state-revenue", payload);
@@ -365,7 +368,6 @@ getYearListSLB(){
       }
     );
   }
-
 
   handleError(error: any) {
     console.log("error", error);

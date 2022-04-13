@@ -60,10 +60,14 @@
           aria-label="Default select"
           (change)="selectFinancialYear($event)"
         >
-          <option value="2020-21" selected>2020-21</option>
-          <option value="2019-20">2019-20</option>
+          <!-- <option value="2020-21" selected>2020-21</option> -->
+
+          <option value="{{ item }}" *ngFor="let item of financialYearList">
+            {{ item }}
+          </option>
+          <!-- <option value="2019-20">2019-20</option>
           <option value="2018-19">2018-19</option>
-          <option value="2017-18">2017-18</option>
+          <option value="2017-18">2017-18</option> -->
         </select>
       </div>
       <div class="col-sm-12 col-md-9 pd-s mb-3">
@@ -216,6 +220,7 @@
 <div class="" [hidden]="!mixRevenue">
   <div class="row m-0">
     <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
+      <!-- <div *ngIf="loader">Loading</div> -->
       <div class="card-body barCon">
         <div class="w-75 m-auto h-75">
           <h3 class="chart-l text-center">National</h3>
@@ -227,12 +232,14 @@
             *ngFor="let chart of doughnutArray; let i = index"
           >
             <h3 class="chart-l text-center">{{ chart.title }}</h3>
-            <canvas
-              id="mychart{{ i }}"
-              style="width: 200px; height: 200px"
-              #mycharts
-              >{{ mixRDoughnutPopulationCategory.chart }}</canvas
-            >
+            <div id="container_{{ i }}">
+              <canvas
+                id="mychart{{ i }}"
+                style="width: 200px; height: 200px"
+                #mycharts
+                >{{ mixRDoughnutPopulationCategory.chart }}</canvas
+              >
+            </div>
           </div>
         </div>
         <div class="legends">
@@ -262,4 +269,21 @@
     </div>
   </div>
   <!-- <canvas id="doughnut"></canvas> -->
+</div>
+
+<div class="container">
+  <div class="row my-5">
+    <div class="m-auto" style="width: 60%">
+      You can also download the source data in excel format
+      <button class="cursor-pointer bottomDownloadButton py-2">
+        <img
+          src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
+          height="13px"
+          width="13px"
+          class="m-1"
+        />
+        Download Data
+      </button>
+    </div>
+  </div>
 </div>

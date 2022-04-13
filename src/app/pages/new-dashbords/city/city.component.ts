@@ -3,6 +3,7 @@ import { NewDashboardService } from "../new-dashboard.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CityService } from "./city.service";
 import { AuthService } from "../../../auth/auth.service";
+import { CommonService } from "src/app/shared/services/common.service";
 
 @Component({
   selector: "app-city",
@@ -15,7 +16,8 @@ export class CityComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private router: Router,
     private cityService: CityService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _commonService: CommonService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.cityId = param.cityId;
@@ -32,7 +34,7 @@ export class CityComponent implements OnInit {
   cityId;
   stateCode;
   frontPanelData = data;
-  revenueData = [Revenue, Expense,Tax, Liability,  Asset , Debt];
+  revenueData = [Revenue, Expense, Tax, Liability, Asset, Debt];
   mapData = mapConfig;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
@@ -48,14 +50,11 @@ export class CityComponent implements OnInit {
   ngOnInit(): void {
     this.dashboardDataCall();
     this.dashboardCalls(this.cityId);
-    setTimeout(()=>{
-       console.log('nameeeeeeeeeeeee', this.frontPanelData?.name);
-       this.dashboardTabData.forEach((el)=>{
+    setTimeout(() => {
+      this.dashboardTabData.forEach((el) => {
         el.ulbName = this.frontPanelData?.name;
-      })
-    }, 500)
-
-
+      });
+    }, 500);
   }
   dashboardDataCall() {
     this.newDashboardService
@@ -112,20 +111,30 @@ export class CityComponent implements OnInit {
           this.frontPanelData.dataIndicators.map((item) => {
             switch (item.key) {
               case "population":
+                // let computedNumber = this._commonService.formatNumber(
+                //   res?.data?.population / 1000000
+                // );
                 item.value =
-                  Math.round(res.data.population / 1000000) + " Million";
+                  this._commonService.formatNumber(
+                    Math.round(res.data.population / 1000000)
+                  ) + " Million";
                 if (item.value == "0 Million")
                   item.value =
-                    Math.round(res.data.population / 1000) + " Thousand";
+                    this._commonService.formatNumber(
+                      Math.round(res.data.population / 1000)
+                    ) + " Thousand";
                 break;
               case "density":
-                item.value = res.data.density + "/ Sq km";
+                item.value =
+                  this._commonService.formatNumber(res.data.density) +
+                  "/ Sq km";
                 break;
               case "ward":
                 item.value = res.data.wards;
                 break;
               case "area":
-                item.value = res.data.area + " Sq km";
+                item.value =
+                  this._commonService.formatNumber(res.data.area) + " Sq km";
                 break;
               case "amrut":
                 item.value = res.data.amrut;
@@ -158,7 +167,7 @@ export class CityComponent implements OnInit {
       .dashboardInformation(false, cityId, "ulb", " ")
       .subscribe(
         (res: any) => {
-          let obj = { Revenue, Expense, Tax, Liability , Asset, Debt };
+          let obj = { Revenue, Expense, Tax, Liability, Asset, Debt };
           for (const key in obj) {
             const element = obj[key];
             if (key == "Debt") {
@@ -186,7 +195,7 @@ export class CityComponent implements OnInit {
             obj.Tax,
             obj.Liability,
             obj.Asset,
-           obj.Debt,
+            obj.Debt,
           ];
         },
         (error) => {
@@ -203,7 +212,6 @@ export class CityComponent implements OnInit {
       this.dashboardDataCall();
       this.dashboardCalls(this.cityId);
     }
-    console.log("this.cityId", this.cityId);
   }
 }
 

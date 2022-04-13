@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChildren } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  SimpleChange,
+  ViewChildren,
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
@@ -6,6 +12,8 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { Chart } from "chart.js";
 import { I } from "@angular/cdk/keycodes";
 import { NationalService } from "../national.service";
+import { NationalMapSectionService } from "../national-map-section/national-map-section.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 
 @Component({
   selector: "app-national-sub",
@@ -17,7 +25,9 @@ export class NationalSubComponent implements OnInit {
     protected router: Router,
     private activateRoute: ActivatedRoute,
     private _commonServices: CommonService,
-    private nationalService: NationalService
+    private nationalService: NationalService,
+    private nationalMapService: NationalMapSectionService,
+    private _loaderService: GlobalLoaderService
   ) {}
   public chart: Chart;
   public doughnut: Chart;
@@ -35,28 +45,44 @@ export class NationalSubComponent implements OnInit {
   barChartsLabels;
   doughnutLabels = [
     {
-      name: "Own Revenue",
+      name: "Revenue Grants, Contributions & Subsidies",
       color: "#1E44AD",
     },
     {
-      name: "Assigned Revenue",
+      name: "Interest earned",
       color: "#25C7CE",
     },
     {
-      name: "Grants",
+      name: "Fee & User Charges",
       color: "#585FFF",
     },
     {
-      name: "Interest Income",
+      name: "Income from Investment",
       color: "#FFD72E",
     },
     {
-      name: "Other Income",
+      name: "Sale & Hire charges",
       color: "#22A2FF",
     },
     {
-      name: "State & Hire Charges",
+      name: "Others",
       color: "#FF608B",
+    },
+    {
+      name: "Tax Revenue",
+      color: "#FF608B",
+    },
+    {
+      name: "Other Income",
+      color: "#FF608B",
+    },
+    {
+      name: "Rental Income from Municipal Properties",
+      color: "#FF608B",
+    },
+    {
+      name: "Assigned Revenues & Compensation",
+      color: "#a572b5",
     },
   ];
   yearLookup = [
@@ -75,36 +101,45 @@ export class NationalSubComponent implements OnInit {
     formType: "populationCategory",
   };
   doughnutArray;
+
+  RevenueMixInput: any = {
+    financialYear: "2020-21",
+    formType: "populationCategory",
+    stateId: "",
+    type: "revenueMix",
+  };
+
+  multipleDoughnutChartLabel: any = [];
   @ViewChildren("mycharts") allMyCanvas: any;
   mixRDoughnutPopulationCategory: any = [
     {
       id: "p1",
       title: "4M+",
-      data: [40, 20, 15, 10, 10, 5],
+      data: [],
       chart: [],
     },
     {
       id: "p2",
       title: "1M-4M",
-      data: [10, 10, 10, 10, 10, 50],
+      data: [],
       chart: [],
     },
     {
       id: "p3",
-      title: "500k-1M",
-      data: [25, 5, 25, 15, 25, 5],
+      title: "500K-1M",
+      data: [],
       chart: [],
     },
     {
       id: "p4",
       title: "100K-500K",
-      data: [5, 10, 10, 15, 20, 40],
+      data: [],
       chart: [],
     },
     {
       id: "p5",
       title: "<100K",
-      data: [40, 20, 15, 10, 10, 5],
+      data: [],
       chart: [],
     },
   ];
@@ -132,13 +167,101 @@ export class NationalSubComponent implements OnInit {
 
   showLoader: boolean = false;
   revnueChartData: any;
+  financialYearList: any = [];
+  nationalDoughnutChart: any = [];
+  nationalDoughnutChartLabel: any = [];
+  colorArray = [
+    "#FFD72E",
+    "black",
+    "red",
+    "#a572b5",
+    "#1E44AD",
+    "#25C7CE",
+    "#a572b5",
+    "#585FFF",
+    "#0c302f",
+    "#22A2FF",
+    "#FF608B",
+  ];
 
+  loader: boolean = true;
+  chartArray: any = [];
+
+  destroyMultipleCharts() {
+    for (const chartData of this.chartArray) {
+      if (chartData?.chart) {
+        chartData?.chart.destroy();
+      }
+    }
+  }
   selectFinancialYear(event) {
+    console.log(event.target.value);
     this.nationalInput.financialYear = event.target.value;
+    this.destroyMultipleCharts();
     this.getNationalTableData();
+    this.RevenueMixInput.financialYear = event.target.value;
+    this.getRevenueMixData(this.RevenueMixInput);
     // console.log("selected Financial",event.target.value);
   }
 
+  getRevenueMixData(revenueMixInput) {
+    this.loader = true;
+    this._loaderService.showLoader();
+    this.nationalService
+      .getNationalRevenueMixData(revenueMixInput)
+      .subscribe((res: any) => {
+        // debugger;
+
+        this._loaderService.stopLoader();
+        console.log("revenueMixData", res);
+        if (res?.data) {
+          if (revenueMixInput.formType == "populationCategory") {
+            this.nationalDoughnutChart = Object.values(res?.data?.national);
+            this.nationalDoughnutChartLabel = Object.keys(res?.data?.national);
+            this.multipleDoughnutChartLabel = Object.keys(
+              res?.data?.individual["1M-4M"]
+            );
+            this.mixRDoughnutPopulationCategory.forEach((elem) => {
+              let particularObject = res?.data?.individual[elem?.title];
+              console.log("particularObject", particularObject);
+              if (particularObject) {
+                elem.data = Object.values(particularObject);
+              }
+            });
+
+            this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
+          }
+          if (revenueMixInput.formType == "ulbType") {
+            this.nationalDoughnutChart = Object.values(res?.data?.national);
+            this.nationalDoughnutChartLabel = Object.keys(res?.data?.national);
+            this.multipleDoughnutChartLabel = Object.keys(
+              res?.data?.individual["Municipal Corporation"]
+            );
+            this.mixRDoughnutUlbType.forEach((elem) => {
+              let particularObject = res?.data?.individual[elem?.title];
+              console.log("ulbType ParticularObject", particularObject);
+              if (particularObject) {
+                elem.data = Object.values(particularObject);
+              }
+            });
+            this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
+          }
+
+          this.doughnutLabels.forEach((elem, i) => {
+            elem.name = this.nationalDoughnutChartLabel[i];
+            elem.color = this.colorArray[i];
+          });
+        }
+        console.log(
+          "mixRDoughnutPopulationCategory",
+          this.mixRDoughnutPopulationCategory
+        );
+        this.doughnutChartInit();
+
+        // this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
+        // res.data.national[value]
+      });
+  }
   getNationalTableData() {
     this.showLoader = true;
     try {
@@ -156,7 +279,12 @@ export class NationalSubComponent implements OnInit {
       this.showLoader = false;
     }
   }
+
+  ngOnChanges(changes: SimpleChange) {
+    console.log("changes===//>", changes);
+  }
   ngOnInit(): void {
+    this.getFinancialYearList();
     this.getNationalTableData();
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -188,14 +316,21 @@ export class NationalSubComponent implements OnInit {
     // this.router.navigate([`dashboard/national/${item._id}`]);
   }
 
+  getFinancialYearList() {
+    this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
+      this.financialYearList = res?.data?.FYs;
+    });
+  }
+
   creatBarChartData(value) {
     let newValue = value == "revenue" ? "revenue" : "revenuePerCapita";
     if (this.tableData)
       this.revnueChartData = this.tableData?.rows?.map((elem) => {
         return parseInt(elem[newValue]);
       });
+
+    this.revnueChartData = this.revnueChartData.slice(1);
     this.barChartInit();
-    console.log("final revenueChartData===>", this.revnueChartData);
   }
 
   selectGraphMode(event) {
@@ -212,15 +347,18 @@ export class NationalSubComponent implements OnInit {
   }
 
   subFilterFn(type) {
+    // debugger;
     this.doughnutArray = [];
     if (type == "popCat") {
       this.nationalInput.formType = "populationCategory";
+      this.RevenueMixInput.formType = "populationCategory";
 
       this.getNationalTableData();
       this.popBtn = true;
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
       if (!this.totalRevenue) {
-        this.dynamicDoughnutChartInit(this.doughnutArray);
+        // this.dynamicDoughnutChartInit(this.doughnutArray);
+        this.getRevenueMixData(this.RevenueMixInput);
       }
       if (this.totalRevenue) {
         this.barChartsLabels = [
@@ -237,12 +375,15 @@ export class NationalSubComponent implements OnInit {
     }
     if (type == "ulbType") {
       this.nationalInput.formType = "ulbType";
+      this.RevenueMixInput.formType = "ulbType";
+      // this.RevenueMixInput.type = "revenueMix";
 
       this.getNationalTableData();
       this.popBtn = false;
       this.doughnutArray = this.mixRDoughnutUlbType;
       if (!this.totalRevenue) {
-        this.dynamicDoughnutChartInit(this.doughnutArray);
+        this.getRevenueMixData(this.RevenueMixInput);
+        // this.dynamicDoughnutChartInit(this.doughnutArray);
       }
       if (this.totalRevenue) {
         this.barChartsLabels = [
@@ -255,7 +396,6 @@ export class NationalSubComponent implements OnInit {
         }
       }
     }
-    console.log("btn", type);
   }
 
   graphViewFn() {
@@ -272,7 +412,6 @@ export class NationalSubComponent implements OnInit {
   }
 
   barChartInit() {
-    // console.log("revenueData==>", this.revnueChartData);
     if (this.chart) {
       this.chart.destroy();
     }
@@ -305,6 +444,7 @@ export class NationalSubComponent implements OnInit {
         scales: {
           yAxes: [
             {
+              display: true,
               ticks: {
                 beginAtZero: true,
               },
@@ -312,16 +452,25 @@ export class NationalSubComponent implements OnInit {
                 display: false,
                 // drawOnChartArea: false
               },
+              scaleLabel: {
+                display: true,
+                labelString: "Total Revenue",
+              },
             },
           ],
           xAxes: [
             {
+              display: true,
               ticks: {
                 beginAtZero: true,
               },
               gridLines: {
                 //  display:false
                 drawOnChartArea: false,
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "---Average",
               },
             },
           ],
@@ -340,41 +489,44 @@ export class NationalSubComponent implements OnInit {
     this.mixRevenue = true;
     this.doughnutChartInit();
     if (this.popBtn) {
-      this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
+      this.RevenueMixInput.formType = "populationCategory";
+      this.getRevenueMixData(this.RevenueMixInput);
+      // this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
       // this.mixRDoughnutPopulationCategory.forEach((el)=>{
       //   this.dynamicDoughnutChartInit();
       // })
     }
     if (!this.popBtn) {
+      // this.RevenueMixInput.formType = "ulbType";
+      // this.RevenueMixInput.type = "revenueMix";
+      this.getRevenueMixData(this.RevenueMixInput);
       this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
       // this.mixRDoughnutUlbType.forEach((el)=>{
       //   this.dynamicDoughnutChartInit(el);
       // })
     }
   }
+
   doughnutChartInit() {
+    if (this.doughnut) {
+      this.doughnut.destroy();
+    }
     this.doughnut = new Chart("doughnut", {
       type: "doughnut",
       data: {
-        labels: [
-          "Own Revenue",
-          "Assigned Revenue",
-          "Grants",
-          "Interest Income",
-          "Other Income",
-          "State & Hire Charges",
-        ],
+        // labels: [
+        //   "Own Revenue",
+        //   "Assigned Revenue",
+        //   "Grants",
+        //   "Interest Income",
+        //   "Other Income",
+        //   "State & Hire Charges",
+        // ],
+        labels: this.nationalDoughnutChartLabel,
         datasets: [
           {
-            data: [40, 20, 15, 10, 10, 5],
-            backgroundColor: [
-              "#1E44AD",
-              "#25C7CE",
-              "#585FFF",
-              "#FFD72E",
-              "#22A2FF",
-              "#FF608B",
-            ],
+            data: this.nationalDoughnutChart,
+            backgroundColor: this.colorArray,
             fill: false,
           },
         ],
@@ -393,31 +545,14 @@ export class NationalSubComponent implements OnInit {
     let canvasCharts = this.allMyCanvas._results; // Get array with all canvas
     canvasCharts.map((myCanvas, i) => {
       // For each canvas, save the chart on the charts array
-      if (chartArray[i].chart) {
-        // chartArray[i].chart.destroy();
-      }
       chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext("2d"), {
         type: "doughnut",
         data: {
-          labels: [
-            "Own Revenue",
-            "Assigned Revenue",
-            "Grants",
-            "Interest Income",
-            "Other Income",
-            "State & Hire Charges",
-          ],
+          labels: this.multipleDoughnutChartLabel,
           datasets: [
             {
               data: chartArray[i].data,
-              backgroundColor: [
-                "#1E44AD",
-                "#25C7CE",
-                "#585FFF",
-                "#FFD72E",
-                "#22A2FF",
-                "#FF608B",
-              ],
+              backgroundColor: this.colorArray,
               fill: false,
             },
           ],
@@ -429,6 +564,9 @@ export class NationalSubComponent implements OnInit {
         },
       });
     });
+
+    this.chartArray = chartArray;
+
     // let dynamicDoughnut: Chart;
     // dynamicDoughnut  = new Chart(`${val.id}`, {
     //   type: 'doughnut',

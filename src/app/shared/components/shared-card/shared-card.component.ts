@@ -58,7 +58,6 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
 
   showButtons = false;
   ngOnInit(): void {
-    console.log("this.data===>", this.data);
     if (this.data)
       this.showButtons = this.data?.actionButtons
         ? this.data.actionButtons.length > 0
@@ -66,7 +65,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("route url==>", this.router.url);
+    // console.log("route url==>", this.router.url);
   }
 
   ngAfterViewInit() {
