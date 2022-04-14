@@ -20,7 +20,8 @@ export class NationalComponent implements OnInit {
     private assetService: AssetsService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
-      this.tabIndex = param.tabIndex;
+      console.log(param);
+      this.tabIndex = param.tabIndex ? param.tabIndex : 0;
     });
     this.loadData();
     this.fetchCreditRatingTotalCount();
@@ -31,7 +32,7 @@ export class NationalComponent implements OnInit {
   }
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
-  tabAboutData;
+  tabAboutData: any = {};
   component_name;
   tabIndex;
 
@@ -288,7 +289,9 @@ export class NationalComponent implements OnInit {
       .subscribe(
         (res) => {
           let tab = res["data"];
-          this.sortTabData(tab);
+          setTimeout(() => {
+            this.sortTabData(tab);
+          }, 200);
         },
         (error) => {
           console.log(error);
