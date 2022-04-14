@@ -487,10 +487,7 @@ console.log(err.message)
       ulb:this.ulbId ? [this.ulbId] : this.ulbArr,
     };
     let apiEndPoint = this.stateServiceLabel ? 'state-slb' : 'state-revenue';
-    if (this.stateServiceLabel) {
-      // payload = {...payload, "sortBy": this.BarGraphValue ? 'top10' : 'bottom10'}
-      // apiEndPoint = 'state-slb';
-    }
+
     console.log(payload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -1135,5 +1132,67 @@ ulbArr = []
         console.log(error);
       }
     );
+  }
+
+  returnChartPayload: any = '';
+  getClickedAction(event: any) {
+    console.log('getClickedAction', event);
+    let apiRequestData: any;
+    switch (event?.chartType) {
+      case "bar":
+        if (this.stateServiceLabel) {
+          apiRequestData = {
+            "financialYear": this.financialYear,
+            "stateId": this.stateId,
+            "sortBy": this.BarGraphValue ? 'top10' : 'bottom10',
+            "filterName": this.filterName,
+            "ulb": this.ulbId,
+            "apiEndPoint": "state-slb",
+            "apiMethod": "get",
+            "chartType": event?.chartType,
+            "stateServiceLabel": this.stateServiceLabel
+          };
+          console.log('if apiRequestData', apiRequestData);
+        } else {
+          const tabType = this.getTabType();
+          apiRequestData = {
+            "tabType": tabType ? tabType?.code : '',
+            "financialYear": this.financialYear,
+            "stateId": this.stateId,
+            "sortBy": this.BarGraphValue ? 'top' : 'bottom',
+            "apiEndPoint": "state-revenue-tabs",
+            "apiMethod": "get",
+            "chartType": event?.chartType
+          };
+          if (tabType?.isCodeRequired) {
+            apiRequestData['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
+          }
+        }
+        break;
+      case "scatter":
+        apiRequestData = {
+          "stateId": this.stateId,
+          "financialYear": this.financialYear,
+          "headOfAccount": this.headOfAccount ? this.headOfAccount : '',
+          "filterName": this.filterName,
+          "isPerCapita": this.isPerCapita,
+          "compareType": '',
+          "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
+          "ulb": this.ulbId ? this.ulbId : '',
+          "apiEndPoint": this.stateServiceLabel ? 'state-slb' : 'state-revenue',
+          "apiMethod": "post",
+          "chartType": event?.chartType,
+          "stateServiceLabel": this.stateServiceLabel
+        };
+        console.log(event?.chartType, apiRequestData);
+        break;
+      case "pie":
+      case "doughnut":
+        break;
+      default:
+        break;
+    }
+    this.returnChartPayload = this._commonServices.createEmbedUrl(apiRequestData);
+    // return this.returnChartPayload = JSON.parse(JSON.stringify(apiRequestData));
   }
 }
