@@ -10,7 +10,13 @@ export class NationalMapSectionService {
   dataAvailabilityVal = new Subject<any>();
   currentSelectedStateId = new Subject<any>();
   selectedYear = new Subject<any>();
+  currentSubTab = new Subject<any>();
   constructor(private http: HttpClient) {}
+
+  setCurrentSubTabValue(val) {
+    this.currentSubTab.next(val);
+    return;
+  }
 
   getDataAvailabilityValue() {
     return this.dataAvailabilityVal;
