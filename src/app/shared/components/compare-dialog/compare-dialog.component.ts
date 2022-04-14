@@ -68,6 +68,9 @@ export class CompareDialogComponent implements OnInit {
   @Output()
   selectedParam = new EventEmitter();
 
+
+  @Input()
+  stateId=""
   dropYears = new FormControl();
 
   States = new FormControl();
@@ -268,7 +271,7 @@ export class CompareDialogComponent implements OnInit {
       matchingWord,
       onlyUlb: true,
     };
-    this.commonService.searchUlb(body).subscribe(
+    this.commonService.searchUlb(body, "ulb", this.stateId ).subscribe(
       (res) => {
         if (res["data"].length > 0) {
           this.noDataFound = false;

@@ -469,6 +469,7 @@ console.log(err.message)
   compType: any;
   multiChart = false;
   doughnutDataArr = [];
+  stateAvgVal = 0
   getScatterData() {
     
     this.multiChart = false;
@@ -483,13 +484,10 @@ console.log(err.message)
       isPerCapita: this.isPerCapita,
       compareType: this.stateServiceLabel ? undefined : '',
       compareCategory: this.selectedRadioBtnValue, 
-      ulb: this.ulbId,
+      ulb:this.ulbId ? [this.ulbId] : this.ulbArr,
     };
     let apiEndPoint = this.stateServiceLabel ? 'state-slb' : 'state-revenue';
-    if (this.stateServiceLabel) {
-      // payload = {...payload, "sortBy": this.BarGraphValue ? 'top10' : 'bottom10'}
-      // apiEndPoint = 'state-slb';
-    }
+
     console.log(payload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
@@ -498,6 +496,7 @@ console.log(err.message)
         this.notfound = false;
         console.log("response data", res);
         //scatter plots center
+      
         if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -517,7 +516,8 @@ console.log(err.message)
             tp_data = res["townPanchayat"];
             m_data = res["municipality"];
             // let natData = res["natAvg"][0]["average"];
-            stateData = res["stateAvg"][0]["average"];
+            this.stateAvgVal = res["stateAvg"] ? res["stateAvg"][0]["average"] : this.stateAvgVal
+            stateData =  this.stateAvgVal
           }
 
           this.scatterData.data.datasets.forEach((el) => {
@@ -638,11 +638,18 @@ console.log(err.message)
       this.getServiceLevelBenchmarkBarChartData();
     }
   }
-
+ulbArr = []
   filterChangeInChart(value) {
+    this.ulbArr = []
     // this.mySelectedYears = value.year;
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
+    if(value.ulbs){
+      value.ulbs.forEach(el=>{
+    this.ulbArr.push(el._id)
+      })
+    }
+    this.getScatterData()
   }
   getCompType(e) {
     console.log(e);
@@ -1125,5 +1132,67 @@ console.log(err.message)
         console.log(error);
       }
     );
+  }
+
+  returnChartPayload: any = '';
+  getClickedAction(event: any) {
+    console.log('getClickedAction', event);
+    let apiRequestData: any;
+    switch (event?.chartType) {
+      case "bar":
+        if (this.stateServiceLabel) {
+          apiRequestData = {
+            "financialYear": this.financialYear,
+            "stateId": this.stateId,
+            "sortBy": this.BarGraphValue ? 'top10' : 'bottom10',
+            "filterName": this.filterName,
+            "ulb": this.ulbId,
+            "apiEndPoint": "state-slb",
+            "apiMethod": "get",
+            "chartType": event?.chartType,
+            "stateServiceLabel": this.stateServiceLabel
+          };
+          console.log('if apiRequestData', apiRequestData);
+        } else {
+          const tabType = this.getTabType();
+          apiRequestData = {
+            "tabType": tabType ? tabType?.code : '',
+            "financialYear": this.financialYear,
+            "stateId": this.stateId,
+            "sortBy": this.BarGraphValue ? 'top' : 'bottom',
+            "apiEndPoint": "state-revenue-tabs",
+            "apiMethod": "get",
+            "chartType": event?.chartType
+          };
+          if (tabType?.isCodeRequired) {
+            apiRequestData['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
+          }
+        }
+        break;
+      case "scatter":
+        apiRequestData = {
+          "stateId": this.stateId,
+          "financialYear": this.financialYear,
+          "headOfAccount": this.headOfAccount ? this.headOfAccount : '',
+          "filterName": this.filterName,
+          "isPerCapita": this.isPerCapita,
+          "compareType": '',
+          "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
+          "ulb": this.ulbId ? this.ulbId : '',
+          "apiEndPoint": this.stateServiceLabel ? 'state-slb' : 'state-revenue',
+          "apiMethod": "post",
+          "chartType": event?.chartType,
+          "stateServiceLabel": this.stateServiceLabel
+        };
+        console.log(event?.chartType, apiRequestData);
+        break;
+      case "pie":
+      case "doughnut":
+        break;
+      default:
+        break;
+    }
+    this.returnChartPayload = this._commonServices.createEmbedUrl(apiRequestData);
+    // return this.returnChartPayload = JSON.parse(JSON.stringify(apiRequestData));
   }
 }

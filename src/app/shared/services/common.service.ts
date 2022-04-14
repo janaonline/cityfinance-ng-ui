@@ -45,9 +45,9 @@ export class CommonService {
     private snackbar: MatSnackBar,
     ) { }
 
-    searchUlb(body) {
+    searchUlb(body,type, state) {
     return this.http.post(
-      `${environment.api.url}recentSearchKeyword/search`,
+      `${environment.api.url}recentSearchKeyword/search?type=${type}&state=${state}`,
       body
     );
   }
@@ -628,26 +628,28 @@ export class CommonService {
     let queryString = new URLSearchParams(paramContent).toString();
     let embeddedRoute = 'revenuchart';
     console.log('queryString', queryString);
-    // let finalURL = `${environment.api.url}${embeddedRoute}?${queryString}`;
-    let finalURL = `${window.location.origin}/${embeddedRoute}?${queryString}`;
-    // window.open(finalURL, '_blank');
-    var HtmlIframe = `<iframe width="920px" height="580px" src="${finalURL}" frameborder="0" ></iframe>`;
-    var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
-    console.log('sanitizedURL', sanitizedURL)
-    this.copyToClipboard(sanitizedURL);
+    let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&${queryString}`;
+    // let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&data=${btoa(queryString)}`;
+    return finalURL;
+    // return btoa(finalURL);
+    var HtmlIframe = `<iframe width="1120px" height="780px" src="${finalURL}" frameborder="0" ></iframe>`;
+    // var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
+    // console.log('sanitizedURL', sanitizedURL)
+    // this.copyToClipboard(sanitizedURL);
+    // this.copyToClipboard(HtmlIframe);
 
-    window.open(finalURL, '_blank');
+    // window.open(finalURL, '_blank');
   }
 
   showSnackbarMessage(message: string) {
-    this.snackbar.open(message, null, {
-      duration: 200,
+    this.snackbar.open(message, '', {
+      duration: 1500,
       verticalPosition: "bottom",
     });
   }
 
-  copyToClipboard(copyHTMLElement: any) {
-    this.showSnackbarMessage('Visualization Copied');
+  copyToClipboard(copyHTMLElement: any, copyMessage: string = '') {
+    this.showSnackbarMessage(copyMessage);
 
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -660,5 +662,23 @@ export class CommonService {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+  }
+
+  decodeIframeUrl(dataUrl: any) {
+    console.log('decodeIframeUrl', dataUrl);
+    let decodedUrl = atob(dataUrl);
+    return decodedUrl;
+  }
+
+  paramsToObject(queryParamContent: any) {
+    console.log('queryParamContent', queryParamContent)
+    var paramObject = {};
+    var pairs = queryParamContent.split('&');
+    for (let key in pairs) {
+      var split = pairs[key].split('=');
+      paramObject[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
+    }
+    console.log('paramObject', paramObject)
+    return paramObject;
   }
 }
