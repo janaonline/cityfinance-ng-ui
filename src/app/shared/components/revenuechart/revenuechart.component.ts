@@ -307,6 +307,9 @@ export class RevenuechartComponent
   year;
   @Input()
   compareType = "";
+
+  @Input()
+  state= ""
   staticYearList = [
     "2015-16",
     "2016-17",

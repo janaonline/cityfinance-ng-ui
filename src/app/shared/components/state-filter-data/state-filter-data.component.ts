@@ -469,6 +469,7 @@ console.log(err.message)
   compType: any;
   multiChart = false;
   doughnutDataArr = [];
+  stateAvgVal = 0
   getScatterData() {
     
     this.multiChart = false;
@@ -483,7 +484,7 @@ console.log(err.message)
       isPerCapita: this.isPerCapita,
       compareType: this.stateServiceLabel ? undefined : '',
       compareCategory: this.selectedRadioBtnValue, 
-      ulb: this.ulbId,
+      ulb:this.ulbId ? [this.ulbId] : this.ulbArr,
     };
     let apiEndPoint = this.stateServiceLabel ? 'state-slb' : 'state-revenue';
     if (this.stateServiceLabel) {
@@ -498,6 +499,7 @@ console.log(err.message)
         this.notfound = false;
         console.log("response data", res);
         //scatter plots center
+      
         if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -517,7 +519,8 @@ console.log(err.message)
             tp_data = res["townPanchayat"];
             m_data = res["municipality"];
             // let natData = res["natAvg"][0]["average"];
-            stateData = res["stateAvg"][0]["average"];
+            this.stateAvgVal = res["stateAvg"] ? res["stateAvg"][0]["average"] : this.stateAvgVal
+            stateData =  this.stateAvgVal
           }
 
           this.scatterData.data.datasets.forEach((el) => {
@@ -638,11 +641,18 @@ console.log(err.message)
       this.getServiceLevelBenchmarkBarChartData();
     }
   }
-
+ulbArr = []
   filterChangeInChart(value) {
+    this.ulbArr = []
     // this.mySelectedYears = value.year;
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
+    if(value.ulbs){
+      value.ulbs.forEach(el=>{
+    this.ulbArr.push(el._id)
+      })
+    }
+    this.getScatterData()
   }
   getCompType(e) {
     console.log(e);

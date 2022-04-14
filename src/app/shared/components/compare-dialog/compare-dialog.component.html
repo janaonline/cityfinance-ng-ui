@@ -70,6 +70,9 @@
                       <div class="col-8">
                         <span> {{ option?.name }}</span>
                     </div>
+                    <div class="col-4">
+                        <span> {{ option?.ulbType.name }}</span>
+                    </div>
                 </div>
                 </mat-option>
                 </span>
@@ -162,6 +165,7 @@
 
     <!--- ownrevenuechart compare start-->
 </div>
+<!-- this is the one being used for state dashboard compare -->
 <div *ngSwitchCase="3">
     <div class="row">
         <div class="col-12 justify-content-around">
@@ -175,6 +179,9 @@
                     <div class="row">
                       <div class="col-8">
                         <span> {{ option?.name }}</span>
+            </div>
+            <div class="col-4">
+                <span class="subtext" > {{ option?.ulbType.name }}</span>
             </div>
         </div>
         </mat-option>
