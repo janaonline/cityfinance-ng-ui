@@ -10,6 +10,7 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { CommonService } from "src/app/shared/services/common.service";
+import { NationalMapSectionService } from "../national-map-section/national-map-section.service";
 
 @Component({
   selector: "app-tab-about-filter",
@@ -19,7 +20,8 @@ import { CommonService } from "src/app/shared/services/common.service";
 export class TabAboutFilterComponent implements OnInit, OnChanges {
   constructor(
     protected router: Router,
-    private _commonServices: CommonService
+    private _commonServices: CommonService,
+    private nationalMapService: NationalMapSectionService
   ) {}
   public chart: Chart;
   @Input() data = [];
@@ -28,11 +30,26 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
 
   tabData;
   aboutTab;
+  activeFilter: any = [];
+  selectedIndex: any;
+  mainTab: any;
   ngOnInit(): void {
     console.log("tab data", this.data);
+    this.nationalSubTab("Total Revenue", 0);
+    // this.nationalMapService.setCurrentSubTabValue({
+    //   data: "Total Revenue",
+    // });
   }
 
+  nationalSubTab(value, i) {
+    this.selectedIndex = i;
+    this.nationalMapService.setCurrentSubTabValue({
+      data: value,
+      HeadTab: this.mainTab,
+    });
+  }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("changes", this.data);
     if (changes.data && changes.data.currentValue) {
       this.activeTabFn(this.data[this.tabIndex]);
       this.router.navigate([
@@ -40,9 +57,13 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
         `dashboard/national/${this.tabId}`,
       ]);
     }
+    // if(changes.)
   }
   activeTabFn(item) {
+    this.mainTab = item?.name;
     this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
+    this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;
+    this.nationalSubTab(this.activeFilter[0], 0);
     // this.router.navigate([`dashboard/national/${item._id}`]);
   }
 }
