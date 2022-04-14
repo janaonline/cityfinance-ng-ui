@@ -81,7 +81,7 @@ export class DataSetsComponent implements OnInit {
   }
   noData = false;
   getData() {
-    // debugger;
+    
     console.log("getData");
 
     this.globalLoaderService.showLoader();
@@ -110,7 +110,7 @@ export class DataSetsComponent implements OnInit {
   state;
   ulb;
   filterData(e) {
-    // debugger;
+    
     console.log("Data sets", e);
     this.year = e?.controls?.year?.value ?? "2020-21";
     this.type = e?.controls?.contentType?.value ?? "Raw Data PDF";
@@ -148,7 +148,7 @@ export class DataSetsComponent implements OnInit {
 
   checkDownloadButton() {
     // this.globalLoaderService.stopLoader();
-    // debugger;
+    
     if (!this.checkValue) {
       this.downloadValue = false;
     } else {
@@ -201,7 +201,7 @@ export class DataSetsComponent implements OnInit {
   toggleRowSelection(event, row) {
     // this.checkDownloadButton();
 
-    // debugger;
+    
     console.log("selected event", event.source, row.fileName);
 
     if (row.isSelected) {

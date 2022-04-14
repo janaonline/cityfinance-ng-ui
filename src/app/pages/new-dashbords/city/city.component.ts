@@ -38,7 +38,7 @@ export class CityComponent implements OnInit {
   mapData = mapConfig;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   dashboardTabData;
-  currentYear;
+  currentYear = new Date().getFullYear().toString();
   yearListForDropDown;
 
   cords: any;

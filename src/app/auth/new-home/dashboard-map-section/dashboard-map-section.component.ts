@@ -345,7 +345,7 @@ export class DashboardMapSectionComponent
     if (this.districtMap) {
       return;
     }
-    this.clearDistrictMapContainer();
+    //  this.clearDistrictMapContainer();
 
     setTimeout(() => {
       let vw = Math.max(document.documentElement.clientWidth);
@@ -636,7 +636,6 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
-    // debugger;
     const ulbList = [];
     if (stateName) {
       for (let i = 0; i < this.creditRatingList?.length; i++) {
