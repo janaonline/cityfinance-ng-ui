@@ -62,7 +62,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   disableFirstYear = true
 
   ngAfterViewInit(): void {}
-  latest:any
+
    barChartStaticOptions = {
     maintainAspectRatio: false,
     responsive: true,

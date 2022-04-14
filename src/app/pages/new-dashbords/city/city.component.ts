@@ -167,6 +167,7 @@ export class CityComponent implements OnInit {
       .dashboardInformation(false, cityId, "ulb", " ")
       .subscribe(
         (res: any) => {
+          console.log('resdadadadad',res.data)
           let obj = { Revenue, Expense, Tax, Liability, Asset, Debt };
           for (const key in obj) {
             const element = obj[key];
@@ -194,9 +195,11 @@ export class CityComponent implements OnInit {
             obj.Expense,
             obj.Asset,
             obj.Tax,
+            obj.Liability,
             obj.Debt,
-            obj.Liability
+            
           ];
+          console.log('revenue data',this.revenueData,obj.Liability)
         },
         (error) => {
           console.error(error);
@@ -279,13 +282,13 @@ const Tax = {
 };
 const Liability = {
   type: 2,
-  subTitle: "Total Grant",
+  subTitle: "Total Liabilities",
   svg: `../../../../assets/stats.svg`,
   number: "567 Cr",
 };
 const Debt = {
   type: 2,
-  subTitle: "Total Debt",
+  subTitle: "Total Grant",
   svg: `../../../../assets/folder.svg`,
   number: "567 Cr",
 };
