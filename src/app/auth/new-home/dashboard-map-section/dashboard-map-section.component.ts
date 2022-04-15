@@ -636,7 +636,6 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
-    // debugger;
     const ulbList = [];
     if (stateName) {
       for (let i = 0; i < this.creditRatingList?.length; i++) {

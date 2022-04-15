@@ -106,6 +106,15 @@ export class MapUtil {
     map.dragging.disable();
 
     return { map, stateLayers };
+    //store map instance for feature reference to destroy.
+  }
+
+  /**
+   * @param map - instance returned by the method "createDefaultNationalMap".
+   */
+  public static destroy(map: L.Map) {
+    map.off();
+    map.remove();
   }
 
   public static getStateCentroid(layer: ILeafletStateClickEvent | L.Layer): {

@@ -211,7 +211,6 @@ export class NationalComponent implements OnInit {
   getIndicatorData(state) {
     this._commonService.fetchDataForHomepageMap(state).subscribe((res: any) => {
       this.frontPanelData.dataIndicators.map((elem) => {
-        // debugger;
         switch (elem.key) {
           case "coveredUlbCount":
             elem.value = this._commonService.formatNumber(res?.coveredUlbCount);

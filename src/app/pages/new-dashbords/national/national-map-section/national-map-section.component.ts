@@ -49,7 +49,7 @@ export class NationalMapSectionComponent
     private nationalMapService: NationalMapSectionService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
-    // debugger;
+    
     setTimeout(() => {
       this.ngOnChanges({
         yearSelected: {
@@ -159,7 +159,9 @@ export class NationalMapSectionComponent
 
   StatesJSONForMapCreation: any;
   national: any = { _id: "", name: "India" };
+
   ngOnInit(): void {
+    this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
     this.getNationalLevelMapData("2020-21");
     this.getNationalTableData();
@@ -179,7 +181,6 @@ export class NationalMapSectionComponent
   }
 
   getNationalLevelMapData(year) {
-    let randomNumber = Math.round(Math.random());
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
       this.colorCoding = res?.data;
       if (res) {
@@ -189,7 +190,7 @@ export class NationalMapSectionComponent
         // );
         this.createNationalLevelMap(
           this.StatesJSONForMapCreation,
-          "mapidd" + randomNumber
+          "mapidd" + this.randomNumber
         );
         // this.initializeNationalLevelMapLayer(this.StatesJSONForMapCreation);
       }
@@ -218,7 +219,16 @@ export class NationalMapSectionComponent
     this.nationalMapService.setCurrentSelectYear({
       data: event.target.value,
     });
+    MapUtil.destroy(this.nationalLevelMap);
     this.getNationalLevelMapData(event.target.value);
+    // this.initializeNationalLevelMapLayer(this.stateLayers);
+  }
+
+  convertMiniMapToOriginal(domId: string) {
+    const element = document.getElementById(domId);
+    element?.classList.remove("miniMap");
+    this.isMapOnMiniMapMode = false;
+    return true;
   }
 
   viewDashboard() {
@@ -263,7 +273,7 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
-    // debugger;
+    
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let zoom;
@@ -280,7 +290,6 @@ export class NationalMapSectionComponent
     //   else if (valueOf1vh < 7) zoom = zoom - 0.2;
     //   // return zoom;
     // }
-
     const configuration: IMapCreationConfig = {
       containerId,
       geoData,
@@ -295,13 +304,13 @@ export class NationalMapSectionComponent
       },
     };
     let map: L.Map;
+    // MapUtil.createDefaultNationalMap({});
 
     ({ stateLayers: this.stateLayers, map } =
       MapUtil.createDefaultNationalMap(configuration));
 
     this.nationalLevelMap = map;
 
-    this.createLegendsForNationalLevelMap();
     this.createControls(this.nationalLevelMap);
 
     this.initializeNationalLevelMapLayer(this.stateLayers);
@@ -386,7 +395,7 @@ export class NationalMapSectionComponent
       }[];
     }
   ) {
-    // debugger;
+    
     console.log("selectedStateCode", this.selectedStateCode);
 
     console.log("json", districtGeoJSON, options);
@@ -561,15 +570,15 @@ export class NationalMapSectionComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
-    // debugger;
+    
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {
         return;
       }
 
-      const stateFound = this.stateData.find(
-        (state) => state.code === stateCode
+      const stateFound = this.stateData?.find(
+        (state) => state?.code === stateCode
       );
       const count = stateFound ? stateFound.coveredUlbPercentage : 0;
       // this.colorCoding = [
@@ -608,7 +617,7 @@ export class NationalMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
-    // debugger;
+    
     console.log(
       "clicked state==>",
       stateLayer,
@@ -657,7 +666,7 @@ export class NationalMapSectionComponent
       type: "click",
     };
     this.onStateLayerClick(obj);
-    // debugger;
+    
     console.log("lastColor==>", color);
     stateLayer.setStyle({
       fillColor: "#3E5DB1",

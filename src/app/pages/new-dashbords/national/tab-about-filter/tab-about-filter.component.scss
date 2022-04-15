@@ -55,3 +55,25 @@ li > a.active:active {
     padding-left: 0;
   }
 }
+
+.filterBtn {
+  border: 1px solid #9299b2;
+  border-radius: 6px;
+  font: normal normal 500 14px/15px "Archivo";
+  letter-spacing: 0px;
+  color: #8b92ab;
+  background-color: #fff;
+  padding: 5px 12px;
+  margin-right: 1rem;
+}
+
+.t-rev,
+.filterBtn:hover {
+  background: #fff1e3 0% 0% no-repeat padding-box;
+  box-shadow: 0px 2px 8px #fadaad;
+  border: 1px solid #f2991f;
+  border-radius: 6px;
+  font: normal normal 500 14px/15px "Archivo";
+  letter-spacing: 0px;
+  color: #e57504;
+}

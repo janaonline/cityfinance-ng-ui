@@ -358,7 +358,7 @@ this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
 console.log(err.message)
 })
     }else{
-   // debugger;
+   
     /**
      * below api was previously used but now new api is used to get the data of state wise FYs
      */
@@ -471,8 +471,9 @@ console.log(err.message)
   multiChart = false;
   doughnutDataArr = [];
   scatterChartPayload: any = {};
+  stateAvgVal = 0
   getScatterData() {
-    // debugger;
+    
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -485,7 +486,7 @@ console.log(err.message)
       "isPerCapita": this.isPerCapita ? this.isPerCapita : '',
       "compareType": this.stateServiceLabel ? undefined : '',
       "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
-      "ulb": this.ulbId ? this.ulbId : '',
+      "ulb": this.ulbId ? [this.ulbId] : '',
       "chartType": !this.filterName.includes("mix") ? 'scatter' : 'doughnut',
       "apiEndPoint": apiEndPoint,
       "apiMethod": "post",
@@ -500,6 +501,7 @@ console.log(err.message)
         this.notfound = false;
         console.log("response data", res);
         //scatter plots center
+      
         if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -519,7 +521,8 @@ console.log(err.message)
             tp_data = res["townPanchayat"];
             m_data = res["municipality"];
             // let natData = res["natAvg"][0]["average"];
-            stateData = res["stateAvg"][0]["average"];
+            this.stateAvgVal = res["stateAvg"] ? res["stateAvg"][0]["average"] : this.stateAvgVal
+            stateData =  this.stateAvgVal
           }
 
           this.scatterData.data.datasets.forEach((el) => {
@@ -640,11 +643,18 @@ console.log(err.message)
       this.getServiceLevelBenchmarkBarChartData();
     }
   }
-
+ulbArr = []
   filterChangeInChart(value) {
+    this.ulbArr = []
     // this.mySelectedYears = value.year;
     // this.getChartData(value);
     console.log("filterChangeInChart", value);
+    if(value.ulbs){
+      value.ulbs.forEach(el=>{
+    this.ulbArr.push(el._id)
+      })
+    }
+    this.getScatterData()
   }
   getCompType(e) {
     console.log(e);
