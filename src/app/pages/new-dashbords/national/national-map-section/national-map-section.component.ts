@@ -49,7 +49,7 @@ export class NationalMapSectionComponent
     private nationalMapService: NationalMapSectionService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
-    
+
     setTimeout(() => {
       this.ngOnChanges({
         yearSelected: {
@@ -219,9 +219,17 @@ export class NationalMapSectionComponent
     this.nationalMapService.setCurrentSelectYear({
       data: event.target.value,
     });
+    // if (this.currentStateId) {
+    //   this.clearDistrictMapContainer();
+    //   this.onSelectingStateFromDropDown({
+    //     _id: this.currentStateId,
+    //     name: this.AvailabilityTitle,
+    //     code: this.selectedStateCode,
+    //   });
+    // } else {
     MapUtil.destroy(this.nationalLevelMap);
+    // }
     this.getNationalLevelMapData(event.target.value);
-    // this.initializeNationalLevelMapLayer(this.stateLayers);
   }
 
   convertMiniMapToOriginal(domId: string) {
@@ -259,7 +267,6 @@ export class NationalMapSectionComponent
     });
   }
   changeInDropdown(e) {
-    console.log("Data sets", e);
     this.onStateLayerClick(e);
     //  this.changeInStateOrCity.emit(e);
   }
@@ -273,7 +280,6 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
-    
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let zoom;
@@ -370,7 +376,6 @@ export class NationalMapSectionComponent
 
   clearDistrictMapContainer() {
     const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
-    console.log(height);
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -395,10 +400,6 @@ export class NationalMapSectionComponent
       }[];
     }
   ) {
-    
-    console.log("selectedStateCode", this.selectedStateCode);
-
-    console.log("json", districtGeoJSON, options);
     if (this.districtMap) {
       return;
     }
@@ -443,13 +444,12 @@ export class NationalMapSectionComponent
         //   color: "#0000",
         // },
       }).addTo(districtMap);
-      console.log("districtLayer", districtLayer);
 
       if (districtLayer) {
         districtMap.fitBounds(districtLayer.getBounds());
       }
       this.districtMap = districtMap;
-
+      // debugger;
       let color;
       if (this.colorCoding) {
         this.colorCoding.forEach((elem) => {
@@ -460,31 +460,6 @@ export class NationalMapSectionComponent
           MapUtil.colorStateLayer(districtLayer, color);
         });
       }
-      // console.log("this.districtMap", this.districtMap);
-
-      // options.dataPoints.forEach((dataPoint: any) => {
-      //   const marker = this.createDistrictMarker({
-      //     ...dataPoint,
-      //     icon: this.blueIcon,
-      //   }).addTo(districtMap);
-      //   marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-      //   marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-      //   marker.on("click", (values) => {
-      //     let city;
-      //     // if (values["latlng"])
-      //     //   city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
-      //     //     (value) =>
-      //     //       +value.location.lat === values["latlng"].lat &&
-      //     //       +value.location.lng === values["latlng"].lng
-      //     //   );
-      //     // if (city) {
-      //     //   this.selectedDistrictCode = city.code;
-      //     //   this.selectCity(city.code, false);
-      //     // }
-      //     this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
-      //   });
-      //   this.districtMarkerMap[dataPoint.code] = marker;
-      // });
     }, 0.5);
   }
   loadData() {
@@ -497,7 +472,6 @@ export class NationalMapSectionComponent
       }
     );
     this._commonService.state_name_data.subscribe((res) => {
-      console.log("sub....", res, res.name, res?.code);
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
@@ -539,25 +513,14 @@ export class NationalMapSectionComponent
         this.stateList = [{ _id: "", name: "India" }].concat(res);
       });
       this.updateDropdownStateSelection(state);
-      //  {
-      //   console.log(state);
-      //   this.stateselected = state;
-      //   this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
-      // }
-      // this.stateAndULBDataMerged
+
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
 
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
     }
-    console.log("sdc 2", state, this.stateselected, this.selected_state);
     this.stateselected = state;
-    //   this.fetchDataForVisualization(state ? state._id : null);
-    //   this.fetchBondIssueAmout(
-    //    this.stateselected ? this.stateselected._id : null
-    //  );
-    console.log("mini mode", this.isMapOnMiniMapMode);
     this.selectStateOnMap(state);
     this._commonService
       .getUlbByState(state ? state?.code : null)
@@ -570,7 +533,7 @@ export class NationalMapSectionComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
-    
+    // debugger;
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {
@@ -581,13 +544,19 @@ export class NationalMapSectionComponent
         (state) => state?.code === stateCode
       );
       const count = stateFound ? stateFound.coveredUlbPercentage : 0;
+
       // this.colorCoding = [
       // const color = this.getColorBasedOnPercentage(count);
       let color;
+      let stateCodes = this.colorCoding.map((el) => el.code);
       if (this.colorCoding) {
         this.colorCoding.forEach((elem) => {
           if (elem?.code == layer?.feature?.properties?.ST_CODE) {
             color = this.getColor(elem?.percentage);
+          } else if (
+            !stateCodes.includes(layer?.feature?.properties?.ST_CODE)
+          ) {
+            color = this.getColor(0);
           }
           // return;
           MapUtil.colorStateLayer(layer, color);
@@ -604,7 +573,6 @@ export class NationalMapSectionComponent
     if (!state) {
       return;
     }
-    console.log("state layers", this.stateLayers);
 
     this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
@@ -617,40 +585,16 @@ export class NationalMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
-    
-    console.log(
-      "clicked state==>",
-      stateLayer,
-      stateLayer?.feature?.properties?.ST_CODE
-    );
-    const colorCoding = [
-      {
-        code: "BR",
-        percent: 20,
-      },
-      {
-        code: "AP",
-        percent: 50,
-      },
-      {
-        code: "PB",
-        percent: 90,
-      },
-      {
-        code: "OD",
-        percent: 70,
-      },
-      {
-        code: "HR",
-        percent: 70,
-      },
-    ];
     let color;
     let selectedCode = stateLayer?.feature?.properties?.ST_CODE;
-    colorCoding.forEach((elem) => {
+    let clickedState = this.colorCoding.map((el) => el.code);
+    this.colorCoding.forEach((elem) => {
       if (elem?.code == selectedCode) {
         color = this.getColor(elem?.percent);
+      } else if (!clickedState.includes(selectedCode)) {
+        color = this.getColor(0);
       }
+      MapUtil.colorStateLayer(stateLayer, color);
       // return;
     });
     let obj: any = {
@@ -666,10 +610,9 @@ export class NationalMapSectionComponent
       type: "click",
     };
     this.onStateLayerClick(obj);
-    
-    console.log("lastColor==>", color);
+
     stateLayer.setStyle({
-      fillColor: "#3E5DB1",
+      fillColor: "#a6b9b4",
       color: color,
       // fillColor: this.getColor(540),
       fillOpacity: 1,
