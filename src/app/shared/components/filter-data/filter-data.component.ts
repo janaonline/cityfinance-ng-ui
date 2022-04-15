@@ -113,11 +113,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log("chartOption Data",  data);
-            if(isNaN(data)){
-              return
-            } else {   
-              data = new Intl.NumberFormat("en-IN").format(data*1);
-            }
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
@@ -438,11 +433,11 @@ ULB ${this.selectedTab} for FY' ${
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [value.amount, this.isPerCapita];
+          dataInner.data = [convertToCr(value.amount, this.isPerCapita)];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(value.amount, this.isPerCapita);
+          dataInner.data.push(convertToCr(value.amount, this.isPerCapita));
           temp[value.ulbName] = dataInner;
         }
       });
