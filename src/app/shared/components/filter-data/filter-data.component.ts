@@ -63,7 +63,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-   barChartStaticOptions = {
+  barChartStaticOptions = {
     maintainAspectRatio: false,
     responsive: true,
     scales: {
@@ -106,13 +106,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-  
+
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
+            console.log("chartOption Data", data);
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
@@ -572,6 +572,8 @@ ULB ${this.selectedTab} for FY' ${
         });
         continue;
       }
+      let tt = year2.yearData.find((value) => value.code == "410").amount;
+      let yy = year1.yearData.find((value) => value.code == "410").amount;
       let amount1 =
           year2.yearData.find((value) => value.code == "410").amount -
           year1.yearData.find((value) => value.code == "410").amount,
@@ -579,7 +581,7 @@ ULB ${this.selectedTab} for FY' ${
           year2.yearData.find((value) => value.code == "412").amount -
           year1.yearData.find((value) => value.code == "412").amount;
       newData.push({
-        _id: { financialYear: year1._id },
+        _id: { financialYear: year2._id },
         amount: amount1 + amount2,
         ulbName: year1.yearData[0].ulbName,
       });
@@ -1172,7 +1174,6 @@ const assigned_revenues_compensation = ["120"];
 const grants = ["160"];
 const interest_income = ["171"];
 const other_receipts = ["170", "100"];
-
 
 function getPopulationType(population) {
   if (population < 100000) {
