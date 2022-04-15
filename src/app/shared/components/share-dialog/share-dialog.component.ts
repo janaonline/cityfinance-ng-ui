@@ -33,7 +33,8 @@ export class ShareDialogComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.createIframe();
+    // this.createIframe();
+    this.changeSize('small')
   }
 
 
@@ -42,15 +43,21 @@ export class ShareDialogComponent implements OnInit {
   }
   
   changeSize(event){
-   console.log(event.target.value);
-   let findObject = this.iFrameSize.find(item=> item.code == event.target.value);
+   console.log(event)
+   let findObject = this.iFrameSize.find(item=> item.code == event);
    console.log(findObject);
-   this.createIframe(findObject.width, findObject.height);
+   this.createIframe(findObject.width, findObject.height, findObject);
   }
 
-  createIframe(width='720px',height='480px'){
-   this.iFrameElement = `<iframe width="${width}" height="${height}" src="${this.iFrameData?.iFrameSrc}" frameborder="0" ></iframe>`
-   console.log(this.iFrameElement)
+  createIframe(width='720px',height='480px', selectedDimension: any = {}){
+    let inlineStyle = {
+      "small": "width: 54%; height: 646px;",
+      "fullscreen": "height: 647px;",
+      "large": ''
+    };
+
+    this.iFrameElement = `<iframe width="${width}" height="${height}" src="${this.iFrameData?.iFrameSrc}" frameborder="0" style="${inlineStyle[selectedDimension?.code]}" ></iframe>`;
+    console.log(this.iFrameElement)
   }
 
   copyIframeLink(inputElement){
