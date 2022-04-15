@@ -21,6 +21,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
 import { CommonService } from "../../services/common.service";
 import { StateFilterDataService } from "../state-filter-data/state-filter-data.service";
+import { stateDashboardSubTabsList } from "../state-filter-data/constant";
 
 @Component({
   selector: "app-revenuechart",
@@ -352,10 +353,16 @@ export class RevenuechartComponent
   ngAfterViewInit(): void {
     if (this.widgetMode) {
       console.log('apiParamData', this.apiParamData)
+      let stateServiceLabel = this.apiParamData?.stateServiceLabel ? JSON.parse(this.apiParamData?.stateServiceLabel) : false;
       if (this.apiParamData.chartType == 'scatter') {
         this.getScatterData();
       } else if (this.apiParamData.chartType == 'bar') {
-        this.getStateRevenue()
+        if (stateServiceLabel) {
+          this.getServiceLevelBenchmarkBarChartData();
+        } else {
+          this.getStateRevenue();
+        }
+        // this.getStateRevenue()
       }
     } else {
       if (this.multipleCharts) {
@@ -372,8 +379,9 @@ export class RevenuechartComponent
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges', changes)
     if (changes && changes.getChartPayload && changes.getChartPayload.currentValue) {
-      this.iFrameApiPayload = changes.getChartPayload.currentValue;
-      this.openDialog();
+      this.getChartPayload = changes.getChartPayload.currentValue;
+      // this.iFrameApiPayload = changes.getChartPayload.currentValue;
+      // this.openDialog();
     }
     if (changes?.chartData) {
       if (!changes.chartData.firstChange) {
@@ -476,8 +484,10 @@ export class RevenuechartComponent
       this.getImage();
       return;
     } else if(value.name == "Share/Embed"){
+      console.log('getChartPayload', this.getChartPayload);
+      this.iFrameApiPayload = this.commonService.createEmbedUrl(this.getChartPayload);
       this._loaderService.stopLoader();
-      // this.openDialog()
+      this.openDialog();
     }
     this.actionClicked.emit({...value, chartType: this.chartData.type});
     
@@ -486,7 +496,7 @@ export class RevenuechartComponent
 
   dialogRef: any;
   openDialog(){
-    console.log('hhsssssssssssssssssss', this.iFrameApiPayload)
+    console.log('openDialog', this.iFrameApiPayload)
     const dialogRef = this.dialog.open(ShareDialogComponent, {
       width: '700px',
       data: {
@@ -568,18 +578,28 @@ export class RevenuechartComponent
     this.sendValue();
   }
 
+  activeButtonList: any = stateDashboardSubTabsList;
+
+  getTabType() {
+    const defaultOption = {yAxisLabel: 'Count', countAccessKey: "count", chartAnimation: 'defaultBarChartOptions'};
+    let findTabType = this.activeButtonList.find(tabName => tabName.name == this.apiParamData?.activeButton);
+    return findTabType ? findTabType : defaultOption;
+  };
+
   getStateRevenue() {
-    // const tabType = this.getTabType();
+    const tabType = this.getTabType();
+    this._loaderService.showLoader();
+
     const paramContent: any = {
       "tabType": this.apiParamData?.tabType,
       "financialYear": this.apiParamData?.financialYear,
-      "stateId": this.apiParamData?.stateId,
+      "stateId": this.apiParamData?.stateId ? this.apiParamData?.stateId : this.apiParamData?.state,
       "sortBy": this.apiParamData?.sortBy
     };
 
-    // if (tabType?.isCodeRequired) {
-    //   paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
-    // }
+    if (tabType?.isCodeRequired) {
+      paramContent['code'] = this.apiParamData?.code
+    }
     console.log('paramContent', paramContent);
     this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
     .subscribe(
@@ -590,8 +610,9 @@ export class RevenuechartComponent
             for (const data of response['data']) {
               data['count'] = this.commonService.changeCountFormat(data?.sum);
             }
-            // this.filterCityRankingChartData(response['data'], paramContent?.tabType, tabType?.yAxisLabel);
-            this.filterCityRankingChartData(response['data'], paramContent?.tabType, 'Amount (in Cr.)');
+            this.filterCityRankingChartData(response['data'], paramContent?.tabType, tabType?.yAxisLabel);
+            // this.filterCityRankingChartData(response['data'], paramContent?.tabType, 'Amount (in Cr.)');
+            this._loaderService.stopLoader();
             this.notFound = false;
           } else {
             this.notFound = false;
@@ -716,11 +737,11 @@ export class RevenuechartComponent
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
-
+    console.log('getScatterData', this.apiParamData);
     let stateServiceLabel = JSON.parse(this.apiParamData?.stateServiceLabel);
     console.log('parsestateServiceLabel', stateServiceLabel)
     let payload = {
-      [stateServiceLabel ? 'stateId' : 'state']: this.apiParamData?.stateId,
+      [stateServiceLabel ? 'stateId' : 'state']: this.apiParamData?.stateId ? this.apiParamData?.stateId : this.apiParamData?.state,
       financialYear: this.apiParamData?.financialYear,
       headOfAccount: stateServiceLabel ? undefined : this.apiParamData?.headOfAccount,
       filterName: this.apiParamData?.filterName,
@@ -854,6 +875,159 @@ export class RevenuechartComponent
         this._loaderService.stopLoader();
         this.notFound = true;
         console.log(err.message);
+      }
+    );
+  }
+
+  serviceLevelBenchmarkScatterOption: any;
+  setServiceLevelBenchmarkScatteredChartOption(xAxisLabel: string = 'Population', yAxisLabel: string = 'Total Revenue') {
+    let scatterOption = {
+      legend: {
+        itemStyle: {
+          cursor: "default",
+        },
+        labels: {
+          padding: 20,
+          color: "#000000",
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
+        position: "bottom",
+        onHover: function (event, legendItem) {
+          event.target.style.cursor = "pointer";
+        },
+        onClick: function (e, legendItem) {
+          var index = legendItem.datasetIndex;
+          var ci = this.chart;
+          var alreadyHidden =
+            ci.getDatasetMeta(index).hidden === null
+              ? false
+              : ci.getDatasetMeta(index).hidden;
+  
+          ci.data.datasets.forEach(function (e, i) {
+            var meta = ci.getDatasetMeta(i);
+  
+            if (i !== index) {
+              if (!alreadyHidden) {
+                meta.hidden = meta.hidden === null ? !meta.hidden : null;
+              } else if (meta.hidden === null) {
+                meta.hidden = true;
+              }
+            } else if (i === index) {
+              meta.hidden = null;
+            }
+          });
+  
+          ci.update();
+        },
+      },
+      elements: {
+        point: {
+          radius: 7,
+        },
+      },
+      scales: {
+        xAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: this.commonService.toTitleCase(xAxisLabel),
+              fontStyle: 'bold'
+            },
+  
+            offset: true,
+          },
+        ],
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: `${this.commonService.toTitleCase(yAxisLabel)} (%)`,
+              fontStyle: 'bold'
+            },
+            gridLines: {
+              offsetGridLines: true,
+              display: false,
+            },
+  
+            offset: true,
+          },
+        ],
+      },
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            console.log('tooltipItem', tooltipItem.index)
+            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
+            var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
+            console.log('tooltipItem', data.datasets[tooltipItem.datasetIndex]);
+            var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+  
+            return (datasetLabel + ": " + label + " " + `(${rev} %)`);
+          },
+        },
+      },
+      legendCallback: function (chart) {
+        var text = [];
+        text.push('<ul class="' + this.chartId + '-legend">');
+        for (var i = 0; i < chart.data.datasets.length; i++) {
+          text.push(
+            '<li><div class="legendValue"><span style="background-color:' +
+              chart.data.datasets[i].backgroundColor +
+              '">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+          );
+  
+          if (chart.data.datasets[i].label) {
+            text.push(
+              '<span class="label">' + chart.data.datasets[i].label + "</span>"
+            );
+          }
+  
+          text.push('</div></li><div class="clear"></div>');
+        }
+  
+        text.push("</ul>");
+  
+        return text.join("");
+      },
+    };
+
+    this.serviceLevelBenchmarkScatterOption = scatterOption;
+  }
+
+  getServiceLevelBenchmarkBarChartData() {
+    const barChartPayload = {
+      "financialYear": this.apiParamData?.financialYear,
+      "stateId": this.apiParamData?.stateId,
+      "sortBy": this.apiParamData?.sortBy,
+      "filterName": this.apiParamData?.filterName,
+      "ulb": this.apiParamData?.ulbId,
+    };
+
+    console.log('payload', barChartPayload);
+
+    this.stateFilterDataService.getScatterdData(barChartPayload, this.apiParamData?.apiEndPoint)
+    .subscribe(
+      (response) => {
+        if (response && response["success"] && response['data']) {
+          console.log("getStateRevenue", response,);
+          if (response['data']['scatterData'] && response['data']['scatterData']['tenData'] && response['data']['scatterData']['tenData'].length) {
+            let chartData = response['data']['scatterData']['tenData'];
+            for (const data of chartData) {
+              data['count'] = data?.value;
+            }
+            this.filterCityRankingChartData(chartData, '', 'Percentage');
+            this.notFound = false;
+          } else {
+            this.notFound = false;
+          }
+        } else {
+          this.notFound = true;
+        }
+      },
+      (error) => {
+        this.notFound = true;
+        console.log(error);
       }
     );
   }
