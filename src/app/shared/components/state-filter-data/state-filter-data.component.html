@@ -140,7 +140,7 @@
           (compareChange)="filterChangeInChart($event)"
           [nestedChartFilterOption]="nestedChartFilterOption"
           (actionClicked)="getClickedAction($event)"
-          [getChartPayload]="returnChartPayload"
+          [getChartPayload]="scatterChartPayload"
         ></app-revenuechart>
       </div>
       <div class="col-md-12" *ngIf="stateServiceLabel">
@@ -153,7 +153,7 @@
           (compareChange)="filterChangeInChart($event)"
           [scatterOption]="serviceLevelBenchmarkScatterOption"
           (actionClicked)="getClickedAction($event)"
-          [getChartPayload]="returnChartPayload"
+          [getChartPayload]="scatterChartPayload"
         ></app-revenuechart>
       </div>
     </div>
@@ -195,7 +195,7 @@
       [chartTitle]="''"
       [returnCompType]="compType"
       (actionClicked)="getClickedAction($event)"
-      [getChartPayload]="returnChartPayload"
+      [getChartPayload]="scatterChartPayload"
     ></app-revenue-mix>
   </div>
 </div>
@@ -212,7 +212,7 @@
       [chartTitle]="''"
       [returnCompType]="compType"
       (actionClicked)="getClickedAction($event)"
-      [getChartPayload]="returnChartPayload"
+      [getChartPayload]="scatterChartPayload"
     ></app-revenue-mix>
   </div>
 </div>
@@ -272,7 +272,7 @@
         [ChartOptions]="barChartOptions"
         [notFound]="barChartNotFound"
         (actionClicked)="getClickedAction($event)"
-        [getChartPayload]="returnChartPayload"
+        [getChartPayload]="barChartPayload"
       ></app-revenuechart>
       <!-- <app-revenuechart
         *ngIf="BarGraphValue === false"
