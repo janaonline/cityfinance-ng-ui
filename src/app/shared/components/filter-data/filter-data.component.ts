@@ -406,11 +406,8 @@ ULB ${this.selectedTab} for FY' ${
     newData.data.labels = res["data"].ulbData.map(
       (value) => value._id.financialYear
     );
-    newData.data.labels = [...new Set(newData.data.labels),...res["data"].compData.map(
-      (value) => value._id.financialYear
-    )];
-    
     newData.data.labels = [...new Set(newData.data.labels)];
+
     let temp = {},
       index = 0;
     for (const key in res["data"]) {
