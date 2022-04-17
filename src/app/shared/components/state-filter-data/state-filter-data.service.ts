@@ -304,7 +304,7 @@ export class StateFilterDataService {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log('data', data)
-            ctx.fillText(data.toFixed(2) + " %", bar._model.x, bar._model.y - 5);
+            ctx.fillText(data.toFixed(2) + " %", bar._model.x, bar._model.y - 1);
           });
         });
         console.log(animation, "animation");

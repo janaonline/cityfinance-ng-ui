@@ -18,7 +18,7 @@ import Chart from "chart.js";
 export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private commonService: CommonService,
-    private _activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) {}
   multiPie = false;
   multipleDoughnutCharts = [];
@@ -55,7 +55,19 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   hideElements = false;
   compareType;
   btnListInAboutIndicator;
-  ngOnInit(): void {}
+  cityId: any;
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((paramData) => {
+      console.log("cityId", paramData);
+      if (paramData?.cityId) {
+        this.cityId = paramData?.cityId;
+        console.log("stid", this.cityId);
+      } else {
+        this.cityId = sessionStorage.getItem("row_id");
+      }
+    });
+  }
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -118,7 +130,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             } else {   
               data = new Intl.NumberFormat("en-IN").format(data*1);
             }
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 1);
           });
         });
         console.log(animation, "animation");
@@ -199,8 +211,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ? "Expense"
       : "Tax";
   }
-  apiCall;
 
+  apiCall;
+  barChartPayload: any = {};
   getChartData(data = {}) {
     if (this.headOfAccount == "") {
       this.headOfAccount = "Tax";
@@ -240,6 +253,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } Average`;
+    this.barChartPayload = {};
+
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
@@ -267,7 +282,29 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         this.loading = false;
       }
     );
+
+    this.barChartPayload = {
+      ...body,
+      "cityId": this.cityId,
+      "apiEndPoint": "indicator",
+      "apiMethod": "post",
+      "chartType": "bar",
+      "chartTitle": this.chartTitle,
+      "multiPie": this.multiPie,
+      "selectedTab": this.selectedTab,
+      "ulbMapping": this.ulbMapping,
+      "currentUlb": this.currentUlb,
+      "isPerCapita": this.isPerCapita,
+      "hideElements": this.hideElements,
+      "disableFirstYear": this.disableFirstYear,
+      "compareType": this.compareType,
+      "multiChartLabel": this.multiChartLabel,
+      "multipleDoughnutCharts": this.multipleDoughnutCharts,
+      "notFoundMessage": 'Please Select Year With at Least Two Years of Data',
+      "chartOptions": this.chartOptions
+    };
   }
+
   calculateCagrOfDeficit(res) {
     console.log(res);
     let total = res["ulbData"].reduce((sum, val) => sum + val.amount, 0);
