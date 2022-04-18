@@ -55,7 +55,7 @@
         <div class="d-flex justify-content-between">
           <div></div>
           <div class="d-flex" >
-            <div *ngIf="!stateServiceLabel" class="mr-1">
+            <div *ngIf="!stateServiceLabel" class="mr-1" [matTooltip]="'Select an option to view average data'">
               <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)">
                 <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
                 <option *ngFor="let item of checkBoxArray" [value]="item?.value">

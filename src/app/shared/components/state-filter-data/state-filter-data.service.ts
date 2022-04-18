@@ -41,7 +41,10 @@ export class StateFilterDataService {
         callback: function(value, index, values) {
           return new Intl.NumberFormat("en-IN").format(value);
         }
-      }
+        },
+        afterDataLimits: function (axis) {
+          axis.max += 5;
+        },
       }]
     },
     legend: {
@@ -116,7 +119,10 @@ export class StateFilterDataService {
         callback: function(value, index, values) {
           return new Intl.NumberFormat("en-IN").format(value);
         }
-      }
+        },
+        afterDataLimits: function (axis) {
+          axis.max += 5;
+        },
       }]
     },
     legend: {
@@ -191,7 +197,10 @@ export class StateFilterDataService {
         callback: function(value, index, values) {
           return new Intl.NumberFormat("en-IN").format(value);
         }
-      }
+        },
+        afterDataLimits: function (axis) {
+          axis.max += 5;
+        },
       }]
     },
     legend: {
@@ -266,7 +275,10 @@ export class StateFilterDataService {
           return value
           // return new Intl.NumberFormat("en-IN").format(value);
         }
-      }
+      },
+      afterDataLimits: function (axis) {
+        axis.max += 5;
+      },
       }]
     },
     legend: {
@@ -304,7 +316,7 @@ export class StateFilterDataService {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log('data', data)
-            ctx.fillText(data.toFixed(2) + " %", bar._model.x, bar._model.y - 1);
+            ctx.fillText(data.toFixed(2) + " %", bar._model.x, bar._model.y - 5);
           });
         });
         console.log(animation, "animation");
@@ -313,6 +325,18 @@ export class StateFilterDataService {
   };
 
   stateLevelDashboardAPIs: any [];
+
+  nationLevelScatterDataSet = {
+    label: "National Average",
+    data: [],
+    rev: [],
+    labels:['National Average'],
+    showLine: true,
+    fill: false,
+    backgroundColor:"#11BC46",
+    borderColor: "#11BC46",
+  };
+
   constructor(private http: HttpClient,
     private commonService: CommonService,
     private sanitizer: DomSanitizer,
@@ -367,6 +391,14 @@ getYearListSLB(){
         params: bodyParams,
       }
     );
+  }
+
+  getAvgScatterdData(paramContent: any, apiEndPoint: string) {
+    let bodyParams: any;
+    bodyParams = this.commonService.getHttpClientParams(paramContent);
+    return this.http.get(environment.api.url + `${apiEndPoint}`, {
+      params: bodyParams,
+    });
   }
 
   handleError(error: any) {
