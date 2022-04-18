@@ -765,6 +765,7 @@ ulbArr = []
   notfound = true;
   
   ngOnInit(): void {
+    this.ulbArr = []
     this.statesList = localStorage.getItem('stateIdsMap') ? JSON.parse(localStorage.getItem('stateIdsMap')) : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId]
