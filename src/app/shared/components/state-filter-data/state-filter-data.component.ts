@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { OwnRevenueService } from "src/app/pages/own-revenue-dashboard/own-revenue.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { stateDashboardSubTabsList } from "./constant";
 import Chart from "chart.js";
 @Component({
   selector: "app-state-filter-data",
@@ -469,29 +470,33 @@ console.log(err.message)
   compType: any;
   multiChart = false;
   doughnutDataArr = [];
+  scatterChartPayload: any = {};
   stateAvgVal = 0
   getScatterData() {
     
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
-
-    let payload = {
-      [this.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
-      financialYear: this.financialYear,
-      headOfAccount: this.stateServiceLabel ? undefined : this.headOfAccount,
-      filterName: this.filterName,
-      isPerCapita: this.isPerCapita,
-      compareType: this.stateServiceLabel ? undefined : '',
-      compareCategory: this.selectedRadioBtnValue, 
-      ulb:this.ulbId ? [this.ulbId] : this.ulbArr,
-    };
     let apiEndPoint = this.stateServiceLabel ? 'state-slb' : 'state-revenue';
+    this.scatterChartPayload = {
+      [this.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
+      "financialYear": this.financialYear ? this.financialYear : '',
+      "headOfAccount": this.stateServiceLabel ? undefined : this.headOfAccount,
+      "filterName": this.filterName ? this.filterName : '',
+      "isPerCapita": this.isPerCapita ? this.isPerCapita : '',
+      "compareType": this.stateServiceLabel ? undefined : '',
+      "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
+      "ulb": this.ulbId ? [this.ulbId] : '',
+      "chartType": !this.filterName.includes("mix") ? 'scatter' : 'doughnut',
+      "apiEndPoint": apiEndPoint,
+      "apiMethod": "post",
+      "stateServiceLabel": this.stateServiceLabel
+    };
 
-    console.log(payload);
+    console.log('scatterChartPayload', this.scatterChartPayload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
-    this.stateFilterDataService.getScatterdData(payload, apiEndPoint).subscribe(
+    this.stateFilterDataService.getScatterdData(this.scatterChartPayload, apiEndPoint).subscribe(
       (res) => {
         this.notfound = false;
         console.log("response data", res);
@@ -580,7 +585,7 @@ console.log(err.message)
           }
           console.log('chartDropdownList', this.chartDropdownList)
           this.initializeDonughtData();
-          if (payload.compareType == "") {
+          if (this.scatterChartPayload.compareType == "") {
             if (data.length) {
               data.forEach((el) => {
                 this.doughnutData.data.labels.push(el._id);
@@ -590,7 +595,7 @@ console.log(err.message)
 
               this.doughnutData = { ...this.doughnutData };
             }
-          } else if (payload.compareType == "ulbType") {
+          } else if (this.scatterChartPayload.compareType == "ulbType") {
             let mData = res["mData"];
             let mcData = res["mcData"];
             let tpData = res["tpData"];
@@ -844,30 +849,7 @@ ulbArr = []
     );
   }
 
-  activeButtonList: any = [
-    // Revenue Tab -> Sub Tabs
-    {name: "Total Revenue", code: "TotalRevenue", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
-    {name: "Revenue Per Capita", code: "RevenuePerCapita", yAxisLabel: 'Amount (in INR)', countAccessKey: "revenuePerCapita", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
-    {name: "Revenue Mix", code: "RevenueMix", yAxisLabel: 'Amount (in INR)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: true},
-    
-    // Expenditure Tab -> Sub Tabs
-    
-    {name: "Total Surplus/Deficit", code: "DeficitOrSurplus", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "deficitOrSurplus", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
-    {name: "Expenditure Mix", code: "ExpenditureMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: true},
-    {name: "Revenue Expenditure Mix", code: "RevenueExpenditureMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
-    {name: "Revenue Expenditure", code: "RevenueTotalExpenditure", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
-
-    // Own Revenue Tab -> Sub Tabs
-
-    {name: "Total Own Revenue", code: "TotalOwnRevenue", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
-    {name: "Own Revenue per Capita", code: "OwnRevenuePerCapita", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
-    {name: "Own Revenue Mix", code: "OwnRevenueMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: true},
-
-    // Capital Expenditure Tab -> Sub Tabs
-
-    {name: "Capital Expenditure", code: "CapitalTotalExpenditure", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
-    {name: "Capital Expenditure Per Capita", code: "CapitalExpenditurePerCapita", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "revenueExpendPerCapita", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
-  ];
+  activeButtonList: any = stateDashboardSubTabsList;
   
   getTabType() {
     const defaultOption = {yAxisLabel: 'Count', countAccessKey: "count", chartAnimation: 'defaultBarChartOptions'};
@@ -875,21 +857,29 @@ ulbArr = []
     return findTabType ? findTabType : defaultOption;
   };
 
+  barChartPayload: any = {};
   getStateRevenue() {
     const tabType = this.getTabType();
-    const paramContent: any = {
+    this.barChartPayload = {};
+    this.barChartPayload = {
       // "tabType": this.ActiveButton?.split(' ').join(''),
       "tabType": tabType ? tabType?.code : '',
       "financialYear": this.financialYear,
       "stateId": this.stateId,
-      "sortBy": this.BarGraphValue ? 'top' : 'bottom'
+      "sortBy": this.BarGraphValue ? 'top' : 'bottom',
+      "chartType": 'bar',
+      "apiEndPoint": 'state-revenue-tabs',
+      "apiMethod": "get",
+      "activeButton": this.ActiveButton,
     };
+
     this.chartDropdownValue = '';
     if (tabType?.isCodeRequired) {
-      paramContent['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
+      this.barChartPayload['code'] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code
     }
-    console.log('paramContent', paramContent);
-    this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
+    console.log('dasdasdas', tabType);
+    console.log('paramContent', this.barChartPayload);
+    this.stateFilterDataService.getStateRevenueForDifferentTabs(this.barChartPayload)
     .subscribe(
       (response) => {
         if (response && response["success"]) {
@@ -898,7 +888,7 @@ ulbArr = []
             for (const data of response['data']) {
               data['count'] = this._commonServices.changeCountFormat(data[tabType?.countAccessKey]);
             }
-            this.filterCityRankingChartData(response['data'], paramContent?.tabType, tabType?.yAxisLabel);
+            this.filterCityRankingChartData(response['data'], this.barChartPayload?.tabType, tabType?.yAxisLabel);
             this.barChartNotFound = false;
           } else {
             this.barChartNotFound = false;
@@ -1100,16 +1090,23 @@ ulbArr = []
 
   getServiceLevelBenchmarkBarChartData() {
     let apiEndPoint = 'state-slb';
-    const payload: any = {
-      "financialYear": this.financialYear,
+    this.barChartPayload = {};
+    this.barChartPayload = {
+      "financialYear": this.financialYear ? this.financialYear : '',
       "stateId": this.stateId,
       "sortBy": this.BarGraphValue ? 'top10' : 'bottom10',
-      "filterName": this.filterName,
-      "ulb": this.ulbId,
+      "filterName": this.filterName ? this.filterName : '',
+      "ulb": this.ulbId ? this.ulbId : '',
+      "apiEndPoint": apiEndPoint,
+      "apiMethod": "get",
+      "chartType": "bar",
+      "stateServiceLabel": this.stateServiceLabel,
+      "activeButton": this.ActiveButton
     };
-    console.log('payload', payload);
 
-    this.stateFilterDataService.getScatterdData(payload, apiEndPoint)
+    console.log('payload', this.barChartPayload);
+
+    this.stateFilterDataService.getScatterdData(this.barChartPayload, apiEndPoint)
     .subscribe(
       (response) => {
         if (response && response["success"] && response['data']) {
@@ -1138,6 +1135,7 @@ ulbArr = []
   returnChartPayload: any = '';
   getClickedAction(event: any) {
     console.log('getClickedAction', event);
+    return
     let apiRequestData: any;
     switch (event?.chartType) {
       case "bar":

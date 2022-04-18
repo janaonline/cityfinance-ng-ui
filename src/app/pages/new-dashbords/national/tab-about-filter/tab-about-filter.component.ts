@@ -36,9 +36,6 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log("tab data", this.data);
     this.nationalSubTab("Total Revenue", 0);
-    // this.nationalMapService.setCurrentSubTabValue({
-    //   data: "Total Revenue",
-    // });
   }
 
   nationalSubTab(value, i) {
@@ -49,7 +46,7 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("changes", this.data);
+    console.log("changes", this.data, this.tabIndex);
     if (changes.data && changes.data.currentValue) {
       this.activeTabFn(this.data[this.tabIndex]);
       this.router.navigate([
@@ -60,6 +57,7 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     // if(changes.)
   }
   activeTabFn(item) {
+    console.log("activeTabFn", item, this.data, this.tabIndex);
     this.mainTab = item?.name;
     this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
     this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;

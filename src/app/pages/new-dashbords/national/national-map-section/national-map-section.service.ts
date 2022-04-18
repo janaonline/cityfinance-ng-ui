@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -10,7 +10,7 @@ export class NationalMapSectionService {
   dataAvailabilityVal = new Subject<any>();
   currentSelectedStateId = new Subject<any>();
   selectedYear = new Subject<any>();
-  currentSubTab = new Subject<any>();
+  currentSubTab: BehaviorSubject<any> = new BehaviorSubject<any>({});
   constructor(private http: HttpClient) {}
 
   setCurrentSubTabValue(val) {

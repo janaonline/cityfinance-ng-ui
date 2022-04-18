@@ -22,7 +22,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   ) {}
   panelOpenState = false;
   @Input()
-  headOfAccount = "Revenue";
+  isPerCapita;
   @Input()
   filterName;
   @Input()
@@ -86,11 +86,17 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   loading = false;
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
   stateCode = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
-  ngOnInit(): void {
-    console.log(this.data, "about indicator");
-  }
+  ngOnInit(): void {}
   ulbsData = JSON.parse(localStorage.getItem("ulbMapping"));
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(
+      this.data,
+      "about indicator",
+      this.filterName,
+      "filterName",
+      this.isPerCapita,
+      "isPerCapita"
+    );
     if (changes.data) {
       if (this.lastOpenPanel) {
         this.panelClose(this.lastOpenPanel);
@@ -262,7 +268,24 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   stateUlbMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   getPeerComp(item, index) {
     this.loading = true;
-    this.aboutService.compPeer(this.cityId, this.selectedYear).subscribe(
+    let body = {
+      ulb: this.cityId,
+      financialYear: this.filterName.includes("capital expenditure")
+        ? [
+            this.selectedYear,
+            this.selectedYear
+              .split("-")
+              .map((val, i) => {
+                val = (Number(val) - 1).toString();
+                return val;
+              })
+              .join("-"),
+          ]
+        : this.selectedYear,
+      isPerCapita: this.isPerCapita,
+      from: this.filterName.split(" ").join("_"),
+    };
+    this.aboutService.compPeer(body).subscribe(
       (res) => {
         console.log(res, item, "compPeer");
         item.desc[0].text = this.getConvertedDec(
@@ -369,9 +392,15 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   toCr(value) {
+    if (this.isPerCapita) return value.toFixed(2);
+    if (
+      this.filterName.includes("mix") ||
+      this.filterName == "revenue expenditure"
+    )
+      return value.toFixed(2) + "%";
     let newVal = value / 10000000;
     if (isNaN(newVal)) return 0;
-    return newVal.toFixed(2);
+    return newVal.toFixed(2) + "Cr";
   }
 
   panelClose(item) {

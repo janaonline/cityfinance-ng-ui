@@ -18,7 +18,7 @@ import Chart from "chart.js";
 export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private commonService: CommonService,
-    private _activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) {}
   multiPie = false;
   multipleDoughnutCharts = [];
@@ -55,15 +55,27 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   hideElements = false;
   compareType;
   btnListInAboutIndicator;
-  ngOnInit(): void {}
+  cityId: any;
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe((paramData) => {
+      console.log("cityId", paramData);
+      if (paramData?.cityId) {
+        this.cityId = paramData?.cityId;
+        console.log("stid", this.cityId);
+      } else {
+        this.cityId = sessionStorage.getItem("row_id");
+      }
+    });
+  }
 
   stateUlbMapping = JSON.parse(localStorage.getItem("stateUlbMapping"));
   ulbList = JSON.parse(localStorage.getItem("ulbList")).data;
-  disableFirstYear = true
+  disableFirstYear = true;
 
   ngAfterViewInit(): void {}
 
-   barChartStaticOptions = {
+  barChartStaticOptions = {
     maintainAspectRatio: false,
     responsive: true,
     scales: {
@@ -79,6 +91,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           },
           ticks: {
             beginAtZero: true,
+          },
+          afterDataLimits: function (axis) {
+            axis.max += 20;
           },
         },
       ],
@@ -103,19 +118,14 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-  
+
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
-            if(isNaN(data)){
-              return
-            } else {   
-              data = new Intl.NumberFormat("en-IN").format(data*1);
-            }
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            console.log("chartOption Data", data);
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 1);
           });
         });
         console.log(animation, "animation");
@@ -196,8 +206,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ? "Expense"
       : "Tax";
   }
-  apiCall;
 
+  apiCall;
+  barChartPayload: any = {};
   getChartData(data = {}) {
     if (this.headOfAccount == "") {
       this.headOfAccount = "Tax";
@@ -221,10 +232,11 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
     this.lastSelectedUlbs = body.ulb;
     body.financialYear = data["year"] ?? this.mySelectedYears;
-    if(this.selectedTab.includes("Mix")){
-      this.disableFirstYear= false
-      body.financialYear = [body.financialYear[0]]}else{
-      this.disableFirstYear = true
+    if (this.selectedTab.includes("Mix")) {
+      this.disableFirstYear = false;
+      body.financialYear = [body.financialYear[0]];
+    } else {
+      this.disableFirstYear = true;
     }
     this.loading = true;
     if (this.apiCall) {
@@ -236,6 +248,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
     } Average`;
+    this.barChartPayload = {};
+
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
@@ -263,7 +277,29 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         this.loading = false;
       }
     );
+
+    this.barChartPayload = {
+      ...body,
+      cityId: this.cityId,
+      apiEndPoint: "indicator",
+      apiMethod: "post",
+      chartType: "bar",
+      chartTitle: this.chartTitle,
+      multiPie: this.multiPie,
+      selectedTab: this.selectedTab,
+      ulbMapping: this.ulbMapping,
+      currentUlb: this.currentUlb,
+      isPerCapita: this.isPerCapita,
+      hideElements: this.hideElements,
+      disableFirstYear: this.disableFirstYear,
+      compareType: this.compareType,
+      multiChartLabel: this.multiChartLabel,
+      multipleDoughnutCharts: this.multipleDoughnutCharts,
+      notFoundMessage: "Please Select Year With at Least Two Years of Data",
+      chartOptions: this.chartOptions,
+    };
   }
+
   calculateCagrOfDeficit(res) {
     console.log(res);
     let total = res["ulbData"].reduce((sum, val) => sum + val.amount, 0);
@@ -404,10 +440,16 @@ ULB ${this.selectedTab} for FY' ${
     }
 
     let newData = JSON.parse(JSON.stringify(barChartStatic));
-    newData.data.labels = res["data"].ulbData.map(
-      (value) => value._id.financialYear
-    );
-    newData.data.labels = [...new Set(newData.data.labels)];
+    newData.data.labels = [];
+    for (const key in res["data"]) {
+      const element = res["data"][key];
+      element.map((value) => {
+        if (!newData.data.labels.includes(value._id.financialYear)) {
+          newData.data.labels.push(value._id.financialYear);
+        }
+      });
+    }
+
     let temp = {},
       index = 0;
     for (const key in res["data"]) {
@@ -430,11 +472,11 @@ ULB ${this.selectedTab} for FY' ${
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [value.amount, this.isPerCapita];
+          dataInner.data = [convertToCr(value.amount, this.isPerCapita)];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(value.amount, this.isPerCapita);
+          dataInner.data.push(convertToCr(value.amount, this.isPerCapita));
           temp[value.ulbName] = dataInner;
         }
       });
@@ -450,7 +492,6 @@ ULB ${this.selectedTab} for FY' ${
     }
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.push(newlineDataset);
-
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "Rs" : "Cr"
@@ -468,10 +509,9 @@ ULB ${this.selectedTab} for FY' ${
             dataSet.borderColor = borderColor[0];
             dataSet.backgroundColor = backgroundColor[0];
             dataSet.data.push(
-              (
-                (value.revenue / (value.revenue + value.expense)) *
-                100
-              ).toPrecision(2)
+              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
+                2
+              )
             );
             chartLabels.push(value._id.financialYear);
             return dataSet;
@@ -489,10 +529,9 @@ ULB ${this.selectedTab} for FY' ${
             dataSet.borderColor = borderColor[1];
             dataSet.backgroundColor = backgroundColor[1];
             dataSet.data.push(
-              (
-                (value.revenue / (value.revenue + value.expense)) *
-                100
-              ).toPrecision(2)
+              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
+                2
+              )
             );
             return dataSet;
           },
@@ -527,7 +566,7 @@ ULB ${this.selectedTab} for FY' ${
               // beginAtZero: true,
               steps: 10,
               stepValue: 5,
-              max: 100,
+              // max: 100,
             },
           },
         ],
@@ -579,6 +618,8 @@ ULB ${this.selectedTab} for FY' ${
         });
         continue;
       }
+      let tt = year2.yearData.find((value) => value.code == "410").amount;
+      let yy = year1.yearData.find((value) => value.code == "410").amount;
       let amount1 =
           year2.yearData.find((value) => value.code == "410").amount -
           year1.yearData.find((value) => value.code == "410").amount,
@@ -586,7 +627,7 @@ ULB ${this.selectedTab} for FY' ${
           year2.yearData.find((value) => value.code == "412").amount -
           year1.yearData.find((value) => value.code == "412").amount;
       newData.push({
-        _id: { financialYear: year1._id },
+        _id: { financialYear: year2._id },
         amount: amount1 + amount2,
         ulbName: year1.yearData[0].ulbName,
       });
@@ -612,6 +653,73 @@ ULB ${this.selectedTab} for FY' ${
       }
       this.resetCAGR();
     }
+    if (this.compareType == "ULBs..") {
+      return this.createMultiUlbChart(data);
+    }
+    let tempChartData = [];
+    for (const key in data) {
+      const element = data[key];
+      let chartData = {
+        labels: [],
+        datasets: [
+          {
+            label: "",
+            data: [],
+            backgroundColor: [],
+          },
+        ],
+      };
+      let tempData = {
+        id: `${Math.random()}-multi`,
+        type: "doughnut",
+        data: chartData,
+        multipleChartOptions: {
+          legend: {
+            display: false,
+          },
+          tooltips: {
+            callbacks: {
+              label: function (tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue
+                ) {
+                  return Number(previousValue) + Number(currentValue);
+                });
+                var currentValue = Number(dataset.data[tooltipItem.index]);
+                var percentage = ((currentValue / total) * 100).toFixed(2);
+                return percentage + "%" + data.labels[tooltipItem.index].text;
+              },
+            },
+          },
+        },
+        title:
+          key == "ulbData"
+            ? this.ulbMapping[this.currentUlb].name
+            : key == "compData"
+            ? this.compareType
+            : this.ulbMapping[key].name,
+      };
+      element.forEach((value, index) => {
+        chartData.datasets[0].backgroundColor.push(value.colour);
+        chartData.datasets[0].data.push(value.amount);
+        chartData.labels.push({
+          text: value._id.lineItem,
+          color: value.colour,
+        });
+        chartData.datasets[0].label = value._id.lineItem;
+      });
+      tempChartData.push(tempData);
+    }
+    this.multiChartLabel = [
+      ...new Set(...tempChartData.map((val) => val.data.labels)),
+    ];
+    this.multipleDoughnutCharts = tempChartData;
+    this.multiPie = true;
+  }
+
+  createMultiUlbChart(data) {
     this.multipleDoughnutCharts = [];
     this.multiChartLabel = [];
     for (const key in data) {
@@ -660,9 +768,7 @@ ULB ${this.selectedTab} for FY' ${
                 var dataset = data.datasets[tooltipItem.datasetIndex];
                 var total = dataset.data.reduce(function (
                   previousValue,
-                  currentValue,
-                  currentIndex,
-                  array
+                  currentValue
                 ) {
                   return Number(previousValue) + Number(currentValue);
                 });
@@ -673,17 +779,11 @@ ULB ${this.selectedTab} for FY' ${
             },
           },
         },
-        title:
-          key == "ulbData"
-            ? this.ulbMapping[this.currentUlb].name
-            : key == "compData"
-            ? body.compareType
-            : this.ulbMapping[key].name,
+        title: this.ulbMapping[key].name,
       };
       this.multipleDoughnutCharts.push(val);
     }
-    console.log(this.multipleDoughnutCharts,"multipleDoughnutCharts");
-    
+
     this.multiChartLabel = this.multiChartLabel.reduce(
       (res, val) => {
         if (!res.stack.includes(val.text)) {
@@ -716,6 +816,7 @@ ULB ${this.selectedTab} for FY' ${
       } else res[value._id.ulb] = [value];
       return res;
     }, {});
+
     return newData;
   }
 
@@ -723,22 +824,27 @@ ULB ${this.selectedTab} for FY' ${
     let own = {
       _id: { lineItem: "Own Revenue" },
       amount: 0,
+      colour: "#25C7CE",
     };
     let other_receipt = {
       _id: { lineItem: "Other Receipts" },
       amount: 0,
+      colour: "",
     };
     let assigned_revenues_compensations = {
       _id: { lineItem: "Assigned Revenues Compensation" },
       amount: 0,
+      colour: "",
     };
     let grant = {
       _id: { lineItem: "Grants" },
       amount: 0,
+      colour: "",
     };
     let interest_incomes = {
       _id: { lineItem: "Interest Income" },
       amount: 0,
+      colour: "",
     };
     let newdata = [
       own,
@@ -754,15 +860,19 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
+        other_receipt.colour = value.colour;
       }
       if (assigned_revenues_compensation.includes(value.code)) {
         assigned_revenues_compensations.amount += value.amount;
+        assigned_revenues_compensations.colour = value.colour;
       }
       if (grants.includes(value.code)) {
         grant.amount += value.amount;
+        grant.colour = value.colour;
       }
       if (interest_income.includes(value.code)) {
         interest_incomes.amount += value.amount;
+        interest_incomes.colour = value.colour;
       }
     });
     return newdata;
@@ -772,7 +882,10 @@ ULB ${this.selectedTab} for FY' ${
     if (value.compareType == "ULBs..") this.hideElements = true;
     else this.hideElements = false;
     this.mySelectedYears = value.year;
-    if (this.yearListForDropDown[0] == value.year[0] && !this.selectedTab.includes("Mix")) {
+    if (
+      this.yearListForDropDown[0] == value.year[0] &&
+      !this.selectedTab.includes("Mix")
+    ) {
       this.notFound = true;
     } else {
       this.notFound = false;
@@ -1036,7 +1149,6 @@ const assigned_revenues_compensation = ["120"];
 const grants = ["160"];
 const interest_income = ["171"];
 const other_receipts = ["170", "100"];
-
 
 function getPopulationType(population) {
   if (population < 100000) {

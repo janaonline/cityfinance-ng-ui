@@ -33,6 +33,8 @@ export class NewHomeComponent implements OnInit {
   singleSlideOffset = false;
   noWrap = false;
   postBody;
+  stopNavigation:any
+
   slides = [
     {
       image: "../../../assets/new_dashBord_ftr_hdr/modiji.png",
@@ -226,13 +228,15 @@ export class NewHomeComponent implements OnInit {
      console.log(error)
    });
     console.log('option', option)
-    this.getYears(option._id);
+   
     if(option?.type == 'state'){
-     this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+      this.getYears(option);
+      // this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
     }
+
     if(option?.type == 'ulb'){
-     this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
-     }
+      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+    }
 
   }
 
@@ -301,10 +305,9 @@ export class NewHomeComponent implements OnInit {
   beforeChange(e) {
     console.log('beforeChange');
   }
-
-  getYears(searchStateId: string) {
+  getYears(searchStateId: any) {
     const paramContent: any = {
-      "state": searchStateId
+      "state": searchStateId._id
     };
     console.log('paramContent', paramContent)
     let financialYearList: any = [];
@@ -321,7 +324,12 @@ export class NewHomeComponent implements OnInit {
     Promise.all(financialYearList).then(value => {
       console.log('financialYearList', value);
       let yearList = value && value.length ? value[0] : [];
+      this.stopNavigation = yearList
       sessionStorage.setItem('financialYearList', JSON.stringify(yearList));
+      this.router.navigateByUrl(`/dashboard/state?stateId=${searchStateId._id}`)
+      // if(searchStateId?.type == 'state'){
+      //   this.router.navigateByUrl(`/dashboard/state?stateId=${searchStateId._id}`)
+      // }
     })
   }
 

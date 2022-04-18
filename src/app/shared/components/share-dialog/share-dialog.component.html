@@ -11,7 +11,7 @@
         <img src="../../../../assets/images/shareImage.png" width="130" height="100">
         <div class="col-md-9 col-lg-9 sub-container">
             <p>Copy and paste the following code to place an interactive version of this visualization on your website.</p>
-            <select (change)="changeSize($event)" class="shareIFrame">
+            <select (change)="changeSize($event.target.value)" class="shareIFrame">
                 <option *ngFor="let size of iFrameSize" [value]="size.code">{{size.name}}</option>
             </select>
         </div>

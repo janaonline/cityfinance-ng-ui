@@ -26,7 +26,7 @@
                     [chartDialogues]="true" [btnBesideText]="true"
                     *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId"
                     (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart"
-                    [headerActions]="headerActions"></app-revenuechart>
+                    [headerActions]="headerActions" [getChartPayload]="barChartPayload"></app-revenuechart>
             </div>
             <div class="" *ngIf="(tabName == 'Revenue Mix') || (tabName == 'Revenue Expenditure Mix')">
                 <app-common-charts-graphs [chartData]="mixData" (actionClicked)="actionFromChart($event)"></app-common-charts-graphs>
@@ -35,7 +35,7 @@
         </div>
         <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
             <app-about-indicator (btnListClick)="btnClickInAboutIndicator($event)" [btnList]="btnListInAboutIndicator"
-                [selectedYear]="mySelectedYears[0]" [headOfAccount]="headOfAccount" [filterName]="filterName"
+                [selectedYear]="mySelectedYears[0]" [isPerCapita]="isPerCapita" [filterName]="filterName"
                 [cityId]="currentUlb"
                 [positive]="positiveCAGR" [cagr]="CAGR" [data]="aboutIndicators"></app-about-indicator>
         </div>
