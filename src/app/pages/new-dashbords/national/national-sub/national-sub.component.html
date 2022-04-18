@@ -203,9 +203,18 @@
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
       <div class="card-body barCon">
         <div class="float-right right">
-          <select (change)="selectGraphMode($event)" class="form-select">
-            <option value="revenue">Revenue</option>
-            <option value="revenuePerCapita">Revenue Per Capita</option>
+          <select
+            (change)="selectGraphMode($event)"
+            [(ngModel)]="selectedGraphValue"
+            class="form-select"
+          >
+            <option
+              *ngFor="let option of barChartOptions"
+              [value]="option?.value"
+            >
+              {{ option?.name }}
+            </option>
+            <!-- <option value="revenuePerCapita">Revenue Per Capita</option> -->
           </select>
         </div>
         <div class="w-75 m-auto h-auto">

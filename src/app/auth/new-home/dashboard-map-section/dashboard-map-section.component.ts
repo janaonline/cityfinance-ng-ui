@@ -317,6 +317,8 @@ export class DashboardMapSectionComponent
 
   clearDistrictMapContainer() {
     const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    let element = document.getElementById("districtMapContainer");
+    console.log(element);
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -341,11 +343,12 @@ export class DashboardMapSectionComponent
       }[];
     }
   ) {
+    debugger;
     console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;
     }
-    //  this.clearDistrictMapContainer();
+    this.clearDistrictMapContainer();
 
     setTimeout(() => {
       let vw = Math.max(document.documentElement.clientWidth);
