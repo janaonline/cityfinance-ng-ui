@@ -19,9 +19,10 @@ export class AboutService {
       `${environment.api.url}about-indicator?${params}`
     );
   }
-  compPeer(id: string, year) {
-    return this.httpClient.get(
-      `${environment.api.url}about-indicator-comp?ulb=${id}&financialYear=${year}`
+  compPeer(body) {
+    return this.httpClient.post(
+      `${environment.api.url}about-indicator-comp`,
+      body
     );
   }
 }

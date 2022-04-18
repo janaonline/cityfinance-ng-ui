@@ -607,17 +607,13 @@ ULB ${this.selectedTab} for FY' ${
       }
       this.resetCAGR();
     }
-    let ulbDoughnutChartData = {
-        labels: [],
-        datasets: [
-          {
-            label: "",
-            data: [],
-            backgroundColor: [],
-          },
-        ],
-      },
-      compDoughnutChartData = {
+    if (this.compareType == "ULBs..") {
+      return this.createMultiUlbChart(data);
+    }
+    let tempChartData = [];
+    for (const key in data) {
+      const element = data[key];
+      let chartData = {
         labels: [],
         datasets: [
           {
@@ -627,128 +623,52 @@ ULB ${this.selectedTab} for FY' ${
           },
         ],
       };
-    if (this.compareType == "ULBs..") {
-      return this.createMultiUlbChart(data);
+      let tempData = {
+        id: `${Math.random()}-multi`,
+        type: "doughnut",
+        data: chartData,
+        multipleChartOptions: {
+          legend: {
+            display: false,
+          },
+          tooltips: {
+            callbacks: {
+              label: function (tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue
+                ) {
+                  return Number(previousValue) + Number(currentValue);
+                });
+                var currentValue = Number(dataset.data[tooltipItem.index]);
+                var percentage = ((currentValue / total) * 100).toFixed(2);
+                return percentage + "%" + data.labels[tooltipItem.index].text;
+              },
+            },
+          },
+        },
+        title:
+          key == "ulbData"
+            ? this.ulbMapping[this.currentUlb].name
+            : key == "compData"
+            ? this.compareType
+            : this.ulbMapping[key].name,
+      };
+      element.forEach((value, index) => {
+        chartData.datasets[0].backgroundColor.push(value.colour);
+        chartData.datasets[0].data.push(value.amount);
+        chartData.labels.push({
+          text: value._id.lineItem,
+          color: value.colour,
+        });
+        chartData.datasets[0].label = value._id.lineItem;
+      });
+      tempChartData.push(tempData);
     }
-    this.multipleDoughnutCharts = [];
-    this.multiChartLabel = [];
-    let tempChartData = [
-      {
-        id: `${Math.random()}-multi`,
-        type: "doughnut",
-        data: ulbDoughnutChartData,
-        multipleChartOptions: {
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            callbacks: {
-              label: function (tooltipItem, data) {
-                var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function (
-                  previousValue,
-                  currentValue
-                ) {
-                  return Number(previousValue) + Number(currentValue);
-                });
-                var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
-                return percentage + "%" + data.labels[tooltipItem.index].text;
-              },
-            },
-          },
-        },
-        title: this.ulbMapping[this.currentUlb].name,
-      },
-      {
-        id: `${Math.random()}-multi`,
-        type: "doughnut",
-        data: compDoughnutChartData,
-        multipleChartOptions: {
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            callbacks: {
-              label: function (tooltipItem, data) {
-                var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function (
-                  previousValue,
-                  currentValue
-                ) {
-                  return Number(previousValue) + Number(currentValue);
-                });
-                var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
-                return percentage + "%" + data.labels[tooltipItem.index].text;
-              },
-            },
-          },
-        },
-        title: this.compareType,
-      },
+    this.multiChartLabel = [
+      ...new Set(...tempChartData.map((val) => val.data.labels)),
     ];
-
-    let counter = 0;
-    data["ulbData"].forEach((value, index) => {
-      ulbDoughnutChartData.datasets[0].backgroundColor.push(
-        pieBackGroundColor[counter]
-      );
-      ulbDoughnutChartData.datasets[0].data.push(value.amount);
-      ulbDoughnutChartData.labels.push({
-        text: value._id.lineItem,
-        color: pieBackGroundColor[counter],
-      });
-      ulbDoughnutChartData.datasets[0].label = value._id.lineItem;
-
-      let comData = data["compData"].find(
-        (val) => val._id.lineItem == value._id.lineItem
-      );
-      if (!comData) {
-        counter++;
-        return true;
-      }
-      compDoughnutChartData.datasets[0].backgroundColor.push(
-        pieBackGroundColor[counter]
-      );
-      compDoughnutChartData.datasets[0].data.push(comData.amount);
-      compDoughnutChartData.labels.push({
-        text: comData._id.lineItem,
-        color: pieBackGroundColor[counter],
-      });
-      compDoughnutChartData.datasets[0].label = comData._id.lineItem;
-      counter++;
-    });
-
-    data["compData"].forEach((value, index) => {
-      let ulbData = data["ulbData"].find(
-        (val) => val._id.lineItem == value._id.lineItem
-      );
-      if (!ulbData) {
-        ulbDoughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[counter]
-        );
-        ulbDoughnutChartData.datasets[0].data.push(ulbData.amount);
-        ulbDoughnutChartData.labels.push({
-          text: value._id.lineItem,
-          color: pieBackGroundColor[counter],
-        });
-        ulbDoughnutChartData.datasets[0].label = value._id.lineItem;
-
-        compDoughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[counter]
-        );
-        compDoughnutChartData.datasets[0].data.push(value.amount);
-        compDoughnutChartData.labels.push({
-          text: value._id.lineItem,
-          color: pieBackGroundColor[counter],
-        });
-        compDoughnutChartData.datasets[0].label = value._id.lineItem;
-        ulbData++;
-      }
-    });
-
-    this.multiChartLabel = ulbDoughnutChartData.labels;
     this.multipleDoughnutCharts = tempChartData;
     this.multiPie = true;
   }
@@ -858,22 +778,27 @@ ULB ${this.selectedTab} for FY' ${
     let own = {
       _id: { lineItem: "Own Revenue" },
       amount: 0,
+      colour: "#25C7CE",
     };
     let other_receipt = {
       _id: { lineItem: "Other Receipts" },
       amount: 0,
+      colour: "",
     };
     let assigned_revenues_compensations = {
       _id: { lineItem: "Assigned Revenues Compensation" },
       amount: 0,
+      colour: "",
     };
     let grant = {
       _id: { lineItem: "Grants" },
       amount: 0,
+      colour: "",
     };
     let interest_incomes = {
       _id: { lineItem: "Interest Income" },
       amount: 0,
+      colour: "",
     };
     let newdata = [
       own,
@@ -889,15 +814,19 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
+        other_receipt.colour = value.colour;
       }
       if (assigned_revenues_compensation.includes(value.code)) {
         assigned_revenues_compensations.amount += value.amount;
+        assigned_revenues_compensations.colour = value.colour;
       }
       if (grants.includes(value.code)) {
         grant.amount += value.amount;
+        grant.colour = value.colour;
       }
       if (interest_income.includes(value.code)) {
         interest_incomes.amount += value.amount;
+        interest_incomes.colour = value.colour;
       }
     });
     return newdata;
