@@ -124,7 +124,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
+            console.log("chartOption Data", data);
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 1);
           });
         });
@@ -280,23 +280,23 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.barChartPayload = {
       ...body,
-      "cityId": this.cityId,
-      "apiEndPoint": "indicator",
-      "apiMethod": "post",
-      "chartType": "bar",
-      "chartTitle": this.chartTitle,
-      "multiPie": this.multiPie,
-      "selectedTab": this.selectedTab,
-      "ulbMapping": this.ulbMapping,
-      "currentUlb": this.currentUlb,
-      "isPerCapita": this.isPerCapita,
-      "hideElements": this.hideElements,
-      "disableFirstYear": this.disableFirstYear,
-      "compareType": this.compareType,
-      "multiChartLabel": this.multiChartLabel,
-      "multipleDoughnutCharts": this.multipleDoughnutCharts,
-      "notFoundMessage": 'Please Select Year With at Least Two Years of Data',
-      "chartOptions": this.chartOptions
+      cityId: this.cityId,
+      apiEndPoint: "indicator",
+      apiMethod: "post",
+      chartType: "bar",
+      chartTitle: this.chartTitle,
+      multiPie: this.multiPie,
+      selectedTab: this.selectedTab,
+      ulbMapping: this.ulbMapping,
+      currentUlb: this.currentUlb,
+      isPerCapita: this.isPerCapita,
+      hideElements: this.hideElements,
+      disableFirstYear: this.disableFirstYear,
+      compareType: this.compareType,
+      multiChartLabel: this.multiChartLabel,
+      multipleDoughnutCharts: this.multipleDoughnutCharts,
+      notFoundMessage: "Please Select Year With at Least Two Years of Data",
+      chartOptions: this.chartOptions,
     };
   }
 
@@ -440,10 +440,15 @@ ULB ${this.selectedTab} for FY' ${
     }
 
     let newData = JSON.parse(JSON.stringify(barChartStatic));
-    newData.data.labels = res["data"].ulbData.map(
-      (value) => value._id.financialYear
-    );
-    newData.data.labels = [...new Set(newData.data.labels)];
+    newData.data.labels = [];
+    for (const key in res["data"]) {
+      const element = res["data"][key];
+      element.map((value) => {
+        if (!newData.data.labels.includes(value._id.financialYear)) {
+          newData.data.labels.push(value._id.financialYear);
+        }
+      });
+    }
 
     let temp = {},
       index = 0;
