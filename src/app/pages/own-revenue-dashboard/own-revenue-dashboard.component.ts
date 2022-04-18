@@ -216,36 +216,63 @@ export class OwnRevenueDashboardComponent implements OnInit {
     "The following pie chart provides the split of the contribution of own revenue streams to own revenue.";
 
   barChartData = barChart;
-  barChartOptions = {
+  barChartStatic;
+  barChartStaticOptions = {
     maintainAspectRatio: false,
     responsive: true,
-
     scales: {
-      xAxes: [
-        {
-          maxBarThickness: 60,
-          gridLines: {
-            color: "rgba(0, 0, 0, 0)",
-          },
-        },
-      ],
       yAxes: [
         {
           scaleLabel: {
             display: true,
-            labelString: "Amount in crores",
+            labelString: "Amount in ₹",
           },
           gridLines: {
-            color: "rgba(0, 0, 0, 0)",
+            offsetGridLines: true,
+            display: false,
+          },
+          ticks: {
+            beginAtZero: true,
           },
         },
       ],
     },
-
     legend: {
-      display: false,
+      position: "bottom",
+      labels: {
+        padding: 35,
+        boxWidth: 24,
+        boxHeight: 18,
+      },
+    },
+    animation: {
+      onComplete: function (animation) {
+        var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+        ctx.fillStyle = "#6E7281";
+        ctx.font = Chart.helpers.fontString(
+          Chart.defaults.global.defaultFontSize,
+          Chart.defaults.global.defaultFontStyle,
+          Chart.defaults.global.defaultFontFamily
+        );
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+  
+        this.data.datasets.forEach(function (dataset, i) {
+          var meta = chartInstance.controller.getDatasetMeta(i);
+          if (meta.type == "line") return true;
+          meta.data.forEach(function (bar, index) {
+            var data = dataset.data[index];
+            console.log("chartOption Data",  data);
+            
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+          });
+        });
+        console.log(animation, "animation");
+      },
     },
   };
+
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
   stateIds = JSON.parse(localStorage.getItem("stateIdsMap"));
@@ -499,6 +526,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         data: data,
       });
     };
+  this.barChartStatic= this.barChartStaticOptions
   }
 
   createDataForFilter() {
@@ -925,10 +953,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       name: "Download",
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
-    // {
-    //   name: "share/embed",
-    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
-    // },
+    {
+      name: "Share/Embed",
+      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    },
   ];
 
   downloadCSV(from) {
