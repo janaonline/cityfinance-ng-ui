@@ -184,87 +184,89 @@ export class NationalSubComponent implements OnInit {
     "#FF608B",
   ];
 
-  loader: boolean = true;
   chartArray: any = [];
   activetab: any = "Total Revenue";
+  CurrentHeadTab: any = "Revenue";
+  barGraphDropdown: any = [
+    { name: "Revenue", value: "revenue", code: "Revenue" },
+    { name: "Revenue Per Capita", value: "revenuePerCapita", code: "Revenue" },
+
+    { name: "Expenditure", value: "expenditure", code: "Expenditure" },
+    {
+      name: "Expenditure Per Capita",
+      value: "expenditurePerCapita",
+      code: "Expenditure",
+    },
+
+    { name: "Own Revenue", value: "ownRevenue", code: "Own Revenue" },
+    {
+      name: "Own Revenue Per Capita",
+      value: "ownRevenuePerCapita",
+      code: "Own Revenue",
+    },
+
+    {
+      name: "Capital Expenditure",
+      value: "capitalExpenditure",
+      code: "Capital Expenditure",
+    },
+    {
+      name: "Capital Expenditure Per Capita",
+      value: "capitalExpenditurePerCapita",
+      code: "Capital Expenditure",
+    },
+  ];
+  barChartOptions: any = [];
+  selectedGraphValue: any = "";
+  yAxesLabel: string = "Total Revenue";
+  xAxesLabel: string = "--Average";
+  newValue: string = "";
+
   getCurrentTabValue() {
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
       this.tableView = true;
       this.graphView = false;
+      if (this.popBtn) {
+        this.nationalInput.formType = "populationCategory";
+      }
+      if (!this.popBtn) {
+        this.nationalInput.formType = "ulbType";
+      }
     }
     if (this.activetab.includes("Mix")) {
       this.totalRevenue = false;
       this.mixRevenue = true;
-    }
-    console.log(this.activetab);
-    if (this.activetab == "Total Revenue") {
-      // debugger;
-      // this.totalRevenue = true;
-      // this.mixRevenue = false;
-      // this.tableView = true;
-      // this.graphView = false;
-      if (this.popBtn) {
-        this.nationalInput.formType = "populationCategory";
-        this.getNationalTableData("revenue");
-      }
-      if (!this.popBtn) {
-        this.nationalInput.formType = "ulbType";
-        this.getNationalTableData("revenue");
-      }
-    } else if (this.activetab == "Revenue Mix ") {
-      this.doughnutChartInit();
       if (this.popBtn) {
         this.RevenueMixInput.formType = "populationCategory";
-        this.getRevenueMixData(this.RevenueMixInput, "revenue");
       }
       if (!this.popBtn) {
-        this.getRevenueMixData(this.RevenueMixInput, "revenue");
-        this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
+        this.RevenueMixInput.formType = "ulbType";
       }
+    }
+    if (this.activetab == "Total Revenue") {
+      this.nationalInput.type = "totalRevenue";
+
+      this.getNationalTableData("revenue");
+    } else if (this.activetab == "Revenue Mix ") {
+      this.RevenueMixInput.type = "revenueMix";
+      this.getRevenueMixData(this.RevenueMixInput, "revenue");
     } else if (this.activetab == "Total Expenditure") {
       this.nationalInput.type = "totalExpenditure";
       this.getNationalTableData("expenditure");
     } else if (this.activetab == "Expenditure Mix") {
-      this.doughnutChartInit();
       this.RevenueMixInput.type = "expenditureMix";
-      if (this.popBtn) {
-        this.RevenueMixInput.formType = "populationCategory";
-        this.getRevenueMixData(this.RevenueMixInput, "expenditure");
-      }
-      if (!this.popBtn) {
-        this.RevenueMixInput.formType = "ulbType";
-        this.getRevenueMixData(this.RevenueMixInput, "expenditure");
-        this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
-      }
+      this.getRevenueMixData(this.RevenueMixInput, "expenditure");
     } else if (this.activetab == "Deficit or Surplus") {
-      this.doughnutChartInit();
       this.RevenueMixInput.type = "deficitOrSurplus";
-      if (this.popBtn) {
-        this.RevenueMixInput.formType = "populationCategory";
-        this.getRevenueMixData(this.RevenueMixInput, "expenditure");
-      }
-      if (!this.popBtn) {
-        this.RevenueMixInput.formType = "ulbType";
-        this.getRevenueMixData(this.RevenueMixInput, "expenditure");
-        this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
-      }
+      this.getRevenueMixData(this.RevenueMixInput, "expenditure");
     } else if (this.activetab == "Total Own Revenue") {
       this.nationalInput.type = "totalOwnRevenue";
       this.getNationalTableData("own-revenue");
     } else if (this.activetab == "Own Revenue Mix ") {
-      this.doughnutChartInit();
       this.RevenueMixInput.type = "OwnrevenueMix";
-      if (this.popBtn) {
-        this.RevenueMixInput.formType = "populationCategory";
-        this.getRevenueMixData(this.RevenueMixInput, "own-revenue");
-      }
-      if (!this.popBtn) {
-        this.RevenueMixInput.formType = "ulbType";
-        this.getRevenueMixData(this.RevenueMixInput, "own-revenue");
-        this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
-      }
+      this.getRevenueMixData(this.RevenueMixInput, "own-revenue");
     } else if (this.activetab == "Capital Expenditure") {
       this.totalRevenue = true;
       this.mixRevenue = false;
@@ -286,18 +288,16 @@ export class NationalSubComponent implements OnInit {
     }
   }
   selectFinancialYear(event) {
-    console.log(event.target.value);
     this.nationalInput.financialYear = event.target.value;
     this.destroyMultipleCharts();
-    // this.getNationalTableData("revenue");
+    this.getNationalTableData(this.CurrentHeadTab);
     this.RevenueMixInput.financialYear = event.target.value;
     // this.getRevenueMixData(this.RevenueMixInput);
-    // console.log("selected Financial",event.target.value);
     this.getCurrentTabValue();
   }
 
   getRevenueMixData(revenueMixInput, endPoint) {
-    this.loader = true;
+    this.destroyMultipleCharts();
     this._loaderService.showLoader();
     this.nationalService
       .getNationalRevenueMixData(revenueMixInput, endPoint)
@@ -305,7 +305,6 @@ export class NationalSubComponent implements OnInit {
         // debugger;
 
         this._loaderService.stopLoader();
-        console.log("revenueMixData", res);
         if (res?.data) {
           if (revenueMixInput.formType == "populationCategory") {
             this.nationalDoughnutChart = Object.values(res?.data?.national);
@@ -315,7 +314,6 @@ export class NationalSubComponent implements OnInit {
             );
             this.mixRDoughnutPopulationCategory.forEach((elem) => {
               let particularObject = res?.data?.individual[elem?.title];
-              console.log("particularObject", particularObject);
               if (particularObject) {
                 elem.data = Object.values(particularObject);
               }
@@ -332,7 +330,6 @@ export class NationalSubComponent implements OnInit {
             );
             this.mixRDoughnutUlbType.forEach((elem) => {
               let particularObject = res?.data?.individual[elem?.title];
-              console.log("ulbType ParticularObject", particularObject);
               if (particularObject) {
                 elem.data = Object.values(particularObject);
               }
@@ -346,14 +343,6 @@ export class NationalSubComponent implements OnInit {
             elem.color = this.colorArray[i];
           });
         }
-        console.log(
-          "mixRDoughnutPopulationCategory",
-          this.mixRDoughnutPopulationCategory
-        );
-        // this.doughnutChartInit();
-
-        // this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
-        // res.data.national[value]
       });
   }
   getNationalTableData(endPoint) {
@@ -366,8 +355,7 @@ export class NationalSubComponent implements OnInit {
           this.tableData = res?.data;
           // this.dataAvailabilityvalue = res?.dataAvailability;
 
-          this.creatBarChartData("revenue");
-          // console.log("national table Data", res, this.tableData);
+          this.creatBarChartData(this.selectedGraphValue);
         });
     } catch (err) {
       this.showLoader = false;
@@ -375,18 +363,23 @@ export class NationalSubComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChange) {
-    console.log("changes===//>", changes);
     console.log("currentUrl===>", this.router.url);
   }
   ngOnInit(): void {
     this.nationalMapService.currentSubTab.subscribe((res) => {
-      console.log("new response", res);
       this.activetab = res?.data;
+      this.CurrentHeadTab = res?.HeadTab
+        ? res?.HeadTab
+        : this.barGraphDropdown[0].code;
+      this.barChartOptions = this.barGraphDropdown.filter(
+        (item) => item.code == this.CurrentHeadTab
+      );
+      this.selectedGraphValue = this.barChartOptions[0]?.value;
       this.getCurrentTabValue();
     });
     this.getCurrentTabValue();
     this.getFinancialYearList();
-    this.getNationalTableData("revenue");
+    // this.getNationalTableData("revenue");
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices
@@ -424,10 +417,32 @@ export class NationalSubComponent implements OnInit {
   }
 
   creatBarChartData(value) {
-    let newValue = value == "revenue" ? "revenue" : "revenuePerCapita";
+    // let newValue;
+    if (this.CurrentHeadTab.toLowerCase() == "revenue") {
+      this.newValue =
+        value.toLowerCase() == "revenue" ? "revenue" : "revenuePerCapita";
+    } else if (this.CurrentHeadTab.toLowerCase() == "expenditure") {
+      this.newValue =
+        value.toLowerCase() == "expenditure"
+          ? "expenditure"
+          : "expenditurePerCapita";
+    } else if (this.CurrentHeadTab.toLowerCase() == "own revenue") {
+      this.newValue =
+        value.toLowerCase() == "ownrevenue"
+          ? "ownRevenue"
+          : "OwnrevenuePerCapita";
+    } else if (this.CurrentHeadTab.toLowerCase() == "capital expenditure") {
+      this.newValue =
+        value.toLowerCase() == "capexpense"
+          ? "Capexpense"
+          : "CapexpensePerCapita";
+    }
+    console.log("newValue==>", this.newValue);
+    // this.yAxesLabel = this.newValue;
+
     if (this.tableData)
       this.revnueChartData = this.tableData?.rows?.map((elem) => {
-        return parseInt(elem[newValue]);
+        return parseInt(elem[this.newValue]);
       });
 
     this.revnueChartData = this.revnueChartData.slice(1);
@@ -435,40 +450,24 @@ export class NationalSubComponent implements OnInit {
   }
 
   selectGraphMode(event) {
-    console.log("event value", event.target.value);
-    this.creatBarChartData(event.target.value);
+    this.selectedGraphValue = event.target.value;
 
-    console.log("revenueChartData====>", this.revnueChartData);
+    this.creatBarChartData(this.selectedGraphValue);
   }
 
   getSelectedvalue(value) {
-    console.log("selected vale", value);
     this.nationalInput.stateId = value?._id;
-    this.getNationalTableData("revenue");
+    this.getNationalTableData(this.CurrentHeadTab);
   }
 
   subFilterFn(type) {
-    // debugger;
-    console.log("popBtn value", this.popBtn);
-
     this.doughnutArray = [];
     if (type == "popCat") {
       this.popBtn = true;
-      // debugger;
       this.nationalInput.formType = "populationCategory";
       this.RevenueMixInput.formType = "populationCategory";
-
-      // if (this.activetab == "Total Revenue") {
-      //   this.getNationalTableData("revenue");
-      // }
-      // if (this.activetab == "Total Expenditure") {
-      //   this.getNationalTableData("expenditure");
-      // }
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
-      if (!this.totalRevenue) {
-        // this.dynamicDoughnutChartInit(this.doughnutArray);
-        // this.getRevenueMixData(this.RevenueMixInput);
-      }
+
       if (this.totalRevenue) {
         this.barChartsLabels = [
           "<100k",
@@ -487,22 +486,12 @@ export class NationalSubComponent implements OnInit {
       // debugger;
       this.nationalInput.formType = "ulbType";
       this.RevenueMixInput.formType = "ulbType";
-      // this.RevenueMixInput.type = "revenueMix";
-
-      // if (this.activetab == "Total Revenue") {
-      //   this.getNationalTableData("revenue");
-      // }
-      // if (this.activetab == "Total Expenditure") {
-      //   this.getNationalTableData("expenditure");
-      // }
-
-      // this.getNationalTableData("revenue");
 
       this.doughnutArray = this.mixRDoughnutUlbType;
-      if (!this.totalRevenue) {
-        // this.getRevenueMixData(this.RevenueMixInput);
-        // this.dynamicDoughnutChartInit(this.doughnutArray);
-      }
+      // if (!this.totalRevenue) {
+      //   this.getRevenueMixData(this.RevenueMixInput);
+      //   this.dynamicDoughnutChartInit(this.doughnutArray);
+      // }
       if (this.totalRevenue) {
         this.barChartsLabels = [
           "Municipal Corporation",
@@ -518,121 +507,98 @@ export class NationalSubComponent implements OnInit {
   }
 
   graphViewFn() {
-    console.log("graph......");
-
     this.tableView = false;
     this.graphView = true;
     this.barChartInit();
   }
   tableViewFn() {
-    console.log("table......");
     this.tableView = true;
     this.graphView = false;
   }
 
   barChartInit() {
+    let newLabel =
+      this.newValue.charAt(0).toUpperCase() +
+      this.newValue
+        .slice(1)
+        .split(/(?=[A-Z])/)
+        .join(" ");
+    this.yAxesLabel = newLabel;
     if (this.chart) {
       this.chart.destroy();
     }
-    this.chart = new Chart("canvas", {
-      type: "bar",
-      data: {
-        labels: this.barChartsLabels,
-        datasets: [
-          {
-            // label: "Average",
-            data: this.revnueChartData,
-            backgroundColor: "#456EDE",
-            borderWidth: 1,
-            barThickness: 40,
-          },
-          {
-            type: "line",
-            label: "Average",
-            data: [80, 80, 80, 80, 80, 80],
-            fill: false,
-            borderColor: "rgb(54, 162, 235)",
-          },
-        ],
-      },
-      options: {
-        legend: {
-          position: "bottom",
-          display: false,
-        },
-        scales: {
-          yAxes: [
+    if (this.yAxesLabel)
+      this.chart = new Chart("canvas", {
+        type: "bar",
+        data: {
+          labels: this.barChartsLabels,
+          datasets: [
             {
-              display: true,
-              ticks: {
-                beginAtZero: true,
-              },
-              gridLines: {
-                display: false,
-                // drawOnChartArea: false
-              },
-              scaleLabel: {
-                display: true,
-                labelString: "Total Revenue",
-              },
+              // label: "Average",
+              data: this.revnueChartData,
+              backgroundColor: "#456EDE",
+              borderWidth: 1,
+              barThickness: 40,
             },
-          ],
-          xAxes: [
             {
-              display: true,
-              ticks: {
-                beginAtZero: true,
-              },
-              gridLines: {
-                //  display:false
-                drawOnChartArea: false,
-              },
-              scaleLabel: {
-                display: true,
-                labelString: "---Average",
-              },
+              type: "line",
+              label: "Average",
+              data: [80, 80, 80, 80, 80, 80],
+              fill: false,
+              borderColor: "rgb(54, 162, 235)",
             },
           ],
         },
-      },
-    });
+        options: {
+          legend: {
+            position: "bottom",
+            display: false,
+          },
+          scales: {
+            yAxes: [
+              {
+                display: true,
+                ticks: {
+                  beginAtZero: true,
+                },
+                gridLines: {
+                  display: false,
+                  // drawOnChartArea: false
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: this.yAxesLabel,
+                },
+              },
+            ],
+            xAxes: [
+              {
+                display: true,
+                ticks: {
+                  beginAtZero: true,
+                },
+                gridLines: {
+                  //  display:false
+                  drawOnChartArea: false,
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: this.xAxesLabel,
+                },
+              },
+            ],
+          },
+        },
+      });
   }
-  // getTotalRevenue() {
-  //   this.totalRevenue = true;
-  //   this.mixRevenue = false;
-  //   this.tableView = true;
-  //   this.graphView = false;
-  // }
-  // getRevenueMix() {
-  //   this.totalRevenue = false;
-  //   this.mixRevenue = true;
-  //   this.doughnutChartInit();
-  //   if (this.popBtn) {
-  //     this.RevenueMixInput.formType = "populationCategory";
-  //     this.getRevenueMixData(this.RevenueMixInput);
-  //   }
-  //   if (!this.popBtn) {
-  //     this.getRevenueMixData(this.RevenueMixInput);
-  //     this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
-  //   }
-  // }
 
   doughnutChartInit() {
-    // debugger;
     if (this.doughnut) {
       this.doughnut.destroy();
     }
     this.doughnut = new Chart("doughnut", {
       type: "doughnut",
       data: {
-        // labels: [
-        //   "Own Revenue",
-        //   "Assigned Revenue",
-        //   "Grants",
-        //   "Interest Income",
-        //   "Other Income",
-        //   "State & Hire Charges",
-        // ],
         labels: this.nationalDoughnutChartLabel,
         datasets: [
           {
@@ -652,7 +618,6 @@ export class NationalSubComponent implements OnInit {
   }
 
   dynamicDoughnutChartInit(chartArray) {
-    console.log("loop val", this.allMyCanvas._results);
     let canvasCharts = this.allMyCanvas._results; // Get array with all canvas
     canvasCharts.map((myCanvas, i) => {
       // For each canvas, save the chart on the charts array

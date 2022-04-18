@@ -28,26 +28,26 @@
     </div>
   </div>
 </div>
-<div *ngIf="activeFilter?.length > 0">
-  <div class="row">
-    <div class="col-sm-12">
-      <ul
-        class="nav nav-pills2 mb-3 ml-4"
-        style="justify-content: left; margin-left: 2%"
-      >
-        <li *ngFor="let item of activeFilter; let i = index">
-          <button
-            class="filterBtn"
-            (click)="nationalSubTab(item, i)"
-            [class.t-rev]="selectedIndex === i"
-          >
-            {{ item }}
-          </button>
-        </li>
-      </ul>
-    </div>
+<!-- <div *ngIf="activeFilter?.length > 0"> -->
+<div class="row">
+  <div class="col-sm-12">
+    <ul
+      class="nav nav-pills2 mb-3 ml-4"
+      style="justify-content: left; margin-left: 2%"
+    >
+      <li *ngFor="let item of activeFilter; let i = index">
+        <button
+          class="filterBtn"
+          (click)="nationalSubTab(item, i)"
+          [class.t-rev]="selectedIndex === i"
+        >
+          {{ item }}
+        </button>
+      </li>
+    </ul>
   </div>
 </div>
+<!-- </div> -->
 <!-- <div
   class="container-cnt tab-content"
   *ngIf="activeFilter.length > 0"
