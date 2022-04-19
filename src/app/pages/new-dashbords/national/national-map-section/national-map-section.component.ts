@@ -381,7 +381,8 @@ export class NationalMapSectionComponent
     id="districtMapId"
     class="col-sm-12"
     style="background-color: #F8F9FF;
-    display: inline-block; width: 100%;height: ${height};"
+    display: inline-block; width: 100%;height: ${height};  z-index: 100"
+   
   >
   </div>`;
   }
@@ -421,11 +422,11 @@ export class NationalMapSectionComponent
         fadeAnimation: true,
         minZoom: zoom,
         maxZoom: zoom + 5,
-        zoomControl: true,
+        zoomControl: false,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom: true,
-        dragging: true,
+        doubleClickZoom: false,
+        dragging: false,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
       // districtMap.touchZoom.disable();

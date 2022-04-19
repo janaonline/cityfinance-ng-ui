@@ -225,6 +225,7 @@ export class NationalSubComponent implements OnInit {
   doughnutChartOptions: any = {};
 
   getCurrentTabValue() {
+    console.log(this.activetab);
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
@@ -303,10 +304,10 @@ export class NationalSubComponent implements OnInit {
     }
   }
   selectFinancialYear(event) {
-    console.log(this.CurrentHeadTab);
+    console.log("this.currntHeadTab==>", this.CurrentHeadTab);
     this.nationalInput.financialYear = event.target.value;
     this.destroyMultipleCharts();
-    this.getNationalTableData(this.CurrentHeadTab);
+    // this.getNationalTableData(this.CurrentHeadTab);
     this.RevenueMixInput.financialYear = event.target.value;
     // this.getRevenueMixData(this.RevenueMixInput);
     this.getCurrentTabValue();
@@ -504,7 +505,8 @@ export class NationalSubComponent implements OnInit {
 
   getSelectedvalue(value) {
     this.nationalInput.stateId = value?._id;
-    this.getNationalTableData(this.CurrentHeadTab);
+    this.getCurrentTabValue();
+    // this.getNationalTableData(this.CurrentHeadTab);
   }
 
   subFilterFn(type) {
