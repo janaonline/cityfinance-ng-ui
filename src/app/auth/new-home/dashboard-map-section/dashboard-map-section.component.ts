@@ -1,4 +1,4 @@
-import { Component, NgZone, Input, OnInit } from "@angular/core";
+import { Component, NgZone, Input, OnInit, OnDestroy } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -27,7 +27,7 @@ import { AuthService } from "../../auth.service";
 })
 export class DashboardMapSectionComponent
   extends ReUseableHeatMapComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   myForm: FormGroup;
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
@@ -143,8 +143,10 @@ export class DashboardMapSectionComponent
     fillOpacity: 1,
   };
   date: any;
+  districtMap: L.Map;
+  ngOnDestroy(): void {}
   ngOnInit(): void {
-    console.log(districtJson);
+    this.clearDistrictMapContainer();
 
     this._commonService.state_name_data.subscribe((res) => {
       //console.log('sub....', res, res.name);
@@ -161,7 +163,6 @@ export class DashboardMapSectionComponent
     this._commonService
       .postGlobalSearchData(event.target.value, "ulb", this.selectedStateCode)
       .subscribe((res: any) => {
-        console.log(res?.data);
         let emptyArr: any = [];
         this.filteredOptions = emptyArr;
         if (res?.data.length > 0) {
@@ -176,7 +177,6 @@ export class DashboardMapSectionComponent
             id: "",
             type: "",
           };
-          console.log("no data found");
         }
       });
   }
@@ -192,23 +192,18 @@ export class DashboardMapSectionComponent
         min: res.data[0],
         max: res.data[res.data.length - 1].slice(2),
       };
-
-      console.log(this.financialYearTexts);
     });
   }
   stateDim = false;
   stateLevelData() {
-    console.log("show as it is ");
     this.stateDim = false;
   }
   cityInfo;
   cityLevelData() {
-    console.log("show city dashboard Data ");
     this.stateDim = true;
   }
 
   dashboardNav(option) {
-    console.log(option);
     this.selectCity(option);
   }
   createNationalLevelMap(
@@ -316,9 +311,13 @@ export class DashboardMapSectionComponent
   }
 
   clearDistrictMapContainer() {
+    // debugger;
+    if (this.districtMap) {
+      this.districtMap.off();
+      this.districtMap.remove();
+    }
     const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
     let element = document.getElementById("districtMapContainer");
-    console.log(element);
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -343,8 +342,6 @@ export class DashboardMapSectionComponent
       }[];
     }
   ) {
-    debugger;
-    console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;
     }
@@ -379,7 +376,6 @@ export class DashboardMapSectionComponent
       // districtMap.keyboard.disable();
       // districtMap.dragging.disable();
 
-      console.log("districtMap==>", districtMap);
       const districtLayer = L.geoJSON(districtGeoJSON, {
         style: this.newDashboardstateColorStyle,
       }).addTo(districtMap);
@@ -416,8 +412,6 @@ export class DashboardMapSectionComponent
   }
 
   selectCity(city, fireEvent = true) {
-    console.log("city data", this.cityData);
-    console.log("city name", city);
     let filterCity = this.cityData.find((e) => {
       return e.code == city;
     });
@@ -429,7 +423,6 @@ export class DashboardMapSectionComponent
     console.log("city name", city, filterCity);
     this.authService.getCityData(this.cid).subscribe((res) => {
       this.cityInfo = res["data"];
-      console.log(this.cityInfo);
     });
     // this.onSelectingULBFromDropdown(city);
   }
@@ -437,7 +430,6 @@ export class DashboardMapSectionComponent
     let searchValue = this.stateList.find(
       (e) => e?.name.toLowerCase() == this.selected_state.toLowerCase()
     );
-    console.log("view dash", searchValue);
     this.router.navigateByUrl(`/dashboard/state?stateId=${searchValue?._id}`);
   }
   viewCityDashboard() {
@@ -455,7 +447,9 @@ export class DashboardMapSectionComponent
     });
   }
   onSelectingStateFromDropDown(state: any | null) {
-    console.log("sttts", state);
+    if (this.districtMap) {
+      MapUtil.destroy(this.districtMap);
+    }
     this.selectedStateCode = state.code;
     this.cityName = "";
     this.cid = undefined;
@@ -463,7 +457,6 @@ export class DashboardMapSectionComponent
     this._commonService
       .getUlbByState(state ? state?.code : null)
       .subscribe((res) => {
-        console.log("ulb data", res);
         let ulbsData: any = res;
         this.cityData = ulbsData?.data?.ulbs;
         console.log("AllCity", this.cityData);
@@ -479,13 +472,11 @@ export class DashboardMapSectionComponent
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
     }
-    console.log("sdc 2", state, this.stateselected, this.selected_state);
     this.stateselected = state;
     this.fetchDataForVisualization(state ? state._id : null);
     this.fetchBondIssueAmout(
       this.stateselected ? this.stateselected._id : null
     );
-    console.log("mini mode", this.isMapOnMiniMapMode);
     this.selectStateOnMap(state);
   }
 
@@ -497,7 +488,6 @@ export class DashboardMapSectionComponent
     if (!state) {
       return;
     }
-    console.log("state layers", this.stateLayers);
     this.stateLayers?.eachLayer((layer) => {
       const layerName = MapUtil.getStateName(layer);
       if (layerName !== state.name) {
@@ -509,7 +499,6 @@ export class DashboardMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
-    console.log(stateLayer);
     let obj: any = {
       containerPoint: {},
       latlng: {
@@ -523,10 +512,12 @@ export class DashboardMapSectionComponent
       type: "click",
     };
     this.onStateLayerClick(obj);
+
     stateLayer.setStyle({
       fillColor: "#3E5DB1",
       fillOpacity: 1,
     });
+
     // stateLayer.setStyle(this.StyleForSelectedState);
     // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     //   stateLayer.bringToFront();
@@ -668,15 +659,12 @@ export class DashboardMapSectionComponent
       this.absCreditInfo["ratings"]["AAA+"] +
       this.absCreditInfo["ratings"]["AAA-"];
 
-    console.log("creditRatingAboveA", this.creditRatingAboveA);
-
     this.creditRatingAboveBBB_Minus =
       this.creditRatingAboveA +
       this.absCreditInfo["ratings"]["A-"] +
       this.absCreditInfo["ratings"]["BBB"] +
       this.absCreditInfo["ratings"]["BBB+"] +
       this.absCreditInfo["ratings"]["BBB-"];
-    console.log("creditRatingAboveBBB_Minus", this.creditRatingAboveBBB_Minus);
 
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
@@ -692,7 +680,6 @@ export class DashboardMapSectionComponent
     return this.stateSelected ? false : true;
   }
   private updateDropdownStateSelection(state: IState) {
-    console.log("stateName", state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
@@ -715,7 +702,6 @@ export class DashboardMapSectionComponent
       computedData["India"] += 1;
     });
 
-    console.log("computedData", computedData); //store this
     this.creditRating = computedData;
   }
   openStateDashboard(event) {

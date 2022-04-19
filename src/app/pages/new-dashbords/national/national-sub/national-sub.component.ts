@@ -222,6 +222,8 @@ export class NationalSubComponent implements OnInit {
   xAxesLabel: string = "--Average";
   newValue: string = "";
 
+  doughnutChartOptions: any = {};
+
   getCurrentTabValue() {
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
@@ -259,8 +261,21 @@ export class NationalSubComponent implements OnInit {
       this.RevenueMixInput.type = "expenditureMix";
       this.getRevenueMixData(this.RevenueMixInput, "expenditure");
     } else if (this.activetab == "Deficit or Surplus") {
-      this.RevenueMixInput.type = "deficitOrSurplus";
-      this.getRevenueMixData(this.RevenueMixInput, "expenditure");
+      this.totalRevenue = true;
+      this.mixRevenue = false;
+      this.tableView = true;
+      this.graphView = false;
+      if (this.popBtn) {
+        this.nationalInput.formType = "populationCategory";
+      }
+      if (!this.popBtn) {
+        this.nationalInput.formType = "ulbType";
+      }
+      // this.RevenueMixInput.type = "deficitOrSurplus";
+      this.nationalInput.type = "deficitOrSurplus";
+
+      this.getNationalTableData("expenditure");
+      // this.getRevenueMixData(this.RevenueMixInput, "expenditure");
     } else if (this.activetab == "Total Own Revenue") {
       this.nationalInput.type = "totalOwnRevenue";
       this.getNationalTableData("own-revenue");
@@ -288,12 +303,41 @@ export class NationalSubComponent implements OnInit {
     }
   }
   selectFinancialYear(event) {
+    console.log(this.CurrentHeadTab);
     this.nationalInput.financialYear = event.target.value;
     this.destroyMultipleCharts();
     this.getNationalTableData(this.CurrentHeadTab);
     this.RevenueMixInput.financialYear = event.target.value;
     // this.getRevenueMixData(this.RevenueMixInput);
     this.getCurrentTabValue();
+  }
+
+  createDoughnutChartOptions(data: any) {
+    let tempObject = {
+      legend: {
+        display: false,
+      },
+      tooltips: {
+        callbacks: {
+          label: (tooltipItem, data: any) => {
+            console.log("optionsData", data, tooltipItem);
+            var dataset = data.datasets[tooltipItem.datasetIndex];
+            var total = dataset.data.reduce(function (
+              previousValue,
+              currentValue
+            ) {
+              return Number(previousValue) + Number(currentValue);
+            });
+            console.log("total Ammount==>", total);
+
+            var currentValue = Number(dataset.data[tooltipItem.index]);
+            var percentage = ((currentValue / total) * 100).toFixed(2);
+            return percentage + "%" + data.labels[tooltipItem.index];
+          },
+        },
+      },
+    };
+    this.doughnutChartOptions = tempObject;
   }
 
   getRevenueMixData(revenueMixInput, endPoint) {
@@ -303,10 +347,11 @@ export class NationalSubComponent implements OnInit {
       .getNationalRevenueMixData(revenueMixInput, endPoint)
       .subscribe((res: any) => {
         // debugger;
-
         this._loaderService.stopLoader();
+
         if (res?.data) {
           if (revenueMixInput.formType == "populationCategory") {
+            this.createDoughnutChartOptions(res?.data);
             this.nationalDoughnutChart = Object.values(res?.data?.national);
             this.nationalDoughnutChartLabel = Object.keys(res?.data?.national);
             this.multipleDoughnutChartLabel = Object.keys(
@@ -323,6 +368,7 @@ export class NationalSubComponent implements OnInit {
             this.doughnutChartInit();
           }
           if (revenueMixInput.formType == "ulbType") {
+            this.createDoughnutChartOptions(res?.data);
             this.nationalDoughnutChart = Object.values(res?.data?.national);
             this.nationalDoughnutChartLabel = Object.keys(res?.data?.national);
             this.multipleDoughnutChartLabel = Object.keys(
@@ -429,7 +475,7 @@ export class NationalSubComponent implements OnInit {
     } else if (this.CurrentHeadTab.toLowerCase() == "own revenue") {
       this.newValue =
         value.toLowerCase() == "ownrevenue"
-          ? "ownRevenue"
+          ? "Ownrevenue"
           : "OwnrevenuePerCapita";
     } else if (this.CurrentHeadTab.toLowerCase() == "capital expenditure") {
       this.newValue =
@@ -446,6 +492,7 @@ export class NationalSubComponent implements OnInit {
       });
 
     this.revnueChartData = this.revnueChartData.slice(1);
+    console.log("this.revenueChartData", this.revnueChartData, this.newValue);
     this.barChartInit();
   }
 
@@ -608,12 +655,7 @@ export class NationalSubComponent implements OnInit {
           },
         ],
       },
-      options: {
-        legend: {
-          // position: 'bottom'
-          display: false,
-        },
-      },
+      options: this.doughnutChartOptions,
     });
   }
 
@@ -633,11 +675,7 @@ export class NationalSubComponent implements OnInit {
             },
           ],
         },
-        options: {
-          legend: {
-            display: false,
-          },
-        },
+        options: this.doughnutChartOptions,
       });
     });
 

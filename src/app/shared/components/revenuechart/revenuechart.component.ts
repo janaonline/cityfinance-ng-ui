@@ -44,12 +44,12 @@ export class RevenuechartComponent
   stateId;
   stateName;
   @Input()
-  disableFirstYear = true
+  disableFirstYear = true;
 
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   @Input() nestedChartFilterOption: any = {
     showFinancialYear: true,
-    showResetButton: true
+    showResetButton: true,
   };
   constructor(
     public dialog: MatDialog,
@@ -57,7 +57,7 @@ export class RevenuechartComponent
     public activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private commonService: CommonService,
-    private stateFilterDataService: StateFilterDataService,
+    private stateFilterDataService: StateFilterDataService
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -108,9 +108,7 @@ export class RevenuechartComponent
         },
         {
           label: "State Average",
-          data: [
-        
-          ],
+          data: [],
           showLine: true,
           fill: false,
           borderColor: "red",
@@ -181,7 +179,7 @@ export class RevenuechartComponent
           scaleLabel: {
             display: true,
             labelString: "Population",
-            fontStyle: 'bold'
+            fontStyle: "bold",
           },
 
           offset: true,
@@ -192,7 +190,7 @@ export class RevenuechartComponent
           scaleLabel: {
             display: true,
             labelString: "Total Revenue",
-            fontStyle: 'bold'
+            fontStyle: "bold",
           },
           gridLines: {
             offsetGridLines: true,
@@ -309,7 +307,7 @@ export class RevenuechartComponent
   compareType = "";
 
   @Input()
-  state= ""
+  state = "";
   staticYearList = [
     "2015-16",
     "2016-17",
@@ -357,11 +355,13 @@ export class RevenuechartComponent
   // $('#legend').prepend(mybarChart.generateLegend());
   ngAfterViewInit(): void {
     if (this.widgetMode) {
-      console.log('apiParamData', this.apiParamData)
-      let stateServiceLabel = this.apiParamData?.stateServiceLabel ? JSON.parse(this.apiParamData?.stateServiceLabel) : false;
-      if (this.apiParamData.chartType == 'scatter') {
+      console.log("apiParamData", this.apiParamData);
+      let stateServiceLabel = this.apiParamData?.stateServiceLabel
+        ? JSON.parse(this.apiParamData?.stateServiceLabel)
+        : false;
+      if (this.apiParamData.chartType == "scatter") {
         this.getScatterData();
-      } else if (this.apiParamData.chartType == 'bar') {
+      } else if (this.apiParamData.chartType == "bar") {
         if (stateServiceLabel) {
           this.getServiceLevelBenchmarkBarChartData();
         } else {
@@ -382,8 +382,12 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges', changes)
-    if (changes && changes.getChartPayload && changes.getChartPayload.currentValue) {
+    console.log("ngOnChanges", changes);
+    if (
+      changes &&
+      changes.getChartPayload &&
+      changes.getChartPayload.currentValue
+    ) {
       this.getChartPayload = changes.getChartPayload.currentValue;
       // this.iFrameApiPayload = changes.getChartPayload.currentValue;
       // this.openDialog();
@@ -416,9 +420,9 @@ export class RevenuechartComponent
       Object.assign(this.chartData, { options: this.ChartOptions });
     }
 
-    if(this.chartData.type == "doughnut"){
-      let data = []
-      this.dounghnuChartLabels.emit(this.chartData.data['labels']); 
+    if (this.chartData.type == "doughnut") {
+      let data = [];
+      this.dounghnuChartLabels.emit(this.chartData.data["labels"]);
     }
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
@@ -458,7 +462,7 @@ export class RevenuechartComponent
               color: colors[i],
             });
           });
-          console.log(this.multiChartLabel)
+        console.log(this.multiChartLabel);
         this.dounghnuChartLabels.emit(this.multiChartLabel);
         if (element?.multipleChartOptions)
           Object.assign(newChartData, {
@@ -474,7 +478,7 @@ export class RevenuechartComponent
 
   actionClick(value) {
     this._loaderService.showLoader();
-    console.log(value)
+    console.log(value);
     if (value.name == "Expand" || value.name == "Collapse") {
       this.headerActions.map((innerVal) => {
         if (innerVal.name === value.name) {
@@ -488,28 +492,30 @@ export class RevenuechartComponent
     } else if (value.name == "Download") {
       this.getImage();
       return;
-    } else if(value.name == "Share/Embed"){
-      console.log('getChartPayload', this.getChartPayload);
-      this.iFrameApiPayload = this.commonService.createEmbedUrl(this.getChartPayload);
+    } else if (value.name == "Share/Embed") {
+      console.log("getChartPayload", this.getChartPayload);
+      this.iFrameApiPayload = this.commonService.createEmbedUrl(
+        this.getChartPayload
+      );
       this._loaderService.stopLoader();
       this.openDialog();
     }
-    this.actionClicked.emit({...value, chartType: this.chartData.type});
-    
+    this.actionClicked.emit({ ...value, chartType: this.chartData.type });
+
     // this._loaderService.stopLoader();
   }
 
   dialogRef: any;
-  openDialog(){
-    console.log('openDialog', this.iFrameApiPayload)
+  openDialog() {
+    console.log("openDialog", this.iFrameApiPayload);
     const dialogRef = this.dialog.open(ShareDialogComponent, {
-      width: '700px',
+      width: "700px",
       data: {
-        "iFrameSrc": this.iFrameApiPayload
-      }
+        iFrameSrc: this.iFrameApiPayload,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
   }
@@ -586,59 +592,76 @@ export class RevenuechartComponent
   activeButtonList: any = stateDashboardSubTabsList;
 
   getTabType() {
-    const defaultOption = {yAxisLabel: 'Count', countAccessKey: "count", chartAnimation: 'defaultBarChartOptions'};
-    let findTabType = this.activeButtonList.find(tabName => tabName.name == this.apiParamData?.activeButton);
+    const defaultOption = {
+      yAxisLabel: "Count",
+      countAccessKey: "count",
+      chartAnimation: "defaultBarChartOptions",
+    };
+    let findTabType = this.activeButtonList.find(
+      (tabName) => tabName.name == this.apiParamData?.activeButton
+    );
     return findTabType ? findTabType : defaultOption;
-  };
+  }
 
   getStateRevenue() {
     const tabType = this.getTabType();
     this._loaderService.showLoader();
 
     const paramContent: any = {
-      "tabType": this.apiParamData?.tabType,
-      "financialYear": this.apiParamData?.financialYear,
-      "stateId": this.apiParamData?.stateId ? this.apiParamData?.stateId : this.apiParamData?.state,
-      "sortBy": this.apiParamData?.sortBy
+      tabType: this.apiParamData?.tabType,
+      financialYear: this.apiParamData?.financialYear,
+      stateId: this.apiParamData?.stateId
+        ? this.apiParamData?.stateId
+        : this.apiParamData?.state,
+      sortBy: this.apiParamData?.sortBy,
     };
 
     if (tabType?.isCodeRequired) {
-      paramContent['code'] = this.apiParamData?.code
+      paramContent["code"] = this.apiParamData?.code;
     }
-    console.log('paramContent', paramContent);
-    this.stateFilterDataService.getStateRevenueForDifferentTabs(paramContent)
-    .subscribe(
-      (response) => {
-        if (response && response["success"]) {
-          console.log("getStateRevenue", response );
-          if (response['data'] && response['data'].length) {
-            for (const data of response['data']) {
-              data['count'] = this.commonService.changeCountFormat(data?.sum);
+    console.log("paramContent", paramContent);
+    this.stateFilterDataService
+      .getStateRevenueForDifferentTabs(paramContent)
+      .subscribe(
+        (response) => {
+          if (response && response["success"]) {
+            console.log("getStateRevenue", response);
+            if (response["data"] && response["data"].length) {
+              for (const data of response["data"]) {
+                data["count"] = this.commonService.changeCountFormat(data?.sum);
+              }
+              this.filterCityRankingChartData(
+                response["data"],
+                paramContent?.tabType,
+                tabType?.yAxisLabel
+              );
+              // this.filterCityRankingChartData(response['data'], paramContent?.tabType, 'Amount (in Cr.)');
+              this._loaderService.stopLoader();
+              this.notFound = false;
+            } else {
+              this.notFound = false;
             }
-            this.filterCityRankingChartData(response['data'], paramContent?.tabType, tabType?.yAxisLabel);
-            // this.filterCityRankingChartData(response['data'], paramContent?.tabType, 'Amount (in Cr.)');
-            this._loaderService.stopLoader();
-            this.notFound = false;
           } else {
-            this.notFound = false;
+            this.notFound = true;
           }
-        } else {
+        },
+        (error) => {
           this.notFound = true;
+          console.log(error);
         }
-      },
-      (error) => {
-        this.notFound = true;
-        console.log(error);
-      }
-    );
+      );
   }
 
-  filterCityRankingChartData(responseData: any, tabType: string, yAxisLabel: string) {
-    console.log('filterCityRankingChartData', responseData, tabType);
+  filterCityRankingChartData(
+    responseData: any,
+    tabType: string,
+    yAxisLabel: string
+  ) {
+    console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
       type: "bar",
       data: {
-        labels: responseData.map((item: { ulbName: any; }) => item.ulbName),
+        labels: responseData.map((item: { ulbName: any }) => item.ulbName),
         datasets: [
           {
             label: "City Ranking",
@@ -664,28 +687,31 @@ export class RevenuechartComponent
     };
     this.chartData = {};
     this.chartData = barData;
-    console.log('this.barData', this.chartData);
+    console.log("this.barData", this.chartData);
     this.createChart();
   }
 
   getChartData(responseData: any, tabType: string, yAxisLabel: string) {
     this.setChartAnimation(tabType, yAxisLabel);
-    let mappedCountList = responseData.map((item: { count: any; }) => item.count)
+    let mappedCountList = responseData.map(
+      (item: { count: any }) => item.count
+    );
     return mappedCountList;
   }
 
   setChartAnimation(tabType: string, yAxisLabel: string) {
     let animationConfig: any;
     // let animationConfigAccessKey: any = this.stateServiceLabel ? 'serviceLevelBenchmarkBarChartOptions' : this.getTabType().chartAnimation;
-    let animationConfigAccessKey: any = 'croreBarChartOptions';
+    let animationConfigAccessKey: any = "croreBarChartOptions";
 
     animationConfig = this.stateFilterDataService[animationConfigAccessKey];
     Object.assign(animationConfig);
     this.ChartOptions = animationConfig;
     // let yAxesLabelName = tabType == 'TotalRevenue' ? 'Amount (in Cr.)' : 'Amount (in INR)';
-    this.ChartOptions['scales']['yAxes'][0]['scaleLabel']['labelString'] = yAxisLabel;
+    this.ChartOptions["scales"]["yAxes"][0]["scaleLabel"]["labelString"] =
+      yAxisLabel;
 
-    console.log('barChartOptions', this.ChartOptions)
+    console.log("barChartOptions", this.ChartOptions);
   }
 
   initializeScatterData() {
@@ -725,12 +751,12 @@ export class RevenuechartComponent
           },
           {
             label: "State Average",
-          data: [],
-          labels:['State Average'],
-          showLine: true,
-          fill: false,
-          backgroundColor:"red",
-          borderColor: "red",
+            data: [],
+            labels: ["State Average"],
+            showLine: true,
+            fill: false,
+            backgroundColor: "red",
+            borderColor: "red",
           },
         ],
       },
@@ -742,20 +768,24 @@ export class RevenuechartComponent
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
-    console.log('getScatterData', this.apiParamData);
+    console.log("getScatterData", this.apiParamData);
     let stateServiceLabel = JSON.parse(this.apiParamData?.stateServiceLabel);
-    console.log('parsestateServiceLabel', stateServiceLabel)
+    console.log("parsestateServiceLabel", stateServiceLabel);
     let payload = {
-      [stateServiceLabel ? 'stateId' : 'state']: this.apiParamData?.stateId ? this.apiParamData?.stateId : this.apiParamData?.state,
+      [stateServiceLabel ? "stateId" : "state"]: this.apiParamData?.stateId
+        ? this.apiParamData?.stateId
+        : this.apiParamData?.state,
       financialYear: this.apiParamData?.financialYear,
-      headOfAccount: stateServiceLabel ? undefined : this.apiParamData?.headOfAccount,
+      headOfAccount: stateServiceLabel
+        ? undefined
+        : this.apiParamData?.headOfAccount,
       filterName: this.apiParamData?.filterName,
       isPerCapita: this.apiParamData?.isPerCapita,
-      compareType: stateServiceLabel ? undefined : '',
-      compareCategory: this.apiParamData?.compareCategory, 
+      compareType: stateServiceLabel ? undefined : "",
+      compareCategory: this.apiParamData?.compareCategory,
       ulb: this.apiParamData?.ulb,
     };
-    let apiEndPoint = stateServiceLabel ? 'state-slb' : 'state-revenue';
+    let apiEndPoint = stateServiceLabel ? "state-slb" : "state-revenue";
 
     console.log(payload);
     let inputVal: any = {};
@@ -773,11 +803,25 @@ export class RevenuechartComponent
           let stateData: any;
           if (stateServiceLabel) {
             // this.setServiceLevelBenchmarkScatteredChartOption('Population', this.apiParamData?.filterName);
-            m_data = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["m_data"];
-            mCorporation = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["mc_data"];
-            tp_data = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["tp_data"];
+            m_data =
+              res["data"] &&
+              res["data"]["scatterData"] &&
+              res["data"]["scatterData"]["m_data"];
+            mCorporation =
+              res["data"] &&
+              res["data"]["scatterData"] &&
+              res["data"]["scatterData"]["mc_data"];
+            tp_data =
+              res["data"] &&
+              res["data"]["scatterData"] &&
+              res["data"]["scatterData"]["tp_data"];
             // stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"][0]["average"];
-            stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0]&& res['data']['scatterData']["stateAvg"][0]["average"];
+            stateData =
+              res["data"] &&
+              res["data"]["scatterData"] &&
+              res["data"]["scatterData"]["stateAvg"] &&
+              res["data"]["scatterData"]["stateAvg"][0] &&
+              res["data"]["scatterData"]["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
           } else {
             mCorporation = res["mCorporation"];
@@ -793,18 +837,26 @@ export class RevenuechartComponent
               obj = { x: 0, y: 0 };
               tp_data.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = stateServiceLabel
+                  ? el2.value.toFixed(2)
+                  : el2.totalRevenue;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(
+                  stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue
+                );
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
             } else if (el.label == "Municipal Corporation") {
               mCorporation.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = stateServiceLabel
+                  ? el2.value.toFixed(2)
+                  : el2.totalRevenue;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(
+                  stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue
+                );
                 el.data.push(obj);
 
                 obj = { x: 0, y: 0 };
@@ -813,25 +865,28 @@ export class RevenuechartComponent
               m_data.forEach((el2, index) => {
                 obj = { x: 0, y: 0 };
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = stateServiceLabel
+                  ? el2.value.toFixed(2)
+                  : el2.totalRevenue;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(
+                  stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue
+                );
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
             } else if (el.label == "National Average") {
               // el["data"]["y"] = natData;
-            
-
             } else if (el.label == "State Average") {
-              let obje = [{ x: 0, y: 0 },{ x: 1200000, y: 0 }]
-              obje.forEach(el2=>{
-                el2['y'] = stateData
+              let obje = [
+                { x: 0, y: 0 },
+                { x: 1200000, y: 0 },
+              ];
+              obje.forEach((el2) => {
+                el2["y"] = stateData;
 
-                el["data"].push(el2)
-              })
-       
-             
+                el["data"].push(el2);
+              });
             }
           });
           console.log(this.scatterData);
@@ -874,7 +929,6 @@ export class RevenuechartComponent
         // }
 
         this.createChart();
-
       },
       (err) => {
         this._loaderService.stopLoader();
@@ -885,7 +939,10 @@ export class RevenuechartComponent
   }
 
   serviceLevelBenchmarkScatterOption: any;
-  setServiceLevelBenchmarkScatteredChartOption(xAxisLabel: string = 'Population', yAxisLabel: string = 'Total Revenue') {
+  setServiceLevelBenchmarkScatteredChartOption(
+    xAxisLabel: string = "Population",
+    yAxisLabel: string = "Total Revenue"
+  ) {
     let scatterOption = {
       legend: {
         itemStyle: {
@@ -908,10 +965,10 @@ export class RevenuechartComponent
             ci.getDatasetMeta(index).hidden === null
               ? false
               : ci.getDatasetMeta(index).hidden;
-  
+
           ci.data.datasets.forEach(function (e, i) {
             var meta = ci.getDatasetMeta(i);
-  
+
             if (i !== index) {
               if (!alreadyHidden) {
                 meta.hidden = meta.hidden === null ? !meta.hidden : null;
@@ -922,7 +979,7 @@ export class RevenuechartComponent
               meta.hidden = null;
             }
           });
-  
+
           ci.update();
         },
       },
@@ -937,9 +994,9 @@ export class RevenuechartComponent
             scaleLabel: {
               display: true,
               labelString: this.commonService.toTitleCase(xAxisLabel),
-              fontStyle: 'bold'
+              fontStyle: "bold",
             },
-  
+
             offset: true,
           },
         ],
@@ -948,13 +1005,13 @@ export class RevenuechartComponent
             scaleLabel: {
               display: true,
               labelString: `${this.commonService.toTitleCase(yAxisLabel)} (%)`,
-              fontStyle: 'bold'
+              fontStyle: "bold",
             },
             gridLines: {
               offsetGridLines: true,
               display: false,
             },
-  
+
             offset: true,
           },
         ],
@@ -962,13 +1019,18 @@ export class RevenuechartComponent
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log('tooltipItem', tooltipItem.index)
-            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
-            var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
-            console.log('tooltipItem', data.datasets[tooltipItem.datasetIndex]);
-            var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
-  
-            return (datasetLabel + ": " + label + " " + `(${rev} %)`);
+            console.log("tooltipItem", tooltipItem.index);
+            var datasetLabel =
+              data.datasets[tooltipItem.datasetIndex].label || "Other";
+            var label =
+              data.datasets[tooltipItem.datasetIndex]["labels"][
+                tooltipItem.index
+              ];
+            console.log("tooltipItem", data.datasets[tooltipItem.datasetIndex]);
+            var rev =
+              data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+
+            return datasetLabel + ": " + label + " " + `(${rev} %)`;
           },
         },
       },
@@ -981,18 +1043,18 @@ export class RevenuechartComponent
               chart.data.datasets[i].backgroundColor +
               '">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
           );
-  
+
           if (chart.data.datasets[i].label) {
             text.push(
               '<span class="label">' + chart.data.datasets[i].label + "</span>"
             );
           }
-  
+
           text.push('</div></li><div class="clear"></div>');
         }
-  
+
         text.push("</ul>");
-  
+
         return text.join("");
       },
     };
@@ -1002,41 +1064,45 @@ export class RevenuechartComponent
 
   getServiceLevelBenchmarkBarChartData() {
     const barChartPayload = {
-      "financialYear": this.apiParamData?.financialYear,
-      "stateId": this.apiParamData?.stateId,
-      "sortBy": this.apiParamData?.sortBy,
-      "filterName": this.apiParamData?.filterName,
-      "ulb": this.apiParamData?.ulbId,
+      financialYear: this.apiParamData?.financialYear,
+      stateId: this.apiParamData?.stateId,
+      sortBy: this.apiParamData?.sortBy,
+      filterName: this.apiParamData?.filterName,
+      ulb: this.apiParamData?.ulbId,
     };
 
-    console.log('payload', barChartPayload);
+    console.log("payload", barChartPayload);
 
-    this.stateFilterDataService.getScatterdData(barChartPayload, this.apiParamData?.apiEndPoint)
-    .subscribe(
-      (response) => {
-        if (response && response["success"] && response['data']) {
-          console.log("getStateRevenue", response,);
-          if (response['data']['scatterData'] && response['data']['scatterData']['tenData'] && response['data']['scatterData']['tenData'].length) {
-            let chartData = response['data']['scatterData']['tenData'];
-            for (const data of chartData) {
-              data['count'] = data?.value;
+    this.stateFilterDataService
+      .getScatterdData(barChartPayload, this.apiParamData?.apiEndPoint)
+      .subscribe(
+        (response) => {
+          if (response && response["success"] && response["data"]) {
+            console.log("getStateRevenue", response);
+            if (
+              response["data"]["scatterData"] &&
+              response["data"]["scatterData"]["tenData"] &&
+              response["data"]["scatterData"]["tenData"].length
+            ) {
+              let chartData = response["data"]["scatterData"]["tenData"];
+              for (const data of chartData) {
+                data["count"] = data?.value;
+              }
+              this.filterCityRankingChartData(chartData, "", "Percentage");
+              this.notFound = false;
+            } else {
+              this.notFound = false;
             }
-            this.filterCityRankingChartData(chartData, '', 'Percentage');
-            this.notFound = false;
           } else {
-            this.notFound = false;
+            this.notFound = true;
           }
-        } else {
+        },
+        (error) => {
           this.notFound = true;
+          console.log(error);
         }
-      },
-      (error) => {
-        this.notFound = true;
-        console.log(error);
-      }
-    );
+      );
   }
-
 }
 
 const temp = [

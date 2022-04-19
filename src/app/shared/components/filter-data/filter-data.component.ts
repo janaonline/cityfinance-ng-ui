@@ -634,6 +634,7 @@ ULB ${this.selectedTab} for FY' ${
           tooltips: {
             callbacks: {
               label: function (tooltipItem, data) {
+                console.log("tooltipItem item", tooltipItem, data);
                 var dataset = data.datasets[tooltipItem.datasetIndex];
                 var total = dataset.data.reduce(function (
                   previousValue,

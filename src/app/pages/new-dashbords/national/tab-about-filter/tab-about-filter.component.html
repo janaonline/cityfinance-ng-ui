@@ -1,5 +1,9 @@
 <div class="container container-cnt" style="padding: 0">
-  <div class="row" style="margin: 0 auto">
+  <div
+    class="row"
+    style="margin: 0 auto"
+    [ngClass]="{ stickyClass: stickyValue == true }"
+  >
     <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
       <li
         class="nav-item"

@@ -27,14 +27,15 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
   @Input() data = [];
   @Input() tabIndex = 0;
   @Input() tabId = "61e150439ed0e8575c881028";
+  @Input() cordsValue: number;
 
   tabData;
   aboutTab;
   activeFilter: any = [];
   selectedIndex: any;
   mainTab: any;
+  stickyValue: boolean = false;
   ngOnInit(): void {
-    console.log("tab data", this.data);
     this.nationalSubTab("Total Revenue", 0);
   }
 
@@ -46,7 +47,13 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("changes", this.data, this.tabIndex);
+    if (changes && changes.cordsValue && changes.cordsValue.currentValue) {
+      if (this.cordsValue >= 750) {
+        this.stickyValue = true;
+      } else {
+        this.stickyValue = false;
+      }
+    }
     if (changes.data && changes.data.currentValue) {
       this.activeTabFn(this.data[this.tabIndex]);
       this.router.navigate([
@@ -57,11 +64,12 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     // if(changes.)
   }
   activeTabFn(item) {
-    console.log("activeTabFn", item, this.data, this.tabIndex);
     this.mainTab = item?.name;
     this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
     this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;
-    this.nationalSubTab(this.activeFilter[0], 0);
+    if (this.activeFilter) {
+      this.nationalSubTab(this.activeFilter[0], 0);
+    }
     // this.router.navigate([`dashboard/national/${item._id}`]);
   }
 }
