@@ -13,7 +13,7 @@
         >
           Own Revenue Split
         </p>
-        <p class="p-2" class="chartHeader">
+        <p class="p-2" class="chartHeader" *ngIf="chartTitle">
           {{ chartTitle }}
         </p>
       </div>
@@ -26,7 +26,7 @@
       flex-flow: row;
       justify-content: flex-end;">
       <div class="col-12 col-lg-4">
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-end">
           <div
             *ngFor="let item of headerActions; let i = index"
             class="right-0 px-2"

@@ -124,8 +124,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data", data);
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 1);
+            console.log("chartOption Data",  data);
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
         console.log(animation, "animation");

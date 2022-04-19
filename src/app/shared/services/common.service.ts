@@ -624,6 +624,12 @@ export class CommonService {
     );
   }
 
+/**
+ * It takes a URL query string and returns a URL with the query string appended to it.
+ * @param {any} paramContent - {
+ * @returns
+ * http://localhost:4200/revenuchart?widgetMode=true&startDate=2019-01-01&endDate=2019-01-31&chartType=line&chartTitle=Revenue%20Chart&chartSubtitle=Revenue%20Chart%20Subtitle&chartXAxisTitle=Revenue%20Chart
+ */
   createEmbedUrl(paramContent: any) {
     let queryString = new URLSearchParams(paramContent).toString();
     let embeddedRoute = 'revenuchart';
@@ -631,14 +637,6 @@ export class CommonService {
     let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&${queryString}`;
     // let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&data=${btoa(queryString)}`;
     return finalURL;
-    // return btoa(finalURL);
-    var HtmlIframe = `<iframe width="1120px" height="780px" src="${finalURL}" frameborder="0" ></iframe>`;
-    // var sanitizedURL = this.sanitizer.bypassSecurityTrustHtml(HtmlIframe);
-    // console.log('sanitizedURL', sanitizedURL)
-    // this.copyToClipboard(sanitizedURL);
-    // this.copyToClipboard(HtmlIframe);
-
-    // window.open(finalURL, '_blank');
   }
 
   showSnackbarMessage(message: string) {
@@ -670,6 +668,13 @@ export class CommonService {
     return decodedUrl;
   }
 
+/**
+ * It takes a string of query parameters and returns an object with the key/value pairs.
+ * @param {any} queryParamContent - "code=4%2FvQH4XcQ7Zq-Y7Yc9Q8QqQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+ * @returns {
+ *   "access_token":
+ * "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiw
+ */
   paramsToObject(queryParamContent: any) {
     console.log('queryParamContent', queryParamContent)
     var paramObject = {};
