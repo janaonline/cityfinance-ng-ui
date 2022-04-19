@@ -228,15 +228,15 @@ export class NewHomeComponent implements OnInit {
      console.log(error)
    });
     console.log('option', option)
-    this.getYears(option);
    
-    // if(option?.type == 'state'){
-    //   this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
-    //  }
-    //  if(option?.type == 'ulb'){
-    //   this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
-    //   }
-   
+    if(option?.type == 'state'){
+      this.getYears(option);
+      // this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
+    }
+
+    if(option?.type == 'ulb'){
+      this.router.navigateByUrl(`/dashboard/city?cityId=${option._id}`)
+    }
 
   }
 
@@ -326,12 +326,10 @@ export class NewHomeComponent implements OnInit {
       let yearList = value && value.length ? value[0] : [];
       this.stopNavigation = yearList
       sessionStorage.setItem('financialYearList', JSON.stringify(yearList));
-      if(searchStateId?.type == 'state'){
-        this.router.navigateByUrl(`/dashboard/state?stateId=${searchStateId._id}`)
-       }
-       if(searchStateId?.type == 'ulb'){
-        this.router.navigateByUrl(`/dashboard/city?cityId=${searchStateId._id}`)
-        }
+      this.router.navigateByUrl(`/dashboard/state?stateId=${searchStateId._id}`)
+      // if(searchStateId?.type == 'state'){
+      //   this.router.navigateByUrl(`/dashboard/state?stateId=${searchStateId._id}`)
+      // }
     })
   }
 

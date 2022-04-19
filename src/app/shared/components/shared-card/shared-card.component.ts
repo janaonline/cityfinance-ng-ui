@@ -68,6 +68,17 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
     // console.log("route url==>", this.router.url);
   }
 
+  getType(){
+    let type = "hr"
+    if(this.data['unitType'] == "Percent") 
+    type= "%"
+    if(this.data['unitType'] == "litres per capita per day (lpcd)") 
+    type = "LPCD"
+    if(this.data['unitType'] == "Nos. per year")
+    type = "years"
+    return type
+  }
+
   ngAfterViewInit() {
     if (this.data.type === 6) {
       setTimeout(() => {

@@ -97,11 +97,7 @@
           <span
             >{{ data.value }}
             {{
-              data?.unitType == "Percent"
-                ? "%"
-                : data?.unitType == "litres per capita per day (lpcd)"
-                ? "LPCD"
-                : "hr"
+              getType()
             }}</span
           >
         </div>
