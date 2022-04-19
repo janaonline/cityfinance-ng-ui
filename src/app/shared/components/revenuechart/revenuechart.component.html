@@ -146,6 +146,7 @@
 
 <ng-template #template>
   <app-compare-dialog
+  [selectedRadioBtn]="compareType"
     [type]="compareDialogType"
     [own]="own"
     (ownRevenueCompValue)="ownRevenueCompValue($event)"
