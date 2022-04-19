@@ -291,7 +291,7 @@
         </div>
       </div>
     </div>
-    <p class="text-end smallText" style="margin-top: 5px">
+    <p class="smallText" style="margin-top: 5px">
       Please note that this calculation is affected by the mismatch in the number of cities that have uploaded their financial statements in two consecutive years
     </p>
   </div>
@@ -324,7 +324,7 @@
         </tbody>
       </table>
     </div>
-    <p *ngIf="notFoundNames.length > 0" class="text-end smallText">
+    <p *ngIf="notFoundNames.length > 0" class="smallText">
       Please note financial data for
       <span *ngFor="let name of notFoundNames">{{ name }}, </span> is not
       available and thus, is not depicted here.

@@ -54,7 +54,7 @@ $font-Montserrat: "Montserrat";
     border-radius: 3px;
     padding: 2px 4px;
     text-align: center;
-    margin: 10px 40%;
+    margin: 10px 15%;
   }
 .tab {
     height: 4.2rem;
@@ -292,6 +292,7 @@ td {
     table {
         border: 1px solid #D9D8D8;
         border-radius: 10px !important;
+        border-collapse: inherit;
     }
     .col-attr {
         background-color: #F2F5FF;
