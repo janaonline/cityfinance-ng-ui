@@ -460,6 +460,7 @@ export class RevenuechartComponent
   lastMultipleCharts = [];
 
   createMultipleChart() {
+    console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     let id;
     let newChartData = {};
     if (this.multipleDoughnutCharts) {
@@ -482,6 +483,7 @@ export class RevenuechartComponent
             options: element?.multipleChartOptions,
           });
         let canvas = <HTMLCanvasElement>document.getElementById(id);
+        console.log("canvas", canvas);
         let ctx = canvas.getContext("2d");
         let tempChart = new Chart(ctx, newChartData);
         this.lastMultipleCharts.push(tempChart);
@@ -820,6 +822,7 @@ export class RevenuechartComponent
         this.notFound = false;
         console.log("response data", res);
         //scatter plots center
+        let apiData = res["data"];
         if (!this.apiParamData?.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -849,11 +852,11 @@ export class RevenuechartComponent
               res["data"]["scatterData"]["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
           } else {
-            mCorporation = res["mCorporation"];
-            tp_data = res["townPanchayat"];
-            m_data = res["municipality"];
-            // let natData = res["natAvg"][0]["average"];
-            stateData = res["stateAvg"][0]["average"];
+            mCorporation = apiData["mCorporation"];
+            tp_data = apiData["townPanchayat"];
+            m_data = apiData["municipality"];
+            // let natData = apiData["natAvg"][0]["average"];
+            stateData = apiData["stateAvg"] ? apiData["stateAvg"] : 0;
           }
 
           this.scatterData.data.datasets.forEach((el) => {
@@ -862,12 +865,10 @@ export class RevenuechartComponent
               obj = { x: 0, y: 0 };
               tp_data.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel
-                  ? el2.value.toFixed(2)
-                  : el2.totalRevenue;
+                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
                 el["rev"].push(
-                  stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue
+                  stateServiceLabel ? el2.value.toFixed(2) : el2.amount
                 );
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
@@ -875,12 +876,10 @@ export class RevenuechartComponent
             } else if (el.label == "Municipal Corporation") {
               mCorporation.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel
-                  ? el2.value.toFixed(2)
-                  : el2.totalRevenue;
+                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
                 el["rev"].push(
-                  stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue
+                  stateServiceLabel ? el2.value.toFixed(2) : el2.amount
                 );
                 el.data.push(obj);
 
@@ -890,12 +889,10 @@ export class RevenuechartComponent
               m_data.forEach((el2, index) => {
                 obj = { x: 0, y: 0 };
                 obj.x = el2.population;
-                obj.y = stateServiceLabel
-                  ? el2.value.toFixed(2)
-                  : el2.totalRevenue;
+                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
                 el["rev"].push(
-                  stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue
+                  stateServiceLabel ? el2.value.toFixed(2) : el2.amount
                 );
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
@@ -1143,28 +1140,30 @@ export class RevenuechartComponent
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       which: this.apiParamData?.which ? this.apiParamData?.which : "",
-      TabType: this.apiParamData?.code ? this.apiParamData?.code : "",
+      TabType: this.apiParamData?.TabType ? this.apiParamData?.TabType : "",
       widgetMode: this.widgetMode,
+      filterName: this.apiParamData?.filterName
+        ? this.apiParamData?.filterName
+        : "",
     };
 
-    if (this.apiParamData?.which == "nationalAvg") {
-      this.scatterData.data.datasets.push(
-        this.stateFilterDataService.nationLevelScatterDataSet
-      );
-    }
     console.log("scatterChartPayload", scatterChartPayload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService
       .getAvgScatterdData(scatterChartPayload, apiEndPoint)
-      .subscribe(
-        (res) => {
+      .subscribe((res) => {
+        //scatter plots center
+        console.log("response data", res);
+        if (res && res["success"]) {
+          this._loaderService.stopLoader();
           this.notFound = false;
-          console.log("response data", res);
-          //scatter plots center
-
-          if (!this.apiParamData?.filterName.includes("mix")) {
-            this._loaderService.stopLoader();
+          if (this.apiParamData?.which == "populationAvg") {
+            this.chartData =
+              this.stateFilterDataService.populationWiseScatterData(
+                res["data"]
+              );
+          } else {
             let mCorporation: any;
             let tp_data: any;
             let m_data: any;
@@ -1191,115 +1190,29 @@ export class RevenuechartComponent
                 ? res["data"]["stateAvg"]
                 : 0;
 
-            let averageCountList = [mCorporation, tp_data, m_data];
-            let stateLevelMaxPopuCount = Math.max(...averageCountList);
-            console.log("stateLevelMaxPopuCount", stateLevelMaxPopuCount);
-            // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-            this.scatterData.data.datasets.forEach((el) => {
-              let obj = { x: 0, y: 0 };
-              if (el.label == "Town Panchayat") {
-                // el.data.push(obj);
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(tp_data);
-                let defaultDataSet = [
-                  { x: 0, y: 0 },
-                  {
-                    x: stateLevelMaxPopuCount
-                      ? stateLevelMaxPopuCount
-                      : 1200000,
-                    y: 0,
-                  },
-                ];
-                defaultDataSet.forEach((el2) => {
-                  el2["y"] = tp_data;
-                  el["data"].push(el2);
-                  // el["labels"].push(el2.ulbName);
-                });
-              } else if (el.label == "Municipal Corporation") {
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(mCorporation);
-                let defaultDataSet = [
-                  { x: 0, y: 0 },
-                  {
-                    x: stateLevelMaxPopuCount
-                      ? stateLevelMaxPopuCount
-                      : 1200000,
-                    y: 0,
-                  },
-                ];
-                defaultDataSet.forEach((el2) => {
-                  el2["y"] = mCorporation;
-                  el["data"].push(el2);
-                });
-              } else if (el.label == "Municipality") {
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(m_data);
-                let defaultDataSet = [
-                  { x: 0, y: 0 },
-                  {
-                    x: stateLevelMaxPopuCount
-                      ? stateLevelMaxPopuCount
-                      : 1200000,
-                    y: 0,
-                  },
-                ];
-                defaultDataSet.forEach((el2) => {
-                  el2["y"] = m_data;
-                  el["data"].push(el2);
-                });
-              } else if (el.label == "National Average") {
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(nationalData);
-                let defaultDataSet = [
-                  { x: 0, y: 0 },
-                  {
-                    x: stateLevelMaxPopuCount
-                      ? stateLevelMaxPopuCount
-                      : 1200000,
-                    y: 0,
-                  },
-                ];
-                defaultDataSet.forEach((el2) => {
-                  el2["y"] = nationalData;
-                  el["data"].push(el2);
-                });
-              } else if (el.label == "State Average") {
-                el.fill = false;
-                el["rev"].push(stateData);
-                let defaultDataSet = [
-                  { x: 0, y: 0 },
-                  {
-                    x: stateLevelMaxPopuCount
-                      ? stateLevelMaxPopuCount
-                      : 1200000,
-                    y: 0,
-                  },
-                ];
-                defaultDataSet.forEach((el2) => {
-                  el2["y"] = stateData;
-                  el["data"].push(el2);
-                });
-              }
-            });
+            this.chartData = this.stateFilterDataService.plotScatterChart(
+              mCorporation,
+              tp_data,
+              m_data,
+              stateData,
+              nationalData,
+              this.apiParamData?.which
+            );
             console.log(this.scatterData);
-            this.chartData = { ...this.scatterData };
-            this.createChart();
           }
-        },
-        (err) => {
-          this._loaderService.stopLoader();
-          this.notFound = true;
-          console.log(err.message);
+          this.createChart();
         }
-      );
+      });
   }
 
   // city dashboard data
   getCityChartData() {
+    let disableFirstYear = this.apiParamData.hasOwnProperty("disableFirstYear")
+      ? JSON.parse(this.apiParamData?.disableFirstYear)
+      : false;
+    let hideElements = this.apiParamData.hasOwnProperty("hideElements")
+      ? JSON.parse(this.apiParamData?.hideElements)
+      : false;
     if (this.apiParamData?.headOfAccount == "") {
       this.apiParamData["headOfAccount"] = "Tax";
     }
@@ -1328,12 +1241,12 @@ export class RevenuechartComponent
     }
     // this.lastSelectedUlbs = body.ulb;
     // body.financialYear = data["year"] ?? this.mySelectedYears;
-    // if (this.selectedTab.includes("Mix")) {
-    //   this.disableFirstYear = false;
-    //   body.financialYear = [body.financialYear[0]];
-    // } else {
-    //   this.disableFirstYear = true;
-    // }
+    if (this.apiParamData?.selectedTab.includes("Mix")) {
+      this.disableFirstYear = false;
+      body.financialYear = [body.financialYear[0]];
+    } else {
+      this.disableFirstYear = true;
+    }
     // this.loading = true;
     // if (this.apiCall) {
     //   this.apiCall.unsubscribe();
@@ -1344,6 +1257,7 @@ export class RevenuechartComponent
       ? this.apiParamData?.chartTitle
       : "";
 
+    console.log("getCityChartData called", body);
     let multiPie = JSON.parse(this.apiParamData?.multiPie);
     this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
@@ -1359,7 +1273,7 @@ export class RevenuechartComponent
               ...new Set(body.ulb),
             ]);
           if (showCagrIn.includes(this.apiParamData?.selectedTab.toLowerCase()))
-            this.calculateCagr(res["data"], false);
+            this.calculateCagr(res["data"], hideElements);
           if (
             showPerCapita.includes(this.apiParamData?.selectedTab.toLowerCase())
           )
@@ -1369,14 +1283,17 @@ export class RevenuechartComponent
             "total surplus/deficit"
           )
             this.calculateCagrOfDeficit(res["data"]);
+
+          this.disableFirstYear = disableFirstYear;
+          this.createChart();
         }
         // this.loading = false;
         this._loaderService.stopLoader();
-        this.disableFirstYear = this.apiParamData?.disableFirstYear;
-        this.compareType = this.apiParamData?.compareType;
-        this.multiChartLabel = this.apiParamData?.multiChartLabel;
-        this.multipleDoughnutCharts = this.apiParamData?.multipleDoughnutCharts;
-        this.createChart();
+        // this.disableFirstYear = disableFirstYear;
+        // this.compareType = this.apiParamData?.compareType;
+        // this.multiChartLabel = this.apiParamData?.multiChartLabel;
+        // this.multipleDoughnutCharts = this.apiParamData?.multipleDoughnutCharts;
+        // this.createChart();
       },
       (error) => {
         this.notFound = true;
@@ -1400,22 +1317,27 @@ export class RevenuechartComponent
     let own = {
       _id: { lineItem: "Own Revenue" },
       amount: 0,
+      colour: "#25C7CE",
     };
     let other_receipt = {
       _id: { lineItem: "Other Receipts" },
       amount: 0,
+      colour: "",
     };
     let assigned_revenues_compensations = {
       _id: { lineItem: "Assigned Revenues Compensation" },
       amount: 0,
+      colour: "",
     };
     let grant = {
       _id: { lineItem: "Grants" },
       amount: 0,
+      colour: "",
     };
     let interest_incomes = {
       _id: { lineItem: "Interest Income" },
       amount: 0,
+      colour: "",
     };
     let newdata = [
       own,
@@ -1431,15 +1353,19 @@ export class RevenuechartComponent
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
+        other_receipt.colour = value.colour;
       }
       if (assigned_revenues_compensation.includes(value.code)) {
         assigned_revenues_compensations.amount += value.amount;
+        assigned_revenues_compensations.colour = value.colour;
       }
       if (grants.includes(value.code)) {
         grant.amount += value.amount;
+        grant.colour = value.colour;
       }
       if (interest_income.includes(value.code)) {
         interest_incomes.amount += value.amount;
+        interest_incomes.colour = value.colour;
       }
     });
     return newdata;
@@ -1475,7 +1401,9 @@ export class RevenuechartComponent
   }
 
   createExpenditureMixData(data) {
-    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 }];
+    let tempArray = [
+      { _id: { lineItem: "Other Expenditure" }, amount: 0, colour: "#0FA386" },
+    ];
     data.forEach((element) => {
       if (includeInExpenditure.includes(element.code)) {
         tempArray.push(element);
@@ -1487,6 +1415,7 @@ export class RevenuechartComponent
   }
 
   createMultiUlbChart(data) {
+    let ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
     this.multipleDoughnutCharts = [];
     this.multiChartLabel = [];
     for (const key in data) {
@@ -1546,7 +1475,7 @@ export class RevenuechartComponent
             },
           },
         },
-        title: this.apiParamData?.chartTitle,
+        title: ulbMapping[key].name,
       };
       this.multipleDoughnutCharts.push(val);
     }
@@ -1565,34 +1494,33 @@ export class RevenuechartComponent
   }
 
   createPieChart(data, body) {
-    if (body?.compareType == "ULBs..") {
+    console.log("createPieChartCalled", data, body);
+    let ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
+    console.log("ulbMapping", ulbMapping);
+    if (this.apiParamData?.compareType == "ULBs..") {
       data = this.createMultiUlbData(data["ulbData"]);
     }
-    if (body?.filterName == "revenue mix") {
+    if (this.apiParamData?.filterName == "revenue_mix") {
       for (const key in data) {
         data[key] = this.createRevenueData(data[key]);
       }
-      if (body?.compareType == "ULBs..") {
+      if (this.apiParamData?.compareType == "ULBs..") {
         // this.resetCAGR();
       } else this.calculateRevenueMix(data);
     }
-    if (body?.filterName == "expenditure mix") {
+    if (this.apiParamData?.filterName == "expenditure_mix") {
       for (const key in data) {
         data[key] = this.createExpenditureMixData(data[key]);
       }
       // this.resetCAGR();
     }
-    let ulbDoughnutChartData = {
-        labels: [],
-        datasets: [
-          {
-            label: "",
-            data: [],
-            backgroundColor: [],
-          },
-        ],
-      },
-      compDoughnutChartData = {
+    if (this.compareType == "ULBs..") {
+      return this.createMultiUlbChart(data);
+    }
+    let tempChartData = [];
+    for (const key in data) {
+      const element = data[key];
+      let chartData = {
         labels: [],
         datasets: [
           {
@@ -1602,130 +1530,68 @@ export class RevenuechartComponent
           },
         ],
       };
-    if (this.compareType == "ULBs..") {
-      return this.createMultiUlbChart(data);
+      let tempData = {
+        id: `${Math.random()}-multi`,
+        type: "doughnut",
+        data: chartData,
+        multipleChartOptions: {
+          legend: {
+            display: false,
+          },
+          tooltips: {
+            callbacks: {
+              label: function (tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue
+                ) {
+                  return Number(previousValue) + Number(currentValue);
+                });
+                var currentValue = Number(dataset.data[tooltipItem.index]);
+                var percentage = ((currentValue / total) * 100).toFixed(2);
+                return percentage + "%" + data.labels[tooltipItem.index].text;
+              },
+            },
+          },
+        },
+        title:
+          key == "ulbData"
+            ? ulbMapping[this.apiParamData?.currentUlb].name
+            : key == "compData"
+            ? this.apiParamData?.compareType
+            : ulbMapping[key].name,
+      };
+      element.forEach((value, index) => {
+        chartData.datasets[0].backgroundColor.push(value.colour);
+        chartData.datasets[0].data.push(value.amount);
+        chartData.labels.push({
+          text: value._id.lineItem,
+          color: value.colour,
+        });
+        chartData.datasets[0].label = value._id.lineItem;
+      });
+      tempChartData.push(tempData);
     }
-    this.multipleDoughnutCharts = [];
-    this.multiChartLabel = [];
-    let tempChartData = [
-      {
-        id: `${Math.random()}-multi`,
-        type: "doughnut",
-        data: ulbDoughnutChartData,
-        multipleChartOptions: {
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            callbacks: {
-              label: function (tooltipItem, data) {
-                var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function (
-                  previousValue,
-                  currentValue
-                ) {
-                  return Number(previousValue) + Number(currentValue);
-                });
-                var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
-                return percentage + "%" + data.labels[tooltipItem.index].text;
-              },
-            },
-          },
-        },
-        title: this.apiParamData?.chartTitle,
-      },
-      {
-        id: `${Math.random()}-multi`,
-        type: "doughnut",
-        data: compDoughnutChartData,
-        multipleChartOptions: {
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            callbacks: {
-              label: function (tooltipItem, data) {
-                var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function (
-                  previousValue,
-                  currentValue
-                ) {
-                  return Number(previousValue) + Number(currentValue);
-                });
-                var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
-                return percentage + "%" + data.labels[tooltipItem.index].text;
-              },
-            },
-          },
-        },
-        title: this.compareType,
-      },
+    console.log(
+      "tempChartData",
+      tempChartData,
+      tempChartData.map((val) => val.data.labels)
+    );
+    this.multiChartLabel = [
+      ...new Set(...tempChartData.map((val) => val.data.labels)),
     ];
-
-    let counter = 0;
-    data["ulbData"].forEach((value, index) => {
-      ulbDoughnutChartData.datasets[0].backgroundColor.push(
-        pieBackGroundColor[counter]
-      );
-      ulbDoughnutChartData.datasets[0].data.push(value.amount);
-      ulbDoughnutChartData.labels.push({
-        text: value._id.lineItem,
-        color: pieBackGroundColor[counter],
-      });
-      ulbDoughnutChartData.datasets[0].label = value._id.lineItem;
-
-      let comData = data["compData"].find(
-        (val) => val._id.lineItem == value._id.lineItem
-      );
-      if (!comData) {
-        counter++;
-        return true;
-      }
-      compDoughnutChartData.datasets[0].backgroundColor.push(
-        pieBackGroundColor[counter]
-      );
-      compDoughnutChartData.datasets[0].data.push(comData.amount);
-      compDoughnutChartData.labels.push({
-        text: comData._id.lineItem,
-        color: pieBackGroundColor[counter],
-      });
-      compDoughnutChartData.datasets[0].label = comData._id.lineItem;
-      counter++;
-    });
-
-    data["compData"].forEach((value, index) => {
-      let ulbData = data["ulbData"].find(
-        (val) => val._id.lineItem == value._id.lineItem
-      );
-      if (!ulbData) {
-        ulbDoughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[counter]
-        );
-        ulbDoughnutChartData.datasets[0].data.push(ulbData.amount);
-        ulbDoughnutChartData.labels.push({
-          text: value._id.lineItem,
-          color: pieBackGroundColor[counter],
-        });
-        ulbDoughnutChartData.datasets[0].label = value._id.lineItem;
-
-        compDoughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[counter]
-        );
-        compDoughnutChartData.datasets[0].data.push(value.amount);
-        compDoughnutChartData.labels.push({
-          text: value._id.lineItem,
-          color: pieBackGroundColor[counter],
-        });
-        compDoughnutChartData.datasets[0].label = value._id.lineItem;
-        ulbData++;
-      }
-    });
-
-    this.multiChartLabel = ulbDoughnutChartData.labels;
     this.multipleDoughnutCharts = tempChartData;
+    let multiPie = this.apiParamData.hasOwnProperty("multiPie")
+      ? JSON.parse(this.apiParamData?.multiPie)
+      : false;
+    // this.multipleCharts = multiPie;
     this.multipleCharts = true;
+
+    setTimeout(() => {
+      this.createMultipleChart();
+    }, 500);
+    // this.createChart();
   }
 
   createExpenditureData(data) {
@@ -1742,6 +1608,8 @@ export class RevenuechartComponent
         });
         continue;
       }
+      let tt = year2.yearData.find((value) => value.code == "410").amount;
+      let yy = year1.yearData.find((value) => value.code == "410").amount;
       let amount1 =
           year2.yearData.find((value) => value.code == "410").amount -
           year1.yearData.find((value) => value.code == "410").amount,
@@ -1749,7 +1617,7 @@ export class RevenuechartComponent
           year2.yearData.find((value) => value.code == "412").amount -
           year1.yearData.find((value) => value.code == "412").amount;
       newData.push({
-        _id: { financialYear: year1._id },
+        _id: { financialYear: year2._id },
         amount: amount1 + amount2,
         ulbName: year1.yearData[0].ulbName,
       });
@@ -1761,6 +1629,10 @@ export class RevenuechartComponent
     const isPerCapita = this.apiParamData.hasOwnProperty("isPerCapita")
       ? JSON.parse(this.apiParamData?.isPerCapita)
       : false;
+    const hideElements = this.apiParamData.hasOwnProperty("hideElements")
+      ? JSON.parse(this.apiParamData?.hideElements)
+      : false;
+    let ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
     if (this.apiParamData?.selectedTab.toLowerCase() == "revenue expenditure")
       return this.createLineChartForRevenueExpenditure(res["data"]);
     if (
@@ -1773,54 +1645,60 @@ export class RevenuechartComponent
     }
 
     let newData = JSON.parse(JSON.stringify(barChartStatic));
-    newData.data.labels = res["data"].ulbData.map(
-      (value) => value._id.financialYear
-    );
-    newData.data.labels = [
-      ...new Set(newData.data.labels),
-      ...res["data"].compData.map((value) => value._id.financialYear),
-    ];
+    newData.data.labels = [];
+    for (const key in res["data"]) {
+      const element = res["data"][key];
+      element.map((value) => {
+        if (!newData.data.labels.includes(value._id.financialYear)) {
+          newData.data.labels.push(value._id.financialYear);
+        }
+      });
+    }
 
-    newData.data.labels = [...new Set(newData.data.labels)];
     let temp = {},
       index = 0;
     for (const key in res["data"]) {
       const element = res["data"][key];
-      element.map((value) => {
+      newData.data.labels.map((year) => {
+        let dataByYear = element.find((val) => val._id.financialYear == year);
+        if (!dataByYear) {
+          dataByYear = {
+            ulbName: ulbMapping[this.apiParamData?.currentUlb].name,
+            amount: 0,
+          };
+        }
         let dataInner = JSON.parse(JSON.stringify(innerDataset));
         if (
           this.apiParamData?.compareType == "National Average" &&
           key == "compData"
         ) {
-          value.ulbName = "National";
+          dataByYear.ulbName = "National";
         }
         if (
           this.apiParamData?.compareType == "ULB Type Average" &&
           key == "compData"
         ) {
-          value.ulbName =
-            this.apiParamData?.ulbMapping[this.apiParamData?.currentUlb].type;
+          dataByYear.ulbName = ulbMapping[this.apiParamData?.currentUlb].type;
         }
         if (
           this.apiParamData?.compareType == "ULB category Average" &&
           key == "compData"
         ) {
-          value.ulbName = getPopulationType(
-            this.apiParamData?.ulbMapping[this.apiParamData?.currentUlb]
-              .population
+          dataByYear.ulbName = getPopulationType(
+            ulbMapping[this.apiParamData?.currentUlb].population
           );
         }
 
-        if (!temp[value.ulbName]) {
+        if (!temp[dataByYear.ulbName]) {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
-          dataInner.label = value.ulbName;
-          dataInner.data = [value.amount, isPerCapita];
-          temp[value.ulbName] = dataInner;
+          dataInner.label = dataByYear.ulbName;
+          dataInner.data = [convertToCr(dataByYear.amount, isPerCapita)];
+          temp[dataByYear.ulbName] = dataInner;
         } else {
-          dataInner = temp[value.ulbName];
-          dataInner.data.push(value.amount, isPerCapita);
-          temp[value.ulbName] = dataInner;
+          dataInner = temp[dataByYear.ulbName];
+          dataInner.data.push(convertToCr(dataByYear.amount, isPerCapita));
+          temp[dataByYear.ulbName] = dataInner;
         }
       });
     }
@@ -1828,18 +1706,19 @@ export class RevenuechartComponent
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
     newlineDataset.label = `Y-o-Y Growth in ${this.apiParamData?.selectedTab} (%)`;
     newlineDataset.data = [];
+    console.log("temp===>", temp);
     for (const key in temp) {
       const element = temp[key];
       if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
       newData.data.datasets.push(element);
     }
-    let hideElements = JSON.parse(this.apiParamData?.hideElements);
     if (!hideElements && !isPerCapita)
       newData.data.datasets.push(newlineDataset);
     this.chartData = newData;
-    this.ChartOptions.scales.yAxes[0]["scaleLabel"][
-      "labelString"
-    ] = `Amount in ${isPerCapita ? "Rs" : "Cr"}`;
+    this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
+      isPerCapita ? "Rs" : "Cr"
+    }`;
+    console.log("barChart", this.chartData);
     this.ChartOptions = this.barChartStaticOptions;
   }
 
@@ -1861,7 +1740,7 @@ export class RevenuechartComponent
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 20;
+            axis.max += 50;
           },
         },
       ],
@@ -1905,6 +1784,7 @@ export class RevenuechartComponent
     const isPerCapita = this.apiParamData.hasOwnProperty("isPerCapita")
       ? JSON.parse(this.apiParamData?.isPerCapita)
       : false;
+    let ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
     let obj = {
       type: "bar",
       data: {
@@ -1913,8 +1793,8 @@ export class RevenuechartComponent
           ...new Set(
             ulbs.map((ulb, i) => {
               let innerObj = {
-                // label: this.ulbMapping[ulb].name,
-                label: "ABCD",
+                label: ulbMapping[ulb].name,
+                // label: 'ABCD',
                 data: [],
                 borderWidth: 1,
                 barThickness: 50,
@@ -1937,7 +1817,7 @@ export class RevenuechartComponent
       },
     };
     this.chartData = obj;
-    // this.ChartOptions = this.ChartOptions;
+    this.ChartOptions = this.barChartStaticOptions;
   }
 
   calculateCagr(data, hideCAGR) {
@@ -1991,6 +1871,7 @@ export class RevenuechartComponent
   }
 
   createLineChartForRevenueExpenditure(data) {
+    let ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
     let chartLabels = [];
     let chartData = {
       labels: chartLabels,
@@ -2000,13 +1881,15 @@ export class RevenuechartComponent
             dataSet.borderColor = borderColor[0];
             dataSet.backgroundColor = backgroundColor[0];
             dataSet.data.push(
-              ((value.revenue / value.expense) * 100).toPrecision(2)
+              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
+                2
+              )
             );
             chartLabels.push(value._id.financialYear);
             return dataSet;
           },
           {
-            label: "RRRRRR",
+            label: ulbMapping[this.apiParamData?.currentUlb].name,
             data: [],
             borderColor: "",
             backgroundColor: "",
@@ -2018,7 +1901,9 @@ export class RevenuechartComponent
             dataSet.borderColor = borderColor[1];
             dataSet.backgroundColor = backgroundColor[1];
             dataSet.data.push(
-              ((value.revenue / value.expense) * 100).toPrecision(2)
+              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
+                2
+              )
             );
             return dataSet;
           },
@@ -2037,7 +1922,7 @@ export class RevenuechartComponent
       data: chartData,
     };
     this.chartData = config;
-    this.ChartOptions = {
+    this.chartOptions = {
       scales: {
         yAxes: [
           {
@@ -2053,7 +1938,7 @@ export class RevenuechartComponent
               // beginAtZero: true,
               steps: 10,
               stepValue: 5,
-              max: 100,
+              // max: 100,
             },
           },
         ],

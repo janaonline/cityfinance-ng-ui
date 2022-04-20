@@ -503,6 +503,7 @@ ULB ${this.selectedTab} for FY' ${
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "Rs" : "Cr"
     }`;
+    console.log('barChart', this.barChart)
     this.chartOptions = this.barChartStaticOptions;
   }
 
@@ -643,6 +644,7 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createPieChart(data, body) {
+    console.log('createPieChart called', data, body)
     if (this.compareType == "ULBs..") {
       data = this.createMultiUlbData(data["ulbData"]);
     }

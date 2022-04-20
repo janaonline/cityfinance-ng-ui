@@ -342,6 +342,8 @@ export class DashboardMapSectionComponent
       }[];
     }
   ) {
+    // debugger;
+    console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;
     }
