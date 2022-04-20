@@ -329,6 +329,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reset() {
+    this.ulbArr = []
     this.checkBoxArray = [
       { value: '', title: "Select an Option", isDisabled: true },
       { value: 'nationalAvg', title: "National Avg", isDisabled: false },
@@ -489,13 +490,13 @@ console.log(err.message)
       "filterName": this.filterName ? this.filterName : '',
       "isPerCapita": this.isPerCapita ? this.isPerCapita : '',
       "compareType": this.stateServiceLabel ? undefined : '',
-      // "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '',
-      "compareCategory": '',
-      "ulb": this.ulbId ? [this.ulbId] : [],
+      "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
+      "ulb": this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : '',
       "chartType": !this.filterName.includes("mix") ? 'scatter' : 'doughnut',
       "apiEndPoint": apiEndPoint,
       "apiMethod": "post",
       "stateServiceLabel": this.stateServiceLabel,
+      "sortBy":"",
       // "which": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '',
       "chartTitle": ""
     };
@@ -508,7 +509,7 @@ console.log(err.message)
         this.notfound = false;
         console.log("response data", res);
         //scatter plots center
-      
+      let apiData = res['data']
         if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -524,11 +525,11 @@ console.log(err.message)
             stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0] && res['data']['scatterData']["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
           } else {
-            mCorporation = res["mCorporation"];
-            tp_data = res["townPanchayat"];
-            m_data = res["municipality"];
-            // let natData = res["natAvg"][0]["average"];
-            this.stateAvgVal = res["stateAvg"] ? res["stateAvg"][0]["average"] : this.stateAvgVal
+            mCorporation = apiData["mCorporation"];
+            tp_data = apiData["townPanchayat"];
+            m_data = apiData["municipality"];
+            // let natData = apiData["natAvg"][0]["average"];
+            this.stateAvgVal = apiData["stateAvg"] ? apiData["stateAvg"] : this.stateAvgVal
             stateData =  this.stateAvgVal
           }
 
@@ -540,18 +541,18 @@ console.log(err.message)
               obj = { x: 0, y: 0 };
               tp_data.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
             } else if (el.label == "Municipal Corporation") {
               mCorporation.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
 
                 obj = { x: 0, y: 0 };
@@ -560,9 +561,9 @@ console.log(err.message)
               m_data.forEach((el2, index) => {
                 obj = { x: 0, y: 0 };
                 obj.x = el2.population;
-                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
@@ -693,19 +694,13 @@ ulbArr = []
     if (e) this.getScatterData();
   }
   changeActiveBtn(i) {
+    this.ulbArr = []
+    this.ulbId = ''
+    this.nationalFilter.patchValue("");
     console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
     this.ActiveButton = this.data.btnLabels[i];
     this.lastSelectedId = i;
 
-    // let id = `btn-${i}`;
-    // if (this.lastSelectedId) {
-    //   document
-    //     .getElementById(this.lastSelectedId)
-    //     ?.classList.remove("selected");
-    //   document.getElementById(this.lastSelectedId)?.classList.add("deSelected");
-    // }
-    // document.getElementById(id)?.classList?.add("selected");
-    // document.getElementById(id)?.classList?.remove("deSelected");
 
     this.isPerCapita = this.data.btnLabels[i]
       ?.toLocaleLowerCase()
@@ -801,6 +796,7 @@ ulbArr = []
   notfound = true;
   
   ngOnInit(): void {
+    this.ulbArr = []
     this.statesList = localStorage.getItem('stateIdsMap') ? JSON.parse(localStorage.getItem('stateIdsMap')) : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId]
@@ -1233,7 +1229,6 @@ ulbArr = []
     this._loaderService.showLoader();
     this.initializeScatterData();
     let apiEndPoint = 'state-dashboard-averages';
-    // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
     this.scatterChartPayload = {
       "stateId": this.stateId,
       "financialYear": this.financialYear ? this.financialYear : '',
@@ -1245,122 +1240,93 @@ ulbArr = []
       "filterName": this.filterName ? this.filterName : '',
       "chartTitle": ''
     };
-    
-    if (this.selectedRadioBtnValue == 'nationalAvg') {
-      this.scatterData.data.datasets.push(this.stateFilterDataService.nationLevelScatterDataSet);
-    }
+
     console.log('scatterChartPayload', this.scatterChartPayload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getAvgScatterdData(this.scatterChartPayload, apiEndPoint).subscribe(
       (res) => {
-        this.notfound = false;
         console.log("response data", res);
-        //scatter plots center
-      
-        if (!this.filterName.includes("mix")) {
+        if (res && res['success']) {
           this._loaderService.stopLoader();
-          let mCorporation: any;
-          let tp_data: any;
-          let m_data: any;
-          let stateData: any;
-
-          mCorporation = res['data'] && res['data']['Municipal Corporation'] ? res['data']['Municipal Corporation'] : 0 ;
-          tp_data = res['data'] && res['data']['Town Panchayat'] ? res['data']['Town Panchayat'] : 0;
-          m_data = res['data'] && res['data']['Municipality'] ? res['data']['Municipality'] : 0;
-          let nationalData = res && res['data'] && res['data']['national'] ? res['data']['national'] : 0;
-          stateData = res['data'] && res['data']["stateAvg"] ? res['data']['stateAvg'] : this.stateAvgVal;
-
-          let averageCountList = [mCorporation, tp_data, m_data];
-          let stateLevelMaxPopuCount = Math.max(...averageCountList);
-          console.log('stateLevelMaxPopuCount', stateLevelMaxPopuCount)
-          // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-          this.scatterData.data.datasets.forEach((el) => {
-            let obj = { x: 0, y: 0 };
-            if (el.label == "Town Panchayat") {
-              // el.data.push(obj);
-              el.showLine = true;
-              el.fill = false;
-              el["rev"].push(tp_data);
-              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-              defaultDataSet.forEach(el2=>{
-                el2['y'] = tp_data;
-                el["data"].push(el2);
-                // el["labels"].push(el2.ulbName);
-              });
-            } else if (el.label == "Municipal Corporation") {
-              el.showLine = true;
-              el.fill = false;
-              el["rev"].push(mCorporation);
-              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-              defaultDataSet.forEach(el2=>{
-                el2['y'] = mCorporation
-                el["data"].push(el2)
-              });
-            } else if (el.label == "Municipality") {
-              el.showLine = true;
-              el.fill = false;
-              el["rev"].push(m_data);
-              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-              defaultDataSet.forEach(el2=>{
-                el2['y'] = m_data
-                el["data"].push(el2)
-              });
-            } else if (el.label == "National Average") {
-              el.showLine = true;
-              el.fill = false;
-              el["rev"].push(nationalData);
-              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-              defaultDataSet.forEach(el2=>{
-                el2['y'] = nationalData;
-                el["data"].push(el2);
-              });
-            } else if (el.label == "State Average") {
-              el.fill = false;
-              el["rev"].push(stateData);
-              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-              defaultDataSet.forEach(el2=>{
-                el2['y'] = stateData;
-                el["data"].push(el2);
-              });
-            }
-          });
-          console.log(this.scatterData);
-          this.generateRandomId("scatterChartId123");
-          this.scatterData = { ...this.scatterData };
-        } //donught charts center
-        // else if (this.filterName.includes("mix")) {
-        //   this._loaderService.stopLoader();
-        //   let data = res["data"];
-        //   this.chartDropdownList = data;
-        //   if (this.chartDropdownList?.length > 0) {
-        //     this.getStateRevenue();
-        //   }
-        //   console.log('chartDropdownList', this.chartDropdownList)
-        //   this.initializeDonughtData();
-        //   if (this.scatterChartPayload.compareType == "") {
-        //     if (data.length) {
-        //       data.forEach((el) => {
-        //         this.doughnutData.data.labels.push(el._id);
-        //         this.doughnutData.data.datasets[0].data.push(el.amount);
-        //       });
-        //       console.log(this.doughnutData);
-
-        //       this.doughnutData = { ...this.doughnutData };
-        //     }
-        //   } else if (this.scatterChartPayload.compareType == "ulbType") {
-        //     let mData = res["mData"];
-        //     let mcData = res["mcData"];
-        //     let tpData = res["tpData"];
-        //     this.multiChart = true;
-        //     this.doughnutDataArr = [
-        //       { mData: mData },
-        //       { mcData: mcData },
-        //       { tpData: tpData },
-        //     ];
-        //     this.doughnutDataArr = [...this.doughnutDataArr];
-        //   }
-        // }
+          this.notfound = false;
+          if (this.selectedRadioBtnValue == 'populationAvg') {
+            this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+          } else {
+            let mCorporation: any;
+            let tp_data: any;
+            let m_data: any;
+            let stateData: any;
+  
+            mCorporation = res['data'] && res['data']['Municipal Corporation'] ? res['data']['Municipal Corporation'] : 0 ;
+            tp_data = res['data'] && res['data']['Town Panchayat'] ? res['data']['Town Panchayat'] : 0;
+            m_data = res['data'] && res['data']['Municipality'] ? res['data']['Municipality'] : 0;
+            let nationalData = res && res['data'] && res['data']['national'] ? res['data']['national'] : 0;
+            stateData = res['data'] && res['data']["stateAvg"] ? res['data']['stateAvg'] : this.stateAvgVal;
+  
+            this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
+            console.log(this.scatterData);
+            this.generateRandomId("scatterChartId123");
+            return
+            let averageCountList = [mCorporation, tp_data, m_data];
+            let stateLevelMaxPopuCount = Math.max(...averageCountList);
+            console.log('stateLevelMaxPopuCount', stateLevelMaxPopuCount)
+            // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+            this.scatterData.data.datasets.forEach((el) => {
+              let obj = { x: 0, y: 0 };
+              if (el.label == "Town Panchayat") {
+                // el.data.push(obj);
+                el.showLine = true;
+                el.fill = false;
+                el["rev"].push(tp_data);
+                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+                defaultDataSet.forEach(el2=>{
+                  el2['y'] = tp_data;
+                  el["data"].push(el2);
+                  // el["labels"].push(el2.ulbName);
+                });
+              } else if (el.label == "Municipal Corporation") {
+                el.showLine = true;
+                el.fill = false;
+                el["rev"].push(mCorporation);
+                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+                defaultDataSet.forEach(el2=>{
+                  el2['y'] = mCorporation
+                  el["data"].push(el2)
+                });
+              } else if (el.label == "Municipality") {
+                el.showLine = true;
+                el.fill = false;
+                el["rev"].push(m_data);
+                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+                defaultDataSet.forEach(el2=>{
+                  el2['y'] = m_data
+                  el["data"].push(el2)
+                });
+              } else if (el.label == "National Average") {
+                el.showLine = true;
+                el.fill = false;
+                el["rev"].push(nationalData);
+                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+                defaultDataSet.forEach(el2=>{
+                  el2['y'] = nationalData;
+                  el["data"].push(el2);
+                });
+              } else if (el.label == "State Average") {
+                el.fill = false;
+                el["rev"].push(stateData);
+                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+                defaultDataSet.forEach(el2=>{
+                  el2['y'] = stateData;
+                  el["data"].push(el2);
+                });
+              }
+            });
+            console.log(this.scatterData);
+            this.generateRandomId("scatterChartId123");
+            this.scatterData = { ...this.scatterData };
+          }
+        }
       },
       (err) => {
         this._loaderService.stopLoader();
