@@ -88,6 +88,9 @@ export class CompareDialogComponent implements OnInit {
   @Input()
   own;
 
+  @Input()
+  selectedRadioBtn
+
   filterList = [
     "State Average",
     "National Average",
@@ -162,6 +165,7 @@ export class CompareDialogComponent implements OnInit {
   typeX = "";
   placeholder = "Search for States";
   ngOnInit(): void {
+    console.log(this.selectedRadioBtn,"selectedRadioBtn in compare");
     this.toogle.valueChanges.subscribe((newToogleValue) => {
       console.log("toogleValue", newToogleValue);
       this.reset();
@@ -296,8 +300,8 @@ export class CompareDialogComponent implements OnInit {
     );
   }
   radioSelected(event) {
-    console.log(event.target.value);
-    this.valuesToEmit = event.target.value;
+    console.log(event.target.value,"radio value");
+    this.valuesToEmit = event.target?.value || event;
     this.searchField.reset();
   }
 

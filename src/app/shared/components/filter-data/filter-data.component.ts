@@ -93,7 +93,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 20;
+            axis.max += 50;
           },
         },
       ],
@@ -124,8 +124,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data", data);
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 1);
+            console.log("chartOption Data",  data);
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
         console.log(animation, "animation");
@@ -454,30 +454,37 @@ ULB ${this.selectedTab} for FY' ${
       index = 0;
     for (const key in res["data"]) {
       const element = res["data"][key];
-      element.map((value) => {
+      newData.data.labels.map((year) => {
+        let dataByYear = element.find((val) => val._id.financialYear == year);
+        if (!dataByYear) {
+          dataByYear = {
+            ulbName: this.ulbMapping[this.currentUlb].name,
+            amount: 0,
+          };
+        }
         let dataInner = JSON.parse(JSON.stringify(innerDataset));
         if (this.compareType == "National Average" && key == "compData") {
-          value.ulbName = "National";
+          dataByYear.ulbName = "National";
         }
         if (this.compareType == "ULB Type Average" && key == "compData") {
-          value.ulbName = this.ulbMapping[this.currentUlb].type;
+          dataByYear.ulbName = this.ulbMapping[this.currentUlb].type;
         }
         if (this.compareType == "ULB category Average" && key == "compData") {
-          value.ulbName = getPopulationType(
+          dataByYear.ulbName = getPopulationType(
             this.ulbMapping[this.currentUlb].population
           );
         }
 
-        if (!temp[value.ulbName]) {
+        if (!temp[dataByYear.ulbName]) {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
-          dataInner.label = value.ulbName;
-          dataInner.data = [convertToCr(value.amount, this.isPerCapita)];
-          temp[value.ulbName] = dataInner;
+          dataInner.label = dataByYear.ulbName;
+          dataInner.data = [convertToCr(dataByYear.amount, this.isPerCapita)];
+          temp[dataByYear.ulbName] = dataInner;
         } else {
-          dataInner = temp[value.ulbName];
-          dataInner.data.push(convertToCr(value.amount, this.isPerCapita));
-          temp[value.ulbName] = dataInner;
+          dataInner = temp[dataByYear.ulbName];
+          dataInner.data.push(convertToCr(dataByYear.amount, this.isPerCapita));
+          temp[dataByYear.ulbName] = dataInner;
         }
       });
     }
@@ -798,7 +805,7 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createExpenditureMixData(data) {
-    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 }];
+    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 ,colour:"#0FA386"}];
     data.forEach((element) => {
       if (includeInExpenditure.includes(element.code)) {
         tempArray.push(element);

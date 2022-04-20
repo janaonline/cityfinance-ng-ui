@@ -130,7 +130,7 @@ export class RevenuechartComponent
   notFoundMessage = "Please try again with other filter options";
   // options in case of sactter plot
   @Input()
-  scatterOption = {
+  scatterOption: any = {
     legend: {
       itemStyle: {
         cursor: "default",
@@ -216,7 +216,8 @@ export class RevenuechartComponent
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
           return (
-            datasetLabel + ": " + label + `(${(rev / 10000000).toFixed(2)} Cr)`
+            `${datasetLabel}: ${label ? label : ''} ${rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ''}`
+            // datasetLabel + ": " + label ? label : '' + rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ''
           );
         },
       },
@@ -358,13 +359,18 @@ export class RevenuechartComponent
   // $('#legend').prepend(mybarChart.generateLegend());
   ngAfterViewInit(): void {
     if (this.widgetMode) {
+      this.chartTitle = this.apiParamData.hasOwnProperty('chartTitle') ? this.apiParamData?.chartTitle : '';
       console.log('apiParamData', this.apiParamData)
       if (this.apiParamData.hasOwnProperty('cityId')) {
         this.getCityChartData();
       } else {
         let stateServiceLabel = this.apiParamData?.stateServiceLabel ? JSON.parse(this.apiParamData?.stateServiceLabel) : false;
         if (this.apiParamData.chartType == 'scatter') {
-          this.getScatterData();
+          if (this.apiParamData.hasOwnProperty('which')) {
+            this.getAverageScatterData();
+          } else {
+            this.getScatterData();
+          }
         } else if (this.apiParamData.chartType == 'bar') {
           if (stateServiceLabel) {
             this.getServiceLevelBenchmarkBarChartData();
@@ -588,6 +594,7 @@ export class RevenuechartComponent
     this.sendValue();
   }
 
+  // iFrame Integration Start
   activeButtonList: any = stateDashboardSubTabsList;
 
   getTabType() {
@@ -604,7 +611,8 @@ export class RevenuechartComponent
       "tabType": this.apiParamData?.tabType,
       "financialYear": this.apiParamData?.financialYear,
       "stateId": this.apiParamData?.stateId ? this.apiParamData?.stateId : this.apiParamData?.state,
-      "sortBy": this.apiParamData?.sortBy
+      "sortBy": this.apiParamData?.sortBy,
+      "widgetMode": this.widgetMode
     };
 
     if (tabType?.isCodeRequired) {
@@ -681,8 +689,12 @@ export class RevenuechartComponent
 
   setChartAnimation(tabType: string, yAxisLabel: string) {
     let animationConfig: any;
-    // let animationConfigAccessKey: any = this.stateServiceLabel ? 'serviceLevelBenchmarkBarChartOptions' : this.getTabType().chartAnimation;
-    let animationConfigAccessKey: any = 'croreBarChartOptions';
+    let stateServiceLabel: any;
+    if (this.apiParamData.hasOwnProperty('stateServiceLabel')) {
+      stateServiceLabel = JSON.parse(this.apiParamData?.stateServiceLabel);
+    }
+    let animationConfigAccessKey: any = stateServiceLabel ? 'serviceLevelBenchmarkBarChartOptions' : this.getTabType().chartAnimation;
+    // let animationConfigAccessKey: any = 'croreBarChartOptions';
 
     animationConfig = this.stateFilterDataService[animationConfigAccessKey];
     Object.assign(animationConfig);
@@ -730,12 +742,13 @@ export class RevenuechartComponent
           },
           {
             label: "State Average",
-          data: [],
-          labels:['State Average'],
-          showLine: true,
-          fill: false,
-          backgroundColor:"red",
-          borderColor: "red",
+            data: [],
+            rev: [],
+            labels:['State Average'],
+            showLine: true,
+            fill: false,
+            backgroundColor:"red",
+            borderColor: "red",
           },
         ],
       },
@@ -755,10 +768,11 @@ export class RevenuechartComponent
       financialYear: this.apiParamData?.financialYear,
       headOfAccount: stateServiceLabel ? undefined : this.apiParamData?.headOfAccount,
       filterName: this.apiParamData?.filterName,
-      isPerCapita: this.apiParamData?.isPerCapita,
+      isPerCapita: this.apiParamData.hasOwnProperty('isPerCapita') ? JSON.parse(this.apiParamData?.isPerCapita) : false,
       compareType: stateServiceLabel ? undefined : '',
       compareCategory: this.apiParamData?.compareCategory, 
       ulb: this.apiParamData?.ulb,
+      "widgetMode": this.widgetMode
     };
     let apiEndPoint = stateServiceLabel ? 'state-slb' : 'state-revenue';
 
@@ -1012,6 +1026,7 @@ export class RevenuechartComponent
       "sortBy": this.apiParamData?.sortBy,
       "filterName": this.apiParamData?.filterName,
       "ulb": this.apiParamData?.ulbId,
+      "widgetMode": this.widgetMode
     };
 
     console.log('payload', barChartPayload);
@@ -1042,6 +1057,115 @@ export class RevenuechartComponent
     );
   }
 
+  getAverageScatterData() {
+    const tabType = this.getTabType();
+    this.multiChart = false;
+    this._loaderService.showLoader();
+    this.initializeScatterData();
+    let apiEndPoint = 'state-dashboard-averages';
+    // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
+    let scatterChartPayload = {
+      "stateId": this.apiParamData?.stateId,
+      "financialYear": this.apiParamData?.financialYear,
+      "apiEndPoint": apiEndPoint,
+      "apiMethod": "get",
+      "which": this.apiParamData?.which ? this.apiParamData?.which : '',
+      "TabType": this.apiParamData?.code ? this.apiParamData?.code : '',
+      "widgetMode": this.widgetMode
+    };
+    
+    if (this.apiParamData?.which == 'nationalAvg') {
+      this.scatterData.data.datasets.push(this.stateFilterDataService.nationLevelScatterDataSet);
+    }
+    console.log('scatterChartPayload', scatterChartPayload);
+    let inputVal: any = {};
+    inputVal.stateIds = this.stateId;
+    this.stateFilterDataService.getAvgScatterdData(scatterChartPayload, apiEndPoint).subscribe(
+      (res) => {
+        this.notFound = false;
+        console.log("response data", res);
+        //scatter plots center
+      
+        if (!this.apiParamData?.filterName.includes("mix")) {
+          this._loaderService.stopLoader();
+          let mCorporation: any;
+          let tp_data: any;
+          let m_data: any;
+          let stateData: any;
+
+          mCorporation = res['data'] && res['data']['Municipal Corporation'] ? res['data']['Municipal Corporation'] : 0 ;
+          tp_data = res['data'] && res['data']['Town Panchayat'] ? res['data']['Town Panchayat'] : 0;
+          m_data = res['data'] && res['data']['Municipality'] ? res['data']['Municipality'] : 0;
+          let nationalData = res && res['data'] && res['data']['national'] ? res['data']['national'] : 0;
+          stateData = res['data'] && res['data']["stateAvg"] ? res['data']['stateAvg'] : 0;
+
+          let averageCountList = [mCorporation, tp_data, m_data];
+          let stateLevelMaxPopuCount = Math.max(...averageCountList);
+          console.log('stateLevelMaxPopuCount', stateLevelMaxPopuCount)
+          // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+          this.scatterData.data.datasets.forEach((el) => {
+            let obj = { x: 0, y: 0 };
+            if (el.label == "Town Panchayat") {
+              // el.data.push(obj);
+              el.showLine = true;
+              el.fill = false;
+              el["rev"].push(tp_data);
+              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+              defaultDataSet.forEach(el2=>{
+                el2['y'] = tp_data;
+                el["data"].push(el2);
+                // el["labels"].push(el2.ulbName);
+              });
+            } else if (el.label == "Municipal Corporation") {
+              el.showLine = true;
+              el.fill = false;
+              el["rev"].push(mCorporation);
+              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+              defaultDataSet.forEach(el2=>{
+                el2['y'] = mCorporation
+                el["data"].push(el2)
+              });
+            } else if (el.label == "Municipality") {
+              el.showLine = true;
+              el.fill = false;
+              el["rev"].push(m_data);
+              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+              defaultDataSet.forEach(el2=>{
+                el2['y'] = m_data
+                el["data"].push(el2)
+              });
+            } else if (el.label == "National Average") {
+              el.showLine = true;
+              el.fill = false;
+              el["rev"].push(nationalData);
+              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+              defaultDataSet.forEach(el2=>{
+                el2['y'] = nationalData;
+                el["data"].push(el2);
+              });
+            } else if (el.label == "State Average") {
+              el.fill = false;
+              el["rev"].push(stateData);
+              let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+              defaultDataSet.forEach(el2=>{
+                el2['y'] = stateData;
+                el["data"].push(el2);
+              });
+            }
+          });
+          console.log(this.scatterData);
+          this.chartData = { ...this.scatterData };
+          this.createChart();
+        }
+      },
+      (err) => {
+        this._loaderService.stopLoader();
+        this.notFound = true;
+        console.log(err.message);
+      }
+    );
+  }
+
 
   // city dashboard data
   getCityChartData() {
@@ -1054,8 +1178,9 @@ export class RevenuechartComponent
       financialYear: this.apiParamData?.financialYear ? this.apiParamData?.financialYear.split(',') : [],
       headOfAccount: this.apiParamData?.headOfAccount,
       filterName: this.apiParamData?.filterName,
-      isPerCapita: this.apiParamData?.isPerCapita,
+      isPerCapita: this.apiParamData.hasOwnProperty('isPerCapita') ? JSON.parse(this.apiParamData?.isPerCapita) : false,
       compareType: "State Average",
+      "widgetMode": this.widgetMode
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
@@ -1491,6 +1616,7 @@ export class RevenuechartComponent
   }
 
   createBarChart(res) {
+    const isPerCapita = this.apiParamData.hasOwnProperty('isPerCapita') ? JSON.parse(this.apiParamData?.isPerCapita) : false;
     if (this.apiParamData?.selectedTab.toLowerCase() == "revenue expenditure")
       return this.createLineChartForRevenueExpenditure(res["data"]);
     if (
@@ -1517,13 +1643,13 @@ export class RevenuechartComponent
       const element = res["data"][key];
       element.map((value) => {
         let dataInner = JSON.parse(JSON.stringify(innerDataset));
-        if (this.compareType == "National Average" && key == "compData") {
+        if (this.apiParamData?.compareType == "National Average" && key == "compData") {
           value.ulbName = "National";
         }
-        if (this.compareType == "ULB Type Average" && key == "compData") {
+        if (this.apiParamData?.compareType == "ULB Type Average" && key == "compData") {
           value.ulbName = this.apiParamData?.ulbMapping[this.apiParamData?.currentUlb].type;
         }
-        if (this.compareType == "ULB category Average" && key == "compData") {
+        if (this.apiParamData?.compareType == "ULB category Average" && key == "compData") {
           value.ulbName = getPopulationType(
             this.apiParamData?.ulbMapping[this.apiParamData?.currentUlb].population
           );
@@ -1533,11 +1659,11 @@ export class RevenuechartComponent
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
           dataInner.label = value.ulbName;
-          dataInner.data = [value.amount, this.apiParamData?.isPerCapita];
+          dataInner.data = [value.amount, isPerCapita];
           temp[value.ulbName] = dataInner;
         } else {
           dataInner = temp[value.ulbName];
-          dataInner.data.push(value.amount, this.apiParamData?.isPerCapita);
+          dataInner.data.push(value.amount, isPerCapita);
           temp[value.ulbName] = dataInner;
         }
       });
@@ -1552,11 +1678,11 @@ export class RevenuechartComponent
       newData.data.datasets.push(element);
     }
     let hideElements = JSON.parse(this.apiParamData?.hideElements);
-    if (!hideElements && !this.apiParamData?.isPerCapita)
+    if (!hideElements && !isPerCapita)
       newData.data.datasets.push(newlineDataset);
     this.chartData = newData;
     this.ChartOptions.scales.yAxes[0]['scaleLabel']['labelString'] = `Amount in ${
-      this.apiParamData?.isPerCapita ? "Rs" : "Cr"
+      isPerCapita ? "Rs" : "Cr"
     }`;
     this.ChartOptions = this.barChartStaticOptions;
   }
@@ -1604,19 +1730,14 @@ export class RevenuechartComponent
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-  
+
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log("chartOption Data",  data);
-            if(isNaN(data)){
-              return
-            } else {   
-              data = new Intl.NumberFormat("en-IN").format(data*1);
-            }
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 1);
+            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
         console.log(animation, "animation");
@@ -1625,6 +1746,7 @@ export class RevenuechartComponent
   };
 
   createDataForUlbs(res, ulbs) {
+    const isPerCapita = this.apiParamData.hasOwnProperty('isPerCapita') ? JSON.parse(this.apiParamData?.isPerCapita) : false;
     let obj = {
       type: "bar",
       data: {
@@ -1648,7 +1770,7 @@ export class RevenuechartComponent
                 );
                 if (foundUlb)
                   innerObj.data.push(
-                    convertToCr(foundUlb.amount, this.apiParamData?.isPerCapita)
+                    convertToCr(foundUlb.amount, isPerCapita)
                   );
                 else innerObj.data.push(0);
               });
