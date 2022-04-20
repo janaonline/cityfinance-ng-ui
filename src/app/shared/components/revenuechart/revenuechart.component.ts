@@ -786,6 +786,7 @@ export class RevenuechartComponent
         this.notFound = false;
         console.log("response data", res);
         //scatter plots center
+        let apiData = res['data']
         if (!this.apiParamData?.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -801,11 +802,11 @@ export class RevenuechartComponent
             stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0]&& res['data']['scatterData']["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
           } else {
-            mCorporation = res["mCorporation"];
-            tp_data = res["townPanchayat"];
-            m_data = res["municipality"];
-            // let natData = res["natAvg"][0]["average"];
-            stateData = res["stateAvg"][0]["average"];
+            mCorporation = apiData["mCorporation"];
+            tp_data = apiData["townPanchayat"];
+            m_data = apiData["municipality"];
+            // let natData = apiData["natAvg"][0]["average"];
+            stateData = apiData["stateAvg"] ? apiData["stateAvg"] : 0;
           }
 
           this.scatterData.data.datasets.forEach((el) => {
@@ -814,18 +815,18 @@ export class RevenuechartComponent
               obj = { x: 0, y: 0 };
               tp_data.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
             } else if (el.label == "Municipal Corporation") {
               mCorporation.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
 
                 obj = { x: 0, y: 0 };
@@ -834,9 +835,9 @@ export class RevenuechartComponent
               m_data.forEach((el2, index) => {
                 obj = { x: 0, y: 0 };
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
