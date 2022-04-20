@@ -538,6 +538,7 @@ export class NationalSubComponent implements OnInit {
   }
 
   creatBarChartData(value) {
+    console.log({ value });
     // let newValue;
     if (this.CurrentHeadTab.toLowerCase() == "revenue") {
       this.newValue =
@@ -568,9 +569,7 @@ export class NationalSubComponent implements OnInit {
           : "OwnrevenuePerCapita";
     } else if (this.CurrentHeadTab.toLowerCase() == "capital expenditure") {
       this.newValue =
-        value.toLowerCase() == "capexpense"
-          ? "Capexpense"
-          : "CapexpensePerCapita";
+        value == "capitalExpenditure" ? "Capexpense" : "CapexpensePerCapita";
     }
     console.log("newValue==>", this.newValue);
     // this.yAxesLabel = this.newValue;
