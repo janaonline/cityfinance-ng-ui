@@ -329,6 +329,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reset() {
+    this.ulbArr = []
     this.checkBoxArray = [
       { value: '', title: "Select an Option", isDisabled: true },
       { value: 'nationalAvg', title: "National Avg", isDisabled: false },
@@ -489,13 +490,13 @@ console.log(err.message)
       "filterName": this.filterName ? this.filterName : '',
       "isPerCapita": this.isPerCapita ? this.isPerCapita : '',
       "compareType": this.stateServiceLabel ? undefined : '',
-      // "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '',
-      "compareCategory": '',
-      "ulb": this.ulbId ? [this.ulbId] : [],
+      "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
+      "ulb": this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : '',
       "chartType": !this.filterName.includes("mix") ? 'scatter' : 'doughnut',
       "apiEndPoint": apiEndPoint,
       "apiMethod": "post",
       "stateServiceLabel": this.stateServiceLabel,
+      "sortBy":"",
       // "which": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '',
       "chartTitle": ""
     };
@@ -508,7 +509,7 @@ console.log(err.message)
         this.notfound = false;
         console.log("response data", res);
         //scatter plots center
-      
+      let apiData = res['data']
         if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let mCorporation: any;
@@ -524,11 +525,11 @@ console.log(err.message)
             stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0] && res['data']['scatterData']["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
           } else {
-            mCorporation = res["mCorporation"];
-            tp_data = res["townPanchayat"];
-            m_data = res["municipality"];
-            // let natData = res["natAvg"][0]["average"];
-            this.stateAvgVal = res["stateAvg"] ? res["stateAvg"][0]["average"] : this.stateAvgVal
+            mCorporation = apiData["mCorporation"];
+            tp_data = apiData["townPanchayat"];
+            m_data = apiData["municipality"];
+            // let natData = apiData["natAvg"][0]["average"];
+            this.stateAvgVal = apiData["stateAvg"] ? apiData["stateAvg"] : this.stateAvgVal
             stateData =  this.stateAvgVal
           }
 
@@ -540,18 +541,18 @@ console.log(err.message)
               obj = { x: 0, y: 0 };
               tp_data.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
             } else if (el.label == "Municipal Corporation") {
               mCorporation.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
 
                 obj = { x: 0, y: 0 };
@@ -560,9 +561,9 @@ console.log(err.message)
               m_data.forEach((el2, index) => {
                 obj = { x: 0, y: 0 };
                 obj.x = el2.population;
-                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue;
+                obj.y = this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
                 el["labels"].push(el2.ulbName);
-                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.totalRevenue);
+                el["rev"].push(this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount);
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
               });
@@ -693,19 +694,13 @@ ulbArr = []
     if (e) this.getScatterData();
   }
   changeActiveBtn(i) {
+    this.ulbArr = []
+    this.ulbId = ''
+    this.nationalFilter.patchValue("");
     console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
     this.ActiveButton = this.data.btnLabels[i];
     this.lastSelectedId = i;
 
-    // let id = `btn-${i}`;
-    // if (this.lastSelectedId) {
-    //   document
-    //     .getElementById(this.lastSelectedId)
-    //     ?.classList.remove("selected");
-    //   document.getElementById(this.lastSelectedId)?.classList.add("deSelected");
-    // }
-    // document.getElementById(id)?.classList?.add("selected");
-    // document.getElementById(id)?.classList?.remove("deSelected");
 
     this.isPerCapita = this.data.btnLabels[i]
       ?.toLocaleLowerCase()
@@ -801,6 +796,7 @@ ulbArr = []
   notfound = true;
   
   ngOnInit(): void {
+    this.ulbArr = []
     this.statesList = localStorage.getItem('stateIdsMap') ? JSON.parse(localStorage.getItem('stateIdsMap')) : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId]
