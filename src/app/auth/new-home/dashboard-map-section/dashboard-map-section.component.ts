@@ -499,6 +499,7 @@ export class DashboardMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
+    let currentUrl = window.location.pathname;
     let obj: any = {
       containerPoint: {},
       latlng: {
@@ -511,13 +512,14 @@ export class DashboardMapSectionComponent
       target: stateLayer,
       type: "click",
     };
-    this.onStateLayerClick(obj);
+    if (currentUrl == "/home") {
+      this.onStateLayerClick(obj);
 
-    stateLayer.setStyle({
-      fillColor: "#3E5DB1",
-      fillOpacity: 1,
-    });
-
+      stateLayer.setStyle({
+        fillColor: "#3E5DB1",
+        fillOpacity: 1,
+      });
+    }
     // stateLayer.setStyle(this.StyleForSelectedState);
     // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     //   stateLayer.bringToFront();
