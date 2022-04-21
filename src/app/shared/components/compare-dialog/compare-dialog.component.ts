@@ -68,9 +68,8 @@ export class CompareDialogComponent implements OnInit {
   @Output()
   selectedParam = new EventEmitter();
 
-
   @Input()
-  stateId=""
+  stateId = "";
   dropYears = new FormControl();
 
   States = new FormControl();
@@ -89,15 +88,13 @@ export class CompareDialogComponent implements OnInit {
   own;
 
   @Input()
-  selectedRadioBtn
+  selectedRadioBtn;
 
   filterList = [
-    "State Average",
-    "National Average",
-    // "Similar ULB Cities",
-    "ULB Type Average",
-    "ULB category Average",
-    // "Similar Population ULBs",
+    { val: "State Average", checked: false },
+    { val: "National Average", checked: false },
+    { val: "ULB Type Average", checked: false },
+    { val: "ULB Population Category Average", checked: false },
   ];
 
   @Input()
@@ -165,7 +162,12 @@ export class CompareDialogComponent implements OnInit {
   typeX = "";
   placeholder = "Search for States";
   ngOnInit(): void {
-    console.log(this.selectedRadioBtn,"selectedRadioBtn in compare");
+    this.filterList = this.filterList.map((value) => {
+      if (this.selectedRadioBtn == value.val) {
+        value.checked = true;
+      }
+      return value;
+    });
     this.toogle.valueChanges.subscribe((newToogleValue) => {
       console.log("toogleValue", newToogleValue);
       this.reset();
@@ -229,18 +231,18 @@ export class CompareDialogComponent implements OnInit {
         ];
       }
     }
-
   }
   ngAfterViewInit() {
-    this.matSelect.openedChange.subscribe(opened => {
+    this.matSelect.openedChange.subscribe((opened) => {
       if (opened) {
-        this.matSelect.panel.nativeElement.addEventListener('mouseleave', () => {
-          this.matSelect.close();
-        })
+        this.matSelect.panel.nativeElement.addEventListener(
+          "mouseleave",
+          () => {
+            this.matSelect.close();
+          }
+        );
       }
-    })
-
-
+    });
   }
   reset() {
     this.globalFormControl.setValue("");
@@ -250,7 +252,11 @@ export class CompareDialogComponent implements OnInit {
       : this.selectedVal.setValue("Property Tax per Capita");
     this.stateChipList = [];
     this.ulbListChip = [];
-    this.selectedRadioBtn = ""
+    debugger;
+    this.filterList = this.filterList.map((value) => {
+      value.checked = false;
+      return value;
+    });
   }
   close() {
     this.closeDialog.emit(true);
@@ -276,7 +282,7 @@ export class CompareDialogComponent implements OnInit {
       matchingWord,
       onlyUlb: true,
     };
-    this.commonService.searchUlb(body, "ulb", this.stateId ).subscribe(
+    this.commonService.searchUlb(body, "ulb", this.stateId).subscribe(
       (res) => {
         if (res["data"].length > 0) {
           this.noDataFound = false;
@@ -301,7 +307,9 @@ export class CompareDialogComponent implements OnInit {
     );
   }
   radioSelected(event) {
-    console.log(event.target.value,"radio value");
+    let val = this.filterList.find((value) => value.val == event.target?.value);
+    if (val) val.checked = true;
+    console.log(event.target.value, "radio value");
     this.valuesToEmit = event.target?.value || event;
     this.searchField.reset();
   }
@@ -312,7 +320,7 @@ export class CompareDialogComponent implements OnInit {
     });
 
     if (!this.ulbListChip.find((value) => value.name === option.name)) {
-      if(this.ulbListChip.length == 3)return
+      if (this.ulbListChip.length == 3) return;
       this.ulbListChip.push(option);
     }
 
@@ -357,5 +365,4 @@ export class CompareDialogComponent implements OnInit {
     }
     this.close();
   }
-
 }

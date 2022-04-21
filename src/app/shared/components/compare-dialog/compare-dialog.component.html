@@ -32,13 +32,13 @@
                     <label>
             <input
               (click)="radioSelected($event)"
-              [checked]="item == selectedRadioBtn" 
+              [checked]="item.checked" 
               type="radio"
-              value="{{ item }}"
+              value="{{ item.val }}"
               name="radioBtn"
               class="checkbox-round"
             />
-            {{ item }}</label
+            {{ item.val }}</label
           >
         </div>
       </div>
