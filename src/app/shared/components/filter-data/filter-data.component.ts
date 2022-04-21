@@ -523,9 +523,7 @@ ULB ${this.selectedTab} for FY' ${
             dataSet.borderColor = borderColor[0];
             dataSet.backgroundColor = backgroundColor[0];
             dataSet.data.push(
-              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
-                2
-              )
+              ((value.revenue / value.expense) * 100).toFixed(2)
             );
             chartLabels.push(value._id.financialYear);
             return dataSet;
@@ -543,9 +541,7 @@ ULB ${this.selectedTab} for FY' ${
             dataSet.borderColor = borderColor[1];
             dataSet.backgroundColor = backgroundColor[1];
             dataSet.data.push(
-              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
-                2
-              )
+              ((value.revenue / value.expense) * 100).toFixed(2)
             );
             return dataSet;
           },
