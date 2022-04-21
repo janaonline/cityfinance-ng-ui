@@ -250,6 +250,7 @@ export class CompareDialogComponent implements OnInit {
       : this.selectedVal.setValue("Property Tax per Capita");
     this.stateChipList = [];
     this.ulbListChip = [];
+    this.selectedRadioBtn = ""
   }
   close() {
     this.closeDialog.emit(true);
