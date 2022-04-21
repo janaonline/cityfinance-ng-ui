@@ -124,7 +124,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
+            console.log("chartOption Data", data);
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
@@ -271,6 +271,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             this.calculateCagrOfDeficit(res["data"]);
         }
         this.loading = false;
+        this.notFound = false;
       },
       (error) => {
         this.notFound = true;
@@ -449,6 +450,11 @@ ULB ${this.selectedTab} for FY' ${
         }
       });
     }
+    newData.data.labels.sort(function (a, b) {
+      let newA = a.split("-")[0];
+      let newB = b.split("-")[0];
+      return newB - newA;
+    });
 
     let temp = {},
       index = 0;
@@ -503,7 +509,7 @@ ULB ${this.selectedTab} for FY' ${
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "Rs" : "Cr"
     }`;
-    console.log('barChart', this.barChart)
+    console.log("barChart", this.barChart);
     this.chartOptions = this.barChartStaticOptions;
   }
 
@@ -616,18 +622,19 @@ ULB ${this.selectedTab} for FY' ${
     let newData = [];
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
-      let year1 = data[index - 1],
+      let previousYear = this.getPreviousYear(element._id);
+      let previousYearValue = data.find((val) => val._id == previousYear);
+      let year1 = previousYearValue,
         year2 = data[index];
       if (!year1) {
         newData.push({
-          _id: { financialYear: data[0]._id },
-          amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
-          ulbName: data[0].yearData[0].ulbName,
+          _id: { financialYear: data[index]._id },
+          amount:
+            data[index].yearData[0].amount + data[index].yearData[1].amount,
+          ulbName: data[index].yearData[index].ulbName,
         });
         continue;
       }
-      let tt = year2.yearData.find((value) => value.code == "410").amount;
-      let yy = year1.yearData.find((value) => value.code == "410").amount;
       let amount1 =
           year2.yearData.find((value) => value.code == "410").amount -
           year1.yearData.find((value) => value.code == "410").amount,
@@ -640,11 +647,20 @@ ULB ${this.selectedTab} for FY' ${
         ulbName: year1.yearData[0].ulbName,
       });
     }
+    console.log(JSON.stringify(newData), "newData");
     return newData;
   }
 
+  getPreviousYear(year) {
+    // year = "2017-16"
+    year = year.split("-");
+    year = year.map((val) => Number(val - 1));
+    year = year.join("-");
+    return year;
+  }
+
   createPieChart(data, body) {
-    console.log('createPieChart called', data, body)
+    console.log("createPieChart called", data, body);
     if (this.compareType == "ULBs..") {
       data = this.createMultiUlbData(data["ulbData"]);
     }
@@ -807,7 +823,9 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createExpenditureMixData(data) {
-    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 ,colour:"#0FA386"}];
+    let tempArray = [
+      { _id: { lineItem: "Other Expenditure" }, amount: 0, colour: "#0FA386" },
+    ];
     data.forEach((element) => {
       if (includeInExpenditure.includes(element.code)) {
         tempArray.push(element);
