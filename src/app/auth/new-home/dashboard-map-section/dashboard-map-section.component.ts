@@ -343,7 +343,7 @@ export class DashboardMapSectionComponent
       }[];
     }
   ) {
-    debugger;
+    // debugger;
     console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;
