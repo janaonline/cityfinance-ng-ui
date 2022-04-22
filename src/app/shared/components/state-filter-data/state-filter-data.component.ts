@@ -489,7 +489,7 @@ console.log(err.message)
       "headOfAccount": this.stateServiceLabel ? undefined : this.headOfAccount,
       "filterName": this.filterName ? this.filterName : '',
       "isPerCapita": this.isPerCapita ? this.isPerCapita : '',
-      "compareType": this.stateServiceLabel ? undefined : '',
+      "compareType": this.compType ? this.compType  : "",
       "compareCategory": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '', 
       "ulb": this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : '',
       "chartType": !this.filterName.includes("mix") ? 'scatter' : 'doughnut',
@@ -607,9 +607,9 @@ console.log(err.message)
               this.doughnutData = { ...this.doughnutData };
             }
           } else if (this.scatterChartPayload.compareType == "ulbType") {
-            let mData = res["mData"];
-            let mcData = res["mcData"];
-            let tpData = res["tpData"];
+            let mData = data["mData"];
+            let mcData = data["mcData"];
+            let tpData = data["tpData"];
             this.multiChart = true;
             this.doughnutDataArr = [
               { mData: mData },
@@ -696,6 +696,7 @@ ulbArr = []
   changeActiveBtn(i) {
     this.ulbArr = []
     this.ulbId = ''
+    this.compType = ''
     this.nationalFilter.patchValue("");
     console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
     this.ActiveButton = this.data.btnLabels[i];
