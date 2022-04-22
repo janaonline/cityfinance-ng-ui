@@ -93,7 +93,9 @@ export class ScorePerComponent implements OnInit {
   getUlbList(stateCode) {
     this._commonService.getUlbByState(stateCode).subscribe((res: any) => {
       console.log("res ulb list", res?.data);
-      this.ulbList = res?.data?.ulbs;
+      this.ulbList = res?.data?.ulbs.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
     });
   }
 
