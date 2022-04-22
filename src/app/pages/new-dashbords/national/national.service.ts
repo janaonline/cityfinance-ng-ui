@@ -22,4 +22,12 @@ export class NationalService {
         `national-dashboard/${endPoint}?financialYear=${RevenueMixInput?.financialYear}&formType=${RevenueMixInput?.formType}&stateId=${RevenueMixInput?.stateId}&type=${RevenueMixInput?.type} `
     );
   }
+
+  DownloadNationalTableData(downloadInput, endPoint) {
+    return this.http.get(
+      environment.api.url +
+        `national-dashboard/${endPoint}?financialYear=${downloadInput?.financialYear}&formType=${downloadInput?.formType}&stateId=${downloadInput?.stateId}&type=${downloadInput?.type}&csv=${downloadInput.csv} `,
+      { responseType: "blob" }
+    );
+  }
 }
