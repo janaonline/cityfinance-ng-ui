@@ -14,6 +14,7 @@ import { AuthService } from "../../../auth/auth.service";
 })
 export class NationalComponent implements OnInit {
   constructor(
+    protected router: Router,
     public newDashboardService: NewDashboardService,
     private _activatedRoute: ActivatedRoute,
     private nationalMapService: NationalMapSectionService,
@@ -126,6 +127,11 @@ export class NationalComponent implements OnInit {
       this.yearValue = res?.data;
       this.getCardsData();
     });
+
+    // this.router.navigate([
+    //   // `dashboard/national/${this.tabId}?tabIndex=${this.tabIndex}`,
+    //   `dashboard/national/61e150439ed0e8575c881028`,
+    // ]);
   }
 
   getCardsData() {

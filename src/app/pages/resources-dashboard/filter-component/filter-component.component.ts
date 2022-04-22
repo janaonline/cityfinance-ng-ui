@@ -70,7 +70,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   selectedValue: String = "2020-21";
   selectedType: String = "Raw Data PDF";
   onChange(event) {
-    this.selectedValue = event.value;
+    this.selectedValue = event.target.value;
     this.filterData("year", "");
   }
   onChangeType(event) {
@@ -157,7 +157,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulb: "",
       contentType: "Raw Data PDF",
       sortBy: "",
-      year: "2021-22",
+      year: "2020-21",
     });
     this.filterFormData.emit(this.filterForm);
     this.loadData();

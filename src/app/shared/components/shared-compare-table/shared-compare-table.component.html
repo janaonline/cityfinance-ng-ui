@@ -1,58 +1,71 @@
 <div *ngIf="!tableShow; else singleTable" class="NoDataFound">
-    No Data Found
+  <!-- No Data Found -->
 </div>
 
 <ng-template #singleTable>
-    <div style="overflow-y: hidden; overflow-x: scroll">
-        <!-- <div *ngIf="tableShow; else multipleDataTab" class="NoDataFound">No Data Found</div>
+  <div style="overflow-y: hidden; overflow-x: scroll">
+    <!-- <div *ngIf="tableShow; else multipleDataTab" class="NoDataFound">No Data Found</div>
 <ng-template #singleTable></ng-template> -->
-        <table class="table">
-            <tr class="text-center" style="border: none">
-                <th></th>
-                <th [attr.colspan]="ulbListVal?.length" *ngFor="let year of fyList">
-                    <div class="yearClass">
-                        {{ year }}
-                    </div>
-                </th>
-            </tr>
-            <tr class="firstRow" style="border: none">
-                <th class="text-left">
-                    <div class="lineItemDiv">
-                        * Figure mentioned are in Rs. {{ figurString }}
-                    </div>
-                </th>
-                <ng-container *ngFor="
+    <table class="table">
+      <tr class="text-center" style="border: none">
+        <th></th>
+        <th [attr.colspan]="ulbListVal?.length" *ngFor="let year of fyList">
+          <div class="yearClass">
+            {{ year }}
+          </div>
+        </th>
+      </tr>
+      <tr class="firstRow" style="border: none">
+        <th class="text-left">
+          <div class="lineItemDiv">
+            * Figure mentioned are in Rs. {{ figurString }}
+          </div>
+        </th>
+        <ng-container
+          *ngFor="
             let ulb of ulbListVal | slice: 0:fyList?.length;
             let ulbIndex = index
-          ">
-                    <th class="text-center" *ngFor="let ulb of ulbListVal">
-                        {{ ulb?.name }}
-                    </th>
-                </ng-container>
-            </tr>
-            <tbody>
-                <tr class="rowData my-3" *ngFor="let data of finalData; let i = index">
-                    <td class="text-left my-2 px-2" style="padding-left: 1 em; font-size: 14px;">
-                        {{ data?.line_item }}
-                    </td>
-                    <ng-container *ngFor="let fy of fyList">
-                        <ng-container *ngFor="let ulb of ulbListVal">
-                            <td class="text-center my-2 px" style="font-size: 14px;">
-                                {{ data[ulb.code + fy] || "N/A" }}
-                            </td>
-                        </ng-container>
-                    </ng-container>
-                </tr>
-            </tbody>
-        </table>
+          "
+        >
+          <th class="text-center" *ngFor="let ulb of ulbListVal">
+            {{ ulb?.name }}
+          </th>
+        </ng-container>
+      </tr>
+      <tbody>
+        <tr class="rowData my-3" *ngFor="let data of finalData; let i = index">
+          <td
+            class="text-left my-2 px-2"
+            style="padding-left: 1 em; font-size: 14px"
+          >
+            {{ data?.line_item }}
+          </td>
+          <ng-container *ngFor="let fy of fyList">
+            <ng-container *ngFor="let ulb of ulbListVal">
+              <td class="text-center my-2 px" style="font-size: 14px">
+                {{ data[ulb.code + fy] || "N/A" }}
+              </td>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
 
-        <div *ngIf="lastTableData">
-            <p *ngIf="!checkVal" (click)="changeVal()" style="cursor: pointer; color: #e67e15; font-size: 12px">
-                View more +
-            </p>
-        </div>
-        <p *ngIf="checkVal" (click)="changeVal()" style="cursor: pointer; color: #e67e15; font-size: 12px">
-            View Less -
-        </p>
+    <div *ngIf="lastTableData">
+      <p
+        *ngIf="!checkVal"
+        (click)="changeVal()"
+        style="cursor: pointer; color: #e67e15; font-size: 12px"
+      >
+        View more +
+      </p>
     </div>
+    <p
+      *ngIf="checkVal"
+      (click)="changeVal()"
+      style="cursor: pointer; color: #e67e15; font-size: 12px"
+    >
+      View Less -
+    </p>
+  </div>
 </ng-template>
