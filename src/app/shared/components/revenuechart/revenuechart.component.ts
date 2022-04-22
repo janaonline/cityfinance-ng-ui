@@ -325,7 +325,7 @@ export class RevenuechartComponent
   singleDoughnutChart;
 
   @Input()
-  multipleDoughnutCharts;
+  multipleDoughnutCharts: any;
 
   widgetMode: boolean = false;
   apiParamData: any;
@@ -474,7 +474,7 @@ export class RevenuechartComponent
     console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     let id;
     let newChartData = {};
-    if (this.multipleDoughnutCharts) {
+    if (this.multipleDoughnutCharts && this.multipleDoughnutCharts?.length > 0) {
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
@@ -656,7 +656,8 @@ export class RevenuechartComponent
             console.log("getStateRevenue", response);
             if (response["data"] && response["data"].length) {
               for (const data of response["data"]) {
-                data["count"] = this.commonService.changeCountFormat(data?.sum);
+                // data["count"] = this.commonService.changeCountFormat(data?.sum);
+                data['count'] = this.commonService.changeCountFormat(data[tabType?.countAccessKey], tabType?.chartAnimation);
               }
               this.filterCityRankingChartData(
                 response["data"],

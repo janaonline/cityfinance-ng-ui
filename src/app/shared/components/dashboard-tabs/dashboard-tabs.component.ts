@@ -221,7 +221,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
+    // console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
 
     if (changes.stateId) {
       this.getStateName();

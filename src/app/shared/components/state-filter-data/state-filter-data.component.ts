@@ -591,8 +591,9 @@ console.log(err.message)
         else if (this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           let data = res["data"];
-          this.chartDropdownList = data;
-          if (this.chartDropdownList?.length > 0) {
+
+          if (data?.length > 0) {
+            this.chartDropdownList = data;
             this.getStateRevenue();
           }
           console.log('chartDropdownList', this.chartDropdownList)
@@ -621,7 +622,22 @@ console.log(err.message)
             ];
             this.doughnutDataArr = [...this.doughnutDataArr];
           } else if (this.scatterChartPayload.compareType == "popType") {
+            let lessThan100k = data["<100k"];
+            let between100kTo500k = data["100k-500k"];
+            let between500kTo1m = data["500k-1M"];
+            let between1mTo4m = data["1m-4m"];
+            let greaterThan4m = data["4m+"];
 
+            this.multiChart = true;
+            this.doughnutDataArr = [];
+            this.doughnutDataArr = [
+              { "<100k": lessThan100k },
+              { "100k-500k": between100kTo500k },
+              { "500k-1M": between500kTo1m },
+              { "1m-4m": between1mTo4m },
+              { "4m+": greaterThan4m },
+            ];
+            this.doughnutDataArr = [...this.doughnutDataArr];
           }
         }
       },
@@ -922,7 +938,7 @@ console.log(err.message)
           console.log("getStateRevenue", response, this.barData,tabType?.countAccessKey);
           if (response['data'] && response['data'].length) {
             for (const data of response['data']) {
-              data['count'] = this._commonServices.changeCountFormat(data[tabType?.countAccessKey]);
+              data['count'] = this._commonServices.changeCountFormat(data[tabType?.countAccessKey], tabType?.chartAnimation);
             }
             this.filterCityRankingChartData(response['data'], this.barChartPayload?.tabType, tabType?.yAxisLabel);
             this.barChartNotFound = false;
@@ -977,6 +993,7 @@ console.log(err.message)
   getChartData(responseData: any, tabType: string, yAxisLabel: string) {
     this.setChartAnimation(tabType, yAxisLabel);
     let mappedCountList = responseData.map((item: { count: any; }) => item.count)
+    console.log('mappedCountList', mappedCountList)
     return mappedCountList;
     // switch(tabType) {
     //   case 'TotalRevenue':
@@ -991,6 +1008,7 @@ console.log(err.message)
 
   setChartAnimation(tabType: string, yAxisLabel: string) {
     let animationConfig: any;
+    console.log('this.getTabType', this.getTabType());
     let animationConfigAccessKey: any = this.stateServiceLabel ? 'serviceLevelBenchmarkBarChartOptions' : this.getTabType().chartAnimation;
     animationConfig = this.stateFilterDataService[animationConfigAccessKey];
     Object.assign(animationConfig);
