@@ -84,9 +84,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     public _loaderService: GlobalLoaderService,
     public _commonServices: CommonService,
     private router: Router
-  ) {
-    this.yearValue.emit("2019-20");
-  }
+  ) {}
 
   ngOnInit(): void {
     console.log("this.data====>", this.data);
@@ -110,7 +108,11 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   viewDashboard(stateId) {
     this.router.navigateByUrl(`/dashboard/state?stateId=${stateId}`);
   }
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.data){
+      this.yearValue.emit(changes.data['year']);
+      }
+  }
 
   changeInMapFilter(event) {
     this.getAvailableData();

@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { Subject } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { Subject } from "rxjs";
 
-import { environment } from '../../environments/environment';
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
@@ -14,19 +14,27 @@ export class AuthService {
   // public expirationDate = this.helper.getTokenExpirationDate(myRawToken);
   // public isExpired = this.helper.isTokenExpired(myRawToken);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   loginLogoutCheck = new Subject<any>();
   authenticateUser(user) {
     this.http.post(environment.api.url + "users/signin", user);
   }
 
-  getLastUpdated(){
-    return this.http.get(environment.api.url + "ledger/lastUpdated" )
+  getLastUpdated(params?) {
+    return this.http.get(
+      environment.api.url +
+        `ledger/lastUpdated?ulb=${params?.ulb ?? ""}&state=${
+          params?.state ?? ""
+        }`
+    );
   }
 
-  getCityData(ulbId){
-    return this.http.get(environment.api.url+ `all-dashboard/people-information?type=ulb&ulb=${ulbId}`)
+  getCityData(ulbId) {
+    return this.http.get(
+      environment.api.url +
+        `all-dashboard/people-information?type=ulb&ulb=${ulbId}`
+    );
   }
   signin(user) {
     return this.http.post(environment.api.url + "login", user);
@@ -61,11 +69,9 @@ export class AuthService {
     localStorage.clear();
   }
   otpSignIn(body) {
-    return this.http.post(`${environment.api.url}sendOtp`, body)
+    return this.http.post(`${environment.api.url}sendOtp`, body);
   }
   otpVerify(body) {
-    return this.http.post(`${environment.api.url}verifyOtp`, body)
+    return this.http.post(`${environment.api.url}verifyOtp`, body);
   }
-
-
 }
