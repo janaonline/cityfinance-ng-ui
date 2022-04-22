@@ -45,48 +45,50 @@ export class NationalSubComponent implements OnInit {
   tableView = true;
   graphView = false;
   barChartsLabels;
-  doughnutLabels = [
-    {
-      name: "Revenue Grants, Contributions & Subsidies",
-      color: "#1E44AD",
-    },
-    {
-      name: "Interest earned",
-      color: "#25C7CE",
-    },
-    {
-      name: "Fee & User Charges",
-      color: "#585FFF",
-    },
-    {
-      name: "Income from Investment",
-      color: "#FFD72E",
-    },
-    {
-      name: "Sale & Hire charges",
-      color: "#22A2FF",
-    },
-    {
-      name: "Others",
-      color: "#FF608B",
-    },
-    {
-      name: "Tax Revenue",
-      color: "#FF608B",
-    },
-    {
-      name: "Other Income",
-      color: "#FF608B",
-    },
-    {
-      name: "Rental Income from Municipal Properties",
-      color: "#FF608B",
-    },
-    {
-      name: "Assigned Revenues & Compensation",
-      color: "#a572b5",
-    },
-  ];
+
+  doughnutLabels = [];
+  // doughnutLabels = [
+  //   {
+  //     name: "Revenue Grants, Contributions & Subsidies",
+  //     color: "#1E44AD",
+  //   },
+  //   {
+  //     name: "Interest earned",
+  //     color: "#25C7CE",
+  //   },
+  //   {
+  //     name: "Fee & User Charges",
+  //     color: "#585FFF",
+  //   },
+  //   {
+  //     name: "Income from Investment",
+  //     color: "#FFD72E",
+  //   },
+  //   {
+  //     name: "Sale & Hire charges",
+  //     color: "#22A2FF",
+  //   },
+  //   {
+  //     name: "Others",
+  //     color: "#FF608B",
+  //   },
+  //   {
+  //     name: "Tax Revenue",
+  //     color: "#FF608B",
+  //   },
+  //   {
+  //     name: "Other Income",
+  //     color: "#FF608B",
+  //   },
+  //   {
+  //     name: "Rental Income from Municipal Properties",
+  //     color: "#FF608B",
+  //   },
+  //   {
+  //     name: "Assigned Revenues & Compensation",
+  //     color: "#a572b5",
+  //   },
+  // ];
   yearLookup = [
     { id: "2018-19", itemName: "2018-19" },
     { id: "2019-20", itemName: "2019-20" },
@@ -181,19 +183,20 @@ export class NationalSubComponent implements OnInit {
   financialYearList: any = [];
   nationalDoughnutChart: any = [];
   nationalDoughnutChartLabel: any = [];
-  colorArray = [
-    "#FFD72E",
-    "black",
-    "red",
-    "#a572b5",
-    "#1E44AD",
-    "#25C7CE",
-    "#a572b5",
-    "#585FFF",
-    "#0c302f",
-    "#22A2FF",
-    "#FF608B",
-  ];
+  // colorArray = [
+  //   "#FFD72E",
+  //   "black",
+  //   "red",
+  //   "#a572b5",
+  //   "#1E44AD",
+  //   "#25C7CE",
+  //   "#a572b5",
+  //   "#585FFF",
+  //   "#0c302f",
+  //   "#22A2FF",
+  //   "#FF608B",
+  // ];
+  colorArray = [];
 
   chartArray: any = [];
   activetab: any = "Total Revenue";
@@ -418,53 +421,63 @@ export class NationalSubComponent implements OnInit {
   getRevenueMixData(revenueMixInput, endPoint) {
     this.destroyMultipleCharts();
     this._loaderService.showLoader();
-    this.nationalService
-      .getNationalRevenueMixData(revenueMixInput, endPoint)
-      .subscribe((res: any) => {
-        // debugger;
-        this._loaderService.stopLoader();
+    try {
+      this.nationalService
+        .getNationalRevenueMixData(revenueMixInput, endPoint)
+        .subscribe((res: any) => {
+          this._loaderService.stopLoader();
 
-        if (res?.data) {
-          if (revenueMixInput.formType == "populationCategory") {
+          if (res?.data) {
+            this.colorArray = [];
+            this.nationalDoughnutChartLabel = [];
+            this.multipleDoughnutChartLabel = [];
             this.createDoughnutChartOptions(res?.data);
-            this.nationalDoughnutChart = Object.values(res?.data?.national);
-            this.nationalDoughnutChartLabel = Object.keys(res?.data?.national);
-            this.multipleDoughnutChartLabel = Object.keys(
-              res?.data?.individual["1M-4M"]
-            );
-            this.mixRDoughnutPopulationCategory.forEach((elem) => {
-              let particularObject = res?.data?.individual[elem?.title];
-              if (particularObject) {
-                elem.data = Object.values(particularObject);
-              }
+            this.doughnutLabels = res?.data?.colourArray;
+            this.doughnutLabels.forEach((elem, i) => {
+              this.colorArray.push(elem?.colour);
+              this.nationalDoughnutChartLabel.push(elem?.lineitem);
+              this.multipleDoughnutChartLabel.push(elem?.lineitem);
             });
-
-            this.dynamicDoughnutChartInit(this.mixRDoughnutPopulationCategory);
-            this.doughnutChartInit();
-          }
-          if (revenueMixInput.formType == "ulbType") {
-            this.createDoughnutChartOptions(res?.data);
             this.nationalDoughnutChart = Object.values(res?.data?.national);
-            this.nationalDoughnutChartLabel = Object.keys(res?.data?.national);
-            this.multipleDoughnutChartLabel = Object.keys(
-              res?.data?.individual["Municipal Corporation"]
-            );
-            this.mixRDoughnutUlbType.forEach((elem) => {
-              let particularObject = res?.data?.individual[elem?.title];
-              if (particularObject) {
-                elem.data = Object.values(particularObject);
-              }
-            });
-            this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
             this.doughnutChartInit();
-          }
+            if (revenueMixInput.formType == "populationCategory") {
+              this.mixRDoughnutPopulationCategory.map((elem) => {
+                let particularObject = res?.data?.individual[elem?.title];
+                if (particularObject) {
+                  elem.data = Object.values(particularObject);
+                }
+              });
 
-          this.doughnutLabels.forEach((elem, i) => {
-            elem.name = this.nationalDoughnutChartLabel[i];
-            elem.color = this.colorArray[i];
-          });
-        }
-      });
+              this.dynamicDoughnutChartInit(
+                this.mixRDoughnutPopulationCategory
+              );
+            }
+            if (revenueMixInput.formType == "ulbType") {
+              // this.doughnutLabels = res?.data?.colourArray;
+              // this.doughnutLabels.forEach((elem, i) => {
+              //   this.colorArray.push(elem?.colour);
+              // });
+              // this.createDoughnutChartOptions(res?.data);
+              // this.nationalDoughnutChart = Object.values(res?.data?.national);
+              // this.nationalDoughnutChartLabel = Object.keys(
+              //   res?.data?.national
+              // );
+              // this.multipleDoughnutChartLabel = Object.keys(
+              //   res?.data?.individual["Municipal Corporation"]
+              // );
+              this.mixRDoughnutUlbType.forEach((elem) => {
+                let particularObject = res?.data?.individual[elem?.title];
+                if (particularObject) {
+                  elem.data = Object.values(particularObject);
+                }
+              });
+              this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
+            }
+          }
+        });
+    } catch (err) {
+      this._loaderService.stopLoader();
+    }
   }
   getNationalTableData(endPoint) {
     this.showLoader = true;
@@ -750,6 +763,7 @@ export class NationalSubComponent implements OnInit {
       type: "doughnut",
       data: {
         labels: this.nationalDoughnutChartLabel,
+        // labels: this.nationalDoughnutChartLabel,
         datasets: [
           {
             data: this.nationalDoughnutChart,

@@ -180,6 +180,7 @@ export class DataSetsComponent implements OnInit {
         this.selectedUsersList.push(this.balData[i++]);
       }
     }
+    this.checkIsDisabled(this.selectedUsersList);
   }
 
   checkDownloadButton() {
