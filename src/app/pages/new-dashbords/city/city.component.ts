@@ -69,18 +69,21 @@ export class CityComponent implements OnInit {
           console.log(error);
         }
       );
-    this.authService.getLastUpdated().subscribe((res) => {
-      Object.assign(this.frontPanelData, {
-        year: res["year"],
-        date: res["data"],
+    this.authService
+      .getLastUpdated({ ulb: this.cityId ?? "" })
+      .subscribe((res) => {
+        Object.assign(this.frontPanelData, {
+          year: res["year"],
+          date: res["data"],
+        });
       });
-    });
   }
 
   dashboardCalls(cityId) {
     this.newDashboardService.getLatestDataYear(cityId).subscribe(
       (res) => {
         this.currentYear = res["data"].financialYear;
+        this, this.callMoneyApi(cityId);
         let tempData: any = this.frontPanelData.footer.split(" ");
         tempData = tempData.map((value) => {
           if (value == "finacialYear")
@@ -105,7 +108,7 @@ export class CityComponent implements OnInit {
       }
     );
     this.newDashboardService
-      .dashboardInformation(true, cityId, "ulb", "")
+      .dashboardInformation(true, cityId, "ulb", this.currentYear)
       .subscribe(
         (res: any) => {
           this.frontPanelData.dataIndicators.map((item) => {
@@ -163,11 +166,13 @@ export class CityComponent implements OnInit {
           console.error(error);
         }
       );
+  }
+
+  callMoneyApi(cityId) {
     this.newDashboardService
-      .dashboardInformation(false, cityId, "ulb", " ")
+      .dashboardInformation(false, cityId, "ulb", this.currentYear)
       .subscribe(
         (res: any) => {
-          console.log('resdadadadad',res.data)
           let obj = { Revenue, Expense, Tax, Liability, Asset, Debt };
           for (const key in obj) {
             const element = obj[key];
@@ -197,9 +202,8 @@ export class CityComponent implements OnInit {
             obj.Tax,
             obj.Liability,
             obj.Debt,
-            
           ];
-          console.log('revenue data',this.revenueData,obj.Liability)
+          console.log("revenue data", this.revenueData, obj.Liability);
         },
         (error) => {
           console.error(error);

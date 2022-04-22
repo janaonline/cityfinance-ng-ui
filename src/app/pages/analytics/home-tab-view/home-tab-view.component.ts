@@ -1189,8 +1189,8 @@ export class HomeTabViewComponent implements OnInit {
       bVal = b[id];
 
     if (typeof a[id] === "object") {
-      aVal = a[id].value;
-      bVal = b[id].value;
+      aVal = a[id]?.value;
+      bVal = b[id]?.value;
     }
     if (typeof aVal !== "number" && aVal.includes("%")) {
       aVal = aVal.replace("%", "");

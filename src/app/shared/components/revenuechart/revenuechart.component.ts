@@ -789,6 +789,7 @@ export class RevenuechartComponent
 
   getScatterData() {
     // debugger;
+    let isPerCapita = (this.apiParamData.hasOwnProperty('isPerCapita') && (this.apiParamData?.isPerCapita != "")) ? JSON.parse(this.apiParamData?.isPerCapita) : false;
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -807,8 +808,8 @@ export class RevenuechartComponent
       isPerCapita: this.apiParamData.hasOwnProperty("isPerCapita")
         ? JSON.parse(this.apiParamData?.isPerCapita)
         : false,
-      compareType: stateServiceLabel ? undefined : "",
       compareCategory: this.apiParamData?.compareCategory,
+      compareType: stateServiceLabel ? undefined : '',
       ulb: this.apiParamData?.ulb,
       widgetMode: this.widgetMode,
     };
