@@ -608,9 +608,11 @@ console.log(err.message)
               this.doughnutData = { ...this.doughnutData };
             }
           } else if (this.scatterChartPayload.compareType == "ulbType") {
-            let mData = data["mData"];
-            let mcData = data["mcData"];
-            let tpData = data["tpData"];
+            console.log('apiData', data)
+            let mData = data["mData"][0];
+            let mcData = data["mcData"][0];
+            let tpData = data["tpData"][0];
+
             this.multiChart = true;
             this.doughnutDataArr = [
               { mData: mData },
@@ -618,6 +620,8 @@ console.log(err.message)
               { tpData: tpData },
             ];
             this.doughnutDataArr = [...this.doughnutDataArr];
+          } else if (this.scatterChartPayload.compareType == "popType") {
+
           }
         }
       },
@@ -889,6 +893,7 @@ console.log(err.message)
 
   barChartPayload: any = {};
   getStateRevenue() {
+    console.log('getStateRevenueCalled');
     const tabType = this.getTabType();
     this.barChartPayload = {};
     this.barChartPayload = {

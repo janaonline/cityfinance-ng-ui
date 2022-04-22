@@ -384,6 +384,7 @@ export class RevenuechartComponent
       }
     } else {
       if (this.multipleCharts) {
+        console.log('ngAfterViewInit Called', this.multipleCharts);
         this.createMultipleChart();
       } else this.createChart();
     }
@@ -413,11 +414,21 @@ export class RevenuechartComponent
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       this.year = this.mySelectedYears[0];
     }
+    console.log('changesmultipleCharts', changes)
+    if (changes.multipleCharts && changes.multipleCharts.currentValue) {
+      this.multipleCharts = changes.multipleCharts.currentValue;
+    }
+
+    console.log('multipleCharts', this.multipleCharts, 'firstChange', changes.multipleDoughnutCharts?.firstChange)
+    console.log('multipleDoughnutCharts Data', this.multipleDoughnutCharts);
+    console.log('lastMultipleCharts', this.lastMultipleCharts)
     if (!changes.multipleDoughnutCharts?.firstChange && this.multipleCharts) {
+      console.log('multipleDoughnutCharts called')
       if (this.lastMultipleCharts.length) {
         this.lastMultipleCharts.forEach((val) => val.destroy());
       }
       setTimeout(() => {
+        console.log('calledSetTimeout')
         this.createMultipleChart();
       }, 100);
     }

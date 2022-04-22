@@ -526,9 +526,10 @@ export class RevenueMixComponent implements OnInit {
      event.forEach(element => {
       data.push(element.text)
     });
-console.log('labels',data )
+    console.log('labels',data )
     this.dounghnuChartLabels.emit(data)
   }
+
   getMultipleDoughnutCharts() {
     if (this.ulbTab) {
       this.finalMultipleDoughnut = this.doughnutArray;
@@ -539,7 +540,7 @@ console.log('labels',data )
     console.log(this.finalMultipleDoughnut);
   }
 
-  mulpleChartShow = false;
+  multipleChartShow = false;
 
   ulbFunction(value) {
     console.log(value);
@@ -547,21 +548,21 @@ console.log('labels',data )
       this.ulbTab = true;
       this.populationTab = false;
       
-      this.mulpleChartShow = true;
+      this.multipleChartShow = true;
       this.compType.emit('ulbType')
     }
     if (value == 2) {
       this.ulbTab = false;
       this.populationTab = true;
       
-      this.mulpleChartShow = true;
+      this.multipleChartShow = true;
       this.compType.emit('popType')
     }
     if (value == 3) {
       this.ulbTab = false;
       this.populationTab = false;
     
-      this.mulpleChartShow = false;
+      this.multipleChartShow = false;
       this.compType.emit('default')
     }
 
@@ -609,13 +610,19 @@ console.log('labels',data )
           tooltips: {
             callbacks: {
               label: function(tooltipItem, data) {
+                console.log('tooltip', tooltipItem, data);
                 var dataset = data.datasets[tooltipItem.datasetIndex];
+                console.log('dataset', dataset);
+                console.log('label', data.labels[tooltipItem.index]);
+
                 var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
                   return previousValue + currentValue;
                 });
                 var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
-                return percentage + "%";
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+                var labelName = data.labels[tooltipItem.index];
+                // return percentage + "%"
+                return `${labelName ? labelName : ''} - ${percentage} %`;
               }
             }
           },
@@ -758,6 +765,7 @@ console.log('labels',data )
       },
     ]
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log("revenue chages", changes);
 
@@ -765,36 +773,49 @@ console.log('labels',data )
       if (changes.returnCompType.currentValue == 'ulbType') {
         this.ulbTab = true;
         this.populationTab = false;
+        this.multipleChartShow = true;
       } else if (changes.returnCompType.currentValue == 'popType') {
         this.ulbTab = false;
         this.populationTab = true;
+        this.multipleChartShow = true;
       } else {
         this.ulbTab = false;
         this.populationTab = false;
+        this.multipleChartShow = false;
       }
     }
     if(!changes.chartData.firstChange){
-console.log(this.chartData)
+console.log('revenueMix changes', this.chartData, this.multipleChartShow)
 this.initializeDounughtArry();
 if(Array.isArray(this.chartData)){
   this.chartData.forEach(el=>{
+    console.log('chartData', el, 'keys', Object.keys(el)[0], 'value', Object.values(el)[0])
     if(Object.keys(el)[0] == 'mData'){
-        let val: any = Object.values(el)[0][0]
+        // let val: any = Object.values(el)[0][0]
+        let val: any = Object.values(el)[0]
         console.log(val)
+        // this.doughnutArray[1].data.labels.push(val['code'])
+        // this.doughnutArray[1].data.datasets[0].data.push(val['amount'])
         val.forEach(el2 => {
           this.doughnutArray[1].data.labels.push(el2['code'])
           this.doughnutArray[1].data.datasets[0].data.push(el2['amount'])
         })
     }
     if(Object.keys(el)[0] == 'mcData'){
-      let val : any = Object.values(el)[0][0]
+      // let val : any = Object.values(el)[0][0]
+      let val : any = Object.values(el)[0]
+      // this.doughnutArray[2].data.labels.push(val['code'])
+      // this.doughnutArray[2].data.datasets[0].data.push(val['amount'])
       val.forEach(el2 => {
         this.doughnutArray[2].data.labels.push(el2['code'])
         this.doughnutArray[2].data.datasets[0].data.push(el2['amount'])
       })
   }
   if(Object.keys(el)[0] == 'tpData'){
-    let val: any = Object.values(el)[0][0]
+    // let val: any = Object.values(el)[0][0]
+    let val: any = Object.values(el)[0]
+    // this.doughnutArray[3].data.labels.push(val['code'])
+    // this.doughnutArray[3].data.datasets[0].data.push(val['amount'])
     val.forEach(el2 => {
       this.doughnutArray[3].data.labels.push(el2['code'])
       this.doughnutArray[3].data.datasets[0].data.push(el2['amount'])
