@@ -5,6 +5,7 @@ import { NationalMapSectionService } from "./national-map-section/national-map-s
 import { CommonService } from "src/app/shared/services/common.service";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { AssetsService } from "src/app/shared/services/assets/assets.service";
+import { AuthService } from "../../../auth/auth.service";
 
 @Component({
   selector: "app-national",
@@ -13,14 +14,15 @@ import { AssetsService } from "src/app/shared/services/assets/assets.service";
 })
 export class NationalComponent implements OnInit {
   constructor(
+    protected router: Router,
     public newDashboardService: NewDashboardService,
     private _activatedRoute: ActivatedRoute,
     private nationalMapService: NationalMapSectionService,
     private _commonService: CommonService,
-    private assetService: AssetsService
+    private assetService: AssetsService,
+    private authService: AuthService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
-      console.log(param);
       this.tabIndex = param.tabIndex ? param.tabIndex : 0;
     });
     this.loadData();
@@ -109,6 +111,7 @@ export class NationalComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.dashboardLastUpdatedYear();
     this.getIndicatorData(this.stateId);
     this.getCardsData();
     this.component_name = "National";
@@ -121,10 +124,14 @@ export class NationalComponent implements OnInit {
     //   this.getIndicatorData(this.stateId);
     // });
     this.nationalMapService.selectedYear.subscribe((res) => {
-      console.log("yearResponse", res.data);
       this.yearValue = res?.data;
       this.getCardsData();
     });
+
+    // this.router.navigate([
+    //   // `dashboard/national/${this.tabId}?tabIndex=${this.tabIndex}`,
+    //   `dashboard/national/61e150439ed0e8575c881028`,
+    // ]);
   }
 
   getCardsData() {
@@ -162,8 +169,6 @@ export class NationalComponent implements OnInit {
           obj.Asset,
           obj.Debt,
         ];
-        // this.revenueData
-        console.log("national CardData==>", res);
       });
   }
 
@@ -279,9 +284,7 @@ export class NationalComponent implements OnInit {
     dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("nationalChanges", changes);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   loadData() {
     this.newDashboardService
@@ -319,6 +322,15 @@ export class NationalComponent implements OnInit {
   sortTabData(res) {
     this.tabAboutData = res.sort(function (x, y) {
       return x.position - y.position;
+    });
+  }
+
+  dashboardLastUpdatedYear() {
+    this.authService.getLastUpdated().subscribe((res) => {
+      Object.assign(this.frontPanelData, {
+        year: res["year"],
+        date: res["data"],
+      });
     });
   }
 

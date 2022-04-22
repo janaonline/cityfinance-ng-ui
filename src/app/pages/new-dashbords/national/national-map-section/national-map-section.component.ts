@@ -87,7 +87,6 @@ export class NationalMapSectionComponent
   };
   defaultStateLayerColorOption = {
     fillColor: "#efefef",
-    // fillColor: this.getColor(540),
     weight: 1,
     opacity: 1,
     color: "#a6b9b4",
@@ -161,6 +160,7 @@ export class NationalMapSectionComponent
   national: any = { _id: "", name: "India" };
 
   ngOnInit(): void {
+    this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
     this.getNationalLevelMapData("2020-21");
@@ -169,6 +169,7 @@ export class NationalMapSectionComponent
     this.subFilterFn("popCat");
     this.createNationalMapJson();
   }
+  ngOnDestroy(): void {}
 
   createNationalMapJson() {
     const prmsArr = [];
@@ -373,7 +374,6 @@ export class NationalMapSectionComponent
   showMapLegends() {
     console.warn("show legends hidden");
   }
-
   clearDistrictMapContainer() {
     const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
     document.getElementById("districtMapContainer").innerHTML = `
@@ -381,11 +381,13 @@ export class NationalMapSectionComponent
     id="districtMapId"
     class="col-sm-12"
     style="background-color: #F8F9FF;
-    display: inline-block; width: 100%;height: ${height};"
+    display: inline-block; width: 100%;height: ${height};  z-index: 100"
+   
   >
   </div>`;
   }
 
+  // districtMap: any;
   createDistrictMap(
     districtGeoJSON,
     options: {
@@ -420,11 +422,11 @@ export class NationalMapSectionComponent
         fadeAnimation: true,
         minZoom: zoom,
         maxZoom: zoom + 5,
-        zoomControl: true,
+        zoomControl: false,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom: true,
-        dragging: true,
+        doubleClickZoom: false,
+        dragging: false,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
       // districtMap.touchZoom.disable();
@@ -449,7 +451,6 @@ export class NationalMapSectionComponent
         districtMap.fitBounds(districtLayer.getBounds());
       }
       this.districtMap = districtMap;
-      // debugger;
       let color;
       if (this.colorCoding) {
         this.colorCoding.forEach((elem) => {
@@ -520,20 +521,21 @@ export class NationalMapSectionComponent
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
     }
+    // else {
+    //   this.higlightClickedState(this.stateLayers);
+    // }
     this.stateselected = state;
+
     this.selectStateOnMap(state);
     this._commonService
       .getUlbByState(state ? state?.code : null)
       .subscribe((res) => {
-        console.log("ulb data", res);
         let ulbsData: any = res;
         //   this.cityData = ulbsData?.data?.ulbs;
-        //console.log('city data', this.cityData)
       });
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
-    // debugger;
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {
@@ -549,7 +551,7 @@ export class NationalMapSectionComponent
       // const color = this.getColorBasedOnPercentage(count);
       let color;
       let stateCodes = this.colorCoding.map((el) => el.code);
-      if (this.colorCoding) {
+      if (this.colorCoding && stateFound) {
         this.colorCoding.forEach((elem) => {
           if (elem?.code == layer?.feature?.properties?.ST_CODE) {
             color = this.getColor(elem?.percentage);
@@ -585,18 +587,7 @@ export class NationalMapSectionComponent
   }
 
   private higlightClickedState(stateLayer) {
-    let color;
-    let selectedCode = stateLayer?.feature?.properties?.ST_CODE;
-    let clickedState = this.colorCoding.map((el) => el.code);
-    this.colorCoding.forEach((elem) => {
-      if (elem?.code == selectedCode) {
-        color = this.getColor(elem?.percent);
-      } else if (!clickedState.includes(selectedCode)) {
-        color = this.getColor(0);
-      }
-      MapUtil.colorStateLayer(stateLayer, color);
-      // return;
-    });
+    let currentUrl = window.location.pathname;
     let obj: any = {
       containerPoint: {},
       latlng: {
@@ -609,19 +600,19 @@ export class NationalMapSectionComponent
       target: stateLayer,
       type: "click",
     };
-    this.onStateLayerClick(obj);
+    let color;
+    let selectedCode = stateLayer?.feature?.properties?.ST_CODE;
 
-    stateLayer.setStyle({
-      fillColor: "#a6b9b4",
-      color: color,
-      // fillColor: this.getColor(540),
-      fillOpacity: 1,
-    });
-    stateLayer.options.style.color = color;
-    // stateLayer.setStyle(this.StyleForSelectedState);
-    // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-    //   stateLayer.bringToFront();
-    // }
+    if (this.colorCoding && currentUrl != "/home") {
+      this.colorCoding.forEach((elem) => {
+        if (elem?.code == selectedCode) {
+          color = this.getColor(elem?.percent);
+        }
+      });
+
+      this.onStateLayerClick(obj);
+      stateLayer.options.style.color = color;
+    }
   }
   private resetStateLayer(layer) {
     layer.setStyle({
@@ -636,7 +627,6 @@ export class NationalMapSectionComponent
     });
   }
   private updateDropdownStateSelection(state: IState) {
-    console.log(state);
     this.stateselected = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }

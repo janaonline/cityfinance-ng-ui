@@ -45,7 +45,7 @@ export class CommonService {
     private snackbar: MatSnackBar,
     ) { }
 
-    searchUlb(body,type, state) {
+    searchUlb(body,type, state="") {
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search?type=${type}&state=${state}`,
       body

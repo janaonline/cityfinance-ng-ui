@@ -42,7 +42,7 @@ export class RevenueMixComponent implements OnInit {
         datasets: [
           {
             label: "My First Dataset",
-            data: [300, 50, 100, 90, 75, 64],
+            data: [0,0,0,0,0,0],
             backgroundColor: [
               "#76d12c",
               "#ed8e3b",
@@ -572,7 +572,192 @@ console.log('labels',data )
     this.getMultipleDoughnutCharts();
     console.log("doughnutArray", this.doughnutArray1);
   }
-
+  initializeDounughtArry(){
+    this.doughnutArray = [
+      {
+        id: "p1",
+        title: "State Average",
+        type: "doughnut",
+        data: {
+      
+          labels: [
+            "Own Revenue",
+            "Assigned Revenue",
+            "Grants",
+            "Interest Income",
+            "Other Income",
+            "State & Hire Charges",
+          ],
+          datasets: [
+            {
+              label: "My First Dataset",
+              data: [0,0,0,0,0,0],
+              backgroundColor: [
+                "#76d12c",
+                "#ed8e3b",
+                "#15c3eb",
+                "#eb15e3",
+                "#e6e21c",
+                "#fc3d83",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+  
+        options: {
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                  return previousValue + currentValue;
+                });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return percentage + "%";
+              }
+            }
+          },
+          legend: {
+            display: false,
+          },
+        },
+      },
+      {
+        id: "p2",
+        title: "Municipality",
+        type: "doughnut",
+        data: {
+         
+          labels: [
+         
+          ],
+          datasets: [
+            {
+              label: "My First Dataset",
+              data: [],
+              backgroundColor: [
+                "#76d12c",
+                "#ed8e3b",
+                "#15c3eb",
+                "#eb15e3",
+                "#e6e21c",
+                "#fc3d83",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                  return previousValue + currentValue;
+                });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return percentage + "%";
+              }
+            }
+          },
+          legend: {
+            display: false,
+          },
+        },
+      },
+      {
+        id: "p3",
+        title: "Municipal Corporation",
+        type: "doughnut",
+        data: {
+         
+          labels: [
+          
+          ],
+          datasets: [
+            {
+              label: "My First Dataset",
+              data: [],
+              backgroundColor: [
+                "#76d12c",
+                "#ed8e3b",
+                "#15c3eb",
+                "#eb15e3",
+                "#e6e21c",
+                "#fc3d83",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                  return previousValue + currentValue;
+                });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return percentage + "%";
+              }
+            }
+          },
+          legend: {
+            display: false,
+          },
+        },
+      },
+      {
+        id: "p4",
+        title: "Town Panchayat",
+        type: "doughnut",
+        data: {
+          
+          labels: [
+            
+          ],
+          datasets: [
+            {
+              label: "My First Dataset",
+              data: [],
+              backgroundColor: [
+                "#76d12c",
+                "#ed8e3b",
+                "#15c3eb",
+                "#eb15e3",
+                "#e6e21c",
+                "#fc3d83",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                  return previousValue + currentValue;
+                });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                return percentage + "%";
+              }
+            }
+          },
+          legend: {
+            display: false,
+          },
+        },
+      },
+    ]
+  }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("revenue chages", changes);
 
@@ -590,27 +775,28 @@ console.log('labels',data )
     }
     if(!changes.chartData.firstChange){
 console.log(this.chartData)
+this.initializeDounughtArry();
 if(Array.isArray(this.chartData)){
   this.chartData.forEach(el=>{
     if(Object.keys(el)[0] == 'mData'){
-        let val: any = Object.values(el)[0]
+        let val: any = Object.values(el)[0][0]
         console.log(val)
         val.forEach(el2 => {
-          this.doughnutArray[1].data.labels.push(el2['name'])
+          this.doughnutArray[1].data.labels.push(el2['code'])
           this.doughnutArray[1].data.datasets[0].data.push(el2['amount'])
         })
     }
     if(Object.keys(el)[0] == 'mcData'){
-      let val : any = Object.values(el)[0]
+      let val : any = Object.values(el)[0][0]
       val.forEach(el2 => {
-        this.doughnutArray[2].data.labels.push(el2['name'])
+        this.doughnutArray[2].data.labels.push(el2['code'])
         this.doughnutArray[2].data.datasets[0].data.push(el2['amount'])
       })
   }
   if(Object.keys(el)[0] == 'tpData'){
-    let val: any = Object.values(el)[0]
+    let val: any = Object.values(el)[0][0]
     val.forEach(el2 => {
-      this.doughnutArray[3].data.labels.push(el2['name'])
+      this.doughnutArray[3].data.labels.push(el2['code'])
       this.doughnutArray[3].data.datasets[0].data.push(el2['amount'])
     })
 }
@@ -620,7 +806,8 @@ if(Array.isArray(this.chartData)){
   this.doughnutArray[0].data.datasets[0].data = [ 
     this.doughnutArray[1].data.datasets[0].data, 
      this.doughnutArray[2].data.datasets[0].data,  
-     this.doughnutArray[3].data.datasets[0].data].reduce(function (a, b) {
+     this.doughnutArray[3].data.datasets[0].data]
+     .reduce(function (a, b) {
         return a.map(function (v, i) {
             return v + b[i];
         });

@@ -3,12 +3,16 @@
     </app-resources-tabs>
 </div> -->
 <div class="row" *ngIf="dataReceived">
-  <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Datasets</p>
+  <p *ngIf="learningToggle">
+    <b>{{ learningCount }}</b> Search results for ‘{{ searchedValue }}’ in
+    Datasets
+  </p>
 </div>
 <div class="col-sm-12 mb-3" *ngIf="noDataa">
-  <img src="assets/images/sad.svg"/>
+  <img src="assets/images/sad.svg" />
   <p class="noData">
-   Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
+    Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
+    searching with another term.
   </p>
 </div>
 <div class="container container-cnt" *ngIf="dataReceived">
@@ -39,12 +43,13 @@
             <!-- <input class="form-check-input" type="checkbox"
                         (change)="isAllSelected($event.target.value)" [(ngModel)]="allSelected"
                         [indeterminate]="unSelect"> -->
-            <mat-checkbox
-              (change)="$event ? masterToggle() : null"
-              [checked]="selectedUsersList.length && isAllSelected(true)"
+            <mat-checkbox (change)="masterToggle($event)"> </mat-checkbox>
+            <!-- <mat-checkbox
+              (change)="$event ? masterToggle($event) : null"
+              [checked]="isAllSelected(true)"
               [indeterminate]="isAllSelected(false) && !isAllSelected(true)"
             >
-            </mat-checkbox>
+            </mat-checkbox> -->
           </div>
           <div class="col-sm-8 col-7">
             <span> Document Name</span>
@@ -70,9 +75,9 @@
               <mat-checkbox
                 matTooltip="Select to download"
                 (click)="$event.stopPropagation()"
-                (change)="toggleRowSelection($event, item)"
+                (change)="toggleRowSelection($event, item, i)"
                 [checked]="item.isSelected"
-                [disabled]="disabledValue"
+                [disabled]="item.isDisabled"
               >
               </mat-checkbox>
             </div>

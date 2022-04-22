@@ -124,7 +124,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
+            console.log("chartOption Data", data);
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
@@ -271,6 +271,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             this.calculateCagrOfDeficit(res["data"]);
         }
         this.loading = false;
+        this.notFound = false;
       },
       (error) => {
         this.notFound = true;
@@ -438,7 +439,30 @@ ULB ${this.selectedTab} for FY' ${
         res["data"][key] = this.createExpenditureData(res["data"][key]);
       }
     }
-
+    if (this.selectedTab == "Total Surplus/Deficit") {
+      let DeficitData = res.data;
+      let tempObj = {};
+      for (let newItem in DeficitData) {
+        DeficitData[newItem].map((elem) => {
+          let newTemp = [];
+          let temp = JSON.parse(JSON.stringify(elem));
+          temp.ulbName = temp.ulbName + " revenue";
+          temp.amount = temp.revenue;
+          newTemp.push(temp);
+          temp = JSON.parse(JSON.stringify(elem));
+          temp.ulbName = temp.ulbName + " expense";
+          temp.amount = temp.expense;
+          newTemp.push(temp);
+          if (tempObj.hasOwnProperty(newItem)) {
+            tempObj[newItem].push(...newTemp);
+          } else {
+            tempObj[newItem] = [...newTemp];
+          }
+        });
+      }
+      res.data = tempObj;
+    }
+    debugger;
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
     for (const key in res["data"]) {
@@ -449,45 +473,57 @@ ULB ${this.selectedTab} for FY' ${
         }
       });
     }
+    newData.data.labels.sort(function (a, b) {
+      let newA = a.split("-")[0];
+      let newB = b.split("-")[0];
+      return newB - newA;
+    });
 
     let temp = {},
       index = 0;
     for (const key in res["data"]) {
       const element = res["data"][key];
       newData.data.labels.map((year) => {
-        let dataByYear = element.find((val) => val._id.financialYear == year);
+        let dataByYear = element.filter((val) => val._id.financialYear == year);
         if (!dataByYear) {
           dataByYear = {
             ulbName: this.ulbMapping[this.currentUlb].name,
             amount: 0,
           };
         }
-        let dataInner = JSON.parse(JSON.stringify(innerDataset));
-        if (this.compareType == "National Average" && key == "compData") {
-          dataByYear.ulbName = "National";
-        }
-        if (this.compareType == "ULB Type Average" && key == "compData") {
-          dataByYear.ulbName = this.ulbMapping[this.currentUlb].type;
-        }
-        if (this.compareType == "ULB category Average" && key == "compData") {
-          dataByYear.ulbName = getPopulationType(
-            this.ulbMapping[this.currentUlb].population
-          );
-        }
+        dataByYear.forEach((dataByYearVal) => {
+          let dataInner = JSON.parse(JSON.stringify(innerDataset));
+          if (this.compareType == "National Average" && key == "compData") {
+            dataByYearVal.ulbName = "National";
+          }
+          if (this.compareType == "ULB Type Average" && key == "compData") {
+            dataByYearVal.ulbName = this.ulbMapping[this.currentUlb].type;
+          }
+          if (this.compareType == "ULB category Average" && key == "compData") {
+            dataByYearVal.ulbName = getPopulationType(
+              this.ulbMapping[this.currentUlb].population
+            );
+          }
 
-        if (!temp[dataByYear.ulbName]) {
-          dataInner.backgroundColor = backgroundColor[index];
-          dataInner.borderColor = borderColor[index++];
-          dataInner.label = dataByYear.ulbName;
-          dataInner.data = [convertToCr(dataByYear.amount, this.isPerCapita)];
-          temp[dataByYear.ulbName] = dataInner;
-        } else {
-          dataInner = temp[dataByYear.ulbName];
-          dataInner.data.push(convertToCr(dataByYear.amount, this.isPerCapita));
-          temp[dataByYear.ulbName] = dataInner;
-        }
+          if (!temp[dataByYearVal.ulbName]) {
+            dataInner.backgroundColor = backgroundColor[index];
+            dataInner.borderColor = borderColor[index++];
+            dataInner.label = dataByYearVal.ulbName;
+            dataInner.data = [
+              convertToCr(dataByYearVal.amount, this.isPerCapita),
+            ];
+            temp[dataByYearVal.ulbName] = dataInner;
+          } else {
+            dataInner = temp[dataByYearVal.ulbName];
+            dataInner.data.push(
+              convertToCr(dataByYearVal.amount, this.isPerCapita)
+            );
+            temp[dataByYearVal.ulbName] = dataInner;
+          }
+        });
       });
     }
+    debugger;
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
     newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;
@@ -503,7 +539,7 @@ ULB ${this.selectedTab} for FY' ${
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "Rs" : "Cr"
     }`;
-    console.log('barChart', this.barChart)
+    console.log("barChart", this.barChart);
     this.chartOptions = this.barChartStaticOptions;
   }
 
@@ -517,9 +553,7 @@ ULB ${this.selectedTab} for FY' ${
             dataSet.borderColor = borderColor[0];
             dataSet.backgroundColor = backgroundColor[0];
             dataSet.data.push(
-              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
-                2
-              )
+              ((value.revenue / value.expense) * 100).toFixed(2)
             );
             chartLabels.push(value._id.financialYear);
             return dataSet;
@@ -537,9 +571,7 @@ ULB ${this.selectedTab} for FY' ${
             dataSet.borderColor = borderColor[1];
             dataSet.backgroundColor = backgroundColor[1];
             dataSet.data.push(
-              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
-                2
-              )
+              ((value.revenue / value.expense) * 100).toFixed(2)
             );
             return dataSet;
           },
@@ -616,18 +648,19 @@ ULB ${this.selectedTab} for FY' ${
     let newData = [];
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
-      let year1 = data[index - 1],
+      let previousYear = this.getPreviousYear(element._id);
+      let previousYearValue = data.find((val) => val._id == previousYear);
+      let year1 = previousYearValue,
         year2 = data[index];
       if (!year1) {
         newData.push({
-          _id: { financialYear: data[0]._id },
-          amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
-          ulbName: data[0].yearData[0].ulbName,
+          _id: { financialYear: data[index]._id },
+          amount:
+            data[index].yearData[0].amount + data[index].yearData[1].amount,
+          ulbName: data[index].yearData[index].ulbName,
         });
         continue;
       }
-      let tt = year2.yearData.find((value) => value.code == "410").amount;
-      let yy = year1.yearData.find((value) => value.code == "410").amount;
       let amount1 =
           year2.yearData.find((value) => value.code == "410").amount -
           year1.yearData.find((value) => value.code == "410").amount,
@@ -640,11 +673,20 @@ ULB ${this.selectedTab} for FY' ${
         ulbName: year1.yearData[0].ulbName,
       });
     }
+    console.log(JSON.stringify(newData), "newData");
     return newData;
   }
 
+  getPreviousYear(year) {
+    // year = "2017-16"
+    year = year.split("-");
+    year = year.map((val) => Number(val - 1));
+    year = year.join("-");
+    return year;
+  }
+
   createPieChart(data, body) {
-    console.log('createPieChart called', data, body)
+    console.log("createPieChart called", data, body);
     if (this.compareType == "ULBs..") {
       data = this.createMultiUlbData(data["ulbData"]);
     }
@@ -689,6 +731,7 @@ ULB ${this.selectedTab} for FY' ${
           tooltips: {
             callbacks: {
               label: function (tooltipItem, data) {
+                console.log("tooltipItem item", tooltipItem, data);
                 var dataset = data.datasets[tooltipItem.datasetIndex];
                 var total = dataset.data.reduce(function (
                   previousValue,
@@ -807,7 +850,9 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createExpenditureMixData(data) {
-    let tempArray = [{ _id: { lineItem: "Other Expenditure" }, amount: 0 ,colour:"#0FA386"}];
+    let tempArray = [
+      { _id: { lineItem: "Other Expenditure" }, amount: 0, colour: "#0FA386" },
+    ];
     data.forEach((element) => {
       if (includeInExpenditure.includes(element.code)) {
         tempArray.push(element);
@@ -941,7 +986,7 @@ const barChartStatic = {
 const backgroundColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgba(54, 162, 235, 0.2)",
   "rgba(153, 102, 255, 0.2)",
@@ -950,7 +995,7 @@ const backgroundColor = [
 const borderColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgb(54, 162, 235)",
   "rgb(153, 102, 255)",
