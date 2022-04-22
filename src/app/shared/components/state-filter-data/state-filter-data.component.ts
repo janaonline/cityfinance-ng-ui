@@ -483,6 +483,7 @@ console.log(err.message)
     this.initializeScatterData();
     let apiEndPoint = this.stateServiceLabel ? 'state-slb' : 'state-revenue';
     // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
+    this.stateId = sessionStorage.getItem('row_id') ? sessionStorage.getItem('row_id') : this.stateId;
     this.scatterChartPayload = {
       [this.stateServiceLabel ? 'stateId' : 'state']: this.stateId,
       "financialYear": this.financialYear ? this.financialYear : '',
@@ -607,9 +608,11 @@ console.log(err.message)
               this.doughnutData = { ...this.doughnutData };
             }
           } else if (this.scatterChartPayload.compareType == "ulbType") {
-            let mData = data["mData"];
-            let mcData = data["mcData"];
-            let tpData = data["tpData"];
+            console.log('apiData', data)
+            let mData = data["mData"][0];
+            let mcData = data["mcData"][0];
+            let tpData = data["tpData"][0];
+
             this.multiChart = true;
             this.doughnutDataArr = [
               { mData: mData },
@@ -617,6 +620,8 @@ console.log(err.message)
               { tpData: tpData },
             ];
             this.doughnutDataArr = [...this.doughnutDataArr];
+          } else if (this.scatterChartPayload.compareType == "popType") {
+
           }
         }
       },
@@ -675,7 +680,8 @@ console.log(err.message)
       this.getServiceLevelBenchmarkBarChartData();
     }
   }
-ulbArr = []
+  
+  ulbArr = []
   filterChangeInChart(value) {
     this.ulbArr = []
     // this.mySelectedYears = value.year;
@@ -688,11 +694,13 @@ ulbArr = []
     }
     this.getScatterData()
   }
+  
   getCompType(e) {
     console.log(e);
     this.compType = e;
     if (e) this.getScatterData();
   }
+  
   changeActiveBtn(i) {
     this.ulbArr = []
     this.ulbId = ''
@@ -735,7 +743,7 @@ ulbArr = []
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("state filter data changes", changes, this.data);
+    console.log("stateFilterDataChanges", changes, this.data);
     // if (changes && changes.stateServiceLabel && changes.stateServiceLabel.currentValue) {
     //   this.stateServiceLabel = changes.stateServiceLabel.currentValue;
     // }
@@ -752,15 +760,14 @@ ulbArr = []
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
-   if(changes.stateServiceLabel){
-    this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
-        
-      this.yearList = res['data']
-    }, (err)=> {
-    console.log(err.message)
-    })
-   }
-     
+      if(changes.stateServiceLabel) {
+        this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+          this.yearList = res['data']
+        }, (err) => {
+          console.log(err.message)
+        });
+      }
+
       console.log('this.data.filterName', this.data.filterName)
       if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
@@ -886,6 +893,7 @@ ulbArr = []
 
   barChartPayload: any = {};
   getStateRevenue() {
+    console.log('getStateRevenueCalled');
     const tabType = this.getTabType();
     this.barChartPayload = {};
     this.barChartPayload = {
@@ -1228,6 +1236,7 @@ ulbArr = []
     const tabType = this.getTabType();
     this.multiChart = false;
     this._loaderService.showLoader();
+    let oldScatterData = Object.assign(this.scatterData);
     this.initializeScatterData();
     let apiEndPoint = 'state-dashboard-averages';
     this.scatterChartPayload = {
@@ -1252,7 +1261,12 @@ ulbArr = []
           this._loaderService.stopLoader();
           this.notfound = false;
           if (this.selectedRadioBtnValue == 'populationAvg') {
-            this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+            // this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+            let scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+            // this.scatterData = {...this.scatterData, ...scatterData};
+            oldScatterData.data.datasets = [...oldScatterData.data.datasets, ...scatterData.data.datasets];
+            this.scatterData = {...oldScatterData};
+            console.log(this.scatterData);
           } else {
             let mCorporation: any;
             let tp_data: any;
@@ -1265,67 +1279,12 @@ ulbArr = []
             let nationalData = res && res['data'] && res['data']['national'] ? res['data']['national'] : 0;
             stateData = res['data'] && res['data']["stateAvg"] ? res['data']['stateAvg'] : this.stateAvgVal;
   
-            this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
+            // this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
+            let scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
+            oldScatterData.data.datasets = [...oldScatterData.data.datasets, ...scatterData.data.datasets];
+            this.scatterData = {...oldScatterData};
             console.log(this.scatterData);
             this.generateRandomId("scatterChartId123");
-            return
-            let averageCountList = [mCorporation, tp_data, m_data];
-            let stateLevelMaxPopuCount = Math.max(...averageCountList);
-            console.log('stateLevelMaxPopuCount', stateLevelMaxPopuCount)
-            // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-            this.scatterData.data.datasets.forEach((el) => {
-              let obj = { x: 0, y: 0 };
-              if (el.label == "Town Panchayat") {
-                // el.data.push(obj);
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(tp_data);
-                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-                defaultDataSet.forEach(el2=>{
-                  el2['y'] = tp_data;
-                  el["data"].push(el2);
-                  // el["labels"].push(el2.ulbName);
-                });
-              } else if (el.label == "Municipal Corporation") {
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(mCorporation);
-                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-                defaultDataSet.forEach(el2=>{
-                  el2['y'] = mCorporation
-                  el["data"].push(el2)
-                });
-              } else if (el.label == "Municipality") {
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(m_data);
-                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-                defaultDataSet.forEach(el2=>{
-                  el2['y'] = m_data
-                  el["data"].push(el2)
-                });
-              } else if (el.label == "National Average") {
-                el.showLine = true;
-                el.fill = false;
-                el["rev"].push(nationalData);
-                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-                defaultDataSet.forEach(el2=>{
-                  el2['y'] = nationalData;
-                  el["data"].push(el2);
-                });
-              } else if (el.label == "State Average") {
-                el.fill = false;
-                el["rev"].push(stateData);
-                let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
-                defaultDataSet.forEach(el2=>{
-                  el2['y'] = stateData;
-                  el["data"].push(el2);
-                });
-              }
-            });
-            console.log(this.scatterData);
-            this.generateRandomId("scatterChartId123");
-            this.scatterData = { ...this.scatterData };
           }
         }
       },
