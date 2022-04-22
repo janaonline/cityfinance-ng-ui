@@ -43,6 +43,7 @@
   accordion {
     width: fit-content;
   }
+  
   accordion-group {
     width: fit-content;
     min-width: 100%;
@@ -125,7 +126,7 @@
       font-weight: 600;
     }
     td {
-      padding: 1px;
+      padding: 7px;
       font-size:16px;
       font-weight: 500;
 
@@ -411,4 +412,121 @@ tr{
 .border-spacing {
   border: 1px solid #d9d8d8 !important;
   margin: 10px;
+}
+.customTableRow{
+  background: #F8FAFF 0% 0% no-repeat padding-box;
+  border-radius: 0px 0px 4px 4px;
+  // opacity: 0.72;
+  padding: 10px;
+  padding-left: 15px;
+}
+.dropdownYear{
+  text-align: end;
+  margin-left: 20px;
+}
+.descpt{
+  margin-left:-13px;
+  font-weight: 600;
+}
+.topTableSummary{
+  // background: var(--unnamed-color-e9ecf7) 0% 0% no-repeat padding-box;
+  background: #E9ECF7 0% 0% no-repeat padding-box !important;
+  border-radius: 4px 4px 0px 0px;
+  // opacity: 0.71;
+  width:19%;
+  color:0f1f40;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #e9ecf7;
+  color: #0f1f40;
+}
+
+th {
+  width: 150px;
+  text-align: left;
+  border: 1px solid #e9ecf7;
+  background: #e9ecf7 0% 0% no-repeat padding-box;
+  border-radius: 4px 4px 0px 0px;
+  color: #0f1f40;
+  height: 40px;
+  padding-left: 20px;
+  letter-spacing: 0.5px;
+}
+
+td {
+  width: 150px;
+  padding: 5px;
+  height: 35px;
+  border-radius: 4px 4px 0px 0px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  color: #0f1f40;
+  padding-left: 20px;
+}
+
+.border-all {
+  border: 1px solid lightgray !important;
+}
+
+.custom-table {
+  border-collapse: separate;
+  border-spacing: 0 5px;
+}
+
+.border-top-bottom {
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.border-left {
+  border-left: 1px solid #d3d3d3;
+}
+
+.border-right {
+  border-right: 1px solid #d3d3d3;
+}
+
+.sort-icon {
+  margin-left: 5px;
+  color: #80899b;
+  vertical-align: middle;
+}
+
+// filter part
+.filter-section {
+  height: 105px;
+  // margin-bottom: 20px;
+  background: #f7f7f7 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+}
+
+.filter-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0f1f40;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.reset-btn {
+  background: #fff 0% 0% no-repeat padding-box;
+  border: 1px solid #e67e15;
+  border-radius: 6px;
+  font-size: 15px;
+  letter-spacing: 0px;
+  color: #e67e15;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 10px;
 }

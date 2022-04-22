@@ -13,7 +13,7 @@
 <!-- w-100 end -->
 <div *ngIf="!notFound" class="common-container">
   <div class="container municipal-bonds">
-    <h3 class="page-title text-center n-sm">Municipal Bond Issuances</h3>
+    <!-- <h3 class="page-title text-center n-sm">Municipal Bond Issuances</h3> -->
     <div
       class="row"
       style="
@@ -56,9 +56,9 @@
             </angular2-multiselect>-->
 
           <div class="row w-100 m-0 p-0 filterContainer">
-            <div class="col-sm-12 col-md-5 col-lg-5">
+            <div class="col-sm-12 col-md-5 col-lg-12">
               <div class="drop-down-bond">
-                <angular2-multiselect
+                <!-- <angular2-multiselect
                   *ngIf="stateList"
                   class="state-form-control"
                   formControlName="states"
@@ -78,9 +78,12 @@
                   (onClose)="onULBDropdownClose()"
                   (onDeSelectAll)="filterForm.patchValue({ ulbs: [] })"
                 >
-                </angular2-multiselect>
-
-                <angular2-multiselect
+                </angular2-multiselect> -->
+                <div class="col-lg-10">
+                  <h5 class="descpt">Below are the details of municipal bond issuances undertaken by the ULB</h5>
+                </div>
+                <div class="col-lg-2 dropdownYear">
+                  <angular2-multiselect
                   class="year-form-control"
                   formControlName="years"
                   [data]="yearsAvailable"
@@ -88,9 +91,10 @@
                   [settings]="yearsDropdownSettings"
                 >
                 </angular2-multiselect>
+                </div>
               </div>
             </div>
-            <div class="col-sm-12 col-md-4 col-lg-4">
+            <!-- <div class="col-sm-12 col-md-4 col-lg-4">
               <div class="bond-btn-top">
                 <input type="submit" value="Search" class="btn btn-primary" />
                 <button
@@ -108,8 +112,8 @@
                   Download
                 </button>
               </div>
-            </div>
-            <div class="col-sm-12 col-md-3 col-lg-3" style="min-width: 30%">
+            </div> -->
+            <!-- <div class="col-sm-12 col-md-3 col-lg-3" style="min-width: 30%">
               <div class="pagination-top">
                 <pagination-controls
                   *ngIf="bondIssuerItemData && bondIssuerItemData.length"
@@ -127,17 +131,17 @@
                 >
                 </pagination-controls>
               </div>
-            </div>
+            </div> -->
           </div>
         </form>
         <!-- form end -->
       </div>
 
       <div
-        class="col-md-12"
+        class="col-md-12" *ngIf="city"
         
       >
-        <div style="height: 53px;">
+        <!-- <div style="height: 53px;">
           <table accordion-heading id="tableHeadings" >
             <thead style="border-radius: 4px;
             display: block;
@@ -160,9 +164,32 @@
               </th>
             </thead>
           </table>
-        </div>
+        </div> -->
 
         <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
+          <accordion-group>
+            <table>
+              <div>
+                <th class="topTableSummary">
+                  Details Of Instrument Summary: 2020-2021
+                </th>
+                <th class="topTableSummary"></th>
+                <tr class="customTableRow">
+                  <td style="opacity: 0.62;">Number Of Instrument</td>
+                  <td>{{issueLength}}</td>
+                </tr>
+                <tr class="customTableRow">
+                  <td style="opacity: 0.62;">Issue Size</td>
+                  <td>INR 200 Crores</td>
+                </tr>
+                <tr class="customTableRow">
+                  <td style="opacity: 0.62;">Bids Received</td>
+                  <td>INR 1085 Crores (Oversubscribed 5.42 times)</td>
+                </tr>
+              </div>
+              
+            </table>
+          </accordion-group>
           <accordion-group
             class="table-responsive"
             *ngFor="let row of object.keys(mainRows); let i = index"
@@ -174,11 +201,12 @@
             *ngFor="let row of object.keys(mainRows); let i = index"
             [isOpen]="i === 0 ? true : false"
           > -->
-            <h4 accordion-heading class="text-capitalize">
+            <br>
+            <th class="text-capitalize topTableSummary" style="background: #E9ECF7 0% 0% no-repeat padding-box;">
               {{ formattedNamesMapping[row] }}
               <span class="fa fa-angle-down"></span>
-            </h4>
-            <table>
+            </th>
+            <table style="margin-top:1px;">
               <div
                 *ngFor="let subRow of mainRows[row]"
                 
@@ -210,7 +238,87 @@
           </accordion-group>
         </accordion>
       </div>
-      <div class="pagination-bottom">
+      <div
+        class="col-md-12" *ngIf="state"
+         
+      >
+      <div class="mt-2 mx-2 filter-section">
+        <div class="filter-title">
+          <span class="material-icons" style="margin-right: 5px;">filter_list</span>
+          <span>Filter By</span>
+        </div>
+        <div class="mt-4 d-flex filter-container">
+          <div class="col">
+            <select class="form-control" >
+              <option>City</option>
+              <option>ABC2</option>
+              <option>ABC3</option>
+              <option>ABC4</option>
+            </select>
+          </div>
+          <div class="col">
+          <select class="form-control" >
+            <option>ULB Type</option>
+            <option>ABC2</option>
+            <option>ABC3</option>
+            <option>ABC4</option>
+          </select>
+          </div>
+          <div class="col">
+          <select class="form-control" >
+            <option>ULB Population Category</option>
+            <option>ABC2</option>
+            <option>ABC3</option>
+            <option>ABC4</option>
+          </select>
+          </div>
+          <div class="col">
+          <select class="form-control" >
+            <option>Select Year</option>
+            <option></option>
+            <option>ABC3</option>
+            <option>ABC4</option>
+          </select>
+          </div>
+          <div class="col d-flex justify-content-end">
+          <button class="btn reset-btn">
+            Clear All
+            <span _ngcontent-all-c100="" class="ml-2 material-icons">highlight_off</span>
+          </button>
+            <!-- Clear All
+          <span class="ml-2 material-icons">highlight_off</span> -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-4 mx-2">
+        <table class = "custom-table">
+        <tbody>
+        <tr class="border-none">
+          <th *ngFor="let heading of tableHeading">
+            {{heading?.title}}
+            <i class="fa " [ngClass]="heading?.class" aria-hidden="true"></i>
+          </th>
+        </tr>
+      
+        <tr class="border-all" *ngFor="let data of tableDataSource">
+          <td class="border-top-bottom" *ngFor="let heading of tableHeading; let i=index"
+            [ngClass]="{'border-left': i == 0, 'border-right': i == (tableHeading?.length-1)}">
+            {{data[heading?.keyToAccessValue]}}
+          </td>
+        </tr>
+      
+        <!-- <tr class="border-none">
+        <div class="spacer" style="margin-top: 10px;"></div>
+        </tr> -->
+      
+        </tbody>
+        </table>
+      
+      </div>
+        
+      </div>
+      <!-- <div class="pagination-bottom">
         <pagination-controls
           style="float: right; position: relative"
           *ngIf="bondIssuerItemData && bondIssuerItemData.length"
@@ -227,7 +335,7 @@
           screenReaderCurrentLabel="You're on page"
         >
         </pagination-controls>
-      </div>
+      </div> -->
       <!-- pagination bottom-->
     </div>
   </div>

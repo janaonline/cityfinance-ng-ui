@@ -83,7 +83,7 @@
             </div>
         </div>
     </div>
-    <div class="container-cnt tab-content" *ngIf="activeFilter.length > 0" id="pills-tabContent" style="padding: 0">
+    <div class="container-cnt tab-content" *ngIf="activeFilter.length > 0" id="pills-tabContent" style="padding: 0;margin-left: 32px;">
         <div class="row">
             <div class="col-sm-12">
                 <ul class="nav nav-pills2 mb-3" id="pills-tab" role="tablist">
@@ -126,7 +126,17 @@
             </div>
             <div *ngSwitchCase="'Borrowing & Credit Rating'">
                 <div *ngIf="innerActiveTab.name == 'Borrowing'">
-                    <app-accordion-to-table></app-accordion-to-table>
+                    <div [ngSwitch]="DashBoardType">
+                    <div *ngSwitchCase="'city'">
+                        <app-accordion-to-table [value]="'city'"></app-accordion-to-table>
+
+                    </div>
+                    <div *ngSwitchCase="'state'">
+                        <app-accordion-to-table [value]="'state'"></app-accordion-to-table>
+
+                    </div>
+                </div>
+
                 </div>
                 <div *ngIf="innerActiveTab.name == 'Credit Rating'">
                     <!-- <div [ngSwitch]="DashBoardType">
