@@ -38,13 +38,13 @@
                             </button>
                         </form>
                     </div>
-                    <div class="row align-items-center mt-2">
+                    <div class="row align-items-center mt-4">
                         <div class="col-lg-auto col-sm-12">
                             <span class="rec-text">Recent Searches:</span>
                         </div>
                         <div class="col">
                             <div class="ser-chip" *ngFor="let item of recentSearchArray">
-                                <a style="text-decoration: none;" (click)="dashboardNav(item)">
+                                <a style="text-decoration: none;" (click)="dashboardNav(item)" class="centerSearchedValues">
                                     <span class="rec-text">{{item?.name}}</span>
                                 </a>
                             </div>

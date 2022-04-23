@@ -57,7 +57,7 @@
 
       <div class="row">
         <div class="col-12 justify-content-around">
-          <label for="">Search ULB</label>
+          <label>Search ULB</label>
                     <div class="d-flex formInput">
                         <form class="col-md-9 col-sm-12 p-2 compareInput">
                             <input matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />
@@ -91,7 +91,7 @@
         </div>
     </div>
 </div>
-<div *ngSwitchCase="2">
+<div *ngSwitchCase="2" style="margin-top: 4%;" class="alertPara">
     <!--- ownrevenuechart compare start-->
     <span style="color: red" *ngIf="emptyField">Note: Please select atleast two <span *ngIf="togglerValue">ULBs</span>
     <span *ngIf="!togglerValue">States</span> and one parameter for comparison
@@ -140,7 +140,7 @@
         </div>
         <div>Select a compare parameter</div>
         <div class="col-3 col-md-3 col-sm-12 m-2 selectDiv">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="smallScreenDropdown">
                 <mat-label>Parameter</mat-label>
                 <mat-select #matmat multiple matInput [formControl]="selectedVal">
                     <!-- <mat-option>None</mat-option> -->
@@ -170,7 +170,7 @@
 <div *ngSwitchCase="3">
     <div class="row">
         <div class="col-12 justify-content-around">
-            <label for="">Search ULB</label>
+            <label class="searchUlb" for="">Search ULB</label>
             <div class="d-flex formInput">
                 <form class="col-md-9 col-sm-12 p-2 compareInput">
                     <input (keyup.enter)="optionSelected(searchField.value)" matInput [formControl]="searchField" [matAutocomplete]="auto" class="w-100" type="text" />

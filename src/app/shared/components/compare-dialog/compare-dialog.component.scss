@@ -309,8 +309,8 @@
     border-radius: 12px;
     opacity: 1;
     padding: 8px;
-    width:65%
-  
+    width:65%;
+    margin-left: 0% !important;
 }
 
 .lnd-btn {
@@ -324,11 +324,31 @@
 }
 
 .fl-input {
-    padding: 9px;
+    // padding: 9px;
     border: none;
     width: 80%;
 }
 
+@media screen and (max-width: 800px) {
+    .alertPara {
+        margin-top:6%;
+    }
+    .smallScreenDropdown{
+        margin-left:10%;
+    }
+    .g-filter-d {
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 21px #5A5A5A31;
+        border-radius: 12px;
+        opacity: 1;
+        padding: 8px;
+        width:65%;
+        margin-left: 0% !important;
+    }
+}
+.searchUlb{
+    margin-top:3%;
+}
 .fl-input:focus-visible {
     border: none;
     outline-color: transparent;

@@ -136,6 +136,13 @@
         margin-top: $spacer*2;
     }
 }
+@media screen and (max-width: 800px) {
+    .centerSearchedValues{
+        text-align: center;
+        display: block;
+        margin: 3px;
+    }
+}
 
 // .prim-img {
 //     position: relative;

@@ -14,3 +14,11 @@
     outline: 0;
     box-shadow: 0 0 0 0.25rem #FADAAD;
 }
+@media screen and (max-width: 800px) {
+    .customClass {
+        margin-top:4%;
+    }
+    .customButtonClass{
+        margin:1%;
+    }
+}
