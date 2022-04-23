@@ -82,7 +82,7 @@
                 <div class="col-lg-10">
                   <h5 class="descpt">Below are the details of municipal bond issuances undertaken by the ULB</h5>
                 </div>
-                <div class="col-lg-2 dropdownYear">
+                <div class="col-lg-2 dropdownYear"  *ngIf="city">
                   <angular2-multiselect
                   class="year-form-control"
                   formControlName="years"
@@ -170,10 +170,10 @@
           <accordion-group>
             <table>
               <div>
-                <th class="topTableSummary">
+                <th class="topTableSummary cityWidth">
                   Details Of Instrument Summary: 2020-2021
                 </th>
-                <th class="topTableSummary"></th>
+                <th class="topTableSummary cityWidth"></th>
                 <tr class="customTableRow">
                   <td style="opacity: 0.62;">Number Of Instrument</td>
                   <td>{{issueLength}}</td>
@@ -202,7 +202,7 @@
             [isOpen]="i === 0 ? true : false"
           > -->
             <br>
-            <th class="text-capitalize topTableSummary" style="background: #E9ECF7 0% 0% no-repeat padding-box;">
+            <th class="text-capitalize topTableSummary cityWidth" style="background: #E9ECF7 0% 0% no-repeat padding-box;">
               {{ formattedNamesMapping[row] }}
               <span class="fa fa-angle-down"></span>
             </th>
@@ -211,10 +211,10 @@
                 *ngFor="let subRow of mainRows[row]"
                 
               >
-                <tr style="height: 1px;
+                <tr style="height: 3px;
                 border: none;" class='solid'></tr>
                 <tr class='solid'>
-                  <td class="text-capitalize">
+                  <td class="text-capitalize cityMinWidth">
                     {{ formattedNamesMapping[subRow] }}
                   </td>
                   <td
@@ -223,7 +223,7 @@
                       let i = index
                     "
                     #i
-                  >
+                  class="cityMinWidth">
                     {{
                       bondIsssuerItem[subRow] | linkConverter: "Click here":i
                     }}
@@ -249,7 +249,7 @@
         </div>
         <div class="mt-4 d-flex filter-container">
           <div class="col">
-            <select class="form-control" >
+            <select class="form-control selectClass" >
               <option>City</option>
               <option>ABC2</option>
               <option>ABC3</option>
@@ -257,7 +257,7 @@
             </select>
           </div>
           <div class="col">
-          <select class="form-control" >
+          <select class="form-control selectClass" >
             <option>ULB Type</option>
             <option>ABC2</option>
             <option>ABC3</option>
@@ -265,7 +265,7 @@
           </select>
           </div>
           <div class="col">
-          <select class="form-control" >
+          <select class="form-control selectClass" >
             <option>ULB Population Category</option>
             <option>ABC2</option>
             <option>ABC3</option>
@@ -273,7 +273,7 @@
           </select>
           </div>
           <div class="col">
-          <select class="form-control" >
+          <select class="form-control selectClass" >
             <option>Select Year</option>
             <option></option>
             <option>ABC3</option>
@@ -308,9 +308,9 @@
           </td>
         </tr>
       
-        <!-- <tr class="border-none">
+        <tr class="border-none">
         <div class="spacer" style="margin-top: 10px;"></div>
-        </tr> -->
+        </tr>
       
         </tbody>
         </table>

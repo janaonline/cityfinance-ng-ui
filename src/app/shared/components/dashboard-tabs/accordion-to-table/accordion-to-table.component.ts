@@ -349,6 +349,13 @@ tableDataSource = [
   {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
   {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
   {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
 ];
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
