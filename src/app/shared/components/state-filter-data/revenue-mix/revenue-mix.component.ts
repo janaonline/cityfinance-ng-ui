@@ -39,7 +39,6 @@ export class RevenueMixComponent implements OnInit {
       title: "State Average",
       type: "doughnut",
       data: {
-    
         labels: [
           "Own Revenue",
           "Assigned Revenue",
@@ -69,16 +68,21 @@ export class RevenueMixComponent implements OnInit {
       options: {
         tooltips: {
           callbacks: {
-            label: function(tooltipItem, data) {
+            label: function (tooltipItem, data) {
               var dataset = data.datasets[tooltipItem.datasetIndex];
-              var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+              var total = dataset.data.reduce(function (
+                previousValue,
+                currentValue,
+                currentIndex,
+                array
+              ) {
                 return previousValue + currentValue;
               });
               var currentValue = dataset.data[tooltipItem.index];
-              var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+              var percentage = Math.floor((currentValue / total) * 100 + 0.5);
               return percentage + "%";
-            }
-          }
+            },
+          },
         },
         legend: {
           display: false,
@@ -90,10 +94,7 @@ export class RevenueMixComponent implements OnInit {
       title: "Municipality",
       type: "doughnut",
       data: {
-       
-        labels: [
-       
-        ],
+        labels: [],
         datasets: [
           {
             label: "My First Dataset",
@@ -114,16 +115,21 @@ export class RevenueMixComponent implements OnInit {
       options: {
         tooltips: {
           callbacks: {
-            label: function(tooltipItem, data) {
+            label: function (tooltipItem, data) {
               var dataset = data.datasets[tooltipItem.datasetIndex];
-              var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+              var total = dataset.data.reduce(function (
+                previousValue,
+                currentValue,
+                currentIndex,
+                array
+              ) {
                 return previousValue + currentValue;
               });
               var currentValue = dataset.data[tooltipItem.index];
-              var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+              var percentage = Math.floor((currentValue / total) * 100 + 0.5);
               return percentage + "%";
-            }
-          }
+            },
+          },
         },
         legend: {
           display: false,
@@ -135,10 +141,7 @@ export class RevenueMixComponent implements OnInit {
       title: "Municipal Corporation",
       type: "doughnut",
       data: {
-       
-        labels: [
-        
-        ],
+        labels: [],
         datasets: [
           {
             label: "My First Dataset",
@@ -159,16 +162,21 @@ export class RevenueMixComponent implements OnInit {
       options: {
         tooltips: {
           callbacks: {
-            label: function(tooltipItem, data) {
+            label: function (tooltipItem, data) {
               var dataset = data.datasets[tooltipItem.datasetIndex];
-              var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+              var total = dataset.data.reduce(function (
+                previousValue,
+                currentValue,
+                currentIndex,
+                array
+              ) {
                 return previousValue + currentValue;
               });
               var currentValue = dataset.data[tooltipItem.index];
-              var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+              var percentage = Math.floor((currentValue / total) * 100 + 0.5);
               return percentage + "%";
-            }
-          }
+            },
+          },
         },
         legend: {
           display: false,
@@ -180,10 +188,7 @@ export class RevenueMixComponent implements OnInit {
       title: "Town Panchayat",
       type: "doughnut",
       data: {
-        
-        labels: [
-          
-        ],
+        labels: [],
         datasets: [
           {
             label: "My First Dataset",
@@ -204,16 +209,21 @@ export class RevenueMixComponent implements OnInit {
       options: {
         tooltips: {
           callbacks: {
-            label: function(tooltipItem, data) {
+            label: function (tooltipItem, data) {
               var dataset = data.datasets[tooltipItem.datasetIndex];
-              var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+              var total = dataset.data.reduce(function (
+                previousValue,
+                currentValue,
+                currentIndex,
+                array
+              ) {
                 return previousValue + currentValue;
               });
               var currentValue = dataset.data[tooltipItem.index];
-              var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+              var percentage = Math.floor((currentValue / total) * 100 + 0.5);
               return percentage + "%";
-            }
-          }
+            },
+          },
         },
         legend: {
           display: false,
@@ -221,7 +231,7 @@ export class RevenueMixComponent implements OnInit {
       },
     },
   ];
-//population based
+  //population based
   newDoughnutArray: any = [
     {
       id: "p5",
@@ -369,7 +379,7 @@ export class RevenueMixComponent implements OnInit {
       },
     },
   ];
-//population based again
+  //population based again
   doughnutArray1 = [
     {
       type: "doughnut",
@@ -472,7 +482,7 @@ export class RevenueMixComponent implements OnInit {
       },
     },
   ];
-//single dounught
+  //single dounught
   doughnutChartData = {
     type: "doughnut",
     data: {
@@ -501,9 +511,8 @@ export class RevenueMixComponent implements OnInit {
         },
       ],
     },
-
   };
-//options
+  //options
   doughnutChartOptions = {
     scales: {
       xAxes: [
@@ -533,8 +542,8 @@ export class RevenueMixComponent implements OnInit {
   ];
   constructor() {}
 
-  ulbTab:boolean = false;
-  populationTab:boolean = false;
+  ulbTab: boolean = false;
+  populationTab: boolean = false;
 
   finalMultipleDoughnut = [];
   stateName: string = '';
@@ -544,45 +553,47 @@ export class RevenueMixComponent implements OnInit {
      event.forEach(element => {
       data.push(element.text)
     });
-    console.log('labels',data )
-    this.dounghnuChartLabels.emit(data)
+    console.log("labels", data);
+    this.dounghnuChartLabels.emit(data);
   }
 
   getMultipleDoughnutCharts() {
+    // debugger;
     if (this.ulbTab) {
       this.finalMultipleDoughnut = this.doughnutArray;
     }else if (this.populationTab) {
       // this.finalMultipleDoughnut = this.newDoughnutArray;
       this.finalMultipleDoughnut = this.doughnutArray;
     }
-    this.finalMultipleDoughnut = [ ...this.finalMultipleDoughnut ];
+    this.finalMultipleDoughnut = [...this.finalMultipleDoughnut];
     console.log(this.finalMultipleDoughnut);
   }
 
   multipleChartShow = false;
 
   ulbFunction(value) {
+    // debugger;
     console.log(value);
     if (value == 1) {
       this.ulbTab = true;
       this.populationTab = false;
-      
+
       this.multipleChartShow = true;
-      this.compType.emit('ulbType')
+      this.compType.emit("ulbType");
     }
     if (value == 2) {
       this.ulbTab = false;
       this.populationTab = true;
-      
+
       this.multipleChartShow = true;
-      this.compType.emit('popType')
+      this.compType.emit("popType");
     }
     if (value == 3) {
       this.ulbTab = false;
       this.populationTab = false;
-    
+
       this.multipleChartShow = false;
-      this.compType.emit('default')
+      this.compType.emit("default");
     }
 
     console.log("this.ulbTab", this.ulbTab, this.populationTab);
@@ -592,14 +603,13 @@ export class RevenueMixComponent implements OnInit {
     this.getMultipleDoughnutCharts();
     console.log("doughnutArray", this.doughnutArray1);
   }
-  initializeDounughtArry(){
+  initializeDounughtArry() {
     this.doughnutArray = [
       {
         id: "p1",
         title: `${this.stateName ? this.stateName : 'State Average'}`,
         type: "doughnut",
         data: {
-      
           labels: [
             "Own Revenue",
             "Assigned Revenue",
@@ -625,7 +635,7 @@ export class RevenueMixComponent implements OnInit {
             },
           ],
         },
-  
+
         options: {
           tooltips: {
             callbacks: {
@@ -635,11 +645,16 @@ export class RevenueMixComponent implements OnInit {
                 // console.log('dataset', dataset);
                 // console.log('label', data.labels[tooltipItem.index]);
 
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue,
+                  currentIndex,
+                  array
+                ) {
                   return previousValue + currentValue;
                 });
                 var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
                 var labelName = data.labels[tooltipItem.index];
                 return percentage + "%"
                 // return `${labelName ? labelName : ''} - ${percentage} %`;
@@ -656,10 +671,7 @@ export class RevenueMixComponent implements OnInit {
         title: "Municipality",
         type: "doughnut",
         data: {
-         
-          labels: [
-         
-          ],
+          labels: [],
           datasets: [
             {
               label: "My First Dataset",
@@ -672,16 +684,21 @@ export class RevenueMixComponent implements OnInit {
         options: {
           tooltips: {
             callbacks: {
-              label: function(tooltipItem, data) {
+              label: function (tooltipItem, data) {
                 var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue,
+                  currentIndex,
+                  array
+                ) {
                   return previousValue + currentValue;
                 });
                 var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
                 return percentage + "%";
-              }
-            }
+              },
+            },
           },
           legend: {
             display: false,
@@ -693,10 +710,7 @@ export class RevenueMixComponent implements OnInit {
         title: "Municipal Corporation",
         type: "doughnut",
         data: {
-         
-          labels: [
-          
-          ],
+          labels: [],
           datasets: [
             {
               label: "My First Dataset",
@@ -709,16 +723,21 @@ export class RevenueMixComponent implements OnInit {
         options: {
           tooltips: {
             callbacks: {
-              label: function(tooltipItem, data) {
+              label: function (tooltipItem, data) {
                 var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue,
+                  currentIndex,
+                  array
+                ) {
                   return previousValue + currentValue;
                 });
                 var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
                 return percentage + "%";
-              }
-            }
+              },
+            },
           },
           legend: {
             display: false,
@@ -730,10 +749,7 @@ export class RevenueMixComponent implements OnInit {
         title: "Town Panchayat",
         type: "doughnut",
         data: {
-          
-          labels: [
-            
-          ],
+          labels: [],
           datasets: [
             {
               label: "My First Dataset",
@@ -978,23 +994,28 @@ export class RevenueMixComponent implements OnInit {
         options: {
           tooltips: {
             callbacks: {
-              label: function(tooltipItem, data) {
+              label: function (tooltipItem, data) {
                 var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                var total = dataset.data.reduce(function (
+                  previousValue,
+                  currentValue,
+                  currentIndex,
+                  array
+                ) {
                   return previousValue + currentValue;
                 });
                 var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
+                var percentage = Math.floor((currentValue / total) * 100 + 0.5);
                 return percentage + "%";
-              }
-            }
+              },
+            },
           },
           legend: {
             display: false,
           },
         },
       },
-    ]
+    ];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -1009,7 +1030,7 @@ export class RevenueMixComponent implements OnInit {
         this.ulbTab = true;
         this.populationTab = false;
         this.multipleChartShow = true;
-      } else if (changes.returnCompType.currentValue == 'popType') {
+      } else if (changes.returnCompType.currentValue == "popType") {
         this.ulbTab = false;
         this.populationTab = true;
         this.multipleChartShow = true;
