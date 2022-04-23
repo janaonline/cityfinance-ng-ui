@@ -594,16 +594,17 @@ export class CommonService {
     return new Intl.NumberFormat("en-IN").format(num);
   }
 
-  changeCountFormat(value: any) {
+  changeCountFormat(value: any, chartAnimation: string = 'defaultBarChartOptions') {
     let formattedValue: any;
     if (value >= 10000000) {
       formattedValue = (value / 10000000).toFixed(2);
-    } else if (value >= 1000000) {
-      formattedValue = (value / 1000000).toFixed(2);
-    } else {
-      formattedValue = value.toFixed(2);
+    } else if (value >= 100000) {
+      formattedValue = (value / 100000).toFixed(2);
     }
-    return formattedValue;
+    // else {
+    //   formattedValue = value.toFixed(2);
+    // }
+    return chartAnimation == 'defaultBarChartOptions' ? value : formattedValue;
   }
 
   toTitleCase(phrase: string) {
