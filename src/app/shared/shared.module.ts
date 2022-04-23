@@ -210,6 +210,8 @@ import { ShareDialogComponent } from './components/share-dialog/share-dialog.com
     RevenuechartComponent,
     MapWithFilterComponent,
     NationalHeatMapComponent,
+    SlbChartsComponent,
+    StateFilterDataComponent
   ],
   providers: [FinancialDataService],
 })

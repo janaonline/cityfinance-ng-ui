@@ -186,6 +186,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   // stateMap = json.parse(localStorage.getItem(stateIdsMap))
   stateMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   changeTab(event, fromInner = false) {
+    console.log('changeTab', event, fromInner)
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
     console.log("value ==>", value);
     this.cityName = value?.ulbName
@@ -220,6 +221,8 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
+
     if (changes.stateId) {
       this.getStateName();
     }
@@ -241,6 +244,7 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log("innertab value", this.innerActiveTab);
     console.log("this.percentValue", this.percentValue);
+    console.log("DashBoardType", this.DashBoardType)
   }
 }
 function convertToPastYears(year) {

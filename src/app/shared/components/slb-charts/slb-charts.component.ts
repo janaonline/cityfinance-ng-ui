@@ -70,15 +70,17 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   ];
 
   yearValueChange(value) {
-    console.log(value);
+    console.log('yearValueChange', value);
     this.year = value;
     this.getData();
   }
 
   ngOnInit(): void {
+    this.yearList = this.yearList.reverse();
     console.log("data slb charts", this.data);
   }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('slbChartOnChanges', changes)
     if (changes.data) {
       this.aboutSlbCharts = this.data?.mainContent[0]?.about;
       this.getData();
@@ -86,8 +88,10 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     if (changes.cityId) {
       this.ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
     }
-    if (changes.year) {
+    if (changes && changes.year && changes.year.currentValue) {
+      // this.year = changes.year.currentValue;
       console.log(this.year);
+      // this.getData();
     }
   }
   getData() {
@@ -120,10 +124,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           }
           return value;
         });
-        if (
-          res["data"].length &&
-          res["data"][0].hasOwnProperty("compPercentage")
-        ) {
+        if (res["data"].length && res["data"][0].hasOwnProperty("compPercentage")) {
           this.chartLabels[0] = {
             svg: false,
             name: this.ulbList[this.compareType].name,
@@ -148,6 +149,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           });
           return value;
         });
+        console.log('slbGaugeCharts', this.slbGaugeCharts);
       },
       (error) => {
         console.log(error);

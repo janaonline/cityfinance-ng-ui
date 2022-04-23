@@ -1,5 +1,5 @@
 import { Component, Input, NgZone, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";
@@ -16,18 +16,21 @@ import { MapUtil } from "src/app/util/map/mapUtil";
 import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
+import { NewDashboardService } from "../new-dashboard.service";
+import { data } from "jquery";
+import { Observable } from "rxjs";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 
 @Component({
-  selector: 'app-slb-dashboard',
-  templateUrl: './slb-dashboard.component.html',
-  styleUrls: ['./slb-dashboard.component.scss']
+  selector: "app-slb-dashboard",
+  templateUrl: "./slb-dashboard.component.html",
+  styleUrls: ["./slb-dashboard.component.scss"],
 })
-
-export class SlbDashboardComponent extends 
-NationalHeatMapComponent implements OnInit {
-
+export class SlbDashboardComponent
+  extends NationalHeatMapComponent
+  implements OnInit
+{
   constructor(
     protected _commonService: CommonService,
     protected _snackbar: MatSnackBar,
@@ -36,7 +39,8 @@ NationalHeatMapComponent implements OnInit {
     private fb: FormBuilder,
     private _ngZone: NgZone,
     private assetService: AssetsService,
-    private router: Router
+    private router: Router,
+    private newDashboardService: NewDashboardService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     setTimeout(() => {
@@ -51,11 +55,10 @@ NationalHeatMapComponent implements OnInit {
     }, 1000);
     this.initializeform();
     this.fetchStateList();
-
   }
 
   selected_state = "India";
-  stateselected: IState;
+  selectedState: IState;
   creditRating: { [stateName: string]: number; total?: number } = {};
   stateList: IState[];
   statesLayer: L.GeoJSON<any>;
@@ -83,28 +86,26 @@ NationalHeatMapComponent implements OnInit {
   };
   mapLabels = [
     {
-     name: '0%',
-     color: '#A6B9B4',
+      name: "0%",
+      color: "#A6B9B4",
     },
     {
-     name: '25%',
-     color: '#FCDA4A',
+      name: "25%",
+      color: "#FCDA4A",
     },
     {
-     name: '60%',
-     color: '#4A6CCB',
+      name: "60%",
+      color: "#4A6CCB",
     },
     {
-     name: 'Above 80%',
-     color: '#12A6DD',
+      name: "Above 80%",
+      color: "#12A6DD",
     },
-
-
   ];
   popBtn = true;
   tableData;
-myForm: FormGroup;
- DropdownSettings = {
+  myForm: FormGroup;
+  DropdownSettings = {
     singleSelection: true,
     text: "India",
     enableSearchFilter: false,
@@ -114,20 +115,71 @@ myForm: FormGroup;
     classes: "homepage-stateList custom-class",
   };
   selectedStateCode;
+
+  yearList = [
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
+    "2020-21",
+    "2021-22",
+  ];
+  selectedYear: any;
+  isStateServiceLabel: boolean = true;
+  allDashboardTabList: any;
+  slbDashboardData: any;
+  selectedSlbSubTab: any;
+  stateId: string = '';
+  cityId: string = '';
+  cityName: string = 'Chas Municipal Corporation';
+  isStateSlbActive: boolean = false;
+  isCitySlbActive: boolean = false;
+  nationalFilter = new FormControl();
+  filteredOptions: Observable<any[]>;
   ngOnInit(): void {
+    this.yearList = this.yearList.reverse();
+    this.selectedYear = this.yearList[1];
+    this.dashboardDataCall();
     this.loadData();
-    this.subFilterFn('popCat');
+    this.subFilterFn("popCat");
+
+    this.nationalFilter.valueChanges.subscribe((value) => {
+      if (value?.length >= 1) {
+        this._commonService
+          .postGlobalSearchData(value, "ulb", this.stateId)
+          .subscribe((res: any) => {
+            console.log(res?.data);
+            let emptyArr: any = [];
+            this.filteredOptions = emptyArr;
+            if (res?.data.length > 0) {
+              this.filteredOptions = res?.data;
+              //this.noDataFound = false;
+            } else {
+              let emptyArr: any = [];
+              this.filteredOptions = emptyArr;
+              // this.noDataFound = true;
+              console.log("no data found");
+            }
+          });
+      } else {
+        return null;
+      }
+    });
   }
- private initializeform() {
+
+  private initializeform() {
     this.myForm = this.fb.group({
       stateId: [""],
     });
   }
-  changeInDropdown(e){
-    console.log('Data sets', e);
+
+  changeInDropdown(e) {
+    console.log("Data sets", e);
     this.onStateLayerClick(e);
-  //  this.changeInStateOrCity.emit(e);
+    //  this.changeInStateOrCity.emit(e);
   }
+
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -195,7 +247,7 @@ myForm: FormGroup;
       (layer as any).on({
         mouseover: () => this.createTooltip(layer, this.stateLayers),
         click: (args: ILeafletStateClickEvent) => {
-        //  this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
+          //  this.selectedStateCode = args.sourceTarget.feature.properties.ST_CODE;
           this.onStateLayerClick(args, false, false);
         },
         mouseout: () => (this.mouseHoverOnState = null),
@@ -228,7 +280,7 @@ myForm: FormGroup;
   }
 
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "90vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "33rem";
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -267,7 +319,7 @@ myForm: FormGroup;
         zoom = 5.5;
       }
 
-      zoom = 5.5;
+      // zoom = 5.5;
 
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,
@@ -322,190 +374,189 @@ myForm: FormGroup;
       // });
     }, 0.5);
   }
-  loadData(){
-    this._commonService.fetchStateList().subscribe((res: any)=>{
-      console.log('res', res);
-      this.stateList = res;
-     },
-     (error)=>{
-       console.log(error)
-     });
-     this._commonService.state_name_data.subscribe((res) => {
-      console.log('sub....', res, res.name);
+
+  loadData() {
+    this._commonService.fetchStateList().subscribe(
+      (res: any) => {
+        console.log("res", res);
+        this.stateList = res;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this._commonService.state_name_data.subscribe((res) => {
+      console.log("sub....", res, res.name);
       this.onSelectingStateFromDropDown(res);
       this.updateDropdownStateSelection(res);
     });
   }
-  subFilterFn(type){
-    if(type == 'popCat'){
-    this.popBtn = true;
-    this.tableData = {
-      timeStamp : 12332323434,
-      success:true,
-      message: 'success',
-      data: [
-        {
-          tableId:1,
-          name:"Revenue Table",
-          tableClass: 'revenue_tb',
-          border:"1",
-          bgColor: '#9D84B7',
-          columns : [
-            {
-            key: 'ulbType',
-            display_name: "ULB Type",
-            },
-          {
-            key: 'numberOfULBs',
-            display_name: "Number Of ULBs",
-          },
-          {
-            key: 'ulbsWithData',
-            display_name: "ULBs With Data",
-          },
-           {
-              key : 'DataAvailPercentage',
-              display_name: 'Data Availability Percentage'
-           },
-           {
-            key : 'urbanPopulationPercentage',
-            display_name: 'Urban population percentage'
-         },
 
-          ],
-          rows: [
-            {
-             // lineItem: 'Average',
-              ulbType:'Average',
-              numberOfULBs: '1500',
-              ulbsWithData: '111',
-              DataAvailPercentage: '30%',
-              urbanPopulationPercentage: '20%'
-            },
-            {
-              // lineItem: 'Average',
-               ulbType:'4M+',
-               numberOfULBs: '1500',
-               ulbsWithData: '111',
-               DataAvailPercentage: '30%',
-               urbanPopulationPercentage: '20%'
-             },
-            {
-             // lineItem: 'Municipal Corporation',
-               ulbType:'1M-4M',
-               numberOfULBs: '1500',
-               ulbsWithData: '111',
-               DataAvailPercentage: '30%',
-               urbanPopulationPercentage: '20%'
-            },
-            {
-             // lineItem: 'Municipality',
-              ulbType:'500K-1M',
-              numberOfULBs: '1500',
-              ulbsWithData: '111',
-              DataAvailPercentage: '30%',
-              urbanPopulationPercentage: '20%'
-            },
-            {
-             // lineItem: 'Town Panchayat',
-              ulbType:'100K-500K',
-              numberOfULBs: '1500',
-              ulbsWithData: '111',
-              DataAvailPercentage: '30%',
-              urbanPopulationPercentage: '20%'
-            },
-            {
-              // lineItem: 'Town Panchayat',
-                ulbType:'<100K',
-                numberOfULBs: '1500',
-                ulbsWithData: '111',
-                DataAvailPercentage: '30%',
-                urbanPopulationPercentage: '20%'
-             },
-
-          ]
-        },
-
-      ]
-  }
-    }
-    if(type == 'ulbType'){
-      this.popBtn = false;
+  subFilterFn(type) {
+    if (type == "popCat") {
+      this.popBtn = true;
       this.tableData = {
-        timeStamp : 12332323434,
-        success:true,
-        message: 'success',
+        timeStamp: 12332323434,
+        success: true,
+        message: "success",
         data: [
           {
-            tableId:1,
-            name:"Data availability table",
-            tableClass: 'revenue_tb',
-            border:"1",
-            bgColor: '#9D84B7',
-            columns : [
+            tableId: 1,
+            name: "Revenue Table",
+            tableClass: "revenue_tb",
+            border: "1",
+            bgColor: "#9D84B7",
+            columns: [
               {
-              key: 'ulbType',
-              display_name: "ULB Type",
+                key: "ulbType",
+                display_name: "ULB Type",
               },
-            {
-              key: 'numberOfULBs',
-              display_name: "Number Of ULBs",
-            },
-            {
-              key: 'ulbsWithData',
-              display_name: "ULBs With Data",
-            },
-             {
-                key : 'DataAvailPercentage',
-                display_name: 'Data Availability Percentage'
-             },
-             {
-              key : 'urbanPopulationPercentage',
-              display_name: 'Urban population percentage'
-           },
-
+              {
+                key: "numberOfULBs",
+                display_name: "Number Of ULBs",
+              },
+              {
+                key: "ulbsWithData",
+                display_name: "ULBs With Data",
+              },
+              {
+                key: "DataAvailPercentage",
+                display_name: "Data Availability Percentage",
+              },
+              {
+                key: "urbanPopulationPercentage",
+                display_name: "Urban population percentage",
+              },
             ],
             rows: [
               {
-               // lineItem: 'Average',
-               ulbType:'Average',
-               numberOfULBs: '12000',
-               ulbsWithData: '12000',
-                DataAvailPercentage: '75%',
-                urbanPopulationPercentage: '50%'
+                // lineItem: 'Average',
+                ulbType: "Average",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
               },
               {
-               // lineItem: 'Municipal Corporation',
-               ulbType:'Municipal Corporation',
-               numberOfULBs: '501',
-               ulbsWithData: '121',
-                DataAvailPercentage: '50%',
-                urbanPopulationPercentage: '30%'
+                // lineItem: 'Average',
+                ulbType: "4M+",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
               },
               {
-               // lineItem: 'Municipality',
-               ulbType:'Municipality',
-               numberOfULBs: '1500',
-               ulbsWithData: '111',
-                DataAvailPercentage: '30%',
-                urbanPopulationPercentage: '20%'
+                // lineItem: 'Municipal Corporation',
+                ulbType: "1M-4M",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
               },
               {
-               // lineItem: 'Town Panchayat',
-               ulbType:'Town Panchayat',
-               numberOfULBs: '1200',
-               ulbsWithData: '600',
-                DataAvailPercentage: '10%',
-                urbanPopulationPercentage: '8%'
+                // lineItem: 'Municipality',
+                ulbType: "500K-1M",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
               },
-
-            ]
+              {
+                // lineItem: 'Town Panchayat',
+                ulbType: "100K-500K",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
+              },
+              {
+                // lineItem: 'Town Panchayat',
+                ulbType: "<100K",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
+              },
+            ],
           },
-
-        ]
-      }
+        ],
+      };
+    }
+    if (type == "ulbType") {
+      this.popBtn = false;
+      this.tableData = {
+        timeStamp: 12332323434,
+        success: true,
+        message: "success",
+        data: [
+          {
+            tableId: 1,
+            name: "Data availability table",
+            tableClass: "revenue_tb",
+            border: "1",
+            bgColor: "#9D84B7",
+            columns: [
+              {
+                key: "ulbType",
+                display_name: "ULB Type",
+              },
+              {
+                key: "numberOfULBs",
+                display_name: "Number Of ULBs",
+              },
+              {
+                key: "ulbsWithData",
+                display_name: "ULBs With Data",
+              },
+              {
+                key: "DataAvailPercentage",
+                display_name: "Data Availability Percentage",
+              },
+              {
+                key: "urbanPopulationPercentage",
+                display_name: "Urban population percentage",
+              },
+            ],
+            rows: [
+              {
+                // lineItem: 'Average',
+                ulbType: "Average",
+                numberOfULBs: "12000",
+                ulbsWithData: "12000",
+                DataAvailPercentage: "75%",
+                urbanPopulationPercentage: "50%",
+              },
+              {
+                // lineItem: 'Municipal Corporation',
+                ulbType: "Municipal Corporation",
+                numberOfULBs: "501",
+                ulbsWithData: "121",
+                DataAvailPercentage: "50%",
+                urbanPopulationPercentage: "30%",
+              },
+              {
+                // lineItem: 'Municipality',
+                ulbType: "Municipality",
+                numberOfULBs: "1500",
+                ulbsWithData: "111",
+                DataAvailPercentage: "30%",
+                urbanPopulationPercentage: "20%",
+              },
+              {
+                // lineItem: 'Town Panchayat',
+                ulbType: "Town Panchayat",
+                numberOfULBs: "1200",
+                ulbsWithData: "600",
+                DataAvailPercentage: "10%",
+                urbanPopulationPercentage: "8%",
+              },
+            ],
+          },
+        ],
+      };
     }
   }
+
   onSelectingStateFromDropDown(state: any | null) {
     console.log("sttts", state);
     this.selectedStateCode = state?.code;
@@ -517,12 +568,18 @@ myForm: FormGroup;
       this.resetMapToNationalLevel();
       this.initializeNationalLevelMapLayer(this.stateLayers);
     }
-    console.log("sdc 2", state, this.stateselected, this.selected_state);
-    this.stateselected = state;
- //   this.fetchDataForVisualization(state ? state._id : null);
- //   this.fetchBondIssueAmout(
-  //    this.stateselected ? this.stateselected._id : null
-  //  );
+    console.log("sdc 2", state, this.selectedState, this.selected_state);
+
+    this.selectedState = state;
+    if (this.selectedState && this.selectedState?._id) {
+      sessionStorage.setItem('row_id', this.selectedState?._id);
+      this.stateId = this.selectedState?._id
+      this.loadSLBComponent('state');
+    }
+    //   this.fetchDataForVisualization(state ? state._id : null);
+    //   this.fetchBondIssueAmout(
+    //    this.selectedState ? this.selectedState._id : null
+    //  );
     console.log("mini mode", this.isMapOnMiniMapMode);
     this.selectStateOnMap(state);
     this._commonService
@@ -530,7 +587,7 @@ myForm: FormGroup;
       .subscribe((res) => {
         console.log("ulb data", res);
         let ulbsData: any = res;
-     //   this.cityData = ulbsData?.data?.ulbs;
+        //   this.cityData = ulbsData?.data?.ulbs;
         //console.log('city data', this.cityData)
       });
   }
@@ -579,6 +636,7 @@ myForm: FormGroup;
     //   stateLayer.bringToFront();
     // }
   }
+
   private resetStateLayer(layer) {
     layer.setStyle({
       color: this.defaultStateLayerColorOption.color,
@@ -586,25 +644,111 @@ myForm: FormGroup;
     });
     layer.closeTooltip();
   }
+
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
       this.stateList = [{ _id: null, name: "India" }].concat(res);
     });
   }
+
   private updateDropdownStateSelection(state: IState) {
     console.log(state);
-    this.stateselected = state;
+    this.selectedState = state;
     this.myForm.controls.stateId.setValue(state ? [{ ...state }] : []);
   }
-  resetNationalMap(){
+
+  resetNationalMap() {
     this.onSelectingStateFromDropDown(null);
     let obj = {
-      _id : 'null',
-      name: 'India'
-    }
+      _id: "null",
+      name: "India",
+    };
     this.updateDropdownStateSelection(obj);
-
   }
 
-}
+  dashboardDataCall() {
+    this.newDashboardService
+      .getDashboardTabData("619cc08a6abe7f5b80e45c67")
+      .subscribe(
+        (res) => {
+          console.log("dashboardTabData", res);
+          this.allDashboardTabList = res["data"];
+          let findCityLevelSlb = this.allDashboardTabList.find(
+            (tabName) => tabName.name == "Service Level Benchmark"
+          );
+          if (findCityLevelSlb) {
+            this.slbDashboardData = findCityLevelSlb;
+            this.selectedSlbSubTab = {...this.slbDashboardData.subHeaders[0]}
+          }
+          console.log("allDashboardTabList", this.allDashboardTabList);
+          console.log("selectedSlbSubTab", this.selectedSlbSubTab);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
 
+  ulbId: any;
+  getUlbData(event) {
+    console.log(event);
+    this.ulbId = event._id;
+    console.log('this.ulbId', this.ulbId);
+    this.cityId = this.ulbId;
+    this.loadSLBComponent('city');
+  }
+
+  getSelectedYear(selectedYear: any) {
+    console.log('getSelectedYear', selectedYear);
+  }
+
+  loadSLBComponent(slbLevelType: string = '') {
+    console.log('loadSLBComponent', slbLevelType );
+
+    switch (slbLevelType) {
+      case 'state':
+        this.isStateSlbActive = true;
+        this.resetCityLevelData();
+        this.selectedSlbSubTab = {...this.slbDashboardData.subHeaders[0]}
+        break;
+      case 'city':
+        this.isCitySlbActive = true;
+        this.isStateSlbActive = false;
+        break;
+      default:
+        this.isCitySlbActive = false;
+        this.isStateSlbActive = false;
+        break;
+    }
+    console.log('isStateSlbActive', this.isStateSlbActive, 'isCitySlbActive', this.isCitySlbActive)
+  }
+
+  changeTab(event, fromInner = false) {
+    // console.log('changeTab', event, fromInner)
+    let value = event?.target?.value ? JSON.parse(event.target.value) : event;
+    // console.log("value ==>", value);
+    this.cityName = value?.ulbName
+    this.selectedSlbSubTab = value;
+  }
+
+  backToPreviousMode() {
+    if (this.isStateSlbActive) {
+      this.stateId = '';
+      this.isCitySlbActive = false;
+      this.isStateSlbActive = false;
+      this.resetNationalMap();
+    }
+    if (this.isCitySlbActive) {
+      this.loadSLBComponent('state');
+    }
+  }
+
+  resetCityLevelData() {
+    this.isCitySlbActive = false;
+    let emptyArr: any = [];
+    this.filteredOptions = emptyArr;
+    this.nationalFilter.patchValue("");
+    this.cityId = '';
+    this.ulbId = '';
+  }
+}
