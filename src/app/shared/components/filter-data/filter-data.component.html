@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row customClass">
         <div class="col-md-12">
             <p>
                 {{data.about}}
@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div  class="col-12">
-            <button *ngFor="let item of data.btnLabels; let i = index" (click)="changeActiveBtn(i)" [id]="'btn-'+i" style="margin-left: 2pc;" class="btn deSelected">{{item}}</button>
+            <button *ngFor="let item of data.btnLabels; let i = index" (click)="changeActiveBtn(i)" [id]="'btn-'+i" style="margin-left: 2pc;" class="btn deSelected customButtonClass">{{item}}</button>
         </div>
     </div>
     <div class="row mb-5 mt-2">

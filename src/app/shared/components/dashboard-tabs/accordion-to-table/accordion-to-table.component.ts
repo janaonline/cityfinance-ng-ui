@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -34,6 +34,7 @@ export class AccordionToTableComponent implements OnInit {
   originalULBList: IULBResponse["data"];
   yearsAvailable: { name: string }[] = [];
   statesAvailable = [];
+  @Input() value
   yearsDropdownSettings = {
     singleSelection: false,
     text: "All Years",
@@ -228,6 +229,7 @@ export class AccordionToTableComponent implements OnInit {
     this.filterForm.patchValue({ ulbs: [], years: [], states: [] });
     this.initializeStateList(this.originalULBList);
     this.initializeYearList(this.originalULBList);
+    this.issueLength.patchValue('4');
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
@@ -315,15 +317,51 @@ export class AccordionToTableComponent implements OnInit {
   emptyArray() {
     this.empty = new Array(10).fill(null);
   }
-
+ city:boolean = false;
+ state:boolean = false;
   ngOnInit() {
     this.emptyArray();
+    console.log('valueeeeeeee'+this.value)
+    if(this.value == 'city'){
+      this.city =true
+      this.state = false;
+    }
+    if(this.value == 'state'){
+      this.state =true
+      this.city =false
+    }
   }
+ issueLength:any=4;
+ tableHeading = [
+  {title: "Municipality", keyToAccessValue: "municipality", class: "fa-sort sort-icon"},
+  {title: "ULB Type", keyToAccessValue: "ulbType", class: "fa-sort sort-icon"},
+  {title: "Year", keyToAccessValue: "year", class: "fa-sort sort-icon"},
+  {title: "Rating", keyToAccessValue: "rating", class: "fa-sort sort-icon"},
+  {title: "Amount (In Cr)", keyToAccessValue: "amount", class: "fa-sort sort-icon"},
+  {title: "Coupon Rate", keyToAccessValue: "couponRate", class: "fa-sort sort-icon"},
+];
 
+tableDataSource = [
+  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
+];
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
       console.log(res);
+      this.issueLength=res.total - 1;
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();

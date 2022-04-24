@@ -17,7 +17,15 @@
     color: #0fa755;
     font-size: 0.7rem
 }
-
+@media screen and (max-width: 800px) {
+    .container-fluid {
+        margin-top:4%;
+        }
+    .matAcc{
+        margin-top:2%;
+    }    
+   
+  }
 ::ng-deep mat-panel-title {
     font: normal normal 500 14px/15px 'Archivo';
     letter-spacing: 0px;

@@ -81,7 +81,7 @@
 
 <div class="container cont-p">
  <!-- para -->
-  <p class="para-styling">
+  <p class="para-styling statusPara">
     To view your performance, select
     <span class="para_word_styling"> State </span> or
     <span class="para_word_styling"> ULB Name. </span> If you want to view the
@@ -191,7 +191,7 @@
     <div class="row">
       <div class="col-md-7">
         <h3 class="heading" style="font-size: 1.5rem">Data Availability</h3>
-        <p class="da-para">
+        <p class="da-para dataAvailablePara">
           {{ dataAvailable }}% of the ULBs in the chosen category
           have uploaded their financial statements for the year
           {{ body.financialYear }}.
@@ -291,7 +291,7 @@
         </div>
       </div>
     </div>
-    <p class="text-end smallText" style="margin-top: 5px">
+    <p class="smallText" style="margin-top: 5px">
       Please note that this calculation is affected by the mismatch in the number of cities that have uploaded their financial statements in two consecutive years
     </p>
   </div>
@@ -324,7 +324,7 @@
         </tbody>
       </table>
     </div>
-    <p *ngIf="notFoundNames.length > 0" class="text-end smallText">
+    <p *ngIf="notFoundNames.length > 0" class="smallText">
       Please note financial data for
       <span *ngFor="let name of notFoundNames">{{ name }}, </span> is not
       available and thus, is not depicted here.
