@@ -264,7 +264,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   // ];
   chartDropdownList: any;
   chartDropdownValue: any;
-  chartTitle: string= 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.';
+  chartTitle: string= 'Compare ULBs on various financial indicators .';
   selectedServiceLevelBenchmark: any; 
   nestedChartFilterOption: any = {
     showFinancialYear: false,
