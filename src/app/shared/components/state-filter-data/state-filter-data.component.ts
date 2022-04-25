@@ -525,7 +525,7 @@ console.log(err.message)
             // stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"][0]["average"];
             stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0] && res['data']['scatterData']["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
-          } else if (this.compType == 'ulbType'){
+          } else {
             mCorporation = apiData["mCorporation"];
             tp_data = apiData["townPanchayat"];
             m_data = apiData["municipality"];
