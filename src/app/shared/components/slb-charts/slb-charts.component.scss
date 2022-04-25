@@ -12,7 +12,13 @@
     right: 10px;
     top: 8px;
 }
-
+@media screen and (max-width: 800px) {
+    .optionList {
+        padding: 1%;
+        align-items: center;
+    }
+   
+  }
 .p-c {
     font: normal normal 700 16px/24px 'Archivo';
     letter-spacing: 0px;

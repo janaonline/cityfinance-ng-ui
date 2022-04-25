@@ -185,10 +185,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       labels: {
         usePointStyle: true,
         pointStyle: "rect",
-        padding: 35,
+        padding: 5,
         boxWidth: 20,
         boxHeight: 23,
-        fontSize: 15,
+        fontSize: 13,
       },
       onClick: (e) => e.stopPropagation(),
     },

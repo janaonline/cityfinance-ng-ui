@@ -10,7 +10,20 @@
   color: #0f1f40;
 
 }
-
+@media screen and (max-width: 800px) {
+  .container {
+      margin-top:4%;
+      
+  }
+   .controller{
+    margin-bottom: 24%;
+    margin-top: 9%;
+   }
+   .compareCustom{
+     height:53% !important; 
+     font-size: 10px !important;
+   }
+}
 .revenuChartContainer {
   margin-top: 1.8rem;
   padding-top: 2rem;
@@ -61,8 +74,18 @@
     height: auto;
     margin-top: 100px !important;
   }
-  .compare {
-    font-size: 10px;
+  ul#horizontal-list li {
+		display: table-caption !important;
+    
+	}
+  .verticleChart{
+    flex-direction: column;
+  }
+  .verticleCharts{
+    margin-left:25%;
+  }
+  .verticleChartLabel{
+    margin-left:11%;
   }
   .revenueHeading {
     font-size: 14px;

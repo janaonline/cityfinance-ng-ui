@@ -7,7 +7,7 @@
             <i (click)="onClose()" class="fa fa-times cancel-btn" aria-hidden="true"></i>
         </div>
     </div>
-    <div class="d-flex mt-3">
+    <div class="d-flex mt-5">
         <img src="../../../../assets/images/shareImage.png" width="130" height="100">
         <div class="col-md-9 col-lg-9 sub-container">
             <p>Copy and paste the following code to place an interactive version of this visualization on your website.</p>
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="code mt-3">
+    <div class="d-flex code mt-3">
         <div class="ms-2">
              <input class="iframe-input" type="text" [value]="iFrameElement" readonly #userinput onClick="this.setSelectionRange(0, this.value.length)">
         </div>

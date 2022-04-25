@@ -264,7 +264,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   // ];
   chartDropdownList: any;
   chartDropdownValue: any;
-  chartTitle: string= 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.';
+  chartTitle: string= 'Compare ULBs on various financial indicators .';
   selectedServiceLevelBenchmark: any; 
   nestedChartFilterOption: any = {
     showFinancialYear: false,
@@ -541,6 +541,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           }
 
           let stateLevelMaxPopuCount = this.getMaximumPopulationCount(mCorporation, tp_data, m_data);
+        // let   stateLevelMaxPopuCount = 30;
           console.log('stateLevelMaxPopuCount', stateLevelMaxPopuCount)
           this.scatterData.data.datasets.forEach((el) => {
             let obj = { x: 0, y: 0 };
@@ -668,12 +669,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
  */
   getMaximumPopulationCount(mCorporation: any, townPanchayat: any, municipality: any ) {
     let populationCountList = [];
-    populationCountList = mCorporation.map(popCount => popCount.population)
-    populationCountList = [...populationCountList, ...townPanchayat.map(popCount => popCount.population)]
-    populationCountList = [...populationCountList, ...municipality.map(popCount => popCount.population)]
+ 
+  populationCountList = mCorporation.map(popCount => popCount.population)
+  populationCountList = [...populationCountList, ...townPanchayat.map(popCount => popCount.population)]
+  populationCountList = [...populationCountList, ...municipality.map(popCount => popCount.population)]
 
-    let maxPopulationCount = Math.max(...populationCountList);
-    return maxPopulationCount;
+  let maxPopulationCount = Math.max(...populationCountList);
+  return maxPopulationCount;
+ 
+
   }
 
   generateRandomId(name) {
@@ -1263,6 +1267,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     let oldScatterData = Object.assign(this.scatterData);
     this.initializeScatterData();
     let apiEndPoint = 'state-dashboard-averages';
+    // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
     this.scatterChartPayload = {
       "stateId": this.stateId,
       "financialYear": this.financialYear ? this.financialYear : '',
@@ -1274,14 +1279,20 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       "filterName": this.filterName ? this.filterName : '',
       "chartTitle": ''
     };
-
+    
+    if (this.selectedRadioBtnValue == 'nationalAvg') {
+      this.scatterData.data.datasets.push(this.stateFilterDataService.nationLevelScatterDataSet);
+    }
     console.log('scatterChartPayload', this.scatterChartPayload);
     let inputVal: any = {};
     inputVal.stateIds = this.stateId;
     this.stateFilterDataService.getAvgScatterdData(this.scatterChartPayload, apiEndPoint).subscribe(
       (res) => {
+        this.notfound = false;
         console.log("response data", res);
-        if (res && res['success']) {
+        //scatter plots center
+      
+        if (!this.filterName.includes("mix")) {
           this._loaderService.stopLoader();
           this.notfound = false;
           if (this.selectedRadioBtnValue == 'populationAvg') {
