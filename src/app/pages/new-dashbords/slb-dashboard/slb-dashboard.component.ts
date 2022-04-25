@@ -19,6 +19,7 @@ import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-h
 import { NewDashboardService } from "../new-dashboard.service";
 import { data } from "jquery";
 import { Observable } from "rxjs";
+import { StateFilterDataService } from "src/app/shared/components/state-filter-data/state-filter-data.service";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 
@@ -40,7 +41,9 @@ export class SlbDashboardComponent
     private _ngZone: NgZone,
     private assetService: AssetsService,
     private router: Router,
-    private newDashboardService: NewDashboardService
+    private newDashboardService: NewDashboardService,
+    public stateFilterDataService: StateFilterDataService,
+
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     setTimeout(() => {
@@ -140,6 +143,7 @@ export class SlbDashboardComponent
   ngOnInit(): void {
     this.yearList = this.yearList.reverse();
     this.selectedYear = this.yearList[1];
+    this.getYears();
     this.dashboardDataCall();
     this.loadData();
     this.subFilterFn("popCat");
@@ -751,4 +755,14 @@ export class SlbDashboardComponent
     this.cityId = '';
     this.ulbId = '';
   }
+
+  getYears() {
+    this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+      let yearList = res['data'];
+      sessionStorage.setItem('financialYearList', JSON.stringify(yearList));
+    }, (err)=> {
+      console.log(err.message)
+    });
+  }
+
 }

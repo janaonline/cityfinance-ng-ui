@@ -280,7 +280,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     private snackbar: MatSnackBar,
   ) {
     super();
+
+    this.yearList = sessionStorage.getItem('financialYearList') ? JSON.parse(sessionStorage.getItem('financialYearList')) : [];
+    this.financialYear = this.yearList[0];
+
     this.getYears();
+
+    console.log('sessionFY', this.yearList);
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -353,14 +359,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   yearList: any;
 
   getYears() {
-    if(this.stateServiceLabel){
-this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
-
-  this.yearList = res['data']
-}, (err)=> {
-console.log(err.message)
-})
-    }else{
+    if(this.stateServiceLabel) {
+      this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+        this.yearList = res['data'];
+        this.financialYear = this.yearList[0];
+      }, (err)=> {
+        console.log(err.message)
+      });
+    } else{
    
     /**
      * below api was previously used but now new api is used to get the data of state wise FYs
@@ -1178,7 +1184,7 @@ console.log(err.message)
             this.filterCityRankingChartData(chartData, '', 'Percentage');
             this.barChartNotFound = false;
           } else {
-            this.barChartNotFound = false;
+            this.barChartNotFound = true;
           }
         } else {
           this.barChartNotFound = true;
