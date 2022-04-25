@@ -189,6 +189,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this._commonService.getULBSWithPopulationAndCoordinates(body)
       // .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
     );
+    this.onGettingStateULBCoveredSuccess();
+    this.onGettingULBWithPopulationSuccess();
     return forkJoin(subscriptions);
   }
 
@@ -554,7 +556,9 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     return stateFound;
   }
 
-  onGettingULBWithPopulationSuccess(res: IULBWithPopulationResponse) {
+  onGettingULBWithPopulationSuccess(res: IULBWithPopulationResponse= {message: '',
+  success: false,
+  data: []}) {
     this.allULBSList = res.data;
 
     this.ulbsOfSelectedState = res.data;
@@ -574,7 +578,11 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     return res;
   }
 
-  onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse) {
+  onGettingStateULBCoveredSuccess(res: IStateULBCoveredResponse={
+    message: '',
+    success: false,
+    data: []
+  }) {
     this.stateData = res.data;
 
     if (this.allULBSList) {
