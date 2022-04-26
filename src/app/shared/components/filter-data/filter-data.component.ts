@@ -740,7 +740,8 @@ ULB ${this.selectedTab} for FY' ${
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
+                var percentage = Math.round((currentValue / total) * 100);
+                // var percentage = ((currentValue / total) * 100).toFixed(2);
                 return percentage + "%" + data.labels[tooltipItem.index].text;
               },
             },
