@@ -475,15 +475,17 @@ export class RevenuechartComponent
     let id;
     let newChartData = {};
     if (this.multipleDoughnutCharts && this.multipleDoughnutCharts?.length > 0) {
+      this.multiChartLabel = []
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
         newChartData = element;
         let colors = element.data.datasets[0].backgroundColor;
+     
         if (index == 0 && this.multiChartLabel.length == 0)
-          element.data["labels"].forEach((element, i) => {
+          element.data["labels"].forEach((elem, i) => {
             this.multiChartLabel.push({
-              text: element,
+              text: elem,
               color: colors[i],
             });
           });

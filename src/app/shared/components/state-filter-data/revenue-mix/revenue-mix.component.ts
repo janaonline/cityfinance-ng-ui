@@ -604,20 +604,15 @@ export class RevenueMixComponent implements OnInit {
     console.log("doughnutArray", this.doughnutArray1);
   }
   initializeDounughtArry() {
+    console.log(this.chartData)
+  let labels =  this.fetchLabels(this.chartData[0]?.mData)
     this.doughnutArray = [
       {
         id: "p1",
         title: `${this.stateName ? this.stateName : 'State Average'}`,
         type: "doughnut",
         data: {
-          labels: [
-            "Own Revenue",
-            "Assigned Revenue",
-            "Grants",
-            "Interest Income",
-            "Other Income",
-            "State & Hire Charges",
-          ],
+          labels: labels,
           datasets: [
             {
               label: "My First Dataset",
@@ -781,7 +776,16 @@ export class RevenueMixComponent implements OnInit {
     ]
   }
 
+  fetchLabels(data){
+    let arr = []
+data.forEach(element => {
+  arr.push(element?._id)
+});
+return arr;
+  }
   initializePopulationDoughnutArray(){
+    console.log(this.chartData)
+    let labels =  this.fetchLabels(this.chartData[0]["<100k"])
     this.doughnutArray = [
       {
         id: "p1",
@@ -789,14 +793,7 @@ export class RevenueMixComponent implements OnInit {
         type: "doughnut",
         data: {
       
-          labels: [
-            "Own Revenue",
-            "Assigned Revenue",
-            "Grants",
-            "Interest Income",
-            "Other Income",
-            "State & Hire Charges",
-          ],
+          labels: labels,
           datasets: [
             {
               label: "My First Dataset",
@@ -1054,7 +1051,7 @@ export class RevenueMixComponent implements OnInit {
               // this.doughnutArray[1].data.labels.push(val['code'])
               // this.doughnutArray[1].data.datasets[0].data.push(val['amount'])
               val.forEach(el2 => {
-                this.doughnutArray[1].data.labels.push(el2['code'])
+                this.doughnutArray[1].data.labels.push(el2['code'] ? el2['code'] : el2['code'] )
                 this.doughnutArray[1].data.datasets[0].data.push(el2['amount'])
               })
           }
