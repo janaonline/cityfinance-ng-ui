@@ -375,7 +375,9 @@ export class NationalMapSectionComponent
     console.warn("show legends hidden");
   }
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "50vh";
+    // const height = '100%';
+    console.log('currentStateInView', this.currentStateInView)
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
