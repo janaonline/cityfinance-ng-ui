@@ -1074,7 +1074,7 @@ export class HomeTabViewComponent implements OnInit {
       }
       this.modalTableData = {
         data: range["ulbs"]
-          .sort((a, b) => this.sortCallBack(a, b, "population"))
+          .sort((a, b) =>  this.sortCallBack(a, b, "population"))
           .reverse()
           .concat([totalRow]),
         year,
@@ -1189,10 +1189,12 @@ export class HomeTabViewComponent implements OnInit {
   sortCallBack(a, b, id) {
     let aVal = a[id],
       bVal = b[id];
-
-    if (typeof a[id] === "object") {
-      aVal = a[id].value;
-      bVal = b[id].value;
+if(!aVal || !bVal){
+ return 1; 
+}
+    if (typeof a[id] === "object" && a[id] != null) {
+      aVal = a[id]?.value;
+      bVal = b[id]?.value;
     }
     if (typeof aVal !== "number" && aVal.includes("%")) {
       aVal = aVal.replace("%", "");
