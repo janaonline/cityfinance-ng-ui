@@ -91,12 +91,13 @@ div.miniMap {
 
 #districtMapContainer {
   padding: 0px;
-  width: 98%;
+  width: 100%;
   position: absolute;
   top: 0%;
+  height: 100%;
   @media (max-width: 768px) {
     margin-top: 0%;
-    height: 100%;
+    // height: 100%;
   }
   border-radius: inherit;
   border-left: inherit;
