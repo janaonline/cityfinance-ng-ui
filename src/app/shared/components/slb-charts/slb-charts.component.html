@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<div class="row mb-3" *ngIf="slbGaugeCharts.length">
+<div class="row mb-3" *ngIf="slbGaugeCharts.length > 0">
     <div class="col-sm-12 col-md-4 col-lg-3 mb-3"  *ngFor="let item of slbGaugeCharts; let i=index">
         <app-shared-card [data]="item"></app-shared-card>
     </div>
@@ -50,3 +50,11 @@
 <ng-template #template>
     <app-compare-dialog [type]="compareDialogType" (ownRevenueCompValue)="ownRevenueCompValue($event)" (compareValue)="getCompareCompValues($event)" (closeDialog)="closeModal()"></app-compare-dialog>
 </ng-template>
+
+<ng-container *ngIf="slbGaugeCharts.length == 0">
+    <div style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+        <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+        <div style="color: #1e44ad; font-size: 22px; font-weight: 600">No Data Found for chosen options</div>
+        <!-- <p style="color: #6e7281; font-size: 16px">{{ notFoundMessage }}</p> -->
+    </div>
+</ng-container>
