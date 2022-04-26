@@ -420,7 +420,7 @@ export class DashboardMapSectionComponent
     this.cityName = filterCity.name;
     this.stateDim = true;
     this.cid = filterCity._id;
-    console.log("cityId", this.cid); //CityId after selecting a city from dropdown
+    console.log("cityId", this.cid, filterCity, this.districtMarkerMap); //CityId after selecting a city from dropdown
     if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
     this.authService.getCityData(this.cid).subscribe((res) => {
