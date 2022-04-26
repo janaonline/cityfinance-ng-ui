@@ -264,7 +264,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   // ];
   chartDropdownList: any;
   chartDropdownValue: any;
-  chartTitle: string= 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.';
+  chartTitle: string= 'Compare ULBs on various financial indicators .';
   selectedServiceLevelBenchmark: any; 
   nestedChartFilterOption: any = {
     showFinancialYear: false,
@@ -280,7 +280,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     private snackbar: MatSnackBar,
   ) {
     super();
+
+    this.yearList = sessionStorage.getItem('financialYearList') ? JSON.parse(sessionStorage.getItem('financialYearList')) : [];
+    this.financialYear = this.yearList[0];
+
     this.getYears();
+
+    console.log('sessionFY', this.yearList);
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -353,14 +359,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   yearList: any;
 
   getYears() {
-    if(this.stateServiceLabel){
-this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
-
-  this.yearList = res['data']
-}, (err)=> {
-console.log(err.message)
-})
-    }else{
+    if(this.stateServiceLabel) {
+      this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
+        this.yearList = res['data'];
+        this.financialYear = this.yearList[0];
+      }, (err)=> {
+        console.log(err.message)
+      });
+    } else{
    
     /**
      * below api was previously used but now new api is used to get the data of state wise FYs
@@ -525,7 +531,7 @@ console.log(err.message)
             // stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"][0]["average"];
             stateData = res['data'] && res['data']['scatterData'] && res['data']['scatterData']["stateAvg"] && res['data']['scatterData']["stateAvg"][0] && res['data']['scatterData']["stateAvg"][0]["average"];
             // let natData = res["natAvg"][0]["average"];
-          } else if (this.compType == 'ulbType'){
+          } else {
             mCorporation = apiData["mCorporation"];
             tp_data = apiData["townPanchayat"];
             m_data = apiData["municipality"];
@@ -1178,7 +1184,7 @@ console.log(err.message)
             this.filterCityRankingChartData(chartData, '', 'Percentage');
             this.barChartNotFound = false;
           } else {
-            this.barChartNotFound = false;
+            this.barChartNotFound = true;
           }
         } else {
           this.barChartNotFound = true;

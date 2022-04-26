@@ -432,6 +432,7 @@ export class NationalSubComponent implements OnInit {
             this.multipleDoughnutChartLabel = [];
             this.createDoughnutChartOptions(res?.data);
             this.doughnutLabels = res?.data?.colourArray;
+if(this.doughnutLabels.length)
             this.doughnutLabels.forEach((elem, i) => {
               this.colorArray.push(elem?.colour);
               this.nationalDoughnutChartLabel.push(elem?.lineitem);
