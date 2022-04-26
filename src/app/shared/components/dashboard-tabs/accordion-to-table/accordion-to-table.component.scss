@@ -176,9 +176,9 @@
   .cityWidth{
     min-width: 329px !important;
   }
-  .cityMinWidth{
-    min-width: 344px;
-  }
+  // .cityMinWidth{
+  //   min-width: 344px;
+  // }
   .stateULBName > * {
     background: rgb(175, 175, 175);
     color: white;
@@ -219,8 +219,8 @@
 
   th,
   td {
-    min-width: 284px;
-    max-width: 411px;
+    // min-width: 284px;
+    max-width: 15px;
 
     @media screen and (max-width: 551px) {
       min-width: 120px;
@@ -467,7 +467,7 @@ th {
 }
 
 td {
-  width: 150px;
+  // width: 150px;
   padding: 5px;
   height: 35px;
   border-radius: 4px 4px 0px 0px;

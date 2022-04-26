@@ -206,14 +206,11 @@
               {{ formattedNamesMapping[row] }}
               <span class="fa fa-angle-down"></span>
             </th>
-            <table style="margin-top:1px;">
-              <div
-                *ngFor="let subRow of mainRows[row]"
-                
-              >
+            <table style="margin-top:1px;" *ngFor="let subRow of mainRows[row]">
+              
                 <tr style="height: 3px;
                 border: none;" class='solid'></tr>
-                <tr class='solid'>
+                <tr class='solid w-100'>
                   <td class="text-capitalize cityMinWidth">
                     {{ formattedNamesMapping[subRow] }}
                   </td>
@@ -230,8 +227,7 @@
                   </td>
                 </tr>
                 <tr style="height: 1px;
-                border: none;" class='solid'></tr>
-              </div>
+                border: none;" class='solid w-100'></tr>
             </table>
             <!-- </div>
         </div> -->

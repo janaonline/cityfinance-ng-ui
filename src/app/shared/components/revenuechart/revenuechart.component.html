@@ -1,4 +1,4 @@
-<div
+<div id="multiChartId"
   class="container rounded flex-column pb-5"
   style="background: #fffbef 0% 0% no-repeat padding-box"
 >
@@ -17,12 +17,12 @@
           {{ chartTitle }}
         </p>
       </div>
-      <div *ngIf="!chartDialogues && btnBesideText" class="col-12 col-md-2 col-lg-2 btnBesideTitle">
+      <div id="hideHeaderAction" *ngIf="!chartDialogues && btnBesideText" class="col-12 col-md-2 col-lg-2 btnBesideTitle">
         <button class="mt-2" (click)="openModal()">
           Compare
         </button>
       </div>
-      <div class="row" style="    display: flex;
+      <div class="row" id="hideHeaderAction" style="display: flex;
       flex-flow: row;
       justify-content: flex-end;">
       <div class="col-12 col-lg-4">
