@@ -508,7 +508,8 @@ ULB ${this.selectedTab} for FY' ${
           if (!temp[dataByYearVal.ulbName]) {
             dataInner.backgroundColor = backgroundColor[index];
             dataInner.borderColor = borderColor[index++];
-            dataInner.label = dataByYearVal.ulbName;
+            // dataInner.label = dataByYearVal.ulbName;
+            dataInner.label = key == 'compData' ? `${dataByYearVal.ulbName} Average Weighted` : dataByYearVal.ulbName;
             dataInner.data = [
               convertToCr(dataByYearVal.amount, this.isPerCapita),
             ];
@@ -537,9 +538,8 @@ ULB ${this.selectedTab} for FY' ${
       newData.data.datasets.push(newlineDataset);
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
-      this.isPerCapita ? "Rs" : "Cr"
+      this.isPerCapita ? "Rs" : "₹ Cr"
     }`;
-    console.log("barChart", this.barChart);
     this.chartOptions = this.barChartStaticOptions;
   }
 
