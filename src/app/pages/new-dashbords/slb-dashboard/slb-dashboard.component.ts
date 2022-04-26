@@ -20,6 +20,8 @@ import { NewDashboardService } from "../new-dashboard.service";
 import { data } from "jquery";
 import { Observable } from "rxjs";
 import { StateFilterDataService } from "src/app/shared/components/state-filter-data/state-filter-data.service";
+import { SlbDashboardService } from "./slb-dashboard.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 
@@ -42,7 +44,9 @@ export class SlbDashboardComponent
     private assetService: AssetsService,
     private router: Router,
     private newDashboardService: NewDashboardService,
-    public stateFilterDataService: StateFilterDataService,
+    private stateFilterDataService: StateFilterDataService,
+    private slbDashboardService: SlbDashboardService,
+    private _loaderService: GlobalLoaderService,
 
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
@@ -106,7 +110,7 @@ export class SlbDashboardComponent
     },
   ];
   popBtn = true;
-  tableData;
+  tableData: any = [];
   myForm: FormGroup;
   DropdownSettings = {
     singleSelection: true,
@@ -135,18 +139,21 @@ export class SlbDashboardComponent
   selectedSlbSubTab: any;
   stateId: string = '';
   cityId: string = '';
-  cityName: string = 'Chas Municipal Corporation';
+  cityName: string = '';
   isStateSlbActive: boolean = false;
   isCitySlbActive: boolean = false;
   nationalFilter = new FormControl();
   filteredOptions: Observable<any[]>;
+  showLoader: boolean = true;
+
   ngOnInit(): void {
     this.yearList = this.yearList.reverse();
     this.selectedYear = this.yearList[1];
     this.getYears();
     this.dashboardDataCall();
     this.loadData();
-    this.subFilterFn("popCat");
+    // this.subFilterFn("popCat");
+    this.getTableData();
 
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -579,6 +586,7 @@ export class SlbDashboardComponent
       sessionStorage.setItem('row_id', this.selectedState?._id);
       this.stateId = this.selectedState?._id
       this.loadSLBComponent('state');
+      this.getTableData();
     }
     //   this.fetchDataForVisualization(state ? state._id : null);
     //   this.fetchBondIssueAmout(
@@ -704,6 +712,8 @@ export class SlbDashboardComponent
 
   getSelectedYear(selectedYear: any) {
     console.log('getSelectedYear', selectedYear);
+    this.selectedYear = selectedYear ? selectedYear : this.yearList[1];
+    this.getTableData();
   }
 
   loadSLBComponent(slbLevelType: string = '') {
@@ -741,6 +751,7 @@ export class SlbDashboardComponent
       this.isCitySlbActive = false;
       this.isStateSlbActive = false;
       this.resetNationalMap();
+      this.getTableData();
     }
     if (this.isCitySlbActive) {
       this.loadSLBComponent('state');
@@ -765,4 +776,31 @@ export class SlbDashboardComponent
     });
   }
 
+  getTableData() {
+    this._loaderService.showLoader();
+    this.showLoader = true;
+    const apiRequest: any = {
+      financialYear: this.selectedYear,
+      stateId: this.stateId,
+      population: '',
+      ulbType: true
+    }
+    this.slbDashboardService.getUlbTypeDataForTable(apiRequest).subscribe(
+      (res: any) => {
+        if(res && res.success) {
+          this.showLoader = false;
+          this._loaderService.stopLoader();
+          this.tableData = res?.data && res?.data?.rows && res?.data?.rows.length ? res?.data?.rows : [];
+          // this.tableData = [];
+        } {
+          this.showLoader = false;
+          this._loaderService.stopLoader();
+        }
+      },
+      (err) => {
+        this.showLoader = false;
+        this._loaderService.stopLoader();
+      }
+    );
+  }
 }
