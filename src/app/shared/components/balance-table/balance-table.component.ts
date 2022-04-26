@@ -140,62 +140,60 @@ export class BalanceTableComponent
   showtable: any = false;
 
   singleUlbList: any;
-
+ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   downLoadArray = [
     {
-      tableId:1,
-      name:"City Dasboard Download",
-      tableClass: 'd_table',
-      columns : [
+      tableId: 1,
+      name: "City Dasboard Download",
+      tableClass: "d_table",
+      columns: [
         {
-          key: 'lineItem',
+          key: "lineItem",
           display_name: "",
-         },
-        {
-        key: '2015-16',
-        display_name: "",
         },
-      {
-        key: '2016-17',
-        display_name: "",
-      },
-      {
-        key: '2017-18',
-        display_name: "",
-      },
-       {
-          key : '2018-19',
-          display_name: ''
-       },
-       {
-        key : '2019-20',
-        display_name: ''
-     },
-
+        {
+          key: "2015-16",
+          display_name: "",
+        },
+        {
+          key: "2016-17",
+          display_name: "",
+        },
+        {
+          key: "2017-18",
+          display_name: "",
+        },
+        {
+          key: "2018-19",
+          display_name: "",
+        },
+        {
+          key: "2019-20",
+          display_name: "",
+        },
       ],
       rows: [
         {
-          lineItem: 'Row Pdf',
-          '2015-16': 'asdfg',
-          '2016-17': 'dgfghj',
-          '2017-18': '',
-          '2018-19': '',
-          '2019-20': '',
+          lineItem: "Row Pdf",
+          "2015-16": "asdfg",
+          "2016-17": "dgfghj",
+          "2017-18": "",
+          "2018-19": "",
+          "2019-20": "",
         },
         {
-          lineItem: 'Row Excel',
-          '2015-16': '',
-          '2016-17': 'xdgcfgvbh',
-          '2017-18': '',
-          '2018-19': '',
-          '2019-20': '',
+          lineItem: "Row Excel",
+          "2015-16": "",
+          "2016-17": "xdgcfgvbh",
+          "2017-18": "",
+          "2018-19": "",
+          "2019-20": "",
         },
-      ]
+      ],
     },
-  ]
-
+  ];
 
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
@@ -220,7 +218,7 @@ export class BalanceTableComponent
       cancel: { text: "Cancel" },
     },
   };
-
+  show = false
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
@@ -243,6 +241,66 @@ export class BalanceTableComponent
         this.id = sessionStorage.getItem("row_id");
       }
     });
+    let tempObj = {
+      isComparative: false,
+      type: "Summary",
+      years: ["2015-16", "2017-18"],
+      yearList: [
+        {
+          id: "2015-16",
+          itemName: "2015-16",
+        },
+        {
+          id: "2017-18",
+          itemName: "2017-18",
+        },
+      ],
+      reportGroup: "Income & Expenditure Statement",
+      ulbList:[this.ulbData[this.id]],
+      ulbIds: [this.id],
+      valueType: "absolute",
+    }
+    let temp2 = {
+      "isComparative": false,
+      "type": "Summary",
+      "years": [
+          "2015-16",
+          "2017-18"
+      ],
+      "yearList": [
+          {
+              "id": "2015-16",
+              "itemName": "2015-16"
+          },
+          {
+              "id": "2017-18",
+              "itemName": "2017-18"
+          }
+      ],
+      "reportGroup": "Income & Expenditure Statement",
+      "ulbList": [
+          {
+              "population": 40353,
+              "ulbType": "Town Panchayat",
+              "code": "AP001",
+              "financialYear": [
+                  "2017-18",
+                  "2015-16"
+              ],
+              "ulb": "5dd24729437ba31f7eb42eee",
+              "name": "Adanki Town Panchayat",
+              "_id": "5dd24729437ba31f7eb42eee",
+              "state": "Andhra Pradesh",
+              "stateId": "5dcf9d7216a06aed41c748dd"
+          }
+      ],
+      "ulbIds": [
+          "5dd24729437ba31f7eb42eee"
+      ],
+      "valueType": "absolute"
+  }
+  this.reportService.ieDetailed(temp2)
+    this.show= true
   }
   openModal() {
     const dialogConfig = new MatDialogConfig();
@@ -338,8 +396,7 @@ export class BalanceTableComponent
       }
     );
     this.ulbListVal.push(...currentUlb);
-    console.log('ulb.......pk', this.ulbListVal);
-
+    console.log("ulb.......pk", this.ulbListVal);
   }
 
   createMultipleUpdateTable() {
@@ -357,28 +414,28 @@ export class BalanceTableComponent
 
   getBalanceTableData(inputValue, fromSingle = false) {
     if (this.reportGroup == "Balance Sheet") {
-      this.reportService.BSDetailed(inputValue).subscribe((res) => {
-        if (fromSingle) this.singleTableData = res.data;
-        else {
-          this.multipleTableData = res.data;
+      // this.reportService.BSDetailed(inputValue).subscribe((res) => {
+      //   if (fromSingle) this.singleTableData = res.data;
+      //   else {
+      //     this.multipleTableData = res.data;
 
-          console.log("sigleTableData", this.multipleTableData);
-        }
-        this.isLoading = true;
-      });
+      //     console.log("sigleTableData", this.multipleTableData);
+      //   }
+      //   this.isLoading = true;
+      // });
     }
     if (this.reportGroup == "Income & Expenditure Statement") {
-      this.reportService.ieDetailed(inputValue).subscribe((res) => {
-        if (fromSingle) this.singleTableData = res.data;
-        else {
-          this.multipleTableData = res.data;
+      // this.reportService.ieDetailed(inputValue).subscribe((res) => {
+      //   if (fromSingle) this.singleTableData = res.data;
+      //   else {
+      //     this.multipleTableData = res.data;
 
-          console.log("sigleTableData", this.multipleTableData);
-        }
-        // this.singleTableData = res.data;
-        console.log("sigleTableData", this.singleTableData);
-        this.isLoading = true;
-      });
+      //     console.log("sigleTableData", this.multipleTableData);
+      //   }
+      //   // this.singleTableData = res.data;
+      //   console.log("sigleTableData", this.singleTableData);
+      //   this.isLoading = true;
+      // });
     }
   }
 
@@ -386,8 +443,7 @@ export class BalanceTableComponent
     document.getElementById("getMultipleChants").click();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   download() {
     const isUserLoggedIn = this._authService.loggedIn();
@@ -445,7 +501,7 @@ export class BalanceTableComponent
     //   this.ExistingValues();
     // }
   }
-  resetCompare(){
-   this.showtable = false;
+  resetCompare() {
+    this.showtable = false;
   }
 }

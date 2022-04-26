@@ -370,7 +370,6 @@ export class NationalSubComponent implements OnInit {
   // getActiveTab(value) {}
 
   destroyMultipleCharts() {
-    // debugger;
     for (const chartData of this.chartArray) {
       if (chartData?.chart) {
         chartData?.chart.destroy();
@@ -421,7 +420,6 @@ export class NationalSubComponent implements OnInit {
     this.nationalService
       .getNationalRevenueMixData(revenueMixInput, endPoint)
       .subscribe((res: any) => {
-        // debugger;
         this._loaderService.stopLoader();
 
         if (res?.data) {
@@ -621,7 +619,6 @@ export class NationalSubComponent implements OnInit {
     }
     if (type == "ulbType") {
       this.popBtn = false;
-      // debugger;
       this.nationalInput.formType = "ulbType";
       this.RevenueMixInput.formType = "ulbType";
 

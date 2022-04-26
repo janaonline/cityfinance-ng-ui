@@ -83,6 +83,7 @@ import { CommonChartsGraphsComponent } from './components/common-charts-graphs/c
 import { UlbCompareDailogComponent } from './components/common-charts-graphs/ulb-compare-dailog/ulb-compare-dailog.component';
 import { RevenueMixComponent } from './components/state-filter-data/revenue-mix/revenue-mix.component';
 import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
+import { BasicComponent } from "../dashboard/report/basic/basic.component";
 
 
 @NgModule({
@@ -169,6 +170,7 @@ import { ShareDialogComponent } from './components/share-dialog/share-dialog.com
     UlbCompareDailogComponent,
     RevenueMixComponent,
     ShareDialogComponent,
+    BasicComponent
 
   ],
   exports: [
@@ -210,6 +212,7 @@ import { ShareDialogComponent } from './components/share-dialog/share-dialog.com
     RevenuechartComponent,
     MapWithFilterComponent,
     NationalHeatMapComponent,
+    BasicComponent
   ],
   providers: [FinancialDataService],
 })

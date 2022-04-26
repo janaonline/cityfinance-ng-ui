@@ -788,7 +788,6 @@ export class RevenuechartComponent
   }
 
   getScatterData() {
-    // debugger;
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
