@@ -384,8 +384,22 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.financialYear = this.yearList[0];
       console.log('financial Year', this.financialYear);
     } else {
-      this.showSnackbarMessage('No Financial year data found');
-      return false;
+      const paramContent: any = {
+        "state": this.stateId
+      };
+      this._commonServices.getStateWiseFYs(paramContent).subscribe((res: any) => {
+        if (res && res.success) {
+          this.yearList = res["data"] && res["data"]['FYs'] && res["data"]['FYs'].length ? res["data"]['FYs'] : [];
+          sessionStorage.setItem('financialYearList', JSON.stringify(this.yearList));
+          this.financialYear = this.yearList[0];
+          console.log('financial Year', this.financialYear);
+          this.changeActiveBtn(0);
+        }
+      }, (err) => {
+        console.log(err.message);
+      });
+      // this.showSnackbarMessage('No Financial year data found');
+      // return false;
     }
     }
  
