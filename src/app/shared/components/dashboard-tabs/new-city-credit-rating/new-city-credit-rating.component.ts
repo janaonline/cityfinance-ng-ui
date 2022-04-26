@@ -36,11 +36,10 @@ export class NewCityCreditRatingComponent
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
-      const { stateId } = val;
-      if (stateId) {
+      const { cityId } = val;
+      if (cityId) {
         console.log("stid", this._id);
-        // this.id = this.cityId;
-        this._id = stateId;
+        this._id = cityId;
         sessionStorage.setItem("row_id", this._id);
       } else {
         this._id = sessionStorage.getItem("row_id");
@@ -50,6 +49,8 @@ export class NewCityCreditRatingComponent
 
   selectCreditYear(event: any) {
     this.yearValue = event;
+    // this.getDetailedData();
+    this.getFinalData(this.detailedList);
   }
 
   getDetailedData() {
@@ -61,34 +62,60 @@ export class NewCityCreditRatingComponent
     return myPromise;
   }
 
+  getFinalData(data) {
+    debugger;
+    if (data) {
+      console.log("currentId", this._id);
+      let ulbList = this.stateCode[this.ulbStateMapping[this._id]]?.ulbs;
+      ulbList?.filter((elem: any) => {
+        if (elem._id == this._id) {
+          this.ulbName = elem.name;
+          console.log(this.ulbName);
+        }
+      });
+      data.filter((elem, index: any) => {
+        // console.log({ elem });
+        if (elem.ulb == this.ulbName) {
+          elem["date"] = "20" + elem.date.split("/")[2];
+          if (elem.date == this.yearValue) {
+            this.finalList.push(elem);
+          }
+        }
+      });
+    }
+    console.log("this.finalList", this.finalList);
+  }
+
   ulbList: string;
   async ngOnInit(): Promise<void> {
     this.detailedList = await this.getDetailedData();
+    console.log("this.detailedLIst", this.detailedList);
 
-    this.stateCode[this.ulbStateMapping[this._id]]?.ulbs?.filter(
-      (elem: any) => {
-        if (elem._id == this._id) {
-          this.ulbName = elem.name;
-        }
-      }
-    );
+    console.log("ulbStateMapping", this.ulbStateMapping);
 
-    for (let item in this.stateCode) {
-      if (this.stateCode[item]._id == this._id) {
-        this.ulbList = this.stateCode[item]?.ulbs;
-      }
+    // for (let item in this.stateCode) {
+    //   if (this.stateCode[item]._id == this._id) {
+    //     this.ulbList = this.stateCode[item]?.ulbs;
+    //   }
+    // }
+
+    // console.log("stateName", this.ulbList);
+
+    if (this.detailedList) {
+      this.getFinalData(this.detailedList);
     }
 
-    console.log("stateName", this.ulbList);
-
-    this.detailedList.filter((elem, index: any) => {
-      console.log({ elem });
-      if (this.ulbList.includes(elem.ulb)) {
-        elem["date"] = "20" + elem.date.split("/")[2];
-        this.finalList.push(elem);
-      }
-    });
+    // this.detailedList.filter((elem, index: any) => {
+    //   if (this.ulbList.includes(elem.ulb)) {
+    //     elem["date"] = "20" + elem.date.split("/")[2];
+    //     if (elem.date == this.yearValue) {
+    //       this.finalList.push(elem);
+    //     }
+    //   }
+    // });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log({ changes });
+  }
 }
