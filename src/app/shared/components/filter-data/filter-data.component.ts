@@ -99,6 +99,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       ],
     },
     legend: {
+      onClick: (e) => e.stopPropagation(),
       position: "bottom",
       labels: {
         padding: 35,
