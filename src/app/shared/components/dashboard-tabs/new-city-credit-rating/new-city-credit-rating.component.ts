@@ -12,7 +12,7 @@ export class NewCityCreditRatingComponent
   extends BaseComponent
   implements OnInit, OnChanges
 {
-  id: any;
+  _id: any;
   detailedList: any;
   ulbName: any;
   yearValue: any = "2019";
@@ -36,14 +36,14 @@ export class NewCityCreditRatingComponent
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
-      const { cityId } = val;
-      if (cityId) {
-        console.log("stid", this.id);
+      const { stateId } = val;
+      if (stateId) {
+        console.log("stid", this._id);
         // this.id = this.cityId;
-        this.id = cityId;
-        sessionStorage.setItem("row_id", this.id);
+        this._id = stateId;
+        sessionStorage.setItem("row_id", this._id);
       } else {
-        this.id = sessionStorage.getItem("row_id");
+        this._id = sessionStorage.getItem("row_id");
       }
     });
   }
@@ -61,17 +61,29 @@ export class NewCityCreditRatingComponent
     return myPromise;
   }
 
+  ulbList: string;
   async ngOnInit(): Promise<void> {
     this.detailedList = await this.getDetailedData();
 
-    this.stateCode[this.ulbStateMapping[this.id]].ulbs.filter((elem: any) => {
-      if (elem._id == this.id) {
-        this.ulbName = elem.name;
+    this.stateCode[this.ulbStateMapping[this._id]]?.ulbs?.filter(
+      (elem: any) => {
+        if (elem._id == this._id) {
+          this.ulbName = elem.name;
+        }
       }
-    });
+    );
+
+    for (let item in this.stateCode) {
+      if (this.stateCode[item]._id == this._id) {
+        this.ulbList = this.stateCode[item]?.ulbs;
+      }
+    }
+
+    console.log("stateName", this.ulbList);
 
     this.detailedList.filter((elem, index: any) => {
-      if (elem.ulb == "Tiruppur Municipal Corporation") {
+      console.log({ elem });
+      if (this.ulbList.includes(elem.ulb)) {
         elem["date"] = "20" + elem.date.split("/")[2];
         this.finalList.push(elem);
       }

@@ -92,19 +92,28 @@ table {
   justify-content: center;
 }
 img {
+  margin-left: 5%;
+}
+/* img {
   margin-left: 42%;
-}
-
-tr {
-  border-radius: 1px solid red !important;
-}
+} */
 
 .table {
   border-collapse: separate;
-  border-spacing: 0 20px;
+  border-spacing: 0 10px;
 }
 
 table tr {
-  border-left: thin solid;
-  border-right: thin solid;
+  display: table-row;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  /* border: 1px solid black; */
+}
+
+.backArrow {
+  bottom: 10px;
+  margin-left: 100%;
+  right: 0;
+  width: fit-content;
+  position: sticky;
 }

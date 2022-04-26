@@ -15,6 +15,12 @@ export class DataSetsComponent implements OnInit {
   noDataa: boolean = false;
   dataReceived: boolean = true;
   selectedUseCheckBox: any[];
+  initialValue: number = 10;
+
+  tempBalData;
+  offSet = 0;
+  limit = 10;
+  startingIndex = 0;
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -67,9 +73,9 @@ export class DataSetsComponent implements OnInit {
     // this.getData();
   }
 
-  // ngOnChanges(changes: SimpleChange) {
-  //   console.log("changes===//>", changes);
-  // }
+  ngOnChanges(changes: SimpleChange) {
+    console.log("changes===//>", changes);
+  }
 
   openNewTab(data) {
     console.log("file data", data);
@@ -97,6 +103,30 @@ export class DataSetsComponent implements OnInit {
       });
     }
   }
+
+  loadMore() {
+    let limitValue = this.offSet + this.limit;
+    console.log({ limitValue });
+    if (limitValue < 30) {
+      for (this.offSet; limitValue > this.offSet; this.offSet++) {
+        console.log("this.offSet", this.offSet);
+        this.balData.push(this.tempBalData[this.offSet]);
+      }
+      this.initialValue = this.initialValue + 10;
+    }
+  }
+
+  // sliceData() {
+  //   this.balData = this.balData.slice(0, this.initialValue);
+  //   console.log(this.balData);
+  //   return this.balData;
+  // }
+
+  getToTop() {
+    let element = document.getElementById("top");
+
+    element.scrollIntoView();
+  }
   getData() {
     console.log("getData");
 
@@ -113,13 +143,19 @@ export class DataSetsComponent implements OnInit {
 
               this.globalLoaderService.stopLoader();
             } else if (res.data.length !== 0) {
-              this.balData = res?.data
-                .map((elem) => {
-                  let target = { isDisabled: false, isSelected: false };
-                  return Object.assign(target, elem);
-                })
-                .slice(0, 20);
-              // this.balData = res.data;
+              this.tempBalData = res.data;
+              let limitVal = this.offSet + this.limit;
+              for (let i = 0; i < limitVal; i++) {
+                const element = this.tempBalData[i];
+
+                this.balData.push(element);
+              }
+
+              this.balData = this.balData.map((elem) => {
+                let target = { isDisabled: false, isSelected: false };
+                return Object.assign(target, elem);
+              });
+
               this.globalLoaderService.stopLoader();
               this.noData = false;
             }
