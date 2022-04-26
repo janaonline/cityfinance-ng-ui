@@ -97,6 +97,9 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           },
         },
       ],
+      xAxes: [{
+        barThickness: 68,  
+    }]
     },
     legend: {
       position: "bottom",
