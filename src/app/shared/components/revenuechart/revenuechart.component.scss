@@ -148,3 +148,8 @@ ul#horizontal-list {
     padding-left: 1rem;
     margin-right: 3px;
 	}
+
+  .display-none {
+    // display: none !important;
+    visibility: hidden !important;
+  }

@@ -112,7 +112,7 @@
             Dashboard
           </div>
           <div class="row d-tableCont">
-            <div class="col-7 col-sm-8 col-md-4">
+            <div class="col-7 col-sm-8 col-md-4 mt-2">
               <div class="input-group inp-grp">
                 <form [formGroup]="myForm" class="w-100">
                   <angular2-multiselect
@@ -127,18 +127,18 @@
                 </form>
               </div>
             </div>
-            <div class="col-7 col-sm-8 col-md-4 ps-3">
-                <ng-container *ngIf="((!isStateSlbActive) && (!isCitySlbActive))">
+            <div class="col-7 col-sm-8 col-md-4 mt-2">
+                <!-- <ng-container *ngIf="((!isStateSlbActive) && (!isCitySlbActive))">
                     <select  class="form-select" id="years" aria-label="Select Financial Year" (change)="getSelectedYear($event.target.value)">
                         <option [value]="year" [selected]="year == selectedYear" *ngFor="let year of yearList" >
                         {{ year }}
                         </option>
                     </select>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container *ngIf="(isStateSlbActive || isCitySlbActive)">
                 <!-- Search for ULB Names -->
-                    <form class="filter-form mr-1">
+                    <form class="filter-form mr-1 w-100">
                         <div>
                         <input
                             type="text"
@@ -219,27 +219,40 @@
               <table class="table mt-3 text-center" style="width: 65%">
                 <thead>
                   <tr>
-                    <th scope="col">ULB Type</th>
-                    <th scope="col">Number Of ULBs</th>
+                    <th scope="col" class="table-column-left-align">ULB Type</th>
+                    <th scope="col" class="table-column-right-align">Number Of ULBs</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Average</td>
-                    <td>1000</td>
-                  </tr>
-                  <tr>
-                    <td>Municipa Corporation</td>
-                    <td>500</td>
-                  </tr>
-                  <tr>
-                    <td>Municipality</td>
-                    <td>1200</td>
-                  </tr>
-                  <tr>
-                    <td>Town Panchayat</td>
-                    <td>1000</td>
-                  </tr>
+
+                  <ng-container *ngIf="(tableData?.length == 0) && (showLoader)" style="display: block;">
+                    <tr>
+                      <td colspan="2">
+                        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+                        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+                        <app-pre-loader style="display: block; width: 100%"></app-pre-loader>
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                  <ng-container *ngIf="tableData?.length > 0">
+                    <tr *ngFor="let rowItem of tableData">
+                      <td class="table-column-left-align">{{rowItem?.ulbType}}</td>
+                      <td class="table-column-right-align">{{rowItem?.numberOfULBs}}</td>
+                    </tr>
+                  </ng-container>
+
+                  <ng-container *ngIf="(tableData?.length == 0) && (!showLoader)">
+                    <tr>
+                      <td colspan="2">
+                        <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+                          <img src="../../../../assets/images/sad.svg" height="82px" width="89px">
+                          <div style="color: #1e44ad; font-size: 22px; font-weight: 600;">No Data Found for chosen options</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+
                 </tbody>
               </table>
             </div>
