@@ -196,7 +196,7 @@ export class MapWithFilterComponent
         this.selectedDistrictCode = this.mapConfig.code.city;
         type = this.districtMarkerMap[this.mapConfig.code.city];
         if (type) type.fireEvent("click");
-      }, 10);
+      }, 0.5);
     }
   }
   postBody;
@@ -332,7 +332,7 @@ export class MapWithFilterComponent
         });
         this.districtMarkerMap[dataPoint.code] = marker;
       });
-    }, 0.5);
+    }, 0);
   }
 
   stateOption(event) {
