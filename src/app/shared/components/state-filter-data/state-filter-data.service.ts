@@ -199,7 +199,17 @@ export class StateFilterDataService {
         }
         },
         afterDataLimits: function (axis) {
-          axis.max += 5;
+          console.log('afterDataLimits', axis)
+          // axis.max += 5;
+
+          var data = axis?.chart?.config?.data?.datasets[0]?.data;
+          console.log('data', data)
+          var maxCount = Math.max(...data);
+          var minCount = Math.min(...data);
+          console.log('maxCount', maxCount, 'minCount', minCount)
+          // axis.max = axis.max + (minCount && minCount >= 100000) ? Math.floor(minCount/6) : 50;
+          axis.max = axis.max + (minCount && minCount >= 100000 ? Math.floor(minCount/2) : 50);
+
         },
       }]
     },
@@ -237,7 +247,11 @@ export class StateFilterDataService {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log('data', data)
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+          var value = Number(data);
+
+          let currentValue = new Intl.NumberFormat("en-IN").format(value);
+
+            ctx.fillText("₹ " + currentValue, bar._model.x, bar._model.y - 5);
           });
         });
         console.log(animation, "animation");

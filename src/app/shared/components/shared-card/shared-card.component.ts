@@ -11,6 +11,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import Chart from "chart.js";
+import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
 
 @Component({
   selector: "app-shared-card",
@@ -18,7 +19,10 @@ import Chart from "chart.js";
   styleUrls: ["./shared-card.component.scss"],
 })
 export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private _loaderService: GlobalLoaderService,
+    ) {}
 
   @Input()
   cardStyle = {
@@ -58,10 +62,12 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
 
   showButtons = false;
   ngOnInit(): void {
-    if (this.data)
+    console.log('this.data', this.data)
+    if (this.data) {
       this.showButtons = this.data?.actionButtons
         ? this.data.actionButtons.length > 0
         : false;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,14 +87,17 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     if (this.data.type === 6) {
+      this._loaderService.showLoader();
       setTimeout(() => {
         this.createGuageChart(`${this.data["chartId"]}chartjs-gauge`, [], 65);
       }, 10);
+      this._loaderService.stopLoader();
     }
   }
   showThumb;
   guageChart;
   createGuageChart(type, backgroundColor, getCutoutPercentage) {
+    console.log('createGuageChartCalled', type)
     let canvas = <HTMLCanvasElement>document.getElementById(type);
     let chartData = {
       datasets: [
@@ -144,7 +153,7 @@ export class SharedCardComponent implements OnInit, AfterViewInit, OnChanges {
       options: {
         circumference: Math.PI,
         rotation: Math.PI,
-        cutoutPercentage: getCutoutPercentage, // precent
+        cutoutPercentage: getCutoutPercentage, // percent
         legend: {
           display: false,
         },

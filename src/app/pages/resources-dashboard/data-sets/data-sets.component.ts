@@ -9,11 +9,12 @@ import * as FileSaver from "file-saver";
   styleUrls: ["./data-sets.component.css"],
 })
 export class DataSetsComponent implements OnInit {
-  learningCount:any
-  searchedValue:any
-  learningToggle:boolean=false
-  noDataa:boolean=false
-  dataReceived:boolean=true
+  learningCount: any;
+  searchedValue: any;
+  learningToggle: boolean = false;
+  noDataa: boolean = false;
+  dataReceived: boolean = true;
+  selectedUseCheckBox: any[];
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -28,18 +29,18 @@ export class DataSetsComponent implements OnInit {
         this.category = "balance";
       }
     });
-    this._resourcesDashboardService.castSearchedData.subscribe(data =>{
-      this.learningToggle =data
-    }) 
-    this._resourcesDashboardService.castCount.subscribe(data =>{
-      this.learningCount =data?.key?.dataset
-      this.searchedValue = data?.name
-       this.learningToggle =data?.toggle ? true : false;
-       if(data?.key?.total == 0){
-        this.noDataa = true
+    this._resourcesDashboardService.castSearchedData.subscribe((data) => {
+      this.learningToggle = data;
+    });
+    this._resourcesDashboardService.castCount.subscribe((data) => {
+      this.learningCount = data?.key?.dataset;
+      this.searchedValue = data?.name;
+      this.learningToggle = data?.toggle ? true : false;
+      if (data?.key?.total == 0) {
+        this.noDataa = true;
         this.dataReceived = false;
-      }  
-    })
+      }
+    });
   }
   category;
   filterComponent;
@@ -71,7 +72,9 @@ export class DataSetsComponent implements OnInit {
   // }
 
   openNewTab(data) {
-    window.open(data?.fileUrl, "_blank");
+    console.log("file data", data);
+    window.open(data, "_blank");
+    // window.open(data?.fileUrl, "_blank");
     // const pdfUrl = data?.fileUrl;
     // const pdfName = data?.fileName;
     // FileSaver.saveAs(pdfUrl, pdfName);
@@ -80,28 +83,55 @@ export class DataSetsComponent implements OnInit {
     // window.open(url, '_blank');
   }
   noData = false;
+  checkIsDisabled(selectedList) {
+    if (selectedList.length === 5) {
+      this.balData.forEach((elem) => {
+        if (!selectedList.includes(elem)) {
+          elem.isDisabled = true;
+        }
+      });
+    }
+    if (selectedList.length === 4) {
+      this.balData.forEach((elem) => {
+        elem.isDisabled = false;
+      });
+    }
+  }
   getData() {
-    
     console.log("getData");
 
     this.globalLoaderService.showLoader();
-    this._resourcesDashboardService
-      .getDataSets(this.year, this.type, this.category, this.state, this.ulb)
-      .subscribe(
-        (res) => {
-          this.balData = res["data"];
-          if (this.balData.length == 0) {
-            this.noData = true;
-          } else if (this.balData.length !== 0) {
+    try {
+      this._resourcesDashboardService
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb)
+        .subscribe(
+          (res: any) => {
+            console.log(this.balData);
+            // this.balData = res["data"];
+            if (res.data.length == 0) {
+              this.noData = true;
+
+              this.globalLoaderService.stopLoader();
+            } else if (res.data.length !== 0) {
+              this.balData = res?.data
+                .map((elem) => {
+                  let target = { isDisabled: false, isSelected: false };
+                  return Object.assign(target, elem);
+                })
+                .slice(0, 20);
+              // this.balData = res.data;
+              this.globalLoaderService.stopLoader();
+              this.noData = false;
+            }
+          },
+          (err) => {
             this.globalLoaderService.stopLoader();
-            this.noData = false;
+            console.log(err.message);
           }
-        },
-        (err) => {
-          this.globalLoaderService.stopLoader();
-          console.log(err.message);
-        }
-      );
+        );
+    } catch (err) {
+      this.globalLoaderService.stopLoader();
+    }
   }
   balData = [];
   allSelected = false;
@@ -110,7 +140,6 @@ export class DataSetsComponent implements OnInit {
   state;
   ulb;
   filterData(e) {
-    
     console.log("Data sets", e);
     this.year = e?.controls?.year?.value ?? "2020-21";
     this.type = e?.controls?.contentType?.value ?? "Raw Data PDF";
@@ -121,34 +150,40 @@ export class DataSetsComponent implements OnInit {
     // }
   }
 
-  isAllSelected(All: boolean = false) {
-    if (All) {
-      const numSelected = this.selectedUsersList.length;
-      const numRows = this.balData.length;
-      return numSelected === numRows;
-    } else {
-      return !!this.selectedUsersList.length;
-    }
-  }
-  async masterToggle() {
-    if (this.isAllSelected(true)) {
-      for await (const user of this.balData) {
-        user[`isSelected`] = false;
-      }
+  // isAllSelected(All: boolean = false) {
+  //   // if (All) {
+  //   //   const numSelected = this.selectedUsersList.length;
+  //   //   const numRows = this.balData.length;
+  //   //   return numSelected === numRows;
+  //   // } else {
+  //   //   return !!this.selectedUsersList.length;
+  //   // }
+  // }
+  async masterToggle(event) {
+    if (!event.checked) {
       this.selectedUsersList = [];
-    } else {
-      this.selectedUsersList = [];
-      this.balData.forEach((row) => {
-        this.selectedUsersList.push(row);
-        row[`isSelected`] = true;
+      this.balData.forEach((val) => {
+        val.isDisabled = false;
+        val.isSelected = false;
       });
+      return;
     }
-    console.log(this.selectedUsersList);
+
+    if (event.checked) {
+      let i = 0;
+      while (this.selectedUsersList.length < 5) {
+        if (this.balData[i].isSelected) {
+          i++;
+          continue;
+        }
+        this.balData[i].isSelected = true;
+        this.selectedUsersList.push(this.balData[i++]);
+      }
+    }
+    this.checkIsDisabled(this.selectedUsersList);
   }
 
   checkDownloadButton() {
-    // this.globalLoaderService.stopLoader();
-    
     if (!this.checkValue) {
       this.downloadValue = false;
     } else {
@@ -198,40 +233,20 @@ export class DataSetsComponent implements OnInit {
 
   newArray = [];
   checkValue = false;
-  toggleRowSelection(event, row) {
-    // this.checkDownloadButton();
-
-    
-    console.log("selected event", event.source, row.fileName);
-
-    if (row.isSelected) {
-      let index = this.selectedUsersList.findIndex((el) => el._id == row._id);
-      console.log(index);
-      if (index > -1) this.selectedUsersList.splice(index, 1);
-      row.isSelected = false;
-
-      // if (this.selectedUsersList.length >= 5) {
-      //   this.disabledValue = true;
-      // } else if (this.selectedUsersList.length <= 5) {
-      //   this.disabledValue = false;
-      // }
-    } else {
+  toggleRowSelection(event, row, i) {
+    if (event.checked) {
       this.selectedUsersList.push(row);
-
       this.checkValue = true;
-      // if (this.selectedUsersList.length >= 5) {
-      //   this.disabledValue = true;
-      // } else if (this.selectedUsersList.length <= 5) {
-      //   this.disabledValue = false;
-      // }
       row.isSelected = true;
+    } else {
+      let index = this.selectedUsersList.indexOf(row);
+      this.selectedUsersList.splice(index, 1);
+
+      row.isSelected = false;
     }
-    // this.checkDownloadButton();
 
-    // setTimeout(() => {
+    console.log("hhhhh", this.selectedUsersList);
 
-    // }, 100);
-
-    console.log(this.selectedUsersList);
+    this.checkIsDisabled(this.selectedUsersList);
   }
 }

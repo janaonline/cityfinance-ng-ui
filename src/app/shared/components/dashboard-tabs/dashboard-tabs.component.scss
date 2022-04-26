@@ -94,6 +94,20 @@ $font-family: "Archivo";
   margin: 0 auto;
   left: 0;
 }
+@media screen and (max-width: 800px) {
+  .stickyClass {
+    position: fixed;
+    top: 0;
+    background-color: white;
+    z-index: 200;
+    width: 100%;
+    margin: 0 auto;
+    left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;
+  }
+}
 
 .dataAvailabiltyTab {
   background-color: #e5fff1;

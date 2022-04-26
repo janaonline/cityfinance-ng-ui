@@ -1,12 +1,12 @@
 <div [ngClass]="{ 'd-none': stateList.length <= 0 }" class="flex-column row">
   <div class="row">
-    <div class="col-6 pull-right">
+    <div class="col-6 col-sm-6 pull-right">
       <select
         [ngStyle]="{ cursor: !mapConfig.showStateList ? 'not-allowed' : '' }"
         [disabled]="!mapConfig.showStateList"
         (change)="stateOption($event)"
         *ngIf="stateList.length > 0"
-        class="form-select"
+        class="form-select customClassMobile"
         aria-label="State"
       >
         <option
@@ -19,11 +19,11 @@
         </option>
       </select>
     </div>
-    <div class="col-6">
+    <div class="col-6 col-sm-6">
       <input
         type="text"
         (keyup)="callAPI($event)"
-        class="form-select"
+        class="form-select inputMobileCustom"
         placeholder="Search for ULBs"
         matInput
         formControlName="ulb"

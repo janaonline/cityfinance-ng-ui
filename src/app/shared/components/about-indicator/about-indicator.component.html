@@ -12,7 +12,7 @@
       >&nbsp; {{cagr}}
     </p>
   </div>
-  <div *ngFor="let item of data; let parentIndex = index">
+  <div *ngFor="let item of data; let parentIndex = index" class="matAcc">
     <mat-accordion *ngIf="item.desc?.length > 0" [ngClass]="{'row': item.desc?.length > 0,'p-2':item.desc?.length > 0}">
       <mat-expansion-panel
       [expanded]="item.panelOpenState"

@@ -439,7 +439,30 @@ ULB ${this.selectedTab} for FY' ${
         res["data"][key] = this.createExpenditureData(res["data"][key]);
       }
     }
-
+    if (this.selectedTab == "Total Surplus/Deficit") {
+      let DeficitData = res.data;
+      let tempObj = {};
+      for (let newItem in DeficitData) {
+        DeficitData[newItem].map((elem) => {
+          let newTemp = [];
+          let temp = JSON.parse(JSON.stringify(elem));
+          temp.ulbName = temp.ulbName + " revenue";
+          temp.amount = temp.revenue;
+          newTemp.push(temp);
+          temp = JSON.parse(JSON.stringify(elem));
+          temp.ulbName = temp.ulbName + " expense";
+          temp.amount = temp.expense;
+          newTemp.push(temp);
+          if (tempObj.hasOwnProperty(newItem)) {
+            tempObj[newItem].push(...newTemp);
+          } else {
+            tempObj[newItem] = [...newTemp];
+          }
+        });
+      }
+      res.data = tempObj;
+    }
+    // debugger;
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
     for (const key in res["data"]) {
@@ -461,39 +484,46 @@ ULB ${this.selectedTab} for FY' ${
     for (const key in res["data"]) {
       const element = res["data"][key];
       newData.data.labels.map((year) => {
-        let dataByYear = element.find((val) => val._id.financialYear == year);
+        let dataByYear = element.filter((val) => val._id.financialYear == year);
         if (!dataByYear) {
           dataByYear = {
             ulbName: this.ulbMapping[this.currentUlb].name,
             amount: 0,
           };
         }
-        let dataInner = JSON.parse(JSON.stringify(innerDataset));
-        if (this.compareType == "National Average" && key == "compData") {
-          dataByYear.ulbName = "National";
-        }
-        if (this.compareType == "ULB Type Average" && key == "compData") {
-          dataByYear.ulbName = this.ulbMapping[this.currentUlb].type;
-        }
-        if (this.compareType == "ULB category Average" && key == "compData") {
-          dataByYear.ulbName = getPopulationType(
-            this.ulbMapping[this.currentUlb].population
-          );
-        }
+        dataByYear.forEach((dataByYearVal) => {
+          let dataInner = JSON.parse(JSON.stringify(innerDataset));
+          if (this.compareType == "National Average" && key == "compData") {
+            dataByYearVal.ulbName = "National";
+          }
+          if (this.compareType == "ULB Type Average" && key == "compData") {
+            dataByYearVal.ulbName = this.ulbMapping[this.currentUlb].type;
+          }
+          if (this.compareType == "ULB category Average" && key == "compData") {
+            dataByYearVal.ulbName = getPopulationType(
+              this.ulbMapping[this.currentUlb].population
+            );
+          }
 
-        if (!temp[dataByYear.ulbName]) {
-          dataInner.backgroundColor = backgroundColor[index];
-          dataInner.borderColor = borderColor[index++];
-          dataInner.label = dataByYear.ulbName;
-          dataInner.data = [convertToCr(dataByYear.amount, this.isPerCapita)];
-          temp[dataByYear.ulbName] = dataInner;
-        } else {
-          dataInner = temp[dataByYear.ulbName];
-          dataInner.data.push(convertToCr(dataByYear.amount, this.isPerCapita));
-          temp[dataByYear.ulbName] = dataInner;
-        }
+          if (!temp[dataByYearVal.ulbName]) {
+            dataInner.backgroundColor = backgroundColor[index];
+            dataInner.borderColor = borderColor[index++];
+            dataInner.label = dataByYearVal.ulbName;
+            dataInner.data = [
+              convertToCr(dataByYearVal.amount, this.isPerCapita),
+            ];
+            temp[dataByYearVal.ulbName] = dataInner;
+          } else {
+            dataInner = temp[dataByYearVal.ulbName];
+            dataInner.data.push(
+              convertToCr(dataByYearVal.amount, this.isPerCapita)
+            );
+            temp[dataByYearVal.ulbName] = dataInner;
+          }
+        });
       });
     }
+    // debugger;
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
     newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;
@@ -956,7 +986,7 @@ const barChartStatic = {
 const backgroundColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgba(54, 162, 235, 0.2)",
   "rgba(153, 102, 255, 0.2)",
@@ -965,7 +995,7 @@ const backgroundColor = [
 const borderColor = [
   "#1EBFC6",
   "#1E44AD",
-  "#F56184",
+  "#5203fc",
   "#3C3C3C",
   "rgb(54, 162, 235)",
   "rgb(153, 102, 255)",

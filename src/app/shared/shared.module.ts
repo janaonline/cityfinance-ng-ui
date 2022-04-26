@@ -212,7 +212,9 @@ import { BasicComponent } from "../dashboard/report/basic/basic.component";
     RevenuechartComponent,
     MapWithFilterComponent,
     NationalHeatMapComponent,
-    BasicComponent
+    BasicComponent,
+    SlbChartsComponent,
+    StateFilterDataComponent
   ],
   providers: [FinancialDataService],
 })
