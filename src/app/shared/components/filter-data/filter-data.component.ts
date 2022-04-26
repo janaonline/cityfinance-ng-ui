@@ -462,7 +462,7 @@ ULB ${this.selectedTab} for FY' ${
       }
       res.data = tempObj;
     }
-    debugger;
+    // debugger;
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
     for (const key in res["data"]) {
@@ -523,7 +523,7 @@ ULB ${this.selectedTab} for FY' ${
         });
       });
     }
-    debugger;
+    // debugger;
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
     newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;

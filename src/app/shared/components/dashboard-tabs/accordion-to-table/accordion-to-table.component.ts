@@ -114,6 +114,9 @@ export class AccordionToTableComponent implements OnInit {
   queryParams = {};
   window = window;
   ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
+  
+  stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
+  ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   cityId;
   notFound = false;
   constructor(
@@ -330,6 +333,8 @@ export class AccordionToTableComponent implements OnInit {
       this.state =true
       this.city =false
     }
+    this.onSubmittingFilterForm();
+    console.log(this.filterForm)
   }
  issueLength:any=4;
  tableHeading = [
@@ -357,7 +362,12 @@ tableDataSource = [
   {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
   {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
 ];
+ulbListLatest:any
   onSubmittingFilterForm() {
+    const ulbId =  this._activatedRoute.snapshot.queryParams["cityId"];
+    this.ulbListLatest = this.stateCode[this.ulbStateMapping[ulbId]].ulbs;
+    let ulb = this.ulbListLatest.find((elem) => elem._id == ulbId);
+    this.filterForm.value.push(ulb.name);
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
       console.log(res);
