@@ -596,6 +596,19 @@ export class RevenuechartComponent
 
   getImage() {
     let id = "canvasDiv" + this.chartId;
+    let hideHeaderAction: any = HTMLElement;
+    /**
+     * Declaring a variable called hideHeaderAction and assigning the display-none class to remove the compare dialog and download action
+     * and at the end we remove the display-none class
+     */
+    if (this.multipleCharts) {
+      id = 'multiChartId';
+      hideHeaderAction = document.querySelectorAll('[id*="hideHeaderAction"]');
+      hideHeaderAction.forEach(item => {
+          item.classList.add('display-none')
+      });
+    }
+    
     let html = document.getElementById(id);
     html2canvas(html).then((canvas) => {
       let image = canvas
@@ -604,8 +617,15 @@ export class RevenuechartComponent
       // window.open(image)
       var link = document.createElement("a");
       link.href = image;
-      link.download = `Chart ${this.chartId}.png`;
+      link.download = `Chart ${this.chartId ? this.chartId : ''}.png`;
       link.click();
+
+      if (this.multipleCharts && hideHeaderAction) {
+        hideHeaderAction.forEach(item => {
+          item.classList.remove('display-none')
+      });
+
+    }
       this._loaderService.stopLoader();
     });
   }
