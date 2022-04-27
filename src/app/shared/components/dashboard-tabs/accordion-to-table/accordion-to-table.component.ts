@@ -257,14 +257,18 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   private onGettingULBResponseSuccess(response: IULBResponse) {
+    let foundUlb = response.data.find(
+      (value) => value.name === this.ulbList[this.cityId].name
+    )
     if (
-      !response.data.find(
-        (value) => value.name === this.ulbList[this.cityId].name
-      )
+      !foundUlb
     ) {
       this.notFound = true;
       return;
-    } else this.notFound = false;
+    } else {
+      this.filterForm.controls["ulbs"].patchValue([foundUlb])
+      this.notFound = false
+    };
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
@@ -273,6 +277,7 @@ export class AccordionToTableComponent implements OnInit {
 
     // Auto select state from query Params
     this.setStateFromQueryParams(this.queryParams);
+    this.onSubmittingFilterForm();
   }
 
   private setStateFromQueryParams(queryParams: { [key: string]: string }) {
@@ -333,7 +338,6 @@ export class AccordionToTableComponent implements OnInit {
       this.state =true
       this.city =false
     }
-    this.onSubmittingFilterForm();
     console.log(this.filterForm)
   }
  issueLength:any=4;
@@ -364,10 +368,6 @@ tableDataSource = [
 ];
 ulbListLatest:any
   onSubmittingFilterForm() {
-    const ulbId =  this._activatedRoute.snapshot.queryParams["cityId"];
-    this.ulbListLatest = this.stateCode[this.ulbStateMapping[ulbId]].ulbs;
-    let ulb = this.ulbListLatest.find((elem) => elem._id == ulbId);
-    this.filterForm.value.push(ulb.name);
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
       console.log(res);

@@ -92,12 +92,12 @@ export class BalanceTableComponent
     { id: "4", name: "Four" },
   ];
   yearsList: { id: string; itemName: string }[] = [
-    { id: "2020-2021", itemName: "2020-2021" },
-    { id: "2019-2020", itemName: "2019-2020" },
-    { id: "2018-2019", itemName: "2018-2019" },
-    { id: "2017-2018", itemName: "2017-2018" },
-    { id: "2016-2017", itemName: "2016-2017" },
-    { id: "2015-2016", itemName: "2015-2016" },
+    { id: "2020-21", itemName: "2020-21" },
+    { id: "2019-20", itemName: "2019-20" },
+    { id: "2018-19", itemName: "2018-19" },
+    { id: "2017-18", itemName: "2017-18" },
+    { id: "2016-17", itemName: "2016-17" },
+    { id: "2015-16", itemName: "2015-16" },
   ];
   currencyList: { id: string; value: number; name: string }[] = [
     // { id: "1", value: 10000000, name: "INR Crore" },
@@ -195,7 +195,7 @@ export class BalanceTableComponent
       ],
     },
   ];
-
+  valueType = "absolute"
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
       "<p class='text-center'>You need to be Login to download the data.</p>",
@@ -274,7 +274,7 @@ export class BalanceTableComponent
   }
 
   createDataForBasicComp(fromBs, filters?) {
-    
+    // this.isLoading = true;
     if(!this.currentUlbFilterData)return
     let temp2;
     if (filters) {
@@ -291,10 +291,10 @@ export class BalanceTableComponent
         reportGroup: this.reportGroup,
         ulbList: [this.currentUlbFilterData],
         ulbIds: [this.currentUlbFilterData.ulb],
-        valueType: "absolute",
+        valueType: this.valueType
       };
     }
-    if ((fromBs = "Balance Sheet")) {
+    if ((fromBs == "Balance Sheet")) {
       this.reportService.BSDetailed(temp2);
     } else {
       this.reportService.ieDetailed(temp2);
@@ -370,7 +370,7 @@ export class BalanceTableComponent
       reportGroup: this.reportGroup,
       ulbList: multiUlbList,
       ulbIds: [...new Set([this.currentUlbFilterData.ulb, ...this.ulbIdval])],
-      valueType: "absolute",
+      valueType: this.valueType,
     };
     this.createDataForBasicComp(this.reportGroup, filters);
 
@@ -518,6 +518,14 @@ export class BalanceTableComponent
     // }
   }
   resetCompare() {
-    this.showtable = false;
+    this.compare = false
+    this.valueType = "absolute"
+    this.createDataForBasicComp(this.reportGroup)
+  }
+
+  valueTypeChange(event){
+    console.log(event.value,"change in value type");
+    this.valueType = event.value;
+    this.createDataForBasicComp(this.reportGroup)
   }
 }

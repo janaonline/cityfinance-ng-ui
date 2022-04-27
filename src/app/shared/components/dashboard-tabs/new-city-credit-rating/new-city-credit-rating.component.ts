@@ -63,7 +63,6 @@ export class NewCityCreditRatingComponent
   }
 
   getFinalData(data) {
-    debugger;
     if (data) {
       console.log("currentId", this._id);
       let ulbList = this.stateCode[this.ulbStateMapping[this._id]]?.ulbs;
