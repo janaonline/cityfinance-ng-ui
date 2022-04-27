@@ -149,7 +149,7 @@
             ></app-filter-data>
           </div>
           <div *ngSwitchCase="'state'">
-            <app-state-filter-data
+            <app-state-filter-data [selectedStateId]="stateId"
               [data]="innerActiveTab"
             ></app-state-filter-data>
           </div>

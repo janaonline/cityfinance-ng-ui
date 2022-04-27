@@ -168,6 +168,7 @@ export class StateComponent implements OnInit {
     this.percentValue = data?.data?.percent;
   }
   changeInDropDown(event) {
+    console.log('StateChangeInDropDown(', event, 'stateUlbData', this.stateUlbData)
     if (event.fromState) {
       this.stateCode = event.value.ST_CODE;
       this.stateId = this.stateUlbData.data[this.stateCode]._id;

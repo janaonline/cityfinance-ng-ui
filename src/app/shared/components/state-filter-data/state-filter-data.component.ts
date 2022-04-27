@@ -272,7 +272,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     showFinancialYear: false,
     showResetButton: false,
   };
-
+  @Input() selectedStateId: any;
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -355,9 +355,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.filteredOptions = emptyArr;
     this.ulbId = "";
     this.selectedRadioBtnValue = "";
-    this.getYears();
+    // this.getYears();
+    this.financialYear = this.yearList[0];
     this.getScatterData();
     if (this.stateServiceLabel) {
+      this.selectedServiceLevelBenchmark = this.serviceTabList[0];
+      this.filterName = this.selectedServiceLevelBenchmark;
       this.getServiceLevelBenchmarkBarChartData();
     } else {
       this.getStateRevenue();
@@ -521,9 +524,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.initializeScatterData();
     let apiEndPoint = this.stateServiceLabel ? "state-slb" : "state-revenue";
     // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
-    this.stateId = sessionStorage.getItem("row_id")
-      ? sessionStorage.getItem("row_id")
-      : this.stateId;
+    // this.stateId = sessionStorage.getItem("row_id")
+    //   ? sessionStorage.getItem("row_id")
+    //   : this.stateId;
     this.scatterChartPayload = {
       [this.stateServiceLabel ? "stateId" : "state"]: this.stateId,
       financialYear: this.financialYear ? this.financialYear : "",
@@ -854,9 +857,18 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("stateFilterDataChanges", changes, this.data);
-    // if (changes && changes.stateServiceLabel && changes.stateServiceLabel.currentValue) {
-    //   this.stateServiceLabel = changes.stateServiceLabel.currentValue;
-    // }
+    if (changes && changes.selectedStateId && changes.selectedStateId.currentValue && !changes?.selectedStateId?.firstChange) {
+      console.log('selectedStateId', changes.selectedStateId.currentValue)
+      this.stateId = '';
+      this.stateId = JSON.parse(JSON.stringify(changes.selectedStateId.currentValue));
+      console.log('updatedStateId', this.stateId)
+      this.getScatterData();
+      if (this.stateServiceLabel) {
+        this.getServiceLevelBenchmarkBarChartData();
+      } else {
+        this.getStateRevenue();
+      }
+    }
     this.stateServiceLabel = false;
     if (changes.data) {
       console.log("dounghnuChartLabels", this.dounghnuChartLabels);
