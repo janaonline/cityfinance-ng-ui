@@ -316,7 +316,6 @@ export class DashboardMapSectionComponent
   }
 
   clearDistrictMapContainer() {
-    // debugger;
     if (this.districtMap) {
       this.districtMap.off();
       this.districtMap.remove();
@@ -349,7 +348,6 @@ export class DashboardMapSectionComponent
       }[];
     }
   ) {
-    // debugger;
     console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;

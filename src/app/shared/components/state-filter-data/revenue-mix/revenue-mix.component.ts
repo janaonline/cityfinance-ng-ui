@@ -558,7 +558,6 @@ export class RevenueMixComponent implements OnInit {
   }
 
   getMultipleDoughnutCharts() {
-    // debugger;
     if (this.ulbTab) {
       this.finalMultipleDoughnut = this.doughnutArray;
     }else if (this.populationTab) {
@@ -572,7 +571,6 @@ export class RevenueMixComponent implements OnInit {
   multipleChartShow = false;
 
   ulbFunction(value) {
-    // debugger;
     console.log(value);
     if (value == 1) {
       this.ulbTab = true;

@@ -102,6 +102,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }]
     },
     legend: {
+      onClick: (e) => e.stopPropagation(),
       position: "bottom",
       labels: {
         padding: 35,
@@ -465,7 +466,6 @@ ULB ${this.selectedTab} for FY' ${
       }
       res.data = tempObj;
     }
-    // debugger;
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
     for (const key in res["data"]) {
@@ -527,16 +527,20 @@ ULB ${this.selectedTab} for FY' ${
         });
       });
     }
-    // debugger;
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
     newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;
     newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
-      if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
+      if (newlineDataset.data.length == 0) newlineDataset.data = JSON.parse(JSON.stringify(element.data));
       newData.data.datasets.push(element);
     }
+    // for (let index = 1; index < newlineDataset.data.length; index++) {
+    //   const element = newlineDataset.data[index];
+    //   let inc = element - newlineDataset.data[index-1]
+    //   newlineDataset.data[index] = (inc/element)*100
+    // };
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.push(newlineDataset);
     this.barChart = newData;
