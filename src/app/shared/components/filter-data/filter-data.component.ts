@@ -56,7 +56,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   compareType;
   btnListInAboutIndicator;
   cityId: any;
-
+  barWidth:any;
+  barWidthRender:any;
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((paramData) => {
       console.log("cityId", paramData);
@@ -98,7 +99,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         },
       ],
       xAxes: [{
-        barThickness: 68,  
+        barThickness: 0
     }]
     },
     legend: {
@@ -121,7 +122,6 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
@@ -523,11 +523,16 @@ ULB ${this.selectedTab} for FY' ${
               convertToCr(dataByYearVal.amount, this.isPerCapita)
             );
             temp[dataByYearVal.ulbName] = dataInner;
+            this.barWidth = dataInner.data.length;
+            dataInner.data.map(aa=>
+             this.barWidth = aa.length)
+             if(this.barWidth > 5){
+               this.barWidthRender = 68
+             }
           }
         });
       });
     }
-    // debugger;
     newData.data.datasets = [];
     let newlineDataset = JSON.parse(JSON.stringify(lineDataset));
     newlineDataset.label = `Y-o-Y Growth in ${this.selectedTab} (%)`;
@@ -538,11 +543,12 @@ ULB ${this.selectedTab} for FY' ${
       newData.data.datasets.push(element);
     }
     if (!this.hideElements && !this.isPerCapita)
-      newData.data.datasets.push(newlineDataset);
+      newData.data.datasets.unshift(newlineDataset);
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "Rs" : "₹ Cr"
     }`;
+    this.barChartStaticOptions.scales.xAxes[0].barThickness = this.barWidthRender
     this.chartOptions = this.barChartStaticOptions;
   }
 
