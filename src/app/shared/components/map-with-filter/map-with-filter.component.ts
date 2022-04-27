@@ -267,6 +267,7 @@ export class MapWithFilterComponent
     let marker = this.districtMarkerMap[newObject[0].code];
 
     if (marker) marker.fireEvent("click");
+    console.log("newObject==>", marker, newObject);
   }
   createDistrictMap(
     districtGeoJSON,
@@ -286,6 +287,10 @@ export class MapWithFilterComponent
       return;
     }
     this.clearDistrictMapContainer();
+
+    setTimeout(() => {
+      this.createMarker(options.dataPoints);
+    }, 100);
 
     setTimeout(() => {
       let zoom;
@@ -317,9 +322,9 @@ export class MapWithFilterComponent
 
       this.districtList = {};
       console.log("options", options.dataPoints);
-      setTimeout(() => {
-        this.createMarker(options.dataPoints);
-      }, 100);
+      // setTimeout(() => {
+      //   this.createMarker(options.dataPoints);
+      // }, 100);
       options.dataPoints.forEach((dataPoint: any) => {
         this.districtList[dataPoint.code] = dataPoint.name;
         const marker = this.createDistrictMarker({
