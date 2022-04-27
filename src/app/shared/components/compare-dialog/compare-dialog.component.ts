@@ -133,13 +133,14 @@ export class CompareDialogComponent implements OnInit {
       this.stateChipList.splice(index, 1);
     }
   }
+
   yearsList: { id: string; itemName: string }[] = [
-    { id: "2020-2021", itemName: "2020-2021" },
-    { id: "2019-2020", itemName: "2019-2020" },
-    { id: "2018-2019", itemName: "2018-2019" },
-    { id: "2017-2018", itemName: "2017-2018" },
-    { id: "2016-2017", itemName: "2016-2017" },
-    { id: "2015-2016", itemName: "2015-2016" },
+     { id: "2020-21", itemName: "2020-21" },
+    { id: "2019-20", itemName: "2019-20" },
+    { id: "2018-19", itemName: "2018-19" },
+    { id: "2017-18", itemName: "2017-18" },
+    { id: "2016-17", itemName: "2016-17" },
+    { id: "2015-16", itemName: "2015-16" },
   ];
 
   selectYearValue(event: any) {

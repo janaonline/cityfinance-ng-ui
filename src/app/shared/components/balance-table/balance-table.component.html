@@ -4,11 +4,15 @@
             <p class="balanceText">
                 Below are the highlights of the ULB’s balance sheets for past five years (based on availability). Click on compare to compare <b>{{cityName}}</b> financials with upto five other comparable ULBs.
             </p>
-            <p>
+            <!-- <p>
                 <b>N/A :</b>&nbsp; Data not available.
-            </p>
+            </p> -->
         </div>
         <div class="col-md-6 d-flex justify-content-end" style="align-items: baseline;">
+            <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
+                <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">Absolute</mat-radio-button>
+                <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita</mat-radio-button>
+              </mat-radio-group>
             <div class="mr-1 d-flex justify-content-center align-items-center">
                 <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
                 Compare By
@@ -34,7 +38,7 @@
         </mat-form-field>
       </div> -->
 
-            <div>
+            <!-- <div>
                 <button class="searchButton" [disabled]="searchEnable()" (click)="createMultipleUpdateTable()" id="getMultipleChants" hidden>
           Search
         </button>
@@ -49,7 +53,7 @@
             {{ currency.name }}
           </option>
         </select>
-            </div>
+            </div> -->
         </div>
     </div>
 
