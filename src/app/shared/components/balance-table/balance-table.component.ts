@@ -132,6 +132,7 @@ export class BalanceTableComponent
 
   singleTableData: any;
   multipleTableData: any;
+  compare:Boolean
 
   ulbIdval: any;
   ulbListVal: any;
@@ -140,7 +141,7 @@ export class BalanceTableComponent
   showtable: any = false;
 
   singleUlbList: any;
-ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
+  ulbData = JSON.parse(localStorage.getItem("ulbMapping"));
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
   downLoadArray = [
@@ -218,7 +219,7 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
       cancel: { text: "Cancel" },
     },
   };
-  show = false
+  show = false;
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
@@ -226,6 +227,7 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
     private _authService: AuthService,
     private _dialog: MatDialog,
     private router: Router,
+    protected commonService: CommonService,
     private excelService: ExcelService // private commonService: CommonService, // private balanceTabeleService: BalanceTableService
   ) {
     super();
@@ -237,70 +239,12 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
         // this.id = this.cityId;
         this.id = cityId;
         sessionStorage.setItem("row_id", this.id);
+        
+        this.setUlbList(cityId);
       } else {
         this.id = sessionStorage.getItem("row_id");
       }
     });
-    let tempObj = {
-      isComparative: false,
-      type: "Summary",
-      years: ["2015-16", "2017-18"],
-      yearList: [
-        {
-          id: "2015-16",
-          itemName: "2015-16",
-        },
-        {
-          id: "2017-18",
-          itemName: "2017-18",
-        },
-      ],
-      reportGroup: "Income & Expenditure Statement",
-      ulbList:[this.ulbData[this.id]],
-      ulbIds: [this.id],
-      valueType: "absolute",
-    }
-    let temp2 = {
-      "isComparative": false,
-      "type": "Summary",
-      "years": [
-          "2015-16",
-          "2017-18"
-      ],
-      "yearList": [
-          {
-              "id": "2015-16",
-              "itemName": "2015-16"
-          },
-          {
-              "id": "2017-18",
-              "itemName": "2017-18"
-          }
-      ],
-      "reportGroup": "Income & Expenditure Statement",
-      "ulbList": [
-          {
-              "population": 40353,
-              "ulbType": "Town Panchayat",
-              "code": "AP001",
-              "financialYear": [
-                  "2017-18",
-                  "2015-16"
-              ],
-              "ulb": "5dd24729437ba31f7eb42eee",
-              "name": "Adanki Town Panchayat",
-              "_id": "5dd24729437ba31f7eb42eee",
-              "state": "Andhra Pradesh",
-              "stateId": "5dcf9d7216a06aed41c748dd"
-          }
-      ],
-      "ulbIds": [
-          "5dd24729437ba31f7eb42eee"
-      ],
-      "valueType": "absolute"
-  }
-  this.reportService.ieDetailed(temp2)
-    this.show= true
   }
   openModal() {
     const dialogConfig = new MatDialogConfig();
@@ -310,6 +254,51 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
       console.log("result", result);
     });
     this.isComparative = true;
+  }
+  currentUlbFilterData;
+  allUlbsFilterData;
+  setUlbList(ulbId) {
+    let stateId = this.stateCode[this.ulbStateMapping[ulbId]]._id;
+    this.commonService.fetchBasicLedgerData().subscribe((res) => {
+      this.currentUlbFilterData = res.data
+        .find((val) => val._id.state == stateId)
+        ?.ulbList.find((val) => val.ulb == ulbId);
+      this.compare = false
+      this.createDataForBasicComp(this.reportGroup);
+      this.allUlbsFilterData = res.data.reduce((result, value) => {
+        result[value._id.state] = value.ulbList;
+        return result;
+      }, {});
+      this.show = true;
+    });
+  }
+
+  createDataForBasicComp(fromBs, filters?) {
+    
+    if(!this.currentUlbFilterData)return
+    let temp2;
+    if (filters) {
+      temp2 = filters;
+    } else {
+      temp2 = {
+        isComparative: false,
+        type: "Summary",
+        years: this.currentUlbFilterData?.financialYear,
+        yearList: this.currentUlbFilterData?.financialYear.map((val) => ({
+          id: val,
+          itemName: val,
+        })),
+        reportGroup: this.reportGroup,
+        ulbList: [this.currentUlbFilterData],
+        ulbIds: [this.currentUlbFilterData.ulb],
+        valueType: "absolute",
+      };
+    }
+    if ((fromBs = "Balance Sheet")) {
+      this.reportService.BSDetailed(temp2);
+    } else {
+      this.reportService.ieDetailed(temp2);
+    }
   }
 
   // newUlbData: any;
@@ -358,9 +347,36 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
 
   selectedYea(val) {
     this.years = val;
-    setTimeout(() => {
-      this.invokeHidden();
-    }, 500);
+    console.log(
+      this.ulbIdval,
+      this.ulbListVal,
+      this.yearValue,
+      this.years,
+      "year"
+    );
+    let multiUlbList = this.ulbListVal.map((val) => {
+      let ulbData = this.allUlbsFilterData[val.state._id]?.find(
+        (value) => value.ulb == val._id
+      );
+      return ulbData;
+    });
+    multiUlbList.push(this.currentUlbFilterData);
+    this.compare = true
+    let filters = {
+      isComparative: false,
+      type: "Summary",
+      years: this.years,
+      yearList: this.yearValue,
+      reportGroup: this.reportGroup,
+      ulbList: multiUlbList,
+      ulbIds: [...new Set([this.currentUlbFilterData.ulb, ...this.ulbIdval])],
+      valueType: "absolute",
+    };
+    this.createDataForBasicComp(this.reportGroup, filters);
+
+    // setTimeout(() => {
+    //   this.invokeHidden();
+    // }, 500);
     console.log("selected Value", val);
   }
 
@@ -418,7 +434,6 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
       //   if (fromSingle) this.singleTableData = res.data;
       //   else {
       //     this.multipleTableData = res.data;
-
       //     console.log("sigleTableData", this.multipleTableData);
       //   }
       //   this.isLoading = true;
@@ -429,7 +444,6 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
       //   if (fromSingle) this.singleTableData = res.data;
       //   else {
       //     this.multipleTableData = res.data;
-
       //     console.log("sigleTableData", this.multipleTableData);
       //   }
       //   // this.singleTableData = res.data;
@@ -479,8 +493,10 @@ ulbData = JSON.parse(localStorage.getItem("ulbMapping"))
     console.log("balance table", changes, this.data);
     if (this.data.name == "Balance Sheet") {
       this.reportGroup = "Balance Sheet";
+      this.createDataForBasicComp(this.reportGroup);
     } else {
       this.reportGroup = "Income & Expenditure Statement";
+      this.createDataForBasicComp(this.reportGroup);
     }
     this.balanceInput.isComparative = this.isComparative;
     this.balanceInput.type = this.type;

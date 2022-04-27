@@ -34,7 +34,6 @@ export class ReportService {
   }
 
   setReportRequest(criteria) {
-    debugger
     this.reportRequestSubject.next(criteria);
   }
 
@@ -99,11 +98,11 @@ export class ReportService {
     );
   }
 
-  BSDetailed(criteria: IReportType) {
-    this.setReportRequest(criteria);
+  BSDetailed(criteria) {
+  //   this.setReportRequest(criteria);
 
-   return this.http
-     .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
+  //  return this.http
+  //    .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
     //  .subscribe((res) => {
     //    if (res["success"]) {
     //      if (res["data2"]) {
@@ -114,6 +113,21 @@ export class ReportService {
     //      alert("Year and ULB selection is mandatory");
     //    }
     //  });
+
+    this.setReportRequest(criteria);
+
+    this.http
+      .post<ISummaryReport>(environment.api.url + "ledger/getBS", criteria)
+      .subscribe((res) => {
+        if (res["success"]) {
+          if (res["data2"]) {
+            localStorage.setItem("ulbData2", JSON.stringify(res["data2"]));
+          }
+          this.reportResponse.next(res["data"]);
+        } else {
+          alert("Year and ULB selection is mandatory");
+        }
+      });
   }
 
   getAggregate(criteria: IReportType) {

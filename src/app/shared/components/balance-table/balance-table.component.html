@@ -140,9 +140,8 @@
             </div>
         </div>
     </div> -->
-    
-    <app-basic *ngIf="show" ></app-basic>
-
+    <app-basic *ngIf="show &&  !compare" ></app-basic>
+    <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
     <!-- <div class="row">
       <div class="col-md-12">
         <app-shared-compare-table></app-shared-compare-table>

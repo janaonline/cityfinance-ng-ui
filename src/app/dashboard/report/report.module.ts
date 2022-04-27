@@ -13,7 +13,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { SharedModule } from '../../shared/shared.module';
-import { BasicComponent } from './basic/basic.component';
+// import { BasicComponent } from './basic/basic.component';
 import { ComparativeUlbComponent } from './comparative-ulb/comparative-ulb.component';
 import { ExcelService } from './excel.service';
 import { FinancialStatementComponent } from './financial-statement/financial-statement.component';
@@ -44,8 +44,8 @@ import { ReportComponent } from './report/report.component';
     ReportComponent,
     FinancialStatementComponent,
     ReportFooterComponent,
-    BasicComponent,
-    ComparativeUlbComponent,
+    // BasicComponent,
+    // ComparativeUlbComponent,
   ],
   //   exports: [InrCurrencyPipe],
   providers: [ReportService, ExcelService],

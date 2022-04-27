@@ -820,7 +820,6 @@ export class RevenuechartComponent
   }
 
   getScatterData() {
-    // debugger;
     let isPerCapita = (this.apiParamData.hasOwnProperty('isPerCapita') && (this.apiParamData?.isPerCapita != "")) ? JSON.parse(this.apiParamData?.isPerCapita) : false;
     this.multiChart = false;
     this._loaderService.showLoader();
