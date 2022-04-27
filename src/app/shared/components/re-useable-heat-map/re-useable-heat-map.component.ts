@@ -189,8 +189,8 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this._commonService.getULBSWithPopulationAndCoordinates(body)
       // .pipe(map((res) => this.onGettingULBWithPopulationSuccess(res)))
     );
-    this.onGettingStateULBCoveredSuccess();
-    this.onGettingULBWithPopulationSuccess();
+    // this.onGettingStateULBCoveredSuccess();
+    // this.onGettingULBWithPopulationSuccess();
     return forkJoin(subscriptions);
   }
 

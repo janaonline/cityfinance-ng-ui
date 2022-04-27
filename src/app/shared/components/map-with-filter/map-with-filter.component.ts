@@ -175,7 +175,7 @@ export class MapWithFilterComponent
       this.onStateLayerClick(layerToAutoSelect);
     }
     // this.hideMapLegends();
-
+// debugger
     if (this.isMapOnMiniMapMode) {
       // this.hideMapLegends();
       this.showStateLayerOnlyFor(
@@ -196,7 +196,7 @@ export class MapWithFilterComponent
         this.selectedDistrictCode = this.mapConfig.code.city;
         type = this.districtMarkerMap[this.mapConfig.code.city];
         if (type) type.fireEvent("click");
-      }, 0.5);
+      }, 10);
     }
   }
   postBody;
@@ -249,6 +249,7 @@ export class MapWithFilterComponent
     // const height = this.mapConfig.stateBlockHeight;
     // initially height = 23rem;
     const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
+    console.log('clearDistrictMapContainer Called', this.currentStateInView)
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -332,10 +333,11 @@ export class MapWithFilterComponent
         });
         this.districtMarkerMap[dataPoint.code] = marker;
       });
-    }, 0);
+    }, 0.5);
   }
 
   stateOption(event) {
+    console.log('stateOption(', event);
     this.changeInStateOrCity.emit({
       value: JSON.parse(event.target.value),
       fromState: true,
