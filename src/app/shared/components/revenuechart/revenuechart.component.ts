@@ -73,6 +73,9 @@ export class RevenuechartComponent
     });
   }
 
+  @Input()
+  isPerCapita
+
   @ViewChild("template") template;
   @Input()
   chartTitle = "ULB_NAME total revenues vs State ULB_TYPE Average";
@@ -214,7 +217,7 @@ export class RevenuechartComponent
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
           return `${datasetLabel}: ${label ? label : ""} ${
-            rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ""
+            rev  ? rev> 10000000 ? `(${(rev /  10000000).toFixed(2)} Cr)` : `(${(rev ).toFixed(2)})`  : ""
           }`;
           // datasetLabel + ": " + label ? label : '' + rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ''
         },
