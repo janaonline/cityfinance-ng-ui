@@ -85,6 +85,7 @@ import { RevenueMixComponent } from './components/state-filter-data/revenue-mix/
 import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
 import { BasicComponent } from "../dashboard/report/basic/basic.component";
 import { ComparativeUlbComponent } from "../dashboard/report/comparative-ulb/comparative-ulb.component";
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -116,6 +117,7 @@ import { ComparativeUlbComponent } from "../dashboard/report/comparative-ulb/com
     MatCardModule,
     MatTableModule,
     NgxPaginationModule,
+    MatRadioModule
 
   ],
   declarations: [
