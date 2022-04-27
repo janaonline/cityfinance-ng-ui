@@ -495,7 +495,6 @@ export class BalanceTableComponent
       this.reportGroup = "Balance Sheet";
       this.createDataForBasicComp(this.reportGroup);
     } else {
-      debugger
       this.reportGroup = "Income & Expenditure Statement";
       this.createDataForBasicComp(this.reportGroup);
     }

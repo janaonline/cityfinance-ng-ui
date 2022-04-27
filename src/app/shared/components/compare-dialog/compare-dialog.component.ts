@@ -315,7 +315,6 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
-    // debugger;
     if (this.ulbListChip.length == 3) {
       this.searchField.setValue(null);
     }
