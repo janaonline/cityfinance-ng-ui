@@ -12,7 +12,7 @@ export class NewCityCreditRatingComponent
   extends BaseComponent
   implements OnInit, OnChanges
 {
-  id: any;
+  _id: any;
   detailedList: any;
   ulbName: any;
   yearValue: any = "2019";
@@ -38,18 +38,19 @@ export class NewCityCreditRatingComponent
       console.log("val", val);
       const { cityId } = val;
       if (cityId) {
-        console.log("stid", this.id);
-        // this.id = this.cityId;
-        this.id = cityId;
-        sessionStorage.setItem("row_id", this.id);
+        console.log("stid", this._id);
+        this._id = cityId;
+        sessionStorage.setItem("row_id", this._id);
       } else {
-        this.id = sessionStorage.getItem("row_id");
+        this._id = sessionStorage.getItem("row_id");
       }
     });
   }
 
   selectCreditYear(event: any) {
     this.yearValue = event;
+    // this.getDetailedData();
+    this.getFinalData(this.detailedList);
   }
 
   getDetailedData() {
@@ -61,22 +62,60 @@ export class NewCityCreditRatingComponent
     return myPromise;
   }
 
-  async ngOnInit(): Promise<void> {
-    this.detailedList = await this.getDetailedData();
-
-    this.stateCode[this.ulbStateMapping[this.id]].ulbs.filter((elem: any) => {
-      if (elem._id == this.id) {
-        this.ulbName = elem.name;
-      }
-    });
-
-    this.detailedList.filter((elem, index: any) => {
-      if (elem.ulb == "Tiruppur Municipal Corporation") {
-        elem["date"] = "20" + elem.date.split("/")[2];
-        this.finalList.push(elem);
-      }
-    });
+  getFinalData(data) {
+    debugger;
+    if (data) {
+      console.log("currentId", this._id);
+      let ulbList = this.stateCode[this.ulbStateMapping[this._id]]?.ulbs;
+      ulbList?.filter((elem: any) => {
+        if (elem._id == this._id) {
+          this.ulbName = elem.name;
+          console.log(this.ulbName);
+        }
+      });
+      data.filter((elem, index: any) => {
+        // console.log({ elem });
+        if (elem.ulb == this.ulbName) {
+          elem["date"] = "20" + elem.date.split("/")[2];
+          if (elem.date == this.yearValue) {
+            this.finalList.push(elem);
+          }
+        }
+      });
+    }
+    console.log("this.finalList", this.finalList);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ulbList: string;
+  async ngOnInit(): Promise<void> {
+    this.detailedList = await this.getDetailedData();
+    console.log("this.detailedLIst", this.detailedList);
+
+    console.log("ulbStateMapping", this.ulbStateMapping);
+
+    // for (let item in this.stateCode) {
+    //   if (this.stateCode[item]._id == this._id) {
+    //     this.ulbList = this.stateCode[item]?.ulbs;
+    //   }
+    // }
+
+    // console.log("stateName", this.ulbList);
+
+    if (this.detailedList) {
+      this.getFinalData(this.detailedList);
+    }
+
+    // this.detailedList.filter((elem, index: any) => {
+    //   if (this.ulbList.includes(elem.ulb)) {
+    //     elem["date"] = "20" + elem.date.split("/")[2];
+    //     if (elem.date == this.yearValue) {
+    //       this.finalList.push(elem);
+    //     }
+    //   }
+    // });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log({ changes });
+  }
 }

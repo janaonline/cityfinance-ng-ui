@@ -46,8 +46,7 @@ export class SlbDashboardComponent
     private newDashboardService: NewDashboardService,
     private stateFilterDataService: StateFilterDataService,
     private slbDashboardService: SlbDashboardService,
-    private _loaderService: GlobalLoaderService,
-
+    private _loaderService: GlobalLoaderService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
     setTimeout(() => {
@@ -137,9 +136,9 @@ export class SlbDashboardComponent
   allDashboardTabList: any;
   slbDashboardData: any;
   selectedSlbSubTab: any;
-  stateId: string = '';
-  cityId: string = '';
-  cityName: string = '';
+  stateId: string = "";
+  cityId: string = "";
+  cityName: string = "";
   isStateSlbActive: boolean = false;
   isCitySlbActive: boolean = false;
   nationalFilter = new FormControl();
@@ -590,9 +589,9 @@ export class SlbDashboardComponent
 
     this.selectedState = state;
     if (this.selectedState && this.selectedState?._id) {
-      sessionStorage.setItem('row_id', this.selectedState?._id);
-      this.stateId = this.selectedState?._id
-      this.loadSLBComponent('state');
+      sessionStorage.setItem("row_id", this.selectedState?._id);
+      this.stateId = this.selectedState?._id;
+      this.loadSLBComponent("state");
       this.getTableData();
     }
     //   this.fetchDataForVisualization(state ? state._id : null);
@@ -697,7 +696,7 @@ export class SlbDashboardComponent
           );
           if (findCityLevelSlb) {
             this.slbDashboardData = findCityLevelSlb;
-            this.selectedSlbSubTab = {...this.slbDashboardData.subHeaders[0]}
+            this.selectedSlbSubTab = { ...this.slbDashboardData.subHeaders[0] };
           }
           console.log("allDashboardTabList", this.allDashboardTabList);
           console.log("selectedSlbSubTab", this.selectedSlbSubTab);
@@ -712,27 +711,27 @@ export class SlbDashboardComponent
   getUlbData(event) {
     console.log(event);
     this.ulbId = event._id;
-    console.log('this.ulbId', this.ulbId);
+    console.log("this.ulbId", this.ulbId);
     this.cityId = this.ulbId;
-    this.loadSLBComponent('city');
+    this.loadSLBComponent("city");
   }
 
   getSelectedYear(selectedYear: any) {
-    console.log('getSelectedYear', selectedYear);
+    console.log("getSelectedYear", selectedYear);
     this.selectedYear = selectedYear ? selectedYear : this.yearList[1];
     this.getTableData();
   }
 
-  loadSLBComponent(slbLevelType: string = '') {
-    console.log('loadSLBComponent', slbLevelType );
+  loadSLBComponent(slbLevelType: string = "") {
+    console.log("loadSLBComponent", slbLevelType);
 
     switch (slbLevelType) {
-      case 'state':
+      case "state":
         this.isStateSlbActive = true;
         this.resetCityLevelData();
-        this.selectedSlbSubTab = {...this.slbDashboardData.subHeaders[0]}
+        this.selectedSlbSubTab = { ...this.slbDashboardData.subHeaders[0] };
         break;
-      case 'city':
+      case "city":
         this.isCitySlbActive = true;
         this.isStateSlbActive = false;
         break;
@@ -741,27 +740,32 @@ export class SlbDashboardComponent
         this.isStateSlbActive = false;
         break;
     }
-    console.log('isStateSlbActive', this.isStateSlbActive, 'isCitySlbActive', this.isCitySlbActive)
+    console.log(
+      "isStateSlbActive",
+      this.isStateSlbActive,
+      "isCitySlbActive",
+      this.isCitySlbActive
+    );
   }
 
   changeTab(event, fromInner = false) {
     // console.log('changeTab', event, fromInner)
     let value = event?.target?.value ? JSON.parse(event.target.value) : event;
     // console.log("value ==>", value);
-    this.cityName = value?.ulbName
+    this.cityName = value?.ulbName;
     this.selectedSlbSubTab = value;
   }
 
   backToPreviousMode() {
     if (this.isStateSlbActive) {
-      this.stateId = '';
+      this.stateId = "";
       this.isCitySlbActive = false;
       this.isStateSlbActive = false;
       this.resetNationalMap();
       this.getTableData();
     }
     if (this.isCitySlbActive) {
-      this.loadSLBComponent('state');
+      this.loadSLBComponent("state");
     }
   }
 
@@ -770,17 +774,20 @@ export class SlbDashboardComponent
     let emptyArr: any = [];
     this.filteredOptions = emptyArr;
     this.nationalFilter.patchValue("");
-    this.cityId = '';
-    this.ulbId = '';
+    this.cityId = "";
+    this.ulbId = "";
   }
 
   getYears() {
-    this.stateFilterDataService.getYearListSLB().subscribe((res)=> {
-      let yearList = res['data'];
-      sessionStorage.setItem('financialYearList', JSON.stringify(yearList));
-    }, (err)=> {
-      console.log(err.message)
-    });
+    this.stateFilterDataService.getYearListSLB().subscribe(
+      (res) => {
+        let yearList = res["data"];
+        sessionStorage.setItem("financialYearList", JSON.stringify(yearList));
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
   }
 
   getTableData() {
@@ -789,17 +796,21 @@ export class SlbDashboardComponent
     const apiRequest: any = {
       financialYear: this.selectedYear,
       stateId: this.stateId,
-      population: '',
-      ulbType: true
-    }
+      population: "",
+      ulbType: true,
+    };
     this.slbDashboardService.getUlbTypeDataForTable(apiRequest).subscribe(
       (res: any) => {
-        if(res && res.success) {
+        if (res && res.success) {
           this.showLoader = false;
           this._loaderService.stopLoader();
-          this.tableData = res?.data && res?.data?.rows && res?.data?.rows.length ? res?.data?.rows : [];
+          this.tableData =
+            res?.data && res?.data?.rows && res?.data?.rows.length
+              ? res?.data?.rows
+              : [];
           // this.tableData = [];
-        } {
+        }
+        {
           this.showLoader = false;
           this._loaderService.stopLoader();
         }

@@ -73,6 +73,9 @@ export class RevenuechartComponent
     });
   }
 
+  @Input()
+  isPerCapita;
+
   @ViewChild("template") template;
   @Input()
   chartTitle = "ULB_NAME total revenues vs State ULB_TYPE Average";
@@ -214,7 +217,11 @@ export class RevenuechartComponent
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
           return `${datasetLabel}: ${label ? label : ""} ${
-            rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ""
+            rev
+              ? rev > 10000000
+                ? `(${(rev / 10000000).toFixed(2)} Cr)`
+                : `(${rev.toFixed(2)})`
+              : ""
           }`;
           // datasetLabel + ": " + label ? label : '' + rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ''
         },
@@ -384,7 +391,7 @@ export class RevenuechartComponent
       }
     } else {
       if (this.multipleCharts) {
-        console.log('ngAfterViewInit Called', this.multipleCharts);
+        console.log("ngAfterViewInit Called", this.multipleCharts);
         this.createMultipleChart();
       } else this.createChart();
     }
@@ -414,21 +421,26 @@ export class RevenuechartComponent
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
       this.year = this.mySelectedYears[0];
     }
-    console.log('changesmultipleCharts', changes)
+    console.log("changesmultipleCharts", changes);
     if (changes.multipleCharts && changes.multipleCharts.currentValue) {
       this.multipleCharts = changes.multipleCharts.currentValue;
     }
 
-    console.log('multipleCharts', this.multipleCharts, 'firstChange', changes.multipleDoughnutCharts?.firstChange)
-    console.log('multipleDoughnutCharts Data', this.multipleDoughnutCharts);
-    console.log('lastMultipleCharts', this.lastMultipleCharts)
+    console.log(
+      "multipleCharts",
+      this.multipleCharts,
+      "firstChange",
+      changes.multipleDoughnutCharts?.firstChange
+    );
+    console.log("multipleDoughnutCharts Data", this.multipleDoughnutCharts);
+    console.log("lastMultipleCharts", this.lastMultipleCharts);
     if (!changes.multipleDoughnutCharts?.firstChange && this.multipleCharts) {
-      console.log('multipleDoughnutCharts called')
+      console.log("multipleDoughnutCharts called");
       if (this.lastMultipleCharts.length) {
         this.lastMultipleCharts.forEach((val) => val.destroy());
       }
       setTimeout(() => {
-        console.log('calledSetTimeout')
+        console.log("calledSetTimeout");
         this.createMultipleChart();
       }, 100);
     }
@@ -474,14 +486,17 @@ export class RevenuechartComponent
     console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     let id;
     let newChartData = {};
-    if (this.multipleDoughnutCharts && this.multipleDoughnutCharts?.length > 0) {
-      this.multiChartLabel = []
+    if (
+      this.multipleDoughnutCharts &&
+      this.multipleDoughnutCharts?.length > 0
+    ) {
+      this.multiChartLabel = [];
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
         newChartData = element;
         let colors = element.data.datasets[0].backgroundColor;
-     
+
         if (index == 0 && this.multiChartLabel.length == 0)
           element.data["labels"].forEach((elem, i) => {
             this.multiChartLabel.push({
@@ -604,13 +619,13 @@ export class RevenuechartComponent
      * and at the end we remove the display-none class
      */
     if (this.multipleCharts) {
-      id = 'multiChartId';
+      id = "multiChartId";
       hideHeaderAction = document.querySelectorAll('[id*="hideHeaderAction"]');
-      hideHeaderAction.forEach(item => {
-          item.classList.add('display-none')
+      hideHeaderAction.forEach((item) => {
+        item.classList.add("display-none");
       });
     }
-    
+
     let html = document.getElementById(id);
     html2canvas(html).then((canvas) => {
       let image = canvas
@@ -619,15 +634,14 @@ export class RevenuechartComponent
       // window.open(image)
       var link = document.createElement("a");
       link.href = image;
-      link.download = `Chart ${this.chartId ? this.chartId : ''}.png`;
+      link.download = `Chart ${this.chartId ? this.chartId : ""}.png`;
       link.click();
 
       if (this.multipleCharts && hideHeaderAction) {
-        hideHeaderAction.forEach(item => {
-          item.classList.remove('display-none')
-      });
-
-    }
+        hideHeaderAction.forEach((item) => {
+          item.classList.remove("display-none");
+        });
+      }
       this._loaderService.stopLoader();
     });
   }
@@ -679,7 +693,10 @@ export class RevenuechartComponent
             if (response["data"] && response["data"].length) {
               for (const data of response["data"]) {
                 // data["count"] = this.commonService.changeCountFormat(data?.sum);
-                data['count'] = this.commonService.changeCountFormat(data[tabType?.countAccessKey], tabType?.chartAnimation);
+                data["count"] = this.commonService.changeCountFormat(
+                  data[tabType?.countAccessKey],
+                  tabType?.chartAnimation
+                );
               }
               this.filterCityRankingChartData(
                 response["data"],
@@ -822,7 +839,6 @@ export class RevenuechartComponent
   }
 
   getScatterData() {
-    // debugger;
     let isPerCapita = (this.apiParamData.hasOwnProperty('isPerCapita') && (this.apiParamData?.isPerCapita != "")) ? JSON.parse(this.apiParamData?.isPerCapita) : false;
     this.multiChart = false;
     this._loaderService.showLoader();
@@ -843,7 +859,7 @@ export class RevenuechartComponent
         ? JSON.parse(this.apiParamData?.isPerCapita)
         : false,
       compareCategory: this.apiParamData?.compareCategory,
-      compareType: stateServiceLabel ? undefined : '',
+      compareType: stateServiceLabel ? undefined : "",
       ulb: this.apiParamData?.ulb,
       widgetMode: this.widgetMode,
     };

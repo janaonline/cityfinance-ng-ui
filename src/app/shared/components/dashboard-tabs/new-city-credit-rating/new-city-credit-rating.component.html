@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="mt-5 mb-5">
+    <div class="mt-5 mb-5" *ngIf="finalList.length > 0">
       <div class="rounded-top px-2 py-2" style="background-color: #e9ecf7">
         Credit Rating
       </div>
@@ -54,6 +54,18 @@
           </div>
         </div>
       </div>
+    </div>
+    <div
+      *ngIf="finalList.length == 0"
+      style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+    >
+      <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+      <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+        No Data Found for chosen options
+      </div>
+      <p style="color: #6e7281; font-size: 16px">
+        {{ notFoundMessage }}
+      </p>
     </div>
   </div>
 </div>

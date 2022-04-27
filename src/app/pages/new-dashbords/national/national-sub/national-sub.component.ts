@@ -178,7 +178,6 @@ export class NationalSubComponent implements OnInit {
   ];
   revnueData: any;
 
-  showLoader: boolean = false;
   revnueChartData: any;
   financialYearList: any = [];
   nationalDoughnutChart: any = [];
@@ -373,7 +372,6 @@ export class NationalSubComponent implements OnInit {
   // getActiveTab(value) {}
 
   destroyMultipleCharts() {
-    // debugger;
     for (const chartData of this.chartArray) {
       if (chartData?.chart) {
         chartData?.chart.destroy();
@@ -481,19 +479,19 @@ if(this.doughnutLabels.length)
     }
   }
   getNationalTableData(endPoint) {
-    this.showLoader = true;
+    this._loaderService.showLoader();
     try {
       this.nationalService
         .getNationalRevenueData(this.nationalInput, endPoint)
         .subscribe((res: any) => {
-          this.showLoader = false;
+          this._loaderService.stopLoader();
           this.tableData = res?.data;
           // this.dataAvailabilityvalue = res?.dataAvailability;
 
           this.creatBarChartData(this.selectedGraphValue);
         });
     } catch (err) {
-      this.showLoader = false;
+      this._loaderService.stopLoader();
     }
   }
 
@@ -635,7 +633,6 @@ if(this.doughnutLabels.length)
     }
     if (type == "ulbType") {
       this.popBtn = false;
-      // debugger;
       this.nationalInput.formType = "ulbType";
       this.RevenueMixInput.formType = "ulbType";
 
@@ -687,6 +684,8 @@ if(this.doughnutLabels.length)
         .slice(1)
         .split(/(?=[A-Z])/)
         .join(" ");
+
+    console.log({ newLabel });
     this.yAxesLabel = newLabel;
     if (this.chart) {
       this.chart.destroy();
@@ -697,21 +696,6 @@ if(this.doughnutLabels.length)
         data: {
           labels: this.barChartsLabels,
           datasets: finalObj,
-          // datasets: [
-          //   {
-          //     data: this.revnueChartData,
-          //     backgroundColor: "#456EDE",
-          //     borderWidth: 1,
-          //     barThickness: 40,
-          //   },
-          //   {
-          //     type: "line",
-          //     label: "Average",
-          //     data: [80, 80, 80, 80, 80, 80],
-          //     fill: false,
-          //     borderColor: "rgb(54, 162, 235)",
-          //   },
-          // ],
         },
         options: {
           legend: {

@@ -259,6 +259,19 @@ export class MapWithFilterComponent
   >
   </div>`;
   }
+
+  createMarker(options) {
+    let id = this.router.url.split("=")[1];
+    let newObject = options.filter((elem) => {
+      if (elem._id == id) {
+        return elem;
+      }
+    });
+    let marker = this.districtMarkerMap[newObject[0].code];
+
+    if (marker) marker.fireEvent("click");
+    console.log("newObject==>", marker, newObject);
+  }
   createDistrictMap(
     districtGeoJSON,
     options: {
@@ -277,6 +290,10 @@ export class MapWithFilterComponent
       return;
     }
     this.clearDistrictMapContainer();
+
+    setTimeout(() => {
+      this.createMarker(options.dataPoints);
+    }, 100);
 
     setTimeout(() => {
       let zoom;
@@ -307,6 +324,10 @@ export class MapWithFilterComponent
       this.districtMap = districtMap;
 
       this.districtList = {};
+      console.log("options", options.dataPoints);
+      // setTimeout(() => {
+      //   this.createMarker(options.dataPoints);
+      // }, 100);
       options.dataPoints.forEach((dataPoint: any) => {
         this.districtList[dataPoint.code] = dataPoint.name;
         const marker = this.createDistrictMarker({
@@ -322,6 +343,9 @@ export class MapWithFilterComponent
             city = this.stateUlbData.data[this.mapConfig.code.state].ulbs.find(
               (value) => {
                 console.log("innerValue", value);
+                this.router.navigateByUrl(
+                  `/dashboard/city?cityId=${value._id}`
+                );
                 return (
                   +value.location.lat === values["latlng"].lat &&
                   +value.location.lng === values["latlng"].lng
@@ -348,6 +372,7 @@ export class MapWithFilterComponent
   }
 
   districtOption(event) {
+    console.log("new event", { event });
     let district = JSON.parse(event.value);
     this.changeInStateOrCity.emit({ value: district, fromState: false });
     let marker = this.districtMarkerMap[district.key];

@@ -25,6 +25,7 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { NationalMapSectionService } from "./national-map-section.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
@@ -46,7 +47,9 @@ export class NationalMapSectionComponent
     private _ngZone: NgZone,
     private assetService: AssetsService,
     private router: Router,
-    private nationalMapService: NationalMapSectionService
+    private nationalMapService: NationalMapSectionService,
+
+    private _loaderService: GlobalLoaderService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
 
@@ -252,8 +255,11 @@ export class NationalMapSectionComponent
   }
   getNationalTableData() {
     this.showLoader = true;
+
+    this._loaderService.showLoader();
     this.nationalMapService.getNationalData(this.nationalInput).subscribe(
       (res: any) => {
+        this._loaderService.stopLoader();
         this.showLoader = false;
         this.tableData = res?.data;
         this.dataAvailabilityvalue = res?.dataAvailability;

@@ -163,39 +163,39 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12" *ngIf="!showLoader">
-        <div class="table-responsive table-con" *ngIf="tableData">
-          <table class="table">
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  *ngFor="let column of tableData?.columns"
-                  class="{{ column?.key }}"
-                >
-                  {{ column?.display_name }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of tableData?.rows">
-                <td
-                  *ngFor="let column of tableData?.columns"
-                  class="{{ column?.key }}"
-                >
-                  {{ row[column.key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div *ngIf="!tableData">
-          <h1>No Data Found</h1>
-        </div>
+      <!-- <div class="col-sm-12" *ngIf="!showLoader"> -->
+      <div class="table-responsive table-con" *ngIf="tableData">
+        <table class="table">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                *ngFor="let column of tableData?.columns"
+                class="{{ column?.key }}"
+              >
+                {{ column?.display_name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of tableData?.rows">
+              <td
+                *ngFor="let column of tableData?.columns"
+                class="{{ column?.key }}"
+              >
+                {{ row[column.key] }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div *ngIf="showLoader">
+      <div *ngIf="!tableData">
+        <h1>No Data Found</h1>
+      </div>
+      <!-- </div> -->
+      <!-- <div *ngIf="showLoader">
         <h1 class="text-center">Loading....</h1>
-      </div>
+      </div> -->
       <div class="col-12" *ngIf="currentStateId">
         <button
           *ngIf="!showLoader"
