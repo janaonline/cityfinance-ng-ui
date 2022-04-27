@@ -103,6 +103,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }]
     },
     legend: {
+      onClick: (e) => e.stopPropagation(),
       position: "bottom",
       labels: {
         padding: 35,
@@ -465,7 +466,6 @@ ULB ${this.selectedTab} for FY' ${
       }
       res.data = tempObj;
     }
-    // debugger;
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
     for (const key in res["data"]) {
@@ -539,9 +539,14 @@ ULB ${this.selectedTab} for FY' ${
     newlineDataset.data = [];
     for (const key in temp) {
       const element = temp[key];
-      if (newlineDataset.data.length == 0) newlineDataset.data = element.data;
+      if (newlineDataset.data.length == 0) newlineDataset.data = JSON.parse(JSON.stringify(element.data));
       newData.data.datasets.push(element);
     }
+    // for (let index = 1; index < newlineDataset.data.length; index++) {
+    //   const element = newlineDataset.data[index];
+    //   let inc = element - newlineDataset.data[index-1]
+    //   newlineDataset.data[index] = (inc/element)*100
+    // };
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.unshift(newlineDataset);
     this.barChart = newData;
@@ -749,7 +754,8 @@ ULB ${this.selectedTab} for FY' ${
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
+                var percentage = Math.round((currentValue / total) * 100);
+                // var percentage = ((currentValue / total) * 100).toFixed(2);
                 return percentage + "%" + data.labels[tooltipItem.index].text;
               },
             },

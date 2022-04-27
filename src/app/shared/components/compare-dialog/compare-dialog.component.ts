@@ -252,7 +252,6 @@ export class CompareDialogComponent implements OnInit {
       : this.selectedVal.setValue("Property Tax per Capita");
     this.stateChipList = [];
     this.ulbListChip = [];
-    debugger;
     this.filterList = this.filterList.map((value) => {
       value.checked = false;
       return value;
@@ -315,6 +314,10 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
+    // debugger;
+    if (this.ulbListChip.length == 3) {
+      this.searchField.setValue(null);
+    }
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });

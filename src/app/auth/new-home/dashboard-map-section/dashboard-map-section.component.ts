@@ -144,7 +144,12 @@ export class DashboardMapSectionComponent
   };
   date: any;
   districtMap: L.Map;
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
+  }
   ngOnInit(): void {
     this.clearDistrictMapContainer();
 
@@ -311,12 +316,13 @@ export class DashboardMapSectionComponent
   }
 
   clearDistrictMapContainer() {
-    // debugger;
     if (this.districtMap) {
       this.districtMap.off();
       this.districtMap.remove();
     }
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    // const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
+    // const height = `100%`;
     let element = document.getElementById("districtMapContainer");
     document.getElementById("districtMapContainer").innerHTML = `
       <div
@@ -342,7 +348,6 @@ export class DashboardMapSectionComponent
       }[];
     }
   ) {
-    // debugger;
     console.log("json", districtGeoJSON);
     if (this.districtMap) {
       return;
@@ -363,7 +368,8 @@ export class DashboardMapSectionComponent
         scrollWheelZoom: false,
         fadeAnimation: true,
         minZoom: zoom,
-        maxZoom: zoom + 3,
+        maxZoom: zoom + 2,
+        // maxZoom: zoom,
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
@@ -420,7 +426,7 @@ export class DashboardMapSectionComponent
     this.cityName = filterCity.name;
     this.stateDim = true;
     this.cid = filterCity._id;
-    console.log("cityId", this.cid); //CityId after selecting a city from dropdown
+    console.log("cityId", this.cid, filterCity, this.districtMarkerMap); //CityId after selecting a city from dropdown
     if (fireEvent) this.districtMarkerMap[filterCity.code].fireEvent("click");
     console.log("city name", city, filterCity);
     this.authService.getCityData(this.cid).subscribe((res) => {

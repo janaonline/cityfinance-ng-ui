@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";
@@ -22,7 +22,7 @@ import { Observable } from "rxjs";
 })
 export class MapWithFilterComponent
   extends ReUseableHeatMapComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   yearSelected = [];
   selectedState = "India";
@@ -175,7 +175,7 @@ export class MapWithFilterComponent
       this.onStateLayerClick(layerToAutoSelect);
     }
     // this.hideMapLegends();
-
+// debugger
     if (this.isMapOnMiniMapMode) {
       // this.hideMapLegends();
       this.showStateLayerOnlyFor(
@@ -246,15 +246,31 @@ export class MapWithFilterComponent
   }
 
   clearDistrictMapContainer() {
-    const height = this.mapConfig.stateBlockHeight;
+    // const height = this.mapConfig.stateBlockHeight;
+    // initially height = 23rem;
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
+    console.log('clearDistrictMapContainer Called', this.currentStateInView)
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
     class="col-sm-12"
     style="background-color: #f1f8ff; background-image: url('../../../../assets/Layer\ 1.png');
-    display: inline-block; width: 100%;height: 23rem;"
+    display: inline-block; width: 100%;height: ${height};"
   >
   </div>`;
+  }
+
+  createMarker(options) {
+    let id = this.router.url.split("=")[1];
+    let newObject = options.filter((elem) => {
+      if (elem._id == id) {
+        return elem;
+      }
+    });
+    let marker = this.districtMarkerMap[newObject[0].code];
+
+    if (marker) marker.fireEvent("click");
+    console.log("newObject==>", marker, newObject);
   }
   createDistrictMap(
     districtGeoJSON,
@@ -276,6 +292,10 @@ export class MapWithFilterComponent
     this.clearDistrictMapContainer();
 
     setTimeout(() => {
+      this.createMarker(options.dataPoints);
+    }, 100);
+
+    setTimeout(() => {
       let zoom;
       if (window.innerWidth > 1050) zoom = this.mapConfig.stateZoomOnMobile;
       else zoom = this.mapConfig.stateZoomOnWeb;
@@ -285,7 +305,7 @@ export class MapWithFilterComponent
         fadeAnimation: true,
         zoom,
         minZoom: zoom,
-        maxZoom: zoom + 5,
+        maxZoom: zoom + 2,
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
@@ -304,6 +324,10 @@ export class MapWithFilterComponent
       this.districtMap = districtMap;
 
       this.districtList = {};
+      console.log("options", options.dataPoints);
+      // setTimeout(() => {
+      //   this.createMarker(options.dataPoints);
+      // }, 100);
       options.dataPoints.forEach((dataPoint: any) => {
         this.districtList[dataPoint.code] = dataPoint.name;
         const marker = this.createDistrictMarker({
@@ -319,6 +343,9 @@ export class MapWithFilterComponent
             city = this.stateUlbData.data[this.mapConfig.code.state].ulbs.find(
               (value) => {
                 console.log("innerValue", value);
+                this.router.navigateByUrl(
+                  `/dashboard/city?cityId=${value._id}`
+                );
                 return (
                   +value.location.lat === values["latlng"].lat &&
                   +value.location.lng === values["latlng"].lng
@@ -334,6 +361,7 @@ export class MapWithFilterComponent
   }
 
   stateOption(event) {
+    console.log('stateOption(', event);
     this.changeInStateOrCity.emit({
       value: JSON.parse(event.target.value),
       fromState: true,
@@ -344,6 +372,7 @@ export class MapWithFilterComponent
   }
 
   districtOption(event) {
+    console.log("new event", { event });
     let district = JSON.parse(event.value);
     this.changeInStateOrCity.emit({ value: district, fromState: false });
     let marker = this.districtMarkerMap[district.key];
@@ -356,6 +385,13 @@ export class MapWithFilterComponent
   // selectCity(city) {
   //   console.log("city name", city);
   // }
+
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['nationalLevelMap', 'districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
+  }
 }
 
 const loaderStyle = {

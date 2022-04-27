@@ -25,6 +25,7 @@ import { IMapCreationConfig } from "src/app/util/map/models/mapCreationConfig";
 import { ICreditRatingData } from "src/app/models/creditRating/creditRatingResponse";
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { NationalMapSectionService } from "./national-map-section.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
@@ -46,7 +47,9 @@ export class NationalMapSectionComponent
     private _ngZone: NgZone,
     private assetService: AssetsService,
     private router: Router,
-    private nationalMapService: NationalMapSectionService
+    private nationalMapService: NationalMapSectionService,
+
+    private _loaderService: GlobalLoaderService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
 
@@ -169,7 +172,12 @@ export class NationalMapSectionComponent
     this.subFilterFn("popCat");
     this.createNationalMapJson();
   }
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
+  }
 
   createNationalMapJson() {
     const prmsArr = [];
@@ -247,8 +255,11 @@ export class NationalMapSectionComponent
   }
   getNationalTableData() {
     this.showLoader = true;
+
+    this._loaderService.showLoader();
     this.nationalMapService.getNationalData(this.nationalInput).subscribe(
       (res: any) => {
+        this._loaderService.stopLoader();
         this.showLoader = false;
         this.tableData = res?.data;
         this.dataAvailabilityvalue = res?.dataAvailability;
@@ -375,7 +386,9 @@ export class NationalMapSectionComponent
     console.warn("show legends hidden");
   }
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    // const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "530px";
+
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -421,12 +434,13 @@ export class NationalMapSectionComponent
         scrollWheelZoom: false,
         fadeAnimation: true,
         minZoom: zoom,
-        maxZoom: zoom + 5,
+        // maxZoom: zoom + 5,
+        maxZoom: zoom,
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
         doubleClickZoom: false,
-        dragging: false,
+        dragging: true,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
       // districtMap.touchZoom.disable();
@@ -588,6 +602,7 @@ export class NationalMapSectionComponent
 
   private higlightClickedState(stateLayer) {
     let currentUrl = window.location.pathname;
+    console.log('currentUrl', currentUrl)
     let obj: any = {
       containerPoint: {},
       latlng: {
@@ -603,7 +618,10 @@ export class NationalMapSectionComponent
     let color;
     let selectedCode = stateLayer?.feature?.properties?.ST_CODE;
 
-    if (this.colorCoding && currentUrl != "/home") {
+    const restrictedSelectedColorFromModule = ['/home', '/dashboard/state', '/dashboard/city', '/dashboard/slb']
+    // if (this.colorCoding && currentUrl != "/home") {
+    if ((this.colorCoding) && (!restrictedSelectedColorFromModule.includes(currentUrl))) {
+      console.log('restricted func called')
       this.colorCoding.forEach((elem) => {
         if (elem?.code == selectedCode) {
           color = this.getColor(elem?.percent);
