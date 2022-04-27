@@ -137,6 +137,7 @@
           [chartId]="'StateScatterChartId'"
           [chartData]="scatterData"
           [chartTitle]="''"
+          [isPerCapita] ="isPerCapita"
           (compareChange)="filterChangeInChart($event)"
           [nestedChartFilterOption]="nestedChartFilterOption"
           (actionClicked)="getClickedAction($event)"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { FeatureCollection, Geometry } from 'geojson';
@@ -19,7 +19,7 @@ import { IMapCreationConfig } from 'src/app/util/map/models/mapCreationConfig';
 })
 export class UlbLocationVisualizeComponent
   extends ReUseableHeatMapComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   yearSelected = [];
   constructor(
     protected _commonService: CommonService,
@@ -181,7 +181,8 @@ export class UlbLocationVisualizeComponent
         scrollWheelZoom: false,
         fadeAnimation: true,
         minZoom: zoom,
-        maxZoom: zoom + 5,
+        // maxZoom: zoom + 5,
+        maxZoom: zoom,
         zoomControl: true,
         keyboard: true,
         attributionControl: true,
@@ -217,5 +218,12 @@ export class UlbLocationVisualizeComponent
         );
       });
     }, 0.5);
+  }
+
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['nationalLevelMap', 'districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
   }
 }

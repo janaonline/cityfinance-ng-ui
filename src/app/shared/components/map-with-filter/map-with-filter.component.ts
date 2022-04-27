@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";
@@ -22,7 +22,7 @@ import { Observable } from "rxjs";
 })
 export class MapWithFilterComponent
   extends ReUseableHeatMapComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   yearSelected = [];
   selectedState = "India";
@@ -175,7 +175,7 @@ export class MapWithFilterComponent
       this.onStateLayerClick(layerToAutoSelect);
     }
     // this.hideMapLegends();
-
+// debugger
     if (this.isMapOnMiniMapMode) {
       // this.hideMapLegends();
       this.showStateLayerOnlyFor(
@@ -246,13 +246,16 @@ export class MapWithFilterComponent
   }
 
   clearDistrictMapContainer() {
-    const height = this.mapConfig.stateBlockHeight;
+    // const height = this.mapConfig.stateBlockHeight;
+    // initially height = 23rem;
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
+    console.log('clearDistrictMapContainer Called', this.currentStateInView)
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
     class="col-sm-12"
     style="background-color: #f1f8ff; background-image: url('../../../../assets/Layer\ 1.png');
-    display: inline-block; width: 100%;height: 23rem;"
+    display: inline-block; width: 100%;height: ${height};"
   >
   </div>`;
   }
@@ -302,7 +305,7 @@ export class MapWithFilterComponent
         fadeAnimation: true,
         zoom,
         minZoom: zoom,
-        maxZoom: zoom + 5,
+        maxZoom: zoom + 2,
         zoomControl: false,
         keyboard: true,
         attributionControl: true,
@@ -358,6 +361,7 @@ export class MapWithFilterComponent
   }
 
   stateOption(event) {
+    console.log('stateOption(', event);
     this.changeInStateOrCity.emit({
       value: JSON.parse(event.target.value),
       fromState: true,
@@ -381,6 +385,13 @@ export class MapWithFilterComponent
   // selectCity(city) {
   //   console.log("city name", city);
   // }
+
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['nationalLevelMap', 'districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
+  }
 }
 
 const loaderStyle = {

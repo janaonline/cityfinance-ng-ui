@@ -22,7 +22,7 @@
       >
     </div> -->
 
-    <div class="col-sm-12" id="districtMapContainer">
+    <div class="col-sm-12" id="districtMapContainer" [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }">
       <!-- <p class="text-center" *ngIf="currentStateInView">
       Click on any ULB to view their data or Click on INDIA map to go back.
     </p> -->
