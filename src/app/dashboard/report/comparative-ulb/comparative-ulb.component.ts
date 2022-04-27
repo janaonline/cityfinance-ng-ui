@@ -119,7 +119,7 @@ export class ComparativeUlbComponent implements OnInit {
             } else {
               this.report = this.reportHelper.getIEReportLookup();
             }
-
+            ;
             this.reqYear = this.reportReq.years[0];
             if (this.reportReq.ulbList.length > 1) {
               this.years = [];
@@ -238,6 +238,7 @@ export class ComparativeUlbComponent implements OnInit {
   }
 
   transformResult(result: IDetailedReportResponse["data"]) {
+    
     for (let i = 0; i < result.length; i++) {
       const item = result[i];
       if (this.report[item.code] && item.ulb_code && item.budget.length > 0) {
@@ -276,6 +277,7 @@ export class ComparativeUlbComponent implements OnInit {
       [key: string]: any;
     }[]
   ) {
+    
     let calcFields = [];
     if (
       this.reportReq.reportGroup == "Balance Sheet" &&
@@ -315,6 +317,10 @@ export class ComparativeUlbComponent implements OnInit {
           /** loop through each result line item and add values for specific year */
           if (addFields) {
             for (let k = 0; k < addFields.length; k++) {
+              console.log(addFields[k],years[j]["title"],
+                result[addFields[k]][years[j]["title"]]);
+              
+              
               if (
                 result[addFields[k]] &&
                 result[addFields[k]][years[j]["title"]]

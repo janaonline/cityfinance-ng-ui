@@ -372,7 +372,6 @@ export class NationalSubComponent implements OnInit {
   // getActiveTab(value) {}
 
   destroyMultipleCharts() {
-    // debugger;
     for (const chartData of this.chartArray) {
       if (chartData?.chart) {
         chartData?.chart.destroy();
@@ -634,7 +633,6 @@ if(this.doughnutLabels.length)
     }
     if (type == "ulbType") {
       this.popBtn = false;
-      // debugger;
       this.nationalInput.formType = "ulbType";
       this.RevenueMixInput.formType = "ulbType";
 
