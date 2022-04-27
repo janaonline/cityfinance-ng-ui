@@ -216,14 +216,16 @@ export class DashboardTabsComponent implements OnInit, OnChanges {
   }
 
   getStateName() {
+    console.log('getStateName', this.stateId)
     this.stateName = this.stateMap[this.stateId];
     return this.stateName;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
+    console.log("DashBoardTabs OnChanges", changes, 'DashBoardType', this.DashBoardType)
 
     if (changes.stateId) {
+      this.stateId = changes?.stateId?.currentValue;
       this.getStateName();
     }
     if (changes.mySelectedYears && changes.mySelectedYears.currentValue) {
