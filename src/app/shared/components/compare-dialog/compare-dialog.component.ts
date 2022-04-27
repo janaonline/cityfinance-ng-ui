@@ -315,16 +315,15 @@ export class CompareDialogComponent implements OnInit {
   }
 
   optionSelected(option) {
-    // debugger;
-    if (this.ulbListChip.length == 3) {
-      this.searchField.setValue(null);
-    }
     document.getElementsByName("radioBtn").forEach((value) => {
       value["checked"] = false;
     });
 
     if (!this.ulbListChip.find((value) => value.name === option.name)) {
-      if (this.ulbListChip.length == 3) return;
+      if (this.ulbListChip.length == 3) {
+        this.searchField.setValue(null);
+        return;
+      }
       this.ulbListChip.push(option);
     }
 

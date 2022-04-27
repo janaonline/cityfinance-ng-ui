@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";
@@ -175,7 +182,7 @@ export class MapWithFilterComponent
       this.onStateLayerClick(layerToAutoSelect);
     }
     // this.hideMapLegends();
-// debugger
+    // debugger
     if (this.isMapOnMiniMapMode) {
       // this.hideMapLegends();
       this.showStateLayerOnlyFor(
@@ -249,7 +256,7 @@ export class MapWithFilterComponent
     // const height = this.mapConfig.stateBlockHeight;
     // initially height = 23rem;
     const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
-    console.log('clearDistrictMapContainer Called', this.currentStateInView)
+    console.log("clearDistrictMapContainer Called", this.currentStateInView);
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -270,7 +277,6 @@ export class MapWithFilterComponent
     let marker = this.districtMarkerMap[newObject[0].code];
 
     if (marker) marker.fireEvent("click");
-    console.log("newObject==>", marker, newObject);
   }
   createDistrictMap(
     districtGeoJSON,
@@ -290,10 +296,6 @@ export class MapWithFilterComponent
       return;
     }
     this.clearDistrictMapContainer();
-
-    setTimeout(() => {
-      this.createMarker(options.dataPoints);
-    }, 100);
 
     setTimeout(() => {
       let zoom;
@@ -358,10 +360,14 @@ export class MapWithFilterComponent
         this.districtMarkerMap[dataPoint.code] = marker;
       });
     }, 0.5);
+
+    setTimeout(() => {
+      this.createMarker(options.dataPoints);
+    }, 100);
   }
 
   stateOption(event) {
-    console.log('stateOption(', event);
+    console.log("stateOption(", event);
     this.changeInStateOrCity.emit({
       value: JSON.parse(event.target.value),
       fromState: true,
