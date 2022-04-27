@@ -144,7 +144,12 @@ export class DashboardMapSectionComponent
   };
   date: any;
   districtMap: L.Map;
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
+  }
   ngOnInit(): void {
     this.clearDistrictMapContainer();
 
@@ -315,7 +320,9 @@ export class DashboardMapSectionComponent
       this.districtMap.off();
       this.districtMap.remove();
     }
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    // const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
+    // const height = `100%`;
     let element = document.getElementById("districtMapContainer");
     document.getElementById("districtMapContainer").innerHTML = `
       <div
@@ -361,7 +368,8 @@ export class DashboardMapSectionComponent
         scrollWheelZoom: false,
         fadeAnimation: true,
         minZoom: zoom,
-        maxZoom: zoom + 3,
+        maxZoom: zoom + 2,
+        // maxZoom: zoom,
         zoomControl: false,
         keyboard: true,
         attributionControl: true,

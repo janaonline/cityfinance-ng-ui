@@ -1,4 +1,4 @@
-import { Component, Input, NgZone, OnInit, Output } from "@angular/core";
+import { Component, Input, NgZone, OnDestroy, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -32,7 +32,7 @@ const districtJson = require("../../../../assets/jsonFile/state_boundries.json")
 })
 export class SlbDashboardComponent
   extends NationalHeatMapComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   constructor(
     protected _commonService: CommonService,
@@ -291,7 +291,12 @@ export class SlbDashboardComponent
   }
 
   clearDistrictMapContainer() {
-    const height = this.userUtil.isUserOnMobile() ? `100%` : "33rem";
+    // const height = this.userUtil.isUserOnMobile() ? `100%` : "33rem";
+    const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
+    console.log('selectedStateCode',this.selectedStateCode)
+    console.log('currentStateInView', this.currentStateInView)
+    // [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }"
+    // [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -335,12 +340,14 @@ export class SlbDashboardComponent
       const districtMap = L.map("districtMapId", {
         scrollWheelZoom: false,
         fadeAnimation: true,
-        minZoom: zoom,
-        maxZoom: zoom + 5,
+        // minZoom: zoom,
+        // maxZoom: zoom + 5,
+        minZoom: 6,
+        maxZoom: 6,
         zoomControl: true,
         keyboard: true,
         attributionControl: true,
-        doubleClickZoom: true,
+        doubleClickZoom: false,
         dragging: true,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
@@ -802,5 +809,12 @@ export class SlbDashboardComponent
         this._loaderService.stopLoader();
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    // let mapReferenceList = ['nationalLevelMap', 'districtMap'];
+    // for (const item of mapReferenceList) {
+    //   MapUtil.destroy(this[item]);
+    // };
   }
 }
