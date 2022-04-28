@@ -146,6 +146,32 @@
     </div> -->
     <app-basic *ngIf="show &&  !compare" ></app-basic>
     <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
+    <div>
+          <table style="width:100%;margin-bottom: 2%;">
+            <tr class="customTable">
+              <th style="padding: 4px;padding-left: 25px;font-size: 25px;background-color: rgb(226,226,226)">Download Report</th>
+              <th style="background-color: rgb(226,226,226)"></th>
+              <th style="background-color: rgb(226,226,226)"></th>
+              <th style="background-color: rgb(226,226,226)"></th>
+              <th style="background-color: rgb(226,226,226)"></th>
+              <th style="background-color: rgb(226,226,226)"></th>
+            </tr>
+            <tr style="width:100%;height:3px;border:none;"></tr>
+            <tr class="customTable" >
+              <td style="padding: 4px;padding-left: 25px;font-weight: 600;width: 35%;">Raw PDF</td>
+              <td (click)="openDialog()" *ngFor="let item of rawPdfData" [innerHtml]="item.imagePdf" style="padding: 4px;padding-left: 25px;font-size: 25px;">{{item.imagePdf}}</td>
+            </tr>
+            <tr style="width:100%;height:3px;border:none;"></tr>
+            <tr class="customTable">
+              <td style="padding: 4px;padding-left: 25px;font-weight: 600;width: 35%;">Standardised Excel</td>
+              <td (click)="openDialog()" *ngFor="let item of rawPdfData" [innerHtml]="item.imageExcel" style="padding: 4px;padding-left: 25px;font-size: 25px;">{{item.imageExcel}}</td>
+             
+            </tr>
+          </table>
+    </div>
+    <div>
+        <p style="opacity: 0.7;margin-bottom: 2%;">*PDF consists of final financial dataset as published by the ULB. Excel File contains standarized data from this raw PDF to enable comparison and analysis.</p>
+    </div>
     <!-- <div class="row">
       <div class="col-md-12">
         <app-shared-compare-table></app-shared-compare-table>

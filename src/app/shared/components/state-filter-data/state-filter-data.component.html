@@ -8,12 +8,12 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between">
-      <div *ngIf="!stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
+      <div *ngIf="!stateServiceLabel" class="col-sm-12 col-md-5 pl-1" style="margin-bottom: 20px;">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
-          style="margin-left: 2pc"
+          style="margin-left: 2pc;height: 40px;"
           class="btn deSelected my-2"
           [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >

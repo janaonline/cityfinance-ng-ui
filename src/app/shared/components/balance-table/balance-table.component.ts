@@ -22,6 +22,8 @@ import { AuthService } from "src/app/auth/auth.service";
 import { ExcelService } from "src/app/dashboard/report/excel.service";
 import { DialogComponent } from "../dialog/dialog.component";
 import { IDialogConfiguration } from "../dialog/models/dialogConfiguration";
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { BalanceTabledialogComponent } from "./balance-tabledialog/balance-tabledialog.component";
 
 export interface PeriodicElement {
   name: number;
@@ -195,6 +197,22 @@ export class BalanceTableComponent
       ],
     },
   ];
+  rawPdfData=[{
+    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
+  },{
+    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
+  },{
+    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
+  },{
+    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
+  },{
+    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
+  }]
   valueType = "absolute"
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
@@ -272,7 +290,15 @@ export class BalanceTableComponent
       this.show = true;
     });
   }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
+      width: '500px'
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
   createDataForBasicComp(fromBs, filters?) {
     // this.isLoading = true;
     if(!this.currentUlbFilterData)return

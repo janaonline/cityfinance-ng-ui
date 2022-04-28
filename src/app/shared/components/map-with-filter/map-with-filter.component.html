@@ -7,7 +7,7 @@
         (change)="stateOption($event)"
         *ngIf="stateList.length > 0"
         class="form-select customClassMobile"
-        aria-label="State"
+        aria-label="State" style="font-weight: 700;"
       >
         <option
           [selected]="mapConfig.code.state == item.ST_CODE"
