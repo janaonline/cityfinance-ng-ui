@@ -366,8 +366,29 @@ export class MapWithFilterComponent
     }, 100);
   }
 
+  reloadComponent(selectedStateId: any) {
+    let currentUrl = this.router.url;
+    console.log("currentUrl", currentUrl);
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = "reload";
+    let currentURL = `/dashboard/state?stateId=${selectedStateId}`;
+    // this.router.navigate([currentURL]);
+    this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
+  }
+
   stateOption(event) {
     console.log("stateOption(", event);
+
+    /**
+     * Reloading the component. uncomment the below code and call the reloadComponent() function
+     * and comment old code
+     */
+    // if (event) {
+    //   let selectedStateCode = JSON.parse(event.target.value).ST_CODE;
+    //   let selectedStateId = this.stateUlbData.data[selectedStateCode]._id
+    //   this.reloadComponent(selectedStateId);
+    // }
+
     this.changeInStateOrCity.emit({
       value: JSON.parse(event.target.value),
       fromState: true,
