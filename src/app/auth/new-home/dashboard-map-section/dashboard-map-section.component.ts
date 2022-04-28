@@ -640,8 +640,10 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
+    // debugger;
+    console.log({ stateName });
     const ulbList = [];
-    if (stateName) {
+    if (stateName && stateName != "India") {
       for (let i = 0; i < this.creditRatingList?.length; i++) {
         const ulb = this.creditRatingList[i];
 
@@ -692,6 +694,7 @@ export class DashboardMapSectionComponent
     }
     dataObject["ratings"][ratingValue] = dataObject["ratings"][ratingValue] + 1;
     dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
+    return dataObject;
   }
   private isMapAtNationalLevel() {
     return this.stateSelected ? false : true;

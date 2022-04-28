@@ -32,7 +32,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   chartId = `stateSCharts-${Math.random()}`;
   financialYear: string = "";
   stateName: string;
-  statesList: any;
+  statesList: any = JSON.parse(localStorage.getItem("stateIdsMap"));
   compareDialogType = 3;
   serviceTab;
   isPerCapita = false;
@@ -828,14 +828,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   createDynamicChartTitle(activeButton) {
-    this.statesList = localStorage.getItem("stateIdsMap")
-      ? JSON.parse(localStorage.getItem("stateIdsMap"))
-      : null;
-    if (this.statesList) {
-      this.stateName = this.statesList[this.stateId];
-    }
+    this.stateName = this.statesList[this.stateId];
 
-    console.log("824", { activeButton }, this.statesList, this.stateId);
     let dropDownValue;
     if (this.radioButtonValue) {
       dropDownValue = `and ${this.radioButtonValue}`;
@@ -979,9 +973,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.ulbArr = [];
-    this.statesList = localStorage.getItem("stateIdsMap")
-      ? JSON.parse(localStorage.getItem("stateIdsMap"))
-      : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId];
     }
