@@ -345,7 +345,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.createDynamicChartTitle(this.currentActiveTab);
   }
 
-  reset() {
+  reset(isReset: boolean = false) {
     this.ulbArr = [];
     this.checkBoxArray = [
       { value: "", title: "Select an Option", isDisabled: true },
@@ -365,14 +365,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.radioButtonValue = "";
     // this.getYears();
     this.financialYear = this.yearList[0];
-    this.getScatterData();
-    if (this.stateServiceLabel) {
-      this.selectedServiceLevelBenchmark = this.serviceTabList[0];
-      this.filterName = this.selectedServiceLevelBenchmark;
-      this.getServiceLevelBenchmarkBarChartData();
-    } else {
-      this.getStateRevenue();
+    if (isReset) {
+      this.getScatterData();
+      if (this.stateServiceLabel) {
+        this.selectedServiceLevelBenchmark = this.serviceTabList[0];
+        this.filterName = this.selectedServiceLevelBenchmark;
+        this.getServiceLevelBenchmarkBarChartData();
+      } else {
+        this.getStateRevenue();
+      }
     }
+
     this.createDynamicChartTitle(this.ActiveButton);
   }
 
@@ -845,6 +848,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   changeActiveBtn(i) {
+    this.reset();
     this.ulbArr = [];
     this.ulbId = "";
     this.compType = "";
@@ -925,6 +929,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
+      // this.reset();
       if (changes.stateServiceLabel) {
         this.stateFilterDataService.getYearListSLB().subscribe(
           (res) => {
@@ -1501,7 +1506,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this._loaderService.stopLoader();
             this.notfound = false;
             if (this.selectedRadioBtnValue == "populationAvg") {
-              this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+              this.scatterData =
+                this.stateFilterDataService.populationWiseScatterData(
+                  res["data"]
+                );
               // let scatterData =
               //   this.stateFilterDataService.populationWiseScatterData(
               //     res["data"]
@@ -1540,7 +1548,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   ? res["data"]["stateAvg"]
                   : this.stateAvgVal;
 
-              this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
+              this.scatterData = this.stateFilterDataService.plotScatterChart(
+                mCorporation,
+                tp_data,
+                m_data,
+                stateData,
+                nationalData,
+                this.selectedRadioBtnValue
+              );
               // let scatterData = this.stateFilterDataService.plotScatterChart(
               //   mCorporation,
               //   tp_data,

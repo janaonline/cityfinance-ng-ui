@@ -7,6 +7,7 @@
     <ul role="tablist" class="nav nav-pills" aria-label="Tabs">
       <li
         class="nav-item"
+        role="button"
         *ngFor="let item of data; let i = index"
         [ngClass]="{ 'li-w-e': item?.name == 'Deficit Or Surplus' }"
       >
