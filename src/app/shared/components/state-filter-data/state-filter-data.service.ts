@@ -570,6 +570,7 @@ getYearListSLB(){
       }
     });
     console.log('scatterChartData', scatterChartData)
-    return { ...JSON.parse(JSON.stringify(scatterChartData)) };
+    // return { ...JSON.parse(JSON.stringify(scatterChartData)) };
+    return Object.assign(scatterChartData);
   }
 }
