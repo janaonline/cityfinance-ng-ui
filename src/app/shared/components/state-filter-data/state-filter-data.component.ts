@@ -1465,7 +1465,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     const tabType = this.getTabType();
     this.multiChart = false;
     this._loaderService.showLoader();
-    let oldScatterData = Object.assign(this.scatterData);
+    // let oldScatterData = Object.assign(this.scatterData);
     this.initializeScatterData();
     let apiEndPoint = "state-dashboard-averages";
     // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
@@ -1501,17 +1501,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this._loaderService.stopLoader();
             this.notfound = false;
             if (this.selectedRadioBtnValue == "populationAvg") {
-              // this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
-              let scatterData =
-                this.stateFilterDataService.populationWiseScatterData(
-                  res["data"]
-                );
+              this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+              // let scatterData =
+              //   this.stateFilterDataService.populationWiseScatterData(
+              //     res["data"]
+              //   );
               // this.scatterData = {...this.scatterData, ...scatterData};
-              oldScatterData.data.datasets = [
-                ...oldScatterData.data.datasets,
-                ...scatterData.data.datasets,
-              ];
-              this.scatterData = { ...oldScatterData };
+              // oldScatterData.data.datasets = [
+              //   ...oldScatterData.data.datasets,
+              //   ...scatterData.data.datasets,
+              // ];
+              // this.scatterData = { ...oldScatterData };
               console.log(this.scatterData);
             } else {
               let mCorporation: any;
@@ -1540,20 +1540,20 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   ? res["data"]["stateAvg"]
                   : this.stateAvgVal;
 
-              // this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
-              let scatterData = this.stateFilterDataService.plotScatterChart(
-                mCorporation,
-                tp_data,
-                m_data,
-                stateData,
-                nationalData,
-                this.selectedRadioBtnValue
-              );
-              oldScatterData.data.datasets = [
-                ...oldScatterData.data.datasets,
-                ...scatterData.data.datasets,
-              ];
-              this.scatterData = { ...oldScatterData };
+              this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
+              // let scatterData = this.stateFilterDataService.plotScatterChart(
+              //   mCorporation,
+              //   tp_data,
+              //   m_data,
+              //   stateData,
+              //   nationalData,
+              //   this.selectedRadioBtnValue
+              // );
+              // oldScatterData.data.datasets = [
+              //   ...oldScatterData.data.datasets,
+              //   ...scatterData.data.datasets,
+              // ];
+              // this.scatterData = { ...oldScatterData };
               console.log(this.scatterData);
               this.generateRandomId("scatterChartId123");
             }
