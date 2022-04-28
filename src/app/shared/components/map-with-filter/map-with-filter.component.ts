@@ -182,7 +182,6 @@ export class MapWithFilterComponent
       this.onStateLayerClick(layerToAutoSelect);
     }
     // this.hideMapLegends();
-    // debugger
     if (this.isMapOnMiniMapMode) {
       // this.hideMapLegends();
       this.showStateLayerOnlyFor(
