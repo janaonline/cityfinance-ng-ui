@@ -426,8 +426,93 @@ export class StateFilterDataService {
     },
   };
 
-  constructor(
-    private http: HttpClient,
+  ulbTypeAvgScatterDataSet = [
+    {
+      label: "Municipal Corporation Average",
+      data: [],
+      rev: [],
+      labels:['Municipal Corporation Average'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#11BC46",
+      borderColor: "#11BC46",
+    },
+    {
+      label: "Municipality Average",
+      data: [],
+      rev: [],
+      labels:['Municipality Average'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#FF608B",
+      borderColor: "#FF608B",
+    },
+    {
+      label: "Town Panchayat Average",
+      data: [],
+      rev: [],
+      labels:['Town Panchayat Average'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#E57504",
+      borderColor: "#E57504",
+    },
+  ]
+
+  populationAvgScatterDataSet = [
+    {
+      label: "< 100 Thousand",
+      data: [],
+      rev: [],
+      labels:['< 100 Thousand'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#11BC46",
+      borderColor: "#11BC46",
+    },
+    {
+      label: "100 Thousand - 500 Thousand",
+      data: [],
+      rev: [],
+      labels:['100 Thousand - 500 Thousand'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#FF608B",
+      borderColor: "#FF608B",
+    },
+    {
+      label: "500 Thousand - 1 Million",
+      data: [],
+      rev: [],
+      labels:['500 Thousand - 1 Million'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#E57504",
+      borderColor: "#E57504",
+    },
+    {
+      label: "1 Million - 4 Million",
+      data: [],
+      rev: [],
+      labels:['1 Million - 4 Million'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#32CCFA",
+      borderColor: "#32CCFA",
+    },
+    {
+      label: "4 Million+",
+      data: [],
+      rev: [],
+      labels:['4 Million+'],
+      showLine: true,
+      fill: true,
+      backgroundColor:"#585FFF",
+      borderColor: "#585FFF",
+    },
+  ]
+
+  constructor(private http: HttpClient,
     private commonService: CommonService,
     private sanitizer: DomSanitizer
   ) {}
@@ -479,11 +564,13 @@ export class StateFilterDataService {
   }
 
   getAvgScatterdData(paramContent: any, apiEndPoint: string) {
-    let bodyParams: any;
-    bodyParams = this.commonService.getHttpClientParams(paramContent);
-    return this.http.get(environment.api.url + `${apiEndPoint}`, {
-      params: bodyParams,
-    });
+    // let bodyParams: any;
+    // bodyParams = this.commonService.getHttpClientParams(paramContent);
+    // return this.http.get(environment.api.url + `${apiEndPoint}`, {
+    //   params: bodyParams,
+    // });
+    return this.http.post(environment.api.url + `${apiEndPoint}`, paramContent);
+
   }
 
   handleError(error: any) {
@@ -497,6 +584,9 @@ export class StateFilterDataService {
       let colors: any = ["#1EBFC6", "#3E5DB1", "#F5B742", "red", "#11BC46"];
       let popCount: any = [];
       let popData = JSON.parse(JSON.stringify(this.scatterData));
+
+      // popData.data.datasets = [...popData.data.datasets, ...this.populationAvgScatterDataSet]
+
       popData.data.datasets = [];
 
       keys.forEach((element, index) => {
@@ -538,19 +628,11 @@ export class StateFilterDataService {
     }
   }
 
-  plotScatterChart(
-    municipalCorpData: any,
-    townPanchayatData: any,
-    municipalityData: any,
-    stateAvgData: any,
-    nationalAvgData: any,
-    selectedAvgValue: string = ""
-  ) {
-    let averageCountList = [
-      municipalCorpData,
-      townPanchayatData,
-      municipalityData,
-    ];
+  // plotScatterChart(municipalCorpData: any, townPanchayatData: any, municipalityData: any, stateAvgData: any, nationalAvgData: any, selectedAvgValue: string = '') {
+  plotScatterChart(scatterChartObj: any, selectedAvgValue: string = '') {
+    console.log('plotScatterChart', scatterChartObj, selectedAvgValue)
+    // let averageCountList = [scatterChartObj?.mCorporationAvg, scatterChartObj?.townPanchayatAvg, scatterChartObj?.municipalityAvg, scatterChartObj?.stateAvg];
+    let averageCountList = [scatterChartObj?.mCorporationAvg, scatterChartObj?.townPanchayatAvg, scatterChartObj?.municipalityAvg];
     let stateLevelMaxPopuCount = Math.max(...averageCountList);
     console.log("stateLevelMaxPopuCount", stateLevelMaxPopuCount);
     let scatterChartData: any = {};
@@ -558,83 +640,157 @@ export class StateFilterDataService {
 
     if (selectedAvgValue == "nationalAvg") {
       scatterChartData.data.datasets.push(this.nationLevelScatterDataSet);
+    } else if (selectedAvgValue == 'populationAvg') {
+      scatterChartData.data.datasets = [...scatterChartData.data.datasets, ...this.populationAvgScatterDataSet];
+    } else {
+      scatterChartData.data.datasets = [...scatterChartData.data.datasets, ...this.ulbTypeAvgScatterDataSet];
     }
-
+    
+    console.log('scatterChartData', scatterChartData.data.datasets)
     scatterChartData.data.datasets.forEach((el) => {
       console.log("element===>", el);
       let obj = { x: 0, y: 0 };
       if (el.label == "Town Panchayat") {
-        el.showLine = true;
+        el.showLine = false;
         el.fill = false;
-        el["rev"].push(townPanchayatData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = townPanchayatData;
-          el["data"].push(el2);
+        // el["rev"].push(townPanchayatData);
+        // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+        // defaultDataSet.forEach(el2=>{
+        //   el2['y'] = townPanchayatData;
+        //   el["data"].push(el2);
+        // });
+        obj = { x: 0, y: 0 };
+        scatterChartObj?.townPanchayat.forEach((el2, index) => {
+          obj.x = el2.population;
+          obj.y = el2.amount;
+          el["labels"].push(el2.ulbName);
+          el["rev"].push(el2.amount);
+          el.data.push(obj);
+          obj = { x: 0, y: 0 };
         });
       } else if (el.label == "Municipal Corporation") {
-        el.showLine = true;
+        el.showLine = false;
         el.fill = false;
-        el["rev"].push(municipalCorpData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = municipalCorpData;
-          el["data"].push(el2);
+        // el["rev"].push(municipalCorpData);
+        // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+        // defaultDataSet.forEach(el2=>{
+        //   el2['y'] = municipalCorpData
+        //   el["data"].push(el2)
+        // });
+        scatterChartObj?.mCorporation.forEach((el2, index) => {
+          obj.x = el2.population;
+          obj.y = el2.amount;
+          el["labels"].push(el2.ulbName);
+          el["rev"].push(el2.amount);
+          el.data.push(obj);
+
+          obj = { x: 0, y: 0 };
         });
       } else if (el.label == "Municipality") {
-        el.showLine = true;
+        el.showLine = false;
         el.fill = false;
-        el["rev"].push(municipalityData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = municipalityData;
+        // el["rev"].push(municipalityData);
+        // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
+        // defaultDataSet.forEach(el2=>{
+        //   el2['y'] = municipalityData
+        //   el["data"].push(el2)
+        // });
+        scatterChartObj?.municipality.forEach((el2, index) => {
+          obj = { x: 0, y: 0 };
+          obj.x = el2.population;
+          obj.y = el2.amount;
+          el["labels"].push(el2.ulbName);
+          el["rev"].push(el2.amount);
+          el.data.push(obj);
+          obj = { x: 0, y: 0 };
+        });
+      } else if (el.label == "State Average") {
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.stateAvg);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2=>{
+          el2['y'] = scatterChartObj?.stateAvg;
           el["data"].push(el2);
         });
       } else if (el.label == "National Average") {
         el.showLine = true;
         el.fill = false;
-        el["rev"].push(nationalAvgData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = nationalAvgData;
+        el["rev"].push(scatterChartObj?.nationalAvgData);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.nationalAvgData;
           el["data"].push(el2);
         });
-      } else if (el.label == "State Average") {
+      } else if (el.label == "Municipal Corporation Average") {
+        el.showLine = true;
         el.fill = false;
-        el["rev"].push(stateAvgData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = stateAvgData;
+        el["rev"].push(scatterChartObj?.mCorporationAvg);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.mCorporationAvg;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "Municipality Average") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.municipalityAvg);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.municipalityAvg;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "Town Panchayat Average") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.townPanchayatAvg);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.townPanchayatAvg;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "< 100 Thousand") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.lessThan100k);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.lessThan100k;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "100 Thousand - 500 Thousand") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.bwt100kTo500k);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.bwt100kTo500k;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "500 Thousand - 1 Million") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.bwt500kTo1m);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.bwt500kTo1m;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "1 Million - 4 Million") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.bwt1mTo4m);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.bwt1mTo4m;
+          el["data"].push(el2);
+        });
+      } else if (el.label == "4 Million+") {
+        el.showLine = true;
+        el.fill = false;
+        el["rev"].push(scatterChartObj?.greaterThan4m);
+        let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
+        defaultDataSet.forEach(el2 => {
+          el2['y'] = scatterChartObj?.greaterThan4m;
           el["data"].push(el2);
         });
       }
@@ -643,4 +799,36 @@ export class StateFilterDataService {
     // return { ...JSON.parse(JSON.stringify(scatterChartData)) };
     return Object.assign(scatterChartData);
   }
+
+    /**
+   * It takes in three arrays of objects, each with a property called population, and returns the maximum
+   * value of the population property across all three arrays.
+   * @param {any} mCorporation - [{population: 100}, {population: 200}]
+   * @param {any} townPanchayat - [{
+   * @param {any} municipality - [{
+   * @returns getMaximumPopulationCount(mCorporation: any, townPanchayat: any, municipality: any ) {
+   *     let populationCountList = [];
+   *     populationCountList = mCorporation.map(popCount => popCount.population)
+   *     populationCountList = [...populationCountList, ...townPanchayat
+   */
+     getMaximumPopulationCount(
+      mCorporation: any,
+      townPanchayat: any,
+      municipality: any
+    ) {
+      let populationCountList = [];
+  
+      populationCountList = mCorporation.map((popCount) => popCount.population);
+      populationCountList = [
+        ...populationCountList,
+        ...townPanchayat.map((popCount) => popCount.population),
+      ];
+      populationCountList = [
+        ...populationCountList,
+        ...municipality.map((popCount) => popCount.population),
+      ];
+  
+      let maxPopulationCount = Math.max(...populationCountList);
+      return maxPopulationCount;
+    }
 }
