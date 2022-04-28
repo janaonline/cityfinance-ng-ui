@@ -25,7 +25,8 @@
         class="col-sm-12"
         id="districtMapContainer"
         [ngStyle]="{ visibility: currentStateInView ? 'visible' : 'hidden' }"
-        style="height: 100%;">
+        style="height: 100%"
+      >
         <!-- <p class="text-center" *ngIf="currentStateInView">
       Click on any ULB to view their data or Click on INDIA map to go back.
     </p> -->
@@ -249,9 +250,7 @@
             </div>
             <div *ngIf="!stateDim" class="num-text my-1">
               Municipal Bond Issuances Of Rs.
-              {{
-                bondIssueAmount | inrCurrency: { currencyTypeInUser: null }
-              }}
+              {{ bondIssueAmount | inrCurrency: { currencyTypeInUser: null } }}
               Cr With Details
             </div>
           </div>
