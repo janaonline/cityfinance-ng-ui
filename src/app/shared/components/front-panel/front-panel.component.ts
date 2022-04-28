@@ -115,6 +115,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   }
 
   changeInMapFilter(event) {
+    console.log('changeInMapFilter', event);
     this.getAvailableData();
     this.changeInStateOrCity.emit(event);
   }
