@@ -485,7 +485,7 @@ export class CommonService {
     [key: string]: any;
   }) {
     return this.http
-      .post<IULBWithPopulationResponse>(`${environment.api.url}/ulb-list`, body)
+      .post<IULBWithPopulationResponse>(`${environment.api.url}ulb-list`, body)
       .pipe(
         map((res) => {
           res.data = res.data.sort((ulbA, ulbB) =>
