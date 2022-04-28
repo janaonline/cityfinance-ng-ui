@@ -653,7 +653,6 @@ export class StateFilterDataService {
       if (el.label == "Town Panchayat") {
         el.showLine = false;
         el.fill = false;
-<<<<<<< HEAD
         // el["rev"].push(townPanchayatData);
         // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
         // defaultDataSet.forEach(el2=>{
@@ -668,24 +667,10 @@ export class StateFilterDataService {
           el["rev"].push(el2.amount);
           el.data.push(obj);
           obj = { x: 0, y: 0 };
-=======
-        el["rev"].push(townPanchayatData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = townPanchayatData;
-          el["data"].push(el2);
->>>>>>> 37e0e976813af2968107e77e7570f658e7e52da6
         });
       } else if (el.label == "Municipal Corporation") {
         el.showLine = false;
         el.fill = false;
-<<<<<<< HEAD
         // el["rev"].push(municipalCorpData);
         // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
         // defaultDataSet.forEach(el2=>{
@@ -700,24 +685,10 @@ export class StateFilterDataService {
           el.data.push(obj);
 
           obj = { x: 0, y: 0 };
-=======
-        el["rev"].push(municipalCorpData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = municipalCorpData;
-          el["data"].push(el2);
->>>>>>> 37e0e976813af2968107e77e7570f658e7e52da6
         });
       } else if (el.label == "Municipality") {
         el.showLine = false;
         el.fill = false;
-<<<<<<< HEAD
         // el["rev"].push(municipalityData);
         // let defaultDataSet = [{ x: 0, y: 0 }, { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000, y: 0 }];
         // defaultDataSet.forEach(el2=>{
@@ -739,46 +710,20 @@ export class StateFilterDataService {
         let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
         defaultDataSet.forEach(el2=>{
           el2['y'] = scatterChartObj?.stateAvg;
-=======
-        el["rev"].push(municipalityData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = municipalityData;
->>>>>>> 37e0e976813af2968107e77e7570f658e7e52da6
           el["data"].push(el2);
         });
       } else if (el.label == "National Average") {
         el.showLine = true;
         el.fill = false;
-<<<<<<< HEAD
         el["rev"].push(scatterChartObj?.nationalAvgData);
         let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
         defaultDataSet.forEach(el2 => {
           el2['y'] = scatterChartObj?.nationalAvgData;
-=======
-        el["rev"].push(nationalAvgData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = nationalAvgData;
->>>>>>> 37e0e976813af2968107e77e7570f658e7e52da6
           el["data"].push(el2);
         });
       } else if (el.label == "Municipal Corporation Average") {
         el.showLine = true;
         el.fill = false;
-<<<<<<< HEAD
         el["rev"].push(scatterChartObj?.mCorporationAvg);
         let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
         defaultDataSet.forEach(el2 => {
@@ -846,18 +791,6 @@ export class StateFilterDataService {
         let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
         defaultDataSet.forEach(el2 => {
           el2['y'] = scatterChartObj?.greaterThan4m;
-=======
-        el["rev"].push(stateAvgData);
-        let defaultDataSet = [
-          { x: 0, y: 0 },
-          {
-            x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,
-            y: 0,
-          },
-        ];
-        defaultDataSet.forEach((el2) => {
-          el2["y"] = stateAvgData;
->>>>>>> 37e0e976813af2968107e77e7570f658e7e52da6
           el["data"].push(el2);
         });
       }
