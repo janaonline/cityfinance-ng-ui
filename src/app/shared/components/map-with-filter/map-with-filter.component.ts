@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";
@@ -175,7 +182,6 @@ export class MapWithFilterComponent
       this.onStateLayerClick(layerToAutoSelect);
     }
     // this.hideMapLegends();
-// debugger
     if (this.isMapOnMiniMapMode) {
       // this.hideMapLegends();
       this.showStateLayerOnlyFor(
@@ -249,7 +255,7 @@ export class MapWithFilterComponent
     // const height = this.mapConfig.stateBlockHeight;
     // initially height = 23rem;
     const height = this.userUtil.isUserOnMobile() ? `100%` : "inherit";
-    console.log('clearDistrictMapContainer Called', this.currentStateInView)
+    console.log("clearDistrictMapContainer Called", this.currentStateInView);
     document.getElementById("districtMapContainer").innerHTML = `
       <div
     id="districtMapId"
@@ -270,7 +276,6 @@ export class MapWithFilterComponent
     let marker = this.districtMarkerMap[newObject[0].code];
 
     if (marker) marker.fireEvent("click");
-    console.log("newObject==>", marker, newObject);
   }
   createDistrictMap(
     districtGeoJSON,
@@ -290,10 +295,6 @@ export class MapWithFilterComponent
       return;
     }
     this.clearDistrictMapContainer();
-
-    setTimeout(() => {
-      this.createMarker(options.dataPoints);
-    }, 100);
 
     setTimeout(() => {
       let zoom;
@@ -358,20 +359,24 @@ export class MapWithFilterComponent
         this.districtMarkerMap[dataPoint.code] = marker;
       });
     }, 0.5);
+
+    setTimeout(() => {
+      this.createMarker(options.dataPoints);
+    }, 100);
   }
 
   reloadComponent(selectedStateId: any) {
     let currentUrl = this.router.url;
-    console.log('currentUrl', currentUrl)
+    console.log("currentUrl", currentUrl);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
+    this.router.onSameUrlNavigation = "reload";
     let currentURL = `/dashboard/state?stateId=${selectedStateId}`;
     // this.router.navigate([currentURL]);
     this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
   }
 
   stateOption(event) {
-    console.log('stateOption(', event);
+    console.log("stateOption(", event);
 
     /**
      * Reloading the component. uncomment the below code and call the reloadComponent() function

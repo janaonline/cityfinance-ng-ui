@@ -32,12 +32,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   chartId = `stateSCharts-${Math.random()}`;
   financialYear: string = "";
   stateName: string;
-  statesList: any;
+  statesList: any = JSON.parse(localStorage.getItem("stateIdsMap"));
   compareDialogType = 3;
   serviceTab;
   isPerCapita = false;
 
   serviceTabList: any = [];
+
+  mainChartTitle: string = "";
 
   @Input() data;
 
@@ -272,6 +274,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     showFinancialYear: false,
     showResetButton: false,
   };
+
+  currentActiveTab: string = "";
   @Input() selectedStateId: any;
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -323,11 +327,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
   }
 
+  radioButtonValue: string = "";
   selectedRadioBtnValue: any;
   getCheckBoxValue(event: any) {
     console.log("checked Value", event);
     if (event && event.target && event.target.value) {
       this.selectedRadioBtnValue = event.target.value;
+      this.radioButtonValue = event.target.value;
       // for (const item of this.checkBoxArray) {
       //   if (item.value != event.target.value) {
       //     item["isDisabled"] = true;
@@ -336,9 +342,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       // this.getScatterData();
       this.getAverageScatterData();
     }
+    this.createDynamicChartTitle(this.currentActiveTab);
   }
 
-  reset() {
+  reset(isReset: boolean = false) {
     this.ulbArr = [];
     this.checkBoxArray = [
       { value: "", title: "Select an Option", isDisabled: true },
@@ -355,16 +362,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.filteredOptions = emptyArr;
     this.ulbId = "";
     this.selectedRadioBtnValue = "";
+    this.radioButtonValue = "";
     // this.getYears();
     this.financialYear = this.yearList[0];
-    this.getScatterData();
-    if (this.stateServiceLabel) {
-      this.selectedServiceLevelBenchmark = this.serviceTabList[0];
-      this.filterName = this.selectedServiceLevelBenchmark;
-      this.getServiceLevelBenchmarkBarChartData();
-    } else {
-      this.getStateRevenue();
+    if (isReset) {
+      this.getScatterData();
+      if (this.stateServiceLabel) {
+        this.selectedServiceLevelBenchmark = this.serviceTabList[0];
+        this.filterName = this.selectedServiceLevelBenchmark;
+        this.getServiceLevelBenchmarkBarChartData();
+      } else {
+        this.getStateRevenue();
+      }
     }
+
+    this.createDynamicChartTitle(this.ActiveButton);
   }
 
   yearList: any;
@@ -783,13 +795,30 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     if (e) this.getScatterData();
   }
 
+  createDynamicChartTitle(activeButton) {
+    this.stateName = this.statesList[this.stateId];
+
+    let dropDownValue;
+    if (this.radioButtonValue) {
+      dropDownValue = `and ${this.radioButtonValue}`;
+    } else {
+      dropDownValue = "";
+    }
+    if (this.stateName && activeButton) {
+      this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
+    }
+  }
+
   changeActiveBtn(i) {
+    this.reset();
     this.ulbArr = [];
     this.ulbId = "";
     this.compType = "";
     this.nationalFilter.patchValue("");
     console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
     this.ActiveButton = this.data.btnLabels[i];
+    this.currentActiveTab = this.data.btnLabels[i];
+    this.createDynamicChartTitle(this.currentActiveTab);
     this.lastSelectedId = i;
 
     this.isPerCapita = this.data.btnLabels[i]
@@ -824,12 +853,24 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("stateFilterDataChanges", changes, this.data);
-    if (changes && changes.selectedStateId && changes.selectedStateId.currentValue && !changes?.selectedStateId?.firstChange) {
-      console.log('selectedStateId', changes.selectedStateId.currentValue)
-      this.stateId = '';
-      this.stateId = JSON.parse(JSON.stringify(changes.selectedStateId.currentValue));
-      console.log('updatedStateId', this.stateId)
+    console.log(
+      "stateFilterDataChanges",
+      changes,
+      this.data,
+      this.stateServiceLabel
+    );
+    if (
+      changes &&
+      changes.selectedStateId &&
+      changes.selectedStateId.currentValue &&
+      !changes?.selectedStateId?.firstChange
+    ) {
+      console.log("selectedStateId", changes.selectedStateId.currentValue);
+      this.stateId = "";
+      this.stateId = JSON.parse(
+        JSON.stringify(changes.selectedStateId.currentValue)
+      );
+      console.log("updatedStateId", this.stateId);
       this.getScatterData();
       if (this.stateServiceLabel) {
         this.getServiceLevelBenchmarkBarChartData();
@@ -850,6 +891,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
+      // this.reset();
       if (changes.stateServiceLabel) {
         this.stateFilterDataService.getYearListSLB().subscribe(
           (res) => {
@@ -862,6 +904,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       }
 
       console.log("this.data.filterName", this.data.filterName);
+      this.currentActiveTab = this.data.filterName;
+      this.createDynamicChartTitle(this.currentActiveTab);
       if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
         this.stateServiceLabel = true;
@@ -897,9 +941,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.ulbArr = [];
-    this.statesList = localStorage.getItem("stateIdsMap")
-      ? JSON.parse(localStorage.getItem("stateIdsMap"))
-      : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId];
     }
