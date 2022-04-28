@@ -431,12 +431,12 @@ export class NationalSubComponent implements OnInit {
             this.multipleDoughnutChartLabel = [];
             this.createDoughnutChartOptions(res?.data);
             this.doughnutLabels = res?.data?.colourArray;
-if(this.doughnutLabels.length)
-            this.doughnutLabels.forEach((elem, i) => {
-              this.colorArray.push(elem?.colour);
-              this.nationalDoughnutChartLabel.push(elem?.lineitem);
-              this.multipleDoughnutChartLabel.push(elem?.lineitem);
-            });
+            if (this.doughnutLabels.length)
+              this.doughnutLabels.forEach((elem, i) => {
+                this.colorArray.push(elem?.colour);
+                this.nationalDoughnutChartLabel.push(elem?.lineitem);
+                this.multipleDoughnutChartLabel.push(elem?.lineitem);
+              });
             this.nationalDoughnutChart = Object.values(res?.data?.national);
             this.doughnutChartInit();
             if (revenueMixInput.formType == "populationCategory") {
@@ -478,12 +478,16 @@ if(this.doughnutLabels.length)
       this._loaderService.stopLoader();
     }
   }
+
+  tableLoader: boolean = false;
   getNationalTableData(endPoint) {
+    this.tableLoader = true;
     this._loaderService.showLoader();
     try {
       this.nationalService
         .getNationalRevenueData(this.nationalInput, endPoint)
         .subscribe((res: any) => {
+          this.tableLoader = false;
           this._loaderService.stopLoader();
           this.tableData = res?.data;
           // this.dataAvailabilityvalue = res?.dataAvailability;
@@ -491,6 +495,7 @@ if(this.doughnutLabels.length)
           this.creatBarChartData(this.selectedGraphValue);
         });
     } catch (err) {
+      this.tableLoader = false;
       this._loaderService.stopLoader();
     }
   }

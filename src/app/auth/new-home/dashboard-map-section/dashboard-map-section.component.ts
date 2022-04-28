@@ -471,7 +471,7 @@ export class DashboardMapSectionComponent
       });
     this.selected_state = state ? state?.name : "India";
     /* Updating the dropdown state selection. */
-    this.showCreditInfoByState("");
+    this.showCreditInfoByState(this.selected_state);
     if (state._id == null) this.updateDropdownStateSelection(state);
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       const element = document.getElementById(this.createdDomMinId);
@@ -640,8 +640,10 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
+    // debugger;
+    console.log({ stateName });
     const ulbList = [];
-    if (stateName) {
+    if (stateName && stateName != "India") {
       for (let i = 0; i < this.creditRatingList?.length; i++) {
         const ulb = this.creditRatingList[i];
 
@@ -678,13 +680,21 @@ export class DashboardMapSectionComponent
 
     this.absCreditInfo["title"] = stateName || "India";
     this.absCreditInfo["ulbs"] = ulbList;
+
+    console.log(
+      "this.creditRatingAboveA",
+      this.creditRatingAboveA,
+      this.creditRatingAboveBBB_Minus
+    );
   }
+
   calculateRatings(dataObject, ratingValue) {
     if (!dataObject["ratings"][ratingValue]) {
       dataObject["ratings"][ratingValue] = 0;
     }
     dataObject["ratings"][ratingValue] = dataObject["ratings"][ratingValue] + 1;
     dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
+    return dataObject;
   }
   private isMapAtNationalLevel() {
     return this.stateSelected ? false : true;

@@ -47,6 +47,7 @@ export class StateComponent implements OnInit {
   dashboardTabData;
   date;
   percentValue;
+  moneyYear: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log("windowScroll===>", window.pageYOffset);
@@ -68,9 +69,10 @@ export class StateComponent implements OnInit {
     this.authService.getLastUpdated().subscribe((res) => {
       this.date = res["data"];
       data.year = res["year"];
+      this.moneyYear = res["year"];
       data.date = this.date;
+      this.dashBoardData(this.stateId, this.moneyYear);
     });
-    this.dashBoardData(this.stateId);
   }
   yearVal;
   setYear(year) {
@@ -78,10 +80,10 @@ export class StateComponent implements OnInit {
     console.log("this.yearVal", year);
   }
 
-  dashBoardData(stateId) {
+  dashBoardData(stateId, year) {
     //bringing people info in front panel
     this.newDashboardService
-      .dashboardInformation(true, stateId, "state", "2019-20")
+      .dashboardInformation(true, stateId, "state", year)
       .subscribe(
         (res: any) => {
           this.frontPanelData.dataIndicators.map((item) => {
@@ -133,7 +135,7 @@ export class StateComponent implements OnInit {
       );
     //bringing cards data on front panel
     this.newDashboardService
-      .dashboardInformation(false, stateId, "state", "2019-20")
+      .dashboardInformation(false, stateId, "state", data?.year)
       .subscribe(
         (res: any) => {
           let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
@@ -168,12 +170,17 @@ export class StateComponent implements OnInit {
     this.percentValue = data?.data?.percent;
   }
   changeInDropDown(event) {
-    console.log('StateChangeInDropDown(', event, 'stateUlbData', this.stateUlbData)
+    console.log(
+      "StateChangeInDropDown(",
+      event,
+      "stateUlbData",
+      this.stateUlbData
+    );
     if (event.fromState) {
       this.stateCode = event.value.ST_CODE;
       this.stateId = this.stateUlbData.data[this.stateCode]._id;
       this.mapData.code.state = this.stateCode;
-      this.dashBoardData(this.stateId);
+      this.dashBoardData(this.stateId, this.moneyYear);
     } else if (this.stateCode) {
       let cityId = this.stateUlbData.data[this.stateCode].ulbs.find(
         (value) => value.code === event.value.key

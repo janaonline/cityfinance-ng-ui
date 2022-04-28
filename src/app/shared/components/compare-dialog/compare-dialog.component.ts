@@ -135,7 +135,7 @@ export class CompareDialogComponent implements OnInit {
   }
 
   yearsList: { id: string; itemName: string }[] = [
-     { id: "2020-21", itemName: "2020-21" },
+    { id: "2020-21", itemName: "2020-21" },
     { id: "2019-20", itemName: "2019-20" },
     { id: "2018-19", itemName: "2018-19" },
     { id: "2017-18", itemName: "2017-18" },
@@ -323,7 +323,10 @@ export class CompareDialogComponent implements OnInit {
     });
 
     if (!this.ulbListChip.find((value) => value.name === option.name)) {
-      if (this.ulbListChip.length == 3) return;
+      if (this.ulbListChip.length == 3) {
+        this.searchField.setValue(null);
+        return;
+      }
       this.ulbListChip.push(option);
     }
 

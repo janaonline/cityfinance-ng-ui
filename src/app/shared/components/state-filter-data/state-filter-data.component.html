@@ -20,10 +20,17 @@
           {{ item }}
         </button>
       </div>
-<!-- list of dropdown for slb in state dashboard -->
+      <!-- list of dropdown for slb in state dashboard -->
       <div *ngIf="stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
-        <select class="form-select text-capitalize" (change)="getServiceLevelBenchmark($event)">
-          <option *ngFor="let item of serviceTabList" [value]="item" [selected]="item == selectedServiceLevelBenchmark">
+        <select
+          class="form-select text-capitalize"
+          (change)="getServiceLevelBenchmark($event)"
+        >
+          <option
+            *ngFor="let item of serviceTabList"
+            [value]="item"
+            [selected]="item == selectedServiceLevelBenchmark"
+          >
             {{ item }}
           </option>
         </select>
@@ -54,11 +61,28 @@
       <div class="col-sm-12 col-md-5 pd-s mb-3">
         <div class="d-flex justify-content-between">
           <div></div>
-          <div class="d-flex" >
-            <div *ngIf="!stateServiceLabel" class="mr-1" [matTooltip]="'Select an option to view average data'">
-              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)">
-                <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
-                <option *ngFor="let item of checkBoxArray" [value]="item?.value">
+          <div class="d-flex">
+            <div
+              *ngIf="!stateServiceLabel"
+              class="mr-1"
+              [matTooltip]="'Select an option to view average data'"
+            >
+              <select
+                class="form-select text-capitalize"
+                (change)="getCheckBoxValue($event)"
+              >
+                <option
+                  value="none"
+                  selected
+                  hidden
+                  [disabled]="item?.isDisabled"
+                >
+                  Select an Option
+                </option>
+                <option
+                  *ngFor="let item of checkBoxArray"
+                  [value]="item?.value"
+                >
                   {{ item?.title }}
                 </option>
               </select>
@@ -70,8 +94,12 @@
                 aria-label="Default select"
                 (change)="getSelectedFinancialYear($event)"
               >
-                <option *ngFor="let year of yearList" [value]="year" [selected]="year == financialYear">
-                  {{ year}}
+                <option
+                  *ngFor="let year of yearList"
+                  [value]="year"
+                  [selected]="year == financialYear"
+                >
+                  {{ year }}
                 </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
               </select>
@@ -86,7 +114,7 @@
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
                   class="fl-input form-control w-100"
-                  style="height: 2.4rem;"
+                  style="height: 2.4rem"
                 />
                 <!-- </div> -->
                 <!-- <div class="col-3 col-sm-3 ps-0">
@@ -102,8 +130,11 @@
                       *ngFor="let option of filteredOptions; let i = index"
                       style="text-decoration: none"
                     >
-                      <mat-option (click)="getUlbData(option)" [value]="option?.name">
-                        <span  style="font-size: 10px;"> {{ option?.name }}</span>
+                      <mat-option
+                        (click)="getUlbData(option)"
+                        [value]="option?.name"
+                      >
+                        <span style="font-size: 10px"> {{ option?.name }}</span>
                       </mat-option>
                     </a>
                   </mat-autocomplete>
@@ -114,8 +145,13 @@
 
             </div> -->
             </form>
-            <button type="button" (click)="reset()" class="btn btn-sm searchButton" style="padding: 0.25rem 0.5rem">
-            <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem"> -->
+            <button
+              type="button"
+              (click)="reset(true)"
+              class="btn btn-sm searchButton"
+              style="padding: 0.25rem 0.5rem"
+            >
+              <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem"> -->
               Reset
             </button>
           </div>
@@ -136,8 +172,8 @@
           [headerActions]="headerActions"
           [chartId]="'StateScatterChartId'"
           [chartData]="scatterData"
-          [chartTitle]="''"
-          [isPerCapita] ="isPerCapita"
+          [chartTitle]="mainChartTitle"
+          [isPerCapita]="isPerCapita"
           (compareChange)="filterChangeInChart($event)"
           [nestedChartFilterOption]="nestedChartFilterOption"
           (actionClicked)="getClickedAction($event)"
@@ -150,7 +186,7 @@
           [headerActions]="headerActions"
           [chartId]="'StateScatterChartId'"
           [chartData]="scatterData"
-          [chartTitle]="''"
+          [chartTitle]="mainChartTitle"
           (compareChange)="filterChangeInChart($event)"
           [scatterOption]="serviceLevelBenchmarkScatterOption"
           (actionClicked)="getClickedAction($event)"
@@ -161,19 +197,29 @@
     <div class="row tablerow">
       <div class="col-12">
         <p class="py-4">
-          Distribution of ULBs in {{stateName}} according to Population category
+          Distribution of ULBs in {{ stateName }} according to Population
+          category
         </p>
 
         <table class="table table-bordered">
           <tbody>
             <tr class="rowClass">
               <td>ULB Population Category</td>
-              <td class="text-center" *ngFor="let heading of stateUlbsPopulation?.tableHeading">{{heading}}</td>
+              <td
+                class="text-center"
+                *ngFor="let heading of stateUlbsPopulation?.tableHeading"
+              >
+                {{ heading }}
+              </td>
             </tr>
             <tr>
               <td>Number Of Cities</td>
               <td *ngFor="let heading of stateUlbsPopulation?.tableHeading">
-                {{ _commonServices.formatNumber( stateUlbsPopulation?.tableDataSource[heading] )}}
+                {{
+                  _commonServices.formatNumber(
+                    stateUlbsPopulation?.tableDataSource[heading]
+                  )
+                }}
               </td>
             </tr>
           </tbody>
@@ -193,7 +239,7 @@
       (compType)="getCompType($event)"
       [multiChart]="multiChart"
       (dounghnuChartLabels)="labels($event)"
-      [chartTitle]="''"
+      [chartTitle]="mainChartTitle"
       [returnCompType]="compType"
       (actionClicked)="getClickedAction($event)"
       [getChartPayload]="scatterChartPayload"
@@ -239,7 +285,7 @@
               {{item?.name}}
             </option> -->
             <option *ngFor="let item of chartDropdownList" [value]="item?.code">
-              {{item?._id}}
+              {{ item?._id }}
             </option>
           </select>
         </div>

@@ -111,6 +111,7 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   ulbInfo: any;
 
   creditScale = CreditScale;
+  noDataFound: boolean = false;
 
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
@@ -373,6 +374,11 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
     this.absCreditInfo["ulbs"] = ulbList;
 
     console.log("this.abscreditInfo", this.absCreditInfo);
+    let newObject = Object.values(this.absCreditInfo.ratings);
+    console.log("newObje", newObject);
+    if (newObject.every((elem) => elem === 0)) {
+      this.noDataFound = true;
+    }
 
     // this.finalData = this.list.filter((elem) => {
     //   if (elem.state == this.StateMapping[this.id]) {
