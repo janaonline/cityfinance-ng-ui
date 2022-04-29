@@ -136,7 +136,12 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   // yearVal = "2020-21";
   ulbId;
   downloadCSV(from) {
-    this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+    let obj = {
+      financialYear: this.yearVal,
+      stateId: this.data.stateId,
+      csv: true,
+    };
+    this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res: any) => {
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",
