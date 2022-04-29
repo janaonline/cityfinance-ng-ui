@@ -531,6 +531,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   scatterChartPayload: any = {};
   stateAvgVal = 0;
   getScatterData() {
+    this.createDynamicChartTitle(this.currentActiveTab);
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -687,6 +688,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             console.log(this.scatterData);
             this.generateRandomId("scatterChartId123");
             this.scatterData = { ...this.scatterData };
+
           } //donught charts center
           else if (this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
@@ -760,7 +762,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   getSelectedFinancialYear(event) {
     this.financialYear = event.target.value;
     console.log("state financial year", this.financialYear);
-    this.getScatterData();
+    if (this.selectedRadioBtnValue) {
+      this.getAverageScatterData();
+    } else {
+      this.getScatterData();
+    }
+    // this.getScatterData();
     if (this.stateServiceLabel) {
       this.getServiceLevelBenchmarkBarChartData();
     } else {
@@ -870,9 +877,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     ) {
       console.log("selectedStateId", changes.selectedStateId.currentValue);
       this.stateId = "";
-      this.stateId = JSON.parse(
-        JSON.stringify(changes.selectedStateId.currentValue)
-      );
+      this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);
       this.getScatterData();
       if (this.stateServiceLabel) {
@@ -908,7 +913,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
       console.log("this.data.filterName", this.data.filterName);
       this.currentActiveTab = this.data.filterName;
-      this.createDynamicChartTitle(this.currentActiveTab);
+      // this.createDynamicChartTitle(this.currentActiveTab);
       if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
         this.stateServiceLabel = true;
@@ -983,7 +988,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   getUlbData(event) {
     console.log(event);
     this.ulbId = event._id;
-    this.getScatterData();
+    // this.getScatterData();
+    if (this.selectedRadioBtnValue) {
+      this.getAverageScatterData();
+    } else {
+      this.getScatterData();
+    }
     if (this.stateServiceLabel) {
       this.getServiceLevelBenchmarkBarChartData();
     }
@@ -1055,7 +1065,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       activeButton: this.ActiveButton,
       chartTitle: "",
     };
-
+ 
     if (tabType?.isCodeRequired) {
       this.barChartPayload["code"] = this.chartDropdownValue
         ? this.chartDropdownValue
@@ -1431,10 +1441,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     const tabType = this.getTabType();
     this.multiChart = false;
     this._loaderService.showLoader();
-    // let oldScatterData = Object.assign(this.scatterData);
-    this.initializeScatterData();
+
+    // this.initializeScatterData();
     let apiEndPoint = "state-dashboard-averages";
-    // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
+
     this.scatterChartPayload = {
       state: this.stateId,
       financialYear: this.financialYear ? this.financialYear : "",
