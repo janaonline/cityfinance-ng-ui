@@ -90,6 +90,9 @@ export class CompareDialogComponent implements OnInit {
   @Input()
   selectedRadioBtn;
 
+  @Input()
+  preSelectedUlbList;
+
   filterList = [
     { val: "State Average", checked: false },
     { val: "National Average", checked: false },
@@ -163,6 +166,10 @@ export class CompareDialogComponent implements OnInit {
   typeX = "";
   placeholder = "Search for States";
   ngOnInit(): void {
+    console.log("preSelectedUlbList", this.preSelectedUlbList);
+    if (this.preSelectedUlbList) {
+      this.ulbListChip = this.preSelectedUlbList;
+    }
     this.filterList = this.filterList.map((value) => {
       if (this.selectedRadioBtn == value.val) {
         value.checked = true;
@@ -247,16 +254,26 @@ export class CompareDialogComponent implements OnInit {
   }
   reset() {
     this.globalFormControl.setValue("");
+    // if (this.preSelectedUlbList) {
+    //   this.preSelectedUlbList = [];
+    //   this.ulbListChip = this.preSelectedUlbList;
+    // } else {
+    //   this.ulbListChip = [];
+    // }
 
     this.own
       ? this.selectedVal.setValue("Own Revenue per Capita")
       : this.selectedVal.setValue("Property Tax per Capita");
     this.stateChipList = [];
     this.ulbListChip = [];
+
+    // this.preSelectedUlbList = [];
     this.filterList = this.filterList.map((value) => {
       value.checked = false;
       return value;
     });
+
+    console.log("cleared ulblist", this.ulbListChip);
   }
   close() {
     this.closeDialog.emit(true);
@@ -337,7 +354,7 @@ export class CompareDialogComponent implements OnInit {
     this.searchField.setValue(null);
     this.valuesToEmit = this.ulbListChip;
 
-    console.log("this.valuesToEmit", this.ulbListChip)
+    console.log("this.valuesToEmit", this.ulbListChip);
   }
 
   remove(chips: { _id: string; name: string }): void {
@@ -365,6 +382,7 @@ export class CompareDialogComponent implements OnInit {
         return;
       }
     } else {
+      console.log("emitting value", this.ulbListChip);
       this.compareValue.emit(this.valuesToEmit);
       this.ulbValues.emit(this.ulbIds);
       this.ulbValueList.emit(this.ulbListChip);

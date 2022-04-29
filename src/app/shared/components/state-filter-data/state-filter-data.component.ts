@@ -699,9 +699,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             console.log("chartDropdownList", this.chartDropdownList);
             this.initializeDonughtData();
             if (this.scatterChartPayload.compareType == "") {
-             
               if (data.length) {
-               data = data.sort((a,b) => b.code - a.code)
+                data = data.sort((a, b) => b.code - a.code);
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
