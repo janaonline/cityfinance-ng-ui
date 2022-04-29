@@ -687,4 +687,14 @@ export class CommonService {
     console.log('paramObject', paramObject)
     return paramObject;
   }
+
+  openWindowToDownloadCsv(paramContent: any, apiEndPoint: any) {
+    console.log('openWindowToDownloadCsv', paramContent, apiEndPoint)
+    let queryString = new URLSearchParams(paramContent).toString();
+    console.log('queryString', queryString);
+    let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
+    if (prepareDownloadURL) {
+      window.open(prepareDownloadURL)
+    }
+  }
 }

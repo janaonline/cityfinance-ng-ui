@@ -854,10 +854,10 @@ export class StateFilterDataService {
       } else if (el.label == "National Average") {
         el.showLine = true;
         el.fill = false;
-        el["rev"].push(scatterChartObj?.nationalAvgData);
+        el["rev"].push(scatterChartObj?.nationalAvg);
         let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
         defaultDataSet.forEach(el2 => {
-          el2['y'] = scatterChartObj?.nationalAvgData;
+          el2['y'] = scatterChartObj?.nationalAvg;
           el["data"].push(el2);
         });
       } else if (el.label == "Municipal Corporation Average") {
