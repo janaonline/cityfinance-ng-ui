@@ -63,7 +63,7 @@
           <div></div>
           <div class="d-flex">
             <div
-              *ngIf="!stateServiceLabel"
+              *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))"
               class="mr-1"
               [matTooltip]="'Select an option to view average data'"
             >

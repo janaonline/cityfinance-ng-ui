@@ -1053,7 +1053,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       chartTitle: "",
     };
 
-    this.chartDropdownValue = "";
     if (tabType?.isCodeRequired) {
       this.barChartPayload["code"] = this.chartDropdownValue
         ? this.chartDropdownValue
