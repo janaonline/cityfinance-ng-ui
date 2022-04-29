@@ -388,6 +388,11 @@ export class MapWithFilterComponent
     //   this.reloadComponent(selectedStateId);
     // }
 
+    let selectedStateCode = JSON.parse(event.target.value).ST_CODE;
+    let selectedStateId = this.stateUlbData.data[selectedStateCode]._id;
+    sessionStorage.setItem('row_id', selectedStateId);
+    this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
+
     this.changeInStateOrCity.emit({
       value: JSON.parse(event.target.value),
       fromState: true,

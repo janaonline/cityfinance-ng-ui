@@ -457,7 +457,7 @@ export class StateFilterDataService {
       backgroundColor:"#E57504",
       borderColor: "#E57504",
     },
-  ]
+  ];
 
   populationAvgScatterDataSet = [
     {
@@ -510,7 +510,7 @@ export class StateFilterDataService {
       backgroundColor:"#585FFF",
       borderColor: "#585FFF",
     },
-  ]
+  ];
 
   constructor(private http: HttpClient,
     private commonService: CommonService,
@@ -628,9 +628,148 @@ export class StateFilterDataService {
     }
   }
 
+  initializeScatterData(selectedAvgValue: any) {
+    this.scatterData = {
+      type: "scatter",
+      data: {
+        datasets: [
+          {
+            labels: [],
+            rev: [],
+            label: "Municipality",
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#1EBFC6",
+            backgroundColor: "#1EBFC6",
+          },
+          {
+            labels: [],
+            rev: [],
+            label: "Municipal Corporation",
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#3E5DB1",
+            backgroundColor: "#3E5DB1",
+          },
+          {
+            label: "Town Panchayat",
+            labels: [],
+            rev: [],
+            data: [],
+            showLine: false,
+            fill: true,
+            borderColor: "#F5B742",
+            backgroundColor: "#F5B742",
+          },
+          {
+            label: "State Average",
+            data: [],
+            rev: [],
+            labels: ["State Average"],
+            showLine: true,
+            fill: true,
+            backgroundColor: "red",
+            borderColor: "red",
+          },
+        ],
+      },
+    };
+    if (selectedAvgValue == "populationAvg") {
+      this.populationAvgScatterDataSet = [
+        {
+          label: "< 100 Thousand",
+          data: [],
+          rev: [],
+          labels:['< 100 Thousand'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#11BC46",
+          borderColor: "#11BC46",
+        },
+        {
+          label: "100 Thousand - 500 Thousand",
+          data: [],
+          rev: [],
+          labels:['100 Thousand - 500 Thousand'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#FF608B",
+          borderColor: "#FF608B",
+        },
+        {
+          label: "500 Thousand - 1 Million",
+          data: [],
+          rev: [],
+          labels:['500 Thousand - 1 Million'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#E57504",
+          borderColor: "#E57504",
+        },
+        {
+          label: "1 Million - 4 Million",
+          data: [],
+          rev: [],
+          labels:['1 Million - 4 Million'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#32CCFA",
+          borderColor: "#32CCFA",
+        },
+        {
+          label: "4 Million+",
+          data: [],
+          rev: [],
+          labels:['4 Million+'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#585FFF",
+          borderColor: "#585FFF",
+        },
+      ]
+    }
+    if (selectedAvgValue == "ulbTypeAvg") {
+      this.ulbTypeAvgScatterDataSet = [
+        {
+          label: "Municipal Corporation Average",
+          data: [],
+          rev: [],
+          labels:['Municipal Corporation Average'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#11BC46",
+          borderColor: "#11BC46",
+        },
+        {
+          label: "Municipality Average",
+          data: [],
+          rev: [],
+          labels:['Municipality Average'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#FF608B",
+          borderColor: "#FF608B",
+        },
+        {
+          label: "Town Panchayat Average",
+          data: [],
+          rev: [],
+          labels:['Town Panchayat Average'],
+          showLine: true,
+          fill: true,
+          backgroundColor:"#E57504",
+          borderColor: "#E57504",
+        },
+      ]
+    }
+  }
+
   // plotScatterChart(municipalCorpData: any, townPanchayatData: any, municipalityData: any, stateAvgData: any, nationalAvgData: any, selectedAvgValue: string = '') {
   plotScatterChart(scatterChartObj: any, selectedAvgValue: string = '') {
     console.log('plotScatterChart', scatterChartObj, selectedAvgValue)
+    this.initializeScatterData(selectedAvgValue);
     // let averageCountList = [scatterChartObj?.mCorporationAvg, scatterChartObj?.townPanchayatAvg, scatterChartObj?.municipalityAvg, scatterChartObj?.stateAvg];
     let averageCountList = [scatterChartObj?.mCorporationAvg, scatterChartObj?.townPanchayatAvg, scatterChartObj?.municipalityAvg];
     let stateLevelMaxPopuCount = Math.max(...averageCountList);
@@ -749,6 +888,7 @@ export class StateFilterDataService {
           el["data"].push(el2);
         });
       } else if (el.label == "< 100 Thousand") {
+        console.log('calledLabel', el.label)
         el.showLine = true;
         el.fill = false;
         el["rev"].push(scatterChartObj?.lessThan100k);
@@ -757,6 +897,7 @@ export class StateFilterDataService {
           el2['y'] = scatterChartObj?.lessThan100k;
           el["data"].push(el2);
         });
+        
       } else if (el.label == "100 Thousand - 500 Thousand") {
         el.showLine = true;
         el.fill = false;
