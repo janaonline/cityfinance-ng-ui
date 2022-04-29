@@ -20,9 +20,9 @@
       <div class="col-12 col-sm-12 pd-s mb-3">
         <ul
           role="tablist"
-          class="nav nav-pills"
+          class="nav nav-pills scrollable"
           aria-label="Tabs"
-          style="justify-content: left"
+          style="justify-content: left;"
         >
           <li class="nav-item">
             <a
@@ -171,30 +171,51 @@
   <div class="row m-0">
     <div class="col-sm-12 pd-s mb-3" *ngIf="tableView">
       <div class="table-responsive table-con" *ngIf="tableView">
-        <table class="table" *ngIf="tableData">
-          <thead>
-            <tr>
-              <th
-                scope="col"
-                *ngFor="let column of tableData?.columns"
-                class="{{ column?.key }}"
-              >
-                {{ column?.display_name }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of tableData?.rows">
-              <td
-                *ngFor="let column of tableData?.columns"
-                class="{{ column?.key }}"
-              >
-                {{ row[column.key] }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div *ngIf="!tableData">No Data Found..</div>
+        <div *ngIf="!tableLoader">
+          <table class="table" *ngIf="tableData">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  *ngFor="let column of tableData?.columns"
+                  class="{{ column?.key }}"
+                >
+                  {{ column?.display_name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tableData?.rows">
+                <td
+                  *ngFor="let column of tableData?.columns"
+                  class="{{ column?.key }}"
+                >
+                  {{ row[column.key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            *ngIf="!tableData"
+            style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+          >
+            <img
+              src="../../../../assets/images/sad.svg"
+              height="82px"
+              width="89px"
+            />
+            <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+              No Data Found for chosen options
+            </div>
+            <p style="color: #6e7281; font-size: 16px">
+              {{ notFoundMessage }}
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="tableLoader" class="preloader-wrapper">
+          <app-pre-loader></app-pre-loader>
+        </div>
       </div>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">

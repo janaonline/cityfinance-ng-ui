@@ -216,6 +216,14 @@ td {
     background-color: #f7f9ff;
   }
 }
+@media screen and (max-width:800px){
+  .bottomDownloadButton {
+    margin-top:6%;
+  }
+  .scrollable{
+    overflow-x:scroll;
+  }
+}
 
 .bottomDownloadButton {
   border: 1px solid #f2991f;

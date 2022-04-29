@@ -6,8 +6,8 @@
       style="z-index: 1000 !important; opacity: 1"
       class="skeletonWrapper container-fluid spinner_overlay d-flex justify-content-center align-items-center"
     >
-      <h1>Loading...</h1>
-      <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+      <!-- <h1>Loading...</h1> -->
+      <mat-spinner></mat-spinner>
     </div>
     <!-- <div
       class="map-reset w-100 text-center mb-3 mt-3"
@@ -22,7 +22,11 @@
       >
     </div> -->
 
-    <div class="col-sm-12" id="districtMapContainer" [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }">
+    <div
+      class="col-sm-12"
+      id="districtMapContainer"
+      [ngStyle]="{ visibility: selectedStateCode ? 'visible' : 'hidden' }"
+    >
       <!-- <p class="text-center" *ngIf="currentStateInView">
       Click on any ULB to view their data or Click on INDIA map to go back.
     </p> -->
@@ -87,15 +91,15 @@
     </div>
   </div>
 
-  <div class="col-12 col-sm-12 col-md-7">
+  <div class="col-12 col-sm-12 col-md-7" style="margin-top:3%;">
     <div class="row" style="align-items: baseline">
       <div class="col-12 col-sm-12">
-        <div class="heading mb-3" *ngIf="!showLoader">
+        <div class="heading mb-3 dataAvailability" *ngIf="!showLoader">
           {{ AvailabilityTitle }} Data Availability -
           {{ dataAvailabilityvalue?.toFixed(2) }}%
         </div>
       </div>
-      <div class="col-7 col-sm-8 col-md-4">
+      <div class="col-7 col-sm-7 col-md-4">
         <div class="input-group inp-grp">
           <form [formGroup]="myForm" class="w-100">
             <angular2-multiselect
@@ -110,7 +114,7 @@
           </form>
         </div>
       </div>
-      <div class="col-4 col-sm-4 col-md-3 ps-3">
+      <div class="col-4 col-sm-5 col-md-3 ps-3">
         <select
           class="form-select"
           id="years"
@@ -163,39 +167,52 @@
       </div>
     </div>
     <div class="row">
-      <!-- <div class="col-sm-12" *ngIf="!showLoader"> -->
-      <div class="table-responsive table-con" *ngIf="tableData">
-        <table class="table">
-          <thead>
-            <tr>
-              <th
-                scope="col"
-                *ngFor="let column of tableData?.columns"
-                class="{{ column?.key }}"
-              >
-                {{ column?.display_name }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of tableData?.rows">
-              <td
-                *ngFor="let column of tableData?.columns"
-                class="{{ column?.key }}"
-              >
-                {{ row[column.key] }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="col-sm-12" *ngIf="!showLoader">
+        <div class="table-responsive table-con" *ngIf="tableData">
+          <table class="table">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  *ngFor="let column of tableData?.columns"
+                  class="{{ column?.key }}"
+                >
+                  {{ column?.display_name }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tableData?.rows">
+                <td
+                  *ngFor="let column of tableData?.columns"
+                  class="{{ column?.key }}"
+                >
+                  {{ row[column.key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          *ngIf="!tableData"
+          style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+        >
+          <img
+            src="../../../../assets/images/sad.svg"
+            height="82px"
+            width="89px"
+          />
+          <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+            No Data Found for chosen options
+          </div>
+          <p style="color: #6e7281; font-size: 16px">
+            {{ notFoundMessage }}
+          </p>
+        </div>
       </div>
-      <div *ngIf="!tableData">
-        <h1>No Data Found</h1>
+      <div *ngIf="showLoader" class="preloader-wrapper">
+        <app-pre-loader></app-pre-loader>
       </div>
-      <!-- </div> -->
-      <!-- <div *ngIf="showLoader">
-        <h1 class="text-center">Loading....</h1>
-      </div> -->
       <div class="col-12" *ngIf="currentStateId">
         <button
           *ngIf="!showLoader"
@@ -213,7 +230,7 @@
   <div class="row my-5">
     <div class="m-auto" style="width: 60%">
       You can also download the source data in excel format
-      <button class="cursor-pointer bottomDownloadButton py-2">
+      <button class="cursor-pointer bottomDownloadButton py-2 downloadData">
         <img
           src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
           height="13px"

@@ -32,12 +32,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   chartId = `stateSCharts-${Math.random()}`;
   financialYear: string = "";
   stateName: string;
-  statesList: any;
+  statesList: any = JSON.parse(localStorage.getItem("stateIdsMap"));
   compareDialogType = 3;
   serviceTab;
   isPerCapita = false;
 
   serviceTabList: any = [];
+
+  mainChartTitle: string = "";
 
   @Input() data;
 
@@ -272,6 +274,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     showFinancialYear: false,
     showResetButton: false,
   };
+
+  currentActiveTab: string = "";
   @Input() selectedStateId: any;
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -323,11 +327,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
   }
 
+  radioButtonValue: string = "";
   selectedRadioBtnValue: any;
   getCheckBoxValue(event: any) {
     console.log("checked Value", event);
     if (event && event.target && event.target.value) {
       this.selectedRadioBtnValue = event.target.value;
+      this.radioButtonValue = event.target.value;
       // for (const item of this.checkBoxArray) {
       //   if (item.value != event.target.value) {
       //     item["isDisabled"] = true;
@@ -336,9 +342,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       // this.getScatterData();
       this.getAverageScatterData();
     }
+    this.createDynamicChartTitle(this.currentActiveTab);
   }
 
-  reset() {
+  reset(isReset: boolean = false) {
     this.ulbArr = [];
     this.checkBoxArray = [
       { value: "", title: "Select an Option", isDisabled: true },
@@ -355,16 +362,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.filteredOptions = emptyArr;
     this.ulbId = "";
     this.selectedRadioBtnValue = "";
+    this.radioButtonValue = "";
     // this.getYears();
     this.financialYear = this.yearList[0];
-    this.getScatterData();
-    if (this.stateServiceLabel) {
-      this.selectedServiceLevelBenchmark = this.serviceTabList[0];
-      this.filterName = this.selectedServiceLevelBenchmark;
-      this.getServiceLevelBenchmarkBarChartData();
-    } else {
-      this.getStateRevenue();
+    if (isReset) {
+      this.getScatterData();
+      if (this.stateServiceLabel) {
+        this.selectedServiceLevelBenchmark = this.serviceTabList[0];
+        this.filterName = this.selectedServiceLevelBenchmark;
+        this.getServiceLevelBenchmarkBarChartData();
+      } else {
+        this.getStateRevenue();
+      }
     }
+
+    this.createDynamicChartTitle(this.ActiveButton);
   }
 
   yearList: any;
@@ -600,7 +612,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               stateData = this.stateAvgVal;
             }
 
-            let stateLevelMaxPopuCount = this.getMaximumPopulationCount(
+            let stateLevelMaxPopuCount = this.stateFilterDataService.getMaximumPopulationCount(
               mCorporation,
               tp_data,
               m_data
@@ -736,38 +748,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       );
   }
 
-  /**
-   * It takes in three arrays of objects, each with a property called population, and returns the maximum
-   * value of the population property across all three arrays.
-   * @param {any} mCorporation - [{population: 100}, {population: 200}]
-   * @param {any} townPanchayat - [{
-   * @param {any} municipality - [{
-   * @returns getMaximumPopulationCount(mCorporation: any, townPanchayat: any, municipality: any ) {
-   *     let populationCountList = [];
-   *     populationCountList = mCorporation.map(popCount => popCount.population)
-   *     populationCountList = [...populationCountList, ...townPanchayat
-   */
-  getMaximumPopulationCount(
-    mCorporation: any,
-    townPanchayat: any,
-    municipality: any
-  ) {
-    let populationCountList = [];
-
-    populationCountList = mCorporation.map((popCount) => popCount.population);
-    populationCountList = [
-      ...populationCountList,
-      ...townPanchayat.map((popCount) => popCount.population),
-    ];
-    populationCountList = [
-      ...populationCountList,
-      ...municipality.map((popCount) => popCount.population),
-    ];
-
-    let maxPopulationCount = Math.max(...populationCountList);
-    return maxPopulationCount;
-  }
-
   generateRandomId(name) {
     let number = Math.floor(Math.random() * 100);
     let newId = number + name;
@@ -815,13 +795,30 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     if (e) this.getScatterData();
   }
 
+  createDynamicChartTitle(activeButton) {
+    this.stateName = this.statesList[this.stateId];
+
+    let dropDownValue;
+    if (this.radioButtonValue) {
+      dropDownValue = `and ${this.radioButtonValue}`;
+    } else {
+      dropDownValue = "";
+    }
+    if (this.stateName && activeButton) {
+      this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
+    }
+  }
+
   changeActiveBtn(i) {
+    this.reset();
     this.ulbArr = [];
     this.ulbId = "";
     this.compType = "";
     this.nationalFilter.patchValue("");
     console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
     this.ActiveButton = this.data.btnLabels[i];
+    this.currentActiveTab = this.data.btnLabels[i];
+    this.createDynamicChartTitle(this.currentActiveTab);
     this.lastSelectedId = i;
 
     this.isPerCapita = this.data.btnLabels[i]
@@ -856,12 +853,24 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("stateFilterDataChanges", changes, this.data);
-    if (changes && changes.selectedStateId && changes.selectedStateId.currentValue && !changes?.selectedStateId?.firstChange) {
-      console.log('selectedStateId', changes.selectedStateId.currentValue)
-      this.stateId = '';
-      this.stateId = JSON.parse(JSON.stringify(changes.selectedStateId.currentValue));
-      console.log('updatedStateId', this.stateId)
+    console.log(
+      "stateFilterDataChanges",
+      changes,
+      this.data,
+      this.stateServiceLabel
+    );
+    if (
+      changes &&
+      changes.selectedStateId &&
+      changes.selectedStateId.currentValue &&
+      !changes?.selectedStateId?.firstChange
+    ) {
+      console.log("selectedStateId", changes.selectedStateId.currentValue);
+      this.stateId = "";
+      this.stateId = JSON.parse(
+        JSON.stringify(changes.selectedStateId.currentValue)
+      );
+      console.log("updatedStateId", this.stateId);
       this.getScatterData();
       if (this.stateServiceLabel) {
         this.getServiceLevelBenchmarkBarChartData();
@@ -882,6 +891,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
 
     if ((changes && changes.stateServiceLabel) || changes.data) {
+      // this.reset();
       if (changes.stateServiceLabel) {
         this.stateFilterDataService.getYearListSLB().subscribe(
           (res) => {
@@ -894,6 +904,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       }
 
       console.log("this.data.filterName", this.data.filterName);
+      this.currentActiveTab = this.data.filterName;
+      this.createDynamicChartTitle(this.currentActiveTab);
       if (this.data.filterName == "Water Supply") {
         this.serviceTab = "water supply";
         this.stateServiceLabel = true;
@@ -929,9 +941,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.ulbArr = [];
-    this.statesList = localStorage.getItem("stateIdsMap")
-      ? JSON.parse(localStorage.getItem("stateIdsMap"))
-      : null;
     if (this.statesList) {
       this.stateName = this.statesList[this.stateId];
     }
@@ -1044,7 +1053,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       chartTitle: "",
     };
 
-    this.chartDropdownValue = "";
     if (tabType?.isCodeRequired) {
       this.barChartPayload["code"] = this.chartDropdownValue
         ? this.chartDropdownValue
@@ -1425,15 +1433,22 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     let apiEndPoint = "state-dashboard-averages";
     // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
     this.scatterChartPayload = {
-      stateId: this.stateId,
+      state: this.stateId,
       financialYear: this.financialYear ? this.financialYear : "",
+      headOfAccount: this.stateServiceLabel ? undefined : this.headOfAccount,
+      filterName: this.filterName ? this.filterName : "",
+      isPerCapita: this.isPerCapita ? this.isPerCapita : "",
+      compareType: this.compType ? this.compType : "",
+      compareCategory: this.selectedRadioBtnValue ? this.selectedRadioBtnValue : "",
+      ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       chartType: !this.filterName.includes("mix") ? "scatter" : "doughnut",
       apiEndPoint: apiEndPoint,
-      apiMethod: "get",
+      apiMethod: "post",
+      stateServiceLabel: this.stateServiceLabel,
+      sortBy: "",
+      chartTitle: "",
       which: this.selectedRadioBtnValue ? this.selectedRadioBtnValue : "",
       TabType: tabType ? tabType?.code : "",
-      filterName: this.filterName ? this.filterName : "",
-      chartTitle: "",
     };
 
     if (this.selectedRadioBtnValue == "nationalAvg") {
@@ -1452,66 +1467,39 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           console.log("response data", res);
           //scatter plots center
 
+
           if (!this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
             this.notfound = false;
-            if (this.selectedRadioBtnValue == "populationAvg") {
-              this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
-              // let scatterData =
-              //   this.stateFilterDataService.populationWiseScatterData(
-              //     res["data"]
-              //   );
-              // this.scatterData = {...this.scatterData, ...scatterData};
-              // oldScatterData.data.datasets = [
-              //   ...oldScatterData.data.datasets,
-              //   ...scatterData.data.datasets,
-              // ];
-              // this.scatterData = { ...oldScatterData };
-              console.log(this.scatterData);
-            } else {
-              let mCorporation: any;
-              let tp_data: any;
-              let m_data: any;
-              let stateData: any;
+            // if (this.selectedRadioBtnValue == "populationAvg") {
+            //   this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
+            //   console.log(this.scatterData);
+            // } else {
+              let scatterChartObj: any = {
+                // cluster of ULBs under these 3 categories
+                mCorporation: res["data"] && res["data"]["mCorporation"] ? res["data"]["mCorporation"] : [],
+                municipality: res["data"] && res["data"]["municipality"] ? res["data"]["municipality"] : [],
+                townPanchayat: res["data"] && res["data"]["townPanchayat"] ? res["data"]["townPanchayat"] : [],
+                // average of ULBs, state, national
+                mCorporationAvg: res["data"] && res["data"]["Municipal Corporation"] ? parseFloat(res["data"]["Municipal Corporation"]) : 0,
+                municipalityAvg: res["data"] && res["data"]["Municipality"] ? parseFloat(res["data"]["Municipality"]) : 0,
+                townPanchayatAvg: res["data"] && res["data"]["Town Panchayat"] ? parseFloat(res["data"]["Town Panchayat"]) : 0,
+                stateAvg: res["data"] && res["data"]["stateAvg"] ? parseFloat(res["data"]["stateAvg"]) : 0,
+                nationalAvg: res["data"] && res["data"]["national"] ? parseFloat(res["data"]["national"]) : 0,
+                // average of population under these categories
+                lessThan100k: res["data"] && res["data"]["< 100 Thousand"] ? parseFloat(res["data"]["< 100 Thousand"]) : 0,
+                bwt100kTo500k: res["data"] && res["data"]["100 Thousand - 500 Thousand"] ? parseFloat(res["data"]["100 Thousand - 500 Thousand"]) : 0,
+                bwt500kTo1m: res["data"] && res["data"]["500 Thousand - 1 Million"] ? parseFloat(res["data"]["500 Thousand - 1 Million"]) : 0,
+                bwt1mTo4m: res["data"] && res["data"]["1 Million - 4 Million"] ? parseFloat(res["data"]["1 Million - 4 Million"]) : 0,
+                greaterThan4m: res["data"] && res["data"]["4 Million+"] ? parseFloat(res["data"]["4 Million+"]) : 0,
+              };
+              scatterChartObj['stateLevelMaxPopuCount'] = this.stateFilterDataService.getMaximumPopulationCount(scatterChartObj?.mCorporation, scatterChartObj?.townPanchayat, scatterChartObj?.municipality)
 
-              mCorporation =
-                res["data"] && res["data"]["Municipal Corporation"]
-                  ? res["data"]["Municipal Corporation"]
-                  : 0;
-              tp_data =
-                res["data"] && res["data"]["Town Panchayat"]
-                  ? res["data"]["Town Panchayat"]
-                  : 0;
-              m_data =
-                res["data"] && res["data"]["Municipality"]
-                  ? res["data"]["Municipality"]
-                  : 0;
-              let nationalData =
-                res && res["data"] && res["data"]["national"]
-                  ? res["data"]["national"]
-                  : 0;
-              stateData =
-                res["data"] && res["data"]["stateAvg"]
-                  ? res["data"]["stateAvg"]
-                  : this.stateAvgVal;
+              this.scatterData = this.stateFilterDataService.plotScatterChart(scatterChartObj, this.selectedRadioBtnValue);
 
-              this.scatterData = this.stateFilterDataService.plotScatterChart(mCorporation, tp_data, m_data, stateData, nationalData, this.selectedRadioBtnValue);
-              // let scatterData = this.stateFilterDataService.plotScatterChart(
-              //   mCorporation,
-              //   tp_data,
-              //   m_data,
-              //   stateData,
-              //   nationalData,
-              //   this.selectedRadioBtnValue
-              // );
-              // oldScatterData.data.datasets = [
-              //   ...oldScatterData.data.datasets,
-              //   ...scatterData.data.datasets,
-              // ];
-              // this.scatterData = { ...oldScatterData };
               console.log(this.scatterData);
               this.generateRandomId("scatterChartId123");
-            }
+            // }
           }
         },
         (err) => {

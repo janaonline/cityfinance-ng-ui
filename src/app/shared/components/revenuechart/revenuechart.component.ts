@@ -1185,17 +1185,25 @@ export class RevenuechartComponent
     this.initializeScatterData();
     let apiEndPoint = "state-dashboard-averages";
     // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
+    let isPerCapita: any;
+    // if (this.apiParamData.hasOwnProperty('isPerCapita')) {
+    //   isPerCapita = JSON.parse(this.apiParamData?.isPerCapita)
+    // }
     let scatterChartPayload = {
-      stateId: this.apiParamData?.stateId,
+      state: this.apiParamData?.stateId,
       financialYear: this.apiParamData?.financialYear,
+      headOfAccount: this.apiParamData?.headOfAccount || '',
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
-      which: this.apiParamData?.which ? this.apiParamData?.which : "",
-      TabType: this.apiParamData?.TabType ? this.apiParamData?.TabType : "",
+      which: this.apiParamData?.which || "",
+      TabType: this.apiParamData?.TabType || "",
+      isPerCapita: this.apiParamData?.isPerCapita || "",
       widgetMode: this.widgetMode,
-      filterName: this.apiParamData?.filterName
-        ? this.apiParamData?.filterName
-        : "",
+      filterName: this.apiParamData?.filterName || "",
+      compareType: this.apiParamData?.compType || "",
+      compareCategory: this.apiParamData?.compareCategory || "",
+      // ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
+      chartType: this.apiParamData?.chartType || "",
     };
 
     console.log("scatterChartPayload", scatterChartPayload);
@@ -1209,48 +1217,71 @@ export class RevenuechartComponent
         if (res && res["success"]) {
           this._loaderService.stopLoader();
           this.notFound = false;
-          if (this.apiParamData?.which == "populationAvg") {
-            this.chartData =
-              this.stateFilterDataService.populationWiseScatterData(
-                res["data"]
-              );
-          } else {
-            let mCorporation: any;
-            let tp_data: any;
-            let m_data: any;
-            let stateData: any;
+          // if (this.apiParamData?.which == "populationAvg") {
+          //   this.chartData =
+          //     this.stateFilterDataService.populationWiseScatterData(
+          //       res["data"]
+          //     );
+          // } else {
+          //   let mCorporation: any;
+          //   let tp_data: any;
+          //   let m_data: any;
+          //   let stateData: any;
 
-            mCorporation =
-              res["data"] && res["data"]["Municipal Corporation"]
-                ? res["data"]["Municipal Corporation"]
-                : 0;
-            tp_data =
-              res["data"] && res["data"]["Town Panchayat"]
-                ? res["data"]["Town Panchayat"]
-                : 0;
-            m_data =
-              res["data"] && res["data"]["Municipality"]
-                ? res["data"]["Municipality"]
-                : 0;
-            let nationalData =
-              res && res["data"] && res["data"]["national"]
-                ? res["data"]["national"]
-                : 0;
-            stateData =
-              res["data"] && res["data"]["stateAvg"]
-                ? res["data"]["stateAvg"]
-                : 0;
+          //   mCorporation =
+          //     res["data"] && res["data"]["Municipal Corporation"]
+          //       ? res["data"]["Municipal Corporation"]
+          //       : 0;
+          //   tp_data =
+          //     res["data"] && res["data"]["Town Panchayat"]
+          //       ? res["data"]["Town Panchayat"]
+          //       : 0;
+          //   m_data =
+          //     res["data"] && res["data"]["Municipality"]
+          //       ? res["data"]["Municipality"]
+          //       : 0;
+          //   let nationalData =
+          //     res && res["data"] && res["data"]["national"]
+          //       ? res["data"]["national"]
+          //       : 0;
+          //   stateData =
+          //     res["data"] && res["data"]["stateAvg"]
+          //       ? res["data"]["stateAvg"]
+          //       : 0;
 
-            this.chartData = this.stateFilterDataService.plotScatterChart(
-              mCorporation,
-              tp_data,
-              m_data,
-              stateData,
-              nationalData,
-              this.apiParamData?.which
-            );
-            console.log(this.scatterData);
-          }
+          //   this.chartData = this.stateFilterDataService.plotScatterChart(
+          //     mCorporation,
+          //     tp_data,
+          //     m_data,
+          //     stateData,
+          //     nationalData,
+          //     this.apiParamData?.which
+          //   );
+          //   console.log(this.scatterData);
+          // }
+
+          let scatterChartObj: any = {
+            // cluster of ULBs under these 3 categories
+            mCorporation: res["data"] && res["data"]["mCorporation"] ? res["data"]["mCorporation"] : [],
+            municipality: res["data"] && res["data"]["municipality"] ? res["data"]["municipality"] : [],
+            townPanchayat: res["data"] && res["data"]["townPanchayat"] ? res["data"]["townPanchayat"] : [],
+            // average of ULBs, state, national
+            mCorporationAvg: res["data"] && res["data"]["Municipal Corporation"] ? parseFloat(res["data"]["Municipal Corporation"]) : 0,
+            municipalityAvg: res["data"] && res["data"]["Municipality"] ? parseFloat(res["data"]["Municipality"]) : 0,
+            townPanchayatAvg: res["data"] && res["data"]["Town Panchayat"] ? parseFloat(res["data"]["Town Panchayat"]) : 0,
+            stateAvg: res["data"] && res["data"]["stateAvg"] ? parseFloat(res["data"]["stateAvg"]) : 0,
+            nationalAvg: res["data"] && res["data"]["national"] ? parseFloat(res["data"]["national"]) : 0,
+            // average of population under these categories
+            lessThan100k: res["data"] && res["data"]["< 100 Thousand"] ? parseFloat(res["data"]["< 100 Thousand"]) : 0,
+            bwt100kTo500k: res["data"] && res["data"]["100 Thousand - 500 Thousand"] ? parseFloat(res["data"]["100 Thousand - 500 Thousand"]) : 0,
+            bwt500kTo1m: res["data"] && res["data"]["500 Thousand - 1 Million"] ? parseFloat(res["data"]["500 Thousand - 1 Million"]) : 0,
+            bwt1mTo4m: res["data"] && res["data"]["1 Million - 4 Million"] ? parseFloat(res["data"]["1 Million - 4 Million"]) : 0,
+            greaterThan4m: res["data"] && res["data"]["4 Million+"] ? parseFloat(res["data"]["4 Million+"]) : 0,
+          };
+          scatterChartObj['stateLevelMaxPopuCount'] = this.stateFilterDataService.getMaximumPopulationCount(scatterChartObj?.mCorporation, scatterChartObj?.townPanchayat, scatterChartObj?.municipality)
+
+          this.scatterData = this.stateFilterDataService.plotScatterChart(scatterChartObj, this.apiParamData?.which);
+
           this.createChart();
         }
       });
