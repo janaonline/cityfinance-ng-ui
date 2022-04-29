@@ -1,340 +1,557 @@
 <div class="row mb-3 mt-3">
-    <div class="col-12">
-        <h3>
-            Assess the health of your property tax system in 5 easy steps
-        </h3>
-        <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
-            sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-        </p>
+  <div class="col-12">
+    <h3>Assess the health of your property tax system in 5 easy steps</h3>
+    <p>
+      Find out how your state and ULB are doing on various property tax
+      parameters. Select the state and ULB from the dropdown menu and answer a
+      few questions to know your score.
+    </p>
+  </div>
+  <div class="col-12 col-md-8 col-lg-7">
+    <div class="row" style="align-items: center">
+      <div class="col-6 col-md-4">
+        <select
+          class="form-select"
+          id="stateName"
+          (change)="changeState($event.target.value)"
+          aria-label="Default select"
+        >
+          <option value="" selected>Select State</option>
+          <option [value]="item?.code" *ngFor="let item of stateList">
+            {{ item?.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-6 col-md-4">
+        <select
+          class="form-select"
+          aria-label="Default select"
+          (change)="changeUlb($event.target.value)"
+        >
+          <option selected>Select ULB</option>
+          <option [value]="item?._id" *ngFor="let item of ulbList">
+            {{ item?.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-12 col-md-4 text-md-center mt-3 mt-md-0">
+        <button
+          class="btn btn-gS"
+          [disabled]="disStartedBtn"
+          (click)="getStartedScore()"
+        >
+          {{ btnName }}
+        </button>
+      </div>
     </div>
-    <div class="col-12 col-md-8 col-lg-7">
-        <div class="row" style="align-items: center;">
-            <div class="col-6 col-md-4">
-                <select class="form-select" id="stateName" (change)="changeState($event.target.value)" aria-label="Default select">
-                  <option value="" selected>Select State</option>
-                  <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option>
-                </select>
-            </div>
-            <div class="col-6 col-md-4">
-                <select class="form-select" aria-label="Default select" (change)="changeUlb($event.target.value)">
-                    <option selected >Select ULB</option>
-                    <option [value]="item?._id" *ngFor="let item of ulbList">{{item?.name}}</option>
-               </select>
-            </div>
-            <div class="col-12 col-md-4 text-md-center mt-3 mt-md-0">
-                <button class="btn btn-gS" [disabled]="disStartedBtn" (click)="getStartedScore()">{{btnName}}</button>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
-<div class="row mb-3" [ngClass]='{"hideCls" : stepperScoreDiv}' *ngIf="stepperScoreDiv">
-    <div class="col-sm-12">
-        <div class="container-cnt">
-            <div class="card">
-                <div class="row">
-                    <div class="col-md-12 text-end">
-                        <a (click)="closeScoreCard()">
-                            <img src="../../../../../assets/new_dashBord_ftr_hdr/Icon feather-menu.svg" alt="">
-                        </a>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <h3>
-                            Property Tax Health Score
-                        </h3>
-                        <h5>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.
-                        </h5>
-                    </div>
-                </div>
-                <div class="container container-stepper">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm">
-                                <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper [class]="'selectedIndex' + stepper.selectedIndex + ' mat-stepper-label-position-bottom'">
-                                    <mat-step formArrayName="enumeration">
-                                        <ng-template matStepLabel>
-                                            <span title="Enumeration" [ngClass]="{'l-green' : (lGreen.enum), 'l-selected': lSelected?.enum}">Enumeration</span>
-                                        </ng-template>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of enumRows?.controls; let i=index">
-
-                                                    <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">1.{{i+1}}</span>
-                                                        <!-- </div>
-                                                <div class="col-10"> -->
-                                                        <span class="str-Qus">
-                                                        &nbsp;{{item?.value?.questionText}}
-                                                    </span>
-                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label [btnRadio]='true' class="btn btn-yes btn-stp">Yes</label>
-                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'enumeration')" [disabled]="enumRows?.status == 'INVALID'">
-                                            Continue
-                                            </button>
-                                            </div>
-                                        </div>
-
-                                    </mat-step>
-                                    <mat-step formArrayName="valuation">
-                                        <ng-template matStepLabel>
-                                            <span title="Valuation" [ngClass]="{'l-green' : lGreen?.valu, 'l-selected': lSelected.valu}">Valuation</span>
-                                        </ng-template>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of valuRows?.controls; let i = index;">
-                                                    <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">2.{{i+1}}</span>
-                                                        <!-- </div>
-                                              <div class="col-10"> -->
-                                                        <span class="str-Qus">
-                                                      &nbsp;{{item?.value?.questionText}}
-                                                  </span>
-                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'valuation')" [disabled]="valuRows?.status == 'INVALID'">
-                                          Continue
-                                          </button>
-                                                <button class="btn-back" (click)="goBack(stepper, 'valuation')">
-                                            Back
-                                           </button>
-                                            </div>
-                                        </div>
-
-                                    </mat-step>
-                                    <mat-step formArrayName="assessment">
-                                        <ng-template matStepLabel>
-                                            <span title="Assessment" [ngClass]="{'l-green' : lGreen?.asse, 'l-selected': lSelected.asse}">Assessment</span>
-                                        </ng-template>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of assesRows?.controls; let i = index;">
-                                                    <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">3.{{i+1}}</span>
-                                                        <!-- </div>
-                                          <div class="col-10"> -->
-                                                        <span class="str-Qus">
-                                                  &nbsp;{{item?.value?.questionText}}
-                                              </span>
-                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'assessment')" [disabled]="assesRows?.status == 'INVALID'">
-                                        Continue
-                                        </button>
-                                                <button class="btn-back" (click)="goBack(stepper, 'assessment')">
-                                          Back
-                                         </button>
-                                            </div>
-                                        </div>
-                                    </mat-step>
-
-                                    <mat-step formArrayName="billing_collection">
-                                        <ng-template matStepLabel>
-                                            <span title="Billing and Collection" [ngClass]="{'l-green' : lGreen?.bAndC, 'l-selected': lSelected.bAndC}">Billing and Collection</span>
-                                        </ng-template>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of billingRows?.controls; let i = index;">
-                                                    <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">4.{{i+1}}</span>
-                                                        <!-- </div>
-                                          <div class="col-10"> -->
-                                                        <span class="str-Qus">
-                                                  &nbsp;{{item?.value?.questionText}}
-                                              </span>
-                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-cont" (click)="stepperContinue(stepper, 'billing_collection')">
-                                        Continue
-                                        </button>
-                                                <button class="btn-back" (click)="goBack(stepper, 'billing_collection')" [disabled]="billingRows?.status == 'INVALID'">
-                                          Back
-                                         </button>
-                                            </div>
-                                        </div>
-                                    </mat-step>
-
-                                    <mat-step formArrayName="reporting">
-                                        <ng-template matStepLabel>
-                                            <span title="Reporting" [ngClass]="{'l-green' : lGreen?.repo, 'l-selected': lSelected.repo}">Reporting</span>
-                                        </ng-template>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="row" style="align-items: baseline;" [formGroupName]="i" *ngFor="let item of reportingRows?.controls; let i = index;">
-                                                    <div class="col-12 col-sm-12">
-                                                        <span class="str-Qus">5.{{i+1}}</span>
-                                                        <!-- </div>
-                                          <div class="col-10"> -->
-                                                        <span class="str-Qus">
-                                                  &nbsp;{{item?.value?.questionText}}
-                                              </span>
-                                                        <div class="btn-div" btnRadioGroup formControlName='answer'>
-                                                            <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label>
-                                                            <label [btnRadio]="false" class="btn btn-no btn-stp">No</label>
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <button class="btn btn-cont" (click)="SubmitScoreReport()" [disabled]="scorePerformanceForm?.status == 'INVALID'">
-                                           Submit
-                                        </button>
-                                                <button class="btn-back" (click)="goBack(stepper, 'reporting')">
-                                          Back
-                                         </button>
-                                            </div>
-                                        </div>
-                                    </mat-step>
-                                    <ng-template matStepperIcon="edit">
-                                        <mat-icon>check</mat-icon>
-                                    </ng-template>
-
-
-                                </mat-horizontal-stepper>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div
+  class="row mb-3"
+  [ngClass]="{ hideCls: stepperScoreDiv }"
+  *ngIf="stepperScoreDiv"
+>
+  <div class="col-sm-12">
+    <div class="container-cnt">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-12 text-end">
+            <a (click)="closeScoreCard()">
+              <img
+                src="../../../../../assets/new_dashBord_ftr_hdr/Icon feather-menu.svg"
+                alt=""
+              />
+            </a>
+          </div>
+          <div class="col-md-12 text-center">
+            <h3>Property Tax Health Score</h3>
+            <h5>
+              Find your score based on 5 stages of property tax lifecycle The
+              performance of your city is displayed on various parameters based
+              on your answers
+            </h5>
+          </div>
         </div>
+        <div class="container container-stepper">
+          <div class="row">
+            <div class="col-md-12">
+              <form
+                *ngIf="scorePerformanceForm"
+                [formGroup]="scorePerformanceForm"
+              >
+                <mat-horizontal-stepper
+                  linear="true"
+                  labelPosition="bottom"
+                  id="stepper"
+                  #stepper
+                  [class]="
+                    'selectedIndex' +
+                    stepper.selectedIndex +
+                    ' mat-stepper-label-position-bottom'
+                  "
+                >
+                  <mat-step formArrayName="enumeration">
+                    <ng-template matStepLabel>
+                      <span
+                        title="Enumeration"
+                        [ngClass]="{
+                          'l-green': lGreen.enum,
+                          'l-selected': lSelected?.enum
+                        }"
+                        >Enumeration</span
+                      >
+                    </ng-template>
+                    <div class="row">
+                      <div class="col-12">
+                        <div
+                          class="row"
+                          style="align-items: baseline"
+                          [formGroupName]="i"
+                          *ngFor="let item of enumRows?.controls; let i = index"
+                        >
+                          <div class="col-12 col-sm-12">
+                            <span class="str-Qus">1.{{ i + 1 }}</span>
+                            <!-- </div>
+                                                <div class="col-10"> -->
+                            <span class="str-Qus">
+                              &nbsp;{{ item?.value?.questionText }}
+                            </span>
+                            <div
+                              class="btn-div"
+                              btnRadioGroup
+                              formControlName="answer"
+                            >
+                              <label
+                                [btnRadio]="true"
+                                class="btn btn-yes btn-stp"
+                                >Yes</label
+                              >
+                              <label
+                                [btnRadio]="false"
+                                class="btn btn-no btn-stp"
+                                >No</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button
+                          class="btn btn-cont"
+                          (click)="stepperContinue(stepper, 'enumeration')"
+                          [disabled]="enumRows?.status == 'INVALID'"
+                        >
+                          Continue
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step formArrayName="valuation">
+                    <ng-template matStepLabel>
+                      <span
+                        title="Valuation"
+                        [ngClass]="{
+                          'l-green': lGreen?.valu,
+                          'l-selected': lSelected.valu
+                        }"
+                        >Valuation</span
+                      >
+                    </ng-template>
+                    <div class="row">
+                      <div class="col-12">
+                        <div
+                          class="row"
+                          style="align-items: baseline"
+                          [formGroupName]="i"
+                          *ngFor="let item of valuRows?.controls; let i = index"
+                        >
+                          <div class="col-12 col-sm-12">
+                            <span class="str-Qus">2.{{ i + 1 }}</span>
+                            <!-- </div>
+                                              <div class="col-10"> -->
+                            <span class="str-Qus">
+                              &nbsp;{{ item?.value?.questionText }}
+                            </span>
+                            <div
+                              class="btn-div"
+                              btnRadioGroup
+                              formControlName="answer"
+                            >
+                              <label
+                                [btnRadio]="true"
+                                class="btn btn-yes btn-stp"
+                                >Yes</label
+                              >
+                              <label
+                                [btnRadio]="false"
+                                class="btn btn-no btn-stp"
+                                >No</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button
+                          class="btn btn-cont"
+                          (click)="stepperContinue(stepper, 'valuation')"
+                          [disabled]="valuRows?.status == 'INVALID'"
+                        >
+                          Continue
+                        </button>
+                        <button
+                          class="btn-back"
+                          (click)="goBack(stepper, 'valuation')"
+                        >
+                          Back
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <mat-step formArrayName="assessment">
+                    <ng-template matStepLabel>
+                      <span
+                        title="Assessment"
+                        [ngClass]="{
+                          'l-green': lGreen?.asse,
+                          'l-selected': lSelected.asse
+                        }"
+                        >Assessment</span
+                      >
+                    </ng-template>
+                    <div class="row">
+                      <div class="col-12">
+                        <div
+                          class="row"
+                          style="align-items: baseline"
+                          [formGroupName]="i"
+                          *ngFor="
+                            let item of assesRows?.controls;
+                            let i = index
+                          "
+                        >
+                          <div class="col-12 col-sm-12">
+                            <span class="str-Qus">3.{{ i + 1 }}</span>
+                            <!-- </div>
+                                          <div class="col-10"> -->
+                            <span class="str-Qus">
+                              &nbsp;{{ item?.value?.questionText }}
+                            </span>
+                            <div
+                              class="btn-div"
+                              btnRadioGroup
+                              formControlName="answer"
+                            >
+                              <label
+                                [btnRadio]="true"
+                                class="btn btn-yes btn-stp"
+                                >Yes</label
+                              >
+                              <label
+                                [btnRadio]="false"
+                                class="btn btn-no btn-stp"
+                                >No</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button
+                          class="btn btn-cont"
+                          (click)="stepperContinue(stepper, 'assessment')"
+                          [disabled]="assesRows?.status == 'INVALID'"
+                        >
+                          Continue
+                        </button>
+                        <button
+                          class="btn-back"
+                          (click)="goBack(stepper, 'assessment')"
+                        >
+                          Back
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+
+                  <mat-step formArrayName="billing_collection">
+                    <ng-template matStepLabel>
+                      <span
+                        title="Billing and Collection"
+                        [ngClass]="{
+                          'l-green': lGreen?.bAndC,
+                          'l-selected': lSelected.bAndC
+                        }"
+                        >Billing and Collection</span
+                      >
+                    </ng-template>
+                    <div class="row">
+                      <div class="col-12">
+                        <div
+                          class="row"
+                          style="align-items: baseline"
+                          [formGroupName]="i"
+                          *ngFor="
+                            let item of billingRows?.controls;
+                            let i = index
+                          "
+                        >
+                          <div class="col-12 col-sm-12">
+                            <span class="str-Qus">4.{{ i + 1 }}</span>
+                            <!-- </div>
+                                          <div class="col-10"> -->
+                            <span class="str-Qus">
+                              &nbsp;{{ item?.value?.questionText }}
+                            </span>
+                            <div
+                              class="btn-div"
+                              btnRadioGroup
+                              formControlName="answer"
+                            >
+                              <label
+                                [btnRadio]="true"
+                                class="btn btn-yes btn-stp"
+                                >Yes</label
+                              >
+                              <label
+                                [btnRadio]="false"
+                                class="btn btn-no btn-stp"
+                                >No</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button
+                          class="btn btn-cont"
+                          (click)="
+                            stepperContinue(stepper, 'billing_collection')
+                          "
+                        >
+                          Continue
+                        </button>
+                        <button
+                          class="btn-back"
+                          (click)="goBack(stepper, 'billing_collection')"
+                          [disabled]="billingRows?.status == 'INVALID'"
+                        >
+                          Back
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+
+                  <mat-step formArrayName="reporting">
+                    <ng-template matStepLabel>
+                      <span
+                        title="Reporting"
+                        [ngClass]="{
+                          'l-green': lGreen?.repo,
+                          'l-selected': lSelected.repo
+                        }"
+                        >Reporting</span
+                      >
+                    </ng-template>
+                    <div class="row">
+                      <div class="col-12">
+                        <div
+                          class="row"
+                          style="align-items: baseline"
+                          [formGroupName]="i"
+                          *ngFor="
+                            let item of reportingRows?.controls;
+                            let i = index
+                          "
+                        >
+                          <div class="col-12 col-sm-12">
+                            <span class="str-Qus">5.{{ i + 1 }}</span>
+                            <!-- </div>
+                                          <div class="col-10"> -->
+                            <span class="str-Qus">
+                              &nbsp;{{ item?.value?.questionText }}
+                            </span>
+                            <div
+                              class="btn-div"
+                              btnRadioGroup
+                              formControlName="answer"
+                            >
+                              <label
+                                [btnRadio]="true"
+                                class="btn btn-yes btn-stp"
+                                >Yes</label
+                              >
+                              <label
+                                [btnRadio]="false"
+                                class="btn btn-no btn-stp"
+                                >No</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button
+                          class="btn btn-cont"
+                          (click)="SubmitScoreReport()"
+                          [disabled]="scorePerformanceForm?.status == 'INVALID'"
+                        >
+                          Submit
+                        </button>
+                        <button
+                          class="btn-back"
+                          (click)="goBack(stepper, 'reporting')"
+                        >
+                          Back
+                        </button>
+                      </div>
+                    </div>
+                  </mat-step>
+                  <ng-template matStepperIcon="edit">
+                    <mat-icon>check</mat-icon>
+                  </ng-template>
+                </mat-horizontal-stepper>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <div class="row mb-3" *ngIf="reportScoreDiv">
-    <div class="col-sm-12">
-        <div class="card-body score-card">
-            <span class="score-text">Your Property Tax Health-meter score is</span>
-            <span class="score">{{scoreReportData?.currentUlb?.total}}/10</span>
-        </div>
+  <div class="col-sm-12">
+    <div class="card-body score-card">
+      <span class="score-text">Your Property Tax Health-meter score is</span>
+      <span class="score">{{ scoreReportData?.currentUlb?.total }}/10</span>
     </div>
-    <div class="col-sm-12 mt-3">
-        <div class="card-body report-card">
-            <div class="row mb-3">
-                <div class="col-sm-12">
-                    <div class="report-card-h mt-2">Prescription</div>
-                    <div class="report-card-sub mt-2">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
-                </div>
-            </div>
-            <div class="row me-0">
-                <div class="col-sm-12 col-md-6 prs-div pe-0">
-                    <!-- chart--- -->
-                    <a (click)="presDetails(item, i, 'uperPres')" class="pres-aTag" [ngClass]="{'pres-active': item?.isActive}" *ngFor="let item of scoreReportData?.currentUlb?.partcularAnswerValues; let i = index">
-                        <div class="row mt-2 mx-0" style="align-items: center; padding: 5px 0 12px 0;">
-                            <div class="col-sm-4 col-3 text-end pres-name">
-                                {{item?.name}}:
-                            </div>
-                            <div class="col-sm-6 col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-2 pres-name">
-                                {{item?.value}} %
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="col-sm-12 col-md-6 ps-0 pres-card">
-                    <div class="card-body">
-                        <div class="pres-h">
-                            Prescription
-                        </div>
-                        <div class="pres-sub">
-                            {{prescription}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-3 mb-3">
-                <div class="col-sm-12">
-                    <div style="border: 1px dashed #C7C7C7; width: 100%;"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <h4 class="pres-h">Top 3 cities</h4>
-                </div>
-            </div>
-            <div class="row mt-3 mb-3">
-                <div class="col-sm-6">
-                    <div class="table-responsive">
-                        <table class="table mb-0">
-                            <thead>
-                                <tr>
-                                    <th scope="col"># Rank</th>
-                                    <th scope="col">City Name</th>
-                                    <th scope="col">Score (Out of 10)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr (click)="trClick(item)" [ngClass]="{'t-r-active':item?.isActiveRow}" style="cursor: pointer;" *ngFor="let item of scoreReportData?.top3; let i= index;">
-                                    <td>{{i+1}}</td>
-                                    <td>{{item?.ulbName}}</td>
-                                    <td>{{item?.total}}</td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-sm-6 prs-div2 pe-0">
-                    <!-- chart--- -->
-                    <a (click)="presDetails(item,i, 'top3Table')" class="pres-aTag2" *ngFor="let item of prescriptionData; let i = index">
-                        <div class="row mt-2 mx-0 pres-row">
-                            <div class="col-sm-4 col-3 text-end pres-name">
-                                {{item?.name}}:
-                            </div>
-                            <div class="col-sm-6 col-7">
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" [ngStyle]='{"width": item?.value + "%"}' [aria-valuenow]="item?.value" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-2 pres-name">
-                                {{item?.value}} %
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <button class="btn-score btn" (click)="checkPerOtherCity()">Check Score Of Other Cities</button>
-                </div>
-            </div>
+  </div>
+  <div class="col-sm-12 mt-3">
+    <div class="card-body report-card">
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <div class="report-card-h mt-2">Prescription</div>
+          <div class="report-card-sub mt-2">
+            The percentages show how your city has scored in the 5 stages of property tax cycle. You can go through the property tax toolkit to look into recommendations in the areas that need improvement in your state/city.
+          </div>
         </div>
+      </div>
+      <div class="row me-0">
+        <div class="col-sm-12 col-md-6 prs-div pe-0">
+          <!-- chart--- -->
+          <a
+            (click)="presDetails(item, i, 'uperPres')"
+            class="pres-aTag"
+            [ngClass]="{ 'pres-active': item?.isActive }"
+            *ngFor="
+              let item of scoreReportData?.currentUlb?.partcularAnswerValues;
+              let i = index
+            "
+          >
+            <div
+              class="row mt-2 mx-0"
+              style="align-items: center; padding: 5px 0 12px 0"
+            >
+              <div class="col-sm-4 col-3 text-end pres-name">
+                {{ item?.name }}:
+              </div>
+              <div class="col-sm-6 col-7">
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    [ngStyle]="{ width: item?.value + '%' }"
+                    [aria-valuenow]="item?.value"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+              <div class="col-sm-2 col-2 pres-name">{{ item?.value }} %</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-12 col-md-6 ps-0 pres-card">
+          <div class="card-body">
+            <div class="pres-h">Prescription</div>
+            <div class="pres-sub">
+              <!-- {{ prescription }} -->
+              The percentages show how your city has scored in the 5 stages of property tax cycle. You can go through the property tax toolkit to look into recommendations in the areas that need improvement in your state/city.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 mb-3">
+        <div class="col-sm-12">
+          <div style="border: 1px dashed #c7c7c7; width: 100%"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h4 class="pres-h">Top 3 cities</h4>
+        </div>
+      </div>
+      <div class="row mt-3 mb-3">
+        <div class="col-sm-6">
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <thead>
+                <tr>
+                  <th scope="col"># Rank</th>
+                  <th scope="col">City Name</th>
+                  <th scope="col">Score (Out of 10)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  (click)="trClick(item)"
+                  [ngClass]="{ 't-r-active': item?.isActiveRow }"
+                  style="cursor: pointer"
+                  *ngFor="let item of scoreReportData?.top3; let i = index"
+                >
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item?.ulbName }}</td>
+                  <td>{{ item?.total }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-6 prs-div2 pe-0">
+          <!-- chart--- -->
+          <a
+            (click)="presDetails(item, i, 'top3Table')"
+            class="pres-aTag2"
+            *ngFor="let item of prescriptionData; let i = index"
+          >
+            <div class="row mt-2 mx-0 pres-row">
+              <div class="col-sm-4 col-3 text-end pres-name">
+                {{ item?.name }}:
+              </div>
+              <div class="col-sm-6 col-7">
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    [ngStyle]="{ width: item?.value + '%' }"
+                    [aria-valuenow]="item?.value"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+              </div>
+              <div class="col-sm-2 col-2 pres-name">{{ item?.value }} %</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn-score btn" (click)="checkPerOtherCity()">
+            Check Score Of Other Cities
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

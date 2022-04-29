@@ -336,6 +336,8 @@ export class CompareDialogComponent implements OnInit {
 
     this.searchField.setValue(null);
     this.valuesToEmit = this.ulbListChip;
+
+    console.log("this.valuesToEmit", this.ulbListChip)
   }
 
   remove(chips: { _id: string; name: string }): void {
