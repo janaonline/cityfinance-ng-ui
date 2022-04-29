@@ -216,6 +216,8 @@ export class RevenuechartComponent
           var rev =
             data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
+            console.log('datasetLabel', datasetLabel)
+            console.log('rev', rev)
           return `${datasetLabel}: ${label ? label : ""} ${
             rev
               ? rev > 10000000
@@ -403,6 +405,8 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.stateId = sessionStorage.getItem("row_id");
+    this.stateName = this.stateMap[this.stateId];
     console.log("ngOnChanges", changes);
     if (
       changes &&
@@ -449,7 +453,9 @@ export class RevenuechartComponent
   createChart() {
     if (this.myChart) {
       this.myChart.destroy();
+      console.log('this.myChart',this.myChart)
     }
+
     if (this.chartData.type == "scatter") {
       Object.assign(this.chartData, { options: this.scatterOption });
     } else if (this.ChartOptions) {
