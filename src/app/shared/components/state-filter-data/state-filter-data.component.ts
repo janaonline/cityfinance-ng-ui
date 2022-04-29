@@ -1077,12 +1077,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response && response["success"]) {
-            console.log(
-              "getStateRevenue",
-              response,
-              this.barData,
-              tabType?.countAccessKey
-            );
+            console.log( "getStateRevenue", response, this.barData, tabType?.countAccessKey );
 
             // this.barData = this.barData?.data?.sort((a, b) => b.sum - a.sum);
             // console.log("this.barData", this.barData);
@@ -1113,11 +1108,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       );
   }
 
+  sortData(sort: string = 'top', data: any) {
+    let item =  data.sort((a: any, b: any)=>{
+      return (sort == 'bottom') ? a?.count - b?.count : b?.count - a?.count
+    })
+    return item
+  }
+
   filterCityRankingChartData(
     responseData: any,
     tabType: string,
     yAxisLabel: string
   ) {
+    // responseData = responseData.sort((a: any, b: any) => a.count - b.count);
+    let sortingType = this.BarGraphValue ? "top" : "bottom";
+    responseData = this.sortData(sortingType, responseData)
     console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
       type: "bar",
