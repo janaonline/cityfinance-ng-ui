@@ -1120,7 +1120,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     tabType: string,
     yAxisLabel: string
   ) {
-    // responseData = responseData.sort((a: any, b: any) => a.count - b.count);
     let sortingType = this.BarGraphValue ? "top" : "bottom";
     responseData = this.sortData(sortingType, responseData)
     console.log("filterCityRankingChartData", responseData, tabType);
@@ -1573,5 +1572,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           console.log(err.message);
         }
       );
+  }
+
+  downloadCsvFile() {
+    console.log('downloadCsvFile', this.barChartPayload)
+    // let prepareParam = new URLSearchParams(this.barChartPayload).toString();
+    // console.log('prepareParam', prepareParam);
+    this._commonServices.openWindowToDownloadCsv(this.barChartPayload, this.barChartPayload?.apiEndPoint)
   }
 }

@@ -207,17 +207,15 @@ export class RevenuechartComponent
     tooltips: {
       callbacks: {
         label: function (tooltipItem, data) {
+          console.log('tooltipItem', tooltipItem, data)
           var datasetLabel =
             data.datasets[tooltipItem.datasetIndex].label || "Other";
-          var label =
-            data.datasets[tooltipItem.datasetIndex]["labels"][
-              tooltipItem.index
-            ];
-          var rev =
-            data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
-
-            console.log('datasetLabel', datasetLabel)
+          var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
+          var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+          var defaultRevValue = data.datasets[tooltipItem.datasetIndex]["rev"]
+            console.log('datasetLabel', datasetLabel, 'defaultRevValue', defaultRevValue)
             console.log('rev', rev)
+          rev = rev ? rev : defaultRevValue ? defaultRevValue : '';
           return `${datasetLabel}: ${label ? label : ""} ${
             rev
               ? rev > 10000000
