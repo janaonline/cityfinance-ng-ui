@@ -22,27 +22,29 @@ export class ELearningModuleComponent implements OnInit {
   }
   cardData = [
     {
-      label: "E-Learning Module : 1",
+      label: "Digitization of Properties Register",
       imgUrl:
         "../../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
-      code: "",
+      code: "first",
     },
+    
     {
-      label: "E-Learning Module : 2",
-      imgUrl:
-        "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
-      code: "",
-    },
-    {
-      label: "E-Learning Module : 3",
+      label: "Valuation of Properties",
       imgUrl:
         "../../../../../assets/new_dashBord_ftr_hdr/Group 15744/Group 15744.png",
-      code: "",
+      code: "third",
+    },
+    {
+      label: "Motivating Revenue Officials",
+      imgUrl:
+        "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+      code: "second",
     },
   ];
   showIframe = false;
   showTableau = false;
   openScorePer(item) {
+    console.log("new item",{item})
     this.resourcedashboard.setShowCardValue(item);
 
     this.resourcedashboard.showCard.subscribe((res) => {
@@ -54,9 +56,9 @@ export class ELearningModuleComponent implements OnInit {
     });
     this.showIframe = false;
     this.showTableau = false;
-    if (item.label.includes("1")) {
+    if (item.code == "first") {
       this.showTableau = true;
-    } else if (item.label.includes("2")) {
+    } else if (item.code == "second") {
       this.showIframe = true;
     }
 
