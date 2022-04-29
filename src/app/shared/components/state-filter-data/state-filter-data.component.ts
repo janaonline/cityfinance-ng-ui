@@ -612,11 +612,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               stateData = this.stateAvgVal;
             }
 
-            let stateLevelMaxPopuCount = this.stateFilterDataService.getMaximumPopulationCount(
-              mCorporation,
-              tp_data,
-              m_data
-            );
+            let stateLevelMaxPopuCount =
+              this.stateFilterDataService.getMaximumPopulationCount(
+                mCorporation,
+                tp_data,
+                m_data
+              );
             // let   stateLevelMaxPopuCount = 30;
             console.log("stateLevelMaxPopuCount", stateLevelMaxPopuCount);
             this.scatterData.data.datasets.forEach((el) => {
@@ -698,7 +699,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             console.log("chartDropdownList", this.chartDropdownList);
             this.initializeDonughtData();
             if (this.scatterChartPayload.compareType == "") {
+             
               if (data.length) {
+               data = data.sort((a,b) => b.code - a.code)
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
@@ -1439,7 +1442,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       filterName: this.filterName ? this.filterName : "",
       isPerCapita: this.isPerCapita ? this.isPerCapita : "",
       compareType: this.compType ? this.compType : "",
-      compareCategory: this.selectedRadioBtnValue ? this.selectedRadioBtnValue : "",
+      compareCategory: this.selectedRadioBtnValue
+        ? this.selectedRadioBtnValue
+        : "",
       ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       chartType: !this.filterName.includes("mix") ? "scatter" : "doughnut",
       apiEndPoint: apiEndPoint,
@@ -1467,7 +1472,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           console.log("response data", res);
           //scatter plots center
 
-
           if (!this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
             this.notfound = false;
@@ -1475,30 +1479,77 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             //   this.scatterData = this.stateFilterDataService.populationWiseScatterData(res['data']);
             //   console.log(this.scatterData);
             // } else {
-              let scatterChartObj: any = {
-                // cluster of ULBs under these 3 categories
-                mCorporation: res["data"] && res["data"]["mCorporation"] ? res["data"]["mCorporation"] : [],
-                municipality: res["data"] && res["data"]["municipality"] ? res["data"]["municipality"] : [],
-                townPanchayat: res["data"] && res["data"]["townPanchayat"] ? res["data"]["townPanchayat"] : [],
-                // average of ULBs, state, national
-                mCorporationAvg: res["data"] && res["data"]["Municipal Corporation"] ? parseFloat(res["data"]["Municipal Corporation"]) : 0,
-                municipalityAvg: res["data"] && res["data"]["Municipality"] ? parseFloat(res["data"]["Municipality"]) : 0,
-                townPanchayatAvg: res["data"] && res["data"]["Town Panchayat"] ? parseFloat(res["data"]["Town Panchayat"]) : 0,
-                stateAvg: res["data"] && res["data"]["stateAvg"] ? parseFloat(res["data"]["stateAvg"]) : 0,
-                nationalAvg: res["data"] && res["data"]["national"] ? parseFloat(res["data"]["national"]) : 0,
-                // average of population under these categories
-                lessThan100k: res["data"] && res["data"]["< 100 Thousand"] ? parseFloat(res["data"]["< 100 Thousand"]) : 0,
-                bwt100kTo500k: res["data"] && res["data"]["100 Thousand - 500 Thousand"] ? parseFloat(res["data"]["100 Thousand - 500 Thousand"]) : 0,
-                bwt500kTo1m: res["data"] && res["data"]["500 Thousand - 1 Million"] ? parseFloat(res["data"]["500 Thousand - 1 Million"]) : 0,
-                bwt1mTo4m: res["data"] && res["data"]["1 Million - 4 Million"] ? parseFloat(res["data"]["1 Million - 4 Million"]) : 0,
-                greaterThan4m: res["data"] && res["data"]["4 Million+"] ? parseFloat(res["data"]["4 Million+"]) : 0,
-              };
-              scatterChartObj['stateLevelMaxPopuCount'] = this.stateFilterDataService.getMaximumPopulationCount(scatterChartObj?.mCorporation, scatterChartObj?.townPanchayat, scatterChartObj?.municipality)
+            let scatterChartObj: any = {
+              // cluster of ULBs under these 3 categories
+              mCorporation:
+                res["data"] && res["data"]["mCorporation"]
+                  ? res["data"]["mCorporation"]
+                  : [],
+              municipality:
+                res["data"] && res["data"]["municipality"]
+                  ? res["data"]["municipality"]
+                  : [],
+              townPanchayat:
+                res["data"] && res["data"]["townPanchayat"]
+                  ? res["data"]["townPanchayat"]
+                  : [],
+              // average of ULBs, state, national
+              mCorporationAvg:
+                res["data"] && res["data"]["Municipal Corporation"]
+                  ? parseFloat(res["data"]["Municipal Corporation"])
+                  : 0,
+              municipalityAvg:
+                res["data"] && res["data"]["Municipality"]
+                  ? parseFloat(res["data"]["Municipality"])
+                  : 0,
+              townPanchayatAvg:
+                res["data"] && res["data"]["Town Panchayat"]
+                  ? parseFloat(res["data"]["Town Panchayat"])
+                  : 0,
+              stateAvg:
+                res["data"] && res["data"]["stateAvg"]
+                  ? parseFloat(res["data"]["stateAvg"])
+                  : 0,
+              nationalAvg:
+                res["data"] && res["data"]["national"]
+                  ? parseFloat(res["data"]["national"])
+                  : 0,
+              // average of population under these categories
+              lessThan100k:
+                res["data"] && res["data"]["< 100 Thousand"]
+                  ? parseFloat(res["data"]["< 100 Thousand"])
+                  : 0,
+              bwt100kTo500k:
+                res["data"] && res["data"]["100 Thousand - 500 Thousand"]
+                  ? parseFloat(res["data"]["100 Thousand - 500 Thousand"])
+                  : 0,
+              bwt500kTo1m:
+                res["data"] && res["data"]["500 Thousand - 1 Million"]
+                  ? parseFloat(res["data"]["500 Thousand - 1 Million"])
+                  : 0,
+              bwt1mTo4m:
+                res["data"] && res["data"]["1 Million - 4 Million"]
+                  ? parseFloat(res["data"]["1 Million - 4 Million"])
+                  : 0,
+              greaterThan4m:
+                res["data"] && res["data"]["4 Million+"]
+                  ? parseFloat(res["data"]["4 Million+"])
+                  : 0,
+            };
+            scatterChartObj["stateLevelMaxPopuCount"] =
+              this.stateFilterDataService.getMaximumPopulationCount(
+                scatterChartObj?.mCorporation,
+                scatterChartObj?.townPanchayat,
+                scatterChartObj?.municipality
+              );
 
-              this.scatterData = this.stateFilterDataService.plotScatterChart(scatterChartObj, this.selectedRadioBtnValue);
+            this.scatterData = this.stateFilterDataService.plotScatterChart(
+              scatterChartObj,
+              this.selectedRadioBtnValue
+            );
 
-              console.log(this.scatterData);
-              this.generateRandomId("scatterChartId123");
+            console.log(this.scatterData);
+            this.generateRandomId("scatterChartId123");
             // }
           }
         },
