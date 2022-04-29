@@ -177,8 +177,7 @@
           (compareChange)="filterChangeInChart($event)"
           [nestedChartFilterOption]="nestedChartFilterOption"
           (actionClicked)="getClickedAction($event)"
-          [getChartPayload]="scatterChartPayload",
-          [notFound]="notfound"
+          [getChartPayload]="scatterChartPayload"
         ></app-revenuechart>
       </div>
       <div class="col-md-12" *ngIf="stateServiceLabel">
@@ -192,7 +191,6 @@
           [scatterOption]="serviceLevelBenchmarkScatterOption"
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
-          [notFound]="notfound"
         ></app-revenuechart>
       </div>
     </div>
