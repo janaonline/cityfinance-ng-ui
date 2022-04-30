@@ -34,7 +34,7 @@ export class AccordionToTableComponent implements OnInit {
   originalULBList: IULBResponse["data"];
   yearsAvailable: { name: string }[] = [];
   statesAvailable = [];
-  @Input() value
+  @Input() value;
   yearsDropdownSettings = {
     singleSelection: false,
     text: "All Years",
@@ -114,10 +114,13 @@ export class AccordionToTableComponent implements OnInit {
   queryParams = {};
   window = window;
   ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
-  
+  ulbNameMapping;
+
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+  stateIdsMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   cityId;
+  stateId;
   notFound = false;
   constructor(
     private _formBuilder: FormBuilder,
@@ -132,6 +135,7 @@ export class AccordionToTableComponent implements OnInit {
       console.log("queryParams==>", params);
       this.queryParams = params;
       this.cityId = params?.cityId;
+      this.stateId = params?.stateId;
       this.initializeForm();
       this.initializeFormListeners();
       this._bondService
@@ -144,6 +148,16 @@ export class AccordionToTableComponent implements OnInit {
         .getULBS()
         .subscribe((res) => this.onGettingULBResponseSuccess(res));
     });
+    this.createUlbNameMap();
+  }
+
+  createUlbNameMap() {
+    let obj = {};
+    for (const key in this.ulbList) {
+      const element = this.ulbList[key];
+      obj[element.name] = element;
+    }
+    this.ulbNameMapping = obj;
   }
 
   onStateDropdownClose() {
@@ -232,7 +246,7 @@ export class AccordionToTableComponent implements OnInit {
     this.filterForm.patchValue({ ulbs: [], years: [], states: [] });
     this.initializeStateList(this.originalULBList);
     this.initializeYearList(this.originalULBList);
-    this.issueLength.patchValue('4');
+    this.issueLength.patchValue("4");
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
@@ -252,23 +266,56 @@ export class AccordionToTableComponent implements OnInit {
     data: IBondIssureItemResponse["data"];
   }) {
     this.bondIssuerItemData = datas.data;
+    if (this.state) this.makeDataForState(datas.data);
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
     this.totalCount = datas.total;
   }
 
+  makeDataForState(rawData) {
+    this.tableDataSource = rawData.map((val) => {
+      let temp = {
+        municipality: val.ulb == "" ? "NA" : val.ulb,
+        ulbType:
+          this.ulbNameMapping[val.ulb].type == ""
+            ? "NA"
+            : this.ulbNameMapping[val.ulb]?.type,
+        year: val.yearOfBondIssued == "" ? "NA" : val.yearOfBondIssued,
+        rating: val.CRISIL == "" ? "NA" : val.CRISIL,
+        amount: val.amountAccepted == "" ? "NA" : val.amountAccepted,
+        couponRate: val.couponRate == "" ? "NA" : val.couponRate,
+        _id: val._id == "" ? "NA" : val._id,
+      };
+      return temp;
+    });
+    console.log(this.tableDataSource, "tableDataSource");
+  }
+
   private onGettingULBResponseSuccess(response: IULBResponse) {
-    let foundUlb = response.data.find(
-      (value) => value.name === this.ulbList[this.cityId].name
-    )
-    if (
-      !foundUlb
-    ) {
-      this.notFound = true;
-      return;
+    if (this.state) {
+      let foundState;
+      foundState = response.data.filter(
+        (value) => value.stateName === this.stateIdsMap[this.stateId]
+      );
+      if (!foundState) {
+        this.notFound = true;
+        return;
+      } else {
+        this.filterForm.controls["states"].patchValue([...foundState]);
+        this.notFound = false;
+      }
     } else {
-      this.filterForm.controls["ulbs"].patchValue([foundUlb])
-      this.notFound = false
-    };
+      let foundUlb;
+      foundUlb = response.data.find(
+        (value) => value.name === this.ulbList[this.cityId].name
+      );
+      if (!foundUlb) {
+        this.notFound = true;
+        return;
+      } else {
+        this.filterForm.controls["ulbs"].patchValue([foundUlb]);
+        this.notFound = false;
+      }
+    }
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
@@ -325,53 +372,64 @@ export class AccordionToTableComponent implements OnInit {
   emptyArray() {
     this.empty = new Array(10).fill(null);
   }
- city:boolean = false;
- state:boolean = false;
+  city: boolean = false;
+  state: boolean = false;
   ngOnInit() {
     this.emptyArray();
-    console.log('valueeeeeeee'+this.value)
-    if(this.value == 'city'){
-      this.city =true
+    console.log("valueeeeeeee" + this.value);
+    if (this.value == "city") {
+      this.city = true;
       this.state = false;
     }
-    if(this.value == 'state'){
-      this.state =true
-      this.city =false
+    if (this.value == "state") {
+      this.state = true;
+      this.city = false;
     }
-    console.log(this.filterForm)
+    console.log(this.filterForm);
   }
- issueLength:any=4;
- tableHeading = [
-  {title: "Municipality", keyToAccessValue: "municipality", class: "fa-sort sort-icon"},
-  {title: "ULB Type", keyToAccessValue: "ulbType", class: "fa-sort sort-icon"},
-  {title: "Year", keyToAccessValue: "year", class: "fa-sort sort-icon"},
-  {title: "Rating", keyToAccessValue: "rating", class: "fa-sort sort-icon"},
-  {title: "Amount (In Cr)", keyToAccessValue: "amount", class: "fa-sort sort-icon"},
-  {title: "Coupon Rate", keyToAccessValue: "couponRate", class: "fa-sort sort-icon"},
-];
+  issueLength: any = 4;
+  tableHeading = [
+    {
+      title: "Municipality",
+      keyToAccessValue: "municipality",
+      class: "fa-sort sort-icon",
+    },
+    {
+      title: "ULB Type",
+      keyToAccessValue: "ulbType",
+      class: "fa-sort sort-icon",
+    },
+    { title: "Year", keyToAccessValue: "year", class: "fa-sort sort-icon" },
+    { title: "Rating", keyToAccessValue: "rating", class: "fa-sort sort-icon" },
+    {
+      title: "Amount (In Cr)",
+      keyToAccessValue: "amount",
+      class: "fa-sort sort-icon",
+    },
+    {
+      title: "Coupon Rate",
+      keyToAccessValue: "couponRate",
+      class: "fa-sort sort-icon",
+    },
+  ];
 
-tableDataSource = [
-  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-];
-ulbListLatest:any
+  tableDataSource = [
+    {
+      municipality: "Ahmadnagar",
+      ulbType: "Municipality",
+      year: "1997",
+      rating: "AA",
+      amount: 100,
+      couponRate: "14.0",
+      _id: "1",
+    },
+  ];
+  ulbListLatest: any;
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
       console.log(res);
-      this.issueLength=res.total - 1;
+      this.issueLength = res.total - 1;
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();
