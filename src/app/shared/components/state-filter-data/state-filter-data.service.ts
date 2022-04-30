@@ -764,6 +764,18 @@ export class StateFilterDataService {
         },
       ]
     }
+    if (selectedAvgValue == "nationalAvg") {
+      this.nationLevelScatterDataSet = Object.assign({
+        label: "National Average",
+        data: [],
+        rev: [],
+        labels: ["National Average"],
+        showLine: true,
+        fill: false,
+        backgroundColor: "#11BC46",
+        borderColor: "#11BC46",
+      });
+    }
   }
 
   // plotScatterChart(municipalCorpData: any, townPanchayatData: any, municipalityData: any, stateAvgData: any, nationalAvgData: any, selectedAvgValue: string = '') {

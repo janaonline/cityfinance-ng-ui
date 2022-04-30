@@ -763,6 +763,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.financialYear = event.target.value;
     console.log("state financial year", this.financialYear);
     if (this.selectedRadioBtnValue) {
+      this.initializeScatterData();
       this.getAverageScatterData();
     } else {
       this.getScatterData();
