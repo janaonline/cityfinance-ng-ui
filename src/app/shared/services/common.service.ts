@@ -699,4 +699,11 @@ export class CommonService {
       window.open(prepareDownloadURL)
     }
   }
+
+  sortDataSource(dataset: any, sortKey: string) {
+    let sortedData: any = [];
+    // sortedData = dataset.sort((a, b) => a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1);
+    sortedData = dataset.sort((a,b) => a[sortKey].localeCompare(b[sortKey]));
+    return sortedData;
+  }
 }

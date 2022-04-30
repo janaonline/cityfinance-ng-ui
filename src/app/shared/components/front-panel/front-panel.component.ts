@@ -92,7 +92,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         // console.log('res', res);
-        this.stateList = res;
+        this.stateList = this._commonServices.sortDataSource(res, 'name');
       },
       (error) => {
         console.log(error);
