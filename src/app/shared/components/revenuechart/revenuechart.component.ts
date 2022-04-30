@@ -585,12 +585,20 @@ export class RevenuechartComponent
 
   ulbList: any;
   getCompareCompValues(value) {
+    console.log("neeeeee==>", value);
     if (Array.isArray(value)) {
       this.ulbList = value;
       this.compareType = "ULBs..";
       return this?.sendValue(value);
     } else this.compareType = value;
-    this.sendValue();
+    // this.sendValue();
+  }
+  getClearedUlbValue(value) {
+    console.log("hhhhhhhh", value);
+    this.ulbList = value;
+    if (value == "") {
+      this.sendValue();
+    }
   }
 
   sendValue(ulbs = []) {
@@ -611,6 +619,7 @@ export class RevenuechartComponent
       ulbs: this.ulbList,
       compareType: this.compareType,
     };
+    console.log("emitting Value===>", { data }, this.ulbList);
     this.compareChange.emit(data);
   }
   showLoader = false;
@@ -843,7 +852,11 @@ export class RevenuechartComponent
   }
 
   getScatterData() {
-    let isPerCapita = (this.apiParamData.hasOwnProperty('isPerCapita') && (this.apiParamData?.isPerCapita != "")) ? JSON.parse(this.apiParamData?.isPerCapita) : false;
+    let isPerCapita =
+      this.apiParamData.hasOwnProperty("isPerCapita") &&
+      this.apiParamData?.isPerCapita != ""
+        ? JSON.parse(this.apiParamData?.isPerCapita)
+        : false;
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -1196,7 +1209,7 @@ export class RevenuechartComponent
     let scatterChartPayload = {
       state: this.apiParamData?.stateId,
       financialYear: this.apiParamData?.financialYear,
-      headOfAccount: this.apiParamData?.headOfAccount || '',
+      headOfAccount: this.apiParamData?.headOfAccount || "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       which: this.apiParamData?.which || "",
@@ -1266,25 +1279,72 @@ export class RevenuechartComponent
 
           let scatterChartObj: any = {
             // cluster of ULBs under these 3 categories
-            mCorporation: res["data"] && res["data"]["mCorporation"] ? res["data"]["mCorporation"] : [],
-            municipality: res["data"] && res["data"]["municipality"] ? res["data"]["municipality"] : [],
-            townPanchayat: res["data"] && res["data"]["townPanchayat"] ? res["data"]["townPanchayat"] : [],
+            mCorporation:
+              res["data"] && res["data"]["mCorporation"]
+                ? res["data"]["mCorporation"]
+                : [],
+            municipality:
+              res["data"] && res["data"]["municipality"]
+                ? res["data"]["municipality"]
+                : [],
+            townPanchayat:
+              res["data"] && res["data"]["townPanchayat"]
+                ? res["data"]["townPanchayat"]
+                : [],
             // average of ULBs, state, national
-            mCorporationAvg: res["data"] && res["data"]["Municipal Corporation"] ? parseFloat(res["data"]["Municipal Corporation"]) : 0,
-            municipalityAvg: res["data"] && res["data"]["Municipality"] ? parseFloat(res["data"]["Municipality"]) : 0,
-            townPanchayatAvg: res["data"] && res["data"]["Town Panchayat"] ? parseFloat(res["data"]["Town Panchayat"]) : 0,
-            stateAvg: res["data"] && res["data"]["stateAvg"] ? parseFloat(res["data"]["stateAvg"]) : 0,
-            nationalAvg: res["data"] && res["data"]["national"] ? parseFloat(res["data"]["national"]) : 0,
+            mCorporationAvg:
+              res["data"] && res["data"]["Municipal Corporation"]
+                ? parseFloat(res["data"]["Municipal Corporation"])
+                : 0,
+            municipalityAvg:
+              res["data"] && res["data"]["Municipality"]
+                ? parseFloat(res["data"]["Municipality"])
+                : 0,
+            townPanchayatAvg:
+              res["data"] && res["data"]["Town Panchayat"]
+                ? parseFloat(res["data"]["Town Panchayat"])
+                : 0,
+            stateAvg:
+              res["data"] && res["data"]["stateAvg"]
+                ? parseFloat(res["data"]["stateAvg"])
+                : 0,
+            nationalAvg:
+              res["data"] && res["data"]["national"]
+                ? parseFloat(res["data"]["national"])
+                : 0,
             // average of population under these categories
-            lessThan100k: res["data"] && res["data"]["< 100 Thousand"] ? parseFloat(res["data"]["< 100 Thousand"]) : 0,
-            bwt100kTo500k: res["data"] && res["data"]["100 Thousand - 500 Thousand"] ? parseFloat(res["data"]["100 Thousand - 500 Thousand"]) : 0,
-            bwt500kTo1m: res["data"] && res["data"]["500 Thousand - 1 Million"] ? parseFloat(res["data"]["500 Thousand - 1 Million"]) : 0,
-            bwt1mTo4m: res["data"] && res["data"]["1 Million - 4 Million"] ? parseFloat(res["data"]["1 Million - 4 Million"]) : 0,
-            greaterThan4m: res["data"] && res["data"]["4 Million+"] ? parseFloat(res["data"]["4 Million+"]) : 0,
+            lessThan100k:
+              res["data"] && res["data"]["< 100 Thousand"]
+                ? parseFloat(res["data"]["< 100 Thousand"])
+                : 0,
+            bwt100kTo500k:
+              res["data"] && res["data"]["100 Thousand - 500 Thousand"]
+                ? parseFloat(res["data"]["100 Thousand - 500 Thousand"])
+                : 0,
+            bwt500kTo1m:
+              res["data"] && res["data"]["500 Thousand - 1 Million"]
+                ? parseFloat(res["data"]["500 Thousand - 1 Million"])
+                : 0,
+            bwt1mTo4m:
+              res["data"] && res["data"]["1 Million - 4 Million"]
+                ? parseFloat(res["data"]["1 Million - 4 Million"])
+                : 0,
+            greaterThan4m:
+              res["data"] && res["data"]["4 Million+"]
+                ? parseFloat(res["data"]["4 Million+"])
+                : 0,
           };
-          scatterChartObj['stateLevelMaxPopuCount'] = this.stateFilterDataService.getMaximumPopulationCount(scatterChartObj?.mCorporation, scatterChartObj?.townPanchayat, scatterChartObj?.municipality)
+          scatterChartObj["stateLevelMaxPopuCount"] =
+            this.stateFilterDataService.getMaximumPopulationCount(
+              scatterChartObj?.mCorporation,
+              scatterChartObj?.townPanchayat,
+              scatterChartObj?.municipality
+            );
 
-          this.scatterData = this.stateFilterDataService.plotScatterChart(scatterChartObj, this.apiParamData?.which);
+          this.scatterData = this.stateFilterDataService.plotScatterChart(
+            scatterChartObj,
+            this.apiParamData?.which
+          );
 
           this.createChart();
         }

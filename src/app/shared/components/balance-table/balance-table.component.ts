@@ -86,7 +86,9 @@ export class BalanceTableComponent
   report: any[];
   reqYear: any;
   selectedCurrency: any;
-
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
   typeList: { id: string; name: string }[] = [
     { id: "1", name: "One" },
     { id: "2", name: "two" },
@@ -213,6 +215,20 @@ export class BalanceTableComponent
     imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
     imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
   }]
+  onItemSelect(item: any) {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  OnItemDeSelect(item: any) {
+    console.log(item);
+    console.log(this.selectedItems);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+  onDeSelectAll(items: any) {
+    console.log(items);
+  }
   valueType = "absolute"
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
@@ -483,7 +499,27 @@ export class BalanceTableComponent
     document.getElementById("getMultipleChants").click();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dropdownList = [
+      { "id": 1, "itemName": "INR" },
+      { "id": 2, "itemName": "INR Thousands" },
+      { "id": 3, "itemName": "INR Lakhs" },
+      { "id": 4, "itemName": "INR Crores" },
+      ]
+
+    this.selectedItems = [
+      
+    ];
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      text: "Select Conversion  ",
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      enableSearchFilter: false,
+      classes: "myclass custom-class"
+    };
+  }
 
   download() {
     const isUserLoggedIn = this._authService.loggedIn();

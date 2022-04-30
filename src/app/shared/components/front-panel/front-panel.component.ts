@@ -21,7 +21,7 @@ import { Router } from "@angular/router";
 })
 export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
-  data = {
+  data: any = {
     showMap: true,
     stateId: "",
     date: "",
@@ -88,7 +88,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     console.log("this.data====>", this.data);
-    if (this.showDataAvailable) this.getAvailableData();
+
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         // console.log('res', res);
@@ -98,6 +98,13 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         console.log(error);
       }
     );
+
+    this._commonServices.lastUpdatedYear.subscribe((data) => {
+      console.log("lastUpdateYear", data);
+      this.yearVal = data;
+      this.data.year = data;
+      this.getAvailableData();
+    });
   }
 
   stateChanges(event) {
@@ -109,20 +116,32 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this.router.navigateByUrl(`/dashboard/state?stateId=${stateId}`);
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes.data){
-      this.yearValue.emit(changes.data['year']);
-      }
+    console.log("stateChanges", changes);
+    if (changes && changes.data && changes.data.currentValue) {
+      this.data = Object.assign(changes.data.currentValue);
+      this.yearValue.emit(this.data["year"]);
+      console.log("dataaaaa", this.data);
+      // this.data["date"] = changes.data.currentValue?.date;
+      // this.yearVal = this.data.year;
+      // this.getAvailableData();
+    }
   }
 
   changeInMapFilter(event) {
-    console.log('changeInMapFilter', event);
+    console.log("changeInMapFilter", event);
     this.getAvailableData();
     this.changeInStateOrCity.emit(event);
   }
-  yearVal = "2019-20";
+  yearVal = "";
+  // yearVal = "2020-21";
   ulbId;
   downloadCSV(from) {
-    this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+    let obj = {
+      financialYear: this.yearVal,
+      stateId: this.data.stateId,
+      csv: true,
+    };
+    this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res: any) => {
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",

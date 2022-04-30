@@ -59,40 +59,24 @@
       </div> -->
 
       <div class="col-sm-12 col-md-5 pd-s mb-3">
-        <div class="d-flex justify-content-between">
-          <div></div>
-          <div class="d-flex">
-            <div
-              *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))"
-              class="mr-1"
-              [matTooltip]="'Select an option to view average data'"
-            >
-              <select
-                class="form-select text-capitalize"
-                (change)="getCheckBoxValue($event)"
-              >
-                <option
-                  value="none"
-                  selected
-                  hidden
-                  [disabled]="item?.isDisabled"
-                >
-                  Select an Option
-                </option>
-                <option
-                  *ngFor="let item of checkBoxArray"
-                  [value]="item?.value"
-                >
+        <div class="row">
+          <div class="col">
+            <div               *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))"
+            [matTooltip]="'Select an option to view average data'">
+              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="opacity: 0.9;border: 1px solid gray;width: auto;">
+                <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
+                <option *ngFor="let item of checkBoxArray" [value]="item?.value">
                   {{ item?.title }}
                 </option>
               </select>
             </div>
-            <!-- year drop down -->
-            <div class="mr-1">
-              <select
-                class="form-select"
+          </div>
+          <div class="col" style="display:flex;">
+            <select
+                
                 aria-label="Default select"
-                (change)="getSelectedFinancialYear($event)"
+                (change)="getSelectedFinancialYear($event)" style="border-radius: 8px;
+                border: 1px solid gray;width: -webkit-fill-available;opacity: 0.9;"
               >
                 <option
                   *ngFor="let year of yearList"
@@ -102,9 +86,9 @@
                   {{ year }}
                 </option>
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
-              </select>
-            </div>
-            <!-- Search for ULB Names -->
+        </select>
+          </div>
+          <div class="col">
             <form class="filter-form mr-1">
               <div>
                 <!-- <div class="pe-0 justify-content-end"> -->
@@ -113,14 +97,15 @@
                   placeholder="Search for ULB names"
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
-                  class="fl-input form-control w-100"
-                  style="height: 2.4rem"
+                  
+                  style="height: 2.4rem;border-radius: 7px;
+                  border: 1px solid gray;opacity: 0.9;"
                 />
                 <!-- </div> -->
                 <!-- <div class="col-3 col-sm-3 ps-0">
                 <button type="button" class="btn btnFilter">Search</button>
               </div> -->
-                <div class="col-6 col-sm-12">
+                <div>
                   <mat-autocomplete
                     autoActiveFirstOption
                     #auto="matAutocomplete"
@@ -140,20 +125,17 @@
                   </mat-autocomplete>
                 </div>
               </div>
-
+    
               <!-- <div style="display: inline-block; float: right;">
-
+    
             </div> -->
             </form>
-            <button
-              type="button"
-              (click)="reset(true)"
-              class="btn btn-sm searchButton"
-              style="padding: 0.25rem 0.5rem"
-            >
+          </div>
+          <div class="col">
+            <button type="button" (click)="reset(true)" class="btn btn-sm searchButton" style="padding: 0.25rem 0.5rem">
               <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem"> -->
-              Reset
-            </button>
+                Reset
+              </button>
           </div>
         </div>
       </div>
@@ -208,13 +190,13 @@
               <td
                 class="text-center"
                 *ngFor="let heading of stateUlbsPopulation?.tableHeading"
-              >
+                style="font-weight: 800;">
                 {{ heading }}
               </td>
             </tr>
             <tr>
               <td>Number Of Cities</td>
-              <td *ngFor="let heading of stateUlbsPopulation?.tableHeading">
+              <td *ngFor="let heading of stateUlbsPopulation?.tableHeading" style="font-weight: 800;">
                 {{
                   _commonServices.formatNumber(
                     stateUlbsPopulation?.tableDataSource[heading]

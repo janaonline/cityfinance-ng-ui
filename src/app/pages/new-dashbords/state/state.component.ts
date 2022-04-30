@@ -67,10 +67,13 @@ export class StateComponent implements OnInit {
         }
       );
     this.authService.getLastUpdated().subscribe((res) => {
-      this.date = res["data"];
+      console.log("rress", res);
+      this.frontPanelData.date = res["data"];
+      data.date = res["data"];
       data.year = res["year"];
       this.moneyYear = res["year"];
-      data.date = this.date;
+      // data.date = this.date;
+      this._commonService.lastUpdatedYear.next(this.moneyYear);
       this.dashBoardData(this.stateId, this.moneyYear);
     });
   }
@@ -128,6 +131,7 @@ export class StateComponent implements OnInit {
           });
           this.frontPanelData.name = res.data[0]._id.name + " Dashboard";
           this.frontPanelData.stateId = this.stateId;
+          this.frontPanelData["year"] = year;
         },
         (error) => {
           console.error(error);

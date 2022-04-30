@@ -1,4 +1,5 @@
-<div id="multiChartId"
+<div
+  id="multiChartId"
   class="container rounded flex-column pb-5"
   style="background: #fffbef 0% 0% no-repeat padding-box"
 >
@@ -6,25 +7,29 @@
   <div class="row pt-2 align-items-center">
     <!-- <div class="d-flex justify-content-between"> -->
     <div class="col-12 col-lg-12">
-        <p
-          *ngIf="chartId == 'ownRevenue-doughnutChart'"
-          class="chartHeader"
-          style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%"
-        >
-          Own Revenue Split
-        </p>
-        <p class="p-2" class="chartHeader" *ngIf="chartTitle">
-          {{ chartTitle }}
-        </p>
-      </div>
-      <div id="hideHeaderAction" *ngIf="!chartDialogues && btnBesideText" class="col-12 col-md-2 col-lg-2 btnBesideTitle">
-        <button class="mt-2" (click)="openModal()">
-          Compare
-        </button>
-      </div>
-      <div class="row" id="hideHeaderAction" style="display: flex;
-      flex-flow: row;
-      justify-content: flex-end;">
+      <p
+        *ngIf="chartId == 'ownRevenue-doughnutChart'"
+        class="chartHeader"
+        style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%"
+      >
+        Own Revenue Split
+      </p>
+      <p class="p-2" class="chartHeader" *ngIf="chartTitle">
+        {{ chartTitle }}
+      </p>
+    </div>
+    <div
+      id="hideHeaderAction"
+      *ngIf="!chartDialogues && btnBesideText"
+      class="col-12 col-md-2 col-lg-2 btnBesideTitle"
+    >
+      <button class="mt-2" (click)="openModal()">Compare</button>
+    </div>
+    <div
+      class="row"
+      id="hideHeaderAction"
+      style="display: flex; flex-flow: row; justify-content: flex-end"
+    >
       <div class="col-12 col-lg-4">
         <div class="d-flex justify-content-end">
           <div
@@ -33,7 +38,7 @@
           >
             <div class="svg" (click)="actionClick(item)">
               <div class="flex-center iconImg">
-                <img src="{{ item.svg }}" alt="{{item.name}}" />
+                <img src="{{ item.svg }}" alt="{{ item.name }}" />
               </div>
               <div class="text-center">
                 <span class="iconText">
@@ -49,35 +54,41 @@
   </div>
   <!-- </div> -->
 
-  <div  *ngIf="chartDialogues">
+  <div *ngIf="chartDialogues">
     <div class="mr-1 controller">
       <label (click)="openModal()" class="btn compare mr-1 compareCustom">
         Compare to {{ compareType }}
         <mat-icon style="vertical-align: middle">
           keyboard_arrow_down
         </mat-icon>
-        </label>
-        <div class="mr-1" *ngIf="nestedChartFilterOption?.showFinancialYear">
-          <select
-            class="btn compare"
-            (change)="yearValueChange($event.target.value)"
+      </label>
+      <div class="mr-1" *ngIf="nestedChartFilterOption?.showFinancialYear">
+        <select
+          class="btn compare"
+          (change)="yearValueChange($event.target.value)"
+        >
+          <option
+            [disabled]="i == 0 && disableFirstYear"
+            *ngFor="let yearValue of yearList; let i = index"
+            [value]="yearValue"
+            [selected]="yearValue == year"
           >
-            <option
-              [disabled]="i == 0 && disableFirstYear"
-              *ngFor="let yearValue of yearList; let i = index"
-              [value]="yearValue"
-              [selected]="yearValue == year"
-            >
-              {{ yearValue }}
-            </option>
-          </select>
-        </div>
-        <label *ngIf="nestedChartFilterOption?.showResetButton" (click)="resetState()" class="btn compare compareCustom">
-          Reset
-          <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg" alt="cancel_off_icon">
+            {{ yearValue }}
+          </option>
+        </select>
+      </div>
+      <label
+        *ngIf="nestedChartFilterOption?.showResetButton"
+        (click)="resetState()"
+        class="btn compare compareCustom"
+      >
+        Reset
+        <img
+          src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+          alt="cancel_off_icon"
+        />
       </label>
     </div>
-   
   </div>
 
   <div *ngIf="singleDoughnutChart">
@@ -92,10 +103,15 @@
     [id]="'canvasDiv' + chartId"
     style="width: 100%; overflow-x: auto; overflow-y: hidden"
   >
-  <!-- style="width: auto; min-width: 720px; height: 470px" -->
-  <!-- style="min-width: 354px; height: 510px" -->
+    <!-- style="width: auto; min-width: 720px; height: 470px" -->
+    <!-- style="min-width: 354px; height: 510px" -->
     <div *ngIf="!notFound">
-      <canvas [id]="chartId" height="420" width="0" style="min-width: 354px; height: 510px"></canvas>
+      <canvas
+        [id]="chartId"
+        height="420"
+        width="0"
+        style="min-width: 354px; height: 510px"
+      ></canvas>
     </div>
   </div>
 
@@ -108,7 +124,10 @@
         {{ chart?.title }}
       </p>
       <p>
-        <canvas id="{{ chart?.id }}{{ i }}" style="width: auto; height: 470px"></canvas>
+        <canvas
+          id="{{ chart?.id }}{{ i }}"
+          style="width: auto; height: 470px"
+        ></canvas>
       </p>
     </div>
     <div class="text-center col-12 verticleChartLabel">
@@ -148,12 +167,14 @@
 
 <ng-template #template>
   <app-compare-dialog
-  [selectedRadioBtn]="compareType"
+    [selectedRadioBtn]="compareType"
     [type]="compareDialogType"
     [own]="own"
     (ownRevenueCompValue)="ownRevenueCompValue($event)"
     (compareValue)="getCompareCompValues($event)"
+    (ulbValueList)="getClearedUlbValue($event)"
     (closeDialog)="closeModal()"
     [stateId]="apiParamData?.stateId"
+    [preSelectedUlbList]="ulbList"
   ></app-compare-dialog>
 </ng-template>

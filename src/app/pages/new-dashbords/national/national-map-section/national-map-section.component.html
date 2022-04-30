@@ -91,15 +91,15 @@
     </div>
   </div>
 
-  <div class="col-12 col-sm-12 col-md-7">
+  <div class="col-12 col-sm-12 col-md-7" style="margin-top:3%;">
     <div class="row" style="align-items: baseline">
       <div class="col-12 col-sm-12">
-        <div class="heading mb-3" *ngIf="!showLoader">
+        <div class="heading mb-3 dataAvailability" *ngIf="!showLoader">
           {{ AvailabilityTitle }} Data Availability -
           {{ dataAvailabilityvalue?.toFixed(2) }}%
         </div>
       </div>
-      <div class="col-7 col-sm-8 col-md-4">
+      <div class="col-7 col-sm-7 col-md-4">
         <div class="input-group inp-grp">
           <form [formGroup]="myForm" class="w-100">
             <angular2-multiselect
@@ -114,7 +114,7 @@
           </form>
         </div>
       </div>
-      <div class="col-4 col-sm-4 col-md-3 ps-3">
+      <div class="col-4 col-sm-5 col-md-3 ps-3">
         <select
           class="form-select"
           id="years"
@@ -230,7 +230,7 @@
   <div class="row my-5">
     <div class="m-auto" style="width: 60%">
       You can also download the source data in excel format
-      <button class="cursor-pointer bottomDownloadButton py-2">
+      <button class="cursor-pointer bottomDownloadButton py-2 downloadData">
         <img
           src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
           height="13px"
