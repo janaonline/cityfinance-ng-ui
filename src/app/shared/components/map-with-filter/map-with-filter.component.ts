@@ -123,6 +123,8 @@ export class MapWithFilterComponent
         Object.assign(this.layerMap, { [value.properties.ST_CODE]: null });
         return value.properties;
       });
+      this.stateList = this._commonService.sortDataSource(this.stateList, 'ST_NM');
+      console.log('stateList', this.stateList)
 
     this.isProcessingCompleted.emit(false);
     let zoom;

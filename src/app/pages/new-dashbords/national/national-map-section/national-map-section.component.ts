@@ -480,7 +480,8 @@ export class NationalMapSectionComponent
   loadData() {
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
-        this.stateList = res;
+        // this.stateList = res;
+        this.stateList = this._commonService.sortDataSource(res, 'name');
       },
       (error) => {
         console.log(error);
@@ -641,6 +642,7 @@ export class NationalMapSectionComponent
   }
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
+      this.stateList = this._commonService.sortDataSource(res, 'name');
       this.stateList = [{ _id: null, name: "India" }].concat(res);
     });
   }
