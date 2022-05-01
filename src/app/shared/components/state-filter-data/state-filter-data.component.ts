@@ -831,14 +831,19 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .join("")
       .includes("percapita");
     let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
-
-    if (newName?.includes("mix"))
+    console.log('btnLabels',this.data.btnLabels, 'index', i)
+    console.log('newName', newName, 'ActiveButton', this.ActiveButton);
+    if (newName?.includes("mix")) {
       this.filterName = this.data?.btnLabels[i]?.toLocaleLowerCase();
-    else if (newName?.includes("revenue") && !newName?.includes("own"))
-      this.filterName = "revenue";
-    else if (newName?.includes("own") && newName?.includes("revenue"))
+    } else if (newName == "revenue expenditure") {
       this.filterName = newName;
-    else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    } else if (newName?.includes("revenue") && !newName?.includes("own")) {
+      this.filterName = "revenue";
+    } else if (newName?.includes("own") && newName?.includes("revenue")) {
+      this.filterName = newName;
+    } else {
+      this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    }
 
     if (this.stateServiceLabel) {
       this.getDropDownValue();
