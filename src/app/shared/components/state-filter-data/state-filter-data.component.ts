@@ -287,13 +287,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   barChartOptions: any;
   barChartNotFound: boolean = false;
-  // chartDropdownList = [
-  //   {'name': 'Own Revenues', value: ["110", "130", "140", "150", "180"]},
-  //   {'name': 'Assigned Revenue', value: ["120"]},
-  //   {'name': 'Grants', value: ["160"]},
-  //   {'name': 'Interest Income', value: ["171"]},
-  //   {'name': 'Other Receipts', value: ["170", "100"]}
-  // ];
   chartDropdownList: any;
   chartDropdownValue: any;
   chartTitle: string = "Compare ULBs on various financial indicators .";
@@ -385,6 +378,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         isDisabled: false,
       },
     ];
+    this.chartDropdownValue = "";
     this.nationalFilter.patchValue("");
     let emptyArr: any = [];
     this.filteredOptions = emptyArr;
@@ -864,20 +858,29 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .join("")
       .includes("percapita");
     let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
-
-    if (newName?.includes("mix"))
+    console.log('btnLabels',this.data.btnLabels, 'index', i)
+    console.log('newName', newName, 'ActiveButton', this.ActiveButton);
+    if (newName?.includes("mix")) {
       this.filterName = this.data?.btnLabels[i]?.toLocaleLowerCase();
-    else if (newName?.includes("revenue") && !newName?.includes("own"))
-      this.filterName = "revenue";
-    else if (newName?.includes("own") && newName?.includes("revenue"))
+    } else if (newName == "revenue expenditure") {
       this.filterName = newName;
-    else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    } else if (newName?.includes("revenue") && !newName?.includes("own")) {
+      this.filterName = "revenue";
+    } else if (newName?.includes("own") && newName?.includes("revenue")) {
+      this.filterName = newName;
+    } else {
+      this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    }
 
     if (this.stateServiceLabel) {
       this.getDropDownValue();
     } else {
       this.getScatterData();
-      this.getStateRevenue();
+      /* Checking if the ActiveButton array does not include the string 'Mix' then it will call the
+        getStateRevenue() function because for Mix type chart we are calling getStateRevenue() function
+        when we get the value for dropdown from getScatterData() api.
+      */
+      !this.ActiveButton.includes('Mix') ? this.getStateRevenue() : "";
     }
     // this.getScatterData();
     // this.getStateRevenue();
@@ -1094,9 +1097,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     };
 
     if (tabType?.isCodeRequired) {
-      this.barChartPayload["code"] = this.chartDropdownValue
-        ? this.chartDropdownValue
-        : this.chartDropdownList[0].code;
+      this.barChartPayload["code"] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code;
     }
     console.log("dasdasdas", tabType);
     console.log("paramContent", this.barChartPayload);

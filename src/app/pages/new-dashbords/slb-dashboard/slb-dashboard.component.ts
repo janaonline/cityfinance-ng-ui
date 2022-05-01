@@ -343,11 +343,11 @@ export class SlbDashboardComponent
         // maxZoom: zoom + 5,
         minZoom: 6,
         maxZoom: 6,
-        zoomControl: true,
+        zoomControl: false,
         keyboard: true,
         attributionControl: true,
         doubleClickZoom: false,
-        dragging: true,
+        dragging: false,
         tap: true,
       }).setView([options.center.lat, options.center.lng], 4);
       // districtMap.touchZoom.disable();
@@ -396,7 +396,8 @@ export class SlbDashboardComponent
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
         console.log("res", res);
-        this.stateList = res;
+        // this.stateList = res;
+        this.stateList = this._commonService.sortDataSource(res, 'name');
       },
       (error) => {
         console.log(error);

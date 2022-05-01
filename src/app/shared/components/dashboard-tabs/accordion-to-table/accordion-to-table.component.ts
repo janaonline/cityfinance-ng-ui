@@ -272,13 +272,12 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   makeDataForState(rawData) {
+    // console.log(' this.ulbNameMapping',  this.ulbNameMapping)
     this.tableDataSource = rawData.map((val) => {
+      // console.log('value', val)
       let temp = {
         municipality: val.ulb == "" ? "NA" : val.ulb,
-        ulbType:
-          this.ulbNameMapping[val.ulb].type == ""
-            ? "NA"
-            : this.ulbNameMapping[val.ulb]?.type,
+        ulbType: this.ulbNameMapping[val.ulb]?.type == "" ? "NA" : this.ulbNameMapping[val.ulb]?.type,
         year: val.yearOfBondIssued == "" ? "NA" : val.yearOfBondIssued,
         rating: val.CRISIL == "" ? "NA" : val.CRISIL,
         amount: val.amountAccepted == "" ? "NA" : val.amountAccepted,
