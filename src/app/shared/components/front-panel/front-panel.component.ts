@@ -13,7 +13,7 @@ import { OwnRevenueService } from "../../../pages/own-revenue-dashboard/own-reve
 import Chart from "chart.js";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { CommonService } from "../../services/common.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -83,7 +83,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     public ownRevenueService: OwnRevenueService,
     public _loaderService: GlobalLoaderService,
     public _commonServices: CommonService,
-    private router: Router
+    private router: Router,
+    public activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -153,13 +154,29 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       (error) => {}
     );
   }
+
+  selectedStateId: string = '';
+  getStateId() {
+    this.selectedStateId = '';
+    this.activatedRoute.queryParams.subscribe((val) => {
+      console.log("val", val);
+      const { stateId } = val;
+      if (stateId) {
+        this.selectedStateId = stateId;
+        sessionStorage.setItem("stateId", this.selectedStateId);
+      } else {
+        this.selectedStateId = sessionStorage.getItem("row_id");
+      }
+    });
+  }
+
   getAvailableData() {
+    // this.getStateId();
     // this._loaderService.showLoader()
     this.dataAvailLoading = true;
-
     let obj = {
       financialYear: this.yearVal,
-      stateId: this.data.stateId,
+      stateId: this.selectedStateId ? this.selectedStateId : this.data.stateId,
     };
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {

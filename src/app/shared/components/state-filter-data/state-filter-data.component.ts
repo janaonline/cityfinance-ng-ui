@@ -463,7 +463,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getDropDownValue() {
-    this.stateFilterDataService
+    console.log('serviceTabList', this.serviceTabList)
+    if (this.serviceTabList?.length == 0) {
+      this.stateFilterDataService
       .getServiceDropDown(this.serviceTab)
       .subscribe((res: any) => {
         console.log("service dropdown data", res);
@@ -472,10 +474,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         this.getScatterData();
         this.getServiceLevelBenchmarkBarChartData();
       });
+    }
   }
 
   initializeScatterData() {
-    this.scatterData = {
+    this.scatterData = Object.assign( {
       type: "scatter",
       data: {
         datasets: [
@@ -521,7 +524,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           },
         ],
       },
-    };
+    }
+    );
   }
 
   initializeDonughtData() {
@@ -573,7 +577,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         ? this.selectedRadioBtnValue
         : "",
       ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
-      chartType: !this.filterName.includes("mix") ? "scatter" : "doughnut",
+      chartType: !this.filterName?.includes("mix") ? "scatter" : "doughnut",
       apiEndPoint: apiEndPoint,
       apiMethod: "post",
       stateServiceLabel: this.stateServiceLabel,
@@ -635,12 +639,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               stateData = this.stateAvgVal;
             }
 
-            let stateLevelMaxPopuCount =
-              this.stateFilterDataService.getMaximumPopulationCount(
-                mCorporation,
-                tp_data,
-                m_data
-              );
+            let stateLevelMaxPopuCount = this.stateFilterDataService.getMaximumPopulationCount(mCorporation, tp_data,  m_data );
             // let   stateLevelMaxPopuCount = 30;
             console.log("stateLevelMaxPopuCount", stateLevelMaxPopuCount);
             this.scatterData.data.datasets.forEach((el) => {
@@ -657,7 +656,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                     this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount
                   );
                   el.data.push(obj);
-                  obj = { x: 0, y: 0 };
+                  // obj = { x: 0, y: 0 };
                 });
               } else if (el.label == "Municipal Corporation") {
                 mCorporation.forEach((el2, index) => {
@@ -692,12 +691,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               } else if (el.label == "State Average") {
                 let obje = [
                   { x: 0, y: 0 },
-                  {
-                    x: stateLevelMaxPopuCount
-                      ? stateLevelMaxPopuCount
-                      : 1200000,
-                    y: 0,
-                  },
+                  { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,  y: 0, },
                 ];
                 obje.forEach((el2) => {
                   el2["y"] = stateData;
@@ -707,7 +701,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 });
               }
             });
-            console.log(this.scatterData);
+            console.log('scatterData', this.scatterData);
             this.generateRandomId("scatterChartId123");
             this.scatterData = { ...this.scatterData };
           } //donught charts center
@@ -899,11 +893,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
-    if (
-      changes &&
-      changes.selectedStateId &&
-      changes.selectedStateId.currentValue &&
-      !changes?.selectedStateId?.firstChange
+    if ( (changes.hasOwnProperty('selectedStateId') && changes.selectedStateId.currentValue)
+      && !changes?.selectedStateId?.firstChange
     ) {
       console.log("selectedStateId", changes.selectedStateId.currentValue);
       this.stateId = "";
@@ -1313,18 +1304,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log("tooltipItem", tooltipItem.index);
-            var datasetLabel =
-              data.datasets[tooltipItem.datasetIndex].label || "Other";
-            var label =
-              data.datasets[tooltipItem.datasetIndex]["labels"][
-                tooltipItem.index
-              ];
+            console.log("tooltipItem", tooltipItem);
+            console.log('data.datasets', data)
+            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
+            var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
             console.log("tooltipItem", data.datasets[tooltipItem.datasetIndex]);
-            var rev =
-              data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+            var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
-            return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            // return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            return `${datasetLabel}: ${(label && datasetLabel != label) ? label : ""} ${
+              tooltipItem?.yLabel ? `(${(tooltipItem?.yLabel)} %)` : `(${tooltipItem?.yLabel})`
+            }`;
           },
         },
       },
