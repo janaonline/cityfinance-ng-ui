@@ -643,7 +643,6 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
-    // debugger;
     console.log({ stateName });
     const ulbList = [];
     if (stateName && stateName != "India") {

@@ -152,6 +152,34 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
       },
     },
+    animation: {
+      onComplete: function (animation) {
+        var chartInstance = this.chart,
+          ctx = chartInstance.ctx;
+        ctx.font = Chart.helpers.fontString(
+          20,
+          Chart.defaults.global.defaultFontStyle,
+          Chart.defaults.global.defaultFontFamily
+        );
+        this.data.datasets.forEach(function (dataset, i) {
+          var meta = chartInstance.controller.getDatasetMeta(i);
+          let total = dataset.data.reduce((sum, val) => {
+            return sum + val;
+          }, 0);
+          meta.data.forEach(function (bar, index) {
+            ctx.fillStyle = dataset.backgroundColor[index];
+            var data = dataset.data[index];
+            var percentage = Math.floor((data / total) * 100 + 0.5);
+            console.log("chartOption Data", data);
+            ctx.fillText(
+              percentage + " %",
+              bar._model.x,
+              bar._model.y - 50 + index * 25
+            );
+          });
+        });
+      },
+    },
   };
   barData: any;
   // barData = {
@@ -682,7 +710,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             console.log(this.scatterData);
             this.generateRandomId("scatterChartId123");
             this.scatterData = { ...this.scatterData };
-
           } //donught charts center
           else if (this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
@@ -1068,7 +1095,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       activeButton: this.ActiveButton,
       chartTitle: "",
     };
- 
+
     if (tabType?.isCodeRequired) {
       this.barChartPayload["code"] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code;
     }
@@ -1079,7 +1106,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response && response["success"]) {
-            console.log( "getStateRevenue", response, this.barData, tabType?.countAccessKey );
+            console.log(
+              "getStateRevenue",
+              response,
+              this.barData,
+              tabType?.countAccessKey
+            );
 
             // this.barData = this.barData?.data?.sort((a, b) => b.sum - a.sum);
             // console.log("this.barData", this.barData);
@@ -1110,11 +1142,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       );
   }
 
-  sortData(sort: string = 'top', data: any) {
-    let item =  data.sort((a: any, b: any)=>{
-      return (sort == 'bottom') ? a?.count - b?.count : b?.count - a?.count
-    })
-    return item
+  sortData(sort: string = "top", data: any) {
+    let item = data.sort((a: any, b: any) => {
+      return sort == "bottom" ? a?.count - b?.count : b?.count - a?.count;
+    });
+    return item;
   }
 
   filterCityRankingChartData(
@@ -1123,7 +1155,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     yAxisLabel: string
   ) {
     let sortingType = this.BarGraphValue ? "top" : "bottom";
-    responseData = this.sortData(sortingType, responseData)
+    responseData = this.sortData(sortingType, responseData);
     console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
       type: "bar",
@@ -1576,9 +1608,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   downloadCsvFile() {
-    console.log('downloadCsvFile', this.barChartPayload)
+    console.log("downloadCsvFile", this.barChartPayload);
     // let prepareParam = new URLSearchParams(this.barChartPayload).toString();
     // console.log('prepareParam', prepareParam);
-    this._commonServices.openWindowToDownloadCsv(this.barChartPayload, this.barChartPayload?.apiEndPoint)
+    this._commonServices.openWindowToDownloadCsv(
+      this.barChartPayload,
+      this.barChartPayload?.apiEndPoint
+    );
   }
 }
