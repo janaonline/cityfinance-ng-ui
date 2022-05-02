@@ -428,18 +428,16 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   getDropDownValue() {
     console.log('serviceTabList', this.serviceTabList)
-    if (this.serviceTabList?.length == 0) {
-      this.stateFilterDataService
-      .getServiceDropDown(this.serviceTab)
-      .subscribe((res: any) => {
-        console.log("service dropdown data", res);
-        this.serviceTabList = res?.data?.names;
-        this.filterName = this.serviceTabList[0];
-        this.getScatterData();
-        this.getServiceLevelBenchmarkBarChartData();
-        // this.getStateUlbsPopulation();
-      });
-    }
+    this.stateFilterDataService
+    .getServiceDropDown(this.serviceTab)
+    .subscribe((res: any) => {
+      console.log("service dropdown data", res);
+      this.serviceTabList = res?.data?.names;
+      this.filterName = this.serviceTabList[0];
+      this.getScatterData();
+      this.getServiceLevelBenchmarkBarChartData();
+      // this.getStateUlbsPopulation();
+    });
   }
 
   initializeScatterData() {
@@ -858,9 +856,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
-    if ( (changes.hasOwnProperty('selectedStateId') && changes.selectedStateId.currentValue)
-      && !changes?.selectedStateId?.firstChange
-    ) {
+    if ( (changes.hasOwnProperty('selectedStateId') && changes.selectedStateId.currentValue) && !changes?.selectedStateId?.firstChange ) {
       console.log("selectedStateId", changes.selectedStateId.currentValue);
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
@@ -968,6 +964,20 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
     this.getStateUlbsPopulation();
     // this.getStateRevenue();
+
+    this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(data => {
+      console.log('selectedStateFromSlbDashboard', data);
+      if (data?.isNotFirstChange && data?.stateId) {
+        this.stateId = "";
+        this.stateId = data?.stateId;
+        this.getScatterData();
+        if (this.stateServiceLabel) {
+          this.getServiceLevelBenchmarkBarChartData();
+        } else {
+          this.getStateRevenue();
+        }
+      }
+    });
   }
 
   ulbId: any;
@@ -1572,4 +1582,5 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.barChartPayload?.apiEndPoint
     );
   }
+
 }

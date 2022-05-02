@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { retry, catchError, map, filter, switchMap, tap } from "rxjs/operators";
-import { of, throwError } from "rxjs";
+import { BehaviorSubject, of, throwError } from "rxjs";
 import { CommonService } from "../../services/common.service";
 import Chart from "chart.js";
 // ./shared/services/common.service
@@ -511,6 +511,8 @@ export class StateFilterDataService {
       borderColor: "#585FFF",
     },
   ];
+
+  selectedStateFromSlbDashboard: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
   constructor(private http: HttpClient,
     private commonService: CommonService,
