@@ -463,22 +463,22 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getDropDownValue() {
-    console.log('serviceTabList', this.serviceTabList)
+    console.log("serviceTabList", this.serviceTabList);
     if (this.serviceTabList?.length == 0) {
       this.stateFilterDataService
-      .getServiceDropDown(this.serviceTab)
-      .subscribe((res: any) => {
-        console.log("service dropdown data", res);
-        this.serviceTabList = res?.data?.names;
-        this.filterName = this.serviceTabList[0];
-        this.getScatterData();
-        this.getServiceLevelBenchmarkBarChartData();
-      });
+        .getServiceDropDown(this.serviceTab)
+        .subscribe((res: any) => {
+          console.log("service dropdown data", res);
+          this.serviceTabList = res?.data?.names;
+          this.filterName = this.serviceTabList[0];
+          this.getScatterData();
+          this.getServiceLevelBenchmarkBarChartData();
+        });
     }
   }
 
   initializeScatterData() {
-    this.scatterData = Object.assign( {
+    this.scatterData = Object.assign({
       type: "scatter",
       data: {
         datasets: [
@@ -524,8 +524,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           },
         ],
       },
-    }
-    );
+    });
   }
 
   initializeDonughtData() {
@@ -639,7 +638,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               stateData = this.stateAvgVal;
             }
 
-            let stateLevelMaxPopuCount = this.stateFilterDataService.getMaximumPopulationCount(mCorporation, tp_data,  m_data );
+            let stateLevelMaxPopuCount =
+              this.stateFilterDataService.getMaximumPopulationCount(
+                mCorporation,
+                tp_data,
+                m_data
+              );
             // let   stateLevelMaxPopuCount = 30;
             console.log("stateLevelMaxPopuCount", stateLevelMaxPopuCount);
             this.scatterData.data.datasets.forEach((el) => {
@@ -691,7 +695,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               } else if (el.label == "State Average") {
                 let obje = [
                   { x: 0, y: 0 },
-                  { x: stateLevelMaxPopuCount ? stateLevelMaxPopuCount : 1200000,  y: 0, },
+                  {
+                    x: stateLevelMaxPopuCount
+                      ? stateLevelMaxPopuCount
+                      : 1200000,
+                    y: 0,
+                  },
                 ];
                 obje.forEach((el2) => {
                   el2["y"] = stateData;
@@ -701,7 +710,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 });
               }
             });
-            console.log('scatterData', this.scatterData);
+            console.log("scatterData", this.scatterData);
             this.generateRandomId("scatterChartId123");
             this.scatterData = { ...this.scatterData };
           } //donught charts center
@@ -852,8 +861,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .join("")
       .includes("percapita");
     let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
-    console.log('btnLabels',this.data.btnLabels, 'index', i)
-    console.log('newName', newName, 'ActiveButton', this.ActiveButton);
+    console.log("btnLabels", this.data.btnLabels, "index", i);
+    console.log("newName", newName, "ActiveButton", this.ActiveButton);
     if (newName?.includes("mix")) {
       this.filterName = this.data?.btnLabels[i]?.toLocaleLowerCase();
     } else if (newName == "revenue expenditure") {
@@ -874,7 +883,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         getStateRevenue() function because for Mix type chart we are calling getStateRevenue() function
         when we get the value for dropdown from getScatterData() api.
       */
-      !this.ActiveButton.includes('Mix') ? this.getStateRevenue() : "";
+      !this.ActiveButton.includes("Mix") ? this.getStateRevenue() : "";
     }
     // this.getScatterData();
     // this.getStateRevenue();
@@ -893,8 +902,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
-    if ( (changes.hasOwnProperty('selectedStateId') && changes.selectedStateId.currentValue)
-      && !changes?.selectedStateId?.firstChange
+    if (
+      changes.hasOwnProperty("selectedStateId") &&
+      changes.selectedStateId.currentValue &&
+      !changes?.selectedStateId?.firstChange
     ) {
       console.log("selectedStateId", changes.selectedStateId.currentValue);
       this.stateId = "";
@@ -1088,7 +1099,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     };
 
     if (tabType?.isCodeRequired) {
-      this.barChartPayload["code"] = this.chartDropdownValue ? this.chartDropdownValue : this.chartDropdownList[0].code;
+      this.barChartPayload["code"] = this.chartDropdownValue
+        ? this.chartDropdownValue
+        : this.chartDropdownList[0].code;
     }
     console.log("dasdasdas", tabType);
     console.log("paramContent", this.barChartPayload);
@@ -1305,15 +1318,24 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         callbacks: {
           label: function (tooltipItem, data) {
             console.log("tooltipItem", tooltipItem);
-            console.log('data.datasets', data)
-            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
-            var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
+            console.log("data.datasets", data);
+            var datasetLabel =
+              data.datasets[tooltipItem.datasetIndex].label || "Other";
+            var label =
+              data.datasets[tooltipItem.datasetIndex]["labels"][
+                tooltipItem.index
+              ];
             console.log("tooltipItem", data.datasets[tooltipItem.datasetIndex]);
-            var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+            var rev =
+              data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
             // return datasetLabel + ": " + label + " " + `(${rev} %)`;
-            return `${datasetLabel}: ${(label && datasetLabel != label) ? label : ""} ${
-              tooltipItem?.yLabel ? `(${(tooltipItem?.yLabel)} %)` : `(${tooltipItem?.yLabel})`
+            return `${datasetLabel}: ${
+              label && datasetLabel != label ? label : ""
+            } ${
+              tooltipItem?.yLabel
+                ? `(${tooltipItem?.yLabel} %)`
+                : `(${tooltipItem?.yLabel})`
             }`;
           },
         },
@@ -1604,7 +1626,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     // console.log('prepareParam', prepareParam);
     this._commonServices.openWindowToDownloadCsv(
       this.barChartPayload,
-      this.barChartPayload?.apiEndPoint
+      this.barChartPayload?.apiEndPoint,
+      this.stateServiceLabel
     );
   }
 }

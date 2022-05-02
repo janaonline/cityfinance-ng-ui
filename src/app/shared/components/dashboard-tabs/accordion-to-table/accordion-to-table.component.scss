@@ -43,6 +43,13 @@
     cursor: pointer;
   }
 
+  .mat-select {
+    border-color: black;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #dddddd;
+  }
+
   #tableHeadings {
     thead {
       th {
