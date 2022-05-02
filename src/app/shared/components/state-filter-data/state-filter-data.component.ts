@@ -182,43 +182,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     },
   };
   barData: any;
-  // barData = {
-  //   type: "bar",
-  //   data: {
-  //     labels: [
-  //       "Nasik",
-  //       "Mumbai",
-  //       "Pune",
-  //       "Nagpur",
-  //       "Aurangabad",
-  //       "Solapur",
-  //       "Amravati",
-  //       "Navi Mumbai",
-  //       "Nagpur",
-  //       "Thane",
-  //     ],
-  //     datasets: [
-  //       {
-  //         label: "City Ranking",
-  //         data: [100, 90, 80, 70, 60, 50, 40, 30, 20, 11],
-  //         backgroundColor: [
-  //           "#1E44AD",
-  //           "#224CC0",
-  //           "#2553D3",
-  //           "#3360DB",
-  //           "#456EDE",
-  //           "#587DE1",
-  //           "#6A8BE5",
-  //           "#86A2ED",
-  //           "#93AAEA",
-  //           "#A8BCF0",
-  //         ],
-  //         borderColor: ["#1E44AD"],
-  //         borderWidth: 1,
-  //       },
-  //     ],
-  //   },
-  // };
+
   bottomBarData = {
     type: "bar",
     data: {
@@ -473,6 +437,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         this.filterName = this.serviceTabList[0];
         this.getScatterData();
         this.getServiceLevelBenchmarkBarChartData();
+        // this.getStateUlbsPopulation();
       });
     }
   }
