@@ -80,17 +80,20 @@
                 >
                 </angular2-multiselect> -->
                 <div class="col-lg-10">
-                  <h5 class="descpt">Below are the details of municipal bond issuances undertaken by the ULB</h5>
+                  <h5 class="descpt">
+                    Below are the details of municipal bond issuances undertaken
+                    by the ULB
+                  </h5>
                 </div>
-                <div class="col-lg-2 dropdownYear"  *ngIf="city">
+                <div class="col-lg-2 dropdownYear" *ngIf="city">
                   <angular2-multiselect
-                  class="year-form-control"
-                  formControlName="years"
-                  [data]="yearsAvailable"
-                  (onClose)="onyearSelected()"
-                  [settings]="yearsDropdownSettings"
-                >
-                </angular2-multiselect>
+                    class="year-form-control"
+                    formControlName="years"
+                    [data]="yearsAvailable"
+                    (onClose)="onyearSelected()"
+                    [settings]="yearsDropdownSettings"
+                  >
+                  </angular2-multiselect>
                 </div>
               </div>
             </div>
@@ -137,10 +140,7 @@
         <!-- form end -->
       </div>
 
-      <div
-        class="col-md-12" *ngIf="city"
-        
-      >
+      <div class="col-md-12" *ngIf="city">
         <!-- <div style="height: 53px;">
           <table accordion-heading id="tableHeadings" >
             <thead style="border-radius: 4px;
@@ -175,19 +175,18 @@
                 </th>
                 <th class="topTableSummary cityWidth"></th>
                 <tr class="customTableRow">
-                  <td style="opacity: 0.62;">Number Of Instrument</td>
-                  <td>{{issueLength}}</td>
+                  <td style="opacity: 0.62">Number Of Instrument</td>
+                  <td>{{ issueLength }}</td>
                 </tr>
                 <tr class="customTableRow">
-                  <td style="opacity: 0.62;">Issue Size</td>
+                  <td style="opacity: 0.62">Issue Size</td>
                   <td>INR 200 Crores</td>
                 </tr>
                 <tr class="customTableRow">
-                  <td style="opacity: 0.62;">Bids Received</td>
+                  <td style="opacity: 0.62">Bids Received</td>
                   <td>INR 1085 Crores (Oversubscribed 5.42 times)</td>
                 </tr>
               </div>
-              
             </table>
           </accordion-group>
           <accordion-group
@@ -201,118 +200,159 @@
             *ngFor="let row of object.keys(mainRows); let i = index"
             [isOpen]="i === 0 ? true : false"
           > -->
-            <br>
-            <th class="text-capitalize topTableSummary cityWidth" style="background: #E9ECF7 0% 0% no-repeat padding-box;">
+            <br />
+            <th
+              class="text-capitalize topTableSummary cityWidth"
+              style="background: #e9ecf7 0% 0% no-repeat padding-box"
+            >
               {{ formattedNamesMapping[row] }}
               <span class="fa fa-angle-down"></span>
             </th>
-            <table style="margin-top:1px;" *ngFor="let subRow of mainRows[row]">
-              
-                <tr style="height: 3px;
-                border: none;" class='solid'></tr>
-                <tr class='solid w-100'>
-                  <td class="text-capitalize cityMinWidth">
-                    {{ formattedNamesMapping[subRow] }}
-                  </td>
-                  <td
-                    *ngFor="
-                      let bondIsssuerItem of paginatedbondIssuerItem;
-                      let i = index
-                    "
-                    #i
-                  class="cityMinWidth">
-                    {{
-                      bondIsssuerItem[subRow] | linkConverter: "Click here":i
-                    }}
-                  </td>
-                </tr>
-                <tr style="height: 1px;
-                border: none;" class='solid w-100'></tr>
+            <table style="margin-top: 1px" *ngFor="let subRow of mainRows[row]">
+              <tr style="height: 3px; border: none" class="solid"></tr>
+              <tr class="solid w-100">
+                <td class="text-capitalize cityMinWidth">
+                  {{ formattedNamesMapping[subRow] }}
+                </td>
+                <td
+                  *ngFor="
+                    let bondIsssuerItem of paginatedbondIssuerItem;
+                    let i = index
+                  "
+                  #i
+                  class="cityMinWidth"
+                >
+                  {{ bondIsssuerItem[subRow] | linkConverter: "Click here":i }}
+                </td>
+              </tr>
+              <tr style="height: 1px; border: none" class="solid w-100"></tr>
             </table>
             <!-- </div>
         </div> -->
           </accordion-group>
         </accordion>
       </div>
-      <div
-        class="col-md-12" *ngIf="state"
-         
-      >
-      <div class="mt-2 mx-2 filter-section">
-        <div class="filter-title">
-          <span class="material-icons" style="margin-right: 5px;">filter_list</span>
-          <span>Filter By</span>
-        </div>
-        <div class="mt-4 d-flex filter-container">
-          <div class="col">
-            <select class="form-control selectClass" >
-              <option>City</option>
-              <option>ABC2</option>
-              <option>ABC3</option>
-              <option>ABC4</option>
-            </select>
+      <div class="col-md-12" *ngIf="state">
+        <div class="mt-2 mx-2 filter-section">
+          <div class="filter-title">
+            <span class="material-icons" style="margin-right: 5px"
+              >filter_list</span
+            >
+            <span>Filter By</span>
           </div>
-          <div class="col">
-          <select class="form-control selectClass" >
-            <option>ULB Type</option>
-            <option>ABC2</option>
-            <option>ABC3</option>
-            <option>ABC4</option>
-          </select>
-          </div>
-          <div class="col">
-          <select class="form-control selectClass" >
-            <option>ULB Population Category</option>
-            <option>ABC2</option>
-            <option>ABC3</option>
-            <option>ABC4</option>
-          </select>
-          </div>
-          <div class="col">
-          <select class="form-control selectClass" >
-            <option>Select Year</option>
-            <option></option>
-            <option>ABC3</option>
-            <option>ABC4</option>
-          </select>
-          </div>
-          <div class="col d-flex justify-content-end">
-          <button class="btn reset-btn">
-            Clear All
-            <span _ngcontent-all-c100="" class="ml-2 material-icons">highlight_off</span>
-          </button>
-            <!-- Clear All
+          <div class="mt-4 d-flex justify-content-evenly filter-container">
+            <div class="col">
+              <mat-select
+                class="selectClass"
+                [(ngModel)]="selectedUlbList"
+                (ngModelChange)="selectMultipleUlb($event)"
+                placeholder="Select City"
+                multiple
+              >
+                <mat-option *ngFor="let item of stateUlbList" [value]="item">
+                  {{ item.name }}
+                </mat-option>
+              </mat-select>
+            </div>
+            <!-- <div class="col">
+              <select
+                class="form-control selectClass"
+                (change)="selectUlbType($event)"
+              >
+                <option>ULB Type</option>
+                <option *ngFor="let type of ulbTypeList" [value]="type">
+                  {{ type }}
+                </option>
+              </select>
+            </div>
+            <div class="col">
+              <select class="form-control selectClass">
+                <option>ULB Population Category</option>
+                <option>ABC2</option>
+                <option>ABC3</option>
+                <option>ABC4</option>
+              </select>
+            </div> -->
+            <div class="col">
+              <mat-select
+                class="selectClass"
+                [(ngModel)]="selectedYears"
+                (ngModelChange)="selectMultipleYear($event)"
+                placeholder="Select Year"
+                multiple
+              >
+                <mat-option *ngFor="let item of yearsList" [value]="item">
+                  {{ item }}
+                </mat-option>
+              </mat-select>
+            </div>
+            <div class="col">
+              <button (click)="searchFilter()" class="searchButton">
+                Search
+              </button>
+            </div>
+            <div class="col">
+              <button class="btn reset-btn" (click)="clearAllValue()">
+                Clear All
+                <span _ngcontent-all-c100="" class="ml-2 material-icons"
+                  >highlight_off</span
+                >
+              </button>
+              <!-- Clear All
           <span class="ml-2 material-icons">highlight_off</span> -->
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="mt-4 mx-2">
-        <table class = "custom-table">
-        <tbody>
-        <tr class="border-none">
-          <th *ngFor="let heading of tableHeading">
-            {{heading?.title}}
-            <i class="fa " [ngClass]="heading?.class" aria-hidden="true"></i>
-          </th>
-        </tr>
-      
-        <tr class="border-all" *ngFor="let data of tableDataSource">
-          <td class="border-top-bottom" *ngFor="let heading of tableHeading; let i=index"
-            [ngClass]="{'border-left': i == 0, 'border-right': i == (tableHeading?.length-1)}">
-            {{data[heading?.keyToAccessValue]}}
-          </td>
-        </tr>
-      
-        <tr class="border-none">
-        <div class="spacer" style="margin-top: 10px;"></div>
-        </tr>
-      
-        </tbody>
-        </table>
-      
-      </div>
-        
+
+        <div class="mt-4 mx-2" *ngIf="tableDataSource?.length > 0">
+          <table class="custom-table">
+            <tbody>
+              <tr class="border-none">
+                <th *ngFor="let heading of tableHeading">
+                  {{ heading?.title }}
+                  <i
+                    class="fa"
+                    [ngClass]="heading?.class"
+                    aria-hidden="true"
+                  ></i>
+                </th>
+              </tr>
+
+              <tr class="border-all" *ngFor="let data of tableDataSource">
+                <td
+                  class="border-top-bottom"
+                  *ngFor="let heading of tableHeading; let i = index"
+                  [ngClass]="{
+                    'border-left': i == 0,
+                    'border-right': i == tableHeading?.length - 1
+                  }"
+                >
+                  {{ data[heading?.keyToAccessValue] }}
+                </td>
+              </tr>
+
+              <tr class="border-none">
+                <div class="spacer" style="margin-top: 10px"></div>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div
+          *ngIf="tableDataSource?.length == 0"
+          style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+        >
+          <img
+            src="../../../../assets/images/sad.svg"
+            height="82px"
+            width="89px"
+          />
+          <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+            No Data Found for chosen options
+          </div>
+          <p style="color: #6e7281; font-size: 16px">
+            {{ notFoundMessage }}
+          </p>
+        </div>
       </div>
       <!-- <div class="pagination-bottom">
         <pagination-controls
@@ -336,7 +376,10 @@
     </div>
   </div>
 </div>
-<div *ngIf="notFound" style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+<div
+  *ngIf="notFound"
+  style="text-align: center; margin-top: 30px; margin-bottom: 30px"
+>
   <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
   <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
     No Data Found for chosen options

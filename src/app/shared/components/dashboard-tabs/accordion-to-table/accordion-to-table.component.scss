@@ -29,6 +29,20 @@
     }
   }
 
+  .searchButton {
+    border: none;
+    padding: 9px;
+    // padding-left: 2px;
+    // padding-right: 2px;
+    width: auto;
+    font-size: 1em;
+    border-radius: 5px;
+    background-color: #e67e15;
+    border: 1px solid #e67e15;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
   #tableHeadings {
     thead {
       th {
@@ -43,7 +57,7 @@
   accordion {
     width: fit-content;
   }
-  
+
   accordion-group {
     width: fit-content;
     min-width: 100%;
@@ -119,7 +133,7 @@
   table {
     min-width: 100%;
     th {
-      background-color: #EFF2F9;
+      background-color: #eff2f9;
       color: black;
       padding: 9px;
       // font-size: 14px;
@@ -127,21 +141,19 @@
     }
     td {
       padding: 7px;
-      font-size:16px;
+      font-size: 16px;
       font-weight: 500;
-
     }
   }
   tr {
     border: 0;
     // display: block;
-    
-}
+  }
   .solid {
-    border: 1px solid #D9D8D8;;
+    border: 1px solid #d9d8d8;
     border-radius: 4px;
-    padding-left:7px;
-}
+    padding-left: 7px;
+  }
   .scrolling table {
     table-layout: inherit;
     *margin-left: -20%; /*ie7*/
@@ -170,10 +182,10 @@
   ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 8px;
   }
-  .selectClass{
+  .selectClass {
     width: 76%;
   }
-  .cityWidth{
+  .cityWidth {
     min-width: 329px !important;
   }
   // .cityMinWidth{
@@ -402,9 +414,9 @@
   border-spacing: 0 20px;
   // border:1px solid black;
 }
-.customTr{
-  width:1px;
-  height:4px;
+.customTr {
+  width: 1px;
+  height: 4px;
 }
 
 .border-left {
@@ -413,36 +425,35 @@
 table > tr {
   border-radius: 10px !important;
 }
-tr{
-  border:1px solid #d9d8d8;
-
+tr {
+  border: 1px solid #d9d8d8;
 }
 .border-spacing {
   border: 1px solid #d9d8d8 !important;
   margin: 10px;
 }
-.customTableRow{
-  background: #F8FAFF 0% 0% no-repeat padding-box;
+.customTableRow {
+  background: #f8faff 0% 0% no-repeat padding-box;
   border-radius: 0px 0px 4px 4px;
   // opacity: 0.72;
   padding: 10px;
   padding-left: 15px;
 }
-.dropdownYear{
+.dropdownYear {
   text-align: end;
   margin-left: 20px;
 }
-.descpt{
-  margin-left:-13px;
+.descpt {
+  margin-left: -13px;
   font-weight: 600;
 }
-.topTableSummary{
+.topTableSummary {
   // background: var(--unnamed-color-e9ecf7) 0% 0% no-repeat padding-box;
-  background: #E9ECF7 0% 0% no-repeat padding-box !important;
+  background: #e9ecf7 0% 0% no-repeat padding-box !important;
   border-radius: 4px 4px 0px 0px;
   // opacity: 0.71;
-  width:19%;
-  color:0f1f40;
+  width: 19%;
+  color: 0f1f40;
 }
 
 table {
@@ -509,10 +520,10 @@ td {
 
 // filter part
 .filter-section {
-    height: 137px;
-    background: #f7f7f7 0% 0% no-repeat padding-box;
-    border-radius: 10px;
-    padding: 1%;
+  height: 137px;
+  background: #f7f7f7 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  padding: 1%;
 }
 
 .filter-title {
@@ -523,7 +534,6 @@ td {
   font-size: 15px;
   font-weight: 600;
 }
-
 
 .reset-btn {
   background: #fff 0% 0% no-repeat padding-box;
