@@ -20,6 +20,7 @@ import { environment } from "./../../../environments/environment";
 import { JSONUtility } from "src/app/util/jsonUtil";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import * as fileSaver from "file-saver";
 
 @Injectable({
   providedIn: "root",
@@ -690,20 +691,41 @@ export class CommonService {
     return paramObject;
   }
 
-  openWindowToDownloadCsv(paramContent: any, apiEndPoint: any) {
-    console.log('openWindowToDownloadCsv', paramContent, apiEndPoint)
+  openWindowToDownloadCsv(
+    paramContent: any,
+    apiEndPoint: any,
+    stateServiceLabel: boolean = false
+  ) {
+    console.log("openWindowToDownloadCsv", paramContent, apiEndPoint, stateServiceLabel);
     let queryString = new URLSearchParams(paramContent).toString();
-    console.log('queryString', queryString);
-    let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
-    if (prepareDownloadURL) {
-      window.open(prepareDownloadURL)
+    if (!stateServiceLabel) {
+      console.log("queryString", queryString);
+      let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
+      if (prepareDownloadURL) {
+        window.open(prepareDownloadURL);
+      }
+    }
+    if (stateServiceLabel) {
+      this.http
+        .post(
+          `${environment.api.url}${apiEndPoint}`,
+          paramContent,
+          { responseType: "blob" }
+        )
+        .subscribe((res) => {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+          fileSaver.saveAs(blob, `Service-Label-Data.xlsx`);
+        });
     }
   }
 
   sortDataSource(dataset: any, sortKey: string) {
     let sortedData: any = [];
     // sortedData = dataset.sort((a, b) => a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1);
-    sortedData = dataset.sort((a,b) => a[sortKey].localeCompare(b[sortKey]));
+    sortedData = dataset.sort((a, b) => a[sortKey].localeCompare(b[sortKey]));
     return sortedData;
   }
 }

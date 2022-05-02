@@ -25,6 +25,13 @@ export class RevenueMixComponent implements OnInit {
   compType = new EventEmitter();
 
   doughnutBackgroundColor = [
+    "#76d12c",
+    "#ed8e3b",
+    "#15c3eb",
+    "#eb15e3",
+    "#e6e21c",
+    "#fc3d83",
+    // picked from mockup
     "#1E44AD",
     "#25C7CE",
     "#585FFF",

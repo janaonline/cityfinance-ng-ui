@@ -142,7 +142,7 @@
                         <div>
                         <input
                             type="text"
-                            placeholder="Search for ULB names"
+                            placeholder="Search City Names"
                             [formControl]="nationalFilter"
                             [matAutocomplete]="auto"
                             class="fl-input form-control w-100"
@@ -168,48 +168,6 @@
                 </ng-container>
             </div>
           </div>
-          <!-- <div class="container-cnt" style="padding: 0;">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 mb-3 mt-3">
-                                <ul role="tablist" class="nav nav-pills" aria-label="Tabs" style="justify-content: left;">
-                                    <li class="nav-item">
-            
-                                        <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{'popActive': popBtn}" id="pop" style="padding: 0.4rem 2rem; width:12rem;">
-                                            <span>Population Category</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-            
-                                        <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{'popActive': !popBtn}" id="type" style="padding: 0.4rem 2rem; width:12rem;">
-                                            <span>ULB Type</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="table-responsive table-con">
-                                <table class="table" *ngFor="let table of tableData?.data; let tableIndex = index">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" *ngFor="let column of table?.columns" class="{{column?.key}}">
-                                                {{column?.display_name}}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let row of table?.rows">
-                                            <td *ngFor="let column of table?.columns" class="{{column?.key}}">
-                                                {{row[column.key]}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
 
           <div class="row">
             <div
@@ -301,6 +259,7 @@
           [data]="selectedSlbSubTab"
           [stateServiceLabel]="isStateServiceLabel"
         ></app-state-filter-data>
+        <!-- [selectedStateId]="stateId" -->
       </ng-container>
 
       <ng-container *ngIf="isCitySlbActive">

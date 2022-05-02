@@ -470,22 +470,24 @@ export class RevenuechartComponent
     }
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
-    if (this.chartData?.data?.datasets.length) {
-      let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-      if (!canvas) {
-        console.error("no Canvas");
-        return;
+    setTimeout(() => {
+      if (this.chartData?.data?.datasets.length) {
+        let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+        if (!canvas) {
+          console.error("no Canvas");
+          return;
+        }
+        let ctx = canvas.getContext("2d");
+        this.myChart = new Chart(ctx, this.chartData);
+
+        // chartLegendEL.innerHTML = this.myChart.generateLegend();
+        // bindChartEvents(myChart, document);
+
+        // let legendDiv = document.getElementById('legend')
+
+        // $('#legend').prepend(mybarChart.generateLegend());
       }
-      let ctx = canvas.getContext("2d");
-      this.myChart = new Chart(ctx, this.chartData);
-
-      // chartLegendEL.innerHTML = this.myChart.generateLegend();
-      // bindChartEvents(myChart, document);
-
-      // let legendDiv = document.getElementById('legend')
-
-      // $('#legend').prepend(mybarChart.generateLegend());
-    }
+    }, 10);
   }
 
   lastMultipleCharts = [];

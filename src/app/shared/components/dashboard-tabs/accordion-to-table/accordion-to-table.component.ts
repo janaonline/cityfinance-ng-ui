@@ -176,7 +176,7 @@ export class AccordionToTableComponent implements OnInit {
 
     return Promise.all(prmsArr).then((value) => {
       console.log("value", value);
-      this.getFormValue();
+      // this.getFormValue();
     });
   }
 
@@ -294,18 +294,23 @@ export class AccordionToTableComponent implements OnInit {
     total: number;
     data: IBondIssureItemResponse["data"];
   }) {
+    if (datas.data) {
+      this.getFormValue();
+    }
     this.bondIssuerItemData = datas.data;
     if (this.state) {
-      let filterData = this.bondIssuerItemData.filter(
+      this.filterdData = this.bondIssuerItemData.filter(
         (elem: any) => elem.state == this.stateId
       );
-      this.makeDataForState(filterData);
+      this.makeDataForState(this.filterdData);
       // this.makeDataForState(datas.data);
     }
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
     this.totalCount = datas.total;
   }
   totalDataSource;
+  filterdData: any;
+  finalFileteredData: any;
 
   searchFilter() {
     console.log(
@@ -324,12 +329,12 @@ export class AccordionToTableComponent implements OnInit {
       return;
     }
 
-    let filterData: any = this.bondIssuerItemData.filter(
+    this.finalFileteredData = this.bondIssuerItemData.filter(
       (elem) =>
         names.includes(elem.ulb) &&
         this.selectedYears.includes(elem.yearOfBondIssued)
     );
-    this.makeDataForState(filterData);
+    this.makeDataForState(this.finalFileteredData);
   }
 
   makeDataForState(rawData) {
@@ -355,10 +360,11 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   clearAllValue() {
+    console.log("filteredData", this.filterdData);
     this.selectedUlbList = [];
     this.selectedYears = [];
     this.yearsList = [];
-    this.makeDataForState(this.bondIssuerItemData);
+    this.makeDataForState(this.filterdData);
   }
 
   getFormValue() {
@@ -369,11 +375,13 @@ export class AccordionToTableComponent implements OnInit {
     let stateCode = this.StatesJSONForMapCreation?.features?.find(
       (code) => code.properties.ST_NM == stateName
     );
-    console.log("stateCode", stateCode);
-    if (stateCode) {
+    console.log("stateCode", stateCode, this.tableDataSource);
+    if (stateCode && this.tableDataSource.length > 1) {
       let ulbList = this.allUlbList[stateCode?.properties?.ST_CODE];
       console.log("ulbList", ulbList.ulbs);
       this.stateUlbList = ulbList?.ulbs;
+    } else {
+      this.stateUlbList = [];
     }
   }
 

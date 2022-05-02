@@ -575,6 +575,7 @@ export class SlbDashboardComponent
     }
   }
 
+  isFirstChangeCount: number = 0;
   onSelectingStateFromDropDown(state: any | null) {
     console.log("sttts", state);
     this.selectedStateCode = state?.code;
@@ -589,10 +590,12 @@ export class SlbDashboardComponent
     console.log("sdc 2", state, this.selectedState, this.selected_state);
 
     this.selectedState = state;
-    if (this.selectedState && this.selectedState?._id) {
+    if ((this.selectedState && this.selectedState?._id) && (this.stateId != this.selectedState?._id)) {
       sessionStorage.setItem("row_id", this.selectedState?._id);
       this.stateId = this.selectedState?._id;
-      this.loadSLBComponent("state");
+      this.isFirstChangeCount += 1;
+      this.stateFilterDataService.selectedStateFromSlbDashboard.next({stateId: this.stateId, isNotFirstChange: this.isFirstChangeCount == 1 ? false : true });
+      !this.isStateSlbActive ? this.loadSLBComponent("state") : '';
       this.getTableData();
     }
     //   this.fetchDataForVisualization(state ? state._id : null);

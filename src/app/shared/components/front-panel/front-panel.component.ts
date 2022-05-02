@@ -79,13 +79,16 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   stateList;
   notFoundNames = [];
   showButton: boolean = true;
+  ulbList: any;
   constructor(
     public ownRevenueService: OwnRevenueService,
     public _loaderService: GlobalLoaderService,
     public _commonServices: CommonService,
     private router: Router,
     public activatedRoute: ActivatedRoute,
-  ) {}
+  ) {
+    this.ulbList = JSON.parse(localStorage.getItem('ulbList'));
+  }
 
   ngOnInit(): void {
     console.log("this.data====>", this.data);
@@ -130,7 +133,10 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
   changeInMapFilter(event) {
     console.log("changeInMapFilter", event);
-    this.getAvailableData();
+    console.log('this.ulbList', this.ulbList)
+    let stateId = this.ulbList?.data[event?.value?.ST_CODE]._id;
+    console.log('stateId', stateId)
+    this.getAvailableData(stateId);
     this.changeInStateOrCity.emit(event);
   }
   yearVal = "";
@@ -170,13 +176,13 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     });
   }
 
-  getAvailableData() {
+  getAvailableData(stateId: string = '') {
     // this.getStateId();
     // this._loaderService.showLoader()
     this.dataAvailLoading = true;
     let obj = {
       financialYear: this.yearVal,
-      stateId: this.selectedStateId ? this.selectedStateId : this.data.stateId,
+      stateId: stateId ? stateId : this.data.stateId,
     };
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {
