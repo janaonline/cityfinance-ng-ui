@@ -1,7 +1,7 @@
 <div class="row">
-    <div class="col-sm-12" *ngIf="isIntro">
-        <div class="row">
-            <!-- <div class="col-sm-12 mt-3">
+  <div class="col-sm-12" *ngIf="isIntro">
+    <div class="row">
+      <!-- <div class="col-sm-12 mt-3">
         <span>
                    <img src="../../../../../assets/new_dashBord_ftr_hdr/chevron_left_black_24dp.svg" alt="">
                 </span>
@@ -21,11 +21,11 @@
 
         <span class="heading"> Property Tax Toolkit</span>
       </div> -->
-            <div class="col-sm-12 mt-3">
-                <span class="sub-h"> What is the Property Tax Digital Toolkit? </span>
-            </div>
-            <div class="col-sm-12 mt-3">
-                <span class="sub-ans">
+      <div class="col-sm-12 mt-3">
+        <span class="sub-h"> What is the Property Tax Digital Toolkit? </span>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <span class="sub-ans">
           This toolkit is a one-stop-shop for all your needs for reforming
           property taxes in your State/ULB. It provides reform recommendations
           based on best-practices implemented nationally and internationally and
@@ -35,166 +35,251 @@
           implementation challenges, sharply addressing WHAT NEEDS to BE DONE
           and HOW CAN IT BE DONE.
         </span>
-            </div>
-            <div class="col-sm-12 mt-3">
-                <img src="../../../../../assets/new_dashBord_ftr_hdr/introImg.png" width="100%" alt="" />
-            </div>
-        </div>
+      </div>
+      <div class="col-sm-12 mt-3">
+        <img
+          src="../../../../../assets/new_dashBord_ftr_hdr/introImg.png"
+          width="100%"
+          alt=""
+        />
+      </div>
     </div>
-    <div class="col-sm-12" *ngIf="isEnum">Enum</div>
-    <div class="col-sm-12" *ngIf="isValu">Valuation</div>
-    <div class="col-sm-12" *ngIf="isAssess">
+  </div>
+  <div class="col-sm-12" *ngIf="isEnum">
+    <app-enumeration></app-enumeration>
+  </div>
+  <div class="col-sm-12" *ngIf="isValu">Valuation</div>
+  <div class="col-sm-12" *ngIf="isAssess">
+    <div class="heading topBottomGaps">Current Practices</div>
+    <p class="sub-ans just">
+      Assessment of properties refers to the exercise of assessing the value of
+      a particular property within the parameters defined by ULB or State for
+      the purpose of taxation. The rules and formulae for assigning value to all
+      properties within the city are defined by valuation. Assessment is the
+      application of those rules and formulas to individual properties. The
+      strength of the assessment process can be judged by the completeness and
+      veracity of the assessment records. The process of assessment has three
+      aspects to it –
+      <br />
+      1. Assessment methodology used for assessing property tax payable by
+      individual properties <br />
+      2. Exemptions as defined by statutory provisions <br />
+      3. Dispute resolution mechanisms
+    </p>
+    <img src="../../../../../assets/resources-das/image1-31.png" />
 
-        <div class="heading topBottomGaps">Current Practices</div>
-        <p class="sub-ans just">
-            Assessment of properties refers to the exercise of assessing the value of a particular property within the parameters defined by ULB or State for the purpose of taxation. The rules and formulae for assigning value to all properties within the city are
-            defined by valuation. Assessment is the application of those rules and formulas to individual properties. The strength of the assessment process can be judged by the completeness and veracity of the assessment records. The process of assessment
-            has three aspects to it –
-            <br> 1. Assessment methodology used for assessing property tax payable by individual properties
-            <br> 2. Exemptions as defined by statutory provisions
-            <br> 3. Dispute resolution mechanisms
-        </p>
-        <img src="../../../../../assets/resources-das/image1-31.png" />
-
-        <div class="heading topBottomGaps" style="margin-top: 2%">
-            Key Recommendations
-        </div>
-        <div>
-            <div (click)="showRecomm(card._id)" *ngFor="let card of assessmentData" class="card" [ngClass]="{ cardSuper: card._id == cardId }">
-                {{ card.heading }}
-            </div>
-        </div>
-
-        <div *ngFor="let line of assessmentData[cardId - 1].content" class="topBottomGaps sub-ans just">
-            <ul>
-                <li>{{ line }}</li>
-            </ul>
-        </div>
-        <div>
-            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
-                <div ngxSlickItem *ngFor="let item of assessmentData[cardId - 1].imgArr" class="slide">
-                    <span class="topBottomGaps steps">{{ item.text }}</span>
-                    <img [src]="item.link" alt="" width="100%" />
-                </div>
-            </ngx-slick-carousel>
-        </div>
-
-
-        <div class="heading topBottomGaps">Best Practices</div>
-
-        <div *ngFor="let item of stateList" class="practiceCard">
-            <div class="practiceHead">
-                {{ item.stateName }}
-            </div>
-            <div class="docs">
-                <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-            </div>
-            <div class="docs">
-                <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-            </div>
-        </div>
-
+    <div class="heading topBottomGaps" style="margin-top: 2%">
+      Key Recommendations
     </div>
-    <div class="col-sm-12" *ngIf="isBill">
-        <div class="heading topBottomGaps">Current Practices</div>
-        <p class="sub-ans just">
-            Collection efficiency of property tax, which is an important own revenue indicator and is calculated as the ratio of tax collected to demand raised, is dependent on both completeness of billing and administrative efficiencies in the collection process.
-            While many ULBs do not follow this, it is a good practice to ensure that all properties that have been assessed are billed, tax is collected in a timely manner, and periodic payment reminders are issued especially using electronic modes such
-            as SMS and/or emails. The practice of maintaining manual records, which is the case for several ULBs in India, is also a key impediment to efficient billing & collection as it is vulnerable to errors. Significant staff vacancies in revenue
-            departments also adversely impact collection efficiencies. Although some cities have done well to create online billing and collection systems through services of external vendors, they face difficulties in managing the system due to inadequate
-            capacity building measures being undertaken for revenue officials. Online/digital payment of property tax is another good practice whose adoption has been relatively slow and varies across cities. For instance, Coimbatore has a relatively
-            strong property tax system, but a very low rate of adoption of online payment – 14% in FY 2021-22 year.
-
-        </p>
-        <img src="../../../../../assets/images/resources dashboard/image1-31.png" />
-
-        <div class="heading topBottomGaps" style="margin-top: 2%">
-            Key Recommendations
-        </div>
-        <div>
-            <div (click)="showRecomm(card._id)" *ngFor="let card of billingCardData" class="card" [ngClass]="{ cardSuper: card._id == cardId }">
-                {{ card.heading }}
-            </div>
-        </div>
-
-        <p class="topBottomGaps sub-ans just">
-            {{ billingCardData[cardId - 1].content }}
-        </p>
-        <div>
-            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
-                <div ngxSlickItem *ngFor="let item of billingCardData[cardId - 1].imgArr" class="slide">
-                    <span class="topBottomGaps steps">{{ item.text }}</span>
-                    <img [src]="item.link" alt="" width="100%" />
-                    <span class="topBottomGaps steps" [innerHTML]="item.description"></span>
-                </div>
-            </ngx-slick-carousel>
-        </div>
-
-
-        <div class="heading topBottomGaps">Best Practices</div>
-
-        <div *ngFor="let item of stateList" class="practiceCard">
-            <div class="practiceHead">
-                {{ item.stateName }}
-            </div>
-            <div class="docs">
-                <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-            </div>
-            <div class="docs">
-                <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-            </div>
-        </div>
+    <div>
+      <div
+        (click)="showRecomm(card._id)"
+        *ngFor="let card of assessmentData"
+        class="card"
+        [ngClass]="{ cardSuper: card._id == cardId }"
+      >
+        {{ card.heading }}
+      </div>
     </div>
-    <div class="col-sm-12" *ngIf="isRepo">
 
-        <div class="heading topBottomGaps">Current Practices</div>
-        <p class="sub-ans just">
-            Property Tax Management Information System (MIS) exists in all ULBs that have an online property register integrated with payment channels. However, the MIS systems have generally not been integrated with decision-making to improve coverage and collections.
-            There are very few examples of States in which MIS systems are used by different levels of Municipal and State authorities for decision-making as well as monitoring and managing performance. Property tax collection and pendency (defaulters)
-            data is also not available in public domain in majority of the ULBs.
-            <br><br> Most ULBs also lack an ‘incentives mechanism’ which recognizes and rewards/ awards above-par revenue officials. Without systematic and systemic tracking of property tax revenue collections, and an institutional arrangement of rewarding
-            better performing revenue officials, the revenue collections of ULBs are likely to remain sub-optimal.
-
-        </p>
-        <img src="../../../../../assets/resources-das/image1-31.png" />
-
-        <div class="heading topBottomGaps" style="margin-top: 2%">
-            Key Recommendations
-        </div>
-        <div>
-            <div (click)="showRecomm(card._id)" *ngFor="let card of reportCardData" class="card" [ngClass]="{ cardSuper: card._id == cardId }">
-                {{ card.heading }}
-            </div>
-        </div>
-
-        <div *ngFor="let line of reportCardData[cardId - 1].content" class="topBottomGaps sub-ans just">
-            <ul>
-                <li [innerHTML]="line"></li>
-            </ul>
-        </div>
-        <div>
-            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
-                <div ngxSlickItem *ngFor="let item of reportCardData[cardId - 1].imgArr" class="slide">
-                    <span class="topBottomGaps steps">{{ item.text }}</span>
-                    <img [src]="item.link" alt="" width="100%" />
-                </div>
-            </ngx-slick-carousel>
-        </div>
-
-
-        <div class="heading topBottomGaps">Best Practices</div>
-
-        <div *ngFor="let item of stateList" class="practiceCard">
-            <div class="practiceHead">
-                {{ item.stateName }}
-            </div>
-            <div class="docs">
-                <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-            </div>
-            <div class="docs">
-                <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-            </div>
-        </div>
-
+    <div
+      *ngFor="let line of assessmentData[cardId - 1].content"
+      class="topBottomGaps sub-ans just"
+    >
+      <ul>
+        <li>{{ line }}</li>
+      </ul>
     </div>
+    <div>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+        (init)="slickInit($event)"
+        (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let item of assessmentData[cardId - 1].imgArr"
+          class="slide"
+        >
+          <span class="topBottomGaps steps">{{ item.text }}</span>
+          <img [src]="item.link" alt="" width="100%" />
+        </div>
+      </ngx-slick-carousel>
+    </div>
+
+    <div class="heading topBottomGaps">Best Practices</div>
+
+    <div *ngFor="let item of stateList" class="practiceCard">
+      <div class="practiceHead">
+        {{ item.stateName }}
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12" *ngIf="isBill">
+    <div class="heading topBottomGaps">Current Practices</div>
+    <p class="sub-ans just">
+      Collection efficiency of property tax, which is an important own revenue
+      indicator and is calculated as the ratio of tax collected to demand
+      raised, is dependent on both completeness of billing and administrative
+      efficiencies in the collection process. While many ULBs do not follow
+      this, it is a good practice to ensure that all properties that have been
+      assessed are billed, tax is collected in a timely manner, and periodic
+      payment reminders are issued especially using electronic modes such as SMS
+      and/or emails. The practice of maintaining manual records, which is the
+      case for several ULBs in India, is also a key impediment to efficient
+      billing & collection as it is vulnerable to errors. Significant staff
+      vacancies in revenue departments also adversely impact collection
+      efficiencies. Although some cities have done well to create online billing
+      and collection systems through services of external vendors, they face
+      difficulties in managing the system due to inadequate capacity building
+      measures being undertaken for revenue officials. Online/digital payment of
+      property tax is another good practice whose adoption has been relatively
+      slow and varies across cities. For instance, Coimbatore has a relatively
+      strong property tax system, but a very low rate of adoption of online
+      payment – 14% in FY 2021-22 year.
+    </p>
+    <img src="../../../../../assets/images/resources dashboard/image1-31.png" />
+
+    <div class="heading topBottomGaps" style="margin-top: 2%">
+      Key Recommendations
+    </div>
+    <div>
+      <div
+        (click)="showRecomm(card._id)"
+        *ngFor="let card of billingCardData"
+        class="card"
+        [ngClass]="{ cardSuper: card._id == cardId }"
+      >
+        {{ card.heading }}
+      </div>
+    </div>
+
+    <p class="topBottomGaps sub-ans just">
+      {{ billingCardData[cardId - 1].content }}
+    </p>
+    <div>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+        (init)="slickInit($event)"
+        (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let item of billingCardData[cardId - 1].imgArr"
+          class="slide"
+        >
+          <span class="topBottomGaps steps">{{ item.text }}</span>
+          <img [src]="item.link" alt="" width="100%" />
+          <span
+            class="topBottomGaps steps"
+            [innerHTML]="item.description"
+          ></span>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+
+    <div class="heading topBottomGaps">Best Practices</div>
+
+    <div *ngFor="let item of stateList" class="practiceCard">
+      <div class="practiceHead">
+        {{ item.stateName }}
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12" *ngIf="isRepo">
+    <div class="heading topBottomGaps">Current Practices</div>
+    <p class="sub-ans just">
+      Property Tax Management Information System (MIS) exists in all ULBs that
+      have an online property register integrated with payment channels.
+      However, the MIS systems have generally not been integrated with
+      decision-making to improve coverage and collections. There are very few
+      examples of States in which MIS systems are used by different levels of
+      Municipal and State authorities for decision-making as well as monitoring
+      and managing performance. Property tax collection and pendency
+      (defaulters) data is also not available in public domain in majority of
+      the ULBs.
+      <br /><br />
+      Most ULBs also lack an ‘incentives mechanism’ which recognizes and
+      rewards/ awards above-par revenue officials. Without systematic and
+      systemic tracking of property tax revenue collections, and an
+      institutional arrangement of rewarding better performing revenue
+      officials, the revenue collections of ULBs are likely to remain
+      sub-optimal.
+    </p>
+    <img src="../../../../../assets/resources-das/image1-31.png" />
+
+    <div class="heading topBottomGaps" style="margin-top: 2%">
+      Key Recommendations
+    </div>
+    <div>
+      <div
+        (click)="showRecomm(card._id)"
+        *ngFor="let card of reportCardData"
+        class="card"
+        [ngClass]="{ cardSuper: card._id == cardId }"
+      >
+        {{ card.heading }}
+      </div>
+    </div>
+
+    <div
+      *ngFor="let line of reportCardData[cardId - 1].content"
+      class="topBottomGaps sub-ans just"
+    >
+      <ul>
+        <li [innerHTML]="line"></li>
+      </ul>
+    </div>
+    <div>
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+        (init)="slickInit($event)"
+        (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)"
+      >
+        <div
+          ngxSlickItem
+          *ngFor="let item of reportCardData[cardId - 1].imgArr"
+          class="slide"
+        >
+          <span class="topBottomGaps steps">{{ item.text }}</span>
+          <img [src]="item.link" alt="" width="100%" />
+        </div>
+      </ngx-slick-carousel>
+    </div>
+
+    <div class="heading topBottomGaps">Best Practices</div>
+
+    <div *ngFor="let item of stateList" class="practiceCard">
+      <div class="practiceHead">
+        {{ item.stateName }}
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
+      </div>
+      <div class="docs">
+        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
+      </div>
+    </div>
+  </div>
 </div>
