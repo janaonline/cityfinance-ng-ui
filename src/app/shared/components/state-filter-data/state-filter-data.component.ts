@@ -130,6 +130,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 15,
+        generateLabels: function(chart) {
+          console.log('generateLabels', chart)
+          const datasets = chart.data.datasets;
+          console.log('datasets', datasets)
+          console.log('chart.labels', chart.data.labels)
+          let total = chart.data.datasets[0].data.reduce((sum, val) => {
+            return sum + val;
+          }, 0);
+          console.log('total', total)
+          // var percentage = Math.floor((data / total) * 100 + 0.5);
+          return datasets[0].data.map((data, i) => ({
+            text: `${chart.data.labels[i]}: ${Math.floor((data / total) * 100 + 0.5)}%`,
+            fillStyle: datasets[0].backgroundColor[i],
+          }))
+        }
       },
       onClick: (e) => e.stopPropagation(),
     },
@@ -152,34 +167,34 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
       },
     },
-    animation: {
-      onComplete: function (animation) {
-        var chartInstance = this.chart,
-          ctx = chartInstance.ctx;
-        ctx.font = Chart.helpers.fontString(
-          20,
-          Chart.defaults.global.defaultFontStyle,
-          Chart.defaults.global.defaultFontFamily
-        );
-        this.data.datasets.forEach(function (dataset, i) {
-          var meta = chartInstance.controller.getDatasetMeta(i);
-          let total = dataset.data.reduce((sum, val) => {
-            return sum + val;
-          }, 0);
-          meta.data.forEach(function (bar, index) {
-            ctx.fillStyle = dataset.backgroundColor[index];
-            var data = dataset.data[index];
-            var percentage = Math.floor((data / total) * 100 + 0.5);
-            console.log("chartOption Data", data);
-            ctx.fillText(
-              percentage + " %",
-              bar._model.x,
-              bar._model.y - 50 + index * 25
-            );
-          });
-        });
-      },
-    },
+    // animation: {
+    //   onComplete: function (animation) {
+    //     var chartInstance = this.chart,
+    //       ctx = chartInstance.ctx;
+    //     ctx.font = Chart.helpers.fontString(
+    //       20,
+    //       Chart.defaults.global.defaultFontStyle,
+    //       Chart.defaults.global.defaultFontFamily
+    //     );
+    //     this.data.datasets.forEach(function (dataset, i) {
+    //       var meta = chartInstance.controller.getDatasetMeta(i);
+    //       let total = dataset.data.reduce((sum, val) => {
+    //         return sum + val;
+    //       }, 0);
+    //       meta.data.forEach(function (bar, index) {
+    //         ctx.fillStyle = dataset.backgroundColor[index];
+    //         var data = dataset.data[index];
+    //         var percentage = Math.floor((data / total) * 100 + 0.5);
+    //         console.log("chartOption Data", data);
+    //         ctx.fillText(
+    //           percentage + " %",
+    //           bar._model.x,
+    //           bar._model.y - 50 + index * 25
+    //         );
+    //       });
+    //     });
+    //   },
+    // },
   };
   barData: any;
 
