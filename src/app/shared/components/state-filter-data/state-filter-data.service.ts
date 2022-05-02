@@ -96,7 +96,7 @@ export class StateFilterDataService {
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
-        console.log(animation, "animation");
+        console.log('animation', animation);
       },
     },
   };

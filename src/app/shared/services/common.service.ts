@@ -600,9 +600,9 @@ export class CommonService {
     chartAnimation: string = "defaultBarChartOptions"
   ) {
     let formattedValue: any;
-    if (value >= 10000000) {
+    if (chartAnimation == "croreBarChartOptions") {
       formattedValue = (value / 10000000).toFixed(2);
-    } else if (value >= 100000) {
+    } else if (chartAnimation == "lakhBarChartOptions") {
       formattedValue = (value / 100000).toFixed(2);
     }
     // else {
