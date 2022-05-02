@@ -1313,18 +1313,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log("tooltipItem", tooltipItem.index);
-            var datasetLabel =
-              data.datasets[tooltipItem.datasetIndex].label || "Other";
-            var label =
-              data.datasets[tooltipItem.datasetIndex]["labels"][
-                tooltipItem.index
-              ];
+            console.log("tooltipItem", tooltipItem);
+            console.log('data.datasets', data)
+            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
+            var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
             console.log("tooltipItem", data.datasets[tooltipItem.datasetIndex]);
-            var rev =
-              data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+            var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
-            return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            // return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            return `${datasetLabel}: ${(label && datasetLabel != label) ? label : ""} ${
+              tooltipItem?.yLabel ? `(${(tooltipItem?.yLabel)} %)` : `(${tooltipItem?.yLabel})`
+            }`;
           },
         },
       },
