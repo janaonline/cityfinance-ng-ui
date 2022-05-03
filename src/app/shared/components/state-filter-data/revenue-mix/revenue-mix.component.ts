@@ -1149,8 +1149,8 @@ return arr;
         });
       } else if (this.ulbTab) {
         let totalDataSet = [ 
-          this.doughnutArray[1].data.datasets[0].data, 
-          this.doughnutArray[2].data.datasets[0].data,  
+          this.doughnutArray[1].data.datasets[0].data,
+          this.doughnutArray[2].data.datasets[0].data,
           this.doughnutArray[3].data.datasets[0].data
         ];
         console.log('ulbTabSumTotal', this.getSumTotal(totalDataSet))
