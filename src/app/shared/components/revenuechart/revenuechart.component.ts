@@ -207,9 +207,13 @@ export class RevenuechartComponent
     tooltips: {
       callbacks: {
         label: function (tooltipItem, data) {
-          console.log('tooltipItem', tooltipItem, data)
-          var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
-          var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
+          console.log("tooltipItem", tooltipItem, data);
+          var datasetLabel =
+            data.datasets[tooltipItem.datasetIndex].label || "Other";
+          var label =
+            data.datasets[tooltipItem.datasetIndex]["labels"][
+              tooltipItem.index
+            ];
           // var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
           // var defaultRevValue = data.datasets[tooltipItem.datasetIndex]["rev"]
           //   console.log('datasetLabel', datasetLabel, 'defaultRevValue', defaultRevValue)
@@ -222,11 +226,14 @@ export class RevenuechartComponent
           //       : `(${rev.toFixed(2)})`
           //     : ""
           // }`;
-          return `${datasetLabel}: ${(label && datasetLabel != label) ? label : ""} ${
-            tooltipItem?.yLabel ? tooltipItem?.yLabel > 10000000
-            ? `(${(tooltipItem?.yLabel / 10000000).toFixed(2)} Cr)`
-            : `(${tooltipItem?.yLabel.toFixed(2)})`
-            : ""
+          return `${datasetLabel}: ${
+            label && datasetLabel != label ? label : ""
+          } ${
+            tooltipItem?.yLabel
+              ? tooltipItem?.yLabel > 10000000
+                ? `(${(tooltipItem?.yLabel / 10000000).toFixed(2)} Cr)`
+                : `(${tooltipItem?.yLabel.toFixed(2)})`
+              : ""
           }`;
         },
       },
@@ -367,6 +374,7 @@ export class RevenuechartComponent
 
   // $('#legend').prepend(mybarChart.generateLegend());
   ngAfterViewInit(): void {
+    console.log("chartTiltle", this.chartTitle);
     if (this.widgetMode) {
       this.chartTitle = this.apiParamData.hasOwnProperty("chartTitle")
         ? this.apiParamData?.chartTitle
@@ -455,7 +463,7 @@ export class RevenuechartComponent
   createChart() {
     if (this.myChart) {
       this.myChart.destroy();
-      console.log('this.myChart',this.myChart)
+      console.log("this.myChart", this.myChart);
     }
 
     if (this.chartData.type == "scatter") {

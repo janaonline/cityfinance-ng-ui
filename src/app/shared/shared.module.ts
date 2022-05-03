@@ -12,7 +12,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSelect, MatSelectModule } from "@angular/material/select";
 
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from "@angular/material/tooltip";
 import {
   MatSlideToggle,
   MatSlideToggleModule,
@@ -79,14 +79,13 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { NewCreditRatingComponent } from "./components/dashboard-tabs/new-credit-rating/new-credit-rating.component";
 import { NewCityCreditRatingComponent } from "./components/dashboard-tabs/new-city-credit-rating/new-city-credit-rating.component";
 import { SlbChartsComponent } from "./components/slb-charts/slb-charts.component";
-import { CommonChartsGraphsComponent } from './components/common-charts-graphs/common-charts-graphs.component';
-import { UlbCompareDailogComponent } from './components/common-charts-graphs/ulb-compare-dailog/ulb-compare-dailog.component';
-import { RevenueMixComponent } from './components/state-filter-data/revenue-mix/revenue-mix.component';
-import { ShareDialogComponent } from './components/share-dialog/share-dialog.component';
+import { CommonChartsGraphsComponent } from "./components/common-charts-graphs/common-charts-graphs.component";
+import { UlbCompareDailogComponent } from "./components/common-charts-graphs/ulb-compare-dailog/ulb-compare-dailog.component";
+import { RevenueMixComponent } from "./components/state-filter-data/revenue-mix/revenue-mix.component";
+import { ShareDialogComponent } from "./components/share-dialog/share-dialog.component";
 import { BasicComponent } from "../dashboard/report/basic/basic.component";
 import { ComparativeUlbComponent } from "../dashboard/report/comparative-ulb/comparative-ulb.component";
-import { MatRadioModule } from '@angular/material/radio';
-
+import { MatRadioModule } from "@angular/material/radio";
 
 @NgModule({
   imports: [
@@ -117,8 +116,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatCardModule,
     MatTableModule,
     NgxPaginationModule,
-    MatRadioModule
-
+    MatRadioModule,
   ],
   declarations: [
     PreLoaderComponent,
@@ -174,8 +172,7 @@ import { MatRadioModule } from '@angular/material/radio';
     RevenueMixComponent,
     ShareDialogComponent,
     BasicComponent,
-    ComparativeUlbComponent
-
+    ComparativeUlbComponent,
   ],
   exports: [
     FormsModule,
@@ -219,7 +216,7 @@ import { MatRadioModule } from '@angular/material/radio';
     BasicComponent,
     SlbChartsComponent,
     StateFilterDataComponent,
-    ComparativeUlbComponent
+    ComparativeUlbComponent,
   ],
   providers: [FinancialDataService],
 })
