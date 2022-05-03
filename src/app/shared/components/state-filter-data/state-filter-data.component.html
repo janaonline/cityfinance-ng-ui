@@ -208,7 +208,7 @@
 <!-- </div> -->
 
 <div *ngIf="!stateServiceLabel">
-  <div *ngIf="ActiveButton?.includes('Mix') && (!compType || compType == 'default')">
+  <div *ngIf="ActiveButton?.includes('Mix') && !compType">
     <app-revenue-mix
       [chartId]="'doughnutDataChartId'"
       [chartData]="doughnutData"

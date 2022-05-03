@@ -700,7 +700,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             }
             console.log("chartDropdownList", this.chartDropdownList);
             this.initializeDonughtData();
-            if (this.scatterChartPayload.compareType == "" || this.scatterChartPayload.compareType == "default") {
+            if (this.scatterChartPayload.compareType == "") {
               if (data.length) {
                 data = data.sort((a, b) => b.code - a.code);
                 data.forEach((el) => {
@@ -799,11 +799,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getScatterData();
   }
 
-  getCompType(mixType) {
+  getCompType(mixType: string) {
     console.log('getCompType', mixType);
     // this.compType = e;
     // if (e) this.getScatterData();
-    this.compType = mixType;
+    
+    this.compType = (mixType && mixType == 'default') ? '' : mixType;
     if (mixType) this.getScatterData();
   }
 
