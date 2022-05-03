@@ -207,25 +207,27 @@ export class RevenuechartComponent
     tooltips: {
       callbacks: {
         label: function (tooltipItem, data) {
-          var datasetLabel =
-            data.datasets[tooltipItem.datasetIndex].label || "Other";
-          var label =
-            data.datasets[tooltipItem.datasetIndex]["labels"][
-              tooltipItem.index
-            ];
-          var rev =
-            data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
-
-            console.log('datasetLabel', datasetLabel)
-            console.log('rev', rev)
-          return `${datasetLabel}: ${label ? label : ""} ${
-            rev
-              ? rev > 10000000
-                ? `(${(rev / 10000000).toFixed(2)} Cr)`
-                : `(${rev.toFixed(2)})`
-              : ""
+          console.log('tooltipItem', tooltipItem, data)
+          var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || "Other";
+          var label = data.datasets[tooltipItem.datasetIndex]["labels"][tooltipItem.index];
+          // var rev = data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
+          // var defaultRevValue = data.datasets[tooltipItem.datasetIndex]["rev"]
+          //   console.log('datasetLabel', datasetLabel, 'defaultRevValue', defaultRevValue)
+          //   console.log('rev', rev)
+          // rev = rev ? rev : defaultRevValue ? defaultRevValue : '';
+          // return `${datasetLabel}: ${label ? label : ""} ${
+          //   rev
+          //     ? rev > 10000000
+          //       ? `(${(rev / 10000000).toFixed(2)} Cr)`
+          //       : `(${rev.toFixed(2)})`
+          //     : ""
+          // }`;
+          return `${datasetLabel}: ${(label && datasetLabel != label) ? label : ""} ${
+            tooltipItem?.yLabel ? tooltipItem?.yLabel > 10000000
+            ? `(${(tooltipItem?.yLabel / 10000000).toFixed(2)} Cr)`
+            : `(${tooltipItem?.yLabel.toFixed(2)})`
+            : ""
           }`;
-          // datasetLabel + ": " + label ? label : '' + rev ? `(${(rev / 10000000).toFixed(2)} Cr)` : ''
         },
       },
     },
@@ -468,22 +470,24 @@ export class RevenuechartComponent
     }
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
-    if (this.chartData?.data?.datasets.length) {
-      let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
-      if (!canvas) {
-        console.error("no Canvas");
-        return;
+    setTimeout(() => {
+      if (this.chartData?.data?.datasets.length) {
+        let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
+        if (!canvas) {
+          console.error("no Canvas");
+          return;
+        }
+        let ctx = canvas.getContext("2d");
+        this.myChart = new Chart(ctx, this.chartData);
+
+        // chartLegendEL.innerHTML = this.myChart.generateLegend();
+        // bindChartEvents(myChart, document);
+
+        // let legendDiv = document.getElementById('legend')
+
+        // $('#legend').prepend(mybarChart.generateLegend());
       }
-      let ctx = canvas.getContext("2d");
-      this.myChart = new Chart(ctx, this.chartData);
-
-      // chartLegendEL.innerHTML = this.myChart.generateLegend();
-      // bindChartEvents(myChart, document);
-
-      // let legendDiv = document.getElementById('legend')
-
-      // $('#legend').prepend(mybarChart.generateLegend());
-    }
+    }, 10);
   }
 
   lastMultipleCharts = [];
@@ -587,12 +591,20 @@ export class RevenuechartComponent
 
   ulbList: any;
   getCompareCompValues(value) {
+    console.log("neeeeee==>", value);
     if (Array.isArray(value)) {
       this.ulbList = value;
       this.compareType = "ULBs..";
       return this?.sendValue(value);
     } else this.compareType = value;
-    this.sendValue();
+    // this.sendValue();
+  }
+  getClearedUlbValue(value) {
+    console.log("hhhhhhhh", value);
+    this.ulbList = value;
+    if (value == "") {
+      this.sendValue();
+    }
   }
 
   sendValue(ulbs = []) {
@@ -613,6 +625,7 @@ export class RevenuechartComponent
       ulbs: this.ulbList,
       compareType: this.compareType,
     };
+    console.log("emitting Value===>", { data }, this.ulbList);
     this.compareChange.emit(data);
   }
   showLoader = false;
@@ -845,7 +858,11 @@ export class RevenuechartComponent
   }
 
   getScatterData() {
-    let isPerCapita = (this.apiParamData.hasOwnProperty('isPerCapita') && (this.apiParamData?.isPerCapita != "")) ? JSON.parse(this.apiParamData?.isPerCapita) : false;
+    let isPerCapita =
+      this.apiParamData.hasOwnProperty("isPerCapita") &&
+      this.apiParamData?.isPerCapita != ""
+        ? JSON.parse(this.apiParamData?.isPerCapita)
+        : false;
     this.multiChart = false;
     this._loaderService.showLoader();
     this.initializeScatterData();
@@ -1198,7 +1215,7 @@ export class RevenuechartComponent
     let scatterChartPayload = {
       state: this.apiParamData?.stateId,
       financialYear: this.apiParamData?.financialYear,
-      headOfAccount: this.apiParamData?.headOfAccount || '',
+      headOfAccount: this.apiParamData?.headOfAccount || "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       which: this.apiParamData?.which || "",
@@ -1268,25 +1285,72 @@ export class RevenuechartComponent
 
           let scatterChartObj: any = {
             // cluster of ULBs under these 3 categories
-            mCorporation: res["data"] && res["data"]["mCorporation"] ? res["data"]["mCorporation"] : [],
-            municipality: res["data"] && res["data"]["municipality"] ? res["data"]["municipality"] : [],
-            townPanchayat: res["data"] && res["data"]["townPanchayat"] ? res["data"]["townPanchayat"] : [],
+            mCorporation:
+              res["data"] && res["data"]["mCorporation"]
+                ? res["data"]["mCorporation"]
+                : [],
+            municipality:
+              res["data"] && res["data"]["municipality"]
+                ? res["data"]["municipality"]
+                : [],
+            townPanchayat:
+              res["data"] && res["data"]["townPanchayat"]
+                ? res["data"]["townPanchayat"]
+                : [],
             // average of ULBs, state, national
-            mCorporationAvg: res["data"] && res["data"]["Municipal Corporation"] ? parseFloat(res["data"]["Municipal Corporation"]) : 0,
-            municipalityAvg: res["data"] && res["data"]["Municipality"] ? parseFloat(res["data"]["Municipality"]) : 0,
-            townPanchayatAvg: res["data"] && res["data"]["Town Panchayat"] ? parseFloat(res["data"]["Town Panchayat"]) : 0,
-            stateAvg: res["data"] && res["data"]["stateAvg"] ? parseFloat(res["data"]["stateAvg"]) : 0,
-            nationalAvg: res["data"] && res["data"]["national"] ? parseFloat(res["data"]["national"]) : 0,
+            mCorporationAvg:
+              res["data"] && res["data"]["Municipal Corporation"]
+                ? parseFloat(res["data"]["Municipal Corporation"])
+                : 0,
+            municipalityAvg:
+              res["data"] && res["data"]["Municipality"]
+                ? parseFloat(res["data"]["Municipality"])
+                : 0,
+            townPanchayatAvg:
+              res["data"] && res["data"]["Town Panchayat"]
+                ? parseFloat(res["data"]["Town Panchayat"])
+                : 0,
+            stateAvg:
+              res["data"] && res["data"]["stateAvg"]
+                ? parseFloat(res["data"]["stateAvg"])
+                : 0,
+            nationalAvg:
+              res["data"] && res["data"]["national"]
+                ? parseFloat(res["data"]["national"])
+                : 0,
             // average of population under these categories
-            lessThan100k: res["data"] && res["data"]["< 100 Thousand"] ? parseFloat(res["data"]["< 100 Thousand"]) : 0,
-            bwt100kTo500k: res["data"] && res["data"]["100 Thousand - 500 Thousand"] ? parseFloat(res["data"]["100 Thousand - 500 Thousand"]) : 0,
-            bwt500kTo1m: res["data"] && res["data"]["500 Thousand - 1 Million"] ? parseFloat(res["data"]["500 Thousand - 1 Million"]) : 0,
-            bwt1mTo4m: res["data"] && res["data"]["1 Million - 4 Million"] ? parseFloat(res["data"]["1 Million - 4 Million"]) : 0,
-            greaterThan4m: res["data"] && res["data"]["4 Million+"] ? parseFloat(res["data"]["4 Million+"]) : 0,
+            lessThan100k:
+              res["data"] && res["data"]["< 100 Thousand"]
+                ? parseFloat(res["data"]["< 100 Thousand"])
+                : 0,
+            bwt100kTo500k:
+              res["data"] && res["data"]["100 Thousand - 500 Thousand"]
+                ? parseFloat(res["data"]["100 Thousand - 500 Thousand"])
+                : 0,
+            bwt500kTo1m:
+              res["data"] && res["data"]["500 Thousand - 1 Million"]
+                ? parseFloat(res["data"]["500 Thousand - 1 Million"])
+                : 0,
+            bwt1mTo4m:
+              res["data"] && res["data"]["1 Million - 4 Million"]
+                ? parseFloat(res["data"]["1 Million - 4 Million"])
+                : 0,
+            greaterThan4m:
+              res["data"] && res["data"]["4 Million+"]
+                ? parseFloat(res["data"]["4 Million+"])
+                : 0,
           };
-          scatterChartObj['stateLevelMaxPopuCount'] = this.stateFilterDataService.getMaximumPopulationCount(scatterChartObj?.mCorporation, scatterChartObj?.townPanchayat, scatterChartObj?.municipality)
+          scatterChartObj["stateLevelMaxPopuCount"] =
+            this.stateFilterDataService.getMaximumPopulationCount(
+              scatterChartObj?.mCorporation,
+              scatterChartObj?.townPanchayat,
+              scatterChartObj?.municipality
+            );
 
-          this.scatterData = this.stateFilterDataService.plotScatterChart(scatterChartObj, this.apiParamData?.which);
+          this.scatterData = this.stateFilterDataService.plotScatterChart(
+            scatterChartObj,
+            this.apiParamData?.which
+          );
 
           this.createChart();
         }

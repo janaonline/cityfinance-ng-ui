@@ -25,6 +25,13 @@ export class RevenueMixComponent implements OnInit {
   compType = new EventEmitter();
 
   doughnutBackgroundColor = [
+    "#76d12c",
+    "#ed8e3b",
+    "#15c3eb",
+    "#eb15e3",
+    "#e6e21c",
+    "#fc3d83",
+    // picked from mockup
     "#1E44AD",
     "#25C7CE",
     "#585FFF",
@@ -1035,7 +1042,7 @@ return arr;
         this.multipleChartShow = false;
       }
     }
-    if(!changes.chartData.firstChange){
+    if(!changes?.chartData?.firstChange){
     console.log('revenueMix changes', this.chartData, this.multipleChartShow)
     this.ulbTab ? this.initializeDounughtArry() : this.populationTab ? this.initializePopulationDoughnutArray() : '';
     if(Array.isArray(this.chartData)){
@@ -1142,8 +1149,8 @@ return arr;
         });
       } else if (this.ulbTab) {
         let totalDataSet = [ 
-          this.doughnutArray[1].data.datasets[0].data, 
-          this.doughnutArray[2].data.datasets[0].data,  
+          this.doughnutArray[1].data.datasets[0].data,
+          this.doughnutArray[2].data.datasets[0].data,
           this.doughnutArray[3].data.datasets[0].data
         ];
         console.log('ulbTabSumTotal', this.getSumTotal(totalDataSet))

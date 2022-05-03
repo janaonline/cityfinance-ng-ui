@@ -20,6 +20,7 @@ import { environment } from "./../../../environments/environment";
 import { JSONUtility } from "src/app/util/jsonUtil";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import * as fileSaver from "file-saver";
 
 @Injectable({
   providedIn: "root",
@@ -30,6 +31,7 @@ export class CommonService {
   public states: Subject<any> = new Subject<any>();
   OpenModalTrigger = new Subject<any>();
   state_name_data = new Subject<any>();
+  lastUpdatedYear = new BehaviorSubject<any>("");
   private httpUtil = new HttpUtility();
   jsonUtil = new JSONUtility();
 
@@ -42,10 +44,10 @@ export class CommonService {
   constructor(
     private http: HttpClient,
     private sanitizer: DomSanitizer,
-    private snackbar: MatSnackBar,
-    ) { }
+    private snackbar: MatSnackBar
+  ) {}
 
-    searchUlb(body,type, state="") {
+  searchUlb(body, type, state = "") {
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search?type=${type}&state=${state}`,
       body
@@ -562,9 +564,9 @@ export class CommonService {
     let dataString = {
       matchingWord: data,
     };
-    let stateData=""
-    if(state){
-      stateData = `&state=${state}`
+    let stateData = "";
+    if (state) {
+      stateData = `&state=${state}`;
     }
     return this.http.post(
       `${environment.api.url}recentSearchKeyword/search?type=${type}${stateData}`,
@@ -594,97 +596,136 @@ export class CommonService {
     return new Intl.NumberFormat("en-IN").format(num);
   }
 
-  changeCountFormat(value: any, chartAnimation: string = 'defaultBarChartOptions') {
+  changeCountFormat(
+    value: any,
+    chartAnimation: string = "defaultBarChartOptions"
+  ) {
     let formattedValue: any;
-    if (value >= 10000000) {
+    if (chartAnimation == "croreBarChartOptions") {
       formattedValue = (value / 10000000).toFixed(2);
-    } else if (value >= 100000) {
+    } else if (chartAnimation == "lakhBarChartOptions") {
       formattedValue = (value / 100000).toFixed(2);
     }
     // else {
     //   formattedValue = value.toFixed(2);
     // }
-    return chartAnimation == 'defaultBarChartOptions' ? value : formattedValue;
+    return chartAnimation == "defaultBarChartOptions" ? value : formattedValue;
   }
 
   toTitleCase(phrase: string) {
     return phrase
       .toLowerCase()
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
 
   getStateWiseFYs(paramContent: any) {
     let bodyParams: any;
     bodyParams = this.getHttpClientParams(paramContent);
-    return this.http.get(
-      `${environment.api.url}get-FYs-with-specification`, {
-        params: bodyParams,
-      }
-    );
+    return this.http.get(`${environment.api.url}get-FYs-with-specification`, {
+      params: bodyParams,
+    });
   }
 
-/**
- * It takes a URL query string and returns a URL with the query string appended to it.
- * @param {any} paramContent - {
- * @returns
- * http://localhost:4200/revenuchart?widgetMode=true&startDate=2019-01-01&endDate=2019-01-31&chartType=line&chartTitle=Revenue%20Chart&chartSubtitle=Revenue%20Chart%20Subtitle&chartXAxisTitle=Revenue%20Chart
- */
+  /**
+   * It takes a URL query string and returns a URL with the query string appended to it.
+   * @param {any} paramContent - {
+   * @returns
+   * http://localhost:4200/revenuchart?widgetMode=true&startDate=2019-01-01&endDate=2019-01-31&chartType=line&chartTitle=Revenue%20Chart&chartSubtitle=Revenue%20Chart%20Subtitle&chartXAxisTitle=Revenue%20Chart
+   */
   createEmbedUrl(paramContent: any) {
     let queryString = new URLSearchParams(paramContent).toString();
-    let embeddedRoute = 'revenuchart';
-    console.log('queryString', queryString);
+    let embeddedRoute = "revenuchart";
+    console.log("queryString", queryString);
     let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&${queryString}`;
     // let finalURL = `${window.location.origin}/${embeddedRoute}?widgetMode=true&data=${btoa(queryString)}`;
     return finalURL;
   }
 
   showSnackbarMessage(message: string) {
-    this.snackbar.open(message, '', {
+    this.snackbar.open(message, "", {
       duration: 1500,
       verticalPosition: "bottom",
     });
   }
 
-  copyToClipboard(copyHTMLElement: any, copyMessage: string = '') {
+  copyToClipboard(copyHTMLElement: any, copyMessage: string = "") {
     this.showSnackbarMessage(copyMessage);
 
-    let selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
+    let selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
     selBox.value = copyHTMLElement;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(selBox);
   }
 
   decodeIframeUrl(dataUrl: any) {
-    console.log('decodeIframeUrl', dataUrl);
+    console.log("decodeIframeUrl", dataUrl);
     let decodedUrl = atob(dataUrl);
     return decodedUrl;
   }
 
-/**
- * It takes a string of query parameters and returns an object with the key/value pairs.
- * @param {any} queryParamContent - "code=4%2FvQH4XcQ7Zq-Y7Yc9Q8QqQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
- * @returns {
- *   "access_token":
- * "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiw
- */
+  /**
+   * It takes a string of query parameters and returns an object with the key/value pairs.
+   * @param {any} queryParamContent - "code=4%2FvQH4XcQ7Zq-Y7Yc9Q8QqQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+   * @returns {
+   *   "access_token":
+   * "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiw
+   */
   paramsToObject(queryParamContent: any) {
-    console.log('queryParamContent', queryParamContent)
+    console.log("queryParamContent", queryParamContent);
     var paramObject = {};
-    var pairs = queryParamContent.split('&');
+    var pairs = queryParamContent.split("&");
     for (let key in pairs) {
-      var split = pairs[key].split('=');
+      var split = pairs[key].split("=");
       paramObject[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
     }
-    console.log('paramObject', paramObject)
+    console.log("paramObject", paramObject);
     return paramObject;
+  }
+
+  openWindowToDownloadCsv(
+    paramContent: any,
+    apiEndPoint: any,
+    stateServiceLabel: boolean = false
+  ) {
+    console.log("openWindowToDownloadCsv", paramContent, apiEndPoint, stateServiceLabel);
+    let queryString = new URLSearchParams(paramContent).toString();
+    if (!stateServiceLabel) {
+      console.log("queryString", queryString);
+      let prepareDownloadURL = `${environment.api.url}${apiEndPoint}?csv=true&${queryString}`;
+      if (prepareDownloadURL) {
+        window.open(prepareDownloadURL);
+      }
+    }
+    if (stateServiceLabel) {
+      this.http
+        .post(
+          `${environment.api.url}${apiEndPoint}`,
+          paramContent,
+          { responseType: "blob" }
+        )
+        .subscribe((res) => {
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+          fileSaver.saveAs(blob, `Service-Label-Data.xlsx`);
+        });
+    }
+  }
+
+  sortDataSource(dataset: any, sortKey: string) {
+    let sortedData: any = [];
+    // sortedData = dataset.sort((a, b) => a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1);
+    sortedData = dataset.sort((a, b) => a[sortKey].localeCompare(b[sortKey]));
+    return sortedData;
   }
 }

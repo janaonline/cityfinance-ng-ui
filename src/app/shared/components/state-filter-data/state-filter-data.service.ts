@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../environments/environment";
 import { retry, catchError, map, filter, switchMap, tap } from "rxjs/operators";
-import { of, throwError } from "rxjs";
+import { BehaviorSubject, of, throwError } from "rxjs";
 import { CommonService } from "../../services/common.service";
 import Chart from "chart.js";
 // ./shared/services/common.service
@@ -96,7 +96,7 @@ export class StateFilterDataService {
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
-        console.log(animation, "animation");
+        console.log('animation', animation);
       },
     },
   };
@@ -512,6 +512,8 @@ export class StateFilterDataService {
     },
   ];
 
+  selectedStateFromSlbDashboard: BehaviorSubject<any> = new BehaviorSubject<any>({});
+
   constructor(private http: HttpClient,
     private commonService: CommonService,
     private sanitizer: DomSanitizer
@@ -764,6 +766,18 @@ export class StateFilterDataService {
         },
       ]
     }
+    if (selectedAvgValue == "nationalAvg") {
+      this.nationLevelScatterDataSet = Object.assign({
+        label: "National Average",
+        data: [],
+        rev: [],
+        labels: ["National Average"],
+        showLine: true,
+        fill: false,
+        backgroundColor: "#11BC46",
+        borderColor: "#11BC46",
+      });
+    }
   }
 
   // plotScatterChart(municipalCorpData: any, townPanchayatData: any, municipalityData: any, stateAvgData: any, nationalAvgData: any, selectedAvgValue: string = '') {
@@ -854,10 +868,10 @@ export class StateFilterDataService {
       } else if (el.label == "National Average") {
         el.showLine = true;
         el.fill = false;
-        el["rev"].push(scatterChartObj?.nationalAvgData);
+        el["rev"].push(scatterChartObj?.nationalAvg);
         let defaultDataSet = [{ x: 0, y: 0 }, { x: scatterChartObj?.stateLevelMaxPopuCount ? scatterChartObj?.stateLevelMaxPopuCount : 1200000, y: 0 }];
         defaultDataSet.forEach(el2 => {
-          el2['y'] = scatterChartObj?.nationalAvgData;
+          el2['y'] = scatterChartObj?.nationalAvg;
           el["data"].push(el2);
         });
       } else if (el.label == "Municipal Corporation Average") {

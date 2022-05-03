@@ -130,6 +130,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 15,
+        generateLabels: function(chart) {
+          console.log('generateLabels', chart)
+          const datasets = chart.data.datasets;
+          console.log('datasets', datasets)
+          console.log('chart.labels', chart.data.labels)
+          let total = chart.data.datasets[0].data.reduce((sum, val) => {
+            return sum + val;
+          }, 0);
+          console.log('total', total)
+          // var percentage = Math.floor((data / total) * 100 + 0.5);
+          return datasets[0].data.map((data, i) => ({
+            text: `${chart.data.labels[i]}: ${Math.floor((data / total) * 100 + 0.5)}%`,
+            fillStyle: datasets[0].backgroundColor[i],
+          }))
+        }
       },
       onClick: (e) => e.stopPropagation(),
     },
@@ -152,45 +167,37 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
       },
     },
+    // animation: {
+    //   onComplete: function (animation) {
+    //     var chartInstance = this.chart,
+    //       ctx = chartInstance.ctx;
+    //     ctx.font = Chart.helpers.fontString(
+    //       20,
+    //       Chart.defaults.global.defaultFontStyle,
+    //       Chart.defaults.global.defaultFontFamily
+    //     );
+    //     this.data.datasets.forEach(function (dataset, i) {
+    //       var meta = chartInstance.controller.getDatasetMeta(i);
+    //       let total = dataset.data.reduce((sum, val) => {
+    //         return sum + val;
+    //       }, 0);
+    //       meta.data.forEach(function (bar, index) {
+    //         ctx.fillStyle = dataset.backgroundColor[index];
+    //         var data = dataset.data[index];
+    //         var percentage = Math.floor((data / total) * 100 + 0.5);
+    //         console.log("chartOption Data", data);
+    //         ctx.fillText(
+    //           percentage + " %",
+    //           bar._model.x,
+    //           bar._model.y - 50 + index * 25
+    //         );
+    //       });
+    //     });
+    //   },
+    // },
   };
   barData: any;
-  // barData = {
-  //   type: "bar",
-  //   data: {
-  //     labels: [
-  //       "Nasik",
-  //       "Mumbai",
-  //       "Pune",
-  //       "Nagpur",
-  //       "Aurangabad",
-  //       "Solapur",
-  //       "Amravati",
-  //       "Navi Mumbai",
-  //       "Nagpur",
-  //       "Thane",
-  //     ],
-  //     datasets: [
-  //       {
-  //         label: "City Ranking",
-  //         data: [100, 90, 80, 70, 60, 50, 40, 30, 20, 11],
-  //         backgroundColor: [
-  //           "#1E44AD",
-  //           "#224CC0",
-  //           "#2553D3",
-  //           "#3360DB",
-  //           "#456EDE",
-  //           "#587DE1",
-  //           "#6A8BE5",
-  //           "#86A2ED",
-  //           "#93AAEA",
-  //           "#A8BCF0",
-  //         ],
-  //         borderColor: ["#1E44AD"],
-  //         borderWidth: 1,
-  //       },
-  //     ],
-  //   },
-  // };
+
   bottomBarData = {
     type: "bar",
     data: {
@@ -259,13 +266,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
   barChartOptions: any;
   barChartNotFound: boolean = false;
-  // chartDropdownList = [
-  //   {'name': 'Own Revenues', value: ["110", "130", "140", "150", "180"]},
-  //   {'name': 'Assigned Revenue', value: ["120"]},
-  //   {'name': 'Grants', value: ["160"]},
-  //   {'name': 'Interest Income', value: ["171"]},
-  //   {'name': 'Other Receipts', value: ["170", "100"]}
-  // ];
   chartDropdownList: any;
   chartDropdownValue: any;
   chartTitle: string = "Compare ULBs on various financial indicators .";
@@ -357,6 +357,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         isDisabled: false,
       },
     ];
+    this.chartDropdownValue = "";
     this.nationalFilter.patchValue("");
     let emptyArr: any = [];
     this.filteredOptions = emptyArr;
@@ -441,19 +442,19 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getDropDownValue() {
-    this.stateFilterDataService
-      .getServiceDropDown(this.serviceTab)
-      .subscribe((res: any) => {
-        console.log("service dropdown data", res);
-        this.serviceTabList = res?.data?.names;
-        this.filterName = this.serviceTabList[0];
-        this.getScatterData();
-        this.getServiceLevelBenchmarkBarChartData();
-      });
+    console.log('serviceTabList', this.serviceTabList)
+    this.stateFilterDataService.getServiceDropDown(this.serviceTab).subscribe((res: any) => {
+      console.log("service dropdown data", res);
+      this.serviceTabList = res?.data?.names;
+      this.filterName = this.serviceTabList[0];
+      this.getScatterData();
+      this.getServiceLevelBenchmarkBarChartData();
+      // this.getStateUlbsPopulation();
+    });
   }
 
   initializeScatterData() {
-    this.scatterData = {
+    this.scatterData = Object.assign({
       type: "scatter",
       data: {
         datasets: [
@@ -499,11 +500,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           },
         ],
       },
-    };
+    });
   }
 
   initializeDonughtData() {
-    this.doughnutData = {
+    this.doughnutData = Object.assign({
       type: "doughnut",
       data: {
         labels: [],
@@ -522,7 +523,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           },
         ],
       },
-    };
+    });
   }
 
   compType: any;
@@ -551,7 +552,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         ? this.selectedRadioBtnValue
         : "",
       ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
-      chartType: !this.filterName.includes("mix") ? "scatter" : "doughnut",
+      chartType: !this.filterName?.includes("mix") ? "scatter" : "doughnut",
       apiEndPoint: apiEndPoint,
       apiMethod: "post",
       stateServiceLabel: this.stateServiceLabel,
@@ -635,7 +636,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                     this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount
                   );
                   el.data.push(obj);
-                  obj = { x: 0, y: 0 };
+                  // obj = { x: 0, y: 0 };
                 });
               } else if (el.label == "Municipal Corporation") {
                 mCorporation.forEach((el2, index) => {
@@ -685,10 +686,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 });
               }
             });
-            console.log(this.scatterData);
+            console.log("scatterData", this.scatterData);
             this.generateRandomId("scatterChartId123");
             this.scatterData = { ...this.scatterData };
-
           } //donught charts center
           else if (this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
@@ -701,9 +701,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             console.log("chartDropdownList", this.chartDropdownList);
             this.initializeDonughtData();
             if (this.scatterChartPayload.compareType == "") {
-             
               if (data.length) {
-               data = data.sort((a,b) => b.code - a.code)
+                data = data.sort((a, b) => b.code - a.code);
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
@@ -763,6 +762,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.financialYear = event.target.value;
     console.log("state financial year", this.financialYear);
     if (this.selectedRadioBtnValue) {
+      this.initializeScatterData();
       this.getAverageScatterData();
     } else {
       this.getScatterData();
@@ -799,10 +799,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getScatterData();
   }
 
-  getCompType(e) {
-    console.log(e);
-    this.compType = e;
-    if (e) this.getScatterData();
+  getCompType(mixType: string) {
+    console.log('getCompType', mixType);
+    // this.compType = e;
+    // if (e) this.getScatterData();
+    
+    this.compType = (mixType && mixType == 'default') ? '' : mixType;
+    if (mixType) this.getScatterData();
   }
 
   createDynamicChartTitle(activeButton) {
@@ -837,20 +840,29 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .join("")
       .includes("percapita");
     let newName = this.data.btnLabels[i]?.toLocaleLowerCase();
-
-    if (newName?.includes("mix"))
+    console.log("btnLabels", this.data.btnLabels, "index", i);
+    console.log("newName", newName, "ActiveButton", this.ActiveButton);
+    if (newName?.includes("mix")) {
       this.filterName = this.data?.btnLabels[i]?.toLocaleLowerCase();
-    else if (newName?.includes("revenue") && !newName?.includes("own"))
-      this.filterName = "revenue";
-    else if (newName?.includes("own") && newName?.includes("revenue"))
+    } else if (newName == "revenue expenditure") {
       this.filterName = newName;
-    else this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    } else if (newName?.includes("revenue") && !newName?.includes("own")) {
+      this.filterName = "revenue";
+    } else if (newName?.includes("own") && newName?.includes("revenue")) {
+      this.filterName = newName;
+    } else {
+      this.filterName = this.data.btnLabels[i]?.toLocaleLowerCase();
+    }
 
     if (this.stateServiceLabel) {
       this.getDropDownValue();
     } else {
       this.getScatterData();
-      this.getStateRevenue();
+      /* Checking if the ActiveButton array does not include the string 'Mix' then it will call the
+        getStateRevenue() function because for Mix type chart we are calling getStateRevenue() function
+        when we get the value for dropdown from getScatterData() api.
+      */
+      !this.ActiveButton.includes("Mix") ? this.getStateRevenue() : "";
     }
     // this.getScatterData();
     // this.getStateRevenue();
@@ -869,12 +881,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
-    if (
-      changes &&
-      changes.selectedStateId &&
-      changes.selectedStateId.currentValue &&
-      !changes?.selectedStateId?.firstChange
-    ) {
+    if ((changes.hasOwnProperty('selectedStateId') && changes.selectedStateId.currentValue) && !changes?.selectedStateId?.firstChange ) {
       console.log("selectedStateId", changes.selectedStateId.currentValue);
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
@@ -982,6 +989,20 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
 
     this.getStateUlbsPopulation();
     // this.getStateRevenue();
+
+    this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(data => {
+      console.log('selectedStateFromSlbDashboard', data);
+      if (data?.isNotFirstChange && data?.stateId) {
+        this.stateId = "";
+        this.stateId = data?.stateId;
+        this.getScatterData();
+        if (this.stateServiceLabel) {
+          this.getServiceLevelBenchmarkBarChartData();
+        } else {
+          this.getStateRevenue();
+        }
+      }
+    });
   }
 
   ulbId: any;
@@ -1065,7 +1086,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       activeButton: this.ActiveButton,
       chartTitle: "",
     };
- 
+
     if (tabType?.isCodeRequired) {
       this.barChartPayload["code"] = this.chartDropdownValue
         ? this.chartDropdownValue
@@ -1078,7 +1099,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response && response["success"]) {
-            console.log( "getStateRevenue", response, this.barData, tabType?.countAccessKey );
+            console.log(
+              "getStateRevenue",
+              response,
+              this.barData,
+              tabType?.countAccessKey
+            );
 
             // this.barData = this.barData?.data?.sort((a, b) => b.sum - a.sum);
             // console.log("this.barData", this.barData);
@@ -1109,11 +1135,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       );
   }
 
-  sortData(sort: string = 'top', data: any) {
-    let item =  data.sort((a: any, b: any)=>{
-      return (sort == 'bottom') ? a?.count - b?.count : b?.count - a?.count
-    })
-    return item
+  sortData(sort: string = "top", data: any) {
+    let item = data.sort((a: any, b: any) => {
+      return sort == "bottom" ? a?.count - b?.count : b?.count - a?.count;
+    });
+    return item;
   }
 
   filterCityRankingChartData(
@@ -1121,9 +1147,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     tabType: string,
     yAxisLabel: string
   ) {
-    // responseData = responseData.sort((a: any, b: any) => a.count - b.count);
     let sortingType = this.BarGraphValue ? "top" : "bottom";
-    responseData = this.sortData(sortingType, responseData)
+    responseData = this.sortData(sortingType, responseData);
     console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
       type: "bar",
@@ -1281,7 +1306,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log("tooltipItem", tooltipItem.index);
+            console.log("tooltipItem", tooltipItem);
+            console.log("data.datasets", data);
             var datasetLabel =
               data.datasets[tooltipItem.datasetIndex].label || "Other";
             var label =
@@ -1292,7 +1318,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             var rev =
               data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
-            return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            // return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            return `${datasetLabel}: ${
+              label && datasetLabel != label ? label : ""
+            } ${
+              tooltipItem?.yLabel
+                ? `(${tooltipItem?.yLabel} %)`
+                : `(${tooltipItem?.yLabel})`
+            }`;
           },
         },
       },
@@ -1332,7 +1365,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateId: this.stateId,
       sortBy: this.BarGraphValue ? "top10" : "bottom10",
       filterName: this.filterName ? this.filterName : "",
-      ulb: this.ulbId ? this.ulbId : "",
+      ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       chartType: "bar",
@@ -1575,4 +1608,16 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         }
       );
   }
+
+  downloadCsvFile() {
+    console.log("downloadCsvFile", this.barChartPayload);
+    // let prepareParam = new URLSearchParams(this.barChartPayload).toString();
+    // console.log('prepareParam', prepareParam);
+    this._commonServices.openWindowToDownloadCsv(
+      this.barChartPayload,
+      this.barChartPayload?.apiEndPoint,
+      this.stateServiceLabel
+    );
+  }
+
 }

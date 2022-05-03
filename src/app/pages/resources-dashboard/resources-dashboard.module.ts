@@ -37,6 +37,7 @@ import { SlickCarouselModule } from "ngx-slick-carousel";
 import { FaqTableComponent } from "./learning-center/faq-table/faq-table.component";
 import { ELearningModuleComponent } from "./learning-center/e-learning-module/e-learning-module.component";
 import { MunicipalLawsComponent } from "./learning-center/municipal-laws/municipal-laws.component";
+import { EnumerationComponent } from './learning-center/enumeration/enumeration.component';
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -55,6 +56,7 @@ import { MunicipalLawsComponent } from "./learning-center/municipal-laws/municip
     FaqTableComponent,
     ELearningModuleComponent,
     MunicipalLawsComponent,
+    EnumerationComponent,
   ],
   imports: [
     CommonModule,

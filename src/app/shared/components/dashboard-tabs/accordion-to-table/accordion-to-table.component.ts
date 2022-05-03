@@ -1,3 +1,4 @@
+import { ThrowStmt } from "@angular/compiler";
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -17,10 +18,13 @@ import {
   ICell,
   IIExcelInput,
 } from "src/app/dashboard/report/models/excelFormat";
+import { CommonService } from "src/app/shared/services/common.service";
+import { GeographicalService } from "src/app/shared/services/geographical/geographical.service";
 // import { IULBResponse } from "src/app/models/IULBResponse";
 import { MunicipalBondsService } from "src/app/shared/services/municipal/municipal-bonds.service";
 import { DialogComponent } from "../../dialog/dialog.component";
 import { IDialogConfiguration } from "../../dialog/models/dialogConfiguration";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-accordion-to-table",
@@ -34,7 +38,7 @@ export class AccordionToTableComponent implements OnInit {
   originalULBList: IULBResponse["data"];
   yearsAvailable: { name: string }[] = [];
   statesAvailable = [];
-  @Input() value
+  @Input() value;
   yearsDropdownSettings = {
     singleSelection: false,
     text: "All Years",
@@ -114,11 +118,19 @@ export class AccordionToTableComponent implements OnInit {
   queryParams = {};
   window = window;
   ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
-  
-  stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
+  ulbNameMapping;
+
+  allUlbList = JSON.parse(localStorage.getItem("ulbList")).data;
   ulbStateMapping = JSON.parse(localStorage.getItem("ulbStateCodeMapping"));
+  stateIdsMap = JSON.parse(localStorage.getItem("stateIdsMap"));
   cityId;
+  stateId;
   notFound = false;
+  stateUlbList: any;
+
+  selectedUlbList: any = [];
+  selectedYears: any = [];
+  ulbType: any;
   constructor(
     private _formBuilder: FormBuilder,
     private _bondService: MunicipalBondsService,
@@ -126,12 +138,17 @@ export class AccordionToTableComponent implements OnInit {
     private authService: AuthService,
     private diaglog: MatDialog,
     private router: Router,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    protected _commonService: CommonService,
+    protected _geoService: GeographicalService,
+    private snackbar: MatSnackBar
   ) {
+    this.loadMapGeoJson();
     this._activatedRoute.queryParams.subscribe((params) => {
       console.log("queryParams==>", params);
       this.queryParams = params;
       this.cityId = params?.cityId;
+      this.stateId = params?.stateId;
       this.initializeForm();
       this.initializeFormListeners();
       this._bondService
@@ -144,6 +161,32 @@ export class AccordionToTableComponent implements OnInit {
         .getULBS()
         .subscribe((res) => this.onGettingULBResponseSuccess(res));
     });
+    this.createUlbNameMap();
+  }
+
+  StatesJSONForMapCreation: any;
+  loadMapGeoJson() {
+    const prmsArr = [];
+
+    const prms1 = this._geoService.loadConvertedIndiaGeoData().toPromise();
+    prmsArr.push(prms1);
+
+    prms1.then((data) => (this.StatesJSONForMapCreation = data));
+    console.log("StatesJSONForMapCreation", this.StatesJSONForMapCreation);
+
+    return Promise.all(prmsArr).then((value) => {
+      console.log("value", value);
+      // this.getFormValue();
+    });
+  }
+
+  createUlbNameMap() {
+    let obj = {};
+    for (const key in this.ulbList) {
+      const element = this.ulbList[key];
+      obj[element.name] = element;
+    }
+    this.ulbNameMapping = obj;
   }
 
   onStateDropdownClose() {
@@ -232,7 +275,7 @@ export class AccordionToTableComponent implements OnInit {
     this.filterForm.patchValue({ ulbs: [], years: [], states: [] });
     this.initializeStateList(this.originalULBList);
     this.initializeYearList(this.originalULBList);
-    this.issueLength.patchValue('4');
+    this.issueLength.patchValue("4");
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
@@ -251,24 +294,154 @@ export class AccordionToTableComponent implements OnInit {
     total: number;
     data: IBondIssureItemResponse["data"];
   }) {
+    if (datas.data) {
+      this.getFormValue();
+    }
     this.bondIssuerItemData = datas.data;
+    if (this.state) {
+      this.filterdData = this.bondIssuerItemData.filter(
+        (elem: any) => elem.state == this.stateId
+      );
+      this.makeDataForState(this.filterdData);
+      // this.makeDataForState(datas.data);
+    }
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
     this.totalCount = datas.total;
   }
+  totalDataSource;
+  filterdData: any;
+  finalFileteredData: any;
+
+  searchFilter() {
+    console.log(
+      "finalData",
+      this.selectedUlbList,
+      this.selectedYears,
+      this.ulbType
+    );
+    let names = this.selectedUlbList.map((elem) => elem.name);
+
+    if (this.selectedUlbList.length == 0 || this.selectedYears.length == 0) {
+      this.snackbar.open("Please select a ulb and year ", null, {
+        duration: 5000,
+        verticalPosition: "bottom",
+      });
+      return;
+    }
+
+    this.finalFileteredData = this.bondIssuerItemData.filter(
+      (elem) =>
+        names.includes(elem.ulb) &&
+        this.selectedYears.includes(elem.yearOfBondIssued)
+    );
+    this.makeDataForState(this.finalFileteredData);
+  }
+
+  makeDataForState(rawData) {
+    // console.log(' this.ulbNameMapping',  this.ulbNameMapping)
+    this.tableDataSource = rawData.map((val) => {
+      // console.log('value', val)
+      let temp = {
+        municipality: val.ulb == "" ? "NA" : val.ulb,
+        ulbType:
+          this.ulbNameMapping[val.ulb]?.type == ""
+            ? "NA"
+            : this.ulbNameMapping[val.ulb]?.type,
+        year: val.yearOfBondIssued == "" ? "NA" : val.yearOfBondIssued,
+        rating: val.CRISIL == "" ? "NA" : val.CRISIL,
+        amount: val.amountAccepted == "" ? "NA" : val.amountAccepted,
+        couponRate: val.couponRate == "" ? "NA" : val.couponRate,
+        _id: val._id == "" ? "NA" : val._id,
+      };
+      return temp;
+    });
+    this.totalDataSource = this.tableDataSource;
+    console.log(this.tableDataSource, "tableDataSource");
+  }
+
+  clearAllValue() {
+    console.log("filteredData", this.filterdData);
+    this.selectedUlbList = [];
+    this.selectedYears = [];
+    this.yearsList = [];
+    this.makeDataForState(this.filterdData);
+  }
+
+  getFormValue() {
+    // debugger;
+    let stateName = this.stateIdsMap[this.stateId];
+    console.log("this.filterFomr", this.filterForm);
+    console.log("StatesJSONForMapCreation", this.StatesJSONForMapCreation);
+    let stateCode = this.StatesJSONForMapCreation?.features?.find(
+      (code) => code.properties.ST_NM == stateName
+    );
+    console.log("stateCode", stateCode, this.tableDataSource);
+    if (stateCode && this.tableDataSource.length > 1) {
+      let ulbList = this.allUlbList[stateCode?.properties?.ST_CODE];
+      console.log("ulbList", ulbList.ulbs);
+      this.stateUlbList = ulbList?.ulbs;
+    } else {
+      this.stateUlbList = [];
+    }
+  }
+
+  ulbTypeList: any = [];
+  yearsList: any = [];
+
+  selectMultipleUlb(e: any) {
+    this.selectedUlbList = e;
+
+    this.ulbTypeList = new Set(this.selectedUlbList.map((elem) => elem.type));
+
+    let myArrayFiltered: any = this.originalULBList
+      .filter((el) => {
+        return this.selectedUlbList.some((f) => {
+          return f.name === el.name;
+        });
+      })
+      .map((elem) => elem.years);
+
+    let tempArr = myArrayFiltered.flat();
+    this.yearsList = new Set(tempArr);
+    console.log("myArrayFiltered", myArrayFiltered, this.yearsList);
+  }
+
+  selectMultipleYear(e) {
+    this.selectedYears = e;
+    console.log("this.selectedYears", this.selectedYears);
+  }
+
+  selectUlbType(e) {
+    console.log("new event", e.target.value);
+    this.ulbType = e.target.value;
+  }
 
   private onGettingULBResponseSuccess(response: IULBResponse) {
-    let foundUlb = response.data.find(
-      (value) => value.name === this.ulbList[this.cityId].name
-    )
-    if (
-      !foundUlb
-    ) {
-      this.notFound = true;
-      return;
+    if (this.state) {
+      let foundState;
+      foundState = response.data.filter(
+        (value) => value.stateName === this.stateIdsMap[this.stateId]
+      );
+      if (!foundState) {
+        this.notFound = true;
+        return;
+      } else {
+        this.filterForm.controls["states"].patchValue([...foundState]);
+        this.notFound = false;
+      }
     } else {
-      this.filterForm.controls["ulbs"].patchValue([foundUlb])
-      this.notFound = false
-    };
+      let foundUlb;
+      foundUlb = response.data.find(
+        (value) => value.name === this.ulbList[this.cityId].name
+      );
+      if (!foundUlb) {
+        this.notFound = true;
+        return;
+      } else {
+        this.filterForm.controls["ulbs"].patchValue([foundUlb]);
+        this.notFound = false;
+      }
+    }
     this.originalULBList = response.data;
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
@@ -325,53 +498,66 @@ export class AccordionToTableComponent implements OnInit {
   emptyArray() {
     this.empty = new Array(10).fill(null);
   }
- city:boolean = false;
- state:boolean = false;
+  city: boolean = false;
+  state: boolean = false;
+
   ngOnInit() {
+    console.log("selectedUlbList", this.selectedUlbList);
     this.emptyArray();
-    console.log('valueeeeeeee'+this.value)
-    if(this.value == 'city'){
-      this.city =true
+    console.log("valueeeeeeee" + this.value);
+    if (this.value == "city") {
+      this.city = true;
       this.state = false;
     }
-    if(this.value == 'state'){
-      this.state =true
-      this.city =false
+    if (this.value == "state") {
+      this.state = true;
+      this.city = false;
     }
-    console.log(this.filterForm)
+    console.log(this.filterForm);
   }
- issueLength:any=4;
- tableHeading = [
-  {title: "Municipality", keyToAccessValue: "municipality", class: "fa-sort sort-icon"},
-  {title: "ULB Type", keyToAccessValue: "ulbType", class: "fa-sort sort-icon"},
-  {title: "Year", keyToAccessValue: "year", class: "fa-sort sort-icon"},
-  {title: "Rating", keyToAccessValue: "rating", class: "fa-sort sort-icon"},
-  {title: "Amount (In Cr)", keyToAccessValue: "amount", class: "fa-sort sort-icon"},
-  {title: "Coupon Rate", keyToAccessValue: "couponRate", class: "fa-sort sort-icon"},
-];
+  issueLength: any = 4;
+  tableHeading = [
+    {
+      title: "Municipality",
+      keyToAccessValue: "municipality",
+      class: "fa-sort sort-icon",
+    },
+    {
+      title: "ULB Type",
+      keyToAccessValue: "ulbType",
+      class: "fa-sort sort-icon",
+    },
+    { title: "Year", keyToAccessValue: "year", class: "fa-sort sort-icon" },
+    { title: "Rating", keyToAccessValue: "rating", class: "fa-sort sort-icon" },
+    {
+      title: "Amount (In Cr)",
+      keyToAccessValue: "amount",
+      class: "fa-sort sort-icon",
+    },
+    {
+      title: "Coupon Rate",
+      keyToAccessValue: "couponRate",
+      class: "fa-sort sort-icon",
+    },
+  ];
 
-tableDataSource = [
-  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Ahmadnagar", ulbType:"Municipality", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Akola", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Dhule", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Greater Mumbai", ulbType:"Town Panchayat", year: "2001", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Jalgaon", ulbType:"Municipality Corporation", year: "1997", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Kolapur", ulbType:"Municipality", year: "2000", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-  {municipality: "Ahmadnagar", ulbType:"Municipality Corporation", year: "1998", rating: "AA", amount: 100, couponRate: "14.0", _id: "1"},
-];
-ulbListLatest:any
+  tableDataSource = [
+    {
+      municipality: "Ahmadnagar",
+      ulbType: "Municipality",
+      year: "1997",
+      rating: "AA",
+      amount: 100,
+      couponRate: "14.0",
+      _id: "1",
+    },
+  ];
+  ulbListLatest: any;
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
     this._bondService.getBondIssuerItem(params).subscribe((res) => {
       console.log(res);
-      this.issueLength=res.total - 1;
+      this.issueLength = res.total - 1;
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();
@@ -425,6 +611,7 @@ ulbListLatest:any
     );
 
     this.filterForm.controls["ulbs"].setValue(filteredSelectedULBS);
+    console.log("this.filterForm", this.filterForm);
   }
 
   private updateSelectedState() {

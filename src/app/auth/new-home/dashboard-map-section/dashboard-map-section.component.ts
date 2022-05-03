@@ -543,7 +543,10 @@ export class DashboardMapSectionComponent
 
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
-      this.stateList = [{ _id: null, name: "India" }].concat(res);
+      // this.stateList = [{ _id: null, name: "India" }].concat(res);
+      this.stateList = this._commonService.sortDataSource(res, 'name');
+      this.stateList = [{ _id: null, name: "India" }].concat(this.stateList);
+      console.log('stateList', this.stateList)
     });
   }
 
@@ -640,7 +643,6 @@ export class DashboardMapSectionComponent
     });
   };
   showCreditInfoByState(stateName = "") {
-    // debugger;
     console.log({ stateName });
     const ulbList = [];
     if (stateName && stateName != "India") {

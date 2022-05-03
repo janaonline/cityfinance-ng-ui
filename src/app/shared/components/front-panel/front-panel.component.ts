@@ -13,7 +13,7 @@ import { OwnRevenueService } from "../../../pages/own-revenue-dashboard/own-reve
 import Chart from "chart.js";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { CommonService } from "../../services/common.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -21,7 +21,7 @@ import { Router } from "@angular/router";
 })
 export class FrontPanelComponent implements OnInit, OnChanges {
   @Input()
-  data = {
+  data: any = {
     showMap: true,
     stateId: "",
     date: "",
@@ -79,25 +79,36 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   stateList;
   notFoundNames = [];
   showButton: boolean = true;
+  ulbList: any;
   constructor(
     public ownRevenueService: OwnRevenueService,
     public _loaderService: GlobalLoaderService,
     public _commonServices: CommonService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public activatedRoute: ActivatedRoute,
+  ) {
+    this.ulbList = JSON.parse(localStorage.getItem('ulbList'));
+  }
 
   ngOnInit(): void {
     console.log("this.data====>", this.data);
-    if (this.showDataAvailable) this.getAvailableData();
+
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         // console.log('res', res);
-        this.stateList = res;
+        this.stateList = this._commonServices.sortDataSource(res, 'name');
       },
       (error) => {
         console.log(error);
       }
     );
+
+    this._commonServices.lastUpdatedYear.subscribe((data) => {
+      console.log("lastUpdateYear", data);
+      this.yearVal = data;
+      this.data.year = data;
+      this.getAvailableData();
+    });
   }
 
   stateChanges(event) {
@@ -109,20 +120,35 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this.router.navigateByUrl(`/dashboard/state?stateId=${stateId}`);
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes.data){
-      this.yearValue.emit(changes.data['year']);
-      }
+    console.log("stateChanges", changes);
+    if (changes && changes.data && changes.data.currentValue) {
+      this.data = Object.assign(changes.data.currentValue);
+      this.yearValue.emit(this.data["year"]);
+      console.log("dataaaaa", this.data);
+      // this.data["date"] = changes.data.currentValue?.date;
+      // this.yearVal = this.data.year;
+      // this.getAvailableData();
+    }
   }
 
   changeInMapFilter(event) {
-    console.log('changeInMapFilter', event);
-    this.getAvailableData();
+    console.log("changeInMapFilter", event);
+    console.log('this.ulbList', this.ulbList)
+    let stateId = this.ulbList?.data[event?.value?.ST_CODE]._id;
+    console.log('stateId', stateId)
+    this.getAvailableData(stateId);
     this.changeInStateOrCity.emit(event);
   }
-  yearVal = "2019-20";
+  yearVal = "";
+  // yearVal = "2020-21";
   ulbId;
   downloadCSV(from) {
-    this.ownRevenueService.displayDataAvailable(this.data.name).subscribe(
+    let obj = {
+      financialYear: this.yearVal,
+      stateId: this.data.stateId,
+      csv: true,
+    };
+    this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res: any) => {
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",
@@ -134,13 +160,29 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       (error) => {}
     );
   }
-  getAvailableData() {
+
+  selectedStateId: string = '';
+  getStateId() {
+    this.selectedStateId = '';
+    this.activatedRoute.queryParams.subscribe((val) => {
+      console.log("val", val);
+      const { stateId } = val;
+      if (stateId) {
+        this.selectedStateId = stateId;
+        sessionStorage.setItem("stateId", this.selectedStateId);
+      } else {
+        this.selectedStateId = sessionStorage.getItem("row_id");
+      }
+    });
+  }
+
+  getAvailableData(stateId: string = '') {
+    // this.getStateId();
     // this._loaderService.showLoader()
     this.dataAvailLoading = true;
-
     let obj = {
       financialYear: this.yearVal,
-      stateId: this.data.stateId,
+      stateId: stateId ? stateId : this.data.stateId,
     };
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res) => {

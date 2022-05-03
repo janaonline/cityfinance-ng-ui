@@ -107,6 +107,11 @@ $font-family: "Archivo";
     overflow-y: hidden;
     // display: -webkit-box;
   }
+  .smallScreenPosition{
+    display: inline-flex;
+    margin-left: 7px;
+    margin-right: 7px;
+  }
 }
 
 .dataAvailabiltyTab {

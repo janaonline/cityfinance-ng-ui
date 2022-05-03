@@ -7,13 +7,13 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12 d-flex justify-content-between">
-      <div *ngIf="!stateServiceLabel" class="col-sm-12 col-md-5 pl-1" style="margin-bottom: 20px;">
+    <div class="col-12 d-flex justify-content-between flex-wrap">
+      <div *ngIf="!stateServiceLabel" style="margin-bottom: 20px;">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
-          style="margin-left: 2pc;height: 40px;"
+          style="height: 40px;margin-left: 2pc;"
           class="btn deSelected my-2 customizedButton"
           [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >
@@ -21,7 +21,7 @@
         </button>
       </div>
       <!-- list of dropdown for slb in state dashboard -->
-      <div *ngIf="stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
+      <div *ngIf="stateServiceLabel" class="mb-3" style="padding-right: 1rem;">
         <select
           class="form-select text-capitalize"
           (change)="getServiceLevelBenchmark($event)"
@@ -57,13 +57,11 @@
           </button>
         </div>
       </div> -->
-
-      <div class="col-sm-12 col-md-5 pd-s mb-3">
+      <div class="mb-3">
         <div class="row">
-          <div class="col customizedColumn">
-            <div               *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))"
-            [matTooltip]="'Select an option to view average data'">
-              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="opacity: 0.9;border: 1px solid gray;width: auto;">
+          <div class="col" *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))">
+            <div class="my-2" [matTooltip]="'Select an option to view average data'">
+              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="text-align: center;opacity: 0.6;border: 1px solid gray;width: auto;">
                 <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
                 <option *ngFor="let item of checkBoxArray" [value]="item?.value">
                   {{ item?.title }}
@@ -71,13 +69,9 @@
               </select>
             </div>
           </div>
-          <div class="col customizedColumn" style="display:flex;">
-            <select
-                
-                aria-label="Default select"
-                (change)="getSelectedFinancialYear($event)" style="border-radius: 8px;
-                border: 1px solid gray;width: -webkit-fill-available;opacity: 0.9;"
-              >
+          <div class="col" style="display:flex;">
+            <select class="my-2 customDropdown" aria-label="Default select" (change)="getSelectedFinancialYear($event)"
+              style="border-radius: 8px; border: 1px solid gray;opacity: 0.6;text-align: center;">
                 <option
                   *ngFor="let year of yearList"
                   [value]="year"
@@ -88,8 +82,8 @@
                 <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
         </select>
           </div>
-          <div class="col customizedColumn">
-            <form class="filter-form mr-1">
+          <div class="col">
+            <form class="filter-form mr-1 my-2">
               <div>
                 <!-- <div class="pe-0 justify-content-end"> -->
                 <input
@@ -97,9 +91,9 @@
                   placeholder="Search for ULB names"
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
-                  
+                  class="customInput"
                   style="height: 2.4rem;border-radius: 7px;
-                  border: 1px solid gray;opacity: 0.9;"
+                  border: 1px solid gray;opacity: 0.6;text-align: center;"
                 />
                 <!-- </div> -->
                 <!-- <div class="col-3 col-sm-3 ps-0">
@@ -131,8 +125,8 @@
             </div> -->
             </form>
           </div>
-          <div class="col customizedColumn">
-            <button type="button" (click)="reset(true)" class="btn btn-sm searchButton" style="padding: 0.25rem 0.5rem">
+          <div class="col">
+            <button type="button" (click)="reset(true)" class="btn btn-sm searchButton my-2" style="padding: 0.25rem 0.5rem">
               <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem"> -->
                 Reset
               </button>
@@ -323,7 +317,7 @@
   <div class="row my-5">
     <div class="m-auto" style="width: 60%">
       You can also download the source data in excel format
-      <button class="cursor-pointer bottomDownloadButton">
+      <button class="cursor-pointer bottomDownloadButton" (click)="downloadCsvFile()">
         <img
           src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
           height="13px"
