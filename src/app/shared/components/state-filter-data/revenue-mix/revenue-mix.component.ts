@@ -1065,7 +1065,7 @@ export class RevenueMixComponent implements OnInit {
         this.multipleChartShow = false;
       }
     }
-    if (!changes.chartData.firstChange) {
+    if (!changes.chartData?.firstChange) {
       console.log("revenueMix changes", this.chartData, this.multipleChartShow);
       this.ulbTab
         ? this.initializeDounughtArry()
