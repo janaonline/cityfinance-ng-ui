@@ -241,7 +241,7 @@
             <span>Filter By</span>
           </div>
           <div class="mt-4 d-flex justify-content-evenly filter-container">
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-start">
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedUlbList"
@@ -273,7 +273,7 @@
                 <option>ABC4</option>
               </select>
             </div> -->
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-end">
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedYears"
@@ -286,12 +286,12 @@
                 </mat-option>
               </mat-select>
             </div>
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-2 col-sm-12 d-flex justify-content-end">
               <button (click)="searchFilter()" class="searchButton">
                 Search
               </button>
             </div>
-            <div class="col-md-1 col-sm-12">
+            <div class="col-md-2 col-sm- d-flex justify-content-end">
               <button class="btn reset-btn" (click)="clearAllValue()">
                 Clear All
                 <span _ngcontent-all-c100="" class="ml-2 material-icons"
@@ -310,11 +310,11 @@
               <tr class="border-none">
                 <th *ngFor="let heading of tableHeading">
                   {{ heading?.title }}
-                  <i
+                  <!-- <i
                     class="fa"
                     [ngClass]="heading?.class"
                     aria-hidden="true"
-                  ></i>
+                  ></i> -->
                 </th>
               </tr>
 
