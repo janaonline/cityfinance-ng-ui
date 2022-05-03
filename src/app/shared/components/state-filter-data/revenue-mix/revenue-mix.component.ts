@@ -1042,7 +1042,7 @@ return arr;
         this.multipleChartShow = false;
       }
     }
-    if(!changes.chartData.firstChange){
+    if(!changes?.chartData?.firstChange){
     console.log('revenueMix changes', this.chartData, this.multipleChartShow)
     this.ulbTab ? this.initializeDounughtArry() : this.populationTab ? this.initializePopulationDoughnutArray() : '';
     if(Array.isArray(this.chartData)){
