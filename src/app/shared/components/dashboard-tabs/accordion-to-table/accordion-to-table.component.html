@@ -308,13 +308,15 @@
           <table class="custom-table">
             <tbody>
               <tr class="border-none">
-                <th *ngFor="let heading of tableHeading">
+                <th *ngFor="let heading of tableHeading; let i = index">
                   {{ heading?.title }}
-                  <!-- <i
+                  <i
+                    style="cursor: pointer"
                     class="fa"
                     [ngClass]="heading?.class"
                     aria-hidden="true"
-                  ></i> -->
+                    (click)="sortTableData(heading?.keyToAccessValue)"
+                  ></i>
                 </th>
               </tr>
 

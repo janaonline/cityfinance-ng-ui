@@ -351,6 +351,16 @@ export class AccordionToTableComponent implements OnInit {
     }
   }
 
+  sortTableData(index) {
+    console.log({ index }, this.tableDataSource);
+    this.tableDataSource = this.tableDataSource.sort((a: any, b: any) => {
+      // return a[index] - b[index];
+
+      return a[index].localeCompare(b[index]);
+    });
+    console.log("sorted Data", this.tableDataSource);
+  }
+
   makeDataForState(rawData) {
     // console.log(' this.ulbNameMapping',  this.ulbNameMapping)
     this.tableDataSource = rawData.map((val) => {
