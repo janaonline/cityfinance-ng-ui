@@ -504,7 +504,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   initializeDonughtData() {
-    this.doughnutData = {
+    this.doughnutData = Object.assign({
       type: "doughnut",
       data: {
         labels: [],
@@ -523,7 +523,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           },
         ],
       },
-    };
+    });
   }
 
   compType: any;
@@ -700,7 +700,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             }
             console.log("chartDropdownList", this.chartDropdownList);
             this.initializeDonughtData();
-            if (this.scatterChartPayload.compareType == "") {
+            if (this.scatterChartPayload.compareType == "" || this.scatterChartPayload.compareType == "default") {
               if (data.length) {
                 data = data.sort((a, b) => b.code - a.code);
                 data.forEach((el) => {
@@ -799,10 +799,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getScatterData();
   }
 
-  getCompType(e) {
-    console.log(e);
-    this.compType = e;
-    if (e) this.getScatterData();
+  getCompType(mixType) {
+    console.log('getCompType', mixType);
+    // this.compType = e;
+    // if (e) this.getScatterData();
+    this.compType = mixType;
+    if (mixType) this.getScatterData();
   }
 
   createDynamicChartTitle(activeButton) {
