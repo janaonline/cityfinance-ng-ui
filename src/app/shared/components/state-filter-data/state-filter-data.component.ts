@@ -1362,7 +1362,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateId: this.stateId,
       sortBy: this.BarGraphValue ? "top10" : "bottom10",
       filterName: this.filterName ? this.filterName : "",
-      ulb: this.ulbId ? this.ulbId : "",
+      ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       chartType: "bar",
