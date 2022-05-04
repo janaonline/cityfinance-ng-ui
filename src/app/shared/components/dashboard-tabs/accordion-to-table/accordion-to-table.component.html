@@ -240,8 +240,8 @@
             >
             <span>Filter By</span>
           </div>
-          <div class="mt-4 d-flex justify-content-evenly filter-container">
-            <div class="col-md-4 col-sm-12 d-flex justify-content-start">
+          <div class="row mt-4 d-flex justify-content-evenly filter-container">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-start filterPosition">
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedUlbList"
@@ -273,7 +273,7 @@
                 <option>ABC4</option>
               </select>
             </div> -->
-            <div class="col-md-4 col-sm-12 d-flex justify-content-end">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-end filterPosition">
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedYears"
@@ -286,12 +286,12 @@
                 </mat-option>
               </mat-select>
             </div>
-            <div class="col-md-2 col-sm-12 d-flex justify-content-end">
+            <div class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition">
               <button (click)="searchFilter()" class="searchButton">
                 Search
               </button>
             </div>
-            <div class="col-md-2 col-sm- d-flex justify-content-end">
+            <div class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition">
               <button class="btn reset-btn" (click)="clearAllValue()">
                 Clear All
                 <span _ngcontent-all-c100="" class="ml-2 material-icons"
@@ -305,39 +305,37 @@
         </div>
 
         <div class="mt-4 mx-2" *ngIf="tableDataSource?.length > 0">
-          <table class="custom-table">
-            <tbody>
-              <tr class="border-none">
-                <th *ngFor="let heading of tableHeading; let i = index">
-                  {{ heading?.title }}
-                  <i
-                    style="cursor: pointer"
-                    class="fa"
-                    [ngClass]="heading?.class"
-                    aria-hidden="true"
-                    (click)="sortTableData(heading?.keyToAccessValue)"
-                  ></i>
-                </th>
-              </tr>
-
-              <tr class="border-all" *ngFor="let data of tableDataSource">
-                <td
-                  class="border-top-bottom"
-                  *ngFor="let heading of tableHeading; let i = index"
-                  [ngClass]="{
-                    'border-left': i == 0,
-                    'border-right': i == tableHeading?.length - 1
-                  }"
-                >
-                  {{ data[heading?.keyToAccessValue] }}
-                </td>
-              </tr>
-
-              <tr class="border-none">
-                <div class="spacer" style="margin-top: 10px"></div>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <tbody>
+                <tr class="border-none">
+                  <th *ngFor="let heading of tableHeading; let i = index">
+                    {{ heading?.title }}
+                    <i
+                      style="cursor: pointer"
+                      class="fa"
+                      [ngClass]="heading?.class"
+                      aria-hidden="true"
+                      (click)="sortTableData(heading?.keyToAccessValue)"
+                    ></i>
+                  </th>
+                </tr>
+  
+                <tr class="border-all" *ngFor="let data of tableDataSource">
+                  <td
+                    class="border-top-bottom"
+                    *ngFor="let heading of tableHeading; let i = index"
+                    [ngClass]="{
+                      'border-left': i == 0,
+                      'border-right': i == tableHeading?.length - 1
+                    }"
+                  >
+                    {{ data[heading?.keyToAccessValue] }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div
           *ngIf="tableDataSource?.length == 0"
