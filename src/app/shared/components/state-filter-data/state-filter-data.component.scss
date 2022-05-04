@@ -99,3 +99,32 @@ td {
   transition: 0.3s;
   border: 1px solid #e67e15;
 }
+@media screen and (max-width: 800px) {
+  
+  .customizedButton {
+    width: 224px;
+    margin-left: 0% !important;
+  }
+  .customizedColumn{
+    padding-top:9px;
+    width: 200px;
+  }
+  .customPadding{
+    padding-left:10%;
+  }
+  .customDropdown{
+    height: 34px;
+    width: 229px;
+  }
+  .customInput{
+    width: 229px;
+  }
+  .bottomDownloadButton {
+    border: 1px solid #f2991f;
+    color: #f2991f;
+    border-radius: 6px;
+    background-color: white;
+    margin-left: 10px;
+    margin-top:10px;
+  }
+}
