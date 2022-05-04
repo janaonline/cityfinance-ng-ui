@@ -86,15 +86,16 @@
         <div
           ngxSlickItem
           *ngFor="let item of enumCardData[cardId - 1].imgArr"
-          class="slide"
+          class="slide" style="height:500px;"
         >
         <img [src]="item.link" alt="" width="100%" />
         
-        <div class="mt-4">
-          <span class="topBottomGaps steps">{{ item.text }}</span>
-        </div>
+        
         </div>
       </ngx-slick-carousel>
+    </div>
+    <div class="mt-4" *ngFor="let item of enumCardData[cardId - 1].imgArr">
+      <span class="topBottomGaps steps">{{ item.text }}</span>
     </div>
     <div
       *ngFor="let line of enumCardData[cardId - 1].content"
@@ -141,14 +142,15 @@
         <div
           ngxSlickItem
           *ngFor="let item of valuationCardData[cardId - 1].imgArr"
-          class="slide"
+          class="slide" style="height:500px;"
         >
         <img [src]="item.link" alt="" width="100%" />
-        <div class="mt-4">
-            <span class="topBottomGaps steps">{{ item.text }}</span>
-          </div>
+        
         </div>
       </ngx-slick-carousel>
+    </div>
+    <div class="mt-4" *ngFor="let item of valuationCardData[cardId - 1].imgArr">
+      <span class="topBottomGaps steps">{{ item.text }}</span>
     </div>
     <div
       *ngFor="let line of valuationCardData[cardId - 1].content"
