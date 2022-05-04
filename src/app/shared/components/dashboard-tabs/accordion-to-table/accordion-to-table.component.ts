@@ -298,10 +298,15 @@ export class AccordionToTableComponent implements OnInit {
       this.getFormValue();
     }
     this.bondIssuerItemData = datas.data;
+
     if (this.state) {
       this.filterdData = this.bondIssuerItemData.filter(
         (elem: any) => elem.state == this.stateId
       );
+      this.yearsList = new Set(
+        this.filterdData.map((elem: any) => elem.yearOfBondIssued)
+      );
+      console.log("main years", this.yearsList, this.filterdData);
       this.makeDataForState(this.filterdData);
       // this.makeDataForState(datas.data);
     }
@@ -335,10 +340,10 @@ export class AccordionToTableComponent implements OnInit {
 
     // }
 
-    if (this.selectedUlbList.length > 0 && this.selectedYears.length > 0) {
+    if (this.selectedUlbList.length > 0 || this.selectedYears.length > 0) {
       this.finalFileteredData = this.bondIssuerItemData.filter(
         (elem) =>
-          names.includes(elem.ulb) &&
+          names.includes(elem.ulb) ||
           this.selectedYears.includes(elem.yearOfBondIssued)
       );
       this.makeDataForState(this.finalFileteredData);
@@ -351,20 +356,18 @@ export class AccordionToTableComponent implements OnInit {
     }
   }
 
+  sortDirection = false;
   sortTableData(index) {
-    console.log({ index }, this.tableDataSource);
+    this.sortDirection = !this.sortDirection;
     this.tableDataSource = this.tableDataSource.sort((a: any, b: any) => {
-      // return a[index] - b[index];
-
-      return a[index].localeCompare(b[index]);
+      return this.sortDirection
+        ? a[index].localeCompare(b[index])
+        : b[index].localeCompare(a[index]);
     });
-    console.log("sorted Data", this.tableDataSource);
   }
 
   makeDataForState(rawData) {
-    // console.log(' this.ulbNameMapping',  this.ulbNameMapping)
     this.tableDataSource = rawData.map((val) => {
-      // console.log('value', val)
       let temp = {
         municipality: val.ulb == "" ? "NA" : val.ulb,
         ulbType:
@@ -400,10 +403,15 @@ export class AccordionToTableComponent implements OnInit {
       (code) => code.properties.ST_NM == stateName
     );
     console.log("stateCode", stateCode, this.tableDataSource);
-    if (stateCode && this.tableDataSource.length > 1) {
+    if (stateCode && this.tableDataSource.length > 0) {
       let ulbList = this.allUlbList[stateCode?.properties?.ST_CODE];
       console.log("ulbList", ulbList.ulbs);
       this.stateUlbList = ulbList?.ulbs;
+      this.stateUlbList = this.originalULBList.filter((el) => {
+        return this.stateUlbList.some((f) => {
+          return f.name === el.name;
+        });
+      });
     } else {
       this.stateUlbList = [];
     }
