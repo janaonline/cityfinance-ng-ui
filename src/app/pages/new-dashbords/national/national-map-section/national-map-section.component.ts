@@ -481,7 +481,7 @@ export class NationalMapSectionComponent
     this._commonService.fetchStateList().subscribe(
       (res: any) => {
         // this.stateList = res;
-        this.stateList = this._commonService.sortDataSource(res, 'name');
+        this.stateList = this._commonService.sortDataSource(res, "name");
       },
       (error) => {
         console.log(error);
@@ -603,7 +603,7 @@ export class NationalMapSectionComponent
 
   private higlightClickedState(stateLayer) {
     let currentUrl = window.location.pathname;
-    console.log('currentUrl', currentUrl)
+    console.log("currentUrl", currentUrl);
     let obj: any = {
       containerPoint: {},
       latlng: {
@@ -619,10 +619,18 @@ export class NationalMapSectionComponent
     let color;
     let selectedCode = stateLayer?.feature?.properties?.ST_CODE;
 
-    const restrictedSelectedColorFromModule = ['/home', '/dashboard/state', '/dashboard/city', '/dashboard/slb']
+    const restrictedSelectedColorFromModule = [
+      "/home",
+      "/dashboard/state",
+      "/dashboard/city",
+      "/dashboard/slb",
+    ];
     // if (this.colorCoding && currentUrl != "/home") {
-    if ((this.colorCoding) && (!restrictedSelectedColorFromModule.includes(currentUrl))) {
-      console.log('restricted func called')
+    if (
+      this.colorCoding &&
+      !restrictedSelectedColorFromModule.includes(currentUrl)
+    ) {
+      console.log("restricted func called");
       this.colorCoding.forEach((elem) => {
         if (elem?.code == selectedCode) {
           color = this.getColor(elem?.percent);
@@ -642,7 +650,7 @@ export class NationalMapSectionComponent
   }
   private fetchStateList() {
     this._commonService.fetchStateList().subscribe((res) => {
-      this.stateList = this._commonService.sortDataSource(res, 'name');
+      this.stateList = this._commonService.sortDataSource(res, "name");
       this.stateList = [{ _id: null, name: "India" }].concat(res);
     });
   }

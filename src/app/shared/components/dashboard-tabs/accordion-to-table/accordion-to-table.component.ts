@@ -320,21 +320,45 @@ export class AccordionToTableComponent implements OnInit {
       this.ulbType
     );
     let names = this.selectedUlbList.map((elem) => elem.name);
+    let stringVal: string = "";
 
-    if (this.selectedUlbList.length == 0 || this.selectedYears.length == 0) {
-      this.snackbar.open("Please select a ulb and year ", null, {
+    if (this.tableDataSource.length == 0) {
+      stringVal = "No data Present to filter";
+    } else if (
+      this.selectedUlbList.length == 0 &&
+      this.selectedYears.length == 0
+    ) {
+      stringVal = "Please select a ulb and year";
+    }
+
+    // if (this.selectedUlbList.length == 0 || this.selectedYears.length == 0) {
+
+    // }
+
+    if (this.selectedUlbList.length > 0 && this.selectedYears.length > 0) {
+      this.finalFileteredData = this.bondIssuerItemData.filter(
+        (elem) =>
+          names.includes(elem.ulb) &&
+          this.selectedYears.includes(elem.yearOfBondIssued)
+      );
+      this.makeDataForState(this.finalFileteredData);
+    } else {
+      this.snackbar.open(stringVal, null, {
         duration: 5000,
         verticalPosition: "bottom",
       });
       return;
     }
+  }
 
-    this.finalFileteredData = this.bondIssuerItemData.filter(
-      (elem) =>
-        names.includes(elem.ulb) &&
-        this.selectedYears.includes(elem.yearOfBondIssued)
-    );
-    this.makeDataForState(this.finalFileteredData);
+  sortTableData(index) {
+    console.log({ index }, this.tableDataSource);
+    this.tableDataSource = this.tableDataSource.sort((a: any, b: any) => {
+      // return a[index] - b[index];
+
+      return a[index].localeCompare(b[index]);
+    });
+    console.log("sorted Data", this.tableDataSource);
   }
 
   makeDataForState(rawData) {

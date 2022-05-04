@@ -119,17 +119,22 @@
                   </mat-autocomplete>
                 </div>
               </div>
-    
+
               <!-- <div style="display: inline-block; float: right;">
     
             </div> -->
             </form>
           </div>
           <div class="col">
-            <button type="button" (click)="reset(true)" class="btn btn-sm searchButton my-2" style="padding: 0.25rem 0.5rem">
+            <button
+              type="button"
+              (click)="reset(true)"
+              class="btn btn-sm searchButton my-2"
+              style="padding: 0.25rem 0.5rem"
+            >
               <!-- <button type="button" (click)="reset()" class="btn btn-sm searchButton" *ngIf="!stateServiceLabel" style="padding: 0.25rem 0.5rem"> -->
-                Reset
-              </button>
+              Reset
+            </button>
           </div>
         </div>
       </div>
@@ -239,6 +244,7 @@
       [returnCompType]="compType"
       (actionClicked)="getClickedAction($event)"
       [getChartPayload]="scatterChartPayload"
+      [multipleTitle]="multipleChartTitle"
     ></app-revenue-mix>
   </div>
 </div>
@@ -317,7 +323,10 @@
   <div class="row my-5">
     <div class="m-auto" style="width: 60%">
       You can also download the source data in excel format
-      <button class="cursor-pointer bottomDownloadButton" (click)="downloadCsvFile()">
+      <button
+        class="cursor-pointer bottomDownloadButton"
+        (click)="downloadCsvFile()"
+      >
         <img
           src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
           height="13px"

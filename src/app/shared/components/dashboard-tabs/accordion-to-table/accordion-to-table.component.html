@@ -240,8 +240,8 @@
             >
             <span>Filter By</span>
           </div>
-          <div class="mt-4 d-flex justify-content-evenly filter-container">
-            <div class="col-md-4 col-sm-12">
+          <div class="row mt-4 d-flex justify-content-evenly filter-container">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-start filterPosition">
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedUlbList"
@@ -273,7 +273,7 @@
                 <option>ABC4</option>
               </select>
             </div> -->
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-4 col-sm-12 d-flex justify-content-end filterPosition">
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedYears"
@@ -286,12 +286,12 @@
                 </mat-option>
               </mat-select>
             </div>
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition">
               <button (click)="searchFilter()" class="searchButton">
                 Search
               </button>
             </div>
-            <div class="col-md-1 col-sm-12">
+            <div class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition">
               <button class="btn reset-btn" (click)="clearAllValue()">
                 Clear All
                 <span _ngcontent-all-c100="" class="ml-2 material-icons"
@@ -309,12 +309,14 @@
             <table class="custom-table">
               <tbody>
                 <tr class="border-none">
-                  <th *ngFor="let heading of tableHeading">
+                  <th *ngFor="let heading of tableHeading; let i = index">
                     {{ heading?.title }}
                     <i
+                      style="cursor: pointer"
                       class="fa"
                       [ngClass]="heading?.class"
                       aria-hidden="true"
+                      (click)="sortTableData(heading?.keyToAccessValue)"
                     ></i>
                   </th>
                 </tr>
@@ -331,15 +333,9 @@
                     {{ data[heading?.keyToAccessValue] }}
                   </td>
                 </tr>
-  
-                <tr class="border-none">
-                  <div class="spacer" style="margin-top: 10px"></div>
-                </tr>
               </tbody>
             </table>
           </div>
-
-          
         </div>
         <div
           *ngIf="tableDataSource?.length == 0"
