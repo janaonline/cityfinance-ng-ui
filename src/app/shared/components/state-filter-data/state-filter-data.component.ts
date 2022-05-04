@@ -806,11 +806,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getCompType(mixType: string) {
-    console.log('getCompType', mixType);
+    console.log("getCompType", mixType);
     // this.compType = e;
     // if (e) this.getScatterData();
-    
-    this.compType = (mixType && mixType == 'default') ? '' : mixType;
+
+    this.compType = mixType && mixType == "default" ? "" : mixType;
     if (mixType) this.getScatterData();
   }
 
@@ -826,7 +826,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
     if (this.stateName && activeButton) {
       this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
-      this.multipleChartTitle = `The following pie chart provides the split of the contribution various ${this.data.filterName} .`;
+      this.multipleChartTitle = `The following pie chart provides the split of the contribution various ${activeButton} .`;
     }
   }
 
