@@ -7,6 +7,8 @@ import {
   EventEmitter,
 } from "@angular/core";
 
+import { Chart } from 'chart.js';
+
 @Component({
   selector: "app-revenue-mix",
   templateUrl: "./revenue-mix.component.html",
@@ -57,7 +59,8 @@ export class RevenueMixComponent implements OnInit {
         datasets: [
           {
             label: "My First Dataset",
-            data: [0,0,0,0,0,0],
+            // data: [0,0,0,0,0,0],
+            data: [],
             // backgroundColor: [
             //   "#76d12c",
             //   "#ed8e3b",
@@ -1046,6 +1049,7 @@ return arr;
     console.log('revenueMix changes', this.chartData, this.multipleChartShow)
     this.ulbTab ? this.initializeDounughtArry() : this.populationTab ? this.initializePopulationDoughnutArray() : '';
     if(Array.isArray(this.chartData)){
+      this.finalMultipleDoughnut = [];
       this.chartData.forEach(el=>{
         console.log('chartData', el, 'keys', Object.keys(el)[0], 'value', Object.values(el)[0])
         if (this.ulbTab) {
@@ -1149,8 +1153,8 @@ return arr;
         });
       } else if (this.ulbTab) {
         let totalDataSet = [ 
-          this.doughnutArray[1].data.datasets[0].data,
-          this.doughnutArray[2].data.datasets[0].data,
+          this.doughnutArray[1].data.datasets[0].data, 
+          this.doughnutArray[2].data.datasets[0].data,  
           this.doughnutArray[3].data.datasets[0].data
         ];
         console.log('ulbTabSumTotal', this.getSumTotal(totalDataSet))
@@ -1158,11 +1162,14 @@ return arr;
           return a.map(function (v, i) {
               return v + b[i];
           });
-        });;
+        });
       }
     }
     console.log(this.doughnutArray)
-    this.getMultipleDoughnutCharts() 
+    setTimeout(() => {
+      this.getMultipleDoughnutCharts();
+    }, 500)
+    // this.getMultipleDoughnutCharts()
     }
   }
   
