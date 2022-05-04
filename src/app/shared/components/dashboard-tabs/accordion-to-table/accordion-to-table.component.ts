@@ -306,7 +306,13 @@ export class AccordionToTableComponent implements OnInit {
       this.yearsList = new Set(
         this.filterdData.map((elem: any) => elem.yearOfBondIssued)
       );
-      console.log("main years", this.yearsList, this.filterdData);
+      this.yearsList = [...this.yearsList].sort((a, b) => a - b);
+      console.log(
+        "main years",
+        typeof this.yearsList,
+        this.yearsList,
+        this.filterdData
+      );
       this.makeDataForState(this.filterdData);
       // this.makeDataForState(datas.data);
     }
@@ -343,9 +349,10 @@ export class AccordionToTableComponent implements OnInit {
     if (this.selectedUlbList.length > 0 || this.selectedYears.length > 0) {
       this.finalFileteredData = this.bondIssuerItemData.filter(
         (elem) =>
-          names.includes(elem.ulb) ||
+          names.includes(elem.ulb) &&
           this.selectedYears.includes(elem.yearOfBondIssued)
       );
+      console.log("this.finalFileteredData", this.finalFileteredData);
       this.makeDataForState(this.finalFileteredData);
     } else {
       this.snackbar.open(stringVal, null, {
@@ -382,6 +389,10 @@ export class AccordionToTableComponent implements OnInit {
       };
       return temp;
     });
+    // this.StatesJS
+    this.tableDataSource = this.tableDataSource.sort(
+      (a: any, b: any) => a.year - b.year
+    );
     this.totalDataSource = this.tableDataSource;
     console.log(this.tableDataSource, "tableDataSource");
   }
@@ -435,6 +446,7 @@ export class AccordionToTableComponent implements OnInit {
 
     let tempArr = myArrayFiltered.flat();
     this.yearsList = new Set(tempArr);
+    this.yearsList = [...this.yearsList].sort((a, b) => a - b);
     console.log("myArrayFiltered", myArrayFiltered, this.yearsList);
   }
 

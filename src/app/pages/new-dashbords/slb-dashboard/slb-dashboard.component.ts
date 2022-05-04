@@ -102,11 +102,11 @@ export class SlbDashboardComponent
   };
   mapLabels = [
     {
-      name: "0%",
+      name: "0% ",
       color: "#A6B9B4",
     },
     {
-      name: "25%",
+      name: "  25%",
       color: "#FCDA4A",
     },
     {
@@ -155,6 +155,8 @@ export class SlbDashboardComponent
   filteredOptions: Observable<any[]>;
   showLoader: boolean = true;
   colorCoding: any = [];
+
+  stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
 
   ngOnInit(): void {
     this.getNationalLevelMapData("2020-21");
@@ -387,6 +389,9 @@ export class SlbDashboardComponent
   </div>`;
   }
 
+  globalOptions: any;
+  clickedCityData: any;
+
   createDistrictMap(
     districtGeoJSON,
     options: {
@@ -458,30 +463,60 @@ export class SlbDashboardComponent
       }
       console.log("selectedCode", this.selectedStateCode);
 
-      // options.dataPoints.forEach((dataPoint: any) => {
-      //   const marker = this.createDistrictMarker({
-      //     ...dataPoint,
-      //     icon: this.blueIcon,
-      //   }).addTo(districtMap);
-      //   marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-      //   marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
-      //   marker.on("click", (values) => {
-      //     let city;
-      //     // if (values["latlng"])
-      //     //   city = this.stateUlbData.data[this.selectedStateCode].ulbs.find(
-      //     //     (value) =>
-      //     //       +value.location.lat === values["latlng"].lat &&
-      //     //       +value.location.lng === values["latlng"].lng
-      //     //   );
-      //     // if (city) {
-      //     //   this.selectedDistrictCode = city.code;
-      //     //   this.selectCity(city.code, false);
-      //     // }
-      //     this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
-      //   });
-      //   this.districtMarkerMap[dataPoint.code] = marker;
-      // });
+      this.globalOptions = options.dataPoints;
+
+      options.dataPoints.forEach((dataPoint: any) => {
+        const marker = this.createDistrictMarker({
+          ...dataPoint,
+          icon: this.blueIcon,
+        }).addTo(districtMap);
+        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        marker.on("click", (values) => {
+          let city;
+          if (values["latlng"]) {
+            this.clickedCityData = this.stateUlbData.data[
+              this.selectedStateCode
+            ].ulbs.find(
+              (value) =>
+                +value.location.lat === values["latlng"].lat &&
+                +value.location.lng === values["latlng"].lng
+            );
+            console.log("mainCityid", city, this.clickedCityData);
+            // setTimeout(() => {
+            this.getUlbData(this.clickedCityData, true);
+            // }, 500);
+          }
+
+          // if (city) {
+          //   this.selectedDistrictCode = city.code;
+          //   this.selectCity(city.code, false);
+          // }
+
+          this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker);
+        });
+        this.districtMarkerMap[dataPoint.code] = marker;
+      });
     }, 0.5);
+
+    // setTimeout(() => {
+    //   this.createMarker(this.globalOptions);
+    // }, 100);
+  }
+
+  createMarker(options) {
+    // debugger;
+    console.log("499", options, this.stateId);
+    // let id = this.router.url.split("=")[1];
+    let newObject = options.filter((elem) => {
+      if (elem._id == this.stateId) {
+        console.log("final element", elem);
+        return elem;
+      }
+    });
+    let marker = this.districtMarkerMap[newObject[0].code];
+
+    if (marker) marker.fireEvent("click");
   }
 
   loadData() {
@@ -704,10 +739,18 @@ export class SlbDashboardComponent
   }
 
   isFirstChangeCount: number = 0;
+  cityData: any;
   onSelectingStateFromDropDown(state: any | null) {
     console.log("sttts", state);
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
+    this._commonService
+      .getUlbByState(state ? state?.code : null)
+      .subscribe((res) => {
+        let ulbsData: any = res;
+        this.cityData = ulbsData?.data?.ulbs;
+        console.log("AllCity", this.cityData);
+      });
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       const element = document.getElementById(this.createdDomMinId);
       element.style.display = "block";
@@ -852,12 +895,27 @@ export class SlbDashboardComponent
   }
 
   ulbId: any;
-  getUlbData(event) {
-    console.log(event);
+  getUlbData(event, fromMap?) {
+    console.log("getUlbData", event);
+    // debugger;
+    let filterCity = this.cityData.find((e) => {
+      return e.code == event?.code;
+    });
+    console.log(
+      "selectedCity==>",
+      event,
+      this.cityData,
+      filterCity,
+      this.districtMarkerMap
+    );
+    if (!fromMap) this.districtMarkerMap[filterCity.code].fireEvent("click");
+    else this.nationalFilter.patchValue(event.name);
     this.ulbId = event._id;
     console.log("this.ulbId", this.ulbId);
     this.cityId = this.ulbId;
     this.loadSLBComponent("city");
+
+    // this.createMarker(this.globalOptions);
   }
 
   createNationalMapJson() {
