@@ -46,18 +46,22 @@
     </div>
   </div>
   <div class="col-sm-12" *ngIf="isEnum">
-    <h2 style="text-align: center;">Chapter on Enumeration</h2>
+    <!-- <h2 style="text-align: center;">Chapter on Enumeration</h2> -->
     <div class="heading topBottomGaps">Current Practices</div>
     <p class="sub-ans just">
       Enumeration means counting of properties for the purpose of taxation. In practical terms, this entails the creation and maintenance of a property register. Ideally, the process of enumeration should ensure completeness and accuracy of records.
       <br />
       It is important to have a complete record of properties in a jurisdiction to have an improved process of tax collection.
     </p>
-    <h3>The process of enumeration has the following aspects:</h3><br>
-    <h3>1) Creation of property tax register</h3>
+    <div class="heading topBottomGaps">The process of enumeration has the following aspects:</div>
+    <div class="heading topBottomGaps">1) Creation of property tax register</div>
+    
+    
     <p  class="sub-ans just">The ULB can create a physical record or a digital record of properties in their jurisdiction once counting is done.</p>
-    <img src="../../../../../assets/resources-das/enum1.png" />
-    <h3>2) Maintenance of property tax register</h3>
+    <img src="../../../../../assets/resources-das/enum1.png" style="width: 1054px;" />
+    <div class="heading topBottomGaps">2) Maintenance of property tax register</div>
+
+    <h3></h3>
     <p  class="sub-ans just">Property register can be updated by repeating a physical survey and/or it can be integrated with database of other departments in the municipal corporation.</p>
     <img src="../../../../../assets/resources-das/enum2.png" />
 
@@ -74,6 +78,14 @@
         {{ card.heading }}
       </div>
     </div>
+    <div
+      *ngFor="let line of enumCardData[cardId - 1].content"
+      class="topBottomGaps sub-ans just"
+    >
+      <ul>
+        <li [innerHTML]="line" style="list-style-type: none">{{ line }}</li>
+      </ul>
+    </div>
     <div>
       <ngx-slick-carousel
         class="carousel"
@@ -88,23 +100,17 @@
           *ngFor="let item of enumCardData[cardId - 1].imgArr"
           class="slide" style="height:500px;"
         >
+        <span class="topBottomGaps steps">{{ item.text }}</span>
+        
         <img [src]="item.link" alt="" width="100%" />
         
         
         </div>
       </ngx-slick-carousel>
     </div>
-    <div class="mt-4" *ngFor="let item of enumCardData[cardId - 1].imgArr">
-      <span class="topBottomGaps steps">{{ item.text }}</span>
-    </div>
-    <div
-      *ngFor="let line of enumCardData[cardId - 1].content"
-      class="topBottomGaps sub-ans just"
-    >
-      <ul>
-        <li [innerHTML]="line" style="list-style-type: none">{{ line }}</li>
-      </ul>
-    </div>
+    <!-- <div class="mt-4" *ngFor="let item of enumCardData[cardId - 1].imgArr">
+    </div> -->
+    
   </div>
   <div class="col-sm-12" *ngIf="isValu">
     <div class="heading topBottomGaps">Current Practices</div>
@@ -130,6 +136,14 @@
         {{ card.heading }}
       </div>
     </div>
+    <div
+      *ngFor="let line of valuationCardData[cardId - 1].content"
+      class="topBottomGaps sub-ans just"
+    >
+      <ul>
+        <li [innerHTML]="line" style="list-style-type: none">{{ line }}</li>
+      </ul>
+    </div>
     <div>
       <ngx-slick-carousel
         class="carousel"
@@ -144,22 +158,14 @@
           *ngFor="let item of valuationCardData[cardId - 1].imgArr"
           class="slide" style="height:500px;"
         >
+        <span class="topBottomGaps steps">{{ item.text }}</span>
+
         <img [src]="item.link" alt="" width="100%" />
         
         </div>
       </ngx-slick-carousel>
     </div>
-    <div class="mt-4" *ngFor="let item of valuationCardData[cardId - 1].imgArr">
-      <span class="topBottomGaps steps">{{ item.text }}</span>
-    </div>
-    <div
-      *ngFor="let line of valuationCardData[cardId - 1].content"
-      class="topBottomGaps sub-ans just"
-    >
-      <ul>
-        <li [innerHTML]="line" style="list-style-type: none"></li>
-      </ul>
-    </div>
+    
     
   </div>
   <div class="col-sm-12" *ngIf="isAssess">
