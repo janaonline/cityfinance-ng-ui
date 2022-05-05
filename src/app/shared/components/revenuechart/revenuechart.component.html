@@ -106,7 +106,7 @@
     <!-- style="width: auto; min-width: 720px; height: 470px" -->
     <!-- style="min-width: 354px; height: 510px" -->
     <div *ngIf="!notFound">
-      <div class="canvasResponsive">
+      <div [ngClass]="{ 'canvasResponsive': cityClass}">
         <canvas
         [id]="chartId"
         height="420"
