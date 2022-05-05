@@ -179,6 +179,34 @@ export class NationalMapSectionComponent
     // };
   }
 
+  createLegends() {
+    const arr = [
+      { color: "#12a6dd", text: "81%-100%" },
+      { color: "#4a6ccb", text: "61%-80%" },
+      { color: "#fcda4a", text: "26%-60%" },
+      { color: "#a6b9b4", text: "1%-25%" },
+      { color: "#a6b9b4", text: "0%" },
+    ];
+    const legend = new L.Control({ position: "bottomleft" });
+    const labels = [
+      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+    ];
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create("div", "info legend");
+      div.id = "legendContainer";
+      // div.style.width = "100%";
+      arr.forEach((value) => {
+        labels.push(
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
+        );
+      });
+      div.innerHTML = labels.join(``);
+      return div;
+    };
+
+    legend.addTo(this.nationalLevelMap);
+  }
+
   createNationalMapJson() {
     const prmsArr = [];
     const prms1 = this._geoService.loadConvertedIndiaGeoData().toPromise();
@@ -333,6 +361,8 @@ export class NationalMapSectionComponent
 
     this.initializeNationalLevelMapLayer(this.stateLayers);
 
+    this.createLegends();
+
     // Prepare to auto select state from query Params.
     let stateToAutoSelect: IStateULBCovered;
     let layerToAutoSelect;
@@ -369,10 +399,10 @@ export class NationalMapSectionComponent
       this.onStateLayerClick(layerToAutoSelect);
       this.isLoading = false;
     }
-    this.hideMapLegends();
+    // this.hideMapLegends();
 
     if (this.isMapOnMiniMapMode) {
-      this.hideMapLegends();
+      // this.hideMapLegends();
       this.showStateLayerOnlyFor(
         this.nationalLevelMap,
         this.currentStateInView
@@ -383,7 +413,10 @@ export class NationalMapSectionComponent
   }
 
   showMapLegends() {
-    console.warn("show legends hidden");
+    const element = document.getElementById("legendContainer");
+    if (element) {
+      element.style.visibility = "visible";
+    }
   }
   clearDistrictMapContainer() {
     // const height = this.userUtil.isUserOnMobile() ? `100%` : "80vh";
@@ -551,6 +584,7 @@ export class NationalMapSectionComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
+    this.showMapLegends();
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {

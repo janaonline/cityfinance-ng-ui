@@ -22,7 +22,7 @@ import { AuthService } from "src/app/auth/auth.service";
 import { ExcelService } from "src/app/dashboard/report/excel.service";
 import { DialogComponent } from "../dialog/dialog.component";
 import { IDialogConfiguration } from "../dialog/models/dialogConfiguration";
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BalanceTabledialogComponent } from "./balance-tabledialog/balance-tabledialog.component";
 
 export interface PeriodicElement {
@@ -136,7 +136,7 @@ export class BalanceTableComponent
 
   singleTableData: any;
   multipleTableData: any;
-  compare:Boolean
+  compare: Boolean;
 
   ulbIdval: any;
   ulbListVal: any;
@@ -199,22 +199,28 @@ export class BalanceTableComponent
       ],
     },
   ];
-  rawPdfData=[{
-    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
-    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
-  },{
-    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
-    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
-  },{
-    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
-    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
-  },{
-    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
-    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
-  },{
-    imagePdf:`<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
-    imageExcel:`<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`
-  }]
+  rawPdfData = [
+    {
+      imagePdf: `<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+      imageExcel: `<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`,
+    },
+    {
+      imagePdf: `<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+      imageExcel: `<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`,
+    },
+    {
+      imagePdf: `<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+      imageExcel: `<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`,
+    },
+    {
+      imagePdf: `<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+      imageExcel: `<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`,
+    },
+    {
+      imagePdf: `<a style="cursor: pointer"><i class="fa fa-file-pdf-o"></i></a>`,
+      imageExcel: `<a style="cursor: pointer"><i class="fa fa-file-excel-o"></i></a>`,
+    },
+  ];
   onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
@@ -229,7 +235,7 @@ export class BalanceTableComponent
   onDeSelectAll(items: any) {
     console.log(items);
   }
-  valueType = "absolute"
+  valueType = "absolute";
   defaultDailogConfiuration: IDialogConfiguration = {
     message:
       "<p class='text-center'>You need to be Login to download the data.</p>",
@@ -262,7 +268,9 @@ export class BalanceTableComponent
     private _dialog: MatDialog,
     private router: Router,
     protected commonService: CommonService,
-    private excelService: ExcelService // private commonService: CommonService, // private balanceTabeleService: BalanceTableService
+
+    private _loaderService: GlobalLoaderService,
+    private excelService: ExcelService // private commonService: CommonService, // private balanceTabeleService: BalanceTableService,
   ) {
     super();
     this.activatedRoute.queryParams.subscribe((val) => {
@@ -273,7 +281,7 @@ export class BalanceTableComponent
         // this.id = this.cityId;
         this.id = cityId;
         sessionStorage.setItem("row_id", this.id);
-        
+
         this.setUlbList(cityId);
       } else {
         this.id = sessionStorage.getItem("row_id");
@@ -292,12 +300,14 @@ export class BalanceTableComponent
   currentUlbFilterData;
   allUlbsFilterData;
   setUlbList(ulbId) {
+    this._loaderService.showLoader();
     let stateId = this.stateCode[this.ulbStateMapping[ulbId]]._id;
     this.commonService.fetchBasicLedgerData().subscribe((res) => {
+      this._loaderService.stopLoader();
       this.currentUlbFilterData = res.data
         .find((val) => val._id.state == stateId)
         ?.ulbList.find((val) => val.ulb == ulbId);
-      this.compare = false
+      this.compare = false;
       this.createDataForBasicComp(this.reportGroup);
       this.allUlbsFilterData = res.data.reduce((result, value) => {
         result[value._id.state] = value.ulbList;
@@ -308,16 +318,16 @@ export class BalanceTableComponent
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
-      width: '500px'
+      width: "500px",
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
     });
   }
   createDataForBasicComp(fromBs, filters?) {
     // this.isLoading = true;
-    if(!this.currentUlbFilterData)return
+    if (!this.currentUlbFilterData) return;
     let temp2;
     if (filters) {
       temp2 = filters;
@@ -333,10 +343,10 @@ export class BalanceTableComponent
         reportGroup: this.reportGroup,
         ulbList: [this.currentUlbFilterData],
         ulbIds: [this.currentUlbFilterData.ulb],
-        valueType: this.valueType
+        valueType: this.valueType,
       };
     }
-    if ((fromBs == "Balance Sheet")) {
+    if (fromBs == "Balance Sheet") {
       this.reportService.BSDetailed(temp2);
     } else {
       this.reportService.ieDetailed(temp2);
@@ -403,7 +413,7 @@ export class BalanceTableComponent
       return ulbData;
     });
     multiUlbList.push(this.currentUlbFilterData);
-    this.compare = true
+    this.compare = true;
     let filters = {
       isComparative: false,
       type: "Summary",
@@ -501,23 +511,21 @@ export class BalanceTableComponent
 
   ngOnInit() {
     this.dropdownList = [
-      { "id": 1, "itemName": "INR" },
-      { "id": 2, "itemName": "INR Thousands" },
-      { "id": 3, "itemName": "INR Lakhs" },
-      { "id": 4, "itemName": "INR Crores" },
-      ]
-
-    this.selectedItems = [
-      
+      { id: 1, itemName: "INR" },
+      { id: 2, itemName: "INR Thousands" },
+      { id: 3, itemName: "INR Lakhs" },
+      { id: 4, itemName: "INR Crores" },
     ];
+
+    this.selectedItems = [];
 
     this.dropdownSettings = {
       singleSelection: false,
       text: "Select Conversion  ",
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
       enableSearchFilter: false,
-      classes: "myclass custom-class"
+      classes: "myclass custom-class",
     };
   }
 
@@ -580,14 +588,14 @@ export class BalanceTableComponent
     // }
   }
   resetCompare() {
-    this.compare = false
-    this.valueType = "absolute"
-    this.createDataForBasicComp(this.reportGroup)
+    this.compare = false;
+    this.valueType = "absolute";
+    this.createDataForBasicComp(this.reportGroup);
   }
 
-  valueTypeChange(event){
-    console.log(event.value,"change in value type");
+  valueTypeChange(event) {
+    console.log(event.value, "change in value type");
     this.valueType = event.value;
-    this.createDataForBasicComp(this.reportGroup)
+    this.createDataForBasicComp(this.reportGroup);
   }
 }
