@@ -51,6 +51,8 @@ export class RevenuechartComponent
     showFinancialYear: true,
     showResetButton: true,
   };
+  href:any
+  cityClass:boolean=false
   constructor(
     public dialog: MatDialog,
     public _loaderService: GlobalLoaderService,
@@ -71,6 +73,11 @@ export class RevenuechartComponent
         this.stateId = sessionStorage.getItem("row_id");
       }
     });
+    this.href=this.router.url
+    if(this.href.includes('cityId')){
+      this.cityClass = true
+      console.log('cityClass',this.cityClass)
+    }
   }
 
   @Input()
