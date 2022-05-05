@@ -31,9 +31,7 @@
 
   .searchButton {
     border: none;
-    padding: 9px;
-    // padding-left: 2px;
-    // padding-right: 2px;
+    padding: 7px;
     width: auto;
     font-size: 1em;
     border-radius: 5px;
@@ -47,7 +45,8 @@
     border-color: black;
     padding: 5px;
     border-radius: 5px;
-    background-color: #dddddd;
+    background-color: #ffffff;
+    color: #000;
   }
 
   #tableHeadings {
@@ -359,6 +358,19 @@
     float: right;
   }
 }
+@media screen and (max-width: 800px) {
+  th{
+    font-size:medium;
+  }
+  .filterPosition{
+    justify-content: flex-start !important;
+    font-size: initial;
+    margin-top: 2%;
+  }
+  .filter-section{
+    height: 237px !important;
+  }
+}
 
 // ::ng-deep .dropdown-year {
 //   @media screen and (max-width: 551px) {
@@ -554,4 +566,16 @@ td {
   justify-content: center;
   align-items: center;
   padding: 0 10px 0 10px;
+}
+
+.reset-btn:hover {
+  background-color: #e67e15;
+  color: #fff;
+  transition: 0.5s;
+}
+
+.searchButton:hover {
+  background-color: #fff !important;
+  color: #e67e15 !important;
+  transition: 0.5s;
 }

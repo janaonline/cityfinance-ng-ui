@@ -4,7 +4,7 @@
     <button
       style="margin-left: 2pc"
       class="btn py-1"
-      (click)="ulbFunction(1);"
+      (click)="ulbFunction(1)"
       [ngClass]="ulbTab ? 'selected' : 'deSelected'"
     >
       ULB Type
@@ -12,7 +12,7 @@
     <button
       style="margin-left: 2%"
       class="btn py-1"
-      (click)="ulbFunction(2);"
+      (click)="ulbFunction(2)"
       [ngClass]="populationTab ? 'selected' : 'deSelected'"
     >
       ULB Population
@@ -37,11 +37,8 @@
     <app-revenuechart
       [multipleCharts]="multipleChartShow"
       [multipleDoughnutCharts]="finalMultipleDoughnut"
-      (dounghnuChartLabels) ="getChartLabel($event)"
-      [chartTitle]="
-        'The following pie chart provides the split of the contribution various own revenue streams to the total own revenue.'
-      "
-
+      (dounghnuChartLabels)="getChartLabel($event)"
+      [chartTitle]="multipleTitle"
     ></app-revenuechart>
   </div>
 

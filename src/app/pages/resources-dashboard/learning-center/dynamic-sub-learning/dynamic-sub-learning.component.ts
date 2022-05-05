@@ -124,6 +124,64 @@ export class DynamicSubLearningComponent implements OnInit {
 
    
   ]
+  valuationCardData = [
+    {
+      _id:1,
+      heading:"1)	Adopt capital valuation system",
+      content:["All cities should adopt the Capital Value method with– <br><br>1. Direct linkage to guidance value<br><br>2. Minimum multiplicative factors<br>Adoption of CV method will require the following steps:<br><br><ul><li>Collect information on property-wise attributes and current collection figures of representative areas from a few ULBs of each category (Municipal Corporations, Municipal Councils, Nagar Panchayats). Create a valuation formula that directly links land value to guidance value. A model valuation formula is provided below –<br><br>Annual Value of Property = (Size of land in sq. units.) x (Guidance value of land per sq. units.) + (Size of building in sq. units.) x (Cost of Construction of the building per sq. units.)<br><br>Where,<br>Guidance value of land is the value of land as prescribed by the Stamp Duties and Registration Department of the State and,<br>Cost of Construction of the building may be prescribed by the Public Works Department<br><br> Property Tax = (Annual Value of Property) x (Multiplicative Factors) x (Tax Rate)<br><br>Create a valuation model with different tax rates to project possible increase in tax for different types of properties. Introduce minimum multiplicative factors like age of building or usage of building that are not already considered in the formula.<br><br></li><li>Finalise the formula – The formula should encompass all possible categories of properties i.e. residential, commercial, industrial, hotels/malls, stadiums, vacant land, apartments, houses with appurtenant land etc.<br><br>The formula should not be too complicated to administer.<br><br>All the variables of the formula should be clearly defined so as to not leave room for discretion.<br><br></li><li>Introduce transition provisions to smoothen the impact of incremental tax liability if any over a period of time. For example, The Maharashtra State Act introduced transition provisions when the State moved to the Capital Value system to reduce the anticipated increase in tax demand. These transition provisions included the ceiling of the tax value for the first five years of implementation of the Capital Value method. ‘For the period of 5 years from the date on which property tax is first levied on capital value, the tax shall not exceed (i) in case of residential building, 2 times, (ii) in case of non-residential building, 3 times the amount of the property tax leviable in respect thereof in the year immediately preceding such date. Provided that property tax levied on the basis of capital value of any buildings or lands shall not exceed 40% of the amount of the property tax payable in the year immediately preceding the year or such revision.’</li></ul>"
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/valuation1.png',
+        text:'Recommendation 1: Adopt capital value system and revise rates periodically'
+      },]
+    },
+    {
+      _id:2,
+      heading:"2)	Institute mechanism for periodic rate revision",
+      content:["The Municipal Acts should have a provision for regular revision of property tax in line with increase in guidance value. The provision should include the fixed period in which the property tax will increase and the criteria that will be used for deciding extent of increase. Ideally, for ease of administration, property tax should be increased periodically, to reflect latest guidance values published by the State, and consequent re-assessments."
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/valuation2.png',
+        text:'Recommendation 2: Adopt capital value system and revise rates periodically'
+      },]
+    }
+  ]
+  enumCardData = [
+    {
+      _id:1,
+      heading:"Recommendation 1: Creation of a GIS based property tax register",
+      content:["1. A state-wide project maybe developed to outsource GIS mapping to an agency. This will help smaller ULBs maintain uniformity in data. The scope will broadly include:<br><br><ul><li> Procurement of high-resolution satellite images or conduct aerial imagery, and creation of a digital base map of the city.</li></ul><br><ul><li> Creation of a digital database of properties –<br>a. Divide the city into equal-sized blocks/sectors with similar count of properties in each block.<br>b. Assign each property a Unique Property ID (UPID) which encapsulates the sector or block number and the geo-tagged coordinates.</li></ul><br><ul><li> Conducting door-to-door surveys –<br>a. Create a web-based database and a complementary mobile application with the records of existing properties and the UPIDs of new properties identified through GIS mapping.<br>b. Send surveyors equipped with mobile devices for accessing the application during the on-ground field survey. The surveyors conduct a thorough door-to-door survey that captures all attributes of properties. The surveyors can also obtain digital signature of property owners/occupiers on the captured attributes and render transparency to the process.<br>c. The data captured in the survey must be uploaded in real-time to the digital property register.<br></li></ul> <br><ul><li>Build capacities within the staff/hire contractual staff/outsource to maintain GIS based digital property register<br>"
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/enum3.png',
+        text:'Figure 1 Creation of a GIS based property tax register'
+      },]
+    },
+    {
+      _id:2,
+      heading:"Recommendation 2: Periodically updating property tax register",
+      content:["Mandatory update of property tax register should be included as a part of Municipal Acts. Acts must be amended to provide for deployment of technology to periodically enumerate all properties, and assess them for taxation purposes."
+    ],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/enum4.png',
+        text:'Figure 2 Periodic enumeration to update property tax register'
+      },]
+    },
+    {
+      _id:3,
+      heading:"Recommendation 3: Integration of property records of all departments",
+      content:["Create a single property database that can be used by other departments. Records must be digitized and a unique property ID created, which is common for all municipal departments."],
+    imgArr:[
+      {
+        link:'../../../../../assets/resources-das/enum5.png',
+        text:'Figure 3 Assignment of unique property identification code and integration of property records of all departments'
+      },]
+    }
+  ]
   assessmentData = [
     {
       _id:1,

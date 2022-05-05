@@ -40,6 +40,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   serviceTabList: any = [];
 
   mainChartTitle: string = "";
+  multipleChartTitle: string = "";
 
   @Input() data;
 
@@ -130,21 +131,23 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 15,
-        generateLabels: function(chart) {
-          console.log('generateLabels', chart)
+        generateLabels: function (chart) {
+          console.log("generateLabels", chart);
           const datasets = chart.data.datasets;
-          console.log('datasets', datasets)
-          console.log('chart.labels', chart.data.labels)
+          console.log("datasets", datasets);
+          console.log("chart.labels", chart.data.labels);
           let total = chart.data.datasets[0].data.reduce((sum, val) => {
             return sum + val;
           }, 0);
-          console.log('total', total)
+          console.log("total", total);
           // var percentage = Math.floor((data / total) * 100 + 0.5);
           return datasets[0].data.map((data, i) => ({
-            text: `${chart.data.labels[i]}: ${Math.floor((data / total) * 100 + 0.5)}%`,
+            text: `${chart.data.labels[i]}: ${Math.floor(
+              (data / total) * 100 + 0.5
+            )}%`,
             fillStyle: datasets[0].backgroundColor[i],
-          }))
-        }
+          }));
+        },
       },
       onClick: (e) => e.stopPropagation(),
     },
@@ -276,6 +279,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   };
 
   currentActiveTab: string = "";
+  mainTab: string = "";
   @Input() selectedStateId: any;
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -442,15 +446,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getDropDownValue() {
-    console.log('serviceTabList', this.serviceTabList)
-    this.stateFilterDataService.getServiceDropDown(this.serviceTab).subscribe((res: any) => {
-      console.log("service dropdown data", res);
-      this.serviceTabList = res?.data?.names;
-      this.filterName = this.serviceTabList[0];
-      this.getScatterData();
-      this.getServiceLevelBenchmarkBarChartData();
-      // this.getStateUlbsPopulation();
-    });
+    console.log("serviceTabList", this.serviceTabList);
+    this.stateFilterDataService
+      .getServiceDropDown(this.serviceTab)
+      .subscribe((res: any) => {
+        console.log("service dropdown data", res);
+        this.serviceTabList = res?.data?.names;
+        this.filterName = this.serviceTabList[0];
+        this.getScatterData();
+        this.getServiceLevelBenchmarkBarChartData();
+        // this.getStateUlbsPopulation();
+      });
   }
 
   initializeScatterData() {
@@ -800,15 +806,16 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getCompType(mixType: string) {
-    console.log('getCompType', mixType);
+    console.log("getCompType", mixType);
     // this.compType = e;
     // if (e) this.getScatterData();
-    
-    this.compType = (mixType && mixType == 'default') ? '' : mixType;
+
+    this.compType = mixType && mixType == "default" ? "" : mixType;
     if (mixType) this.getScatterData();
   }
 
   createDynamicChartTitle(activeButton) {
+    console.log("filterName", this.filterName);
     this.stateName = this.statesList[this.stateId];
 
     let dropDownValue;
@@ -819,6 +826,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     }
     if (this.stateName && activeButton) {
       this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
+      this.multipleChartTitle = `The following pie chart provides the split of the contribution various ${activeButton} .`;
     }
   }
 
@@ -828,7 +836,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.ulbId = "";
     this.compType = "";
     this.nationalFilter.patchValue("");
-    console.log(this.data.btnLabels[i], "activeBTN", this.financialYear);
+    console.log(
+      this.data.btnLabels[i],
+      this.data,
+      "activeBTN",
+      this.financialYear
+    );
     this.ActiveButton = this.data.btnLabels[i];
     this.currentActiveTab = this.data.btnLabels[i];
     this.createDynamicChartTitle(this.currentActiveTab);
@@ -881,7 +894,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
-    if ((changes.hasOwnProperty('selectedStateId') && changes.selectedStateId.currentValue) && !changes?.selectedStateId?.firstChange ) {
+    if (
+      changes.hasOwnProperty("selectedStateId") &&
+      changes.selectedStateId.currentValue &&
+      !changes?.selectedStateId?.firstChange
+    ) {
       console.log("selectedStateId", changes.selectedStateId.currentValue);
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
@@ -990,19 +1007,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getStateUlbsPopulation();
     // this.getStateRevenue();
 
-    this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(data => {
-      console.log('selectedStateFromSlbDashboard', data);
-      if (data?.isNotFirstChange && data?.stateId) {
-        this.stateId = "";
-        this.stateId = data?.stateId;
-        this.getScatterData();
-        if (this.stateServiceLabel) {
-          this.getServiceLevelBenchmarkBarChartData();
-        } else {
-          this.getStateRevenue();
+    this.stateFilterDataService.selectedStateFromSlbDashboard.subscribe(
+      (data) => {
+        console.log("selectedStateFromSlbDashboard", data);
+        if (data?.isNotFirstChange && data?.stateId) {
+          this.stateId = "";
+          this.stateId = data?.stateId;
+          this.getScatterData();
+          if (this.stateServiceLabel) {
+            this.getServiceLevelBenchmarkBarChartData();
+          } else {
+            this.getStateRevenue();
+          }
         }
       }
-    });
+    );
   }
 
   ulbId: any;
@@ -1619,5 +1638,4 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.stateServiceLabel
     );
   }
-
 }

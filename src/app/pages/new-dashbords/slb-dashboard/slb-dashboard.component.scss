@@ -66,10 +66,28 @@
   margin-top: 2rem !important;
 }
 
-.d-tableCont {
-  padding-top: 4rem;
-  padding-left: 6rem;
+.nav-item {
+  background: #f7f8ff 0% 0% no-repeat padding-box;
+  border: 1px solid #d9dce6;
+  text-align: center;
 }
+
+.nav-item:first-child {
+  background: #f7f8ff 0% 0% no-repeat padding-box;
+  border: 1px solid #d9dce6;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.nav-item:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+// .d-tableCont {
+//   padding-top: 4rem;
+//   padding-left: 6rem;
+// }
 // map section styles start
 ::ng-deep .tooltip-custom-1 {
   transform: translateY(-4000px);

@@ -6,16 +6,26 @@
         <div class="container">
             <div class="row">
               <div class="col-sm col-lg col-md">
-                <button type="button" class="btn btn-outline-secondary" (click)="openModal()">Compare
+                <button type="button" style="width: -webkit-fill-available;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid gray" (click)="openModal()">Compare
                     By: {{compareByName}}</button>
               </div>
               <div class="col-sm col-lg col-md">
-                <select class="form-select" (change)="yearValueChange($event.target.value)" id="years" aria-label="Default select">
+                <select style="width: -webkit-fill-available;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid gray;
+                height: 29px;" (change)="yearValueChange($event.target.value)" id="years" aria-label="Default select">
                     <option [value]="item" [selected]="year == item" *ngFor="let item of yearList">{{item}}</option>
                 </select>
               </div>
               <div class="col-sm col-lg col-md">
-                <button type="button" class="btn btn-outline-secondary" style="height:39px;" (click)="clearAll()">Clear
+                <button type="button" style="width: -webkit-fill-available;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid gray" (click)="clearAll()">Clear
                     <img src="../../../assets/resources-das/cancel_off_orange_18dp.svg" alt="cancel_off_icon" />
                 </button>
               </div>
