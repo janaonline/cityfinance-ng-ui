@@ -58,7 +58,8 @@ export class RevenueMixComponent implements OnInit {
         datasets: [
           {
             label: "My First Dataset",
-            data: [0, 0, 0, 0, 0, 0],
+            // data: [0,0,0,0,0,0],
+            data: [],
             // backgroundColor: [
             //   "#76d12c",
             //   "#ed8e3b",
