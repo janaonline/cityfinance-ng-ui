@@ -1,4 +1,4 @@
-<div class="container container-cnt" *ngIf="!showIframe && !showTableau">
+<div class="container container-cnt" *ngIf ="!showIframe && !showTableau && !showOtherIframe" style="overflow-x: hidden;">
   <div class="row" style="margin: 1rem auto 1rem auto">
     <div class="col-sm-12" style="display: flex">
       <a (click)="openScorePer(item)" *ngFor="let item of cardData">
@@ -14,57 +14,74 @@
     </div>
   </div>
 </div>
-<div class="frame" *ngIf="showIframe">
-  <p class="sub-ans">
-    This e-learning module serves to inform city leadership about the
-    significance of using competition based approach and motivating ULB’s
-    revenue officials (including tax collectors), with an aim to ultimately
-    achieve improved own revenues at the ULB and usher in data-driven
-    performance management for revenue officials. At the end of this module, the
-    user would have understood how to improve property tax system at the ULB,
-    and implement a competition for its tax/revenue officials. The module also
-    includes case studies of other Indian cities where such competition-based
-    initiatives have resulted in increased collection of taxes & other own
-    revenues, including from digital modes of payment.
-  </p>
-  <iframe src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
-</div>
-<div class="frame" *ngIf="showTableau">
-  <p class="sub-ans">
-    This e-learning module serves to inform city leadership about the
-    significance of using competition based approach and motivating ULB’s
-    revenue officials (including tax collectors), with an aim to ultimately
-    achieve improved own revenues at the ULB and usher in data-driven
-    performance management for revenue officials. At the end of this module, the
-    user would have understood how to improve property tax system at the ULB,
-    and implement a competition for its tax/revenue officials. The module also
-    includes case studies of other Indian cities where such competition-based
-    initiatives have resulted in increased collection of taxes & other own
-    revenues, including from digital modes of payment.
-  </p>
-
-  <div
-    id="vizContainer"
-    class="tableauPlaceholder"
-    style="width: 800px; height: 627px"
-  >
-    <iframe
-      id="obj"
-      class="tableauViz"
-      width="800"
-      height="627"
-      style="display: none"
+<div [ngSwitch]="!showIframe || !showTableau || !showOtherIframe">
+  <div class="frame" *ngSwitchCase="showIframe">
+    <p class="sub-ans">
+      This e-learning module serves to inform city leadership about the
+      significance of using competition based approach and motivating ULB’s
+      revenue officials (including tax collectors), with an aim to ultimately
+      achieve improved own revenues at the ULB and usher in data-driven
+      performance management for revenue officials. At the end of this module, the
+      user would have understood how to improve property tax system at the ULB,
+      and implement a competition for its tax/revenue officials. The module also
+      includes case studies of other Indian cities where such competition-based
+      initiatives have resulted in increased collection of taxes & other own
+      revenues, including from digital modes of payment.
+    </p>
+    <iframe src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
+  </div>
+  <div class="frame" *ngSwitchCase="showTableau">
+    <p class="sub-ans">
+      This e-learning module serves to inform city leadership about the
+      significance of using competition based approach and motivating ULB’s
+      revenue officials (including tax collectors), with an aim to ultimately
+      achieve improved own revenues at the ULB and usher in data-driven
+      performance management for revenue officials. At the end of this module, the
+      user would have understood how to improve property tax system at the ULB,
+      and implement a competition for its tax/revenue officials. The module also
+      includes case studies of other Indian cities where such competition-based
+      initiatives have resulted in increased collection of taxes & other own
+      revenues, including from digital modes of payment.
+    </p>
+  
+    <div
+      id="vizContainer"
+      class="tableauPlaceholder"
+      style="width: 800px; height: 627px"
     >
-      <param
-        name="host_url"
-        value="https%3A%2F%2Fprod-apnortheast-a.online.tableau.com%2F"
-      />
-      <param name="embed_code_version" value="3" />
-      <param name="site_root" value="&#47;t&#47;janaagrahadur" />
-      <param name="name" value="DURtrial2&#47;Dashboard1" />
-      <param name="tabs" value="no" />
-      <param name="toolbar" value="yes" />
-      <param name="showAppBanner" value="false" />
-    </iframe>
+      <iframe
+        id="obj"
+        class="tableauViz"
+        width="800"
+        height="627"
+        style="display: none"
+      >
+        <param
+          name="host_url"
+          value="https%3A%2F%2Fprod-apnortheast-a.online.tableau.com%2F"
+        />
+        <param name="embed_code_version" value="3" />
+        <param name="site_root" value="&#47;t&#47;janaagrahadur" />
+        <param name="name" value="DURtrial2&#47;Dashboard1" />
+        <param name="tabs" value="no" />
+        <param name="toolbar" value="yes" />
+        <param name="showAppBanner" value="false" />
+      </iframe>
+    </div>
+  </div>
+  <div class="frame" *ngSwitchCase="showOtherIframe">
+    <p class="sub-ans">
+      This e-learning module serves to inform city leadership about the
+      significance of using competition based approach and motivating ULB’s
+      revenue officials (including tax collectors), with an aim to ultimately
+      achieve improved own revenues at the ULB and usher in data-driven
+      performance management for revenue officials. At the end of this module, the
+      user would have understood how to improve property tax system at the ULB,
+      and implement a competition for its tax/revenue officials. The module also
+      includes case studies of other Indian cities where such competition-based
+      initiatives have resulted in increased collection of taxes & other own
+      revenues, including from digital modes of payment.
+    </p>
+    <iframe src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
   </div>
 </div>
