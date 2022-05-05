@@ -40,12 +40,12 @@ export class ELearningModuleComponent implements OnInit {
         "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
       code: "second",
     },
-    {
-      label: "Motivating Revenue Officials",
-      imgUrl:
-        "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
-      code: "fourth",
-    },
+    // {
+    //   label: "Motivating Revenue Officials",
+    //   imgUrl:
+    //     "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+    //   code: "fourth",
+    // },
   ];
   showIframe = false;
   showTableau = false;
@@ -69,9 +69,10 @@ export class ELearningModuleComponent implements OnInit {
       this.showTableau = true;
     } else if (item.code == "second") {
       this.showIframe = true;
-    } else if (item.code == "fourth") {
-      this.showOtherIframe = true;
-    }
+    } 
+    // else if (item.code == "fourth") {
+    //   this.showOtherIframe = true;
+    // }
 
     console.log(item.label);
   }

@@ -67,7 +67,14 @@
   background-color: white;
   height: 2.3rem;
 }
-
+.canvasResponsive{
+  width:950px !important;
+}
+// @media only screen and (min-width: 600px){
+//   .canvasResponsive{
+//     width:900px !important;
+//   }
+// }
 @media only screen and (max-width: 600px) {
   .revenueChart {
     width: 100%;
