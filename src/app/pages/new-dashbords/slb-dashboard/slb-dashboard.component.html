@@ -144,75 +144,83 @@
                 </li>
               </ul>
             </div>
-            <div class="col-12 col-md-6 col-sm-8 mt-2 d-flex">
-              <div class="input-group inp-grp mx-1 col-4">
-                <form [formGroup]="myForm" class="w-100">
-                  <angular2-multiselect
-                    class="expo-drp-in"
-                    [data]="stateList"
-                    formControlName="stateId"
-                    [settings]="DropdownSettings"
-                    (onSelect)="onSelectingStateFromDropDown($event)"
-                    (onDeSelect)="onSelectingStateFromDropDown(null)"
-                  >
-                  </angular2-multiselect>
-                </form>
-              </div>
-              <!-- <ng-container > -->
-              <!-- <ng-container *ngIf="!isStateSlbActive && !isCitySlbActive"> -->
-              <div class="mx-1 col-4">
-                <select
-                  class="form-select"
-                  id="years"
-                  aria-label="Select Financial Year"
-                  (change)="getSelectedYear($event.target.value)"
-                >
-                  <option
-                    [value]="year"
-                    [selected]="year == selectedYear"
-                    *ngFor="let year of yearList"
-                  >
-                    {{ year }}
-                  </option>
-                </select>
-              </div>
-              <!-- </ng-container> -->
-
-              <ng-container *ngIf="isStateSlbActive || isCitySlbActive">
-                <!-- Search for ULB Names -->
-                <div class="mx-1 col-4">
-                  <form class="filter-form mr-1 w-100">
-                    <input
-                      type="text"
-                      placeholder="Search City Names"
-                      [formControl]="nationalFilter"
-                      [matAutocomplete]="auto"
-                      class="fl-input form-control w-100"
-                      style="height: 2.4rem"
-                    />
-                    <div class="col-6 col-sm-12">
-                      <mat-autocomplete
-                        autoActiveFirstOption
-                        #auto="matAutocomplete"
-                      >
-                        <a
-                          *ngFor="let option of filteredOptions; let i = index"
-                          style="text-decoration: none"
-                        >
-                          <mat-option
-                            (click)="getUlbData(option)"
-                            [value]="option?.name"
-                          >
-                            <span style="font-size: 10px">
-                              {{ option?.name }}</span
-                            >
-                          </mat-option>
-                        </a>
-                      </mat-autocomplete>
-                    </div>
+            <div class="col-lg-12 col-md-6 col-sm-8 mt-2">
+              <div class="row w-100">
+                <div class="col-4">
+                  <form [formGroup]="myForm" class="w-100">
+                    <angular2-multiselect
+                      class="expo-drp-in"
+                      [data]="stateList"
+                      formControlName="stateId"
+                      [settings]="DropdownSettings"
+                      (onSelect)="onSelectingStateFromDropDown($event)"
+                      (onDeSelect)="onSelectingStateFromDropDown(null)"
+                    >
+                    </angular2-multiselect>
                   </form>
                 </div>
-              </ng-container>
+                <!-- <ng-container > -->
+                <!-- <ng-container *ngIf="!isStateSlbActive && !isCitySlbActive"> -->
+                <div class="col-4">
+                  <select
+                    class="form-select"
+                    id="years"
+                    aria-label="Select Financial Year"
+                    (change)="getSelectedYear($event.target.value)"
+                  >
+                    <option
+                      [value]="year"
+                      [selected]="year == selectedYear"
+                      *ngFor="let year of yearList"
+                    >
+                      {{ year }}
+                    </option>
+                  </select>
+                </div>
+                <!-- </ng-container> -->
+
+                <ng-container *ngIf="isStateSlbActive || isCitySlbActive">
+                  <!-- Search for ULB Names -->
+                  <div
+                    *ngIf="isStateSlbActive || isCitySlbActive"
+                    class="col-4"
+                  >
+                    <form class="filter-form w-100">
+                      <input
+                        type="text"
+                        placeholder="Search City Names"
+                        [formControl]="nationalFilter"
+                        [matAutocomplete]="auto"
+                        class="fl-input form-control w-100"
+                        style="height: 2.4rem"
+                      />
+                      <div class="col-6 col-sm-12">
+                        <mat-autocomplete
+                          autoActiveFirstOption
+                          #auto="matAutocomplete"
+                        >
+                          <a
+                            *ngFor="
+                              let option of filteredOptions;
+                              let i = index
+                            "
+                            style="text-decoration: none"
+                          >
+                            <mat-option
+                              (click)="getUlbData(option)"
+                              [value]="option?.name"
+                            >
+                              <span style="font-size: 10px">
+                                {{ option?.name }}</span
+                              >
+                            </mat-option>
+                          </a>
+                        </mat-autocomplete>
+                      </div>
+                    </form>
+                  </div>
+                </ng-container>
+              </div>
             </div>
             <!-- <div class="col-7 col-sm-8 col-md-4 mt-2 d-flex">
               <ng-container>
@@ -317,7 +325,7 @@
                     let tab of slbDashboardData?.subHeaders;
                     let i = index
                   "
-                  class="nav-item pl-1"
+                  class="pl-1"
                   role="presentation"
                 >
                   <button
