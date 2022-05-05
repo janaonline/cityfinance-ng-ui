@@ -163,13 +163,13 @@ export class NationalMapSectionComponent
   national: any = { _id: "", name: "India" };
 
   ngOnInit(): void {
+    this.getNationalLevelMapData("2020-21");
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
-    this.getNationalLevelMapData("2020-21");
     this.getNationalTableData();
     this.loadData();
-    this.subFilterFn("popCat");
+    // this.subFilterFn("popCat");
     this.createNationalMapJson();
   }
   ngOnDestroy(): void {
@@ -225,10 +225,10 @@ export class NationalMapSectionComponent
         //   this.StatesJSONForMapCreation,
         //   "mapidd" + Math.random()
         // );
-        this.createNationalLevelMap(
-          this.StatesJSONForMapCreation,
-          "mapidd" + this.randomNumber
-        );
+        // this.createNationalLevelMap(
+        //   this.StatesJSONForMapCreation,
+        //   "mapidd" + this.randomNumber
+        // );
         // this.initializeNationalLevelMapLayer(this.StatesJSONForMapCreation);
       }
     });
@@ -282,6 +282,7 @@ export class NationalMapSectionComponent
     );
   }
   getNationalTableData() {
+    // debugger;
     this.showLoader = true;
 
     this._loaderService.showLoader();
@@ -360,7 +361,6 @@ export class NationalMapSectionComponent
     this.createControls(this.nationalLevelMap);
 
     this.initializeNationalLevelMapLayer(this.stateLayers);
-
     this.createLegends();
 
     // Prepare to auto select state from query Params.
@@ -526,6 +526,7 @@ export class NationalMapSectionComponent
     });
   }
   subFilterFn(type) {
+    // debugger;
     if (type == "popCat") {
       this.popBtn = true;
       this.nationalInput.populationCat = true;
@@ -558,6 +559,7 @@ export class NationalMapSectionComponent
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       // this.stateList = [];
+      this.createLegends();
       this._commonService.fetchStateList().subscribe((res) => {
         this.stateList = [{ _id: "", name: "India" }].concat(res);
       });
@@ -584,6 +586,7 @@ export class NationalMapSectionComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
+    console.log("colorCoding==>", this.colorCoding);
     this.showMapLegends();
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);

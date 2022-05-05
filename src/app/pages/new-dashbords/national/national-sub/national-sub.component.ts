@@ -276,7 +276,7 @@ export class NationalSubComponent implements OnInit {
   ];
 
   getCurrentTabValue() {
-    console.log(this.activetab);
+    console.log("280", this.activetab);
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
@@ -515,7 +515,7 @@ export class NationalSubComponent implements OnInit {
       this.selectedGraphValue = this.barChartOptions[0]?.value;
       this.getCurrentTabValue();
     });
-    this.getCurrentTabValue();
+    // this.getCurrentTabValue();
     this.getFinancialYearList();
     // this.getNationalTableData("revenue");
     this.nationalFilter.valueChanges.subscribe((value) => {
@@ -540,7 +540,7 @@ export class NationalSubComponent implements OnInit {
         return null;
       }
     });
-    this.subFilterFn("popCat");
+    // this.subFilterFn("popCat");
   }
 
   activeTabFn(item) {
@@ -762,7 +762,87 @@ export class NationalSubComponent implements OnInit {
           },
         ],
       },
-      options: this.doughnutChartOptions,
+      options: {
+        ...this.doughnutChartOptions,
+        animation: {
+          duration: 500,
+          easing: "easeOutQuart",
+          onComplete() {
+            var localThis = this;
+            const thisCtx = this.chart.ctx;
+            thisCtx.font = Chart.helpers.fontString(
+              Chart.defaults.global.defaultFontFamily,
+              "normal",
+              Chart.defaults.global.defaultFontFamily
+            );
+            thisCtx.textAlign = "center";
+            thisCtx.textBaseline = "bottom";
+            this.data.datasets.forEach((dataset, index) => {
+              for (let i = 0; i < dataset.data.length; i += 1) {
+                const textSize = 14;
+                // thisCtx.font = `${textSize}px Verdana`;
+                const model =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                console.log("model", model);
+                const total =
+                  dataset._meta[Object.keys(dataset._meta)[0]].total;
+                const midRadius =
+                  model.innerRadius +
+                  (model.outerRadius - model.innerRadius) / 2;
+                const startAngle = model.startAngle;
+                const endAngle = model.endAngle;
+                const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+                const x = midRadius * Math.cos(midAngle);
+                const y = midRadius * Math.sin(midAngle);
+
+                /* Calculating the area of the doughnut sector. */
+                let angle = endAngle - startAngle;
+                let doughnutSectorArea =
+                  (angle / 2) *
+                  (model.outerRadius - model.innerRadius) *
+                  (model.outerRadius + model.innerRadius);
+
+                /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+                // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
+                thisCtx.fillStyle = isBGColorDarkOrLight
+                  ? isBGColorDarkOrLight == "light"
+                    ? "#000000"
+                    : "#ffffff"
+                  : "#000000";
+                var fontSize = 15;
+                var fontStyle = "normal";
+                var fontFamily = "sans-serif";
+                thisCtx.font = Chart.helpers.fontString(
+                  fontSize,
+                  fontStyle,
+                  fontFamily
+                );
+
+                console.log("lightOrDark");
+
+                const percent = `${String(
+                  Math.round((dataset.data[i] / total) * 100)
+                )}%`;
+                /* if need to add the percentage with absolute value uncomment the below line. */
+                // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                //   model.y + y + (textSize * 1.3));
+
+                if (dataset.data[i] != 0 && doughnutSectorArea > 1200) {
+                  thisCtx.fillText(
+                    percent,
+                    model.x + x,
+                    model.y + y + textSize * 1.3
+                  );
+                }
+              }
+            });
+          },
+        },
+      },
     });
   }
 
@@ -782,7 +862,90 @@ export class NationalSubComponent implements OnInit {
             },
           ],
         },
-        options: this.doughnutChartOptions,
+        options: {
+          ...this.doughnutChartOptions,
+          animation: {
+            duration: 500,
+            easing: "easeOutQuart",
+            onComplete() {
+              var localThis = this;
+              const thisCtx = this.chart.ctx;
+              thisCtx.font = Chart.helpers.fontString(
+                Chart.defaults.global.defaultFontFamily,
+                "normal",
+                Chart.defaults.global.defaultFontFamily
+              );
+              thisCtx.textAlign = "center";
+              thisCtx.textBaseline = "bottom";
+              this.data.datasets.forEach((dataset, index) => {
+                for (let i = 0; i < dataset.data.length; i += 1) {
+                  const textSize = myCanvas.nativeElement.width / 100;
+                  // const textSize = '14px Verdana';
+                  // thisCtx.font = `${textSize}px Verdana`;
+                  const model =
+                    dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                  console.log("model", model);
+                  const total =
+                    dataset._meta[Object.keys(dataset._meta)[0]].total;
+                  const midRadius =
+                    model.innerRadius +
+                    (model.outerRadius - model.innerRadius) / 2;
+                  const startAngle = model.startAngle;
+                  const endAngle = model.endAngle;
+                  const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+                  const x = midRadius * Math.cos(midAngle);
+                  const y = midRadius * Math.sin(midAngle);
+
+                  /* Calculating the area of the doughnut sector. */
+                  let angle = endAngle - startAngle;
+                  let doughnutSectorArea =
+                    (angle / 2) *
+                    (model.outerRadius - model.innerRadius) *
+                    (model.outerRadius + model.innerRadius);
+
+                  /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                  If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+                  // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                  var isBGColorDarkOrLight = lightOrDark(
+                    model?.backgroundColor
+                  );
+                  thisCtx.fillStyle = isBGColorDarkOrLight
+                    ? isBGColorDarkOrLight == "light"
+                      ? "#000000"
+                      : "#ffffff"
+                    : "#000000";
+                  var fontSize = 15;
+                  var fontStyle = "normal";
+                  var fontFamily = "sans-serif";
+                  thisCtx.font = Chart.helpers.fontString(
+                    fontSize,
+                    fontStyle,
+                    fontFamily
+                  );
+
+                  console.log("lightOrDark");
+
+                  const percent = `${String(
+                    Math.round((dataset.data[i] / total) * 100)
+                  )}%`;
+                  /* if need to add the percentage with absolute value uncomment the below line. */
+                  // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                  // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                  //   model.y + y + (textSize * 1.3));
+
+                  if (dataset.data[i] != 0 && doughnutSectorArea > 800) {
+                    thisCtx.fillText(
+                      percent,
+                      model.x + x,
+                      model.y + y + textSize * 1.3
+                    );
+                  }
+                }
+              });
+            },
+          },
+        },
       });
     });
 
@@ -836,5 +999,39 @@ export class NationalSubComponent implements OnInit {
     } catch (err) {
       this._loaderService.stopLoader();
     }
+  }
+}
+
+function lightOrDark(color) {
+  // Variables for red, green, blue values
+  var r, g, b, hsp;
+
+  // Check the format of the color, HEX or RGB?
+  if (color.match(/^rgb/)) {
+    // If RGB --> store the red, green, blue values in separate variables
+    color = color.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    );
+
+    r = color[1];
+    g = color[2];
+    b = color[3];
+  } else {
+    // If hex --> Convert it to RGB: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, "$&$&"));
+
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
+  }
+
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+
+  // Using the HSP value, determine whether the color is light or dark
+  if (hsp > 127.5) {
+    return "light";
+  } else {
+    return "dark";
   }
 }
