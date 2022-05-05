@@ -7,8 +7,6 @@ import {
   EventEmitter,
 } from "@angular/core";
 
-import { Chart } from 'chart.js';
-
 @Component({
   selector: "app-revenue-mix",
   templateUrl: "./revenue-mix.component.html",
