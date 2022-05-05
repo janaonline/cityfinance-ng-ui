@@ -13,7 +13,7 @@
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
-          style="height: 40px;margin-left: 2pc;"
+          style="margin-left: 2pc;"
           class="btn deSelected my-2 customizedButton"
           [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >
