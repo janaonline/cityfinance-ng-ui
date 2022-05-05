@@ -711,6 +711,7 @@ export class CommonService {
       }
     }
     if (stateServiceLabel) {
+      paramContent['csv']= true;
       this.http
         .post(`${environment.api.url}${apiEndPoint}`, paramContent, {
           responseType: "blob",

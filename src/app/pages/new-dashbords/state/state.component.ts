@@ -145,15 +145,24 @@ export class StateComponent implements OnInit {
           let obj = { Revenue, Expense, Asset, Tax, Liability, Debt };
           for (const key in obj) {
             const element = obj[key];
-            element.number =
-              "INR " +
-              (res.data.length > 0
-                ? Math.round(
-                    res.data.find((value) => value._id == key)?.amount /
-                      10000000
-                  )
-                : "0") +
-              " Cr";
+            if (key == "Debt") {
+              element.number =
+                "INR " +
+                Math.round(
+                  res.data.find((value) => value._id == "Revenue")?.totalGrant /
+                    10000000
+                ) +
+                "Cr";
+            } else
+              element.number =
+                "INR " +
+                (res.data.length > 0
+                  ? Math.round(
+                      res.data.find((value) => value._id == key)?.amount /
+                        10000000
+                    )
+                  : "0") +
+                " Cr";
           }
           this.revenueData = [
             obj.Revenue,
