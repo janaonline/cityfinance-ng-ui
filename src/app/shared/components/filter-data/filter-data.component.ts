@@ -450,11 +450,11 @@ ULB ${this.selectedTab} for FY' ${
         DeficitData[newItem].map((elem) => {
           let newTemp = [];
           let temp = JSON.parse(JSON.stringify(elem));
-          temp.ulbName = temp.ulbName + " revenue";
+          temp.ulbName = temp.ulbName + " Revenue";
           temp.amount = temp.revenue;
           newTemp.push(temp);
           temp = JSON.parse(JSON.stringify(elem));
-          temp.ulbName = temp.ulbName + " expense";
+          temp.ulbName = temp.ulbName + " Expense";
           temp.amount = temp.expense;
           newTemp.push(temp);
           if (tempObj.hasOwnProperty(newItem)) {
