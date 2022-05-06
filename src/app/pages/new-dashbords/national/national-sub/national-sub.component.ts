@@ -44,7 +44,7 @@ export class NationalSubComponent implements OnInit {
   popBtn = true;
   tableView = true;
   graphView = false;
-  barChartsLabels;
+  barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
 
   doughnutLabels = [];
   // doughnutLabels = [
@@ -276,7 +276,11 @@ export class NationalSubComponent implements OnInit {
   ];
 
   getCurrentTabValue() {
-    console.log(this.activetab);
+    console.log("280", this.activetab);
+
+    this.nationalInput.stateId = this.selectedState;
+
+    this.nationalInput.financialYear = this.selectedYear;
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
@@ -309,6 +313,8 @@ export class NationalSubComponent implements OnInit {
       this.downloadInputEndPoint = "revenue";
     } else if (this.activetab == "Revenue Mix ") {
       this.RevenueMixInput.type = "revenueMix";
+
+      this.downloadInput.type = "revenueMix";
       this.getRevenueMixData(this.RevenueMixInput, "revenue");
     } else if (this.activetab == "Total Expenditure") {
       this.nationalInput.type = "totalExpenditure";
@@ -317,6 +323,7 @@ export class NationalSubComponent implements OnInit {
       this.downloadInputEndPoint = "expenditure";
     } else if (this.activetab == "Expenditure Mix") {
       this.RevenueMixInput.type = "expenditureMix";
+      this.downloadInput.type = "expenditureMix";
       this.getRevenueMixData(this.RevenueMixInput, "expenditure");
     } else if (this.activetab == "Deficit or Surplus") {
       this.totalRevenue = true;
@@ -347,6 +354,7 @@ export class NationalSubComponent implements OnInit {
       this.downloadInputEndPoint = "own-revenue";
     } else if (this.activetab == "Own Revenue Mix ") {
       this.RevenueMixInput.type = "OwnrevenueMix";
+      this.downloadInput.type = "OwnrevenueMix";
       this.getRevenueMixData(this.RevenueMixInput, "own-revenue");
     } else if (this.activetab == "Capital Expenditure") {
       this.totalRevenue = true;
@@ -369,6 +377,17 @@ export class NationalSubComponent implements OnInit {
     }
   }
 
+  resetFilter() {
+    let emptyArr: any = [];
+    this.selectedYear = "2020-21";
+    this.selectedState = "";
+
+    this.filteredOptions = emptyArr;
+    this.nationalFilter.patchValue("");
+    this.subFilterFn("popCat");
+    // this.getCurrentTabValue();
+  }
+
   // getActiveTab(value) {}
 
   destroyMultipleCharts() {
@@ -378,12 +397,13 @@ export class NationalSubComponent implements OnInit {
       }
     }
   }
+  selectedYear = "2020-21";
   selectFinancialYear(event) {
-    console.log("this.currntHeadTab==>", this.CurrentHeadTab);
-    this.nationalInput.financialYear = event.target.value;
+    // console.log("this.currntHeadTab==>", this.CurrentHeadTab);
+    this.selectedYear = event.target.value;
     this.destroyMultipleCharts();
     // this.getNationalTableData(this.CurrentHeadTab);
-    this.RevenueMixInput.financialYear = event.target.value;
+    this.RevenueMixInput.financialYear = this.selectedYear;
     // this.getRevenueMixData(this.RevenueMixInput);
     this.getCurrentTabValue();
   }
@@ -504,6 +524,8 @@ export class NationalSubComponent implements OnInit {
     console.log("currentUrl===>", this.router.url);
   }
   ngOnInit(): void {
+    this.getFinancialYearList();
+
     this.nationalMapService.currentSubTab.subscribe((res) => {
       this.activetab = res?.data;
       this.CurrentHeadTab = res?.HeadTab
@@ -513,10 +535,10 @@ export class NationalSubComponent implements OnInit {
         (item) => item.code == this.CurrentHeadTab
       );
       this.selectedGraphValue = this.barChartOptions[0]?.value;
+      this.doughnutArray = this.mixRDoughnutPopulationCategory;
       this.getCurrentTabValue();
     });
-    this.getCurrentTabValue();
-    this.getFinancialYearList();
+    // this.getCurrentTabValue();
     // this.getNationalTableData("revenue");
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -540,7 +562,7 @@ export class NationalSubComponent implements OnInit {
         return null;
       }
     });
-    this.subFilterFn("popCat");
+    // this.subFilterFn("popCat");
   }
 
   activeTabFn(item) {
@@ -549,7 +571,9 @@ export class NationalSubComponent implements OnInit {
   }
 
   getFinancialYearList() {
+    this._loaderService.showLoader();
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
+      this._loaderService.stopLoader();
       this.financialYearList = res?.data?.FYs;
     });
   }
@@ -573,7 +597,7 @@ export class NationalSubComponent implements OnInit {
         this.deficitBarChartData[0].data = deficitData.slice(1);
         this.deficitBarChartData[1].data = expenseData.slice(1);
 
-        console.log(this.barChartData);
+        console.log("deficitData==>", this.barChartData);
       }
       this.newValue =
         value.toLowerCase() == "expenditure"
@@ -589,6 +613,7 @@ export class NationalSubComponent implements OnInit {
         value == "capitalExpenditure" ? "Capexpense" : "CapexpensePerCapita";
     }
     console.log("newValue==>", this.newValue);
+
     // this.yAxesLabel = this.newValue;
 
     if (this.tableData)
@@ -599,7 +624,12 @@ export class NationalSubComponent implements OnInit {
     this.revnueChartData = this.revnueChartData.slice(1);
 
     this.barChartData[0].data = this.revnueChartData;
-    console.log("this.revenueChartData", this.revnueChartData, this.newValue);
+    console.log(
+      "this.revenueChartData",
+      this.revnueChartData,
+      this.newValue,
+      this.barChartData
+    );
     this.barChartInit();
   }
 
@@ -609,8 +639,9 @@ export class NationalSubComponent implements OnInit {
     this.creatBarChartData(this.selectedGraphValue);
   }
 
+  selectedState: any = "";
   getSelectedvalue(value) {
-    this.nationalInput.stateId = value?._id;
+    this.selectedState = value?._id;
     this.getCurrentTabValue();
     // this.getNationalTableData(this.CurrentHeadTab);
   }
@@ -623,14 +654,8 @@ export class NationalSubComponent implements OnInit {
       this.RevenueMixInput.formType = "populationCategory";
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
 
+      this.barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
       if (this.totalRevenue) {
-        this.barChartsLabels = [
-          "<100k",
-          "100K-500K",
-          "500K-1M",
-          "1M-4M",
-          "4M+",
-        ];
         if (this.graphView) {
           this.barChartInit();
         }
@@ -646,12 +671,12 @@ export class NationalSubComponent implements OnInit {
       //   this.getRevenueMixData(this.RevenueMixInput);
       //   this.dynamicDoughnutChartInit(this.doughnutArray);
       // }
+      this.barChartsLabels = [
+        "Municipal Corporation",
+        "Municipality",
+        "Town Panchayat",
+      ];
       if (this.totalRevenue) {
-        this.barChartsLabels = [
-          "Municipal Corporation",
-          "Municipality",
-          "Town Panchayat",
-        ];
         if (this.graphView) {
           this.barChartInit();
         }
@@ -675,7 +700,9 @@ export class NationalSubComponent implements OnInit {
       "this.deficitdata",
       this.deficitBarChartData,
       this.activetab,
-      this.revnueChartData
+      this.revnueChartData,
+      this.barChartData,
+      this.barChartsLabels
     );
     let finalObj: any = {};
     if (this.activetab == "Deficit or Surplus") {
@@ -683,6 +710,11 @@ export class NationalSubComponent implements OnInit {
     } else {
       finalObj = this.barChartData;
     }
+    // if (this.newValue.includes("per capita")) {
+    //   this.newValue = `${this.newValue} in rupees`;
+    // } else {
+    //   this.newValue = `${this.newValue} in cr`;
+    // }
     let newLabel =
       this.newValue.charAt(0).toUpperCase() +
       this.newValue
@@ -741,6 +773,31 @@ export class NationalSubComponent implements OnInit {
               },
             ],
           },
+          animation: {
+            onComplete: function (animation) {
+              var chartInstance = this.chart,
+                ctx = chartInstance.ctx;
+              ctx.fillStyle = "#6E7281";
+              ctx.font = Chart.helpers.fontString(
+                Chart.defaults.global.defaultFontSize,
+                Chart.defaults.global.defaultFontStyle,
+                Chart.defaults.global.defaultFontFamily
+              );
+              ctx.textAlign = "center";
+              ctx.textBaseline = "bottom";
+
+              this.data.datasets.forEach(function (dataset, i) {
+                var meta = chartInstance.controller.getDatasetMeta(i);
+                if (meta.type == "line") return true;
+                meta.data.forEach(function (bar, index) {
+                  var data = dataset.data[index];
+                  // data = data > 0 ? (data / 1000000).toFixed(2) : 0;
+                  ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+                });
+              });
+              console.log(animation, "animation");
+            },
+          },
         },
       });
   }
@@ -762,7 +819,87 @@ export class NationalSubComponent implements OnInit {
           },
         ],
       },
-      options: this.doughnutChartOptions,
+      options: {
+        ...this.doughnutChartOptions,
+        animation: {
+          duration: 500,
+          easing: "easeOutQuart",
+          onComplete() {
+            var localThis = this;
+            const thisCtx = this.chart.ctx;
+            thisCtx.font = Chart.helpers.fontString(
+              Chart.defaults.global.defaultFontFamily,
+              "normal",
+              Chart.defaults.global.defaultFontFamily
+            );
+            thisCtx.textAlign = "center";
+            thisCtx.textBaseline = "bottom";
+            this.data.datasets.forEach((dataset, index) => {
+              for (let i = 0; i < dataset.data.length; i += 1) {
+                const textSize = 14;
+                // thisCtx.font = `${textSize}px Verdana`;
+                const model =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                console.log("model", model);
+                const total =
+                  dataset._meta[Object.keys(dataset._meta)[0]].total;
+                const midRadius =
+                  model.innerRadius +
+                  (model.outerRadius - model.innerRadius) / 2;
+                const startAngle = model.startAngle;
+                const endAngle = model.endAngle;
+                const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+                const x = midRadius * Math.cos(midAngle);
+                const y = midRadius * Math.sin(midAngle);
+
+                /* Calculating the area of the doughnut sector. */
+                let angle = endAngle - startAngle;
+                let doughnutSectorArea =
+                  (angle / 2) *
+                  (model.outerRadius - model.innerRadius) *
+                  (model.outerRadius + model.innerRadius);
+
+                /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+                // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
+                thisCtx.fillStyle = isBGColorDarkOrLight
+                  ? isBGColorDarkOrLight == "light"
+                    ? "#000000"
+                    : "#ffffff"
+                  : "#000000";
+                var fontSize = 15;
+                var fontStyle = "normal";
+                var fontFamily = "sans-serif";
+                thisCtx.font = Chart.helpers.fontString(
+                  fontSize,
+                  fontStyle,
+                  fontFamily
+                );
+
+                console.log("lightOrDark");
+
+                const percent = `${String(
+                  Math.round((dataset.data[i] / total) * 100)
+                )}%`;
+                /* if need to add the percentage with absolute value uncomment the below line. */
+                // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                //   model.y + y + (textSize * 1.3));
+
+                if (dataset.data[i] != 0 && doughnutSectorArea > 1200) {
+                  thisCtx.fillText(
+                    percent,
+                    model.x + x,
+                    model.y + y + textSize * 1.3
+                  );
+                }
+              }
+            });
+          },
+        },
+      },
     });
   }
 
@@ -782,7 +919,90 @@ export class NationalSubComponent implements OnInit {
             },
           ],
         },
-        options: this.doughnutChartOptions,
+        options: {
+          ...this.doughnutChartOptions,
+          animation: {
+            duration: 500,
+            easing: "easeOutQuart",
+            onComplete() {
+              var localThis = this;
+              const thisCtx = this.chart.ctx;
+              thisCtx.font = Chart.helpers.fontString(
+                Chart.defaults.global.defaultFontFamily,
+                "normal",
+                Chart.defaults.global.defaultFontFamily
+              );
+              thisCtx.textAlign = "center";
+              thisCtx.textBaseline = "bottom";
+              this.data.datasets.forEach((dataset, index) => {
+                for (let i = 0; i < dataset.data.length; i += 1) {
+                  const textSize = myCanvas.nativeElement.width / 100;
+                  // const textSize = '14px Verdana';
+                  // thisCtx.font = `${textSize}px Verdana`;
+                  const model =
+                    dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                  console.log("model", model);
+                  const total =
+                    dataset._meta[Object.keys(dataset._meta)[0]].total;
+                  const midRadius =
+                    model.innerRadius +
+                    (model.outerRadius - model.innerRadius) / 2;
+                  const startAngle = model.startAngle;
+                  const endAngle = model.endAngle;
+                  const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+                  const x = midRadius * Math.cos(midAngle);
+                  const y = midRadius * Math.sin(midAngle);
+
+                  /* Calculating the area of the doughnut sector. */
+                  let angle = endAngle - startAngle;
+                  let doughnutSectorArea =
+                    (angle / 2) *
+                    (model.outerRadius - model.innerRadius) *
+                    (model.outerRadius + model.innerRadius);
+
+                  /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                  If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+                  // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                  var isBGColorDarkOrLight = lightOrDark(
+                    model?.backgroundColor
+                  );
+                  thisCtx.fillStyle = isBGColorDarkOrLight
+                    ? isBGColorDarkOrLight == "light"
+                      ? "#000000"
+                      : "#ffffff"
+                    : "#000000";
+                  var fontSize = 15;
+                  var fontStyle = "normal";
+                  var fontFamily = "sans-serif";
+                  thisCtx.font = Chart.helpers.fontString(
+                    fontSize,
+                    fontStyle,
+                    fontFamily
+                  );
+
+                  console.log("lightOrDark");
+
+                  const percent = `${String(
+                    Math.round((dataset.data[i] / total) * 100)
+                  )}%`;
+                  /* if need to add the percentage with absolute value uncomment the below line. */
+                  // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                  // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                  //   model.y + y + (textSize * 1.3));
+
+                  if (dataset.data[i] != 0 && doughnutSectorArea > 800) {
+                    thisCtx.fillText(
+                      percent,
+                      model.x + x,
+                      model.y + y + textSize * 1.3
+                    );
+                  }
+                }
+              });
+            },
+          },
+        },
       });
     });
 
@@ -809,12 +1029,8 @@ export class NationalSubComponent implements OnInit {
     // });
   }
 
-  changeValue() {
-    this.downloadInput.csv = true;
-    console.log("clicked");
-  }
-
   downloadTableData() {
+    this.downloadInput.csv = true;
     this._loaderService.showLoader();
     try {
       this.nationalService
@@ -836,5 +1052,39 @@ export class NationalSubComponent implements OnInit {
     } catch (err) {
       this._loaderService.stopLoader();
     }
+  }
+}
+
+function lightOrDark(color) {
+  // Variables for red, green, blue values
+  var r, g, b, hsp;
+
+  // Check the format of the color, HEX or RGB?
+  if (color.match(/^rgb/)) {
+    // If RGB --> store the red, green, blue values in separate variables
+    color = color.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    );
+
+    r = color[1];
+    g = color[2];
+    b = color[3];
+  } else {
+    // If hex --> Convert it to RGB: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, "$&$&"));
+
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
+  }
+
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+
+  // Using the HSP value, determine whether the color is light or dark
+  if (hsp > 127.5) {
+    return "light";
+  } else {
+    return "dark";
   }
 }
