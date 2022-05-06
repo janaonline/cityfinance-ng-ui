@@ -173,7 +173,7 @@ export class DynamicSubLearningComponent implements OnInit {
     },
     {
       _id:3,
-      heading:"Recommendation 3: Integration of property records of all departments",
+      heading:"Integration of property records of all departments",
       content:["Create a single property database that can be used by other departments. Records must be digitized and a unique property ID created, which is common for all municipal departments."],
     imgArr:[
       {
