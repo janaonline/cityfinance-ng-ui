@@ -9,7 +9,8 @@ export class AssetsService {
   constructor(private _http: HttpClient) {}
 
   fetchCreditRatingDetailedReport() {
-    return this._http.get(`/assets/files/credit-rating-detailed.json`);
+    return this._http.get(`/assets/files/credit-rating-new.json`);
+    // return this._http.get(`/assets/files/credit-rating-detailed.json`);
   }
 
   fetchCreditRatingReport() {

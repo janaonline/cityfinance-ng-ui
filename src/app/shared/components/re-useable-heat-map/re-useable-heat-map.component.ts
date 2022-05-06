@@ -643,6 +643,7 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
   createTooltip(layer, stateLayer) {
+    console.log('createTooltip', layer, stateLayer)
     if (this.isMapOnMiniMapMode) {
       return false;
     }
@@ -956,17 +957,20 @@ export class ReUseableHeatMapComponent implements OnInit, OnChanges, OnDestroy {
       this.districtMap = districtMap;
 
       options.dataPoints.forEach((dataPoint) => {
+        console.log('dataPoint', dataPoint)
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
         }).addTo(districtMap);
         marker.on("mouseover", (value) => (this.mouseHoveredOnULB = dataPoint));
+        // marker.on("mouseover", (value) => this.createCityTooltip(dataPoint, this.districtMap, value));
         marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values) =>
           this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
         );
       });
     }, 0.5);
+
   }
 
   resetULBsSelected() {

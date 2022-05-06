@@ -276,7 +276,7 @@ export class MapWithFilterComponent
       }
     });
     let marker = this.districtMarkerMap[newObject[0].code];
-
+    console.log('createMarker', options, 'newObject', newObject, 'marker', marker)
     if (marker) marker.fireEvent("click");
   }
   createDistrictMap(
@@ -333,12 +333,30 @@ export class MapWithFilterComponent
       // }, 100);
       options.dataPoints.forEach((dataPoint: any) => {
         this.districtList[dataPoint.code] = dataPoint.name;
+        /* Creating a popup without a close button. 
+        * available option are {closeOnClick: false, closeButton: true, autoClose: true }
+        * if you know other option too please add into this object for future reference
+        */
+        var popup = L.popup({closeButton: false, autoClose: true }).setContent(`${this._commonService.createCityTooltip(dataPoint)}`);
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
-        }).addTo(districtMap);
-        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        }).addTo(districtMap)
+        .bindPopup(popup);
+
+        /* Adding a mouseover and mouseout event to the marker. */
+          marker.on({ mouseover: () => {
+            this.mouseHoveredOnULB = dataPoint;
+            marker.openPopup();
+            }
+          });
+          marker.on({ mouseout: () => {
+              this.mouseHoveredOnULB = null;
+              marker.closePopup();
+            }
+          });
+        // marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+        // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values: any) => {
           console.log("clicked values", values, this.mapConfig.code.state);
           let city;

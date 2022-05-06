@@ -86,7 +86,7 @@ import { ShareDialogComponent } from "./components/share-dialog/share-dialog.com
 import { BasicComponent } from "../dashboard/report/basic/basic.component";
 import { ComparativeUlbComponent } from "../dashboard/report/comparative-ulb/comparative-ulb.component";
 import { MatRadioModule } from "@angular/material/radio";
-
+import { MdePopoverModule } from '@material-extended/mde';
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -117,6 +117,7 @@ import { MatRadioModule } from "@angular/material/radio";
     MatTableModule,
     NgxPaginationModule,
     MatRadioModule,
+    MdePopoverModule
   ],
   declarations: [
     PreLoaderComponent,
