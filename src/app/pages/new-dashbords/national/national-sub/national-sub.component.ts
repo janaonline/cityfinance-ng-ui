@@ -44,7 +44,7 @@ export class NationalSubComponent implements OnInit {
   popBtn = true;
   tableView = true;
   graphView = false;
-  barChartsLabels;
+  barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
 
   doughnutLabels = [];
   // doughnutLabels = [
@@ -513,6 +513,7 @@ export class NationalSubComponent implements OnInit {
         (item) => item.code == this.CurrentHeadTab
       );
       this.selectedGraphValue = this.barChartOptions[0]?.value;
+      this.doughnutArray = this.mixRDoughnutPopulationCategory;
       this.getCurrentTabValue();
     });
     // this.getCurrentTabValue();
@@ -573,7 +574,7 @@ export class NationalSubComponent implements OnInit {
         this.deficitBarChartData[0].data = deficitData.slice(1);
         this.deficitBarChartData[1].data = expenseData.slice(1);
 
-        console.log(this.barChartData);
+        console.log("deficitData==>", this.barChartData);
       }
       this.newValue =
         value.toLowerCase() == "expenditure"
@@ -589,6 +590,7 @@ export class NationalSubComponent implements OnInit {
         value == "capitalExpenditure" ? "Capexpense" : "CapexpensePerCapita";
     }
     console.log("newValue==>", this.newValue);
+
     // this.yAxesLabel = this.newValue;
 
     if (this.tableData)
@@ -599,7 +601,12 @@ export class NationalSubComponent implements OnInit {
     this.revnueChartData = this.revnueChartData.slice(1);
 
     this.barChartData[0].data = this.revnueChartData;
-    console.log("this.revenueChartData", this.revnueChartData, this.newValue);
+    console.log(
+      "this.revenueChartData",
+      this.revnueChartData,
+      this.newValue,
+      this.barChartData
+    );
     this.barChartInit();
   }
 
@@ -623,14 +630,8 @@ export class NationalSubComponent implements OnInit {
       this.RevenueMixInput.formType = "populationCategory";
       this.doughnutArray = this.mixRDoughnutPopulationCategory;
 
+      this.barChartsLabels = ["<100k", "100K-500K", "500K-1M", "1M-4M", "4M+"];
       if (this.totalRevenue) {
-        this.barChartsLabels = [
-          "<100k",
-          "100K-500K",
-          "500K-1M",
-          "1M-4M",
-          "4M+",
-        ];
         if (this.graphView) {
           this.barChartInit();
         }
@@ -646,12 +647,12 @@ export class NationalSubComponent implements OnInit {
       //   this.getRevenueMixData(this.RevenueMixInput);
       //   this.dynamicDoughnutChartInit(this.doughnutArray);
       // }
+      this.barChartsLabels = [
+        "Municipal Corporation",
+        "Municipality",
+        "Town Panchayat",
+      ];
       if (this.totalRevenue) {
-        this.barChartsLabels = [
-          "Municipal Corporation",
-          "Municipality",
-          "Town Panchayat",
-        ];
         if (this.graphView) {
           this.barChartInit();
         }
@@ -675,7 +676,9 @@ export class NationalSubComponent implements OnInit {
       "this.deficitdata",
       this.deficitBarChartData,
       this.activetab,
-      this.revnueChartData
+      this.revnueChartData,
+      this.barChartData,
+      this.barChartsLabels
     );
     let finalObj: any = {};
     if (this.activetab == "Deficit or Surplus") {
@@ -683,6 +686,11 @@ export class NationalSubComponent implements OnInit {
     } else {
       finalObj = this.barChartData;
     }
+    // if (this.newValue.includes("per capita")) {
+    //   this.newValue = `${this.newValue} in rupees`;
+    // } else {
+    //   this.newValue = `${this.newValue} in cr`;
+    // }
     let newLabel =
       this.newValue.charAt(0).toUpperCase() +
       this.newValue

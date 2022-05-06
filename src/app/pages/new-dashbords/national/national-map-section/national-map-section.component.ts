@@ -219,8 +219,9 @@ export class NationalMapSectionComponent
 
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
-      this.colorCoding = res?.data;
       if (res) {
+        console.log("new Response", res);
+        this.colorCoding = res?.data;
         // this.createNationalLevelMap(
         //   this.StatesJSONForMapCreation,
         //   "mapidd" + Math.random()
@@ -360,7 +361,9 @@ export class NationalMapSectionComponent
 
     this.createControls(this.nationalLevelMap);
 
-    this.initializeNationalLevelMapLayer(this.stateLayers);
+    setTimeout(() => {
+      this.initializeNationalLevelMapLayer(this.stateLayers);
+    }, 10);
     this.createLegends();
 
     // Prepare to auto select state from query Params.
