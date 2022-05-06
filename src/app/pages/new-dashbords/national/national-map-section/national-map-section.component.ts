@@ -185,20 +185,20 @@ export class NationalMapSectionComponent
       { color: "#12a6dd", text: "81%-100%" },
       { color: "#4a6ccb", text: "61%-80%" },
       { color: "#fcda4a", text: "26%-60%" },
-      { color: "#a6b9b4", text: "1%-25%" },
+      { color: "#fc5e03", text: "1%-25%" },
       { color: "#a6b9b4", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomleft" });
     const labels = [
-      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend");
       div.id = "legendContainer";
-      // div.style.width = "100%";
+      div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
         );
       });
       div.innerHTML = labels.join(``);
@@ -242,7 +242,7 @@ export class NationalMapSectionComponent
     } else if (d >= 25 && d < 60) {
       color = "#fcda4a";
     } else if (d < 25) {
-      color = "#a6b9b4";
+      color = "#fc5e03";
     } else {
       color = "#a6b9b4";
     }
