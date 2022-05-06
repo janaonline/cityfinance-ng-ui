@@ -581,6 +581,9 @@ export class NationalMapSectionComponent
     this.onSelectingStateFromDropDown("");
     this.nationalInput = this.nationalInput;
     this.getNationalLevelMapData(this.selectedYear);
+    this.nationalMapService.setCurrentSelectYear({
+      data: this.selectedYear,
+    });
 
     this.subFilterFn("popCat");
     // this.getNationalTableData();
