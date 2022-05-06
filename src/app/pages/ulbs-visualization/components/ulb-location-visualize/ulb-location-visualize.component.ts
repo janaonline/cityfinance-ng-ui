@@ -207,12 +207,26 @@ export class UlbLocationVisualizeComponent
       this.districtMap = districtMap;
 
       options.dataPoints.forEach((dataPoint) => {
+        var popup = L.popup({closeButton: false, autoClose: true }).setContent(`${this._commonService.createCityTooltip(dataPoint)}`);
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
-        }).addTo(districtMap);
-        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        }).addTo(districtMap)
+        .bindPopup(popup);
+
+        /* Adding a mouseover and mouseout event to the marker. */
+        marker.on({ mouseover: () => {
+            this.mouseHoveredOnULB = dataPoint;
+            marker.openPopup();
+          }
+        });
+        marker.on({ mouseout: () => {
+            this.mouseHoveredOnULB = null;
+            marker.closePopup();
+          }
+        });
+        // marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+        // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values) =>
           this.onDistrictMarkerClick(<L.LeafletMouseEvent>values, marker)
         );
