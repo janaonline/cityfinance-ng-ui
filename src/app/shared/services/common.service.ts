@@ -605,11 +605,11 @@ export class CommonService {
       formattedValue = Math.round(value / 10000000);
     } else if (chartAnimation == "lakhBarChartOptions") {
       formattedValue = Math.round(value / 100000);
+    } else {
+      formattedValue = Math.round(value);
     }
-    // else {
-    //   formattedValue = value.toFixed(2);
-    // }
-    return chartAnimation == "defaultBarChartOptions" ? value : formattedValue;
+    // return chartAnimation == "defaultBarChartOptions" ? value : formattedValue;
+    return formattedValue;
   }
 
   toTitleCase(phrase: string) {
@@ -731,5 +731,18 @@ export class CommonService {
     // sortedData = dataset.sort((a, b) => a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1);
     sortedData = dataset.sort((a, b) => a[sortKey].localeCompare(b[sortKey]));
     return sortedData;
+  }
+
+  createCityTooltip(markerDataPoint: any) {
+    const tooltipStyle = {
+      color: '#000000',
+      fontWeight: 600,
+      fontSize: '0.7rem'
+    };
+    if (markerDataPoint && markerDataPoint.name) {
+      return `<p style="color: ${tooltipStyle?.color}; font-weight: ${tooltipStyle?.fontWeight}; font-size: ${tooltipStyle?.fontSize};">
+        ${markerDataPoint.name}
+        </p>`
+    }
   }
 }

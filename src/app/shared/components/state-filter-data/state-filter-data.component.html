@@ -61,7 +61,7 @@
         <div class="row">
           <div class="col" *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))">
             <div class="my-2" [matTooltip]="'Select an option to view average data'">
-              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="text-align: center;opacity: 0.6;border: 1px solid gray;width: auto;">
+              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="opacity: 0.6;border: 1px solid gray;width: auto;">
                 <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
                 <option *ngFor="let item of checkBoxArray" [value]="item?.value">
                   {{ item?.title }}
@@ -71,7 +71,7 @@
           </div>
           <div class="col" style="display:flex;">
             <select class="my-2 customDropdown" aria-label="Default select" (change)="getSelectedFinancialYear($event)"
-              style="border-radius: 8px; border: 1px solid gray;opacity: 0.6;text-align: center;">
+              style="border-radius: 8px; border: 1px solid gray;opacity: 0.6;">
                 <option
                   *ngFor="let year of yearList"
                   [value]="year"
@@ -93,7 +93,7 @@
                   [matAutocomplete]="auto"
                   class="customInput"
                   style="height: 2.4rem;border-radius: 7px;
-                  border: 1px solid gray;opacity: 0.6;text-align: center;"
+                  border: 1px solid gray;opacity: 0.6;"
                 />
                 <!-- </div> -->
                 <!-- <div class="col-3 col-sm-3 ps-0">
