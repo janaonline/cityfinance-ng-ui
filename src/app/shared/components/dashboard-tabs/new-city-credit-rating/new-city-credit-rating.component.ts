@@ -50,6 +50,7 @@ export class NewCityCreditRatingComponent
   selectCreditYear(event: any) {
     this.yearValue = event;
     // this.getDetailedData();
+    this.finalList = [];
     this.getFinalData(this.detailedList);
   }
 
@@ -64,22 +65,18 @@ export class NewCityCreditRatingComponent
 
   getFinalData(data) {
     if (data) {
-      console.log("currentId", this._id);
-      let ulbList = this.stateCode[this.ulbStateMapping[this._id]]?.ulbs;
-      ulbList?.filter((elem: any) => {
-        if (elem._id == this._id) {
-          this.ulbName = elem.name;
-          console.log(this.ulbName);
-        }
-      });
-      data.filter((elem, index: any) => {
-        // console.log({ elem });
-        if (elem.ulb == this.ulbName) {
-          elem["date"] = "20" + elem.date.split("/")[2];
+      let ulbCodes = JSON.parse(localStorage.getItem("ulbCodeMapping"));
+      this.detailedList = data.filter((elem, index: any) => {
+        if (elem["ulb code"] == ulbCodes[this._id]) {
+          console.log(elem.date);
+          if (elem["date"].includes("/"))
+            elem["date"] = elem.date.split("/")[2];
           if (elem.date == this.yearValue) {
             this.finalList.push(elem);
           }
+          return true;
         }
+        return false;
       });
     }
     console.log("this.finalList", this.finalList);
