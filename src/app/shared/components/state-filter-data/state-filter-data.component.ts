@@ -635,11 +635,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 tp_data.forEach((el2, index) => {
                   obj.x = el2.population;
                   obj.y = this.stateServiceLabel
-                    ? el2.value.toFixed(2)
-                    : el2.amount;
+                    ? Math.round(el2.value)
+                    : // ? el2.value.toFixed(2)
+                      el2.amount;
                   el["labels"].push(el2.ulbName);
                   el["rev"].push(
-                    this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount
+                    this.stateServiceLabel ? Math.round(el2.value) : el2.amount
                   );
                   el.data.push(obj);
                   // obj = { x: 0, y: 0 };
@@ -648,11 +649,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 mCorporation.forEach((el2, index) => {
                   obj.x = el2.population;
                   obj.y = this.stateServiceLabel
-                    ? el2.value.toFixed(2)
-                    : el2.amount;
+                    ? Math.round(el2.value)
+                    : // ? el2.value.toFixed(2)
+                      el2.amount;
                   el["labels"].push(el2.ulbName);
                   el["rev"].push(
-                    this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount
+                    this.stateServiceLabel ? Math.round(el2.value) : el2.amount
                   );
                   el.data.push(obj);
 
@@ -663,11 +665,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                   obj = { x: 0, y: 0 };
                   obj.x = el2.population;
                   obj.y = this.stateServiceLabel
-                    ? el2.value.toFixed(2)
-                    : el2.amount;
+                    ? Math.round(el2.value)
+                    : // ? el2.value.toFixed(2)
+                      el2.amount;
                   el["labels"].push(el2.ulbName);
                   el["rev"].push(
-                    this.stateServiceLabel ? el2.value.toFixed(2) : el2.amount
+                    this.stateServiceLabel ? Math.round(el2.value) : el2.amount
                   );
                   el.data.push(obj);
                   obj = { x: 0, y: 0 };

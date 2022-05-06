@@ -519,6 +519,7 @@ ULB ${this.selectedTab} for FY' ${
           }
 
           if (!temp[dataByYearVal.ulbName]) {
+            // debugger;
             dataInner.backgroundColor = backgroundColor[index];
             dataInner.borderColor = borderColor[index++];
             // dataInner.label = dataByYearVal.ulbName;
@@ -715,6 +716,7 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createPieChart(data, body) {
+    debugger;
     console.log("createPieChart called", data, body);
     if (this.compareType == "ULBs..") {
       data = this.createMultiUlbData(data["ulbData"]);
@@ -802,6 +804,7 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createMultiUlbChart(data) {
+    debugger;
     this.multipleDoughnutCharts = [];
     this.multiChartLabel = [];
     for (const key in data) {
@@ -816,6 +819,7 @@ ULB ${this.selectedTab} for FY' ${
         ],
       };
       data[key].forEach((value, index) => {
+        console.log("valuueuee", value);
         doughnutChartData.datasets[0].backgroundColor.push(
           pieBackGroundColor[index]
         );
@@ -827,6 +831,7 @@ ULB ${this.selectedTab} for FY' ${
             text: value._id.lineItem,
             color: pieBackGroundColor[index],
           });
+        console.log("pieBackGroundColor[index]", pieBackGroundColor[index]);
         doughnutChartData.datasets[0].label = value._id.lineItem;
       });
       doughnutChartData.labels = this.multiChartLabel.map(
@@ -864,6 +869,7 @@ ULB ${this.selectedTab} for FY' ${
         title: this.ulbMapping[key].name,
       };
       this.multipleDoughnutCharts.push(val);
+      console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     }
 
     this.multiChartLabel = this.multiChartLabel.reduce(
@@ -938,6 +944,7 @@ ULB ${this.selectedTab} for FY' ${
       interest_incomes,
     ];
 
+    console.log("fiinal Data", data);
     data.forEach((value) => {
       if (ownRevenues.includes(value.code)) {
         own.amount += value.amount;
@@ -959,6 +966,7 @@ ULB ${this.selectedTab} for FY' ${
         interest_incomes.colour = value.colour;
       }
     });
+    console.log("pieeChart===>", { newdata });
     return newdata;
   }
 

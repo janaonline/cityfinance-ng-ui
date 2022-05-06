@@ -26,6 +26,7 @@ import { ICreditRatingData } from "src/app/models/creditRating/creditRatingRespo
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { NationalMapSectionService } from "./national-map-section.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import * as fileSaver from "file-saver";
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
@@ -222,15 +223,12 @@ export class NationalMapSectionComponent
       if (res) {
         console.log("new Response", res);
         this.colorCoding = res?.data;
-        // this.createNationalLevelMap(
-        //   this.StatesJSONForMapCreation,
-        //   "mapidd" + Math.random()
-        // );
-        // this.createNationalLevelMap(
-        //   this.StatesJSONForMapCreation,
-        //   "mapidd" + this.randomNumber
-        // );
-        // this.initializeNationalLevelMapLayer(this.StatesJSONForMapCreation);
+
+        this.initializeNationalLevelMapLayer(this.stateLayers);
+        this.createNationalLevelMap(
+          this.StatesJSONForMapCreation,
+          this.currentId
+        );
       }
     });
   }
@@ -251,8 +249,11 @@ export class NationalMapSectionComponent
     return color;
   }
 
+  selectedYear: any = "2020-21";
+
   selectFinancialYear(event) {
-    this.nationalInput.financialYear = event.target.value;
+    this.selectedYear = event.target.value;
+    this.nationalInput.financialYear = this.selectedYear;
     this.getNationalTableData();
     this.nationalMapService.setCurrentSelectYear({
       data: event.target.value,
@@ -282,6 +283,26 @@ export class NationalMapSectionComponent
       `/dashboard/state?stateId=${this.currentStateId}`
     );
   }
+
+  downloadTableData() {
+    this.nationalInput["csv"] = true;
+    this._loaderService.showLoader();
+    try {
+      this.nationalMapService
+        .DownloadNationalTableData(this.nationalInput)
+        .subscribe((res: any) => {
+          this._loaderService.stopLoader();
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+          fileSaver.saveAs(blob, `National Data.xlsx`);
+        });
+    } catch (err) {
+      this._loaderService.stopLoader();
+    }
+  }
+
   getNationalTableData() {
     // debugger;
     this.showLoader = true;
@@ -313,6 +334,7 @@ export class NationalMapSectionComponent
     //  this.changeInStateOrCity.emit(e);
   }
 
+  currentId: any;
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -322,6 +344,8 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
+    console.log("get-statewise-data-availability", containerId);
+    this.currentId = containerId;
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let zoom;
@@ -352,6 +376,7 @@ export class NationalMapSectionComponent
       },
     };
     let map: L.Map;
+
     // MapUtil.createDefaultNationalMap({});
 
     ({ stateLayers: this.stateLayers, map } =
@@ -361,9 +386,8 @@ export class NationalMapSectionComponent
 
     this.createControls(this.nationalLevelMap);
 
-    setTimeout(() => {
-      this.initializeNationalLevelMapLayer(this.stateLayers);
-    }, 10);
+    // setTimeout(() => {
+    // }, 1000);
     this.createLegends();
 
     // Prepare to auto select state from query Params.
@@ -411,6 +435,8 @@ export class NationalMapSectionComponent
         this.currentStateInView
       );
     }
+
+    this.initializeNationalLevelMapLayer(this.stateLayers);
 
     this.isProcessingCompleted.emit(true);
   }
@@ -550,13 +576,28 @@ export class NationalMapSectionComponent
     });
   }
 
+  resetFilter() {
+    this.selectedYear = "2020-21";
+    this.onSelectingStateFromDropDown("");
+    this.nationalInput = this.nationalInput;
+    this.getNationalLevelMapData(this.selectedYear);
+
+    this.subFilterFn("popCat");
+    // this.getNationalTableData();
+  }
+
   onSelectingStateFromDropDown(state: any | null) {
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
+
     this.currentStateId = state?._id;
     this.AvailabilityTitle = state?.name;
-    this.nationalInput.stateId = state._id;
+    if (state) {
+      this.nationalInput.stateId = state._id;
+    } else {
+      this.nationalInput.stateId = "";
+    }
     this.getNationalTableData();
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
@@ -602,8 +643,6 @@ export class NationalMapSectionComponent
       );
       const count = stateFound ? stateFound.coveredUlbPercentage : 0;
 
-      // this.colorCoding = [
-      // const color = this.getColorBasedOnPercentage(count);
       let color;
       let stateCodes = this.colorCoding.map((el) => el.code);
       if (this.colorCoding && stateFound) {

@@ -277,6 +277,10 @@ export class NationalSubComponent implements OnInit {
 
   getCurrentTabValue() {
     console.log("280", this.activetab);
+
+    this.nationalInput.stateId = this.selectedState;
+
+    this.nationalInput.financialYear = this.selectedYear;
     if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
@@ -309,6 +313,8 @@ export class NationalSubComponent implements OnInit {
       this.downloadInputEndPoint = "revenue";
     } else if (this.activetab == "Revenue Mix ") {
       this.RevenueMixInput.type = "revenueMix";
+
+      this.downloadInput.type = "revenueMix";
       this.getRevenueMixData(this.RevenueMixInput, "revenue");
     } else if (this.activetab == "Total Expenditure") {
       this.nationalInput.type = "totalExpenditure";
@@ -317,6 +323,7 @@ export class NationalSubComponent implements OnInit {
       this.downloadInputEndPoint = "expenditure";
     } else if (this.activetab == "Expenditure Mix") {
       this.RevenueMixInput.type = "expenditureMix";
+      this.downloadInput.type = "expenditureMix";
       this.getRevenueMixData(this.RevenueMixInput, "expenditure");
     } else if (this.activetab == "Deficit or Surplus") {
       this.totalRevenue = true;
@@ -347,6 +354,7 @@ export class NationalSubComponent implements OnInit {
       this.downloadInputEndPoint = "own-revenue";
     } else if (this.activetab == "Own Revenue Mix ") {
       this.RevenueMixInput.type = "OwnrevenueMix";
+      this.downloadInput.type = "OwnrevenueMix";
       this.getRevenueMixData(this.RevenueMixInput, "own-revenue");
     } else if (this.activetab == "Capital Expenditure") {
       this.totalRevenue = true;
@@ -369,6 +377,17 @@ export class NationalSubComponent implements OnInit {
     }
   }
 
+  resetFilter() {
+    let emptyArr: any = [];
+    this.selectedYear = "2020-21";
+    this.selectedState = "";
+
+    this.filteredOptions = emptyArr;
+    this.nationalFilter.patchValue("");
+    this.subFilterFn("popCat");
+    // this.getCurrentTabValue();
+  }
+
   // getActiveTab(value) {}
 
   destroyMultipleCharts() {
@@ -378,12 +397,13 @@ export class NationalSubComponent implements OnInit {
       }
     }
   }
+  selectedYear = "2020-21";
   selectFinancialYear(event) {
-    console.log("this.currntHeadTab==>", this.CurrentHeadTab);
-    this.nationalInput.financialYear = event.target.value;
+    // console.log("this.currntHeadTab==>", this.CurrentHeadTab);
+    this.selectedYear = event.target.value;
     this.destroyMultipleCharts();
     // this.getNationalTableData(this.CurrentHeadTab);
-    this.RevenueMixInput.financialYear = event.target.value;
+    this.RevenueMixInput.financialYear = this.selectedYear;
     // this.getRevenueMixData(this.RevenueMixInput);
     this.getCurrentTabValue();
   }
@@ -504,6 +524,8 @@ export class NationalSubComponent implements OnInit {
     console.log("currentUrl===>", this.router.url);
   }
   ngOnInit(): void {
+    this.getFinancialYearList();
+
     this.nationalMapService.currentSubTab.subscribe((res) => {
       this.activetab = res?.data;
       this.CurrentHeadTab = res?.HeadTab
@@ -517,7 +539,6 @@ export class NationalSubComponent implements OnInit {
       this.getCurrentTabValue();
     });
     // this.getCurrentTabValue();
-    this.getFinancialYearList();
     // this.getNationalTableData("revenue");
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
@@ -550,7 +571,9 @@ export class NationalSubComponent implements OnInit {
   }
 
   getFinancialYearList() {
+    this._loaderService.showLoader();
     this.nationalMapService.getNationalFinancialYear().subscribe((res: any) => {
+      this._loaderService.stopLoader();
       this.financialYearList = res?.data?.FYs;
     });
   }
@@ -616,8 +639,9 @@ export class NationalSubComponent implements OnInit {
     this.creatBarChartData(this.selectedGraphValue);
   }
 
+  selectedState: any = "";
   getSelectedvalue(value) {
-    this.nationalInput.stateId = value?._id;
+    this.selectedState = value?._id;
     this.getCurrentTabValue();
     // this.getNationalTableData(this.CurrentHeadTab);
   }
@@ -748,6 +772,31 @@ export class NationalSubComponent implements OnInit {
                 },
               },
             ],
+          },
+          animation: {
+            onComplete: function (animation) {
+              var chartInstance = this.chart,
+                ctx = chartInstance.ctx;
+              ctx.fillStyle = "#6E7281";
+              ctx.font = Chart.helpers.fontString(
+                Chart.defaults.global.defaultFontSize,
+                Chart.defaults.global.defaultFontStyle,
+                Chart.defaults.global.defaultFontFamily
+              );
+              ctx.textAlign = "center";
+              ctx.textBaseline = "bottom";
+
+              this.data.datasets.forEach(function (dataset, i) {
+                var meta = chartInstance.controller.getDatasetMeta(i);
+                if (meta.type == "line") return true;
+                meta.data.forEach(function (bar, index) {
+                  var data = dataset.data[index];
+                  // data = data > 0 ? (data / 1000000).toFixed(2) : 0;
+                  ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+                });
+              });
+              console.log(animation, "animation");
+            },
           },
         },
       });
@@ -980,12 +1029,8 @@ export class NationalSubComponent implements OnInit {
     // });
   }
 
-  changeValue() {
-    this.downloadInput.csv = true;
-    console.log("clicked");
-  }
-
   downloadTableData() {
+    this.downloadInput.csv = true;
     this._loaderService.showLoader();
     try {
       this.nationalService

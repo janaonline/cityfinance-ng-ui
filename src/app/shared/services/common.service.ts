@@ -602,9 +602,9 @@ export class CommonService {
   ) {
     let formattedValue: any;
     if (chartAnimation == "croreBarChartOptions") {
-      formattedValue = (value / 10000000).toFixed(2);
+      formattedValue = Math.round(value / 10000000);
     } else if (chartAnimation == "lakhBarChartOptions") {
-      formattedValue = (value / 100000).toFixed(2);
+      formattedValue = Math.round(value / 100000);
     }
     // else {
     //   formattedValue = value.toFixed(2);
@@ -711,7 +711,7 @@ export class CommonService {
       }
     }
     if (stateServiceLabel) {
-      paramContent['csv']= true;
+      paramContent["csv"] = true;
       this.http
         .post(`${environment.api.url}${apiEndPoint}`, paramContent, {
           responseType: "blob",
