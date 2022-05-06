@@ -605,11 +605,11 @@ export class CommonService {
       formattedValue = Math.round(value / 10000000);
     } else if (chartAnimation == "lakhBarChartOptions") {
       formattedValue = Math.round(value / 100000);
+    } else {
+      formattedValue = Math.round(value);
     }
-    // else {
-    //   formattedValue = value.toFixed(2);
-    // }
-    return chartAnimation == "defaultBarChartOptions" ? value : formattedValue;
+    // return chartAnimation == "defaultBarChartOptions" ? value : formattedValue;
+    return formattedValue;
   }
 
   toTitleCase(phrase: string) {
