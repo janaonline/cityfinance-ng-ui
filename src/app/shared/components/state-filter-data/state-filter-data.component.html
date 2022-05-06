@@ -7,25 +7,21 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12 d-flex justify-content-between">
-      <div
-        *ngIf="!stateServiceLabel"
-        class="col-sm-12 col-md-5 pl-1"
-        style="margin-bottom: 20px"
-      >
+    <div class="col-12 d-flex justify-content-between flex-wrap">
+      <div *ngIf="!stateServiceLabel" style="margin-bottom: 20px;">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
-          style="margin-left: 2pc; height: 40px"
-          class="btn deSelected my-2"
+          style="margin-left: 2pc;"
+          class="btn deSelected my-2 customizedButton"
           [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >
           {{ item }}
         </button>
       </div>
       <!-- list of dropdown for slb in state dashboard -->
-      <div *ngIf="stateServiceLabel" class="col-sm-12 col-md-5 pl-1">
+      <div *ngIf="stateServiceLabel" class="mb-3" style="padding-right: 1rem;">
         <select
           class="form-select text-capitalize"
           (change)="getServiceLevelBenchmark($event)"
@@ -61,58 +57,30 @@
           </button>
         </div>
       </div> -->
-
-      <div class="col-sm-12 col-md-5 pd-s mb-3">
+      <div class="mb-3">
         <div class="row">
-          <div class="col">
-            <div
-              *ngIf="!stateServiceLabel && !ActiveButton?.includes('Mix')"
-              class="my-2"
-              [matTooltip]="'Select an option to view average data'"
-            >
-              <select
-                class="form-select text-capitalize"
-                (change)="getCheckBoxValue($event)"
-                style="opacity: 0.9; border: 1px solid gray; width: auto"
-              >
-                <option
-                  value="none"
-                  selected
-                  hidden
-                  [disabled]="item?.isDisabled"
-                >
-                  Select an Option
-                </option>
-                <option
-                  *ngFor="let item of checkBoxArray"
-                  [value]="item?.value"
-                >
+          <div class="col" *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))">
+            <div class="my-2" [matTooltip]="'Select an option to view average data'">
+              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="text-align: center;opacity: 0.6;border: 1px solid gray;width: auto;">
+                <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
+                <option *ngFor="let item of checkBoxArray" [value]="item?.value">
                   {{ item?.title }}
                 </option>
               </select>
             </div>
           </div>
-          <div class="col" style="display: flex">
-            <select
-              class="my-2"
-              aria-label="Default select"
-              (change)="getSelectedFinancialYear($event)"
-              style="
-                border-radius: 8px;
-                border: 1px solid gray;
-                width: -webkit-fill-available;
-                opacity: 0.9;
-              "
-            >
-              <option
-                *ngFor="let year of yearList"
-                [value]="year"
-                [selected]="year == financialYear"
-              >
-                {{ year }}
-              </option>
-              <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
-            </select>
+          <div class="col" style="display:flex;">
+            <select class="my-2 customDropdown" aria-label="Default select" (change)="getSelectedFinancialYear($event)"
+              style="border-radius: 8px; border: 1px solid gray;opacity: 0.6;text-align: center;">
+                <option
+                  *ngFor="let year of yearList"
+                  [value]="year"
+                  [selected]="year == financialYear"
+                >
+                  {{ year }}
+                </option>
+                <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
+        </select>
           </div>
           <div class="col">
             <form class="filter-form mr-1 my-2">
@@ -123,12 +91,9 @@
                   placeholder="Search for ULB names"
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
-                  style="
-                    height: 2.4rem;
-                    border-radius: 7px;
-                    border: 1px solid gray;
-                    opacity: 0.9;
-                  "
+                  class="customInput"
+                  style="height: 2.4rem;border-radius: 7px;
+                  border: 1px solid gray;opacity: 0.6;text-align: center;"
                 />
                 <!-- </div> -->
                 <!-- <div class="col-3 col-sm-3 ps-0">
@@ -211,39 +176,38 @@
       </div>
     </div>
     <div class="row tablerow">
-      <div class="col-12">
+      <div class="col-12 col-sm-12">
         <p class="py-4">
           Distribution of ULBs in {{ stateName }} according to Population
           category
         </p>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <tbody>
+              <tr class="rowClass">
+                <td>ULB Population Category</td>
+                <td
+                  class="text-center"
+                  *ngFor="let heading of stateUlbsPopulation?.tableHeading"
+                  style="font-weight: 800;">
+                  {{ heading }}
+                </td>
+              </tr>
+              <tr>
+                <td>Number Of Cities</td>
+                <td *ngFor="let heading of stateUlbsPopulation?.tableHeading" style="font-weight: 800;">
+                  {{
+                    _commonServices.formatNumber(
+                      stateUlbsPopulation?.tableDataSource[heading]
+                    )
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <table class="table table-bordered">
-          <tbody>
-            <tr class="rowClass">
-              <td>ULB Population Category</td>
-              <td
-                class="text-center"
-                *ngFor="let heading of stateUlbsPopulation?.tableHeading"
-                style="font-weight: 800"
-              >
-                {{ heading }}
-              </td>
-            </tr>
-            <tr>
-              <td>Number Of Cities</td>
-              <td
-                *ngFor="let heading of stateUlbsPopulation?.tableHeading"
-                style="font-weight: 800"
-              >
-                {{
-                  _commonServices.formatNumber(
-                    stateUlbsPopulation?.tableDataSource[heading]
-                  )
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        
       </div>
     </div>
   </div>

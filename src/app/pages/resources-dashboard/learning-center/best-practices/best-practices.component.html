@@ -21,33 +21,36 @@
   >
     <div class="card-body">
       <div class="h-c">
-        {{ item?.label }}
+        {{ item?.title }}
       </div>
-      <div class="info-c mt-2 mb-3">
+      <!-- <div class="info-c mt-2 mb-3">
         {{ item?.info }}
-      </div>
-      <div class="row" style="align-items: center">
+      </div> -->
+      <div class="row mt-2" style="align-items: center">
         <div class="col-sm-2 pe-0">
-          <span *ngIf="item?.type == 'pdf'">
-            <img
-              src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
-              alt=""
-              class="p-i"
-            />
-          </span>
-          <span *ngIf="item?.type == 'excel'">
-            <img
-              src="../../../../../assets/new_dashBord_ftr_hdr/excel.png"
-              alt=""
-              class="p-i"
-            />
-          </span>
+          <a href="{{ item.url }}" target="_blank">
+            <span>
+              <img
+                src="../../../../../assets/new_dashBord_ftr_hdr/pdf.png"
+                alt=""
+                class="p-i"
+              />
+            </span>
+            <!-- <span *ngIf="item?.type == 'excel'">
+              <img
+                src="../../../../../assets/new_dashBord_ftr_hdr/excel.png"
+                alt=""
+                class="p-i"
+              />
+            </span> -->
+          </a>
         </div>
         <div class="col-sm-9">
           <div class="icon-text">
             <p class="m-0">Updated on</p>
             <p class="m-0">
-              {{ item?.updateDate }}
+              {{ currentDate }}
+              <!-- {{ item?.updateDate }} -->
             </p>
           </div>
         </div>

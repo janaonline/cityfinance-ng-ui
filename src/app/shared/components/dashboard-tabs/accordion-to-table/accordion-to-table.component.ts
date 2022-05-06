@@ -298,9 +298,22 @@ export class AccordionToTableComponent implements OnInit {
       this.getFormValue();
     }
     this.bondIssuerItemData = datas.data;
+
     if (this.state) {
       this.filterdData = this.bondIssuerItemData.filter(
         (elem: any) => elem.state == this.stateId
+      );
+      this.newYearsList = new Set(
+        this.filterdData.map((elem: any) => elem.yearOfBondIssued)
+      );
+      this.newYearsList = [...this.newYearsList].sort((a, b) => a - b);
+      this.yearsList = this.newYearsList;
+      console.log(
+        "main years",
+        typeof this.yearsList,
+        this.yearsList,
+        this.filterdData,
+        this.newYearsList
       );
       this.makeDataForState(this.filterdData);
       // this.makeDataForState(datas.data);
@@ -335,12 +348,21 @@ export class AccordionToTableComponent implements OnInit {
 
     // }
 
-    if (this.selectedUlbList.length > 0 && this.selectedYears.length > 0) {
-      this.finalFileteredData = this.bondIssuerItemData.filter(
-        (elem) =>
-          names.includes(elem.ulb) &&
+    if (this.selectedUlbList.length > 0 || this.selectedYears.length > 0) {
+      // this.finalFileteredData = this.bondIssuerItemData.filter(
+      //   (elem) =>
+      //     names.includes(elem.ulb) &&
+      //     this.selectedYears.includes(elem.yearOfBondIssued)
+      // );
+      this.finalFileteredData = this.bondIssuerItemData.filter((elem) => {
+        if (
+          names.includes(elem.ulb) ||
           this.selectedYears.includes(elem.yearOfBondIssued)
-      );
+        ) {
+          return elem;
+        }
+      });
+      console.log("this.finalFileteredData", this.finalFileteredData);
       this.makeDataForState(this.finalFileteredData);
     } else {
       this.snackbar.open(stringVal, null, {
@@ -351,20 +373,18 @@ export class AccordionToTableComponent implements OnInit {
     }
   }
 
+  sortDirection = false;
   sortTableData(index) {
-    console.log({ index }, this.tableDataSource);
+    this.sortDirection = !this.sortDirection;
     this.tableDataSource = this.tableDataSource.sort((a: any, b: any) => {
-      // return a[index] - b[index];
-
-      return a[index].localeCompare(b[index]);
+      return this.sortDirection
+        ? a[index].localeCompare(b[index])
+        : b[index].localeCompare(a[index]);
     });
-    console.log("sorted Data", this.tableDataSource);
   }
 
   makeDataForState(rawData) {
-    // console.log(' this.ulbNameMapping',  this.ulbNameMapping)
     this.tableDataSource = rawData.map((val) => {
-      // console.log('value', val)
       let temp = {
         municipality: val.ulb == "" ? "NA" : val.ulb,
         ulbType:
@@ -379,6 +399,10 @@ export class AccordionToTableComponent implements OnInit {
       };
       return temp;
     });
+    // this.StatesJS
+    this.tableDataSource = this.tableDataSource.sort(
+      (a: any, b: any) => a.year - b.year
+    );
     this.totalDataSource = this.tableDataSource;
     console.log(this.tableDataSource, "tableDataSource");
   }
@@ -387,7 +411,7 @@ export class AccordionToTableComponent implements OnInit {
     console.log("filteredData", this.filterdData);
     this.selectedUlbList = [];
     this.selectedYears = [];
-    this.yearsList = [];
+    this.yearsList = this.newYearsList;
     this.makeDataForState(this.filterdData);
   }
 
@@ -400,17 +424,24 @@ export class AccordionToTableComponent implements OnInit {
       (code) => code.properties.ST_NM == stateName
     );
     console.log("stateCode", stateCode, this.tableDataSource);
-    if (stateCode && this.tableDataSource.length > 1) {
+    if (stateCode && this.tableDataSource.length > 0) {
       let ulbList = this.allUlbList[stateCode?.properties?.ST_CODE];
       console.log("ulbList", ulbList.ulbs);
       this.stateUlbList = ulbList?.ulbs;
+      this.stateUlbList = this.originalULBList.filter((el) => {
+        return this.stateUlbList.some((f) => {
+          return f.name === el.name;
+        });
+      });
     } else {
       this.stateUlbList = [];
     }
+    console.log("stateUlbList", this.stateUlbList);
   }
 
   ulbTypeList: any = [];
   yearsList: any = [];
+  newYearsList: any = [];
 
   selectMultipleUlb(e: any) {
     this.selectedUlbList = e;
@@ -427,7 +458,14 @@ export class AccordionToTableComponent implements OnInit {
 
     let tempArr = myArrayFiltered.flat();
     this.yearsList = new Set(tempArr);
-    console.log("myArrayFiltered", myArrayFiltered, this.yearsList);
+    this.yearsList = [...this.yearsList].sort((a, b) => a - b);
+
+    console.log(
+      "myArrayFiltered",
+      myArrayFiltered,
+      this.yearsList,
+      this.newYearsList
+    );
   }
 
   selectMultipleYear(e) {

@@ -602,9 +602,9 @@ export class CommonService {
   ) {
     let formattedValue: any;
     if (chartAnimation == "croreBarChartOptions") {
-      formattedValue = (value / 10000000).toFixed(2);
+      formattedValue = Math.round(value / 10000000);
     } else if (chartAnimation == "lakhBarChartOptions") {
-      formattedValue = (value / 100000).toFixed(2);
+      formattedValue = Math.round(value / 100000);
     }
     // else {
     //   formattedValue = value.toFixed(2);
@@ -696,7 +696,12 @@ export class CommonService {
     apiEndPoint: any,
     stateServiceLabel: boolean = false
   ) {
-    console.log("openWindowToDownloadCsv", paramContent, apiEndPoint, stateServiceLabel);
+    console.log(
+      "openWindowToDownloadCsv",
+      paramContent,
+      apiEndPoint,
+      stateServiceLabel
+    );
     let queryString = new URLSearchParams(paramContent).toString();
     if (!stateServiceLabel) {
       console.log("queryString", queryString);
@@ -706,12 +711,11 @@ export class CommonService {
       }
     }
     if (stateServiceLabel) {
+      paramContent["csv"] = true;
       this.http
-        .post(
-          `${environment.api.url}${apiEndPoint}`,
-          paramContent,
-          { responseType: "blob" }
-        )
+        .post(`${environment.api.url}${apiEndPoint}`, paramContent, {
+          responseType: "blob",
+        })
         .subscribe((res) => {
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",

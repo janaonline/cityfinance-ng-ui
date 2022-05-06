@@ -43,6 +43,14 @@ export class NationalMapSectionService {
     );
   }
 
+  DownloadNationalTableData(nationalInput) {
+    return this.http.get(
+      environment.api.url +
+        `national-dashboard/data-availability?financialYear=${nationalInput.financialYear}&stateId=${nationalInput.stateId}&population=${nationalInput.populationCat}&ulbType=${nationalInput.ulbType}&csv=${nationalInput.csv}`,
+      { responseType: "blob" }
+    );
+  }
+
   getNationalMapData(financialYear: any) {
     return this.http.get(
       environment.api.url +

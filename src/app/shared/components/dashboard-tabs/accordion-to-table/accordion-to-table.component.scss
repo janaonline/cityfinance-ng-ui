@@ -358,6 +358,23 @@
     float: right;
   }
 }
+@media screen and (max-width: 800px) {
+  th{
+    font-size:medium;
+  }
+  .filter-title{
+    margin-top:2%;
+  }
+  .filterPosition{
+    justify-content: flex-start !important;
+    font-size: small;
+    margin: 2%;
+    padding-left: 20%;
+  }
+  .filter-section{
+    height: 237px !important;
+  }
+}
 
 // ::ng-deep .dropdown-year {
 //   @media screen and (max-width: 551px) {

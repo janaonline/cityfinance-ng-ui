@@ -40,9 +40,16 @@ export class ELearningModuleComponent implements OnInit {
         "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
       code: "second",
     },
+    // {
+    //   label: "Motivating Revenue Officials",
+    //   imgUrl:
+    //     "../../../../../assets/new_dashBord_ftr_hdr/Group 15745/Group 15745.png",
+    //   code: "fourth",
+    // },
   ];
   showIframe = false;
   showTableau = false;
+  showOtherIframe = false;
   openScorePer(item) {
     console.log("new item",{item})
     this.resourcedashboard.setShowCardValue(item);
@@ -52,15 +59,20 @@ export class ELearningModuleComponent implements OnInit {
       // if (res) {
       this.showIframe = false;
       this.showTableau = false;
+      this.showOtherIframe = false;
       // }
     });
     this.showIframe = false;
     this.showTableau = false;
+    this.showOtherIframe = false;
     if (item.code == "first") {
       this.showTableau = true;
     } else if (item.code == "second") {
       this.showIframe = true;
-    }
+    } 
+    // else if (item.code == "fourth") {
+    //   this.showOtherIframe = true;
+    // }
 
     console.log(item.label);
   }
