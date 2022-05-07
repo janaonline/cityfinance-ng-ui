@@ -346,7 +346,6 @@ export class SlbDashboardComponent
     });
 
     // this.stateLayers.eachLayer((layer: any) => {
-    //   // debugger;
     //   console.log("layers", layer);
     //   const stateCode = MapUtil.getStateCode(layer);
     //   if (!stateCode) {
@@ -552,7 +551,6 @@ export class SlbDashboardComponent
   }
 
   createMarker(options) {
-    // debugger;
     console.log("499", options, this.stateId);
     // let id = this.router.url.split("=")[1];
     let newObject = options.filter((elem) => {
@@ -945,7 +943,6 @@ export class SlbDashboardComponent
   ulbId: any;
   getUlbData(event, fromMap?) {
     console.log("getUlbData", event);
-    // debugger;
     let filterCity = this.cityData.find((e) => {
       return e.code == event?.code;
     });
