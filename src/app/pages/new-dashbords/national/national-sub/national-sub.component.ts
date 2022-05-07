@@ -869,7 +869,7 @@ export class NationalSubComponent implements OnInit {
                     ? "#000000"
                     : "#ffffff"
                   : "#000000";
-                var fontSize = 15;
+                var fontSize = 14;
                 var fontStyle = "normal";
                 var fontFamily = "sans-serif";
                 thisCtx.font = Chart.helpers.fontString(
@@ -972,7 +972,7 @@ export class NationalSubComponent implements OnInit {
                       ? "#000000"
                       : "#ffffff"
                     : "#000000";
-                  var fontSize = 15;
+                  var fontSize = 14;
                   var fontStyle = "normal";
                   var fontFamily = "sans-serif";
                   thisCtx.font = Chart.helpers.fontString(

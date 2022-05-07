@@ -519,7 +519,6 @@ ULB ${this.selectedTab} for FY' ${
           }
 
           if (!temp[dataByYearVal.ulbName]) {
-            // debugger;
             dataInner.backgroundColor = backgroundColor[index];
             dataInner.borderColor = borderColor[index++];
             // dataInner.label = dataByYearVal.ulbName;
@@ -681,7 +680,7 @@ ULB ${this.selectedTab} for FY' ${
       let previousYear = this.getPreviousYear(element._id);
       let previousYearValue = data.find((val) => val._id == previousYear);
       let year1 = previousYearValue,
-        year2 = data[index];
+      year2 = data[index];
       if (!year1) {
         newData.push({
           _id: { financialYear: data[index]._id },
@@ -716,7 +715,6 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createPieChart(data, body) {
-    debugger;
     console.log("createPieChart called", data, body);
     if (this.compareType == "ULBs..") {
       data = this.createMultiUlbData(data["ulbData"]);
@@ -804,7 +802,6 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   createMultiUlbChart(data) {
-    debugger;
     this.multipleDoughnutCharts = [];
     this.multiChartLabel = [];
     for (const key in data) {

@@ -564,7 +564,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateServiceLabel: this.stateServiceLabel,
       sortBy: "",
       // "which": this.selectedRadioBtnValue ? this.selectedRadioBtnValue : '',
-      chartTitle: "",
+      chartTitle: this.mainChartTitle || "",
     };
 
     console.log("scatterChartPayload", this.scatterChartPayload);
@@ -1209,17 +1209,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     let mappedCountList = responseData.map(
       (item: { count: any }) => item.count
     );
-    console.log("mappedCountList", mappedCountList);
     return mappedCountList;
-    // switch(tabType) {
-    //   case 'TotalRevenue':
-    //   case 'RevenueMix':
-    //     return responseData.map((item: { sum: any; }) => item.sum);
-    //   case 'RevenuePerCapita':
-    //     return responseData.map((item: { revenuePerCapita: any; }) => item.revenuePerCapita);
-    //   default:
-    //     break;
-    // }
   }
 
   setChartAnimation(tabType: string, yAxisLabel: string) {
@@ -1532,8 +1522,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       );
     }
     console.log("scatterChartPayload", this.scatterChartPayload);
-    let inputVal: any = {};
-    inputVal.stateIds = this.stateId;
+
     this.stateFilterDataService
       .getAvgScatterdData(this.scatterChartPayload, apiEndPoint)
       .subscribe(
