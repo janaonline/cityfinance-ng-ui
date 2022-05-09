@@ -239,18 +239,19 @@ export class NationalSubComponent implements OnInit {
 
   barChartData: any = [
     {
+      type: "line",
+      label: "Average",
+      data: [80, 80, 80, 80, 80, 80],
+      fill: false,
+      borderColor: "#fc4185",
+    },
+    {
       data: [],
       backgroundColor: "#456EDE",
       borderWidth: 1,
       barThickness: 40,
     },
-    {
-      type: "line",
-      label: "Average",
-      data: [80, 80, 80, 80, 80, 80],
-      fill: false,
-      borderColor: "rgb(54, 162, 235)",
-    },
+    
   ];
 
   deficitBarChartData: any = [
@@ -262,7 +263,7 @@ export class NationalSubComponent implements OnInit {
     },
     {
       data: [],
-      backgroundColor: "#fff",
+      backgroundColor: "#000",
       borderWidth: 1,
       barThickness: 40,
     },
@@ -276,9 +277,18 @@ export class NationalSubComponent implements OnInit {
   ];
 
   getCurrentTabValue() {
-    console.log("280", this.activetab);
+    this.destroyMultipleCharts();
+    console.log("280", this.activetab, this.popBtn);
 
     this.nationalInput.stateId = this.selectedState;
+
+    if(this.popBtn) {
+      this.downloadInput.formType = "populationCategory";
+    } 
+    if(!this.popBtn) {
+
+      this.downloadInput.formType = "ulbType";
+    }
 
     this.nationalInput.financialYear = this.selectedYear;
     if (this.activetab.includes("Total")) {
@@ -288,11 +298,9 @@ export class NationalSubComponent implements OnInit {
       this.graphView = false;
       if (this.popBtn) {
         this.nationalInput.formType = "populationCategory";
-        this.downloadInput.formType = "populationCategory";
       }
       if (!this.popBtn) {
         this.nationalInput.formType = "ulbType";
-        this.downloadInput.formType = "ulbType";
       }
     }
     if (this.activetab.includes("Mix")) {
@@ -472,6 +480,7 @@ export class NationalSubComponent implements OnInit {
               );
             }
             if (revenueMixInput.formType == "ulbType") {
+            
               // this.doughnutLabels = res?.data?.colourArray;
               // this.doughnutLabels.forEach((elem, i) => {
               //   this.colorArray.push(elem?.colour);
@@ -507,6 +516,7 @@ export class NationalSubComponent implements OnInit {
       this.nationalService
         .getNationalRevenueData(this.nationalInput, endPoint)
         .subscribe((res: any) => {
+          // console.log("")
           this.tableLoader = false;
           this._loaderService.stopLoader();
           this.tableData = res?.data;
@@ -527,6 +537,7 @@ export class NationalSubComponent implements OnInit {
     this.getFinancialYearList();
 
     this.nationalMapService.currentSubTab.subscribe((res) => {
+      this.popBtn = true
       this.activetab = res?.data;
       this.CurrentHeadTab = res?.HeadTab
         ? res?.HeadTab
@@ -578,6 +589,8 @@ export class NationalSubComponent implements OnInit {
     });
   }
 
+  barLineData: any = []
+
   creatBarChartData(value) {
     console.log({ value });
     // let newValue;
@@ -594,7 +607,7 @@ export class NationalSubComponent implements OnInit {
           return parseInt(elem.expense);
         });
 
-        this.deficitBarChartData[0].data = deficitData.slice(1);
+        this.deficitBarChartData[1].data = deficitData.slice(1);
         this.deficitBarChartData[1].data = expenseData.slice(1);
 
         console.log("deficitData==>", this.barChartData);
@@ -621,9 +634,22 @@ export class NationalSubComponent implements OnInit {
         return parseInt(elem[this.newValue]);
       });
 
+      let calculatedData = this.revnueChartData;
+
+      if(this.barLineData) {
+        this.barLineData = []
+      }
+      for (let index = 0; index < 5; index++) {
+        console.log("reacher")
+        
+        
+        this.barLineData.push(...calculatedData.slice(0, 1))
+      }
+      
     this.revnueChartData = this.revnueChartData.slice(1);
 
-    this.barChartData[0].data = this.revnueChartData;
+    this.barChartData[1].data = this.revnueChartData;
+    this.barChartData[0].data = this.barLineData
     console.log(
       "this.revenueChartData",
       this.revnueChartData,
@@ -696,6 +722,8 @@ export class NationalSubComponent implements OnInit {
   }
 
   barChartInit() {
+
+    console.log("barLineData", this.barLineData)
     console.log(
       "this.deficitdata",
       this.deficitBarChartData,
@@ -704,6 +732,7 @@ export class NationalSubComponent implements OnInit {
       this.barChartData,
       this.barChartsLabels
     );
+    
     let finalObj: any = {};
     if (this.activetab == "Deficit or Surplus") {
       finalObj = this.deficitBarChartData;
@@ -840,7 +869,7 @@ export class NationalSubComponent implements OnInit {
                 // thisCtx.font = `${textSize}px Verdana`;
                 const model =
                   dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-                console.log("model", model);
+                
                 const total =
                   dataset._meta[Object.keys(dataset._meta)[0]].total;
                 const midRadius =
@@ -878,7 +907,6 @@ export class NationalSubComponent implements OnInit {
                   fontFamily
                 );
 
-                console.log("lightOrDark");
 
                 const percent = `${String(
                   Math.round((dataset.data[i] / total) * 100)
@@ -904,7 +932,9 @@ export class NationalSubComponent implements OnInit {
   }
 
   dynamicDoughnutChartInit(chartArray) {
+    console.log("multiple Chart Array", chartArray)
     let canvasCharts = this.allMyCanvas._results; // Get array with all canvas
+    if(chartArray)
     canvasCharts.map((myCanvas, i) => {
       // For each canvas, save the chart on the charts array
       chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext("2d"), {
@@ -941,7 +971,7 @@ export class NationalSubComponent implements OnInit {
                   // thisCtx.font = `${textSize}px Verdana`;
                   const model =
                     dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-                  console.log("model", model);
+                 
                   const total =
                     dataset._meta[Object.keys(dataset._meta)[0]].total;
                   const midRadius =
@@ -981,7 +1011,6 @@ export class NationalSubComponent implements OnInit {
                     fontFamily
                   );
 
-                  console.log("lightOrDark");
 
                   const percent = `${String(
                     Math.round((dataset.data[i] / total) * 100)

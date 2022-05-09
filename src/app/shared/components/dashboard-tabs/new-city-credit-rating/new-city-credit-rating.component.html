@@ -23,39 +23,33 @@
       </div>
 
       <div style="background-color: #f8faff" *ngFor="let item of finalList">
-        <div *ngIf="item.date == yearValue">
-          <div *ngFor="let demoData of demoArray" class="d-flex flex-wrap py-1">
-            <div class="px-3 w-25" style="color: #6e7281; font-size: 12px">
-              {{ demoData }}
+        <div class="d-flex flex-wrap py-1">
+          <div class="px-3 w-25" style="color: #6e7281; font-size: 12px">
+            {{ item.agency }}
+          </div>
+          <div class="d-flex">
+            <div
+              class="px-3"
+              style="color: #0f1f40; font-size: 12px; width: 150px"
+            >
+              {{ item.creditRating }}
             </div>
-            <div *ngIf="item.agency == demoData" class="d-flex">
-              <!-- <div class="px-3 w-25">{{ item.agency }}</div> -->
-              <div
-                class="px-3"
-                style="color: #0f1f40; font-size: 12px; width: 110px"
-              >
-                {{ item.creditRating }}
-              </div>
-              <div class="px-3" style="width: 130px">
-                <a
-                  href="{{ item.link }}"
-                  target="_blank"
-                  style="color: #e67e15; font-size: 12px"
-                  >View Full Report
-                </a>
-              </div>
-            </div>
-            <div *ngIf="item.agency !== demoData" class="d-flex w-75">
-              <!-- <div class="px-3 w-25">{{ item.agency }}</div> -->
-              <div class="px-3" style="color: #0f1f40; font-size: 12px">
-                No Data Found
-              </div>
-              <div class="px-3" style="font-size: 12px">No Link Found</div>
+            <div class="px-3" style="width: 130px">
+              <a
+                href="{{ item.link }}"
+                target="_blank"
+                style="color: #e67e15; font-size: 12px"
+                >View Full Report
+              </a>
             </div>
           </div>
-          <div>
-            ---------------------------------------------------------------------------------------------------------------------------------------
+          <div *ngIf="finalList.length == 0" class="d-flex w-75">
+            <div class="px-3" style="color: #0f1f40; font-size: 12px">
+              No Data Found
+            </div>
+            <div class="px-3" style="font-size: 12px">No Link Found</div>
           </div>
+
         </div>
       </div>
     </div>

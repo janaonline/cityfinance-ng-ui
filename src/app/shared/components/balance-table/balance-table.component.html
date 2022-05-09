@@ -8,12 +8,12 @@
                 <b>N/A :</b>&nbsp; Data not available.
             </p> -->
         </div>
-        <div class="col-md-6 d-flex justify-content-end" style="align-items: baseline;">
+        <div class="col-md-6 d-flex justify-content-end customRadioFilter" style="align-items: baseline;">
             <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
                 <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">Absolute</mat-radio-button>
                 <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita</mat-radio-button>
               </mat-radio-group>
-            <div class="mr-1 d-flex justify-content-center align-items-center">
+            <div class="mr-1 d-flex justify-content-center align-items-center customFilter">
                 <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
                 Compare By
                </button>
@@ -32,37 +32,7 @@
                     </option>
                 </select>
             </div>
-            <!-- <div class="yearSelect">
-        <mat-form-field appearance="outline" style="width: 140px">
-          <mat-label>Select Years</mat-label>
-          <mat-select
-            [formControl]="dropYears"
-            multiple
-            (selectionChange)="selectYearValue($event)"
-          >
-            <mat-option *ngFor="let year of yearsList" [value]="year">{{
-              year.itemName
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div> -->
 
-            <!-- <div>
-                <button class="searchButton" [disabled]="searchEnable()" (click)="createMultipleUpdateTable()" id="getMultipleChants" hidden>
-          Search
-        </button>
-            </div>
-            <div class="dropDownDiv">
-                <select class="form-select" (change)="selectCurrencyValue($event)" aria-label="Default select example">
-          <option value="10000000" selected>INR Crores</option>
-          <option
-            [value]="currency.value"
-            *ngFor="let currency of currencyList"
-          >
-            {{ currency.name }}
-          </option>
-        </select>
-            </div> -->
         </div>
     </div>
 
@@ -155,7 +125,7 @@
     </div> -->
     <app-basic *ngIf="show &&  !compare" ></app-basic>
     <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
-    <div>
+    <div class="tableResponsive">
           <table style="width:100%;margin-bottom: 2%;">
             <tr class="customTable">
               <th colspan="2" style="padding: 4px;padding-left: 25px;font-size: 25px;background-color: rgb(226,226,226)">Download Report</th>
@@ -182,7 +152,7 @@
           </table>
     </div>
     <div>
-        <p style="opacity: 0.7;margin-bottom: 2%;">*PDF consists of final financial dataset as published by the ULB. Excel File contains standarized data from this raw PDF to enable comparison and analysis.</p>
+        <p style="opacity: 0.7;margin-bottom: 2%;">* PDF consists of final financial dataset as published by the ULB. Excel File contains standardised data from this raw PDF to enable comparison and analysis.</p>
     </div>
     <!-- <div class="row">
       <div class="col-md-12">

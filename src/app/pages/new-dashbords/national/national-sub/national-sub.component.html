@@ -224,7 +224,10 @@
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
       <div class="card-body barCon">
-        <div class="float-right right">
+        <div
+          class="float-right right"
+          *ngIf="activetab !== 'Deficit or Surplus'"
+        >
           <select
             (change)="selectGraphMode($event)"
             [(ngModel)]="selectedGraphValue"
@@ -279,7 +282,6 @@
               display: flex;
               padding: 0px;
               align-items: flex-start;
-              justify-content: center;
               flex-wrap: wrap;
               margin-top: 1rem;
             "

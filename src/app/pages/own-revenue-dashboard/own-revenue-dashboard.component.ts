@@ -242,7 +242,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: "Amount in ₹",
+            labelString: "Amount (in INR)",
           },
           gridLines: {
             offsetGridLines: true,
@@ -657,6 +657,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
             ],
           },
           options: {
+            legend: {
+              position: "bottom",
+              labels: {
+                padding: 35,
+                boxWidth: 24,
+                boxHeight: 18,
+              },
+            },
             interaction: {
               mode: "nearest",
             },
@@ -684,8 +692,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
           },
         };
         tempData.options.scales.yAxes[0].scaleLabel.display = true;
-        tempData.options.scales.yAxes[0].scaleLabel.labelString =
-          "Percentage (%)";
+        // tempData.options.scales.yAxes[0].scaleLabel.labelString = "Percentage (%)";
+        tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount (in INR)";
         res["data"].map((value) => {
           // let stateName = this.stateIds[value._id];
           tempData.data.labels.push(value.name);
@@ -707,7 +715,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
           // }
 
-          tempData.data.datasets[0].data.push(Number(value.amount).toFixed(0));
+          // tempData.data.datasets[0].data.push(Number(value.amount).toFixed(0));
+          tempData.data.datasets[0].data.push(Number(Math.round(value.amount)));
+
         });
         // bodyD.list.map((value) => {
         //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
@@ -852,7 +862,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   proTabCardsFormat(data) {
     let value = data[this.filterGroup.value.financialYear];
     let cards = deepCopy(porpertyCards);
-    cards[0].title = "₹ " + valueConvert(value.totalProperty) ?? 0;
+    cards[0].title = valueConvert(value.totalProperty) ?? 0;
     cards[1].title =
       "₹ " + (value.totalProperty / value.population).toFixed(0) ?? 0;
     cards[2].title =
@@ -1030,7 +1040,7 @@ const revenueCollection = {
   type: "5",
   title: "0 Cr",
   isLoading: true,
-  subTitle: "Own Revenue",
+  subTitle: "Own Revenue Collections",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
@@ -1040,7 +1050,7 @@ const revenuePerCapita = {
   type: "5",
   title: "0 Cr",
   isLoading: true,
-  subTitle: "Own Revenue per Capita",
+  subTitle: "Own Revenue Per Capita",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
@@ -1050,7 +1060,7 @@ const revenueExpenditure = {
   type: "5",
   title: "0",
   isLoading: true,
-  subTitle: "Cities where Own Revenue meet Revenue Expenditure",
+  subTitle: "Cities Where Own Revenue Meet Revenue Expenditure",
   svg: "../../../assets/resources-das/south_west_red_24dp.svg",
   percentage: "0%",
   color: "#E64E4E",
@@ -1060,7 +1070,7 @@ const revenuePercentage = {
   type: "5",
   title: "0%",
   isLoading: true,
-  subTitle: "Own Revenue as a percentage of Revenue Expenditure",
+  subTitle: "Own Revenue As A Percentage Of Revenue Expenditure",
   svg: "../../../assets/resources-das/north_east_green_24dp.svg",
   percentage: "0%",
   color: "#22C667",
@@ -1111,7 +1121,7 @@ const porpertyCards = [
   {
     type: "5",
     title: "0",
-    subTitle: "Property Tax Revenue per Capita",
+    subTitle: "Property Tax Revenue Per Capita",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",
@@ -1119,7 +1129,7 @@ const porpertyCards = [
   {
     type: "5",
     title: "0",
-    subTitle: "Property Tax to Own Revenue percentage",
+    subTitle: "Property Tax To Own Revenue Percentage",
     svg: "../../../assets/resources-das/north_east_green_24dp.svg",
     percentage: "0%",
     color: "#22C667",

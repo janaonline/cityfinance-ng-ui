@@ -4,7 +4,7 @@
   </div>
   <div class="col-12 col-sm-12 col-md-5 col-lg-4">
     <div class="container">
-      <div class="row">
+      <div class="row containerClass">
         <div class="col-sm col-lg col-md">
           <button
             type="button"
@@ -19,7 +19,7 @@
             Compare By: {{ compareByName }}
           </button>
         </div>
-        <div class="col-sm col-lg col-md">
+        <div class="col-sm col-lg col-md customFilters">
           <select
             style="
               width: -webkit-fill-available;
@@ -27,6 +27,7 @@
               border-radius: 8px;
               border: 1px solid gray;
               height: 29px;
+              text-align: center;
             "
             (change)="yearValueChange($event.target.value)"
             id="years"
@@ -41,7 +42,7 @@
             </option>
           </select>
         </div>
-        <div class="col-sm col-lg col-md">
+        <div class="col-sm col-lg col-md customFilters">
           <button
             type="button"
             style="
