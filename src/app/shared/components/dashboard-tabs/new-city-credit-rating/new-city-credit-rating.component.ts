@@ -15,7 +15,7 @@ export class NewCityCreditRatingComponent
   _id: any;
   detailedList: any;
   ulbName: any;
-  yearValue: any = "2019";
+  yearValue: any = "2021";
   finalList: any = [];
   lastList: any = [];
   stateCode = JSON.parse(localStorage.getItem("ulbList")).data;
@@ -65,65 +65,40 @@ export class NewCityCreditRatingComponent
 
   getFinalData(data) {
     if (data) {
+      let tempData;
+      for (const element of data) {
+        element["financialYear"] = element.date.split("/")[2];
+        element["ulbCode"] = element['ulb code'];        
+      }
+      tempData = JSON.parse(JSON.stringify(data));
+     
+      console.log('tempData', tempData)
       let ulbCodes = JSON.parse(localStorage.getItem("ulbCodeMapping"));
-      this.detailedList = data.filter((elem, index: any) => {
-        console.log("currentElement", elem, ulbCodes);
-        if (
-          elem["ulb code"] == ulbCodes[this._id] &&
-          this.demoArray.includes(elem.agency)
-        ) {
-          console.log("filteredData==>", elem);
-          elem = [
-            ...new Map(
-              [...elem].map((item, key) => [item[key], item])
-            ).values(),
-          ];
-          if (elem["date"].includes("/")) {
-            elem["date"] = elem.date.split("/")[2];
-            if (elem.date == this.yearValue) {
-              this.finalList.push(elem);
-            }
-          }
-          return true;
-        }
-        return false;
-      });
+      this.finalList = tempData.filter(
+        (elem, index: any) =>
+          elem["ulbCode"] == ulbCodes[this._id] &&
+          this.demoArray.includes(elem.agency) &&
+          (elem.financialYear == this.yearValue)
+       
+      );
+      console.log('finalList', this.finalList)
     }
 
-    // debugger;
-
-    // this.finalList = new Set(...this.finalList["agency"]);
     console.log("this.finalList", this.finalList);
   }
 
   ulbList: string;
   async ngOnInit(): Promise<void> {
-    // debugger;
     this.detailedList = await this.getDetailedData();
     console.log("this.detailedLIst", this.detailedList);
 
     console.log("ulbStateMapping", this.ulbStateMapping);
 
-    // for (let item in this.stateCode) {
-    //   if (this.stateCode[item]._id == this._id) {
-    //     this.ulbList = this.stateCode[item]?.ulbs;
-    //   }
-    // }
-
-    // console.log("stateName", this.ulbList);
 
     if (this.detailedList) {
       this.getFinalData(this.detailedList);
     }
 
-    // this.detailedList.filter((elem, index: any) => {
-    //   if (this.ulbList.includes(elem.ulb)) {
-    //     elem["date"] = "20" + elem.date.split("/")[2];
-    //     if (elem.date == this.yearValue) {
-    //       this.finalList.push(elem);
-    //     }
-    //   }
-    // });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

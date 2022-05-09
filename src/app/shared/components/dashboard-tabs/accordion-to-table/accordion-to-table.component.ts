@@ -235,9 +235,10 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   onyearSelected() {
-    const yearList = this.filterForm.controls["years"].value;
+    // debugger
+    const yearList = this.filterForm.controls["years"].value
+    console.log("mainRows", this.paginatedbondIssuerItem)
     let newULBList: IULBResponse["data"];
-
     // Update the ULBs
     if (!yearList.length) {
       newULBList = this.originalULBList;
@@ -269,6 +270,7 @@ export class AccordionToTableComponent implements OnInit {
     }
 
     this.updateSelectedState();
+    this.onSubmittingFilterForm();
   }
 
   resetFilters() {
@@ -342,21 +344,17 @@ export class AccordionToTableComponent implements OnInit {
       this.selectedYears.length == 0
     ) {
       stringVal = "Please select a ulb and year";
+    } else {
+      
+      stringVal = "Please select both ulb and year";
     }
 
-    // if (this.selectedUlbList.length == 0 || this.selectedYears.length == 0) {
 
-    // }
-
-    if (this.selectedUlbList.length > 0 || this.selectedYears.length > 0) {
-      // this.finalFileteredData = this.bondIssuerItemData.filter(
-      //   (elem) =>
-      //     names.includes(elem.ulb) &&
-      //     this.selectedYears.includes(elem.yearOfBondIssued)
-      // );
+    if (this.selectedUlbList.length > 0 && this.selectedYears.length > 0) {
+     
       this.finalFileteredData = this.bondIssuerItemData.filter((elem) => {
         if (
-          names.includes(elem.ulb) ||
+          names.includes(elem.ulb) &&
           this.selectedYears.includes(elem.yearOfBondIssued)
         ) {
           return elem;
