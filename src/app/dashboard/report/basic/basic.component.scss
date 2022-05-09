@@ -118,3 +118,11 @@ td {
 ::ng-deep .noCrossSymbol .c-angle-up svg {
   fill: white !important;
 }
+@media screen and (max-width: 800px) {
+  .tableResponsive{
+    overflow-x:scroll
+  }
+  .customPara{
+    font-size: 5vw !important;
+  }
+}

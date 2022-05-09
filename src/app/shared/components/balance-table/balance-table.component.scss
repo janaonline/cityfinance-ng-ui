@@ -36,11 +36,25 @@
     box-shadow: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
     .balanceText {
         width: 90vw;
         font-size: 0.8em;
         margin-left: -20px;
+    }
+    .customFilter{
+        display: initial !important;
+        margin-top: 4%;
+    }
+    .customFormField{
+        margin-top: 5%;
+    }
+    .customRadioFilter{
+        display: grid !important;
+    }
+    .tableResponsive{
+        overflow-x: auto;
+        margin-top: 30%;
     }
     .modalButton {
         font-size: 5px;
