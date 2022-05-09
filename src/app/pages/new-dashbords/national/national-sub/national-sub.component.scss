@@ -216,12 +216,12 @@ td {
     background-color: #f7f9ff;
   }
 }
-@media screen and (max-width:800px){
+@media screen and (max-width: 800px) {
   .bottomDownloadButton {
-    margin-top:6%;
+    margin-top: 6%;
   }
-  .scrollable{
-    overflow-x:scroll;
+  .scrollable {
+    overflow-x: scroll;
   }
 }
 
@@ -231,4 +231,18 @@ td {
   border-radius: 6px;
   background-color: white;
   margin-left: 10px;
+}
+
+.searchButton {
+  border: none;
+  padding: 6px;
+  // padding-left: 2px;
+  // padding-right: 2px;
+  width: auto;
+  font-size: 1em;
+  border-radius: 5px;
+  background-color: #e67e15;
+  border: 1px solid #e67e15;
+  color: #ffffff;
+  cursor: pointer;
 }

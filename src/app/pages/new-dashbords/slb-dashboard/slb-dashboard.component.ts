@@ -226,18 +226,46 @@ export class SlbDashboardComponent
 
   getColor(d) {
     let color;
-    if (d >= 80) {
+    if (d > 80) {
       color = "#12a6dd";
-    } else if (d >= 60 && d < 80) {
+    } else if (d > 60 && d < 80) {
       color = "#4a6ccb";
-    } else if (d >= 25 && d < 60) {
+    } else if (d > 25 && d < 60) {
       color = "#fcda4a";
-    } else if (d < 25) {
-      color = "#a6b9b4";
-    } else {
+    } else if (d > 0 && d < 25) {
+      color = "#fc5e03";
+    } else if (d == 0) {
       color = "#a6b9b4";
     }
     return color;
+  }
+
+  createLegends() {
+    const arr = [
+      { color: "#12a6dd", text: "81%-100%" },
+      { color: "#4a6ccb", text: "61%-80%" },
+      { color: "#fcda4a", text: "26%-60%" },
+      { color: "#fc5e03", text: "1%-25%" },
+      { color: "#a6b9b4", text: "0%" },
+    ];
+    const legend = new L.Control({ position: "bottomleft" });
+    const labels = [
+      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+    ];
+    legend.onAdd = function (map) {
+      const div = L.DomUtil.create("div", "info legend");
+      div.id = "legendContainer";
+      // div.style.width = "100%";
+      arr.forEach((value) => {
+        labels.push(
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12% ;"> </i> ${value.text}</span>`
+        );
+      });
+      div.innerHTML = labels.join(``);
+      return div;
+    };
+
+    legend.addTo(this.nationalLevelMap);
   }
 
   createNationalLevelMap(
@@ -284,10 +312,11 @@ export class SlbDashboardComponent
 
     console.log("nationalLevelMap", this.nationalLevelMap);
 
-    this.createLegendsForNationalLevelMap();
     this.createControls(this.nationalLevelMap);
 
     this.initializeNationalLevelMapLayer(this.stateLayers);
+
+    this.createLegends();
 
     // Prepare to auto select state from query Params.
     let stateToAutoSelect: IStateULBCovered;
@@ -317,7 +346,6 @@ export class SlbDashboardComponent
     });
 
     // this.stateLayers.eachLayer((layer: any) => {
-    //   // debugger;
     //   console.log("layers", layer);
     //   const stateCode = MapUtil.getStateCode(layer);
     //   if (!stateCode) {
@@ -355,10 +383,10 @@ export class SlbDashboardComponent
     if (layerToAutoSelect && !this.isMapOnMiniMapMode) {
       this.onStateLayerClick(layerToAutoSelect);
     }
-    this.hideMapLegends();
+    // this.hideMapLegends();
 
     if (this.isMapOnMiniMapMode) {
-      this.hideMapLegends();
+      // this.hideMapLegends();
       this.showStateLayerOnlyFor(
         this.nationalLevelMap,
         this.currentStateInView
@@ -466,12 +494,35 @@ export class SlbDashboardComponent
       this.globalOptions = options.dataPoints;
 
       options.dataPoints.forEach((dataPoint: any) => {
+        /* Creating a popup without a close button.
+         * available option are {closeOnClick: false, closeButton: true, autoClose: true }
+         * if you know other option too please add into this object for future reference
+         */
+        var popup = L.popup({ closeButton: false, autoClose: true }).setContent(
+          `${this._commonService.createCityTooltip(dataPoint)}`
+        );
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
-        }).addTo(districtMap);
-        marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
-        marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
+        })
+          .addTo(districtMap)
+          .bindPopup(popup);
+
+        /* Adding a mouseover and mouseout event to the marker. */
+        marker.on({
+          mouseover: () => {
+            this.mouseHoveredOnULB = dataPoint;
+            marker.openPopup();
+          },
+        });
+        marker.on({
+          mouseout: () => {
+            this.mouseHoveredOnULB = null;
+            marker.closePopup();
+          },
+        });
+        // marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
+        // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values) => {
           let city;
           if (values["latlng"]) {
@@ -505,7 +556,6 @@ export class SlbDashboardComponent
   }
 
   createMarker(options) {
-    // debugger;
     console.log("499", options, this.stateId);
     // let id = this.router.url.split("=")[1];
     let newObject = options.filter((elem) => {
@@ -707,6 +757,7 @@ export class SlbDashboardComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
+    this.createLegends();
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
       if (!stateCode) {
@@ -897,7 +948,6 @@ export class SlbDashboardComponent
   ulbId: any;
   getUlbData(event, fromMap?) {
     console.log("getUlbData", event);
-    // debugger;
     let filterCity = this.cityData.find((e) => {
       return e.code == event?.code;
     });

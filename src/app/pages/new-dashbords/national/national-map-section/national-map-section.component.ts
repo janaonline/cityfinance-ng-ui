@@ -26,6 +26,7 @@ import { ICreditRatingData } from "src/app/models/creditRating/creditRatingRespo
 import { NationalHeatMapComponent } from "src/app/shared/components/re-useable-heat-map/national-heat-map/national-heat-map.component";
 import { NationalMapSectionService } from "./national-map-section.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
+import * as fileSaver from "file-saver";
 // import { EventEmitter } from "stream";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../../assets/jsonFile/state_boundries.json");
@@ -163,13 +164,13 @@ export class NationalMapSectionComponent
   national: any = { _id: "", name: "India" };
 
   ngOnInit(): void {
+    this.getNationalLevelMapData("2020-21");
     this.clearDistrictMapContainer();
     this.randomNumber = Math.round(Math.random());
     this.getFinancialYearList();
-    this.getNationalLevelMapData("2020-21");
     this.getNationalTableData();
     this.loadData();
-    this.subFilterFn("popCat");
+    // this.subFilterFn("popCat");
     this.createNationalMapJson();
   }
   ngOnDestroy(): void {
@@ -184,20 +185,20 @@ export class NationalMapSectionComponent
       { color: "#12a6dd", text: "81%-100%" },
       { color: "#4a6ccb", text: "61%-80%" },
       { color: "#fcda4a", text: "26%-60%" },
-      { color: "#a6b9b4", text: "1%-25%" },
+      { color: "#fc5e03", text: "1%-25%" },
       { color: "#a6b9b4", text: "0%" },
     ];
     const legend = new L.Control({ position: "bottomleft" });
     const labels = [
-      `<span style="width: 100%; display: block;" class="text-center">% of Data Availability on Cityfinance.in</span>`,
+      `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
     legend.onAdd = function (map) {
       const div = L.DomUtil.create("div", "info legend");
       div.id = "legendContainer";
-      // div.style.width = "100%";
+      div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
         );
       });
       div.innerHTML = labels.join(``);
@@ -219,39 +220,40 @@ export class NationalMapSectionComponent
 
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
-      this.colorCoding = res?.data;
       if (res) {
-        // this.createNationalLevelMap(
-        //   this.StatesJSONForMapCreation,
-        //   "mapidd" + Math.random()
-        // );
+        console.log("new Response", res);
+        this.colorCoding = res?.data;
+
+        this.initializeNationalLevelMapLayer(this.stateLayers);
         this.createNationalLevelMap(
           this.StatesJSONForMapCreation,
-          "mapidd" + this.randomNumber
+          this.currentId
         );
-        // this.initializeNationalLevelMapLayer(this.StatesJSONForMapCreation);
       }
     });
   }
 
   getColor(d) {
     let color;
-    if (d >= 80) {
+    if (d > 80) {
       color = "#12a6dd";
-    } else if (d >= 60 && d < 80) {
+    } else if (d > 60 && d < 80) {
       color = "#4a6ccb";
-    } else if (d >= 25 && d < 60) {
+    } else if (d > 25 && d < 60) {
       color = "#fcda4a";
-    } else if (d < 25) {
-      color = "#a6b9b4";
-    } else {
+    } else if (d > 0 && d < 25) {
+      color = "#fc5e03";
+    } else if (d == 0) {
       color = "#a6b9b4";
     }
     return color;
   }
 
+  selectedYear: any = "2020-21";
+
   selectFinancialYear(event) {
-    this.nationalInput.financialYear = event.target.value;
+    this.selectedYear = event.target.value;
+    this.nationalInput.financialYear = this.selectedYear;
     this.getNationalTableData();
     this.nationalMapService.setCurrentSelectYear({
       data: event.target.value,
@@ -281,6 +283,26 @@ export class NationalMapSectionComponent
       `/dashboard/state?stateId=${this.currentStateId}`
     );
   }
+
+  downloadTableData() {
+    this.nationalInput["csv"] = true;
+    this._loaderService.showLoader();
+    try {
+      this.nationalMapService
+        .DownloadNationalTableData(this.nationalInput)
+        .subscribe((res: any) => {
+          this._loaderService.stopLoader();
+          let blob: any = new Blob([res], {
+            type: "text/json; charset=utf-8",
+          });
+          const url = window.URL.createObjectURL(blob);
+          fileSaver.saveAs(blob, `National Data.xlsx`);
+        });
+    } catch (err) {
+      this._loaderService.stopLoader();
+    }
+  }
+
   getNationalTableData() {
     this.showLoader = true;
 
@@ -311,6 +333,7 @@ export class NationalMapSectionComponent
     //  this.changeInStateOrCity.emit(e);
   }
 
+  currentId: any;
   createNationalLevelMap(
     geoData: FeatureCollection<
       Geometry,
@@ -320,6 +343,8 @@ export class NationalMapSectionComponent
     >,
     containerId: string
   ) {
+    console.log("get-statewise-data-availability", containerId);
+    this.currentId = containerId;
     this.isLoading = true;
     this.isProcessingCompleted.emit(false);
     let zoom;
@@ -350,6 +375,7 @@ export class NationalMapSectionComponent
       },
     };
     let map: L.Map;
+
     // MapUtil.createDefaultNationalMap({});
 
     ({ stateLayers: this.stateLayers, map } =
@@ -359,8 +385,8 @@ export class NationalMapSectionComponent
 
     this.createControls(this.nationalLevelMap);
 
-    this.initializeNationalLevelMapLayer(this.stateLayers);
-
+    // setTimeout(() => {
+    // }, 1000);
     this.createLegends();
 
     // Prepare to auto select state from query Params.
@@ -408,6 +434,8 @@ export class NationalMapSectionComponent
         this.currentStateInView
       );
     }
+
+    this.initializeNationalLevelMapLayer(this.stateLayers);
 
     this.isProcessingCompleted.emit(true);
   }
@@ -546,18 +574,37 @@ export class NationalMapSectionComponent
     });
   }
 
+  resetFilter() {
+    this.selectedYear = "2020-21";
+    this.onSelectingStateFromDropDown("");
+    this.nationalInput = this.nationalInput;
+    this.getNationalLevelMapData(this.selectedYear);
+    this.nationalMapService.setCurrentSelectYear({
+      data: this.selectedYear,
+    });
+
+    this.subFilterFn("popCat");
+    // this.getNationalTableData();
+  }
+
   onSelectingStateFromDropDown(state: any | null) {
     this.nationalMapService.setCurrentSelectedId({
       data: state?._id,
     });
+
     this.currentStateId = state?._id;
     this.AvailabilityTitle = state?.name;
-    this.nationalInput.stateId = state._id;
+    if (state) {
+      this.nationalInput.stateId = state._id;
+    } else {
+      this.nationalInput.stateId = "";
+    }
     this.getNationalTableData();
     this.selectedStateCode = state?.code;
     this.selected_state = state ? state?.name : "India";
     if (this.selected_state === "India" && this.isMapOnMiniMapMode) {
       // this.stateList = [];
+      this.createLegends();
       this._commonService.fetchStateList().subscribe((res) => {
         this.stateList = [{ _id: "", name: "India" }].concat(res);
       });
@@ -584,6 +631,7 @@ export class NationalMapSectionComponent
   }
 
   initializeNationalLevelMapLayer(map: L.GeoJSON<any>) {
+    console.log("colorCoding==>", this.colorCoding);
     this.showMapLegends();
     map.eachLayer((layer: any) => {
       const stateCode = MapUtil.getStateCode(layer);
@@ -596,8 +644,6 @@ export class NationalMapSectionComponent
       );
       const count = stateFound ? stateFound.coveredUlbPercentage : 0;
 
-      // this.colorCoding = [
-      // const color = this.getColorBasedOnPercentage(count);
       let color;
       let stateCodes = this.colorCoding.map((el) => el.code);
       if (this.colorCoding && stateFound) {

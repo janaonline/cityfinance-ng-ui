@@ -178,9 +178,11 @@ export class NationalComponent implements OnInit {
         min: res.data[0],
         max: res.data[res.data.length - 1].slice(2),
       };
+      console.log('financialYearTexts', this.financialYearTexts)
 
       this.frontPanelData.dataIndicators.map((elem) => {
         if (elem?.key == "financialStatements") {
+          elem.title = "Financial Statements ";
           elem.title =
             elem.title +
             "( " +

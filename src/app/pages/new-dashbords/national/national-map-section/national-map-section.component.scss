@@ -579,22 +579,21 @@ td {
   //   }
   .form-select {
     margin-top: 1rem;
-    width:auto;
+    width: auto;
   }
 }
 @media screen and (max-width: 800px) {
-  
   .dataAvailability {
     margin-top: 8%;
   }
-  .downloadData{
+  .downloadData {
     margin-top: 7%;
   }
 }
 
 .searchButton {
   border: none;
-  padding: 9px;
+  padding: 6px;
   // padding-left: 2px;
   // padding-right: 2px;
   width: auto;

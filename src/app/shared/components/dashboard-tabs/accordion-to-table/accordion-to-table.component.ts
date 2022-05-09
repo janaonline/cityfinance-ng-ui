@@ -416,7 +416,6 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   getFormValue() {
-    // debugger;
     let stateName = this.stateIdsMap[this.stateId];
     console.log("this.filterFomr", this.filterForm);
     console.log("StatesJSONForMapCreation", this.StatesJSONForMapCreation);

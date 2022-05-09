@@ -22,7 +22,7 @@
           role="tablist"
           class="nav nav-pills scrollable"
           aria-label="Tabs"
-          style="justify-content: left;"
+          style="justify-content: left"
         >
           <li class="nav-item">
             <a
@@ -57,6 +57,7 @@
       <div class="col-sm-12 col-md-3">
         <select
           class="form-select"
+          [(ngModel)]="selectedYear"
           aria-label="Default select"
           (change)="selectFinancialYear($event)"
         >
@@ -70,7 +71,7 @@
           <option value="2017-18">2017-18</option> -->
         </select>
       </div>
-      <div class="col-sm-12 col-md-9 pd-s mb-3">
+      <div class="col-sm-12 col-md-7 pd-s mb-3">
         <div class="res-filter">
           <form class="filter-form w-100">
             <div class="row">
@@ -109,6 +110,9 @@
                     </div> -->
           </form>
         </div>
+      </div>
+      <div class="col-sm-12 col-md-2">
+        <button class="searchButton" (click)="resetFilter()">Reset</button>
       </div>
     </div>
     <div class="row m-0" *ngIf="totalRevenue">
@@ -220,7 +224,10 @@
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
       <div class="card-body barCon">
-        <div class="float-right right">
+        <div
+          class="float-right right"
+          *ngIf="activetab !== 'Deficit or Surplus'"
+        >
           <select
             (change)="selectGraphMode($event)"
             [(ngModel)]="selectedGraphValue"
@@ -304,7 +311,7 @@
       You can also download the source data in excel format
       <button
         class="cursor-pointer bottomDownloadButton py-2"
-        (click)="changeValue(); downloadTableData()"
+        (click)="downloadTableData()"
       >
         <img
           src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"

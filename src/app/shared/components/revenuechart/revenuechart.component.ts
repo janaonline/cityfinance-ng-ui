@@ -51,8 +51,8 @@ export class RevenuechartComponent
     showFinancialYear: true,
     showResetButton: true,
   };
-  href:any
-  cityClass:boolean=false
+  href: any;
+  cityClass: boolean = false;
   constructor(
     public dialog: MatDialog,
     public _loaderService: GlobalLoaderService,
@@ -73,10 +73,10 @@ export class RevenuechartComponent
         this.stateId = sessionStorage.getItem("row_id");
       }
     });
-    this.href=this.router.url
-    if(this.href.includes('cityId')){
-      this.cityClass = true
-      console.log('cityClass',this.cityClass)
+    this.href = this.router.url;
+    if (this.href.includes("cityId")) {
+      this.cityClass = true;
+      console.log("cityClass", this.cityClass);
     }
   }
 
@@ -238,8 +238,8 @@ export class RevenuechartComponent
           } ${
             tooltipItem?.yLabel
               ? tooltipItem?.yLabel > 10000000
-                ? `(${(tooltipItem?.yLabel / 10000000).toFixed(2)} Cr)`
-                : `(${tooltipItem?.yLabel.toFixed(2)})`
+                ? `(${Math.round(tooltipItem?.yLabel / 10000000)} Cr)`
+                : `(${Math.round(tooltipItem?.yLabel)})`
               : ""
           }`;
         },
@@ -361,6 +361,7 @@ export class RevenuechartComponent
   iFrameApiPayload: any;
 
   ngOnInit(): void {
+    console.log("multiChartLabelsss===>", this.multiChartLabel);
     this.stateName = this.stateMap[this.stateId];
     // window.onload = () => {
     //   if (this.multipleCharts) {
@@ -450,7 +451,7 @@ export class RevenuechartComponent
     console.log(
       "multipleCharts",
       this.multipleCharts,
-      'changes',
+      "changes",
       changes,
       "firstChange",
       changes.multipleDoughnutCharts?.firstChange
@@ -512,7 +513,7 @@ export class RevenuechartComponent
   createMultipleChart() {
     console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     let id;
-    let newChartData:any = {};
+    let newChartData: any = {};
     if (
       this.multipleDoughnutCharts &&
       this.multipleDoughnutCharts?.length > 0
@@ -541,63 +542,87 @@ export class RevenuechartComponent
         let canvas = <HTMLCanvasElement>document.getElementById(id);
         console.log("canvas", canvas);
         let ctx = canvas.getContext("2d");
-        let tempChart = new Chart(ctx, {...newChartData,options:{...newChartData.options,
-          animation: {
-            duration: 500,
-            easing: 'easeOutQuart',
-            onComplete() {
-              var localThis = this;
-              const thisCtx = this.chart.ctx;
-              thisCtx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
-              thisCtx.textAlign = 'center';
-              thisCtx.textBaseline = 'bottom';
-              this.data.datasets.forEach((dataset, index) => {
-                for (let i = 0; i < dataset.data.length; i += 1) {
-                  const textSize = canvas.width / 100;
-                  // thisCtx.font = `${textSize}px Verdana`;
-                  const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-                  console.log('model', model)
-                  const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
-                  const midRadius = model.innerRadius +
-                    ((model.outerRadius - model.innerRadius) / 2);
-                  const startAngle = model.startAngle;
-                  const endAngle = model.endAngle;
-                  const midAngle = startAngle + ((endAngle - startAngle) / 2);
+        let tempChart = new Chart(ctx, {
+          ...newChartData,
+          options: {
+            ...newChartData.options,
+            animation: {
+              duration: 500,
+              easing: "easeOutQuart",
+              onComplete() {
+                const thisCtx = this.chart.ctx;
+                thisCtx.font = Chart.helpers.fontString(
+                  Chart.defaults.global.defaultFontFamily,
+                  "normal",
+                  Chart.defaults.global.defaultFontFamily
+                );
+                thisCtx.textAlign = "center";
+                thisCtx.textBaseline = "bottom";
+                this.data.datasets.forEach((dataset, index) => {
+                  for (let i = 0; i < dataset.data.length; i += 1) {
+                    const textSize = canvas.width / 100;
+                    const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+                    console.log("model", model);
+                    const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
+                    const midRadius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+                    const startAngle = model.startAngle;
+                    const endAngle = model.endAngle;
+                    const midAngle = startAngle + (endAngle - startAngle) / 2;
 
-                  const x = midRadius * Math.cos(midAngle);
-                  const y = midRadius * Math.sin(midAngle);
+                    const x = midRadius * Math.cos(midAngle);
+                    const y = midRadius * Math.sin(midAngle);
 
-                  /* Calculating the area of the doughnut sector. */
-                  let angle = endAngle-startAngle;
-                  let doughnutSectorArea = (angle/2)*(model.outerRadius - model.innerRadius)*(model.outerRadius + model.innerRadius);
+                    /* Calculating the area of the doughnut sector. */
+                    let angle = endAngle - startAngle;
+                    let doughnutSectorArea =
+                      (angle / 2) *
+                      (model.outerRadius - model.innerRadius) *
+                      (model.outerRadius + model.innerRadius);
 
-                  /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                    /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
                   If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
-                  // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
-                  var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
-                  thisCtx.fillStyle = isBGColorDarkOrLight ? (isBGColorDarkOrLight == 'light' ? '#000000' : '#ffffff') : '#000000';
-                  var fontSize = 15;
-                  var fontStyle = 'normal';
-                  var fontFamily = 'sans-serif';
-                  thisCtx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                    // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                    var isBGColorDarkOrLight = lightOrDark(
+                      model?.backgroundColor
+                    );
+                    thisCtx.fillStyle = isBGColorDarkOrLight
+                      ? isBGColorDarkOrLight == "light"
+                        ? "#000000"
+                        : "#ffffff"
+                      : "#000000";
+                    var fontSize = 14;
+                    var fontStyle = "normal";
+                    var fontFamily = "sans-serif";
+                    thisCtx.font = Chart.helpers.fontString(
+                      fontSize,
+                      fontStyle,
+                      fontFamily
+                    );
 
-                  console.log('lightOrDark', )
+                    console.log("lightOrDark");
 
-                  const percent = `${String(Math.round((dataset.data[i] / total) * 100))}%`;
-                  /* if need to add the percentage with absolute value uncomment the below line. */
-                  // thisCtx.fillText(model.label, model.x + x, model.y + y);
-                  // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
-                  //   model.y + y + (textSize * 1.3));
+                    const percent = `${String(
+                      Math.round((dataset.data[i] / total) * 100)
+                    )}%`;
+                    /* if need to add the percentage with absolute value uncomment the below line. */
+                    // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                    // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                    //   model.y + y + (textSize * 1.3));
 
-                  if ( dataset.data[i] != 0 && doughnutSectorArea > 1200 ) {
-                    thisCtx.fillText(percent, model.x + x, model.y + y + (textSize * 1.3));
+                    if (dataset.data[i] != 0 && doughnutSectorArea > 1200) {
+                      thisCtx.fillText(
+                        percent,
+                        model.x + x,
+                        model.y + y + textSize * 1.3
+                      );
+                    }
                   }
-                }
-              });
+                });
+              },
             },
-          }
-        }});
-        console.log('newChartData', newChartData)
+          },
+        });
+        console.log("newChartData", newChartData);
         this.lastMultipleCharts.push(tempChart);
       }
     }
@@ -771,6 +796,7 @@ export class RevenuechartComponent
         : this.apiParamData?.state,
       sortBy: this.apiParamData?.sortBy,
       widgetMode: this.widgetMode,
+      activeButton: this.apiParamData?.activeButton
     };
 
     if (tabType?.isCodeRequired) {
@@ -813,11 +839,21 @@ export class RevenuechartComponent
       );
   }
 
+  sortData(sort: string = "top", data: any) {
+    let item = data.sort((a: any, b: any) => {
+      return sort == "bottom" ? a?.count - b?.count : b?.count - a?.count;
+    });
+    return item;
+  }
+
   filterCityRankingChartData(
     responseData: any,
     tabType: string,
     yAxisLabel: string
   ) {
+    let sortBy = this.apiParamData?.hasOwnProperty('sortBy') ? JSON.parse(this.apiParamData?.sortBy) : false;
+    let sortingType = sortBy ? "top" : "bottom";
+    responseData = this.sortData(sortingType, responseData);
     console.log("filterCityRankingChartData", responseData, tabType);
     let barData = {
       type: "bar",
@@ -941,7 +977,7 @@ export class RevenuechartComponent
     this._loaderService.showLoader();
     this.initializeScatterData();
     console.log("getScatterData", this.apiParamData);
-    let stateServiceLabel = JSON.parse(this.apiParamData?.stateServiceLabel);
+    let stateServiceLabel = this.apiParamData?.hasOwnProperty('stateServiceLabel') ? JSON.parse(this.apiParamData?.stateServiceLabel) : false;
     console.log("parsestateServiceLabel", stateServiceLabel);
     let payload = {
       [stateServiceLabel ? "stateId" : "state"]: this.apiParamData?.stateId
@@ -978,7 +1014,7 @@ export class RevenuechartComponent
           let m_data: any;
           let stateData: any;
           if (stateServiceLabel) {
-            // this.setServiceLevelBenchmarkScatteredChartOption('Population', this.apiParamData?.filterName);
+            this.setServiceLevelBenchmarkScatteredChartOption('Population', this.apiParamData?.filterName);
             m_data =
               res["data"] &&
               res["data"]["scatterData"] &&
@@ -1007,16 +1043,23 @@ export class RevenuechartComponent
             stateData = apiData["stateAvg"] ? apiData["stateAvg"] : 0;
           }
 
+          let stateLevelMaxPopuCount =
+          this.stateFilterDataService.getMaximumPopulationCount(
+            mCorporation,
+            tp_data,
+            m_data
+          );
+
           this.scatterData.data.datasets.forEach((el) => {
             let obj = { x: 0, y: 0 };
             if (el.label == "Town Panchayat") {
               obj = { x: 0, y: 0 };
               tp_data.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
+                obj.y = stateServiceLabel ? Math.round(el2.value) : el2.amount;
                 el["labels"].push(el2.ulbName);
                 el["rev"].push(
-                  stateServiceLabel ? el2.value.toFixed(2) : el2.amount
+                  stateServiceLabel ? Math.round(el2.value) : el2.amount
                 );
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
@@ -1024,10 +1067,10 @@ export class RevenuechartComponent
             } else if (el.label == "Municipal Corporation") {
               mCorporation.forEach((el2, index) => {
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
+                obj.y = stateServiceLabel ? Math.round(el2.value) : el2.amount;
                 el["labels"].push(el2.ulbName);
                 el["rev"].push(
-                  stateServiceLabel ? el2.value.toFixed(2) : el2.amount
+                  stateServiceLabel ? Math.round(el2.value) : el2.amount
                 );
                 el.data.push(obj);
 
@@ -1037,10 +1080,10 @@ export class RevenuechartComponent
               m_data.forEach((el2, index) => {
                 obj = { x: 0, y: 0 };
                 obj.x = el2.population;
-                obj.y = stateServiceLabel ? el2.value.toFixed(2) : el2.amount;
+                obj.y = stateServiceLabel ? Math.round(el2.value) : el2.amount;
                 el["labels"].push(el2.ulbName);
                 el["rev"].push(
-                  stateServiceLabel ? el2.value.toFixed(2) : el2.amount
+                  stateServiceLabel ? Math.round(el2.value) : el2.amount
                 );
                 el.data.push(obj);
                 obj = { x: 0, y: 0 };
@@ -1050,7 +1093,13 @@ export class RevenuechartComponent
             } else if (el.label == "State Average") {
               let obje = [
                 { x: 0, y: 0 },
-                { x: 1200000, y: 0 },
+                {
+                  x: stateLevelMaxPopuCount
+                    ? stateLevelMaxPopuCount
+                    : 1200000,
+                  y: 0,
+                },
+                // { x: 1200000, y: 0 },
               ];
               obje.forEach((el2) => {
                 el2["y"] = stateData;
@@ -1200,7 +1249,14 @@ export class RevenuechartComponent
             var rev =
               data.datasets[tooltipItem.datasetIndex]["rev"][tooltipItem.index];
 
-            return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            // return datasetLabel + ": " + label + " " + `(${rev} %)`;
+            return `${datasetLabel}: ${	
+              label && datasetLabel != label ? label : ""	
+            } ${	
+              tooltipItem?.yLabel	
+                ? `(${tooltipItem?.yLabel} %)`	
+                : `(${tooltipItem?.yLabel})`	
+            }`;
           },
         },
       },
@@ -1240,6 +1296,7 @@ export class RevenuechartComponent
       filterName: this.apiParamData?.filterName,
       ulb: this.apiParamData?.ulbId,
       widgetMode: this.widgetMode,
+      activeButton: this.apiParamData?.activeButton
     };
 
     console.log("payload", barChartPayload);
@@ -1282,10 +1339,7 @@ export class RevenuechartComponent
     this.initializeScatterData();
     let apiEndPoint = "state-dashboard-averages";
     // let apiEndPoint = this.stateServiceLabel ? 'state-slb' : this.selectedRadioBtnValue ? 'state-dashboard-averages' : 'state-revenue';
-    let isPerCapita: any;
-    // if (this.apiParamData.hasOwnProperty('isPerCapita')) {
-    //   isPerCapita = JSON.parse(this.apiParamData?.isPerCapita)
-    // }
+    let isPerCapita = this.apiParamData.hasOwnProperty('isPerCapita') ? JSON.parse(this.apiParamData?.isPerCapita) : '';
     let scatterChartPayload = {
       state: this.apiParamData?.stateId,
       financialYear: this.apiParamData?.financialYear,
@@ -1294,7 +1348,7 @@ export class RevenuechartComponent
       apiMethod: "get",
       which: this.apiParamData?.which || "",
       TabType: this.apiParamData?.TabType || "",
-      isPerCapita: this.apiParamData?.isPerCapita || "",
+      isPerCapita: isPerCapita || "",
       widgetMode: this.widgetMode,
       filterName: this.apiParamData?.filterName || "",
       compareType: this.apiParamData?.compType || "",
@@ -1303,9 +1357,14 @@ export class RevenuechartComponent
       chartType: this.apiParamData?.chartType || "",
     };
 
+    if (this.apiParamData?.which == "nationalAvg") {
+      this.scatterData.data.datasets.push(
+        this.stateFilterDataService.nationLevelScatterDataSet
+      );
+    }
+
     console.log("scatterChartPayload", scatterChartPayload);
-    let inputVal: any = {};
-    inputVal.stateIds = this.stateId;
+
     this.stateFilterDataService
       .getAvgScatterdData(scatterChartPayload, apiEndPoint)
       .subscribe((res) => {
@@ -1314,48 +1373,6 @@ export class RevenuechartComponent
         if (res && res["success"]) {
           this._loaderService.stopLoader();
           this.notFound = false;
-          // if (this.apiParamData?.which == "populationAvg") {
-          //   this.chartData =
-          //     this.stateFilterDataService.populationWiseScatterData(
-          //       res["data"]
-          //     );
-          // } else {
-          //   let mCorporation: any;
-          //   let tp_data: any;
-          //   let m_data: any;
-          //   let stateData: any;
-
-          //   mCorporation =
-          //     res["data"] && res["data"]["Municipal Corporation"]
-          //       ? res["data"]["Municipal Corporation"]
-          //       : 0;
-          //   tp_data =
-          //     res["data"] && res["data"]["Town Panchayat"]
-          //       ? res["data"]["Town Panchayat"]
-          //       : 0;
-          //   m_data =
-          //     res["data"] && res["data"]["Municipality"]
-          //       ? res["data"]["Municipality"]
-          //       : 0;
-          //   let nationalData =
-          //     res && res["data"] && res["data"]["national"]
-          //       ? res["data"]["national"]
-          //       : 0;
-          //   stateData =
-          //     res["data"] && res["data"]["stateAvg"]
-          //       ? res["data"]["stateAvg"]
-          //       : 0;
-
-          //   this.chartData = this.stateFilterDataService.plotScatterChart(
-          //     mCorporation,
-          //     tp_data,
-          //     m_data,
-          //     stateData,
-          //     nationalData,
-          //     this.apiParamData?.which
-          //   );
-          //   console.log(this.scatterData);
-          // }
 
           let scatterChartObj: any = {
             // cluster of ULBs under these 3 categories
@@ -1695,11 +1712,11 @@ export class RevenuechartComponent
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
+                var percentage = Math.round((currentValue / total) * 100);
                 return percentage + "%" + data.labels[tooltipItem.index];
               },
             },
-          }
+          },
         },
         title: ulbMapping[key].name,
       };
@@ -1775,7 +1792,8 @@ export class RevenuechartComponent
                   return Number(previousValue) + Number(currentValue);
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
-                var percentage = ((currentValue / total) * 100).toFixed(2);
+                var percentage = Math.round((currentValue / total) * 100);
+                // var percentage = ((currentValue / total) * 100).toFixed(2);
                 return percentage + "%" + data.labels[tooltipItem.index].text;
               },
             },
@@ -1824,18 +1842,19 @@ export class RevenuechartComponent
     let newData = [];
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
-      let year1 = data[index - 1],
-        year2 = data[index];
+      let previousYear = this.getPreviousYear(element._id);
+      let previousYearValue = data.find((val) => val._id == previousYear);
+      let year1 = previousYearValue,
+      year2 = data[index];
       if (!year1) {
         newData.push({
-          _id: { financialYear: data[0]._id },
-          amount: data[0].yearData[0].amount + data[0].yearData[1].amount,
-          ulbName: data[0].yearData[0].ulbName,
+          _id: { financialYear: data[index]._id },
+          amount: data[index].yearData[0].amount + data[index].yearData[1].amount,
+          ulbName: data[index].yearData[index].ulbName,
         });
         continue;
       }
-      let tt = year2.yearData.find((value) => value.code == "410").amount;
-      let yy = year1.yearData.find((value) => value.code == "410").amount;
+
       let amount1 =
           year2.yearData.find((value) => value.code == "410").amount -
           year1.yearData.find((value) => value.code == "410").amount,
@@ -1851,6 +1870,9 @@ export class RevenuechartComponent
     return newData;
   }
 
+  otherText: string = '';
+  barWidth: any;
+  barWidthRender: any;
   createBarChart(res) {
     const isPerCapita = this.apiParamData.hasOwnProperty("isPerCapita")
       ? JSON.parse(this.apiParamData?.isPerCapita)
@@ -1859,6 +1881,12 @@ export class RevenuechartComponent
       ? JSON.parse(this.apiParamData?.hideElements)
       : false;
     let ulbMapping = JSON.parse(localStorage.getItem("ulbMapping"));
+    if (this.apiParamData?.selectedTab.includes("Total")) {
+      this.otherText = "Weighted Average";
+    }
+    if (this.apiParamData?.selectedTab.includes("per Capita")) {
+      this.otherText = "Simple Average";
+    }
     if (this.apiParamData?.selectedTab.toLowerCase() == "revenue expenditure")
       return this.createLineChartForRevenueExpenditure(res["data"]);
     if (
@@ -1869,7 +1897,29 @@ export class RevenuechartComponent
         res["data"][key] = this.createExpenditureData(res["data"][key]);
       }
     }
-
+    if (this.apiParamData?.selectedTab == "Total Surplus/Deficit") {
+      let DeficitData = res.data;
+      let tempObj = {};
+      for (let newItem in DeficitData) {
+        DeficitData[newItem].map((elem) => {
+          let newTemp = [];
+          let temp = JSON.parse(JSON.stringify(elem));
+          temp.ulbName = temp.ulbName + " Revenue";
+          temp.amount = temp.revenue;
+          newTemp.push(temp);
+          temp = JSON.parse(JSON.stringify(elem));
+          temp.ulbName = temp.ulbName + " Expense";
+          temp.amount = temp.expense;
+          newTemp.push(temp);
+          if (tempObj.hasOwnProperty(newItem)) {
+            tempObj[newItem].push(...newTemp);
+          } else {
+            tempObj[newItem] = [...newTemp];
+          }
+        });
+      }
+      res.data = tempObj;
+    }
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
     for (const key in res["data"]) {
@@ -1880,37 +1930,34 @@ export class RevenuechartComponent
         }
       });
     }
+    newData.data.labels.sort(function (a, b) {
+      let newA = a.split("-")[0];
+      let newB = b.split("-")[0];
+      return newB - newA;
+    });
 
     let temp = {},
       index = 0;
     for (const key in res["data"]) {
       const element = res["data"][key];
       newData.data.labels.map((year) => {
-        let dataByYear = element.find((val) => val._id.financialYear == year);
+        let dataByYear = element.filter((val) => val._id.financialYear == year);
         if (!dataByYear) {
           dataByYear = {
             ulbName: ulbMapping[this.apiParamData?.currentUlb].name,
             amount: 0,
           };
         }
+        dataByYear.forEach((dataByYearVal) => {
         let dataInner = JSON.parse(JSON.stringify(innerDataset));
-        if (
-          this.apiParamData?.compareType == "National Average" &&
-          key == "compData"
-        ) {
-          dataByYear.ulbName = "National";
+        if ( this.apiParamData?.compareType == "National Average" && key == "compData") {
+          dataByYearVal.ulbName = "National";
         }
-        if (
-          this.apiParamData?.compareType == "ULB Type Average" &&
-          key == "compData"
-        ) {
-          dataByYear.ulbName = ulbMapping[this.apiParamData?.currentUlb].type;
+        if (this.apiParamData?.compareType == "ULB Type Average" && key == "compData") {
+          dataByYearVal.ulbName = ulbMapping[this.apiParamData?.currentUlb].type;
         }
-        if (
-          this.apiParamData?.compareType == "ULB category Average" &&
-          key == "compData"
-        ) {
-          dataByYear.ulbName = getPopulationType(
+        if (this.apiParamData?.compareType == "ULB category Average" && key == "compData" ) {
+          dataByYearVal.ulbName = getPopulationType(
             ulbMapping[this.apiParamData?.currentUlb].population
           );
         }
@@ -1918,14 +1965,24 @@ export class RevenuechartComponent
         if (!temp[dataByYear.ulbName]) {
           dataInner.backgroundColor = backgroundColor[index];
           dataInner.borderColor = borderColor[index++];
-          dataInner.label = dataByYear.ulbName;
+          // dataInner.label = dataByYear.ulbName;
+          dataInner.label =
+          key == "compData"
+            ? `${dataByYearVal.ulbName} ${this.otherText}`
+            : dataByYearVal.ulbName;
           dataInner.data = [convertToCr(dataByYear.amount, isPerCapita)];
           temp[dataByYear.ulbName] = dataInner;
         } else {
           dataInner = temp[dataByYear.ulbName];
           dataInner.data.push(convertToCr(dataByYear.amount, isPerCapita));
           temp[dataByYear.ulbName] = dataInner;
+          this.barWidth = dataInner.data.length;
+          dataInner.data.map((aa) => (this.barWidth = aa.length));
+          if (this.barWidth > 5) {
+            this.barWidthRender = 68;
+          }
         }
+      });
       });
     }
     newData.data.datasets = [];
@@ -1944,6 +2001,7 @@ export class RevenuechartComponent
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       isPerCapita ? "Rs" : "Cr"
     }`;
+    this.barChartStaticOptions.scales.xAxes[0].barThickness = this.barWidthRender;
     console.log("barChart", this.chartData);
     this.ChartOptions = this.barChartStaticOptions;
   }
@@ -1970,8 +2028,14 @@ export class RevenuechartComponent
           },
         },
       ],
+      xAxes: [
+        {
+          barThickness: 0,
+        },
+      ],
     },
     legend: {
+      onClick: (e) => e.stopPropagation(),
       position: "bottom",
       labels: {
         padding: 35,
@@ -1991,7 +2055,6 @@ export class RevenuechartComponent
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
@@ -2107,9 +2170,7 @@ export class RevenuechartComponent
             dataSet.borderColor = borderColor[0];
             dataSet.backgroundColor = backgroundColor[0];
             dataSet.data.push(
-              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
-                2
-              )
+              Math.round((value.revenue / value.expense) * 100)
             );
             chartLabels.push(value._id.financialYear);
             return dataSet;
@@ -2127,9 +2188,7 @@ export class RevenuechartComponent
             dataSet.borderColor = borderColor[1];
             dataSet.backgroundColor = backgroundColor[1];
             dataSet.data.push(
-              ((value.revenue / (value.revenue + value.expense)) * 100).toFixed(
-                2
-              )
+              Math.round((value.revenue / value.expense) * 100)
             );
             return dataSet;
           },
@@ -2200,6 +2259,14 @@ export class RevenuechartComponent
 
     // (ULB Own Revenue to Revenue expenditure is ${C}% ;
     // State Own Revenue to Revenue expenditure is ${F}% )`;
+  }
+
+  getPreviousYear(year) {
+    // year = "2017-16"
+    year = year.split("-");
+    year = year.map((val) => Number(val - 1));
+    year = year.join("-");
+    return year;
   }
 
 }
@@ -2483,10 +2550,10 @@ const innerDataset = {
 };
 
 function convertToCr(value, isPerCapita) {
-  if (isPerCapita) return value.toFixed(2);
+  if (isPerCapita) return Math.round(value);
   if (value == 0) return 0;
   value /= 10000000;
-  return value.toFixed(2);
+  return Math.round(value);
 }
 
 const ownRevenues = ["110", "130", "140", "150", "180"];
@@ -2517,44 +2584,35 @@ function getPopulationType(population) {
 }
 
 function lightOrDark(color) {
-
   // Variables for red, green, blue values
   var r, g, b, hsp;
-  
+
   // Check the format of the color, HEX or RGB?
   if (color.match(/^rgb/)) {
+    // If RGB --> store the red, green, blue values in separate variables
+    color = color.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    );
 
-      // If RGB --> store the red, green, blue values in separate variables
-      color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
-      
-      r = color[1];
-      g = color[2];
-      b = color[3];
+    r = color[1];
+    g = color[2];
+    b = color[3];
   } else {
-      
-      // If hex --> Convert it to RGB: http://gist.github.com/983661
-      color = +("0x" + color.slice(1).replace( 
-      color.length < 5 && /./g, '$&$&'));
+    // If hex --> Convert it to RGB: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, "$&$&"));
 
-      r = color >> 16;
-      g = color >> 8 & 255;
-      b = color & 255;
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
   }
-  
+
   // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
-  hsp = Math.sqrt(
-  0.299 * (r * r) +
-  0.587 * (g * g) +
-  0.114 * (b * b)
-  );
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
 
   // Using the HSP value, determine whether the color is light or dark
-  if (hsp>127.5) {
-
-      return 'light';
-  } 
-  else {
-
-      return 'dark';
+  if (hsp > 127.5) {
+    return "light";
+  } else {
+    return "dark";
   }
 }
