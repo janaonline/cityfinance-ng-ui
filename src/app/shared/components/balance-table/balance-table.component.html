@@ -8,12 +8,12 @@
                 <b>N/A :</b>&nbsp; Data not available.
             </p> -->
         </div>
-        <div class="col-md-6 d-flex justify-content-end" style="align-items: baseline;">
+        <div class="col-md-6 d-flex justify-content-end customRadioFilter" style="align-items: baseline;">
             <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
                 <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">Absolute</mat-radio-button>
                 <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita</mat-radio-button>
               </mat-radio-group>
-            <div class="mr-1 d-flex justify-content-center align-items-center">
+            <div class="mr-1 d-flex justify-content-center align-items-center customFilter">
                 <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
                 Compare By
                </button>
@@ -32,7 +32,7 @@
                             </ng-template>
                     </c-item>    
                   </angular2-multiselect> -->
-                  <mat-form-field appearance="fill" style="width: 200px;height: 84px;margin-left: 2%;">
+                  <mat-form-field appearance="fill" style="width: 200px;height: 84px;margin-left: 2%;" class="customFormField">
                     <mat-label>Select Conversion</mat-label>
                     <mat-select disableRipple>
                       <mat-option value="1">INR</mat-option>
@@ -166,7 +166,7 @@
     </div> -->
     <app-basic *ngIf="show &&  !compare" ></app-basic>
     <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
-    <div>
+    <div class="tableResponsive">
           <table style="width:100%;margin-bottom: 2%;">
             <tr class="customTable">
               <th style="padding: 4px;padding-left: 25px;font-size: 25px;background-color: rgb(226,226,226)">Download Report</th>

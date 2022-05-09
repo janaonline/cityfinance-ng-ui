@@ -359,6 +359,15 @@
   }
 }
 @media screen and (max-width: 800px) {
+  .dropdown-year{
+    width: 143%;
+    margin-left: -50%;
+    margin-top: 25%;
+  }
+  .customAccordion{
+    width: 100% !important;
+    overflow-x: auto;
+  }
   th{
     font-size:medium;
   }
