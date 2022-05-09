@@ -87,6 +87,8 @@ import { BasicComponent } from "../dashboard/report/basic/basic.component";
 import { ComparativeUlbComponent } from "../dashboard/report/comparative-ulb/comparative-ulb.component";
 import { MatRadioModule } from "@angular/material/radio";
 import { MdePopoverModule } from '@material-extended/mde';
+import { BalanceTabledialogComponent } from "./components/balance-table/balance-tabledialog/balance-tabledialog.component";
+
 @NgModule({
   imports: [
     ButtonsModule.forRoot(),
@@ -174,6 +176,7 @@ import { MdePopoverModule } from '@material-extended/mde';
     ShareDialogComponent,
     BasicComponent,
     ComparativeUlbComponent,
+    BalanceTabledialogComponent
   ],
   exports: [
     FormsModule,
@@ -218,7 +221,9 @@ import { MdePopoverModule } from '@material-extended/mde';
     SlbChartsComponent,
     StateFilterDataComponent,
     ComparativeUlbComponent,
+    BalanceTabledialogComponent
   ],
   providers: [FinancialDataService],
+  entryComponents: [BalanceTabledialogComponent],
 })
 export class SharedModule {}

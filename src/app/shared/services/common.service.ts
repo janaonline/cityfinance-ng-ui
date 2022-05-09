@@ -745,4 +745,8 @@ export class CommonService {
         </p>`
     }
   }
+
+  roundOffValue(data: any) {
+    data ? Math.round(data) : '---';
+  }
 }

@@ -179,16 +179,33 @@ export class OwnRevenueDashboardComponent implements OnInit {
     maintainAspectRatio: false,
     cutoutPercentage: 50,
     responsive: true,
-
+ 
     legend: {
       position: "bottom",
       labels: {
         usePointStyle: true,
         pointStyle: "rect",
-        padding: 5,
+        padding: 25,
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 13,
+        generateLabels: function (chart) {
+          console.log("generateLabels", chart);
+          const datasets = chart.data.datasets;
+          console.log("datasets", datasets);
+          console.log("chart.labels", chart.data.labels);
+          let total = chart.data.datasets[0].data.reduce((sum, val) => {
+            return sum + val;
+          }, 0);
+          console.log("total", total);
+          // var percentage = Math.floor((data / total) * 100 + 0.5);
+          return datasets[0].data.map((data, i) => ({
+            text: `${chart.data.labels[i]}: ${Math.floor(
+              (data / total) * 100 + 0.5
+            )}%`,
+            fillStyle: datasets[0].backgroundColor[i],
+          }));
+        },
       },
       onClick: (e) => e.stopPropagation(),
     },

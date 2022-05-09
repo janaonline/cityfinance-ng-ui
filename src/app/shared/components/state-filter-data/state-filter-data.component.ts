@@ -127,7 +127,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       labels: {
         usePointStyle: true,
         pointStyle: "rect",
-        padding: 35,
+        padding: 25,
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 15,
