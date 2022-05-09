@@ -235,15 +235,15 @@ export class NationalMapSectionComponent
 
   getColor(d) {
     let color;
-    if (d >= 80) {
+    if (d > 80) {
       color = "#12a6dd";
-    } else if (d >= 60 && d < 80) {
+    } else if (d > 60 && d < 80) {
       color = "#4a6ccb";
-    } else if (d >= 25 && d < 60) {
+    } else if (d > 25 && d < 60) {
       color = "#fcda4a";
-    } else if (d < 25) {
+    } else if (d > 0 && d < 25) {
       color = "#fc5e03";
-    } else {
+    } else if (d == 0) {
       color = "#a6b9b4";
     }
     return color;

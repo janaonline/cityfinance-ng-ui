@@ -226,15 +226,15 @@ export class SlbDashboardComponent
 
   getColor(d) {
     let color;
-    if (d >= 80) {
+    if (d > 80) {
       color = "#12a6dd";
-    } else if (d >= 60 && d < 80) {
+    } else if (d > 60 && d < 80) {
       color = "#4a6ccb";
-    } else if (d >= 25 && d < 60) {
+    } else if (d > 25 && d < 60) {
       color = "#fcda4a";
-    } else if (d < 25) {
+    } else if (d > 0 && d < 25) {
       color = "#fc5e03";
-    } else {
+    } else if (d == 0) {
       color = "#a6b9b4";
     }
     return color;
@@ -495,27 +495,32 @@ export class SlbDashboardComponent
       this.globalOptions = options.dataPoints;
 
       options.dataPoints.forEach((dataPoint: any) => {
-        /* Creating a popup without a close button. 
-        * available option are {closeOnClick: false, closeButton: true, autoClose: true }
-        * if you know other option too please add into this object for future reference
-        */
-        var popup = L.popup({closeButton: false, autoClose: true }).setContent(`${this._commonService.createCityTooltip(dataPoint)}`);
+        /* Creating a popup without a close button.
+         * available option are {closeOnClick: false, closeButton: true, autoClose: true }
+         * if you know other option too please add into this object for future reference
+         */
+        var popup = L.popup({ closeButton: false, autoClose: true }).setContent(
+          `${this._commonService.createCityTooltip(dataPoint)}`
+        );
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
-        }).addTo(districtMap)
-        .bindPopup(popup);
+        })
+          .addTo(districtMap)
+          .bindPopup(popup);
 
         /* Adding a mouseover and mouseout event to the marker. */
-        marker.on({ mouseover: () => {
+        marker.on({
+          mouseover: () => {
             this.mouseHoveredOnULB = dataPoint;
             marker.openPopup();
-          }
+          },
         });
-        marker.on({ mouseout: () => {
+        marker.on({
+          mouseout: () => {
             this.mouseHoveredOnULB = null;
             marker.closePopup();
-          }
+          },
         });
         // marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
         // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
