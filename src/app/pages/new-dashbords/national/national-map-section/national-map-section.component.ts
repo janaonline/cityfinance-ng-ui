@@ -304,7 +304,6 @@ export class NationalMapSectionComponent
   }
 
   getNationalTableData() {
-    // debugger;
     this.showLoader = true;
 
     this._loaderService.showLoader();
@@ -555,7 +554,6 @@ export class NationalMapSectionComponent
     });
   }
   subFilterFn(type) {
-    // debugger;
     if (type == "popCat") {
       this.popBtn = true;
       this.nationalInput.populationCat = true;
