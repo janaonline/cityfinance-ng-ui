@@ -100,7 +100,7 @@
           {{ dataAvailabilityvalue?.toFixed(2) }}%
         </div>
       </div>
-      <div class="col-7 col-sm-7 col-md-4">
+      <div class="col-4 col-sm-4 col-md-4">
         <div class="input-group inp-grp">
           <form [formGroup]="myForm" class="w-100">
             <angular2-multiselect
@@ -115,7 +115,7 @@
           </form>
         </div>
       </div>
-      <div class="col-4 col-sm-5 col-md-3 ps-3">
+      <div class="col-4 col-sm-4 col-md-4 ps-3">
         <select
           [(ngModel)]="selectedYear"
           class="form-select"
@@ -129,6 +129,9 @@
           <option value="2018-19">2018-19</option>
           <option value="2017-18">2017-18</option> -->
         </select>
+      </div>
+      <div class="col-4 col-sm-4 col-md-4 ps-3">
+        <button class="searchButton searchButtonResponsive" (click)="resetFilter()">Reset</button>
       </div>
     </div>
     <!-- <div class="container-cnt" style="padding: 0"> -->
@@ -168,9 +171,9 @@
           </ul>
         </div>
 
-        <div class="col-sm-12 col-md-2">
+        <!-- <div class="col-sm-12 col-md-2">
           <button class="searchButton" (click)="resetFilter()">Reset</button>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- </div> -->

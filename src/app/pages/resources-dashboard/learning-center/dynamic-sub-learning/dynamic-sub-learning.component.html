@@ -222,6 +222,7 @@
           ngxSlickItem
           *ngFor="let item of assessmentData[cardId - 1].imgArr"
           class="slide"
+          style="height:500px;"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
           <img [src]="item.link" alt="" width="100%" />
@@ -297,7 +298,7 @@
         <div
           ngxSlickItem
           *ngFor="let item of billingCardData[cardId - 1].imgArr"
-          class="slide"
+          class="slide" style="height:500px;"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
           <img [src]="item.link" alt="" width="100%" />
