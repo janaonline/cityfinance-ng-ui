@@ -140,6 +140,11 @@ export class BasicComponent implements OnInit, OnDestroy {
         }
       );
     });
+
+    this.reportService.selectedConversionType.subscribe(selectedConversionType => {
+      console.log('selectedConversionType', selectedConversionType);
+      this.onSelectingConversionType(selectedConversionType);
+    });
   }
 
   /**
@@ -152,6 +157,7 @@ export class BasicComponent implements OnInit, OnDestroy {
    * of the form control linked to it. Thus, we are doing so.
    */
   onSelectingConversionType(type: ICurrencryConversion | null) {
+    console.log('onSelectingConversionType', type)  
     if (!type) {
       this.currenyConversionForm.controls["type"].setValue([
         this.reportService.currencryConversionInUse,
