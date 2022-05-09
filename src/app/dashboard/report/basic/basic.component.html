@@ -34,13 +34,13 @@
       >
       </angular2-multiselect>
     </form> -->
-    <p class="text-center customPara" style="font-size: 1vw;">
+    <p class="text-center" style="font-size: 1vw;">
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </p><br>
   </div>
 
-  <div style="max-width: 100%;" class="tableResponsive">
+  <div style="max-width: 100%;">
     <table class="table-bordered">
       <thead>
 
@@ -77,8 +77,6 @@
             <!-- {{ reportReq.ulbList[0].state }} -->
           </th>
         </tr>
-        <br>
-        <br>
       </thead>
       <tbody>
         <!-- <tr class="tableRow"></tr> -->
