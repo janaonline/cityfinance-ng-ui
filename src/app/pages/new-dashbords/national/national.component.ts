@@ -35,6 +35,7 @@ export class NationalComponent implements OnInit {
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   tabAboutData: any = {};
+  tabId: any="61e150439ed0e8575c881028";
   component_name;
   tabIndex;
 
@@ -286,7 +287,9 @@ export class NationalComponent implements OnInit {
     dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("nationalChanges", changes)
+  }
 
   loadData() {
     this.newDashboardService
@@ -325,6 +328,8 @@ export class NationalComponent implements OnInit {
     this.tabAboutData = res.sort(function (x, y) {
       return x.position - y.position;
     });
+
+    
   }
 
   dashboardLastUpdatedYear() {
@@ -368,7 +373,7 @@ export class NationalComponent implements OnInit {
 const data = {
   showMap: false,
   name: "National Financial Dashboard",
-  desc: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor",
+  desc: "Summary of key national-level demographics and municipal (urban) indicators",
   dataIndicators: [
     {
       value: "",
