@@ -262,7 +262,7 @@ export class NationalSubComponent implements OnInit {
     },
     {
       data: [],
-      backgroundColor: "#fff",
+      backgroundColor: "#000",
       borderWidth: 1,
       barThickness: 40,
     },

@@ -344,6 +344,7 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   showCreditInfoByState(stateName = "") {
+    console.log("creditInfo", stateName);
     this.selectedStates[0] = stateName;
     this.setDefaultAbsCreditInfo();
     const ulbList = [];
@@ -523,21 +524,30 @@ export class NewCreditRatingComponent implements OnInit, OnDestroy {
   }
 
   openModal(grade, i) {
-    console.log("this.list==>", this.list);
-    this.dialogData = this.list
-      .filter(
-        (ulb) =>
-          (this.selectedStates[0].length
-            ? this.selectedStates[0]
-                .toLowerCase()
-                .includes(ulb.state.toLowerCase())
-            : true) && ulb.creditrating === grade
-      )
-      .filter((elem) => {
-        if (elem.state == this.StateMapping[this.id]) {
-          return elem;
-        }
-      });
+    // debugger;
+    console.log(
+      "this.list==>",
+      this.list,
+      this.StateMapping[this.id],
+      this.selectedStates
+    );
+    this.dialogData = this.list.filter((elem) => {
+      if (
+        elem.state == this.StateMapping[this.id] &&
+        elem.creditrating === grade
+      ) {
+        return elem;
+      }
+    });
+    console.log("dialogData", this.dialogData);
+    // .filter(
+    //   (ulb) =>
+    //     (this.selectedStates[0].length
+    //       ? this.selectedStates[0]
+    //           .toLowerCase()
+    //           .includes(ulb.state.toLowerCase())
+    //       : true) && ulb.creditrating === grade
+    // )
 
     this.selectedIndex = i;
 

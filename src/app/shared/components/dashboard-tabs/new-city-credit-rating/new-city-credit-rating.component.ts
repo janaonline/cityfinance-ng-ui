@@ -67,23 +67,38 @@ export class NewCityCreditRatingComponent
     if (data) {
       let ulbCodes = JSON.parse(localStorage.getItem("ulbCodeMapping"));
       this.detailedList = data.filter((elem, index: any) => {
-        if (elem["ulb code"] == ulbCodes[this._id]) {
-          console.log(elem.date);
-          if (elem["date"].includes("/"))
+        console.log("currentElement", elem, ulbCodes);
+        if (
+          elem["ulb code"] == ulbCodes[this._id] &&
+          this.demoArray.includes(elem.agency)
+        ) {
+          console.log("filteredData==>", elem);
+          elem = [
+            ...new Map(
+              [...elem].map((item, key) => [item[key], item])
+            ).values(),
+          ];
+          if (elem["date"].includes("/")) {
             elem["date"] = elem.date.split("/")[2];
-          if (elem.date == this.yearValue) {
-            this.finalList.push(elem);
+            if (elem.date == this.yearValue) {
+              this.finalList.push(elem);
+            }
           }
           return true;
         }
         return false;
       });
     }
+
+    // debugger;
+
+    // this.finalList = new Set(...this.finalList["agency"]);
     console.log("this.finalList", this.finalList);
   }
 
   ulbList: string;
   async ngOnInit(): Promise<void> {
+    // debugger;
     this.detailedList = await this.getDetailedData();
     console.log("this.detailedLIst", this.detailedList);
 
