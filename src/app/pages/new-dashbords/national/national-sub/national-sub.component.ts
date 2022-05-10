@@ -247,6 +247,7 @@ export class NationalSubComponent implements OnInit {
     },
     {
       data: [],
+      
       backgroundColor: "#456EDE",
       borderWidth: 1,
       barThickness: 40,
@@ -272,7 +273,7 @@ export class NationalSubComponent implements OnInit {
       label: "Average",
       data: [80, 80, 80, 80, 80, 80],
       fill: false,
-      borderColor: "rgb(54, 162, 235)",
+      borderColor: "#fc4185",
     },
   ];
 
@@ -754,6 +755,7 @@ export class NationalSubComponent implements OnInit {
         .join(" ");
 
     console.log({ newLabel });
+    this.barChartData[1]["label"] = newLabel
     this.yAxesLabel = newLabel;
     if (this.chart) {
       this.chart.destroy();
@@ -768,7 +770,7 @@ export class NationalSubComponent implements OnInit {
         options: {
           legend: {
             position: "bottom",
-            display: false,
+            display: true,
           },
           scales: {
             yAxes: [
