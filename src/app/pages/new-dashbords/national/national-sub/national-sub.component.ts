@@ -277,7 +277,6 @@ export class NationalSubComponent implements OnInit {
   ];
 
   getCurrentTabValue() {
-    this.destroyMultipleCharts();
     if(this.doughnut) {
     this.doughnut.destroy();
     }
