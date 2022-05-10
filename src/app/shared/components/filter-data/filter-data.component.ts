@@ -948,7 +948,12 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        other_receipt.colour = value.colour;
+        let tempColor = "#038386"
+        if(value.color == tempColor) {
+          other_receipt.colour = value.colour;
+        } else {
+          other_receipt.colour = tempColor;
+        }
       }
       if (assigned_revenues_compensation.includes(value.code)) {
         assigned_revenues_compensations.amount += value.amount;
