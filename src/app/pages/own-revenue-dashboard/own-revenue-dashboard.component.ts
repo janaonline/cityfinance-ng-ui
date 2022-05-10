@@ -1140,3 +1140,13 @@ const green = "#22C667";
 const red = "#E64E4E";
 const upArrow = "../../../assets/resources-das/north_east_green_24dp.svg";
 const downArrow = "../../../assets/resources-das/south_west_red_24dp.svg";
+
+
+// let entries = Object.entries(data);
+// console.log('entries', JSON.parse(JSON.stringify(entries)));
+
+// let sorted = entries.sort((a, b) => a[1].localeCompare(b[1]));
+// console.log('sorted', JSON.parse(JSON.stringify(sorted)));
+
+// let sortedObj = JSON.parse(JSON.stringify(Object.fromEntries(sorted)))
+// console.log('sortedObj', sortedObj);
