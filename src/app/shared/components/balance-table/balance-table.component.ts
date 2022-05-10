@@ -617,6 +617,7 @@ export class BalanceTableComponent
           this.openDialog(res['data'][0], fileType)
         } else {
           this._loaderService.stopLoader();
+          this.openDialog(res['data'], 'notFound')
         }
       },
       (error) => {
