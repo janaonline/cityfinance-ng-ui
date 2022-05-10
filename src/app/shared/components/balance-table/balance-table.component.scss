@@ -43,15 +43,16 @@
         margin-left: -20px;
     }
     .customFilter{
-        display: initial !important;
+        // display: initial !important;
         margin-top: 10%;
     }
     .customFormField{
         margin-top: 5%;
     }
     .customRadioFilter{
-        display: grid !important;
-        justify-content: start !important;
+        display: flex !important;
+        flex-wrap: wrap;
+        justify-content: left !important;
     }
     .tableResponsive{
         overflow-x: auto;
