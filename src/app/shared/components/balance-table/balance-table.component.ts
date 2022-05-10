@@ -86,7 +86,6 @@ export class BalanceTableComponent
   report: any[];
   reqYear: any;
   selectedCurrency: any;
-  dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
   typeList: { id: string; name: string }[] = [
@@ -260,6 +259,12 @@ export class BalanceTableComponent
     },
   };
   show = false;
+  currencyConversionType: any = [
+    { name: "INR", type: null },
+    { name: "INR Thousands", type: 1000 },
+    { name: "INR Lakhs", type: 100000 },
+    { name: "INR Crores", type: 10000000 }
+  ];
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
@@ -316,8 +321,11 @@ export class BalanceTableComponent
       this.show = true;
     });
   }
-  openDialog(): void {
+
+  openDialog(data: any, fileType: string) {
+    console.log('openDialog', data)
     const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
+      data: {"reportList": data, "fileType": fileType},
       width: "500px",
     });
 
@@ -325,6 +333,7 @@ export class BalanceTableComponent
       console.log("The dialog was closed");
     });
   }
+
   createDataForBasicComp(fromBs, filters?) {
     // this.isLoading = true;
     if (!this.currentUlbFilterData) return;
@@ -371,11 +380,6 @@ export class BalanceTableComponent
   //   });
   //   console.log(this.years);
   // }
-
-  selectCurrencyValue(event) {
-    this.selectedCurrency = event.target.value;
-    console.log("currency event", this.selectedCurrency);
-  }
 
   closeModal() {
     this.dialogRef.close();
@@ -510,13 +514,6 @@ export class BalanceTableComponent
   }
 
   ngOnInit() {
-    this.dropdownList = [
-      { id: 1, itemName: "INR" },
-      { id: 2, itemName: "INR Thousands" },
-      { id: 3, itemName: "INR Lakhs" },
-      { id: 4, itemName: "INR Crores" },
-    ];
-
     this.selectedItems = [];
 
     this.dropdownSettings = {
@@ -597,5 +594,35 @@ export class BalanceTableComponent
     console.log(event.value, "change in value type");
     this.valueType = event.value;
     this.createDataForBasicComp(this.reportGroup);
+  }
+  
+  selectCurrencyValue: any;
+  onSelectingConversionType(event: any) {
+    let selectedType = this.currencyConversionType.find(item => item?.type == event.target.value);
+    const defaultConversionType = { name: "INR", type: null };
+    this.selectCurrencyValue = event.target.value ? event.target.value : null;
+    this.reportService.selectedConversionType.next(selectedType ? selectedType : defaultConversionType);
+  }
+
+  allReports: any = [];
+  getReport(selectedYear: string, fileType: string) {
+    this._loaderService.showLoader();
+    this.reportService.getReports(this.id, selectedYear)
+    .subscribe(
+      (res) => {
+        if (res && res["success"] && res['data']?.length > 0) {
+          this._loaderService.stopLoader();
+          console.log("getReports", res);
+          this.allReports = res['data'];
+          this.openDialog(res['data'][0], fileType)
+        } else {
+          this._loaderService.stopLoader();
+        }
+      },
+      (error) => {
+        this._loaderService.stopLoader();
+        console.log(error);
+      }
+    );
   }
 }

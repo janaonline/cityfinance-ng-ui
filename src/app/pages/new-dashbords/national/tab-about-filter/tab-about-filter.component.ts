@@ -55,9 +55,9 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
       }
     }
     if (changes.data && changes.data.currentValue) {
+      console.log("currentTabId", this.data, this.tabIndex)
       this.activeTabFn(this.data[this.tabIndex]);
       this.router.navigate([
-        // `dashboard/national/${this.tabId}?tabIndex=${this.tabIndex}`,
         `dashboard/national/${this.tabId}`,
       ]);
     }

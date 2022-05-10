@@ -24,6 +24,7 @@ export class ReportService {
   >(null);
 
   reportRequestSubject = new BehaviorSubject<IReportType>(null);
+  selectedConversionType = new BehaviorSubject<any>({});
   currencryConversionInUse: ICurrencryConversion =
     currencryConversionOptions[0];
 
@@ -237,5 +238,9 @@ export class ReportService {
       },
       "470-480": { index: -1, title: "Other Assets", minVal: 470, maxVal: 480 },
     };
+  }
+
+  getReports(ulbId: any, financialYear: any) {
+    return this.http.get(`${environment.api.url}ledger/ulb-financial-data/files/${ulbId}?financialYear=${financialYear}`);
   }
 }
