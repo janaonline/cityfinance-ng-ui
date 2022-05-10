@@ -278,6 +278,9 @@ export class NationalSubComponent implements OnInit {
 
   getCurrentTabValue() {
     this.destroyMultipleCharts();
+    if(this.doughnut) {
+    this.doughnut.destroy();
+    }
     console.log("280", this.activetab, this.popBtn);
 
     this.nationalInput.stateId = this.selectedState;
