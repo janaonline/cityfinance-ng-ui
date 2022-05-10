@@ -1,6 +1,6 @@
 <div [ngClass]="{ 'd-none': stateList.length <= 0 }" class="flex-column row">
   <div class="row smallScreen">
-    <div class="col-6 col-sm-6 pull-right">
+    <div class="col-sm-12 col-lg-6 col-md-6 pull-right">
       <select
         [ngStyle]="{ cursor: !mapConfig.showStateList ? 'not-allowed' : '' }"
         [disabled]="!mapConfig.showStateList"
@@ -19,7 +19,7 @@
         </option>
       </select>
     </div>
-    <div class="col-6 col-sm-6">
+    <div class="col-sm-12 col-lg-6 col-md-6 filterEdit">
       <input
         type="text"
         (keyup)="callAPI($event)"

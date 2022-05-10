@@ -223,6 +223,10 @@ td {
   .scrollable {
     overflow-x: scroll;
   }
+  .wrapperCanvas{
+    width: 647px !important;
+    // overflow-x: scroll !important;
+  }
 }
 
 .bottomDownloadButton {
