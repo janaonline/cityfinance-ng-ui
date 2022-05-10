@@ -642,9 +642,7 @@ export class NationalSubComponent implements OnInit {
       if(this.barLineData) {
         this.barLineData = []
       }
-      for (let index = 0; index < 5; index++) {
-        console.log("reacher")
-        
+      for (let index = 0; index < this.revnueChartData.length - 1; index++) {
         
         this.barLineData.push(...calculatedData.slice(0, 1))
       }
