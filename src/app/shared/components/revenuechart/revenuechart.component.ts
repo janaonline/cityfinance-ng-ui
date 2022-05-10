@@ -562,7 +562,7 @@ export class RevenuechartComponent
                   for (let i = 0; i < dataset.data.length; i += 1) {
                     const textSize = canvas.width / 100;
                     const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-                    console.log("model", model);
+                    
                     const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
                     const midRadius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
                     const startAngle = model.startAngle;
@@ -599,7 +599,6 @@ export class RevenuechartComponent
                       fontFamily
                     );
 
-                    console.log("lightOrDark");
 
                     const percent = `${String(
                       Math.round((dataset.data[i] / total) * 100)

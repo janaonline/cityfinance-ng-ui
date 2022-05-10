@@ -770,8 +770,15 @@ ULB ${this.selectedTab} for FY' ${
                 });
                 var currentValue = Number(dataset.data[tooltipItem.index]);
                 var percentage = Math.round((currentValue / total) * 100);
+                var tooltipLabel;
+                if(typeof data.labels[tooltipItem.index].text == 'object') {
+                  tooltipLabel = data.labels[tooltipItem.index].text.name
+                } else {
+                 tooltipLabel = data.labels[tooltipItem.index].text
+                }
                 // var percentage = ((currentValue / total) * 100).toFixed(2);
-                return percentage + "%" + data.labels[tooltipItem.index].text;
+                // return percentage + "%" + data.labels[tooltipItem.index].text;
+                return percentage + "%" + tooltipLabel;
               },
             },
           },
@@ -948,7 +955,12 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        other_receipt.colour = value.colour;
+        let tempColor = "#038386"
+        if(value.color == tempColor) {
+          other_receipt.colour = value.colour;
+        } else {
+          other_receipt.colour = tempColor;
+        }
       }
       if (assigned_revenues_compensation.includes(value.code)) {
         assigned_revenues_compensations.amount += value.amount;
