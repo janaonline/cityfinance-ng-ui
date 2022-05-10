@@ -44,13 +44,14 @@
     }
     .customFilter{
         display: initial !important;
-        margin-top: 4%;
+        margin-top: 10%;
     }
     .customFormField{
         margin-top: 5%;
     }
     .customRadioFilter{
         display: grid !important;
+        justify-content: start !important;
     }
     .tableResponsive{
         overflow-x: auto;

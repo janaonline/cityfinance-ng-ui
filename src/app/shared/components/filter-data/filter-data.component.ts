@@ -565,7 +565,7 @@ ULB ${this.selectedTab} for FY' ${
       newData.data.datasets.unshift(newlineDataset);
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
-      this.isPerCapita ? "Rs" : "₹ Cr"
+      this.isPerCapita ? "₹" : "₹ Cr"
     }`;
     this.barChartStaticOptions.scales.xAxes[0].barThickness =
       this.barWidthRender;
