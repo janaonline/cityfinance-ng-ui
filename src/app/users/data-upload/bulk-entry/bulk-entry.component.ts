@@ -45,9 +45,22 @@ export class BulkEntryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.years = this.createYearList("2015-16")
     this.bulkEntryForm = this.formBuilder.group({
       year: [this.years[0], Validators.required],
     });
+  }
+  createYearList(startingYear){
+    let resultYear = []
+    let ref = startingYear.split("-")
+    let tempYear = ref[0]
+    let tempYear2 = ref[1]
+    let endingYear = new Date().getFullYear();
+    while(Number(tempYear) < Number(endingYear)){
+      let newYear = `${tempYear++}-${tempYear2++}`
+      resultYear.push(newYear)
+    }
+    return resultYear
   }
 
   upload() {
