@@ -55,7 +55,7 @@
   <!-- </div> -->
 
   <div *ngIf="chartDialogues">
-    <div class="mr-1 controller">
+    <div>
       <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
           <label (click)="openModal()" class="" style="background-color: white;padding: 4%;
@@ -67,7 +67,7 @@
             </mat-icon>
           </label>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
+        <div class="col-sm-4 col-md-4 col-lg-2 mt-2">
           <div class="mr-1" *ngIf="nestedChartFilterOption?.showFinancialYear">
             <select
               class="btn compare"
@@ -90,7 +90,7 @@
         (click)="resetState()"
         style="background-color: white;padding: 4%;
         border-radius: 8px;
-        border: 1px solid lightgray;"
+        border: 1px solid lightgray;height:3.1rem;"
       >
         Reset
         <img
@@ -132,9 +132,9 @@
     </div>
   </div>
 
-  <div class="d-flex flex-wrap verticleChart" *ngIf="multipleCharts">
+  <div class="d-flex flex-wrap verticleChart mt-4 justify-content-center" *ngIf="multipleCharts">
     <div
-      class="col-6 verticleCharts"
+      class="col-6 col-md-4 col-sm-12 verticleCharts me-5"
       *ngFor="let chart of multipleDoughnutCharts; let i = index"
     >
       <p style="font-size: 100%;" class="chart-l text-center">
