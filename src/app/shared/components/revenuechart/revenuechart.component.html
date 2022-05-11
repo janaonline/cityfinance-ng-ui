@@ -122,12 +122,15 @@
     <!-- style="min-width: 354px; height: 510px" -->
     <div *ngIf="!notFound">
       <div [ngClass]="{ canvasResponsive: cityClass }">
-        <canvas
+        <div class="stateResponse">
+          <canvas
           [id]="chartId"
           height="420"
           width="0"
           style="min-width: 354px; height: 510px"
         ></canvas>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -141,8 +144,7 @@
       <p style="font-size: 100%;" class="chart-l text-center">
         {{ chart?.title }}
       </p>
-     </div>
-      
+     </div> 
       <p>
         <canvas
           id="{{ chart?.id }}{{ i }}"
@@ -155,8 +157,7 @@
       <ul id="horizontal-list" class="flex-wrap customBigScreen" *ngIf="cityClass">
         <li *ngFor="let item of multiChartLabel" class="labelPieChart customLeftPadding">
           <span [ngStyle]="{ 'background-color': item.color }"></span>
-          <div style="position: relative;    bottom: 24px;
-          left: 43px;" class="customLabel">
+          <div style="position: relative;bottom: 24px;left: 43px;" class="customLabel">
             {{ item.text.text }}
           </div>
 
