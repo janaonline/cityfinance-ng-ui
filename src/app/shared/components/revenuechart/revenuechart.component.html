@@ -137,22 +137,29 @@
       class="col-6 col-md-4 col-sm-12 verticleCharts me-5"
       *ngFor="let chart of multipleDoughnutCharts; let i = index"
     >
+     <div>
       <p style="font-size: 100%;" class="chart-l text-center">
         {{ chart?.title }}
       </p>
+     </div>
+      
       <p>
         <canvas
           id="{{ chart?.id }}{{ i }}"
           width="100"
-    height="100"
+          height="100"
         ></canvas>
       </p>
     </div>
-    <div class="text-center col-12 verticleChartLabel">
-      <ul id="horizontal-list" class="flex-wrap" *ngIf="cityClass">
-        <li *ngFor="let item of multiChartLabel">
+    <div class="col-12 verticleChartLabel d-flex">
+      <ul id="horizontal-list" class="flex-wrap customBigScreen" *ngIf="cityClass">
+        <li *ngFor="let item of multiChartLabel" class="labelPieChart customLeftPadding">
           <span [ngStyle]="{ 'background-color': item.color }"></span>
-          {{ item.text.text }}
+          <div style="position: relative;    bottom: 24px;
+          left: 43px;" class="customLabel">
+            {{ item.text.text }}
+          </div>
+
         </li>
       </ul>
       <ul id="horizontal-list" class="flex-wrap" *ngIf="!cityClass">
