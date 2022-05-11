@@ -392,15 +392,15 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   toCr(value) {
-    if (this.isPerCapita) return value.toFixed(2);
+    if (this.isPerCapita) return Math.round( value);
     if (
       this.filterName.includes("mix") ||
       this.filterName == "revenue expenditure"
     )
-      return value.toFixed(2) + "%";
+      return Math.round( value) + "%";
     let newVal = value / 10000000;
     if (isNaN(newVal)) return 0;
-    return newVal.toFixed(2) + "Cr";
+    return Math.round( newVal) + "Cr";
   }
 
   panelClose(item) {
