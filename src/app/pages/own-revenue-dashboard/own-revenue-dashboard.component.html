@@ -20,7 +20,31 @@
     </div>
   </div>
 </div>
-<div *ngIf="!sticky" class="container-fluid two-tabs">
+
+
+<!-- <div class="two-tabs">
+  <div
+    class="container-fluid"
+    style="background-color: white; padding-top: 20px; padding-bottom: 6px"
+  >
+    
+   
+  </div>
+</div> -->
+<div class="container-fluid two-tabs bg-white">
+  <div  *ngIf="sticky"  class="dataavail">
+    <span
+      style="
+        padding-top: 30px;
+        font-size: 0.9rem;
+        width: 12%;
+        color: rgb(0, 0, 134);
+      "
+      >Data Availability - {{ dataAvailable }}% ({{
+        body.financialYear
+      }})</span
+    >
+  </div>
   <div class="container d-flex justify-content-center">
     <a
       class="text-decoration-none col-6 col-md-4 col-lg-4 rounded-start d-flex justify-content-center align-items-center first-tab tab"
@@ -36,27 +60,6 @@
     >
       Property Tax Performance Dashboard
     </a>
-  </div>
-</div>
-<div *ngIf="sticky" class="two-tabs">
-  <div
-    class="container-fluid"
-    style="background-color: white; padding-top: 20px; padding-bottom: 6px"
-  >
-    <div class="dataavail">
-      <span
-        style="
-          padding-top: 30px;
-          font-size: 0.9rem;
-          width: 12%;
-          color: rgb(0, 0, 134);
-        "
-        >Data Availability - {{ dataAvailable }}% ({{
-          body.financialYear
-        }})</span
-      >
-    </div>
-   
   </div>
 </div>
 <!-- <div class="container threeBtnContainer" *ngIf="displayButtons">

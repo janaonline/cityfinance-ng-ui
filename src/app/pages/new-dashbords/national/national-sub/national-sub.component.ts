@@ -247,7 +247,6 @@ export class NationalSubComponent implements OnInit {
     },
     {
       data: [],
-      
       backgroundColor: "#456EDE",
       borderWidth: 1,
       barThickness: 40,
@@ -278,6 +277,7 @@ export class NationalSubComponent implements OnInit {
   ];
 
   getCurrentTabValue() {
+    if(this.activetab)
     if(this.doughnut) {
     this.doughnut.destroy();
     }
@@ -294,7 +294,7 @@ export class NationalSubComponent implements OnInit {
     }
 
     this.nationalInput.financialYear = this.selectedYear;
-    if (this.activetab.includes("Total")) {
+    if ( this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
       this.tableView = true;
@@ -612,6 +612,7 @@ export class NationalSubComponent implements OnInit {
 
         this.deficitBarChartData[1].data = deficitData.slice(1);
         this.deficitBarChartData[1].data = expenseData.slice(1);
+        
 
         console.log("deficitData==>", this.barChartData);
       }
@@ -740,11 +741,6 @@ export class NationalSubComponent implements OnInit {
     } else {
       finalObj = this.barChartData;
     }
-    // if (this.newValue.includes("per capita")) {
-    //   this.newValue = `${this.newValue} in rupees`;
-    // } else {
-    //   this.newValue = `${this.newValue} in cr`;
-    // }
     let newLabel =
       this.newValue.charAt(0).toUpperCase() +
       this.newValue

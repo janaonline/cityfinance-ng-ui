@@ -23,6 +23,7 @@ export class NationalComponent implements OnInit {
     private authService: AuthService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
+      console.log('nationalParam', param)
       this.tabIndex = param.tabIndex ? param.tabIndex : 0;
     });
     this.loadData();
@@ -34,7 +35,7 @@ export class NationalComponent implements OnInit {
   }
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
-  tabAboutData: any = {};
+  tabAboutData: any;
   tabId: any="61e150439ed0e8575c881028";
   component_name;
   tabIndex;
@@ -295,11 +296,17 @@ export class NationalComponent implements OnInit {
     this.newDashboardService
       .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
       .subscribe(
-        (res) => {
-          let tab = res["data"];
-          setTimeout(() => {
-            this.sortTabData(tab);
-          }, 200);
+        (res: any) => {
+          console.log("newResponse", res)
+          let tab = res.data;
+
+          this.tabAboutData = tab.sort( (x, y) => {
+            return x.position - y.position
+            // return x.position - y.position;
+          });
+          // setTimeout(() => {
+            // this.sortTabData(tab);
+          // }, 200);
         },
         (error) => {
           console.log(error);

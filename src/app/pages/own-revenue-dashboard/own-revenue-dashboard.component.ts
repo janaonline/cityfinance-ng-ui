@@ -422,8 +422,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
     } else if (param == "ulbType") {
       this.filterGroup.patchValue({
         ulb: "",
-        stateId: "",
-        populationCategory: "",
+        stateId: "State Name",
+        populationCategory: "Ulb Population Category",
       });
     } else if (param == "popCat") {
       this.filterGroup.patchValue({
