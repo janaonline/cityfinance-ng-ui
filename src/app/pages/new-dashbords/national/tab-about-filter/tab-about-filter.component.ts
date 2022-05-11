@@ -6,7 +6,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NationalMapSectionService } from "../national-map-section/national-map-section.service";
 
@@ -18,6 +18,7 @@ import { NationalMapSectionService } from "../national-map-section/national-map-
 export class TabAboutFilterComponent implements OnInit, OnChanges {
   constructor(
     protected router: Router,
+    protected activeRoute: ActivatedRoute,
     private _commonServices: CommonService,
     private nationalMapService: NationalMapSectionService
   ) {}
@@ -55,37 +56,32 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
       }
     }
     if (changes.data && changes.data.currentValue ) {
-    
-      console.log("currentTabId", this.data, this.tabIndex)
       
-      
+      let urls = this.router.url.split('/');
+      let selectedTabId = urls[urls.length - 1];
+      console.log("currentTabId", this.data, this.tabIndex, this.router.url);
+      let index = this.data.findIndex(el => el._id == selectedTabId );
+      if(index > -1)
+      this.activeTabFn(this.data[index], index);
     }
 
-    if(changes.tabIndex && changes.tabIndex.currentValue ){
-      console.log("changesCatib", this.activeFilter, this.tabIndex)
-      // this.data = changes.data.currentValue;
-      this.tabIndex = changes.tabIndex.currentValue;
-      // this.tabIndex = (this.tabIndex == 0 && changes.tabIndex.currentValue == 0) ? changes.tabIndex.currentValue : this.tabIndex;
-      this.activeTabFn(this.data[this.tabIndex], this.tabIndex);
-      this.router.navigate([`dashboard/national/${this.tabId}`], {queryParams: {"tabIndex": this.tabIndex}});
-    }
-    // if(changes.)
+    // if(changes.tabIndex && changes.tabIndex.currentValue ){
+    //   console.log("changesCatib", this.activeFilter, this.tabIndex)
+    //   this.tabIndex = changes.tabIndex.currentValue;
+    //   this.activeTabFn(this.data[this.tabIndex], this.tabIndex);
+    //   this.router.navigate([`dashboard/national/${this.tabId}`], {queryParams: {"tabIndex": this.tabIndex}});
+    // }
   }
   activeTabFn(item: any, selectedTabIndex: number) {
     console.log("active iitem", item, selectedTabIndex)
     this.mainTab = item?.name;
     this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
     this.tabIndex = selectedTabIndex;
-    setTimeout(() => {
+    
       this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;
       if (this.activeFilter) {
         this.nationalSubTab(this.activeFilter[0], 0);
       }
-    }, 300)
-    // this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;
-    // if (this.activeFilter) {
-    //   this.nationalSubTab(this.activeFilter[0], 0);
-    // }
 
   }
 }
