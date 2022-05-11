@@ -223,7 +223,7 @@
       </div>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
-      <div class="card-body barCon">
+      <div class="card-body barCon" style="overflow:scroll">
         <div
           class="float-right right"
           *ngIf="activetab !== 'Deficit or Surplus'"
@@ -242,11 +242,11 @@
             <!-- <option value="revenuePerCapita">Revenue Per Capita</option> -->
           </select>
         </div>
-        <div class="w-75 m-auto h-auto">
-          <canvas id="canvas" style="width: 70vw; height: 70vh">{{
-            chart
-          }}</canvas>
-        </div>
+          <div class="wrapperCanvas">  
+            <canvas id="canvas">{{
+              chart
+            }}</canvas>
+          </div>
       </div>
     </div>
   </div>

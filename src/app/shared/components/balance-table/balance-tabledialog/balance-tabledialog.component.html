@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="fileType == 'pdf'">
   <h5 class="">PDF</h5>
   <div class="mb-2" *ngFor="let pdf of reports?.pdf">
     <a target="_blank" download="true" class="list-group-item" [href]="pdf?.url">
@@ -11,7 +11,7 @@
 </div>
 
 
-<div class="row mt-4">
+<div class="row" *ngIf="fileType == 'excel'">
   <h5 class="">EXCEL</h5>
   <div class="mb-2" *ngFor="let excel of reports?.excel">
     <a target="_blank" download="true" class="list-group-item" [href]="excel?.url">
@@ -21,4 +21,14 @@
       </span>
     </a>
   </div>
+</div>
+
+<div *ngIf="fileType == 'notFound'" style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+  <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+  <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+    No Data Found for chosen options
+  </div>
+  <p style="color: #6e7281; font-size: 16px">
+    {{ notFoundMessage }}
+  </p>
 </div>

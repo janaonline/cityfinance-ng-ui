@@ -363,14 +363,14 @@ export class BasicComponent implements OnInit, OnDestroy {
   }
 
   download() {
-    const isUserLoggedIn = this._authService.loggedIn();
-    if (!isUserLoggedIn) {
-      const dailogboxx = this._dialog.open(DialogComponent, {
-        data: this.defaultDailogConfiuration,
-        width: "28vw",
-      });
-      return;
-    }
+    // const isUserLoggedIn = this._authService.loggedIn();
+    // if (!isUserLoggedIn) {
+    //   const dailogboxx = this._dialog.open(DialogComponent, {
+    //     data: this.defaultDailogConfiuration,
+    //     width: "28vw",
+    //   });
+    //   return;
+    // }
     const reportTable = document.querySelector("table").outerHTML;
     const title = this.reportReq.type + " " + this.reportReq.reportGroup;
     let currencyConversionName =
