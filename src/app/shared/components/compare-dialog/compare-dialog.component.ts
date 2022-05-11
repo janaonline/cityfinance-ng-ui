@@ -261,11 +261,13 @@ export class CompareDialogComponent implements OnInit {
     //   this.ulbListChip = [];
     // }
 
+    this.stateChipList = [];
+    this.ulbListChip = [];
+
     this.own
       ? this.selectedVal.setValue("Own Revenue per Capita")
       : this.selectedVal.setValue("Property Tax per Capita");
-    this.stateChipList = [];
-    this.ulbListChip = [];
+    
 
     // this.preSelectedUlbList = [];
     this.filterList = this.filterList.map((value) => {
@@ -366,6 +368,7 @@ export class CompareDialogComponent implements OnInit {
   emptyField = true;
   emitValues() {
     if (this.type == 2) {
+   
       if (
         this.stateChipList.length > 1 &&
         (this.selectedVal.value != "None" || !this.selectedVal.value)

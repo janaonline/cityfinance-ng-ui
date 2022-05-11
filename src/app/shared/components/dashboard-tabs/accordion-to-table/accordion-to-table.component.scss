@@ -283,6 +283,10 @@
         padding: 0px;
       }
     }
+
+    .ngx-pagination .current {
+      background: #3e5db1 !important;
+    }
   }
 }
 @media (min-width: 512px) {
@@ -293,6 +297,7 @@
 }
 
 .pagination-top {
+  float: right;
   right: 0px;
   @media (max-width: 512px) {
     position: absolute;
