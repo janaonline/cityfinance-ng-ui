@@ -116,55 +116,36 @@
                 </button>
               </div>
             </div> -->
-            <!-- <div class="col-sm-12 col-md-3 col-lg-3" style="min-width: 30%">
-              <div class="pagination-top">
-                <pagination-controls
-                  *ngIf="bondIssuerItemData && bondIssuerItemData.length"
-                  id="foo"
-                  (pageChange)="setPage($event)"
-                  directionLinks="true"
-                  autoHide="false"
-                  previousLabel="Previous"
-                  nextLabel="Next"
-                  maxSize="5"
-                  responsive="true"
-                  screenReaderPaginationLabel="Pagination"
-                  screenReaderPageLabel="page"
-                  screenReaderCurrentLabel="You're on page"
-                >
-                </pagination-controls>
-              </div>
-            </div> -->
+            
           </div>
         </form>
         <!-- form end -->
       </div>
 
       <div class="col-md-12 customAccordion" *ngIf="city">
-        <!-- <div style="height: 53px;">
-          <table accordion-heading id="tableHeadings" >
-            <thead style="border-radius: 4px;
-            display: block;
-            border: 1px solid #EFF2F9;">
-              <th>Issuer</th>
-              <th
-                *ngFor="
-                  let bondIsuuerItem of paginatedbondIssuerItem
-                    | paginate
-                      : {
-                          id: 'foo',
-                          itemsPerPage: ulbItemLimitPerPage,
-                          currentPage: currentPageInView,
-                          totalItems: totalCount
-                        };
-                  index as i
-                "
-              >
-                {{ bondIsuuerItem.ulb }}
-              </th>
-            </thead>
-          </table>
-        </div> -->
+
+        <div class="row">
+        <div  >
+          <div class="pagination-top">
+            <pagination-controls
+              *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+              id="foo"
+              (pageChange)="setPage($event)"
+              directionLinks="true"
+              autoHide="false"
+              previousLabel="Previous"
+              nextLabel="Next"
+              maxSize="5"
+              responsive="true"
+              screenReaderPaginationLabel="Pagination"
+              screenReaderPageLabel="page"
+              screenReaderCurrentLabel="You're on page"
+            >
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+        
 
         <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
           <accordion-group>
@@ -231,6 +212,31 @@
         </div> -->
           </accordion-group>
         </accordion>
+
+        <div style="height: 53px;">
+          <table accordion-heading id="tableHeadings" >
+            <thead style="border-radius: 4px;
+            display: block;
+            border: 1px solid #EFF2F9;">
+              <!-- <th>Issuer</th> -->
+              <th
+                *ngFor="
+                  let bondIsuuerItem of paginatedbondIssuerItem
+                    | paginate
+                      : {
+                          id: 'foo',
+                          itemsPerPage: ulbItemLimitPerPage,
+                          currentPage: currentPageInView,
+                          totalItems: totalCount
+                        };
+                  index as i
+                "
+              >
+                <!-- {{ bondIsuuerItem.ulb }} -->
+              </th>
+            </thead>
+          </table>
+        </div>
       </div>
       <div class="col-md-12" *ngIf="state">
         <div class="mt-2 mx-2 filter-section">
