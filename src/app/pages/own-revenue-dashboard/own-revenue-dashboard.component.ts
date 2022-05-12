@@ -214,6 +214,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           var dataset = data.datasets[tooltipItem.datasetIndex];
+          var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
           var total = dataset.data.reduce(function (
             previousValue,
             currentValue,
@@ -224,7 +225,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
           });
           var currentValue = dataset.data[tooltipItem.index];
           var percentage = Math.floor((currentValue / total) * 100 + 0.5);
-          return percentage + "%";
+          // return percentage + "%";
+          return `${model?.label}: ${percentage}%`;
         },
       },
     },
