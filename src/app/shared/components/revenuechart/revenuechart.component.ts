@@ -684,10 +684,13 @@ export class RevenuechartComponent
   }
 
   selectedOwnRevenueState: any = []
-
+  @Input() preSelectedOwnRevenueDbParameter: string = '';
+  preSelectedOwnRevenueDbType: boolean = false;
   ownRevenueCompValue(value) {
     console.log("own Revenue Value", value)
+    this.preSelectedOwnRevenueDbType = value?.type == 'ulb' ? true : false;
     this.selectedOwnRevenueState = value?.list;
+    this.preSelectedOwnRevenueDbParameter = value?.param;
     this.compareChange.emit(value);
   }
 

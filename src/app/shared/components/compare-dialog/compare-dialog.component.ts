@@ -94,8 +94,13 @@ export class CompareDialogComponent implements OnInit {
   preSelectedUlbList;
 
   @Input()
-  preSelectedStateList
+  preSelectedStateList;
 
+  @Input()
+  preSelectedOwnRevenueDbParameter: string = '';
+
+  @Input()
+  preSelectedOwnRevenueDbType: boolean = false;
   filterList = [
     { val: "State Average", checked: false },
     { val: "National Average", checked: false },
@@ -170,6 +175,13 @@ export class CompareDialogComponent implements OnInit {
   placeholder = "Search for States";
   ngOnInit(): void {
     console.log("preSelectedUlbList", this.preSelectedUlbList, this.preSelectedStateList);
+    console.log('preSelectedOwnRevenueDbParameter', this.preSelectedOwnRevenueDbParameter);
+    console.log('preSelectedOwnRevenueDbType', this.preSelectedOwnRevenueDbType);
+    if (this.preSelectedOwnRevenueDbParameter) {
+      this.selectedVal.setValue(this.preSelectedOwnRevenueDbParameter)
+    }
+    this.toogle.setValue(this.preSelectedOwnRevenueDbType);
+
     if (this.preSelectedUlbList) {
       this.ulbListChip = this.preSelectedUlbList;
     }
@@ -193,13 +205,13 @@ export class CompareDialogComponent implements OnInit {
       console.log(val);
     });
     this.globalFormControl.valueChanges.subscribe((value) => {
+      console.log('globalFormControl', value)
+      if (this.togglerValue) {
+        this.typeX = "ulb";
+      } else {
+        this.typeX = "state";
+      }
       if (value.length >= 1) {
-        if (this.togglerValue) {
-          this.typeX = "ulb";
-        } else {
-          this.typeX = "state";
-        }
-
         this._commonService
           .postGlobalSearchData(value, this.typeX, "")
           .subscribe((res: any) => {
@@ -373,8 +385,9 @@ export class CompareDialogComponent implements OnInit {
   }
   emptyField = true;
   emitValues() {
+    console.log('emitValues', this.type)
     if (this.type == 2) {
-   
+      console.log('stateChipList',this.stateChipList)
       if (
         this.stateChipList.length > 1 &&
         (this.selectedVal.value != "None" || !this.selectedVal.value)
@@ -384,11 +397,19 @@ export class CompareDialogComponent implements OnInit {
           list: this.stateChipList,
           param: this.selectedVal.value,
           type: this.typeX,
+          typeTitle: this.typeX == 'ulb' ? 'ULBs' : 'States',
         };
         this.ownRevenueCompValue.emit(this.valuesToEmit);
       } else {
         this.emptyField = true;
-        return;
+        this.valuesToEmit = {
+          list: this.stateChipList,
+          param: this.selectedVal.value,
+          type: this.typeX,
+          typeTitle: this.typeX == 'ulb' ? 'ULBs' : 'States',
+        };
+        this.ownRevenueCompValue.emit(this.valuesToEmit);
+        // return;
       }
     } else {
       console.log("emitting value", this.ulbListChip);
