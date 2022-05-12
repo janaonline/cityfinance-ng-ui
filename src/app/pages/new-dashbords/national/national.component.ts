@@ -124,7 +124,7 @@ export class NationalComponent implements OnInit {
 
     if(this.tabIndex == 0) {
     this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
-      this.nationalDataAvailability = res?.data.toFixed(2);
+      this.nationalDataAvailability = Math.round( res?.data);
     });
   }
     // this.nationalMapService.currentSelectedStateId.subscribe((res) => {
