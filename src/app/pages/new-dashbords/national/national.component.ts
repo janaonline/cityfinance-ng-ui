@@ -117,11 +117,12 @@ export class NationalComponent implements OnInit {
     this.getIndicatorData(this.stateId);
     this.getCardsData();
     this.component_name = "National";
-    let currentUrl = this.router.url.split("/");
-    let Url = currentUrl[currentUrl.length - 1]
+    // let currentUrl = this.router.url.split("/");
+    // let Url = currentUrl[currentUrl.length - 1]
 
+    console.log("tabIndex==>", this.tabIndex)
 
-    if(Url == "61e150439ed0e8575c881028") {
+    if(this.tabIndex == 0) {
     this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
       this.nationalDataAvailability = res?.data.toFixed(2);
     });
