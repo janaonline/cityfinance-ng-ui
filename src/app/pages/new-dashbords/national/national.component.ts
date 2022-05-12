@@ -117,9 +117,16 @@ export class NationalComponent implements OnInit {
     this.getIndicatorData(this.stateId);
     this.getCardsData();
     this.component_name = "National";
+    // let currentUrl = this.router.url.split("/");
+    // let Url = currentUrl[currentUrl.length - 1]
+
+    console.log("tabIndex==>", this.tabIndex)
+
+    if(this.tabIndex == 0) {
     this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
       this.nationalDataAvailability = res?.data.toFixed(2);
     });
+  }
     // this.nationalMapService.currentSelectedStateId.subscribe((res) => {
     //   console.log("emmited state id", res);
     //   this.stateId = res?.data;
@@ -379,7 +386,7 @@ export class NationalComponent implements OnInit {
 
 const data = {
   showMap: false,
-  name: "National Financial Dashboard",
+  name: "National Performance",
   desc: "Summary of key national-level demographics and municipal (urban) indicators",
   dataIndicators: [
     {
