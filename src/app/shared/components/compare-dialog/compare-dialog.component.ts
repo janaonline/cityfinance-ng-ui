@@ -93,6 +93,9 @@ export class CompareDialogComponent implements OnInit {
   @Input()
   preSelectedUlbList;
 
+  @Input()
+  preSelectedStateList
+
   filterList = [
     { val: "State Average", checked: false },
     { val: "National Average", checked: false },
@@ -166,9 +169,12 @@ export class CompareDialogComponent implements OnInit {
   typeX = "";
   placeholder = "Search for States";
   ngOnInit(): void {
-    console.log("preSelectedUlbList", this.preSelectedUlbList);
+    console.log("preSelectedUlbList", this.preSelectedUlbList, this.preSelectedStateList);
     if (this.preSelectedUlbList) {
       this.ulbListChip = this.preSelectedUlbList;
+    }
+    if(this.preSelectedStateList) {
+      this.stateChipList = this.preSelectedStateList
     }
     this.filterList = this.filterList.map((value) => {
       if (this.selectedRadioBtn == value.val) {

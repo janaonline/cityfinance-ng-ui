@@ -65,6 +65,8 @@ export class DataSetsComponent implements OnInit {
   year;
   type;
 
+  loopControl :number = 0;
+
   downloadValue: boolean = false;
   ngOnInit(): void {
     this.filterComponent = {
@@ -107,6 +109,11 @@ export class DataSetsComponent implements OnInit {
   loadMore() {
     let limitValue = this.offSet + this.limit;
     console.log({ limitValue });
+    if(this.loopControl > limitValue) {
+      limitValue
+    } else {
+      limitValue = this.loopControl
+    }
     if (limitValue < 30) {
       for (this.offSet; limitValue > this.offSet; this.offSet++) {
         console.log("this.offSet", this.offSet);
@@ -143,13 +150,27 @@ export class DataSetsComponent implements OnInit {
 
               this.globalLoaderService.stopLoader();
             } else if (res.data.length !== 0) {
+
+
               this.tempBalData = res.data;
+              console.log("tempBalData", this.tempBalData)
               let limitVal = this.offSet + this.limit;
-              for (let i = 0; i < limitVal; i++) {
+              
+              if(this.tempBalData.length > limitVal) {
+                this.loopControl = limitVal
+              } else {
+                this.loopControl = this.tempBalData.length
+              }
+
+              console.log("loopControl==>",this.loopControl)
+              this.balData = []
+              for (let i = 0; i < this.loopControl; i++) {
                 const element = this.tempBalData[i];
+                console.log("element==>",element)
 
                 this.balData.push(element);
               }
+              console.log("finalBalData", this.balData)
 
               this.balData = this.balData.map((elem) => {
                 let target = { isDisabled: false, isSelected: false };
