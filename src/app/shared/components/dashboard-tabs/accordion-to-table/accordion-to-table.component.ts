@@ -299,7 +299,9 @@ export class AccordionToTableComponent implements OnInit {
     if (datas.data) {
       this.getFormValue();
     }
+    console.log("newData", datas)
     this.bondIssuerItemData = datas.data;
+    
 
     if (this.state) {
       this.filterdData = this.bondIssuerItemData.filter(
@@ -321,6 +323,35 @@ export class AccordionToTableComponent implements OnInit {
       // this.makeDataForState(datas.data);
     }
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
+
+    let tempArr = []
+    let tempIssueArr = []
+    this.paginatedbondIssuerItem.forEach((elem) => {
+      let bidValue = elem.bidsReceived
+      let issueValue = elem.issueSize
+      if(bidValue !== "Not Available" && bidValue) {
+        if(bidValue.includes(",")) {
+         let commaValue = bidValue.split(" ")[1].split(",");
+         tempArr.push(commaValue[0] + commaValue[1])
+        }else {
+          tempArr.push(bidValue.split(" ")[1])
+        }
+      }
+
+      if(issueValue) {
+        tempIssueArr.push(issueValue.split(" ")[1])
+      }
+    })
+
+    this.bidReceivedAmount = tempArr.reduce((prevValue, currentValue) => {
+      return parseInt(prevValue) + parseInt(currentValue)
+    }, 1)
+
+    this.issueSize = tempIssueArr.reduce((prevValue, currentValue) => {
+      return parseInt(prevValue) + parseInt(currentValue)
+    }, 1)
+
+    console.log("bidReceivedAmount", this.bidReceivedAmount, this.issueSize)
     this.totalCount = datas.total;
 
     console.log("currentData===>",this.bondIssuerItemData)
@@ -577,6 +608,8 @@ export class AccordionToTableComponent implements OnInit {
     console.log(this.filterForm);
   }
   issueLength: any = 4;
+  issueSize: number = 0;
+  bidReceivedAmount: any = "";
   tableHeading = [
     {
       title: "Municipality",
@@ -616,9 +649,9 @@ export class AccordionToTableComponent implements OnInit {
   ulbListLatest: any;
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
-    this._bondService.getBondIssuerItem(params).subscribe((res) => {
+    this._bondService.getBondIssuerItem(params).subscribe((res: any) => {
       console.log(res);
-      this.issueLength = res.total - 1;
+      this.issueLength = res.total ;
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();
