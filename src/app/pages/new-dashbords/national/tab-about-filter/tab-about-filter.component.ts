@@ -47,7 +47,6 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     
-    console.log("national Changes", changes, this.tabIndex)
     if (changes && changes.cordsValue && changes.cordsValue.currentValue) {
       if (this.cordsValue >= 750) {
         this.stickyValue = true;
@@ -59,7 +58,6 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
       
       let urls = this.router.url.split('/');
       let selectedTabId = urls[urls.length - 1];
-      console.log("currentTabId", this.data, this.tabIndex, this.router.url);
       let index = this.data.findIndex(el => el._id == selectedTabId );
       if(index > -1)
       this.activeTabFn(this.data[index], index);
@@ -73,7 +71,6 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     // }
   }
   activeTabFn(item: any, selectedTabIndex: number) {
-    console.log("active iitem", item, selectedTabIndex)
     this.mainTab = item?.name;
     this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
     this.tabIndex = selectedTabIndex;

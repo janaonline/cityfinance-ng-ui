@@ -74,7 +74,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterData("year", "");
   }
   onChangeType(event) {
-    this.selectedType = event.value;
+    this.selectedType = event.target.value;
     this.filterData("type", "");
   }
   loadData() {
