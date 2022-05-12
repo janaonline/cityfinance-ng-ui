@@ -244,9 +244,6 @@ export class NationalSubComponent implements OnInit {
       data: [80, 80, 80, 80, 80, 80],
       fill: false,
       borderColor: "#fc4185",
-<<<<<<< HEAD
-      
-=======
       option: {
         tooltips: {
           callbacks: {
@@ -263,7 +260,6 @@ export class NationalSubComponent implements OnInit {
           },
         }
       }
->>>>>>> 06b52e9cdb3b9e493fba5a72a6e33cf1e587d690
     },
     {
       data: [],

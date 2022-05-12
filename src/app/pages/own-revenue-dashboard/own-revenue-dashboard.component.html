@@ -132,7 +132,7 @@
             </select>
             
              
-              <input type="text" class="form-select filter" placeholder="ULB" matInput formControlName="ulb" [matAutocomplete]="auto">
+              <input type="text" class="filter searchField " placeholder="ULB" matInput formControlName="ulb" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <a (click)="filterData('ulb',option)" *ngFor="let option of filteredOptions; let i = index;" style="text-decoration: none;">
                       <mat-option [value]="option?.name">
