@@ -183,19 +183,19 @@
         </p>
         <div class="table-responsive">
           <table class="table table-bordered">
-            <tbody>
+            <tbody class="main">
               <tr class="rowClass">
                 <td>ULB Population Category</td>
                 <td
-                  class="text-center"
+                  class="text-center customTableData"
                   *ngFor="let heading of stateUlbsPopulation?.tableHeading"
                   style="font-weight: 800;">
                   {{ heading }}
                 </td>
               </tr>
-              <tr>
+              <tr class="rowClass">
                 <td>Number Of Cities</td>
-                <td *ngFor="let heading of stateUlbsPopulation?.tableHeading" style="font-weight: 800;">
+                <td *ngFor="let heading of stateUlbsPopulation?.tableHeading" style="font-weight: 800;" class="customTableData">
                   {{
                     _commonServices.formatNumber(
                       stateUlbsPopulation?.tableDataSource[heading]
