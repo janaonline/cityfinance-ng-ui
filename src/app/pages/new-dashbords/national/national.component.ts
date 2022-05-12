@@ -386,7 +386,7 @@ export class NationalComponent implements OnInit {
 
 const data = {
   showMap: false,
-  name: "National Financial Dashboard",
+  name: "National Performance",
   desc: "Summary of key national-level demographics and municipal (urban) indicators",
   dataIndicators: [
     {
