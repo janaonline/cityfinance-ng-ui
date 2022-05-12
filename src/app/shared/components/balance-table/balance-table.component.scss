@@ -37,6 +37,12 @@
 }
 
 @media only screen and (max-width: 800px) {
+    .stickyColumn{
+      position: sticky;
+    left: 0;
+    z-index: 99;
+    background-color: #f7f9ff;
+    }
     .balanceText {
         width: 90vw;
         font-size: 0.8em;

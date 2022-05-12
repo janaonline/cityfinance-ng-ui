@@ -128,7 +128,7 @@
     <div class="tableResponsive" *ngIf="show">
           <table style="width:100%;margin-bottom: 2%;">
             <tr class="customTable">
-              <th class="report" colspan="2">Download Report</th>
+              <th class="report stickyColumn" colspan="2">Download Report</th>
               <th class="text-center" *ngFor="let year of currentUlbFilterData?.financialYear" style="background-color: rgb(226,226,226)">{{year}}</th>
               <!-- <th style="background-color: rgb(226,226,226)"></th>
               <th style="background-color: rgb(226,226,226)"></th>
@@ -137,14 +137,14 @@
             </tr>
             <tr class="blank-td"></tr>
             <tr class="customTable" >
-              <td colspan="2" class="report-title">Raw PDF</td>
+              <td colspan="2" class="report-title stickyColumn">Raw PDF</td>
               <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'pdf')">
                 <i class="fa fa-file-pdf-o"></i>
               </td>
             </tr>
             <tr class="blank-td"></tr>
             <tr class="customTable">
-              <td colspan="2" class="report-title">Standardised Excel</td>
+              <td colspan="2" class="report-title stickyColumn">Standardised Excel</td>
               <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'excel')">
                 <i class="fa fa-file-excel-o"></i>
               </td>             
