@@ -793,6 +793,12 @@ export class NationalSubComponent implements OnInit {
     console.log({ newLabel });
     this.barChartData[1]["label"] = newLabel
     this.yAxesLabel = newLabel;
+    if(this.yAxesLabel.includes("Per Capita")){
+      this.yAxesLabel = this.yAxesLabel + " in Rs."
+    }else {
+      
+      this.yAxesLabel = this.yAxesLabel + " in Cr."
+    }
     if (this.chart) {
       this.chart.destroy();
     }

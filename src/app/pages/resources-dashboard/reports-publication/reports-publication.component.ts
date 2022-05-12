@@ -17,7 +17,7 @@ export class ReportsPublicationComponent implements OnInit {
   ) { 
     this._commonService.getPublicFileList().subscribe((res)=>{
       this.cardData = res
-      console.log(this.cardData)
+      console.log("cardData=>",this.cardData)
     })
     this.resourcesDashboard.castSearchedData.subscribe(data =>{
       this.learningToggle =data
@@ -44,7 +44,7 @@ export class ReportsPublicationComponent implements OnInit {
   }
 
   filterData(e){
-    console.log('reports publications', e)
-}
+    console.log('reports publications', e.value)
+  }
 
 }
