@@ -6,9 +6,7 @@ import {
   SimpleChange,
   SimpleChanges,
 } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommonService } from "src/app/shared/services/common.service";
 import { NationalMapSectionService } from "../national-map-section/national-map-section.service";
 
@@ -20,6 +18,7 @@ import { NationalMapSectionService } from "../national-map-section/national-map-
 export class TabAboutFilterComponent implements OnInit, OnChanges {
   constructor(
     protected router: Router,
+    protected activeRoute: ActivatedRoute,
     private _commonServices: CommonService,
     private nationalMapService: NationalMapSectionService
   ) {}
@@ -47,6 +46,8 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
+    
+    console.log("national Changes", changes, this.tabIndex)
     if (changes && changes.cordsValue && changes.cordsValue.currentValue) {
       if (this.cordsValue >= 750) {
         this.stickyValue = true;
@@ -54,22 +55,33 @@ export class TabAboutFilterComponent implements OnInit, OnChanges {
         this.stickyValue = false;
       }
     }
-    if (changes.data && changes.data.currentValue) {
-      console.log("currentTabId", this.data, this.tabIndex)
-      this.activeTabFn(this.data[this.tabIndex]);
-      this.router.navigate([
-        `dashboard/national/${this.tabId}`,
-      ]);
+    if (changes.data && changes.data.currentValue ) {
+      
+      let urls = this.router.url.split('/');
+      let selectedTabId = urls[urls.length - 1];
+      console.log("currentTabId", this.data, this.tabIndex, this.router.url);
+      let index = this.data.findIndex(el => el._id == selectedTabId );
+      if(index > -1)
+      this.activeTabFn(this.data[index], index);
     }
-    // if(changes.)
+
+    // if(changes.tabIndex && changes.tabIndex.currentValue ){
+    //   console.log("changesCatib", this.activeFilter, this.tabIndex)
+    //   this.tabIndex = changes.tabIndex.currentValue;
+    //   this.activeTabFn(this.data[this.tabIndex], this.tabIndex);
+    //   this.router.navigate([`dashboard/national/${this.tabId}`], {queryParams: {"tabIndex": this.tabIndex}});
+    // }
   }
-  activeTabFn(item) {
+  activeTabFn(item: any, selectedTabIndex: number) {
+    console.log("active iitem", item, selectedTabIndex)
     this.mainTab = item?.name;
     this.aboutTab = item?.subHeaders[0]?.mainContent[0]?.about;
-    this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;
-    if (this.activeFilter) {
-      this.nationalSubTab(this.activeFilter[0], 0);
-    }
-    // this.router.navigate([`dashboard/national/${item._id}`]);
+    this.tabIndex = selectedTabIndex;
+    
+      this.activeFilter = item?.subHeaders[0]?.mainContent[0]?.btnLabels;
+      if (this.activeFilter) {
+        this.nationalSubTab(this.activeFilter[0], 0);
+      }
+
   }
 }

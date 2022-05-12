@@ -247,7 +247,6 @@ export class NationalSubComponent implements OnInit {
     },
     {
       data: [],
-      
       backgroundColor: "#456EDE",
       borderWidth: 1,
       barThickness: 40,
@@ -255,29 +254,41 @@ export class NationalSubComponent implements OnInit {
     
   ];
 
-  deficitBarChartData: any = [
+    deficitBarChartData: any = [
+      {
+        type: "line",
+        label: "Revenue Average",
+        data: [80, 80, 80, 80, 80, 80],
+        fill: false,
+        borderColor: "#fc4185",
+      },
+      {
+        type: "line",
+        label: "Expense Average",
+        data: [80, 80, 80, 80, 80, 80],
+        fill: false,
+        borderColor: "red",
+      },
     {
       data: [],
+      label: "Revenue",
       backgroundColor: "#456EDE",
       borderWidth: 1,
       barThickness: 40,
     },
     {
       data: [],
+      
+      label: "Expense",
       backgroundColor: "#000",
       borderWidth: 1,
       barThickness: 40,
     },
-    {
-      type: "line",
-      label: "Average",
-      data: [80, 80, 80, 80, 80, 80],
-      fill: false,
-      borderColor: "#fc4185",
-    },
+    
   ];
 
   getCurrentTabValue() {
+    if(this.activetab)
     if(this.doughnut) {
     this.doughnut.destroy();
     }
@@ -294,7 +305,7 @@ export class NationalSubComponent implements OnInit {
     }
 
     this.nationalInput.financialYear = this.selectedYear;
-    if (this.activetab.includes("Total")) {
+    if ( this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
       this.tableView = true;
@@ -610,8 +621,22 @@ export class NationalSubComponent implements OnInit {
           return parseInt(elem.expense);
         });
 
-        this.deficitBarChartData[1].data = deficitData.slice(1);
-        this.deficitBarChartData[1].data = expenseData.slice(1);
+        this.deficitBarChartData[2].data = deficitData.slice(1);
+        this.deficitBarChartData[3].data = expenseData.slice(1);
+
+        let calculatedData = deficitData;
+        let newCalcualtesData = expenseData;
+        let firstLine = []
+        let secondLine = []
+        for (let index = 0; index < deficitData.length - 1; index++) {
+          firstLine.push(...calculatedData.slice(0, 1))
+        }
+        for (let index = 0; index < expenseData.length - 1; index++) {
+          secondLine.push(...newCalcualtesData.slice(0, 1))
+        }
+        this.deficitBarChartData[0].data = firstLine;
+        this.deficitBarChartData[1].data = secondLine;
+        
 
         console.log("deficitData==>", this.barChartData);
       }
@@ -740,11 +765,8 @@ export class NationalSubComponent implements OnInit {
     } else {
       finalObj = this.barChartData;
     }
-    // if (this.newValue.includes("per capita")) {
-    //   this.newValue = `${this.newValue} in rupees`;
-    // } else {
-    //   this.newValue = `${this.newValue} in cr`;
-    // }
+
+    console.log("finalObj", this.barChartData, this.deficitBarChartData)
     let newLabel =
       this.newValue.charAt(0).toUpperCase() +
       this.newValue

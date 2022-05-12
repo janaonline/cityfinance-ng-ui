@@ -322,6 +322,8 @@ export class AccordionToTableComponent implements OnInit {
     }
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
     this.totalCount = datas.total;
+
+    console.log("currentData===>",this.bondIssuerItemData)
   }
   totalDataSource;
   filterdData: any;
@@ -647,6 +649,7 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   setPage(pageNoClick: number) {
+    console.log("pageNoClick", pageNoClick)
     setTimeout(() => {
       this.currentPageInView = pageNoClick;
       this.paginatedbondIssuerItem = this.sliceDataForCurrentView(

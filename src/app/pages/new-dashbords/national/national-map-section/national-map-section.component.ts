@@ -255,19 +255,11 @@ export class NationalMapSectionComponent
     this.selectedYear = event.target.value;
     this.nationalInput.financialYear = this.selectedYear;
     this.getNationalTableData();
-    this.nationalMapService.setCurrentSelectYear({
-      data: event.target.value,
-    });
-    // if (this.currentStateId) {
-    //   this.clearDistrictMapContainer();
-    //   this.onSelectingStateFromDropDown({
-    //     _id: this.currentStateId,
-    //     name: this.AvailabilityTitle,
-    //     code: this.selectedStateCode,
-    //   });
-    // } else {
+    // this.nationalMapService.setCurrentSelectYear({
+    //   data: event.target.value,
+    // });
     MapUtil.destroy(this.nationalLevelMap);
-    // }
+    
     this.getNationalLevelMapData(event.target.value);
   }
 
