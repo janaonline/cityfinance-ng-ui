@@ -244,7 +244,26 @@ export class NationalSubComponent implements OnInit {
       data: [80, 80, 80, 80, 80, 80],
       fill: false,
       borderColor: "#fc4185",
+<<<<<<< HEAD
       
+=======
+      option: {
+        tooltips: {
+          callbacks: {
+            label: function (tooltipItem, data) {
+              console.log("function", tooltipItem, data);
+              var dataset = data.datasets[tooltipItem.datasetIndex];
+              console.log("dataset", dataset);
+              var currentValue = dataset.data[tooltipItem.index];
+              console.log("currentValue", currentValue);
+              // currentValue = currentValue > 0 ? (currentValue / 10000000).toFixed(2) : 0;
+              // return new Intl.NumberFormat("en-IN").format(currentValue);
+              return currentValue;
+            },
+          },
+        }
+      }
+>>>>>>> 06b52e9cdb3b9e493fba5a72a6e33cf1e587d690
     },
     {
       data: [],
@@ -814,6 +833,9 @@ export class NationalSubComponent implements OnInit {
                   display: true,
                   labelString: this.yAxesLabel,
                 },
+                afterDataLimits: function (axis) {
+                  axis.max += 20;
+                },
               },
             ],
             xAxes: [
@@ -832,6 +854,29 @@ export class NationalSubComponent implements OnInit {
                 },
               },
             ],
+          },
+          tooltips: {
+            callbacks: {
+              title: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem[0].datasetIndex];
+                if (dataset && dataset.type == 'line') {
+                  return '';
+                } else {
+                  return `${tooltipItem[0]?.label}`
+                }
+              },
+              /**
+               * uncomment the below code if you want custom label
+               */
+              // label: function (tooltipItem, data) {
+              //   var dataset = data.datasets[tooltipItem.datasetIndex];
+              //   if (dataset && dataset.type == 'line') {
+              //     return `${dataset?.label ? dataset?.label : 'Average'}: ${tooltipItem?.yLabel}`
+              //   } else {
+              //     return `${tooltipItem?.label} ${dataset?.label}: ${tooltipItem?.yLabel}`
+              //   }
+              // },
+            },
           },
           animation: {
             onComplete: function (animation) {
@@ -855,7 +900,7 @@ export class NationalSubComponent implements OnInit {
                   ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
                 });
               });
-              console.log(animation, "animation");
+              console.log("animation", animation);
             },
           },
         },
