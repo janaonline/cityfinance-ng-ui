@@ -329,7 +329,8 @@ export class StateFilterDataService {
           console.log("dataset", dataset);
           var currentValue = Number(dataset.data[tooltipItem.index]);
           console.log("currentValue", currentValue);
-          return `${currentValue.toFixed(2)} %`;
+          return `${Math.round(currentValue)} %`;
+          // return `${currentValue.toFixed(2)} %`;
           // return new Intl.NumberFormat("en-IN").format(currentValue);
         },
       },
@@ -353,8 +354,9 @@ export class StateFilterDataService {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             console.log("data", data);
+            // data.toFixed(2) + " %",
             ctx.fillText(
-              data.toFixed(2) + " %",
+              Math.round(data) + " %",
               bar._model.x,
               bar._model.y - 5
             );

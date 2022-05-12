@@ -150,7 +150,7 @@ export class NationalMapSectionComponent
     showDistrictList: false,
     stateMapContainerHeight: "23rem",
     nationalZoomOnMobile: 3.9, // will fit map in container
-    nationalZoomOnWeb: 3.9, // will fit map in container
+    nationalZoomOnWeb: 4.2, // will fit map in container
     stateZoomOnMobile: 4, // will fit map in container
     stateZoomOnWeb: 4, // will fit map in container
     stateBlockHeight: "23.5rem", // will fit map in container
