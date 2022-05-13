@@ -19,6 +19,18 @@
   font-weight: 600;
 }
 @media only screen and (max-width: 800px) {
+  .table > thead > tr > th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 99;
+    background-color: #f7f9ff;
+  }
+  .table > tbody > tr > td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 99;
+    background-color: white;
+  }
  .responsiveHeading{
    text-align: center;
  }
