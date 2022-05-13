@@ -113,7 +113,7 @@
         <span *ngIf="!togglerValue">States</span> and one parameter for
         comparison
       </span>
-      <div class="row w-80">
+      <!-- <div class="row w-80">
         <div style="line-height: 5rem">
           <mat-label>States </mat-label>
           <mat-slide-toggle [formControl]="toogle"> ULBs</mat-slide-toggle>
@@ -126,7 +126,7 @@
             time
           </p>
         </div>
-      </div>
+      </div> -->
       <div class="col-12">
         <div class="col-9 col-md-9 m-2 g-filter-d">
           <form>
@@ -174,7 +174,7 @@
         <div class="col-3 col-md-3 col-sm-12 m-2 selectDiv">
           <mat-form-field appearance="fill" class="smallScreenDropdown">
             <mat-label>Parameter</mat-label>
-            <mat-select #matmat multiple matInput [formControl]="selectedVal">
+            <mat-select #matmat  matInput [formControl]="selectedVal">
               <!-- <mat-option>None</mat-option> -->
               <!-- <div (mouseleave)="matmat.close()"> -->
               <mat-option

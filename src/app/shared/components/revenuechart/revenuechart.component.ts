@@ -683,7 +683,11 @@ export class RevenuechartComponent
     this.dialogRef.close();
   }
 
+  selectedOwnRevenueState: any = []
+
   ownRevenueCompValue(value) {
+    console.log("own Revenue Value", value)
+    this.selectedOwnRevenueState = value?.list;
     this.compareChange.emit(value);
   }
 
