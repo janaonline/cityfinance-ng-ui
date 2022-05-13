@@ -87,7 +87,7 @@ export class NewHomeComponent implements OnInit {
       text: 'Track your city’s performance across five themes and 32 key indicators.',
       icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
-
+      link:'/dashboard/slb'
     },
     {
       title: '',
