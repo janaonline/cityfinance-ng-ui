@@ -2275,6 +2275,26 @@ export class RevenuechartComponent
     return year;
   }
 
+  resetCompareModal() {
+    console.log('resetCompareModal called')
+    this.preSelectedOwnRevenueDbType = false;
+    this.selectedOwnRevenueState = [];
+    this.preSelectedOwnRevenueDbParameter = this.own ? "Own Revenue per Capita" : "Property Tax per Capita";
+    const defaultValue = {
+      "list": [],
+      "param": this.own ? "Own Revenue per Capita" : "Property Tax per Capita",
+      "type": "ulb",
+      "typeTitle": "ULBs",
+      "stateId": "State Name",
+      "ulb": "",
+      "ulbType": "ULB Type",
+      "populationCategory": "ULB Population Category",
+      "financialYear": "2020-21",
+      "propertyTax": this.own ? false : true
+    };
+    this.compareChange.emit(defaultValue);
+  }
+
 }
 
 const temp = [

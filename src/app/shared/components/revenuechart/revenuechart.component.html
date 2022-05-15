@@ -24,6 +24,9 @@
       class="col-12 col-md-2 col-lg-2 btnBesideTitle"
     >
       <button class="mt-2" (click)="openModal()">Compare</button>
+      <a class="reset-compare-filter" (click)="resetCompareModal()">
+        <span [matTooltip]="'Reset Compare'" class="mat-tooltip-trigger material-icons"> refresh </span>
+      </a>
     </div>
     <div
       class="row"

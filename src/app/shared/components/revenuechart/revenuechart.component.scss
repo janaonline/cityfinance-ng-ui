@@ -187,3 +187,11 @@ ul#horizontal-list {
     // display: none !important;
     visibility: hidden !important;
   }
+
+  .reset-compare-filter {
+    font-size: 0.8em;
+    cursor: pointer;
+    color: #e67e15;
+    vertical-align: text-top;
+    margin-left: 5px;
+  }

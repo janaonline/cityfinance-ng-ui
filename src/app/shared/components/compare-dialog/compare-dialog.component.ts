@@ -170,7 +170,7 @@ export class CompareDialogComponent implements OnInit {
     // });
     // console.log(this.years);
   }
-  togglerValue;
+  togglerValue: boolean = false;
   typeX = "";
   placeholder = "Search for States";
   ngOnInit(): void {
@@ -181,6 +181,7 @@ export class CompareDialogComponent implements OnInit {
       this.selectedVal.setValue(this.preSelectedOwnRevenueDbParameter)
     }
     this.toogle.setValue(this.preSelectedOwnRevenueDbType);
+    this.togglerValue = this.preSelectedOwnRevenueDbType;
 
     if (this.preSelectedUlbList) {
       this.ulbListChip = this.preSelectedUlbList;
@@ -396,7 +397,8 @@ export class CompareDialogComponent implements OnInit {
         this.valuesToEmit = {
           list: this.stateChipList,
           param: this.selectedVal.value,
-          type: this.typeX,
+          // type: this.typeX,
+          type: this.togglerValue ? 'ulb' : 'state',
           typeTitle: this.typeX == 'ulb' ? 'ULBs' : 'States',
         };
         this.ownRevenueCompValue.emit(this.valuesToEmit);
@@ -405,7 +407,8 @@ export class CompareDialogComponent implements OnInit {
         this.valuesToEmit = {
           list: this.stateChipList,
           param: this.selectedVal.value,
-          type: this.typeX,
+          // type: this.typeX,
+          type: this.togglerValue ? 'ulb' : 'state',
           typeTitle: this.typeX == 'ulb' ? 'ULBs' : 'States',
         };
         this.ownRevenueCompValue.emit(this.valuesToEmit);
