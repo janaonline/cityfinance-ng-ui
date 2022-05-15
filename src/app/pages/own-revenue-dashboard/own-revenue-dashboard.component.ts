@@ -201,10 +201,16 @@ export class OwnRevenueDashboardComponent implements OnInit {
             return sum + val;
           }, 0);
           console.log("total", total);
-          datasets[0].data.map((item, i) => console.log('item', item, 'i====>', i, 'divide', (item / total) * 100 + 0.5));
+          // datasets[0].data.map((item, i) => console.log('item', item, 'i====>', i, 'divide', (item / total) * 100 + 0.5));
           // var percentage = Math.floor((data / total) * 100 + 0.5);
+          // return datasets[0].data.map((data, i) => ({
+          //   text: `${chart.data.labels[i]}: ${ (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((data / total) * 100 + 0.5)}%`,
+          //   fillStyle: datasets[0].backgroundColor[i],
+          // }));
           return datasets[0].data.map((data, i) => ({
-            text: `${chart.data.labels[i]}: ${ (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((data / total) * 100 + 0.5)}%`,
+            text: `${chart.data.labels[i]}: ${Math.floor(
+              (data / total) * 100 + 0.5
+            )}%`,
             fillStyle: datasets[0].backgroundColor[i],
           }));
         },
@@ -227,7 +233,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
           });
           var currentValue = dataset.data[tooltipItem.index];
           console.log('currentValue', currentValue)
-          var percentage = (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((currentValue / total) * 100 + 0.5);
+          // var percentage = (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((currentValue / total) * 100 + 0.5);
+          var percentage = Math.floor((currentValue / total) * 100 + 0.5);
           console.log('percentage', percentage)
           // return percentage + "%";
           return `${model?.label}: ${percentage}%`;
