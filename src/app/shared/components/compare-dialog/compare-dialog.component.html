@@ -210,6 +210,10 @@
     <!-- this is the one being used for state dashboard compare -->
     <div *ngSwitchCase="3">
       <div class="row">
+        
+        <div *ngIf="balcnceTab" style="color: red; font-style: italic">*Please Select Both ulb and year to filter</div>
+      </div>
+      <div class="row">
         <div class="col-12 justify-content-around">
           <label class="searchUlb" for="">Search ULB</label>
           <div class="d-flex formInput">
@@ -219,7 +223,7 @@
                 matInput
                 [formControl]="searchField"
                 [matAutocomplete]="auto"
-                class="w-100"
+                style="width: 95%;"
                 type="text"
               />
               <mat-autocomplete #auto="matAutocomplete">
@@ -254,16 +258,17 @@
         </div>
         <!--- revenuechart compare end-->
       </div>
+
       <div class="row" *ngIf="showDropDown">
         <div class="yearSelect">
-          <mat-form-field appearance="outline" style="width: 140px">
+          <mat-form-field appearance="outline" style="width: 50%; margin-left: 2%;">
             <mat-label>Select Years</mat-label>
             <mat-select
               [formControl]="dropYears"
               multiple
               (selectionChange)="selectYearValue($event)"
             >
-              <mat-option *ngFor="let year of yearsList" [value]="year"
+              <mat-option *ngFor="let year of yearsList" [value]="year.itemName"
                 >{{ year.itemName }}
               </mat-option>
             </mat-select>

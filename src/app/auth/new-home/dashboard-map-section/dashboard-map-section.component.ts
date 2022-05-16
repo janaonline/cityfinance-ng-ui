@@ -42,7 +42,7 @@ export class DashboardMapSectionComponent
     showStateList: false,
     showDistrictList: false,
     stateMapContainerHeight: "23rem",
-    nationalZoomOnMobile: 3.9, // will fit map in container
+    nationalZoomOnMobile: 4, // will fit map in container
     nationalZoomOnWeb: 4.4, // will fit map in container
     stateZoomOnMobile: 4, // will fit map in container
     stateZoomOnWeb: 4, // will fit map in container

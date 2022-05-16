@@ -40,4 +40,10 @@ export class ResourcesDashboardService {
   updateSearchedData(hideSearchedData){
     this.hideSearchedData.next(hideSearchedData);
 }
+
+GlobalSearch(input){
+  return this.https.get(
+    `${environment.api.url}resourceDashboard/search?name=${input}`
+  );
+}
 }
