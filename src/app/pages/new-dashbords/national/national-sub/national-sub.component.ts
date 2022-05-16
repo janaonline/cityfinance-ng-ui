@@ -240,7 +240,7 @@ export class NationalSubComponent implements OnInit {
   barChartData: any = [
     {
       type: "line",
-      label: "Average",
+      label: "National Average",
       data: [80, 80, 80, 80, 80, 80],
       fill: false,
       borderColor: "#fc4185",
@@ -273,14 +273,14 @@ export class NationalSubComponent implements OnInit {
     deficitBarChartData: any = [
       {
         type: "line",
-        label: "Revenue Average",
+        label: "National Revenue Average",
         data: [80, 80, 80, 80, 80, 80],
         fill: false,
         borderColor: "#fc4185",
       },
       {
         type: "line",
-        label: "Expense Average",
+        label: "National Expense Average",
         data: [80, 80, 80, 80, 80, 80],
         fill: false,
         borderColor: "red",
