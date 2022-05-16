@@ -309,7 +309,7 @@
     border-radius: 12px;
     opacity: 1;
     padding: 8px;
-    width:65%;
+    // width:65%;
     margin-left: 0% !important;
 }
 
@@ -342,7 +342,7 @@
         border-radius: 12px;
         opacity: 1;
         padding: 8px;
-        width:65%;
+        // width:65%;
         margin-left: 0% !important;
     }
 }
@@ -513,4 +513,16 @@ height:12rem;
 
 .custom-panel {
     width: calc(100% + 30px);
+}
+
+:host mat-select {
+    margin-top: 6px !important;
+}
+
+:host ::ng-deep .mat-form-field-flex {
+    border: 0 !important;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+    margin-top: 2%;
 }

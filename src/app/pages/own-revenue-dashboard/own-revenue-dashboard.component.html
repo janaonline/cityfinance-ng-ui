@@ -284,7 +284,7 @@
       <div class="col-md-10">
         <div class="row mx-0">
           <div
-            class="col-md-6 col-6"
+            class="col-md-6 col-sm-12"
             [ngClass]="{ 'col-lg-3': ownTab, 'col-lg-4': proTab }"
             *ngFor="let cardItem of cardData"
           >
@@ -392,10 +392,18 @@
 
   <!-- Bar chart section -->
   <div class="container barChartContainer">
-    <h2 class="barCharttitle text-center">Top 10 Performing {{tempDataHolder?.type | uppercase}}s</h2>
-    <p class="barChartSubTitle text-center">
-      Top 10 performing {{tempDataHolder?.type | uppercase}}s in the country in {{tempDataHolder?.param}} can be viewed below.
-    </p>
+
+    <ng-container *ngIf="tempDataHolder?.list?.length > 0">
+      <p class="barCharttitle text-center">
+        Compare {{tempDataHolder?.typeTitle ? tempDataHolder?.typeTitle : 'ULBs' | uppercase}} on {{tempDataHolder?.param}}
+      </p>
+    </ng-container>
+    <ng-container *ngIf="!tempDataHolder.hasOwnProperty('list') || tempDataHolder?.list?.length == 0">
+      <h2 class="barCharttitle text-center">Top 10 Performing {{tempDataHolder?.typeTitle ? tempDataHolder?.typeTitle : 'ULBs' | uppercase}}</h2>
+      <p class="barChartSubTitle text-center">
+        Top 10 performing {{tempDataHolder?.typeTitle ? tempDataHolder?.typeTitle : 'ULBs' | uppercase}} in the country in {{tempDataHolder?.param}} can be viewed below.
+      </p>
+    </ng-container>
 
     <app-revenuechart
       class="rounded"
@@ -409,6 +417,7 @@
       [ChartOptions]="barChartStatic"
       [notFound]="barChartNotFound"
       [own]="ownTab"
+      [preSelectedOwnRevenueDbParameter]="preSelectedOwnRevenueDbParameter"
     >
     </app-revenuechart>
 
