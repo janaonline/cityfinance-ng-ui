@@ -255,7 +255,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: "Amount in Cr.",
+            labelString: "Amount in INR",
           },
           gridLines: {
             offsetGridLines: true,
@@ -744,7 +744,15 @@ export class OwnRevenueDashboardComponent implements OnInit {
           };
           tempData.options.scales.yAxes[0].scaleLabel.display = true;
           // tempData.options.scales.yAxes[0].scaleLabel.labelString = "Percentage (%)";
-          tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in Cr.";
+          tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in INR";
+          console.log('this.tempDataHolder', this.tempDataHolder);
+          if (this.tempDataHolder) {
+            if (this.tempDataHolder['param'] == "Own Revenue") {
+              tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in Cr."
+            } else {
+              tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in INR"
+            }
+          }
           res["data"].map((value) => {
             // let stateName = this.stateIds[value._id];
             tempData.data.labels.push(value.name);
@@ -767,7 +775,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
             // }
   
             // tempData.data.datasets[0].data.push(Number(value.amount).toFixed(0));
-            tempData.data.datasets[0].data.push(Number(Math.round(value.amount)));
+            if (this.tempDataHolder.hasOwnProperty('list') && this.tempDataHolder['list']?.length) {
+              tempData.data.datasets[0].data.push(Number(Math.round(value.amount / 10000000)));
+            } else {
+              tempData.data.datasets[0].data.push(Number(Math.round(value.amount)));
+            }
           });
           // bodyD.list.map((value) => {
           //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
