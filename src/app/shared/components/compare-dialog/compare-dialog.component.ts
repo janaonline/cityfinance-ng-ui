@@ -105,6 +105,12 @@ export class CompareDialogComponent implements OnInit {
   @Input()
   balcnceTab;
 
+  @Input()
+  preSelectedOwnRevenueDbParameter: string = '';
+
+  @Input()
+  preSelectedOwnRevenueDbType: boolean = false;
+
   filterList = [
     { val: "State Average", checked: false },
     { val: "National Average", checked: false },
@@ -180,7 +186,7 @@ export class CompareDialogComponent implements OnInit {
     // });
     // console.log(this.years);
   }
-  togglerValue;
+  togglerValue: boolean = false;
   typeX = "";
   placeholder = "Search for States";
   selectedDropYears: any;
@@ -194,6 +200,13 @@ export class CompareDialogComponent implements OnInit {
       this.dropYears.setValue(this.preSelectedYears)
       this.selectedDropYears = this.preSelectedYears;
     }
+
+    if (this.preSelectedOwnRevenueDbParameter) {
+      this.selectedVal.setValue(this.preSelectedOwnRevenueDbParameter)
+    }
+    this.toogle.setValue(this.preSelectedOwnRevenueDbType);
+    this.togglerValue = this.preSelectedOwnRevenueDbType;
+
     if(this.preSelectedStateList) {
       this.stateChipList = this.preSelectedStateList;
     }
@@ -214,13 +227,13 @@ export class CompareDialogComponent implements OnInit {
       console.log(val);
     });
     this.globalFormControl.valueChanges.subscribe((value) => {
+      console.log('globalFormControl', value)
+      if (this.togglerValue) {
+        this.typeX = "ulb";
+      } else {
+        this.typeX = "state";
+      }
       if (value.length >= 1) {
-        if (this.togglerValue) {
-          this.typeX = "ulb";
-        } else {
-          this.typeX = "state";
-        }
-
         this._commonService
           .postGlobalSearchData(value, this.typeX, "")
           .subscribe((res: any) => {
@@ -394,9 +407,9 @@ export class CompareDialogComponent implements OnInit {
   }
   emptyField = true;
   emitValues() {
-
+    console.log('emitValues', this.type)
     if (this.type == 2) {
-   
+      console.log('stateChipList',this.stateChipList)
       if (
         this.stateChipList.length > 1 &&
         (this.selectedVal.value != "None" || !this.selectedVal.value)
@@ -405,14 +418,23 @@ export class CompareDialogComponent implements OnInit {
         this.valuesToEmit = {
           list: this.stateChipList,
           param: this.selectedVal.value,
-          type: this.typeX,
+          // type: this.typeX,
+          type: this.togglerValue ? 'ulb' : 'state',
+          typeTitle: this.typeX == 'ulb' ? 'ULBs' : 'States',
         };
         this.ownRevenueCompValue.emit(this.valuesToEmit);
         
       } else {
         this.emptyField = true;
-       
-        return;
+        this.valuesToEmit = {
+          list: this.stateChipList,
+          param: this.selectedVal.value,
+          // type: this.typeX,
+          type: this.togglerValue ? 'ulb' : 'state',
+          typeTitle: this.typeX == 'ulb' ? 'ULBs' : 'States',
+        };
+        this.ownRevenueCompValue.emit(this.valuesToEmit);
+        // return;
       }
       this.close()
     } else {
