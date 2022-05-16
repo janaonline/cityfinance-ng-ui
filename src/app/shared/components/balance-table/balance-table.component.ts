@@ -418,6 +418,8 @@ export class BalanceTableComponent
     });
     multiUlbList.push(this.currentUlbFilterData);
     this.compare = true;
+
+    console.log("currentUlbFilterData", this.currentUlbFilterData, this.ulbIdval)
     let filters = {
       isComparative: false,
       type: "Summary",
@@ -428,6 +430,7 @@ export class BalanceTableComponent
       ulbIds: [...new Set([this.currentUlbFilterData.ulb, ...this.ulbIdval])],
       valueType: this.valueType,
     };
+    console.log("filers", filters)
     this.createDataForBasicComp(this.reportGroup, filters);
 
     // setTimeout(() => {

@@ -88,7 +88,11 @@ export class ResourcesDashboardComponent implements OnInit {
   searchedValue:any
   toggle:boolean=true
   defaultPlaceholder:boolean=false
+
   searchFilter(searchFilter:any){
+  
+    console.log("searchValue==>", searchFilter)
+    
     //sending data to resource count to card
     this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
     this.resourcedashboard.updateResouceCount(this.passedCount);
@@ -98,9 +102,12 @@ export class ResourcesDashboardComponent implements OnInit {
     this.totalCount = this.data.total
     console.log(this.totalCount)
     this.searchedValue = searchFilter
-    this.resourcedashboard.getSearchedData(searchFilter).subscribe(data => {
-      console.log(data)
-    })  
+    this.resourcedashboard.GlobalSearch(this.searchedValue).subscribe((res) => {
+      console.log("gloabal response", res)
+    })
+    // this.resourcedashboard.getSearchedData(searchFilter).subscribe(data => {
+    //   console.log(data)
+    // })  
     if(searchFilter.length){
        this.crossIcon = true
        this.search = false

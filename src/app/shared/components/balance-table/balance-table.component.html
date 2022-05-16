@@ -162,5 +162,5 @@
 </div>
 
 <ng-template #template>
-    <app-compare-dialog [type]="3" (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)" (SelectYearList)="selectedValueYears($event)" (SelectYears)="selectedYea($event)" [showDropDown]="true"></app-compare-dialog>
+    <app-compare-dialog [balcnceTab]="true" [type]="3" (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)" [preSelectedUlbList]="ulbListVal" [preSelectedYears]="years" [preSelectedUlbIds]="ulbIdval" (SelectYearList)="selectedValueYears($event)" (SelectYears)="selectedYea($event)" [showDropDown]="true"></app-compare-dialog>
 </ng-template>
