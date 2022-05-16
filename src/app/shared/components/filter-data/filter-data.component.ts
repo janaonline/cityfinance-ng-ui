@@ -142,24 +142,22 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         label: function (tooltipItem, data) {
           console.log('tooltip', tooltipItem, data);
           var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log('dataset', dataset)
           // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
           // console.log('model', model)
           let averageFYSum = 0;
-          data.datasets.forEach(item => {
-            if (item && item.type != "line") {
-              // console.log('itemData', item.data)
-              // if (typeof item.data[tooltipItem.index+1] !== 'undefined') {
-              //     averageFYSum = averageFYSum + item.data[tooltipItem.index] + item.data[tooltipItem.index+1];
-              // } else {
-              //   console.log('no data');
-              // }
-              averageFYSum = averageFYSum + item.data[tooltipItem.index] + item.data[tooltipItem.index+1];
-            }
-          });
+          if (dataset && dataset.type == 'line') {
+            averageFYSum = Math.round((( dataset.data[tooltipItem.index] - dataset.data[tooltipItem.index+1 ]) / dataset.data[tooltipItem.index]) * 100);
+          }
+          // data.datasets.forEach(item => {
+          //   if (item && item.type != "line") {
+          //     averageFYSum = averageFYSum + item.data[tooltipItem.index] + item.data[tooltipItem.index+1];
+          //   }
+          // });
           if (isNaN(averageFYSum)) {
             return `${dataset?.label}: No change`;
           } else {
-            return `${dataset?.label}: ${averageFYSum/2}`
+            return `${dataset?.label}: ${averageFYSum}`
           }
         }
       }
