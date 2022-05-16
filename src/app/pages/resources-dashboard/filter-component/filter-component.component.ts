@@ -28,6 +28,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   filterFormData = new EventEmitter<any>();
   //  @Output() clearfilter = new EventEmitter<any>();
 
+  @Input() filterTabDataSet
   @Input() filterInputData;
   @Input() downloadValue;
   @Input() data;

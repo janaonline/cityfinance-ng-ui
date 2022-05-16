@@ -77,11 +77,18 @@ export class ResourcesDashboardComponent implements OnInit {
   crossIcon: boolean=false;
   search:boolean=true;
   searchValue:string='';
-  data:any={
-    total:500,
-    learning:220,
-    dataset:180,
-    report:100
+  // data:any={
+  //   total:500,
+  //   learning:220,
+  //   dataset:180,
+  //   report:100
+  // }
+
+  data: any = {
+    total: 0,
+    learningCenter: 0,
+    dataSet: 0,
+    reportsAndPublication: 0
   }
   passedCount:any
   totalCount:any
@@ -92,18 +99,35 @@ export class ResourcesDashboardComponent implements OnInit {
   searchFilter(searchFilter:any){
   
     console.log("searchValue==>", searchFilter)
-    
     //sending data to resource count to card
-    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
-    this.resourcedashboard.updateResouceCount(this.passedCount);
     //queryparam used for url
     this.router.navigate( ['/resources-dashboard/learning-center/toolkits'],
     { queryParams: { search: searchFilter } })
-    this.totalCount = this.data.total
-    console.log(this.totalCount)
+    
     this.searchedValue = searchFilter
-    this.resourcedashboard.GlobalSearch(this.searchedValue).subscribe((res) => {
+    this.resourcedashboard.GlobalSearch(this.searchedValue).subscribe((res: any) => {
       console.log("gloabal response", res)
+      let apiData = res.data
+      for(let elem in this.data){
+        console.log("keys==>", apiData, apiData[elem])
+        this.data[elem] = res.data[elem]
+      }
+
+      this.data.total = Object.values( res.data).reduce((curr: any, acc: any) =>  curr + acc)
+
+      console.log("combinedData==>",this.data)
+
+    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
+    console.log("passedCount==>", this.passedCount)
+    this.totalCount = this.data.total;
+    this.resourcedashboard.updateResouceCount(this.passedCount);
+      // console.log("object Values", this.totalCount)
+    }, (err: any) => {
+      this.data = {}
+    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
+    console.log("passedCount==>", this.passedCount)
+
+    this.resourcedashboard.updateResouceCount(this.passedCount);
     })
     // this.resourcedashboard.getSearchedData(searchFilter).subscribe(data => {
     //   console.log(data)
@@ -118,7 +142,8 @@ export class ResourcesDashboardComponent implements OnInit {
     this.searchValue = null
     this.search = true
     this.crossIcon = false
-    this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
+    this.searchFilter("")
+    // this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
   }
 }
 const learningCenter = {

@@ -1,8 +1,8 @@
 <div class="row" *ngIf="dataReceived">
-    <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Reports and Publications</p>
+    <p *ngIf="searchedValue"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Reports and Publications</p>
 </div>
 <div class="col-sm-12 mb-3" *ngIf="noData">
-    <img src="assets/images/sad.svg"/>
+    <img  class="rounded mx-auto d-block" src="assets/images/sad.svg"/>
     <p class="noData">
      Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
     </p>

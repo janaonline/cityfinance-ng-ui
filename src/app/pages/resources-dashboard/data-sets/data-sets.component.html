@@ -3,13 +3,13 @@
     </app-resources-tabs>
 </div> -->
 <div class="row" *ngIf="dataReceived">
-  <p *ngIf="learningToggle">
+  <p *ngIf="searchedValue">
     <b>{{ learningCount }}</b> Search results for ‘{{ searchedValue }}’ in
     Datasets
   </p>
 </div>
 <div class="col-sm-12 mb-3" *ngIf="noDataa">
-  <img src="assets/images/sad.svg" />
+  <img  class="rounded mx-auto d-block" src="assets/images/sad.svg" />
   <p class="noData">
     Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
     searching with another term.
@@ -30,6 +30,7 @@
     [filterInputData]="filterComponent"
     [downloadValue]="selectedUsersList.length"
     (download)="download($event)"
+    [filterTabDataSet]="true"
   ></app-filter-component>
 </div>
 
