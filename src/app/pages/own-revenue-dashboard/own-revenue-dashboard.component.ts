@@ -51,6 +51,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       this.displayButtons = true;
       this.ownTab = false;
       this.proTab = true;
+      this.tempDataHolder = {
+        param: "Property Tax per Capita",
+        type: "ULBs",
+      };
     }
     this.allCalls();
   }
@@ -454,6 +458,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   allCalls() {
+    console.log('this.filterGroup.value', this.filterGroup.value)
     this.getPieChartData();
     this.cardsData();
     this.tableData();
@@ -577,17 +582,41 @@ export class OwnRevenueDashboardComponent implements OnInit {
     );
   }
 
+  defaultFilterStage: boolean = false;
   openFilter() {
     const dialogRef = this.dialog.open(FilterModelBoxComponent, {
       width: "100%",
       height: "100%",
-      data: {},
+      data: {
+        "ulbTypeList": this.ulbTypeList,
+        "populationCategoryList": this.populationCategoryList,
+        "yearList": this.yearList,
+        "preSelectedValue": {...this.filterGroup.value, ...this.tempDataHolder},
+        "defaultStage": this.defaultFilterStage
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
+      console.log("The dialog was closed", result);
+      if (result && result.filterForm) {
+        this.defaultFilterStage = result?.defaultStage;
+        this.patchFormData(result?.filterForm);
+      }
     });
   }
+
+  patchFormData(formData: any) {
+    console.log('patchValue', formData);
+    this.filterGroup.setValue({
+      stateId: formData && formData?.stateId,
+      ulb: formData && formData?.ulb,
+      ulbType: formData && formData?.ulbType,
+      populationCategory: formData && formData?.populationCategory,
+      financialYear: formData && formData?.financialYear,
+    });
+    this.allCalls();
+  }
+
   notFoundNames = [];
   dataAvailLoading = false;
   availValue = 0;
@@ -629,7 +658,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   getBarChartData(
     bodyD = {
       list: [],
-      param: "Own Revenue per Capita",
+      param: this.proTab ? "Property Tax per Capita" : "Own Revenue per Capita",
       type: "state",
     }
   ) {
@@ -642,7 +671,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     Object.assign(bodyD, this.body);
     this.lastBarChartValue = bodyD;
     let labelStr = "";
-
+    console.log('body', bodyD)
     this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
         if (res && res['success'] && res["data"]) {
@@ -743,51 +772,25 @@ export class OwnRevenueDashboardComponent implements OnInit {
             },
           };
           tempData.options.scales.yAxes[0].scaleLabel.display = true;
-          // tempData.options.scales.yAxes[0].scaleLabel.labelString = "Percentage (%)";
           tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in INR";
           console.log('this.tempDataHolder', this.tempDataHolder);
           if (this.tempDataHolder) {
-            if (this.tempDataHolder['param'] == "Own Revenue") {
+            if ((this.tempDataHolder['param'] == "Own Revenue") || (this.tempDataHolder['param'] == "Property Tax")) {
               tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in Cr."
             } else {
               tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in INR"
             }
           }
           res["data"].map((value) => {
-            // let stateName = this.stateIds[value._id];
+
             tempData.data.labels.push(value.name);
-            // if(this.tempDataHolder){
-            //   if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' ){
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Percentage (%)"
-            //   }  else if(this.tempDataHolder['param'] == "Own Revenue"){
-            //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in Crores"
-            //   }else if(this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
-            //   }else{
-            //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-            //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
-  
-            //   }
-  
-            // }
-  
-            // tempData.data.datasets[0].data.push(Number(value.amount).toFixed(0));
+
             if (this.tempDataHolder.hasOwnProperty('list') && this.tempDataHolder['list']?.length) {
               tempData.data.datasets[0].data.push(Number(Math.round(value.amount / 10000000)));
             } else {
               tempData.data.datasets[0].data.push(Number(Math.round(value.amount)));
             }
           });
-          // bodyD.list.map((value) => {
-          //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
-          //     let stateName = this.stateIds[value];
-          //     tempData.data.labels.push(stateName);
-          //     tempData.data.datasets[0].data.push(0);
-          //   }
-          // });
           console.log(tempData);
           this.barChartData = tempData;
         } else {

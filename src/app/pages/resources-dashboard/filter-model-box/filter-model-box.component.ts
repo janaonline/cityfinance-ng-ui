@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { GlobalLoaderService } from 'src/app/shared/services/loaders/global-loader.service';
 
 @Component({
   selector: 'app-filter-model-box',
@@ -16,6 +17,7 @@ export class FilterModelBoxComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
     private fb: FormBuilder,
     private _commonServices : CommonService,
+    public _loaderService: GlobalLoaderService,
   ) { }
 
   @Output()
@@ -24,31 +26,54 @@ export class FilterModelBoxComponent implements OnInit {
 
   @Input() filterInputData;
   filterForm;
-  stateList;
-  ulbList;
+  stateList: any = [];
+  ulbList: any;
   globalOptions = [];
   filteredOptions: Observable<any[]>;
+  ulbTypeList: any = [];
+  populationCategoryList: any = [];
+  yearList: any = [];
+  preSelectedValue: any;
+
+  defaultStage: boolean = false;
   ngOnInit(): void {
-      console.log('daaaaa', this.filterInputData)
+    console.log('data', this.data);
+    this.ulbTypeList = this.data && this.data.ulbTypeList;
+    this.populationCategoryList = this.data && this.data.populationCategoryList;
+    this.yearList = this.data && this.data.yearList;
+    this.preSelectedValue = this.data && this.data.preSelectedValue;
+    console.log('data ====>', this.filterInputData)
     this.filterForm = this.fb.group({
-       state: [''],
-       ulb:[''],
-       contentType:[''],
-       sortBy:['']
+      stateId: "",
+      ulb: "",
+      ulbType: "",
+      populationCategory: "",
+      financialYear: "",
     });
     this.loadData();
+    this.filterForm.patchValue({
+      financialYear: this.preSelectedValue && this.preSelectedValue?.financialYear || this.yearList[0],
+    });
   }
 
   loadData(){
-    this._commonServices.fetchStateList().subscribe((res: any)=>{
-     console.log('res', res);
-     this.stateList = res;
-    },
-    (error)=>{
-      console.log(error)
-    })
+    const stateList = sessionStorage.getItem('allStateList');
+    if (!stateList) {
+      this._loaderService.showLoader();
+      this._commonServices.fetchStateList().subscribe((res: any)=>{
+        this._loaderService.stopLoader();
+        this.stateList = this._commonServices.sortDataSource(res, 'name');
+        sessionStorage.setItem('allStateList', JSON.stringify(this.stateList));
+      },
+      (error)=>{
+        this._loaderService.stopLoader();
+        console.log(error)
+      })
+    } else {
+      this.stateList = JSON.parse(stateList);
+    }
 
-    console.log('formmm', this.filterForm)
+    console.log('form', this.filterForm)
     this.filterForm?.controls?.ulb?.valueChanges
     .subscribe(value => {
       if(value?.length >= 1){
@@ -72,25 +97,95 @@ export class FilterModelBoxComponent implements OnInit {
         return null;
       }
     })
+
+    if (this.data && this.data?.defaultStage) {
+      this.patchFormData(this.preSelectedValue);
+    }
   }
 
-  filterData() {
-    console.log('filter form', this.filterForm);
-    this.filterFormData.emit(this.filterForm);
+  filterData(param, val) {
+    console.log('filterData', param, 'val', val);
+    console.log("filter form", this.filterForm);
+    if (param == "ulb") {
+      console.log(val);
+      let pop;
+      if (val?.population > 4000000) {
+        pop = "4 Million+";
+      } else if (val?.population < 4000000 && val?.population > 1000000) {
+        pop = "1 Million - 4 Million";
+      } else if (val?.population < 1000000 && val?.population > 500000) {
+        pop = "500 Thousand - 1 Million";
+      } else if (val?.population < 500000 && val?.population > 100000) {
+        pop = "100 Thousand - 500 Thousand";
+      } else if (val?.population < 100000) {
+        pop = "<100 Thousand";
+      }
+      this.filterForm.patchValue({
+        stateId: val?.state?._id,
+        ulbType: val?.ulbType?._id,
+        populationCategory: pop,
+      });
+    } else if (param == "state") {
+      this.filterForm.patchValue({
+        ulb: "",
+        ulbType: "ULB Type",
+        populationCategory: "",
+      });
+    } else if (param == "ulbType") {
+      this.filterForm.patchValue({
+        ulb: "",
+        stateId: "State Name",
+        populationCategory: "Ulb Population Category",
+      });
+    } else if (param == "popCat") {
+      this.filterForm.patchValue({
+        ulb: "",
+        stateId: "",
+        ulbType: "ULB Type",
+      });
+    } else if (param == "year") {
+      // this.filterGroup.patchValue({
+      //   ulb: ""
+      // })
+    }
   }
+
   clearAll() {
-  //  this.filterFormData.emit(this.filterForm);
     this.filterForm.reset();
-    this.filterFormData.emit(this.filterForm);
     this.filterForm.patchValue({
-      state: '',
-       ulb: '',
-       contentType: '',
-       sortBy: ''
-
+      stateId: '',
+      ulb:'',
+      ulbType: '',
+      populationCategory: '',
+      financialYear: this.yearList[0],
     });
+    this.defaultStage = false;
+    const defaultFilter = {
+      "stateId": "State Name",
+      "ulb": "",
+      "ulbType": "ULB Type",
+      "populationCategory": "ULB Population Category",
+      "financialYear": "2020-21",
+    }
+    this.dialogRef.close({filterForm: defaultFilter, defaultStage: this.defaultStage});
   }
+
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  emitFilterData() {
+    this.defaultStage = true;
+    this.dialogRef.close({filterForm: this.filterForm.value, defaultStage: this.defaultStage});
+  }
+
+  patchFormData(formData: any) {
+    this.filterForm.patchValue({
+      stateId: formData && formData?.stateId || '',
+      ulb: formData && formData?.ulb || '',
+      ulbType: formData && formData?.ulbType || '',
+      populationCategory: formData && formData?.populationCategory || '',
+      financialYear: formData && formData?.financialYear || '',
+    });
   }
 }
