@@ -110,6 +110,9 @@ export class CompareDialogComponent implements OnInit {
 
   @Input()
   preSelectedOwnRevenueDbType: boolean = false;
+  
+  @Input()
+  singleSelectUlb;
 
   filterList = [
     { val: "State Average", checked: false },
@@ -387,6 +390,9 @@ export class CompareDialogComponent implements OnInit {
         return;
       }
       this.ulbListChip.push(option);
+      if(this.singleSelectUlb == true && this.ulbListChip.length > 1){
+        this.ulbListChip = [option]
+      }
     }
 
     this.ulbIds = this.ulbListChip.map((elem) => elem._id);
