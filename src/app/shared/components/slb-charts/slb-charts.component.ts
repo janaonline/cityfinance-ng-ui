@@ -31,6 +31,8 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   @ViewChild("template") template;
   @Output()
   compareChange = new EventEmitter();
+  slbToCompare:boolean = true;
+
   @Input()
   compareDialogType = 3;
   compareType = "";

@@ -148,16 +148,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
           let averageFYSum = 0;
           if (dataset && dataset.type == 'line') {
             averageFYSum = Math.round((( dataset.data[tooltipItem.index] - dataset.data[tooltipItem.index+1 ]) / dataset.data[tooltipItem.index]) * 100);
-          }
-          // data.datasets.forEach(item => {
-          //   if (item && item.type != "line") {
-          //     averageFYSum = averageFYSum + item.data[tooltipItem.index] + item.data[tooltipItem.index+1];
-          //   }
-          // });
-          if (isNaN(averageFYSum)) {
-            return `${dataset?.label}: No change`;
+            if (isNaN(averageFYSum)) {
+              return `${dataset?.label}: No change`;
+            } else {
+              return `${dataset?.label}: ${averageFYSum}`
+            }
           } else {
-            return `${dataset?.label}: ${averageFYSum}`
+            return `${dataset?.label}: ${tooltipItem.yLabel}`
           }
         }
       }
