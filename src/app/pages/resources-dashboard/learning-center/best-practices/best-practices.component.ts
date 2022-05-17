@@ -134,7 +134,7 @@ export class BestPracticesComponent implements OnInit {
     globalName: "",
     state: "",
     ulb: "",
-    year: "",
+    year: "2020-21",
   }
 
   getData() {
@@ -168,7 +168,7 @@ export class BestPracticesComponent implements OnInit {
   filterData(e) {
     console.log("best practices", e);
     this.pdfInput.state = e.value.state;
-    this.pdfInput.ulb = e.value.ulb
+    this.pdfInput.ulb = e.value.ulbId
     this.pdfInput.year = e.value.year
     this.getData()
   }

@@ -60,8 +60,8 @@
           </div>
         </div>
       </div>
-      <div class="empty" *ngIf="noData">No Data Found</div>
-      <div *ngIf="!noData">
+      <div class="empty" *ngIf="balData.length == 0">No Data Found</div>
+      <div *ngIf="balData.length > 0">
         <div
           class="card-body cd-repeat"
           *ngFor="let item of balData; let i = index"

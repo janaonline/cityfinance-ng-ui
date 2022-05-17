@@ -373,17 +373,15 @@
   <div class="heading topBottomGaps">Best Practices</div>
   <div *ngIf="stateList.length > 0">
   <div *ngFor="let item of stateList" class="practiceCard">
-    <a href={{item.downloadUrl}} target="_blank">
+    <a href={{item.downloadUrl}} target="_blank" style="text-decoration: none">
     <div class="practiceHead">
       {{ stateIdsMap[ item.state] }}
     </div>
-  </a> 
-    <!-- <div class="docs">
-      <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-    </div>
     <div class="docs">
-      <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-    </div> -->
+      {{item.name}}
+    </div>
+  </a> 
+  
   </div>
 </div>
 

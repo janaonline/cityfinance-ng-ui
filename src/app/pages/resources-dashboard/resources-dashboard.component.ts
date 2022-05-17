@@ -139,10 +139,10 @@ export class ResourcesDashboardComponent implements OnInit {
     
   }
   crossButton(){
-    this.searchValue = null
+    this.searchValue = ""
     this.search = true
     this.crossIcon = false
-    this.searchFilter("")
+    this.searchFilter(this.searchValue)
     // this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
   }
 }

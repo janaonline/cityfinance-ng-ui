@@ -221,14 +221,16 @@ export class ScorePerComponent implements OnInit {
     this.stepperScoreDiv = false;
   }
   presDetails(presItem, index, type) {
-    console.log(presItem);
+    console.log(presItem, type);
     this.prescription = presItem?.prescription;
     if (type == "uperPres") {
       this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el) => {
         el.isActive = false;
       });
+      
+      this.prescribeText =  presItem.selected ? presItem.prescription : this.clonePrescribeText
       presItem.isActive = true;
-      console.log(presItem);
+      // console.log(presItem);
     }
     // if(type == 'top3Table'){
     //   this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
@@ -238,12 +240,42 @@ export class ScorePerComponent implements OnInit {
     //    console.log(presItem);
     // }
   }
+
+  prescribeText: string= "";
+  clonePrescribeText: string = "";
+
+  getPrescriptionText(value) {
+    if(value)
+    console.log("currentValue", value)
+    let obj = ["assessment", "billing_collection", "enumeration", "reporting", "valuation"]
+
+    let count = 0
+    for(let item of obj) {
+      value?.currentUlb?.scorePerformance[item].forEach((elem) => {
+        if(elem.answer){
+          count++
+        }
+      })
+    }
+    let currentScore = value?.currentUlb?.total * 10
+    if(currentScore == 100) {
+      this.prescribeText = "You have adopted all the property tax reforms. Your property tax system is robust, which should increase the share of property tax in own revenues."
+      this.clonePrescribeText = this.prescribeText
+    } else if(currentScore < 99 && currentScore > 50){
+      this.prescribeText= `You have adopted ${count} property tax reforms. Your property tax system has scope for further improvement. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`
+      this.clonePrescribeText = this.prescribeText
+    } else if(currentScore < 49 ){
+      this.prescribeText = `You have adopted only ${count} property tax reforms. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`
+      this.clonePrescribeText = this.prescribeText
+    }
+  }
   getStartedScore() {
     if (this.ulb_id != "") {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe(
         (res: any) => {
           console.log("responce ulb..", res, typeof res);
           this.scoreReportData = res?.data;
+          this.getPrescriptionText( this.scoreReportData)
           this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
             (el) => {
               el.isActive = false;

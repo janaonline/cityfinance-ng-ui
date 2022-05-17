@@ -38,17 +38,20 @@ export class ReportsPublicationComponent implements OnInit {
   pdfInput: any = {
     toolKitVisible: "",
     type: "PDF",
-    header: "Reports_Publications",
+    header: "reports_%26_publications",
     subHeader: "",
     globalName: "",
     state: "",
     ulb: "",
-    year: "",
+    year: "2020-21",
   }
 
   getCardData(){
     this.resourcesDashboard.getPdfData(this.pdfInput).subscribe((res: any) => {
       console.log("best practice data", res)
+      this.cardData = res?.data
+    }, (err: any) => {
+      this.cardData = []
     })
   }
 
@@ -66,6 +69,10 @@ export class ReportsPublicationComponent implements OnInit {
 
   filterData(e){
     console.log('reports publications', e.value, this.stateIdsMap[e.value?.state])
+    this.pdfInput.state = e.value?.state;
+    this.pdfInput.ulb = e.value.ulbId;
+    this.pdfInput.year = e.value.year
+    this.getCardData()
     
   }
 
