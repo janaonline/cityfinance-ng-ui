@@ -46,4 +46,10 @@ GlobalSearch(input){
     `${environment.api.url}resourceDashboard/search?name=${input}`
   );
 }
+
+getPdfData(pdfInput) {
+  return this.https.get(
+    `${environment.api.url}resourceDashboard/?toolKitVisible=${pdfInput?.toolKitVisible}&type=PDF&header=${pdfInput?.header}&subHeader=${pdfInput?.subHeader}&globalName=${pdfInput?.globalName}&state=${pdfInput?.state}&ulb=${pdfInput?.ulb}&year=${pdfInput?.year}`
+  )
+}
 }

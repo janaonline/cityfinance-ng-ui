@@ -440,9 +440,9 @@
         <div class="col-sm-12 col-md-6 prs-div pe-0">
           <!-- chart--- -->
           <a
-            (click)="presDetails(item, i, 'uperPres')"
+            (click)=" item.selected = !item.selected; presDetails(item, i, 'uperPres')"
             class="pres-aTag"
-            [ngClass]="{ 'pres-active': item?.isActive }"
+            [ngClass]="{ 'pres-active': item?.selected }"
             *ngFor="
               let item of scoreReportData?.currentUlb?.partcularAnswerValues;
               let i = index
@@ -476,7 +476,8 @@
             <div class="pres-h">Prescription</div>
             <div class="pres-sub">
               <!-- {{ prescription }} -->
-              The percentages show how your city has scored in the 5 stages of property tax cycle. You can go through the property tax toolkit to look into recommendations in the areas that need improvement in your state/city.
+              {{prescribeText}}
+              <!-- The percentages show how your city has scored in the 5 stages of property tax cycle. You can go through the property tax toolkit to look into recommendations in the areas that need improvement in your state/city. -->
             </div>
           </div>
         </div>

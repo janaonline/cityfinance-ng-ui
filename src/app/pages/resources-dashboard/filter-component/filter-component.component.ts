@@ -28,6 +28,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   filterFormData = new EventEmitter<any>();
   //  @Output() clearfilter = new EventEmitter<any>();
 
+  @Input() filterTabDataSet
   @Input() filterInputData;
   @Input() downloadValue;
   @Input() data;
@@ -60,6 +61,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterForm = this.fb.group({
       state: [""],
       ulb: [""],
+      ulbId: [""],
       contentType: [""],
       sortBy: [""],
       year: [""],
@@ -135,11 +137,13 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
 
   filterData(param, val) {
+    
     console.log("filter form", this.filterForm);
     if (param == "ulb") {
       console.log(val);
       this.filterForm.patchValue({
-        state: val,
+        state: val.state._id,
+        ulbId: val._id
       });
     } else if (param == "state") {
       this.filterForm.patchValue({
@@ -155,6 +159,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterForm.patchValue({
       state: "",
       ulb: "",
+      ulbId: "",
       contentType: "Raw Data PDF",
       sortBy: "",
       year: "2020-21",

@@ -15,10 +15,10 @@ export class LearningCenterComponent implements OnInit {
   dataReceived:boolean=true
   constructor(private router: Router,private resourcesDashboard: ResourcesDashboardService) {
     this.resourcesDashboard.castSearchedData.subscribe(data =>{
-      this.learningToggle =data
+      this.learningToggle = data
     })
       this.resourcesDashboard.castCount.subscribe(data =>{
-        this.learningCount =data?.key?.learning
+        this.learningCount =data?.key?.learningCenter
         this.searchedValue = data?.name
          this.learningToggle =data?.toggle ? true : false;
          if(data?.key?.total == 0){
