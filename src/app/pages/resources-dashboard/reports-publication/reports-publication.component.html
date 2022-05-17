@@ -1,8 +1,8 @@
 <div class="row" *ngIf="dataReceived">
-    <p *ngIf="learningToggle"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Reports and Publications</p>
+    <p *ngIf="searchedValue"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Reports and Publications</p>
 </div>
 <div class="col-sm-12 mb-3" *ngIf="noData">
-    <img src="assets/images/sad.svg"/>
+    <img  class="rounded mx-auto d-block" src="assets/images/sad.svg"/>
     <p class="noData">
      Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
     </p>
@@ -17,7 +17,8 @@
         </p>
     </div>
 </div>
-<div class="row" *ngIf="dataReceived">
+<div class="row"  *ngIf="cardData.length > 0">
+    <!-- <div *ngIf="cardData.length > 0"> -->
     <div class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData;" style="margin: 1rem 0">
         <div (click)="openFile(item.downloadUrl)" class="card-body">
             <div class="h-c">
@@ -49,6 +50,7 @@
 
         </div>
     </div>
+<!-- </div> -->
     <!-- <div class="col-sm-12 text-center mb-3 mt-3">
         <button class="btn lmBtn">
       <span class="material-icons" style="vertical-align: middle;">
@@ -58,3 +60,12 @@
     </button>
     </div> -->
 </div>
+
+
+<div *ngIf="cardData.length == 0">
+    <img  class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+      <p class="noData">
+        Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
+        searching with another term.
+      </p>
+    </div>

@@ -230,19 +230,7 @@
       </ngx-slick-carousel>
     </div>
 
-    <div class="heading topBottomGaps">Best Practices</div>
-
-    <div *ngFor="let item of stateList" class="practiceCard">
-      <div class="practiceHead">
-        {{ item.stateName }}
-      </div>
-      <div class="docs">
-        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-      </div>
-      <div class="docs">
-        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-      </div>
-    </div>
+  
   </div>
   <div class="col-sm-12" *ngIf="isBill">
     <div class="heading topBottomGaps">Current Practices</div>
@@ -310,19 +298,6 @@
       </ngx-slick-carousel>
     </div>
 
-    <div class="heading topBottomGaps">Best Practices</div>
-
-    <div *ngFor="let item of stateList" class="practiceCard">
-      <div class="practiceHead">
-        {{ item.stateName }}
-      </div>
-      <div class="docs">
-        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-      </div>
-      <div class="docs">
-        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-      </div>
-    </div>
   </div>
   <div class="col-sm-12" *ngIf="isRepo">
     <div class="heading topBottomGaps">Current Practices</div>
@@ -388,18 +363,30 @@
       </ngx-slick-carousel>
     </div>
 
-    <div class="heading topBottomGaps">Best Practices</div>
 
-    <div *ngFor="let item of stateList" class="practiceCard">
-      <div class="practiceHead">
-        {{ item.stateName }}
-      </div>
-      <div class="docs">
-        <a class="text-effect" href="item.guidanceLink">Policy Guidelines</a>
-      </div>
-      <div class="docs">
-        <a class="text-effect" href="item.provisionsLink">Provisions in Acts</a>
-      </div>
+    
+  </div>
+</div>
+
+<div class="row" *ngIf="isAssess || isBill || isRepo">
+  
+  <div class="heading topBottomGaps">Best Practices</div>
+  <div *ngIf="stateList.length > 0">
+  <div *ngFor="let item of stateList" class="practiceCard">
+    <a href={{item.downloadUrl}} target="_blank" style="text-decoration: none">
+    <div class="practiceHead">
+      {{ stateIdsMap[ item.state] }}
     </div>
+    <div class="docs">
+      {{item.name}}
+    </div>
+  </a> 
+  
+  </div>
+</div>
+
+  <div *ngIf="stateList.length == 0">
+
+    <p class="text-center">No Best Practices Found</p>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ResourcesDashboardService } from "../../resources-dashboard.service";
 
 @Component({
   selector: "app-best-practices",
@@ -6,7 +7,13 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./best-practices.component.scss"],
 })
 export class BestPracticesComponent implements OnInit {
-  constructor() {}
+  constructor(private resourcesDashboard: ResourcesDashboardService) {
+    this.resourcesDashboard.castCount.subscribe((res: any) => {
+      // this.pdfInput.globalName = res?.name
+      this.globalName = res?.name
+    })
+  }
+  globalName: string = ""
   filterComponent;
   today: any = new Date();
   currentDate;
@@ -118,7 +125,34 @@ export class BestPracticesComponent implements OnInit {
   //     updateDate: '06/01/2022'
   //   },
   // ]
+
+  pdfInput: any = {
+    toolKitVisible: "",
+    type: "PDF",
+    header: "learning_center",
+    subHeader: "best_practices",
+    globalName: "",
+    state: "",
+    ulb: "",
+    year: "2020-21",
+  }
+
+  getData() {
+    this.resourcesDashboard.getPdfData(this.pdfInput).subscribe(
+      (res: any) => {
+      console.log("best practice data", res)
+        this.cardData =  res?.data;
+    }, (err: any) => {
+      this.cardData = []
+    })
+  
+  }
   ngOnInit(): void {
+    console.log("globalName==>",this.globalName)
+    if(this.globalName) {
+      this.pdfInput.globalName = this.globalName
+    }
+    this.getData()
     this.currentDate =
       this.today.getFullYear() +
       "-" +
@@ -133,5 +167,9 @@ export class BestPracticesComponent implements OnInit {
 
   filterData(e) {
     console.log("best practices", e);
+    this.pdfInput.state = e.value.state;
+    this.pdfInput.ulb = e.value.ulbId
+    this.pdfInput.year = e.value.year
+    this.getData()
   }
 }

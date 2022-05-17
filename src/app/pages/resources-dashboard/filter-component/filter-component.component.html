@@ -49,13 +49,14 @@
                 />
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <a
-                    (click)="filterData('ulb', option?.state?._id)"
+                    (click)="filterData('ulb', option)"
                     *ngFor="let option of filteredOptions; let i = index"
                     style="text-decoration: none"
                   >
-                    <mat-option [value]="option?.name">
+                    <mat-option [value]="option?.name " >
                       <span style="font-size: 10px"> {{ option?.name }}</span>
                     </mat-option>
+                  
                   </a>
                 </mat-autocomplete>
               </div>
@@ -86,7 +87,7 @@
                 class="col-lg-2"
                 *ngIf="
                   filterInputData?.comp == 'bestPractices' ||
-                  filterInputData?.comp == 'dataSets'
+                  filterInputData?.comp == 'dataSets' || filterInputData?.comp == 'report-publications'
                 "
               >
                 <select

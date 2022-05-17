@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, Event,NavigationEnd } from "@angular/router";
 import { ResourcesServicesService } from '../../resDashboard-services/resources-services.service';
+import { ResourcesDashboardService } from '../../resources-dashboard.service';
 
 @Component({
   selector: 'app-dynamic-sub-learning',
@@ -8,6 +9,8 @@ import { ResourcesServicesService } from '../../resDashboard-services/resources-
   styleUrls: ['./dynamic-sub-learning.component.scss']
 })
 export class DynamicSubLearningComponent implements OnInit {
+  
+  stateIdsMap : any = JSON.parse( localStorage.getItem("stateIdsMap"))
 
   isIntro = true;
   isEnum = false;
@@ -224,26 +227,28 @@ export class DynamicSubLearningComponent implements OnInit {
 
    
   ]
-  stateList = [
-    {
-      stateName:"Andhra Pradesh",
-      guidanceLink:"",
-      provisionsLink:""
-    },
-    {
-      stateName:"Odisha",
-      guidanceLink:"",
-      provisionsLink:""
-    },
+  // stateList = [
+  //   {
+  //     stateName:"Andhra Pradesh",
+  //     guidanceLink:"",
+  //     provisionsLink:""
+  //   },
+  //   {
+  //     stateName:"Odisha",
+  //     guidanceLink:"",
+  //     provisionsLink:""
+  //   },
    
 
-  ]
+  // ]
+  stateList: any =[]
   constructor(
     private router: Router,
     private resources_services: ResourcesServicesService,
-
+    private resourcesDashboard: ResourcesDashboardService
   ) {
     // this.resources_services.tooltikCardShow.next(false);
+    
     this.router.events.subscribe((event:Event)=>{
       let urlArray;
       if (event instanceof NavigationEnd) {
@@ -274,6 +279,8 @@ export class DynamicSubLearningComponent implements OnInit {
           this.isRepo = false;
         }
         else if(urlArray.includes('assessment')){
+          this.pdfInput.toolKitVisible = "assessment";
+         
           this.isIntro = false;
           this.isEnum = false;
           this.isValu = false;
@@ -282,6 +289,8 @@ export class DynamicSubLearningComponent implements OnInit {
           this.isRepo = false;
         }
         else if(urlArray.includes('billingCollection')){
+          this.pdfInput.toolKitVisible = "billingCollection";
+       
           this.isIntro = false;
           this.isEnum = false;
           this.isValu = false;
@@ -290,6 +299,8 @@ export class DynamicSubLearningComponent implements OnInit {
           this.isRepo = false;
         }
         else if(urlArray.includes('reporting')){
+          this.pdfInput.toolKitVisible = "reporting";
+          
           this.isIntro = false;
           this.isEnum = false;
           this.isValu = false;
@@ -303,6 +314,12 @@ export class DynamicSubLearningComponent implements OnInit {
         }
       }
     })
+
+    this.resourcesDashboard.castCount.subscribe((res: any) => {
+      this.pdfInput.globalName = res?.name
+    })
+
+    
 
   }
 
@@ -342,10 +359,33 @@ export class DynamicSubLearningComponent implements OnInit {
     // ]
   };
 
+  pdfInput: any = {
+    toolKitVisible: "",
+    type: "PDF",
+    header: "learning_center",
+    subHeader: "best_practices",
+    globalName: "",
+    state: "",
+    ulb: "",
+    year: "",
+  }
+
+  getData() {
+    this.resourcesDashboard.getPdfData(this.pdfInput).subscribe(
+      (res: any) => {
+      console.log("best practice data", res)
+      this.stateList = res?.data 
+    }, (err: any) => {
+      console.log("new Error",err)
+      this.stateList = []
+    })
+  }
+
   ngOnInit(): void {
   }
   slickInit(e) {
     console.log('slick initialized');
+    this.getData()
   }
 
 

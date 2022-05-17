@@ -39,7 +39,7 @@ export class DataSetsComponent implements OnInit {
       this.learningToggle = data;
     });
     this._resourcesDashboardService.castCount.subscribe((data) => {
-      this.learningCount = data?.key?.dataset;
+      this.learningCount = data?.key?.dataSet;
       this.searchedValue = data?.name;
       this.learningToggle = data?.toggle ? true : false;
       if (data?.key?.total == 0) {
