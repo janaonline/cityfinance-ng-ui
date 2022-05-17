@@ -42,9 +42,12 @@ export class DataSetsComponent implements OnInit {
       this.learningCount = data?.key?.dataSet;
       this.searchedValue = data?.name;
       this.learningToggle = data?.toggle ? true : false;
-      if (data?.key?.total == 0) {
+      if (data?.key?.total == 0 && this.searchedValue !==  "") {
         this.noDataa = true;
         this.dataReceived = false;
+      } else {
+        this.noDataa = false;
+        this.dataReceived = true;
       }
     });
   }

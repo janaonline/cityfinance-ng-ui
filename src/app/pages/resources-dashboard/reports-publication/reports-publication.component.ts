@@ -27,10 +27,13 @@ export class ReportsPublicationComponent implements OnInit {
       this.learningCount =data?.key?.reportsAndPublication
       this.searchedValue = data?.name
        this.learningToggle =data?.toggle ? true : false;
-       if(data?.key?.total == 0){
-        this.noData = true
+       if (data?.key?.total == 0 && this.searchedValue !==  "") {
+        this.noData = true;
         this.dataReceived = false;
-      } 
+      } else {
+        this.noData = false;
+        this.dataReceived = true;
+      }
     })
   }
   cardData = []
