@@ -134,6 +134,10 @@ export class CityComponent implements OnInit {
                 break;
               case "ward":
                 item.value = res.data.wards;
+                if(item.value == '0'){
+                 item.value = '0'
+                 console.log(item.value)
+                }
                 break;
               case "area":
                 item.value =
