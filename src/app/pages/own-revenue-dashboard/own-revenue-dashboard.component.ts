@@ -353,6 +353,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   ulbList = [];
   ulbTypeList = [];
   populationCategoryList = [
+    "ULB Population Category",
     "4 Million+",
     "1 Million - 4 Million",
     "500 Thousand - 1 Million",
@@ -435,18 +436,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
       this.filterGroup.patchValue({
         ulb: "",
         ulbType: "ULB Type",
-        populationCategory: "",
+        populationCategory: "ULB Population Category",
       });
     } else if (param == "ulbType") {
       this.filterGroup.patchValue({
         ulb: "",
         stateId: "State Name",
-        populationCategory: "Ulb Population Category",
+        populationCategory: "ULB Population Category",
       });
     } else if (param == "popCat") {
       this.filterGroup.patchValue({
         ulb: "",
-        stateId: "",
+        stateId: "State Name",
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
