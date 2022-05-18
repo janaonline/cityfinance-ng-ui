@@ -106,3 +106,23 @@ color: #0F1F40;
     text-decoration: none;
     font: normal normal 500 12px/22px 'Archivo';
 }
+@media screen and (max-width:1000px){
+    .responsiveCards{
+        display: flex;
+        margin-left: 8%;
+    }
+    .reportCard{
+        background-color: #FFF1E3;
+        font-weight: 400;
+        color: black;
+        border: 1px solid #E87A1C;
+        box-shadow: 0px 2px 8px #fadaad;
+        width: 16rem;
+        height: auto;
+        display: inline-flex;
+        margin-right: 4%;    
+    }
+    .responsiveAssess{
+        height:186px !important;
+    }
+}
