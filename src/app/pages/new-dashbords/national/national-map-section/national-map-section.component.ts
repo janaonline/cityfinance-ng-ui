@@ -188,7 +188,7 @@ export class NationalMapSectionComponent
       { color: "#fc5e03", text: "1%-25%" },
       { color: "#a6b9b4", text: "0%" },
     ];
-    const legend = new L.Control({ position: "bottomleft" });
+    const legend = new L.Control({ position: "bottomright" });
     const labels = [
       `<span style="width: 100%; display: block; font-size: 12px" class="text-center">% of Data Availability on Cityfinance.in</span>`,
     ];
@@ -198,7 +198,7 @@ export class NationalMapSectionComponent
       div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:.3vw; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
+          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto; font-size: 12px; "><i class="circle" style="background: ${value.color}; padding:6px; display: inline-block; margin-right: 12%; "> </i> ${value.text}</span>`
         );
       });
       div.innerHTML = labels.join(``);
