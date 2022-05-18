@@ -289,7 +289,7 @@ export class DynamicSubLearningComponent implements OnInit {
           this.isRepo = false;
         }
         else if(urlArray.includes('billingCollection')){
-          this.pdfInput.toolKitVisible = "billingCollection";
+          this.pdfInput.toolKitVisible = "billing_and_Collection";
        
           this.isIntro = false;
           this.isEnum = false;

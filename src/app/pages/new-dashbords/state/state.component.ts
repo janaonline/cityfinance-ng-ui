@@ -212,7 +212,7 @@ const data = {
   stateId: "",
   date: "",
   desc: "Summary of key state demographics and municipal (urban) indicators",
-  link: "dashboard/national",
+  link: "dashboard/national/61e150439ed0e8575c881028",
   linkName: "National Dashboard",
   dataIndicators: [
     {

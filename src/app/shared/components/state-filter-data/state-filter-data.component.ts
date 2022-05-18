@@ -10,6 +10,7 @@ import { OwnRevenueService } from "src/app/pages/own-revenue-dashboard/own-reven
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { stateDashboardSubTabsList } from "./constant";
 import Chart from "chart.js";
+import { element } from "protractor";
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
@@ -702,6 +703,26 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           else if (this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
             let data = res["data"];
+           
+            // let colorArray = [
+            //   {name: "Other Income", color: "#1E44AD"},
+            //   {name: "Sale & Hire charges", color: "#224CC0"},
+            //   {name: "Fee & User Charges", color: "#2553D3"},
+            //   {name: "Rental Income from Municipal Properties", color: "#456EDE"},
+            //   {name: "Tax Revenue", color: "#6A8BE5"},
+            // ]
+
+            // colorArray.forEach((elem) => {
+            //   let ele = data.find((element) => element._id == elem.name)
+            //   if(ele){
+            //     ele["color"] = elem.color
+            //   }
+            // })
+
+            
+            console.log("initial data", data)
+
+
 
             if (data?.length > 0) {
               this.chartDropdownList = data;
@@ -712,9 +733,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             if (this.scatterChartPayload.compareType == "") {
               if (data.length) {
                 data = data.sort((a, b) => b.code - a.code);
+                if(data[0].hasOwnProperty("color"))this.doughnutData.data.datasets[0].backgroundColor = []
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
+                  if(el.color){
+                    this.doughnutData.data.datasets[0].backgroundColor.push(el.color);
+                  }
                 });
                 console.log(this.doughnutData);
 

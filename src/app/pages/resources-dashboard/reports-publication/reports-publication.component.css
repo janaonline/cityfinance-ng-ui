@@ -10,12 +10,14 @@
     border-radius: 12px;
     cursor: pointer;
     min-height: 8rem;
+    height: 9rem;
 }
 
 .h-c {
     font: normal normal 700 16px/23px 'Archivo';
     letter-spacing: 0px;
     color: #0F1F40;
+    height: 3rem;
 }
 
 .info-c {

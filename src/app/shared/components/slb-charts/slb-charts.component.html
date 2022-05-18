@@ -16,7 +16,7 @@
             "
             (click)="openModal()"
           >
-            Compare By: {{ compareByName }}
+            Compare By: <span *ngIf="CompFlag"> {{ compareByName }}</span>
           </button>
         </div>
         <div class="col-sm col-lg col-md customFilters">
