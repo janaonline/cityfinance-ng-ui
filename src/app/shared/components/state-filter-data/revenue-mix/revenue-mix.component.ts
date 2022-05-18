@@ -1074,6 +1074,8 @@ export class RevenueMixComponent implements OnInit {
         ? this.initializePopulationDoughnutArray()
         : "";
       if (Array.isArray(this.chartData)) {
+      
+        console.log("Main Chart data", this.chartData)
         this.chartData.forEach((el) => {
           console.log(
             "chartData",

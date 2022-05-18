@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6 justify-content-start">
             <p class="balanceText">
-                Below are the highlights of the ULB’s balance sheets for past five years (based on availability). Click on compare to compare <b>{{cityName}}</b> financials with upto five other comparable ULBs.
+                Below are the highlights of the ULB’s {{reportGroup}} for past five years (based on availability). Click on compare to compare <b>{{cityName}}</b> financials with upto five other comparable ULBs.
             </p>
             <!-- <p>
                 <b>N/A :</b>&nbsp; Data not available.
@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class="mt-4">
-                <select class="form-control" aria-label="Default select" (change)="onSelectingConversionType($event)" style="height: 2.5rem;">
+                <select class="form-control" aria-label="Default select" (change)="onSelectingConversionType($event)" style="height: 2.5rem;" [disabled]="disableDropDown">
                     <option value="none" selected hidden>Select an Option</option>
                     <option *ngFor="let currency of currencyConversionType"
                         [value]="currency?.type" [selected]="currency?.type == selectCurrencyValue">

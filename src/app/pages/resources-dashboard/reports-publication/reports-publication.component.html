@@ -19,33 +19,31 @@
 </div>
 <div class="row"  *ngIf="cardData.length > 0">
     <!-- <div *ngIf="cardData.length > 0"> -->
-    <div class="col-sm-12 col-md-4 col-lg-3" *ngFor="let item of cardData;" style="margin: 1rem 0">
+    <div class="col-sm-12 col-md-4 col-lg-3 publishCard" *ngFor="let item of cardData;" style="margin: 1rem 0">
         <div (click)="openFile(item.downloadUrl)" class="card-body">
+            <div *ngIf="item.imageUrl">
+                <span>
+                    <img src={{item.imageUrl}} alt="" class="p-i">
+                </span>
+            </div>
             <div class="h-c">
                 {{item?.name}}
             </div>
             <!-- <div class="info-c mt-2 mb-3">
                 {{item?.info}}
             </div> -->
-            <div class="row" style="align-items: center;">
-                <div class="col-sm-2 pe-0">
+            <div class="row" >
+                <div class="d-flex pt-2 ">
+                <div class="col-sm-2 pe-0 pt-2 ">
                     <span>
                     <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" class="p-i">
                 </span>
                     <!-- <span *ngIf="item?.type == 'excel'">
                   <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" class="p-i">
                 </span> -->
-                </div>
-                <div class="col-sm-9">
-                    <!-- <div class="icon-text">
-                        <p class="m-0">
-                            Updated on
-                        </p>
-                        <p class="m-0">
-                            {{item?.updateDate}}
-                        </p>
-                    </div> -->
-                </div>
+            </div>
+            <div>Publiched on {{item.publishedYear}} <br/>Update on {{item.createdAt}}</div>
+        </div>
             </div>
 
         </div>
