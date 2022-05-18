@@ -137,11 +137,15 @@ $font-Montserrat: "Montserrat";
 .filter {
     font-weight: 600;
     // margin-left: 1rem;
-    margin-right: 1rem;
+    // margin-right: 1rem;
     width: 12rem;
-    height: 40px;
+    // height: 40px;
 }
 
+.clear-btn {
+    width: 10rem !important;
+    padding: 0.375rem 0.25rem 0.375rem 0.75rem !important;
+}
 
 .searchField {
     display: block;
