@@ -1057,6 +1057,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   ];
 
   downloadCSV(from) {
+    this._loaderService.showLoader();
     if (from == "topPerformance") {
       let body = {
         csv: true,
@@ -1064,6 +1065,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       };
       this.ownRevenueService.displayBarChartData(body).subscribe(
         (res: any) => {
+          if (res) {
+            this._loaderService.stopLoader();
+          }
+          console.log('topPerformance-res', res);
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",
           });
@@ -1071,15 +1076,23 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
           fileSaver.saveAs(blob, "dataAvaliable.xlsx");
         },
-        (err) => {}
+        (err) => {
+          console.log('error', err)
+          this._loaderService.stopLoader();
+        }
       );
     } else {
       let body = {
         csv: true,
         ...this.filterGroup.value,
       };
+
       this.ownRevenueService.displayDataAvailable(body).subscribe(
         (res: any) => {
+          console.log('data-availability-res', res);
+          if (res) {
+            this._loaderService.stopLoader();
+          }
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",
           });
@@ -1087,7 +1100,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
           fileSaver.saveAs(blob, "dataAvaliable.xlsx");
         },
-        (error) => {}
+        (error) => {
+          console.log('error', error)
+          this._loaderService.stopLoader();
+        }
       );
     }
   }
