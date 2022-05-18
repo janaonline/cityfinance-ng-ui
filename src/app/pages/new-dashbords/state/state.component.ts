@@ -104,27 +104,27 @@ export class StateComponent implements OnInit {
                 break;
               case "density":
                 item.value =
-                  this._commonService.formatNumber(res.data[0].density || 0) +
+                  this._commonService.formatNumber(res.data[0].density || '0') +
                   "/ Sq km";
                 break;
               case "area":
                 item.value =
-                  ((res.data[0].area / 1000).toFixed(0) || 0) + " Sq km";
+                  ((res.data[0].area / 1000).toFixed(0) || '0') + " Sq km";
                 break;
               case "Municipal_Corporation":
-                item.value = res.data[0].Municipal_Corporation || 0;
+                item.value = res.data[0].Municipal_Corporation || '0';
                 break;
               case "Municipal_Council":
-                item.value = res.data[0].Municipal_Council || 0;
+                item.value = res.data[0].Municipal_Council || '0';
                 break;
               case "uas":
-                item.value = res.data[0].uas || 0;
+                item.value = res.data[0].uas || '0';
                 break;
               case "Town_Panchayat":
-                item.value = res.data[0].Town_Panchayat || 0;
+                item.value = res.data[0].Town_Panchayat || '0';
                 break;
               case "ulbs":
-                item.value = res.data[0].ulbs || 0;
+                item.value = res.data[0].ulbs || '0';
                 break;
             }
             return item;
@@ -148,11 +148,14 @@ export class StateComponent implements OnInit {
             if (key == "Debt") {
               element.number =
                 "INR " +
-                Math.round(
+                (res.data.length > 0
+                ?  Math.round(
                   res.data.find((value) => value._id == "Revenue")?.totalGrant /
                     10000000
+                )
+                : "0"
                 ) +
-                "Cr";
+                " Cr";
             } else
               element.number =
                 "INR " +
