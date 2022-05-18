@@ -135,7 +135,8 @@ export class ResourcesDashboardComponent implements OnInit {
   crossButton(){
     this.searchValue = ""
     this.search = true
-    this.crossIcon = false
+    this.crossIcon = false;
+    this.resourcesFilter.patchValue('');
     // this.resourcesFilter.patchValue({
     //   value: ""
     // })
