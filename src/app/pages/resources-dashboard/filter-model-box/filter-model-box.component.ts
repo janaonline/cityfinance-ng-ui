@@ -36,7 +36,7 @@ export class FilterModelBoxComponent implements OnInit {
   preSelectedValue: any;
 
   defaultStage: boolean = false;
-  mobileFilterConfig: any = {
+  defaultFilterConfig: any = {
     isState: true,
     isUlb: true,
     isYear: true,
@@ -45,14 +45,15 @@ export class FilterModelBoxComponent implements OnInit {
     isContentType: false,
     useFor: "ownRevenueDashboard"
   };
+  mobileFilterConfig: any;
   fileType: any = [];
   ngOnInit(): void {
     console.log('data', this.data);
-    this.ulbTypeList = this.data && this.data.ulbTypeList;
-    this.populationCategoryList = this.data && this.data.populationCategoryList;
-    this.yearList = this.data && this.data.yearList;
-    this.preSelectedValue = this.data && this.data.preSelectedValue;
-    this.mobileFilterConfig = this.data && this.data.mobileFilterConfig;
+    this.ulbTypeList = this.data && this.data?.ulbTypeList;
+    this.populationCategoryList = this.data && this.data?.populationCategoryList;
+    this.yearList = this.data && this.data?.yearList;
+    this.preSelectedValue = this.data && this.data?.preSelectedValue;
+    this.mobileFilterConfig = this.data.hasOwnProperty('mobileFilterConfig') ? (this.data?.mobileFilterConfig) : this.defaultFilterConfig;
     this.fileType = this.data && this.data.fileType;
 
     console.log('data ====>', this.filterInputData)
