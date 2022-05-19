@@ -52,7 +52,7 @@
 
 </div>
 
-<div class="container w-80">
+<div class="container w-80" *ngIf="!noPopupData">
     <div class="row mb-3" *ngIf="reportScoreDiv">
         <div class="col-sm-12">
             <div class="card-body score-card">
@@ -95,5 +95,17 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 mb-3" *ngIf="noPopupData">
+            <img  class="rounded mx-auto d-block" src="assets/images/sad.svg"/>
+             <p  class="text-center" >
+              Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
+             </p>
+          </div>
     </div>
 </div>

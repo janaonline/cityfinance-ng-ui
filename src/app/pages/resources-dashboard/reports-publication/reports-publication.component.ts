@@ -46,8 +46,15 @@ export class ReportsPublicationComponent implements OnInit {
     globalName: "",
     state: "",
     ulb: "",
-    year: "2020-21",
+    year: "",
   }
+
+  mobileFilterConfig: any = {
+    isState: true,
+    isUlb: true,
+    isYear: true,
+    useFor: "resourcesDashboard"
+  };
 
   getCardData(){
     this.resourcesDashboard.getPdfData(this.pdfInput).subscribe((res: any) => {
@@ -71,6 +78,9 @@ export class ReportsPublicationComponent implements OnInit {
   }
    filterComponent;
   ngOnInit(): void {
+    if(this.searchedValue) {
+      this.pdfInput.globalName = this.searchedValue
+    }
     this.getCardData()
     console.log("stateIdsMap", this.stateIdsMap)
     this.filterComponent = {
