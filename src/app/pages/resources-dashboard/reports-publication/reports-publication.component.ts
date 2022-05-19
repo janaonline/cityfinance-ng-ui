@@ -49,6 +49,13 @@ export class ReportsPublicationComponent implements OnInit {
     year: "",
   }
 
+  mobileFilterConfig: any = {
+    isState: true,
+    isUlb: true,
+    isYear: true,
+    useFor: "resourcesDashboard"
+  };
+
   getCardData(){
     this.resourcesDashboard.getPdfData(this.pdfInput).subscribe((res: any) => {
       console.log("best practice data", res)

@@ -37,6 +37,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   @Output()
   init = new EventEmitter();
   @Output() download = new EventEmitter();
+  @Input() mobileFilterConfig: any;
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
@@ -97,7 +98,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         console.log("res", res);
-        this.stateList = res;
+        this.stateList = this._commonServices.sortDataSource(res, 'name');
       },
       (error) => {
         console.log(error);
@@ -189,15 +190,29 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterFormData.emit(this.filterForm);
     this.loadData();
   }
+
+  defaultFilterStage: boolean = false;
+  tempDataHolder: any;
   filterModel() {
     const dialogRef = this.dialog.open(FilterModelBoxComponent, {
       width: "100%",
       height: "100%",
-      data: {},
+      data: {
+        "mobileFilterConfig": this.mobileFilterConfig,
+        "yearList": this.yearList,
+        "preSelectedValue": {...this.tempDataHolder},
+        "defaultStage": this.defaultFilterStage,
+        "fileType": this.cType
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log("The dialog was closed");
+      if (result && result.filterForm) {
+        this.defaultFilterStage = result?.defaultStage;
+        this.tempDataHolder = result?.filterForm?.value;
+        this.filterFormData.emit(result?.filterForm);
+      }
     });
   }
 }

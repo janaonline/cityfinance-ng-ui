@@ -21,6 +21,13 @@ export class DataSetsComponent implements OnInit {
   offSet = 0;
   limit = 10;
   startingIndex = 0;
+  mobileFilterConfig: any = {
+    isState: true,
+    isUlb: true,
+    isContentType: true,
+    isYear: true,
+    useFor: "resourcesDashboard"
+  };
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -205,10 +212,10 @@ export class DataSetsComponent implements OnInit {
   ulb;
   filterData(e) {
     console.log("Data sets", e);
-    this.year = e?.controls?.year?.value ?? "2020-21";
-    this.type = e?.controls?.contentType?.value ?? "Raw Data PDF";
-    this.state = e?.controls?.state?.value;
-    this.ulb = e?.controls?.ulb?.value;
+    this.year = e?.value?.year ?? "2020-21";
+    this.type = e?.value?.contentType ?? "Raw Data PDF";
+    this.state = e?.value?.state;
+    this.ulb = e?.value?.ulb;
     // if (e) {
     this.getData();
     // }
