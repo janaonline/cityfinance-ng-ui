@@ -51,6 +51,8 @@ export class CheckScorePerformanceComponent implements OnInit {
     })
   }
 
+  
+  noPopupData: boolean = false;
   globalSearchClick() {
 
     let searchArray:any = this.filteredOptions;
@@ -60,6 +62,9 @@ export class CheckScorePerformanceComponent implements OnInit {
     if(this.ulb_id != '') {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe((res: any)=>{
        console.log('responce ulb..', res, typeof(res));
+       if(res.data) {
+         
+        this.noPopupData = false
        this.reportScoreDiv = true;
        this.scoreReportData = res?.data;
        this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
@@ -76,6 +81,9 @@ export class CheckScorePerformanceComponent implements OnInit {
         //  this.stepperScoreDiv = true;
         //  this.reportScoreDiv = false;
         }
+      } else {
+        this.noPopupData = true
+      }
 
 
       },

@@ -1,7 +1,8 @@
 <div class="container container-cnt">
-  <div class="row" >
+  <div class="row" style="margin: 0 auto">
+    <p *ngIf="searchedValue" style="float: left;"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Learning Center</p>
     <div class="col-sm-12 mb-3" (click)="getSubTabs(tabData)" *ngIf="dataReceived">
-       <p *ngIf="searchedValue"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Learning Center</p>
+       
       <app-resources-tabs [data]="tabData"> </app-resources-tabs>
 
     </div>

@@ -10,7 +10,7 @@ import * as FileSaver from "file-saver";
 })
 export class DataSetsComponent implements OnInit {
   learningCount: any;
-  searchedValue: any;
+  searchedValue: any = "";
   learningToggle: boolean = false;
   noDataa: boolean = false;
   dataReceived: boolean = true;
@@ -139,11 +139,15 @@ export class DataSetsComponent implements OnInit {
   }
   getData() {
     console.log("getData");
+    let globalName= "";
+    if(this.searchedValue){
+      globalName = this.searchedValue
+    }
 
     this.globalLoaderService.showLoader();
     try {
       this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb)
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
         .subscribe(
           (res: any) => {
             console.log("148",this.balData, res);

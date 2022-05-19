@@ -266,12 +266,14 @@ export class ScorePerComponent implements OnInit {
       this.clonePrescribeText = this.prescribeText
     }
   }
+
   getStartedScore() {
     // debugger
     if (this.ulb_id != "") {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe(
         (res: any) => {
           console.log("responce ulb..", res, typeof res);
+          
           this.scoreReportData = res?.data;
           this.getPrescriptionText( this.scoreReportData)
           this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
@@ -308,6 +310,7 @@ export class ScorePerComponent implements OnInit {
             this.reportScoreDiv = false;
             this.btnName = "Get Started";
           }
+        
         },
         (error) => {
           console.log("error", error);
@@ -401,6 +404,7 @@ export class ScorePerComponent implements OnInit {
     this.resource_das_services.postScoreReport(this.scorePostBody).subscribe(
       (res: any) => {
         console.log("post", res);
+        // this.scoreReportData = res
         this.getStartedScore();
       },
       (error) => {

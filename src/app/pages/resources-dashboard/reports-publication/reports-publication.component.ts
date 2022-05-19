@@ -71,6 +71,9 @@ export class ReportsPublicationComponent implements OnInit {
   }
    filterComponent;
   ngOnInit(): void {
+    if(this.searchedValue) {
+      this.pdfInput.globalName = this.searchedValue
+    }
     this.getCardData()
     console.log("stateIdsMap", this.stateIdsMap)
     this.filterComponent = {
