@@ -68,7 +68,7 @@
     <div class="heading topBottomGaps" style="margin-top: 2%">
       Key Recommendations
     </div>
-    <div>
+    <div class="responsiveCards">
       <div
         (click)="showRecomm(card._id)"
         *ngFor="let card of enumCardData"
@@ -98,7 +98,7 @@
         <div
           ngxSlickItem
           *ngFor="let item of enumCardData[cardId - 1].imgArr"
-          class="slide" style="height:500px;"
+          class="slide responsiveAssess" style="height:500px;"
         >
         <span class="topBottomGaps steps">{{ item.text }}</span>
         
@@ -126,7 +126,7 @@
     <div class="heading topBottomGaps" style="margin-top: 2%">
       Key Recommendations
     </div>
-    <div>
+    <div  class="responsiveCards">
       <div
         (click)="showRecomm(card._id)"
         *ngFor="let card of valuationCardData"
@@ -156,7 +156,7 @@
         <div
           ngxSlickItem
           *ngFor="let item of valuationCardData[cardId - 1].imgArr"
-          class="slide" style="height:500px;"
+          class="slide responsiveAssess" style="height:500px;"
         >
         <span class="topBottomGaps steps">{{ item.text }}</span>
 
@@ -190,7 +190,7 @@
     <div class="heading topBottomGaps" style="margin-top: 2%">
       Key Recommendations
     </div>
-    <div>
+    <div class="responsiveCards">
       <div
         (click)="showRecomm(card._id)"
         *ngFor="let card of assessmentData"
@@ -221,7 +221,7 @@
         <div
           ngxSlickItem
           *ngFor="let item of assessmentData[cardId - 1].imgArr"
-          class="slide"
+          class="slide responsiveAssess"
           style="height:500px;"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
@@ -260,7 +260,7 @@
     <div class="heading topBottomGaps" style="margin-top: 2%">
       Key Recommendations
     </div>
-    <div>
+    <div class="responsiveCards">
       <div
         (click)="showRecomm(card._id)"
         *ngFor="let card of billingCardData"
@@ -286,7 +286,7 @@
         <div
           ngxSlickItem
           *ngFor="let item of billingCardData[cardId - 1].imgArr"
-          class="slide" style="height:500px;"
+          class="slide responsiveAssess" style="height:500px;"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
           <img [src]="item.link" alt="" width="100%" />
@@ -324,11 +324,11 @@
     <div class="heading topBottomGaps" style="margin-top: 2%">
       Key Recommendations
     </div>
-    <div>
+    <div class="responsiveCards">
       <div
         (click)="showRecomm(card._id)"
         *ngFor="let card of reportCardData"
-        class="card"
+        class="card reportCard"
         [ngClass]="{ cardSuper: card._id == cardId }"
       >
         {{ card.heading }}
@@ -362,16 +362,14 @@
         </div>
       </ngx-slick-carousel>
     </div>
-
-
     
   </div>
 </div>
 
-<div class="row" *ngIf="isAssess || isBill || isRepo">
+<div class="row" *ngIf="isAssess || isBill || isRepo || isEnum">
   
   <div class="heading topBottomGaps">Best Practices</div>
-  <div *ngIf="stateList.length > 0">
+  <div *ngIf="stateList.length > 0" style="display: flex;">
   <div *ngFor="let item of stateList" class="practiceCard">
     <a href={{item.downloadUrl}} target="_blank" style="text-decoration: none">
     <div class="practiceHead">

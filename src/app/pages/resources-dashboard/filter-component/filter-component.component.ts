@@ -18,6 +18,7 @@ import {
   MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
 import { FilterModelBoxComponent } from "../filter-model-box/filter-model-box.component";
+import { ResourcesDashboardService } from "../resources-dashboard.service";
 @Component({
   selector: "app-filter-component",
   templateUrl: "./filter-component.component.html",
@@ -39,7 +40,8 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private _commonServices: CommonService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _resourcesDashboardService: ResourcesDashboardService,
   ) {
     this.filterData("", "");
   }
@@ -48,7 +50,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   ulbList;
   filterForm;
   globalOptions = [];
-  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"];
+  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"].reverse();
   cType = [
     "Raw Data PDF",
     "Standardised Excel",
@@ -56,6 +58,18 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     "Standardised PDF",
   ];
   filteredOptions: Observable<any[]>;
+
+  getYearsList() {
+    this._resourcesDashboardService.getYearsList().subscribe((res: any) => {
+      console.log("years===>",res.data)
+      this.yearList = res.data;
+      this.filterForm.patchValue({
+        year: this.yearList[0]
+      });
+      this.filterFormData.emit(this.filterForm);
+    })
+  }
+
   ngOnInit(): void {
     console.log("daaaaa", this.filterInputData);
     this.filterForm = this.fb.group({
@@ -97,7 +111,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this.filterForm?.controls?.ulb?.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonServices
-          .postGlobalSearchData(value, "ulb", "")
+          .postGlobalSearchData(value, "ulb", this.filterForm.value.state)
           .subscribe((res: any) => {
             console.log(res?.data);
             let emptyArr: any = [];
@@ -118,8 +132,15 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
+    console.log("changes====>", changes)
     // check the object "changes" for new data
     // console.log("chanhged happed", changes.category.currentValue);
+    if(changes && changes.filterInputData && changes.filterInputData.currentValue){
+      let filterTabValue = changes.filterInputData.currentValue.comp;
+      if(filterTabValue == "report-publications" || filterTabValue == "bestPractices") {
+        this.getYearsList();
+      }
+    }
     if (changes && changes.category && changes.category.currentValue) {
       this.filterData("category", "");
     }
@@ -154,6 +175,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
   clearAll() {
     //  this.filterFormData.emit(this.filterForm);
+    // console.log()
     this.filterForm.reset();
 
     this.filterForm.patchValue({
@@ -162,7 +184,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulbId: "",
       contentType: "Raw Data PDF",
       sortBy: "",
-      year: "2020-21",
+      year: this.yearList[0],
     });
     this.filterFormData.emit(this.filterForm);
     this.loadData();

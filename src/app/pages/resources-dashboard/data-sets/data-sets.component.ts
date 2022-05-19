@@ -42,9 +42,12 @@ export class DataSetsComponent implements OnInit {
       this.learningCount = data?.key?.dataSet;
       this.searchedValue = data?.name;
       this.learningToggle = data?.toggle ? true : false;
-      if (data?.key?.total == 0) {
+      if (data?.key?.total == 0 && this.searchedValue !==  "") {
         this.noDataa = true;
         this.dataReceived = false;
+      } else {
+        this.noDataa = false;
+        this.dataReceived = true;
       }
     });
   }
@@ -143,11 +146,11 @@ export class DataSetsComponent implements OnInit {
         .getDataSets(this.year, this.type, this.category, this.state, this.ulb)
         .subscribe(
           (res: any) => {
-            console.log(this.balData);
+            console.log("148",this.balData, res);
             // this.balData = res["data"];
             if (res.data.length == 0) {
               this.noData = true;
-
+              this.balData = []
               this.globalLoaderService.stopLoader();
             } else if (res.data.length !== 0) {
 

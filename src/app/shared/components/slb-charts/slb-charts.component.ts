@@ -96,6 +96,8 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       // this.getData();
     }
   }
+
+  CompFlag: boolean = false;
   getData() {
     let typeName = this.data.name;
     switch (this.data.name) {
@@ -155,7 +157,15 @@ export class SlbChartsComponent implements OnInit, OnChanges {
           });
           return value;
         });
-        console.log("slbGaugeCharts", this.slbGaugeCharts);
+
+        this.slbGaugeCharts.forEach((elem) => {
+          if(elem.compPercentage) {
+            this.CompFlag = true 
+          } else {
+            this.CompFlag = false
+          }
+        })
+        console.log("slbGaugeCharts", this.slbGaugeCharts, this.CompFlag);
       },
       (error) => {
         console.log(error);

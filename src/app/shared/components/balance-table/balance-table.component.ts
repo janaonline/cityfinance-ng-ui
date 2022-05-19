@@ -517,6 +517,7 @@ export class BalanceTableComponent
   }
 
   ngOnInit() {
+    console.log("disableDropDown", this.disableDropDown)
     this.selectedItems = [];
 
     this.dropdownSettings = {
@@ -593,9 +594,16 @@ export class BalanceTableComponent
     this.createDataForBasicComp(this.reportGroup);
   }
 
+  disableDropDown: boolean = false;
+
   valueTypeChange(event) {
     console.log(event.value, "change in value type");
     this.valueType = event.value;
+    if(this.valueType == 'per_capita') {
+      this.disableDropDown = true;
+    }
+
+    
     this.createDataForBasicComp(this.reportGroup);
   }
   

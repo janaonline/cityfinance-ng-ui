@@ -220,25 +220,22 @@ export class ScorePerComponent implements OnInit {
   closeScoreCard() {
     this.stepperScoreDiv = false;
   }
+  tabType: string = '';
   presDetails(presItem, index, type) {
-    console.log(presItem, type);
     this.prescription = presItem?.prescription;
-    if (type == "uperPres") {
-      this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el) => {
-        el.isActive = false;
+
+    if (presItem?.isClicked) {
+      this.scoreReportData.currentUlb.partcularAnswerValues[index]['selected'] = false;
+      this.scoreReportData.currentUlb.partcularAnswerValues[index]['isClicked'] = false;
+      this.prescribeText = this.clonePrescribeText;
+    } else {
+      this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el, i) => {
+        el['selected'] = false;
       });
-      
-      this.prescribeText =  presItem.selected ? presItem.prescription : this.clonePrescribeText
-      presItem.isActive = true;
-      // console.log(presItem);
+      this.scoreReportData.currentUlb.partcularAnswerValues[index]['selected'] = true;
+      this.scoreReportData.currentUlb.partcularAnswerValues[index]['isClicked'] = true;
+      this.prescribeText = this.scoreReportData.currentUlb.partcularAnswerValues[index]['prescription'];
     }
-    // if(type == 'top3Table'){
-    //   this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
-    //     el.isActive = false;
-    //    });
-    //    presItem.isActive = true;
-    //    console.log(presItem);
-    // }
   }
 
   prescribeText: string= "";
@@ -270,6 +267,7 @@ export class ScorePerComponent implements OnInit {
     }
   }
   getStartedScore() {
+    // debugger
     if (this.ulb_id != "") {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe(
         (res: any) => {
@@ -389,6 +387,7 @@ export class ScorePerComponent implements OnInit {
     stepper.next();
   }
   SubmitScoreReport() {
+    // debugger
     this.scorePostBody = {
       ulb: this.ulb_id,
       scorePerformance: this.scorePerformanceForm.value,

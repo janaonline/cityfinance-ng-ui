@@ -16,10 +16,10 @@ export class ReportsPublicationComponent implements OnInit {
   constructor(
     private _commonService : CommonService,private resourcesDashboard: ResourcesDashboardService
   ) { 
-    this._commonService.getPublicFileList().subscribe((res)=>{
-      this.cardData = res
-      console.log("cardData=>",this.cardData)
-    })
+    // this._commonService.getPublicFileList().subscribe((res)=>{
+    //   this.cardData = res
+    //   console.log("cardData=>",this.cardData)
+    // })
     this.resourcesDashboard.castSearchedData.subscribe(data =>{
       this.learningToggle =data
     }) 
@@ -27,10 +27,13 @@ export class ReportsPublicationComponent implements OnInit {
       this.learningCount =data?.key?.reportsAndPublication
       this.searchedValue = data?.name
        this.learningToggle =data?.toggle ? true : false;
-       if(data?.key?.total == 0){
-        this.noData = true
+       if (data?.key?.total == 0 && this.searchedValue !==  "") {
+        this.noData = true;
         this.dataReceived = false;
-      } 
+      } else {
+        this.noData = false;
+        this.dataReceived = true;
+      }
     })
   }
   cardData = []
@@ -43,16 +46,24 @@ export class ReportsPublicationComponent implements OnInit {
     globalName: "",
     state: "",
     ulb: "",
-    year: "2020-21",
+    year: "",
   }
 
   getCardData(){
     this.resourcesDashboard.getPdfData(this.pdfInput).subscribe((res: any) => {
       console.log("best practice data", res)
-      this.cardData = res?.data
+     let response =  res?.data.map((elem) => {
+      elem.createdAt = elem.createdAt.split("T")[0]
+      return elem
+      })
+      console.log("response", response)
+      this.cardData = response
+      // this.cardData = res?.data
     }, (err: any) => {
       this.cardData = []
     })
+
+    console.log("cardData", this.cardData)
   }
 
   openFile(url){
