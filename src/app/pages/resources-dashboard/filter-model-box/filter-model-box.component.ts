@@ -210,6 +210,7 @@ export class FilterModelBoxComponent implements OnInit {
     }
 
     this.dialogRef.close({filterForm: defaultFilter, defaultStage: this.defaultStage});
+    // this.dialogRef.close({filterForm: defaultFilter, defaultStage: this.defaultStage});
   }
 
   onNoClick(): void {

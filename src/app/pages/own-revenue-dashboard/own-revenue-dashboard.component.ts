@@ -988,6 +988,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       revenueExpenditureCopy.percentage = t.num.toFixed(0);
       revenueExpenditureCopy.svg = t.inc ? upArrow : downArrow;
       revenueExpenditureCopy.color = t.inc ? green : red;
+      revenueExpenditureCopy.percentage = oldYearValue.totalUlbMeetExpense == 0 ? '0' : t.num.toFixed(0);
+      // if(oldYearValue?.totalUlbMeetExpense == 0){
+      //   revenueExpenditureCopy.percentage = '0'
+      // }
     }
 
     this.cardData = [
