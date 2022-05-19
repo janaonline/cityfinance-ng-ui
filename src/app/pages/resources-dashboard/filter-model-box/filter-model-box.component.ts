@@ -167,7 +167,7 @@ export class FilterModelBoxComponent implements OnInit {
       "populationCategory": "ULB Population Category",
       "financialYear": "2020-21",
     }
-    this.dialogRef.close({filterForm: defaultFilter, defaultStage: this.defaultStage});
+    // this.dialogRef.close({filterForm: defaultFilter, defaultStage: this.defaultStage});
   }
 
   onNoClick(): void {
