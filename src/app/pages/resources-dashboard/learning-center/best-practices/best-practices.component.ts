@@ -139,6 +139,12 @@ export class BestPracticesComponent implements OnInit {
     year: "",
   }
 
+  mobileFilterConfig: any = {
+    isState: true,
+    isUlb: true,
+    isYear: true,
+    useFor: "resourcesDashboard"
+  };
   getData() {
     this.resourcesDashboard.getPdfData(this.pdfInput).subscribe(
       (res: any) => {

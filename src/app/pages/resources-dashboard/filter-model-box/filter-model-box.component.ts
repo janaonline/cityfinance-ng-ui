@@ -36,12 +36,25 @@ export class FilterModelBoxComponent implements OnInit {
   preSelectedValue: any;
 
   defaultStage: boolean = false;
+  mobileFilterConfig: any = {
+    isState: true,
+    isUlb: true,
+    isYear: true,
+    isUlbType: true,
+    isPopulationCat: true,
+    isContentType: false,
+    useFor: "ownRevenueDashboard"
+  };
+  fileType: any = [];
   ngOnInit(): void {
     console.log('data', this.data);
     this.ulbTypeList = this.data && this.data.ulbTypeList;
     this.populationCategoryList = this.data && this.data.populationCategoryList;
     this.yearList = this.data && this.data.yearList;
     this.preSelectedValue = this.data && this.data.preSelectedValue;
+    this.mobileFilterConfig = this.data && this.data.mobileFilterConfig;
+    this.fileType = this.data && this.data.fileType;
+
     console.log('data ====>', this.filterInputData)
     this.filterForm = this.fb.group({
       stateId: "",
@@ -49,10 +62,12 @@ export class FilterModelBoxComponent implements OnInit {
       ulbType: "",
       populationCategory: "",
       financialYear: "",
+      contentType: "",
     });
     this.loadData();
     this.filterForm.patchValue({
       financialYear: this.preSelectedValue && this.preSelectedValue?.financialYear || this.yearList[0],
+      contentType: this.preSelectedValue?.contentType ?? 'Raw Data PDF'
     });
   }
 
@@ -76,8 +91,10 @@ export class FilterModelBoxComponent implements OnInit {
     console.log('form', this.filterForm)
     this.filterForm?.controls?.ulb?.valueChanges
     .subscribe(value => {
+      console.log('form', this.filterForm, this.filterForm.controls.stateId.value);
+      let stateId: any = this.filterForm.controls.stateId.value;
       if(value?.length >= 1){
-        this._commonServices.postGlobalSearchData(value,"", "").subscribe((res: any) => {
+        this._commonServices.postGlobalSearchData(value, "ulb", stateId ? stateId : "").subscribe((res: any) => {
           console.log(res?.data);
           let emptyArr:any = []
             this.filteredOptions = emptyArr;
@@ -92,8 +109,9 @@ export class FilterModelBoxComponent implements OnInit {
             console.log('no data found')
           }
         });
-      }
-      else {
+      } else {
+        let emptyArr: any = [];
+        this.filteredOptions = emptyArr;
         return null;
       }
     })
@@ -131,6 +149,8 @@ export class FilterModelBoxComponent implements OnInit {
         ulbType: "ULB Type",
         populationCategory: "",
       });
+      let emptyArr: any = [];
+      this.filteredOptions = emptyArr;
     } else if (param == "ulbType") {
       this.filterForm.patchValue({
         ulb: "",
@@ -144,8 +164,12 @@ export class FilterModelBoxComponent implements OnInit {
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
-      // this.filterGroup.patchValue({
+      // this.filterForm.patchValue({
       //   ulb: ""
+      // })
+    } else if (param == "contentType") {
+      // this.filterForm.patchValue({
+      //   contentType: val
       // })
     }
   }
@@ -158,15 +182,32 @@ export class FilterModelBoxComponent implements OnInit {
       ulbType: '',
       populationCategory: '',
       financialYear: this.yearList[0],
+      contentType: 'Raw Data PDF'
     });
     this.defaultStage = false;
-    const defaultFilter = {
-      "stateId": "State Name",
-      "ulb": "",
-      "ulbType": "ULB Type",
-      "populationCategory": "ULB Population Category",
-      "financialYear": "2020-21",
+    let defaultFilter: any;
+    if (this.mobileFilterConfig?.useFor == "resourcesDashboard") {
+      defaultFilter = {
+        value: {
+          "state": "",
+          "ulb": "",
+          "ulbId": "",
+          "contentType": "Raw Data PDF",
+          "sortBy": "",
+          "year": this.yearList[0],
+          "category": null
+        }
+      }
+    } else {
+      defaultFilter = {
+        "stateId": "State Name",
+        "ulb": "",
+        "ulbType": "ULB Type",
+        "populationCategory": "ULB Population Category",
+        "financialYear": this.yearList[0],
+      }
     }
+
     this.dialogRef.close({filterForm: defaultFilter, defaultStage: this.defaultStage});
   }
 
@@ -176,16 +217,27 @@ export class FilterModelBoxComponent implements OnInit {
 
   emitFilterData() {
     this.defaultStage = true;
-    this.dialogRef.close({filterForm: this.filterForm.value, defaultStage: this.defaultStage});
+    const formData = this.filterForm.value;
+    if (this.mobileFilterConfig?.useFor == "resourcesDashboard") {
+      let filterData = {
+        value: {...formData, "state": formData?.stateId, "ulbId": formData?.ulb, "year": formData?.financialYear}
+      }
+      this.dialogRef.close({filterForm: filterData, defaultStage: this.defaultStage});
+    } else {
+      this.dialogRef.close({filterForm: this.filterForm.value, defaultStage: this.defaultStage});      
+    }
+    // this.dialogRef.close({filterForm: this.filterForm.value, defaultStage: this.defaultStage});
   }
 
   patchFormData(formData: any) {
+    console.log('patchFormData', formData)
     this.filterForm.patchValue({
       stateId: formData && formData?.stateId || '',
       ulb: formData && formData?.ulb || '',
       ulbType: formData && formData?.ulbType || '',
       populationCategory: formData && formData?.populationCategory || '',
       financialYear: formData && formData?.financialYear || '',
+      contentType: formData && formData?.contentType || 'Raw Data Excel'
     });
   }
 }
