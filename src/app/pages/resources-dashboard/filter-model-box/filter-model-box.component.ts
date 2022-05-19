@@ -215,7 +215,7 @@ export class FilterModelBoxComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
+  }    
 
   emitFilterData() {
     this.defaultStage = true;
