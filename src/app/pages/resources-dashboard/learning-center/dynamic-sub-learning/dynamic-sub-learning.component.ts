@@ -262,6 +262,8 @@ export class DynamicSubLearningComponent implements OnInit {
           this.isRepo = false;
         }
        else if(urlArray.includes('enumeration')){
+         
+        this.pdfInput.toolKitVisible = "enumeration";
         this.isIntro = false;
         this.isEnum = true;
         this.isValu = false;

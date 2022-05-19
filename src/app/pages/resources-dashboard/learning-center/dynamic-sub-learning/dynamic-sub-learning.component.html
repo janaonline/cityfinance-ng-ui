@@ -362,16 +362,14 @@
         </div>
       </ngx-slick-carousel>
     </div>
-
-
     
   </div>
 </div>
 
-<div class="row" *ngIf="isAssess || isBill || isRepo">
+<div class="row" *ngIf="isAssess || isBill || isRepo || isEnum">
   
   <div class="heading topBottomGaps">Best Practices</div>
-  <div *ngIf="stateList.length > 0">
+  <div *ngIf="stateList.length > 0" style="display: flex;">
   <div *ngFor="let item of stateList" class="practiceCard">
     <a href={{item.downloadUrl}} target="_blank" style="text-decoration: none">
     <div class="practiceHead">

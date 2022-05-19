@@ -46,7 +46,7 @@ export class ReportsPublicationComponent implements OnInit {
     globalName: "",
     state: "",
     ulb: "",
-    year: "2020-21",
+    year: "",
   }
 
   getCardData(){

@@ -440,7 +440,7 @@
         <div class="col-sm-12 col-md-6 prs-div pe-0">
           <!-- chart--- -->
           <a
-            (click)=" item.selected = !item.selected; presDetails(item, i, 'uperPres')"
+            (click)="presDetails(item, i, item?.name)"
             class="pres-aTag"
             [ngClass]="{ 'pres-active': item?.selected }"
             *ngFor="
