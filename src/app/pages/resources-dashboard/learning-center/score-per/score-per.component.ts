@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, SimpleChange } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
 import { CommonService } from "src/app/shared/services/common.service";
 import { ResourcesServicesService } from "../../resDashboard-services/resources-services.service";
@@ -53,6 +53,16 @@ export class ScorePerComponent implements OnInit {
   prescription;
 
   ngOnInit(): void {
+    this.reInitialForm();
+    this.getData();
+    this.getStateList();
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    console.log("cha=====>", changes);
+  }
+
+  reInitialForm() {
     this.scorePerformanceForm = this.fb.group({
       // ulb: [this.ulb_id, Validators.required],
       enumeration: this.fb.array([]),
@@ -61,9 +71,6 @@ export class ScorePerComponent implements OnInit {
       billing_collection: this.fb.array([]),
       reporting: this.fb.array([]),
     });
-
-    this.getData();
-    this.getStateList();
   }
   getStateList() {
     this._commonService.fetchStateList().subscribe((res: any) => {
@@ -90,13 +97,20 @@ export class ScorePerComponent implements OnInit {
     this.getUlbList(e);
   }
 
+  ulbDisabled: boolean = true;
   getUlbList(stateCode) {
     this._commonService.getUlbByState(stateCode).subscribe((res: any) => {
       console.log("res ulb list", res?.data);
-      this.ulbList = res?.data?.ulbs.sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-    });
+      if (res.data) {
+        this.ulbDisabled = false;
+        this.ulbList = res?.data?.ulbs.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      }
+    }),
+      (err) => {
+        this.ulbDisabled = true;
+      };
   }
 
   getData() {
@@ -205,6 +219,7 @@ export class ScorePerComponent implements OnInit {
     this.btnName = "Get Started";
     console.log("ulb..", e);
     if (this.ulb_id) this.disStartedBtn = false;
+    this.stepperScoreDiv = false;
   }
   // getReportCard(){
   //   if(this.ulb_id != '') {
@@ -220,62 +235,79 @@ export class ScorePerComponent implements OnInit {
   closeScoreCard() {
     this.stepperScoreDiv = false;
   }
-  tabType: string = '';
+  tabType: string = "";
   presDetails(presItem, index, type) {
     this.prescription = presItem?.prescription;
 
     if (presItem?.isClicked) {
-      this.scoreReportData.currentUlb.partcularAnswerValues[index]['selected'] = false;
-      this.scoreReportData.currentUlb.partcularAnswerValues[index]['isClicked'] = false;
+      this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
+        false;
+      this.scoreReportData.currentUlb.partcularAnswerValues[index][
+        "isClicked"
+      ] = false;
       this.prescribeText = this.clonePrescribeText;
     } else {
-      this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el, i) => {
-        el['selected'] = false;
-      });
-      this.scoreReportData.currentUlb.partcularAnswerValues[index]['selected'] = true;
-      this.scoreReportData.currentUlb.partcularAnswerValues[index]['isClicked'] = true;
-      this.prescribeText = this.scoreReportData.currentUlb.partcularAnswerValues[index]['prescription'];
+      this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
+        (el, i) => {
+          el["selected"] = false;
+        }
+      );
+      this.scoreReportData.currentUlb.partcularAnswerValues[index]["selected"] =
+        true;
+      this.scoreReportData.currentUlb.partcularAnswerValues[index][
+        "isClicked"
+      ] = true;
+      this.prescribeText =
+        this.scoreReportData.currentUlb.partcularAnswerValues[index][
+          "prescription"
+        ];
     }
   }
 
-  prescribeText: string= "";
+  prescribeText: string = "";
   clonePrescribeText: string = "";
 
   getPrescriptionText(value) {
-    if(value)
-    console.log("currentValue", value)
-    let obj = ["assessment", "billing_collection", "enumeration", "reporting", "valuation"]
+    if (value) console.log("currentValue", value);
+    let obj = [
+      "assessment",
+      "billing_collection",
+      "enumeration",
+      "reporting",
+      "valuation",
+    ];
 
-    let count = 0
-    for(let item of obj) {
+    let count = 0;
+    for (let item of obj) {
       value?.currentUlb?.scorePerformance[item].forEach((elem) => {
-        if(elem.answer){
-          count++
+        if (elem.answer) {
+          count++;
         }
-      })
+      });
     }
-    let currentScore = value?.currentUlb?.total * 10
-    if(currentScore == 100) {
-      this.prescribeText = "You have adopted all the property tax reforms. Your property tax system is robust, which should increase the share of property tax in own revenues."
-      this.clonePrescribeText = this.prescribeText
-    } else if(currentScore < 99 && currentScore > 50){
-      this.prescribeText= `You have adopted ${count} property tax reforms. Your property tax system has scope for further improvement. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`
-      this.clonePrescribeText = this.prescribeText
-    } else if(currentScore < 49 ){
-      this.prescribeText = `You have adopted only ${count} property tax reforms. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`
-      this.clonePrescribeText = this.prescribeText
+    let currentScore = value?.currentUlb?.total * 10;
+    if (currentScore == 100) {
+      this.prescribeText =
+        "You have adopted all the property tax reforms. Your property tax system is robust, which should increase the share of property tax in own revenues.";
+      this.clonePrescribeText = this.prescribeText;
+    } else if (currentScore < 99 && currentScore > 50) {
+      this.prescribeText = `You have adopted ${count} property tax reforms. Your property tax system has scope for further improvement. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
+      this.clonePrescribeText = this.prescribeText;
+    } else if (currentScore < 49) {
+      this.prescribeText = `You have adopted only ${count} property tax reforms. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
+      this.clonePrescribeText = this.prescribeText;
     }
   }
 
   getStartedScore() {
-    // debugger
+    // debugger;
     if (this.ulb_id != "") {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe(
         (res: any) => {
           console.log("responce ulb..", res, typeof res);
-          
+
           this.scoreReportData = res?.data;
-          this.getPrescriptionText( this.scoreReportData)
+          this.getPrescriptionText(this.scoreReportData);
           this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach(
             (el) => {
               el.isActive = false;
@@ -309,8 +341,9 @@ export class ScorePerComponent implements OnInit {
             this.stepperScoreDiv = true;
             this.reportScoreDiv = false;
             this.btnName = "Get Started";
+            this.reInitialForm();
+            this.addFormArray();
           }
-        
         },
         (error) => {
           console.log("error", error);

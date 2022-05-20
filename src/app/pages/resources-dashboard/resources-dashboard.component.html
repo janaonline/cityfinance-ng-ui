@@ -16,15 +16,29 @@
                   placeholder="Type here..."
                   [formControl]="resourcesFilter"
                   [matAutocomplete]="auto"
-                  class="fl-input form-control" 
+                  class="fl-input form-control"
                   [value]="searchValue"
+                  (keyup.enter)="searchFilter(resourcesFilter.value)"
                 />
               </div>
               <div class="col-3 p-0">
-                <button type="button" class="btn btnFilter" *ngIf="search" 
-                (click)="searchFilter(resourcesFilter.value)">Search</button>
-                <button type="button" class="btn btnFilter" *ngIf="crossIcon" (click)="crossButton();"><i class="fa fa-close" style="font-size:25px"></i></button>
-              </div>             
+                <button
+                  type="button"
+                  class="btn btnFilter"
+                  *ngIf="search"
+                  (click)="searchFilter(resourcesFilter.value)"
+                >
+                  Search
+                </button>
+                <button
+                  type="button"
+                  class="btn btnFilter"
+                  *ngIf="crossIcon"
+                  (click)="crossButton()"
+                >
+                  <i class="fa fa-close" style="font-size: 25px"></i>
+                </button>
+              </div>
               <div class="col-12">
                 <mat-autocomplete #auto="matAutocomplete">
                   <mat-option
@@ -38,12 +52,13 @@
             </div>
           </form>
         </div>
-      </div>   
+      </div>
       <div class="row">
         <div class="mb-4 totalCount" *ngIf="crossIcon">
-          <b>{{totalCount}}</b> Search results for <b>'{{searchedValue}}'</b>
+          <b>{{ totalCount }}</b> Search results for
+          <b>'{{ searchedValue }}'</b>
         </div>
-      </div> 
+      </div>
     </div>
   </div>
 </div>
