@@ -115,7 +115,4 @@ export class ToolkitsComponent implements OnInit {
     //   }
     // }, 200)
   }
-  goto(route){
-    this.router.navigate(['resources-dashboard','learning-center','toolkit','score-performance'])
-  }
 }
