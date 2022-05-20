@@ -81,10 +81,11 @@
       width:14rem;
       height:13rem;
       border:1px solid #E4E4E4;
-border-radius: 6px ;
-display: inline-block;
-margin-right: 5%;
-margin-bottom: 1%;
+      border-radius: 6px ;
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: 5%;
+      margin-bottom: 1%;
   }
   .practiceHead{
     font: normal normal 600 14px/22px 'Archivo';
