@@ -81,6 +81,12 @@ export class ToolkitsComponent implements OnInit {
       console.log("card", res);
       this.isCardShow = true;
     });
+
+    this.subTabData.forEach(item => {
+      if (this.router.url.includes(item?.link)) {
+        this.isCardShow = false;
+      }
+    });
   }
 
   // navigateTabs(link, i) {
