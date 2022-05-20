@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DashboardService } from "../../services/dashboard/dashboard.service";
+import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
 
 @Component({
   selector: "app-slb-charts",
@@ -19,7 +20,8 @@ import { DashboardService } from "../../services/dashboard/dashboard.service";
 export class SlbChartsComponent implements OnInit, OnChanges {
   constructor(
     public dashboardServices: DashboardService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public loaderService:GlobalLoaderService
   ) {}
 
   isCompare = false;
@@ -99,6 +101,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
 
   CompFlag: boolean = false;
   getData() {
+    this.loaderService.showLoader()
     let typeName = this.data.name;
     switch (this.data.name) {
       case "Storm Water Drainage":
@@ -121,6 +124,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
 
     this.dashboardServices.fetchCitySlbChartData(queryParams).subscribe(
       (res: any) => {
+        this.loaderService.stopLoader()
         console.log("city respo", res);
         this.chartLabels = this.chartLabels.map((value) => {
           if (value.name == "ulb") {
