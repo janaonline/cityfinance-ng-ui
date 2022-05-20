@@ -88,6 +88,16 @@ export class ToolkitsComponent implements OnInit {
       }
     });
   }
+
+  // navigateTabs(link, i) {
+  //   this.subTabData.forEach((elem) => {
+  //     if (elem.link == link) {
+  //       this.router.navigateByUrl(
+  //         `resources-dashboard/learning-center/toolkits/${elem.link} `
+  //       );
+  //     }
+  //   });
+  // }
   showIframe = false;
   openScorePer(card) {
     if (card.label == "Municipal Borrowing Readiness Toolkit") {
