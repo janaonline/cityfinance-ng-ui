@@ -29,7 +29,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   filterFormData = new EventEmitter<any>();
   //  @Output() clearfilter = new EventEmitter<any>();
 
-  @Input() filterTabDataSet
+  @Input() filterTabDataSet;
   @Input() filterInputData;
   @Input() downloadValue;
   @Input() data;
@@ -42,7 +42,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private _commonServices: CommonService,
     public dialog: MatDialog,
-    private _resourcesDashboardService: ResourcesDashboardService,
+    private _resourcesDashboardService: ResourcesDashboardService
   ) {
     this.filterData("", "");
   }
@@ -51,7 +51,14 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   ulbList;
   filterForm;
   globalOptions = [];
-  yearList = ["2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21"].reverse();
+  yearList = [
+    "2015-16",
+    "2016-17",
+    "2017-18",
+    "2018-19",
+    "2019-20",
+    "2020-21",
+  ].reverse();
   cType = [
     "Raw Data PDF",
     "Standardised Excel",
@@ -62,13 +69,15 @@ export class FilterComponentComponent implements OnInit, OnChanges {
 
   getYearsList() {
     this._resourcesDashboardService.getYearsList().subscribe((res: any) => {
-      console.log("years===>",res.data)
+      console.log("years===>", res.data);
       this.yearList = res.data;
       this.filterForm.patchValue({
-        year: this.yearList[0]
+        year: this.yearList[0],
       });
+
+      console.log("this.filterFrom", this.filterForm);
       this.filterFormData.emit(this.filterForm);
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -88,6 +97,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   selectedType: String = "Raw Data PDF";
   onChange(event) {
     this.selectedValue = event.target.value;
+    console.log("eve", event);
     this.filterData("year", "");
   }
   onChangeType(event) {
@@ -98,7 +108,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         console.log("res", res);
-        this.stateList = this._commonServices.sortDataSource(res, 'name');
+        this.stateList = this._commonServices.sortDataSource(res, "name");
       },
       (error) => {
         console.log(error);
@@ -133,12 +143,19 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     });
   }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("changes====>", changes)
+    console.log("changes====>", changes);
     // check the object "changes" for new data
     // console.log("chanhged happed", changes.category.currentValue);
-    if(changes && changes.filterInputData && changes.filterInputData.currentValue){
+    if (
+      changes &&
+      changes.filterInputData &&
+      changes.filterInputData.currentValue
+    ) {
       let filterTabValue = changes.filterInputData.currentValue.comp;
-      if(filterTabValue == "report-publications" || filterTabValue == "bestPractices") {
+      if (
+        filterTabValue == "report-publications" ||
+        filterTabValue == "bestPractices"
+      ) {
         this.getYearsList();
       }
     }
@@ -159,15 +176,16 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   }
 
   filterData(param, val) {
-    
     console.log("filter form", this.filterForm);
     if (param == "ulb") {
       console.log(val);
       this.filterForm.patchValue({
         state: val.state._id,
-        ulbId: val._id
+        ulbId: val._id,
       });
     } else if (param == "state") {
+      let emptyArr: any = [];
+      this.filteredOptions = emptyArr;
       this.filterForm.patchValue({
         ulb: "",
       });
@@ -177,6 +195,8 @@ export class FilterComponentComponent implements OnInit, OnChanges {
   clearAll() {
     //  this.filterFormData.emit(this.filterForm);
     // console.log()
+    let emptyArr: any = [];
+    this.filteredOptions = emptyArr;
     this.filterForm.reset();
 
     this.filterForm.patchValue({
@@ -198,11 +218,11 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       width: "100%",
       height: "100%",
       data: {
-        "mobileFilterConfig": this.mobileFilterConfig,
-        "yearList": this.yearList,
-        "preSelectedValue": {...this.tempDataHolder},
-        "defaultStage": this.defaultFilterStage,
-        "fileType": this.cType
+        mobileFilterConfig: this.mobileFilterConfig,
+        yearList: this.yearList,
+        preSelectedValue: { ...this.tempDataHolder },
+        defaultStage: this.defaultFilterStage,
+        fileType: this.cType,
       },
     });
 
