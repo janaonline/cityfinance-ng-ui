@@ -81,6 +81,12 @@ export class ToolkitsComponent implements OnInit {
       console.log("card", res);
       this.isCardShow = true;
     });
+
+    this.subTabData.forEach(item => {
+      if (this.router.url.includes(item?.link)) {
+        this.isCardShow = false;
+      }
+    });
   }
   showIframe = false;
   openScorePer(card) {
@@ -98,5 +104,8 @@ export class ToolkitsComponent implements OnInit {
     //     intro.click()
     //   }
     // }, 200)
+  }
+  goto(route){
+    this.router.navigate(['resources-dashboard','learning-center','toolkit','score-performance'])
   }
 }
