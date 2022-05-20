@@ -945,7 +945,7 @@ ULB ${this.selectedTab} for FY' ${
     let other_receipt = {
       _id: { lineItem: "Other Receipts" },
       amount: 0,
-      colour: "",
+      colour: "#00ff80",
     };
     let assigned_revenues_compensations = {
       _id: { lineItem: "Assigned Revenues Compensation" },
