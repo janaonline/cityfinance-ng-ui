@@ -1,0 +1,44 @@
+{
+    "main": [
+        {
+            "state": "manage-users",
+            "short_label": "B",
+            "name": "Manage User",
+            "type": "sub",
+            "icon": "fas fa-user-cog",
+            "children": [
+                {
+                    "state": "surveyor-list",
+                    "name": "Surveyor List",
+                    "icon": "fas fa-mobile"
+                },{
+                    "state": "users",
+                    "name": "Web Users",
+                    "icon": "fas fa-laptop"
+                }
+            ]
+        },
+        {
+            "state": "dashboard",
+            "short_label": "D",
+            "name": "Dashboard",
+            "type": "link",
+            "icon": "fab fa-buromobelexperte",
+            "children": []
+        },
+        {
+            "state": "manage-form",
+            "short_label": "D",
+            "name": "Monitor Projects",
+            "type": "link",
+            "icon": "fas fa-chart-area",
+            "children": [
+                {
+                    "state": "users",
+                    "name": "Web Users",
+                    "icon": "fas fa-laptop"
+                }
+            ]
+        }
+    ]
+}
