@@ -390,13 +390,17 @@ export class OwnRevenueDashboardComponent implements OnInit {
       if (value?.length >= 1) {
         this.getUlbForAutoComplete(value);
       } else {
+        let emptyArr: any = [];
+        this.filteredOptions = emptyArr;
         return null;
       }
     });
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
+    const stateId = this.filterGroup?.controls?.stateId?.value;
+    console.log('stateId', stateId)
     this._commonServices
-      .postGlobalSearchData(value, "ulb", "")
+      .postGlobalSearchData(value, "ulb", (stateId && stateId != 'State Name') ? stateId : "")
       .subscribe((res: any) => {
         console.log(res?.data, "getUlbForAutoComplete");
         let emptyArr: any = [];

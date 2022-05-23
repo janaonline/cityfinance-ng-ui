@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { ResourcesDashboardService } from "./resources-dashboard.service";
 
 @Component({
@@ -13,7 +14,8 @@ import { ResourcesDashboardService } from "./resources-dashboard.service";
 export class ResourcesDashboardComponent implements OnInit {
   constructor(
     private router: Router,
-    protected resourcedashboard: ResourcesDashboardService
+    protected resourcedashboard: ResourcesDashboardService,
+    public globalLoader: GlobalLoaderService
   ) {}
   resourcesFilter = new FormControl();
   autoCompleteData: string[] = [
@@ -26,10 +28,6 @@ export class ResourcesDashboardComponent implements OnInit {
 
   cardStyle = cardStyle;
   cardData = [learningCenter, dataSets, reportsPublications];
-
-  // ngOnChanges(changes: SimpleChange): void {
-  //   console.log("chanhessss==>", changes);
-  // }
 
   ngOnInit(): void {
     // this.subscribeValue();
@@ -74,9 +72,9 @@ export class ResourcesDashboardComponent implements OnInit {
       }
     });
   }
-  crossIcon: boolean=false;
-  search:boolean=true;
-  searchValue:string='';
+  crossIcon: boolean = false;
+  search: boolean = true;
+  searchValue: string = "";
   // data:any={
   //   total:500,
   //   learning:220,
@@ -88,60 +86,76 @@ export class ResourcesDashboardComponent implements OnInit {
     total: 0,
     learningCenter: 0,
     dataSet: 0,
-    reportsAndPublication: 0
-  }
-  passedCount:any
-  totalCount:any
-  searchedValue:any
-  toggle:boolean=true
-  defaultPlaceholder:boolean=false
+    reportsAndPublication: 0,
+  };
+  passedCount: any;
+  totalCount: any;
+  searchedValue: any;
+  toggle: boolean = true;
+  defaultPlaceholder: boolean = false;
 
-  searchFilter(searchFilter:any){
+  searchFilter(searchFilter: any) {
     //sending data to resource count to card
     //queryparam used for url
     // this.router.navigate( ['/resources-dashboard/learning-center/toolkits'],
     // { queryParams: { search: searchFilter } })
-    
-    this.searchedValue = searchFilter
-    
-    this.resourcedashboard.GlobalSearch(this.searchedValue).subscribe((res: any) => {
-      console.log("gloabal response", res)
-      let apiData = res.data
-      for(let elem in this.data){
-        this.data[elem] = res.data[elem]
+
+    this.globalLoader.showLoader();
+    this.searchedValue = searchFilter;
+
+    this.resourcedashboard.GlobalSearch(this.searchedValue).subscribe(
+      (res: any) => {
+        console.log("gloabal response", res);
+        this.globalLoader.stopLoader();
+        let apiData = res.data;
+        for (let elem in this.data) {
+          this.data[elem] = res.data[elem];
+        }
+
+        this.data.total = Object.values(res.data).reduce(
+          (curr: any, acc: any) => curr + acc
+        );
+        this.passedCount = {
+          key: this.data,
+          name: searchFilter,
+          toggle: this.toggle,
+        };
+        console.log("passedCount==>", this.passedCount);
+        this.totalCount = this.data.total;
+        this.resourcedashboard.updateResouceCount(this.passedCount);
+      },
+      (err: any) => {
+        this.globalLoader.stopLoader();
+        this.data = {};
+        this.passedCount = {
+          key: this.data,
+          name: searchFilter,
+          toggle: this.toggle,
+        };
+        console.log("passedCount==>", this.passedCount);
+
+        this.resourcedashboard.updateResouceCount(this.passedCount);
       }
-
-      this.data.total = Object.values( res.data).reduce((curr: any, acc: any) =>  curr + acc)
-    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
-    console.log("passedCount==>", this.passedCount)
-    this.totalCount = this.data.total;
-    this.resourcedashboard.updateResouceCount(this.passedCount);
-    }, (err: any) => {
-      this.data = {}
-    this.passedCount = {key:this.data,name:searchFilter,toggle:this.toggle}
-    console.log("passedCount==>", this.passedCount)
-
-    this.resourcedashboard.updateResouceCount(this.passedCount);
-    })
-    if(searchFilter.length){
-       this.crossIcon = true
-       this.search = false
+    );
+    if (searchFilter.length) {
+      this.crossIcon = true;
+      this.search = false;
     }
 
-    this.router.navigate( ['/resources-dashboard/learning-center/toolkits'],
-    { queryParams: { search: searchFilter } })
-    
+    this.router.navigate(["/resources-dashboard/learning-center/toolkits"], {
+      queryParams: { search: searchFilter },
+    });
   }
-  crossButton(){
-    this.searchValue = ""
-    this.search = true
+  crossButton() {
+    this.searchValue = "";
+    this.search = true;
     this.crossIcon = false;
-    this.resourcesFilter.patchValue('');
+    this.resourcesFilter.patchValue("");
     // this.resourcesFilter.patchValue({
     //   value: ""
     // })
     // console.log("resource Filter", this.resourcesFilter)
-    this.searchFilter(this.searchValue)
+    this.searchFilter(this.searchValue);
     // this.resourcedashboard.updateSearchedData(this.defaultPlaceholder)
   }
 }

@@ -500,14 +500,14 @@ ULB ${this.selectedTab} for FY' ${
     }
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
-    for (const key in res["data"]) {
-      const element = res["data"][key];
-      element.map((value) => {
-        if (!newData.data.labels.includes(value._id.financialYear)) {
-          newData.data.labels.push(value._id.financialYear);
-        }
-      });
-    }
+    // for (const key in res["data"]) {
+    const element = res["data"]["ulbData"];
+    element.map((value) => {
+      // if (!newData.data.labels.includes(value._id.financialYear)) {
+      newData.data.labels.push(value._id.financialYear);
+      // }
+    });
+    // }
     newData.data.labels.sort(function (a, b) {
       let newA = a.split("-")[0];
       let newB = b.split("-")[0];
