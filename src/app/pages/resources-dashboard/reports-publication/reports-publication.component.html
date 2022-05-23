@@ -4,13 +4,13 @@
     Reports and Publications
   </p>
 </div>
-<div class="col-sm-12 mb-3" *ngIf="noData">
+<!-- <div class="col-sm-12 mb-3" *ngIf="noData">
   <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
   <p class="noData">
     Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
     searching with another term.
   </p>
-</div>
+</div> -->
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived">
   <app-filter-component
     (filterFormData)="filterData($event)"
