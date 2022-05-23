@@ -1,55 +1,75 @@
 <div class="row" *ngIf="dataReceived">
-    <p *ngIf="searchedValue"><b>{{learningCount}}</b> Search results for ‘{{searchedValue}}’ in Reports and Publications</p>
+  <p *ngIf="searchedValue">
+    <b>{{ learningCount }}</b> Search results for ‘{{ searchedValue }}’ in
+    Reports and Publications
+  </p>
 </div>
 <div class="col-sm-12 mb-3" *ngIf="noData">
-    <img  class="rounded mx-auto d-block" src="assets/images/sad.svg"/>
-    <p class="noData">
-     Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
-    </p>
- </div>
+  <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+  <p class="noData">
+    Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
+    searching with another term.
+  </p>
+</div>
 <div class="filter-d mt-3 mb-3" *ngIf="dataReceived">
-    <app-filter-component (filterFormData)="filterData($event)" [filterInputData]="filterComponent" [mobileFilterConfig]="mobileFilterConfig"></app-filter-component>
+  <app-filter-component
+    (filterFormData)="filterData($event)"
+    [filterInputData]="filterComponent"
+    [mobileFilterConfig]="mobileFilterConfig"
+  ></app-filter-component>
 </div>
 <div class="row" *ngIf="dataReceived">
-    <div class="col-sm-12 info-text mb-3">
-        <p>
-            You are currently exploring Reports and Publications Section on the Resources Dashboard.
-        </p>
-    </div>
+  <div class="col-sm-12 info-text mb-3">
+    <p>
+      You are currently exploring Reports and Publications Section on the
+      Resources Dashboard.
+    </p>
+  </div>
 </div>
-<div class="row"  *ngIf="cardData.length > 0">
-    <!-- <div *ngIf="cardData.length > 0"> -->
-    <div class="col-sm-12 col-md-4 col-lg-3 publishCard" *ngFor="let item of cardData;" style="margin: 1rem 0">
-        <div (click)="openFile(item.downloadUrl)" class="card-body">
-            <div *ngIf="item.imageUrl">
-                <span>
-                    <img src={{item.imageUrl}} alt="" class="p-i">
-                </span>
-            </div>
-            <div class="h-c">
-                {{item?.name}}
-            </div>
-            <!-- <div class="info-c mt-2 mb-3">
-                {{item?.info}}
-            </div> -->
-            <div class="row" >
-                <div class="d-flex pt-2 ">
-                <div class="col-sm-2 pe-0 pt-3 ">
-                    <span>
-                    <img src="../../../../assets/new_dashBord_ftr_hdr/pdf.png" alt="" class="p-i">
-                </span>
-                    <!-- <span *ngIf="item?.type == 'excel'">
-                  <img src="../../../../../assets/new_dashBord_ftr_hdr/excel.png" alt="" class="p-i">
-                </span> -->
-            </div>
-            <div class="pt-2">Published on {{item.publishedYear}} <br/>Update on {{item.createdAt}}</div>
+<div class="row" *ngIf="cardData.length > 0">
+  <!-- <div *ngIf="cardData.length > 0"> -->
+  <div
+    class="col-sm-12 col-md-4 col-lg-3 publishCard"
+    *ngFor="let item of cardData"
+    style="margin: 1rem 0"
+  >
+    <div (click)="openFile(item.downloadUrl)" class="card-body">
+      <div style="position: relative">
+        <pdf-viewer
+          [src]="item?.downloadUrl"
+          [render-text]="false"
+          [show-all]="false"
+          style="display: block; height: 200px"
+          [page]="1"
+          [zoom-scale]="'page-fit'"
+          [original-size]="false"
+        >
+        </pdf-viewer>
+      </div>
+      <div class="h-c">
+        {{ item?.name }}
+      </div>
+      <div class="row">
+        <div class="d-flex pt-2">
+          <div class="col-sm-2 pe-0 pt-3">
+            <span>
+              <img
+                src="../../../../assets/new_dashBord_ftr_hdr/pdf.png"
+                alt=""
+                class="p-i"
+              />
+            </span>
+          </div>
+          <div class="pt-2">
+            Published on {{ item.publishedYear }} <br />Update on
+            {{ item.createdAt }}
+          </div>
         </div>
-            </div>
-
-        </div>
+      </div>
     </div>
-<!-- </div> -->
-    <!-- <div class="col-sm-12 text-center mb-3 mt-3">
+  </div>
+  <!-- </div> -->
+  <!-- <div class="col-sm-12 text-center mb-3 mt-3">
         <button class="btn lmBtn">
       <span class="material-icons" style="vertical-align: middle;">
         refresh
@@ -59,11 +79,10 @@
     </div> -->
 </div>
 
-
 <div *ngIf="cardData.length == 0">
-    <img  class="rounded mx-auto d-block" src="assets/images/sad.svg" />
-      <p class="noData">
-        Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
-        searching with another term.
-      </p>
-    </div>
+  <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+  <p class="noData">
+    Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
+    searching with another term.
+  </p>
+</div>
