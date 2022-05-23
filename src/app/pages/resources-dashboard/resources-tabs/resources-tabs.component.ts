@@ -11,23 +11,23 @@ import { ResourcesDashboardService } from "../resources-dashboard.service";
 export class ResourcesTabsComponent implements OnInit {
   constructor(
     protected resourcedashboard: ResourcesDashboardService,
-    public router : Router,
-    private resources_services: ResourcesServicesService,) {}
+    public router: Router,
+    private resources_services: ResourcesServicesService
+  ) {}
 
   @Input()
   data = [];
 
   subscribeValue(item) {
-    console.log('subscribe item,..', item);
+    console.log("subscribe item,..", item);
 
     this.resourcedashboard.getShowCardValue(),
-    this.resourcedashboard.setShowCardValue(true);
-    if(item?.name == "Toolkits"){
+      this.resourcedashboard.setShowCardValue(true);
+    if (item?.name == "Toolkits") {
       this.resources_services.tooltikCardShow.next(true);
     }
 
-   // this.router.navigateByUrl('resources-dashboard/learning-center/toolkits')
-
+    // this.router.navigateByUrl('resources-dashboard/learning-center/toolkits')
   }
 
   ngOnInit(): void {

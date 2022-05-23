@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CityService } from "./city.service";
 import { AuthService } from "../../../auth/auth.service";
 import { CommonService } from "src/app/shared/services/common.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 
 @Component({
   selector: "app-city",
@@ -17,7 +18,8 @@ export class CityComponent implements OnInit {
     private router: Router,
     private cityService: CityService,
     private authService: AuthService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    public _loaderService: GlobalLoaderService,
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.cityId = param.cityId;

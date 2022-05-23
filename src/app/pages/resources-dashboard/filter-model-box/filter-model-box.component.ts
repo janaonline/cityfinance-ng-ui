@@ -147,7 +147,7 @@ export class FilterModelBoxComponent implements OnInit {
     } else if (param == "state") {
       this.filterForm.patchValue({
         ulb: "",
-        ulbType: "ULB Type",
+        ulbType: "",
         populationCategory: "",
       });
       let emptyArr: any = [];
@@ -155,14 +155,14 @@ export class FilterModelBoxComponent implements OnInit {
     } else if (param == "ulbType") {
       this.filterForm.patchValue({
         ulb: "",
-        stateId: "State Name",
-        populationCategory: "Ulb Population Category",
+        stateId: "",
+        populationCategory: "",
       });
     } else if (param == "popCat") {
       this.filterForm.patchValue({
         ulb: "",
         stateId: "",
-        ulbType: "ULB Type",
+        ulbType: "",
       });
     } else if (param == "year") {
       // this.filterForm.patchValue({
@@ -220,15 +220,23 @@ export class FilterModelBoxComponent implements OnInit {
   emitFilterData() {
     this.defaultStage = true;
     const formData = this.filterForm.value;
+    let filterData: any;
     if (this.mobileFilterConfig?.useFor == "resourcesDashboard") {
-      let filterData = {
+      filterData = {
         value: {...formData, "state": formData?.stateId, "ulbId": formData?.ulb, "year": formData?.financialYear}
       }
-      this.dialogRef.close({filterForm: filterData, defaultStage: this.defaultStage});
-    } else {
-      this.dialogRef.close({filterForm: this.filterForm.value, defaultStage: this.defaultStage});      
+      // this.dialogRef.close({filterForm: filterData, defaultStage: this.defaultStage});
+    } else { 
+      filterData = {
+        "stateId": formData?.stateId ? formData?.stateId : "State Name",
+        "ulb": formData?.ulb ? formData?.ulb : "",
+        "ulbType": formData?.ulbType ? formData?.ulbType : "ULB Type",
+        "populationCategory": formData?.populationCategory ? formData?.populationCategory : "ULB Population Category",
+        "financialYear": formData?.financialYear ? formData?.financialYear : this.yearList[0],
+      }
+      // this.dialogRef.close({filterForm: filterData, defaultStage: this.defaultStage});
     }
-    // this.dialogRef.close({filterForm: this.filterForm.value, defaultStage: this.defaultStage});
+    this.dialogRef.close({filterForm: filterData, defaultStage: this.defaultStage});
   }
 
   patchFormData(formData: any) {
