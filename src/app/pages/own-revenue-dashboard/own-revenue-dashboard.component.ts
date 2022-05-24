@@ -730,7 +730,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
         res["data"].percent = percentage;
         this.financialYear = res;
         this.availValue = percentage;
-        console.log('availValue', this.availValue, 'this.dataAvailable', this.dataAvailable)
         this.halfDoughnutChart();
 
         this.notFoundNames = res["data"]?.names;
