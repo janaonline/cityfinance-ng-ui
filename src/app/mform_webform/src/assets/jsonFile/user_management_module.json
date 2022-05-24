@@ -1,0 +1,64 @@
+[
+    {
+        "id" : 1,
+        "value": "manage-users",
+        "name" : "Manage User",
+        "submodule": [{
+            "id" : 2,
+            "value": "surveyor-list",  
+            "name" : "Surveyor List",
+            "submodule" : [
+                {
+                    "id" : 1,
+                    "value": "view_surveyor",  
+                    "name" : "View Surveyor" 
+                },{
+                    "id" : 3,
+                    "value": "view_login_logout_logs",  
+                    "name" : "View Login/Logout Logs" 
+                },{
+                    "id" : 4,
+                    "value": "view_error_logs",  
+                    "name" : "View Error Logs" 
+                },{
+                    "id" : 5,
+                    "value": "create_surveyor",  
+                    "name" : "Create Surveyor"
+                },{
+                    "id" : 6,
+                    "value": "update_surveyor",  
+                    "name" : "Create Surveyor"
+                },{
+                    "id" : 7,
+                    "value": "allocate_form",  
+                    "name" : "Allocate Form"
+                }
+            ]
+        },{
+            "id" : 8,
+            "value": "users",  
+            "name" : "Web Users",
+            "submodule" : [
+                {
+                    "id" : 9,
+                    "value": "create_user",  
+                    "name" : "Create User"
+                },{
+                    "id" : 10,
+                    "value": "update_user",  
+                    "name" : "Create User"
+                }
+            ]
+        }]
+    },{
+        "id" : 11,
+        "value": "manage-form",
+        "name" : "Monitor Projects",
+        "submodule" : []
+    },{
+        "id" : 12,
+        "value": "dashboard",
+        "name" : "Dashboard",
+        "submodule" : []
+    }
+]

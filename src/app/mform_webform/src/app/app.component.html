@@ -1,0 +1,472 @@
+<!-- style="height: 80vh; overflow: scroll;" -->
+<ng-container *ngIf="!isViewMode">
+    <div class="row mx-0">
+        <div class="col-sm-12">
+            <h4 class="text-center text-primary common-font-family" *ngIf="title">{{formTitle}}</h4>
+            <p class="desc" *ngIf="formDescription">{{formDescription}}</p>
+            <div class="row mb-5 mx-0" *ngIf="showFormChange">
+                <div class="col-sm-8 ">
+                    <input type="text" autocomplete="name" name="name" class="form-control" [(ngModel)]="formId" placeholder="Enter Form Id and then press Submit" [ngModelOptions]="{standalone: true}" />
+                </div>
+                <div class="col-sm-2"><button class="btn btn-sm btn-primary text-uppercase " (click)="onChangeForm()">Submit</button></div>
+            </div>
+
+            <div class="row mx-0">
+                <div class="col-sm-6" [ngClass]="isOpenChevron ? 'col-sm-6' : 'col-sm-12'">
+                    <i *ngIf="showPreviewAnswer" class="fa fa-chevron-circle-left chevron-right" (click)="isOpenChevron = !isOpenChevron"></i>
+                    <!-- <div class="col-sm-12 mb-5 card p-3">{{formtitle}}</div> -->
+
+
+
+                    <div class="card mt-2 p-3">
+                        <div class="row mx-0">
+                            <!-- As the references change ngFor will continuously regenerate the DOM
+              However, the presence of trackBy provides ngFor some help.
+              It modifies the behavior so that it compares new data to old based on
+              the return value of the supplied trackBy method.
+              This allows Angular to reduce the amount of DOM update needed -->
+                            <!-- myfilter => myfilter is used to filter out visible question -->
+                            <ng-container *ngFor="let question of questionData | myfilter; trackBy:identity; let questionIndex = index" [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ question: question, questionIndex:questionIndex, value: [] }">
+                            </ng-container>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6 float-left" *ngIf="isOpenChevron">
+                    <div class="col-sm-12 mb-3 card p-3 ">Preview Answers</div>
+                    <div class="col-sm-12 font-weight-500">{{completedLenegth()}}</div>
+                    <div class="col-sm-12 card mt-2 p-3" *ngFor="let question of questionData; let answerIndex = index" [ngClass]="{'d-none': !question.selectedValue || (question.selectedValue && question.selectedValue.length == 0)}">
+                        <div class="row mx-0" *ngIf="question?.selectedValue?.length">
+                            <div class="col-sm-12 mb-3 " style="font-size: 90%;">
+                                {{answerIndex+1}}. {{question.title}}
+                            </div>
+                            <div class="col-sm-12 font-weight-500" style="font-size: 90%;">
+                                <div *ngIf="question.answer_option && question.answer_option.length; else defaultAnswer">
+                                    <div class="col-sm-12 text-justify">Answers</div>
+                                    <ul>
+                                        <li *ngFor="let answer of question.selectedValue">
+                                            {{answer.label}} {{answer.textValue}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <ng-template #defaultAnswer>
+                                    <div class="col-sm-12  font-weight-500 text-justify" style="font-size: 90%;">Answer:
+                                        <span *ngIf="(question?.acceptableType == 'image/*') && (question?.value)">
+                    <img class="mx-1" [src]="question?.imgUrl ? question?.imgUrl : question?.value" height="60" width="60" style="object-fit:contain; display: block;">
+                  </span> {{question?.selectedValue[0]?.textValue ? question?.selectedValue[0]?.textValue : question?.selectedValue[0]?.value}}
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row float-right mt-4 mx-0 px-3" *ngIf="showSubmitButton">
+        <button class="btn btn-sm btn-primary text-uppercase" [disabled]="isImageUploading || isFormSubmittedSuccessfully" (click)="submitForm()">
+      {{buttonText}}
+      <!-- Save -->
+    </button>
+    </div>
+
+
+    <ng-template #treeNode let-question="question" let-questionIndex="questionIndex" let-value="value">
+        <ng-container class="row mx-0" [ngSwitch]="question?.input_type">
+
+            <!-- condition for different col-width "col-sm-6" for 25 when isOpenChevron is true ( open ) -->
+            <!-- [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ) && question.width != '25' , 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ) }" -->
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.TEXT">
+                <span class="has-float-label" [ngClass]="{'disable-question-field disable-question-field-opacity': ( question?.isQuestionDisabled ) }">
+            <input type="{{question?.passwordMode ? 'password' : 'text'}}" autocomplete="{{question.order}}" name="{{question.order}}" appAlphabetOnly
+              class="form-control " pattern="{{question?.pattern}}"
+              placeholder="{{question.title}}" minlength="{{question.min}}" appRestrictFirstCharAsSpace
+              [ngClass]="{'invalid-border': question.errorMessage}" maxlength="{{question.max}}" id="{{question.order}}"
+              [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
+              [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)"
+              [readonly]="question?.isQuestionDisabled"/>
+            <ng-container *ngIf="question?.isPassword">
+              <i *ngIf="!question?.passwordMode" [matTooltip]="'Hide'" (click)="question.passwordMode = !question.passwordMode" class="fa fa-eye passwordShowHide pointer-hand" aria-hidden="true"></i>
+              <i *ngIf="question?.passwordMode" [matTooltip]="'Show'" (click)="question.passwordMode = !question.passwordMode" class="fa fa-eye-slash passwordShowHide pointer-hand" aria-hidden="true"></i>
+            </ng-container>
+            <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"
+                class="text-primary">*</span></label>
+                <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </span>
+                <div *ngIf="(question?.labelInstruction) && (!question.errorMessage)" class="label-instruction">
+                    <em>* {{question?.labelInstruction}}</em>
+                </div>
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.ADDRESS">
+                <!-- <input type="text" class="form-control" minlength="{{question.min}}" [ngClass]="{'invalid-border': question.errorMessage}" maxlength="{{question.max}}" id="{{question.order}}" [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)" [ngModelOptions]="{standalone: true}" /> -->
+                <span class="has-float-label" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+            <textarea appAlphabetOnly autocomplete="{{question.order}}"
+              class="form-control " placeholder="{{question.title}}"
+              minlength="{{question.min}}" [ngClass]="{'invalid-border': question.errorMessage}"
+              maxlength="{{question.max}}" id="{{question.order}}" name="{{question.order}}"
+              [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
+              [ngModelOptions]="{standalone: true}" style="height: 80px" (focus)="onFocusEvent(question.order)"
+              appRestrictFirstCharAsSpace [readonly]="question?.isQuestionDisabled">
+            </textarea>
+            <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"
+                class="text-primary">*</span></label>
+                <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </span>
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.NUMERIC">
+                <span class="has-float-label" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+            <input digitOnly type="number" class="form-control " [appNumberLength]="question.max"
+              placeholder="{{question.title}}" [ngClass]="{'invalid-border': question.errorMessage}"
+              minlength="{{question.min}}" maxlength="{{question.max}}" id="{{question.order}}"
+              [value]="question.modelValue ? question.modelValue : ''" (change)="onChange(question, $event)"
+              [ngModelOptions]="{standalone: true}" (focus)="onFocusEvent(question.order)"
+              appRestrictFirstDigitAsZero [readonly]="question?.isQuestionDisabled"/>
+            <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"
+                class="text-primary">*</span></label>
+                <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </span>
+                <div *ngIf="(question?.labelInstruction) && (!question.errorMessage)" class="label-instruction">
+                    <em>* {{question?.labelInstruction}}</em>
+                </div>
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.RADIO">
+                <div class="col-sm-12 mb-3  " [ngClass]="{'invalid-border': question.errorMessage,'disable-question-field': question?.isQuestionDisabled }" style="font-size: 90%;">
+                    {{question.title}}
+                    <span *ngIf="question.required" class="text-primary">*</span>
+                    <mat-icon class="radio-info-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </div>
+                <div class="col-sm-12">
+                    <mat-radio-group aria-label="Select an option" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }" [disabled]="question?.isQuestionDisabled">
+                        <mat-radio-button class="mr-2 " [disabled]="option?.disabled" *ngFor="let option of question.answer_option;let i=index" [value]="option._id" [checked]="option._id == question.modelValue" (change)="onChange(question, $event, option)">
+                            {{option?.name}}</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.FILE_UPLOAD">
+                <div class="row mx-0">
+                    <div class="col-sm-12 mb-2 " style="font-size: 90%; color: #6c757d;">
+                        {{question.title}}
+                        <span *ngIf="question.required" class="text-primary">*</span>
+                        <mat-icon class="file-type-info" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                    </div>
+                    <div class="col-sm-2" *ngIf="question?.value">
+                        <ng-container *ngIf="imagesExtension.includes(getFileExtensionFromURL(question?.modelValue))">
+                            <span *ngFor="let file of question?.selectedValue">
+                  <img class="mx-1" [src]="file?.value" height="60" width="60" style="object-fit:contain; display: block;">
+                </span>
+                        </ng-container>
+                    </div>
+                    <div class="pt-2 mt-1" [ngClass]="{'col-sm-12': (!question?.value), 'col-sm-10': (question?.value) }">
+                        <div class="custom-file" (click)="imageInputClickHandler($event, question)" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+                            <input type="file" id="{{question.order}}" class="form-control d-none" [accept]="question?.acceptableType" (change)="docsInputChangeHandler($event, question)" style="background-color: white !important; border-bottom: 0 !important">
+                            <label class="custom-file-label pointer-hand" for="customFile" [ngClass]="{'invalid-border': question.errorMessage}">{{question.imgLabel ? question.imgLabel : 'Choose
+                  file'}}</label>
+
+                            <!-- <button mat-stroked-button type="button" class="mr-3 " (click)="imageInputClickHandler($event, question)">
+                  <mat-icon>file_upload</mat-icon>
+                  File Upload
+                </button> -->
+                            <!-- <mat-chip class="mr-2 " *ngFor="let file of question.value">{{file.label}}</mat-chip> -->
+                            <!-- <img *ngIf="question.descriptionImageUrl" src="{{question.descriptionImageUrl}}" alt="Image" height="42" width="42"> -->
+                            <!-- <button mat-stroked-button type="button" class="ml-2" (click)="addRiskAndMitigation()">
+                  Risk and Mitigation
+                </button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="customDropDown" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'invalid-border-class': ( question.errorMessage ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.SINGLE_SELECT">
+                <!-- <app-custom-dropdown [configuration]="question?.dropdownConfig" [datas]="question?.answer_option" (valueChanges)="onChange(question, {target: {value: $event.value}})"></app-custom-dropdown> -->
+                <mat-form-field class="w-100" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+                    <mat-label>{{question.title}}
+                        <span *ngIf="question.required" class="text-primary">*</span>
+                    </mat-label>
+
+                    <!-- [floatLabel]="isLoading ? 'never' : 'auto'" add this line mat-form-field -->
+                    <!-- <mat-label *ngIf="!isLoading">{{question.title}}
+            <span *ngIf="question.required" class="text-primary">*</span>
+          </mat-label>
+          
+            <mat-label *ngIf="isLoading"> 
+              <div class="select-placeholder-container">
+                <span>{{question.title}} Loading...</span>
+                <mat-spinner class="spinner" diameter="20"></mat-spinner>
+              </div>
+            </mat-label> -->
+                    <!-- [disableOptionCentering]="true"    this is used to make options pannel position sticky  -->
+                    <mat-select id="{{question.order}}" [(value)]="question.modelValue" [disableOptionCentering]="true" panelClass="custom-mat-select-panel" (closed)="onSelectionClose(question?.order)" [disabled]="question?.isQuestionDisabled" (selectionChange)="getSelectionChange(question, $event)">
+                        <div class="w-100 shadow-sm search-filter">
+                            <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
+                            <span class="">
+                  <input id="{{question.order+'_dropDownSearch'}}" type="text" class="form-control" placeholder="Search {{question.title}}" appRestrictFirstCharAsSpace appAlphabetOnly
+                  [(ngModel)]="searchedText" (ngModelChange)="getFilterAnswerOption($event, question);" (keydown)="$event.stopPropagation()" >
+                  <!-- <label for="{{question.order+'_dropDownSearch'}}">Search {{question.title}}</label> -->
+                </span>
+                        </div>
+                        <div class="single-select custom-y-scroll">
+                            <mat-option *ngIf="question?.answer_option?.length == 0" disabled>No options available</mat-option>
+                            <mat-option *ngFor="let opt of question?.answer_option; trackBy:optionIndentity;" [value]="opt?._id" [disabled]="opt?.disabled" class="mb-2" [matTooltip]="opt.category ? opt.category : opt.name" (click)="opt?.disabled ? '' : onChange(question, {target: {value: opt._id, isSelected: true}})">
+                                <!-- {{opt.category ? opt.category : opt.name}} -->
+                                <div class="d-flex flex-column mt-2" style="line-height: 1.2em;">
+                                    <span>{{ opt.category ? opt.category : opt.name }}</span>
+                                    <span *ngIf="opt && opt.info" matTooltip="{{opt?.info}}" class="option-info mt-1 text-truncate">{{opt?.info}}</span>
+                                </div>
+                            </mat-option>
+                        </div>
+                    </mat-select>
+                    <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint" style="font-size: 16px; right: 15px;">info</mat-icon>
+                </mat-form-field>
+                <!-- <span class="has-float-label" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+            <select id="{{question.order}}" placeholder="{{question.title}}" (change)="onChange(question, $event)"
+              name="{{question.modelValue}}" class="form-control  font-weight-500"
+              [(ngModel)]="question.modelValue" [ngClass]="{'invalid-border': question.errorMessage}">
+              <option class="" value="" disabled>Select Option
+              </option>
+
+              <option class="" [value]="opt._id" *ngFor="let opt of question.answer_option; trackBy:optionIndentity; let i=index"
+                [hidden]="opt?.disabled">{{opt.category ? opt.category : opt.name}}
+              </option>
+            </select>
+            <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"
+                class="text-primary">*</span></label>
+                <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+          </span> -->
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage" style="margin-top: -13px;">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <!-- Treating checkbox as multi select -->
+            <div class="customDropDown" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'invalid-border-class': ( question.errorMessage ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.MULTI_SELECT">
+                <!-- <div class="col-sm-12 mb-3 " id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}">{{question.title}} <span *ngIf="question.required" class="text-primary">*</span></div>
+        <div class="col-sm-12" *ngFor="let option of question.answer_option;let i=index">
+          <mat-checkbox class="m-3  font-weight-500" (change)="onChange(question, $event, option)" [checked]="option.checked">{{option.name}}</mat-checkbox>
+        </div> -->
+
+                <!-- <ng-multiselect-dropdown [settings]="question.settings" [data]="question.answer_option" [(ngModel)]="question.selectedValue"
+            (onSelect)="onItemSelect(question, $event)" (onDeSelect)="onItemDeSelect(question, $event)">
+          </ng-multiselect-dropdown> -->
+                <!-- (onDeSelectAll)="onUnSelectAll()" -->
+                <!-- (onSelectAll)="onSelectAll($event)" -->
+                <!-- (onDropDownClose)="onDropDownClose(question)" -->
+                <!-- (mouseleave)="collapseMultiSelectDropdown(question?.order)" -->
+                <!-- <div class="multiselect" (mouseleave)="collapseMultiSelectDropdown(question?.order)"
+          [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+            <div class="selectBox" (click)="showCheckboxes(question?.order)">
+              <span class="has-float-label">
+                <select class="form-control  font-weight-500" id="{{question.order}}"
+                  placeholder="{{question.title}}" [ngClass]="{'invalid-border': question.errorMessage}"
+                  [ngStyle]="{'color':question?.selectedValue?.length == 0 ? '#999999' : '#000000' }" style="font-size: 13px;">
+                  <option *ngIf="question?.selectedValue?.length == 0; else showSelectedOption">Select {{question?.title}}
+                  </option>
+                  <ng-template #showSelectedOption>
+                    <option>{{question?.selectedOptions}}</option>
+                  </ng-template>
+                </select>
+                <label class="" for="{{question.order}}">{{question?.title}} <span *ngIf="question.required"
+                    class="text-primary">*</span></label>
+
+              </span>
+              <div class="overSelect"></div>
+            <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+            </div>
+            <div class="checkboxes shadow custom-y-scroll" [id]="'checkboxes'+question.order">
+              <ng-container *ngIf="question['checkboxes'+question.order]">
+                <div class="" style="padding: 10px;">
+                  <span class="has-float-label">
+                    <input type="text" class="font-weight-500 form-control" placeholder="Search..." appRestrictFirstCharAsSpace
+                    [(ngModel)]="searchedText" (ngModelChange)="getFilterAnswerOption($event, question);" >
+                    <label for="name">Search...</label>
+                  </span>
+                </div>
+                <ng-container *ngFor="let option of question?.answer_option; let i=index"><br>
+                  <mat-checkbox class="m-3  font-weight-500 font-13" id="{{option?._id}}"
+                    (change)="onChange(question, $event, option)" [checked]="option?.checked">
+                    {{option?.name}}
+                  </mat-checkbox>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div> -->
+
+                <mat-form-field class="w-100" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+                    <mat-label>{{question.title}}
+                        <span *ngIf="question.required" class="text-primary">*</span>
+                    </mat-label>
+                    <mat-select id="{{question.order}}" panelClass="custom-mat-select-panel" multiple [(ngModel)]="question.value" [disableOptionCentering]="true" (closed)="onSelectionClose(question?.order)" [disabled]="question?.isQuestionDisabled">
+                        <div class="w-100 shadow-sm search-filter">
+                            <!-- has-float-label - use this class in span tag and comment the label for floating label field -->
+                            <span class="">
+                  <input id="{{question.order+'_dropDownSearch'}}" type="text" class="form-control" placeholder="Search {{question.title}}" appRestrictFirstCharAsSpace appAlphabetOnly
+                  [(ngModel)]="searchedText" (ngModelChange)="getFilterAnswerOption($event, question);" (keydown)="$event.stopPropagation()" >
+                  <!-- <label for="{{question.order+'_dropDownSearch'}}">Search {{question.title}}</label> -->
+                </span>
+                        </div>
+                        <div class="single-select custom-y-scroll">
+                            <mat-option *ngIf="question?.answer_option?.length == 0" disabled>No options available</mat-option>
+                            <mat-option *ngFor="let option of question?.answer_option; let i=index" [value]="option._id" [disabled]="option?.disabled" [matTooltip]="option?.name" class="mb-2" (click)="option?.disabled ? '' : onChange(question, {checked: !option.checked}, option)">
+                                <!-- {{option?.name}} -->
+                                <div class="d-flex flex-column mt-2" style="line-height: 1.2em;">
+                                    <span>{{ option?.name }}</span>
+                                    <span *ngIf="option && option.info" matTooltip="{{option?.info}}" class="option-info mt-1 text-truncate">{{option?.info}}</span>
+                                </div>
+                            </mat-option>
+                        </div>
+                    </mat-select>
+                    <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint" style="font-size: 16px; right: 20px;">info</mat-icon>
+                </mat-form-field>
+
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.DATE">
+                <!-- <div class="col-sm-12  font-weight-500" style="font-size: 80%; color: #6c757d;" >{{question.title}} <span *ngIf="question.required"
+              class="text-primary">*</span></div> -->
+                <!-- <mat-form-field class="col-sm-2" style="width: 18%">
+          <input readonly matInput class="form-control  font-weight-500" placeholder="{{question.title}}" [(ngModel)]="question.modelValue" (change)="onChange(question, $event)" [ngModelOptions]="{standalone: true}"
+                [matDatepicker]="myDatepickerfrom">
+          <mat-datepicker-toggle matSuffix [for]="myDatepickerfrom"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepickerfrom></mat-datepicker>
+      </mat-form-field> -->
+                <div class="w-100" [ngClass]="{'disable-question-field disable-question-field-opacity': ( question?.isQuestionDisabled ) }">
+                    <input type="date" autocomplete="{{question.order}}" id="{{question.order}}" class="form-control " placeholder="{{question.title}}" [ngClass]="{'invalid-border': question.errorMessage}" name="{{question.order}}" [(ngModel)]="question.modelValue" (change)="onChange(question, $event)"
+                        [ngModelOptions]="{standalone: true}" [readonly]="question?.isQuestionDisabled" [min]="question?.min" [max]="question?.max" (keydown)="restrictManuallyEnterDate()">
+                    <label class="date-custom-label" for="{{question.order}}">{{question.title}} 
+              <span *ngIf="question.required"
+              class="text-primary">*</span>
+            </label>
+                    <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint" style="right: 50px;">info</mat-icon>
+                </div>
+                <div class="col-sm-12 font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.NESTED_ONE">
+                <span class="has-float-label" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+            <select id="{{question.order}}" placeholder="{{question.title}}" (change)="onChange(question, $event)"
+              name="question.modelValue" class="form-control "
+              [ngClass]="{'invalid-border': question.errorMessage}" [(ngModel)]="question.modelValue">
+              <option class="" value="" disabled>Select Option
+              </option>
+              <option class="" [value]="opt._id" *ngFor="let opt of question.answer_option;let i=index"
+                [hidden]="opt?.disabled">{{opt.name}}
+              </option>
+            </select>
+            <label class="" for="{{question.order}}">{{question.title}} <span *ngIf="question.required"
+                class="text-primary">*</span></label>
+                <mat-icon class="input-eye-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </span>
+                <div class="col-sm-12  font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.MULTI_SELECT_CHECKBOX">
+                <div class="col-sm-12 mb-3 " id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}">
+                    {{question.title}}
+                    <span *ngIf="question.required" class="text-primary">*</span>
+                    <mat-icon class="radio-info-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </div>
+                <div class="col-sm-12" *ngFor="let option of question.answer_option;let i=index" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+                    <mat-checkbox class="m-3 " (change)="onChange(question, $event, option)" [checked]="option.checked">{{option.name}}</mat-checkbox>
+                </div>
+                <div class="col-sm-12 font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="mb-3" [ngClass]="{'col-sm-12': ( question.width == '100' || isOpenChevron ), 'col-sm-6': (question.width == '50' && !isOpenChevron ) || ( question.width == '25' && isOpenChevron ) , 'col-sm-3': ( question.width == '25' && !isOpenChevron ), 'custom-col-sm-2': ( question.width == '20' && !isOpenChevron ) }"
+                *ngSwitchCase="QUESTION_TYPE.NESTED_TWO">
+                <div class="col-sm-12 mb-3 " id="{{question.order}}" [ngClass]="{'invalid-border': question.errorMessage}">
+                    {{question.title}}
+                    <span *ngIf="question.required" class="text-primary">*</span>
+                    <mat-icon class="radio-info-icon" *ngIf="question?.hint" [matTooltip]="question?.hint">info</mat-icon>
+                </div>
+                <div class="col-sm-12" *ngFor="let option of question.answer_option;let i=index" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+                    <mat-checkbox class="m-3 " (change)="onChange(question, $event, option)" [checked]="option.checked">{{option.name}}</mat-checkbox>
+                </div>
+                <div class="col-sm-12 font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+                    {{question.hint?question.hint:question.errorMessage}}
+                </div>
+            </div>
+
+            <div class="col-sm-12 " *ngSwitchDefault>
+                <div class="mb-3 " *ngIf="question?.title">{{question.title}} <span *ngIf="question.required" class="text-primary">*</span>
+                </div>
+
+                <ng-container *ngIf="!question?.title">
+                    <div class="row mx-0">
+                        <div class="col-sm-12" *ngIf="value">{{value}}</div>
+                        <ng-container *ngFor="let child of question;  let questionIndexes = index" [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ question: child, questionIndex:questionIndexes, value: []}">
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+        <!-- <div class="col-sm-12 font-weight-500 text-primary error-msg" *ngIf="question.errorMessage">
+        {{question.hint?question.hint:question.errorMessage}}
+      </div> -->
+
+        <ng-container *ngIf="question?.childQuestionData">
+            <div class="row mx-0">
+                <ng-container *ngFor="let child of question.childQuestionData;  let questionIndexes = index" [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ question: child, questionIndex:questionIndexes, value: question.value[questionIndexes]}">
+                </ng-container>
+            </div>
+        </ng-container>
+
+
+    </ng-template>
+
+    <div class="custom-loader" *ngIf="isImageUploading">
+        <mat-spinner mode="indeterminate"></mat-spinner>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="isViewMode">
+    <!-- <h4 class="text-center text-primary common-font-family" *ngIf="title">{{title}}</h4>
+  <div class="flex-container mt-3">
+    <div class="mt-2" *ngFor="let item of questionResponse; let i = index ">
+      <label for="staticEmail" class="col-form-label form-label">{{item?.title}}</label>
+      <div class="padding">
+        <span class="custom-text-truncate" >{{getSelectedValue(item)}}</span>
+      </div>
+    </div>
+  </div> -->
+    <app-web-form-view class="mb-2" [questions]="questionresponse" [template]="viewFormTemplate" [title]="title"></app-web-form-view>
+</ng-container>
