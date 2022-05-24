@@ -140,24 +140,29 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     tooltips: {
       callbacks: {
         label: function (tooltipItem, data) {
-          console.log('tooltip', tooltipItem, data);
+          console.log("tooltip", tooltipItem, data);
           var dataset = data.datasets[tooltipItem.datasetIndex];
-          console.log('dataset', dataset)
+          console.log("dataset", dataset);
           // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
           // console.log('model', model)
           let averageFYSum = 0;
-          if (dataset && dataset.type == 'line') {
-            averageFYSum = Math.round((( dataset.data[tooltipItem.index] - dataset.data[tooltipItem.index+1 ]) / dataset.data[tooltipItem.index]) * 100);
+          if (dataset && dataset.type == "line") {
+            averageFYSum = Math.round(
+              ((dataset.data[tooltipItem.index] -
+                dataset.data[tooltipItem.index + 1]) /
+                dataset.data[tooltipItem.index]) *
+                100
+            );
             if (isNaN(averageFYSum)) {
               return `${dataset?.label}: No change`;
             } else {
-              return `${dataset?.label}: ${averageFYSum}`
+              return `${dataset?.label}: ${averageFYSum}`;
             }
           } else {
-            return `${dataset?.label}: ${tooltipItem.yLabel}`
+            return `${dataset?.label}: ${tooltipItem.yLabel}`;
           }
-        }
-      }
+        },
+      },
     },
   };
 
@@ -528,17 +533,17 @@ ULB ${this.selectedTab} for FY' ${
         }
         dataByYear.forEach((dataByYearVal) => {
           let dataInner = JSON.parse(JSON.stringify(innerDataset));
-          if (this.compareType == "National Average" && key == "compData") {
-            dataByYearVal.ulbName = "National";
-          }
-          if (this.compareType == "ULB Type Average" && key == "compData") {
-            dataByYearVal.ulbName = this.ulbMapping[this.currentUlb].type;
-          }
-          if (this.compareType == "ULB category Average" && key == "compData") {
-            dataByYearVal.ulbName = getPopulationType(
-              this.ulbMapping[this.currentUlb].population
-            );
-          }
+          // if (this.compareType == "National Average" && key == "compData") {
+          //   dataByYearVal.ulbName = "National";
+          // }
+          // if (this.compareType == "ULB Type Average" && key == "compData") {
+          //   dataByYearVal.ulbName = this.ulbMapping[this.currentUlb].type;
+          // }
+          // if (this.compareType == "ULB category Average" && key == "compData") {
+          //   dataByYearVal.ulbName = getPopulationType(
+          //     this.ulbMapping[this.currentUlb].population
+          //   );
+          // }
 
           if (!temp[dataByYearVal.ulbName]) {
             dataInner.backgroundColor = backgroundColor[index];
@@ -585,6 +590,7 @@ ULB ${this.selectedTab} for FY' ${
     // };
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.unshift(newlineDataset);
+    console.log("newData ===>", newData);
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "₹" : "₹ Cr"
@@ -702,7 +708,7 @@ ULB ${this.selectedTab} for FY' ${
       let previousYear = this.getPreviousYear(element._id);
       let previousYearValue = data.find((val) => val._id == previousYear);
       let year1 = previousYearValue,
-      year2 = data[index];
+        year2 = data[index];
       if (!year1) {
         newData.push({
           _id: { financialYear: data[index]._id },
@@ -793,10 +799,10 @@ ULB ${this.selectedTab} for FY' ${
                 var currentValue = Number(dataset.data[tooltipItem.index]);
                 var percentage = Math.round((currentValue / total) * 100);
                 var tooltipLabel;
-                if(typeof data.labels[tooltipItem.index].text == 'object') {
-                  tooltipLabel = data.labels[tooltipItem.index].text.name
+                if (typeof data.labels[tooltipItem.index].text == "object") {
+                  tooltipLabel = data.labels[tooltipItem.index].text.name;
                 } else {
-                 tooltipLabel = data.labels[tooltipItem.index].text
+                  tooltipLabel = data.labels[tooltipItem.index].text;
                 }
                 // var percentage = ((currentValue / total) * 100).toFixed(2);
                 // return percentage + "%" + data.labels[tooltipItem.index].text;
@@ -977,8 +983,8 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        let tempColor = "#038386"
-        if(value.color == tempColor) {
+        let tempColor = "#038386";
+        if (value.color == tempColor) {
           other_receipt.colour = value.colour;
         } else {
           other_receipt.colour = tempColor;

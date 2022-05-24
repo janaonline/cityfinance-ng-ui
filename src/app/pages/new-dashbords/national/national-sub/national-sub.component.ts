@@ -196,6 +196,8 @@ export class NationalSubComponent implements OnInit {
   //   "#FF608B",
   // ];
   colorArray = [];
+  mainDoughnutArray = [];
+  tempObj = {};
 
   chartArray: any = [];
   activetab: any = "Total Revenue";
@@ -258,8 +260,8 @@ export class NationalSubComponent implements OnInit {
               return currentValue;
             },
           },
-        }
-      }
+        },
+      },
     },
     {
       data: [],
@@ -267,24 +269,23 @@ export class NationalSubComponent implements OnInit {
       borderWidth: 1,
       barThickness: 40,
     },
-    
   ];
 
-    deficitBarChartData: any = [
-      {
-        type: "line",
-        label: "National Revenue Average",
-        data: [80, 80, 80, 80, 80, 80],
-        fill: false,
-        borderColor: "#fc4185",
-      },
-      {
-        type: "line",
-        label: "National Expense Average",
-        data: [80, 80, 80, 80, 80, 80],
-        fill: false,
-        borderColor: "red",
-      },
+  deficitBarChartData: any = [
+    {
+      type: "line",
+      label: "National Revenue Average",
+      data: [80, 80, 80, 80, 80, 80],
+      fill: false,
+      borderColor: "#fc4185",
+    },
+    {
+      type: "line",
+      label: "National Expense Average",
+      data: [80, 80, 80, 80, 80, 80],
+      fill: false,
+      borderColor: "red",
+    },
     {
       data: [],
       label: "Revenue",
@@ -294,34 +295,32 @@ export class NationalSubComponent implements OnInit {
     },
     {
       data: [],
-      
+
       label: "Expense",
       backgroundColor: "#000",
       borderWidth: 1,
       barThickness: 40,
     },
-    
   ];
 
   getCurrentTabValue() {
-    if(this.activetab)
-    if(this.doughnut) {
-    this.doughnut.destroy();
-    }
+    if (this.activetab)
+      if (this.doughnut) {
+        this.doughnut.destroy();
+      }
     console.log("280", this.activetab, this.popBtn);
 
     this.nationalInput.stateId = this.selectedState;
 
-    if(this.popBtn) {
+    if (this.popBtn) {
       this.downloadInput.formType = "populationCategory";
-    } 
-    if(!this.popBtn) {
-
+    }
+    if (!this.popBtn) {
       this.downloadInput.formType = "ulbType";
     }
 
     this.nationalInput.financialYear = this.selectedYear;
-    if ( this.activetab.includes("Total")) {
+    if (this.activetab.includes("Total")) {
       this.totalRevenue = true;
       this.mixRevenue = false;
       this.tableView = true;
@@ -496,6 +495,10 @@ export class NationalSubComponent implements OnInit {
                 this.multipleDoughnutChartLabel.push(elem?.lineitem);
               });
             this.nationalDoughnutChart = Object.values(res?.data?.national);
+            this.nationalDoughnutChart = Object.values(res?.data?.national);
+
+            console.log("nationalDoughnutChart", this.nationalDoughnutChart);
+
             this.doughnutChartInit();
             if (revenueMixInput.formType == "populationCategory") {
               this.mixRDoughnutPopulationCategory.map((elem) => {
@@ -510,7 +513,6 @@ export class NationalSubComponent implements OnInit {
               );
             }
             if (revenueMixInput.formType == "ulbType") {
-            
               // this.doughnutLabels = res?.data?.colourArray;
               // this.doughnutLabels.forEach((elem, i) => {
               //   this.colorArray.push(elem?.colour);
@@ -567,7 +569,7 @@ export class NationalSubComponent implements OnInit {
     this.getFinancialYearList();
 
     this.nationalMapService.currentSubTab.subscribe((res) => {
-      this.popBtn = true
+      this.popBtn = true;
       this.activetab = res?.data;
       this.CurrentHeadTab = res?.HeadTab
         ? res?.HeadTab
@@ -619,7 +621,7 @@ export class NationalSubComponent implements OnInit {
     });
   }
 
-  barLineData: any = []
+  barLineData: any = [];
 
   creatBarChartData(value) {
     console.log({ value });
@@ -642,17 +644,16 @@ export class NationalSubComponent implements OnInit {
 
         let calculatedData = deficitData;
         let newCalcualtesData = expenseData;
-        let firstLine = []
-        let secondLine = []
+        let firstLine = [];
+        let secondLine = [];
         for (let index = 0; index < deficitData.length - 1; index++) {
-          firstLine.push(...calculatedData.slice(0, 1))
+          firstLine.push(...calculatedData.slice(0, 1));
         }
         for (let index = 0; index < expenseData.length - 1; index++) {
-          secondLine.push(...newCalcualtesData.slice(0, 1))
+          secondLine.push(...newCalcualtesData.slice(0, 1));
         }
         this.deficitBarChartData[0].data = firstLine;
         this.deficitBarChartData[1].data = secondLine;
-        
 
         console.log("deficitData==>", this.barChartData);
       }
@@ -678,20 +679,19 @@ export class NationalSubComponent implements OnInit {
         return parseInt(elem[this.newValue]);
       });
 
-      let calculatedData = this.revnueChartData;
+    let calculatedData = this.revnueChartData;
 
-      if(this.barLineData) {
-        this.barLineData = []
-      }
-      for (let index = 0; index < this.revnueChartData.length - 1; index++) {
-        
-        this.barLineData.push(...calculatedData.slice(0, 1))
-      }
-      
+    if (this.barLineData) {
+      this.barLineData = [];
+    }
+    for (let index = 0; index < this.revnueChartData.length - 1; index++) {
+      this.barLineData.push(...calculatedData.slice(0, 1));
+    }
+
     this.revnueChartData = this.revnueChartData.slice(1);
 
     this.barChartData[1].data = this.revnueChartData;
-    this.barChartData[0].data = this.barLineData
+    this.barChartData[0].data = this.barLineData;
     console.log(
       "this.revenueChartData",
       this.revnueChartData,
@@ -764,8 +764,7 @@ export class NationalSubComponent implements OnInit {
   }
 
   barChartInit() {
-
-    console.log("barLineData", this.barLineData)
+    console.log("barLineData", this.barLineData);
     console.log(
       "this.deficitdata",
       this.deficitBarChartData,
@@ -774,7 +773,7 @@ export class NationalSubComponent implements OnInit {
       this.barChartData,
       this.barChartsLabels
     );
-    
+
     let finalObj: any = {};
     if (this.activetab == "Deficit or Surplus") {
       finalObj = this.deficitBarChartData;
@@ -782,7 +781,7 @@ export class NationalSubComponent implements OnInit {
       finalObj = this.barChartData;
     }
 
-    console.log("finalObj", this.barChartData, this.deficitBarChartData)
+    console.log("finalObj", this.barChartData, this.deficitBarChartData);
     let newLabel =
       this.newValue.charAt(0).toUpperCase() +
       this.newValue
@@ -791,13 +790,12 @@ export class NationalSubComponent implements OnInit {
         .join(" ");
 
     console.log({ newLabel });
-    this.barChartData[1]["label"] = newLabel
+    this.barChartData[1]["label"] = newLabel;
     this.yAxesLabel = newLabel;
-    if(this.yAxesLabel.includes("Per Capita")){
-      this.yAxesLabel = this.yAxesLabel + " in Rs."
-    }else {
-      
-      this.yAxesLabel = this.yAxesLabel + " in Cr."
+    if (this.yAxesLabel.includes("Per Capita")) {
+      this.yAxesLabel = this.yAxesLabel + " in Rs.";
+    } else {
+      this.yAxesLabel = this.yAxesLabel + " in Cr.";
     }
     if (this.chart) {
       this.chart.destroy();
@@ -853,12 +851,12 @@ export class NationalSubComponent implements OnInit {
           },
           tooltips: {
             callbacks: {
-              title: function(tooltipItem, data) {
+              title: function (tooltipItem, data) {
                 var dataset = data.datasets[tooltipItem[0].datasetIndex];
-                if (dataset && dataset.type == 'line') {
-                  return '';
+                if (dataset && dataset.type == "line") {
+                  return "";
                 } else {
-                  return `${tooltipItem[0]?.label}`
+                  return `${tooltipItem[0]?.label}`;
                 }
               },
               /**
@@ -911,7 +909,6 @@ export class NationalSubComponent implements OnInit {
       type: "doughnut",
       data: {
         labels: this.nationalDoughnutChartLabel,
-        // labels: this.nationalDoughnutChartLabel,
         datasets: [
           {
             data: this.nationalDoughnutChart,
@@ -941,7 +938,7 @@ export class NationalSubComponent implements OnInit {
                 // thisCtx.font = `${textSize}px Verdana`;
                 const model =
                   dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-                
+
                 const total =
                   dataset._meta[Object.keys(dataset._meta)[0]].total;
                 const midRadius =
@@ -979,7 +976,6 @@ export class NationalSubComponent implements OnInit {
                   fontFamily
                 );
 
-
                 const percent = `${String(
                   Math.round((dataset.data[i] / total) * 100)
                 )}%`;
@@ -1004,108 +1000,111 @@ export class NationalSubComponent implements OnInit {
   }
 
   dynamicDoughnutChartInit(chartArray) {
-    console.log("multiple Chart Array", chartArray)
+    console.log("multiple Chart Array", chartArray);
     let canvasCharts = this.allMyCanvas._results; // Get array with all canvas
-    if(chartArray)
-    canvasCharts.map((myCanvas, i) => {
-      // For each canvas, save the chart on the charts array
-      chartArray[i].chart = new Chart(myCanvas.nativeElement.getContext("2d"), {
-        type: "doughnut",
-        data: {
-          labels: this.multipleDoughnutChartLabel,
-          datasets: [
-            {
-              data: chartArray[i].data,
-              backgroundColor: this.colorArray,
-              fill: false,
+    if (chartArray)
+      canvasCharts.map((myCanvas, i) => {
+        // For each canvas, save the chart on the charts array
+        chartArray[i].chart = new Chart(
+          myCanvas.nativeElement.getContext("2d"),
+          {
+            type: "doughnut",
+            data: {
+              labels: this.multipleDoughnutChartLabel,
+              datasets: [
+                {
+                  data: chartArray[i].data,
+                  backgroundColor: this.colorArray,
+                  fill: false,
+                },
+              ],
             },
-          ],
-        },
-        options: {
-          ...this.doughnutChartOptions,
-          animation: {
-            duration: 500,
-            easing: "easeOutQuart",
-            onComplete() {
-              var localThis = this;
-              const thisCtx = this.chart.ctx;
-              thisCtx.font = Chart.helpers.fontString(
-                Chart.defaults.global.defaultFontFamily,
-                "normal",
-                Chart.defaults.global.defaultFontFamily
-              );
-              thisCtx.textAlign = "center";
-              thisCtx.textBaseline = "bottom";
-              this.data.datasets.forEach((dataset, index) => {
-                for (let i = 0; i < dataset.data.length; i += 1) {
-                  const textSize = myCanvas.nativeElement.width / 100;
-                  // const textSize = '14px Verdana';
-                  // thisCtx.font = `${textSize}px Verdana`;
-                  const model =
-                    dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-                 
-                  const total =
-                    dataset._meta[Object.keys(dataset._meta)[0]].total;
-                  const midRadius =
-                    model.innerRadius +
-                    (model.outerRadius - model.innerRadius) / 2;
-                  const startAngle = model.startAngle;
-                  const endAngle = model.endAngle;
-                  const midAngle = startAngle + (endAngle - startAngle) / 2;
-
-                  const x = midRadius * Math.cos(midAngle);
-                  const y = midRadius * Math.sin(midAngle);
-
-                  /* Calculating the area of the doughnut sector. */
-                  let angle = endAngle - startAngle;
-                  let doughnutSectorArea =
-                    (angle / 2) *
-                    (model.outerRadius - model.innerRadius) *
-                    (model.outerRadius + model.innerRadius);
-
-                  /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
-                  If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
-                  // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
-                  var isBGColorDarkOrLight = lightOrDark(
-                    model?.backgroundColor
-                  );
-                  thisCtx.fillStyle = isBGColorDarkOrLight
-                    ? isBGColorDarkOrLight == "light"
-                      ? "#000000"
-                      : "#ffffff"
-                    : "#000000";
-                  var fontSize = 14;
-                  var fontStyle = "normal";
-                  var fontFamily = "sans-serif";
+            options: {
+              ...this.doughnutChartOptions,
+              animation: {
+                duration: 500,
+                easing: "easeOutQuart",
+                onComplete() {
+                  var localThis = this;
+                  const thisCtx = this.chart.ctx;
                   thisCtx.font = Chart.helpers.fontString(
-                    fontSize,
-                    fontStyle,
-                    fontFamily
+                    Chart.defaults.global.defaultFontFamily,
+                    "normal",
+                    Chart.defaults.global.defaultFontFamily
                   );
+                  thisCtx.textAlign = "center";
+                  thisCtx.textBaseline = "bottom";
+                  this.data.datasets.forEach((dataset, index) => {
+                    for (let i = 0; i < dataset.data.length; i += 1) {
+                      const textSize = myCanvas.nativeElement.width / 100;
+                      // const textSize = '14px Verdana';
+                      // thisCtx.font = `${textSize}px Verdana`;
+                      const model =
+                        dataset._meta[Object.keys(dataset._meta)[0]].data[i]
+                          ._model;
 
+                      const total =
+                        dataset._meta[Object.keys(dataset._meta)[0]].total;
+                      const midRadius =
+                        model.innerRadius +
+                        (model.outerRadius - model.innerRadius) / 2;
+                      const startAngle = model.startAngle;
+                      const endAngle = model.endAngle;
+                      const midAngle = startAngle + (endAngle - startAngle) / 2;
 
-                  const percent = `${String(
-                    Math.round((dataset.data[i] / total) * 100)
-                  )}%`;
-                  /* if need to add the percentage with absolute value uncomment the below line. */
-                  // thisCtx.fillText(model.label, model.x + x, model.y + y);
-                  // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
-                  //   model.y + y + (textSize * 1.3));
+                      const x = midRadius * Math.cos(midAngle);
+                      const y = midRadius * Math.sin(midAngle);
 
-                  if (dataset.data[i] != 0 && doughnutSectorArea > 800) {
-                    thisCtx.fillText(
-                      percent,
-                      model.x + x,
-                      model.y + y + textSize * 1.3
-                    );
-                  }
-                }
-              });
+                      /* Calculating the area of the doughnut sector. */
+                      let angle = endAngle - startAngle;
+                      let doughnutSectorArea =
+                        (angle / 2) *
+                        (model.outerRadius - model.innerRadius) *
+                        (model.outerRadius + model.innerRadius);
+
+                      /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                  If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+                      // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                      var isBGColorDarkOrLight = lightOrDark(
+                        model?.backgroundColor
+                      );
+                      thisCtx.fillStyle = isBGColorDarkOrLight
+                        ? isBGColorDarkOrLight == "light"
+                          ? "#000000"
+                          : "#ffffff"
+                        : "#000000";
+                      var fontSize = 14;
+                      var fontStyle = "normal";
+                      var fontFamily = "sans-serif";
+                      thisCtx.font = Chart.helpers.fontString(
+                        fontSize,
+                        fontStyle,
+                        fontFamily
+                      );
+
+                      const percent = `${String(
+                        Math.round((dataset.data[i] / total) * 100)
+                      )}%`;
+                      /* if need to add the percentage with absolute value uncomment the below line. */
+                      // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                      // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                      //   model.y + y + (textSize * 1.3));
+
+                      if (dataset.data[i] != 0 && doughnutSectorArea > 800) {
+                        thisCtx.fillText(
+                          percent,
+                          model.x + x,
+                          model.y + y + textSize * 1.3
+                        );
+                      }
+                    }
+                  });
+                },
+              },
             },
-          },
-        },
+          }
+        );
       });
-    });
 
     this.chartArray = chartArray;
 

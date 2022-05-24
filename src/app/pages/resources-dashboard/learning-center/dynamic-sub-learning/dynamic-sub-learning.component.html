@@ -49,20 +49,39 @@
     <!-- <h2 style="text-align: center;">Chapter on Enumeration</h2> -->
     <div class="heading topBottomGaps">Current Practices</div>
     <p class="sub-ans just">
-      Enumeration means counting of properties for the purpose of taxation. In practical terms, this entails the creation and maintenance of a property register. Ideally, the process of enumeration should ensure completeness and accuracy of records.
+      Enumeration means counting of properties for the purpose of taxation. In
+      practical terms, this entails the creation and maintenance of a property
+      register. Ideally, the process of enumeration should ensure completeness
+      and accuracy of records.
       <br />
-      It is important to have a complete record of properties in a jurisdiction to have an improved process of tax collection.
+      It is important to have a complete record of properties in a jurisdiction
+      to have an improved process of tax collection.
     </p>
-    <div class="heading topBottomGaps">The process of enumeration has the following aspects:</div>
-    <div class="heading topBottomGaps">1) Creation of property tax register</div>
-    
-    
-    <p  class="sub-ans just">The ULB can create a physical record or a digital record of properties in their jurisdiction once counting is done.</p>
-    <img src="../../../../../assets/resources-das/enum1.png" style="width: 1054px;" />
-    <div class="heading topBottomGaps">2) Maintenance of property tax register</div>
+    <div class="heading topBottomGaps">
+      The process of enumeration has the following aspects:
+    </div>
+    <div class="heading topBottomGaps">
+      1) Creation of property tax register
+    </div>
+
+    <p class="sub-ans just">
+      The ULB can create a physical record or a digital record of properties in
+      their jurisdiction once counting is done.
+    </p>
+    <img
+      src="../../../../../assets/resources-das/enum1.png"
+      style="width: 1054px"
+    />
+    <div class="heading topBottomGaps">
+      2) Maintenance of property tax register
+    </div>
 
     <h3></h3>
-    <p  class="sub-ans just">Property register can be updated by repeating a physical survey and/or it can be integrated with database of other departments in the municipal corporation.</p>
+    <p class="sub-ans just">
+      Property register can be updated by repeating a physical survey and/or it
+      can be integrated with database of other departments in the municipal
+      corporation.
+    </p>
     <img src="../../../../../assets/resources-das/enum2.png" />
 
     <div class="heading topBottomGaps" style="margin-top: 2%">
@@ -98,35 +117,51 @@
         <div
           ngxSlickItem
           *ngFor="let item of enumCardData[cardId - 1].imgArr"
-          class="slide responsiveAssess" style="height:500px;"
+          class="slide responsiveAssess"
+          style="height: 500px"
         >
-        <span class="topBottomGaps steps">{{ item.text }}</span>
-        
-        <img [src]="item.link" alt="" width="100%" />
-        
-        
+          <span class="topBottomGaps steps">{{ item.text }}</span>
+
+          <img [src]="item.link" alt="" width="100%" />
         </div>
       </ngx-slick-carousel>
     </div>
     <!-- <div class="mt-4" *ngFor="let item of enumCardData[cardId - 1].imgArr">
     </div> -->
-    
   </div>
   <div class="col-sm-12" *ngIf="isValu">
     <div class="heading topBottomGaps">Current Practices</div>
     <p class="sub-ans just">
-      Valuation refers to the methodology used for assigning values to all properties for the purpose of taxation. There are three methods for valuation of properties for the purpose of property tax which are currently used by States in India, i.e. the annual rental value method (ARV), unit area value method (UAV) and the capital value method (CV). These methodologies vary across States and cities, both in legislation and in practice.
+      Valuation refers to the methodology used for assigning values to all
+      properties for the purpose of taxation. There are three methods for
+      valuation of properties for the purpose of property tax which are
+      currently used by States in India, i.e. the annual rental value method
+      (ARV), unit area value method (UAV) and the capital value method (CV).
+      These methodologies vary across States and cities, both in legislation and
+      in practice.
       <br /><br />
-      Annual Rental Value (ARV) is the most widely used valuation method in Indian States.
+      Annual Rental Value (ARV) is the most widely used valuation method in
+      Indian States.
       <br /><br />
-      The common aspect between ARV and UAV is that in most States that use these methodologies, the values are prescribed in an ad-hoc manner without clear linkage to underlying factors. The CV system, which is followed in a few States, directly links property tax to the prevailing guidance value as published by the Stamp Duties and Registration Department. However, the property value is generally depressed by virtue of several multiplicative factors that make the system non-buoyant. Moreover, property tax valuations are not revised regularly in tandem with increase in guidance values i.e. outdated guidance values may be used for property taxation. To overcome these challenges, all cities should adopt the CV system with minimum multiplicative factors and a provision for periodic increase linked to increase in guidance value.
+      The common aspect between ARV and UAV is that in most States that use
+      these methodologies, the values are prescribed in an ad-hoc manner without
+      clear linkage to underlying factors. The CV system, which is followed in a
+      few States, directly links property tax to the prevailing guidance value
+      as published by the Stamp Duties and Registration Department. However, the
+      property value is generally depressed by virtue of several multiplicative
+      factors that make the system non-buoyant. Moreover, property tax
+      valuations are not revised regularly in tandem with increase in guidance
+      values i.e. outdated guidance values may be used for property taxation. To
+      overcome these challenges, all cities should adopt the CV system with
+      minimum multiplicative factors and a provision for periodic increase
+      linked to increase in guidance value.
     </p>
     <!-- <img src="../../../../../assets/resources-das/image1-31.png" /> -->
 
     <div class="heading topBottomGaps" style="margin-top: 2%">
       Key Recommendations
     </div>
-    <div  class="responsiveCards">
+    <div class="responsiveCards">
       <div
         (click)="showRecomm(card._id)"
         *ngFor="let card of valuationCardData"
@@ -156,17 +191,15 @@
         <div
           ngxSlickItem
           *ngFor="let item of valuationCardData[cardId - 1].imgArr"
-          class="slide responsiveAssess" style="height:500px;"
+          class="slide responsiveAssess"
+          style="height: 500px"
         >
-        <span class="topBottomGaps steps">{{ item.text }}</span>
+          <span class="topBottomGaps steps">{{ item.text }}</span>
 
-        <img [src]="item.link" alt="" width="100%" />
-        
+          <img [src]="item.link" alt="" width="100%" />
         </div>
       </ngx-slick-carousel>
     </div>
-    
-    
   </div>
   <div class="col-sm-12" *ngIf="isAssess">
     <div class="heading topBottomGaps">Current Practices</div>
@@ -222,15 +255,13 @@
           ngxSlickItem
           *ngFor="let item of assessmentData[cardId - 1].imgArr"
           class="slide responsiveAssess"
-          style="height:500px;"
+          style="height: 500px"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
           <img [src]="item.link" alt="" width="100%" />
         </div>
       </ngx-slick-carousel>
     </div>
-
-  
   </div>
   <div class="col-sm-12" *ngIf="isBill">
     <div class="heading topBottomGaps">Current Practices</div>
@@ -286,7 +317,8 @@
         <div
           ngxSlickItem
           *ngFor="let item of billingCardData[cardId - 1].imgArr"
-          class="slide responsiveAssess" style="height:500px;"
+          class="slide responsiveAssess"
+          style="height: 500px"
         >
           <span class="topBottomGaps steps">{{ item.text }}</span>
           <img [src]="item.link" alt="" width="100%" />
@@ -297,7 +329,6 @@
         </div>
       </ngx-slick-carousel>
     </div>
-
   </div>
   <div class="col-sm-12" *ngIf="isRepo">
     <div class="heading topBottomGaps">Current Practices</div>
@@ -362,29 +393,41 @@
         </div>
       </ngx-slick-carousel>
     </div>
-    
   </div>
 </div>
 
 <div class="row" *ngIf="isAssess || isBill || isRepo || isEnum">
-  
   <div class="heading topBottomGaps">Best Practices</div>
-  <div *ngIf="stateList.length > 0" style="display: flex;">
-  <div *ngFor="let item of stateList" class="practiceCard">
-    <a href={{item.downloadUrl}} target="_blank" style="text-decoration: none">
-    <div class="practiceHead">
-      {{ stateIdsMap[ item.state] }}
+  <div *ngIf="stateList.length > 0" style="display: flex">
+    <div *ngFor="let item of stateList" class="practiceCard">
+      <a
+        href="{{ item.downloadUrl }}"
+        target="_blank"
+        style="text-decoration: none"
+      >
+        <div class="practiceHead">
+          {{ stateIdsMap[item.state] }}
+        </div>
+        <div style="position: relative">
+          <pdf-viewer
+            [src]="item?.downloadUrl"
+            [render-text]="false"
+            [show-all]="false"
+            style="display: block; height: 250px"
+            [page]="1"
+            [zoom-scale]="'page-fit'"
+            [original-size]="false"
+          >
+          </pdf-viewer>
+        </div>
+        <div class="docs">
+          {{ item.name }}
+        </div>
+      </a>
     </div>
-    <div class="docs">
-      {{item.name}}
-    </div>
-  </a> 
-  
   </div>
-</div>
 
   <div *ngIf="stateList.length == 0">
-
     <p class="text-center">No Best Practices Found</p>
   </div>
 </div>

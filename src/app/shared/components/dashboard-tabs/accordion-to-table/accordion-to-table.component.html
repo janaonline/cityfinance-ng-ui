@@ -116,36 +116,33 @@
                 </button>
               </div>
             </div> -->
-            
           </div>
         </form>
         <!-- form end -->
       </div>
 
       <div class="col-md-12 customAccordion" *ngIf="city">
-
         <div class="row">
-        <div  >
-          <div class="pagination-top">
-            <pagination-controls
-              *ngIf="bondIssuerItemData && bondIssuerItemData.length"
-              id="foo"
-              (pageChange)="setPage($event)"
-              directionLinks="true"
-              autoHide="false"
-              previousLabel="Previous"
-              nextLabel="Next"
-              maxSize="5"
-              responsive="true"
-              screenReaderPaginationLabel="Pagination"
-              screenReaderPageLabel="page"
-              screenReaderCurrentLabel="You're on page"
-            >
-            </pagination-controls>
+          <div>
+            <div class="pagination-top">
+              <pagination-controls
+                *ngIf="bondIssuerItemData && bondIssuerItemData.length"
+                id="foo"
+                (pageChange)="setPage($event)"
+                directionLinks="true"
+                autoHide="false"
+                previousLabel="Previous"
+                nextLabel="Next"
+                maxSize="5"
+                responsive="true"
+                screenReaderPaginationLabel="Pagination"
+                screenReaderPageLabel="page"
+                screenReaderCurrentLabel="You're on page"
+              >
+              </pagination-controls>
+            </div>
           </div>
         </div>
-      </div>
-        
 
         <accordion [closeOthers]="true" class="fixed-header" *ngIf="mainRows">
           <accordion-group>
@@ -161,12 +158,11 @@
                 </tr>
                 <tr class="customTableRow">
                   <td style="opacity: 0.62">Issue Size</td>
-                  <td>INR {{issueSize}} Crores</td>
+                  <td>INR {{ issueSize }} Crores</td>
                 </tr>
                 <tr class="customTableRow">
                   <td style="opacity: 0.62">Bids Received</td>
-                  <td>INR {{bidReceivedAmount}} Crores (Oversubscribed 5.42 times)</td>
-                  
+                  <td>INR {{ bidReceivedAmount }} Crores</td>
                 </tr>
               </div>
             </table>
@@ -214,11 +210,15 @@
           </accordion-group>
         </accordion>
 
-        <div style="height: 53px;">
-          <table accordion-heading id="tableHeadings" >
-            <thead style="border-radius: 4px;
-            display: block;
-            border: 1px solid #EFF2F9;">
+        <div style="height: 53px">
+          <table accordion-heading id="tableHeadings">
+            <thead
+              style="
+                border-radius: 4px;
+                display: none;
+                border: 1px solid #eff2f9;
+              "
+            >
               <!-- <th>Issuer</th> -->
               <th
                 *ngFor="
@@ -248,7 +248,9 @@
             <span>Filter By</span>
           </div>
           <div class="row mt-4 d-flex justify-content-evenly filter-container">
-            <div class="col-md-4 col-sm-12 d-flex justify-content-start filterPosition">
+            <div
+              class="col-md-4 col-sm-12 d-flex justify-content-start filterPosition"
+            >
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedUlbList"
@@ -280,7 +282,9 @@
                 <option>ABC4</option>
               </select>
             </div> -->
-            <div class="col-md-4 col-sm-12 d-flex justify-content-end filterPosition">
+            <div
+              class="col-md-4 col-sm-12 d-flex justify-content-end filterPosition"
+            >
               <mat-select
                 class="selectClass"
                 [(ngModel)]="selectedYears"
@@ -293,12 +297,16 @@
                 </mat-option>
               </mat-select>
             </div>
-            <div class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition">
+            <div
+              class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition"
+            >
               <button (click)="searchFilter()" class="searchButton">
                 Search
               </button>
             </div>
-            <div class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition">
+            <div
+              class="col-md-2 col-sm-12 d-flex justify-content-end filterPosition"
+            >
               <button class="btn reset-btn" (click)="clearAllValue()">
                 Clear All
                 <span _ngcontent-all-c100="" class="ml-2 material-icons"
@@ -327,7 +335,7 @@
                     ></i>
                   </th>
                 </tr>
-  
+
                 <tr class="border-all" *ngFor="let data of tableDataSource">
                   <td
                     class="border-top-bottom"

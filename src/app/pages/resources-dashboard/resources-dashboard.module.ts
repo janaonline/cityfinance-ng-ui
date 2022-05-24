@@ -37,7 +37,9 @@ import { SlickCarouselModule } from "ngx-slick-carousel";
 import { FaqTableComponent } from "./learning-center/faq-table/faq-table.component";
 import { ELearningModuleComponent } from "./learning-center/e-learning-module/e-learning-module.component";
 import { MunicipalLawsComponent } from "./learning-center/municipal-laws/municipal-laws.component";
-import { EnumerationComponent } from './learning-center/enumeration/enumeration.component';
+import { EnumerationComponent } from "./learning-center/enumeration/enumeration.component";
+
+import { PdfViewerModule } from "ng2-pdf-viewer";
 @NgModule({
   declarations: [
     ResourcesDashboardComponent,
@@ -77,6 +79,7 @@ import { EnumerationComponent } from './learning-center/enumeration/enumeration.
     ModalModule.forRoot(),
     MatDialogModule,
     SlickCarouselModule,
+    PdfViewerModule,
   ],
   exports: [FilterComponentComponent, FilterModelBoxComponent],
   providers: [MunicipalLawsComponent],

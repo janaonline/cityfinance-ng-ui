@@ -9,6 +9,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { DashboardService } from "../../services/dashboard/dashboard.service";
 import { GlobalLoaderService } from "../../services/loaders/global-loader.service";
 
@@ -21,7 +22,8 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   constructor(
     public dashboardServices: DashboardService,
     public dialog: MatDialog,
-    public loaderService:GlobalLoaderService
+    public loaderService: GlobalLoaderService,
+    private snackbar: MatSnackBar
   ) {}
 
   isCompare = false;
@@ -33,7 +35,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   @ViewChild("template") template;
   @Output()
   compareChange = new EventEmitter();
-  slbToCompare:boolean = true;
+  slbToCompare: boolean = true;
 
   @Input()
   compareDialogType = 3;
@@ -99,9 +101,9 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     }
   }
 
-  CompFlag: boolean = false;
+  CompFlag: any = "";
   getData() {
-    this.loaderService.showLoader()
+    this.loaderService.showLoader();
     let typeName = this.data.name;
     switch (this.data.name) {
       case "Storm Water Drainage":
@@ -124,7 +126,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
 
     this.dashboardServices.fetchCitySlbChartData(queryParams).subscribe(
       (res: any) => {
-        this.loaderService.stopLoader()
+        this.loaderService.stopLoader();
         console.log("city respo", res);
         this.chartLabels = this.chartLabels.map((value) => {
           if (value.name == "ulb") {
@@ -163,12 +165,14 @@ export class SlbChartsComponent implements OnInit, OnChanges {
         });
 
         this.slbGaugeCharts.forEach((elem) => {
-          if(elem.compPercentage) {
-            this.CompFlag = true 
+          if (elem.compPercentage) {
+            this.CompFlag = true;
           } else {
-            this.CompFlag = false
+            this.CompFlag = false;
           }
-        })
+        });
+
+        this.showSnackBar();
         console.log("slbGaugeCharts", this.slbGaugeCharts, this.CompFlag);
       },
       (error) => {
@@ -177,6 +181,8 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     );
   }
 
+  modalVal: boolean = false;
+
   openModal() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "39rem";
@@ -184,6 +190,17 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     this.dialogRef.afterClosed().subscribe((result) => {
       console.log("result", result);
     });
+    this.modalVal = true;
+  }
+
+  showSnackBar() {
+    if (!this.CompFlag && this.modalVal) {
+      this.snackbar.open(`No data found for ${this.compareByName}`, null, {
+        duration: 5000,
+        verticalPosition: "bottom",
+      });
+      return;
+    }
   }
 
   closeModal() {
@@ -216,6 +233,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   }
 
   clearAll() {
+    this.modalVal = false;
     this.compareByName = "";
     this.compareType = "";
     if (this.chartLabels.length === 4) {
