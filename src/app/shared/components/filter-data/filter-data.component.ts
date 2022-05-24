@@ -508,9 +508,9 @@ ULB ${this.selectedTab} for FY' ${
     // for (const key in res["data"]) {
     const element = res["data"]["ulbData"];
     element.map((value) => {
-      // if (!newData.data.labels.includes(value._id.financialYear)) {
-      newData.data.labels.push(value._id.financialYear);
-      // }
+      if (!newData.data.labels.includes(value._id.financialYear)) {
+        newData.data.labels.push(value._id.financialYear);
+      }
     });
     // }
     newData.data.labels.sort(function (a, b) {
