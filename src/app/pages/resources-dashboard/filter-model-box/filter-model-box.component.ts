@@ -242,9 +242,9 @@ export class FilterModelBoxComponent implements OnInit {
   patchFormData(formData: any) {
     console.log('patchFormData', formData)
     this.filterForm.patchValue({
-      stateId: formData && formData?.stateId || '',
+      stateId: (formData && formData?.stateId && formData?.stateId != 'State Name') ? formData?.stateId : '',
       ulb: formData && formData?.ulb || '',
-      ulbType: formData && formData?.ulbType || '',
+      ulbType: (formData && formData?.ulbType && formData?.ulbType != 'ULB Type') ? formData?.ulbType : '',
       populationCategory: formData && formData?.populationCategory || '',
       financialYear: formData && formData?.financialYear || '',
       contentType: formData && formData?.contentType || 'Raw Data Excel'
