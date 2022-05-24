@@ -18,7 +18,6 @@ export class GrantTraCertiComponent implements OnInit {
     this.total = 0;
     this.gtCertificate.getData().subscribe(
       (res) => {
-        debugger;
         console.log(res);
         for (let key in res["data"]) {
           if (res["data"][key]["pdfUrl"] && res["data"][key]["pdfUrl"] != "") {

@@ -8,12 +8,12 @@
   </div>
   <div class="row">
     <div class="col-12 d-flex justify-content-between flex-wrap">
-      <div *ngIf="!stateServiceLabel" style="margin-bottom: 20px;">
+      <div *ngIf="!stateServiceLabel" style="margin-bottom: 20px">
         <button
           *ngFor="let item of data.btnLabels; let i = index"
           (click)="changeActiveBtn(i)"
           [id]="'btn-' + i"
-          style="margin-left: 2pc;"
+          style="margin-left: 2pc"
           class="btn deSelected my-2 customizedButton"
           [ngClass]="i == lastSelectedId ? 'selected' : 'deSelected'"
         >
@@ -21,7 +21,7 @@
         </button>
       </div>
       <!-- list of dropdown for slb in state dashboard -->
-      <div *ngIf="stateServiceLabel" class="mb-3" style="padding-right: 1rem;">
+      <div *ngIf="stateServiceLabel" class="mb-3" style="padding-right: 1rem">
         <select
           class="form-select text-capitalize"
           (change)="getServiceLevelBenchmark($event)"
@@ -59,30 +59,54 @@
       </div> -->
       <div class="mb-3">
         <div class="row">
-          <div class="col" *ngIf="(!stateServiceLabel) && (!ActiveButton?.includes('Mix'))">
-            <div class="my-2" [matTooltip]="'Select an option to view average data'">
-              <select class="form-select text-capitalize" (change)="getCheckBoxValue($event)" style="opacity: 0.6;border: 1px solid gray;width: auto;">
-                <option value="none" selected hidden [disabled]="item?.isDisabled">Select an Option</option>
-                <option *ngFor="let item of checkBoxArray" [value]="item?.value">
+          <div
+            class="col"
+            *ngIf="!stateServiceLabel && !ActiveButton?.includes('Mix')"
+          >
+            <div
+              class="my-2"
+              [matTooltip]="'Select an option to view average data'"
+            >
+              <select
+                class="form-select text-capitalize"
+                (change)="getCheckBoxValue($event)"
+                style="opacity: 0.6; border: 1px solid gray; width: auto"
+              >
+                <option
+                  value="none"
+                  selected
+                  hidden
+                  [disabled]="item?.isDisabled"
+                >
+                  Select an Option
+                </option>
+                <option
+                  *ngFor="let item of checkBoxArray"
+                  [value]="item?.value"
+                >
                   {{ item?.title }}
                 </option>
               </select>
             </div>
           </div>
-          <div class="col" style="display:flex;">
-            <select class="my-2 customDropdown" aria-label="Default select" (change)="getSelectedFinancialYear($event)"
-              style="border-radius: 8px; border: 1px solid gray;opacity: 0.6;">
-                <option
-                  *ngFor="let year of yearList"
-                  [value]="year"
-                  [selected]="year == financialYear"
-                >
-                  {{ year }}
-                </option>
-                <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
-        </select>
+          <div class="col" style="display: flex">
+            <select
+              class="my-2 customDropdown"
+              aria-label="Default select"
+              (change)="getSelectedFinancialYear($event)"
+              style="border-radius: 8px; border: 1px solid gray; opacity: 0.6"
+            >
+              <option
+                *ngFor="let year of yearList"
+                [value]="year"
+                [selected]="year == financialYear"
+              >
+                {{ year }}
+              </option>
+              <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
+            </select>
           </div>
-          <div class="col">
+          <div class="col" *ngIf="!compType">
             <form class="filter-form mr-1 my-2">
               <div>
                 <!-- <div class="pe-0 justify-content-end"> -->
@@ -92,8 +116,12 @@
                   [formControl]="nationalFilter"
                   [matAutocomplete]="auto"
                   class="customInput"
-                  style="height: 2.4rem;border-radius: 7px;
-                  border: 1px solid gray;opacity: 0.6;"
+                  style="
+                    height: 2.4rem;
+                    border-radius: 7px;
+                    border: 1px solid gray;
+                    opacity: 0.6;
+                  "
                 />
                 <!-- </div> -->
                 <!-- <div class="col-3 col-sm-3 ps-0">
@@ -113,7 +141,9 @@
                         (click)="getUlbData(option)"
                         [value]="option?.name"
                       >
-                        <span style="font-size: medium"> {{ option?.name }}</span>
+                        <span style="font-size: medium">
+                          {{ option?.name }}</span
+                        >
                       </mat-option>
                     </a>
                   </mat-autocomplete>
@@ -189,13 +219,18 @@
                 <td
                   class="text-center customTableData"
                   *ngFor="let heading of stateUlbsPopulation?.tableHeading"
-                  style="font-weight: 800;">
+                  style="font-weight: 800"
+                >
                   {{ heading }}
                 </td>
               </tr>
               <tr class="rowClass">
                 <td>Number Of Cities</td>
-                <td *ngFor="let heading of stateUlbsPopulation?.tableHeading" style="font-weight: 800;" class="customTableData">
+                <td
+                  *ngFor="let heading of stateUlbsPopulation?.tableHeading"
+                  style="font-weight: 800"
+                  class="customTableData"
+                >
                   {{
                     _commonServices.formatNumber(
                       stateUlbsPopulation?.tableDataSource[heading]
@@ -206,8 +241,6 @@
             </tbody>
           </table>
         </div>
-
-        
       </div>
     </div>
   </div>

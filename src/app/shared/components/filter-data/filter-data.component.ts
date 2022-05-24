@@ -597,6 +597,55 @@ ULB ${this.selectedTab} for FY' ${
     }`;
     this.barChartStaticOptions.scales.xAxes[0].barThickness =
       this.barWidthRender;
+    this.barChartStaticOptions.tooltips.callbacks.label = this.selectedTab
+      .toLowerCase()
+      .includes("surplus")
+      ? function (tooltipItem, data) {
+          console.log("suplus tooltip ", tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log("suplus dataset", dataset);
+          // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
+          // console.log('model', model)
+          let averageFYSum = 0;
+          if (dataset && dataset.type == "line") {
+            averageFYSum = Math.round(
+              ((dataset.data[tooltipItem.index] -
+                dataset.data[tooltipItem.index + 1]) /
+                dataset.data[tooltipItem.index]) *
+                100
+            );
+            if (isNaN(averageFYSum)) {
+              return `${dataset?.label}: No change`;
+            } else {
+              return `${dataset?.label}: ${averageFYSum}`;
+            }
+          } else {
+            return `${dataset?.label}: ${tooltipItem.yLabel}`;
+          }
+        }
+      : function (tooltipItem, data) {
+          console.log("tooltip", tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log("dataset", dataset);
+          // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
+          // console.log('model', model)
+          let averageFYSum = 0;
+          if (dataset && dataset.type == "line") {
+            averageFYSum = Math.round(
+              ((dataset.data[tooltipItem.index] -
+                dataset.data[tooltipItem.index + 1]) /
+                dataset.data[tooltipItem.index]) *
+                100
+            );
+            if (isNaN(averageFYSum)) {
+              return `${dataset?.label}: No change`;
+            } else {
+              return `${dataset?.label}: ${averageFYSum}`;
+            }
+          } else {
+            return `${dataset?.label}: ${tooltipItem.yLabel}`;
+          }
+        };
     this.chartOptions = this.barChartStaticOptions;
   }
 

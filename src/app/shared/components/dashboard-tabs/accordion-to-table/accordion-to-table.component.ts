@@ -325,7 +325,7 @@ export class AccordionToTableComponent implements OnInit {
 
     let tempArr = [];
     let tempIssueArr = [];
-    debugger;
+
     this.paginatedbondIssuerItem.forEach((elem) => {
       let bidValue = elem.bidsReceived;
       console.log("bidValue", bidValue, elem);
@@ -508,6 +508,7 @@ export class AccordionToTableComponent implements OnInit {
     this.ulbType = e.target.value;
   }
 
+  selectedUlb: any = [];
   private onGettingULBResponseSuccess(response: IULBResponse) {
     if (this.state) {
       let foundState;
@@ -531,10 +532,13 @@ export class AccordionToTableComponent implements OnInit {
         return;
       } else {
         this.filterForm.controls["ulbs"].patchValue([foundUlb]);
+        this.selectedUlb.push(foundUlb);
         this.notFound = false;
       }
     }
     this.originalULBList = response.data;
+
+    console.log("originalULBList", this.originalULBList);
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
 
@@ -592,9 +596,23 @@ export class AccordionToTableComponent implements OnInit {
   }
   city: boolean = false;
   state: boolean = false;
+  bondParam = {
+    years: [],
+    state: [],
+    ulbs: [],
+  };
 
   ngOnInit() {
-    console.log("selectedUlbList", this.selectedUlbList);
+    let selectedUlb = this.ulbList[this.cityId]?.name;
+    console.log("selectedUlb", selectedUlb);
+
+    this.bondParam.ulbs.push(selectedUlb);
+    setTimeout(() => {
+      console.log("bondParam", this.bondParam);
+      this._bondService
+        .getBondIssuerItem(this.bondParam)
+        .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
+    }, 100);
     this.emptyArray();
     console.log("valueeeeeeee" + this.value);
     if (this.value == "city") {
@@ -648,19 +666,18 @@ export class AccordionToTableComponent implements OnInit {
   ];
   ulbListLatest: any;
   onSubmittingFilterForm() {
-    debugger;
     const params = this.createParamsForssuerItem(this.filterForm.value);
     console.log("parama", params);
-    if (params.years.length == 0) {
-      params.ulbs = [];
-      params.states = [];
-    }
+
     this._bondService.getBondIssuerItem(params).subscribe((res: any) => {
       console.log(res);
       this.issueLength = res.total;
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();
+    if (params.years.length == 0) {
+      this.issueLength = 4;
+    }
   }
 
   onClickDownload() {
