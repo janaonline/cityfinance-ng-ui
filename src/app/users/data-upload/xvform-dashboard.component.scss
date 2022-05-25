@@ -70,7 +70,7 @@
         flex-wrap: wrap;
         margin-right: 1%;
         .card {
-            margin-bottom: 8%;
+            margin-bottom: 3%;
             padding: 4% 4.5%;
         }
     }
@@ -80,8 +80,8 @@
         font-family: "Roboto";
         font-weight: 500;
         font-size: 1.5rem;
-        width: 22.1vw;
-        height: 200px;
+        // width: 22.1vw;
+        // height: 200px;
         padding: 1% 1%;
         border-radius: 5px;
         color: white;
@@ -89,6 +89,7 @@
         position: relative;
         margin: 0 1% 1% 0;
         transform: translateX(-20%);
+        width: min-content;
         hr {
             // width: 90%;
             margin-top: 1.5rem;
@@ -157,7 +158,7 @@
     div.card.yellow {
         background: linear-gradient(to top, #fcc415, #ffd44d);
         animation-delay: 600ms;
-        margin-right: 0px;
+        // margin-right: 0px;
     }
     div.card.brown {
         background: linear-gradient(to top, #f16831, #f79168);
