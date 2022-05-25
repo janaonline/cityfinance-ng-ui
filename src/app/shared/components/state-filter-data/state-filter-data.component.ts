@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
 import { FormControl } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
@@ -332,7 +332,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     private _commonServices: CommonService,
     public _loaderService: GlobalLoaderService,
     private ownRevenueService: OwnRevenueService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) {
     super();
 
@@ -966,6 +967,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe((res) => console.log("revenue ==>", res));
   }
 
+  reloadComponent(selectedStateId: any) {
+    console.log('reloadComponent', selectedStateId)
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = "reload";
+    this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(
       "stateFilterDataChanges",
@@ -978,16 +986,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       changes.selectedStateId.currentValue &&
       !changes?.selectedStateId?.firstChange
     ) {
-      console.log("selectedStateId", changes.selectedStateId.currentValue);
+      console.log("selectedStateId", changes.selectedStateId.currentValue, 'this.stateServiceLabel', this.stateServiceLabel);
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);
-      this.getScatterData();
-      if (this.stateServiceLabel) {
-        this.getServiceLevelBenchmarkBarChartData();
-      } else {
-        this.getStateRevenue();
-      }
+      this.reloadComponent(this.stateId);
+      // this.getScatterData();
+      // if (this.stateServiceLabel) {
+      //   this.getServiceLevelBenchmarkBarChartData();
+      // } else {
+      //   this.getStateRevenue();
+      // }
     }
     this.stateServiceLabel = false;
     if (changes.data) {

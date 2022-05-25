@@ -70,7 +70,8 @@ export class StateFilterDataService {
           console.log("currentValue", currentValue);
           // currentValue = currentValue > 0 ? (currentValue / 10000000).toFixed(2) : 0;
           // return new Intl.NumberFormat("en-IN").format(currentValue);
-          return currentValue;
+          // return currentValue;
+          return `₹ ${currentValue} Cr.`
         },
       },
     },
@@ -93,7 +94,7 @@ export class StateFilterDataService {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             // data = data > 0 ? (data / 10000000).toFixed(2) : 0;
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            ctx.fillText("₹ " + data + " Cr.", bar._model.x, bar._model.y - 5);
           });
         });
         console.log("animation", animation);
@@ -152,7 +153,8 @@ export class StateFilterDataService {
           // currentValue = currentValue > 0 ? (currentValue / 1000000).toFixed(2) : 0;
           console.log("currentValue", currentValue);
           // return new Intl.NumberFormat("en-IN").format(currentValue);
-          return currentValue;
+          // return currentValue;
+          return `₹ ${currentValue} Lakh`
         },
       },
     },
@@ -175,7 +177,7 @@ export class StateFilterDataService {
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
             // data = data > 0 ? (data / 1000000).toFixed(2) : 0;
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            ctx.fillText("₹ " + data + " Lakh", bar._model.x, bar._model.y - 5);
           });
         });
         console.log(animation, "animation");
@@ -243,7 +245,7 @@ export class StateFilterDataService {
           console.log("dataset", dataset);
           var currentValue = Number(dataset.data[tooltipItem.index]);
           console.log("currentValue", currentValue);
-          return new Intl.NumberFormat("en-IN").format(currentValue);
+          return `₹ ${new Intl.NumberFormat("en-IN").format(currentValue)}`;
         },
       },
     },

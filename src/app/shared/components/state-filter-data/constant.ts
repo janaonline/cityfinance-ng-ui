@@ -9,7 +9,7 @@ export const stateDashboardSubTabsList: any = [
     {name: "Total Surplus/Deficit", code: "DeficitOrSurplus", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "deficitOrSurplus", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
     {name: "Expenditure Mix", code: "ExpenditureMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: true},
     {name: "Revenue Expenditure Mix", code: "RevenueExpenditureMix", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
-    {name: "Revenue Expenditure", code: "RevenueTotalExpenditure", yAxisLabel: 'Amount (in INR)', countAccessKey: "sum", chartAnimation: 'defaultBarChartOptions', isCodeRequired: false},
+    {name: "Revenue Expenditure", code: "RevenueTotalExpenditure", yAxisLabel: 'Amount (in Cr.)', countAccessKey: "sum", chartAnimation: 'croreBarChartOptions', isCodeRequired: false},
 
     // Own Revenue Tab -> Sub Tabs
 

@@ -294,7 +294,7 @@
       City Ranking
 
       <div *ngIf="!stateServiceLabel">
-        <div class="mx-2" *ngIf="ActiveButton.includes('Mix')">
+        <div class="mx-2" *ngIf="ActiveButton?.includes('Mix')">
           <select class="mixSelect" (change)="getChartDropdownValue($event)">
             <!-- <option *ngFor="let item of chartLabels" [value]="item">
               {{ item }}

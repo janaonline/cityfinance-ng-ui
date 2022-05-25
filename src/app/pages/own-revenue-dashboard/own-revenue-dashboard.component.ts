@@ -576,12 +576,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
     );
   }
   clearFilter() {
-    this.filterGroup.setValue({
+    this.filterGroup.patchValue({
       stateId: "State Name",
       ulb: "",
       ulbType: "ULB Type",
       populationCategory: "ULB Population Category",
-      financialYear: "2020-21",
+      // financialYear: "2020-21",
+      financialYear: this.yearList?.length ? this.yearList[0] : "2020-21",
     });
     this.allCalls();
   }
@@ -671,6 +672,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   defaultFilterStage: boolean = false;
+  mobileFilterData: any;
   openFilter() {
     const dialogRef = this.dialog.open(FilterModelBoxComponent, {
       width: "100%",
@@ -679,7 +681,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         ulbTypeList: this.ulbTypeList,
         populationCategoryList: this.populationCategoryList,
         yearList: this.yearList,
-        preSelectedValue: { ...this.filterGroup.value, ...this.tempDataHolder },
+        preSelectedValue: { ...this.mobileFilterData, ...this.tempDataHolder },
         defaultStage: this.defaultFilterStage,
       },
     });
@@ -688,6 +690,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       console.log("The dialog was closed", result);
       if (result && result.filterForm) {
         this.defaultFilterStage = result?.defaultStage;
+        this.mobileFilterData = result?.filterForm;
         this.patchFormData(result?.filterForm);
       }
     });
@@ -695,7 +698,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   patchFormData(formData: any) {
     console.log("patchValue", formData);
-    this.filterGroup.setValue({
+    this.filterGroup.patchValue({
       stateId: formData && formData?.stateId,
       ulb: formData && formData?.ulb,
       ulbType: formData && formData?.ulbType,
@@ -715,13 +718,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
       propertyTax: !this.ownTab,
     };
 
+    this.dataAvailable = 0;
+    this.availValue = 0;
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
         this.dataAvailLoading = false;
-        // this._loaderService.stopLoader()
-        res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
+        // res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
+        // this.availValue = res["data"]?.percent;
+        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
+        res['actualPercent'] = res["data"].percent;
+        res["data"].percent = percentage;
         this.financialYear = res;
-        this.availValue = res["data"]?.percent;
+        this.availValue = percentage;
         this.halfDoughnutChart();
 
         this.notFoundNames = res["data"]?.names;
