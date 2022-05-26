@@ -443,7 +443,7 @@
 
 
             <p><b style="padding-right: 25px;">State Review Status :</b>
-                <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
+                <label class="btn btn-success" [ngClass]="{'btn-a' : (anFormStaus == 'APPROVED'),
             'btn-r' : (anFormStaus == 'REJECTED'), 'btn-p' : (anFormStaus == 'PENDING' || anFormStaus == 'N/A'  )}">
                     {{anFormStaus | titlecase}}</label>
             </p>
@@ -452,7 +452,7 @@
 
             <p *ngIf="ulbFormStatusMoHUA && (finalSubmitUtiStatus == 'true')">
                 <b style="padding-right: 10px;"> MoHUA Review Status :</b>
-                <label class="btn btn-success" style="width: 82px;"
+                <label class="btn btn-success"
                     [ngClass]="{'btn-a' : (ulbFormStatusMoHUA == 'APPROVED'),
                    'btn-r' : (ulbFormStatusMoHUA == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStatusMoHUA == 'N/A')}">
                     {{ulbFormStatusMoHUA | titlecase}}</label>
