@@ -219,7 +219,11 @@ export class ScorePerComponent implements OnInit {
     this.btnName = "Get Started";
     console.log("ulb..", e);
     if (this.ulb_id) this.disStartedBtn = false;
+
     this.stepperScoreDiv = false;
+    this.reportScoreDiv = false;
+    this.reInitialForm();
+    this.addFormArray();
   }
   // getReportCard(){
   //   if(this.ulb_id != '') {

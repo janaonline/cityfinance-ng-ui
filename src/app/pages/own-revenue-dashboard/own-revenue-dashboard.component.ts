@@ -17,7 +17,7 @@ import * as fileSaver from "file-saver";
 import Chart from "chart.js";
 import { FilterModelBoxComponent } from "../resources-dashboard/filter-model-box/filter-model-box.component";
 import { OwnRevenueService } from "./own-revenue.service";
-import { CommonService } from 'src/app/shared/services/common.service';
+import { CommonService } from "src/app/shared/services/common.service";
 import { GlobalLoaderService } from "../../../app/shared/services/loaders/global-loader.service";
 import { ActivatedRoute } from "@angular/router";
 @Component({
@@ -35,18 +35,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
   dataAvailable = 0;
   lastBarChartValue;
   compareDialogType = 2;
-  preSelectedOwnRevenueDbParameter: string = 'Own Revenue per Capita';
+  preSelectedOwnRevenueDbParameter: string = "Own Revenue per Capita";
+  // propertyTaxVal: boolean = false;
   changeTab(type) {
     this._loaderService.showLoader();
     if (type == "own") {
-      this.preSelectedOwnRevenueDbParameter = 'Own Revenue per Capita';
+      this.preSelectedOwnRevenueDbParameter = "Own Revenue per Capita";
       this.displayDoughnut = true;
       this.displayButtons = false;
       this.ownTab = true;
       this.proTab = false;
+      // this.propertyTaxVal = false;
+
+      this.filterGroup.controls.propertyTax.setValue("");
     }
     if (type == "pro") {
-      this.preSelectedOwnRevenueDbParameter = 'Property Tax per Capita';
+      this.preSelectedOwnRevenueDbParameter = "Property Tax per Capita";
       this.displayDoughnut = false;
       this.displayButtons = true;
       this.ownTab = false;
@@ -55,6 +59,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         param: "Property Tax per Capita",
         type: "ULBs",
       };
+      this.filterGroup.controls.propertyTax.setValue(true);
     }
     this.allCalls();
   }
@@ -186,7 +191,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     maintainAspectRatio: false,
     cutoutPercentage: 50,
     responsive: true,
- 
+
     legend: {
       position: "bottom",
       labels: {
@@ -226,7 +231,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           var dataset = data.datasets[tooltipItem.datasetIndex];
-          var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
+          var model =
+            dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]
+              ._model;
           var total = dataset.data.reduce(function (
             previousValue,
             currentValue,
@@ -236,10 +243,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
             return previousValue + currentValue;
           });
           var currentValue = dataset.data[tooltipItem.index];
-          console.log('currentValue', currentValue)
+          console.log("currentValue", currentValue);
           // var percentage = (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((currentValue / total) * 100 + 0.5);
           var percentage = Math.floor((currentValue / total) * 100 + 0.5);
-          console.log('percentage', percentage)
+          console.log("percentage", percentage);
           // return percentage + "%";
           return `${model?.label}: ${percentage}%`;
         },
@@ -261,10 +268,12 @@ export class OwnRevenueDashboardComponent implements OnInit {
         this.data.datasets.forEach((dataset, index) => {
           for (let i = 0; i < dataset.data.length; i += 1) {
             const textSize = 12;
-            const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-            
+            const model =
+              dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+
             const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
-            const midRadius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+            const midRadius =
+              model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
             const startAngle = model.startAngle;
             const endAngle = model.endAngle;
             const midAngle = startAngle + (endAngle - startAngle) / 2;
@@ -282,9 +291,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
             /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
           If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
             // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
-            var isBGColorDarkOrLight = lightOrDark(
-              model?.backgroundColor
-            );
+            var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
             thisCtx.fillStyle = isBGColorDarkOrLight
               ? isBGColorDarkOrLight == "light"
                 ? "#000000"
@@ -298,7 +305,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
               fontStyle,
               fontFamily
             );
-
 
             const percent = `${String(
               Math.round((dataset.data[i] / total) * 100)
@@ -365,14 +371,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-  
+
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
-            
+            console.log("chartOption Data", data);
+
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
@@ -380,7 +386,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
       },
     },
   };
-
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
   stateIds = JSON.parse(localStorage.getItem("stateIdsMap"));
@@ -398,18 +403,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
     const stateId = this.filterGroup?.controls?.stateId?.value;
-    console.log('stateId', stateId)
+    console.log("stateId", stateId);
     this._commonServices
-      .postGlobalSearchData(value, "ulb", (stateId && stateId != 'State Name') ? stateId : "")
+      .postGlobalSearchData(
+        value,
+        "ulb",
+        stateId && stateId != "State Name" ? stateId : ""
+      )
       .subscribe((res: any) => {
         console.log(res?.data, "getUlbForAutoComplete");
         let emptyArr: any = [];
         this.filteredOptions = emptyArr;
         if (res?.data.length > 0) {
           this.filteredOptions = res?.data;
-          if(autoSelectUlb){
-            this.filterData('ulb',res['data'][0])
-        }
+          if (autoSelectUlb) {
+            this.filterData("ulb", res["data"][0]);
+          }
           //this.noDataFound = false;
         } else {
           let emptyArr: any = [];
@@ -426,6 +435,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     ulbType: new FormControl("ULB Type"),
     populationCategory: new FormControl("ULB Population Category"),
     financialYear: new FormControl("2020-21"),
+    propertyTax: new FormControl(""),
   });
 
   ulbList = [];
@@ -463,10 +473,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
     console.log("loader", this.isLoading);
     // if(this.isLoading)(document.activeElement as HTMLElement).blur();
     this._activatedRoute.queryParams.subscribe((param) => {
-      this.cityName = param.cityName
+      this.cityName = param.cityName;
     });
   }
-  cityName
+  cityName;
   ngOnInit(): void {
     this.loadData();
 
@@ -476,10 +486,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.getBarChartData();
     this.barChartTitle = "Compare states/ULBs on various financial indicators";
 
-    if(this.cityName){
-      this.filterGroup.controls.ulb.setValue(this.cityName)
-      this.getUlbForAutoComplete(this.cityName,true)
-    }else{
+    if (this.cityName) {
+      this.filterGroup.controls.ulb.setValue(this.cityName);
+      this.getUlbForAutoComplete(this.cityName, true);
+    } else {
       this.allCalls();
       this.halfDoughnutChart();
       // window.onload = () => {
@@ -489,7 +499,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   filterData(param, val) {
-    
     console.log("filter form", this.filterGroup);
     if (param == "ulb") {
       console.log(val);
@@ -537,7 +546,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   allCalls() {
-    console.log('this.filterGroup.value', this.filterGroup.value)
+    console.log("this.filterGroup.value", this.filterGroup.value);
     this.getPieChartData();
     this.cardsData();
     this.tableData();
@@ -567,12 +576,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
     );
   }
   clearFilter() {
-    this.filterGroup.setValue({
+    this.filterGroup.patchValue({
       stateId: "State Name",
       ulb: "",
       ulbType: "ULB Type",
       populationCategory: "ULB Population Category",
-      financialYear: "2020-21",
+      // financialYear: "2020-21",
+      financialYear: this.yearList?.length ? this.yearList[0] : "2020-21",
     });
     this.allCalls();
   }
@@ -641,7 +651,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         data: data,
       });
     };
-  this.barChartStatic= this.barChartStaticOptions
+    this.barChartStatic = this.barChartStaticOptions;
   }
 
   createDataForFilter() {
@@ -662,16 +672,17 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   defaultFilterStage: boolean = false;
+  mobileFilterData: any;
   openFilter() {
     const dialogRef = this.dialog.open(FilterModelBoxComponent, {
       width: "100%",
       height: "100%",
       data: {
-        "ulbTypeList": this.ulbTypeList,
-        "populationCategoryList": this.populationCategoryList,
-        "yearList": this.yearList,
-        "preSelectedValue": {...this.filterGroup.value, ...this.tempDataHolder},
-        "defaultStage": this.defaultFilterStage
+        ulbTypeList: this.ulbTypeList,
+        populationCategoryList: this.populationCategoryList,
+        yearList: this.yearList,
+        preSelectedValue: { ...this.mobileFilterData, ...this.tempDataHolder },
+        defaultStage: this.defaultFilterStage,
       },
     });
 
@@ -679,14 +690,15 @@ export class OwnRevenueDashboardComponent implements OnInit {
       console.log("The dialog was closed", result);
       if (result && result.filterForm) {
         this.defaultFilterStage = result?.defaultStage;
+        this.mobileFilterData = result?.filterForm;
         this.patchFormData(result?.filterForm);
       }
     });
   }
 
   patchFormData(formData: any) {
-    console.log('patchValue', formData);
-    this.filterGroup.setValue({
+    console.log("patchValue", formData);
+    this.filterGroup.patchValue({
       stateId: formData && formData?.stateId,
       ulb: formData && formData?.ulb,
       ulbType: formData && formData?.ulbType,
@@ -706,13 +718,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
       propertyTax: !this.ownTab,
     };
 
+    this.dataAvailable = 0;
+    this.availValue = 0;
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
         this.dataAvailLoading = false;
-        // this._loaderService.stopLoader()
-        res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
+        // res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
+        // this.availValue = res["data"]?.percent;
+        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
+        res['actualPercent'] = res["data"].percent;
+        res["data"].percent = percentage;
         this.financialYear = res;
-        this.availValue = res["data"]?.percent;
+        this.availValue = percentage;
         this.halfDoughnutChart();
 
         this.notFoundNames = res["data"]?.names;
@@ -750,10 +767,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
     Object.assign(bodyD, this.body);
     this.lastBarChartValue = bodyD;
     let labelStr = "";
-    console.log('body', bodyD)
+    console.log("body", bodyD);
     this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
-        if (res && res['success'] && res["data"]) {
+        if (res && res["success"] && res["data"]) {
           this._loaderService.stopLoader();
           this.barChartNotFound = false;
           let tempData = {
@@ -813,8 +830,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
                       offsetGridLines: true,
                       color: "rgba(0, 0, 0, 0)",
                     },
-                    ticks: {	
-                      beginAtZero: true,	
+                    ticks: {
+                      beginAtZero: true,
                     },
                     afterDataLimits: function (axis) {
                       axis.max += 20;
@@ -834,14 +851,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
                   );
                   ctx.textAlign = "center";
                   ctx.textBaseline = "bottom";
-            
+
                   this.data.datasets.forEach(function (dataset, i) {
                     var meta = chartInstance.controller.getDatasetMeta(i);
                     if (meta.type == "line") return true;
                     meta.data.forEach(function (bar, index) {
                       var data = dataset.data[index];
-                      console.log("chartOption Data",  data);
-                      
+                      console.log("chartOption Data", data);
+
                       ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
                     });
                   });
@@ -851,23 +868,35 @@ export class OwnRevenueDashboardComponent implements OnInit {
             },
           };
           tempData.options.scales.yAxes[0].scaleLabel.display = true;
-          tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in INR";
-          console.log('this.tempDataHolder', this.tempDataHolder);
+          tempData.options.scales.yAxes[0].scaleLabel.labelString =
+            "Amount in INR";
+          console.log("this.tempDataHolder", this.tempDataHolder);
           if (this.tempDataHolder) {
-            if ((this.tempDataHolder['param'] == "Own Revenue") || (this.tempDataHolder['param'] == "Property Tax")) {
-              tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in Cr."
+            if (
+              this.tempDataHolder["param"] == "Own Revenue" ||
+              this.tempDataHolder["param"] == "Property Tax"
+            ) {
+              tempData.options.scales.yAxes[0].scaleLabel.labelString =
+                "Amount in Cr.";
             } else {
-              tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount in INR"
+              tempData.options.scales.yAxes[0].scaleLabel.labelString =
+                "Amount in INR";
             }
           }
           res["data"].map((value) => {
-
             tempData.data.labels.push(value.name);
 
-            if (this.tempDataHolder.hasOwnProperty('list') && this.tempDataHolder['list']?.length) {
-              tempData.data.datasets[0].data.push(Number(Math.round(value.amount / 10000000)));
+            if (
+              this.tempDataHolder.hasOwnProperty("list") &&
+              this.tempDataHolder["list"]?.length
+            ) {
+              tempData.data.datasets[0].data.push(
+                Number(Math.round(value.amount / 10000000))
+              );
             } else {
-              tempData.data.datasets[0].data.push(Number(Math.round(value.amount)));
+              tempData.data.datasets[0].data.push(
+                Number(Math.round(value.amount))
+              );
             }
           });
           console.log(tempData);
@@ -992,7 +1021,8 @@ export class OwnRevenueDashboardComponent implements OnInit {
       revenueExpenditureCopy.percentage = t.num.toFixed(0);
       revenueExpenditureCopy.svg = t.inc ? upArrow : downArrow;
       revenueExpenditureCopy.color = t.inc ? green : red;
-      revenueExpenditureCopy.percentage = oldYearValue.totalUlbMeetExpense == 0 ? '0' : t.num.toFixed(0);
+      revenueExpenditureCopy.percentage =
+        oldYearValue.totalUlbMeetExpense == 0 ? "0" : t.num.toFixed(0);
       // if(oldYearValue?.totalUlbMeetExpense == 0){
       //   revenueExpenditureCopy.percentage = '0'
       // }
@@ -1151,7 +1181,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
           if (res) {
             this._loaderService.stopLoader();
           }
-          console.log('topPerformance-res', res);
+          console.log("topPerformance-res", res);
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",
           });
@@ -1160,7 +1190,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
           fileSaver.saveAs(blob, "dataAvaliable.xlsx");
         },
         (err) => {
-          console.log('error', err)
+          console.log("error", err);
           this._loaderService.stopLoader();
         }
       );
@@ -1172,7 +1202,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
       this.ownRevenueService.displayDataAvailable(body).subscribe(
         (res: any) => {
-          console.log('data-availability-res', res);
+          console.log("data-availability-res", res);
           if (res) {
             this._loaderService.stopLoader();
           }
@@ -1184,7 +1214,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
           fileSaver.saveAs(blob, "dataAvaliable.xlsx");
         },
         (error) => {
-          console.log('error', error)
+          console.log("error", error);
           this._loaderService.stopLoader();
         }
       );
@@ -1193,7 +1223,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 }
 
 function valueConvert(value) {
-  return '₹ ' + (value / 10000000).toFixed(0) + " Cr";
+  return "₹ " + (value / 10000000).toFixed(0) + " Cr";
 }
 
 function numCheck(value) {
@@ -1252,9 +1282,7 @@ function openOwnRevenuePopup() {
 let barChart = {
   type: "bar",
   data: {
-    labels: [
-      
-    ],
+    labels: [],
     datasets: [
       {
         data: [],
@@ -1309,7 +1337,6 @@ const green = "#22C667";
 const red = "#E64E4E";
 const upArrow = "../../../assets/resources-das/north_east_green_24dp.svg";
 const downArrow = "../../../assets/resources-das/south_west_red_24dp.svg";
-
 
 // let entries = Object.entries(data);
 // console.log('entries', JSON.parse(JSON.stringify(entries)));

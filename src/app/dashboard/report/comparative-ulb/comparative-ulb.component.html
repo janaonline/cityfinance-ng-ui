@@ -2,7 +2,7 @@
 <div class="" *ngIf="isProcessed && reportKeys.length > 0">
   <div
     style="
-      background: rgb(247,247,247);
+      background: rgb(247, 247, 247);
       color: black;
       display: block;
       padding: 1%;
@@ -36,7 +36,7 @@
       >
       </angular2-multiselect>
     </form> -->
-    <h3 class="text-center" >
+    <h3 class="text-center">
       {{ reportReq.type }} {{ reportReq.reportGroup }}
       <span *ngIf="reportReq.valueType === 'per_capita'">(Per Capita)</span>
     </h3>
@@ -59,12 +59,12 @@
           <th
             class="text-center yearssss"
             colspan="2"
-            style="position: sticky; left: 0px; width: 30vw; background: white;"
+            style="position: sticky; left: 0px; width: 30vw; background: white"
           >
             Year(s)
           </th>
           <th
-            style="background: white;"
+            style="background: white"
             class="text-center yyy"
             [attr.colspan]="headerGroup.yearColspan"
             *ngFor="let yr of reportReq.years"
@@ -78,7 +78,7 @@
           <th
             class="text-center"
             [attr.rowspan]="headerGroup.accRowspan"
-            style="position: sticky; left: 0px;"
+            style="position: sticky; left: 0px"
           >
             Account Code
           </th>
@@ -141,7 +141,7 @@
                 report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
           }"
         >
-          <td class="text-center sticky" style="position: sticky; left: 0px;">
+          <td class="text-center sticky" style="position: sticky; left: 0px">
             {{ report[key] ? report[key].code : "" }}
           </td>
           <td
@@ -271,12 +271,13 @@
 <button
   (click)="download()"
   *ngIf="isProcessed && reportKeys.length > 0"
-  class="btn btn-primary right mt-2" style="background-color: rgb(230,126,21) !important;margin-bottom:1%;"
+  class="btn btn-primary right mt-2"
+  style="background-color: rgb(230, 126, 21) !important; margin-bottom: 1%"
 >
   <i
     class="fa fa-file-excel-o"
     aria-hidden="true"
-    style="color: white; margin-right: 2%;"
+    style="color: white; margin-right: 2%"
   ></i>
   XLS
 </button>

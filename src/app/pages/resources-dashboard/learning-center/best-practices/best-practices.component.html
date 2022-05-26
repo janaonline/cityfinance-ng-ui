@@ -21,8 +21,20 @@
     style="margin: 1rem 0"
   >
     <div class="card-body">
+      <div style="position: relative">
+        <pdf-viewer
+          [src]="item?.downloadUrl"
+          [render-text]="false"
+          [show-all]="false"
+          style="display: block; height: 250px"
+          [page]="1"
+          [zoom-scale]="'page-fit'"
+          [original-size]="false"
+        >
+        </pdf-viewer>
+      </div>
       <div class="h-c">
-        {{ item?.name}}
+        {{ item?.name }}
       </div>
       <!-- <div class="info-c mt-2 mb-3">
         {{ item?.info }}
@@ -37,13 +49,6 @@
                 class="p-i"
               />
             </span>
-            <!-- <span *ngIf="item?.type == 'excel'">
-              <img
-                src="../../../../../assets/new_dashBord_ftr_hdr/excel.png"
-                alt=""
-                class="p-i"
-              />
-            </span> -->
           </a>
         </div>
         <div class="col-sm-9">
@@ -69,10 +74,11 @@
 </div>
 
 <div class="row" *ngIf="cardData.length == 0">
-  <div class="col-sm-12 mb-3" >
-    <img  class="rounded mx-auto d-block" src="assets/images/sad.svg"/>
-     <p  class="text-center">
-      Sorry we couldn’t find any matches for ‘{{searchedValue}}’. Please try searching with another term.
-     </p>
+  <div class="col-sm-12 mb-3">
+    <img class="rounded mx-auto d-block" src="assets/images/sad.svg" />
+    <p class="text-center">
+      Sorry we couldn’t find any matches for ‘{{ searchedValue }}’. Please try
+      searching with another term.
+    </p>
   </div>
 </div>

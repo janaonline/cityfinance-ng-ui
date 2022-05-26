@@ -4,7 +4,7 @@
         <h4 class="form-header">Grant Transfer Certificate</h4>
         <!-- </label> -->
     </div>
-    <div class="col-sm-2 col-lg- col-md-2  text-right">
+    <div class="col-sm-2 col-lg- col-md-2" style="text-align:end;">
         <button type="button" class="btn pr-btn" id="prevBtn" (click)="onPreview()">PREVIEW</button>
     </div>
 
@@ -25,7 +25,7 @@
                                 (A) Upload Signed Grant Transfer Certificate for Million Plus Cities Grant for Water
                                 Supply and SWM<span style="color: red;">*</span></label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: -6%; margin-top: 2px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cin">
@@ -135,13 +135,13 @@
                 <!-- 2nd Card -->
                 <div *ngIf="showQ2">
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <!-- Upload Signed Grant Transfer Certificate for Non-Million Tied Grants -->
                             <label for="" style="color: #022121; font-size: 14px; font-weight: 500; text-align:left;">
                                 (B) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Tied Grant<span
                                     style="color: red;">*</span></label>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4" style="margin-left: 3rem; margin-top: 2px;">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cind">
@@ -245,14 +245,14 @@
                 <!-- 3rd Card -->
                 <div *ngIf="showQ3">
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <!-- Upload Signed Grant Transfer Certificate for Million Untied Grants -->
                             <label for="" style="color: #022121; font-size: 14px; font-weight: 500; text-align: left;">
                                 (C) Upload Signed Grant Transfer Certificate for Non-Million Plus Cities Untied
                                 Grant<span style="color: red;">*</span></label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 image-upload"
-                            style="margin-left: 3rem; margin-top: 2px;">
+                            style="margin-top: 2px;">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 image-upload" style="padding: 0;">
                                     <label for="cinde">
@@ -389,7 +389,7 @@
                 <a type="button" class="btn btn-secondary backbtn" routerLinkActive="router-link-active"
                     [routerLink]="['../review-ulb-form']">BACK</a>
             </div>
-            <div class="col-sm-6  text-right">
+            <div class="col-sm-6" style="text-align: end;">
                 <button type="button" class="btn saveBtn" (click)="saveForm(template1)">{{(change
                     == 'true' && !(formDisableA && formDisableB && formDisableC)) || mohuaAction ?
                     'SAVE AND

@@ -51,9 +51,9 @@ export class MunicipalBondsService {
   }) {
     if (
       !searchOption ||
-      (!searchOption.ulbs.length &&
-        !searchOption.years.length &&
-        !searchOption.states.length)
+      (!searchOption?.ulbs.length &&
+        !searchOption?.years.length &&
+        !searchOption?.states.length)
     ) {
       return this.getAllBondIssuerItems();
     }

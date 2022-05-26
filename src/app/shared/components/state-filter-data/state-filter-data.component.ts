@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
 import { FormControl } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
@@ -186,10 +186,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         this.data.datasets.forEach((dataset, index) => {
           for (let i = 0; i < dataset.data.length; i += 1) {
             const textSize = 12;
-            const model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
-            
+            const model =
+              dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+
             const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
-            const midRadius = model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+            const midRadius =
+              model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
             const startAngle = model.startAngle;
             const endAngle = model.endAngle;
             const midAngle = startAngle + (endAngle - startAngle) / 2;
@@ -207,9 +209,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
           If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
             // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
-            var isBGColorDarkOrLight = lightOrDark(
-              model?.backgroundColor
-            );
+            var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
             thisCtx.fillStyle = isBGColorDarkOrLight
               ? isBGColorDarkOrLight == "light"
                 ? "#000000"
@@ -223,7 +223,6 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               fontStyle,
               fontFamily
             );
-
 
             const percent = `${String(
               Math.round((dataset.data[i] / total) * 100)
@@ -333,7 +332,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     private _commonServices: CommonService,
     public _loaderService: GlobalLoaderService,
     private ownRevenueService: OwnRevenueService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) {
     super();
 
@@ -747,8 +747,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           } //donught charts center
           else if (this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
-            let data = res["data"];
-           
+            console.log("mix Data", res);
+            let data;
+            if (this.ulbId) {
+              data = res["state"];
+            } else {
+              data = res["data"];
+            }
+
             // let colorArray = [
             //   {name: "Other Income", color: "#1E44AD"},
             //   {name: "Sale & Hire charges", color: "#224CC0"},
@@ -764,10 +770,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             //   }
             // })
 
-            
-            console.log("initial data", data)
-
-
+            console.log("initial data", data);
 
             if (data?.length > 0) {
               this.chartDropdownList = data;
@@ -777,13 +780,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this.initializeDonughtData();
             if (this.scatterChartPayload.compareType == "") {
               if (data.length) {
+                console.log("mixdata==>", data);
                 data = data.sort((a, b) => b.code - a.code);
-                if(data[0].hasOwnProperty("color"))this.doughnutData.data.datasets[0].backgroundColor = []
+                if (data[0].hasOwnProperty("color"))
+                  this.doughnutData.data.datasets[0].backgroundColor = [];
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
-                  if(el.color){
-                    this.doughnutData.data.datasets[0].backgroundColor.push(el.color);
+                  if (el.color) {
+                    this.doughnutData.data.datasets[0].backgroundColor.push(
+                      el.color
+                    );
                   }
                 });
                 console.log(this.doughnutData);
@@ -879,7 +886,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getCompType(mixType: string) {
-    console.log("getCompType", mixType);
+    console.log("getCompType", mixType, this.compType);
     // this.compType = e;
     // if (e) this.getScatterData();
 
@@ -960,6 +967,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe((res) => console.log("revenue ==>", res));
   }
 
+  reloadComponent(selectedStateId: any) {
+    console.log('reloadComponent', selectedStateId)
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = "reload";
+    this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(
       "stateFilterDataChanges",
@@ -972,16 +986,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       changes.selectedStateId.currentValue &&
       !changes?.selectedStateId?.firstChange
     ) {
-      console.log("selectedStateId", changes.selectedStateId.currentValue);
+      console.log("selectedStateId", changes.selectedStateId.currentValue, 'this.stateServiceLabel', this.stateServiceLabel);
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);
-      this.getScatterData();
-      if (this.stateServiceLabel) {
-        this.getServiceLevelBenchmarkBarChartData();
-      } else {
-        this.getStateRevenue();
-      }
+      this.reloadComponent(this.stateId);
+      // this.getScatterData();
+      // if (this.stateServiceLabel) {
+      //   this.getServiceLevelBenchmarkBarChartData();
+      // } else {
+      //   this.getStateRevenue();
+      // }
     }
     this.stateServiceLabel = false;
     if (changes.data) {
