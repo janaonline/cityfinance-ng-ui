@@ -16,7 +16,7 @@
 
 <ng-template class="" #noId>
     <div class="common-container" style="padding: 5px 0 40px;">
-        <div class="container">
+        <div class="container" style="max-width: 100%;">
             <div class="row">
                 <div class="col-sm-12" *ngIf="
             !(
@@ -32,371 +32,375 @@
             <!-- Cards -->
 
             <button routerLink="/fc-home-page" class="btn btn-t" style="margin: 0; padding-left: 4px;
-            padding-top: 4px;">
+            padding-top: 4px;margin-bottom: 1%;">
               <mat-icon aria-hidden="false" style="font-size: 18px;">
                 <img src="../../../assets/homeIcon/home_white_18dp (1).svg">
             </mat-icon>Back
             </button>
-
-            <div class="card-container" style="margin-top: 5px;">
+            <div class="row">
+              <div class="col">
                 <div class="card blue">
-                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-                    <p class="heading">Total Number of ULBs</p>
-                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
-            {{ cardData?.totalULB?.sum || "0" }}
-          </span>
-                    <hr />
+                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <p class="heading">Total Number of ULBs</p>
+                  <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
+          {{ cardData?.totalULB?.sum || "0" }}
+        </span>
+                  <hr class="customHr"/>
 
-                    <div class="categories d-flex justify-content-between align-items-center">
-                        <span class="category">
-              <span class="category-heading">Municipal<br />Corporations</span
-              ><br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{ (cardData?.totalULB)["Municipal Corporation"] || 0 }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading">Municipalities</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{ (cardData?.totalULB)["Municipality"] || 0 }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading"
-                >Town <br />
-                Panchayats</span
-              >
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{ (cardData?.totalULB)["Town Panchayat"] || 0 }}
-              </span>
-                        </span>
-                    </div>
-
-                    <div class="view-list" (click)="onclickTotalNoOfULB()">View List</div>
-                </div>
-
-                <div class="card pink">
-                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-                    <p class="heading">No of ULBs (Submitted)</p>
-                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
-            {{ cardData?.registeredUlb?.sum || 0 }}
-          </span>
-                    <hr />
-
-                    <div class="categories d-flex justify-content-between align-items-center">
-                        <span class="category">
-              <span class="category-heading">Municipal<br />Corporations</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{ (cardData?.registeredUlb)["Municipal Corporation"] || 0 }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading">Municipalities</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{ (cardData?.registeredUlb)["Municipality"] || 0 }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading"
-                >Town <br />
-                Panchayats</span
-              >
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{ (cardData?.registeredUlb)["Town Panchayat"] || 0 }}
-              </span>
-                        </span>
-                    </div>
-
-                    <div class="view-list" (click)="onClickCharTakeAction('')">
-                        View List
-                    </div>
-                </div>
-
-                <div class="card green">
-                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-                    <p class="heading">Million Plus Cities (Submitted)</p>
-                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
-            {{ cardData?.registeredMillionPlus?.sum || 0 }}
-          </span>
-                    <hr />
-
-                    <div class="categories d-flex justify-content-between align-items-center">
-                        <span class="category">
-              <span class="category-heading">Municipal<br />Corporations</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{
-                  (cardData?.registeredMillionPlus)["Municipal Corporation"] ||
-                    0
-                }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading">Municipalities</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{ (cardData?.registeredMillionPlus)["Municipality"] || 0 }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading"
-                >Town <br />
-                Panchayats</span
-              >
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{ (cardData?.registeredMillionPlus)["Town Panchayat"] || 0 }}
-              </span>
-                        </span>
-                    </div>
-
-                    <div class="view-list" (click)="onClickCharTakeAction('', 'Yes')">
-                        View List
-                    </div>
-                </div>
-
-                <div class="card yellow">
-                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-                    <p class="heading">Non-Million Cities (Submitted)</p>
-                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
-            {{ (cardData?.registeredNonMillionPlus)["sum"] || 0 }}
-          </span>
-                    <hr />
-
-                    <div class="categories d-flex justify-content-between align-items-center">
-                        <span class="category">
-              <span class="category-heading">Municipal<br />Corporations</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{
-                  (cardData?.registeredNonMillionPlus)[
-                    "Municipal Corporation"
-                  ] || 0
-                }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading">Municipalities</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
-                {{ (cardData?.registeredNonMillionPlus)["Municipality"] || 0 }}
-              </span>
-                        </span>
-                        <span class="category">
-              <span class="category-heading"
-                >Town <br />
-                Panchayats</span
-              >
-              <br />
-              <span
-                class="category-heading category-value"
-                [ngClass]="{ 'loading-value': !cardData }"
-              >
-                {{
-                  (cardData?.registeredNonMillionPlus)["Town Panchayat"] || 0
-                }}
-              </span>
-                        </span>
-                    </div>
-
-                    <div class="view-list" (click)="onClickCharTakeAction('', 'No')">
-                        View List
-                    </div>
-                </div>
-
-                <div class="nested-card-container d-flex">
-                    <div class="card brown">
-                        <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-                        <p class="heading">Million Plus Cities (Total)</p>
-                        <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
-              {{ (cardData?.totalMillionPlus)["sum"] || 0 }}
+                  <div class="categories d-flex justify-content-between align-items-center">
+                      <span class="category">
+            <span class="category-heading">Municipal<br />Corporations</span
+            ><br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+            >
+              {{ (cardData?.totalULB)["Municipal Corporation"] || 0 }}
             </span>
-                        <hr />
-
-                        <div class="categories d-flex justify-content-between align-items-center">
-                            <span class="category">
-                <span class="category-heading"
-                  >Municipal<br />Corporations</span
-                >
-                <br />
-                <span
-                  class="category-heading category-value"
-                  [ngClass]="{ 'loading-value': !cardData }"
-                  >{{
-                    (cardData?.totalMillionPlus)["Municipal Corporation"] || 0
-                  }}</span
-                >
-              </span>
-                            <span class="category">
-                <span class="category-heading">Municipalities</span> <br />
-                            <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalMillionPlus)["Municipality"] || 0 }}</span
-                >
-              </span>
-                            <span class="category">
-                <span class="category-heading"
-                  >Town <br />
-                  Panchayats</span
-                >
-                <br />
-                <span
-                  class="category-heading category-value"
-                  [ngClass]="{ 'loading-value': !cardData }"
-                  >{{
-                    (cardData?.totalMillionPlus)["Town Panchayat"] || 0
-                  }}</span
-                >
-              </span>
-                        </div>
-
-                        <div class="view-list" (click)="
-                onClickingOtherCards({
-                  isMillionPlus: 'Milion Plus',
-                  registration: ''
-                })
-              ">
-                            View List
-                        </div>
-                    </div>
-
-                    <div class="card dark-green" style="margin-bottom: 0px;">
-                        <img src="../../../assets/images/card-icons/team.png" alt="Team" />
-                        <p class="heading">Non-Million Cities (Total)</p>
-                        <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalNonMillionPlus)["sum"] || 0 }}</span
+                      </span>
+                      <span class="category">
+            <span class="category-heading">Municipalities</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{ (cardData?.totalULB)["Municipality"] || 0 }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading"
+              >Town <br />
+              Panchayats</span
             >
-            <hr />
-
-            <div
-              class="categories d-flex justify-content-between align-items-center"
+            <br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
             >
-              <span class="category">
-                <span class="category-heading"
-                  >Municipal<br />Corporations</span
-                >
-                <br />
-                <span
-                  class="category-heading category-value"
-                  [ngClass]="{ 'loading-value': !cardData }"
-                  >{{
-                    (cardData?.totalNonMillionPlus)["Municipal Corporation"] ||
-                      0
-                  }}</span
-                >
-              </span>
+              {{ (cardData?.totalULB)["Town Panchayat"] || 0 }}
+            </span>
+                      </span>
+                  </div>
+
+                  <div class="view-list" (click)="onclickTotalNoOfULB()">View List</div>
+              </div>
+              </div>
+              <div class="col">
+                <div class="card pink">
+                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <p class="heading">No of ULBs (Submitted)</p>
+                  <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
+          {{ cardData?.registeredUlb?.sum || 0 }}
+        </span>
+                  <hr class="customHr" />
+
+                  <div class="categories d-flex justify-content-between align-items-center">
+                      <span class="category">
+            <span class="category-heading">Municipal<br />Corporations</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{ (cardData?.registeredUlb)["Municipal Corporation"] || 0 }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading">Municipalities</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{ (cardData?.registeredUlb)["Municipality"] || 0 }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading"
+              >Town <br />
+              Panchayats</span
+            >
+            <br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+            >
+              {{ (cardData?.registeredUlb)["Town Panchayat"] || 0 }}
+            </span>
+                      </span>
+                  </div>
+
+                  <div class="view-list" (click)="onClickCharTakeAction('')">
+                      View List
+                  </div>
+              </div>
+              </div>
+              <div class="col">
+                <div class="card green">
+                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <p class="heading">Million Plus Cities (Submitted)</p>
+                  <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
+          {{ cardData?.registeredMillionPlus?.sum || 0 }}
+        </span>
+                  <hr  class="customHr" />
+
+                  <div class="categories d-flex justify-content-between align-items-center">
+                      <span class="category">
+            <span class="category-heading">Municipal<br />Corporations</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{
+                (cardData?.registeredMillionPlus)["Municipal Corporation"] ||
+                  0
+              }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading">Municipalities</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{ (cardData?.registeredMillionPlus)["Municipality"] || 0 }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading"
+              >Town <br />
+              Panchayats</span
+            >
+            <br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+            >
+              {{ (cardData?.registeredMillionPlus)["Town Panchayat"] || 0 }}
+            </span>
+                      </span>
+                  </div>
+
+                  <div class="view-list" (click)="onClickCharTakeAction('', 'Yes')">
+                      View List
+                  </div>
+              </div>
+              </div>
+              <div class="col">
+                <div class="card yellow">
+                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <p class="heading">Non-Million Cities (Submitted)</p>
+                  <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
+          {{ (cardData?.registeredNonMillionPlus)["sum"] || 0 }}
+        </span>
+                  <hr  class="customHr" />
+
+                  <div class="categories d-flex justify-content-between align-items-center">
+                      <span class="category">
+            <span class="category-heading">Municipal<br />Corporations</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{
+                (cardData?.registeredNonMillionPlus)[
+                  "Municipal Corporation"
+                ] || 0
+              }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading">Municipalities</span>
+                      <br />
+                      <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">
+              {{ (cardData?.registeredNonMillionPlus)["Municipality"] || 0 }}
+            </span>
+                      </span>
+                      <span class="category">
+            <span class="category-heading"
+              >Town <br />
+              Panchayats</span
+            >
+            <br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+            >
+              {{
+                (cardData?.registeredNonMillionPlus)["Town Panchayat"] || 0
+              }}
+            </span>
+                      </span>
+                  </div>
+
+                  <div class="view-list" (click)="onClickCharTakeAction('', 'No')">
+                      View List
+                  </div>
+              </div>
+              </div>
+            </div>
+              <div class="row" style="margin-top: 2%;">
+                <div class="col-lg-auto">
+                  <div class="card brown">
+                    <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                    <p class="heading">Million Plus Cities (Total)</p>
+                    <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">
+          {{ (cardData?.totalMillionPlus)["sum"] || 0 }}
+        </span>
+                    <hr  class="customHr" />
+
+                    <div class="categories d-flex justify-content-between align-items-center">
                         <span class="category">
-                <span class="category-heading">Municipalities</span>
-                        <br />
-                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">{{
-                    (cardData?.totalNonMillionPlus)["Municipality"] || 0
-                  }}</span
-                >
-              </span>
+            <span class="category-heading"
+              >Municipal<br />Corporations</span
+            >
+            <br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+              >{{
+                (cardData?.totalMillionPlus)["Municipal Corporation"] || 0
+              }}</span
+            >
+          </span>
                         <span class="category">
-                <span class="category-heading"
-                  >Town <br />
-                  Panchayat</span
-                >
-                <br />
-                <span
-                  class="category-heading category-value"
-                  [ngClass]="{ 'loading-value': !cardData }"
-                  >{{
-                    (cardData?.totalNonMillionPlus)["Town Panchayat"] || 0
-                  }}</span
-                >
-              </span>
+            <span class="category-heading">Municipalities</span> <br />
+                        <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalMillionPlus)["Municipality"] || 0 }}</span
+            >
+          </span>
+                        <span class="category">
+            <span class="category-heading"
+              >Town <br />
+              Panchayats</span
+            >
+            <br />
+            <span
+              class="category-heading category-value"
+              [ngClass]="{ 'loading-value': !cardData }"
+              >{{
+                (cardData?.totalMillionPlus)["Town Panchayat"] || 0
+              }}</span
+            >
+          </span>
                     </div>
 
                     <div class="view-list" (click)="
-                onClickingOtherCards({
-                  isMillionPlus: 'Non Million',
-                  registration: ''
-                })
-              ">
+            onClickingOtherCards({
+              isMillionPlus: 'Milion Plus',
+              registration: ''
+            })
+          ">
                         View List
                     </div>
                 </div>
-            </div>
+                <div class="card dark-green" style="margin-bottom: 0px;margin-top: 8%;">
+                  <img src="../../../assets/images/card-icons/team.png" alt="Team" />
+                  <p class="heading">Non-Million Cities (Total)</p>
+                  <span class="card-main-value" [ngClass]="{ 'loading-value': !cardData }">{{ (cardData?.totalNonMillionPlus)["sum"] || 0 }}</span
+      >
+      <hr  class="customHr" />
 
-            <div class="chart-container">
-                <p class="heading mb-2" style="font-size: 1.6rem; display: inline-block;">
-                    15<sup>th</sup> FC Form Status
-                </p>
-                <div style="float: right; display: inline-flex; align-items: center;">
-                    <b style="display: inline-block;" class="mr-1">Filter by Population Type:</b
-            >
-            <div class="input-group" style="display: inline-block;">
-              <select
-                name="State"
-                id="state"
-                class="form-control"
-                placeholder="State"
-                [formControl]="populationTypeFilterForChart"
-              >
-                <option value="" selected>Total ULBs</option>
-                <option value="true" selected>Million Plus</option>
-                <option value="false" selected>Non Million</option>
-              </select>
-            </div>
-          </div>
-          <div style="position: relative;">
-            <!-- <canvas id="canvas" width="870" height="300"></canvas> -->
-            <div
-              *ngIf="!chartData"
-              style="
-                position: absolute;
-                top: 0px;
-                z-index: 5;
-                width: 105%;
-                height: 100%;
-                background: white;
-              "
-            >
-              <app-pre-loader></app-pre-loader>
-              <app-pre-loader></app-pre-loader>
-              <app-pre-loader></app-pre-loader>
-            </div>
-          </div>
-          <div
-            *ngIf="
-              haveRequestToTakeAction &&
-              (loggedInUserData?.role === userTypes.MoHUA ||
-                loggedInUserData?.role === userTypes.STATE)
-            "
-            class="take-action btn btn-primary"
-            (click)="
-              onClickCharTakeAction(
-                loggedInUserData?.role === userTypes.STATE
-                  ? UNDER_REVIEW_BY_STATE.id
-                  : UNDER_REVIEW_BY_MoHUA.id
-              )
-            "
+      <div
+        class="categories d-flex justify-content-between align-items-center"
+      >
+        <span class="category">
+          <span class="category-heading"
+            >Municipal<br />Corporations</span
           >
-            Take Action on Submitted Forms
-          </div>
-          <div class="view-list" (click)="onClickCharTakeAction('')">
-            View List
-          </div>
-        </div>
-      </div>
+          <br />
+          <span
+            class="category-heading category-value"
+            [ngClass]="{ 'loading-value': !cardData }"
+            >{{
+              (cardData?.totalNonMillionPlus)["Municipal Corporation"] ||
+                0
+            }}</span
+          >
+        </span>
+                  <span class="category">
+          <span class="category-heading">Municipalities</span>
+                  <br />
+                  <span class="category-heading category-value" [ngClass]="{ 'loading-value': !cardData }">{{
+              (cardData?.totalNonMillionPlus)["Municipality"] || 0
+            }}</span
+          >
+        </span>
+                  <span class="category">
+          <span class="category-heading"
+            >Town <br />
+            Panchayat</span
+          >
+          <br />
+          <span
+            class="category-heading category-value"
+            [ngClass]="{ 'loading-value': !cardData }"
+            >{{
+              (cardData?.totalNonMillionPlus)["Town Panchayat"] || 0
+            }}</span
+          >
+        </span>
+              </div>
 
-      <div class="ulb-list">
+              <div class="view-list" (click)="
+          onClickingOtherCards({
+            isMillionPlus: 'Non Million',
+            registration: ''
+          })
+        ">
+                  View List
+              </div>
+                </div>
+                </div>
+                <div class="col">
+                  <div class="chart-container">
+                    <p class="heading mb-2" style="font-size: 1.6rem; display: inline-block;margin-top:2%;margin-left: 2%;">
+                        15<sup>th</sup> FC Form Status
+                    </p>
+                    <div style="float: right; display: inline-flex; align-items: center;margin-top:2%;margin-right: -8%;">
+                    <span style="width: 320px;">Filter by Population Type:</span>
+                <div class="input-group" style="display: inline-block;">
+                  <select
+                    name="State"
+                    id="state"
+                    class="form-control"
+                    placeholder="State"
+                    [formControl]="populationTypeFilterForChart"
+                  >
+                    <option value="" selected>Total ULBs</option>
+                    <option value="true" selected>Million Plus</option>
+                    <option value="false" selected>Non Million</option>
+                  </select>
+                </div>
+              </div>
+              <div style="position: relative;height: 292px;margin-top: 3%;">
+                <canvas id="canvas" width="870" height="300"></canvas>
+                <div
+                  *ngIf="!chartData"
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    z-index: 5;
+                    width: 105%;
+                    height: 100%;
+                    background: white;
+                  "
+                >
+                  <app-pre-loader></app-pre-loader>
+                  <app-pre-loader></app-pre-loader>
+                  <app-pre-loader></app-pre-loader>
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  haveRequestToTakeAction &&
+                  (loggedInUserData?.role === userTypes.MoHUA ||
+                    loggedInUserData?.role === userTypes.STATE)
+                "
+                class="take-action btn btn-primary"
+                (click)="
+                  onClickCharTakeAction(
+                    loggedInUserData?.role === userTypes.STATE
+                      ? UNDER_REVIEW_BY_STATE.id
+                      : UNDER_REVIEW_BY_MoHUA.id
+                  )
+                "
+              >
+                Take Action on Submitted Forms
+              </div>
+              <div class="view-list" (click)="onClickCharTakeAction('')">
+                View List
+              </div>
+            </div>      
+                </div>
+              </div>
+
+      <div class="ulb-list" style="margin-top: 3%;">
         <ng-container [ngSwitch]="loggedInUserData.role">
           <ng-container *ngSwitchCase="userTypes.STATE">
             <span style="font-weight: 700;"
@@ -450,7 +454,7 @@
               </thead>
               <tbody>
                 <tr [formGroup]="ulbFilter">
-                  <td></td>
+                  <td style="padding-left:1% !important;"></td>
                   <td *ngIf="loggedInUserData.role !== userTypes.STATE"></td>
                   <td></td>
                 </tr>

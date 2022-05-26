@@ -20,7 +20,7 @@
         <div class="col-sm-6 form-status" *ngIf="!parentData">
             <b>Form Current Status: </b>{{status}}
         </div>
-        <div class="col-sm-6 text-right h-cls" *ngIf="!parentData">
+        <div class="col-sm-6 text-right h-cls" *ngIf="!parentData" style="text-align:end;">
             <button id="donwloadButton" style="right: 0%;
                 outline: none; margin-right: 2%" class="btn btn-primary btn-upload" (click)="clickedDownloadAsPDF()">
                     Download as PDF
