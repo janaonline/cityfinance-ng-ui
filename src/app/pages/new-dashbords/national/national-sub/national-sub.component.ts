@@ -160,19 +160,19 @@ export class NationalSubComponent implements OnInit {
     {
       id: "t1",
       title: "Municipal Corporation",
-      data: [40, 20, 15],
+      data: [],
       chart: [],
     },
     {
       id: "t2",
       title: "Municipality",
-      data: [40, 20, 15],
+      data: [],
       chart: [],
     },
     {
       id: "t3",
       title: "Town Panchayat",
-      data: [10, 10, 5],
+      data: [],
       chart: [],
     },
   ];
@@ -495,10 +495,6 @@ export class NationalSubComponent implements OnInit {
                 this.multipleDoughnutChartLabel.push(elem?.lineitem);
               });
             this.nationalDoughnutChart = Object.values(res?.data?.national);
-            this.nationalDoughnutChart = Object.values(res?.data?.national);
-
-            console.log("nationalDoughnutChart", this.nationalDoughnutChart);
-
             this.doughnutChartInit();
             if (revenueMixInput.formType == "populationCategory") {
               this.mixRDoughnutPopulationCategory.map((elem) => {
@@ -507,7 +503,6 @@ export class NationalSubComponent implements OnInit {
                   elem.data = Object.values(particularObject);
                 }
               });
-
               this.dynamicDoughnutChartInit(
                 this.mixRDoughnutPopulationCategory
               );
@@ -528,7 +523,12 @@ export class NationalSubComponent implements OnInit {
               this.mixRDoughnutUlbType.forEach((elem) => {
                 let particularObject = res?.data?.individual[elem?.title];
                 if (particularObject) {
-                  elem.data = Object.values(particularObject);
+                  elem.data = [];
+                  this.multipleDoughnutChartLabel.forEach((val) => {
+                    if (val == "Own Revenues") {
+                      elem.data.push(particularObject["Owen Revenue"]);
+                    } else elem.data.push(particularObject[val]);
+                  });
                 }
               });
               this.dynamicDoughnutChartInit(this.mixRDoughnutUlbType);
