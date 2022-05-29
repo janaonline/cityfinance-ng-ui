@@ -38,7 +38,9 @@
         border: 1px solid darkgrey;
     }
 }
-
+td{
+    padding-left: 16px !important;
+}
 :host {
     #state {
         &:focus {
@@ -70,25 +72,31 @@
         flex-wrap: wrap;
         margin-right: 1%;
         .card {
-            margin-bottom: 8%;
+            margin-bottom: 3%;
             padding: 4% 4.5%;
         }
+    }
+    .customHr{
+        border: 0;
+        border-top: 1px solid #eee;
     }
     .card {
         animation: card-animation 1s ease-out forwards;
         opacity: 0;
         font-family: "Roboto";
         font-weight: 500;
-        font-size: 1.5rem;
-        width: 22.1vw;
-        height: 200px;
-        padding: 1% 1%;
+        // font-size: 1.5rem;
+        // width: 22.1vw;
+        // height: 200px;
+        padding: 1% 3%;
         border-radius: 5px;
         color: white;
         box-shadow: 0px 3px 6px #00000029;
         position: relative;
         margin: 0 1% 1% 0;
         transform: translateX(-20%);
+        width: 418px !important;
+        height: 200px;
         hr {
             // width: 90%;
             margin-top: 1.5rem;
@@ -125,7 +133,7 @@
             justify-content: space-around;
             margin-bottom: 0.3%;
             .category-value {
-                font-size: 1.5em;
+                // font-size: 1.5em;
                 font-weight: 600;
             }
         }
@@ -135,13 +143,15 @@
             text-decoration: underline;
             font-weight: 400;
             cursor: pointer;
+            text-align: end;
         }
         .heading {
             margin-bottom: 4px;
+            font-size: large;
         }
-        .card-main-value {
-            font-size: 1.5em;
-        }
+        // .card-main-value {
+        //     font-size: 1.5em;
+        // }
     }
     div.card.blue {
         background: linear-gradient(to top, #22bcee, #58d3fc);
@@ -157,7 +167,7 @@
     div.card.yellow {
         background: linear-gradient(to top, #fcc415, #ffd44d);
         animation-delay: 600ms;
-        margin-right: 0px;
+        // margin-right: 0px;
     }
     div.card.brown {
         background: linear-gradient(to top, #f16831, #f79168);
@@ -169,13 +179,14 @@
     }
     .chart-container {
         position: relative;
-        padding: 2% 2% 0% 3%;
+        // padding: 2% 2% 0% 3%;
         display: block;
-        width: 74.3%;
+        width: 97%;
         box-shadow: 0px 3px 6px #00000029;
         border: 1px solid #70707033;
         border-radius: 5px;
         overflow: hidden;
+        margin-left: 21px;
         // transform: translateX(10%);
         // animation: card-animation 1s ease-out forwards;
         .heading {
@@ -394,7 +405,7 @@ table .input-group {
 
 .btn-t {
     height: 36px;
-    width: 75px;
+    // width: 75px;
     background-color: #059B9A;
     color: #FFFFFF;
 }
