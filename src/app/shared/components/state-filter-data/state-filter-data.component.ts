@@ -583,6 +583,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   doughnutDataArr = [];
   scatterChartPayload: any = {};
   stateAvgVal = 0;
+  mainDoughnutArr = [];
   getScatterData() {
     this.createDynamicChartTitle(this.currentActiveTab);
     this.multiChart = false;
@@ -749,26 +750,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this._loaderService.stopLoader();
             console.log("mix Data", res);
             let data;
+            let ulbData;
             if (this.ulbId) {
               data = res["state"];
+              ulbData = res["ulb"];
+              this.multiChart = true;
+              this.mainDoughnutArr = [{ state: data }, { ulb: ulbData }];
             } else {
               data = res["data"];
             }
-
-            // let colorArray = [
-            //   {name: "Other Income", color: "#1E44AD"},
-            //   {name: "Sale & Hire charges", color: "#224CC0"},
-            //   {name: "Fee & User Charges", color: "#2553D3"},
-            //   {name: "Rental Income from Municipal Properties", color: "#456EDE"},
-            //   {name: "Tax Revenue", color: "#6A8BE5"},
-            // ]
-
-            // colorArray.forEach((elem) => {
-            //   let ele = data.find((element) => element._id == elem.name)
-            //   if(ele){
-            //     ele["color"] = elem.color
-            //   }
-            // })
 
             console.log("initial data", data);
 
@@ -968,7 +958,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reloadComponent(selectedStateId: any) {
-    console.log('reloadComponent', selectedStateId)
+    console.log("reloadComponent", selectedStateId);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = "reload";
     this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
@@ -986,7 +976,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       changes.selectedStateId.currentValue &&
       !changes?.selectedStateId?.firstChange
     ) {
-      console.log("selectedStateId", changes.selectedStateId.currentValue, 'this.stateServiceLabel', this.stateServiceLabel);
+      console.log(
+        "selectedStateId",
+        changes.selectedStateId.currentValue,
+        "this.stateServiceLabel",
+        this.stateServiceLabel
+      );
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);

@@ -251,7 +251,7 @@
   <div *ngIf="ActiveButton?.includes('Mix') && !compType">
     <app-revenue-mix
       [chartId]="'doughnutDataChartId'"
-      [chartData]="doughnutData"
+      [chartData]="multiChart ? mainDoughnutArr : doughnutData"
       [chartOptions]="doughnutChartOptions"
       (compType)="getCompType($event)"
       [multiChart]="multiChart"
@@ -260,6 +260,7 @@
       [returnCompType]="compType"
       (actionClicked)="getClickedAction($event)"
       [getChartPayload]="scatterChartPayload"
+      [SelecetedUlb]="ulbId"
     ></app-revenue-mix>
   </div>
 </div>
