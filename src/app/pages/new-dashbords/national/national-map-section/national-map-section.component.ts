@@ -259,7 +259,7 @@ export class NationalMapSectionComponent
     //   data: event.target.value,
     // });
     MapUtil.destroy(this.nationalLevelMap);
-    
+
     this.getNationalLevelMapData(event.target.value);
   }
 
@@ -304,7 +304,8 @@ export class NationalMapSectionComponent
         this._loaderService.stopLoader();
         this.showLoader = false;
         this.tableData = res?.data;
-        this.dataAvailabilityvalue = Math.round( res?.dataAvailability);
+        this.dataAvailabilityvalue = Math.round(res?.dataAvailability);
+        sessionStorage.setItem("dataAvail", res.dataAvailability);
         this.nationalMapService.setDataAvailabilityValue({
           data: res.dataAvailability,
         });

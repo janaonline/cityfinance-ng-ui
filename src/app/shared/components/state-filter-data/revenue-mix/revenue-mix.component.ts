@@ -654,14 +654,16 @@ export class RevenueMixComponent implements OnInit {
   ulbValVar: boolean = false;
 
   getMultipleDoughnutCharts() {
-    if (this.ulbTab) {
-      this.ulbValVar = false;
+    this.ulbValVar = false;
+    if (this.ulbTab || this.populationTab) {
       this.finalMultipleDoughnut = this.doughnutArray;
-    } else if (this.populationTab) {
-      this.ulbValVar = false;
-      // this.finalMultipleDoughnut = this.newDoughnutArray;
-      this.finalMultipleDoughnut = this.doughnutArray;
-    } else if (!this.ulbTab && !this.populationTab && this.SelecetedUlb) {
+    }
+    // else if (this.populationTab) {
+    //   this.ulbValVar = false;
+    //   // this.finalMultipleDoughnut = this.newDoughnutArray;
+    //   this.finalMultipleDoughnut = this.doughnutArray;
+    // } else
+    if (!this.ulbTab && !this.populationTab && this.SelecetedUlb) {
       this.ulbValVar = true;
       this.finalMultipleDoughnut = this.mainDoughnutArray;
     }
@@ -700,12 +702,17 @@ export class RevenueMixComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMultipleDoughnutCharts();
-    console.log("doughnutArray", this.doughnutArray1, this.multipleTitle);
+    console.log(
+      "doughnutArray====>",
+      this.doughnutArray1,
+      this.multipleTitle,
+      this.chartData
+    );
   }
 
   defaultUlbData = {
     id: "p5",
-    title: "",
+    title: "Ulb",
     type: "doughnut",
     data: {
       labels: [],
@@ -922,7 +929,6 @@ export class RevenueMixComponent implements OnInit {
   }
 
   fetchLabels(data) {
-    debugger;
     let arr = [];
     data.forEach((element) => {
       arr.push(element?._id);
@@ -1186,11 +1192,11 @@ export class RevenueMixComponent implements OnInit {
       changes.returnCompType &&
       changes.returnCompType.currentValue
     ) {
-      this.ulbTab
-        ? this.initializeDounughtArry()
-        : this.populationTab
-        ? this.initializePopulationDoughnutArray()
-        : "";
+      // this.ulbTab
+      //   ? this.initializeDounughtArry()
+      //   : this.populationTab
+      //   ? this.initializePopulationDoughnutArray()
+      //   : "";
       if (changes.returnCompType.currentValue == "ulbType") {
         this.ulbTab = true;
         this.populationTab = false;
@@ -1213,11 +1219,11 @@ export class RevenueMixComponent implements OnInit {
         this.multipleChartShow,
         changes
       );
-      // this.ulbTab
-      //   ? this.initializeDounughtArry()
-      //   : this.populationTab
-      //   ? this.initializePopulationDoughnutArray()
-      //   : "";
+      this.ulbTab
+        ? this.initializeDounughtArry()
+        : this.populationTab
+        ? this.initializePopulationDoughnutArray()
+        : "";
 
       if (Array.isArray(this.chartData)) {
         console.log("Main Chart data", this.chartData);
@@ -1265,6 +1271,24 @@ export class RevenueMixComponent implements OnInit {
                 this.doughnutArray[3].data.datasets[0].data.push(el2["amount"]);
               });
             }
+            if (Object.keys(el)[0] == "ulb") {
+              let tempUlbData = Object.assign(this.defaultUlbData);
+              console.log("tempUlbData", tempUlbData);
+
+              let val: any = Object.values(el)[0];
+              tempUlbData.data.labels = [];
+              tempUlbData.title = this.ulbStateMapping[this.SelecetedUlb].name;
+              tempUlbData.data.datasets[0].data = [];
+              val.forEach((el2) => {
+                tempUlbData.data.labels.push(el2["_id"]);
+
+                tempUlbData.data.datasets[0].data.push(el2["amount"]);
+              });
+
+              // tempUlbData.tite = this.ulbStateMapping[this.]
+
+              this.doughnutArray.splice(1, 0, tempUlbData);
+            }
           }
 
           console.log("chhcchchhchch", this.chartData);
@@ -1304,6 +1328,22 @@ export class RevenueMixComponent implements OnInit {
                 this.doughnutArray[5].data.labels.push(el2["code"]);
                 this.doughnutArray[5].data.datasets[0].data.push(el2["amount"]);
               });
+            }
+            if (Object.keys(el)[0] == "ulb") {
+              let tempUlbData = Object.assign(this.defaultUlbData);
+              let val: any = Object.values(el)[0];
+
+              tempUlbData.data.labels = [];
+              tempUlbData.data.datasets[0].data = [];
+
+              tempUlbData.title = this.ulbStateMapping[this.SelecetedUlb].name;
+              val.forEach((el2) => {
+                tempUlbData.data.labels.push(el2["_id"]);
+
+                tempUlbData.data.datasets[0].data.push(el2["amount"]);
+              });
+
+              this.doughnutArray.splice(1, 0, tempUlbData);
             }
           }
           if (!this.ulbTab && !this.populationTab && this.SelecetedUlb) {
