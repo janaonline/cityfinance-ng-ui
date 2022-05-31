@@ -11,6 +11,19 @@
   background: url("../../../../assets/new_dashBord_ftr_hdr/slb/slb-dashboard-assets/bg_cover@2x.jpg")
     no-repeat center;
 }
+.resetButton{
+    background-color: white;
+    border-radius: 7px;
+    border: 1px solid lightgray;
+    height: 37px;
+    width: 5rem;
+    opacity: 0.8;
+    color: #E67E15;
+    border-color: #E67E15;
+}
+button.resetButton:hover{
+  background-color:rgb(226, 245, 246);
+}
 .title {
   // padding-top: 7.5rem;
   color: #ffffff;

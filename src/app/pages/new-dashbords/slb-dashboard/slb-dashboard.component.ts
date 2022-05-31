@@ -918,6 +918,7 @@ export class SlbDashboardComponent
       _id: "null",
       name: "India",
     };
+    this.stateId = '';
     this.updateDropdownStateSelection(obj);
     this.loadSLBComponent();
   }
