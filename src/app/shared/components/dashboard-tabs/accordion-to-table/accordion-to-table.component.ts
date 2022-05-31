@@ -421,7 +421,7 @@ export class AccordionToTableComponent implements OnInit {
         ulbType:
           this.ulbNameMapping[val.ulb]?.type == ""
             ? "NA"
-            : this.ulbNameMapping[val.ulb]?.type,
+            : this.ulbNameMapping.hasOwnProperty(val.ulb) ? this.ulbNameMapping[val.ulb]?.type : 'NA',
         year: val.yearOfBondIssued == "" ? "NA" : val.yearOfBondIssued,
         rating: val.CRISIL == "" ? "NA" : val.CRISIL,
         amount: val.amountAccepted == "" ? "NA" : val.amountAccepted,
