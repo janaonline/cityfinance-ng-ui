@@ -126,7 +126,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 1,
       name: "4 Million+",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -134,7 +134,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 2,
       name: "1 Million - 4 Million",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -142,7 +142,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 3,
       name: "500 Thousand - 1 Million",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -150,7 +150,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 4,
       name: "100 Thousand-500 Thousand",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -158,7 +158,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 5,
       name: "<100 Thousand",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -725,8 +725,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
         this.dataAvailLoading = false;
         // res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
         // this.availValue = res["data"]?.percent;
-        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
-        res['actualPercent'] = res["data"].percent;
+        let percentage =
+          res["data"] && res["data"].percent
+            ? Math.round(res["data"].percent)
+            : 0;
+        res["actualPercent"] = res["data"].percent;
         res["data"].percent = percentage;
         this.financialYear = res;
         this.availValue = percentage;
@@ -1125,18 +1128,16 @@ export class OwnRevenueDashboardComponent implements OnInit {
               value.averageRevenue = "0";
             }
             if (data.population > 0) {
-              value.perCapita = numCheck(data.perCapita);
+              value.median = numCheck(data.median);
             } else {
-              value.perCapita = "0";
+              value.median = "0";
             }
           } else {
             value.averageRevenue = data.totalProperty.toFixed(0);
             if (data.population > 0) {
-              value.perCapita = (data.totalProperty / data.population).toFixed(
-                2
-              );
+              value.median = (data.totalProperty / data.population).toFixed(2);
             } else {
-              value.perCapita = "0";
+              value.median = "0";
             }
             if (data.totalRevenue > 0) {
               value.avgRevenueMeet = (
