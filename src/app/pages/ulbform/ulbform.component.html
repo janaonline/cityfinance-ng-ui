@@ -3,12 +3,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 sideNav" #stickyMenu [ngClass]="{'sticky' : sticky}"
-            style="padding: 0 0; margin-left: 2px;">
+            style="padding: 0 0; margin-left: 2px;position: fixed;overflow-x: hidden;overflow-y: auto;z-index: 10;width: 295px;">
             <ul class="heading" style="background-color: #FFC500; ">
                 <a routerLink="{{backLink}}">
                     <!-- "['../fc-home-page']" -->
                     <h5 style="font-size: 14px;">
-                        <div class="row">
+                        <div class="row" style="margin-top:8px;">
                             <div class="col-sm-1 col-xs-1" style="padding-right: 3px">
                                 <mat-icon aria-hidden="false">
                                     <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
@@ -323,7 +323,7 @@
 
         </div>
         <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" [ngClass]="{'stickyMain' : sticky || stiHieght}"
-            style="background-color: #FFFFFF; width: 82%; padding-right: 0;">
+            style="background-color: #FFFFFF; width: 82%; padding-right: 0;margin-left: 17%;">
 
             <div class="container-fluid">
                 <div class="row">
