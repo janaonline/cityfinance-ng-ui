@@ -107,13 +107,14 @@
       </div>
     </div>
     <div *ngSwitchCase="2" style="margin-top: 4%" class="alertPara">
-      <!--- ownrevenuechart compare start-->
-      <span style="color: red" *ngIf="emptyField"
+      <!-- own revenue dashboard chart compare start -->
+
+      <!-- <span style="color: red" *ngIf="emptyField"
         >Note: Please select atleast two <span *ngIf="togglerValue">ULBs</span>
         <span *ngIf="!togglerValue">States</span> and one parameter for
         comparison
-      </span>
-      <!-- <div class="row w-80">
+      </span> -->
+      <div class="row w-80">
         <div style="line-height: 5rem">
           <mat-label>States </mat-label>
           <mat-slide-toggle [formControl]="toogle"> ULBs</mat-slide-toggle>
@@ -126,9 +127,10 @@
             time
           </p>
         </div>
-      </div> -->
+      </div>
+
       <div class="col-12">
-        <div class="col-9 col-md-9 m-2 g-filter-d">
+        <div class="col-12 col-md-9 m-2 g-filter-d">
           <form>
             <input
               type="text"
@@ -171,8 +173,8 @@
           </form>
         </div>
         <div>Select a compare parameter</div>
-        <div class="col-3 col-md-3 col-sm-12 m-2 selectDiv">
-          <mat-form-field appearance="fill" class="smallScreenDropdown">
+        <div class="mt-2">
+          <mat-form-field class="col-12 col-md-9 col-sm-12 smallScreenDropdown">
             <mat-label>Parameter</mat-label>
             <mat-select #matmat  matInput [formControl]="selectedVal">
               <!-- <mat-option>None</mat-option> -->

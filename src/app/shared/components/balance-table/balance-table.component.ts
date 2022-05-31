@@ -263,7 +263,7 @@ export class BalanceTableComponent
     { name: "INR", type: null },
     { name: "INR Thousands", type: 1000 },
     { name: "INR Lakhs", type: 100000 },
-    { name: "INR Crores", type: 10000000 }
+    { name: "INR Crores", type: 10000000 },
   ];
   constructor(
     protected reportService: ReportService,
@@ -323,9 +323,9 @@ export class BalanceTableComponent
   }
 
   openDialog(data: any, fileType: string) {
-    console.log('openDialog', data)
+    console.log("openDialog", data);
     const dialogRef = this.dialog.open(BalanceTabledialogComponent, {
-      data: {"reportList": data, "fileType": fileType},
+      data: { reportList: data, fileType: fileType },
       width: "500px",
     });
 
@@ -408,7 +408,7 @@ export class BalanceTableComponent
       this.ulbListVal,
       this.yearValue,
       this.years,
-      "year"
+      "year===---->"
     );
     let multiUlbList = this.ulbListVal.map((val) => {
       let ulbData = this.allUlbsFilterData[val.state._id]?.find(
@@ -419,7 +419,11 @@ export class BalanceTableComponent
     multiUlbList.push(this.currentUlbFilterData);
     this.compare = true;
 
-    console.log("currentUlbFilterData", this.currentUlbFilterData, this.ulbIdval)
+    console.log(
+      "currentUlbFilterData",
+      this.currentUlbFilterData,
+      this.ulbIdval
+    );
     let filters = {
       isComparative: false,
       type: "Summary",
@@ -430,7 +434,7 @@ export class BalanceTableComponent
       ulbIds: [...new Set([this.currentUlbFilterData.ulb, ...this.ulbIdval])],
       valueType: this.valueType,
     };
-    console.log("filers", filters)
+    console.log("filers", filters);
     this.createDataForBasicComp(this.reportGroup, filters);
 
     // setTimeout(() => {
@@ -517,6 +521,7 @@ export class BalanceTableComponent
   }
 
   ngOnInit() {
+    console.log("disableDropDown", this.disableDropDown);
     this.selectedItems = [];
 
     this.dropdownSettings = {
@@ -562,12 +567,15 @@ export class BalanceTableComponent
     // this.invokeHidden();
     console.log("balance table", changes, this.data);
     if (this.data.name == "Balance Sheet") {
+      this.resetCompare();
       this.reportGroup = "Balance Sheet";
       this.createDataForBasicComp(this.reportGroup);
     } else {
+      this.resetCompare();
       this.reportGroup = "Income & Expenditure Statement";
       this.createDataForBasicComp(this.reportGroup);
     }
+
     this.balanceInput.isComparative = this.isComparative;
     this.balanceInput.type = this.type;
     this.balanceInput.reportGroup = this.reportGroup;
@@ -591,36 +599,57 @@ export class BalanceTableComponent
     this.compare = false;
     this.valueType = "absolute";
     this.createDataForBasicComp(this.reportGroup);
+
+    this.ulbListVal = "";
+    this.ulbIdval = [];
+    this.yearValue = [];
+    this.years = [];
   }
 
+  disableDropDown: boolean = false;
+
   valueTypeChange(event) {
-    console.log(event.value, "change in value type");
+    console.log(event.value, "change in value type", this.years);
     this.valueType = event.value;
-    this.createDataForBasicComp(this.reportGroup);
+    if (this.valueType == "per_capita") {
+      this.disableDropDown = true;
+    } else {
+      this.disableDropDown = false;
+    }
+
+    if (this.years) {
+      // this.createMultipleUpdateTable();
+      this.selectedYea(this.years);
+    } else {
+      this.createDataForBasicComp(this.reportGroup);
+    }
   }
-  
+
   selectCurrencyValue: any;
   onSelectingConversionType(event: any) {
-    let selectedType = this.currencyConversionType.find(item => item?.type == event.target.value);
+    let selectedType = this.currencyConversionType.find(
+      (item) => item?.type == event.target.value
+    );
     const defaultConversionType = { name: "INR", type: null };
     this.selectCurrencyValue = event.target.value ? event.target.value : null;
-    this.reportService.selectedConversionType.next(selectedType ? selectedType : defaultConversionType);
+    this.reportService.selectedConversionType.next(
+      selectedType ? selectedType : defaultConversionType
+    );
   }
 
   allReports: any = [];
   getReport(selectedYear: string, fileType: string) {
     this._loaderService.showLoader();
-    this.reportService.getReports(this.id, selectedYear)
-    .subscribe(
+    this.reportService.getReports(this.id, selectedYear).subscribe(
       (res) => {
-        if (res && res["success"] && res['data']?.length > 0) {
+        if (res && res["success"] && res["data"]?.length > 0) {
           this._loaderService.stopLoader();
           console.log("getReports", res);
-          this.allReports = res['data'];
-          this.openDialog(res['data'][0], fileType)
+          this.allReports = res["data"];
+          this.openDialog(res["data"][0], fileType);
         } else {
           this._loaderService.stopLoader();
-          this.openDialog(res['data'], 'notFound')
+          this.openDialog(res["data"], "notFound");
         }
       },
       (error) => {

@@ -223,7 +223,7 @@ body {
         font-size: .6em;
     }
     &.lg{
-        font-size: 2em;
+        font-size: 1.1em;
     }
 }
 
@@ -633,10 +633,6 @@ img.align-center {
         }
         .carousel-indicators {
             bottom: -10px;
-            @media screen and (max-width: 468px) {
-                width: 100%;
-                left: 30%;
-            }
             li {
                 margin: 5px;
                 width: 30px;

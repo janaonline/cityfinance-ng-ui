@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
 import { BaseComponent } from "src/app/util/BaseComponent/base_component";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { StateFilterDataService } from "./state-filter-data.service";
 import { FormControl } from "@angular/forms";
 import { CommonService } from "../../services/common.service";
@@ -10,6 +10,7 @@ import { OwnRevenueService } from "src/app/pages/own-revenue-dashboard/own-reven
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { stateDashboardSubTabsList } from "./constant";
 import Chart from "chart.js";
+import { element } from "protractor";
 @Component({
   selector: "app-state-filter-data",
   templateUrl: "./state-filter-data.component.html",
@@ -131,23 +132,23 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 15,
-        generateLabels: function (chart) {
-          console.log("generateLabels", chart);
-          const datasets = chart.data.datasets;
-          console.log("datasets", datasets);
-          console.log("chart.labels", chart.data.labels);
-          let total = chart.data.datasets[0].data.reduce((sum, val) => {
-            return sum + val;
-          }, 0);
-          console.log("total", total);
-          // var percentage = Math.floor((data / total) * 100 + 0.5);
-          return datasets[0].data.map((data, i) => ({
-            text: `${chart.data.labels[i]}: ${Math.floor(
-              (data / total) * 100 + 0.5
-            )}%`,
-            fillStyle: datasets[0].backgroundColor[i],
-          }));
-        },
+        // generateLabels: function (chart) {
+        //   console.log("generateLabels", chart);
+        //   const datasets = chart.data.datasets;
+        //   console.log("datasets", datasets);
+        //   console.log("chart.labels", chart.data.labels);
+        //   let total = chart.data.datasets[0].data.reduce((sum, val) => {
+        //     return sum + val;
+        //   }, 0);
+        //   console.log("total", total);
+        //   // var percentage = Math.floor((data / total) * 100 + 0.5);
+        //   return datasets[0].data.map((data, i) => ({
+        //     text: `${chart.data.labels[i]}: ${Math.floor(
+        //       (data / total) * 100 + 0.5
+        //     )}%`,
+        //     fillStyle: datasets[0].backgroundColor[i],
+        //   }));
+        // },
       },
       onClick: (e) => e.stopPropagation(),
     },
@@ -170,34 +171,78 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         },
       },
     },
-    // animation: {
-    //   onComplete: function (animation) {
-    //     var chartInstance = this.chart,
-    //       ctx = chartInstance.ctx;
-    //     ctx.font = Chart.helpers.fontString(
-    //       20,
-    //       Chart.defaults.global.defaultFontStyle,
-    //       Chart.defaults.global.defaultFontFamily
-    //     );
-    //     this.data.datasets.forEach(function (dataset, i) {
-    //       var meta = chartInstance.controller.getDatasetMeta(i);
-    //       let total = dataset.data.reduce((sum, val) => {
-    //         return sum + val;
-    //       }, 0);
-    //       meta.data.forEach(function (bar, index) {
-    //         ctx.fillStyle = dataset.backgroundColor[index];
-    //         var data = dataset.data[index];
-    //         var percentage = Math.floor((data / total) * 100 + 0.5);
-    //         console.log("chartOption Data", data);
-    //         ctx.fillText(
-    //           percentage + " %",
-    //           bar._model.x,
-    //           bar._model.y - 50 + index * 25
-    //         );
-    //       });
-    //     });
-    //   },
-    // },
+    animation: {
+      duration: 500,
+      easing: "easeOutQuart",
+      onComplete() {
+        const thisCtx = this.chart.ctx;
+        thisCtx.font = Chart.helpers.fontString(
+          Chart.defaults.global.defaultFontFamily,
+          "normal",
+          Chart.defaults.global.defaultFontFamily
+        );
+        thisCtx.textAlign = "center";
+        thisCtx.textBaseline = "bottom";
+        this.data.datasets.forEach((dataset, index) => {
+          for (let i = 0; i < dataset.data.length; i += 1) {
+            const textSize = 12;
+            const model =
+              dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+
+            const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
+            const midRadius =
+              model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+            const startAngle = model.startAngle;
+            const endAngle = model.endAngle;
+            const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+            const x = midRadius * Math.cos(midAngle);
+            const y = midRadius * Math.sin(midAngle);
+
+            /* Calculating the area of the doughnut sector. */
+            let angle = endAngle - startAngle;
+            let doughnutSectorArea =
+              (angle / 2) *
+              (model.outerRadius - model.innerRadius) *
+              (model.outerRadius + model.innerRadius);
+
+            /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+          If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+            // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+            var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
+            thisCtx.fillStyle = isBGColorDarkOrLight
+              ? isBGColorDarkOrLight == "light"
+                ? "#000000"
+                : "#ffffff"
+              : "#000000";
+            var fontSize = 14;
+            var fontStyle = "normal";
+            var fontFamily = "sans-serif";
+            thisCtx.font = Chart.helpers.fontString(
+              fontSize,
+              fontStyle,
+              fontFamily
+            );
+
+            const percent = `${String(
+              Math.round((dataset.data[i] / total) * 100)
+            )}%`;
+            /* if need to add the percentage with absolute value uncomment the below line. */
+            // thisCtx.fillText(model.label, model.x + x, model.y + y);
+            // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+            //   model.y + y + (textSize * 1.3));
+
+            if (dataset.data[i] != 0 && doughnutSectorArea > 1200) {
+              thisCtx.fillText(
+                percent,
+                model.x + x,
+                model.y + y + textSize * 1.3
+              );
+            }
+          }
+        });
+      },
+    },
   };
   barData: any;
 
@@ -287,7 +332,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     private _commonServices: CommonService,
     public _loaderService: GlobalLoaderService,
     private ownRevenueService: OwnRevenueService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) {
     super();
 
@@ -701,7 +747,30 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           } //donught charts center
           else if (this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
-            let data = res["data"];
+            console.log("mix Data", res);
+            let data;
+            if (this.ulbId) {
+              data = res["state"];
+            } else {
+              data = res["data"];
+            }
+
+            // let colorArray = [
+            //   {name: "Other Income", color: "#1E44AD"},
+            //   {name: "Sale & Hire charges", color: "#224CC0"},
+            //   {name: "Fee & User Charges", color: "#2553D3"},
+            //   {name: "Rental Income from Municipal Properties", color: "#456EDE"},
+            //   {name: "Tax Revenue", color: "#6A8BE5"},
+            // ]
+
+            // colorArray.forEach((elem) => {
+            //   let ele = data.find((element) => element._id == elem.name)
+            //   if(ele){
+            //     ele["color"] = elem.color
+            //   }
+            // })
+
+            console.log("initial data", data);
 
             if (data?.length > 0) {
               this.chartDropdownList = data;
@@ -711,10 +780,18 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this.initializeDonughtData();
             if (this.scatterChartPayload.compareType == "") {
               if (data.length) {
+                console.log("mixdata==>", data);
                 data = data.sort((a, b) => b.code - a.code);
+                if (data[0].hasOwnProperty("color"))
+                  this.doughnutData.data.datasets[0].backgroundColor = [];
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
+                  if (el.color) {
+                    this.doughnutData.data.datasets[0].backgroundColor.push(
+                      el.color
+                    );
+                  }
                 });
                 console.log(this.doughnutData);
 
@@ -809,7 +886,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getCompType(mixType: string) {
-    console.log("getCompType", mixType);
+    console.log("getCompType", mixType, this.compType);
     // this.compType = e;
     // if (e) this.getScatterData();
 
@@ -890,6 +967,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       .subscribe((res) => console.log("revenue ==>", res));
   }
 
+  reloadComponent(selectedStateId: any) {
+    console.log('reloadComponent', selectedStateId)
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = "reload";
+    this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     console.log(
       "stateFilterDataChanges",
@@ -902,16 +986,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       changes.selectedStateId.currentValue &&
       !changes?.selectedStateId?.firstChange
     ) {
-      console.log("selectedStateId", changes.selectedStateId.currentValue);
+      console.log("selectedStateId", changes.selectedStateId.currentValue, 'this.stateServiceLabel', this.stateServiceLabel);
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);
-      this.getScatterData();
-      if (this.stateServiceLabel) {
-        this.getServiceLevelBenchmarkBarChartData();
-      } else {
-        this.getStateRevenue();
-      }
+      this.reloadComponent(this.stateId);
+      // this.getScatterData();
+      // if (this.stateServiceLabel) {
+      //   this.getServiceLevelBenchmarkBarChartData();
+      // } else {
+      //   this.getStateRevenue();
+      // }
     }
     this.stateServiceLabel = false;
     if (changes.data) {
@@ -1629,5 +1714,39 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.barChartPayload?.apiEndPoint,
       this.stateServiceLabel
     );
+  }
+}
+
+function lightOrDark(color) {
+  // Variables for red, green, blue values
+  var r, g, b, hsp;
+
+  // Check the format of the color, HEX or RGB?
+  if (color.match(/^rgb/)) {
+    // If RGB --> store the red, green, blue values in separate variables
+    color = color.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    );
+
+    r = color[1];
+    g = color[2];
+    b = color[3];
+  } else {
+    // If hex --> Convert it to RGB: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, "$&$&"));
+
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
+  }
+
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+
+  // Using the HSP value, determine whether the color is light or dark
+  if (hsp > 127.5) {
+    return "light";
+  } else {
+    return "dark";
   }
 }

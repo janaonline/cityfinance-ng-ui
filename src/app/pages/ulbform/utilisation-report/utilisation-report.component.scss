@@ -21,7 +21,9 @@ a.anDisable {
     color: #373737;
     margin-top: 1rem;
 }
-
+.table-responsive{
+    overflow-x: hidden;
+}
 .m-ut-he {
     // margin-left: 0;
     margin-right: 0;
@@ -133,9 +135,6 @@ option {
     padding: 4px 4px;
 }
 
-.tableFooter {
-    //  margin-right: 45px;
-}
 
 label {
     font-weight: normal;
@@ -161,6 +160,7 @@ label {
     font-size: 12px;
     padding-left: 4%;
     padding-right: 4%;
+    width: 116px;
 }
 
 .backbtn {

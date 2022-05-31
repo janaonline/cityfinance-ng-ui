@@ -45,7 +45,7 @@
       <thead>
 
         <tr class="tableRow">
-          <th class="text-center" style="background: white;" colspan="2">
+          <th class="text-center" style="position:sticky;left:-1px;background-color:white;" colspan="2">
             Year(s)
           </th>
           <th
@@ -58,8 +58,8 @@
         </tr>
         <tr class="tableRow"></tr>
         <tr style="border: #e2e2e2;">
-          <th class="text-center">{{ reportReq.ulbList[0].state }}</th>
-          <td *ngIf="!reportReq['ulbType']">{{ reportReq.ulbList[0].name }}</td>
+          <th class="text-center" style="position:sticky;left:-1px;background-color:rgb(226,226,226);">{{ reportReq.ulbList[0].state }}</th>
+          <td *ngIf="!reportReq['ulbType']" style="position:sticky;left:91px;background-color: rgb(226,226,226);">{{ reportReq.ulbList[0].name }}</td>
           <td *ngIf="reportReq['ulbType']">All {{ reportReq["ulbType"] }}</td>
           <th class="text-center" *ngFor="let yr of years; let i = index">
             Population:
@@ -71,8 +71,8 @@
         </tr>
         <tr class="tableRow"></tr>
         <tr style="border: #e2e2e2;">
-          <th class="text-center">Account Code</th>
-          <th class="text-center">Major Group/Minor Group</th>
+          <th class="text-center" style="position:sticky;left:-1px;background-color: rgb(226,226,226)">Account Code</th>
+          <th class="text-center" style="position:sticky;left:91px;background-color: rgb(226,226,226)">Major Group/Minor Group</th>
           <th class="text-center" *ngFor="let yr of years">
             <!-- {{ reportReq.ulbList[0].state }} -->
           </th>
@@ -104,7 +104,7 @@
                 report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
           }"
         >
-          <td class="text-center">{{ report[key] ? report[key].code : "" }}</td>
+          <td class="text-center" style="position:sticky;left:-1px;background-color: white;">{{ report[key] ? report[key].code : "" }}</td>
           <td
             [ngClass]="{
               'text-right':
@@ -125,7 +125,7 @@
                   report[key].line_item &&
                   report[key].line_item.includes('Surplus/(Deficit) (C) (A-B)'))
             }"
-          >
+            style="position:sticky;left:91px;background-color: white;">
             {{ report[key] ? report[key].line_item : "" }}
           </td>
           <td class="text-right" *ngFor="let yr of years">

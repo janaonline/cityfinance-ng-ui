@@ -134,7 +134,34 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
-        console.log(animation, "animation");
+        console.log("animation", animation);
+      },
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          console.log("tooltip", tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log("dataset", dataset);
+          // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
+          // console.log('model', model)
+          let averageFYSum = 0;
+          if (dataset && dataset.type == "line") {
+            averageFYSum = Math.round(
+              ((dataset.data[tooltipItem.index] -
+                dataset.data[tooltipItem.index + 1]) /
+                dataset.data[tooltipItem.index]) *
+                100
+            );
+            if (isNaN(averageFYSum)) {
+              return `${dataset?.label}: No change`;
+            } else {
+              return `${dataset?.label}: ${averageFYSum}`;
+            }
+          } else {
+            return `${dataset?.label}: ${tooltipItem.yLabel}`;
+          }
+        },
       },
     },
   };
@@ -478,14 +505,14 @@ ULB ${this.selectedTab} for FY' ${
     }
     let newData = JSON.parse(JSON.stringify(barChartStatic));
     newData.data.labels = [];
-    for (const key in res["data"]) {
-      const element = res["data"][key];
-      element.map((value) => {
-        if (!newData.data.labels.includes(value._id.financialYear)) {
-          newData.data.labels.push(value._id.financialYear);
-        }
-      });
-    }
+    // for (const key in res["data"]) {
+    const element = res["data"]["ulbData"];
+    element.map((value) => {
+      if (!newData.data.labels.includes(value._id.financialYear)) {
+        newData.data.labels.push(value._id.financialYear);
+      }
+    });
+    // }
     newData.data.labels.sort(function (a, b) {
       let newA = a.split("-")[0];
       let newB = b.split("-")[0];
@@ -506,17 +533,17 @@ ULB ${this.selectedTab} for FY' ${
         }
         dataByYear.forEach((dataByYearVal) => {
           let dataInner = JSON.parse(JSON.stringify(innerDataset));
-          if (this.compareType == "National Average" && key == "compData") {
-            dataByYearVal.ulbName = "National";
-          }
-          if (this.compareType == "ULB Type Average" && key == "compData") {
-            dataByYearVal.ulbName = this.ulbMapping[this.currentUlb].type;
-          }
-          if (this.compareType == "ULB category Average" && key == "compData") {
-            dataByYearVal.ulbName = getPopulationType(
-              this.ulbMapping[this.currentUlb].population
-            );
-          }
+          // if (this.compareType == "National Average" && key == "compData") {
+          //   dataByYearVal.ulbName = "National";
+          // }
+          // if (this.compareType == "ULB Type Average" && key == "compData") {
+          //   dataByYearVal.ulbName = this.ulbMapping[this.currentUlb].type;
+          // }
+          // if (this.compareType == "ULB category Average" && key == "compData") {
+          //   dataByYearVal.ulbName = getPopulationType(
+          //     this.ulbMapping[this.currentUlb].population
+          //   );
+          // }
 
           if (!temp[dataByYearVal.ulbName]) {
             dataInner.backgroundColor = backgroundColor[index];
@@ -563,12 +590,62 @@ ULB ${this.selectedTab} for FY' ${
     // };
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.unshift(newlineDataset);
+    console.log("newData ===>", newData);
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "₹" : "₹ Cr"
     }`;
     this.barChartStaticOptions.scales.xAxes[0].barThickness =
       this.barWidthRender;
+    this.barChartStaticOptions.tooltips.callbacks.label = this.selectedTab
+      .toLowerCase()
+      .includes("surplus")
+      ? function (tooltipItem, data) {
+          console.log("suplus tooltip ", tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log("suplus dataset", dataset);
+          // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
+          // console.log('model', model)
+          let averageFYSum = 0;
+          if (dataset && dataset.type == "line") {
+            averageFYSum = Math.round(
+              ((dataset.data[tooltipItem.index] -
+                dataset.data[tooltipItem.index + 1]) /
+                dataset.data[tooltipItem.index]) *
+                100
+            );
+            if (isNaN(averageFYSum)) {
+              return `${dataset?.label}: No change`;
+            } else {
+              return `${dataset?.label}: ${averageFYSum}`;
+            }
+          } else {
+            return `${dataset?.label}: ${tooltipItem.yLabel}`;
+          }
+        }
+      : function (tooltipItem, data) {
+          console.log("tooltip", tooltipItem, data);
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          console.log("dataset", dataset);
+          // var model = dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]._model;
+          // console.log('model', model)
+          let averageFYSum = 0;
+          if (dataset && dataset.type == "line") {
+            averageFYSum = Math.round(
+              ((dataset.data[tooltipItem.index] -
+                dataset.data[tooltipItem.index + 1]) /
+                dataset.data[tooltipItem.index]) *
+                100
+            );
+            if (isNaN(averageFYSum)) {
+              return `${dataset?.label}: No change`;
+            } else {
+              return `${dataset?.label}: ${averageFYSum}`;
+            }
+          } else {
+            return `${dataset?.label}: ${tooltipItem.yLabel}`;
+          }
+        };
     this.chartOptions = this.barChartStaticOptions;
   }
 
@@ -680,7 +757,7 @@ ULB ${this.selectedTab} for FY' ${
       let previousYear = this.getPreviousYear(element._id);
       let previousYearValue = data.find((val) => val._id == previousYear);
       let year1 = previousYearValue,
-      year2 = data[index];
+        year2 = data[index];
       if (!year1) {
         newData.push({
           _id: { financialYear: data[index]._id },
@@ -771,10 +848,10 @@ ULB ${this.selectedTab} for FY' ${
                 var currentValue = Number(dataset.data[tooltipItem.index]);
                 var percentage = Math.round((currentValue / total) * 100);
                 var tooltipLabel;
-                if(typeof data.labels[tooltipItem.index].text == 'object') {
-                  tooltipLabel = data.labels[tooltipItem.index].text.name
+                if (typeof data.labels[tooltipItem.index].text == "object") {
+                  tooltipLabel = data.labels[tooltipItem.index].text.name;
                 } else {
-                 tooltipLabel = data.labels[tooltipItem.index].text
+                  tooltipLabel = data.labels[tooltipItem.index].text;
                 }
                 // var percentage = ((currentValue / total) * 100).toFixed(2);
                 // return percentage + "%" + data.labels[tooltipItem.index].text;
@@ -923,7 +1000,7 @@ ULB ${this.selectedTab} for FY' ${
     let other_receipt = {
       _id: { lineItem: "Other Receipts" },
       amount: 0,
-      colour: "",
+      colour: "#00ff80",
     };
     let assigned_revenues_compensations = {
       _id: { lineItem: "Assigned Revenues Compensation" },
@@ -955,8 +1032,8 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        let tempColor = "#038386"
-        if(value.color == tempColor) {
+        let tempColor = "#038386";
+        if (value.color == tempColor) {
           other_receipt.colour = value.colour;
         } else {
           other_receipt.colour = tempColor;

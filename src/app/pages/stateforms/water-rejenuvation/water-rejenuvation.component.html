@@ -116,7 +116,7 @@
                                                     delete_forever
                                                 </span></a>
                                         </td>
-                                        <td style="display: inline-flex; margin-top: 12%;">
+                                        <td style="display: inline-flex;">
                                             <input style="height:4rem" matTooltipPosition="above"
                                                 [matTooltip]="checkErrorState(projectRow,'lat') ? 'Enter Valid lat' : null"
                                                 [ngClass]="{'falseVal': checkErrorState(projectRow,'lat'), 'anDisable' : formDisable }"
@@ -492,11 +492,11 @@
 
         </div>
         <div>  <!-- class="card-footer" style="margin-top: 3rem;" -->
-            <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button">
+            <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button" style="margin-top:1%;margin-bottom: 1%;">
                 {{saveBtnText}}
             </button>
             <button [routerLink]="['../water-supply']" routerLinkActive="router-link-active"
-                (click)="backButtonClicked = true" class="btn back pull-left">
+                (click)="backButtonClicked = true" class="btn back pull-left" style="margin-top:1%;margin-bottom: 1%;">
                 Back
             </button>
         </div>

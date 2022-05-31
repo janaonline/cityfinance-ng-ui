@@ -236,8 +236,8 @@ export class AccordionToTableComponent implements OnInit {
 
   onyearSelected() {
     // debugger
-    const yearList = this.filterForm.controls["years"].value
-    console.log("mainRows", this.paginatedbondIssuerItem)
+    const yearList = this.filterForm.controls["years"].value;
+    console.log("mainRows", this.paginatedbondIssuerItem);
     let newULBList: IULBResponse["data"];
     // Update the ULBs
     if (!yearList.length) {
@@ -299,9 +299,8 @@ export class AccordionToTableComponent implements OnInit {
     if (datas.data) {
       this.getFormValue();
     }
-    console.log("newData", datas)
+    console.log("newData", datas);
     this.bondIssuerItemData = datas.data;
-    
 
     if (this.state) {
       this.filterdData = this.bondIssuerItemData.filter(
@@ -324,37 +323,41 @@ export class AccordionToTableComponent implements OnInit {
     }
     this.paginatedbondIssuerItem = this.sliceDataForCurrentView(datas.data);
 
-    let tempArr = []
-    let tempIssueArr = []
+    let tempArr = [];
+    let tempIssueArr = [];
+
     this.paginatedbondIssuerItem.forEach((elem) => {
-      let bidValue = elem.bidsReceived
-      let issueValue = elem.issueSize
-      if(bidValue !== "Not Available" && bidValue) {
-        if(bidValue.includes(",")) {
-         let commaValue = bidValue.split(" ")[1].split(",");
-         tempArr.push(commaValue[0] + commaValue[1])
-        }else {
-          tempArr.push(bidValue.split(" ")[1])
+      let bidValue = elem.bidsReceived;
+      console.log("bidValue", bidValue, elem);
+      let issueValue = elem.issueSize;
+      if (bidValue !== "Not Available" && bidValue) {
+        if (bidValue.includes(",")) {
+          let commaValue = bidValue.split(" ")[1].split(",");
+          tempArr.push(commaValue[0] + commaValue[1]);
+        } else {
+          tempArr.push(bidValue.split(" ")[1]);
         }
       }
 
-      if(issueValue) {
-        tempIssueArr.push(issueValue.split(" ")[1])
+      if (issueValue) {
+        tempIssueArr.push(issueValue.split(" ")[1]);
       }
-    })
+    });
+
+    console.log("tempArr", tempArr, tempIssueArr);
 
     this.bidReceivedAmount = tempArr.reduce((prevValue, currentValue) => {
-      return parseInt(prevValue) + parseInt(currentValue)
-    }, 1)
+      return parseInt(prevValue) + parseInt(currentValue);
+    }, 0);
 
     this.issueSize = tempIssueArr.reduce((prevValue, currentValue) => {
-      return parseInt(prevValue) + parseInt(currentValue)
-    }, 1)
+      return parseInt(prevValue) + parseInt(currentValue);
+    }, 0);
 
-    console.log("bidReceivedAmount", this.bidReceivedAmount, this.issueSize)
+    console.log("bidReceivedAmount", this.bidReceivedAmount, this.issueSize);
     this.totalCount = datas.total;
 
-    console.log("currentData===>",this.bondIssuerItemData)
+    console.log("currentData===>", this.bondIssuerItemData);
   }
   totalDataSource;
   filterdData: any;
@@ -378,13 +381,10 @@ export class AccordionToTableComponent implements OnInit {
     ) {
       stringVal = "Please select a ulb and year";
     } else {
-      
       stringVal = "Please select both ulb and year";
     }
 
-
     if (this.selectedUlbList.length > 0 && this.selectedYears.length > 0) {
-     
       this.finalFileteredData = this.bondIssuerItemData.filter((elem) => {
         if (
           names.includes(elem.ulb) &&
@@ -508,6 +508,7 @@ export class AccordionToTableComponent implements OnInit {
     this.ulbType = e.target.value;
   }
 
+  selectedUlb: any = [];
   private onGettingULBResponseSuccess(response: IULBResponse) {
     if (this.state) {
       let foundState;
@@ -531,18 +532,21 @@ export class AccordionToTableComponent implements OnInit {
         return;
       } else {
         this.filterForm.controls["ulbs"].patchValue([foundUlb]);
+        this.selectedUlb.push(foundUlb);
         this.notFound = false;
       }
     }
     this.originalULBList = response.data;
+
+    console.log("originalULBList", this.originalULBList);
     this.ulbFilteredByName = response.data;
     this.initializeStateList(response.data);
 
-    this.initializeYearList(response.data);
+    // this.initializeYearList(response.data);
 
     // Auto select state from query Params
     this.setStateFromQueryParams(this.queryParams);
-    this.onSubmittingFilterForm();
+    // this.onSubmittingFilterForm();
   }
 
   private setStateFromQueryParams(queryParams: { [key: string]: string }) {
@@ -592,9 +596,23 @@ export class AccordionToTableComponent implements OnInit {
   }
   city: boolean = false;
   state: boolean = false;
+  bondParam = {
+    years: [],
+    state: [],
+    ulbs: [],
+  };
 
   ngOnInit() {
-    console.log("selectedUlbList", this.selectedUlbList);
+    let selectedUlb = this.ulbList[this.cityId]?.name;
+    console.log("selectedUlb", selectedUlb);
+
+    this.bondParam.ulbs.push(selectedUlb);
+    setTimeout(() => {
+      console.log("bondParam", this.bondParam);
+      this._bondService
+        .getBondIssuerItem(this.bondParam)
+        .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
+    }, 100);
     this.emptyArray();
     console.log("valueeeeeeee" + this.value);
     if (this.value == "city") {
@@ -649,12 +667,17 @@ export class AccordionToTableComponent implements OnInit {
   ulbListLatest: any;
   onSubmittingFilterForm() {
     const params = this.createParamsForssuerItem(this.filterForm.value);
+    console.log("parama", params);
+
     this._bondService.getBondIssuerItem(params).subscribe((res: any) => {
       console.log(res);
-      this.issueLength = res.total ;
+      this.issueLength = res.total;
       this.onGettingBondIssuerItemSuccess(res);
     });
     this.resetPagination();
+    if (params.years.length == 0) {
+      this.issueLength = 4;
+    }
   }
 
   onClickDownload() {
@@ -682,7 +705,7 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   setPage(pageNoClick: number) {
-    console.log("pageNoClick", pageNoClick)
+    console.log("pageNoClick", pageNoClick);
     setTimeout(() => {
       this.currentPageInView = pageNoClick;
       this.paginatedbondIssuerItem = this.sliceDataForCurrentView(
@@ -809,6 +832,8 @@ export class AccordionToTableComponent implements OnInit {
       this.yearsAvailable = uniqueYears
         .sort((a, b) => (+a > +b ? -1 : 1))
         .map((year) => ({ name: year }));
+
+      console.log("yearsAvailable==>", this.yearsAvailable);
     });
   }
 

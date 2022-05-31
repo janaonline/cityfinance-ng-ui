@@ -2,8 +2,8 @@
 @import "../../../../scss/variables";
 @import "../../../../scss/mixins";
 .card {
-    height: 100px;
-    width: 250px;
+    // height: 100px;
+    // width: 250px;
     background-color: #12505A;
     border-radius: 5px;
     margin-right: 20px;
@@ -162,9 +162,6 @@
     padding-right: 25px;
 }
 
-.gauge {
-    //  height: 190px;
-}
 
 .formDonutCharts {
     height: 523px;
@@ -493,11 +490,11 @@ table {
     background-color: #E4FED8;
     border: 1px solid #A6F284;
     border-radius: 4px;
-    height: 100px;
+    height: auto;
     width: 100%;
     text-align: center;
-    margin: 15px 6px 15px 2px;
-    padding: 3px 16px 3px 16px;
+    margin: 20px 6px 20px 2px;
+    padding: 3px 16px 20px 16px;
 }
 
  ::ng-deep .ml-0 {

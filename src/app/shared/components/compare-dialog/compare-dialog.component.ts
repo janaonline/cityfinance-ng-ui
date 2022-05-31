@@ -94,16 +94,25 @@ export class CompareDialogComponent implements OnInit {
   preSelectedUlbList;
 
   @Input()
-  preSelectedYears
+  preSelectedYears;
 
   @Input()
-  preSelectedUlbIds
+  preSelectedUlbIds;
 
   @Input()
-  preSelectedStateList
+  preSelectedStateList;
 
   @Input()
   balcnceTab;
+
+  @Input()
+  preSelectedOwnRevenueDbParameter: string = "";
+
+  @Input()
+  preSelectedOwnRevenueDbType: boolean = false;
+
+  @Input()
+  singleSelectUlb;
 
   filterList = [
     { val: "State Average", checked: false },
@@ -159,12 +168,12 @@ export class CompareDialogComponent implements OnInit {
   ];
 
   selectYearValue(event: any) {
-    console.log('selectYearValue', event)
+    console.log("selectYearValue", event);
     this.years = event.value;
     this.yearValue = this.yearsList.filter((elem) => {
-     if( this.years.includes(elem.itemName)) {
-       return elem
-     }
+      if (this.years.includes(elem.itemName)) {
+        return elem;
+      }
     });
 
     console.log("yearValue", this.yearValue, this.years);
@@ -180,21 +189,33 @@ export class CompareDialogComponent implements OnInit {
     // });
     // console.log(this.years);
   }
-  togglerValue;
+  togglerValue: boolean = false;
   typeX = "";
   placeholder = "Search for States";
   selectedDropYears: any;
   ngOnInit(): void {
-    console.log("preSelectedUlbList", this.preSelectedUlbList, this.preSelectedStateList, this.balcnceTab);
+    console.log(
+      "preSelectedUlbList",
+      this.preSelectedUlbList,
+      this.preSelectedStateList,
+      this.balcnceTab
+    );
     if (this.preSelectedUlbList) {
       this.ulbListChip = this.preSelectedUlbList;
     }
-    if(this.preSelectedYears) {
-      console.log("dropYears", this.dropYears, this.preSelectedYears)
-      this.dropYears.setValue(this.preSelectedYears)
+    if (this.preSelectedYears) {
+      console.log("dropYears", this.dropYears, this.preSelectedYears);
+      this.dropYears.setValue(this.preSelectedYears);
       this.selectedDropYears = this.preSelectedYears;
     }
-    if(this.preSelectedStateList) {
+
+    if (this.preSelectedOwnRevenueDbParameter) {
+      this.selectedVal.setValue(this.preSelectedOwnRevenueDbParameter);
+    }
+    this.toogle.setValue(this.preSelectedOwnRevenueDbType);
+    this.togglerValue = this.preSelectedOwnRevenueDbType;
+
+    if (this.preSelectedStateList) {
       this.stateChipList = this.preSelectedStateList;
     }
     this.filterList = this.filterList.map((value) => {
@@ -214,13 +235,13 @@ export class CompareDialogComponent implements OnInit {
       console.log(val);
     });
     this.globalFormControl.valueChanges.subscribe((value) => {
+      console.log("globalFormControl", value);
+      if (this.togglerValue) {
+        this.typeX = "ulb";
+      } else {
+        this.typeX = "state";
+      }
       if (value.length >= 1) {
-        if (this.togglerValue) {
-          this.typeX = "ulb";
-        } else {
-          this.typeX = "state";
-        }
-
         this._commonService
           .postGlobalSearchData(value, this.typeX, "")
           .subscribe((res: any) => {
@@ -288,13 +309,15 @@ export class CompareDialogComponent implements OnInit {
     //   this.ulbListChip = [];
     // }
 
+    this.dropYears.patchValue([]);
+    this.yearValue = [];
+
     this.stateChipList = [];
     this.ulbListChip = [];
 
     this.own
       ? this.selectedVal.setValue("Own Revenue per Capita")
       : this.selectedVal.setValue("Property Tax per Capita");
-    
 
     // this.preSelectedUlbList = [];
     this.filterList = this.filterList.map((value) => {
@@ -374,6 +397,9 @@ export class CompareDialogComponent implements OnInit {
         return;
       }
       this.ulbListChip.push(option);
+      if (this.singleSelectUlb == true && this.ulbListChip.length > 1) {
+        this.ulbListChip = [option];
+      }
     }
 
     this.ulbIds = this.ulbListChip.map((elem) => elem._id);
@@ -394,9 +420,9 @@ export class CompareDialogComponent implements OnInit {
   }
   emptyField = true;
   emitValues() {
-
+    console.log("emitValues", this.type);
     if (this.type == 2) {
-   
+      console.log("stateChipList", this.stateChipList);
       if (
         this.stateChipList.length > 1 &&
         (this.selectedVal.value != "None" || !this.selectedVal.value)
@@ -405,38 +431,53 @@ export class CompareDialogComponent implements OnInit {
         this.valuesToEmit = {
           list: this.stateChipList,
           param: this.selectedVal.value,
-          type: this.typeX,
+          // type: this.typeX,
+          type: this.togglerValue ? "ulb" : "state",
+          typeTitle: this.typeX == "ulb" ? "ULBs" : "States",
         };
         this.ownRevenueCompValue.emit(this.valuesToEmit);
-        
       } else {
         this.emptyField = true;
-       
-        return;
+        this.valuesToEmit = {
+          list: this.stateChipList,
+          param: this.selectedVal.value,
+          // type: this.typeX,
+          type: this.togglerValue ? "ulb" : "state",
+          typeTitle: this.typeX == "ulb" ? "ULBs" : "States",
+        };
+        this.ownRevenueCompValue.emit(this.valuesToEmit);
+        // return;
       }
-      this.close()
-    } else {
-      console.log("emitting value", this.ulbListChip, this.dropYears.value, this.yearValue, this.ulbIds);
-      if(this.balcnceTab) {
-        if( this.ulbListChip.length > 0 && this.yearValue.length > 0) {
-          console.log("this.yearValue", this.yearValue)
-          if(this.preSelectedUlbIds){
-            this.ulbIds = this.preSelectedUlbIds
-          }
-      this.compareValue.emit(this.valuesToEmit);
-      this.ulbValues.emit(this.ulbIds);
-      this.ulbValueList.emit(this.ulbListChip);
-      this.SelectYearList.emit(this.yearValue);
-      this.SelectYears.emit(this.years);
       this.close();
-        }else if(this.ulbListChip.length >= 1 || this.yearValue.length >= 1) {
-          alert("please Select both ulb and year")
-        }else {
-          alert("please Select both ulb and year")
-
+    } else {
+      console.log(
+        "emitting value",
+        this.ulbListChip,
+        this.dropYears.value,
+        this.yearValue,
+        this.ulbIds
+      );
+      if (this.balcnceTab) {
+        if (this.ulbListChip.length > 0 && this.dropYears.value.length > 0) {
+          console.log("this.yearValue", this.yearValue, this.years);
+          if (this.preSelectedUlbIds) {
+            this.ulbIds = this.preSelectedUlbIds;
+          }
+          // if (this.preSelectedYears) {
+          //   this.years = this.preSelectedYears;
+          // }
+          this.compareValue.emit(this.valuesToEmit);
+          this.ulbValues.emit(this.ulbIds);
+          this.ulbValueList.emit(this.ulbListChip);
+          this.SelectYearList.emit(this.yearValue);
+          this.SelectYears.emit(this.years);
+          this.close();
         }
+        // else if (this.ulbListChip.length == 0 && this.yearValue.length == 0) {
+        //   alert("please Select both ulb and year");
+        //   this.close();
+        // }
       } else {
-
         this.compareValue.emit(this.valuesToEmit);
         this.ulbValues.emit(this.ulbIds);
         this.ulbValueList.emit(this.ulbListChip);

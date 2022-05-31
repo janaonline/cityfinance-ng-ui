@@ -299,7 +299,7 @@
 
 </div>
 <div class="row">
-    <div class="col-sm-12 mb-2">
+    <div class="col-sm-12 mb-2" style="margin-top:2%;">
         <mat-card>
 
             <div class="pull-right">
@@ -307,7 +307,7 @@
                 <select (change)="grantTransferFilter($event.target.value)" required>
                     <option [selected]="dateSelect" value="2020-21,date">2020-21</option>
                     <option value="2021-22,date">2021-22</option>
-                </select>
+                </select>&nbsp;&nbsp;&nbsp;&nbsp;
                 <mat-label class="m-1" style="font-weight:bolder;">Installment</mat-label>
                 <select (change)="grantTransferFilter($event.target.value)" required>
                     <option [selected]="installmentSelect" value="2,installment">2</option>
@@ -318,7 +318,7 @@
                 <mat-card-title>Grant Transfer Status</mat-card-title>
                 <mat-card-subtitle>Last Updated on {{grantTransferDate | date:'dd/MM/YYYY':'IST'}}</mat-card-subtitle>
             </mat-card-header>
-            <div class="pull-right" style="padding-top: 0;">
+            <div style="text-align: end;">
                 <button type="button" (click)="grantTransferDownload()" class="btn btn-d" style="font-size: 12px;
                 padding: 2px; height: 25px;">DOWNLOAD</button>
             </div>
@@ -450,7 +450,7 @@ margin-right: 0;">
     <div class="col-sm-6">
         <div class="Card2">
             <div class="row" style="margin-top: 2%;
-            font-weight: bold;">
+            font-weight: bold;justify-content: center;">
                 Submission of Action Plan and Projects for Water and Sanitation
             </div>
             <div class="row" style="height: 70%;">

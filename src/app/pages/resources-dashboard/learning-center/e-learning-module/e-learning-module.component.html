@@ -1,4 +1,4 @@
-<div class="container container-cnt" *ngIf ="!showIframe && !showTableau && !showOtherIframe" style="overflow-x: hidden;">
+<div class="container container-cnt" *ngIf ="!showIframe && !showTableau && !showOtherIframe">
   <div class="row" style="margin: 1rem auto 1rem auto">
     <div class="col-sm-12" style="display: flex">
       <a (click)="openScorePer(item)" *ngFor="let item of cardData">
@@ -28,7 +28,7 @@
       initiatives have resulted in increased collection of taxes & other own
       revenues, including from digital modes of payment.
     </p>
-    <iframe src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
+    <iframe class="iframeResponsive" src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
   </div>
   <div class="frame" *ngSwitchCase="showTableau">
     <p class="sub-ans">
@@ -47,11 +47,10 @@
     <div
       id="vizContainer"
       class="tableauPlaceholder"
-      style="width: 800px; height: 627px"
     >
       <iframe
         id="obj"
-        class="tableauViz"
+        class="tableauViz iframeResponsive"
         width="800"
         height="627"
         style="display: none"
@@ -82,6 +81,6 @@
       initiatives have resulted in increased collection of taxes & other own
       revenues, including from digital modes of payment.
     </p>
-    <iframe src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
+    <iframe class="iframeResponsive" src="https://janaagraha-space.ispring.com/s/embed_player/4c0d68c2-b43d-11ec-833b-d66e7090dff8" width="560" height="315" frameborder="0" border="0" scrolling="auto" allowtransparency="true" allowfullscreen="1" style="border: none; background-color: transparent;"></iframe>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CityService } from "./city.service";
 import { AuthService } from "../../../auth/auth.service";
 import { CommonService } from "src/app/shared/services/common.service";
+import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 
 @Component({
   selector: "app-city",
@@ -17,7 +18,8 @@ export class CityComponent implements OnInit {
     private router: Router,
     private cityService: CityService,
     private authService: AuthService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    public _loaderService: GlobalLoaderService,
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
       this.cityId = param.cityId;
@@ -119,37 +121,41 @@ export class CityComponent implements OnInit {
                 // );
                 item.value =
                   this._commonService.formatNumber(
-                    Math.round(res.data.population / 1000000)
+                    Math.round(res.data.population / 1000000) || '0'
                   ) + " Million";
                 if (item.value == "0 Million")
                   item.value =
                     this._commonService.formatNumber(
-                      Math.round(res.data.population / 1000)
+                      Math.round(res.data.population / 1000) || '0'
                     ) + " Thousand";
                 break;
               case "density":
                 item.value =
-                  this._commonService.formatNumber(res.data.density) +
+                  this._commonService.formatNumber(res.data.density || '0') +
                   "/ Sq km";
                 break;
               case "ward":
-                item.value = res.data.wards;
+                item.value = res.data.wards || '0';
+                if(item.value == '0'){
+                 item.value = '0'
+                 console.log(item.value)
+                }
                 break;
               case "area":
                 item.value =
-                  this._commonService.formatNumber(res.data.area) + " Sq km";
+                  this._commonService.formatNumber(res.data.area || '0') + " Sq km";
                 break;
               case "amrut":
-                item.value = res.data.amrut;
+                item.value = res.data.amrut || '0';
                 break;
               case "isUa":
                 item.value = res.data.isUA;
                 if (res.data.isUA == "Yes") {
-                  item.value += ` (${res.data.UA.name.split(" ")[0]})`;
+                  item.value += ` (${res.data.UA.name.split(" ")[0] || '0'})`;
                 }
                 break;
               case "dataAvailable":
-                item.value = res.data.dataAvailable;
+                item.value = res.data.dataAvailable || '0';
                 break;
             }
             return item;

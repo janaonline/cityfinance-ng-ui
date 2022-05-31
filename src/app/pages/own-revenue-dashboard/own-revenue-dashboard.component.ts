@@ -17,7 +17,7 @@ import * as fileSaver from "file-saver";
 import Chart from "chart.js";
 import { FilterModelBoxComponent } from "../resources-dashboard/filter-model-box/filter-model-box.component";
 import { OwnRevenueService } from "./own-revenue.service";
-import { CommonService } from 'src/app/shared/services/common.service';
+import { CommonService } from "src/app/shared/services/common.service";
 import { GlobalLoaderService } from "../../../app/shared/services/loaders/global-loader.service";
 import { ActivatedRoute } from "@angular/router";
 @Component({
@@ -35,19 +35,31 @@ export class OwnRevenueDashboardComponent implements OnInit {
   dataAvailable = 0;
   lastBarChartValue;
   compareDialogType = 2;
+  preSelectedOwnRevenueDbParameter: string = "Own Revenue per Capita";
+  // propertyTaxVal: boolean = false;
   changeTab(type) {
     this._loaderService.showLoader();
     if (type == "own") {
+      this.preSelectedOwnRevenueDbParameter = "Own Revenue per Capita";
       this.displayDoughnut = true;
       this.displayButtons = false;
       this.ownTab = true;
       this.proTab = false;
+      // this.propertyTaxVal = false;
+
+      this.filterGroup.controls.propertyTax.setValue("");
     }
     if (type == "pro") {
+      this.preSelectedOwnRevenueDbParameter = "Property Tax per Capita";
       this.displayDoughnut = false;
       this.displayButtons = true;
       this.ownTab = false;
       this.proTab = true;
+      this.tempDataHolder = {
+        param: "Property Tax per Capita",
+        type: "ULBs",
+      };
+      this.filterGroup.controls.propertyTax.setValue(true);
     }
     this.allCalls();
   }
@@ -179,7 +191,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     maintainAspectRatio: false,
     cutoutPercentage: 50,
     responsive: true,
- 
+
     legend: {
       position: "bottom",
       labels: {
@@ -189,23 +201,28 @@ export class OwnRevenueDashboardComponent implements OnInit {
         boxWidth: 20,
         boxHeight: 23,
         fontSize: 13,
-        generateLabels: function (chart) {
-          console.log("generateLabels", chart);
-          const datasets = chart.data.datasets;
-          console.log("datasets", datasets);
-          console.log("chart.labels", chart.data.labels);
-          let total = chart.data.datasets[0].data.reduce((sum, val) => {
-            return sum + val;
-          }, 0);
-          console.log("total", total);
-          // var percentage = Math.floor((data / total) * 100 + 0.5);
-          return datasets[0].data.map((data, i) => ({
-            text: `${chart.data.labels[i]}: ${Math.floor(
-              (data / total) * 100 + 0.5
-            )}%`,
-            fillStyle: datasets[0].backgroundColor[i],
-          }));
-        },
+        // generateLabels: function (chart) {
+        //   console.log("generateLabels", chart);
+        //   const datasets = chart.data.datasets;
+        //   console.log("datasets", datasets);
+        //   console.log("chart.labels", chart.data.labels);
+        //   let total = chart.data.datasets[0].data.reduce((sum, val) => {
+        //     return sum + val;
+        //   }, 0);
+        //   console.log("total", total);
+        //   // datasets[0].data.map((item, i) => console.log('item', item, 'i====>', i, 'divide', (item / total) * 100 + 0.5));
+        //   // var percentage = Math.floor((data / total) * 100 + 0.5);
+        //   // return datasets[0].data.map((data, i) => ({
+        //   //   text: `${chart.data.labels[i]}: ${ (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((data / total) * 100 + 0.5)}%`,
+        //   //   fillStyle: datasets[0].backgroundColor[i],
+        //   // }));
+        //   return datasets[0].data.map((data, i) => ({
+        //     text: `${chart.data.labels[i]}: ${Math.floor(
+        //       (data / total) * 100 + 0.5
+        //     )}%`,
+        //     fillStyle: datasets[0].backgroundColor[i],
+        //   }));
+        // },
       },
       onClick: (e) => e.stopPropagation(),
     },
@@ -214,6 +231,9 @@ export class OwnRevenueDashboardComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           var dataset = data.datasets[tooltipItem.datasetIndex];
+          var model =
+            dataset._meta[Object.keys(dataset._meta)[0]].data[tooltipItem.index]
+              ._model;
           var total = dataset.data.reduce(function (
             previousValue,
             currentValue,
@@ -223,9 +243,86 @@ export class OwnRevenueDashboardComponent implements OnInit {
             return previousValue + currentValue;
           });
           var currentValue = dataset.data[tooltipItem.index];
+          console.log("currentValue", currentValue);
+          // var percentage = (((data / total) * 100 + 0.5) < 1) ? ((data / total) * 100 + 0.5).toFixed(1) : Math.floor((currentValue / total) * 100 + 0.5);
           var percentage = Math.floor((currentValue / total) * 100 + 0.5);
-          return percentage + "%";
+          console.log("percentage", percentage);
+          // return percentage + "%";
+          return `${model?.label}: ${percentage}%`;
         },
+      },
+    },
+
+    animation: {
+      duration: 500,
+      easing: "easeOutQuart",
+      onComplete() {
+        const thisCtx = this.chart.ctx;
+        thisCtx.font = Chart.helpers.fontString(
+          Chart.defaults.global.defaultFontFamily,
+          "normal",
+          Chart.defaults.global.defaultFontFamily
+        );
+        thisCtx.textAlign = "center";
+        thisCtx.textBaseline = "bottom";
+        this.data.datasets.forEach((dataset, index) => {
+          for (let i = 0; i < dataset.data.length; i += 1) {
+            const textSize = 12;
+            const model =
+              dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+
+            const total = dataset._meta[Object.keys(dataset._meta)[0]].total;
+            const midRadius =
+              model.innerRadius + (model.outerRadius - model.innerRadius) / 2;
+            const startAngle = model.startAngle;
+            const endAngle = model.endAngle;
+            const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+            const x = midRadius * Math.cos(midAngle);
+            const y = midRadius * Math.sin(midAngle);
+
+            /* Calculating the area of the doughnut sector. */
+            let angle = endAngle - startAngle;
+            let doughnutSectorArea =
+              (angle / 2) *
+              (model.outerRadius - model.innerRadius) *
+              (model.outerRadius + model.innerRadius);
+
+            /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+          If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+            // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+            var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
+            thisCtx.fillStyle = isBGColorDarkOrLight
+              ? isBGColorDarkOrLight == "light"
+                ? "#000000"
+                : "#ffffff"
+              : "#000000";
+            var fontSize = 14;
+            var fontStyle = "normal";
+            var fontFamily = "sans-serif";
+            thisCtx.font = Chart.helpers.fontString(
+              fontSize,
+              fontStyle,
+              fontFamily
+            );
+
+            const percent = `${String(
+              Math.round((dataset.data[i] / total) * 100)
+            )}%`;
+            /* if need to add the percentage with absolute value uncomment the below line. */
+            // thisCtx.fillText(model.label, model.x + x, model.y + y);
+            // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+            //   model.y + y + (textSize * 1.3));
+
+            if (dataset.data[i] != 0 && doughnutSectorArea > 1200) {
+              thisCtx.fillText(
+                percent,
+                model.x + x,
+                model.y + y + textSize * 1.3
+              );
+            }
+          }
+        });
       },
     },
   };
@@ -242,7 +339,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         {
           scaleLabel: {
             display: true,
-            labelString: "Amount (in INR)",
+            labelString: "Amount in INR",
           },
           gridLines: {
             offsetGridLines: true,
@@ -274,14 +371,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
         );
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-  
+
         this.data.datasets.forEach(function (dataset, i) {
           var meta = chartInstance.controller.getDatasetMeta(i);
           if (meta.type == "line") return true;
           meta.data.forEach(function (bar, index) {
             var data = dataset.data[index];
-            console.log("chartOption Data",  data);
-            
+            console.log("chartOption Data", data);
+
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
           });
         });
@@ -289,7 +386,6 @@ export class OwnRevenueDashboardComponent implements OnInit {
       },
     },
   };
-
 
   allUlbData = JSON.parse(localStorage.getItem("ulbList")).data;
   stateIds = JSON.parse(localStorage.getItem("stateIdsMap"));
@@ -299,22 +395,30 @@ export class OwnRevenueDashboardComponent implements OnInit {
       if (value?.length >= 1) {
         this.getUlbForAutoComplete(value);
       } else {
+        let emptyArr: any = [];
+        this.filteredOptions = emptyArr;
         return null;
       }
     });
   }
   getUlbForAutoComplete(value, autoSelectUlb = false) {
+    const stateId = this.filterGroup?.controls?.stateId?.value;
+    console.log("stateId", stateId);
     this._commonServices
-      .postGlobalSearchData(value, "ulb", "")
+      .postGlobalSearchData(
+        value,
+        "ulb",
+        stateId && stateId != "State Name" ? stateId : ""
+      )
       .subscribe((res: any) => {
         console.log(res?.data, "getUlbForAutoComplete");
         let emptyArr: any = [];
         this.filteredOptions = emptyArr;
         if (res?.data.length > 0) {
           this.filteredOptions = res?.data;
-          if(autoSelectUlb){
-            this.filterData('ulb',res['data'][0])
-        }
+          if (autoSelectUlb) {
+            this.filterData("ulb", res["data"][0]);
+          }
           //this.noDataFound = false;
         } else {
           let emptyArr: any = [];
@@ -331,11 +435,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
     ulbType: new FormControl("ULB Type"),
     populationCategory: new FormControl("ULB Population Category"),
     financialYear: new FormControl("2020-21"),
+    propertyTax: new FormControl(""),
   });
 
   ulbList = [];
   ulbTypeList = [];
   populationCategoryList = [
+    "ULB Population Category",
     "4 Million+",
     "1 Million - 4 Million",
     "500 Thousand - 1 Million",
@@ -367,10 +473,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
     console.log("loader", this.isLoading);
     // if(this.isLoading)(document.activeElement as HTMLElement).blur();
     this._activatedRoute.queryParams.subscribe((param) => {
-      this.cityName = param.cityName
+      this.cityName = param.cityName;
     });
   }
-  cityName
+  cityName;
   ngOnInit(): void {
     this.loadData();
 
@@ -380,19 +486,19 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.getBarChartData();
     this.barChartTitle = "Compare states/ULBs on various financial indicators";
 
-    if(this.cityName){
-      this.filterGroup.controls.ulb.setValue(this.cityName)
-      this.getUlbForAutoComplete(this.cityName,true)
-    }else{
-    this.allCalls();
-    this.halfDoughnutChart();
-    window.onload = () => {
-      this.createBarChart();
-    };}
+    if (this.cityName) {
+      this.filterGroup.controls.ulb.setValue(this.cityName);
+      this.getUlbForAutoComplete(this.cityName, true);
+    } else {
+      this.allCalls();
+      this.halfDoughnutChart();
+      // window.onload = () => {
+      //   this.createBarChart();
+      // };
+    }
   }
 
   filterData(param, val) {
-    
     console.log("filter form", this.filterGroup);
     if (param == "ulb") {
       console.log(val);
@@ -417,18 +523,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
       this.filterGroup.patchValue({
         ulb: "",
         ulbType: "ULB Type",
-        populationCategory: "",
+        populationCategory: "ULB Population Category",
       });
     } else if (param == "ulbType") {
       this.filterGroup.patchValue({
         ulb: "",
         stateId: "State Name",
-        populationCategory: "Ulb Population Category",
+        populationCategory: "ULB Population Category",
       });
     } else if (param == "popCat") {
       this.filterGroup.patchValue({
         ulb: "",
-        stateId: "",
+        stateId: "State Name",
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
@@ -440,6 +546,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
 
   allCalls() {
+    console.log("this.filterGroup.value", this.filterGroup.value);
     this.getPieChartData();
     this.cardsData();
     this.tableData();
@@ -469,12 +576,13 @@ export class OwnRevenueDashboardComponent implements OnInit {
     );
   }
   clearFilter() {
-    this.filterGroup.setValue({
+    this.filterGroup.patchValue({
       stateId: "State Name",
       ulb: "",
       ulbType: "ULB Type",
       populationCategory: "ULB Population Category",
-      financialYear: "2020-21",
+      // financialYear: "2020-21",
+      financialYear: this.yearList?.length ? this.yearList[0] : "2020-21",
     });
     this.allCalls();
   }
@@ -543,7 +651,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         data: data,
       });
     };
-  this.barChartStatic= this.barChartStaticOptions
+    this.barChartStatic = this.barChartStaticOptions;
   }
 
   createDataForFilter() {
@@ -563,17 +671,43 @@ export class OwnRevenueDashboardComponent implements OnInit {
     );
   }
 
+  defaultFilterStage: boolean = false;
+  mobileFilterData: any;
   openFilter() {
     const dialogRef = this.dialog.open(FilterModelBoxComponent, {
       width: "100%",
       height: "100%",
-      data: {},
+      data: {
+        ulbTypeList: this.ulbTypeList,
+        populationCategoryList: this.populationCategoryList,
+        yearList: this.yearList,
+        preSelectedValue: { ...this.mobileFilterData, ...this.tempDataHolder },
+        defaultStage: this.defaultFilterStage,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
+      console.log("The dialog was closed", result);
+      if (result && result.filterForm) {
+        this.defaultFilterStage = result?.defaultStage;
+        this.mobileFilterData = result?.filterForm;
+        this.patchFormData(result?.filterForm);
+      }
     });
   }
+
+  patchFormData(formData: any) {
+    console.log("patchValue", formData);
+    this.filterGroup.patchValue({
+      stateId: formData && formData?.stateId,
+      ulb: formData && formData?.ulb,
+      ulbType: formData && formData?.ulbType,
+      populationCategory: formData && formData?.populationCategory,
+      financialYear: formData && formData?.financialYear,
+    });
+    this.allCalls();
+  }
+
   notFoundNames = [];
   dataAvailLoading = false;
   availValue = 0;
@@ -584,13 +718,18 @@ export class OwnRevenueDashboardComponent implements OnInit {
       propertyTax: !this.ownTab,
     };
 
+    this.dataAvailable = 0;
+    this.availValue = 0;
     this.ownRevenueService.displayDataAvailable(this.body).subscribe(
       (res) => {
         this.dataAvailLoading = false;
-        // this._loaderService.stopLoader()
-        res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
+        // res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
+        // this.availValue = res["data"]?.percent;
+        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
+        res['actualPercent'] = res["data"].percent;
+        res["data"].percent = percentage;
         this.financialYear = res;
-        this.availValue = res["data"]?.percent;
+        this.availValue = percentage;
         this.halfDoughnutChart();
 
         this.notFoundNames = res["data"]?.names;
@@ -604,21 +743,23 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
   tempDataHolder = {
     param: "Own Revenue per Capita",
-    type: "ULB",
+    type: "ULBs",
   };
   barChartCompValues(value) {
+    console.log("barChartCompValues", value);
     this.tempDataHolder = value;
-    console.log(value, "barChartCompValues");
     this.getBarChartData(value);
   }
   barChartNotFound = false;
   getBarChartData(
     bodyD = {
       list: [],
-      param: "Own Revenue per Capita",
+      param: this.proTab ? "Property Tax per Capita" : "Own Revenue per Capita",
       type: "state",
     }
   ) {
+    this.barChartData = barChart;
+    this._loaderService.showLoader();
     this.body = {
       ...this.filterGroup.value,
       propertyTax: !this.ownTab,
@@ -626,110 +767,147 @@ export class OwnRevenueDashboardComponent implements OnInit {
     Object.assign(bodyD, this.body);
     this.lastBarChartValue = bodyD;
     let labelStr = "";
-
+    console.log("body", bodyD);
     this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
-        this.barChartNotFound = false;
-        let tempData = {
-          type: "bar",
-          data: {
-            labels: [],
-            datasets: [
-              {
-                label: bodyD.param,
-                data: [],
-                borderRadius: 15,
-                borderWidth: 1,
-                backgroundColor: [
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(51, 96, 219, 1)",
-                  "rgba(79, 223, 76, 1)",
+        if (res && res["success"] && res["data"]) {
+          this._loaderService.stopLoader();
+          this.barChartNotFound = false;
+          let tempData = {
+            type: "bar",
+            data: {
+              labels: [],
+              datasets: [
+                {
+                  label: bodyD.param,
+                  data: [],
+                  borderRadius: 15,
+                  borderWidth: 1,
+                  backgroundColor: [
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(51, 96, 219, 1)",
+                    "rgba(79, 223, 76, 1)",
+                  ],
+                },
+              ],
+            },
+            options: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  padding: 35,
+                  boxWidth: 24,
+                  boxHeight: 18,
+                },
+              },
+              interaction: {
+                mode: "nearest",
+              },
+              scales: {
+                xAxes: [
+                  {
+                    maxBarThickness: 60,
+                    gridLines: {
+                      color: "rgba(0, 0, 0, 0)",
+                    },
+                  },
+                ],
+                yAxes: [
+                  {
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Amount in Cr.",
+                    },
+                    gridLines: {
+                      offsetGridLines: true,
+                      color: "rgba(0, 0, 0, 0)",
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                    afterDataLimits: function (axis) {
+                      axis.max += 20;
+                    },
+                  },
                 ],
               },
-            ],
-          },
-          options: {
-            legend: {
-              position: "bottom",
-              labels: {
-                padding: 35,
-                boxWidth: 24,
-                boxHeight: 18,
+              animation: {
+                onComplete: function (animation) {
+                  var chartInstance = this.chart,
+                    ctx = chartInstance.ctx;
+                  ctx.fillStyle = "#6E7281";
+                  ctx.font = Chart.helpers.fontString(
+                    Chart.defaults.global.defaultFontSize,
+                    Chart.defaults.global.defaultFontStyle,
+                    Chart.defaults.global.defaultFontFamily
+                  );
+                  ctx.textAlign = "center";
+                  ctx.textBaseline = "bottom";
+
+                  this.data.datasets.forEach(function (dataset, i) {
+                    var meta = chartInstance.controller.getDatasetMeta(i);
+                    if (meta.type == "line") return true;
+                    meta.data.forEach(function (bar, index) {
+                      var data = dataset.data[index];
+                      console.log("chartOption Data", data);
+
+                      ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+                    });
+                  });
+                  console.log(animation, "animation");
+                },
               },
             },
-            interaction: {
-              mode: "nearest",
-            },
-            scales: {
-              xAxes: [
-                {
-                  maxBarThickness: 60,
-                  gridLines: {
-                    color: "rgba(0, 0, 0, 0)",
-                  },
-                },
-              ],
-              yAxes: [
-                {
-                  scaleLabel: {
-                    display: true,
-                    labelString: "Amount",
-                  },
-                  gridLines: {
-                    color: "rgba(0, 0, 0, 0)",
-                  },
-                },
-              ],
-            },
-          },
-        };
-        tempData.options.scales.yAxes[0].scaleLabel.display = true;
-        // tempData.options.scales.yAxes[0].scaleLabel.labelString = "Percentage (%)";
-        tempData.options.scales.yAxes[0].scaleLabel.labelString = "Amount (in INR)";
-        res["data"].map((value) => {
-          // let stateName = this.stateIds[value._id];
-          tempData.data.labels.push(value.name);
-          // if(this.tempDataHolder){
-          //   if(this.tempDataHolder['param'] == 'Own Revenue as a percentage of Revenue Expenditure' ){
-          //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Percentage (%)"
-          //   }  else if(this.tempDataHolder['param'] == "Own Revenue"){
-          //     tempData.data.datasets[0].data.push((Number(value.amount/10000000).toFixed(0)));
-          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in Crores"
-          //   }else if(this.tempDataHolder['param'] == 'Own Revenue per Capita' ){
-          //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
-          //   }else{
-          //     tempData.data.datasets[0].data.push((Number(value.amount).toFixed(0)));
-          //     tempData.options.scales.yAxes[0].scaleLabel.labelString ="Amount in INR"
+          };
+          tempData.options.scales.yAxes[0].scaleLabel.display = true;
+          tempData.options.scales.yAxes[0].scaleLabel.labelString =
+            "Amount in INR";
+          console.log("this.tempDataHolder", this.tempDataHolder);
+          if (this.tempDataHolder) {
+            if (
+              this.tempDataHolder["param"] == "Own Revenue" ||
+              this.tempDataHolder["param"] == "Property Tax"
+            ) {
+              tempData.options.scales.yAxes[0].scaleLabel.labelString =
+                "Amount in Cr.";
+            } else {
+              tempData.options.scales.yAxes[0].scaleLabel.labelString =
+                "Amount in INR";
+            }
+          }
+          res["data"].map((value) => {
+            tempData.data.labels.push(value.name);
 
-          //   }
-
-          // }
-
-          // tempData.data.datasets[0].data.push(Number(value.amount).toFixed(0));
-          tempData.data.datasets[0].data.push(Number(Math.round(value.amount)));
-
-        });
-        // bodyD.list.map((value) => {
-        //   if (!res["data"].find((innerValue) => innerValue._id == value)) {
-        //     let stateName = this.stateIds[value];
-        //     tempData.data.labels.push(stateName);
-        //     tempData.data.datasets[0].data.push(0);
-        //   }
-        // });
-        console.log(tempData);
-        this.barChartData = tempData;
+            if (
+              this.tempDataHolder.hasOwnProperty("list") &&
+              this.tempDataHolder["list"]?.length
+            ) {
+              tempData.data.datasets[0].data.push(
+                Number(Math.round(value.amount / 10000000))
+              );
+            } else {
+              tempData.data.datasets[0].data.push(
+                Number(Math.round(value.amount))
+              );
+            }
+          });
+          console.log(tempData);
+          this.barChartData = tempData;
+        } else {
+          this.barChartNotFound = true;
+          this._loaderService.stopLoader();
+        }
       },
       (err) => {
+        this._loaderService.stopLoader();
         this.barChartNotFound = true;
       }
     );
@@ -843,6 +1021,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
       revenueExpenditureCopy.percentage = t.num.toFixed(0);
       revenueExpenditureCopy.svg = t.inc ? upArrow : downArrow;
       revenueExpenditureCopy.color = t.inc ? green : red;
+      revenueExpenditureCopy.percentage =
+        oldYearValue.totalUlbMeetExpense == 0 ? "0" : t.num.toFixed(0);
+      // if(oldYearValue?.totalUlbMeetExpense == 0){
+      //   revenueExpenditureCopy.percentage = '0'
+      // }
     }
 
     this.cardData = [
@@ -980,13 +1163,14 @@ export class OwnRevenueDashboardComponent implements OnInit {
       name: "Download",
       svg: "../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg",
     },
-    {
-      name: "Share/Embed",
-      svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
-    },
+    // {
+    //   name: "Share/Embed",
+    //   svg: "../../../../assets/CIty_detail_dashboard – 3/Layer 51.svg",
+    // },
   ];
 
   downloadCSV(from) {
+    this._loaderService.showLoader();
     if (from == "topPerformance") {
       let body = {
         csv: true,
@@ -994,6 +1178,10 @@ export class OwnRevenueDashboardComponent implements OnInit {
       };
       this.ownRevenueService.displayBarChartData(body).subscribe(
         (res: any) => {
+          if (res) {
+            this._loaderService.stopLoader();
+          }
+          console.log("topPerformance-res", res);
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",
           });
@@ -1001,15 +1189,23 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
           fileSaver.saveAs(blob, "dataAvaliable.xlsx");
         },
-        (err) => {}
+        (err) => {
+          console.log("error", err);
+          this._loaderService.stopLoader();
+        }
       );
     } else {
       let body = {
         csv: true,
         ...this.filterGroup.value,
       };
+
       this.ownRevenueService.displayDataAvailable(body).subscribe(
         (res: any) => {
+          console.log("data-availability-res", res);
+          if (res) {
+            this._loaderService.stopLoader();
+          }
           let blob: any = new Blob([res], {
             type: "text/json; charset=utf-8",
           });
@@ -1017,14 +1213,17 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
           fileSaver.saveAs(blob, "dataAvaliable.xlsx");
         },
-        (error) => {}
+        (error) => {
+          console.log("error", error);
+          this._loaderService.stopLoader();
+        }
       );
     }
   }
 }
 
 function valueConvert(value) {
-  return '₹ ' + (value / 10000000).toFixed(0) + " Cr";
+  return "₹ " + (value / 10000000).toFixed(0) + " Cr";
 }
 
 function numCheck(value) {
@@ -1083,9 +1282,7 @@ function openOwnRevenuePopup() {
 let barChart = {
   type: "bar",
   data: {
-    labels: [
-      
-    ],
+    labels: [],
     datasets: [
       {
         data: [],
@@ -1141,7 +1338,6 @@ const red = "#E64E4E";
 const upArrow = "../../../assets/resources-das/north_east_green_24dp.svg";
 const downArrow = "../../../assets/resources-das/south_west_red_24dp.svg";
 
-
 // let entries = Object.entries(data);
 // console.log('entries', JSON.parse(JSON.stringify(entries)));
 
@@ -1150,3 +1346,37 @@ const downArrow = "../../../assets/resources-das/south_west_red_24dp.svg";
 
 // let sortedObj = JSON.parse(JSON.stringify(Object.fromEntries(sorted)))
 // console.log('sortedObj', sortedObj);
+
+function lightOrDark(color) {
+  // Variables for red, green, blue values
+  var r, g, b, hsp;
+
+  // Check the format of the color, HEX or RGB?
+  if (color.match(/^rgb/)) {
+    // If RGB --> store the red, green, blue values in separate variables
+    color = color.match(
+      /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/
+    );
+
+    r = color[1];
+    g = color[2];
+    b = color[3];
+  } else {
+    // If hex --> Convert it to RGB: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, "$&$&"));
+
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
+  }
+
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+
+  // Using the HSP value, determine whether the color is light or dark
+  if (hsp > 127.5) {
+    return "light";
+  } else {
+    return "dark";
+  }
+}

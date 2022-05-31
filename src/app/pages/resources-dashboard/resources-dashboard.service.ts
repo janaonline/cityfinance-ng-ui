@@ -24,9 +24,9 @@ export class ResourcesDashboardService {
     this.showCard.next(val);
     return;
   }
-  getDataSets(year, type, category, state, ulb) {
+  getDataSets(year, type, category, state, ulb, globalName) {
     return this.https.get(
-      `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}`
+      `${environment.api.url}annual-accounts/datasets?year=${year}&type=${type}&category=${category}&state=${state}&ulb=${ulb}&globalName=${globalName}`
     );
   }
   getSearchedData(filter){
@@ -45,5 +45,15 @@ GlobalSearch(input){
   return this.https.get(
     `${environment.api.url}resourceDashboard/search?name=${input}`
   );
+}
+
+getPdfData(pdfInput) {
+  return this.https.get(
+    `${environment.api.url}resourceDashboard/?toolKitVisible=${pdfInput?.toolKitVisible}&type=PDF&header=${pdfInput?.header}&subHeader=${pdfInput?.subHeader}&globalName=${pdfInput?.globalName}&state=${pdfInput?.state}&ulb=${pdfInput?.ulb}&year=${pdfInput?.year}`
+  )
+}
+
+getYearsList() {
+  return this.https.get(`${environment.api.url}resourceDashboard/allYears`)
 }
 }

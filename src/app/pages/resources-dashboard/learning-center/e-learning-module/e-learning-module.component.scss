@@ -57,3 +57,9 @@
   padding: 10px 20px;
   overflow: auto;
 }
+
+@media screen and (max-width: 1000px) {
+  .iframeResponsive{
+    width: 100%;
+  }
+}

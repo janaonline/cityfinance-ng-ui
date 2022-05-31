@@ -10,7 +10,7 @@ import * as FileSaver from "file-saver";
 })
 export class DataSetsComponent implements OnInit {
   learningCount: any;
-  searchedValue: any;
+  searchedValue: any = "";
   learningToggle: boolean = false;
   noDataa: boolean = false;
   dataReceived: boolean = true;
@@ -21,6 +21,13 @@ export class DataSetsComponent implements OnInit {
   offSet = 0;
   limit = 10;
   startingIndex = 0;
+  mobileFilterConfig: any = {
+    isState: true,
+    isUlb: true,
+    isContentType: true,
+    isYear: true,
+    useFor: "resourcesDashboard"
+  };
   constructor(
     private _resourcesDashboardService: ResourcesDashboardService,
     private router: Router,
@@ -39,12 +46,15 @@ export class DataSetsComponent implements OnInit {
       this.learningToggle = data;
     });
     this._resourcesDashboardService.castCount.subscribe((data) => {
-      this.learningCount = data?.key?.dataset;
+      this.learningCount = data?.key?.dataSet;
       this.searchedValue = data?.name;
       this.learningToggle = data?.toggle ? true : false;
-      if (data?.key?.total == 0) {
+      if (data?.key?.total == 0 && this.searchedValue !==  "") {
         this.noDataa = true;
         this.dataReceived = false;
+      } else {
+        this.noDataa = false;
+        this.dataReceived = true;
       }
     });
   }
@@ -136,18 +146,22 @@ export class DataSetsComponent implements OnInit {
   }
   getData() {
     console.log("getData");
+    let globalName= "";
+    if(this.searchedValue){
+      globalName = this.searchedValue
+    }
 
     this.globalLoaderService.showLoader();
     try {
       this._resourcesDashboardService
-        .getDataSets(this.year, this.type, this.category, this.state, this.ulb)
+        .getDataSets(this.year, this.type, this.category, this.state, this.ulb, globalName)
         .subscribe(
           (res: any) => {
-            console.log(this.balData);
+            console.log("148",this.balData, res);
             // this.balData = res["data"];
             if (res.data.length == 0) {
               this.noData = true;
-
+              this.balData = []
               this.globalLoaderService.stopLoader();
             } else if (res.data.length !== 0) {
 
@@ -198,10 +212,10 @@ export class DataSetsComponent implements OnInit {
   ulb;
   filterData(e) {
     console.log("Data sets", e);
-    this.year = e?.controls?.year?.value ?? "2020-21";
-    this.type = e?.controls?.contentType?.value ?? "Raw Data PDF";
-    this.state = e?.controls?.state?.value;
-    this.ulb = e?.controls?.ulb?.value;
+    this.year = e?.value?.year ?? "2020-21";
+    this.type = e?.value?.contentType ?? "Raw Data PDF";
+    this.state = e?.value?.state;
+    this.ulb = e?.value?.ulb;
     // if (e) {
     this.getData();
     // }
