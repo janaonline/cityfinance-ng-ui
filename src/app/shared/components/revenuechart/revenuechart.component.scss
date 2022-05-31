@@ -8,25 +8,23 @@
   font-weight: 600;
   font-family: "Archivo";
   color: #0f1f40;
-
 }
 @media screen and (max-width: 800px) {
   .container {
-      margin-top:4%;
-      overflow-x: hidden;
-      
+    margin-top: 4%;
+    overflow-x: hidden;
   }
   // .canvasRes{
   //   margin-left: 24%;
   // }
-   .controller{
+  .controller {
     margin-bottom: 24%;
     margin-top: 9%;
-   }
-   .compareCustom{
-     height:53% !important; 
-     font-size: 10px !important;
-   }
+  }
+  .compareCustom {
+    height: 53% !important;
+    font-size: 10px !important;
+  }
 }
 .revenuChartContainer {
   margin-top: 1.8rem;
@@ -85,22 +83,23 @@
     height: auto;
     margin-top: 100px !important;
   }
-  .stateResponse{
+  .stateResponse {
     width: 900px !important;
   }
-  .labelPieChart{
+  .labelPieChart {
     display: -webkit-box;
-    overflow-x:scroll
+    overflow-x: scroll;
   }
   // ul#horizontal-list li {
-	// 	display: table-caption !important;
-    
-	// }
-  .verticleChart{
+  // 	display: table-caption !important;
+
+  // }
+  .verticleChart {
     flex-direction: column;
   }
-  .verticleCharts{
-    margin-left:25%;
+  .verticleCharts {
+    margin: 50%;
+    margin-left: 25%;
   }
   // .verticleChartLabel{
   //   margin-left:11%;
@@ -126,18 +125,18 @@
     margin-left: -240px;
   }
 }
-@media only screen and (min-width:750px){
-  .customBigScreen{
+@media only screen and (min-width: 750px) {
+  .customBigScreen {
     display: flex;
     justify-content: center;
   }
-  .customLabel{
+  .customLabel {
     position: relative !important;
     bottom: 24px !important;
     left: 20px !important;
   }
-  .customLeftPadding{
-    padding-left:3rem !important;
+  .customLeftPadding {
+    padding-left: 3rem !important;
   }
 }
 
@@ -161,37 +160,37 @@ li {
   clear: both;
 }
 
-.controller{
+.controller {
   display: flex;
 }
 
 ul#horizontal-list {
-	// min-width: 696px;
-	list-style: none;
-	padding-top: 20px;
+  // min-width: 696px;
+  list-style: none;
+  padding-top: 20px;
   // white-space: nowrap;
   // overflow: auto;
-	}
-	ul#horizontal-list li {
-		display: inline;
-    padding-left: 1rem;
-	}
-  ul#horizontal-list li span {
-		display: inline;
-    border-radius: 12px;
-    padding-left: 1rem;
-    margin-right: 3px;
-	}
+}
+ul#horizontal-list li {
+  display: inline;
+  padding-left: 1rem;
+}
+ul#horizontal-list li span {
+  display: inline;
+  border-radius: 12px;
+  padding-left: 1rem;
+  margin-right: 3px;
+}
 
-  .display-none {
-    // display: none !important;
-    visibility: hidden !important;
-  }
+.display-none {
+  // display: none !important;
+  visibility: hidden !important;
+}
 
-  .reset-compare-filter {
-    font-size: 0.8em;
-    cursor: pointer;
-    color: #e67e15;
-    vertical-align: text-top;
-    margin-left: 5px;
-  }
+.reset-compare-filter {
+  font-size: 0.8em;
+  cursor: pointer;
+  color: #e67e15;
+  vertical-align: text-top;
+  margin-left: 5px;
+}

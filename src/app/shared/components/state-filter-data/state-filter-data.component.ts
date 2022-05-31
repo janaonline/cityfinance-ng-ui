@@ -376,7 +376,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.getStateRevenue();
     }
   }
-
+  percentLabel: string = "";
   radioButtonValue: string = "";
   selectedRadioBtnValue: any;
   getCheckBoxValue(event: any) {
@@ -638,6 +638,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 "Population",
                 this.filterName
               );
+              if (res["data"]["scatterData"]?.unitType == "Percent") {
+                this.percentLabel = "(%)";
+              } else {
+                this.percentLabel = "";
+              }
               m_data =
                 res["data"] &&
                 res["data"]["scatterData"] &&
@@ -780,14 +785,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               if (data.length) {
                 console.log("mixdata==>", data);
                 data = data.sort((a, b) => b.code - a.code);
-                if (data[0].hasOwnProperty("color"))
+                if (data[0].hasOwnProperty("colour"))
                   this.doughnutData.data.datasets[0].backgroundColor = [];
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
-                  if (el.color) {
+                  if (el.colour) {
                     this.doughnutData.data.datasets[0].backgroundColor.push(
-                      el.color
+                      el.colour
                     );
                   }
                 });
@@ -1408,9 +1413,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             scaleLabel: {
               display: true,
-              labelString: `${this._commonServices.toTitleCase(
-                yAxisLabel
-              )} (%)`,
+              labelString: `${this._commonServices.toTitleCase(yAxisLabel)} ${
+                this.percentLabel
+              } `,
               fontStyle: "bold",
             },
             gridLines: {
