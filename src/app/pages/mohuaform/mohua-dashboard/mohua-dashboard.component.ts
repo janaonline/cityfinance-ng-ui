@@ -777,7 +777,8 @@ export class MohuaDashboardComponent implements OnInit {
     this.annualProvisional = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [],
+        labels:  ['Completed and Accounts Submitted',
+        'Completed and Accounts Not Submitted'],
         datasets: [
           {
             data: [
@@ -795,7 +796,9 @@ export class MohuaDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 68,
-
+        legend: {
+          display: false
+        },
         onClick(...args) {
           console.log(args);
         },
@@ -808,7 +811,7 @@ export class MohuaDashboardComponent implements OnInit {
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [],
+        labels:  [],
         datasets: [
           {
             data: [25, 75],
@@ -821,7 +824,7 @@ export class MohuaDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 94,
-
+        
         onClick(...args) {
           console.log(args);
         },
@@ -847,7 +850,7 @@ export class MohuaDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 94,
-
+       
         onClick(...args) {
           console.log(args);
         },
@@ -876,7 +879,8 @@ export class MohuaDashboardComponent implements OnInit {
     this.annualAudited = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [],
+        labels: ['Completed and Accounts Submitted',
+        'Completed and Accounts Not Submitted'],
         datasets: [
           {
             data: [
@@ -894,7 +898,9 @@ export class MohuaDashboardComponent implements OnInit {
         circumference: Math.PI + 1,
         rotation: -Math.PI - 0.5,
         cutoutPercentage: 68,
-
+        legend: {
+          display: false
+        },
         onClick(...args) {
           console.log(args);
         },
