@@ -396,6 +396,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reset(isReset: boolean = false) {
+    this.compType = "";
     this.ulbArr = [];
     this.checkBoxArray = [
       { value: "", title: "Select an Option", isDisabled: true },
@@ -412,6 +413,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     let emptyArr: any = [];
     this.filteredOptions = emptyArr;
     this.ulbId = "";
+    // this.multiChart = false;
     this.selectedRadioBtnValue = "";
     this.radioButtonValue = "";
     // this.getYears();
@@ -583,6 +585,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   doughnutDataArr = [];
   scatterChartPayload: any = {};
   stateAvgVal = 0;
+  mainDoughnutArr = [];
   getScatterData() {
     this.createDynamicChartTitle(this.currentActiveTab);
     this.multiChart = false;
@@ -749,26 +752,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this._loaderService.stopLoader();
             console.log("mix Data", res);
             let data;
-            if (this.ulbId) {
+            let ulbData;
+            if (
+              this.ulbId &&
+              this.scatterChartPayload.compareType !== "ulbType" &&
+              this.scatterChartPayload.compareType !== "popType"
+            ) {
               data = res["state"];
+              ulbData = res["ulb"];
+              this.multiChart = true;
+              this.mainDoughnutArr = [{ state: data }, { ulb: ulbData }];
             } else {
               data = res["data"];
+              this.mainDoughnutArr = [];
+              this.multiChart = false;
             }
-
-            // let colorArray = [
-            //   {name: "Other Income", color: "#1E44AD"},
-            //   {name: "Sale & Hire charges", color: "#224CC0"},
-            //   {name: "Fee & User Charges", color: "#2553D3"},
-            //   {name: "Rental Income from Municipal Properties", color: "#456EDE"},
-            //   {name: "Tax Revenue", color: "#6A8BE5"},
-            // ]
-
-            // colorArray.forEach((elem) => {
-            //   let ele = data.find((element) => element._id == elem.name)
-            //   if(ele){
-            //     ele["color"] = elem.color
-            //   }
-            // })
 
             console.log("initial data", data);
 
@@ -799,6 +797,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               }
             } else if (this.scatterChartPayload.compareType == "ulbType") {
               console.log("apiData", data);
+
               let mData = data["mData"][0];
               let mcData = data["mcData"][0];
               let tpData = data["tpData"][0];
@@ -809,7 +808,16 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 { mcData: mcData },
                 { tpData: tpData },
               ];
+              if (data["ulb"].length > 0) {
+                this.doughnutDataArr = [
+                  ...this.doughnutDataArr,
+                  { ulb: data["ulb"] },
+                ];
+              }
+
               this.doughnutDataArr = [...this.doughnutDataArr];
+
+              console.log("doughnutDataArr", this.doughnutDataArr);
             } else if (this.scatterChartPayload.compareType == "popType") {
               let lessThan100k = data["<100k"];
               let between100kTo500k = data["100k-500k"];
@@ -826,7 +834,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 { "1m-4m": between1mTo4m },
                 { "4m+": greaterThan4m },
               ];
+              if (data["ulb"].length > 0) {
+                this.doughnutDataArr = [
+                  ...this.doughnutDataArr,
+                  { ulb: data["ulb"] },
+                ];
+              }
+
               this.doughnutDataArr = [...this.doughnutDataArr];
+              console.log("doughnutDataArr", this.doughnutDataArr);
             }
           }
         },
@@ -968,7 +984,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reloadComponent(selectedStateId: any) {
-    console.log('reloadComponent', selectedStateId)
+    console.log("reloadComponent", selectedStateId);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = "reload";
     this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
@@ -986,7 +1002,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       changes.selectedStateId.currentValue &&
       !changes?.selectedStateId?.firstChange
     ) {
-      console.log("selectedStateId", changes.selectedStateId.currentValue, 'this.stateServiceLabel', this.stateServiceLabel);
+      console.log(
+        "selectedStateId",
+        changes.selectedStateId.currentValue,
+        "this.stateServiceLabel",
+        this.stateServiceLabel
+      );
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);
@@ -1118,6 +1139,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.ulbId = event._id;
     // this.getScatterData();
     if (this.selectedRadioBtnValue) {
+      this.initializeScatterData();
       this.getAverageScatterData();
     } else {
       this.getScatterData();
