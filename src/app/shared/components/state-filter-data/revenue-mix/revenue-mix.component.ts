@@ -1279,6 +1279,23 @@ export class RevenueMixComponent implements OnInit {
                 this.doughnutArray[3].data.datasets[0].data.push(el2["amount"]);
               });
             }
+            if (Object.keys(el)[0] == "ulbStateData") {
+              let val: any = Object.values(el)[0];
+              console.log("state val", val);
+              this.doughnutArray[0].data.datasets[0].backgroundColor = [];
+              this.doughnutArray[0].data.labels = [];
+              this.doughnutArray[0].data.datasets[0].data = [];
+              val.forEach((el2) => {
+                if (el2.hasOwnProperty("colour")) {
+                  this.doughnutArray[0].data.datasets[0].backgroundColor.push(
+                    el2.colour
+                  );
+                }
+                this.doughnutArray[0].data.labels.push(el2["_id"]);
+                this.doughnutArray[0].data.datasets[0].data.push(el2["amount"]);
+              });
+              console.log(" this.doughnutArray[0]", this.doughnutArray[0]);
+            }
             if (Object.keys(el)[0] == "ulb") {
               let tempUlbData = Object.assign(this.defaultUlbData);
               console.log("tempUlbData", tempUlbData);
@@ -1371,6 +1388,25 @@ export class RevenueMixComponent implements OnInit {
                 this.doughnutArray[5].data.datasets[0].data.push(el2["amount"]);
               });
             }
+            console.log("Object.keys(el)[0]", Object.keys(el)[0]);
+            if (Object.keys(el)[0] == "popStateData") {
+              let val: any = Object.values(el)[0];
+              console.log("state val", val);
+              this.doughnutArray[0].data.datasets[0].backgroundColor = [];
+
+              this.doughnutArray[0].data.labels = [];
+              this.doughnutArray[0].data.datasets[0].data = [];
+              val.forEach((el2) => {
+                if (el2.hasOwnProperty("colour")) {
+                  this.doughnutArray[0].data.datasets[0].backgroundColor.push(
+                    el2.colour
+                  );
+                }
+                this.doughnutArray[0].data.labels.push(el2["_id"]);
+                this.doughnutArray[0].data.datasets[0].data.push(el2["amount"]);
+              });
+              console.log("this.doughnutArray[0]==>", this.doughnutArray[0]);
+            }
             if (Object.keys(el)[0] == "ulb") {
               let tempUlbData = Object.assign(this.defaultUlbData);
               let val: any = Object.values(el)[0];
@@ -1461,62 +1497,62 @@ export class RevenueMixComponent implements OnInit {
           // for (let i = 0; i < this.doughnutArray.length; i++) {
           //   totalDataSet.push(this.doughnutArray[i].data.datasets[0].data);
           // }
-          let totalDataSet = [
-            this.doughnutArray[1].data.datasets[0].data,
-            this.doughnutArray[2].data.datasets[0].data,
-            this.doughnutArray[3].data.datasets[0].data,
-            this.doughnutArray[4].data.datasets[0].data,
-            this.doughnutArray[5].data.datasets[0].data,
-          ];
-          console.log("populationTabSumTotal", this.getSumTotal(totalDataSet));
-          this.doughnutArray[0].data.datasets[0].backgroundColor =
-            this.doughnutArray[1].data.datasets[0].backgroundColor;
-          this.doughnutArray[0].data.datasets[0].data = totalDataSet.reduce(
-            function (a, b) {
-              return a.map(function (v, i) {
-                return v + b[i];
-              });
-            }
-          );
+          // let totalDataSet = [
+          //   this.doughnutArray[1].data.datasets[0].data,
+          //   this.doughnutArray[2].data.datasets[0].data,
+          //   this.doughnutArray[3].data.datasets[0].data,
+          //   this.doughnutArray[4].data.datasets[0].data,
+          //   this.doughnutArray[5].data.datasets[0].data,
+          // ];
+          // console.log("populationTabSumTotal", this.getSumTotal(totalDataSet));
+          // this.doughnutArray[0].data.datasets[0].backgroundColor =
+          //   this.doughnutArray[1].data.datasets[0].backgroundColor;
+          // this.doughnutArray[0].data.datasets[0].data = totalDataSet.reduce(
+          //   function (a, b) {
+          //     return a.map(function (v, i) {
+          //       return v + b[i];
+          //     });
+          //   }
+          // );
         } else if (this.ulbTab) {
           // let totalDataSet = [];
           // for (let i = 0; i < this.doughnutArray.length; i++) {
           //   totalDataSet.push(this.doughnutArray[i].data.datasets[0].data);
           // }
-          let totalDataSet = [
-            this.doughnutArray[1].data.datasets[0].data,
-            this.doughnutArray[2].data.datasets[0].data,
-            this.doughnutArray[3].data.datasets[0].data,
-          ];
-          this.doughnutArray[0].data.datasets[0].backgroundColor =
-            this.doughnutArray[1].data.datasets[0].backgroundColor;
-          console.log("ulbTabSumTotal", this.getSumTotal(totalDataSet));
-          this.doughnutArray[0].data.datasets[0].data = totalDataSet.reduce(
-            function (a, b) {
-              return a.map(function (v, i) {
-                return v + b[i];
-              });
-            }
-          );
+          // let totalDataSet = [
+          //   this.doughnutArray[1].data.datasets[0].data,
+          //   this.doughnutArray[2].data.datasets[0].data,
+          //   this.doughnutArray[3].data.datasets[0].data,
+          // ];
+          // this.doughnutArray[0].data.datasets[0].backgroundColor =
+          //   this.doughnutArray[1].data.datasets[0].backgroundColor;
+          // console.log("ulbTabSumTotal", this.getSumTotal(totalDataSet));
+          // this.doughnutArray[0].data.datasets[0].data = totalDataSet.reduce(
+          //   function (a, b) {
+          //     return a.map(function (v, i) {
+          //       return v + b[i];
+          //     });
+          //   }
+          // );
         } else if (!this.ulbTab && !this.populationTab && this.SelecetedUlb) {
           // let totalDataSet = [];
           // for (let i = 0; i < this.mainDoughnutArray.length; i++) {
           //   totalDataSet.push(this.mainDoughnutArray[i].data.datasets[0].data);
           // }
-          let totalDataSet = [
-            this.mainDoughnutArray[0].data.datasets[0].data,
-            this.mainDoughnutArray[1].data.datasets[0].data,
-          ];
-          this.mainDoughnutArray[0].data.datasets[0].backgroundColor =
-            this.mainDoughnutArray[1].data.datasets[0].backgroundColor;
-          console.log("ulbTabSumTotal", this.getSumTotal(totalDataSet));
-          this.mainDoughnutArray[0].data.datasets[0].data = totalDataSet.reduce(
-            function (a, b) {
-              return a.map(function (v, i) {
-                return v + b[i];
-              });
-            }
-          );
+          // let totalDataSet = [
+          //   this.mainDoughnutArray[0].data.datasets[0].data,
+          //   this.mainDoughnutArray[1].data.datasets[0].data,
+          // ];
+          // this.mainDoughnutArray[0].data.datasets[0].backgroundColor =
+          //   this.mainDoughnutArray[1].data.datasets[0].backgroundColor;
+          // console.log("ulbTabSumTotal", this.getSumTotal(totalDataSet));
+          // this.mainDoughnutArray[0].data.datasets[0].data = totalDataSet.reduce(
+          //   function (a, b) {
+          //     return a.map(function (v, i) {
+          //       return v + b[i];
+          //     });
+          //   }
+          // );
         }
       }
       console.log(this.doughnutArray);
