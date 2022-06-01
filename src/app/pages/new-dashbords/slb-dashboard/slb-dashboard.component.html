@@ -1,5 +1,5 @@
 <div class="">
-  <div class="container-fluid hero">
+  <!-- <div class="container-fluid hero">
     <h1 class="d-flex justify-content-center title mb-0 responsiveHeading">
       Water, Sanitisation & Hygiene
     </h1>
@@ -28,14 +28,32 @@
       understanding of key issues in service delivery and preparation of
       performance improvement plans.
     </p>
+  </div> -->
+  <div class="container-fluid">
+    <div class="row">
+      <app-front-panel
+        [cardData]="revenueData"
+        [data]="frontPanelData"
+        style="padding: 0"
+      ></app-front-panel>
+    </div>
+    
+    <!-- <div class="row pt-3">
+      <div class="col-sm-12">
+        <div
+          class="d-a mx-auto mb-3"
+          [ngClass]="{ stickyClass: checkStickyValue == true }"
+        >
+          Data Availability - {{ nationalDataAvailability }}%
+        </div>
+      </div>
+    </div> -->
+    
   </div>
   <div>
     <h2 class="sbd-Title text-center mb-0">
       Service Level Benchmark Performance
     </h2>
-    <!-- <p class="sbd-content mx-3 text-center">
-      Money received or earned during a financial year.
-    </p> -->
     <div class="sbd-national">
       <div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0">
         <div class="col-12 col-sm-12 col-md-6 stateMapContainer">
@@ -64,27 +82,7 @@
               class="legends"
               style="display: block; z-index: 99; position: relative"
             >
-              <!-- <ul
-                style="
-                  display: flex;
-                  padding: 0px;
-                  align-items: flex-start;
-                  justify-content: center;
-                  flex-wrap: wrap;
-                  margin-top: 1rem;
-                "
-              >
-                <li
-                  *ngFor="let item of mapLabels"
-                  style="display: flex; align-items: center; padding: 0.6rem"
-                >
-                  <div
-                    style="width: 20px; height: 16px; display: inline-block"
-                    [style.background-color]="item.color"
-                  ></div>
-                  <span class="ps-2">{{ item.name }}</span>
-                </li>
-              </ul> -->
+            
               <div
                 class="map-reset w-100 text-center mb-3 mt-3"
                 *ngIf="isMapOnMiniMapMode"

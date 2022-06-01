@@ -30,6 +30,7 @@ import { StateFilterDataService } from "src/app/shared/components/state-filter-d
 import { SlbDashboardService } from "./slb-dashboard.service";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { NationalMapSectionService } from "../national/national-map-section/national-map-section.service";
+import { AuthService } from "src/app/auth/auth.service";
 // const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 const districtJson = require("../../../../assets/jsonFile/state_boundries.json");
 
@@ -55,7 +56,8 @@ export class SlbDashboardComponent
     private stateFilterDataService: StateFilterDataService,
     private slbDashboardService: SlbDashboardService,
     private _loaderService: GlobalLoaderService,
-    private nationalMapService: NationalMapSectionService
+    private nationalMapService: NationalMapSectionService,
+    private authService: AuthService
   ) {
     super(_commonService, _snackbar, _geoService, _activateRoute);
 
@@ -72,7 +74,75 @@ export class SlbDashboardComponent
     this.initializeform();
     this.fetchStateList();
   }
+  frontPanelData = data2;
+  revenueData = [];
+  tabAboutData: any;
+  tabId: any="61e150439ed0e8575c881028";
+  component_name;
+  tabIndex;
 
+  nationalDataAvailability: Number;
+  stateId: any;
+  yearValue: any = "2020-21";
+  type: String = "national";
+  cardInput = {
+    ifPeople: false,
+    state: "",
+    type: "national",
+    year: this.yearValue,
+  };
+
+  // creditRating: { [stateName: string]: number; total?: number } = {};
+
+  creditRatingList: any[];
+  absCreditInfo: any = {
+    title: "",
+    ulbs: 0,
+    creditRatingUlbs: 0,
+    ratings: {
+      "AAA+": 0,
+      AAA: 0,
+      "AAA-": 0,
+      "AA+": 0,
+      AA: 0,
+      "AA-": 0,
+      "A+": 0,
+      A: 0,
+      "A-": 0,
+      "BBB+": 0,
+      BBB: 0,
+      "BBB-": 0,
+      BB: 0,
+      "BB+": 0,
+      "BB-": 0,
+      "B+": 0,
+      B: 0,
+      "B-": 0,
+      "C+": 0,
+      C: 0,
+      "C-": 0,
+      "D+": 0,
+      D: 0,
+      "D-": 0,
+    },
+  };
+
+  // Including A
+  creditRatingAboveA;
+
+  // Including BBB-
+  creditRatingAboveBBB_Minus;
+
+  cords: any;
+  checkStickyValue: boolean = false;
+  financialYearTexts: {
+    min: string;
+    max: string;
+  };
+
+  isBondIssueAmountInProgress = false;
+
+  bondIssueAmount: number = 0;
   selected_state = "India";
   selectedState: IState;
   creditRating: { [stateName: string]: number; total?: number } = {};
@@ -146,7 +216,7 @@ export class SlbDashboardComponent
   allDashboardTabList: any;
   slbDashboardData: any;
   selectedSlbSubTab: any;
-  stateId: string = "";
+  // stateId: string = "";
   cityId: string = "";
   cityName: string = "";
   isStateSlbActive: boolean = false;
@@ -167,7 +237,10 @@ export class SlbDashboardComponent
     this.loadData();
     // this.subFilterFn("popCat");
     this.getTableData(this.tableType);
-
+    this.getIndicatorData(this.stateId);
+    this.fetchMinMaxFinancialYears();
+    this.fetchCreditRatingTotalCount();
+    this.fetchBondIssueAmout("");
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonService
@@ -203,7 +276,153 @@ export class SlbDashboardComponent
     this.onStateLayerClick(e);
     //  this.changeInStateOrCity.emit(e);
   }
+  private fetchCreditRatingTotalCount() {
+    this.assetService
+      .fetchCreditRatingReport()
+      .subscribe((res) => this.computeStatesTotalRatings(res));
+  }
+  private computeStatesTotalRatings(res: ICreditRatingData[]) {
+    this.creditRatingList = res;
 
+    const computedData = { total: 0, India: 0 };
+    res.forEach((data) => {
+      if (computedData[data.state] || computedData[data.state] === 0) {
+        computedData[data.state] += 1;
+      } else {
+        computedData[data.state] = 1;
+      }
+      computedData.total += 1;
+      computedData["India"] += 1;
+    });
+
+    this.creditRating = computedData;
+    this.frontPanelData.dataIndicators.map((elem) => {
+      if (elem.key == "ULBCreditRating") {
+        elem.value = computedData?.total.toString();
+      }
+    });
+    this.showCreditInfoByState();
+  }
+  dashboardLastUpdatedYear() {
+    this.authService.getLastUpdated().subscribe((res) => {
+      Object.assign(this.frontPanelData, {
+        year: res["year"],
+        date: res["data"],
+      });
+    });
+  }
+  showCreditInfoByState() {
+    const ulbList = [];
+
+    for (let i = 0; i < this.creditRatingList?.length; i++) {
+      const ulb = this.creditRatingList[i];
+      ulbList.push(ulb["ulb"]);
+      const rating = ulb.creditrating.trim();
+      this.calculateRatings(this.absCreditInfo, rating);
+    }
+
+    this.creditRatingAboveA =
+      this.absCreditInfo["ratings"]["A"] +
+      this.absCreditInfo["ratings"]["A+"] +
+      this.absCreditInfo["ratings"]["AA"] +
+      this.absCreditInfo["ratings"]["AA+"] +
+      this.absCreditInfo["ratings"]["AA-"] +
+      this.absCreditInfo["ratings"]["AAA"] +
+      this.absCreditInfo["ratings"]["AAA+"] +
+      this.absCreditInfo["ratings"]["AAA-"];
+
+    this.creditRatingAboveBBB_Minus =
+      this.creditRatingAboveA +
+      this.absCreditInfo["ratings"]["A-"] +
+      this.absCreditInfo["ratings"]["BBB"] +
+      this.absCreditInfo["ratings"]["BBB+"] +
+      this.absCreditInfo["ratings"]["BBB-"];
+
+    this.absCreditInfo["title"] = "India";
+    this.absCreditInfo["ulbs"] = ulbList;
+
+    console.log("creditRating==>", this.creditRatingAboveA, this.creditRatingAboveBBB_Minus)
+
+    this.frontPanelData.dataIndicators.map((elem) => {
+      if (elem.key == "ulbsWithA") {
+        elem.value = this.creditRatingAboveA;
+      } else if (elem.key == "UlbsWithBBB") {
+        elem.value = this.creditRatingAboveBBB_Minus;
+      }
+    });
+  }
+  calculateRatings(dataObject, ratingValue) {
+    if (!dataObject["ratings"][ratingValue]) {
+      dataObject["ratings"][ratingValue] = 0;
+    }
+    dataObject["ratings"][ratingValue] = dataObject["ratings"][ratingValue] + 1;
+    dataObject["creditRatingUlbs"] = dataObject["creditRatingUlbs"] + 1;
+  }
+  getIndicatorData(state) {
+    this._commonService.fetchDataForHomepageMap(state).subscribe((res: any) => {
+      this.frontPanelData.dataIndicators.map((elem) => {
+        switch (elem.key) {
+          case "coveredUlbCount":
+            elem.value = this._commonService.formatNumber(res?.coveredUlbCount);
+            break;
+          case "financialStatements":
+            elem.value = this._commonService.formatNumber(
+              res?.financialStatements
+            );
+            break;
+          case "totalMunicipalBonds":
+            elem.value = this._commonService.formatNumber(
+              res?.totalMunicipalBonds
+            );
+            break;
+        }
+        return elem;
+      });
+    });
+  }
+  private fetchMinMaxFinancialYears() {
+    this._commonService.getFinancialYearBasedOnData().subscribe((res) => {
+      this.financialYearTexts = {
+        min: res.data[0],
+        max: res.data[res.data.length - 1].slice(2),
+      };
+      console.log('financialYearTexts', this.financialYearTexts)
+
+      this.frontPanelData.dataIndicators.map((elem) => {
+        if (elem?.key == "financialStatements") {
+          elem.title = "Financial Statements ";
+          elem.title =
+            elem.title +
+            "( " +
+            this.financialYearTexts.min +
+            " to " +
+            this.financialYearTexts.max +
+            " )";
+        }
+      });
+
+      // console.log(this.financialYearTexts);
+    });
+  }
+  private fetchBondIssueAmout(stateId?: string) {
+    this.isBondIssueAmountInProgress = true;
+    this._commonService.getBondIssuerItemAmount(stateId).subscribe((res) => {
+      try {
+        this.bondIssueAmount = Math.round(res["data"][0]["totalAmount"]);
+      } catch (error) {
+        this.bondIssueAmount = 0;
+      }
+      console.log("this.bondIssueAmount",this.bondIssueAmount)
+      this.isBondIssueAmountInProgress = false;
+      this.frontPanelData.dataIndicators.map((elem) => {
+        if (elem?.key == "totalMunicipalBonds") {
+          elem.title = `Municipal Bond Issuances Of Rs. ${
+            this.bondIssueAmount || 0
+          }  Cr With Details`;
+        }
+      });
+    });
+  }
   getNationalLevelMapData(year) {
     this.nationalMapService.getNationalMapData(year).subscribe((res: any) => {
       this.colorCoding = res?.data;
@@ -1095,3 +1314,44 @@ export class SlbDashboardComponent
     // };
   }
 }
+const data2 = {
+  showMap: false,
+  name: "Service Level Benchmark Performance",
+  desc: "The PAS Project's aim is to create a performance measurement and monitoring system for urban water and sanitation services, which can be used for policy formulation and resource allocation at state and local level. PAS measures performance of each sector (water, sanitation, solid waste and storm water drainage) across five themes and 32 key performance indicators. These indicators are monitored by state and local governments. Around 100 ‘drill-down’ indicators are also developed for better understanding of key issues in service delivery and preparation of performance improvement plans.",
+  dataIndicators: [
+    {
+      value: "",
+      title: "ULBs With Financial Data",
+      key: "coveredUlbCount",
+    },
+    {
+      value: "",
+      title: "Financial Statements ",
+      // key: "Municipal_Corporation",
+      key: "financialStatements",
+    },
+    {
+      value: "",
+      title: "ULBs Credit Rating Reports",
+      key: "ULBCreditRating",
+    },
+    {
+      value: "",
+      title: "ULBs With Investment Grade Rating",
+      key: "UlbsWithBBB",
+    },
+    {
+      value: " ",
+      title: "ULBs With Rating A & Above",
+      key: "ulbsWithA",
+    },
+    {
+      value: "",
+      title: "",
+      key: "totalMunicipalBonds",
+    },
+  ],
+  footer: `Data shown is from audited/provisional financial statements for FY 20-21
+  and data was last updated on 21st August 2021`,
+};
+
