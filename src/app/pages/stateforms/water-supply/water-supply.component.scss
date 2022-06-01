@@ -1,5 +1,5 @@
 h5 {
-    font-size: 0.938rem;
+    font-size: 1.5rem;
     color: #373737;
     font-family: Roboto;
     font-weight: 500;
@@ -9,12 +9,7 @@ h6 {
     color: #373737;
     font-weight: 600;
 }
-.customSpan{
-    position: absolute;
-    right: 0px;
-    height: 30px;
-    width: 66px;
-}
+
 p {
     font-size: 1.2rem;
     color: #3737378F;
@@ -24,16 +19,12 @@ p {
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: 1.25rem;
+    font-size: 20px;
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: 600;
 }
 
-.btn-select{
-    background-color: #efefef;
-    font-size: 0.875rem;
-}
 .saveBtn {
     background-color: #059b9a;
     color: #ffffff;

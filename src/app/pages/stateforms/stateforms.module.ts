@@ -55,9 +55,10 @@ import { NonMillionListComponent } from './state-dashboard/non-million-list/non-
 import { GrantClaimsComponent } from './grant-claims/grant-claims.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { GrantClaimsDialogComponent } from './grant-claims/grant-claims-dialog/grant-claims-dialog.component';
+import { DatePipe } from '@angular/common';
 @NgModule({
   entryComponents: [OverallListComponent],
-  providers: [CircleProgressOptions],
+  providers: [CircleProgressOptions, DatePipe],
   declarations: [StateformsComponent,
     GTCertificateComponent,
     StateDashboardComponent,

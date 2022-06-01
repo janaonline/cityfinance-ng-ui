@@ -15,7 +15,7 @@
         </h4>
     </div>
 
-    <div class="col-sm-2 col-lg-2 col-md-2 text-right" style="margin-bottom: 1rem;text-align:end;">
+    <div class="col-sm-2 col-lg-2 col-md-2 text-right" style="margin-bottom: 1rem;">
         <button type="button" (click)="getTemplate()" class="btn save btn-d"
             style="padding-left: 8%; padding-right: 8%;">
             Download Latest Data</button>
@@ -47,7 +47,7 @@
         <button *ngIf="!showLoader" [routerLink]="['../review-ulb']" class="btn btn-back"
             [disabled]="isDisabled">BACK</button>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="text-align:end;">
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right">
         <button *ngIf="!showLoader" class="btn btn-next" (click)="save()"
             [disabled]="isDisabled">{{saveBtnText}}</button>
     </div>

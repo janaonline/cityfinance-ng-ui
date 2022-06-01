@@ -1,11 +1,9 @@
-@import "../../../scss/functions";
-@import "../../../scss/variables";
-@import "../../../scss/mixins";
 .sidebar {
-    // margin-top: 1px;
-    // padding-left: 15px;
-    // padding-right: 3px;
-    // height: 600px;
+    margin-top: 1px;
+    width: 18%;
+    padding-left: 15px;
+    padding-right: 3px;
+    height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -80,7 +78,7 @@ div.active {
 
 .link-div-u {
     background-color: #DCDCDC;
-    padding-left: 1rem;
+    padding-left: 3rem;
 }
 
 .linktext-u {
@@ -104,7 +102,7 @@ div.active {
 
 .subBtn {
     background-color: #124A55;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
     font-weight: normal;
     font-family: Segoe UI;
     border-radius: 3px;
@@ -118,8 +116,8 @@ div.active {
 .header1 {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: $font-size-base*1.5;
-    // margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
     margin-top: 8px;
 }
 
@@ -129,13 +127,13 @@ div.active {
 }
 
 .material-icons {
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
 }
 
 .pull-right {
     margin-top: 9px;
     width: 14px;
-    // margin-right: .5rem;
+    margin-right: .5rem;
 }
 
 ::ng-deep .tooltip {
@@ -151,7 +149,7 @@ div.active {
     overflow-x: hidden;
     overflow-y: auto;
     //  z-index: 10;
-    // height: 69%;
+    height: 69%;
     width: 18%;
 }
 

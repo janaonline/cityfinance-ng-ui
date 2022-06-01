@@ -1,9 +1,5 @@
-@import "../../../../scss/functions";
-@import "../../../../scss/variables";
-@import "../../../../scss/mixins";
-
 h5 {
-    font-size: $font-size-base*1.5;
+    font-size: 1.5rem;
     color: #373737;
     font-family: Roboto;
     font-weight: 500;
@@ -27,7 +23,7 @@ h5 {
     height: 32px;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
 }
 
 .btn-a {
@@ -52,7 +48,7 @@ h5 {
     height: 32px;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
 }
 
 .btn-back {
@@ -62,7 +58,7 @@ h5 {
     height: 32px;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
 }
 
 .btn:hover {
@@ -90,7 +86,7 @@ a.anDisable {
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: $font-size-base*1.25;
+    font-size: 20px;
     margin-top: 1rem;
     margin-bottom: 5px;
     font-weight: 600;

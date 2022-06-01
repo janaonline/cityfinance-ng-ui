@@ -1,9 +1,6 @@
-@import "../../../../scss/functions";
-@import "../../../../scss/variables";
-@import "../../../../scss/mixins";
 .card {
-    // height: 100px;
-    // width: 250px;
+    height: 140px;
+    width: 267px;
     background-color: #12505A;
     border-radius: 5px;
     margin-right: 20px;
@@ -34,7 +31,7 @@
     margin-top: -3px;
     background-color: #083d44;
     // width:269px;
-    height: 110px;
+    height: 142px;
     transition: height;
     transition-duration: 150ms;
     transition-timing-function: linear;
@@ -47,14 +44,14 @@
 
 .card-number {
     color: #ffffff;
-    font-size: $font-size-base*1.875;
+    font-size: 30px;
     margin-top: 13px;
     font-weight: 430;
 }
 
 .card-text {
     color: #ffffff;
-    font-size: $font-size-base*0.938;
+    font-size: 15px;
     margin-left: 3px;
 }
 
@@ -104,7 +101,7 @@
 .firstColumn {
     background-color: #12505A;
     color: #ffffff;
-    height: 100%;
+    height: 102%;
     border-radius: 4px;
     border: 1px solid #0000001A;
 }
@@ -162,6 +159,9 @@
     padding-right: 25px;
 }
 
+.gauge {
+    //  height: 190px;
+}
 
 .formDonutCharts {
     height: 523px;
@@ -181,9 +181,9 @@
 }
 
 .textInThirdColumn {
-    line-height: 37px;
+  
     text-align: center;
-    font-size: $font-size-base*1.125;
+    font-size: 18px;
     font-weight: bold;
     margin-top: 4px;
 }
@@ -254,7 +254,7 @@ svg {
 text {
     fill: orange;
     text-anchor: left;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
     font-family: sans-serif, Helvetica, Arial;
     font-weight: bold;
 }
@@ -295,7 +295,7 @@ rect {
 
 .back-link {
     float: left;
-    font-size: $font-size-base*0.875;
+    font-size: 14px;
     // line-height: 3;
     cursor: pointer;
     margin-right: 15px;
@@ -490,11 +490,11 @@ table {
     background-color: #E4FED8;
     border: 1px solid #A6F284;
     border-radius: 4px;
-    height: auto;
+    height: 100px;
     width: 100%;
     text-align: center;
-    margin: 20px 6px 20px 2px;
-    padding: 3px 16px 20px 16px;
+    margin: 15px 6px 15px 2px;
+    padding: 3px 16px 3px 16px;
 }
 
  ::ng-deep .ml-0 {
@@ -526,14 +526,14 @@ table {
 
 .card-number2 {
     color: #12505A;
-    font-size: $font-size-base*2.063;
+    font-size: 33px;
     margin-top: 13px;
     font-weight: 430;
 }
 
 .card-text-1 {
     color: #12505A;
-    font-size: $font-size-base*1.563;
+    font-size: 25px;
     margin-top: 13px;
     font-weight: 430;
 }
@@ -562,64 +562,4 @@ table {
 
 ::ng-deep .mat-card-header-text {
     margin: 0 !important;
-}
-
-//new Styles
-
-.heading {
-  font-size: $font-size-base*1.1;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid white;
-    color: white;
-    width: 80%;
-    margin: 0 auto;
-    padding: 2px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-
-}
-
-.subHeading {
-  font-size: $font-size-base*1.1;
-    font-weight: 600;
-    text-align: center;
-    color: white;
-    // background-color: white;
-    width: 80%;
-    margin: 0 auto;
-    padding: 2px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-
-.viewButton {
-  display: flex;
-  justify-content: center;
-
-}
-
-.viewButton button {
-  border: 1px solid white;
-  background-color: #1b7280;
-  color: #fff;
-  padding: 5px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
-
-.tableTab {
-  cursor: pointer;
-  font-size: $font-size-base*1.3;
-  width: 20%;
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  color: white;
-  border-radius: 8px;
-  margin: 10px;
-  background-color: #12505A;
-  text-align: center;
 }
