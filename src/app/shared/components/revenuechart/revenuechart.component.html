@@ -157,13 +157,12 @@
   >
     <div
       *ngFor="let chart of multipleDoughnutCharts; let i = index"
+      class="col-12 col-md-12 col-sm-12 d-flex flex-column justify-content-center verticleCharts me-5"
       [ngClass]="{
-        'col-12 col-md-12 col-sm-12 d-flex flex-column justify-content-center verticleCharts me-5':
-          i == 0,
-        'col-6 col-md-3 col-sm-12 verticleCharts me-5': i > 0
+        ' col-md-12 ': i == 0,
+        ' col-md-3': i > 0
       }"
     >
-      <!--[ngClass]="{'col-12 d-flex justify-content-center': i == 0; 'col-6 col-md-3 col-sm-12 verticleCharts me-5': i > 0}" -->
       <div class="d-flex justify-content-center">
         <p style="font-size: 100%" class="chart-l text-center">
           {{ chart?.title }}
