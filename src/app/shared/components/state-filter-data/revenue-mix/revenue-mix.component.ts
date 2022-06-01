@@ -1436,6 +1436,7 @@ export class RevenueMixComponent implements OnInit {
               this.mainDoughnutArray[0].data.labels = [];
               this.mainDoughnutArray[0].data.datasets[0].data = [];
               this.mainDoughnutArray[0].data.datasets[0].backgroundColor = [];
+              debugger;
               val.forEach((el2) => {
                 if (el2.hasOwnProperty("colour")) {
                   this.mainDoughnutArray[0].data.datasets[0].backgroundColor.push(
@@ -1447,6 +1448,10 @@ export class RevenueMixComponent implements OnInit {
                   el2["amount"]
                 );
               });
+              console.log(
+                "this.mainDoughnutArray[0].data",
+                this.mainDoughnutArray[0].data
+              );
             }
             if (Object.keys(el)[0] == "ulb") {
               // let val : any = Object.values(el)[0][0]
@@ -1463,7 +1468,7 @@ export class RevenueMixComponent implements OnInit {
               this.mainDoughnutArray[1].data.labels = [];
               this.mainDoughnutArray[1].data.datasets[0].data = [];
 
-              this.mainDoughnutArray[0].data.datasets[0].backgroundColor = [];
+              this.mainDoughnutArray[1].data.datasets[0].backgroundColor = [];
               val.forEach((el2) => {
                 if (el2.hasOwnProperty("colour")) {
                   this.mainDoughnutArray[1].data.datasets[0].backgroundColor.push(
