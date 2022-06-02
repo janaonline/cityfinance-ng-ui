@@ -48,7 +48,6 @@
                 "file-saver": "^2.0.5",
                 "html2canvas": "^1.4.1",
                 "jquery": "^3.6.0",
-                "jscharting": "^3.0.3-beta",
                 "leaflet": "^1.6.0",
                 "ng-circle-progress": "^1.5.1",
                 "ng-connection-service": "^1.0.4",
