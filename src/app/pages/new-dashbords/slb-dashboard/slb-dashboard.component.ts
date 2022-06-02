@@ -74,7 +74,47 @@ export class SlbDashboardComponent
     this.initializeform();
     this.fetchStateList();
   }
-  frontPanelData = data2;
+  // frontPanelData = data2;
+  frontPanelData = {
+    showMap: false,
+    name: "Service Level Benchmark Performance",
+    desc: "The PAS Project's aim is to create a performance measurement and monitoring system for urban water and sanitation services, which can be used for policy formulation and resource allocation at state and local level. PAS measures performance of each sector (water, sanitation, solid waste and storm water drainage) across five themes and 32 key performance indicators. These indicators are monitored by state and local governments. Around 100 ‘drill-down’ indicators are also developed for better understanding of key issues in service delivery and preparation of performance improvement plans.",
+    dataIndicators: [
+      {
+        value: "",
+        title: "ULBs With Financial Data",
+        key: "coveredUlbCount",
+      },
+      {
+        value: "",
+        title: "Financial Statements ",
+        // key: "Municipal_Corporation",
+        key: "financialStatements",
+      },
+      {
+        value: "",
+        title: "ULBs Credit Rating Reports",
+        key: "ULBCreditRating",
+      },
+      {
+        value: "",
+        title: "ULBs With Investment Grade Rating",
+        key: "UlbsWithBBB",
+      },
+      {
+        value: " ",
+        title: "ULBs With Rating A & Above",
+        key: "ulbsWithA",
+      },
+      {
+        value: "",
+        title: "",
+        key: "totalMunicipalBonds",
+      },
+    ],
+    footer: `Data shown is from audited/provisional financial statements for FY 20-21
+    and data was last updated on 21st August 2021`,
+  };
   revenueData = [];
   tabAboutData: any;
   tabId: any="61e150439ed0e8575c881028";
@@ -227,11 +267,15 @@ export class SlbDashboardComponent
   colorCoding: any = [];
 
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
-
+  showDataAvailable: boolean = true;
   ngOnInit(): void {
+    this.dashboardLastUpdatedYear();
     this.getNationalLevelMapData("2020-21");
     this.yearList = this.yearList.reverse();
     this.selectedYear = this.yearList[1];
+    this.frontPanelData['year'] = this.selectedYear;
+    console.log('selectedYear',this.frontPanelData)
+
     this.getYears();
     this.dashboardDataCall();
     this.loadData();
@@ -241,6 +285,7 @@ export class SlbDashboardComponent
     this.fetchMinMaxFinancialYears();
     this.fetchCreditRatingTotalCount();
     this.fetchBondIssueAmout("");
+
     this.nationalFilter.valueChanges.subscribe((value) => {
       if (value?.length >= 1) {
         this._commonService
@@ -304,11 +349,15 @@ export class SlbDashboardComponent
     this.showCreditInfoByState();
   }
   dashboardLastUpdatedYear() {
+    console.log('dashboardLastUpdatedYear called')
     this.authService.getLastUpdated().subscribe((res) => {
-      Object.assign(this.frontPanelData, {
-        year: res["year"],
-        date: res["data"],
-      });
+      if (res && res['success']) {
+        Object.assign(this.frontPanelData, {
+          year: res["year"],
+          date: res["data"],
+        });
+        this._commonService.lastUpdatedYear.next(res["year"]);
+      }
     });
   }
   showCreditInfoByState() {
@@ -1285,17 +1334,12 @@ export class SlbDashboardComponent
     };
     this.slbDashboardService.getUlbTypeDataForTable(apiRequest).subscribe(
       (res: any) => {
+        console.log('getTableData called', res)
         if (res && res.success) {
           this.showLoader = false;
           this._loaderService.stopLoader();
-          // this.tableData =
-          //   res?.data && res?.data?.rows && res?.data?.rows.length
-          //     ? res?.data?.rows
-          //     : [];
           this.tableData = res?.data;
-          // this.tableData = [];
-        }
-        {
+        } else {
           this.showLoader = false;
           this._loaderService.stopLoader();
         }
@@ -1353,5 +1397,6 @@ const data2 = {
   ],
   footer: `Data shown is from audited/provisional financial statements for FY 20-21
   and data was last updated on 21st August 2021`,
+  year: ''
 };
 
