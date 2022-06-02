@@ -376,7 +376,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.getStateRevenue();
     }
   }
-
+  percentLabel: string = "";
   radioButtonValue: string = "";
   selectedRadioBtnValue: any;
   getCheckBoxValue(event: any) {
@@ -638,6 +638,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 "Population",
                 this.filterName
               );
+              if (res["data"]["scatterData"]?.unitType == "Percent") {
+                this.percentLabel = "(%)";
+              } else {
+                this.percentLabel = "";
+              }
               m_data =
                 res["data"] &&
                 res["data"]["scatterData"] &&
@@ -780,14 +785,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               if (data.length) {
                 console.log("mixdata==>", data);
                 data = data.sort((a, b) => b.code - a.code);
-                if (data[0].hasOwnProperty("color"))
+                if (data[0].hasOwnProperty("colour"))
                   this.doughnutData.data.datasets[0].backgroundColor = [];
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
-                  if (el.color) {
+                  if (el.colour) {
                     this.doughnutData.data.datasets[0].backgroundColor.push(
-                      el.color
+                      el.colour
                     );
                   }
                 });
@@ -801,12 +806,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               let mData = data["mData"][0];
               let mcData = data["mcData"][0];
               let tpData = data["tpData"][0];
+              let ulbStateData = data["state"];
 
               this.multiChart = true;
               this.doughnutDataArr = [
                 { mData: mData },
                 { mcData: mcData },
                 { tpData: tpData },
+                { ulbStateData: ulbStateData },
               ];
               if (data["ulb"].length > 0) {
                 this.doughnutDataArr = [
@@ -824,6 +831,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               let between500kTo1m = data["500k-1M"];
               let between1mTo4m = data["1m-4m"];
               let greaterThan4m = data["4m+"];
+              let popStateData = data["state"];
 
               this.multiChart = true;
               this.doughnutDataArr = [];
@@ -833,6 +841,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 { "500k-1M": between500kTo1m },
                 { "1m-4m": between1mTo4m },
                 { "4m+": greaterThan4m },
+                { popStateData: popStateData },
               ];
               if (data["ulb"].length > 0) {
                 this.doughnutDataArr = [
@@ -1290,15 +1299,15 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             data: this.getChartData(responseData, tabType, yAxisLabel),
             backgroundColor: [
               "#1E44AD",
-              "#224CC0",
-              "#2553D3",
-              "#3360DB",
-              "#456EDE",
-              "#587DE1",
-              "#6A8BE5",
-              "#86A2ED",
-              "#93AAEA",
-              "#A8BCF0",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
             ],
             borderColor: ["#1E44AD"],
             borderWidth: 1,
@@ -1408,9 +1417,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             scaleLabel: {
               display: true,
-              labelString: `${this._commonServices.toTitleCase(
-                yAxisLabel
-              )} (%)`,
+              labelString: `${this._commonServices.toTitleCase(yAxisLabel)} ${
+                this.percentLabel
+              } `,
               fontStyle: "bold",
             },
             gridLines: {

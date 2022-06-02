@@ -1107,6 +1107,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   tableDataLoading = true;
   columnAttribut;
   tableData() {
+    this._loaderService.showLoader();
     this.tableDataLoading = true;
     this.ownRevenueService.getTableData(this.filterGroup.value).subscribe(
       (res) => {
@@ -1114,6 +1115,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         if (this.proTab) this.columnAttribut = this.columnAttributeProperty;
         else this.columnAttribut = this.columnAttribute;
         this.users = this.users.map((value) => {
+          this._loaderService.stopLoader();
           let data = res["data"][value.name];
           if (this.ownTab) {
             value.meetsRevenue = numCheck(data.numOfUlbMeetRevenue);
@@ -1133,18 +1135,16 @@ export class OwnRevenueDashboardComponent implements OnInit {
               value.median = "0";
             }
           } else {
-            value.averageRevenue = data.totalProperty.toFixed(0);
+            value.averageRevenue = data.totalRevenue;
+            // value.averageRevenue = data.totalProperty.toFixed(0);
             if (data.population > 0) {
-              value.median = (data.totalProperty / data.population).toFixed(2);
+              value.median = data.median.toFixed(0);
+              // value.median = (data.totalProperty / data.population).toFixed(2);
             } else {
               value.median = "0";
             }
             if (data.totalRevenue > 0) {
-              value.avgRevenueMeet = (
-                (data.totalProperty /
-                  (data.totalRevenue - data.totalProperty)) *
-                100
-              ).toFixed(0);
+              value.avgRevenueMeet = data.percentage.toFixed(0);
             } else {
               value.avgRevenueMeet = "0";
             }

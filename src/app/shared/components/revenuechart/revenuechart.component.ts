@@ -41,6 +41,9 @@ export class RevenuechartComponent
   @Input()
   multiChartLabel = [];
 
+  @Input()
+  selectedulb: any = "";
+
   stateId;
   stateName;
   @Input()
@@ -428,6 +431,11 @@ export class RevenuechartComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.hasOwnProperty("selectedulb")) {
+      this.selectedulb = changes.selectedulb.currentValue;
+      console.log("selectedulb", this.selectedulb);
+    }
+
     this.stateId = sessionStorage.getItem("row_id");
     this.stateName = this.stateMap[this.stateId];
     console.log("ngOnChanges", changes);
