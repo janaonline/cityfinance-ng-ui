@@ -4,10 +4,9 @@
 let url;
 let GoogleTagID: string;
 if (
-  window.location.hostname.includes("demo")
-   ||
-  window.location.hostname.includes("localhost")
-   ||
+  
+  window.location.hostname.includes("demo") ||
+  window.location.hostname.includes("localhost") ||
   window.location.hostname.includes("new-cityfinance.dhwaniris.in")
 ) {
   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";

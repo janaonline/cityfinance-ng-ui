@@ -79,7 +79,7 @@
                 <p style="margin-left: 5px; font-weight: 500;">15<sup>th</sup> FC Tied Grant Status for the Financial Year 2020-21<span style="color: red;">*</span></p>
 
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <label for="" class="labelField">i. Unutilised Tied Grants from previous installment (INR in
                             lakhs)  
                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Please enter the balance amount brought forward from the previous instalment." matTooltipPosition="above" style="float: right;">
@@ -89,8 +89,8 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
-                    <div class="col-lg-6">
-                        <input class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
+                    <div class="col-lg-5">
+                        <input  disabled = "true" class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
                         utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required" style="margin-left: 10px;">
@@ -101,7 +101,7 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <label for="" class="labelField">ii. 15<sup>th</sup> F.C. Tied grant received for the year
                             (1st & 2nd installment taken together) (INR in lakhs)
                         
@@ -111,7 +111,7 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
 
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.receivedDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('receivedDuringYr')" formControlName="receivedDuringYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.receivedDuringYr.touched || submitted) &&
@@ -134,7 +134,7 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
 
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('expDuringYr')" formControlName="expDuringYr" appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.expDuringYr.touched || submitted) &&
                        utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required" style="margin-left: 10px;">
@@ -168,7 +168,13 @@
         <div class="card" style="background-color: #F7F7F7;">
 
             <div class="card-body" style="margin-bottom: 20px;">
-                <p style="font-weight: 500;">Component Wise Utilisation of Tied grants as on 31st March 2021<span style="color: red;">*</span></p>
+                <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants as on 31st March 2021
+                    <span style="color: red;">*</span>
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
+                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                       </span>
+                </p>
+                <!-- water management table -->
                 <div class="card-body" style="margin-bottom: 20px;">
                     <p style="font-weight: 500;">Water Management (WM)</p>
                     <div class="table-responsive">
@@ -187,24 +193,24 @@
 
                                 </tr>
                             </thead>
-                            <tbody  *ngIf="utilizationReport['controls']['categoryWiseData_wm']['controls'].length > 0" formArrayName="categoryWiseData_wm">
+                            <tbody *ngIf="utilizationReport['controls']['categoryWiseData_wm']['controls'].length > 0" formArrayName="categoryWiseData_wm">
                                 <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                <tr  *ngFor="let outputRow of tabelRows_WMcategory.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm" style="text-align: center; vertical-align: inherit;">
+                                <tr *ngFor="let outputRow of tabelRows_WMcategory.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm" style="text-align: center; vertical-align: inherit;">
                                     <td class="t-i">
                                         <span>{{1+rowIndex_wm}}</span>
                                     </td>
                                     <td>
-                                        <input  style="width:20rem;cursor:not-allowed" formControlName="category_name" class="t-i" disabled="true" value="{{outputRow.controls.category_name.value}}" (mouseout)="errorDisplayExp=false">
+                                        <input style="width:20rem;cursor:not-allowed" formControlName="category_name" class="t-i" disabled="true" value="{{outputRow.controls.category_name.value}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
-                                        <input [attr.disabled]="isDisabled" class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
+                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
 
                                     </td>
                                     <td>
-                                        <input [attr.disabled]="isDisabled" class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
+                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
                                     </td>
                                     <td>
-                                        <input [attr.disabled]="isDisabled" class="t-i form-control " formControlName="totalProjectCost" appTwoDigitDecimaNumber>
+                                        <input class="t-i form-control " formControlName="totalProjectCost" appTwoDigitDecimaNumber>
                                     </td>
 
                                 </tr>
@@ -264,14 +270,14 @@
                                         <input style="width:20rem;cursor:not-allowed" formControlName="category_name" class="t-i" disabled="true" value="{{outputRow.controls.category_name.value}}" (mouseout)="errorDisplayExp=false">
                                     </td>
                                     <td class="pos-td">
-                                        <input [attr.disabled]="isDisabled" class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
+                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
 
                                     </td>
                                     <td>
-                                        <input [attr.disabled]="isDisabled" class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
+                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
                                     </td>
                                     <td>
-                                        <input [attr.disabled]="isDisabled" class="t-i form-control " formControlName="totalProjectCost" appTwoDigitDecimaNumber>
+                                        <input class="t-i form-control " formControlName="totalProjectCost" appTwoDigitDecimaNumber>
                                     </td>
 
                                 </tr>
@@ -351,7 +357,7 @@
                                     <span>{{1+projectIndex}}</span>
                                 </td>
                                 <td class="pos-td">
-                                    <input [attr.disabled]="isDisabled" type="text" data-toggle="tooltip" data-placement="top" class="t-i
+                                    <input type="text" data-toggle="tooltip" data-placement="top" class="t-i
                                      form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
                                       utiReportFormControl.projects.controls[projectIndex].controls.name.errors?.required )? '1px solid red' : '' }" placeholder="Max 200 Characters" (mouseover)="errorDisplayName=true" (mouseout)="errorDisplayName=false"
                                         formControlName="name" style="width: 10rem;" required>
@@ -371,7 +377,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <select class="t-i" *ngIf="categories" [attr.disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.projects.controls[projectIndex].controls.category.errors?.required)? '1px solid red' : '' }" (mouseover)="errorDisplayCat=true"
+                                    <select class="t-i" *ngIf="categories" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.projects.controls[projectIndex].controls.category.errors?.required)? '1px solid red' : '' }" (mouseover)="errorDisplayCat=true"
                                         (mouseout)="errorDisplayCat=false" formControlName="category" data-toggle="tooltip" data-placement="top" style="width: auto;">
                                         <option *ngFor="let item of categories; let j=index;" [value]="item._id">
                                             {{item.name}}</option>
@@ -387,7 +393,7 @@
                                 </td>
 
                                 <td style="display: inline-flex;" formGroupName="location">
-                                    <input [attr.disabled]="isDisabled" type="text" class="t-i form-control" (mouseover)="errorDisplayLat=true" (mouseout)="errorDisplayLat=false" [ngStyle]="{'border':(isSubmitted == true &&
+                                    <input type="text" class="t-i form-control" (mouseover)="errorDisplayLat=true" (mouseout)="errorDisplayLat=false" [ngStyle]="{'border':(isSubmitted == true &&
                                      (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.required ||
                                      utiReportFormControl.projects.controls[projectIndex].controls.location.controls.lat.errors?.pattern)  ) ? '1px solid red' : '' }" formControlName="lat" [disabled]="isDisabled" appSixDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
@@ -398,7 +404,7 @@
                                     </div>
 
 
-                                    <input [attr.disabled]="isDisabled" type="text" class="t-i form-control" (mouseover)="errorDisplayLong=true" (mouseout)="errorDisplayLong= false" [ngStyle]="{'border':(isSubmitted == true &&
+                                    <input type="text" class="t-i form-control" (mouseover)="errorDisplayLong=true" (mouseout)="errorDisplayLong= false" [ngStyle]="{'border':(isSubmitted == true &&
                 (utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.required ||
                 utiReportFormControl.projects.controls[projectIndex].controls.location.controls.long.errors?.pattern) )? '1px solid red' : '' }" formControlName="long" [disabled]="isDisabled" appSixDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
@@ -472,7 +478,7 @@
                                     </div>
                                 </td> -->
                                 <td class="t-i">
-                                    <input [attr.disabled]="isDisabled" class="t-i form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
+                                    <input class="t-i form-control" [disabled]="isDisabled" [ngStyle]="{'border':(isSubmitted == true &&
      utiReportFormControl.projects.controls[projectIndex].controls.cost.errors?.required)? '1px solid red' : '' }" (change)="totalProCost(projectIndex)" (mouseover)="errorDisplayCost=true" (mouseout)="errorDisplayCost=false" formControlName="cost" appTwoDigitDecimaNumber>
                                     <div class="bs-tooltip-top" role="tooltip">
                                         <span class="tooltip-inner" style="font-size: 10px; margin-left: 0;" *ngIf="(utiReportFormControl.projects.controls[projectIndex].controls.cost.touched
@@ -498,7 +504,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <input [attr.disabled]="isDisabled" class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                    <input class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
 
                                 </td>
 
@@ -609,8 +615,8 @@
 
             <!-- {{ulbFormStaus | titlecase}} -->
 
-            <label class="btn btn-success" style="width: auto;" [ngClass]="{'btn-a' : (status == 'APPROVED'),
-          'btn-r' : (status == 'REJECTED'), 'btn-p' : (status == 'PENDING' )}">
+            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+          'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStaus == 'PENDING'  )}">
                 {{ulbFormStaus | titlecase}}</label>
         </p>
         <br>
@@ -651,6 +657,15 @@
                 id="saveNext">
                 NEXT</button>
         </div>
+    </div>
+</div> -->
+<div class="row footerBtnDiv">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked = true" [routerLink]="['../grant-tra-certi']">BACK</a>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+        <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
+        <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1)">{{saveBtn}}</button>
     </div>
 </div>
 
@@ -695,30 +710,6 @@
         <div>
             <button type="button" class="btn btn-primary m-btn" (click)="stay()">Stay</button>
             <button type="button" class="btn btn-success m-btn" style="margin-left: 6px; background-color: #5cb85c" (click)="proceed()">Proceed</button>
-        </div>
-
-    </div>
-</ng-template>
-<ng-template #finalSubmitAlert>
-    <div class="modal-body text-center">
-        <div class="modal-header">
-            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
-            <div class="text-right">
-                <a (click)="alertClose()">
-                    <img src="../../../../assets/form-icon/close-red-icon.png">
-                </a>
-            </div>
-        </div>
-
-        <p style="margin-top: 8px;">
-            Are you sure you want to proceed further?
-        </p>
-        <p>If you Proceed, no changes could be made in the Form.</p>
-        <div>
-            <button type="button" class="btn btn-secondary " (click)="alertClose()">Stay</button>
-            <button type="button" class="btn btn-success "
-                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
-                Submit</button>
         </div>
 
     </div>

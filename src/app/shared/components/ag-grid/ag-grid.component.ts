@@ -94,7 +94,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "Cost",
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       suppressMovable: true,
     },
     {
@@ -292,7 +292,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: "should be number & Greater than 0",
       },
       field: "Cost",
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       suppressMovable: true,
     },
     {
@@ -309,7 +309,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "XV_FC",
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       filter: "agNumberColumnFilter",
       suppressMovable: true,
     },
@@ -327,7 +327,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         errorMsg: this.fundErrorMsg,
       },
       field: "Other",
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       filter: "agNumberColumnFilter",
       suppressMovable: true,
     },
@@ -354,7 +354,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2021-22"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2021-22",
       width: 150,
       editable: true,
@@ -373,7 +373,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2022-23"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2022-23",
       width: 150,
       editable: true,
@@ -392,7 +392,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2023-24"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2023-24",
       width: 150,
       editable: true,
@@ -411,7 +411,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2024-25"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2024-25",
       width: 150,
       editable: true,
@@ -430,7 +430,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2025-26"].value
           : "",
       valueSetter: syncValueSetter(checkYear),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
       width: 150,
       editable: true,
@@ -490,7 +490,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["Cost"].value != null ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "Project Cost",
       width: 120,
       pinned: true,
@@ -509,7 +509,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["Funding"].value
           : "",
       valueSetter: syncValueSetter(number),
-      // valueParser: "Number(newValue)",
+      valueParser: "parseInt(newValue)",
       headerName: "% Funding",
       width: 85,
       editable: false,
@@ -523,7 +523,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueGetter: (params) =>
         params.data["Amount"].value != null ? params.data["Amount"].value : "",
       valueSetter: syncValueSetter(number),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "Amount",
       width: 78,
       editable: false,
@@ -539,7 +539,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2021-22"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2021-22",
       width: 93,
       editable: true,
@@ -558,7 +558,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2022-23"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2022-23",
       width: 93,
       editable: true,
@@ -577,7 +577,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2023-24"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2023-24",
       width: 93,
       editable: true,
@@ -596,7 +596,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2024-25"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2024-25",
       width: 93,
       editable: true,
@@ -615,7 +615,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           ? params.data["2025-26"].value
           : "",
       valueSetter: syncValueSetter(checkYear2),
-      valueParser: "Number(newValue)",
+      valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
       width: 93,
       editable: true,
@@ -774,7 +774,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value = 0;
       } else {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value =
-          (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) * 100;
+          ((e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) * 100).toPrecision(2);
         if (this.rowData.yearOutlay[e.rowIndex]["Funding"].value % 1 != 0) {
           this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
             (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
@@ -899,10 +899,11 @@ const Area = (x) => {
   return false;
 };
 const Total = (x, param) => {
+  x = Number(parseFloat(x).toFixed(3));
   if (param.data.Cost.value == "") {
     param.data.Cost.value = 0;
   }
-  return param.data.Cost.value == parseInt(x);
+  return param.data.Cost.value == parseFloat(x);
 };
 const dropDown = (x) => {
   if (x.length < 1) return false;
@@ -916,15 +917,16 @@ const name = (x) => {
 };
 
 const number = (x, params) => {
-  x = parseInt(x);
+  x = Number(parseFloat(x).toFixed(3));
   if (!isNaN(x) && x >= 0 && x < 999999999) {
     if (params.colDef.field == "Cost") return true;
-    return x / 100 < params.data.Cost.value;
+    return x / 100 <= params.data.Cost.value;
   }
   return false;
 };
 
 const checkYear = (x, param) => {
+  x = Number(parseFloat(x).toFixed(3));
   if (x <= 0) {
     return false;
   }
@@ -940,10 +942,12 @@ const checkYear = (x, param) => {
       ) {
         count++;
         val += data[key].value;
+  val =  Number(val.toFixed(3))
       }
     }
   }
   val += x;
+  val =  Number(val.toFixed(3))
   let cost = param.data.Cost?.value;
   if (count == 4) {
     return cost == val;
@@ -952,6 +956,7 @@ const checkYear = (x, param) => {
 };
 
 const checkYear2 = (x, param) => {
+  x = Number(parseFloat(x).toFixed(3));
   if (x <= 0) {
     return false;
   }
@@ -967,10 +972,13 @@ const checkYear2 = (x, param) => {
       ) {
         count++;
         val += data[key].value;
+        val =  Number(val.toFixed(3))
       }
     }
   }
+  
   val += x;
+  val =  Number(val.toFixed(3))
   let cost = param.data.Amount.value;
   if (count == 4) {
     return cost == val;

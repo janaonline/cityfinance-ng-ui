@@ -11,7 +11,6 @@ import { forkJoin, Observable, Subject } from 'rxjs';
 import { debounceTime, delay, map, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AnalyticsTabs, IAnalyticsTabs } from 'src/app/shared/components/home-header/tabs';
-
 import { IDialogConfiguration } from '../../../../app/shared/components/dialog/models/dialogConfiguration';
 import { IStateWithULBS } from '../../../../app/shared/components/re-useable-heat-map/models/stateWithULBS';
 import { IStateULBCovered, IStateULBCoveredResponse } from '../../../../app/shared/models/stateUlbConvered';
@@ -52,6 +51,9 @@ export class HomeTabViewComponent implements OnInit {
     { id: "2015-16", itemName: "2015-16" },
     { id: "2016-17", itemName: "2016-17" },
     { id: "2017-18", itemName: "2017-18" },
+    { id: "2018-19", itemName: "2018-19" },
+    { id: "2019-20", itemName: "2019-20" },
+    { id: "2020-21", itemName: "2020-21" },
   ];
   yearsDropdownSettings = {
     text: "Select Years",
@@ -107,7 +109,7 @@ export class HomeTabViewComponent implements OnInit {
         text: "Proceed to Login",
         callback: () => {
           sessionStorage.setItem("postLoginNavigation", this.router.url);
-          this.router.navigate(["/", "login"]);
+          this.router.navigate(["/", "login"],{ queryParams: { user: 'USER' } } );
         },
       },
       cancel: { text: "Cancel" },
@@ -1072,7 +1074,7 @@ export class HomeTabViewComponent implements OnInit {
       }
       this.modalTableData = {
         data: range["ulbs"]
-          .sort((a, b) => this.sortCallBack(a, b, "population"))
+          .sort((a, b) =>  this.sortCallBack(a, b, "population"))
           .reverse()
           .concat([totalRow]),
         year,
@@ -1187,8 +1189,10 @@ export class HomeTabViewComponent implements OnInit {
   sortCallBack(a, b, id) {
     let aVal = a[id],
       bVal = b[id];
-
-    if (typeof a[id] === "object") {
+if(!aVal || !bVal){
+ return 1; 
+}
+    if (typeof a[id] === "object" && a[id] != null) {
       aVal = a[id]?.value;
       bVal = b[id]?.value;
     }

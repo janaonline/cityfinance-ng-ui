@@ -119,11 +119,11 @@
                     <tr *ngFor="let outputRow of wm; let rowIndex=index">
                         <th scope="row" class="f-table"></th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">
-                            {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.categoryName}}
+                            {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.category_name}}
                         </td>
-                        <td class="f-table">{{outputRow.amount}}</td>
+                        <td class="f-table">{{outputRow.grantUtilised}}</td>
                         <td class="f-table">x</td>
-                        <td class="f-table">{{outputRow.count}}</td>
+                        <td class="f-table">{{outputRow.numberOfProjects}}</td>
                         <td class="f-table">{{outputRow.totalProjectCost}}</td>
                     </tr>
                     <!-- <tr>
@@ -174,11 +174,11 @@
                     <tr *ngFor="let outputRow of swm; let rowIndex=index">
                         <th scope="row" class="f-table"></th>
                         <td class="pd-r f-table" style="text-align: left; font-weight: 500; white-space: nowrap;">
-                            {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.categoryName}}
+                            {{rowIndex+1}}. &nbsp; &nbsp; {{outputRow.category_name}}
                         </td>
-                        <td class="f-table">{{outputRow.amount}}</td>
+                        <td class="f-table">{{outputRow.grantUtilised}}</td>
                         <td class="f-table">x</td>
-                        <td class="f-table">{{outputRow.count}}</td>
+                        <td class="f-table">{{outputRow.numberOfProjects}}</td>
                         <td class="f-table">{{outputRow.totalProjectCost}}</td>
                     </tr>
                     <!-- <tr>

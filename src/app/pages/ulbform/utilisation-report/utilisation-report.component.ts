@@ -59,9 +59,9 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
   takeStateAction;
   compDis;
   mohuaActionComp;
-  latLongRegex = '^-?([0-8]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
+  latLongRegex = '^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
   id
-  viewActionComp = false;
+  viewActionComp
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -151,9 +151,21 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
       res.forEach((state) => (this.states[state._id] = state));
       this.initializeReport();
       if (
-        !this.isDraft &&
-        this.loggedInUserType == this.userTypes.ULB
-        
+        this.finalSubmitUtiStatus == "true" &&
+        this.lastRoleInMasterForm == this.userTypes.ULB
+      ) {
+        this.isDisabled = true;
+        this.utilizationReport.disable();
+        this.utilizationReport.controls.projects.disable();
+        this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
+
+
+      }
+      if (
+        this.finalSubmitUtiStatus == "true" &&
+        this.lastRoleInMasterForm != this.userTypes.ULB &&
+        this.masterFormStatus != "REJECTED"
       ) {
         this.isDisabled = true;
         this.utilizationReport.disable();
@@ -161,8 +173,6 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
         this.utilizationReport.controls.projects.disable();
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
-
-
       }
    
 
@@ -257,6 +267,8 @@ showActionComp() {
 
   }
 
+  
+
   navigationCheck() {
    
       this._router.events.subscribe(async (event: Event) => {
@@ -340,7 +352,6 @@ showActionComp() {
         })
         console.log('project', this.swm, this.wm)
         this.setcategoryData(res);
-        this.isDraft = res['isDraft']
         if (!("_id" in res)) {
 
           this.utilizationReport.value["blankForm"] = true;
@@ -372,31 +383,15 @@ showActionComp() {
         setTimeout(() => {
           this.currentChanges();
         }, 1000);
-        if(this.loggedInUserType==USER_TYPE.ULB){
-          if((this.actionTakenByRole == 'ULB' && !this.isDraft)||
-          (this.actionTakenByRole == 'STATE' && this.isDraft) ||
-          (this.actionTakenByRole == 'STATE' && !this.isDraft && this.status =='APPROVED') ||
-          (this.actionTakenByRole == 'MoHUA' && this.isDraft) ||
-          (this.actionTakenByRole == 'MoHUA' && !this.isDraft && this.status == 'APPROVED')
-        
-          )
-          this.btnDisable = true
-        } else if(this.loggedInUserType==USER_TYPE.STATE){
-          if((this.actionTakenByRole == 'ULB' && this.isDraft)||
-          (this.actionTakenByRole == 'STATE' && !this.isDraft) ||
-          (this.actionTakenByRole == 'MoHUA')
-        
-          )  
-          this.btnDisable = true
-        
-        } else if(this.loggedInUserType == USER_TYPE.MoHUA){
-          if((this.actionTakenByRole == 'ULB')||
-          (this.actionTakenByRole == 'STATE' && this.isDraft) ||
-          (this.actionTakenByRole == 'STATE' && !this.isDraft && this.status == 'REJECTED' )
-        
-          )  
-          this.btnDisable = true
-        
+
+        if (res["status"] == "APPROVED" &&
+          this.lastRoleInMasterForm != this.userTypes.ULB
+        ) {
+          this.isDisabled = true;
+          this.utilizationReport.disable();
+          this.utilizationReport.controls.projects.disable();
+          this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
         }
        
 
@@ -472,7 +467,24 @@ showActionComp() {
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
-   
+    if ((this.finalSubmitUtiStatus == "true") &&
+      (this.masterFormStatus != 'REJECTED')) {
+      this.utilizationReport.controls.projects.disable();
+      this.utilizationReport.controls.categoryWiseData_swm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
+    }
+    if (
+      this.ulbFormStaus == "REJECTED" &&
+      this.userLoggedInDetails.role === USER_TYPE.ULB &&
+      this.finalSubmitUtiStatus == "true" &&
+      this.lastRoleInMasterForm != USER_TYPE.ULB
+    ) {
+      this.utilizationReport.enable();
+      this.isDisabled = false;
+      this.utilizationReport.controls.projects.enable();
+      this.utilizationReport.controls.categoryWiseData_swm.enable();
+        this.utilizationReport.controls.categoryWiseData_wm.enable();
+    }
   }
   addPreFilledSimple(data) {
     let actRes = {
@@ -572,9 +584,26 @@ showActionComp() {
         expDuringYr: new FormControl(0, Validators.required),
         closingBal: [],
       }),
-      categoryWiseData_swm: this.fb.array([]),
-      categoryWiseData_wm: this.fb.array([]),
-      projects: this.fb.array([]),
+      categoryWiseData_swm: this.fb.array([
+        // this.fb.group({
+        //   category_name: ["", Validators.required],
+        //   grantUtilised: ["", Validators.required],
+        //   numberOfProjects: ["", Validators.required],
+        //   totalProjectCost: ["", Validators.required],
+        // }),
+
+      ]),
+      categoryWiseData_wm: this.fb.array([
+        // this.fb.group({
+        //   category_name: ["", Validators.required],
+        //   grantUtilised: ["", Validators.required],
+        //   numberOfProjects: ["", Validators.required],
+        //   totalProjectCost: ["", Validators.required],
+        // }),
+      ]),
+      projects: this.fb.array([
+
+      ]),
       status: [""],
       // isDraft:[],
       name: ["", [Validators.required, Validators.maxLength(50)]],

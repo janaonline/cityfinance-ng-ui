@@ -88,6 +88,8 @@ export class AnnualAccountsComponent implements OnInit {
   modalRef;
   actionResAn;
   saveBtn = "NEXT";
+  provisionDisable = true
+     auditedDisable = true
   // actionResAu;
   ulbId = null;
   @HostBinding("")
@@ -331,6 +333,8 @@ export class AnnualAccountsComponent implements OnInit {
       takeStateAction = localStorage.getItem("takeStateAction");
     if (ulbId != null || this.finalSubmitUtiStatus == "true") {
       this.isDisabled = true;
+      this.provisionDisable = true
+      this.auditedDisable = true
     }
     this.annualAccountsService
       .getData({
@@ -492,24 +496,24 @@ export class AnnualAccountsComponent implements OnInit {
         form.unAudited.provisional_data[key].pdf.name = null;
       }
     }
-    if (
-      !form.audited.submit_standardized_data ||
-      form.audited.submit_standardized_data == null ||
-      this.uploadErrors.audited.standardized_data.error
-    ) {
-      form.audited.standardized_data.excel.name = null;
-      form.audited.standardized_data.excel.url = null;
-      form.audited.standardized_data.declaration = null;
-    }
-    if (
-      !form.unAudited.submit_standardized_data ||
-      form.unAudited.submit_standardized_data == null ||
-      this.uploadErrors.unAudited.standardized_data.error
-    ) {
-      form.unAudited.standardized_data.excel.name = null;
-      form.unAudited.standardized_data.excel.url = null;
-      form.unAudited.standardized_data.declaration = null;
-    }
+    // if (
+    //   !form.audited.submit_standardized_data ||
+    //   form.audited.submit_standardized_data == null ||
+    //   this.uploadErrors.audited.standardized_data.error
+    // ) {
+    //   form.audited.standardized_data.excel.name = null;
+    //   form.audited.standardized_data.excel.url = null;
+    //   form.audited.standardized_data.declaration = null;
+    // }
+    // if (
+    //   !form.unAudited.submit_standardized_data ||
+    //   form.unAudited.submit_standardized_data == null ||
+    //   this.uploadErrors.unAudited.standardized_data.error
+    // ) {
+    //   form.unAudited.standardized_data.excel.name = null;
+    //   form.unAudited.standardized_data.excel.url = null;
+    //   form.unAudited.standardized_data.declaration = null;
+    // }
     console.log(JSON.stringify(form), "saved form.........");
     if (form.status === "N/A" && (form.unAudited.submit_annual_accounts || form.audited.submit_annual_accounts)) {
       form.status = "PENDING"
@@ -620,8 +624,8 @@ export class AnnualAccountsComponent implements OnInit {
         } else {
           if (this.data.unAudited.submit_standardized_data) {
             if (
-              this.data.unAudited.standardized_data.declaration != null &&
-              this.data.unAudited.standardized_data.declaration == true
+              this.data.unAudited.standardized_data?.declaration != null &&
+              this.data.unAudited.standardized_data?.declaration == true
             ) {
               this.data.isDraft = false;
             } else {
@@ -629,8 +633,8 @@ export class AnnualAccountsComponent implements OnInit {
               return;
             }
             if (
-              this.data.unAudited.standardized_data.excel.url == null ||
-              this.data.unAudited.standardized_data.excel.name == null
+              this.data.unAudited.standardized_data?.excel?.url == null ||
+              this.data.unAudited.standardized_data?.excel?.name == null
             ) {
               this.data.isDraft = true;
             } else {
@@ -720,6 +724,12 @@ export class AnnualAccountsComponent implements OnInit {
   }
   answer(question, val, isAudit = null, fromStart = false) {
     let status = isAudit ? "audited" : "unAudited";
+    if(isAudit && this.loggedInUserType == USER_TYPE.ULB){
+      this.auditedDisable = false
+    }else if (!isAudit && this.loggedInUserType == USER_TYPE.ULB){
+      this.provisionDisable = false
+    }
+    
     switch (question) {
       case "q1":
         this.answerError[status].submit_annual_accounts = false;
@@ -746,7 +756,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (this.isDisabled) {
       return
     }
-    let temp = this.data[fileType].standardized_data.excel;
+    let temp = this.data[fileType].standardized_data?.excel;
     for (const key in temp) {
       temp[key] = null;
     }
@@ -1013,7 +1023,7 @@ export class AnnualAccountsComponent implements OnInit {
     console.log(this.actionResAn);
   }
   checkAuditReport(item) {
-    if (item.name == "Auditor Report") {
+    if ((item.name).toLowerCase() == "Auditor Report".toLowerCase()) {
       return "pdf";
     } else {
       return null;
@@ -1023,7 +1033,8 @@ export class AnnualAccountsComponent implements OnInit {
   saveStateActionData() {
     console.log("this data....", this.data);
     let stateData = this.data;
-    stateData.unAudited.provisional_data.bal_sheet.status =
+    if(this.data.hasOwnProperty('provisional_data')){
+      stateData.unAudited.provisional_data.bal_sheet.status =
       this.unAuditAct[0]?.status;
     stateData.unAudited.provisional_data.bal_sheet.rejectReason =
       this.unAuditAct[0]?.rejectReason;
@@ -1044,6 +1055,8 @@ export class AnnualAccountsComponent implements OnInit {
     stateData.unAudited.provisional_data.cash_flow.rejectReason =
       this.unAuditAct[4]?.rejectReason;
 
+    }
+   if(this.data.hasOwnProperty('provisional_data')){
     stateData.audited.provisional_data.bal_sheet.status =
       this.AuditAct[0]?.status;
     stateData.audited.provisional_data.bal_sheet.rejectReason =
@@ -1065,9 +1078,10 @@ export class AnnualAccountsComponent implements OnInit {
     stateData.audited.provisional_data.cash_flow.rejectReason =
       this.AuditAct[4]?.rejectReason;
     stateData.audited.provisional_data.auditor_report.status =
-      this.AuditAct[4]?.status;
+      this.AuditAct[5]?.status;
     stateData.audited.provisional_data.auditor_report.rejectReason =
-      this.AuditAct[4]?.rejectReason;
+      this.AuditAct[5]?.rejectReason;
+   }
 
     console.log(stateData, "yvugbhijnok");
     this.annualAccountsService.postActionData(stateData).subscribe(
