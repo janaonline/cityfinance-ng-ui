@@ -20,7 +20,7 @@ import { CommonService } from "src/app/shared/services/common.service";
 import { StateformsService } from '../stateforms.service'
 import * as $ from 'jquery';
 import { constants } from 'buffer';
-import * as JSC from "jscharting";
+// import * as JSC from "jscharting";
 import * as fileSaver from "file-saver";
 import { WaterSupplyService } from '../water-supply/water-supply.service';
 

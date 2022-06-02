@@ -14,6 +14,7 @@ import Chart from "chart.js";
 import { GlobalLoaderService } from "src/app/shared/services/loaders/global-loader.service";
 import { CommonService } from "../../services/common.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { SlbDashboardService } from "src/app/pages/new-dashbords/slb-dashboard/slb-dashboard.service";
 @Component({
   selector: "app-front-panel",
   templateUrl: "./front-panel.component.html",
@@ -74,7 +75,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   dataAvailEmit = new EventEmitter();
   dataAvailLoading = false;
   financialYear;
-  availValue;
+  availValue: any;
   dataAvailable;
   stateList;
   notFoundNames = [];
@@ -85,14 +86,14 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     public _loaderService: GlobalLoaderService,
     public _commonServices: CommonService,
     private router: Router,
-    public activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute
   ) {
     this.ulbList = JSON.parse(localStorage.getItem('ulbList'));
   }
 
   ngOnInit(): void {
     console.log("this.data====>", this.data);
-
+    
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         // console.log('res', res);
@@ -109,7 +110,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       this.data.year = data;
       this.getAvailableData();
     });
+
   }
+  yearVal = "";
 
   stateChanges(event) {
     console.log("new Event", event);
@@ -139,7 +142,6 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     this.getAvailableData(stateId);
     this.changeInStateOrCity.emit(event);
   }
-  yearVal = "";
   // yearVal = "2020-21";
   ulbId;
   downloadCSV(from) {
@@ -148,8 +150,10 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       stateId: this.data.stateId,
       csv: true,
     };
+    this._loaderService.showLoader();
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res: any) => {
+        this._loaderService.stopLoader();
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",
         });
@@ -157,7 +161,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
         fileSaver.saveAs(blob, "dataAvaliable.xlsx");
       },
-      (error) => {}
+      (error) => {
+        this._loaderService.stopLoader();
+      }
     );
   }
 
@@ -177,6 +183,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   }
 
   getAvailableData(stateId: string = '') {
+    console.log('getAvailableData called');
     // this.getStateId();
     // this._loaderService.showLoader()
     this.dataAvailLoading = true;
@@ -190,9 +197,13 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         this.dataAvailLoading = false;
         this.dataAvailEmit.emit(res);
         // this._loaderService.stopLoader()
-        res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
+        // res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
+        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
+        res["actualPercent"] = res["data"].percent;
+        res["data"].percent = percentage;
         this.financialYear = res;
-        this.availValue = res["data"]?.percent;
+        // this.availValue = res["data"]?.percent;
+        this.availValue = percentage;
         this.halfDoughnutChart();
 
         this.notFoundNames = res["data"]?.names;
@@ -208,6 +219,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
   myChart: any;
   halfDoughnutChart() {
+    console.log('halfDoughnutChart called');
     if (this.myChart) {
       this.myChart.destroy();
     }
