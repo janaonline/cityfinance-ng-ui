@@ -32,6 +32,7 @@
       [chartTitle]="chartTitle"
       [singleDoughnutChart]="ulbValVar ? false : true"
       [multipleCharts]="ulbValVar"
+      [selectedulb]="SelecetedUlb"
     ></app-revenuechart>
   </div>
 
@@ -41,6 +42,7 @@
       [multipleDoughnutCharts]="finalMultipleDoughnut"
       (dounghnuChartLabels)="getChartLabel($event)"
       [chartTitle]="multipleTitle"
+      [selectedulb]="SelecetedUlb"
     ></app-revenuechart>
   </div>
 

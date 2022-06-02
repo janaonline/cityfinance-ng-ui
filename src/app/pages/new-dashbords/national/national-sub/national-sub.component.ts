@@ -667,8 +667,7 @@ export class NationalSubComponent implements OnInit {
           ? "Ownrevenue"
           : "OwnrevenuePerCapita";
     } else if (this.CurrentHeadTab.toLowerCase() == "capital expenditure") {
-      this.newValue =
-        value == "capitalExpenditure" ? "Capexpense" : "CapexpensePerCapita";
+      this.newValue = value == "capitalExpenditure" ? "amount" : "perCapita";
     }
     console.log("newValue==>", this.newValue);
 
@@ -680,11 +679,10 @@ export class NationalSubComponent implements OnInit {
       });
 
     let calculatedData = this.revnueChartData;
-
     if (this.barLineData) {
       this.barLineData = [];
     }
-    for (let index = 0; index < this.revnueChartData.length - 1; index++) {
+    for (let index = 0; index < this.revnueChartData?.length - 1; index++) {
       this.barLineData.push(...calculatedData.slice(0, 1));
     }
 

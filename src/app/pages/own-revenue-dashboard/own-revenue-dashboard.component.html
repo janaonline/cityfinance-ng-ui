@@ -354,7 +354,11 @@
       </p>
     </div>
     <!-- table -->
-    <div class="container" style="margin-left: -2%; width: 102%">
+    <div
+      class="container"
+      style="margin-left: -2%; width: 102%"
+      *ngIf="users.length > 0"
+    >
       <div class="table-container table-responsive">
         <table style="border-radius: 10px" class="table styletable">
           <thead>
@@ -390,6 +394,7 @@
         available and thus, is not depicted here.
       </p>
     </div>
+    <div *ngIf="users.length == 0">Loading..</div>
     <!-- accordion -->
     <div class="container accContainer">
       <div class="accordion" id="accordionExample">
