@@ -516,7 +516,7 @@ ULB ${this.selectedTab} for FY' ${
     newData.data.labels.sort(function (a, b) {
       let newA = a.split("-")[0];
       let newB = b.split("-")[0];
-      return newB - newA;
+      return newA - newB;
     });
 
     let temp = {},
@@ -591,6 +591,7 @@ ULB ${this.selectedTab} for FY' ${
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.unshift(newlineDataset);
     console.log("newData ===>", newData);
+
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "₹" : "₹ Cr"
