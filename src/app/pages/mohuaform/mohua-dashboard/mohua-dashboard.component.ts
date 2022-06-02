@@ -20,7 +20,7 @@ import { AnnualaccListComponent } from "../../stateforms/state-dashboard/annuala
 import { ReUseableHeatMapComponent } from "../../../shared/components/re-useable-heat-map/re-useable-heat-map.component";
 import * as $ from "jquery";
 import { constants } from "buffer";
-import * as JSC from "jscharting";
+// import * as JSC from "jscharting";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { FeatureCollection, Geometry } from "geojson";

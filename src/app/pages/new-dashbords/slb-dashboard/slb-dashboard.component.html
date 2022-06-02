@@ -1,5 +1,5 @@
 <div class="">
-  <div class="container-fluid hero">
+  <!-- <div class="container-fluid hero">
     <h1 class="d-flex justify-content-center title mb-0 responsiveHeading">
       Water, Sanitisation & Hygiene
     </h1>
@@ -28,14 +28,33 @@
       understanding of key issues in service delivery and preparation of
       performance improvement plans.
     </p>
+  </div> -->
+  <div class="container-fluid">
+    <div class="row">
+      <app-front-panel
+        [cardData]="revenueData"
+        [data]="frontPanelData"
+        [showDataAvailable]="showDataAvailable"
+        style="padding: 0"
+      ></app-front-panel>
+    </div>
+    
+    <!-- <div class="row pt-3">
+      <div class="col-sm-12">
+        <div
+          class="d-a mx-auto mb-3"
+          [ngClass]="{ stickyClass: checkStickyValue == true }"
+        >
+          Data Availability - {{ nationalDataAvailability }}%
+        </div>
+      </div>
+    </div> -->
+
   </div>
   <div>
     <h2 class="sbd-Title text-center mb-0">
       Service Level Benchmark Performance
     </h2>
-    <p class="sbd-content mx-3 text-center">
-      Money received or earned during a financial year.
-    </p>
     <div class="sbd-national">
       <div class="row mb-3 mt-2" style="margin-left: 0; margin-right: 0">
         <div class="col-12 col-sm-12 col-md-6 stateMapContainer">
@@ -64,27 +83,7 @@
               class="legends"
               style="display: block; z-index: 99; position: relative"
             >
-              <!-- <ul
-                style="
-                  display: flex;
-                  padding: 0px;
-                  align-items: flex-start;
-                  justify-content: center;
-                  flex-wrap: wrap;
-                  margin-top: 1rem;
-                "
-              >
-                <li
-                  *ngFor="let item of mapLabels"
-                  style="display: flex; align-items: center; padding: 0.6rem"
-                >
-                  <div
-                    style="width: 20px; height: 16px; display: inline-block"
-                    [style.background-color]="item.color"
-                  ></div>
-                  <span class="ps-2">{{ item.name }}</span>
-                </li>
-              </ul> -->
+            
               <div
                 class="map-reset w-100 text-center mb-3 mt-3"
                 *ngIf="isMapOnMiniMapMode"
@@ -146,7 +145,7 @@
             </div>
             <div class="col-lg-12 col-md-6 col-sm-8 mt-2">
               <div class="row w-100">
-                <div class="col-4">
+                <div class="col-lg-4 col-md-6 col-sm-6 mt-1">
                   <form [formGroup]="myForm" class="w-100">
                     <angular2-multiselect
                       class="expo-drp-in"
@@ -161,7 +160,7 @@
                 </div>
                 <!-- <ng-container > -->
                 <!-- <ng-container *ngIf="!isStateSlbActive && !isCitySlbActive"> -->
-                <div class="col-4">
+                <div class="col-lg-4 col-md-6 col-sm-6 mt-1">
                   <select
                     class="form-select"
                     id="years"
@@ -183,7 +182,7 @@
                   <!-- Search for ULB Names -->
                   <div
                     *ngIf="isStateSlbActive || isCitySlbActive"
-                    class="col-4"
+                    class="col-lg-3 col-md-6 col-sm-6 mt-1"
                   >
                     <form class="filter-form w-100">
                       <input
@@ -210,7 +209,7 @@
                               (click)="getUlbData(option)"
                               [value]="option?.name"
                             >
-                              <span style="font-size: 10px">
+                              <span style="font-size: 15px">
                                 {{ option?.name }}</span
                               >
                             </mat-option>
@@ -218,6 +217,9 @@
                         </mat-autocomplete>
                       </div>
                     </form>
+                  </div>
+                  <div class="col-lg-1 col-md-6 col-sm-6 mt-1">
+                    <button (click)="resetNationalMap()" class="resetButton">Reset</button>
                   </div>
                 </ng-container>
               </div>
@@ -275,7 +277,7 @@
                 </form>
               </ng-container>
             </div> -->
-            <div class="table-responsive table-con rounded mt-2">
+            <div class="table-responsive table-con rounded mt-4">
               <div *ngIf="!showLoader">
                 <table class="table">
                   <thead>
@@ -290,7 +292,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of tableData?.rows">
+                    <tr *ngFor="let row of tableData?.rows | slice: 1">
                       <td
                         *ngFor="let column of tableData?.columns"
                         class="{{ column?.key }}"

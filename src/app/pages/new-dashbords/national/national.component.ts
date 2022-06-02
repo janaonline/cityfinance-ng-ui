@@ -217,6 +217,7 @@ export class NationalComponent implements OnInit {
       } catch (error) {
         this.bondIssueAmount = 0;
       }
+      
       this.isBondIssueAmountInProgress = false;
       this.frontPanelData.dataIndicators.map((elem) => {
         if (elem?.key == "totalMunicipalBonds") {
