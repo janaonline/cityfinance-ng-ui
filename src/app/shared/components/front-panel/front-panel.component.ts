@@ -86,8 +86,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     public _loaderService: GlobalLoaderService,
     public _commonServices: CommonService,
     private router: Router,
-    public activatedRoute: ActivatedRoute,
-    private slbDashboardService: SlbDashboardService,
+    public activatedRoute: ActivatedRoute
   ) {
     this.ulbList = JSON.parse(localStorage.getItem('ulbList'));
   }
@@ -112,13 +111,6 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       this.getAvailableData();
     });
 
-    this.slbDashboardService.selectedYearData.subscribe(data => {
-      console.log('slbDashboardService', data);
-      if (data) {
-        this.availValue = data;
-        this.halfDoughnutChart();
-      }
-    });
   }
   yearVal = "";
 
@@ -158,8 +150,10 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       stateId: this.data.stateId,
       csv: true,
     };
+    this._loaderService.showLoader();
     this.ownRevenueService.displayDataAvailable(obj).subscribe(
       (res: any) => {
+        this._loaderService.stopLoader();
         let blob: any = new Blob([res], {
           type: "text/json; charset=utf-8",
         });
@@ -167,7 +161,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
         fileSaver.saveAs(blob, "dataAvaliable.xlsx");
       },
-      (error) => {}
+      (error) => {
+        this._loaderService.stopLoader();
+      }
     );
   }
 

@@ -2,14 +2,12 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
-import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SlbDashboardService {
 
-  selectedYearData = new BehaviorSubject<any>('');
   constructor(
     private http: HttpClient,
     private commonService: CommonService,

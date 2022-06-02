@@ -1339,7 +1339,6 @@ export class SlbDashboardComponent
           this.showLoader = false;
           this._loaderService.stopLoader();
           this.tableData = res?.data;
-          this.slbDashboardService.selectedYearData.next(res?.dataAvailability);
         } else {
           this.showLoader = false;
           this._loaderService.stopLoader();
