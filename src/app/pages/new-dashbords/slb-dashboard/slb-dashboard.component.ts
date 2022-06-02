@@ -120,7 +120,7 @@ export class SlbDashboardComponent
   tabId: any="61e150439ed0e8575c881028";
   component_name;
   tabIndex;
-
+  applyFilter:boolean=true
   nationalDataAvailability: Number;
   stateId: any;
   yearValue: any = "2020-21";

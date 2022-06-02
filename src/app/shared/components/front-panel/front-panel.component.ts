@@ -90,7 +90,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
   ) {
     this.ulbList = JSON.parse(localStorage.getItem('ulbList'));
   }
-
+  @Input() appliedFilter='';
   ngOnInit(): void {
     console.log("this.data====>", this.data);
     
