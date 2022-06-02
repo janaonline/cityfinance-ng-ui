@@ -155,6 +155,8 @@
     class="d-flex flex-wrap verticleChart mt-4 justify-content-center"
     *ngIf="multipleCharts"
   >
+
+  <ng-container *ngIf="!selectedulb">
     <div
       *ngFor="let chart of multipleDoughnutCharts; let i = index"
       class="col-12 col-md-12 col-sm-12 d-flex flex-column justify-content-center verticleCharts me-5"
@@ -179,32 +181,58 @@
         </p>
       </div>
     </div>
-    <div class="col-12 verticleChartLabel d-flex">
-      <ul
-        id="horizontal-list"
-        class="flex-wrap customBigScreen"
-        *ngIf="cityClass"
-      >
-        <li
-          *ngFor="let item of multiChartLabel"
-          class="labelPieChart customLeftPadding"
-        >
-          <span [ngStyle]="{ 'background-color': item.color }"></span>
-          <div
-            style="position: relative; bottom: 24px; left: 43px"
-            class="customLabel"
-          >
-            {{ item.text.text }}
-          </div>
-        </li>
-      </ul>
-      <ul id="horizontal-list" class="flex-wrap" *ngIf="!cityClass">
-        <li *ngFor="let item of multiChartLabel">
-          <span [ngStyle]="{ 'background-color': item.color }"></span>
-          {{ item.text }}
-        </li>
-      </ul>
+  </ng-container>
+
+  <ng-container *ngIf="selectedulb">
+    <div
+      *ngFor="let chart of multipleDoughnutCharts; let i = index"
+      class="d-flex flex-column justify-content-center verticleCharts"
+      [ngClass]="{ 'col-md-6': (i == 0 || i == 1), 'col-md-3 me-5': i > 1 }"
+    >
+      <div class="d-flex justify-content-center">
+        <p style="font-size: 100%" class="chart-l text-center">
+          {{ chart?.title }}
+        </p>
+      </div>
+      <div class="d-flex justify-content-center">
+        <p>
+          <canvas
+            id="{{ chart?.id }}{{ i }}"
+            width="100"
+            height="100"
+            [ngClass]="{ mainChart: (i == 0 || i == 1), secondaryCharts: i > 1 }"
+          ></canvas>
+        </p>
+      </div>
     </div>
+  </ng-container>
+
+  <div class="col-12 verticleChartLabel d-flex justify-content-center">
+    <ul
+      id="horizontal-list"
+      class="flex-wrap customBigScreen"
+      *ngIf="cityClass"
+    >
+      <li
+        *ngFor="let item of multiChartLabel"
+        class="labelPieChart customLeftPadding"
+      >
+        <span [ngStyle]="{ 'background-color': item.color }"></span>
+        <div
+          style="position: relative; bottom: 24px; left: 43px"
+          class="customLabel"
+        >
+          {{ item.text.text }}
+        </div>
+      </li>
+    </ul>
+    <ul id="horizontal-list" class="flex-wrap" *ngIf="!cityClass">
+      <li *ngFor="let item of multiChartLabel">
+        <span [ngStyle]="{ 'background-color': item.color }"></span>
+        {{ item.text }}
+      </li>
+    </ul>
+  </div>
   </div>
 
   <div
