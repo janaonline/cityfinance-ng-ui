@@ -1436,7 +1436,6 @@ export class RevenueMixComponent implements OnInit {
               this.mainDoughnutArray[0].data.labels = [];
               this.mainDoughnutArray[0].data.datasets[0].data = [];
               this.mainDoughnutArray[0].data.datasets[0].backgroundColor = [];
-              debugger;
               val.forEach((el2) => {
                 if (el2.hasOwnProperty("colour")) {
                   this.mainDoughnutArray[0].data.datasets[0].backgroundColor.push(

@@ -611,17 +611,17 @@ export class BalanceTableComponent
   valueTypeChange(event) {
     console.log(event.value, "change in value type", this.years);
     this.valueType = event.value;
+
+    if (this.years.length > 0) {
+      this.createMultipleUpdateTable();
+      this.selectedYea(this.years);
+    } else {
+      this.createDataForBasicComp(this.reportGroup);
+    }
     if (this.valueType == "per_capita") {
       this.disableDropDown = true;
     } else {
       this.disableDropDown = false;
-    }
-
-    if (this.years) {
-      // this.createMultipleUpdateTable();
-      this.selectedYea(this.years);
-    } else {
-      this.createDataForBasicComp(this.reportGroup);
     }
   }
 
