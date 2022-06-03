@@ -50,8 +50,9 @@ export class CommonService {
   setHttpHeaders() {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'organisation': '61050419b09e441a5382800c',
+      'x-access-token': sessionStorage.getItem('token') ?? ''
     });
-
     return { headers };
   }
 
@@ -212,7 +213,7 @@ export class CommonService {
   getAnswerOptionList(bodyContent: any, apiEndPoint: any) {
     return this.httpClient
       .post(
-        `https://stagingmgrantadminapi.dhwaniris.in/api/admin/v1/${apiEndPoint}`,
+        `https://stgmandm.mgrant.dhwaniris.com/api/admin/v1/${apiEndPoint}`,
         JSON.stringify(bodyContent),
         this.setHttpHeaders()
       )

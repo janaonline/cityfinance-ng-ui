@@ -1180,7 +1180,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
   @Input() buttonText: string = 'Submit';
   @Input() showFormChange: boolean = false;
-  @Input() showProjectDetailsComp: boolean = false;
+  // @Input() showProjectDetailsComp: boolean = false;
   @Input() formTitle: any = 'Web Form';
   @Input() formDescription: any = '';
   @Output() submitQuestion: EventEmitter<any> = new EventEmitter<any>();
@@ -1198,14 +1198,14 @@ export class AppComponent implements OnInit, OnDestroy {
     // console.log("question", this.questionresponse);
     // this.processQuestion(this.questionresponse)
     // this.getDistrictData();
-    if(typeof this.showSubmitButton == 'string'){
-      let showSubmitButton = this.showSubmitButton.toLowerCase();
-      if(showSubmitButton == 'true' || showSubmitButton == 'yes'){
-        this.showSubmitButton = true;
-      }else{
-        this.showSubmitButton = false;
-      }
-    }
+    // if(typeof this.showSubmitButton == 'string'){
+    //   let showSubmitButton = this.showSubmitButton.toLowerCase();
+    //   if(showSubmitButton == 'true' || showSubmitButton == 'yes'){
+    //     this.showSubmitButton = true;
+    //   }else{
+    //     this.showSubmitButton = false;
+    //   }
+    // }
     if (
       this.isViewMode &&
       this.viewFormTemplate != 'template1' &&
@@ -1217,13 +1217,44 @@ export class AppComponent implements OnInit, OnDestroy {
     if(this.questionresponse && typeof this.questionresponse != 'object'){
       this.questionresponse = JSON.parse(this.questionresponse);
     }
-    this.processQuestion(
-      JSON.parse(JSON.stringify(this.questionresponse)),
-      false
-    );
+    // this.processQuestion(
+    //   JSON.parse(JSON.stringify(this.questionresponse)),
+    //   false
+    // );
   }
 
   ngOnChanges(changes:SimpleChanges){
+    console.log('ngOnChanges', changes);
+    let temp = ["enableEditMode", "showPreviewAnswer", "showFormChange", "isViewMode","showSubmitButton", "isFormSubmittedSuccessfully" ];
+    temp.forEach((el:any) => {
+      let self:any = this;
+      if(changes && changes[el] && changes[el].currentValue){
+        let value = changes[el].currentValue;
+        console.log('editMode', value)
+        if(typeof value == 'string'){
+          value = value.trim();
+          if (value.toLowerCase() == 'true' || value.toLowerCase() == 'yes') {
+            self[el] = true;
+        } else {
+          self[el] = false;
+        }
+        console.log("enableEditMode", this.enableEditMode);
+      }
+      }
+    })
+    // if(changes && changes.enableEditMode && changes.enableEditMode.currentValue){
+    //   let editMode = changes.enableEditMode.currentValue;
+    //   console.log('editMode', editMode)
+    //   if(typeof editMode == 'string'){
+    //     if (editMode.toLowerCase() == 'true' || editMode.toLowerCase() == 'yes') {
+    //       this.enableEditMode = true;
+    //     } else {
+    //       this.enableEditMode = false;
+    //     }
+    //     console.log("enableEditMode", this.enableEditMode);
+    //   }
+    // }
+
     if(changes && changes.questionresponse && changes.questionresponse.currentValue){
       this.questionresponse = changes.questionresponse.currentValue;
       console.log("typeOF",typeof this.questionresponse);
@@ -1430,6 +1461,7 @@ export class AppComponent implements OnInit, OnDestroy {
       );
       if (filterExternalCallAPIQuestions.length > 0) {
         for (const option of filterExternalCallAPIQuestions) {
+          console.log('option', option)
           let findExternalCallValidation = option.validation.find(
             (validation: any) => validation._id == VALIDATION.CALL_EXTERNAL_API
           );
@@ -2678,3 +2710,4 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 }
+
