@@ -335,6 +335,7 @@ export class NationalSubComponent implements OnInit {
     if (this.activetab.includes("Mix")) {
       this.totalRevenue = false;
       this.mixRevenue = true;
+      this.RevenueMixInput.stateId = this.selectedState;
       if (this.popBtn) {
         this.RevenueMixInput.formType = "populationCategory";
       }
@@ -488,6 +489,7 @@ export class NationalSubComponent implements OnInit {
             this.multipleDoughnutChartLabel = [];
             this.createDoughnutChartOptions(res?.data);
             this.doughnutLabels = res?.data?.colourArray;
+            console.log("doughnutLabels", this.doughnutLabels);
             if (this.doughnutLabels.length)
               this.doughnutLabels.forEach((elem, i) => {
                 this.colorArray.push(elem?.colour);

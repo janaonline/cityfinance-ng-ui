@@ -627,6 +627,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           console.log("response data", res);
           //scatter plots center
           let apiData = res["data"];
+          if (res["data"]["scatterData"]?.unitType == "Percent") {
+            this.percentLabel = "(%)";
+          } else {
+            this.percentLabel = res["data"]["scatterData"]?.unitType;
+          }
           if (!this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
             let mCorporation: any;
@@ -638,11 +643,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 "Population",
                 this.filterName
               );
-              if (res["data"]["scatterData"]?.unitType == "Percent") {
-                this.percentLabel = "(%)";
-              } else {
-                this.percentLabel = "";
-              }
+
               m_data =
                 res["data"] &&
                 res["data"]["scatterData"] &&
@@ -1356,6 +1357,12 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     xAxisLabel: string = "Population",
     yAxisLabel: string = "Total Revenue"
   ) {
+    console.log("this.percentLabel", this.percentLabel);
+    let tooltipValue = "";
+    if (this.percentLabel == "(%)") {
+      tooltipValue = "%";
+    }
+
     let scatterOption = {
       legend: {
         itemStyle: {
@@ -1434,7 +1441,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log("tooltipItem", tooltipItem);
+            console.log("tooltipItem", tooltipItem, tooltipValue);
             console.log("data.datasets", data);
             var datasetLabel =
               data.datasets[tooltipItem.datasetIndex].label || "Other";
@@ -1451,7 +1458,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               label && datasetLabel != label ? label : ""
             } ${
               tooltipItem?.yLabel
-                ? `(${tooltipItem?.yLabel} %)`
+                ? `(${tooltipItem?.yLabel} ${tooltipValue})`
                 : `(${tooltipItem?.yLabel})`
             }`;
           },
