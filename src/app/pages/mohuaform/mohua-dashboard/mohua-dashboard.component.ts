@@ -389,7 +389,7 @@ export class MohuaDashboardComponent implements OnInit {
       geoData,
       options: {
         zoom,
-        minZoom: zoom,
+        // minZoom: zoom,
         attributionControl: false,
         doubleClickZoom: false,
         dragging: false,

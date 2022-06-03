@@ -1,6 +1,6 @@
 .card {
-    height: 140px;
-    width: 267px;
+    height: 117px;
+    width: 138px;
     background-color: #12505A;
     border-radius: 5px;
     margin-right: 20px;
@@ -44,7 +44,7 @@
 
 .card-number {
     color: #ffffff;
-    font-size: 30px;
+    font-size: 20px;
     margin-top: 13px;
     font-weight: 430;
 }
@@ -161,6 +161,7 @@
 
 .gauge {
     //  height: 190px;
+    position: relative !important;
 }
 
 .formDonutCharts {
@@ -170,8 +171,8 @@
 }
 
 .gaugeSize {
-    height: 175px;
-    width: 98%;
+    height: 156px;
+    width: 100%;
 }
 
 .my_table tbody tr:focus {
@@ -186,6 +187,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-top: 4px;
+    justify-content: center;
 }
 
 .bottomPart {
@@ -490,7 +492,7 @@ table {
     background-color: #E4FED8;
     border: 1px solid #A6F284;
     border-radius: 4px;
-    height: 100px;
+    // height: 100px;
     width: 100%;
     text-align: center;
     margin: 15px 6px 15px 2px;

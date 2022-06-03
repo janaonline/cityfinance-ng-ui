@@ -13,6 +13,7 @@
 // }
 .pd {
     padding-bottom: 1rem;
+    padding-left: 16px;
 }
 
 .t-c {
@@ -111,7 +112,6 @@ div.active {
 
 .sticky {
     position: fixed;
-    top: 8.5%;
     overflow: hidden;
     z-index: 2;
 }
