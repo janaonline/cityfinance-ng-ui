@@ -36,8 +36,67 @@
     <div
       class="row"
       id="hideHeaderAction"
-      style="display: flex; flex-flow: row; justify-content: flex-end"
+      style="display: flex; flex-flow: row"
     >
+      <div
+        class="col-6 col-lg-8 flex"
+        style="flex-direction: row; display: flex"
+        *ngIf="chartDialogues"
+      >
+        <div class="col-sm-4 col-md-4 mt-2 mx-2">
+          <label
+            (click)="openModal()"
+            class=""
+            style="
+              background-color: white;
+              padding: 4%;
+              border-radius: 8px;
+              border: 1px solid lightgray;
+            "
+          >
+            Compare to {{ compareType }}
+            <mat-icon style="vertical-align: middle">
+              keyboard_arrow_down
+            </mat-icon>
+          </label>
+        </div>
+        <div class="col-sm-4 col-md-4 mt-2">
+          <div class="mr-1" *ngIf="nestedChartFilterOption?.showFinancialYear">
+            <select
+              class="btn compare"
+              (change)="yearValueChange($event.target.value)"
+            >
+              <option
+                [disabled]="i == 0 && disableFirstYear"
+                *ngFor="let yearValue of yearList; let i = index"
+                [value]="yearValue"
+                [selected]="yearValue == year"
+              >
+                {{ yearValue }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4 col-md-4 mt-2">
+          <label
+            *ngIf="nestedChartFilterOption?.showResetButton"
+            (click)="resetState()"
+            style="
+              background-color: white;
+              padding: 4%;
+              border-radius: 8px;
+              border: 1px solid lightgray;
+              height: 3.1rem;
+            "
+          >
+            Reset
+            <img
+              src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+              alt="cancel_off_icon"
+            />
+          </label>
+        </div>
+      </div>
       <div class="col-6 col-lg-4">
         <div class="d-flex justify-content-end">
           <div
@@ -62,7 +121,7 @@
   </div>
   <!-- </div> -->
 
-  <div *ngIf="chartDialogues">
+  <!-- <div *ngIf="chartDialogues">
     <div>
       <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
@@ -120,7 +179,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div *ngIf="singleDoughnutChart">
     <p style="font-size: 1em" class="chart-l text-center">
@@ -157,7 +216,7 @@
   >
     <div
       *ngFor="let chart of multipleDoughnutCharts; let i = index"
-      class="col-12 col-md-12 col-sm-12 d-flex flex-column justify-content-center verticleCharts me-5"
+      class="col-12 col-sm-12 d-flex flex-column justify-content-center verticleCharts me-5"
       [ngClass]="{
         ' col-md-12 ': i == 0,
         ' col-md-3': i > 0
