@@ -8,23 +8,22 @@
                 <div class="col-sm-8 ">
                     <input type="text" autocomplete="name" name="name" class="form-control" [(ngModel)]="formId" placeholder="Enter Form Id and then press Submit" [ngModelOptions]="{standalone: true}" />
                 </div>
-                <div class="col-sm-2"><button class="btn btn-sm btn-primary text-uppercase " (click)="onChangeForm()">Submit</button></div>
+                <div class="col-sm-2">
+                    <button class="btn btn-sm btn-primary text-uppercase " (click)="onChangeForm()">Submit</button>
+                </div>
             </div>
 
             <div class="row mx-0">
                 <div class="col-sm-6" [ngClass]="isOpenChevron ? 'col-sm-6' : 'col-sm-12'">
                     <i *ngIf="showPreviewAnswer" class="fa fa-chevron-circle-left chevron-right" (click)="isOpenChevron = !isOpenChevron"></i>
                     <!-- <div class="col-sm-12 mb-5 card p-3">{{formtitle}}</div> -->
-
-
-
                     <div class="card mt-2 p-3">
                         <div class="row mx-0">
                             <!-- As the references change ngFor will continuously regenerate the DOM
-              However, the presence of trackBy provides ngFor some help.
-              It modifies the behavior so that it compares new data to old based on
-              the return value of the supplied trackBy method.
-              This allows Angular to reduce the amount of DOM update needed -->
+                            However, the presence of trackBy provides ngFor some help.
+                            It modifies the behavior so that it compares new data to old based on
+                            the return value of the supplied trackBy method.
+                            This allows Angular to reduce the amount of DOM update needed -->
                             <!-- myfilter => myfilter is used to filter out visible question -->
                             <ng-container *ngFor="let question of questionData | myfilter; trackBy:identity; let questionIndex = index" [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ question: question, questionIndex:questionIndex, value: [] }">
                             </ng-container>
@@ -52,8 +51,9 @@
                                 <ng-template #defaultAnswer>
                                     <div class="col-sm-12  font-weight-500 text-justify" style="font-size: 90%;">Answer:
                                         <span *ngIf="(question?.acceptableType == 'image/*') && (question?.value)">
-                    <img class="mx-1" [src]="question?.imgUrl ? question?.imgUrl : question?.value" height="60" width="60" style="object-fit:contain; display: block;">
-                  </span> {{question?.selectedValue[0]?.textValue ? question?.selectedValue[0]?.textValue : question?.selectedValue[0]?.value}}
+                                            <img class="mx-1" [src]="question?.imgUrl ? question?.imgUrl : question?.value" height="60" width="60" style="object-fit:contain; display: block;">
+                                        </span>
+                                        {{question?.selectedValue[0]?.textValue ? question?.selectedValue[0]?.textValue : question?.selectedValue[0]?.value}}
                                     </div>
                                 </ng-template>
                             </div>
@@ -61,15 +61,14 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <div class="row float-right mt-4 mx-0 px-3" *ngIf="showSubmitButton">
         <button class="btn btn-sm btn-primary text-uppercase" [disabled]="isImageUploading || isFormSubmittedSuccessfully" (click)="submitForm()">
-      {{buttonText}}
-      <!-- Save -->
-    </button>
+            {{buttonText}}
+            <!-- Save -->
+        </button>
     </div>
 
 
@@ -176,25 +175,30 @@
                     <div class="col-sm-2" *ngIf="question?.value">
                         <ng-container *ngIf="imagesExtension.includes(getFileExtensionFromURL(question?.modelValue))">
                             <span *ngFor="let file of question?.selectedValue">
-                  <img class="mx-1" [src]="file?.value" height="60" width="60" style="object-fit:contain; display: block;">
-                </span>
+                                <img class="mx-1" [src]="file?.value" height="60" width="60" style="object-fit:contain; display: block;">
+                            </span>
                         </ng-container>
                     </div>
                     <div class="pt-2 mt-1" [ngClass]="{'col-sm-12': (!question?.value), 'col-sm-10': (question?.value) }">
                         <div class="custom-file" (click)="imageInputClickHandler($event, question)" [ngClass]="{'disable-question-field': ( question?.isQuestionDisabled ) }">
+
                             <input type="file" id="{{question.order}}" class="form-control d-none" [accept]="question?.acceptableType" (change)="docsInputChangeHandler($event, question)" style="background-color: white !important; border-bottom: 0 !important">
-                            <label class="custom-file-label pointer-hand" for="customFile" [ngClass]="{'invalid-border': question.errorMessage}">{{question.imgLabel ? question.imgLabel : 'Choose
-                  file'}}</label>
+                            <label class="custom-file-label pointer-hand" for="customFile" [ngClass]="{'invalid-border': question.errorMessage}">{{question.imgLabel ? question.imgLabel : 'Choose file'}}</label>
+
 
                             <!-- <button mat-stroked-button type="button" class="mr-3 " (click)="imageInputClickHandler($event, question)">
-                  <mat-icon>file_upload</mat-icon>
-                  File Upload
-                </button> -->
+                                <mat-icon>file_upload</mat-icon>
+                                File Upload
+                            </button> -->
                             <!-- <mat-chip class="mr-2 " *ngFor="let file of question.value">{{file.label}}</mat-chip> -->
                             <!-- <img *ngIf="question.descriptionImageUrl" src="{{question.descriptionImageUrl}}" alt="Image" height="42" width="42"> -->
                             <!-- <button mat-stroked-button type="button" class="ml-2" (click)="addRiskAndMitigation()">
-                  Risk and Mitigation
-                </button> -->
+                            Risk and Mitigation
+                            </button> -->
+
+                            <!-- <app-file-upload #childUpload [fileList]="fileList" [maxFileUpload]="5" [acceptableType]="question?.acceptableType" [template]="'dragdrop'"
+                                (afterSelectionMethod)="docsInputChangeHandler($event, question)" [allowedFileTypes]="allowedFile" [checkType]="true" [multipleSelection]="true">
+                            </app-file-upload> -->
                         </div>
                     </div>
                 </div>

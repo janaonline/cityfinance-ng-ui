@@ -1,0 +1,105 @@
+.dropzone {
+    height: 200px;
+    width: 200px;
+    display: table;
+    width: 100%;
+    background-color: #eee;
+    border: dotted 1px #aaa;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+strong.textLink {
+    // background-color: #3867FF;
+    color: #fff;
+    padding: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
+strong.textLink::before {
+    content: "\f093";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #fff;
+    font-size: large;
+    margin-right: 10px;
+}
+
+.text-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.centered {
+    font-family: sans-serif;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.hr-text {
+    line-height: 1em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: black;
+    text-align: center;
+    height: 1.5em;
+    opacity: 1.5;
+    &:before {
+        content: '';
+        background: linear-gradient(to right, transparent, #818078, transparent);
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+    }
+    &:after {
+        content: attr(data-content);
+        position: relative;
+        display: inline-block;
+        color: black;
+        padding: 0 .5em;
+        line-height: 1.5em;
+        color: #818078;
+        background-color: #fcfcfa;
+    }
+}
+.list-file-height{
+  max-height: 120px !important;
+    overflow: scroll !important;
+}
+.list-file-height{
+  max-height: 120px !important;
+    overflow: scroll !important;
+}
+
+.progress {
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+    display: flex;
+    // font-size: 1.2rem;
+    font-size: 75%;
+    height: 1rem;
+    /* margin-top:0.75rem; */
+    overflow: hidden;
+    width: 100%;
+    margin-top: 4px;
+  }
+  
+  .progress-bar {
+    align-items: center;
+    background-color: #6ac16a !important;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cancel-icon{
+    font-size: 20px;
+    padding-top: 5px;
+    margin-left: 2px;
+  }

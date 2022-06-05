@@ -16,6 +16,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MyFilterPipe } from './myFilterPipe.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import  { createCustomElement } from '@angular/elements';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import  { createCustomElement } from '@angular/elements';
     MyFilterPipe,
     AppComponent,
     SnackBarComponent,
-    WebFormViewComponent
+    WebFormViewComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,7 @@ import  { createCustomElement } from '@angular/elements';
   providers: [],
   exports: [MyFilterPipe],
   entryComponents:[AppComponent],
-  // bootstrap: [AppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule{
   constructor (private injector: Injector){
