@@ -9,7 +9,7 @@
 <div class="container-fluid" style="margin-right: 22px;">
 
     <div class="row cards">
-        <div class="col-sm-3 card">
+        <div class="col-sm-3 col-lg-3 col-md-3 card">
             <div class="row">
                 <div class="col-sm-8">
                     <div class="card-number">{{totalUlbs }}</div>
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 card">
+        <div class="col-sm-3 col-lg-3 col-md-3 card">
             <div class="row">
                 <div class="col-sm-8">
                     <div class="card-number">{{nonMillionCities}}</div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 card">
+        <div class="col-sm-3 col-lg-3 col-md-3 card">
             <div class="row">
                 <div class="col-sm-8">
                     <div class="card-number">{{millionPlusUAs}}</div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3 card" style="margin-right: 0;">
+        <div class="col-sm-3 col-lg-3 col-md-3 card" style="margin-right: 0;">
             <div class="row">
                 <div class="col-sm-9" style="padding-right: 0;">
                     <div class="card-number">{{UlbInMillionPlusUA}}</div>
@@ -67,7 +67,7 @@
         </div>
          <div class="col-sm-4" [matTooltip]="grantTooltip"
         [matTooltipDisabled]="eligibleForGrant">
-            <button class="btn btn-primary" style="margin-top:11px; width:60%" [disabled]="!eligibleForGrant" [routerLink]="['/stateform/grant-claims']" >Claim NMPC-Untied State Grant</button>
+            <button class="btn btn-primary" style="margin-top:11px; width:100%" [disabled]="!eligibleForGrant" [routerLink]="['/stateform/grant-claims']" >Claim NMPC-Untied State Grant</button>
         </div>
 
   </div>
@@ -75,7 +75,7 @@
         <div class="col-sm-4 firstColumn">
             <div class="row" style="font-size: 23px;
              text-align: center;line-height: 70px; margin-top:2px;
-             border-bottom: 1px solid #0000001A; font-weight: 10px;">
+             border-bottom: 1px solid #0000001A; font-weight: 10px;justify-content: center;">
                 Overall ULB Form Status
             </div>
 
@@ -102,21 +102,21 @@
         <div class="col-sm-8">
             <div class="row" style="font-size: 20px;
             text-align: center;line-height: 50px; margin-top:2px;
-            border: 1px solid #0000001A; font-weight: bolder; color: black">
+            border: 1px solid #0000001A; font-weight: bolder; color: black;justify-content: center;">
                 Entry Level Conditions
             </div>
             <div class="row">
                 <div class="col-sm-6 secondColumn">
 
                     <div class="row textInThirdColumn" style="
-    margin-bottom:3px; border-bottom: 1px solid #0000001A; ">
+    margin-bottom:3px; border-bottom: 1px solid #0000001A;justify-content: center;">
                         ULB Annual Accounts Status
                         <a (click)="openDialogAnnual()" style="margin-left: 5px">
                             <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
                         </a>
                         <div style="color:rgb(143, 150, 157); font-size: 12px; font-weight: normal; text-align: center;"> Based on Overall form Status</div>  
                     </div>
-                    <div class="row gauge" style="margin-bottom:12px">
+                    <div class="row gauge" style="position: relative !important;">
                         <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
                             Provisional Account: 2020-2021
                         </div>
@@ -130,7 +130,7 @@
                             position: relative;
                           z-index:2;
                             margin-top: 3px;
-                            margin-left: 3px;
+                            margin-left: 15px;
                             padding-top: 22px;">
                                 <canvas id="chartDiv"></canvas>
 
@@ -141,7 +141,7 @@
             font-weight: bold;
 
             bottom: 94px;
-            width: 98%;
+            width: 100%;
             text-align: center;
             margin-left: 13px;">
                                 {{values.annualAcc_provisional}}<small>%</small>
@@ -158,7 +158,7 @@
                             Target for 15th FC - 25%
                         </div>
                     </div>
-                    <div class="row gauge">
+                    <div class="row gauge" style="position: relative !important;">
                         <div style="margin-top:10px;text-align: center; font-weight: 450; font-size: 16px;">
                             Audited Account: 2019-2020
                         </div>
@@ -173,7 +173,7 @@
                             position: relative;
                             z-index: 2;
                             margin-top: 3px;
-                            margin-left: 3px;
+                            margin-left: 15px;
                             padding-top: 22px;">
                                 <canvas id="chartDiv2"></canvas>
 
@@ -184,7 +184,7 @@
             font-weight: bold;
 
             bottom: 94px;
-            width: 98%;
+            width: 100%;
             text-align: center;
             margin-left: 13px;">
                                 {{values.annualAcc_audited}}<small>%</small>
@@ -225,9 +225,9 @@
     </div> -->
                     <div class="row formDonutCharts">
                         <div class="textInThirdColumn"
-                            style="margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem ">
+                            style="margin-bottom:3px; border-bottom: 1px solid #0000001A; margin-bottom:5rem;justify-content: center;">
                             ULB Utilisation Report Status
-
+                            <br>
                             <span style="margin-left: 30px;">
                                 <a (click)="openDialogUtil()">
                                     <img src="../../../../assets/stateform/clipboard (1).png" width="22px"

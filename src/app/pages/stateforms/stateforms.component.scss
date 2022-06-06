@@ -3,7 +3,7 @@
     width: 18%;
     padding-left: 15px;
     padding-right: 3px;
-    height: 600px;
+    // height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -14,13 +14,12 @@
 //     left: 233px;
 // }
 .pd {
-    padding-bottom: 1rem;
+    padding-bottom: 1px;
 }
 
 .t-c {
     color: #FFFFFF;
 }
-
 div.active {
     background-color: #FFFFFF;
     .linktext {
@@ -74,6 +73,9 @@ div.active {
 
 .link-div {
     background-color: #114551;
+    height: 72px;
+    padding-top: 2%;
+    padding-left: 8%;
 }
 
 .link-div-u {
@@ -124,6 +126,7 @@ div.active {
 .mat-icon {
     width: 20px;
     height: 0px;
+    padding-bottom: 14px;
 }
 
 .material-icons {
@@ -145,11 +148,11 @@ div.active {
 
 .sticky {
     position: fixed;
-    top: 9%;
+    // top: 9%;
     overflow-x: hidden;
     overflow-y: auto;
     //  z-index: 10;
-    height: 69%;
+    height: 100%;
     width: 18%;
 }
 

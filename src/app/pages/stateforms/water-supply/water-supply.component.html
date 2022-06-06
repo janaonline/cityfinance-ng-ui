@@ -107,7 +107,7 @@
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td>
-                                <div class="input-group data-input">
+                                <div class="data-input">
 
                                     <input type="text" disabled [value]="getData[0].waterSuppliedPerDay2021"
                                         [id]="service.key + 'baseline'" class="form-control">
@@ -118,7 +118,7 @@
                             </td>
                             <td *ngFor="let year of targets">
 
-                                <div class="input-group data-input">
+                                <div class="data-input">
                                     <input type="text" disabled [value]="getData[0]['waterSuppliedPerDay'+year.key]"
                                         [id]="service.key + year.key" class="form-control">
                                     <span class="input-group-addon "><em class="glyphicon ">
@@ -137,7 +137,7 @@
                                 <span class="benchamark-cell ">{{ service.benchmark }}</span>
                             </td>
                             <td>
-                                <div class="input-group data-input ">
+                                <div class="data-input ">
                                     <input type="text" disabled [value]="getData[0].reduction2021"
                                         [id]="service.key + 'baseline' " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
@@ -146,7 +146,7 @@
                                 </div>
                             </td>
                             <td *ngFor="let year of targets ">
-                                <div class="input-group data-input ">
+                                <div class="data-input ">
                                     <input type="text " disabled [value]="getData[0]['reduction'+year.key]"
                                         [id]="service.key + year.key " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
@@ -165,7 +165,7 @@
                                 <span class="benchamark-cell">{{ service.benchmark }}</span>
                             </td>
                             <td>
-                                <div class="input-group data-input ">
+                                <div class="data-input ">
                                     <input type="text" disabled [value]="getData[0].houseHoldCoveredWithSewerage2021"
                                         [id]="service.key + 'baseline' " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
@@ -174,7 +174,7 @@
                                 </div>
                             </td>
                             <td *ngFor="let year of targets ">
-                                <div class="input-group data-input ">
+                                <div class="data-input ">
                                     <input type="text" disabled
                                         [value]="getData[0]['houseHoldCoveredWithSewerage'+year.key]"
                                         [id]="service.key + year.key " class="form-control ">
@@ -194,7 +194,7 @@
                                 <span class="benchamark-cell ">{{ service.benchmark }}</span>
                             </td>
                             <td>
-                                <div class="input-group data-input ">
+                                <div class="data-input ">
                                     <input type="text" disabled [value]="getData[0].houseHoldCoveredPipedSupply2021"
                                         [id]="service.key + 'baseline' " class="form-control ">
                                     <span class="input-group-addon "><em class="glyphicon ">
@@ -203,7 +203,7 @@
                                 </div>
                             </td>
                             <td *ngFor="let year of targets ">
-                                <div class="input-group data-input ">
+                                <div class="data-input ">
                                     <input type="text" disabled
                                         [value]="getData[0]['houseHoldCoveredPipedSupply'+year.key]"
                                         [id]="service.key + year.key " class="form-control ">
@@ -233,7 +233,7 @@
     <div class="col-sm-6 col-md-6 col-lg-6" style="padding: 0;">
         <button type="button " class="btn back" [routerLink]="[ '../gtCertificate']">BACK</button>
     </div>
-    <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="padding: 0;">
+    <div class="col-sm-6 col-md-6 col-lg-6 text-right" style="padding: 0;text-align: end;">
         <button type="button " class="btn saveBtn" [routerLink]="[ '../water-rejenuvation']">NEXT</button>
     </div>
 </div>

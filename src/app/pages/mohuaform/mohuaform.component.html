@@ -2,7 +2,7 @@
 loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
     <div class="row" style="position: relative; display: block;">
         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c tabs is-centered is-fullwidth" #stickyMenu
-            [class.sticky]="sticky" style="margin-top: 1px;">
+            [class.sticky]="sticky">
             <div class="row" style="background-color: #FFC500; ">
                 <a [routerLink]="['../fc-home-page']">
                     <h5 class="pd" style="font-size: 14px;">
@@ -19,7 +19,7 @@ loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
             </div>
 
             <div class="row link-div" routerLinkActive="active">
-                <a [routerLink]="['dashboard']">
+                <a [routerLink]="['dashboard']" style="font-size: small;">
                     <div class="col-sm-9 col-xs-9 linktext pd">
                         <img src="../../../assets/ulbform/dh.png" style="margin-right: 11px;" class="svg-gt">
                         Dashboard
@@ -30,7 +30,7 @@ loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
                 </a>
             </div>
             <div class="row link-div" routerLinkActive="active">
-                <a [routerLink]="['review-state']">
+                <a [routerLink]="['review-state']" style="font-size: small;">
                     <div class="col-sm-9 col-xs-9 linktext pd">
                         <img src="../../../assets//stateform/review.svg" class="svg-gt" style="margin-right: 11px;">
                         Review State Forms
@@ -41,7 +41,7 @@ loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
                 </a>
             </div>
             <div class="row link-div" routerLinkActive="active">
-                <a [routerLink]="['review-ulb']">
+                <a [routerLink]="['review-ulb']" style="font-size: small;">
                     <div class="col-sm-9 col-xs-9 linktext pd" style="width:80%">
                         <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt" style="margin-right: 11px;">
                         Review Grant Application
@@ -52,7 +52,7 @@ loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
                 </a>
             </div>
             <div class="row link-div" routerLinkActive="active">
-                <a [routerLink]="['gt-mohua']">
+                <a [routerLink]="['gt-mohua']" style="font-size: small;">
                     <div class="col-sm-9 col-xs-9 linktext pd">
                         <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt" style="margin-right: 11px;">
                         Grant Transfer
