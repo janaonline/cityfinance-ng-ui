@@ -189,7 +189,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let row of tableData?.rows | slice:1">
+              <tr *ngFor="let row of tableData?.rows | slice: 1">
                 <td
                   *ngFor="let column of tableData?.columns"
                   class="{{ column?.key }}"
@@ -223,7 +223,7 @@
       </div>
     </div>
     <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
-      <div class="card-body barCon" style="overflow:scroll">
+      <div class="card-body barCon" style="overflow: scroll">
         <div
           class="float-right right"
           *ngIf="activetab !== 'Deficit or Surplus'"
@@ -242,11 +242,9 @@
             <!-- <option value="revenuePerCapita">Revenue Per Capita</option> -->
           </select>
         </div>
-          <div class="wrapperCanvas">  
-            <canvas id="canvas">{{
-              chart
-            }}</canvas>
-          </div>
+        <div class="wrapperCanvas">
+          <canvas id="canvas">{{ chart }}</canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -256,9 +254,9 @@
     <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
       <!-- <div *ngIf="loader">Loading</div> -->
       <div class="card-body barCon">
-        <div class="w-75 m-auto h-75">
+        <div class="w-50 m-auto h-50">
           <h3 class="chart-l text-center">National</h3>
-          <canvas id="doughnut" style="width: 80vw; height: 80vh"></canvas>
+          <canvas id="doughnut" style="width: 50vw; height: 50vh"></canvas>
         </div>
         <div class="row mx-auto justify-content-center">
           <div

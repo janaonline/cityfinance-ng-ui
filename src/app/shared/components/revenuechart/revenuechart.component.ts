@@ -33,6 +33,10 @@ export class RevenuechartComponent
   implements OnInit, AfterViewInit, OnChanges
 {
   @Input()
+  cityChart: boolean = false;
+  @Input()
+  stateChart: boolean = false;
+  @Input()
   chartDialogues = false;
   @Input()
   chartOptions;
@@ -368,7 +372,9 @@ export class RevenuechartComponent
       "multiChartLabelsss===>",
       this.multiChartLabel,
       this.singleDoughnutChart,
-      this.multipleCharts
+      this.multipleCharts,
+      this.stateChart,
+      this.cityChart
     );
     this.stateName = this.stateMap[this.stateId];
     // window.onload = () => {

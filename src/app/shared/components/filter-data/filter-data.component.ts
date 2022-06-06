@@ -1033,7 +1033,7 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        let tempColor = "#038386";
+        let tempColor = "#00ff80";
         if (value.color == tempColor) {
           other_receipt.colour = value.colour;
         } else {
