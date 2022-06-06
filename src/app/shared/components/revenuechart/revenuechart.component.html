@@ -1,10 +1,10 @@
 <div
-  id="multiChartId"
+  [id]="'canvasDiv' + chartId"
   class="container rounded flex-column pb-5"
   style="background: #fffbef 0% 0% no-repeat padding-box"
 >
   <!-- <div class="col-12 revenuChartContainer d-flex"> -->
-  <div class="row pt-2 align-items-center">
+  <div class="row pt-2 align-items-center" >
     <!-- <div class="d-flex justify-content-between"> -->
     <div class="col-12 col-lg-12">
       <p
@@ -18,8 +18,7 @@
         {{ chartTitle }}
       </p>
     </div>
-    <div
-      id="hideHeaderAction"
+    <div id="hideHeaderAction"
       *ngIf="!chartDialogues && btnBesideText"
       class="col-12 col-md-3 col-lg-2 btnBesideTitle"
     >
@@ -33,9 +32,8 @@
         </span>
       </a>
     </div>
-    <div
+    <div id="hideHeaderAction"
       class="row"
-      id="hideHeaderAction"
       style="display: flex; flex-flow: row; justify-content: flex-end"
     >
       <div class="col-6 col-lg-4">
@@ -62,7 +60,7 @@
   </div>
   <!-- </div> -->
 
-  <div *ngIf="chartDialogues">
+  <div *ngIf="chartDialogues" id="hideHeaderAction">
     <div>
       <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
@@ -122,7 +120,7 @@
     </div>
   </div>
 
-  <div *ngIf="singleDoughnutChart">
+  <div *ngIf="singleDoughnutChart" class="mt-3 mb-3" id="visibility-hidden">
     <p style="font-size: 1em" class="chart-l text-center">
       {{ stateName }}
     </p>
@@ -131,10 +129,24 @@
   <div
     class="mt-2"
     *ngIf="!notFound && !multipleCharts"
-    [id]="'canvasDiv' + chartId"
+
     style="width: 100%; overflow-x: auto; overflow-y: hidden"
   >
-    <!-- style="width: auto; min-width: 720px; height: 470px" -->
+  <!-- <div class="col-12 visibility-hidden" id="visibility-hidden">
+    <div class="">
+      <p class="p-2" class="chartHeader">
+        {{ chartTitle }}
+      </p>    
+    </div>
+  </div> -->
+
+  <!-- <div *ngIf="singleDoughnutChart" id="visibility-hidden">
+    <p style="font-size: 1em" class="chart-l text-center">
+      {{ stateName }}
+    </p>
+  </div> -->
+
+  <!-- style="width: auto; min-width: 720px; height: 470px" -->
     <!-- style="min-width: 354px; height: 510px" -->
     <div *ngIf="!notFound">
       <!-- <div [ngClass]="{ canvasResponsive: cityClass }"> -->
@@ -165,7 +177,7 @@
         ' col-md-3': i > 0
       }"
     >
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center mt-3 mb-3">
         <p style="font-size: 100%" class="chart-l text-center">
           {{ chart?.title }}
         </p>
@@ -189,7 +201,7 @@
       class="d-flex flex-column justify-content-center verticleCharts"
       [ngClass]="{ 'col-md-6': (i == 0 || i == 1), 'col-md-3 me-5': i > 1 }"
     >
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center mt-3 mb-3">
         <p style="font-size: 100%" class="chart-l text-center">
           {{ chart?.title }}
         </p>

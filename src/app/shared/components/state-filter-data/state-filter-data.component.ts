@@ -633,16 +633,19 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             let tp_data: any;
             let m_data: any;
             let stateData: any;
+            let yAxesLabelName = '';
+            this.percentLabel = '';
             if (this.stateServiceLabel) {
+              if (res["data"]["scatterData"]?.unitType == "Percent") {
+                this.percentLabel = 'percent';
+                yAxesLabelName = `${this.filterName} (%)`;
+              } else {
+                yAxesLabelName = res["data"]["scatterData"]?.unitType ? res["data"]["scatterData"]?.unitType : this.filterName;
+              }
               this.setServiceLevelBenchmarkScatteredChartOption(
                 "Population",
-                this.filterName
+                yAxesLabelName
               );
-              if (res["data"]["scatterData"]?.unitType == "Percent") {
-                this.percentLabel = "(%)";
-              } else {
-                this.percentLabel = "";
-              }
               m_data =
                 res["data"] &&
                 res["data"]["scatterData"] &&
@@ -1356,6 +1359,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     xAxisLabel: string = "Population",
     yAxisLabel: string = "Total Revenue"
   ) {
+    let tooltipValue = "";
+    if (this.percentLabel == "percent") {
+      tooltipValue = "%";
+    }
     let scatterOption = {
       legend: {
         itemStyle: {
@@ -1417,9 +1424,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             scaleLabel: {
               display: true,
-              labelString: `${this._commonServices.toTitleCase(yAxisLabel)} ${
-                this.percentLabel
-              } `,
+              labelString: `${this._commonServices.toTitleCase(yAxisLabel)}`,
               fontStyle: "bold",
             },
             gridLines: {
@@ -1451,7 +1456,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               label && datasetLabel != label ? label : ""
             } ${
               tooltipItem?.yLabel
-                ? `(${tooltipItem?.yLabel} %)`
+                ? `(${tooltipItem?.yLabel} ${tooltipValue})`
                 : `(${tooltipItem?.yLabel})`
             }`;
           },
@@ -1482,7 +1487,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
 
-    this.serviceLevelBenchmarkScatterOption = scatterOption;
+    this.serviceLevelBenchmarkScatterOption = Object.assign(scatterOption);
   }
 
   getServiceLevelBenchmarkBarChartData() {

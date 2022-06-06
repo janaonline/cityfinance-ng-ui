@@ -754,16 +754,29 @@ export class RevenuechartComponent
 
   getImage() {
     let id = "canvasDiv" + this.chartId;
+    // let id = this.multipleCharts ? "multiChartId" : `canvasDiv${this.chartId}`;
+    // let id = "multiChartId";
     let hideHeaderAction: any = HTMLElement;
+    let visibilityHidden: any = HTMLElement;
+
     /**
      * Declaring a variable called hideHeaderAction and assigning the display-none class to remove the compare dialog and download action
      * and at the end we remove the display-none class
      */
-    if (this.multipleCharts) {
-      id = "multiChartId";
-      hideHeaderAction = document.querySelectorAll('[id*="hideHeaderAction"]');
-      hideHeaderAction.forEach((item) => {
-        item.classList.add("display-none");
+    // if (this.multipleCharts) {
+    //   id = "multiChartId";
+    // }
+    hideHeaderAction = document.querySelectorAll('[id*="hideHeaderAction"]');
+    hideHeaderAction.forEach((item) => {
+      item.classList.add("display-none");
+    });
+
+    /* Adding the class "visibility-show" and "m-2" to all elements with an id that contains
+    "visibility-hidden". */
+    visibilityHidden = document.querySelectorAll('[class*="visibility-hidden"]');
+    if (visibilityHidden) {
+      visibilityHidden.forEach((item) => {
+        item.classList.add("visibility-show", "m-2");
       });
     }
 
@@ -778,11 +791,20 @@ export class RevenuechartComponent
       link.download = `Chart ${this.chartId ? this.chartId : ""}.png`;
       link.click();
 
-      if (this.multipleCharts && hideHeaderAction) {
+      if (hideHeaderAction) {
         hideHeaderAction.forEach((item) => {
           item.classList.remove("display-none");
         });
       }
+
+      /* Removing the class "visibility-show" and "m-2" from the elements that have the class
+      "visibility-hidden". */
+      if (visibilityHidden) {
+        visibilityHidden.forEach((item) => {
+          item.classList.remove("visibility-show", "m-2");
+        });
+      }
+
       this._loaderService.stopLoader();
     });
   }
@@ -874,7 +896,7 @@ export class RevenuechartComponent
     tabType: string,
     yAxisLabel: string
   ) {
-    let sortBy = this.apiParamData?.hasOwnProperty("sortBy")
+    let sortBy = (this.apiParamData?.sortBy && (this.apiParamData?.sortBy != 'true' || this.apiParamData?.sortBy != 'false')) ? this.apiParamData?.sortBy : this.apiParamData?.hasOwnProperty("sortBy")
       ? JSON.parse(this.apiParamData?.sortBy)
       : false;
     let sortingType = sortBy ? "top" : "bottom";
@@ -1017,12 +1039,12 @@ export class RevenuechartComponent
         ? undefined
         : this.apiParamData?.headOfAccount,
       filterName: this.apiParamData?.filterName,
-      isPerCapita: this.apiParamData.hasOwnProperty("isPerCapita")
+      isPerCapita: (this.apiParamData.hasOwnProperty("isPerCapita") && this.apiParamData['isPerCapita'])
         ? JSON.parse(this.apiParamData?.isPerCapita)
-        : false,
+        : "",
       compareCategory: this.apiParamData?.compareCategory,
       compareType: stateServiceLabel ? undefined : "",
-      ulb: this.apiParamData?.ulb,
+      ulb: this.apiParamData?.ulb ? this.apiParamData?.ulb : [],
       widgetMode: this.widgetMode,
     };
     let apiEndPoint = stateServiceLabel ? "state-slb" : "state-revenue";
