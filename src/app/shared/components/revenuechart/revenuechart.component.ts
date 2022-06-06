@@ -33,6 +33,10 @@ export class RevenuechartComponent
   implements OnInit, AfterViewInit, OnChanges
 {
   @Input()
+  cityChart: boolean = false;
+  @Input()
+  stateChart: boolean = false;
+  @Input()
   chartDialogues = false;
   @Input()
   chartOptions;
@@ -362,13 +366,15 @@ export class RevenuechartComponent
   multiChart: boolean = false;
   scatterData: any;
   iFrameApiPayload: any;
-
+  @Input() sourceDashboardName: string = '';
   ngOnInit(): void {
     console.log(
       "multiChartLabelsss===>",
       this.multiChartLabel,
       this.singleDoughnutChart,
-      this.multipleCharts
+      this.multipleCharts,
+      this.stateChart,
+      this.cityChart
     );
     this.stateName = this.stateMap[this.stateId];
     // window.onload = () => {
@@ -781,6 +787,7 @@ export class RevenuechartComponent
     }
 
     let html = document.getElementById(id);
+    let downloadChartName = this.sourceDashboardName ? `${this.sourceDashboardName}_Chart` : `Chart ${this.chartId ? this.chartId : ""}`;
     html2canvas(html).then((canvas) => {
       let image = canvas
         .toDataURL("image/png")
@@ -788,7 +795,7 @@ export class RevenuechartComponent
       // window.open(image)
       var link = document.createElement("a");
       link.href = image;
-      link.download = `Chart ${this.chartId ? this.chartId : ""}.png`;
+      link.download = `${downloadChartName}.png`;
       link.click();
 
       if (hideHeaderAction) {

@@ -326,6 +326,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   currentActiveTab: string = "";
   mainTab: string = "";
   @Input() selectedStateId: any;
+  sourceDashboardName: string = 'State Dashboard';
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -1439,7 +1440,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log("tooltipItem", tooltipItem);
+            console.log("tooltipItem", tooltipItem, tooltipValue);
             console.log("data.datasets", data);
             var datasetLabel =
               data.datasets[tooltipItem.datasetIndex].label || "Other";

@@ -58,6 +58,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   cityId: any;
   barWidth: any;
   barWidthRender: any;
+  sourceDashboardName: string = 'City Dashboard';
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((paramData) => {
       console.log("cityId", paramData);
@@ -1033,7 +1034,7 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        let tempColor = "#038386";
+        let tempColor = "#00ff80";
         if (value.color == tempColor) {
           other_receipt.colour = value.colour;
         } else {
