@@ -190,6 +190,7 @@
           [nestedChartFilterOption]="nestedChartFilterOption"
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
+          [sourceDashboardName]="sourceDashboardName"
         ></app-revenuechart>
       </div>
       <div class="col-md-12" *ngIf="stateServiceLabel">
@@ -203,6 +204,7 @@
           [scatterOption]="serviceLevelBenchmarkScatterOption"
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
+          [sourceDashboardName]="sourceDashboardName"
         ></app-revenuechart>
       </div>
     </div>
@@ -341,16 +343,8 @@
         [notFound]="barChartNotFound"
         (actionClicked)="getClickedAction($event)"
         [getChartPayload]="barChartPayload"
+        [sourceDashboardName]="sourceDashboardName"
       ></app-revenuechart>
-      <!-- <app-revenuechart
-        *ngIf="BarGraphValue === false"
-        [headerActions]="headerActions"
-        [chartTitle]="
-          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
-        "
-        [chartId]="bottomBarChartId456"
-        [chartData]="bottomBarData"
-      ></app-revenuechart> -->
     </div>
   </div>
 </div>

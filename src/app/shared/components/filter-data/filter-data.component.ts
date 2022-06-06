@@ -58,6 +58,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   cityId: any;
   barWidth: any;
   barWidthRender: any;
+  sourceDashboardName: string = 'City Dashboard';
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((paramData) => {
       console.log("cityId", paramData);

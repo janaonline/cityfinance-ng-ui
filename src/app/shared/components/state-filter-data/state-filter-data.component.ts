@@ -326,6 +326,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   currentActiveTab: string = "";
   mainTab: string = "";
   @Input() selectedStateId: any;
+  sourceDashboardName: string = 'State Dashboard';
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -627,23 +628,25 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           console.log("response data", res);
           //scatter plots center
           let apiData = res["data"];
-          if (res["data"]["scatterData"]?.unitType == "Percent") {
-            this.percentLabel = "(%)";
-          } else {
-            this.percentLabel = res["data"]["scatterData"]?.unitType;
-          }
           if (!this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
             let mCorporation: any;
             let tp_data: any;
             let m_data: any;
             let stateData: any;
+            let yAxesLabelName = '';
+            this.percentLabel = '';
             if (this.stateServiceLabel) {
+              if (res["data"]["scatterData"]?.unitType == "Percent") {
+                this.percentLabel = 'percent';
+                yAxesLabelName = `${this.filterName} (%)`;
+              } else {
+                yAxesLabelName = res["data"]["scatterData"]?.unitType ? res["data"]["scatterData"]?.unitType : this.filterName;
+              }
               this.setServiceLevelBenchmarkScatteredChartOption(
                 "Population",
-                this.filterName
+                yAxesLabelName
               );
-
               m_data =
                 res["data"] &&
                 res["data"]["scatterData"] &&
@@ -1357,12 +1360,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     xAxisLabel: string = "Population",
     yAxisLabel: string = "Total Revenue"
   ) {
-    console.log("this.percentLabel", this.percentLabel);
     let tooltipValue = "";
-    if (this.percentLabel == "(%)") {
+    if (this.percentLabel == "percent") {
       tooltipValue = "%";
     }
-
     let scatterOption = {
       legend: {
         itemStyle: {
@@ -1424,9 +1425,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             scaleLabel: {
               display: true,
-              labelString: `${this._commonServices.toTitleCase(yAxisLabel)} ${
-                this.percentLabel
-              } `,
+              labelString: `${this._commonServices.toTitleCase(yAxisLabel)}`,
               fontStyle: "bold",
             },
             gridLines: {
@@ -1489,7 +1488,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
 
-    this.serviceLevelBenchmarkScatterOption = scatterOption;
+    this.serviceLevelBenchmarkScatterOption = Object.assign(scatterOption);
   }
 
   getServiceLevelBenchmarkBarChartData() {
