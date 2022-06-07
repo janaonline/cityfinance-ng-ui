@@ -30,7 +30,8 @@ export class StateFilterDataService {
           },
           scaleLabel: {
             display: true,
-            labelString: "City Ranking",
+            // labelString: "City Ranking",
+            labelString: "Cities",
             fontStyle: "bold",
           },
         },
@@ -113,7 +114,8 @@ export class StateFilterDataService {
           },
           scaleLabel: {
             display: true,
-            labelString: "City Ranking",
+            // labelString: "City Ranking",
+            labelString: "Cities",
             fontStyle: "bold",
           },
         },
@@ -196,7 +198,8 @@ export class StateFilterDataService {
           },
           scaleLabel: {
             display: true,
-            labelString: "City Ranking",
+            // labelString: "City Ranking",
+            labelString: "Cities",
             fontStyle: "bold",
           },
         },
@@ -292,7 +295,8 @@ export class StateFilterDataService {
           },
           scaleLabel: {
             display: true,
-            labelString: "City Ranking",
+            // labelString: "City Ranking",
+            labelString: "Cities",
             fontStyle: "bold",
           },
         },

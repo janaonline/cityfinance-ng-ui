@@ -263,7 +263,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       ],
       datasets: [
         {
-          label: "City Ranking",
+          // label: "City Ranking",
+          label: "Cities",
           data: [13, 20, 30, 40, 50, 60, 70, 80, 90, 100],
           backgroundColor: [
             "#1E44AD",
@@ -1298,7 +1299,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         labels: responseData.map((item: { ulbName: any }) => item.ulbName),
         datasets: [
           {
-            label: "City Ranking",
+            // label: "City Ranking",
+            label: "Cities",
             displayLabel: false,
             data: this.getChartData(responseData, tabType, yAxisLabel),
             backgroundColor: [
