@@ -79,7 +79,7 @@
                 <p style="margin-left: 5px; font-weight: 500;">15<sup>th</sup> FC Tied Grant Status for the Financial Year 2020-21<span style="color: red;">*</span></p>
 
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-6">
                         <label for="" class="labelField">i. Unutilised Tied Grants from previous installment (INR in
                             lakhs)  
                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Please enter the balance amount brought forward from the previous instalment." matTooltipPosition="above" style="float: right;">
@@ -89,7 +89,7 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <input  disabled = "true" class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
@@ -101,7 +101,7 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-6">
                         <label for="" class="labelField">ii. 15<sup>th</sup> F.C. Tied grant received for the year
                             (1st & 2nd installment taken together) (INR in lakhs)
                         
@@ -111,7 +111,7 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="grantRecLabel"> -->
 
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.receivedDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('receivedDuringYr')" formControlName="receivedDuringYr"
                             appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.receivedDuringYr.touched || submitted) &&
@@ -134,7 +134,7 @@
                         <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
 
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <input class="form-control inputfield" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required)? '1px solid red' : '' }" (change)="calAmount('expDuringYr')" formControlName="expDuringYr" appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.expDuringYr.touched || submitted) &&
                        utiReportFormControl.grantPosition.controls.expDuringYr.errors?.required" style="margin-left: 10px;">

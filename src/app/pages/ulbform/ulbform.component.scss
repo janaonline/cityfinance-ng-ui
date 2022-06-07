@@ -128,17 +128,46 @@
         //  color: #fff;
         width: 150px;
     }
-    
-    .sticky {
-        position: fixed;
-        top: 9%;
-        overflow-x: hidden;
-        overflow-y: auto;
-        z-index: 10;
-        height: 69%;
-        //  width: 20%;
+    .stiHieght{
+        // position: fixed;
+        // height: 19%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
-    
+    .sticky {
+        // position: fixed;
+        // top: 19%;
+        // overflow-x: hidden;
+        // overflow-y: auto;
+        // z-index: 10;
+        // height: 69%;
+        //  width: 20%;
+        position: fixed;
+        width: 16.66666667%;
+        top: 1px;
+    }
+    @media screen and (max-width: 1170px) {
+        .stiHieght{
+            // position: fixed;
+            // height: 19%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .sticky {
+            // position: fixed;
+            // top: 19%;
+            // overflow-x: hidden;
+            // overflow-y: auto;
+            // z-index: 10;
+            // height: 69%;
+            //  width: 20%;
+            position: fixed;
+            width: 16.66666667%;
+            top: 1px;
+        }
+    }
     .sticky-se {
         position: fixed;
         top: 9%;

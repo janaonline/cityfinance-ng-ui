@@ -1,6 +1,6 @@
 .sidebar {
     margin-top: 1px;
-    width: 18%;
+    // width: 18%;
     padding-left: 15px;
     padding-right: 3px;
     // height: 600px;
@@ -73,7 +73,7 @@ div.active {
 
 .link-div {
     background-color: #114551;
-    height: 72px;
+    // height: 36px;
     padding-top: 2%;
     padding-left: 8%;
 }
@@ -146,14 +146,51 @@ div.active {
     width: 150px;
 }
 
+.stiHieght{
+    // position: fixed;
+    // height: 19%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
 .sticky {
+    // position: fixed;
+    // top: 19%;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+    // z-index: 10;
+    // height: 69%;
+    //  width: 20%;
     position: fixed;
-    // top: 9%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    //  z-index: 10;
-    height: 100%;
-    width: 18%;
+    width: 16.66666667%;
+    top: 1px;
+}
+@media screen and (max-width: 1170px) {
+    .stiHieght{
+        // position: fixed;
+        // height: 19%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .sideNav {
+        background-color: #F2F2F2;
+        height: 600px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .sticky {
+        // position: fixed;
+        // top: 19%;
+        // overflow-x: hidden;
+        // overflow-y: auto;
+        // z-index: 10;
+        // height: 69%;
+        //  width: 20%;
+        position: fixed;
+        width: 16.66666667%;
+        top: 1px;
+    }
 }
 
 .sticky-se {
@@ -162,7 +199,7 @@ div.active {
     overflow-x: hidden;
     overflow-y: auto;
     //   z-index: 10;
-    height: 90%;
+    height: 20%;
     width: 18%;
 }
 
