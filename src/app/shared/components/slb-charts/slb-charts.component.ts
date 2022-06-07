@@ -89,7 +89,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     console.log("slbChartOnChanges", changes);
     if (changes.data) {
       this.aboutSlbCharts = this.data?.mainContent[0]?.about;
-      this.getData();
+      // this.getData();
     }
     if (changes.cityId) {
       this.ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
@@ -99,6 +99,8 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       console.log(this.year);
       // this.getData();
     }
+
+    this.getData();
   }
 
   CompFlag: any = "";
