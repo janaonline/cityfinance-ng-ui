@@ -191,6 +191,7 @@
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
           [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="financialYear"
         ></app-revenuechart>
       </div>
       <div class="col-md-12" *ngIf="stateServiceLabel">
@@ -205,6 +206,7 @@
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
           [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="financialYear"
         ></app-revenuechart>
       </div>
     </div>
@@ -344,6 +346,7 @@
         (actionClicked)="getClickedAction($event)"
         [getChartPayload]="barChartPayload"
         [sourceDashboardName]="sourceDashboardName"
+        [selectedFinancialYear]="financialYear"
       ></app-revenuechart>
     </div>
   </div>
