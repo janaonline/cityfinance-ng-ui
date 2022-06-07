@@ -915,7 +915,8 @@ export class RevenuechartComponent
         labels: responseData.map((item: { ulbName: any }) => item.ulbName),
         datasets: [
           {
-            label: "City Ranking",
+            // label: "City Ranking",
+            label: "Cities",
             displayLabel: false,
             data: this.getChartData(responseData, tabType, yAxisLabel),
             backgroundColor: [

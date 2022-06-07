@@ -84,7 +84,7 @@ export class NewHomeComponent implements OnInit {
     {
       title: '',
       label: 'Service Level Benchmarks',
-      text: 'Track your city’s performance across five themes and 32 key indicators.',
+      text: 'Track your city’s performance across five themes and 28 key indicators.',
       icon: '../../../assets/new_dashBord_ftr_hdr/slb/Group 15493.png',
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/dashboard/slb'
@@ -105,8 +105,8 @@ export class NewHomeComponent implements OnInit {
       // hiddenText: 'Key attributes of 42 municipal bond issuances, 400 listed projects, 223 city credit ratings available',
       link:'/upload-annual-accounts'
     },
-    
-    
+
+
   ]
   noDataFound = false;
   recentSearchArray = [
@@ -114,7 +114,7 @@ export class NewHomeComponent implements OnInit {
   ];
   ngOnInit() {
     this.loadRecentSearchValue();
-   
+
     this.globalFormControl.valueChanges
     .subscribe(value => {
       if(value.length >= 1){
@@ -123,7 +123,7 @@ export class NewHomeComponent implements OnInit {
           let emptyArr:any = []
             this.filteredOptions = emptyArr;
           if(res?.data.length > 0 ){
-            
+
             this.filteredOptions = res?.data;
             this.noDataFound = false;
           }else{
@@ -145,7 +145,7 @@ export class NewHomeComponent implements OnInit {
       }
     })
 
-   
+
   }
 
   loadRecentSearchValue() {
@@ -228,7 +228,7 @@ export class NewHomeComponent implements OnInit {
      console.log(error)
    });
     console.log('option', option)
-   
+
     if(option?.type == 'state'){
       this.getYears(option);
       // this.router.navigateByUrl(`/dashboard/state?stateId=${option._id}`)
