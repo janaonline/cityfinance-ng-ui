@@ -318,6 +318,8 @@
           [chartTitle]="doughnutChartTitle"
           [ChartOptions]="doughnutChartOptions"
           [notFound]="chartDataNotFound"
+          [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="filterGroup.controls.financialYear.value"
         >
         </app-revenuechart>
       </div>
@@ -507,6 +509,8 @@
         [notFound]="barChartNotFound"
         [own]="ownTab"
         [preSelectedOwnRevenueDbParameter]="preSelectedOwnRevenueDbParameter"
+        [sourceDashboardName]="sourceDashboardName"
+        [selectedFinancialYear]="filterGroup.controls.financialYear.value"
       >
       </app-revenuechart>
 

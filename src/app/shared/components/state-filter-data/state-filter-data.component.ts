@@ -346,6 +346,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getYears();
 
     console.log("sessionFY", this.yearList);
+    if (window.location.pathname == '/dashboard/slb') {
+      this.sourceDashboardName = 'Service Level Benchmark Performance';
+    }
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -937,6 +940,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
       this.multipleChartTitle = `The following pie chart provides the split of the contribution various ${activeButton} .`;
     }
+
+    // if (this.stateServiceLabel) {
+    //   this.mainChartTitle = `${this.BarGraphValue ? "Top" : "Bottom"} 10 performing ULBs on value in ${this.stateName}`;
+    // }
+
   }
 
   changeActiveBtn(i) {
@@ -1157,9 +1165,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     } else {
       this.getScatterData();
     }
-    if (this.stateServiceLabel) {
-      this.getServiceLevelBenchmarkBarChartData();
-    }
+    // if (this.stateServiceLabel) {
+    //   this.getServiceLevelBenchmarkBarChartData();
+    // }
   }
 
   labels(data) {
@@ -1492,6 +1500,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   getServiceLevelBenchmarkBarChartData() {
+    this.chartTitle = `${this.BarGraphValue ? "Top" : "Bottom"} 10 performing ULBs on ${this._commonServices.toTitleCase(this.filterName)} in ${this.stateName}`;
     let apiEndPoint = "state-slb";
     this.barChartPayload = {};
     this.barChartPayload = {
@@ -1499,13 +1508,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateId: this.stateId,
       sortBy: this.BarGraphValue ? "top10" : "bottom10",
       filterName: this.filterName ? this.filterName : "",
-      ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
+      // ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       chartType: "bar",
       stateServiceLabel: this.stateServiceLabel,
       activeButton: this.ActiveButton,
-      chartTitle: "",
+      chartTitle: this.chartTitle,
     };
 
     console.log("payload", this.barChartPayload);
