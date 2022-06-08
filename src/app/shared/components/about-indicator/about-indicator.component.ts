@@ -120,7 +120,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         this.addAnchorTag(
           item,
           1,
-          "/resources-dashboard/learning-center/bestPractices",
+          "/resources-dashboard/learning-center/faqs",
           "Know more...",
           index
         );
@@ -155,7 +155,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         this.addAnchorTag(
           item,
           i,
-          "http://localhost:4200/resources-dashboard/learning-center/toolkits",
+          "https://new-cityfinance.dhwaniris.in/resources-dashboard/learning-center/toolkits",
           temp ? temp : "Property tax reforms toolkit (published by MoHUA)",
           parentIndex
         );
@@ -166,7 +166,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
         this.addAnchorTag(
           item,
           i,
-          "http://localhost:4200/resources-dashboard/learning-center/eLearning",
+          "https://new-cityfinance.dhwaniris.in/resources-dashboard/learning-center/eLearning",
           temp
             ? temp
             : "E-learning modules on implementing property tax reforms",
@@ -176,10 +176,11 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       if (element.text.includes("Best") || element.text.includes("3")) {
         let temp = element.text.split(".")[1];
         element.text = element.text.split(".")[0] + ".";
+
         this.addAnchorTag(
           item,
           i,
-          "http://localhost:4200/resources-dashboard/learning-center/bestPractices",
+          "https://new-cityfinance.dhwaniris.in/resources-dashboard/learning-center/bestPractices",
           temp ? temp : "Best Practices on property tax reforms",
           parentIndex
         );
@@ -236,7 +237,7 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
     let aTag = document.createElement("a");
     aTag.href = link;
     aTag.innerHTML = text;
-    aTag.target = "blank";
+    aTag.target = "_blank";
     let pTag = document.getElementById(parentIndex + item.name + index);
     if (pTag && (pTag.hasOwnProperty("children"), pTag.children.length == 0))
       pTag.appendChild(aTag);
