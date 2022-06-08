@@ -4,7 +4,9 @@ import { UserUtility } from "src/app/util/user/user";
 import { Login_Logout } from "src/app/util/logout.util";
 import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
 import { AuthService } from "src/app/auth/auth.service";
-
+import { MODULES_NAME } from "src/app/util/access/modules";
+import { ACTIONS } from "src/app/util/access/actions";
+import { AccessChecker } from '../../../util/access/accessChecker';
 @Component({
   selector: "app-n-home-header",
   templateUrl: "./n-home-header.component.html",
@@ -22,23 +24,37 @@ export class NHomeHeaderComponent implements OnInit {
 
   textSize = ["sm", "rg", "lg"];
   currentTextSize: any;
-
+  canViewUserList = false;
+  canViewULBSingUpListing = false;
   constructor(public _router: Router, private authService: AuthService) {
-    this.isLoggedIn = this.authService.loggedIn();
-    this.user = this.isLoggedIn ? this.user : null;
+    this.initializeAccessChecking();
+    this._router.events.subscribe((event) => {
 
-    if (this.isLoggedIn) {
-      UserUtility.getUserLoggedInData().subscribe((value) => {
-        this.user = value;
-      });
-    }
+      this.isLoggedIn = this.authService.loggedIn();
+      this.user = this.isLoggedIn ? this.user : null;
+
+      this.initializeAccessChecking();
+
+      if (this.isLoggedIn) {
+        UserUtility.getUserLoggedInData().subscribe((value) => {
+          this.user = value;
+        });
+      }
+    });
+
+
+    // if (this.isLoggedIn) {
+    //   UserUtility.getUserLoggedInData().subscribe((value) => {
+    //     this.user = value;
+    //   });
+    // }
     if (this.isLoggedIn) {
       this.btnName = "Logout";
     } else {
       this.btnName = "Login for 15th FC Grants";
     }
   }
-
+  private accessChecker = new AccessChecker();
   ngOnInit(): void {
     this.authService.loginLogoutCheck.subscribe((res) => {
       console.log("loginLogoutCheck", res);
@@ -53,6 +69,17 @@ export class NHomeHeaderComponent implements OnInit {
     let getTextSize = JSON.parse(localStorage.getItem("myLSkey"));
     if (getTextSize) this.setFontSize(getTextSize.currentTextSize);
   }
+  initializeAccessChecking(){
+    this.canViewUserList = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.USERLIST,
+      action: ACTIONS.VIEW,
+    });
+    this.canViewULBSingUpListing = this.accessChecker.hasAccess({
+      moduleName: MODULES_NAME.ULB_SIGNUP_REQUEST,
+      action: ACTIONS.VIEW,
+    });
+  }
+
 
   setFontSize(size) {
     console.log('setFontSize', size)

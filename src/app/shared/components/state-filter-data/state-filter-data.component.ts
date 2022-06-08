@@ -263,7 +263,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       ],
       datasets: [
         {
-          label: "City Ranking",
+          // label: "City Ranking",
+          label: "Cities",
           data: [13, 20, 30, 40, 50, 60, 70, 80, 90, 100],
           backgroundColor: [
             "#1E44AD",
@@ -326,6 +327,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   currentActiveTab: string = "";
   mainTab: string = "";
   @Input() selectedStateId: any;
+  sourceDashboardName: string = 'State Dashboard';
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -345,6 +347,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getYears();
 
     console.log("sessionFY", this.yearList);
+    if (window.location.pathname == '/dashboard/slb') {
+      this.sourceDashboardName = 'Service Level Benchmark Performance';
+    }
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -627,23 +632,25 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           console.log("response data", res);
           //scatter plots center
           let apiData = res["data"];
-          if (res["data"]["scatterData"]?.unitType == "Percent") {
-            this.percentLabel = "(%)";
-          } else {
-            this.percentLabel = res["data"]["scatterData"]?.unitType;
-          }
           if (!this.filterName.includes("mix")) {
             this._loaderService.stopLoader();
             let mCorporation: any;
             let tp_data: any;
             let m_data: any;
             let stateData: any;
+            let yAxesLabelName = '';
+            this.percentLabel = '';
             if (this.stateServiceLabel) {
+              if (res["data"]["scatterData"]?.unitType == "Percent") {
+                this.percentLabel = 'percent';
+                yAxesLabelName = `${this.filterName} (%)`;
+              } else {
+                yAxesLabelName = res["data"]["scatterData"]?.unitType ? res["data"]["scatterData"]?.unitType : this.filterName;
+              }
               this.setServiceLevelBenchmarkScatteredChartOption(
                 "Population",
-                this.filterName
+                yAxesLabelName
               );
-
               m_data =
                 res["data"] &&
                 res["data"]["scatterData"] &&
@@ -934,6 +941,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
       this.multipleChartTitle = `The following pie chart provides the split of the contribution various ${activeButton} .`;
     }
+
+    // if (this.stateServiceLabel) {
+    //   this.mainChartTitle = `${this.BarGraphValue ? "Top" : "Bottom"} 10 performing ULBs on value in ${this.stateName}`;
+    // }
+
   }
 
   changeActiveBtn(i) {
@@ -1154,9 +1166,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     } else {
       this.getScatterData();
     }
-    if (this.stateServiceLabel) {
-      this.getServiceLevelBenchmarkBarChartData();
-    }
+    // if (this.stateServiceLabel) {
+    //   this.getServiceLevelBenchmarkBarChartData();
+    // }
   }
 
   labels(data) {
@@ -1295,7 +1307,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         labels: responseData.map((item: { ulbName: any }) => item.ulbName),
         datasets: [
           {
-            label: "City Ranking",
+            // label: "City Ranking",
+            label: "Cities",
             displayLabel: false,
             data: this.getChartData(responseData, tabType, yAxisLabel),
             backgroundColor: [
@@ -1357,12 +1370,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     xAxisLabel: string = "Population",
     yAxisLabel: string = "Total Revenue"
   ) {
-    console.log("this.percentLabel", this.percentLabel);
     let tooltipValue = "";
-    if (this.percentLabel == "(%)") {
+    if (this.percentLabel == "percent") {
       tooltipValue = "%";
     }
-
     let scatterOption = {
       legend: {
         itemStyle: {
@@ -1424,9 +1435,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             scaleLabel: {
               display: true,
-              labelString: `${this._commonServices.toTitleCase(yAxisLabel)} ${
-                this.percentLabel
-              } `,
+              labelString: `${this._commonServices.toTitleCase(yAxisLabel)}`,
               fontStyle: "bold",
             },
             gridLines: {
@@ -1489,10 +1498,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
 
-    this.serviceLevelBenchmarkScatterOption = scatterOption;
+    this.serviceLevelBenchmarkScatterOption = Object.assign(scatterOption);
   }
 
   getServiceLevelBenchmarkBarChartData() {
+    this.chartTitle = `${this.BarGraphValue ? "Top" : "Bottom"} 10 performing ULBs on ${this._commonServices.toTitleCase(this.filterName)} in ${this.stateName}`;
     let apiEndPoint = "state-slb";
     this.barChartPayload = {};
     this.barChartPayload = {
@@ -1500,13 +1510,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateId: this.stateId,
       sortBy: this.BarGraphValue ? "top10" : "bottom10",
       filterName: this.filterName ? this.filterName : "",
-      ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
+      // ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       chartType: "bar",
       stateServiceLabel: this.stateServiceLabel,
       activeButton: this.ActiveButton,
-      chartTitle: "",
+      chartTitle: this.chartTitle,
     };
 
     console.log("payload", this.barChartPayload);

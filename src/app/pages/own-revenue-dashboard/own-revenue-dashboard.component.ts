@@ -462,6 +462,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   body: any;
   financialYear: any;
+  sourceDashboardName: string = 'Own Revenue Performance';
   constructor(
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog,
@@ -484,7 +485,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.getYearList();
     this.createDataForFilter();
     this.getBarChartData();
-    this.barChartTitle = "Compare states/ULBs on various financial indicators";
+    // this.barChartTitle = "Compare states/ULBs on various financial indicators";
 
     if (this.cityName) {
       this.filterGroup.controls.ulb.setValue(this.cityName);
@@ -538,6 +539,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
+      
       // this.filterGroup.patchValue({
       //   ulb: ""
       // })
@@ -771,6 +773,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.lastBarChartValue = bodyD;
     let labelStr = "";
     console.log("body", bodyD);
+    this.barChartTitle = `Compare states/ULBs on ${bodyD?.param}`;
     this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
         if (res && res["success"] && res["data"]) {
