@@ -701,9 +701,9 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       //   this.sticky = true;
       //   this.stiHieght = false;
       // }
-      if(windowScroll >=1247){
+      if(windowScroll >= 500){
         this.sticky=false
-        this.stiHieght=true
+        this.stiHieght=true;
       }
     } else {
       this.sticky = true;
