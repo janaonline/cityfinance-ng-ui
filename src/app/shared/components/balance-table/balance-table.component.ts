@@ -424,6 +424,9 @@ export class BalanceTableComponent
       this.currentUlbFilterData,
       this.ulbIdval
     );
+    let ulbIdArr = multiUlbList.map(el => {
+return el.ulb
+    })
     let filters = {
       isComparative: false,
       type: "Summary",
@@ -431,7 +434,7 @@ export class BalanceTableComponent
       yearList: this.yearValue,
       reportGroup: this.reportGroup,
       ulbList: multiUlbList,
-      ulbIds: [...new Set([this.currentUlbFilterData.ulb, ...this.ulbIdval])],
+      ulbIds: ulbIdArr,
       valueType: this.valueType,
     };
     console.log("filers", filters);

@@ -59,6 +59,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   barWidth: any;
   barWidthRender: any;
   sourceDashboardName: string = 'City Dashboard';
+  selectedFinancialYear: any;
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((paramData) => {
       console.log("cityId", paramData);
@@ -288,6 +289,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     } Average`;
     this.barChartPayload = {};
 
+    this.selectedFinancialYear = body['financialYear'];
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {

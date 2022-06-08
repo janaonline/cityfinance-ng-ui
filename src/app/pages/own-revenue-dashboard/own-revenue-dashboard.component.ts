@@ -462,6 +462,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   body: any;
   financialYear: any;
+  sourceDashboardName: string = 'Own Revenue Performance';
   constructor(
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog,
@@ -538,6 +539,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
+      
       // this.filterGroup.patchValue({
       //   ulb: ""
       // })
