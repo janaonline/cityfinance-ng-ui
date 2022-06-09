@@ -249,7 +249,7 @@ const data = {
     },
     {
       value: "227",
-      title: "Years of financial stat",
+      title: "Years of financial data",
       key: "dataAvailable",
     },
     // {

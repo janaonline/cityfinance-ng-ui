@@ -220,6 +220,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChange', changes)
     if (changes.data) {
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
@@ -249,6 +250,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   apiCall;
   barChartPayload: any = {};
   getChartData(data = {}) {
+    console.log("chart data", data);
+
     if (this.headOfAccount == "") {
       this.headOfAccount = "Tax";
     }
@@ -281,6 +284,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.apiCall) {
       this.apiCall.unsubscribe();
     }
+    console.log("chart data 1", data);
     this.compareType = body["compareType"];
     this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
       this.selectedTab
@@ -289,7 +293,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     } Average`;
     this.barChartPayload = {};
 
-    this.selectedFinancialYear = body['financialYear'];
+    this.selectedFinancialYear = body["financialYear"];
+    console.log("body===>", body, "mySelectedYears", this.mySelectedYears);
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
@@ -1067,6 +1072,7 @@ console.log('new Data', newData.data.labels);
   }
 
   filterChangeInChart(value) {
+    console.log('filterChangeInChart', value)
     if (value.compareType == "ULBs..") this.hideElements = true;
     else this.hideElements = false;
     this.mySelectedYears = value.year;
