@@ -68,8 +68,9 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     this._resourcesDashboardService.getYearsList().subscribe((res: any) => {
       console.log("years===>", res.data);
       this.yearList = res.data;
+      this.yearList.unshift('All Years')
       this.filterForm.patchValue({
-        year: this.yearList[0],
+        year: "All Years",
       });
 
       console.log("this.filterFrom", this.filterForm);
@@ -202,7 +203,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulbId: "",
       contentType: "Raw Data PDF",
       sortBy: "",
-      year: this.yearList[0],
+      year: "All Years"  ,
     });
     this.filterFormData.emit(this.filterForm);
     this.loadData();

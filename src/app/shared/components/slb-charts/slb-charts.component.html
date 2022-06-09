@@ -19,7 +19,7 @@
             Compare By: <span *ngIf="CompFlag"> {{ compareByName }}</span>
           </button>
         </div>
-        <div class="col-sm col-lg col-md customFilters">
+        <div class="col-sm col-lg col-md customFilters" *ngIf="showYearDropdown">
           <select
             style="
               width: -webkit-fill-available;
