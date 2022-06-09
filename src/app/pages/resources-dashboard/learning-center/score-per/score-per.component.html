@@ -435,9 +435,9 @@
         <div class="col-sm-12 col-md-6 ps-0 pres-card">
           <div class="card-body">
             <div class="pres-h">Prescription</div>
-            <div class="pres-sub">
+            <div class="pres-sub" [innerHTML]="prescribeText" (click)="processLinks($event)">
               <!-- {{ prescription }} -->
-              {{ prescribeText }}
+              <!-- {{ prescribeText }} -->
               <!-- The percentages show how your city has scored in the 5 stages of property tax cycle. You can go through the property tax toolkit to look into recommendations in the areas that need improvement in your state/city. -->
             </div>
           </div>

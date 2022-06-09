@@ -5,6 +5,7 @@ import { ResourcesServicesService } from "../../resDashboard-services/resources-
 import { MatStepper } from "@angular/material/stepper";
 import { MatDialog } from "@angular/material/dialog";
 import { CheckScorePerformanceComponent } from "../../check-score-performance/check-score-performance.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-score-per",
@@ -44,7 +45,8 @@ export class ScorePerComponent implements OnInit {
     private resource_das_services: ResourcesServicesService,
     protected _commonService: CommonService,
     private fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: Router
   ) {}
 
   scorePostBody;
@@ -291,18 +293,51 @@ export class ScorePerComponent implements OnInit {
     }
     let currentScore = value?.currentUlb?.total * 10;
     if (currentScore == 100) {
-      this.prescribeText =
-        "You have adopted all the property tax reforms. Your property tax system is robust, which should increase the share of property tax in own revenues.";
+      // this.prescribeText =`You have adopted all the property tax reforms. Your property tax system is robust,
+      // which should increase the share of property tax in own revenues.`;
+      this.prescribeText = `You have adopted all the property tax reforms. Your property tax system is robust,
+       which should increase the share of property tax in own revenues.`;
       this.clonePrescribeText = this.prescribeText;
-    } else if (currentScore < 99 && currentScore >= 50) {
-      this.prescribeText = `You have adopted ${count} property tax reforms. Your property tax system has scope for further improvement. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
+    } else if (currentScore < 100 && currentScore >= 50) {
+      // this.prescribeText = `You have adopted ${count} property tax reforms. Your property
+      // tax system has scope for further improvement. You see section-wise score and prescription
+      // pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for
+      // information on steps towards property tax reforms. Property tax reforms have potential to
+      //  increase revenues and collection, and improve financial sustainability.`;
+      // href="../resources-dashboard/learning-center/toolkits/enumeration"
+      this.prescribeText = `You have adopted ${count} property tax reforms.
+       Your property tax system has scope for further improvement.
+       You may refer the  <a href="#" class="aTag-s">property tax toolkit</a> for information on steps towards property tax reforms.
+        Property tax reforms have potential to increase
+       revenues and collection, and improve financial sustainability.`;
       this.clonePrescribeText = this.prescribeText;
-    } else if (currentScore < 49) {
-      this.prescribeText = `You have adopted only ${count} property tax reforms. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
+    } else if (currentScore < 50) {
+      // this.prescribeText = `You have adopted only ${count} property tax reforms.
+      //  You see section-wise score and prescription pertaining to areas of improvement,
+      //  and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms.
+      //   Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
+      `You have adopted only ${count} property tax reforms. You may refer
+       the <a href="#" class="aTag-s">property tax toolkit</a>
+        for information on steps towards property tax reforms. Property tax reforms have potential
+       to increase revenues and collection, and improve financial sustainability.`;
       this.clonePrescribeText = this.prescribeText;
     }
   }
-
+  changeRouteLinks() {
+    this.router.navigateByUrl("enumeration");
+  }
+  processLinks(e) {
+    console.log("router click", e);
+    const element: HTMLElement = e.target;
+    if (element.nodeName === "A") {
+      e.preventDefault();
+      const link = element.getAttribute("href");
+      this.router.navigateByUrl(
+        "resources-dashboard/learning-center/toolkits/enumeration"
+      );
+      // this.router.navigate(["../enumeration"]);
+    }
+  }
   getStartedScore() {
     // debugger;
     if (this.ulb_id != "") {
