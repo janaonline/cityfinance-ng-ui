@@ -33,7 +33,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <table aria-describedby="USers List" class="table" *ngIf="listType === userTypes.USER && !isApiInProgress">
+        <table aria-describedby="USers List" *ngIf="listType === userTypes.USER && !isApiInProgress" class="table">
           <thead>
             <tr style="background: #059b9a; color: white; border: 0px" class="sortable-headers">
               <th class="text-center">S.No.</th>
@@ -405,22 +405,22 @@
                       };
                 index as i
               ">
-              <td class="text-center">
+              <td class="text-center" style="padding-left: 3px;">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
-              <td class="">
+              <td class="" style="padding-left: 3px;">
                 {{ user["stateName"] }}
               </td>
-              <td class="">{{ user["name"] }}</td>
-              <td class="">{{ user["email"] }}</td>
-              <td class="">{{ user["designation"] }}</td>
-              <td class="">{{ user["departmentName"] }}</td>
-              <td class="text-center d-flex actionCell">
+              <td class="" style="padding-left: 3px;">{{ user["name"] }}</td>
+              <td class="" style="padding-left: 3px;">{{ user["email"] }}</td>
+              <td class="" style="padding-left: 3px;">{{ user["designation"] }}</td>
+              <td class="" style="padding-left: 3px;">{{ user["departmentName"] }}</td>
+              <td>
                 <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'STATE' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
                 <a [routerLink]="['/', 'user', 'profile', 'view']"
-                  [queryParams]="{ id: user._id, role: 'STATE', edit: true }">
+                  [queryParams]="{ id: user._id, role: 'STATE', edit: true }" style="padding:20%;">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
                 <a *ngIf="canDeleteUser">
@@ -533,7 +533,7 @@
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
-              <td colspan="5" class="text-center">
+              <td colspan="6" class="text-center">
                 <h3>No Data Found</h3>
               </td>
             </tr>
@@ -626,7 +626,7 @@
               </td>
             </tr>
             <tr *ngIf="userList && !userList.length">
-              <td colspan="5" class="text-center">
+              <td colspan="6" class="text-center">
                 <h3>No Data Found</h3>
               </td>
             </tr>
@@ -647,7 +647,7 @@
           <app-pre-loader></app-pre-loader>
         </div>
       </div>
-      <pagination-controls style="float: right; position: relative" id="foo" (pageChange)="setPage($event)"
+      <pagination-controls style="float: right; position: relative;text-align: end;margin-top: 2%;" id="foo" (pageChange)="setPage($event)"
         directionLinks="true" autoHide="false" previousLabel="Previous" nextLabel="Next"
         screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
       </pagination-controls>
