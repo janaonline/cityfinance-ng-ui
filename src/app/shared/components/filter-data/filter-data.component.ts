@@ -290,7 +290,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.selectedTab
     } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
-    } Average`;
+    } Weighted Average`;
     this.barChartPayload = {};
 
     this.selectedFinancialYear = body["financialYear"];

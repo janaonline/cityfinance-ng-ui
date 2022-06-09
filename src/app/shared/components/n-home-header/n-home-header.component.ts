@@ -29,7 +29,6 @@ export class NHomeHeaderComponent implements OnInit {
   constructor(public _router: Router, private authService: AuthService) {
     this.initializeAccessChecking();
     this._router.events.subscribe((event) => {
-
       this.isLoggedIn = this.authService.loggedIn();
       this.user = this.isLoggedIn ? this.user : null;
 
@@ -42,12 +41,12 @@ export class NHomeHeaderComponent implements OnInit {
       }
     });
 
-
     // if (this.isLoggedIn) {
     //   UserUtility.getUserLoggedInData().subscribe((value) => {
     //     this.user = value;
     //   });
     // }
+
     if (this.isLoggedIn) {
       this.btnName = "Logout";
     } else {

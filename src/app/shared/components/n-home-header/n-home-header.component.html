@@ -58,7 +58,8 @@
             </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
-                                            <a class="dropdown-item" routerLink="/dashboard/national/61e150439ed0e8575c881028">National Performance</a
+                                            <a class="dropdown-item" routerLink="/dashboard/national/61e150439ed0e8575c881028">National
+                  Performance</a
                 >
               </li>
               <li>
@@ -162,7 +163,12 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a
+                                    <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" *ngIf="
+                  isLoggedIn && (canViewUserList || canViewULBSingUpListing)
+                ">Users</a
               >
             </li>
           </ul>
