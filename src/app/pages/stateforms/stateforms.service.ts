@@ -51,8 +51,8 @@ export class StateformsService {
   getulbDetails() {
     return this.http.get(`${environment.api.url}user/all?role=ULB`);
   }
-  getUlbReview() {
-    return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219`);
+  getUlbReview(state_id) {
+    return this.http.get(`${environment.api.url}masterForm/getAll/606aaf854dff55e6c075d219?state_id=${state_id}`);
   }
   updateRequest(body) {
     return this.http.post(`${environment.api.url}ulb-update-request`, body);

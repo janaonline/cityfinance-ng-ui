@@ -78,6 +78,8 @@
 }
 
 .btn-t {
+    // height: 25px;
+    // width: 64px;
     background-color: #059B9A;
     color: #FFFFFF;
     margin-right: 5px;
@@ -115,7 +117,4 @@
 .notClick {
     pointer-events: none;
     cursor: not-allowed;
-}
-.active {
-  background-color: #047474 !important;
 }

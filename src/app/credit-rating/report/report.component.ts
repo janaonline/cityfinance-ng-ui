@@ -108,7 +108,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             "postLoginNavigation",
             this.router.url + `?page=${this.page}`
           );
-          this.router.navigate(["/", "login"]);
+          this.router.navigate(["/", "login"],{ queryParams: { user: 'USER' } } );
         },
       },
       cancel: { text: "Cancel" },

@@ -238,19 +238,21 @@ tr {
           });
         })
         console.log('prev ana...',this.analytics, this.categories)
-        this.analytics.forEach(el => {
-          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-            this.swm.push(el)
-          } else {
-            this.wm.push(el)
-          }
-        })
-    this.wm.forEach(el => {
-      this.totalWmAmount = this.totalWmAmount + el.amount;
-    });
-    this.swm.forEach(el => {
-      this.totalSwmAmount = this.totalSwmAmount + el.amount;
-    });
+       this.swm = this.data?.useData?.categoryWiseData_swm
+       this.wm = this.data?.useData?.categoryWiseData_wm
+        // this.analytics.forEach(el => {
+        //   if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+        //     this.swm.push(el)
+        //   } else {
+        //     this.wm.push(el)
+        //   }
+        // })
+    // this.wm.forEach(el => {
+    //   this.totalWmAmount = this.totalWmAmount + el.amount;
+    // });
+    // this.swm.forEach(el => {
+    //   this.totalSwmAmount = this.totalSwmAmount + el.amount;
+    // });
 
    }, 500)
 

@@ -1,10 +1,8 @@
-@import "../../../scss/functions";
-@import "../../../scss/variables";
-@import "../../../scss/mixins";
 .sidebar {
-    // margin-top: 1px;
-    // padding-left: 15px;
-    // padding-right: 3px;
+    margin-top: 1px;
+    // width: 18%;
+    padding-left: 15px;
+    padding-right: 3px;
     // height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -16,13 +14,12 @@
 //     left: 233px;
 // }
 .pd {
-    padding-bottom: 1rem;
+    padding-bottom: 1px;
 }
 
 .t-c {
     color: #FFFFFF;
 }
-
 div.active {
     background-color: #FFFFFF;
     .linktext {
@@ -76,11 +73,14 @@ div.active {
 
 .link-div {
     background-color: #114551;
+    // height: 36px;
+    padding-top: 2%;
+    padding-left: 8%;
 }
 
 .link-div-u {
     background-color: #DCDCDC;
-    padding-left: 1rem;
+    padding-left: 3rem;
 }
 
 .linktext-u {
@@ -104,7 +104,7 @@ div.active {
 
 .subBtn {
     background-color: #124A55;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
     font-weight: normal;
     font-family: Segoe UI;
     border-radius: 3px;
@@ -118,24 +118,25 @@ div.active {
 .header1 {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: $font-size-base*1.5;
-    // margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
     margin-top: 8px;
 }
 
 .mat-icon {
     width: 20px;
     height: 0px;
+    padding-bottom: 14px;
 }
 
 .material-icons {
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
 }
 
 .pull-right {
     margin-top: 9px;
     width: 14px;
-    // margin-right: .5rem;
+    margin-right: .5rem;
 }
 
 ::ng-deep .tooltip {
@@ -145,12 +146,19 @@ div.active {
     width: 150px;
 }
 
+.stiHieght{
+    // position: fixed;
+    // height: 19%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
 .sticky {
-    position: fixed;
-    top: 9%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    //  z-index: 10;
+    // position: fixed;
+    // top: 19%;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+    // z-index: 10;
     // height: 69%;
     width: 15%;
     background-color: rgb(247, 247, 247);
@@ -162,7 +170,7 @@ div.active {
     overflow-x: hidden;
     overflow-y: auto;
     //   z-index: 10;
-    height: 90%;
+    height: 20%;
     width: 18%;
 }
 

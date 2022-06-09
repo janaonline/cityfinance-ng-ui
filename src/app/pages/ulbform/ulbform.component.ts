@@ -626,10 +626,14 @@ export class UlbformComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    // console.log('scrolllllll', windowScroll, this.elementPosition);
-
-    if (windowScroll >= this.elementPosition) {
+    console.log('scrolllllll', windowScroll, this.elementPosition);
+    if(windowScroll < this.elementPosition){
+      this.sticky = false;
+      this.stiHieght = false;
+    }else 
+    if (windowScroll > this.elementPosition) {
       this.sticky = true;
+      this.stiHieght = false;
       // if(windowScroll < 500) {
       //  this.stiHieght = true;
       //   this.sticky = false;
@@ -637,9 +641,13 @@ export class UlbformComponent implements OnInit {
       //   this.sticky = true;
       //   this.stiHieght = false;
       // }
+      if(windowScroll >=1247){
+        this.sticky=false
+        this.stiHieght=true
+      }
     } else {
-      this.sticky = false;
-      //this.stiHieght = false;
+      this.sticky = true;
+      this.stiHieght = false;
     }
   }
 }

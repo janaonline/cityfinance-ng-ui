@@ -1,20 +1,16 @@
-@import "../../../../scss/functions";
-@import "../../../../scss/variables";
-@import "../../../../scss/mixins";
-
 .s-th {
     border-radius: 4px;
     width: 96px;
     height: 28px;
     border-color: #00000029;
     font-weight: 400;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
 }
 
 .form-header {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: $font-size-base*1.25;
+    font-size: 20px;
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: 600;
@@ -50,6 +46,8 @@
 }
 
 .btn-t {
+    // height: 25px;
+    // width: 64px;
     background-color: #059B9A;
     color: #FFFFFF;
     margin-right: 5px;
@@ -68,7 +66,7 @@
     padding-left: 3%;
     padding-right: 3%;
     width: auto;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
     font-weight: normal;
 }
 
@@ -80,7 +78,7 @@
     padding-left: 3%;
     padding-right: 3%;
     width: auto;
-    font-size: $font-size-base*0.75;
+    font-size: 12px;
     font-weight: normal;
 }
 
@@ -105,6 +103,9 @@
     }
 }
 
+.tooltip-inner {
+    // margin-left: 1rem;
+}
 
 .btn:hover {
     background-color: #ffc500;
