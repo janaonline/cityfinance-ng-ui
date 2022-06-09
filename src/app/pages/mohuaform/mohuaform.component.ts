@@ -17,6 +17,7 @@ export class MohuaformComponent implements OnInit, AfterViewInit {
   sticky: boolean = false;
   elementPosition: any;
   showLoader = true;
+  stiHieght: boolean = false;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   constructor(
     private _router: Router,
@@ -78,10 +79,28 @@ export class MohuaformComponent implements OnInit, AfterViewInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    if (windowScroll >= this.elementPosition) {
-      this.sticky = true;
-    } else {
+    console.log('scrolllllll', windowScroll, this.elementPosition);
+    if(windowScroll < this.elementPosition){
       this.sticky = false;
+      this.stiHieght = false;
+    }else 
+    if (windowScroll > this.elementPosition) {
+      this.sticky = true;
+      this.stiHieght = false;
+      // if(windowScroll < 500) {
+      //  this.stiHieght = true;
+      //   this.sticky = false;
+      // }else{
+      //   this.sticky = true;
+      //   this.stiHieght = false;
+      // }
+      if(windowScroll >=2200){
+        this.sticky=false
+        this.stiHieght=true
+      }
+    } else {
+      this.sticky = true;
+      this.stiHieght = false;
     }
   }
 

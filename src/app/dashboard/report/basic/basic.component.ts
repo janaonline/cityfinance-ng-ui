@@ -65,7 +65,7 @@ export class BasicComponent implements OnInit, OnDestroy {
             "postLoginNavigation",
             `/financial-statement/report/basic`
           );
-          this.router.navigate(["/", "login"]);
+          this.router.navigate(["/", "login"],{ queryParams: { user: 'USER' } } );
         },
       },
       cancel: { text: "Cancel" },
@@ -342,7 +342,7 @@ export class BasicComponent implements OnInit, OnDestroy {
                   "postLoginNavigation",
                   `/data-tracker?${query}`
                 );
-                this.router.navigate(["/", "login"]);
+                this.router.navigate(["/", "login"],{ queryParams: { user: 'USER' } } );
               },
             },
             cancel: { text: "Cancel" },

@@ -13,7 +13,7 @@
                 Action Plan for UA Service Level Indicators
             </h4>
         </div>
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right" style="text-align: end;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 text-right">
             <button type="button" class="btn btn-pre" (click)="getExcel()">Download</button>
         </div>
     </div>
@@ -24,7 +24,7 @@
         <div class="mat-card" style="margin-bottom: 10px; padding: 0;">
             <div class="mat-card-title" style="padding-bottom: 2%;">
                 <h5
-                    style="margin-left: 1pc; display: inline-block; padding-top: 15px; font-size: 0.938rem; padding-bottom: 1px;">
+                    style="margin-left: 1pc; display: inline-block; padding-top: 15px; font-size: 15px; padding-bottom: 1px;">
                     UA{{projectIndex + 1}}: Urban Agglomeration {{ item.name.substring(0, item.name.lastIndexOf(" ")) }}
                     <!-- {{item.name.split(' ')[0]}} -->
                     <!-- Urban Aggolmeration {{uaDetails.uaName.split(' ')[0]}} -->
@@ -88,8 +88,8 @@
         </div>
 
     </div>
-    <div class="footer" style="margin-top: 3rem;margin-bottom: 1%;">
-        <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button">
+    <div class="footer" style="margin-top: 3rem;margin-bottom:4%;">
+        <button class="btn saveBtn pull-right" (click)="saveButtonClicked()" type="button" style="margin-bottom: 2%;">
             {{saveBtnText}}
         </button>
         <button [routerLink]="['../water-rejenuvation']" routerLinkActive="router-link-active"

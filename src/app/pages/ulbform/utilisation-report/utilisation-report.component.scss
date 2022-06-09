@@ -82,6 +82,10 @@ option {
     color: black;
 }
 
+input:disabled {
+    background-color: #DBDBDB !important;
+}
+
 .thHeader {
     background-color: #058E91;
     font-family: Roboto;
@@ -255,6 +259,11 @@ label {
 
 .tooltip-inner {
     margin-left: 1rem;
+}
+
+::ng-deep .tool-tip{
+    background-color:black;
+    font-size: 12px;
 }
 
 .btn-danger {

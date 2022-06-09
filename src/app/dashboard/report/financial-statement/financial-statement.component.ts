@@ -226,7 +226,7 @@ export class FinancialStatementComponent extends ReportComponent
                   "postLoginNavigation",
                   `/data-tracker?${query}`
                 );
-                this.router.navigate(["/", "login"]);
+                this.router.navigate(["/login"], { queryParams: { user: 'USER' } });
               },
             },
             cancel: { text: "Cancel" },

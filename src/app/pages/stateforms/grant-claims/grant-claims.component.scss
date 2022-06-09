@@ -80,8 +80,10 @@ label {
     padding: 7px 15px;
     text-decoration: none;
 }
-
+.wrapper {
+ cursor: not-allowed;
+}
 .disableCls {
-    cursor: not-allowed;
+    pointer-events: none;
     opacity: .65;
 }

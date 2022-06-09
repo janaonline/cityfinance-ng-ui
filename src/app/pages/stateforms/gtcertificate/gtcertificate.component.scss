@@ -27,15 +27,34 @@
     height: auto;
 }
 
+
 .card {
-    border: 1px #00000029;
-    margin-left: 20px;
-    box-shadow: 1px 1px 1px 1.5px #00000029;
-    padding: 10px 10px;
+    width: 96%;
+    height: auto;
+    margin-bottom: 2rem !important;
+    background-color: #FFFFFF;
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 15px 15px 15px 15px;
+    margin: auto;
 }
+.uplod_label {
+    font-size: 16px;
+    font-weight: 700;
+}
+// .card {
+//     border: 1px #00000029;
+//     margin-left: 20px;
+//     box-shadow: 1px 1px 1px 1.5px #00000029;
+//     padding: 10px 10px;
+// }
 
 .image-upload>input {
     display: none;
+}
+
+.block{
+    background-color: #FFFFFF;
+     margin-top: 4%;
 }
 
 .image-upload img {
@@ -74,6 +93,10 @@
     font-size: 12px;
 }
 
+.wrapper {
+    cursor: not-allowed;
+   }
+
 .pr-btn {
     background-color: #059b9a;
     color: #FFFFFF;
@@ -87,7 +110,7 @@
 .anDisable {
     pointer-events: none;
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.5;
 }
 
 .abDisable {
@@ -126,3 +149,4 @@
     background-color: #ffc500;
     font-weight: bold;
 }
+

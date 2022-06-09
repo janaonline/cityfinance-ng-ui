@@ -13,6 +13,7 @@
 // }
 .pd {
     padding-bottom: 1rem;
+    padding-left: 16px;
 }
 
 .t-c {
@@ -90,7 +91,7 @@ div.active {
 
 .subBtn {
     background-color: #124A55;
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: normal;
     font-family: Segoe UI;
     border-radius: 3px;
@@ -104,22 +105,72 @@ div.active {
 .header1 {
     font-family: Roboto, Medium;
     color: #373737;
-    font-size: 1.5rem;
+    font-size: 24px;
     margin-bottom: 20px;
     margin-top: 30px;
 }
 
+.stiHieght{
+    // position: fixed;
+    // height: 19%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
 .sticky {
+    // position: fixed;
+    // top: 19%;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+    // z-index: 10;
+    // height: 69%;
+    //  width: 20%;
     position: fixed;
-    // top: 8.5%;
-    overflow: hidden;
-    z-index: 2;
+    width: 16.66666667%;
+    top: 1px;
 }
-
-.stickyMain {
-    margin-left: 16.6667%;
+@media screen and (max-width: 1170px) {
+    .stiHieght{
+        // position: fixed;
+        // height: 19%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .sideNav {
+        background-color: #F2F2F2;
+        height: 600px;
+        // overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .sticky {
+        // position: fixed;
+        // top: 19%;
+        // overflow-x: hidden;
+        // overflow-y: auto;
+        // z-index: 10;
+        // height: 69%;
+        //  width: 20%;
+        position: fixed;
+        width: 16.66666667%;
+        top: 1px;
+    }
 }
-
+.sideNav {
+    // background-color: #F2F2F2;
+    height: 600px;
+    // overflow-y: scroll;
+    overflow-x: hidden;
+}
+.sidebar {
+    margin-top: 1px;
+    // width: 18%;
+    padding-left: 15px;
+    padding-right: 3px;
+    // height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 ::ng-deep {
     .spinner {
         position: fixed;

@@ -46,18 +46,18 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
 }
 .heading-p {
     color: #FFFFFF;
-    font-size: 1.125rem;
+    font-size: 18px;
     padding-top: 1rem !important;
     font-weight: 700;
 
 }
 .sub-h {
   font-weight: 600 !important;
-  font-size: 0.875rem;
+  font-size: 14px;
 }
 
 .form-h {
-  font-size: 0.938rem;
+  font-size: 15px;
   font-weight: 700;
   margin-bottom: 1rem;
   text-align: center;
@@ -66,14 +66,14 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
   margin-bottom: .7rem;
 }
 .form-status {
-  font-size: 0.625rem;
+  font-size: 10px;
 }
 .st-d {
   margin-top: 7px !important;
   margin-bottom: 7px !important;
 }
 .sub-m-h{
-    font-size: 1.063rem;
+    font-size: 17px;
     font-weight: 600;
     text-align: center;
 }
@@ -85,7 +85,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
 
 .heading-u-p {
   color: #FFFFFF;
-  font-size: 1.125rem;
+  font-size: 18px;
   font-weight: 700;
   padding-top: 1.3rem !important;
 }
@@ -95,7 +95,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
   height: 60px;
 }
 .slb-h{
-  font-size: 1.125rem;
+  font-size: 18px;
   padding-top: 1.3rem !important;
   font-weight: 700;
 }
@@ -113,7 +113,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
     margin-bottom: .5rem;
     margin-left: 1.2rem;
     margin-top: .5rem;
-    font-size: 0.625rem !important;
+    font-size: 10px !important;
 }
 
 .h-cls{
@@ -123,13 +123,13 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
     .qus-h-an {
       margin-bottom: .5rem;
       margin-top: 1rem;
-      font-size: 0.625rem;
+      font-size: 10px;
   }
 
   .ans-h-an {
       margin-bottom: .5rem;
       margin-top: .5rem;
-      font-size: 0.625rem;
+      font-size: 10px;
   }
   @media print {
     .page-break {
@@ -138,7 +138,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
   }
   .h-font {
     display: inline-block;
-    font-size: 0.75rem !important;
+    font-size: 12px !important;
   }
   .f-r {
     margin-left: 30px;
@@ -150,7 +150,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
     margin-left : 1rem !important;
     margin-bottom: .5rem;
     margin-top: .5rem;
-    font-size: 0.625rem !important;
+    font-size: 10px !important;
   }
   .hi{
     display:none
@@ -158,17 +158,17 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
   .qus-h-an-ex {
     margin-bottom: .5rem;
     margin-top: .5rem;
-    font-size: 0.625rem;
+    font-size: 10px;
     margin-left : .5rem !important;
   }
   .ans-h-an-b {
       margin-bottom: .5rem;
       margin-top: .5rem;
       margin-left : 1rem !important;
-      font-size: 0.625rem;
+      font-size: 10px;
   }
   .form-status {
-    font-size: 0.625rem;
+    font-size: 10px;
     margin-top: 10px;
   }
 
@@ -191,7 +191,7 @@ export class ActionplanspreviewComponent implements OnInit, OnDestroy {
 
 td, th{
   word-break: break-all;
-  font-size: 0.563 !important;
+  font-size: 9px !important;
   padding: 5px 1px !important;
 }
 
@@ -199,7 +199,7 @@ td, th{
 .thHeader {
   background-color: #E9E9E9;
   color: #047474;
-  font-size: 0.938rem;
+  font-size: 15px;
   font-weight: normal;
 }
 th {
@@ -222,7 +222,7 @@ th {
 .tableFooterDiv {
   background-color: #E7E7E7;
   color: #000000;
-  font-size: 1rem;
+  font-size: 16px;
 }
 .f-d-n {
   background-color: #CFCFCF;
@@ -235,14 +235,14 @@ th {
   display: none;
 }
 label{
-  font-size: 0.563rem !important;
+  font-size: 9px !important;
 }
 
 @media print {
   .page-break {page-break-before: always;}
 }
 :root {
-  font-size: 0.875rem;
+  font-size: 14px;
 }
 table tbody tr {
   border: 100px solid black;
@@ -293,7 +293,7 @@ h6 {
 }
 
 .form-status {
-  font-size: 0.625rem;
+  font-size: 10px;
   margin-top: 10px;
 
 }
@@ -304,18 +304,18 @@ h6 {
 .qus-slb {
   margin-left: 2%;
   font-weight: normal;
-  font-size: 0.75rem;
+  font-size: 12px;
 }
 
 .ans-slb {
   margin-left: 1rem;
   font-weight: normal;
-  font-size: 0.75rem;
+  font-size: 12px;
 }
 .qus-h-an {
   margin-bottom: .5rem;
   margin-top: 1rem;
-  font-size: 0.625rem;
+  font-size: 10px;
 }
 
 .ans-h-an {
@@ -344,20 +344,20 @@ display:none
 .qus-h-an-ex {
 margin-bottom: .5rem;
 margin-top: .5rem;
-font-size: 0.625rem;
+font-size: 10px;
 margin-left : .5rem !important;
 }
 .ans-h-an-b {
   margin-bottom: .5rem;
   margin-top: .5rem;
   margin-left : 1rem !important;
-  font-size: 0.625rem;
+  font-size: 10px;
 }
 
 .ans-slb-a {
   margin-left: 5.8rem;
   font-weight: normal !important;
-  font-size: 0.625rem !important;
+  font-size: 10px !important;
 }
 .table > tbody > tr > td,
 .table > tbody > tr > th,
@@ -375,7 +375,7 @@ margin-left : .5rem !important;
 .qus-slb {
   margin-left: 2%;
   font-weight: normal;
-  font-size: 0.75rem;
+  font-size: 12px;
 }
 
 #donwloadButton{
@@ -393,7 +393,7 @@ margin-left: 22%;
 }
 .action-re {
   text-align: center;
-  font-size: 0.75rem !important;
+  font-size: 12px !important;
 }
   </style>`;
   @ViewChild("actionP") _html: ElementRef;
