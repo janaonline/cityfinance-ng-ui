@@ -63,20 +63,19 @@
               </button>
             </form>
           </div>
-          <div class="row mt-4">
-            <div class="col-lg-auto col-sm-12">
-              <span class="rec-text">Recent Searches:</span>
-            </div>
+          <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mt-4">
             <div class="col">
-              <div class="ser-chip" *ngFor="let item of recentSearchArray">
-                <a
-                  style="text-decoration: none"
-                  (click)="dashboardNav(item)"
-                  class="centerSearchedValues"
-                >
-                  <span class="rec-text">{{ item?.name }}</span>
-                </a>
-              </div>
+              <span class="p-3 rec-text">Recent Searches:</span>
+            </div>
+
+            <div class="ser-chip col" *ngFor="let item of recentSearchArray">
+              <a
+                style="text-decoration: none"
+                (click)="dashboardNav(item)"
+                class="centerSearchedValues truncate"
+              >
+                <span class="rec-text">{{ item?.name }}</span>
+              </a>
             </div>
           </div>
         </div>
