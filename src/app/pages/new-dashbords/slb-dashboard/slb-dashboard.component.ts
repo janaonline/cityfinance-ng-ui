@@ -267,6 +267,7 @@ export class SlbDashboardComponent
 
   stateUlbData = JSON.parse(localStorage.getItem("ulbList"));
   showDataAvailable: boolean = true;
+  showYearDropdown: boolean = false;
   ngOnInit(): void {
     this.dashboardLastUpdatedYear();
     this.getNationalLevelMapData("2020-21");

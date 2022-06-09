@@ -134,8 +134,12 @@ export class ExcelService {
     //   tl: { col: 0.1, row: 0.1 },
     //   ext: { width: 180, height: 31 }
     // });
-    worksheet.addImage(logo, "A1:A2");
-    worksheet.mergeCells("A1:A2");
+    worksheet.addImage(logo, {
+      tl: { col: 0, row: 0 },
+      br: { col: 8, row: 2 }
+    });
+    // worksheet.addImage(logo, "A1:H1");
+    // worksheet.mergeCells("A1:A2");
 
     // Color for logo backgeound
     worksheet
@@ -182,6 +186,8 @@ export class ExcelService {
     }[],
     options?: { currencyConversionName?: string }
   ) {
+
+
     // Create workbook and worksheet
     const workbook = new ExcelJs.Workbook();
     const worksheet = workbook.addWorksheet("Report");

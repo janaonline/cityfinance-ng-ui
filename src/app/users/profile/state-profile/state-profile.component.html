@@ -1,6 +1,6 @@
 <button class="back_button" (click)="window.history.back()">Back</button>
 
-<h3>
+<h3 class="mt-2">
   {{
     profileData && profileData.role === "STATE"
       ? "Edit Profile"
@@ -27,7 +27,7 @@
         placeholder="State"
         [ngClass]="{
           'is-invalid': profileForm?.controls?.state.errors
-        }"
+        }" style="width: 57%;"
       >
         <option value="" selected disabled>State</option>
         <option *ngFor="let state of stateList" [value]="state._id">

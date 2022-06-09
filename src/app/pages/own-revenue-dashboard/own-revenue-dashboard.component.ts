@@ -590,6 +590,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
   pieChartLoading = true;
   chartDataNotFound = false;
+  pieChartColor = [
+    "#76d12c",
+    "#ed8e3b",
+    "#15c3eb",
+    "#eb15e3",
+    "#e6e21c",
+    "#fc3d83",
+    "#11BC46",
+    "#456EDE",
+    "#224CC0",
+    "#000000",
+    "#DAE2FD",
+    "#626262",
+    "#FFC093",
+    "#304D89"
+  ];
   getPieChartData() {
     this.pieChartLoading = true;
     let temp = {
@@ -599,14 +615,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         datasets: [
           {
             data: [],
-            backgroundColor: [
-              "#76d12c",
-              "#ed8e3b",
-              "#15c3eb",
-              "#eb15e3",
-              "#e6e21c",
-              "#fc3d83",
-            ],
+            backgroundColor: [],
             fill: false,
           },
         ],
@@ -621,10 +630,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
             this.pieChartLoading = false;
             return;
           }
-          res["data"].map((value) => {
+          res["data"].map((value, index) => {
             this.chartDataNotFound = false;
             temp.data.labels.push(value?._id["revenueName"]);
             temp.data.datasets[0].data.push(value?.amount);
+            temp.data.datasets[0].backgroundColor.push(value?.colour ? value?.colour : this.pieChartColor[index % this.pieChartColor.length]);
             this.isLoading = false;
             this.pieChartLoading = false;
           });
