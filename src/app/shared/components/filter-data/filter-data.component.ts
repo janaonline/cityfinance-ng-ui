@@ -464,7 +464,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         this.isPerCapita ? "" : "Cr"
       }.
 ULB ${this.selectedTab} for FY' ${
-        yearData[1]._id.financialYear
+  yearData[yearData.length - 1]._id.financialYear
       } is Rs. ${convertToCr(
         yearData[yearData.length - 1].amount,
         this.isPerCapita
