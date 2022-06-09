@@ -294,7 +294,7 @@ export class ScorePerComponent implements OnInit {
       this.prescribeText =
         "You have adopted all the property tax reforms. Your property tax system is robust, which should increase the share of property tax in own revenues.";
       this.clonePrescribeText = this.prescribeText;
-    } else if (currentScore < 99 && currentScore > 50) {
+    } else if (currentScore < 99 && currentScore >= 50) {
       this.prescribeText = `You have adopted ${count} property tax reforms. Your property tax system has scope for further improvement. You see section-wise score and prescription pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms. Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
       this.clonePrescribeText = this.prescribeText;
     } else if (currentScore < 49) {

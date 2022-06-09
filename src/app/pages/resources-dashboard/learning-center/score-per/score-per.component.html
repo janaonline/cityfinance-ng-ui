@@ -1,105 +1,68 @@
 <div class="row mb-3 mt-3">
-  <div class="col-12">
-    <h3>Assess the health of your property tax system in 5 easy steps</h3>
-    <p>
-      Find out how your state and ULB are doing on various property tax
-      parameters. Select the state and ULB from the dropdown menu and answer a
-      few questions to know your score.
-    </p>
-  </div>
-  <div class="col-12 col-md-8 col-lg-7">
-    <div class="row" style="align-items: center">
-      <div class="col-6 col-md-4">
-        <select
-          class="form-select"
-          id="stateName"
-          (change)="changeState($event.target.value)"
-          aria-label="Default select"
-        >
+    <div class="col-12">
+        <h3>Assess the health of your property tax system in 5 easy steps</h3>
+        <p>
+            Find out how your state and ULB are doing on various property tax parameters. Select the state and ULB from the dropdown menu and answer a few questions to know your score.
+        </p>
+    </div>
+    <div class="col-12 col-md-8 col-lg-7">
+        <div class="row" style="align-items: center">
+            <div class="col-6 col-md-4">
+                <select class="form-select" id="stateName" (change)="changeState($event.target.value)" aria-label="Default select">
           <option value="" selected>Select State</option>
           <option [value]="item?.code" *ngFor="let item of stateList">
             {{ item?.name }}
           </option>
         </select>
-      </div>
-      <div class="col-6 col-md-4">
-        <select
-          class="form-select"
-          aria-label="Default select"
-          (change)="changeUlb($event.target.value)"
-          [disabled]="ulbDisabled"
-        >
+            </div>
+            <div class="col-6 col-md-4">
+                <select class="form-select" aria-label="Default select" (change)="changeUlb($event.target.value)" [disabled]="ulbDisabled">
           <option selected>Select ULB</option>
           <option [value]="item?._id" *ngFor="let item of ulbList">
             {{ item?.name }}
           </option>
         </select>
-      </div>
-      <div class="col-12 col-md-4 text-md-center mt-3 mt-md-0">
-        <button
-          class="btn btn-gS"
-          [disabled]="disStartedBtn"
-          (click)="getStartedScore()"
-        >
+            </div>
+            <div class="col-12 col-md-4 text-md-center mt-3 mt-md-0">
+                <button class="btn btn-gS" [disabled]="disStartedBtn" (click)="getStartedScore()">
           {{ btnName }}
         </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div
-  class="row mb-3"
-  [ngClass]="{ hideCls: stepperScoreDiv }"
-  *ngIf="stepperScoreDiv"
->
-  <div class="col-sm-12">
-    <div class="container-cnt">
-      <div class="card">
-        <div class="row">
-          <div class="col-md-12 text-end">
-            <a (click)="closeScoreCard()">
-              <img
-                src="../../../../../assets/new_dashBord_ftr_hdr/Icon feather-menu.svg"
-                alt=""
-              />
-            </a>
-          </div>
-          <div class="col-md-12 text-center">
-            <h3>Property Tax Health Score</h3>
-            <h5>
-              Find your score based on 5 stages of property tax lifecycle The
-              performance of your city is displayed on various parameters based
-              on your answers
-            </h5>
-          </div>
+            </div>
         </div>
-        <div class="container container-stepper">
-          <div class="row">
-            <div class="col-md-12">
-              <form
-                *ngIf="scorePerformanceForm"
-                [formGroup]="scorePerformanceForm"
-              >
-                <mat-horizontal-stepper
-                  linear="true"
-                  labelPosition="bottom"
-                  id="stepper"
-                  #stepper
-                  [class]="
+    </div>
+</div>
+<div class="row mb-3" [ngClass]="{ hideCls: stepperScoreDiv }" *ngIf="stepperScoreDiv">
+    <div class="col-sm-12">
+        <div class="container-cnt">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <a (click)="closeScoreCard()">
+                            <img src="../../../../../assets/new_dashBord_ftr_hdr/Icon feather-menu.svg" alt="" />
+                        </a>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <h3>Property Tax Health Score</h3>
+                        <h5>
+                            Find your score based on 5 stages of property tax lifecycle The performance of your city is displayed on various parameters based on your answers
+                        </h5>
+                    </div>
+                </div>
+                <div class="container container-stepper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form *ngIf="scorePerformanceForm" [formGroup]="scorePerformanceForm">
+                                <mat-horizontal-stepper linear="true" labelPosition="bottom" id="stepper" #stepper [class]="
                     'selectedIndex' +
                     stepper.selectedIndex +
                     ' mat-stepper-label-position-bottom'
-                  "
-                >
-                  <mat-step formArrayName="enumeration">
-                    <ng-template matStepLabel>
-                      <span
-                        title="Enumeration"
-                        [ngClass]="{
+                  ">
+                                    <mat-step formArrayName="enumeration">
+                                        <ng-template matStepLabel>
+                                            <span title="Enumeration" [ngClass]="{
                           'l-green': lGreen.enum,
                           'l-selected': lSelected?.enum
-                        }"
-                        >Enumeration</span
+                        }">Enumeration</span
                       >
                     </ng-template>
                     <div class="row">
@@ -112,20 +75,13 @@
                         >
                           <div class="col-12 col-sm-12">
                             <span class="str-Qus">1.{{ i + 1 }}</span>
-                            <!-- </div>
+                                            <!-- </div>
                                                 <div class="col-10"> -->
-                            <span class="str-Qus">
+                                            <span class="str-Qus">
                               &nbsp;{{ item?.value?.questionText }}
                             </span>
-                            <div
-                              class="btn-div"
-                              btnRadioGroup
-                              formControlName="answer"
-                            >
-                              <label
-                                [btnRadio]="true"
-                                class="btn btn-yes btn-stp"
-                                >Yes</label
+                                            <div class="btn-div" btnRadioGroup formControlName="answer">
+                                                <label [btnRadio]="true" class="btn btn-yes btn-stp">Yes</label
                               >
                               <label
                                 [btnRadio]="false"
@@ -443,8 +399,9 @@
       <div class="row me-0">
         <div class="col-sm-12 col-md-6 prs-div pe-0">
           <!-- chart--- -->
+          <!-- (click)="presDetails(item, i, item?.name)" -->
           <a
-            (click)="presDetails(item, i, item?.name)"
+
             class="pres-aTag"
             [ngClass]="{ 'pres-active': item?.selected }"
             *ngFor="
