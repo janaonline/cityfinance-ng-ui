@@ -75,14 +75,28 @@
                     </div>
                 </div>
                 <div class="row link-div" *ngIf="eligibleForms['gtc']" routerLinkActive="active">
-                    <a [routerLink]="['gtCertificate']">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['gtCertificate']">
                             <mat-icon aria-hidden="false">
                                 <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
                             </mat-icon>
+                            
+                    </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['gtCertificate']">
+                           
                             <span>
                             Grant Transfer Certificate
     
                             </span>
+                        
+                           
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['gtCertificate']">
+                           
                         
                             <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                                 <img src="../../../assets/form-icon/checked.svg">
@@ -92,8 +106,19 @@
                                 <img src="../../../assets/form-icon/cancel.svg">
                             </mat-icon>
                     </a>
+                    </div>
+                    
                 </div>
                 <div class="row link-div" *ngIf="eligibleForms['pfms']" routerLinkActive="active">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+
+                    </div>
                     <a [routerLink]="['link-in-pfms']">
                             <mat-icon aria-hidden="false">
                                 <img src="../../../assets/stateform/lnPfms.svg" class="svg-gl">
@@ -118,6 +143,15 @@
                 <div class="row link-div" *ngIf="eligibleForms['waterRejuvenation']">
                     <!-- <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
                         aria-controls="collapseBasicSer"> -->
+                        <div class="col-sm-2 col-lg-2 col-md-2">
+
+                        </div>
+                        <div class="col-sm-8 col-lg-8 col-md-8">
+
+                        </div>
+                        <div class="col-sm-2 col-lg-2 col-md-2">
+
+                        </div>
                         <mat-icon aria-hidden="false" style="margin-top: 3px;">
                             <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
                         </mat-icon>
@@ -129,14 +163,27 @@
                 </div>
                 <!-- <div id="collapseBasicSer" [collapse]="isCollapsedSer"> -->
                 <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
-                    <a [routerLink]="['water-supply']">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['water-supply']">
                             <mat-icon aria-hidden="false">
                                 <img src="../../../assets/stateform/suplywater.png">
                             </mat-icon>
+                           
+                    </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['water-supply']">
+                           
                            <span>
                             Indicators for Water Supply and Sanitation
     
                            </span>
+                        
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['water-supply']">
+                        
                         <div class="col-sm-1 col-xs-1 text-right">
                             <!-- <mat-icon aria-hidden="false">
                                 <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
@@ -152,18 +199,33 @@
     
                         </div>
                     </a>
+                    </div>
+                    
                 </div>
                 <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
-                    <a [routerLink]="['water-rejenuvation']">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['water-rejenuvation']">
                             <mat-icon aria-hidden="false" style="margin-top: 4px;">
                                 <img src="../../../assets/stateform/water-cycle.svg">
                             </mat-icon>
+                            
+                    </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['water-rejenuvation']">
+                            
                             <span>
                             Projects for Water and Sanitation
     
                             </span>
                         
-                        <div class="col-sm-1 col-xs-1 text-right">
+                        
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['water-rejenuvation']">
+                        
+                        
                             <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                                 <img src="../../../assets/form-icon/checked.svg">
                             </mat-icon>
@@ -171,19 +233,34 @@
                                 [tooltip]="tolTemplateN">
                                 <img src="../../../assets/form-icon/cancel.svg">
                             </mat-icon>
-                        </div>
                     </a>
+                    </div>
+
+                    
                 </div>
                 <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
-                    <a [routerLink]="['action-plan']">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['action-plan']">
                             <mat-icon aria-hidden="false" style="margin-top: 4px;">
                                 <img src="../../../assets/stateform/actionPlan.svg" style="filter: invert(1);">
                             </mat-icon>
+                         
+                        
+                    </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['action-plan']">
+                            
                             <span>
                             Action Plan for UA Service Level Indicators
     
                             </span>
-                        <div class="co2-sm-1 col-xs-1 col-lg-1 text-right">
+                        
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['action-plan']">
+                            
                             <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                                 <img src="../../../assets/form-icon/checked.svg">
                             </mat-icon>
@@ -191,8 +268,9 @@
                                 [tooltip]="tolTemplateN">
                                 <img src="../../../assets/form-icon/cancel.svg">
                             </mat-icon>
-                        </div>
                     </a>
+                    </div>
+                    
                 </div>
                 <!-- </div> -->
                 <!-- <div class="row link-div">
@@ -219,43 +297,73 @@
                 </div> -->
         
                 <div class="row link-div" routerLinkActive="active" *ngIf="eligibleForms['grantAllocation']">
-                    <a [routerLink]="['grant-allocation']">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['grant-allocation']">
                             <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
                                 <img src="../../../assets/stateform/surface1 (2).svg">
                             </mat-icon>
+                            
+                    </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['grant-allocation']">
+                            
                             <span>
                             Grant Allocation to ULBs
     
                             </span>
                         
-                        <div class="col-sm-1 col-xs-1 text-right" style="margin-left: 1rem;">
+                        
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['grant-allocation']">
+                            
+                        
                             <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
                                 <img src="../../../assets/form-icon/checked.svg">
                             </mat-icon>
                             <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                                 <img src="../../../assets/form-icon/cancel.svg">
                             </mat-icon>
-                        </div>
+                        
                     </a>
+                    </div>
+                    
+                    
                 </div>
                 <div class="row link-div" routerLinkActive="active">
-                    <a [routerLink]="['grant-claims']">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['grant-claims']">
                             <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
                                 <img src="../../../assets/stateform/surface1 (2).svg">
                               
                             </mat-icon>
+                            
+                    </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['grant-claims']">
+                            
                             <span>
                                 Submit Claims for 15th FC Grants
     
                             </span>
                         
-                        <div class="col-sm-1 col-xs-1 text-right" style="margin-left: 1rem;">
+                        
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['grant-claims']">
+                            
                             
                             <mat-icon class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
                                 <img src="../../../assets/form-icon/cancel.svg">
                             </mat-icon>
-                        </div>
+                        
                     </a>
+                    </div>
+                    
                 </div>
     
                 <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
