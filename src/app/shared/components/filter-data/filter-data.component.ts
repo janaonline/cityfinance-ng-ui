@@ -460,13 +460,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         yearData[yearData.length - 1]._id.financialYear
       } years (ULB ${this.selectedTab} for FY' ${
         yearData[0]._id.financialYear
-      } is Rs.${convertToCr(yearData[0].amount, this.isPerCapita)} ${
+      } is Rs.${convertToCr(yearData[0].amount/yearData.length, this.isPerCapita)} ${
         this.isPerCapita ? "" : "Cr"
       }.
 ULB ${this.selectedTab} for FY' ${
   yearData[yearData.length - 1]._id.financialYear
       } is Rs. ${convertToCr(
-        yearData[yearData.length - 1].amount,
+        yearData[yearData.length - 1].amount/yearData.length,
         this.isPerCapita
       )} ${this.isPerCapita ? "" : "Cr"}.)`;
       this.positiveCAGR = CAGR > 0;
