@@ -261,7 +261,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: "State Average",
+      compareType: "State ",
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
