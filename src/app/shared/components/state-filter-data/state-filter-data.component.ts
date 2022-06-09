@@ -328,6 +328,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   mainTab: string = "";
   @Input() selectedStateId: any;
   sourceDashboardName: string = 'State Dashboard';
+  @Input() showYearDropdown: boolean = true;
+  @Input() selectedYear: any;
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -1019,6 +1021,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
+    /* These 2 @Input are used for slb dashboard */
+    if (changes.hasOwnProperty("showYearDropdown") && changes.showYearDropdown.currentValue) {
+      this.showYearDropdown = changes.showYearDropdown.currentValue;
+    }
+    if ((changes.hasOwnProperty("selectedYear")) && (changes.selectedYear.currentValue) && (!changes.selectedYear.firstChange)) {
+      this.financialYear = changes.selectedYear.currentValue;
+      console.log('this.financialYear', this.financialYear);
+      this.callStandaLoneSlbDashboardApis();
+      return;
+    }
+    /* These 2 @Input are used for slb dashboard end */
     if (
       changes.hasOwnProperty("selectedStateId") &&
       changes.selectedStateId.currentValue &&
@@ -1762,6 +1775,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.barChartPayload?.apiEndPoint,
       this.stateServiceLabel
     );
+  }
+
+  callStandaLoneSlbDashboardApis() {
+    this.getScatterData();
+    this.getServiceLevelBenchmarkBarChartData(); 
   }
 }
 

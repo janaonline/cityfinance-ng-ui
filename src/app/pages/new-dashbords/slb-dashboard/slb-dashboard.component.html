@@ -294,6 +294,8 @@
           <app-state-filter-data
             [data]="selectedSlbSubTab"
             [stateServiceLabel]="isStateServiceLabel"
+            [showYearDropdown]="showYearDropdown"
+            [selectedYear]="selectedYear"
           ></app-state-filter-data>
           <!-- [selectedStateId]="stateId" -->
         </ng-container>
@@ -303,6 +305,7 @@
             [year]="selectedYear"
             [cityId]="cityId"
             [data]="selectedSlbSubTab"
+            [showYearDropdown]="showYearDropdown"
           ></app-slb-charts>
         </ng-container>
       </ng-container>
