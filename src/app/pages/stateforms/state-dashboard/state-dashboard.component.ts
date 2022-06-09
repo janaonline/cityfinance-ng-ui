@@ -1046,5 +1046,19 @@ if(this.maindonughtChart){
       sessionStorage.setItem("slbStateData", JSON.stringify(this.getData));
     }, 500);
   }
+
+  openDialogOverAllList() {
+    console.log(this.id);
+    const dialogRef = this.dialog.open(OverallListComponent, {
+      height: "700px",
+      data: {
+        state_id: null,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
 
