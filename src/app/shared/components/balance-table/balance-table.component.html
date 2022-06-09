@@ -12,7 +12,7 @@
             <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
                 <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">Absolute</mat-radio-button>
                 <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita</mat-radio-button>
-              </mat-radio-group>
+            </mat-radio-group>
             <div class="mr-1 customFilter">
                 <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
                 Compare By
@@ -123,33 +123,33 @@
             </div>
         </div>
     </div> -->
-    <app-basic *ngIf="show &&  !compare" ></app-basic>
+    <app-basic *ngIf="show &&  !compare"></app-basic>
     <app-comparative-ulb *ngIf="show && compare"></app-comparative-ulb>
     <div class="tableResponsive" *ngIf="show">
-          <table style="width:100%;margin-bottom: 2%;">
+        <table style="width:100%;margin-bottom: 2%;">
             <tr class="customTable">
-              <th class="report stickyColumn smallScreenHeader" colspan="2">Download Report</th>
-              <th class="text-center smallScreenHeader" *ngFor="let year of currentUlbFilterData?.financialYear" style="background-color: rgb(226,226,226)">{{year}}</th>
-              <!-- <th style="background-color: rgb(226,226,226)"></th>
+                <th class="report stickyColumn smallScreenHeader" colspan="2">Download Report</th>
+                <th class="text-center smallScreenHeader" *ngFor="let year of currentUlbFilterData?.financialYear" style="background-color: rgb(226,226,226)">{{year}}</th>
+                <!-- <th style="background-color: rgb(226,226,226)"></th>
               <th style="background-color: rgb(226,226,226)"></th>
               <th style="background-color: rgb(226,226,226)"></th>
               <th style="background-color: rgb(226,226,226)"></th> -->
             </tr>
             <tr class="blank-td"></tr>
-            <tr class="customTable" >
-              <td colspan="2" class="report-title stickyColumn">Raw PDF</td>
-              <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'pdf')">
-                <i class="fa fa-file-pdf-o"></i>
-              </td>
+            <tr class="customTable">
+                <td colspan="2" class="report-title stickyColumn">Raw PDF</td>
+                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'pdf')">
+                    <i class="fa fa-file-pdf-o"></i>
+                </td>
             </tr>
             <tr class="blank-td"></tr>
             <tr class="customTable">
-              <td colspan="2" class="report-title stickyColumn">Standardised Excel</td>
-              <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'excel')">
-                <i class="fa fa-file-excel-o"></i>
-              </td>             
+                <td colspan="2" class="report-title stickyColumn">Raw Excel</td>
+                <td class="cursor text-center" *ngFor="let year of currentUlbFilterData?.financialYear" (click)="getReport(year, 'excel')">
+                    <i class="fa fa-file-excel-o"></i>
+                </td>
             </tr>
-          </table>
+        </table>
     </div>
     <div>
         <p style="opacity: 0.7;margin-bottom: 2%;">* PDF consists of final financial dataset as published by the ULB. Excel File contains standardised data from this raw PDF to enable comparison and analysis.</p>
@@ -162,5 +162,6 @@
 </div>
 
 <ng-template #template>
-    <app-compare-dialog [balcnceTab]="true" [type]="3" (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)" [preSelectedUlbList]="ulbListVal" [preSelectedYears]="years" [preSelectedUlbIds]="ulbIdval" (SelectYearList)="selectedValueYears($event)" (SelectYears)="selectedYea($event)" [showDropDown]="true"></app-compare-dialog>
+    <app-compare-dialog [balcnceTab]="true" [type]="3" (closeDialog)="closeModal()" (ulbValues)="ulbVal($event)" (ulbValueList)="ulbValList($event)" [preSelectedUlbList]="ulbListVal" [preSelectedYears]="years" [preSelectedUlbIds]="ulbIdval" (SelectYearList)="selectedValueYears($event)"
+        (SelectYears)="selectedYea($event)" [showDropDown]="true"></app-compare-dialog>
 </ng-template>
