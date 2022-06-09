@@ -25,7 +25,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
     public loaderService: GlobalLoaderService,
     private snackbar: MatSnackBar
   ) {}
-
+  @Input() showYearDropdown: boolean = true;
   isCompare = false;
   slbGaugeCharts = [];
   @Input() data: any;
@@ -41,8 +41,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
   compareDialogType = 3;
   compareType = "";
   compareByName;
-  @Input()
-  year;
+  @Input() year;
   ulbList;
   yearList = [
     "2015-16",
@@ -95,7 +94,7 @@ export class SlbChartsComponent implements OnInit, OnChanges {
       this.ulbList = JSON.parse(localStorage.getItem("ulbMapping"));
     }
     if (changes && changes.year && changes.year.currentValue) {
-      // this.year = changes.year.currentValue;
+      this.year = changes.year.currentValue;
       console.log(this.year);
       // this.getData();
     }
