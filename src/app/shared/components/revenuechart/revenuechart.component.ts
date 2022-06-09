@@ -510,6 +510,13 @@ export class RevenuechartComponent
     //dom is fully loaded, but maybe waiting on images & css files
     console.log("chartId==>", this.chartId, this.chartData);
     setTimeout(() => {
+      // }
+      //    this.chartData.data.labels.sort(function (a, b) {
+      //      let newA = a.split("-")[0];
+      //      let newB = b.split("-")[0];
+      //      return newA - newB;
+      //    });
+      console.log("chartId==>1", this.chartId, this.chartData);
       if (this.chartData?.data?.datasets.length) {
         let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
         if (!canvas) {
@@ -2115,7 +2122,7 @@ export class RevenuechartComponent
       isPerCapita ? "₹" : "Cr"
     }`;
     this.barChartStaticOptions.scales.xAxes[0].barThickness =
-      this.barWidthRender;    
+      this.barWidthRender;
     this.barChartStaticOptions.tooltips.callbacks.label = this.apiParamData?.selectedTab
     .toLowerCase()
     .includes("surplus")

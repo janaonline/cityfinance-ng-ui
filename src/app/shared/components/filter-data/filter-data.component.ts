@@ -169,6 +169,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   };
 
   changeActiveBtn(i) {
+    console.log("indicator ", this.aboutIndicators);
+
     this.hideElements = false;
     console.log(this.data.btnLabels[i], "activeBTN");
     this.btnListInAboutIndicator = this.data.btnLabels.filter(
@@ -208,6 +210,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
     if (this.selectedTab.toLowerCase() == "own revenue mix") this.resetCAGR();
     this.getChartData({});
+    console.log("indicator 1", this.aboutIndicators);
   }
 
   actionFromChart(value) {
@@ -217,6 +220,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChange', changes)
     if (changes.data) {
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
@@ -231,6 +235,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.setHeadOfAccount();
     }
     console.log("this.barChart", this.barChart);
+    console.log('indicator 2', this.aboutIndicators );
   }
 
   setHeadOfAccount() {
@@ -245,6 +250,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   apiCall;
   barChartPayload: any = {};
   getChartData(data = {}) {
+    console.log("chart data", data);
+
     if (this.headOfAccount == "") {
       this.headOfAccount = "Tax";
     }
@@ -277,6 +284,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.apiCall) {
       this.apiCall.unsubscribe();
     }
+    console.log("chart data 1", data);
     this.compareType = body["compareType"];
     this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
       this.selectedTab
@@ -285,7 +293,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     } Average`;
     this.barChartPayload = {};
 
-    this.selectedFinancialYear = body['financialYear'];
+    this.selectedFinancialYear = body["financialYear"];
+    console.log("body===>", body, "mySelectedYears", this.mySelectedYears);
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
@@ -433,7 +442,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       data.ulbData[0]._id.financialYear
     } and FY${data.ulbData[data.ulbData.length - 1]._id.financialYear}
 
-    (Avg. ULB ${this.selectedTab} is Rs.${Math.round(totalUlb)} 
+    (Avg. ULB ${this.selectedTab} is Rs.${Math.round(totalUlb)}
     State Average Total Revenue per capita is Rs.${Math.round(totalState)})`;
     this.positiveCAGR = totalUlb > totalState;
   }
@@ -507,6 +516,7 @@ ULB ${this.selectedTab} for FY' ${
       res.data = tempObj;
     }
     let newData = JSON.parse(JSON.stringify(barChartStatic));
+    console.log('new Data', newData.data.labels);
     newData.data.labels = [];
     // for (const key in res["data"]) {
     const element = res["data"]["ulbData"];
@@ -521,6 +531,7 @@ ULB ${this.selectedTab} for FY' ${
       let newB = b.split("-")[0];
       return newA - newB;
     });
+console.log('new Data', newData.data.labels);
 
     let temp = {},
       index = 0;
@@ -1061,6 +1072,7 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   filterChangeInChart(value) {
+    console.log('filterChangeInChart', value)
     if (value.compareType == "ULBs..") this.hideElements = true;
     else this.hideElements = false;
     this.mySelectedYears = value.year;
