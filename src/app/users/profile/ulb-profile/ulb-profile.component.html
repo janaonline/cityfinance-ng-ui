@@ -6,7 +6,7 @@
   >
     Back
   </button>
-  <h3 *ngIf="profileData" style="width: 100%">
+  <h3 *ngIf="profileData" style="width: 100%" class="ml-2">
     <span *ngIf="profile.disabled">View</span>
     <span *ngIf="profile.enabled">Edit</span>
     Profile
@@ -50,7 +50,7 @@
           [ngClass]="{
             'is-invalid':
               formSubmitted && profile.controls.ulb.controls?.ulbType.errors
-          }"
+          }" style="width: 60%;"
         >
           <option *ngFor="let Utype of ulbTypeList" [value]="Utype._id">
             {{ Utype.name }}
@@ -387,7 +387,7 @@
       {{ respone.successMessage }}
     </p>
 
-    <div *ngIf="profile.disabled && canSubmitForm" class="mt-2">
+    <div *ngIf="profile.disabled && canSubmitForm" class="mt-5">
       <button
         [disabled]="apiInProgress"
         type="button"
@@ -406,7 +406,7 @@
       </button>
     </div>
 
-    <div *ngIf="profile.enabled && canSubmitForm" class="mt-2">
+    <div *ngIf="profile.enabled && canSubmitForm" class="mt-5">
       <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
       <button
         *ngIf="loggedInUserType === USER_TYPE.ULB"
@@ -418,7 +418,7 @@
       </button>
     </div>
 
-    <div *ngIf="profileData.status === 'PENDING'" class="mt-2">
+    <div *ngIf="profileData.status === 'PENDING'" class="mt-5">
       <button
         type="button"
         class="btn btn-primary mr-2"

@@ -89,7 +89,7 @@
               </select>
             </div>
           </div>
-          <div class="col" style="display: flex">
+          <div class="col" style="display: flex" *ngIf="showYearDropdown">
             <select
               class="my-2 customDropdown"
               aria-label="Default select"
@@ -106,7 +106,7 @@
               <!-- <option [value]="item?.code" *ngFor="let item of stateList">{{item?.name}}</option> -->
             </select>
           </div>
-          <div class="col" *ngIf="!compType">
+          <div class="col">
             <form class="filter-form mr-1 my-2">
               <div>
                 <!-- <div class="pe-0 justify-content-end"> -->
@@ -172,6 +172,7 @@
   </div>
 </div>
 
+<!-- {{ percentLabel }} -->
 <!-- <div *ngIf="!stateServiceLabel"> -->
 <div *ngIf="!ActiveButton?.includes('Mix') || stateServiceLabel">
   <div class="container-fluid">
@@ -189,6 +190,8 @@
           [nestedChartFilterOption]="nestedChartFilterOption"
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
+          [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="financialYear"
         ></app-revenuechart>
       </div>
       <div class="col-md-12" *ngIf="stateServiceLabel">
@@ -202,6 +205,8 @@
           [scatterOption]="serviceLevelBenchmarkScatterOption"
           (actionClicked)="getClickedAction($event)"
           [getChartPayload]="scatterChartPayload"
+          [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="financialYear"
         ></app-revenuechart>
       </div>
     </div>
@@ -251,7 +256,7 @@
   <div *ngIf="ActiveButton?.includes('Mix') && !compType">
     <app-revenue-mix
       [chartId]="'doughnutDataChartId'"
-      [chartData]="doughnutData"
+      [chartData]="multiChart ? mainDoughnutArr : doughnutData"
       [chartOptions]="doughnutChartOptions"
       (compType)="getCompType($event)"
       [multiChart]="multiChart"
@@ -260,6 +265,7 @@
       [returnCompType]="compType"
       (actionClicked)="getClickedAction($event)"
       [getChartPayload]="scatterChartPayload"
+      [SelecetedUlb]="ulbId"
     ></app-revenue-mix>
   </div>
 </div>
@@ -278,6 +284,7 @@
       (actionClicked)="getClickedAction($event)"
       [getChartPayload]="scatterChartPayload"
       [multipleTitle]="multipleChartTitle"
+      [SelecetedUlb]="ulbId"
     ></app-revenue-mix>
   </div>
 </div>
@@ -338,16 +345,9 @@
         [notFound]="barChartNotFound"
         (actionClicked)="getClickedAction($event)"
         [getChartPayload]="barChartPayload"
+        [sourceDashboardName]="sourceDashboardName"
+        [selectedFinancialYear]="financialYear"
       ></app-revenuechart>
-      <!-- <app-revenuechart
-        *ngIf="BarGraphValue === false"
-        [headerActions]="headerActions"
-        [chartTitle]="
-          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.'
-        "
-        [chartId]="bottomBarChartId456"
-        [chartData]="bottomBarData"
-      ></app-revenuechart> -->
     </div>
   </div>
 </div>

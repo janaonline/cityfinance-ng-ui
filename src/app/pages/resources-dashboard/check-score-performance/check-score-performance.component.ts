@@ -51,7 +51,7 @@ export class CheckScorePerformanceComponent implements OnInit {
     })
   }
 
-  
+
   noPopupData: boolean = false;
   globalSearchClick() {
 
@@ -63,14 +63,19 @@ export class CheckScorePerformanceComponent implements OnInit {
       this.resource_das_services.getReportCard(this.ulb_id).subscribe((res: any)=>{
        console.log('responce ulb..', res, typeof(res));
        if(res.data) {
-         
+
         this.noPopupData = false
        this.reportScoreDiv = true;
        this.scoreReportData = res?.data;
        this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
         el.isActive = false;
        })
-       this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
+      //  this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
+      this.prescription =   `You have adopted 11 property tax reforms. Your property tax system has scope for
+       further improvement. You see section-wise score and prescription pertaining to areas
+       of improvement, and refer the property tax toolkit (hyperlink) for information on steps
+        towards property tax reforms. Property
+      tax reforms have potential to increase revenues and collection, and improve financial sustainability.`
         res.data.currentUlb.partcularAnswerValues[0].isActive = true;
       // this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
         if(this.scoreReportData){
@@ -97,7 +102,7 @@ export class CheckScorePerformanceComponent implements OnInit {
   }
   presDetails(presItem) {
     // console.log(presItem);
-    this.prescription = presItem?.prescription;
+    //this.prescription = presItem?.prescription;
     this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el)=>{
       el.isActive = false;
      });

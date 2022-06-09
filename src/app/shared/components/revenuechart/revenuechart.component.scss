@@ -1,76 +1,77 @@
 .iconText {
-  color: #e67e15;
-  font-size: 13px;
+    color: #e67e15;
+    font-size: 11px;
 }
 
 .chartHeader {
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: "Archivo";
-  color: #0f1f40;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: "Archivo";
+    color: #0f1f40;
+}
 
-}
 @media screen and (max-width: 800px) {
-  .container {
-      margin-top:4%;
-      overflow-x: hidden;
-      
-  }
-  // .canvasRes{
-  //   margin-left: 24%;
-  // }
-   .controller{
-    margin-bottom: 24%;
-    margin-top: 9%;
-   }
-   .compareCustom{
-     height:53% !important; 
-     font-size: 10px !important;
-   }
+    .container {
+        margin-top: 4%;
+        overflow-x: hidden;
+    }
+    // .canvasRes{
+    //   margin-left: 24%;
+    // }
+    .controller {
+        margin-bottom: 24%;
+        margin-top: 9%;
+    }
+    .compareCustom {
+        height: 53% !important;
+        font-size: 10px !important;
+    }
 }
+
 .revenuChartContainer {
-  margin-top: 1.8rem;
-  padding-top: 2rem;
-  // @include media-breakpoint-down(sm){
-  //   flex-direction: column;
-  // }
+    margin-top: 1.8rem;
+    padding-top: 2rem;
+    // @include media-breakpoint-down(sm){
+    //   flex-direction: column;
+    // }
 }
 
 .revenueChart {
-  padding-top: 3rem;
+    padding-top: 3rem;
 }
 
 .iconImg img {
-  width: 1em;
-  height: 50%;
-  left: 50%;
-  transform: translate(-50%);
-  position: relative;
-  margin: 0 auto;
+    width: 1em;
+    height: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    position: relative;
+    margin: 0 auto;
 }
 
 .svg {
-  cursor: pointer;
+    cursor: pointer;
 }
 
-.btnBesideTitle > button {
-  box-shadow: 0px 2px 8px #ffdaa8;
-  border-radius: 8px;
-  background: #e67e15;
-  font-size: 0.8rem;
-  font-family: "Archivo";
-  font-weight: 600;
-  border: none;
-  padding: 0.7rem 1.2rem;
-  color: #fff;
-  width: max-content;
+.btnBesideTitle>button {
+    box-shadow: 0px 2px 8px #ffdaa8;
+    border-radius: 8px;
+    background: #e67e15;
+    font-size: 0.8rem;
+    font-family: "Archivo";
+    font-weight: 600;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    color: #fff;
+    width: max-content;
 }
 
 .compare {
-  border: 1px solid #d0d0d0;
-  background-color: white;
-  height: 3.1rem;
+    border: 1px solid #d0d0d0;
+    background-color: white;
+    // height: 1.8rem;
 }
+
 // .canvasResponsive{
 //   width:1170px !important;
 // }
@@ -80,118 +81,147 @@
 //   }
 // }
 @media only screen and (max-width: 800px) {
-  .revenueChart {
-    width: 100%;
-    height: auto;
-    margin-top: 100px !important;
-  }
-  .stateResponse{
-    width: 900px !important;
-  }
-  .labelPieChart{
-    display: -webkit-box;
-    overflow-x:scroll
-  }
-  // ul#horizontal-list li {
-	// 	display: table-caption !important;
-    
-	// }
-  .verticleChart{
-    flex-direction: column;
-  }
-  .verticleCharts{
-    margin-left:25%;
-  }
-  // .verticleChartLabel{
-  //   margin-left:11%;
-  // }
-  .revenueHeading {
-    font-size: 14px;
-  }
-  // .dropDownDiv {
-  //   width: 70vw;
-  //   margin: 0 auto;
-  // }
-  .headerIcons {
-    position: absolute;
-    margin-top: 26%;
-    left: 0%;
-    padding: 0;
-    margin-left: -290px;
-  }
+    .revenueChart {
+        width: 100%;
+        height: auto;
+        margin-top: 100px !important;
+    }
+    .stateResponse {
+        width: 900px !important;
+    }
+    .labelPieChart {
+        display: -webkit-box;
+        overflow-x: scroll;
+    }
+    // ul#horizontal-list li {
+    // 	display: table-caption !important;
+    // }
+    .verticleChart {
+        flex-direction: column;
+    }
+    .verticleCharts {
+        margin: 50%;
+        margin-left: 25%;
+    }
+    // .verticleChartLabel{
+    //   margin-left:11%;
+    // }
+    .revenueHeading {
+        font-size: 14px;
+    }
+    // .dropDownDiv {
+    //   width: 70vw;
+    //   margin: 0 auto;
+    // }
+    .headerIcons {
+        position: absolute;
+        margin-top: 26%;
+        left: 0%;
+        padding: 0;
+        margin-left: -290px;
+    }
 }
 
 @media only screen and (max-width: 400px) {
-  .headerIcons {
-    margin-left: -240px;
-  }
+    .headerIcons {
+        margin-left: -240px;
+    }
 }
-@media only screen and (min-width:750px){
-  .customBigScreen{
-    display: flex;
-    justify-content: center;
-  }
-  .customLabel{
-    position: relative !important;
-    bottom: 24px !important;
-    left: 20px !important;
-  }
-  .customLeftPadding{
-    padding-left:3rem !important;
-  }
+
+@media only screen and (min-width: 750px) {
+    .customBigScreen {
+        display: flex;
+        justify-content: center;
+    }
+    .customLabel {
+        position: relative !important;
+        bottom: 24px !important;
+        left: 20px !important;
+    }
+    .customLeftPadding {
+        padding-left: 3rem !important;
+    }
 }
 
 li {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 .label {
-  margin-left: 15px;
-  font-family: "Source Sans Pro", sans-serif;
-  color: #666666;
-  font-size: 14px;
+    margin-left: 15px;
+    font-family: "Source Sans Pro", sans-serif;
+    color: #666666;
+    font-size: 14px;
 }
 
 .legendValue {
-  float: left;
-  height: 25px;
+    float: left;
+    height: 25px;
 }
 
 .clear {
-  clear: both;
+    clear: both;
 }
 
-.controller{
-  display: flex;
+.controller {
+    display: flex;
 }
 
 ul#horizontal-list {
-	// min-width: 696px;
-	list-style: none;
-	padding-top: 20px;
-  // white-space: nowrap;
-  // overflow: auto;
-	}
-	ul#horizontal-list li {
-		display: inline;
+    // min-width: 696px;
+    list-style: none;
+    padding-top: 20px;
+    // white-space: nowrap;
+    // overflow: auto;
+}
+
+ul#horizontal-list li {
+    display: inline;
     padding-left: 1rem;
-	}
-  ul#horizontal-list li span {
-		display: inline;
+}
+
+ul#horizontal-list li span {
+    display: inline;
     border-radius: 12px;
     padding-left: 1rem;
     margin-right: 3px;
-	}
+}
 
-  .display-none {
+.display-none {
     // display: none !important;
     visibility: hidden !important;
-  }
+}
 
-  .reset-compare-filter {
+.reset-compare-filter {
     font-size: 0.8em;
     cursor: pointer;
     color: #e67e15;
     vertical-align: text-top;
     margin-left: 5px;
-  }
+}
+
+.first-piechart-height {
+    height: 240px;
+}
+
+.mainChart {
+    height: 400px;
+    width: 400px;
+}
+
+.secondaryCharts {
+    height: 300px;
+    width: 300px;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+}
+
+.visibility-show {
+    visibility: visible;
+}
+
+.note-slb {
+    font-weight: 400;
+}

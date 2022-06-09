@@ -23,7 +23,7 @@ export class NationalComponent implements OnInit {
     private authService: AuthService
   ) {
     this._activatedRoute.queryParams.subscribe((param) => {
-      console.log('nationalParam', param)
+      console.log("nationalParam", param);
       this.tabIndex = param.tabIndex ? param.tabIndex : 0;
     });
     this.loadData();
@@ -36,7 +36,7 @@ export class NationalComponent implements OnInit {
   frontPanelData = data;
   revenueData = [Revenue, Expense, Asset, Tax, Liability, Debt];
   tabAboutData: any;
-  tabId: any="61e150439ed0e8575c881028";
+  tabId: any = "61e150439ed0e8575c881028";
   component_name;
   tabIndex;
 
@@ -112,21 +112,24 @@ export class NationalComponent implements OnInit {
       this.checkStickyValue = false;
     }
   }
+
+  getAvailValue(data) {
+    console.log("ebe", data);
+  }
   ngOnInit(): void {
     this.dashboardLastUpdatedYear();
     this.getIndicatorData(this.stateId);
     this.getCardsData();
     this.component_name = "National";
-    // let currentUrl = this.router.url.split("/");
-    // let Url = currentUrl[currentUrl.length - 1]
+    let availData: any = sessionStorage.getItem("dataAvail");
 
-    console.log("tabIndex==>", this.tabIndex)
-
-    if(this.tabIndex == 0) {
-    this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
-      this.nationalDataAvailability = Math.round( res?.data);
-    });
-  }
+    this.nationalDataAvailability = availData;
+    if (this.tabIndex == 0) {
+      this.nationalMapService.dataAvailabilityVal.subscribe((res) => {
+        console.log("newRes", res);
+        this.nationalDataAvailability = Math.round(res?.data);
+      });
+    }
     // this.nationalMapService.currentSelectedStateId.subscribe((res) => {
     //   console.log("emmited state id", res);
     //   this.stateId = res?.data;
@@ -187,7 +190,7 @@ export class NationalComponent implements OnInit {
         min: res.data[0],
         max: res.data[res.data.length - 1].slice(2),
       };
-      console.log('financialYearTexts', this.financialYearTexts)
+      console.log("financialYearTexts", this.financialYearTexts);
 
       this.frontPanelData.dataIndicators.map((elem) => {
         if (elem?.key == "financialStatements") {
@@ -214,6 +217,7 @@ export class NationalComponent implements OnInit {
       } catch (error) {
         this.bondIssueAmount = 0;
       }
+      
       this.isBondIssueAmountInProgress = false;
       this.frontPanelData.dataIndicators.map((elem) => {
         if (elem?.key == "totalMunicipalBonds") {
@@ -296,7 +300,7 @@ export class NationalComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("nationalChanges", changes)
+    console.log("nationalChanges", changes);
   }
 
   loadData() {
@@ -304,15 +308,15 @@ export class NationalComponent implements OnInit {
       .getDashboardTabData("619cc10e6abe7f5b80e45c6d")
       .subscribe(
         (res: any) => {
-          console.log("newResponse", res)
+          console.log("newResponse", res);
           let tab = res.data;
 
-          this.tabAboutData = tab.sort( (x, y) => {
-            return x.position - y.position
+          this.tabAboutData = tab.sort((x, y) => {
+            return x.position - y.position;
             // return x.position - y.position;
           });
           // setTimeout(() => {
-            // this.sortTabData(tab);
+          // this.sortTabData(tab);
           // }, 200);
         },
         (error) => {
@@ -342,8 +346,6 @@ export class NationalComponent implements OnInit {
     this.tabAboutData = res.sort(function (x, y) {
       return x.position - y.position;
     });
-
-    
   }
 
   dashboardLastUpdatedYear() {

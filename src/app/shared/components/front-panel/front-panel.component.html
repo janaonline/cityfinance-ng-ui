@@ -107,12 +107,13 @@
           <canvas id="myChart1" width="100%"> </canvas>
 
           <p *ngIf="!dataAvailLoading" class="doughnut_percentage text-center">
-            {{ financialYear?.data?.percent }}%
+            {{ financialYear?.data?.percent ? financialYear?.data?.percent : availValue }}%
           </p>
-          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center">
+          <p *ngIf="!dataAvailLoading" class="doughnut_text text-center"
+            [ngStyle]="{'font-size': !yearVal ? '15px' : '12px'}">
             Data Availability
           </p>
-          <p class="yearText text-center">({{ yearVal }})</p>
+          <p class="yearText text-center" *ngIf="yearVal">({{ yearVal }})</p>
         </div>
       </div>
     </div>

@@ -59,20 +59,18 @@ export class FilterComponentComponent implements OnInit, OnChanges {
     "2019-20",
     "2020-21",
   ].reverse();
-  cType = [
-    "Raw Data PDF",
-    "Standardised Excel",
-    "Raw Data Excel",
-    "Standardised PDF",
-  ];
+  cType = ["Raw Data PDF", "Raw Data Excel"];
+  // "Standardised Excel",
+  // "Standardised PDF",
   filteredOptions: Observable<any[]>;
 
   getYearsList() {
     this._resourcesDashboardService.getYearsList().subscribe((res: any) => {
       console.log("years===>", res.data);
       this.yearList = res.data;
+      this.yearList.unshift('All Years')
       this.filterForm.patchValue({
-        year: this.yearList[0],
+        year: "All Years",
       });
 
       console.log("this.filterFrom", this.filterForm);
@@ -205,7 +203,7 @@ export class FilterComponentComponent implements OnInit, OnChanges {
       ulbId: "",
       contentType: "Raw Data PDF",
       sortBy: "",
-      year: this.yearList[0],
+      year: "All Years"  ,
     });
     this.filterFormData.emit(this.filterForm);
     this.loadData();

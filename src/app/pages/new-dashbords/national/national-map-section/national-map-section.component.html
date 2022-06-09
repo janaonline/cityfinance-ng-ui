@@ -193,7 +193,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let row of tableData?.rows">
+              <tr *ngFor="let row of tableData?.rows | slice:1">
                 <td
                   *ngFor="let column of tableData?.columns"
                   class="{{ column?.key }}"

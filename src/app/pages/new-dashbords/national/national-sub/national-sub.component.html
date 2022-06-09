@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-sm-12 col-md-6">
-    <div class="row m-0">
-      <!-- <div class="col-12 col-sm-12 pd-s mb-3">
+    <div class="col-sm-12 col-md-6">
+        <div class="row m-0">
+            <!-- <div class="col-12 col-sm-12 pd-s mb-3">
         <button
           class="filterBtn mb-2"
           (click)="getTotalRevenue()"
@@ -17,50 +17,26 @@
           Revenue Mix
         </button>
       </div> -->
-      <div class="col-12 col-sm-12 pd-s mb-3">
-        <ul
-          role="tablist"
-          class="nav nav-pills scrollable"
-          aria-label="Tabs"
-          style="justify-content: left"
-        >
-          <li class="nav-item">
-            <a
-              (click)="subFilterFn('popCat')"
-              role="tab"
-              class="nav-link"
-              [ngClass]="{ popActive: popBtn }"
-              id="pop"
-              style="padding: 0.4rem 2rem; width: 12rem"
-            >
-              <span>Population Category</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              (click)="subFilterFn('ulbType')"
-              role="tab"
-              class="nav-link"
-              [ngClass]="{ popActive: !popBtn }"
-              id="type"
-              style="padding: 0.4rem 2rem; width: 12rem"
-            >
-              <span>ULB Type</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+            <div class="col-12 col-sm-12 pd-s mb-3">
+                <ul role="tablist" class="nav nav-pills scrollable" aria-label="Tabs" style="justify-content: left">
+                    <li class="nav-item">
+                        <a (click)="subFilterFn('popCat')" role="tab" class="nav-link" [ngClass]="{ popActive: popBtn }" id="pop" style="padding: 0.4rem 2rem; width: 12rem">
+                            <span>Population Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a (click)="subFilterFn('ulbType')" role="tab" class="nav-link" [ngClass]="{ popActive: !popBtn }" id="type" style="padding: 0.4rem 2rem; width: 12rem">
+                            <span>ULB Type</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-sm-12 col-md-6">
-    <div class="row m-0">
-      <div class="col-sm-12 col-md-3">
-        <select
-          class="form-select"
-          [(ngModel)]="selectedYear"
-          aria-label="Default select"
-          (change)="selectFinancialYear($event)"
-        >
+    <div class="col-sm-12 col-md-6">
+        <div class="row m-0">
+            <div class="col-sm-12 col-md-3">
+                <select class="form-select" [(ngModel)]="selectedYear" aria-label="Default select" (change)="selectFinancialYear($event)">
           <!-- <option value="2020-21" selected>2020-21</option> -->
 
           <option value="{{ item }}" *ngFor="let item of financialYearList">
@@ -70,59 +46,42 @@
           <option value="2018-19">2018-19</option>
           <option value="2017-18">2017-18</option> -->
         </select>
-      </div>
-      <div class="col-sm-12 col-md-7 pd-s mb-3">
-        <div class="res-filter">
-          <form class="filter-form w-100">
-            <div class="row">
-              <div class="col-9 col-sm-9 pe-0">
-                <input
-                  type="text"
-                  placeholder="Search for States"
-                  [formControl]="nationalFilter"
-                  [matAutocomplete]="auto"
-                  class="fl-input form-control"
-                />
-              </div>
-              <div class="col-3 col-sm-3 ps-0">
-                <button type="button" class="btn btnFilter">Search</button>
-              </div>
-              <div class="col-12 col-sm-12">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <!-- (click)="filterData(option)" -->
-                  <a
-                    *ngFor="let option of filteredOptions; let i = index"
-                    style="text-decoration: none"
-                  >
-                    <mat-option
-                      [value]="option?.name"
-                      (click)="getSelectedvalue(option)"
-                    >
-                      <span> {{ option?.name }}</span>
-                    </mat-option>
-                  </a>
-                </mat-autocomplete>
-              </div>
             </div>
+            <div class="col-sm-12 col-md-7 pd-s mb-3">
+                <div class="res-filter">
+                    <form class="filter-form w-100">
+                        <div class="row">
+                            <div class="col-9 col-sm-9 pe-0">
+                                <input type="text" placeholder="Search for States" [formControl]="nationalFilter" [matAutocomplete]="auto" class="fl-input form-control" />
+                            </div>
+                            <div class="col-3 col-sm-3 ps-0">
+                                <button type="button" class="btn btnFilter">Search</button>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <!-- (click)="filterData(option)" -->
+                                    <a *ngFor="let option of filteredOptions; let i = index" style="text-decoration: none">
+                                        <mat-option [value]="option?.name" (click)="getSelectedvalue(option)">
+                                            <span> {{ option?.name }}</span>
+                                        </mat-option>
+                                    </a>
+                                </mat-autocomplete>
+                            </div>
+                        </div>
 
-            <!-- <div style="display: inline-block; float: right;">
+                        <!-- <div style="display: inline-block; float: right;">
 
                     </div> -->
-          </form>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-2">
+                <button class="searchButton" (click)="resetFilter()">Reset</button>
+            </div>
         </div>
-      </div>
-      <div class="col-sm-12 col-md-2">
-        <button class="searchButton" (click)="resetFilter()">Reset</button>
-      </div>
-    </div>
-    <div class="row m-0" *ngIf="totalRevenue">
-      <div class="col-12 col-sm-12 text-end pe-4 my-2">
-        <button
-          type="button"
-          class="btnTableView"
-          (click)="tableViewFn()"
-          [ngClass]="{ 'tb-active': tableView }"
-        >
+        <div class="row m-0" *ngIf="totalRevenue">
+            <div class="col-12 col-sm-12 text-end pe-4 my-2">
+                <button type="button" class="btnTableView" (click)="tableViewFn()" [ngClass]="{ 'tb-active': tableView }">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -140,12 +99,7 @@
           </span>
           Table
         </button>
-        <button
-          type="button"
-          class="btnTableView"
-          (click)="graphViewFn()"
-          [ngClass]="{ 'tb-active': graphView }"
-        >
+                <button type="button" class="btnTableView" (click)="graphViewFn()" [ngClass]="{ 'tb-active': graphView }">
           <!-- <span class="">
                   <img src="../../../../../assets/CIty_detail_dashboard – 3/insert_chart_outlined_black_24dp.svg" alt="">
                 </span> -->
@@ -166,73 +120,52 @@
           </span>
           Graph
         </button>
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="" *ngIf="totalRevenue">
-  <div class="row m-0">
-    <div class="col-sm-12 pd-s mb-3" *ngIf="tableView">
-      <div class="table-responsive table-con" *ngIf="tableView">
-        <div *ngIf="!tableLoader">
-          <table class="table" *ngIf="tableData">
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  *ngFor="let column of tableData?.columns"
-                  class="{{ column?.key }}"
-                >
-                  {{ column?.display_name }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of tableData?.rows">
-                <td
-                  *ngFor="let column of tableData?.columns"
-                  class="{{ column?.key }}"
-                >
-                  {{ row[column.key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div
-            *ngIf="!tableData"
-            style="text-align: center; margin-top: 30px; margin-bottom: 30px"
-          >
-            <img
-              src="../../../../assets/images/sad.svg"
-              height="82px"
-              width="89px"
-            />
-            <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
-              No Data Found for chosen options
-            </div>
-            <p style="color: #6e7281; font-size: 16px">
-              {{ notFoundMessage }}
-            </p>
-          </div>
-        </div>
+    <div class="row m-0">
+        <div class="col-sm-12 pd-s mb-3" *ngIf="tableView">
+            <div class="table-responsive table-con" *ngIf="tableView">
+                <div *ngIf="!tableLoader">
+                    <table class="table" *ngIf="tableData">
+                        <thead>
+                            <tr>
+                                <th scope="col" *ngFor="let column of tableData?.columns" class="{{ column?.key }}">
+                                    {{ column?.display_name }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of tableData?.rows | slice: 1">
+                                <td *ngFor="let column of tableData?.columns" class="{{ column?.key }}">
+                                    {{ row[column.key] }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="!tableData" style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+                        <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+                        <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+                            No Data Found for chosen options
+                        </div>
+                        <p style="color: #6e7281; font-size: 16px">
+                            {{ notFoundMessage }}
+                        </p>
+                    </div>
+                </div>
 
-        <div *ngIf="tableLoader" class="preloader-wrapper">
-          <app-pre-loader></app-pre-loader>
+                <div *ngIf="tableLoader" class="preloader-wrapper">
+                    <app-pre-loader></app-pre-loader>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
-      <div class="card-body barCon" style="overflow:scroll">
-        <div
-          class="float-right right"
-          *ngIf="activetab !== 'Deficit or Surplus'"
-        >
-          <select
-            (change)="selectGraphMode($event)"
-            [(ngModel)]="selectedGraphValue"
-            class="form-select"
-          >
+        <div class="col-sm-12 col-md-12 col-lg-12 pd-s mb-3" [hidden]="!graphView">
+            <div class="card-body barCon" style="overflow: scroll">
+                <div class="float-right right" *ngIf="activetab !== 'Deficit or Surplus'">
+                    <select (change)="selectGraphMode($event)" [(ngModel)]="selectedGraphValue" class="form-select">
             <option
               *ngFor="let option of barChartOptions"
               [value]="option?.value"
@@ -241,37 +174,38 @@
             </option>
             <!-- <option value="revenuePerCapita">Revenue Per Capita</option> -->
           </select>
+                </div>
+                <div class="wrapperCanvas">
+                    <canvas id="canvas">{{ chart }}</canvas>
+                </div>
+            </div>
         </div>
-          <div class="wrapperCanvas">  
-            <canvas id="canvas">{{
-              chart
-            }}</canvas>
-          </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="" [hidden]="!mixRevenue">
-  <div class="row m-0">
-    <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
-      <!-- <div *ngIf="loader">Loading</div> -->
-      <div class="card-body barCon">
-        <div class="w-75 m-auto h-75">
-          <h3 class="chart-l text-center">National</h3>
-          <canvas id="doughnut" style="width: 80vw; height: 80vh"></canvas>
-        </div>
-        <div class="row mx-auto justify-content-center">
-          <div
-            class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4"
-            *ngFor="let chart of doughnutArray; let i = index"
-          >
-            <h3 class="chart-l text-center">{{ chart.title }}</h3>
-            <div id="container_{{ i }}">
-              <canvas
-                id="mychart{{ i }}"
-                style="width: 200px; height: 200px"
-                #mycharts
-                >{{ mixRDoughnutPopulationCategory.chart }}</canvas
+    <div class="row m-0">
+        <div class="col-sm-12 col-md-12 col-lg-12 ps-4 mb-3">
+            <!-- <div *ngIf="loader">Loading</div> -->
+            <div class="card-body barCon">
+                <div class="row mx-auto justify-content-center mb-3" *ngIf="isStateSearch">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <h3 class="chart-l text-center">National</h3>
+                        <canvas id="doughnut" style="width: 60vw; height: 60vh"></canvas>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <h3 class="chart-l text-center">{{stateName}}</h3>
+                        <canvas id="stateDoughnut" style="width: 60vw; height: 60vh"></canvas>
+                    </div>
+                </div>
+                <div class="w-50 m-auto h-50" *ngIf="!isStateSearch">
+                    <h3 class="chart-l text-center">National</h3>
+                    <canvas id="doughnut" style="width: 50vw; height: 50vh"></canvas>
+                </div>
+                <div class="row mx-auto justify-content-center">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let chart of doughnutArray; let i = index">
+                        <h3 class="chart-l text-center">{{ chart.title }}</h3>
+                        <div id="container_{{ i }}">
+                            <canvas id="mychart{{ i }}" style="width: 200px; height: 200px" #mycharts>{{ mixRDoughnutPopulationCategory.chart }}</canvas
               >
             </div>
           </div>
@@ -302,16 +236,13 @@
     </div>
   </div>
   <!-- <canvas id="doughnut"></canvas> -->
-</div>
+                        </div>
 
-<div class="container">
-  <div class="row my-5">
-    <div class="m-auto" style="width: 60%">
-      You can also download the source data in excel format
-      <button
-        class="cursor-pointer bottomDownloadButton py-2"
-        (click)="downloadTableData()"
-      >
+                        <div class="container">
+                            <div class="row my-5">
+                                <div class="m-auto" style="width: 60%">
+                                    You can also download the source data in excel format
+                                    <button class="cursor-pointer bottomDownloadButton py-2" (click)="downloadTableData()">
         <img
           src="../../../../assets/CIty_detail_dashboard – 3/2867888_download_icon.svg"
           height="13px"
@@ -320,6 +251,6 @@
         />
         Download Data
       </button>
-    </div>
-  </div>
-</div>
+                                </div>
+                            </div>
+                        </div>

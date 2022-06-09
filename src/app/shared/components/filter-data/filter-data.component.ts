@@ -58,6 +58,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   cityId: any;
   barWidth: any;
   barWidthRender: any;
+  sourceDashboardName: string = 'City Dashboard';
+  selectedFinancialYear: any;
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((paramData) => {
       console.log("cityId", paramData);
@@ -167,6 +169,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   };
 
   changeActiveBtn(i) {
+    console.log("indicator ", this.aboutIndicators);
+
     this.hideElements = false;
     console.log(this.data.btnLabels[i], "activeBTN");
     this.btnListInAboutIndicator = this.data.btnLabels.filter(
@@ -206,6 +210,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     else this.filterName = this.data.btnLabels[i].toLocaleLowerCase();
     if (this.selectedTab.toLowerCase() == "own revenue mix") this.resetCAGR();
     this.getChartData({});
+    console.log("indicator 1", this.aboutIndicators);
   }
 
   actionFromChart(value) {
@@ -215,6 +220,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChange', changes)
     if (changes.data) {
       this.tabName = this.data.name.toLocaleLowerCase();
       this.data = {
@@ -229,6 +235,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       this.setHeadOfAccount();
     }
     console.log("this.barChart", this.barChart);
+    console.log('indicator 2', this.aboutIndicators );
   }
 
   setHeadOfAccount() {
@@ -243,6 +250,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   apiCall;
   barChartPayload: any = {};
   getChartData(data = {}) {
+    console.log("chart data", data);
+
     if (this.headOfAccount == "") {
       this.headOfAccount = "Tax";
     }
@@ -252,7 +261,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       headOfAccount: this.headOfAccount,
       filterName: this.filterName,
       isPerCapita: this.isPerCapita,
-      compareType: "State Average",
+      compareType: "State ",
     };
     body.filterName = body.filterName?.toLocaleLowerCase().split(" ").join("_");
     if (body.filterName == "total_property_tax_collection")
@@ -275,14 +284,17 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.apiCall) {
       this.apiCall.unsubscribe();
     }
+    console.log("chart data 1", data);
     this.compareType = body["compareType"];
     this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
       this.selectedTab
     } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
-    } Average`;
+    } Weighted Average`;
     this.barChartPayload = {};
 
+    this.selectedFinancialYear = body["financialYear"];
+    console.log("body===>", body, "mySelectedYears", this.mySelectedYears);
     this.apiCall = this.commonService.getChartDataByIndicator(body).subscribe(
       (res) => {
         if (body.filterName.includes("mix")) {
@@ -430,7 +442,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       data.ulbData[0]._id.financialYear
     } and FY${data.ulbData[data.ulbData.length - 1]._id.financialYear}
 
-    (Avg. ULB ${this.selectedTab} is Rs.${Math.round(totalUlb)} 
+    (Avg. ULB ${this.selectedTab} is Rs.${Math.round(totalUlb)}
     State Average Total Revenue per capita is Rs.${Math.round(totalState)})`;
     this.positiveCAGR = totalUlb > totalState;
   }
@@ -448,13 +460,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         yearData[yearData.length - 1]._id.financialYear
       } years (ULB ${this.selectedTab} for FY' ${
         yearData[0]._id.financialYear
-      } is Rs.${convertToCr(yearData[0].amount, this.isPerCapita)} ${
+      } is Rs.${convertToCr(yearData[0].amount/yearData.length, this.isPerCapita)} ${
         this.isPerCapita ? "" : "Cr"
       }.
 ULB ${this.selectedTab} for FY' ${
-        yearData[1]._id.financialYear
+  yearData[yearData.length - 1]._id.financialYear
       } is Rs. ${convertToCr(
-        yearData[yearData.length - 1].amount,
+        yearData[yearData.length - 1].amount/yearData.length,
         this.isPerCapita
       )} ${this.isPerCapita ? "" : "Cr"}.)`;
       this.positiveCAGR = CAGR > 0;
@@ -504,6 +516,7 @@ ULB ${this.selectedTab} for FY' ${
       res.data = tempObj;
     }
     let newData = JSON.parse(JSON.stringify(barChartStatic));
+    console.log('new Data', newData.data.labels);
     newData.data.labels = [];
     // for (const key in res["data"]) {
     const element = res["data"]["ulbData"];
@@ -516,8 +529,9 @@ ULB ${this.selectedTab} for FY' ${
     newData.data.labels.sort(function (a, b) {
       let newA = a.split("-")[0];
       let newB = b.split("-")[0];
-      return newB - newA;
+      return newA - newB;
     });
+console.log('new Data', newData.data.labels);
 
     let temp = {},
       index = 0;
@@ -591,6 +605,7 @@ ULB ${this.selectedTab} for FY' ${
     if (!this.hideElements && !this.isPerCapita)
       newData.data.datasets.unshift(newlineDataset);
     console.log("newData ===>", newData);
+
     this.barChart = newData;
     this.barChartStaticOptions.scales.yAxes[0].scaleLabel.labelString = `Amount in ${
       this.isPerCapita ? "₹" : "₹ Cr"
@@ -1032,7 +1047,7 @@ ULB ${this.selectedTab} for FY' ${
       }
       if (other_receipts.includes(value.code)) {
         other_receipt.amount += value.amount;
-        let tempColor = "#038386";
+        let tempColor = "#00ff80";
         if (value.color == tempColor) {
           other_receipt.colour = value.colour;
         } else {
@@ -1057,6 +1072,7 @@ ULB ${this.selectedTab} for FY' ${
   }
 
   filterChangeInChart(value) {
+    console.log('filterChangeInChart', value)
     if (value.compareType == "ULBs..") this.hideElements = true;
     else this.hideElements = false;
     this.mySelectedYears = value.year;

@@ -126,7 +126,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 1,
       name: "4 Million+",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -134,7 +134,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 2,
       name: "1 Million - 4 Million",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -142,7 +142,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 3,
       name: "500 Thousand - 1 Million",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -150,7 +150,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 4,
       name: "100 Thousand-500 Thousand",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -158,7 +158,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
       id: 5,
       name: "<100 Thousand",
       averageRevenue: "0",
-      perCapita: "0",
+      median: "0",
       meetsRevenue: "0",
       avgRevenueMeet: "0",
     },
@@ -462,6 +462,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   body: any;
   financialYear: any;
+  sourceDashboardName: string = 'Own Revenue Performance';
   constructor(
     private ownRevenueService: OwnRevenueService,
     private dialog: MatDialog,
@@ -484,7 +485,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.getYearList();
     this.createDataForFilter();
     this.getBarChartData();
-    this.barChartTitle = "Compare states/ULBs on various financial indicators";
+    // this.barChartTitle = "Compare states/ULBs on various financial indicators";
 
     if (this.cityName) {
       this.filterGroup.controls.ulb.setValue(this.cityName);
@@ -538,6 +539,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
+      
       // this.filterGroup.patchValue({
       //   ulb: ""
       // })
@@ -588,6 +590,22 @@ export class OwnRevenueDashboardComponent implements OnInit {
   }
   pieChartLoading = true;
   chartDataNotFound = false;
+  pieChartColor = [
+    "#76d12c",
+    "#ed8e3b",
+    "#15c3eb",
+    "#eb15e3",
+    "#e6e21c",
+    "#fc3d83",
+    "#11BC46",
+    "#456EDE",
+    "#224CC0",
+    "#000000",
+    "#DAE2FD",
+    "#626262",
+    "#FFC093",
+    "#304D89"
+  ];
   getPieChartData() {
     this.pieChartLoading = true;
     let temp = {
@@ -597,14 +615,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         datasets: [
           {
             data: [],
-            backgroundColor: [
-              "#76d12c",
-              "#ed8e3b",
-              "#15c3eb",
-              "#eb15e3",
-              "#e6e21c",
-              "#fc3d83",
-            ],
+            backgroundColor: [],
             fill: false,
           },
         ],
@@ -619,10 +630,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
             this.pieChartLoading = false;
             return;
           }
-          res["data"].map((value) => {
+          res["data"].map((value, index) => {
             this.chartDataNotFound = false;
             temp.data.labels.push(value?._id["revenueName"]);
             temp.data.datasets[0].data.push(value?.amount);
+            temp.data.datasets[0].backgroundColor.push(value?.colour ? value?.colour : this.pieChartColor[index % this.pieChartColor.length]);
             this.isLoading = false;
             this.pieChartLoading = false;
           });
@@ -725,8 +737,11 @@ export class OwnRevenueDashboardComponent implements OnInit {
         this.dataAvailLoading = false;
         // res["data"].percent = parseFloat(res["data"].percent.toFixed(0));
         // this.availValue = res["data"]?.percent;
-        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
-        res['actualPercent'] = res["data"].percent;
+        let percentage =
+          res["data"] && res["data"].percent
+            ? Math.round(res["data"].percent)
+            : 0;
+        res["actualPercent"] = res["data"].percent;
         res["data"].percent = percentage;
         this.financialYear = res;
         this.availValue = percentage;
@@ -768,6 +783,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
     this.lastBarChartValue = bodyD;
     let labelStr = "";
     console.log("body", bodyD);
+    this.barChartTitle = `Compare states/ULBs on ${bodyD?.param}`;
     this.ownRevenueService.displayBarChartData(bodyD).subscribe(
       (res) => {
         if (res && res["success"] && res["data"]) {
@@ -1104,6 +1120,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
   tableDataLoading = true;
   columnAttribut;
   tableData() {
+    this._loaderService.showLoader();
     this.tableDataLoading = true;
     this.ownRevenueService.getTableData(this.filterGroup.value).subscribe(
       (res) => {
@@ -1111,6 +1128,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         if (this.proTab) this.columnAttribut = this.columnAttributeProperty;
         else this.columnAttribut = this.columnAttribute;
         this.users = this.users.map((value) => {
+          this._loaderService.stopLoader();
           let data = res["data"][value.name];
           if (this.ownTab) {
             value.meetsRevenue = numCheck(data.numOfUlbMeetRevenue);
@@ -1125,25 +1143,21 @@ export class OwnRevenueDashboardComponent implements OnInit {
               value.averageRevenue = "0";
             }
             if (data.population > 0) {
-              value.perCapita = numCheck(data.perCapita);
+              value.median = numCheck(data.median);
             } else {
-              value.perCapita = "0";
+              value.median = "0";
             }
           } else {
-            value.averageRevenue = data.totalProperty.toFixed(0);
+            value.averageRevenue = data.totalRevenue;
+            // value.averageRevenue = data.totalProperty.toFixed(0);
             if (data.population > 0) {
-              value.perCapita = (data.totalProperty / data.population).toFixed(
-                2
-              );
+              value.median = data.median.toFixed(0);
+              // value.median = (data.totalProperty / data.population).toFixed(2);
             } else {
-              value.perCapita = "0";
+              value.median = "0";
             }
             if (data.totalRevenue > 0) {
-              value.avgRevenueMeet = (
-                (data.totalProperty /
-                  (data.totalRevenue - data.totalProperty)) *
-                100
-              ).toFixed(0);
+              value.avgRevenueMeet = data.percentage.toFixed(0);
             } else {
               value.avgRevenueMeet = "0";
             }

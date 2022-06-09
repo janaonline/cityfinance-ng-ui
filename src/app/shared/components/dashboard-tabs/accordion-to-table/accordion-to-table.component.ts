@@ -281,6 +281,7 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
+    console.log('onGettingBondIssuerSuccess', res)
     Object.keys(res).forEach((name) => {
       const capitalizedName = this.capitalizedName(name);
       this.formattedNamesMapping[name] = capitalizedName;
@@ -296,6 +297,7 @@ export class AccordionToTableComponent implements OnInit {
     total: number;
     data: IBondIssureItemResponse["data"];
   }) {
+    console.log('onGettingBondIssuerItemSuccess', datas)
     if (datas.data) {
       this.getFormValue();
     }
@@ -510,6 +512,7 @@ export class AccordionToTableComponent implements OnInit {
 
   selectedUlb: any = [];
   private onGettingULBResponseSuccess(response: IULBResponse) {
+    console.log('onGettingULBResponseSuccess', response);
     if (this.state) {
       let foundState;
       foundState = response.data.filter(
@@ -607,12 +610,12 @@ export class AccordionToTableComponent implements OnInit {
     console.log("selectedUlb", selectedUlb);
 
     this.bondParam.ulbs.push(selectedUlb);
-    setTimeout(() => {
-      console.log("bondParam", this.bondParam);
-      this._bondService
-        .getBondIssuerItem(this.bondParam)
-        .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
-    }, 100);
+    // setTimeout(() => {
+    //   console.log("bondParam", this.bondParam);
+    //   this._bondService
+    //     .getBondIssuerItem(this.bondParam)
+    //     .subscribe((res) => this.onGettingBondIssuerItemSuccess(res));
+    // }, 100);
     this.emptyArray();
     console.log("valueeeeeeee" + this.value);
     if (this.value == "city") {

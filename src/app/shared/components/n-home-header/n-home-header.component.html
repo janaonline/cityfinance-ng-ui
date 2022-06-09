@@ -1,17 +1,10 @@
 <div class="bg-white">
-  <section class="d-lg-block d-none py-2 border-bottom">
-    <div class="container" style="max-width: 92%">
-      <div class="row">
-        <div class="col-sm-6">
-          <img
-            src="/assets/images/emblem-of-india.svg"
-            width="16"
-            alt="Emblem of India"
-            srcset=""
-            class="indian-emblem me-2"
-          />
-          <span class="text-10px"
-            >MINISTRY OF HOUSING AND URBAN AFFAIRS | GOVERNMENT OF INDIA</span
+    <section class="d-lg-block d-none py-2 border-bottom">
+        <div class="container" style="max-width: 92%">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="/assets/images/emblem-of-india.svg" width="16" alt="Emblem of India" srcset="" class="indian-emblem me-2" />
+                    <span class="text-10px">MINISTRY OF HOUSING AND URBAN AFFAIRS | GOVERNMENT OF INDIA</span
           >
         </div>
         <div class="col-sm-6 text-end">
@@ -20,12 +13,8 @@
               >Skip To Main Content</a
             >
           </span>
-          <ng-container *ngFor="let data of textSize">
-            <span
-              (click)="setFontSize(data)"
-              class="text-{{ data }} textIcon"
-              [ngClass]="currentTextSize == data ? 'active' : ''"
-              >A</span
+                    <ng-container *ngFor="let data of textSize">
+                        <span (click)="setFontSize(data)" class="text-{{ data }} textIcon" [ngClass]="currentTextSize == data ? 'active' : ''">A</span
             >
           </ng-container>
         </div>
@@ -44,21 +33,16 @@
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#" [ngClass]="sticky ? 'show' : ''">
-        <span class="city">city</span>
-        <span class="fy">finance.in</span>
-      </a>
+                        </button>
+                        <a class="navbar-brand" href="#" [ngClass]="sticky ? 'show' : ''">
+                            <span class="city">city</span>
+                            <span class="fy">finance.in</span>
+                        </a>
 
-      <div class="collapse navbar-collapse" id="">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              aria-current="page"
-              routerLinkActive="active"
-              routerLink="/home"
-              >Home</a
+                        <div class="collapse navbar-collapse" id="">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="/home">Home</a
             >
           </li>
           <li class="nav-item dropdown">
@@ -72,12 +56,10 @@
             >
               Dashboard
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <a
-                  class="dropdown-item"
-                  routerLink="/dashboard/national/61e150439ed0e8575c881028"
-                  >National Performance</a
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" routerLink="/dashboard/national/61e150439ed0e8575c881028">National
+                  Performance</a
                 >
               </li>
               <li>
@@ -91,14 +73,19 @@
                 >
               </li>
               <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
-            </ul>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits">Resources</a
+            >
           </li>
           <li class="nav-item">
             <a
               class="nav-link"
               routerLinkActive="active"
-              routerLink="/resources-dashboard/learning-center/toolkits"
-              >Resources</a
+              [routerLink]="['/user/list/ULB']"
+              *ngIf="isLoggedIn && (canViewUserList || canViewULBSingUpListing)"
+              >Users</a
             >
           </li>
         </ul>
@@ -149,14 +136,9 @@
               >
                 Dashboard
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a
-                    class="dropdown-item"
-                    routerLink="/dashboard/national"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    >National Financial Dashboard</a
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" routerLink="/dashboard/national" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">National Financial Dashboard</a
                   >
                 </li>
                 <li>
@@ -178,16 +160,15 @@
                   >
                 </li>
                 <!-- <li><a class="dropdown-item" href="#">Infrastructure Borrowings</a></li> -->
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                routerLinkActive="active"
-                routerLink="/resources-dashboard/learning-center/toolkits"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                >Resources</a
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" routerLink="/resources-dashboard/learning-center/toolkits" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Resources</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/user/list/ULB']" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" *ngIf="
+                  isLoggedIn && (canViewUserList || canViewULBSingUpListing)
+                ">Users</a
               >
             </li>
           </ul>

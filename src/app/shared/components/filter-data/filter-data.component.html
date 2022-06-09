@@ -1,46 +1,84 @@
 <div class="container-fluid">
-    <div class="row customClass">
-        <div class="col-md-12" style="padding-left: 3rem;">
-            <p>
-                {{data.about}}
-            </p>
-        </div>
+  <div class="row customClass">
+    <div class="col-md-12" style="padding-left: 3rem">
+      <p>
+        {{ data.about }}
+      </p>
     </div>
-    <div class="row">
-        <div  class="col-12">
-            <button *ngFor="let item of data.btnLabels; let i = index" (click)="changeActiveBtn(i)" [id]="'btn-'+i" style="margin-left: 2pc;" class="btn deSelected customButtonClass">{{item}}</button>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button
+        *ngFor="let item of data.btnLabels; let i = index"
+        (click)="changeActiveBtn(i)"
+        [id]="'btn-' + i"
+        style="margin-left: 2pc"
+        class="btn deSelected customButtonClass"
+      >
+        {{ item }}
+      </button>
     </div>
-    <div class="row mb-5 mt-2">
-        <div [ngClass]="{'col-md-7': !expand,'col-md-12':expand}">
-            <div *ngIf="loading" class="skeletonWrapper">
-                <app-pre-loader></app-pre-loader>
-                <app-pre-loader></app-pre-loader>
-                <app-pre-loader></app-pre-loader>
-            </div>
-            <div class="" >
-                <app-revenuechart [disableFirstYear]="disableFirstYear" [compareType]="compareType" [multiChartLabel]="multiChartLabel" [multipleCharts]="multiPie"
-                    [multipleDoughnutCharts]="multipleDoughnutCharts" [notFound]="notFound"
-                    [notFoundMessage]="'Please Select Year With at Least Two Years of Data'"
-                    [yearList]="yearListForDropDown" [chartTitle]="chartTitle" [ChartOptions]="chartOptions"
-                    [chartDialogues]="true" [btnBesideText]="true"
-                    *ngIf="!loading" [mySelectedYears]="mySelectedYears" [chartId]="chartId"
-                    (compareChange)="filterChangeInChart($event)" (actionClicked)="actionFromChart($event)" [chartData]="barChart"
-                    [headerActions]="headerActions" [getChartPayload]="barChartPayload"></app-revenuechart>
-            </div>
-            <div class="" *ngIf="(tabName == 'Revenue Mix') || (tabName == 'Revenue Expenditure Mix')">
-                <app-common-charts-graphs [chartData]="mixData" (actionClicked)="actionFromChart($event)"></app-common-charts-graphs>
-            </div>
-
-        </div>
-        <div [ngClass]="{'col-md-5': !expand,'d-none':expand}">
-            <app-about-indicator (btnListClick)="btnClickInAboutIndicator($event)" [btnList]="btnListInAboutIndicator"
-                [selectedYear]="mySelectedYears[0]" [isPerCapita]="isPerCapita" [filterName]="filterName"
-                [cityId]="currentUlb"
-                [positive]="positiveCAGR" [cagr]="CAGR" [data]="aboutIndicators"></app-about-indicator>
-        </div>
+  </div>
+  <div class="row mb-5 mt-2">
+    <div [ngClass]="{ 'col-md-7': !expand, 'col-md-12': expand }">
+      <div *ngIf="loading" class="skeletonWrapper">
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+        <app-pre-loader></app-pre-loader>
+      </div>
+      <div class="">
+        <app-revenuechart
+          [disableFirstYear]="disableFirstYear"
+          [compareType]="compareType"
+          [multiChartLabel]="multiChartLabel"
+          [multipleCharts]="multiPie"
+          [multipleDoughnutCharts]="multipleDoughnutCharts"
+          [notFound]="notFound"
+          [notFoundMessage]="
+            'Please Select Year With at Least Two Years of Data'
+          "
+          [yearList]="yearListForDropDown"
+          [chartTitle]="chartTitle"
+          [ChartOptions]="chartOptions"
+          [chartDialogues]="true"
+          [btnBesideText]="true"
+          *ngIf="!loading"
+          [mySelectedYears]="mySelectedYears"
+          [chartId]="chartId"
+          (compareChange)="filterChangeInChart($event)"
+          (actionClicked)="actionFromChart($event)"
+          [chartData]="barChart"
+          [headerActions]="headerActions"
+          [getChartPayload]="barChartPayload"
+          [cityChart]="true"
+          [sourceDashboardName]="sourceDashboardName"
+          [selectedFinancialYear]="selectedFinancialYear"
+        ></app-revenuechart>
+      </div>
+      <div
+        class=""
+        *ngIf="tabName == 'Revenue Mix' || tabName == 'Revenue Expenditure Mix'"
+      >
+        <app-common-charts-graphs
+          [chartData]="mixData"
+          (actionClicked)="actionFromChart($event)"
+        ></app-common-charts-graphs>
+      </div>
     </div>
+    <div [ngClass]="{ 'col-md-5': !expand, 'd-none': expand }">
+      <app-about-indicator
+        (btnListClick)="btnClickInAboutIndicator($event)"
+        [btnList]="btnListInAboutIndicator"
+        [selectedYear]="mySelectedYears[0]"
+        [isPerCapita]="isPerCapita"
+        [filterName]="filterName"
+        [cityId]="currentUlb"
+        [positive]="positiveCAGR"
+        [cagr]="CAGR"
+        [data]="aboutIndicators"
+      ></app-about-indicator>
+    </div>
+  </div>
 </div>
-
 
 <!-- [ngClass]="{'col-md-7': !expand,'col-md-12':expand}" -->

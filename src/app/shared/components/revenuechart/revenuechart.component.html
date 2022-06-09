@@ -1,69 +1,104 @@
-<div
-  id="multiChartId"
-  class="container rounded flex-column pb-5"
-  style="background: #fffbef 0% 0% no-repeat padding-box"
->
-  <!-- <div class="col-12 revenuChartContainer d-flex"> -->
-  <div class="row pt-2 align-items-center">
-    <!-- <div class="d-flex justify-content-between"> -->
-    <div class="col-12 col-lg-12">
-      <p
-        *ngIf="chartId == 'ownRevenue-doughnutChart'"
-        class="chartHeader"
-        style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%"
-      >
-        Own Revenue Split
-      </p>
-      <p class="p-2" class="chartHeader" *ngIf="chartTitle">
-        {{ chartTitle }}
-      </p>
-    </div>
-    <div
-      id="hideHeaderAction"
-      *ngIf="!chartDialogues && btnBesideText"
-      class="col-12 col-md-3 col-lg-2 btnBesideTitle"
-    >
-      <button class="mt-2" (click)="openModal()">Compare</button>
-      <a class="reset-compare-filter" (click)="resetCompareModal()">
-        <span [matTooltip]="'Reset Compare'" class="mat-tooltip-trigger material-icons"> refresh </span>
-      </a>
-    </div>
-    <div
-      class="row"
-      id="hideHeaderAction"
-      style="display: flex; flex-flow: row; justify-content: flex-end"
-    >
-      <div class="col-12 col-lg-4">
-        <div class="d-flex justify-content-end">
-          <div
-            *ngFor="let item of headerActions; let i = index"
-            class="right-0 px-2"
-          >
-            <div class="svg" (click)="actionClick(item)">
-              <div class="flex-center iconImg">
-                <img src="{{ item.svg }}" alt="{{ item.name }}" />
-              </div>
-              <div class="text-center">
-                <span class="iconText">
+<div [id]="'canvasDiv' + chartId" class="container rounded flex-column pb-5" style="background: #fffbef 0% 0% no-repeat padding-box">
+    <!-- <div class="col-12 revenuChartContainer d-flex"> -->
+    <div class="row pt-2 align-items-center">
+        <!-- <div class="d-flex justify-content-between"> -->
+        <div class="col-12 col-lg-12">
+            <p *ngIf="chartId == 'ownRevenue-doughnutChart'" class="chartHeader" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 2%">
+                Own Revenue Split
+            </p>
+            <p class="p-2" class="chartHeader" *ngIf="chartTitle">
+                {{ chartTitle }}
+            </p>
+        </div>
+        <div id="hideHeaderAction" *ngIf="!chartDialogues && btnBesideText" class="col-12 col-md-3 col-lg-2 btnBesideTitle">
+            <button class="mt-2" (click)="openModal()">Compare</button>
+            <a class="reset-compare-filter" (click)="resetCompareModal()">
+                <span [matTooltip]="'Reset Compare'" class="mat-tooltip-trigger material-icons">
+          refresh
+        </span>
+            </a>
+        </div>
+        <div id="hideHeaderAction" class="row" style="display: flex; flex-flow: row; justify-content: flex-end">
+            
+            <div class="col-6 col-lg-4">
+                <div class="d-flex justify-content-end">
+                    <div *ngFor="let item of headerActions; let i = index" class="right-0 px-2">
+                        <div class="svg" (click)="actionClick(item)">
+                            <div class="flex-center iconImg">
+                                <img src="{{ item.svg }}" alt="{{ item.name }}" />
+                            </div>
+                            <div class="text-center">
+                                <span class="iconText">
                   {{ item.name }}
                 </span>
-              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-12 col-lg-12 col-sm-12 col-md-12 flex" style="flex-wrap:wrap;flex-direction: row; display: flex" *ngIf="chartDialogues">
+            <div class="col-sm-12 col-md-5 col-lg-5 mt-2">
+                <label (click)="openModal()" class="" style="
+          background-color: white;
+          border-radius: 8px;
+          border: 1px solid lightgray;padding: 5px;
+        ">
+        Compare to {{ compareType }}
+        <mat-icon style="vertical-align: middle">
+          keyboard_arrow_down
+        </mat-icon>
+      </label>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3 mt-2">
+                <div *ngIf="nestedChartFilterOption?.showFinancialYear">
+                    <select class="btn compare" (change)="yearValueChange($event.target.value)">
+          <option
+            [disabled]="i == 0 && disableFirstYear"
+            *ngFor="let yearValue of yearList; let i = index"
+            [value]="yearValue"
+            [selected]="yearValue == year"
+          >
+            {{ yearValue }}
+          </option>
+        </select>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3 mt-2">
+                <label *ngIf="nestedChartFilterOption?.showResetButton" (click)="resetState()" style="
+          background-color: white;
+          border-radius: 8px;
+          border: 1px solid lightgray;
+          padding: 5px;
+        " class="btn compare">
+        Reset
+        <img
+          src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+          alt="cancel_off_icon"
+        />
+      </label>
+            </div>
+        </div>
+        </div>
+        <!-- </div> -->
     </div>
     <!-- </div> -->
-  </div>
-  <!-- </div> -->
 
-  <div *ngIf="chartDialogues">
+    <!-- <div *ngIf="chartDialogues">
     <div>
       <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
-          <label (click)="openModal()" class="" style="background-color: white;padding: 4%;
-          border-radius: 8px;
-          border: 1px solid lightgray;">
+          <label
+            (click)="openModal()"
+            class=""
+            style="
+              background-color: white;
+              padding: 4%;
+              border-radius: 8px;
+              border: 1px solid lightgray;
+            "
+          >
             Compare to {{ compareType }}
             <mat-icon style="vertical-align: middle">
               keyboard_arrow_down
@@ -89,131 +124,156 @@
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4 mt-2">
           <label
-        *ngIf="nestedChartFilterOption?.showResetButton"
-        (click)="resetState()"
-        style="background-color: white;padding: 4%;
-        border-radius: 8px;
-        border: 1px solid lightgray;height:3.1rem;"
-      >
-        Reset
-        <img
-          src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
-          alt="cancel_off_icon"
-        />
-      </label>
+            *ngIf="nestedChartFilterOption?.showResetButton"
+            (click)="resetState()"
+            style="
+              background-color: white;
+              padding: 4%;
+              border-radius: 8px;
+              border: 1px solid lightgray;
+              height: 3.1rem;
+            "
+          >
+            Reset
+            <img
+              src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+              alt="cancel_off_icon"
+            />
+          </label>
         </div>
       </div>
-      
-      
-      
     </div>
-  </div>
+  </div> -->
 
-  <div *ngIf="singleDoughnutChart">
+    <div *ngIf="singleDoughnutChart" class="mt-3 mb-3" id="visibility-hidden">
+        <p style="font-size: 1em" class="chart-l text-center">
+            {{ stateName }}
+        </p>
+    </div>
+
+    <div class="mt-2" *ngIf="!notFound && !multipleCharts" style="width: 100%; overflow-x: auto; overflow-y: hidden">
+        <!-- <div class="col-12 visibility-hidden" id="visibility-hidden">
+    <div class="">
+      <p class="p-2" class="chartHeader">
+        {{ chartTitle }}
+      </p>
+    </div>
+  </div> -->
+
+        <!-- <div *ngIf="singleDoughnutChart" id="visibility-hidden">
     <p style="font-size: 1em" class="chart-l text-center">
       {{ stateName }}
     </p>
-  </div>
+  </div> -->
 
-  <div
-    class="mt-2"
-    *ngIf="!notFound && !multipleCharts"
-    [id]="'canvasDiv' + chartId"
-    style="width: 100%; overflow-x: auto; overflow-y: hidden"
-  >
-    <!-- style="width: auto; min-width: 720px; height: 470px" -->
-    <!-- style="min-width: 354px; height: 510px" -->
-    <div *ngIf="!notFound">
-      <!-- <div [ngClass]="{ canvasResponsive: cityClass }"> -->
-      <div >
-        <div class="stateResponse">
-          <canvas
-          [id]="chartId"
-          height="420"
-          width="0"
-          style="min-width: 354px; height: 510px"
-        ></canvas>
+        <!-- style="width: auto; min-width: 720px; height: 470px" -->
+        <!-- style="min-width: 354px; height: 510px" -->
+        <div *ngIf="!notFound">
+            <!-- <div [ngClass]="{ canvasResponsive: cityClass }"> -->
+            <div>
+                <div class="stateResponse">
+                    <canvas [id]="chartId" height="420" width="0" style="min-width: 354px; height: 510px"></canvas>
+                </div>
+            </div>
         </div>
-        
-      </div>
     </div>
-  </div>
 
-  <div class="d-flex flex-wrap verticleChart mt-4 justify-content-center" *ngIf="multipleCharts">
-    <div
-      class="col-6 col-md-4 col-sm-12 verticleCharts me-5"
-      *ngFor="let chart of multipleDoughnutCharts; let i = index"
-    >
-     <div>
-      <p style="font-size: 100%;" class="chart-l text-center">
-        {{ chart?.title }}
-      </p>
-     </div> 
-      <p>
-        <canvas
-          id="{{ chart?.id }}{{ i }}"
-          width="100"
-          height="100"
-        ></canvas>
-      </p>
+    <div class="d-flex flex-wrap verticleChart mt-4 justify-content-center" *ngIf="multipleCharts">
+        <ng-container *ngIf="stateChart">
+            <ng-container *ngIf="!selectedulb">
+                <div *ngFor="let chart of multipleDoughnutCharts; let i = index" class="col-12 col-sm-12 d-flex flex-column justify-content-center verticleCharts me-5" [ngClass]="{
+            ' col-md-12 ': i == 0,
+            ' col-md-3': i > 0
+          }">
+                    <div class="d-flex justify-content-center">
+                        <p style="font-size: 100%" class="chart-l text-center">
+                            {{ chart?.title }}
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p>
+                            <canvas id="{{ chart?.id }}{{ i }}" width="100" height="100" [ngClass]="{ mainChart: i == 0, secondaryCharts: i > 0 }"></canvas>
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="selectedulb">
+                <div *ngFor="let chart of multipleDoughnutCharts; let i = index" class="d-flex flex-column justify-content-center verticleCharts" [ngClass]="{ 'col-md-6': i == 0 || i == 1, 'col-md-3 me-5': i > 1 }">
+                    <div class="d-flex justify-content-center">
+                        <p style="font-size: 100%" class="chart-l text-center">
+                            {{ chart?.title }}
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p>
+                            <canvas id="{{ chart?.id }}{{ i }}" width="100" height="100" [ngClass]="{
+                  mainChart: i == 0 || i == 1,
+                  secondaryCharts: i > 1
+                }"></canvas>
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="cityChart">
+            <div *ngFor="let chart of multipleDoughnutCharts; let i = index" class="col-12 col-md-4 col-sm-12 verticleCharts me-5" style="flex-direction: row">
+                <div style="height: 13%">
+                    <p style="font-size: 100%" class="chart-l text-center">
+                        {{ chart?.title }}
+                    </p>
+                </div>
+                <!-- <div class="d-flex justify-content-center"> -->
+                <p>
+                    <canvas id="{{ chart?.id }}{{ i }}" width="100" height="100" style="height: 300px; width: 300px"></canvas>
+                </p>
+                <!-- </div> -->
+            </div>
+        </ng-container>
+        <div class="col-12 verticleChartLabel d-flex justify-content-center">
+            <ul id="horizontal-list" class="flex-wrap customBigScreen" *ngIf="cityClass">
+                <li *ngFor="let item of multiChartLabel" class="labelPieChart customLeftPadding">
+                    <span [ngStyle]="{ 'background-color': item.color }"></span>
+                    <div style="position: relative; bottom: 24px; left: 43px" class="customLabel">
+                        {{ item.text.text }}
+                    </div>
+                </li>
+            </ul>
+            <ul id="horizontal-list" class="flex-wrap" *ngIf="!cityClass">
+                <li *ngFor="let item of multiChartLabel">
+                    <span [ngStyle]="{ 'background-color': item.color }"></span> {{ item.text }}
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="col-12 verticleChartLabel d-flex">
-      <ul id="horizontal-list" class="flex-wrap customBigScreen" *ngIf="cityClass">
-        <li *ngFor="let item of multiChartLabel" class="labelPieChart customLeftPadding">
-          <span [ngStyle]="{ 'background-color': item.color }"></span>
-          <div style="position: relative;bottom: 24px;left: 43px;" class="customLabel">
-            {{ item.text.text }}
-          </div>
 
-        </li>
-      </ul>
-      <ul id="horizontal-list" class="flex-wrap" *ngIf="!cityClass">
-        <li *ngFor="let item of multiChartLabel">
-          <span [ngStyle]="{ 'background-color': item.color }"></span>
-          {{ item.text }}
-        </li>
-      </ul>
+    <div *ngIf="notFound" style="text-align: center; margin-top: 30px; margin-bottom: 30px">
+        <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
+        <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
+            No Data Found for chosen options
+        </div>
+        <p style="color: #6e7281; font-size: 16px">
+            {{ notFoundMessage }}
+        </p>
     </div>
-  </div>
-
-  <div
-    *ngIf="notFound"
-    style="text-align: center; margin-top: 30px; margin-bottom: 30px"
-  >
-    <img src="../../../../assets/images/sad.svg" height="82px" width="89px" />
-    <div style="color: #1e44ad; font-size: 22px; font-weight: 600">
-      No Data Found for chosen options
+    <div class="mt-3">
+        <span *ngIf="chartId == 'ownRevenue-doughnutChart'" matTooltipClass="tool-tip" matTooltip="Other Income includes Deposits Forfeited, Insurance Claim Recovery, Profit on Disposal on Fixed Assets, Recovery from Employees, Unclaimed Refund Payable/ Liabilities, Excess Provisions Written Back and Miscellaneous Income"
+            placement="right" class="pull-left me-3" aria-hidden="false">
+      <img src="../../../../assets/ticks/info_black_24dp.svg" />
+    </span>
+        <span *ngIf="chartId == 'ownRevenue-doughnutChart'">
+      <b>Note -</b>
+      <span class="note-slb">
+        Data is not available for several ULBs including Greater Mumbai
+        Municipal Corporation, Ahmedabad Municipal Corporation, Chennai
+        Municipal Corporation, Kolkata Municipal Corporation, Jaipur Greater
+        Municipal Corporation.
+      </span>
+        </span>
     </div>
-    <p style="color: #6e7281; font-size: 16px">
-      {{ notFoundMessage }}
-    </p>
-  </div>
-
-  <span
-    *ngIf="chartId == 'ownRevenue-doughnutChart'"
-    matTooltipClass="tool-tip"
-    matTooltip="Other Income includes Deposits Forfeited, Insurance Claim Recovery, Profit on Disposal on Fixed Assets, Recovery from Employees, Unclaimed Refund Payable/ Liabilities, Excess Provisions Written Back and Miscellaneous Income"
-    placement="right"
-    class="pull-left"
-    aria-hidden="false"
-  >
-    <img src="../../../../assets/ticks/info_black_24dp.svg" />
-  </span>
 </div>
 
 <ng-template #template>
-  <app-compare-dialog
-    [selectedRadioBtn]="compareType"
-    [type]="compareDialogType"
-    [own]="own"
-    (ownRevenueCompValue)="ownRevenueCompValue($event)"
-    (compareValue)="getCompareCompValues($event)"
-    (ulbValueList)="getClearedUlbValue($event)"
-    (closeDialog)="closeModal()"
-    [stateId]="apiParamData?.stateId"
-    [preSelectedUlbList]="ulbList"
-    [preSelectedStateList]="selectedOwnRevenueState"
-    [preSelectedOwnRevenueDbType]="preSelectedOwnRevenueDbType"
-    [preSelectedOwnRevenueDbParameter]="preSelectedOwnRevenueDbParameter"
-  ></app-compare-dialog>
+    <app-compare-dialog [selectedRadioBtn]="compareType" [type]="compareDialogType" [own]="own" (ownRevenueCompValue)="ownRevenueCompValue($event)" (compareValue)="getCompareCompValues($event)" (ulbValueList)="getClearedUlbValue($event)" (closeDialog)="closeModal()"
+        [stateId]="apiParamData?.stateId" [preSelectedUlbList]="ulbList" [preSelectedStateList]="selectedOwnRevenueState" [preSelectedOwnRevenueDbType]="preSelectedOwnRevenueDbType" [preSelectedOwnRevenueDbParameter]="preSelectedOwnRevenueDbParameter"></app-compare-dialog>
 </ng-template>

@@ -33,6 +33,7 @@ export class NationalSubComponent implements OnInit {
   ) {}
   public chart: Chart;
   public doughnut: Chart;
+  public stateDoughnut: Chart;
   public dynamicDoughnut: Chart;
 
   tabData;
@@ -177,10 +178,10 @@ export class NationalSubComponent implements OnInit {
     },
   ];
   revnueData: any;
-
   revnueChartData: any;
   financialYearList: any = [];
   nationalDoughnutChart: any = [];
+  stateDoughnutChart: any = [];
   nationalDoughnutChartLabel: any = [];
   // colorArray = [
   //   "#FFD72E",
@@ -198,7 +199,6 @@ export class NationalSubComponent implements OnInit {
   colorArray = [];
   mainDoughnutArray = [];
   tempObj = {};
-
   chartArray: any = [];
   activetab: any = "Total Revenue";
   CurrentHeadTab: any = "Revenue";
@@ -236,9 +236,10 @@ export class NationalSubComponent implements OnInit {
   yAxesLabel: string = "Total Revenue";
   xAxesLabel: string = "--Average";
   newValue: string = "";
-
+  isStateSearch = false;
   doughnutChartOptions: any = {};
-
+  selectedState: any = "";
+  stateName = 'State';
   barChartData: any = [
     {
       type: "line",
@@ -304,12 +305,16 @@ export class NationalSubComponent implements OnInit {
   ];
 
   getCurrentTabValue() {
-    if (this.activetab)
+    if (this.activetab){
       if (this.doughnut) {
         this.doughnut.destroy();
       }
-    console.log("280", this.activetab, this.popBtn);
+      if (this.stateDoughnut) {
+        this.stateDoughnut.destroy();
+      }
+    }
 
+    console.log("280", this.activetab, this.popBtn);
     this.nationalInput.stateId = this.selectedState;
 
     if (this.popBtn) {
@@ -335,6 +340,7 @@ export class NationalSubComponent implements OnInit {
     if (this.activetab.includes("Mix")) {
       this.totalRevenue = false;
       this.mixRevenue = true;
+      this.RevenueMixInput.stateId = this.selectedState;
       if (this.popBtn) {
         this.RevenueMixInput.formType = "populationCategory";
       }
@@ -422,6 +428,7 @@ export class NationalSubComponent implements OnInit {
     this.filteredOptions = emptyArr;
     this.nationalFilter.patchValue("");
     this.subFilterFn("popCat");
+    this.isStateSearch = false;
     // this.getCurrentTabValue();
   }
 
@@ -488,6 +495,7 @@ export class NationalSubComponent implements OnInit {
             this.multipleDoughnutChartLabel = [];
             this.createDoughnutChartOptions(res?.data);
             this.doughnutLabels = res?.data?.colourArray;
+            console.log("doughnutLabels", this.doughnutLabels);
             if (this.doughnutLabels.length)
               this.doughnutLabels.forEach((elem, i) => {
                 this.colorArray.push(elem?.colour);
@@ -495,7 +503,10 @@ export class NationalSubComponent implements OnInit {
                 this.multipleDoughnutChartLabel.push(elem?.lineitem);
               });
             this.nationalDoughnutChart = Object.values(res?.data?.national);
+            this.stateDoughnutChart = Object.values(res?.data?.state);
             this.doughnutChartInit();
+            if(this.isStateSearch)
+            this.stateDoughnutChartInit();
             if (revenueMixInput.formType == "populationCategory") {
               this.mixRDoughnutPopulationCategory.map((elem) => {
                 let particularObject = res?.data?.individual[elem?.title];
@@ -667,8 +678,7 @@ export class NationalSubComponent implements OnInit {
           ? "Ownrevenue"
           : "OwnrevenuePerCapita";
     } else if (this.CurrentHeadTab.toLowerCase() == "capital expenditure") {
-      this.newValue =
-        value == "capitalExpenditure" ? "Capexpense" : "CapexpensePerCapita";
+      this.newValue = value == "capitalExpenditure" ? "amount" : "perCapita";
     }
     console.log("newValue==>", this.newValue);
 
@@ -680,11 +690,10 @@ export class NationalSubComponent implements OnInit {
       });
 
     let calculatedData = this.revnueChartData;
-
     if (this.barLineData) {
       this.barLineData = [];
     }
-    for (let index = 0; index < this.revnueChartData.length - 1; index++) {
+    for (let index = 0; index < this.revnueChartData?.length - 1; index++) {
       this.barLineData.push(...calculatedData.slice(0, 1));
     }
 
@@ -707,9 +716,12 @@ export class NationalSubComponent implements OnInit {
     this.creatBarChartData(this.selectedGraphValue);
   }
 
-  selectedState: any = "";
+
   getSelectedvalue(value) {
+    console.log('selected value', value);
+    this.stateName = value?.name;
     this.selectedState = value?._id;
+    this.isStateSearch = true;
     this.getCurrentTabValue();
     // this.getNationalTableData(this.CurrentHeadTab);
   }
@@ -915,6 +927,103 @@ export class NationalSubComponent implements OnInit {
         datasets: [
           {
             data: this.nationalDoughnutChart,
+            backgroundColor: this.colorArray,
+            fill: false,
+          },
+        ],
+      },
+      options: {
+        ...this.doughnutChartOptions,
+        animation: {
+          duration: 500,
+          easing: "easeOutQuart",
+          onComplete() {
+            var localThis = this;
+            const thisCtx = this.chart.ctx;
+            thisCtx.font = Chart.helpers.fontString(
+              Chart.defaults.global.defaultFontFamily,
+              "normal",
+              Chart.defaults.global.defaultFontFamily
+            );
+            thisCtx.textAlign = "center";
+            thisCtx.textBaseline = "bottom";
+            this.data.datasets.forEach((dataset, index) => {
+              for (let i = 0; i < dataset.data.length; i += 1) {
+                const textSize = 14;
+                // thisCtx.font = `${textSize}px Verdana`;
+                const model =
+                  dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+
+                const total =
+                  dataset._meta[Object.keys(dataset._meta)[0]].total;
+                const midRadius =
+                  model.innerRadius +
+                  (model.outerRadius - model.innerRadius) / 2;
+                const startAngle = model.startAngle;
+                const endAngle = model.endAngle;
+                const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+                const x = midRadius * Math.cos(midAngle);
+                const y = midRadius * Math.sin(midAngle);
+
+                /* Calculating the area of the doughnut sector. */
+                let angle = endAngle - startAngle;
+                let doughnutSectorArea =
+                  (angle / 2) *
+                  (model.outerRadius - model.innerRadius) *
+                  (model.outerRadius + model.innerRadius);
+
+                /* Checking if the doughnutSectorArea is greater than 1200. If it is, it sets the fillStyle to white.
+                If it is not, it sets the fillStyle to black. Darker text color for lighter background*/
+                // thisCtx.fillStyle = doughnutSectorArea > 1200 ? '#fff' : '#000';
+                var isBGColorDarkOrLight = lightOrDark(model?.backgroundColor);
+                thisCtx.fillStyle = isBGColorDarkOrLight
+                  ? isBGColorDarkOrLight == "light"
+                    ? "#000000"
+                    : "#ffffff"
+                  : "#000000";
+                var fontSize = 14;
+                var fontStyle = "normal";
+                var fontFamily = "sans-serif";
+                thisCtx.font = Chart.helpers.fontString(
+                  fontSize,
+                  fontStyle,
+                  fontFamily
+                );
+
+                const percent = `${String(
+                  Math.round((dataset.data[i] / total) * 100)
+                )}%`;
+                /* if need to add the percentage with absolute value uncomment the below line. */
+                // thisCtx.fillText(model.label, model.x + x, model.y + y);
+                // thisCtx.fillText(dataset.data[i] + percent, model.x + x,
+                //   model.y + y + (textSize * 1.3));
+
+                if (dataset.data[i] != 0 && doughnutSectorArea > 1200) {
+                  thisCtx.fillText(
+                    percent,
+                    model.x + x,
+                    model.y + y + textSize * 1.3
+                  );
+                }
+              }
+            });
+          },
+        },
+      },
+    });
+  }
+  stateDoughnutChartInit(){
+    if (this.stateDoughnut) {
+      this.stateDoughnut.destroy();
+    }
+    this.stateDoughnut = new Chart("stateDoughnut", {
+      type: "doughnut",
+      data: {
+        labels: this.nationalDoughnutChartLabel,
+        datasets: [
+          {
+            data: this.stateDoughnutChart,
             backgroundColor: this.colorArray,
             fill: false,
           },

@@ -424,6 +424,9 @@ export class BalanceTableComponent
       this.currentUlbFilterData,
       this.ulbIdval
     );
+    let ulbIdArr = multiUlbList.map(el => {
+return el.ulb
+    })
     let filters = {
       isComparative: false,
       type: "Summary",
@@ -431,7 +434,7 @@ export class BalanceTableComponent
       yearList: this.yearValue,
       reportGroup: this.reportGroup,
       ulbList: multiUlbList,
-      ulbIds: [...new Set([this.currentUlbFilterData.ulb, ...this.ulbIdval])],
+      ulbIds: ulbIdArr,
       valueType: this.valueType,
     };
     console.log("filers", filters);
@@ -611,17 +614,17 @@ export class BalanceTableComponent
   valueTypeChange(event) {
     console.log(event.value, "change in value type", this.years);
     this.valueType = event.value;
+
+    if (this.years.length > 0) {
+      this.createMultipleUpdateTable();
+      this.selectedYea(this.years);
+    } else {
+      this.createDataForBasicComp(this.reportGroup);
+    }
     if (this.valueType == "per_capita") {
       this.disableDropDown = true;
     } else {
       this.disableDropDown = false;
-    }
-
-    if (this.years) {
-      // this.createMultipleUpdateTable();
-      this.selectedYea(this.years);
-    } else {
-      this.createDataForBasicComp(this.reportGroup);
     }
   }
 

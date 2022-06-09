@@ -263,7 +263,8 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       ],
       datasets: [
         {
-          label: "City Ranking",
+          // label: "City Ranking",
+          label: "Cities",
           data: [13, 20, 30, 40, 50, 60, 70, 80, 90, 100],
           backgroundColor: [
             "#1E44AD",
@@ -326,6 +327,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   currentActiveTab: string = "";
   mainTab: string = "";
   @Input() selectedStateId: any;
+  sourceDashboardName: string = 'State Dashboard';
+  @Input() showYearDropdown: boolean = true;
+  @Input() selectedYear: any;
   constructor(
     public activatedRoute: ActivatedRoute,
     public stateFilterDataService: StateFilterDataService,
@@ -345,6 +349,9 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.getYears();
 
     console.log("sessionFY", this.yearList);
+    if (window.location.pathname == '/dashboard/slb') {
+      this.sourceDashboardName = 'Service Level Benchmark Performance';
+    }
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -376,7 +383,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.getStateRevenue();
     }
   }
-
+  percentLabel: string = "";
   radioButtonValue: string = "";
   selectedRadioBtnValue: any;
   getCheckBoxValue(event: any) {
@@ -396,6 +403,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reset(isReset: boolean = false) {
+    this.compType = "";
     this.ulbArr = [];
     this.checkBoxArray = [
       { value: "", title: "Select an Option", isDisabled: true },
@@ -412,6 +420,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     let emptyArr: any = [];
     this.filteredOptions = emptyArr;
     this.ulbId = "";
+    // this.multiChart = false;
     this.selectedRadioBtnValue = "";
     this.radioButtonValue = "";
     // this.getYears();
@@ -583,6 +592,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   doughnutDataArr = [];
   scatterChartPayload: any = {};
   stateAvgVal = 0;
+  mainDoughnutArr = [];
   getScatterData() {
     this.createDynamicChartTitle(this.currentActiveTab);
     this.multiChart = false;
@@ -630,10 +640,18 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             let tp_data: any;
             let m_data: any;
             let stateData: any;
+            let yAxesLabelName = '';
+            this.percentLabel = '';
             if (this.stateServiceLabel) {
+              if (res["data"]["scatterData"]?.unitType == "Percent") {
+                this.percentLabel = 'percent';
+                yAxesLabelName = `${this.filterName} (%)`;
+              } else {
+                yAxesLabelName = res["data"]["scatterData"]?.unitType ? res["data"]["scatterData"]?.unitType : this.filterName;
+              }
               this.setServiceLevelBenchmarkScatteredChartOption(
                 "Population",
-                this.filterName
+                yAxesLabelName
               );
               m_data =
                 res["data"] &&
@@ -749,26 +767,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
             this._loaderService.stopLoader();
             console.log("mix Data", res);
             let data;
-            if (this.ulbId) {
+            let ulbData;
+            if (
+              this.ulbId &&
+              this.scatterChartPayload.compareType !== "ulbType" &&
+              this.scatterChartPayload.compareType !== "popType"
+            ) {
               data = res["state"];
+              ulbData = res["ulb"];
+              this.multiChart = true;
+              this.mainDoughnutArr = [{ state: data }, { ulb: ulbData }];
             } else {
               data = res["data"];
+              this.mainDoughnutArr = [];
+              this.multiChart = false;
             }
-
-            // let colorArray = [
-            //   {name: "Other Income", color: "#1E44AD"},
-            //   {name: "Sale & Hire charges", color: "#224CC0"},
-            //   {name: "Fee & User Charges", color: "#2553D3"},
-            //   {name: "Rental Income from Municipal Properties", color: "#456EDE"},
-            //   {name: "Tax Revenue", color: "#6A8BE5"},
-            // ]
-
-            // colorArray.forEach((elem) => {
-            //   let ele = data.find((element) => element._id == elem.name)
-            //   if(ele){
-            //     ele["color"] = elem.color
-            //   }
-            // })
 
             console.log("initial data", data);
 
@@ -782,14 +795,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               if (data.length) {
                 console.log("mixdata==>", data);
                 data = data.sort((a, b) => b.code - a.code);
-                if (data[0].hasOwnProperty("color"))
+                if (data[0].hasOwnProperty("colour"))
                   this.doughnutData.data.datasets[0].backgroundColor = [];
                 data.forEach((el) => {
                   this.doughnutData.data.labels.push(el._id);
                   this.doughnutData.data.datasets[0].data.push(el.amount);
-                  if (el.color) {
+                  if (el.colour) {
                     this.doughnutData.data.datasets[0].backgroundColor.push(
-                      el.color
+                      el.colour
                     );
                   }
                 });
@@ -799,23 +812,36 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               }
             } else if (this.scatterChartPayload.compareType == "ulbType") {
               console.log("apiData", data);
+
               let mData = data["mData"][0];
               let mcData = data["mcData"][0];
               let tpData = data["tpData"][0];
+              let ulbStateData = data["state"];
 
               this.multiChart = true;
               this.doughnutDataArr = [
                 { mData: mData },
                 { mcData: mcData },
                 { tpData: tpData },
+                { ulbStateData: ulbStateData },
               ];
+              if (data["ulb"].length > 0) {
+                this.doughnutDataArr = [
+                  ...this.doughnutDataArr,
+                  { ulb: data["ulb"] },
+                ];
+              }
+
               this.doughnutDataArr = [...this.doughnutDataArr];
+
+              console.log("doughnutDataArr", this.doughnutDataArr);
             } else if (this.scatterChartPayload.compareType == "popType") {
               let lessThan100k = data["<100k"];
               let between100kTo500k = data["100k-500k"];
               let between500kTo1m = data["500k-1M"];
               let between1mTo4m = data["1m-4m"];
               let greaterThan4m = data["4m+"];
+              let popStateData = data["state"];
 
               this.multiChart = true;
               this.doughnutDataArr = [];
@@ -825,8 +851,17 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                 { "500k-1M": between500kTo1m },
                 { "1m-4m": between1mTo4m },
                 { "4m+": greaterThan4m },
+                { popStateData: popStateData },
               ];
+              if (data["ulb"].length > 0) {
+                this.doughnutDataArr = [
+                  ...this.doughnutDataArr,
+                  { ulb: data["ulb"] },
+                ];
+              }
+
               this.doughnutDataArr = [...this.doughnutDataArr];
+              console.log("doughnutDataArr", this.doughnutDataArr);
             }
           }
         },
@@ -908,6 +943,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.mainChartTitle = `${activeButton} of all ULBs in ${this.stateName} vs State ${dropDownValue}`;
       this.multipleChartTitle = `The following pie chart provides the split of the contribution various ${activeButton} .`;
     }
+
+    // if (this.stateServiceLabel) {
+    //   this.mainChartTitle = `${this.BarGraphValue ? "Top" : "Bottom"} 10 performing ULBs on value in ${this.stateName}`;
+    // }
+
   }
 
   changeActiveBtn(i) {
@@ -968,7 +1008,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
   }
 
   reloadComponent(selectedStateId: any) {
-    console.log('reloadComponent', selectedStateId)
+    console.log("reloadComponent", selectedStateId);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = "reload";
     this.router.navigateByUrl(`/dashboard/state?stateId=${selectedStateId}`);
@@ -981,12 +1021,28 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.data,
       this.stateServiceLabel
     );
+    /* These 2 @Input are used for slb dashboard */
+    if (changes.hasOwnProperty("showYearDropdown") && changes.showYearDropdown.currentValue) {
+      this.showYearDropdown = changes.showYearDropdown.currentValue;
+    }
+    if ((changes.hasOwnProperty("selectedYear")) && (changes.selectedYear.currentValue) && (!changes.selectedYear.firstChange)) {
+      this.financialYear = changes.selectedYear.currentValue;
+      console.log('this.financialYear', this.financialYear);
+      this.callStandaLoneSlbDashboardApis();
+      return;
+    }
+    /* These 2 @Input are used for slb dashboard end */
     if (
       changes.hasOwnProperty("selectedStateId") &&
       changes.selectedStateId.currentValue &&
       !changes?.selectedStateId?.firstChange
     ) {
-      console.log("selectedStateId", changes.selectedStateId.currentValue, 'this.stateServiceLabel', this.stateServiceLabel);
+      console.log(
+        "selectedStateId",
+        changes.selectedStateId.currentValue,
+        "this.stateServiceLabel",
+        this.stateServiceLabel
+      );
       this.stateId = "";
       this.stateId = changes.selectedStateId.currentValue;
       console.log("updatedStateId", this.stateId);
@@ -1118,13 +1174,14 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     this.ulbId = event._id;
     // this.getScatterData();
     if (this.selectedRadioBtnValue) {
+      this.initializeScatterData();
       this.getAverageScatterData();
     } else {
       this.getScatterData();
     }
-    if (this.stateServiceLabel) {
-      this.getServiceLevelBenchmarkBarChartData();
-    }
+    // if (this.stateServiceLabel) {
+    //   this.getServiceLevelBenchmarkBarChartData();
+    // }
   }
 
   labels(data) {
@@ -1263,20 +1320,21 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
         labels: responseData.map((item: { ulbName: any }) => item.ulbName),
         datasets: [
           {
-            label: "City Ranking",
+            // label: "City Ranking",
+            label: "Cities",
             displayLabel: false,
             data: this.getChartData(responseData, tabType, yAxisLabel),
             backgroundColor: [
               "#1E44AD",
-              "#224CC0",
-              "#2553D3",
-              "#3360DB",
-              "#456EDE",
-              "#587DE1",
-              "#6A8BE5",
-              "#86A2ED",
-              "#93AAEA",
-              "#A8BCF0",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
+              "#1E44AD",
             ],
             borderColor: ["#1E44AD"],
             borderWidth: 1,
@@ -1325,6 +1383,10 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
     xAxisLabel: string = "Population",
     yAxisLabel: string = "Total Revenue"
   ) {
+    let tooltipValue = "";
+    if (this.percentLabel == "percent") {
+      tooltipValue = "%";
+    }
     let scatterOption = {
       legend: {
         itemStyle: {
@@ -1386,9 +1448,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
           {
             scaleLabel: {
               display: true,
-              labelString: `${this._commonServices.toTitleCase(
-                yAxisLabel
-              )} (%)`,
+              labelString: `${this._commonServices.toTitleCase(yAxisLabel)}`,
               fontStyle: "bold",
             },
             gridLines: {
@@ -1403,7 +1463,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       tooltips: {
         callbacks: {
           label: function (tooltipItem, data) {
-            console.log("tooltipItem", tooltipItem);
+            console.log("tooltipItem", tooltipItem, tooltipValue);
             console.log("data.datasets", data);
             var datasetLabel =
               data.datasets[tooltipItem.datasetIndex].label || "Other";
@@ -1420,7 +1480,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
               label && datasetLabel != label ? label : ""
             } ${
               tooltipItem?.yLabel
-                ? `(${tooltipItem?.yLabel} %)`
+                ? `(${tooltipItem?.yLabel} ${tooltipValue})`
                 : `(${tooltipItem?.yLabel})`
             }`;
           },
@@ -1451,10 +1511,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       },
     };
 
-    this.serviceLevelBenchmarkScatterOption = scatterOption;
+    this.serviceLevelBenchmarkScatterOption = Object.assign(scatterOption);
   }
 
   getServiceLevelBenchmarkBarChartData() {
+    this.chartTitle = `${this.BarGraphValue ? "Top" : "Bottom"} 10 performing ULBs on ${this._commonServices.toTitleCase(this.filterName)} in ${this.stateName}`;
     let apiEndPoint = "state-slb";
     this.barChartPayload = {};
     this.barChartPayload = {
@@ -1462,13 +1523,13 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       stateId: this.stateId,
       sortBy: this.BarGraphValue ? "top10" : "bottom10",
       filterName: this.filterName ? this.filterName : "",
-      ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
+      // ulb: this.ulbId ? [this.ulbId] : this.ulbArr ? this.ulbArr : "",
       apiEndPoint: apiEndPoint,
       apiMethod: "get",
       chartType: "bar",
       stateServiceLabel: this.stateServiceLabel,
       activeButton: this.ActiveButton,
-      chartTitle: "",
+      chartTitle: this.chartTitle,
     };
 
     console.log("payload", this.barChartPayload);
@@ -1714,6 +1775,11 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
       this.barChartPayload?.apiEndPoint,
       this.stateServiceLabel
     );
+  }
+
+  callStandaLoneSlbDashboardApis() {
+    this.getScatterData();
+    this.getServiceLevelBenchmarkBarChartData(); 
   }
 }
 

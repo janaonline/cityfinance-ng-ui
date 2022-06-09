@@ -708,6 +708,10 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.gridData.emit(this.rowData);
   }
 
+  onGridReady(params) {
+    params.api.sizeColumnsToFit();
+  }
+  
   fundValueChanges(e) {
     if (years.includes(e.colDef.field))
       this.checkValidYearSum(e, this.agGrid2.api, "Cost");
