@@ -6,7 +6,7 @@
   >
     Back
   </button>
-  <h3 *ngIf="profileData" style="width: 100%">
+  <h3 *ngIf="profileData" style="width: 100%" class="ml-2">
     <span *ngIf="profile.disabled">View</span>
     <span *ngIf="profile.enabled">Edit</span>
     Profile
@@ -50,7 +50,7 @@
           [ngClass]="{
             'is-invalid':
               formSubmitted && profile.controls.ulb.controls?.ulbType.errors
-          }"
+          }" style="width: 60%;"
         >
           <option *ngFor="let Utype of ulbTypeList" [value]="Utype._id">
             {{ Utype.name }}
