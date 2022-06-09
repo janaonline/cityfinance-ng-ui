@@ -19,50 +19,7 @@
             </a>
         </div>
         <div id="hideHeaderAction" class="row" style="display: flex; flex-flow: row; justify-content: flex-end">
-            <div class="col-6 col-lg-8 flex" style="flex-direction: row; display: flex" *ngIf="chartDialogues">
-                <div class="col-sm-4 col-md-4 mt-2 mx-2">
-                    <label (click)="openModal()" class="" style="
-              background-color: white;
-              padding: 4%;
-              border-radius: 8px;
-              border: 1px solid lightgray;
-            ">
-            Compare to {{ compareType }}
-            <mat-icon style="vertical-align: middle">
-              keyboard_arrow_down
-            </mat-icon>
-          </label>
-                </div>
-                <div class="col-sm-4 col-md-4 mt-2">
-                    <div class="mr-1" *ngIf="nestedChartFilterOption?.showFinancialYear">
-                        <select class="btn compare" (change)="yearValueChange($event.target.value)">
-              <option
-                [disabled]="i == 0 && disableFirstYear"
-                *ngFor="let yearValue of yearList; let i = index"
-                [value]="yearValue"
-                [selected]="yearValue == year"
-              >
-                {{ yearValue }}
-              </option>
-            </select>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-4 mt-2">
-                    <label *ngIf="nestedChartFilterOption?.showResetButton" (click)="resetState()" style="
-              background-color: white;
-              padding: 4%;
-              border-radius: 8px;
-              border: 1px solid lightgray;
-              height: 3.1rem;
-            ">
-            Reset
-            <img
-              src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
-              alt="cancel_off_icon"
-            />
-          </label>
-                </div>
-            </div>
+            
             <div class="col-6 col-lg-4">
                 <div class="d-flex justify-content-end">
                     <div *ngFor="let item of headerActions; let i = index" class="right-0 px-2">
@@ -79,6 +36,50 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-12 col-sm-12 col-md-12 flex" style="flex-wrap:wrap;flex-direction: row; display: flex" *ngIf="chartDialogues">
+            <div class="col-sm-12 col-md-5 col-lg-5 mt-2">
+                <label (click)="openModal()" class="" style="
+          background-color: white;
+          border-radius: 8px;
+          border: 1px solid lightgray;padding: 5px;
+        ">
+        Compare to {{ compareType }}
+        <mat-icon style="vertical-align: middle">
+          keyboard_arrow_down
+        </mat-icon>
+      </label>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3 mt-2">
+                <div *ngIf="nestedChartFilterOption?.showFinancialYear">
+                    <select class="btn compare" (change)="yearValueChange($event.target.value)">
+          <option
+            [disabled]="i == 0 && disableFirstYear"
+            *ngFor="let yearValue of yearList; let i = index"
+            [value]="yearValue"
+            [selected]="yearValue == year"
+          >
+            {{ yearValue }}
+          </option>
+        </select>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-3 col-lg-3 mt-2">
+                <label *ngIf="nestedChartFilterOption?.showResetButton" (click)="resetState()" style="
+          background-color: white;
+          border-radius: 8px;
+          border: 1px solid lightgray;
+          padding: 5px;
+        " class="btn compare">
+        Reset
+        <img
+          src="../../../assets/resources-das/cancel_off_orange_18dp.svg"
+          alt="cancel_off_icon"
+        />
+      </label>
+            </div>
+        </div>
         </div>
         <!-- </div> -->
     </div>
