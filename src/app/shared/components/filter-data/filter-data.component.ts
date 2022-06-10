@@ -434,7 +434,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   calculatePerCapita(data) {
-    let totalState = data.compData.reduce((sum, val) => sum + val.amount, 0);
+  
+    let totalState = data.hasOwnProperty('compData') ? data?.compData.reduce((sum, val) => sum + val.amount, 0): 0;
     let totalUlb = data.ulbData.reduce((sum, val) => sum + val.amount, 0);
     this.CAGR = `Rs ${Math.round(totalState - totalUlb)} ${
       totalUlb > totalState ? "higher" : "lower"
