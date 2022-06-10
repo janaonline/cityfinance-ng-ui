@@ -79,7 +79,7 @@ export class CheckScorePerformanceComponent implements OnInit {
             //   towards property tax reforms. Property
             // tax reforms have potential to increase revenues and collection, and improve financial sustainability.`
             this.getPrescriptionText(this.scoreReportData);
-            res.data.currentUlb.partcularAnswerValues[0].isActive = true;
+          //  res.data.currentUlb.partcularAnswerValues[0].isActive = true;
             // this.prescription = res?.data?.currentUlb?.partcularAnswerValues[0]?.prescription;
             if (this.scoreReportData) {
               //   this.stepperScoreDiv = false;
@@ -108,7 +108,7 @@ export class CheckScorePerformanceComponent implements OnInit {
     this.scoreReportData?.currentUlb?.partcularAnswerValues.forEach((el) => {
       el.isActive = false;
     });
-    presItem.isActive = true;
+    // presItem.isActive = true;
     console.log(presItem);
   }
   getPrescriptionText(value) {
