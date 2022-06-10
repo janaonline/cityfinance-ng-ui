@@ -219,8 +219,9 @@ export class FaqTableComponent implements OnInit {
     },
     {
       Term: "Revenue Mix",
-      Definition:
-        "Revenue mix refers to the combination of own revenues, assigned revenues, interest income, grants-in-aid (central and state grants) and other receipts, which together constitute the total revenue of the ULB",
+      Definition: `Revenue mix refers to the combination of own revenues, assigned revenues,
+        interest income, grants-in-aid (central and state grants) and other receipts,
+        which together constitute the total revenue of the ULB`,
     },
     {
       Term: "Total Revenue",
