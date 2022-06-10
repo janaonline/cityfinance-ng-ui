@@ -291,14 +291,16 @@ export class ScorePerComponent implements OnInit {
         }
       });
     }
+
     let currentScore = value?.currentUlb?.total * 10;
+    console.log("value", currentScore);
     if (currentScore == 100) {
       // this.prescribeText =`You have adopted all the property tax reforms. Your property tax system is robust,
       // which should increase the share of property tax in own revenues.`;
       this.prescribeText = `You have adopted all the property tax reforms. Your property tax system is robust,
        which should increase the share of property tax in own revenues.`;
       this.clonePrescribeText = this.prescribeText;
-    } else if (currentScore < 100 && currentScore >= 50) {
+    } else if (currentScore < 100 && currentScore > 50) {
       // this.prescribeText = `You have adopted ${count} property tax reforms. Your property
       // tax system has scope for further improvement. You see section-wise score and prescription
       // pertaining to areas of improvement, and refer the property tax toolkit (hyperlink) for
@@ -317,7 +319,7 @@ export class ScorePerComponent implements OnInit {
       //  You see section-wise score and prescription pertaining to areas of improvement,
       //  and refer the property tax toolkit (hyperlink) for information on steps towards property tax reforms.
       //   Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
-      `You have adopted only ${count} property tax reforms. You may refer
+      this.prescribeText = `You have adopted only ${count} property tax reforms. You may refer
        the <a href="#" class="aTag-s">property tax toolkit</a>
        for information on steps towards property tax reforms. Property tax reforms have potential
        to increase revenues and collection, and improve financial sustainability.`;
