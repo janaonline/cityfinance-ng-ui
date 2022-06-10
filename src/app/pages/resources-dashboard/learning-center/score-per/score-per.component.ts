@@ -307,8 +307,9 @@ export class ScorePerComponent implements OnInit {
       // href="../resources-dashboard/learning-center/toolkits/enumeration"
       this.prescribeText = `You have adopted ${count} property tax reforms.
        Your property tax system has scope for further improvement.
-       You may refer the  <a href="#" class="aTag-s">property tax toolkit</a> for information on steps towards property tax reforms.
-        Property tax reforms have potential to increase
+       You may refer the  <a href="#" class="aTag-s">property tax toolkit</a> for
+       information on steps towards property tax reforms.
+       Property tax reforms have potential to increase
        revenues and collection, and improve financial sustainability.`;
       this.clonePrescribeText = this.prescribeText;
     } else if (currentScore < 50) {
@@ -318,7 +319,7 @@ export class ScorePerComponent implements OnInit {
       //   Property tax reforms have potential to increase revenues and collection, and improve financial sustainability.`;
       `You have adopted only ${count} property tax reforms. You may refer
        the <a href="#" class="aTag-s">property tax toolkit</a>
-        for information on steps towards property tax reforms. Property tax reforms have potential
+       for information on steps towards property tax reforms. Property tax reforms have potential
        to increase revenues and collection, and improve financial sustainability.`;
       this.clonePrescribeText = this.prescribeText;
     }
