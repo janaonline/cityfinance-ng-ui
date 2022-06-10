@@ -26,7 +26,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     showMap: true,
     stateId: "",
     date: "",
-    year: "",
+    year: "2020-21",
     name: "",
     desc: "This urban local body has been classified as a municipal corporation in the 4M+ population category",
     finance: "",
@@ -88,15 +88,15 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     private router: Router,
     public activatedRoute: ActivatedRoute
   ) {
-    this.ulbList = JSON.parse(localStorage.getItem('ulbList'));
+    this.ulbList = JSON.parse(localStorage.getItem("ulbList"));
   }
   ngOnInit(): void {
     console.log("this.data====>", this.data);
-    
+
     this._commonServices.fetchStateList().subscribe(
       (res: any) => {
         // console.log('res', res);
-        this.stateList = this._commonServices.sortDataSource(res, 'name');
+        this.stateList = this._commonServices.sortDataSource(res, "name");
       },
       (error) => {
         console.log(error);
@@ -109,7 +109,6 @@ export class FrontPanelComponent implements OnInit, OnChanges {
       this.data.year = data;
       this.getAvailableData();
     });
-
   }
   yearVal = "";
 
@@ -135,9 +134,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
   changeInMapFilter(event) {
     console.log("changeInMapFilter", event);
-    console.log('this.ulbList', this.ulbList)
+    console.log("this.ulbList", this.ulbList);
     let stateId = this.ulbList?.data[event?.value?.ST_CODE]._id;
-    console.log('stateId', stateId)
+    console.log("stateId", stateId);
     this.getAvailableData(stateId);
     this.changeInStateOrCity.emit(event);
   }
@@ -166,9 +165,9 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     );
   }
 
-  selectedStateId: string = '';
+  selectedStateId: string = "";
   getStateId() {
-    this.selectedStateId = '';
+    this.selectedStateId = "";
     this.activatedRoute.queryParams.subscribe((val) => {
       console.log("val", val);
       const { stateId } = val;
@@ -181,8 +180,8 @@ export class FrontPanelComponent implements OnInit, OnChanges {
     });
   }
 
-  getAvailableData(stateId: string = '') {
-    console.log('getAvailableData called');
+  getAvailableData(stateId: string = "") {
+    console.log("getAvailableData called");
     // this.getStateId();
     // this._loaderService.showLoader()
     this.dataAvailLoading = true;
@@ -197,7 +196,10 @@ export class FrontPanelComponent implements OnInit, OnChanges {
         this.dataAvailEmit.emit(res);
         // this._loaderService.stopLoader()
         // res["data"].percent = parseFloat(res["data"].percent.toFixed(2));
-        let percentage = res["data"] && res["data"].percent ? Math.round(res["data"].percent) : 0;
+        let percentage =
+          res["data"] && res["data"].percent
+            ? Math.round(res["data"].percent)
+            : 0;
         res["actualPercent"] = res["data"].percent;
         res["data"].percent = percentage;
         this.financialYear = res;
@@ -218,7 +220,7 @@ export class FrontPanelComponent implements OnInit, OnChanges {
 
   myChart: any;
   halfDoughnutChart() {
-    console.log('halfDoughnutChart called');
+    console.log("halfDoughnutChart called");
     if (this.myChart) {
       this.myChart.destroy();
     }

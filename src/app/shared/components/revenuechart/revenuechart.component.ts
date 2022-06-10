@@ -508,14 +508,20 @@ export class RevenuechartComponent
       this.dounghnuChartLabels.emit(this.chartData.data["labels"]);
     }
     //dom is fully loaded, but maybe waiting on images & css files
-    console.log("chartId==>", this.chartId, this.chartData);
+    console.log("chartId==>", this.chartId, this.chartData, this.cityChart);
     setTimeout(() => {
       // }
-      //    this.chartData.data.labels.sort(function (a, b) {
-      //      let newA = a.split("-")[0];
-      //      let newB = b.split("-")[0];
-      //      return newA - newB;
-      //    });
+      if (this.cityChart && this.chartData.type == "bar") {
+        console.log("aaaa", this.chartData.data.labels);
+
+        this.chartData.data.labels.sort(function (a, b) {
+          let newA = a.split("-")[0];
+          let newB = b.split("-")[0];
+          return newA - newB;
+        });
+        console.log("aaaa b", this.chartData.data.labels);
+      }
+
       console.log("chartId==>1", this.chartId, this.chartData);
       if (this.chartData?.data?.datasets.length) {
         let canvas = <HTMLCanvasElement>document.getElementById(this.chartId);
