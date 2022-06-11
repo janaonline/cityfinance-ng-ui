@@ -637,33 +637,33 @@
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 d-flex footerBtnDiv">
-        <div class="col-lg-7 col-md-7 col-sm-7" style="padding-left: 3px;">
+        <div class="col-lg-4 col-md-7 col-sm-7" style="padding-left: 3px;">
             <button type="button" [routerLink]="['/ulbform/grant-tra-certi']" (click)="clickedBack = true"
                 routerLinkActive="router-link-active" class="btn backbtn">BACK</button>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 p-0"></div>
-        <div class="col-lg-1 col-md-1 col-sm-1 p-0">
+        <div class="col-lg-2 col-md-1 col-sm-1 p-0">
             <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'1')"
                 id="saveNext">
                 SAVE AS DRAFT</button>
         </div>
-        <div class="col-lg-1 col-md-1 col-sm-1 p-0">
+        <div class="col-lg-2 col-md-1 col-sm-1 p-0">
             <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'0')"
                 id="saveNext">
                 SUBMIT</button>
         </div>
-        <div class="col-lg-1 col-md-1 col-sm-1 p-0">
+        <div class="col-lg-2 col-md-1 col-sm-1 p-0">
             <button type="button" class="btn footerBtn pull-right" [routerLink]="['/ulbform/annual_acc']"
                 id="saveNext">
                 NEXT</button>
         </div>
     </div>
-</div> -->
+</div>
 <div class="row footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6">
         <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked = true" [routerLink]="['../grant-tra-certi']">BACK</a>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-right">
+    <div class="col-lg-6 col-md-6 col-sm-6 text-right" style="text-align:end;">
         <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
         <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1,'')">{{saveBtn}}</button>
     </div>

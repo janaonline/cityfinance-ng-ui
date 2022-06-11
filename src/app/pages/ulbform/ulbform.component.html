@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 sideNav" #stickyMenu [ngClass]="{'sticky' : sticky}"
-            style="padding: 0 0; margin-left: 2px;position: fixed;overflow-x: hidden;overflow-y: auto;z-index: 10;width: 295px;">
+            style="padding: 0 0; margin-left: 2px;position: fixed;overflow-x: hidden;overflow-y: auto;z-index: 10;">
             <ul class="heading" style="background-color: #FFC500; ">
                 <a routerLink="{{backLink}}">
                     <!-- "['../fc-home-page']" -->
@@ -320,8 +320,8 @@
 
 
 
-        </div>
-        <div class="col-sm-9 col-md-9 col-xs-9 col-lg-9" [ngClass]="{'stickyMain' : sticky || stiHieght}"
+        
+        <div class="col-sm-10 col-md-10 col-xs-10 col-lg-10" [ngClass]="{'stickyMain' : sticky || stiHieght}"
             style="background-color: #FFFFFF; width: 82%; padding-right: 0;margin-left: 17%;">
 
             <div class="container-fluid">
