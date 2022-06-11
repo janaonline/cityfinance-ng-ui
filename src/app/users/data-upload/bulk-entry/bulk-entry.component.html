@@ -1,7 +1,7 @@
 <div class="common-container">
   <div class="container">
     <div class="row" style="position: relative;">
-      <div class="col-md-8">
+      <div class="col-md-8" style="margin-bottom: 7%;">
         <h3>ULB Data Bulk Entry</h3>
       </div>
       <button [routerLink]="['../list']" class=" btn btn-primary" style="position: absolute; top: 48%;">
@@ -13,7 +13,7 @@
       only</span>
     <br />
 
-    <div class="row">
+    <div class="row" style="margin-top: 2%;">
       <form [formGroup]="bulkEntryForm" (ngSubmit)="upload()">
         <div class="col-md-4">
           <div class="form-group">
@@ -23,7 +23,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mt-2">
           <div class="form-group">
             <label>Select files to upload</label>
             <input id="cin" name="cin" type="file" (change)="fileChangeEvent($event)" placeholder="Upload a file..."
