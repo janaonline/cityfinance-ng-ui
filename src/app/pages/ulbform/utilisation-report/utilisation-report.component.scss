@@ -21,9 +21,11 @@ a.anDisable {
     color: #373737;
     margin-top: 1rem;
 }
-.table-responsive{
+
+.table-responsive {
     overflow-x: hidden;
 }
+
 .m-ut-he {
     // margin-left: 0;
     margin-right: 0;
@@ -103,8 +105,8 @@ input:disabled {
 }
 
 .card-body {
-    margin-right: 20px;
-    padding: 0px !important;
+    // margin-right: 20px;
+    //  padding: 0px !important;
     // margin-top: 8px;
 }
 
@@ -139,7 +141,6 @@ input:disabled {
     padding: 4px 4px;
 }
 
-
 label {
     font-weight: normal;
 }
@@ -157,14 +158,14 @@ label {
 
 .footerBtn {
     // margin-right: 15px;
-    height: 32px;
+    height: 36px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
-    font-size: 12px;
-    padding-left: 4%;
-    padding-right: 4%;
-    width: 116px;
+    font-size: 14px;
+    padding-left: 8%;
+    padding-right: 8%;
+    //width: 116px;
 }
 
 .backbtn {
@@ -172,10 +173,10 @@ label {
     color: #FFFFFF;
     border-color: unset;
     width: auto;
-    height: 32px;
-    font-size: 12px;
-    padding-left: 4%;
-    padding-right: 4%;
+    height: 36px;
+    font-size: 14px;
+    padding-left: 8%;
+    padding-right: 8%;
 }
 
 .table>tbody>tr>td,
@@ -261,8 +262,8 @@ label {
     margin-left: 1rem;
 }
 
-::ng-deep .tool-tip{
-    background-color:black;
+::ng-deep .tool-tip {
+    background-color: black;
     font-size: 12px;
 }
 

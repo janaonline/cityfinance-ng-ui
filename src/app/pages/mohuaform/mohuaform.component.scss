@@ -110,13 +110,14 @@ div.active {
     margin-top: 30px;
 }
 
-.stiHieght{
+.stiHieght {
     // position: fixed;
     // height: 19%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
+
 .sticky {
     // position: fixed;
     // top: 19%;
@@ -129,8 +130,9 @@ div.active {
     width: 16.66666667%;
     top: 1px;
 }
+
 @media screen and (max-width: 1170px) {
-    .stiHieght{
+    .stiHieght {
         // position: fixed;
         // height: 19%;
         display: flex;
@@ -156,12 +158,14 @@ div.active {
         top: 1px;
     }
 }
+
 .sideNav {
     // background-color: #F2F2F2;
     height: 600px;
     // overflow-y: scroll;
     overflow-x: hidden;
 }
+
 .sidebar {
     margin-top: 1px;
     // width: 18%;
@@ -171,6 +175,7 @@ div.active {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
 ::ng-deep {
     .spinner {
         position: fixed;
@@ -182,4 +187,10 @@ div.active {
         padding-left: 15%;
         padding-top: 12%;
     }
+}
+
+.aTag {
+    text-decoration: none;
+    font-weight: 500px;
+    font-size: 14px;
 }

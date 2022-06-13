@@ -1,8 +1,9 @@
-.spanCustom{
+.spanCustom {
     position: absolute;
-    left: 70%;
-    width: 62px;
+    left: 75%;
+    width: 60px;
 }
+
 :host {
     --greenish: #047474;
     textarea:disabled {
@@ -12,7 +13,7 @@
     .input-group-addon {
         background: var(--greenish);
         color: white;
-        padding: 2px 8px;
+        padding: 4px 8px;
         border: 1px solid var(--greenish);
         border-radius: 6px;
     }
@@ -20,7 +21,7 @@
         border-color: var(--greenish);
     }
     .question-table {
-        width: 100%;
+        width: 98%;
         margin-bottom: 3%;
         tr:not(:last-child) td {
             padding: 1% 1%;
@@ -146,7 +147,7 @@
         width: 100%;
     }
     table {
-        width: 100%;
+        width: 97%;
     }
     th {
         color: #047474;
@@ -178,7 +179,7 @@
         }
     }
     form.ulb-view-table {
-        width: 101%;
+        width: 100%;
         transform: none;
     }
     table tbody td,
@@ -250,29 +251,29 @@
 }
 
 .footerBtnDiv {
-    margin-top: 20px    ;
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
 .footerBtn {
     width: auto;
-    height: 32px;
+    height: 36px;
     background-color: #26A1A1;
     color: #FFFFFF;
     font-weight: normal;
-    font-size: 12px;
-    padding-left: 4%;
-    padding-right: 4%;
+    font-size: 14px;
+    padding-left: 8%;
+    padding-right: 8%;
 }
 
 .backbtn {
     background-color: #CFCFCF;
     color: #FFFFFF;
     width: auto;
-    height: 32px;
-    padding-left: 4%;
-    font-size: 12px;
-    padding-right: 4%;
+    height: 36px;
+    padding-left: 8%;
+    font-size: 14px;
+    padding-right: 8%;
 }
 
 .d-none {
@@ -299,17 +300,36 @@ a.anDisable {
     background-color: #ffc500;
     color: #FFFFFF;
     border: none;
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
 
 .btn-r {
     background-color: red;
     color: #FFFFFF;
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
 
 .btn-a {
     background-color: green;
     color: #FFFFFF;
-    cursor:not-allowed;
+    cursor: not-allowed;
+}
+
+th,
+tr,
+td {
+    font-size: 14px !important;
+}
+
+.form-control {
+    display: inline-flex;
+    width: 60%;
+    font-size: 14px;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    // width: 100%;
 }

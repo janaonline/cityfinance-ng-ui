@@ -81,17 +81,17 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <label for="" class="labelField">i. Unutilised Tied Grants from previous installment (INR in
-                            lakhs)  
+                            lakhs)
                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Please enter the balance amount brought forward from the previous instalment." matTooltipPosition="above" style="float: right;">
                         <img src="../../../../assets/ticks/info_black_18dp.svg">
-                       </span> 
+                       </span>
                         </label>
                         <!-- <input type="text" class="form-control d-input" formControlName="prevInstallLabel"> -->
 
                     </div>
                     <div class="col-lg-6">
-                        <input  disabled = "true" class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)" formControlName="unUtilizedPrevYr"
-                            appTwoDigitDecimaNumber>
+                        <input disabled="true" class="form-control inputfield d-input" [ngStyle]="{'border':(isSubmitted == true && utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required) ? '1px solid red' : '' }" (change)="calAmount('unUtilizedPrevYr',$event)"
+                            formControlName="unUtilizedPrevYr" appTwoDigitDecimaNumber>
                         <span class="text-danger" *ngIf="(utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.touched || submitted) &&
                         utiReportFormControl.grantPosition.controls.unUtilizedPrevYr.errors?.required" style="margin-left: 10px;">
                             Required*
@@ -104,7 +104,6 @@
                     <div class="col-lg-6">
                         <label for="" class="labelField">ii. 15<sup>th</sup> F.C. Tied grant received for the year
                             (1st & 2nd installment taken together) (INR in lakhs)
-                        
                             <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In case, the second installment for FY 2020-21 is received in the next financial year, ie. FY 2021-22, please write the full amount with respect to allocated grant for FY 2020-21." matTooltipPosition="above" style="float: right;">
                                 <img src="../../../../assets/ticks/info_black_18dp.svg">
                                </span> </label>
@@ -129,7 +128,7 @@
                             lakhs)
                             <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total expenditure in the component wise grants must not exceed the amounts of grant received." matTooltipPosition="above" style="float: right;">
                                 <img src="../../../../assets/ticks/info_black_18dp.svg">
-                               </span> 
+                               </span>
                         </label>
                         <!-- <input type="text" class="form-control d-input" formControlName="expendLabel"> -->
 
@@ -170,7 +169,7 @@
             <div class="card-body" style="margin-bottom: 20px;">
                 <p style="margin-left: 5px; font-weight: 500;">Component Wise Utilisation of Tied grants as on 31st March 2021
                     <span style="color: red;">*</span>
-                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
+                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above">
                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                        </span>
                 </p>
@@ -183,11 +182,14 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th scope="col">Sector</th>
-                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled." matTooltipPosition="above" >
+                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2021
+                                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                            matTooltipPosition="above">
                                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                                        </span> </th>
                                     <th scope="col">Number of Projects Undertaken</th>
-                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost." matTooltipPosition="above" >
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                            matTooltipPosition="above">
                                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                                        </span> </th>
 
@@ -231,11 +233,14 @@
                                 <tr class="thHeader">
                                     <th scope="col">S.No</th>
                                     <th width="20%" scope="col">Sector</th>
-                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2021<span  [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled." matTooltipPosition="above" >
+                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2021
+                                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                            matTooltipPosition="above">
                                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                                        </span> </th>
                                     <th scope="col">Number of Projects Undertaken</th>
-                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost." matTooltipPosition="above" >
+                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                            matTooltipPosition="above">
                                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                                        </span> </th>
 
@@ -288,7 +293,7 @@
                 </div>
                 <!-- project Details Table -->
                 <div class="table-responsive">
-                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2021." matTooltipPosition="above" >
+                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2021." matTooltipPosition="above">
                         <img src="../../../../assets/ticks/info_black_18dp.svg">
                        </span> </p>
                     <table class="table custom-position tableStriped">
@@ -304,10 +309,14 @@
                                 <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
                                 <!-- <th scope="col">Engineer's Name<br></th> -->
                                 <!-- <th scope="col">Engineer's Contact Number<br></th> -->
-                                <th scope="col">Total Project Cost<br> (INR in lakhs) <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}" >
-                                    <img src="../../../../assets/ticks/info_black_18dp.svg">
-                                </div> </th>
-                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred." matTooltipPosition="above" >
+                                <th scope="col">Total Project Cost<br> (INR in lakhs)
+                                    <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}">
+                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                    </div>
+                                </th>
+                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)
+                                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred."
+                                        matTooltipPosition="above">
                                     <img src="../../../../assets/ticks/info_black_18dp.svg">
                                    </span>
                                 </th>
@@ -317,7 +326,7 @@
                             </tr>
                         </thead>
 
-                        <tbody  *ngIf="utilizationReport['controls']['projects']['controls'].length == 0">
+                        <tbody *ngIf="utilizationReport['controls']['projects']['controls'].length == 0">
 
                             <tr>
                                 <td class="t-i">
@@ -553,7 +562,7 @@
                       <span class="tableFooter">50000</span>
                       <span class="tableFooter">25000</span>
                   </div> -->
-                  <div class="addMoreDiv text-right">
+                <div class="addMoreDiv text-right">
                     <button type="button" class="btn" (click)="addRow()" id="addmoreBtn" [attr.disabled]="isDisabled">
                         <span class="material-icons text-center" style="font-size: 12px; margin-right: 3px;">
                             add_circle_outline
@@ -615,7 +624,7 @@
 
             <!-- {{ulbFormStaus | titlecase}} -->
 
-            <label class="btn btn-success" style="width: 82px;" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
+            <label class="btn btn-success" style="" [ngClass]="{'btn-a' : (ulbFormStaus == 'APPROVED'),
           'btn-r' : (ulbFormStaus == 'REJECTED'), 'btn-p' : (ulbFormStatusMoHUA == 'PENDING' || ulbFormStaus == 'PENDING'  )}">
                 {{ulbFormStaus | titlecase}}</label>
         </p>
@@ -638,36 +647,31 @@
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 d-flex footerBtnDiv">
         <div class="col-lg-4 col-md-7 col-sm-7" style="padding-left: 3px;">
-            <button type="button" [routerLink]="['/ulbform/grant-tra-certi']" (click)="clickedBack = true"
-                routerLinkActive="router-link-active" class="btn backbtn">BACK</button>
+            <button type="button" [routerLink]="['/ulbform/grant-tra-certi']" (click)="clickedBack = true" routerLinkActive="router-link-active" class="btn backbtn">BACK</button>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 p-0"></div>
         <div class="col-lg-2 col-md-1 col-sm-1 p-0">
-            <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'1')"
-                id="saveNext">
+            <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'1')" id="saveNext">
                 SAVE AS DRAFT</button>
         </div>
         <div class="col-lg-2 col-md-1 col-sm-1 p-0">
-            <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'0')"
-                id="saveNext">
+            <button [ngClass]="{'cross': btnDisable}" type="button" [disabled]="btnDisable" class="btn footerBtn pull-right" (click)="clickedSaveAndNext(template1,'0')" id="saveNext">
                 SUBMIT</button>
         </div>
         <div class="col-lg-2 col-md-1 col-sm-1 p-0">
-            <button type="button" class="btn footerBtn pull-right" [routerLink]="['/ulbform/annual_acc']"
-                id="saveNext">
+            <button type="button" class="btn footerBtn pull-right" [routerLink]="['/ulbform/annual_acc']" id="saveNext">
                 NEXT</button>
         </div>
     </div>
 </div>
-<div class="row footerBtnDiv">
+<!-- <div class="row footerBtnDiv">
     <div class="col-lg-6 col-md-6 col-sm-6">
         <a type="button" class="btn btn-secondary backbtn" (click)="backButtonClicked = true" [routerLink]="['../grant-tra-certi']">BACK</a>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 text-right" style="text-align:end;">
-        <!-- <button type="button" class="btn footerBtn" id="saveDraft" (click)="saveAsDraft()">SAVE AS DRAFT</button> -->
         <button type="button" class="btn footerBtn" id="saveNext" (click)="clickedSaveAndNext(template1,'')">{{saveBtn}}</button>
     </div>
-</div>
+</div> -->
 
 
 
