@@ -35,7 +35,7 @@
       <div class="col-md-12 table-responsive">
         <table aria-describedby="USers List" *ngIf="listType === userTypes.USER && !isApiInProgress" class="table">
           <thead>
-            <tr style="background: #059b9a; color: white; border: 0px" class="sortable-headers">
+            <tr style="background: #059b9a; color: white; border: 0px;width: 100%;table-layout: fixed;" class="sortable-headers">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
@@ -106,15 +106,30 @@
               <td class="text-center">
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
-              <td class="">{{ user.name }}</td>
-              <td class="">{{ user.email }}</td>
-              <td class="">{{ user.designation }}</td>
-              <td class="">{{ user.organization }}</td>
-              <td class="text-center d-flex actionCell">
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user.name }}
+                </div>
+              </td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user.email }}
+                </div></td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user.designation }}
+                </div>
+                </td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user.organization }}
+                </div>
+                </td>
+              <td style="padding:18px;">
                 <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'USER' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-                <a *ngIf="canDeleteUser">
+                <a *ngIf="canDeleteUser" style="padding-left:18px;">
                   <i class="fa fa-trash" aria-hidden="true" title="Delete User" (click)="
                       openUserDeleteConfirmationBox(userDeletePopup, user)
                     "></i></a>
@@ -131,7 +146,7 @@
 
         <table aria-describedby="ULB List" class="table" *ngIf="listType === userTypes.ULB && !isApiInProgress">
           <thead>
-            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px;width: 100%;table-layout: fixed;">
               <th class="text-center" scope="Serial No">S.No.</th>
               <th scope="State No" (click)="sortListBy('stateName')" *ngIf="loggedInType !== userTypes.STATE">
                 State
@@ -242,10 +257,19 @@
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
               <td class="" *ngIf="loggedInType !== userTypes.STATE">
-                {{ ulb["stateName"] }}
+                <div style="word-break: break-word;">
+                  {{ ulb["stateName"] }}
+                </div>
+                
               </td>
-              <td class="">{{ulb['user'] == 'false' ? ulb["ulbName"] : ulb["name"] }}</td>
-              <td>{{ ulb.sbCode ? ulb.sbCode : ulb.censusCode }}</td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ulb['user'] == 'false' ? ulb["ulbName"] : ulb["name"] }}
+                </div></td>
+              <td>
+                <div style="word-break: break-word;">
+                  {{ ulb.sbCode ? ulb.sbCode : ulb.censusCode }}
+                </div></td>
               <td>
                 <button class="btn btn-primary" *ngIf="ulb.user == 'false'" (click)="signUpForm(templateForm, ulb)">Sign
                   Up</button>
@@ -320,7 +344,7 @@
 
         <table aria-describedby="States List" class="table" *ngIf="listType === userTypes.STATE && !isApiInProgress">
           <thead>
-            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px;width: 100%;table-layout: fixed;">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('stateName')">
                 State <i _ngcontent-c8="" class="glyphicon glyphicon-sort"></i>
@@ -409,12 +433,26 @@
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
               <td class="" style="padding-left: 3px;">
-                {{ user["stateName"] }}
+                <div style="word-break: break-word;">
+                  {{ user["stateName"] }}
+                </div>
               </td>
-              <td class="" style="padding-left: 3px;">{{ user["name"] }}</td>
-              <td class="" style="padding-left: 3px;">{{ user["email"] }}</td>
-              <td class="" style="padding-left: 3px;">{{ user["designation"] }}</td>
-              <td class="" style="padding-left: 3px;">{{ user["departmentName"] }}</td>
+              <td class="" style="padding-left: 3px;">
+                <div style="word-break: break-word;">
+                  {{ user["name"] }}
+                </div></td>
+              <td class="" style="padding-left: 3px;">
+                <div style="word-break: break-word;">
+                  {{ user["email"] }}
+                </div></td>
+              <td class="" style="padding-left: 3px;">
+                <div style="word-break: break-word;">
+                  {{ user["designation"] }}
+                </div></td>
+              <td class="" style="padding-left: 3px;">
+                <div style="word-break: break-word;">
+                  {{ user["departmentName"] }}
+                </div></td>
               <td>
                 <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'STATE' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
@@ -440,7 +478,7 @@
         <table aria-describedby="Partners List" class="table"
           *ngIf="listType === userTypes.PARTNER && !isApiInProgress">
           <thead>
-            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px;width: 100%;table-layout: fixed;">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
@@ -514,10 +552,22 @@
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
 
-              <td class="">{{ user["name"] }}</td>
-              <td class="">{{ user["email"] }}</td>
-              <td class="">{{ user["designation"] }}</td>
-              <td class="">{{ user["departmentName"] }}</td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["name"] }}
+                </div></td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["email"] }}
+                </div></td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["designation"] }}
+                </div></td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["departmentName"] }}
+                </div></td>
               <td class="text-center d-flex actionCell">
                 <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: 'PARTNER' }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
@@ -542,7 +592,7 @@
 
         <table aria-describedby="MoHUA List" class="table" *ngIf="listType === userTypes.MoHUA && !isApiInProgress">
           <thead>
-            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px">
+            <tr class="sortable-headers" style="background: #059b9a; color: white; border: 0px;width: 100%;table-layout: fixed;">
               <th class="text-center">S.No.</th>
               <th class="" (click)="sortListBy('name')">
                 User Name
@@ -606,9 +656,18 @@
                 {{ (tableDefaultOptions.currentPage - 1) * 10 + i + 1 }}
               </td>
 
-              <td class="">{{ user["name"] }}</td>
-              <td class="">{{ user["email"] }}</td>
-              <td class="">{{ user["designation"] }}</td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["name"] }}
+                </div></td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["email"] }}
+                </div></td>
+              <td class="">
+                <div style="word-break: break-word;">
+                  {{ user["designation"] }}
+                </div></td>
               <td class="text-center d-flex actionCell">
                 <a [routerLink]="['/', 'user', 'profile', 'view']" [queryParams]="{ id: user._id, role: listType }">
                   <i class="fa fa-eye" aria-hidden="true"></i>
