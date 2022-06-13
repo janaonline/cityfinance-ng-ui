@@ -275,7 +275,7 @@ export class MapWithFilterComponent
         return elem;
       }
     });
-    let marker = this.districtMarkerMap[newObject[0].code];
+    let marker = this.districtMarkerMap[newObject[0]?.code];
     console.log('createMarker', options, 'newObject', newObject, 'marker', marker)
     if (marker) marker.fireEvent("click");
   }
@@ -333,55 +333,58 @@ export class MapWithFilterComponent
       // }, 100);
       options.dataPoints.forEach((dataPoint: any) => {
         this.districtList[dataPoint.code] = dataPoint.name;
-        /* Creating a popup without a close button. 
-        * available option are {closeOnClick: false, closeButton: true, autoClose: true }
-        * if you know other option too please add into this object for future reference
-        */
-        var popup = L.popup({closeButton: false, autoClose: true }).setContent(`${this._commonService.createCityTooltip(dataPoint)}`);
+        /* Creating a popup without a close button.
+         * available option are {closeOnClick: false, closeButton: true, autoClose: true }
+         * if you know other option too please add into this object for future reference
+         */
+        var popup = L.popup({ closeButton: false, autoClose: true }).setContent(
+          `${this._commonService.createCityTooltip(dataPoint)}`
+        );
         const marker = this.createDistrictMarker({
           ...dataPoint,
           icon: this.blueIcon,
-        }).addTo(districtMap)
-        .bindPopup(popup);
+        })
+          .addTo(districtMap)
+          .bindPopup(popup);
 
         /* Adding a mouseover and mouseout event to the marker. */
-          marker.on({ mouseover: () => {
+        marker.on({
+          mouseover: () => {
             this.mouseHoveredOnULB = dataPoint;
             marker.openPopup();
-            }
-          });
-          marker.on({ mouseout: () => {
-              this.mouseHoveredOnULB = null;
-              marker.closePopup();
-            }
-          });
+          },
+        });
+        marker.on({
+          mouseout: () => {
+            this.mouseHoveredOnULB = null;
+            marker.closePopup();
+          },
+        });
         // marker.on("mouseover", () => (this.mouseHoveredOnULB = dataPoint));
         // marker.on("mouseout", () => (this.mouseHoveredOnULB = null));
         marker.on("click", (values: any) => {
-          console.log("clicked values", values, this.mapConfig.code.state);
+          console.log("clicked values", values, this.mapConfig?.code?.state);
           let city;
           if (values["latlng"])
-            city = this.stateUlbData.data[this.mapConfig.code.state].ulbs.find(
-              (value) => {
-                console.log("innerValue", value);
-                this.router.navigateByUrl(
-                  `/dashboard/city?cityId=${value._id}`
-                );
-                return (
-                  +value.location.lat === values["latlng"].lat &&
-                  +value.location.lng === values["latlng"].lng
-                );
-              }
-            );
-          if (city) this.selectedDistrictCode = city.code;
+            city = this.stateUlbData?.data[
+              this.mapConfig?.code?.state
+            ].ulbs?.find((value) => {
+              console.log("innerValue", value);
+              this.router.navigateByUrl(`/dashboard/city?cityId=${value?._id}`);
+              return (
+                +value.location.lat === values["latlng"].lat &&
+                +value.location.lng === values["latlng"].lng
+              );
+            });
+          if (city) this.selectedDistrictCode = city?.code;
           this.onDistrictMarkerClick(values, marker);
         });
-        this.districtMarkerMap[dataPoint.code] = marker;
+        this.districtMarkerMap[dataPoint?.code] = marker;
       });
     }, 0.5);
 
     setTimeout(() => {
-      this.createMarker(options.dataPoints);
+      this.createMarker(options?.dataPoints);
     }, 100);
   }
 
