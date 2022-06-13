@@ -286,11 +286,12 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
     }
     console.log("chart data 1", data);
     this.compareType = body["compareType"];
+    let text = body['filterName'].includes('mix') || body['isPerCapita'] ? 'Simple' : 'Weighted'
     this.chartTitle = `${this.ulbMapping[this.currentUlb].name} ${
       this.selectedTab
     } vs ${body["compareType"]} ${
       this.ulbMapping[this.currentUlb].type
-    } Weighted Average`;
+    } ${text} Average`;
     this.barChartPayload = {};
 
     this.selectedFinancialYear = body["financialYear"];
@@ -443,8 +444,8 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
       data.ulbData[0]._id.financialYear
     } and FY${data.ulbData[data.ulbData.length - 1]._id.financialYear}
 
-    (Avg. ULB ${this.selectedTab} is Rs.${Math.round(totalUlb)}
-    State Average Total Revenue per capita is Rs.${Math.round(totalState)})`;
+    (Avg. ULB ${this.selectedTab} is Rs.${Math.round(totalUlb/data.ulbData.length)}
+    State Average Total Revenue per capita is Rs.${Math.round(totalState/ data.ulbData.length) })`;
     this.positiveCAGR = totalUlb > totalState;
   }
 
@@ -461,13 +462,13 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
         yearData[yearData.length - 1]._id.financialYear
       } years (ULB ${this.selectedTab} for FY' ${
         yearData[0]._id.financialYear
-      } is Rs.${convertToCr(yearData[0].amount/yearData.length, this.isPerCapita)} ${
+      } is Rs.${convertToCr(yearData[0].amount, this.isPerCapita)} ${
         this.isPerCapita ? "" : "Cr"
       }.
 ULB ${this.selectedTab} for FY' ${
   yearData[yearData.length - 1]._id.financialYear
       } is Rs. ${convertToCr(
-        yearData[yearData.length - 1].amount/yearData.length,
+        yearData[yearData.length - 1].amount,
         this.isPerCapita
       )} ${this.isPerCapita ? "" : "Cr"}.)`;
       this.positiveCAGR = CAGR > 0;
