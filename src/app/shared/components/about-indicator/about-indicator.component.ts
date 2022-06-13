@@ -143,6 +143,17 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
   }
 
   getNextStep(item, parentIndex) {
+    console.log("link dd", item, parentIndex);
+    let tabId = "61e150439ed0e8575c881028";
+    if (item?.capital_expenditure?.length != 0) {
+      tabId = "61e14d6a9ed0e8575c881018";
+    } else if (item?.expenditure_mix?.length != 0) {
+      tabId = "61e150099ed0e8575c881020";
+    } else if (item?.total_revenue?.length != 0) {
+      tabId = "61e150289ed0e8575c881024";
+    } else if (item?.total_own_revenue?.length != 0) {
+      tabId = "624d4b71c2376e67525eceac";
+    }
     item.desc.forEach((element, i) => {
       if (element.text.includes("STATE_NAME")) {
         element.text = element.text.split("STATE_NAME");
@@ -185,9 +196,12 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
           parentIndex
         );
       }
-      if (element.text.includes("state level")) {
-      }
-      if (element.text.includes("state level")) {
+      // if (element.text.includes("state level")) {
+      // }
+      if (
+        element.text.includes("State level") ||
+        element.text.includes("state level")
+      ) {
         let text = this.copyData[parentIndex].desc[i].text;
         if (text.includes("STATE_NAME")) {
           text = text.split("STATE_NAME");
@@ -207,10 +221,11 @@ export class AboutIndicatorComponent implements OnInit, OnChanges {
       }
       if (element.text.includes("national level")) {
         let text = this.copyData[parentIndex].desc[i].text;
+        console.log("a tag", text);
         this.addAnchorTag(
           item,
           i,
-          "/dashboard/national?tabIndex=1",
+          `/dashboard/national/${tabId}`,
           text,
           parentIndex
         );

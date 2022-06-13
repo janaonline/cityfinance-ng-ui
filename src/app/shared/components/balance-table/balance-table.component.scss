@@ -97,15 +97,15 @@
 }
 
 .comp {
-    margin-top: -35px;
+    //  margin-top: -35px;
 }
 
 .searchButton {
     border: none;
     padding: 9px;
     border-radius: 5px;
-    margin-left: 1em;
-    margin-right: 1em;
+    // margin-left: 1em;
+    // margin-right: 1em;
     background-color: #e67e15;
     border: 1px solid #e67e15;
     color: #ffffff;
@@ -187,4 +187,13 @@
     padding-left: 25px;
     font-size: 1.3rem;
     background-color: rgb(226, 226, 226)
+}
+
+.rp-h {
+    display: block;
+    font-weight: 500;
+}
+
+::ng-deep .mat-radio-label {
+    font-size: 16px;
 }
