@@ -9,30 +9,53 @@
             </p> -->
         </div>
         <div class="col-md-6 d-flex justify-content-end customRadioFilter" style="align-items: baseline;">
-            <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="rp-h">Report Type</label>
+                    <mat-radio-group name="report_type" (change)="valueTypeReport($event, 'reprtType')" aria-label="repot">
+                        <mat-radio-button class="mx-2" [checked]="'Summary' == valueTypeR" value="Summary">
+                            Summary
+                        </mat-radio-button>
+                        <mat-radio-button class="mx-2" [checked]="'Detailed' == valueTypeR" value="Detailed">
+                            Detailed
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col-md-3">
+                    <label class="rp-h">Value Format</label>
+                    <mat-radio-group name="value_type" (change)="valueTypeChange($event, 'valueType')" aria-label="value">
+                        <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">
+                            Absolute
+                        </mat-radio-button>
+                        <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <!-- <mat-radio-group (change)="valueTypeChange($event)" aria-label="Select an option">
                 <mat-radio-button class="mx-2" [checked]="'absolute' == valueType" value="absolute">Absolute</mat-radio-button>
                 <mat-radio-button class="mx-2" [checked]="'per_capita' == valueType" value="per_capita">Per Capita</mat-radio-button>
-            </mat-radio-group>
-            <div class="mr-1 customFilter">
-                <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
+            </mat-radio-group> -->
+                <div class="col-md-3 customFilter">
+                    <button (click)="openModal()" style="font-size: 0.8em; cursor: pointer" class="searchButton comp">
                 Compare By
                </button>
-                <a (click)="resetCompare()" style="font-size: 0.8em; cursor: pointer; margin-bottom: 26px; color: #e67e15" class="">
-                    <span class="material-icons" matTooltip="Reset Compare">
+                    <a (click)="resetCompare()" style="font-size: 0.8em; cursor: pointer; color: #e67e15" class="">
+                        <span class="material-icons" matTooltip="Reset Compare" style="vertical-align: middle;">
                      refresh
                   </span>
-                </a>
-            </div>
-            <div class="mt-4">
-                <select class="form-control" aria-label="Default select" (change)="onSelectingConversionType($event)" style="height: 2.5rem;" [disabled]="disableDropDown">
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" aria-label="Default select" (change)="onSelectingConversionType($event)" style="height: 2.5rem;" [disabled]="disableDropDown">
                     <option value="none" selected hidden>Select an Option</option>
                     <option *ngFor="let currency of currencyConversionType"
                         [value]="currency?.type" [selected]="currency?.type == selectCurrencyValue">
                         {{currency?.name}}
                     </option>
                 </select>
+                </div>
             </div>
-
         </div>
     </div>
 
