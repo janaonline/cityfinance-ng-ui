@@ -265,6 +265,7 @@ export class BalanceTableComponent
     { name: "INR Lakhs", type: 100000 },
     { name: "INR Crores", type: 10000000 },
   ];
+  sheetType = "Summary";
   constructor(
     protected reportService: ReportService,
     public dialog: MatDialog,
@@ -343,7 +344,7 @@ export class BalanceTableComponent
     } else {
       temp2 = {
         isComparative: false,
-        type: "Summary",
+        type: this.sheetType,
         years: this.currentUlbFilterData?.financialYear,
         yearList: this.currentUlbFilterData?.financialYear.map((val) => ({
           id: val,
@@ -424,12 +425,12 @@ export class BalanceTableComponent
       this.currentUlbFilterData,
       this.ulbIdval
     );
-    let ulbIdArr = multiUlbList.map(el => {
-return el.ulb
-    })
+    let ulbIdArr = multiUlbList.map((el) => {
+      return el.ulb;
+    });
     let filters = {
       isComparative: false,
-      type: "Summary",
+      type: this.sheetType,
       years: this.years,
       yearList: this.yearValue,
       reportGroup: this.reportGroup,
@@ -470,13 +471,13 @@ return el.ulb
 
   ExistingValues() {
     this.ulbIdval.push(this.id);
-    let currentUlb = this.stateCode[this.ulbStateMapping[this.id]].ulbs.filter(
-      (elem) => {
-        if (elem?._id === this.id) {
-          return elem;
-        }
+    let currentUlb = this.stateCode[
+      this.ulbStateMapping[this.id]
+    ]?.ulbs?.filter((elem) => {
+      if (elem?._id === this.id) {
+        return elem;
       }
-    );
+    });
     this.ulbListVal.push(...currentUlb);
     console.log("ulb.......pk", this.ulbListVal);
   }
@@ -601,6 +602,7 @@ return el.ulb
   resetCompare() {
     this.compare = false;
     this.valueType = "absolute";
+    this.sheetType = "Summary";
     this.createDataForBasicComp(this.reportGroup);
 
     this.ulbListVal = "";
@@ -611,7 +613,7 @@ return el.ulb
 
   disableDropDown: boolean = false;
 
-  valueTypeChange(event) {
+  valueTypeChange(event, type) {
     console.log(event.value, "change in value type", this.years);
     this.valueType = event.value;
 
@@ -625,6 +627,18 @@ return el.ulb
       this.disableDropDown = true;
     } else {
       this.disableDropDown = false;
+    }
+  }
+  valueTypeR = "Summary";
+  valueTypeReport(event, type) {
+    console.log("radio btn", event, type);
+    this.sheetType = event?.value;
+    this.valueTypeR = event?.value;
+    if (this.years.length > 0) {
+      this.createMultipleUpdateTable();
+      this.selectedYea(this.years);
+    } else {
+      this.createDataForBasicComp(this.reportGroup);
     }
   }
 

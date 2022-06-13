@@ -539,7 +539,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
         ulbType: "ULB Type",
       });
     } else if (param == "year") {
-      
+
       // this.filterGroup.patchValue({
       //   ulb: ""
       // })
@@ -995,16 +995,16 @@ export class OwnRevenueDashboardComponent implements OnInit {
       revenueExpenditureCopy = deepCopy(revenueExpenditure),
       revenuePercentageCopy = deepCopy(revenuePercentage),
       value = data[this.filterGroup.value.financialYear];
+console.log("card value", value);
 
-    revenueCollectionCopy.isLoading = this.cardsDataLoading;
-    revenuePerCapitaCopy.isLoading = this.cardsDataLoading;
-    revenueExpenditureCopy.isLoading = this.cardsDataLoading;
-    revenuePercentageCopy.isLoading = this.cardsDataLoading;
-
-    revenueCollectionCopy.title = valueConvert(value?.totalRevenue) ?? 0;
-    revenuePerCapitaCopy.title = "₹ " + value?.perCapita.toFixed(0) ?? 0;
-    revenuePercentageCopy.title = (value?.percentage.toFixed(0) ?? "0") + " %";
-    revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
+revenueCollectionCopy.isLoading = this.cardsDataLoading;
+revenuePerCapitaCopy.isLoading = this.cardsDataLoading;
+revenueExpenditureCopy.isLoading = this.cardsDataLoading;
+revenuePercentageCopy.isLoading = this.cardsDataLoading;
+revenueCollectionCopy.title = valueConvert(value?.totalRevenue) ?? 0;
+revenuePerCapitaCopy.title = "₹ " + value?.perCapita.toFixed(0) ?? 0;
+revenuePercentageCopy.title = (value?.percentage.toFixed(0) ?? "0") + " %";
+revenueExpenditureCopy.title = value?.totalUlbMeetExpense ?? 0;
 
     if (yearInData[1]) {
       let oldYearValue =
@@ -1060,15 +1060,17 @@ export class OwnRevenueDashboardComponent implements OnInit {
 
   proTabCardsFormat(data) {
     let value = data[this.filterGroup.value.financialYear];
+    console.log("card value per", value);
     let cards = deepCopy(porpertyCards);
     cards[0].title = valueConvert(value.totalProperty) ?? 0;
     cards[1].title =
       "₹ " + (value.totalProperty / value.population).toFixed(0) ?? 0;
-    cards[2].title =
-      (
-        (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
-        100
-      ).toFixed(0) + "%";
+    // cards[2].title =
+    //   (
+    //     (value.totalProperty / (value.totalRevenue - value.totalProperty)) *
+    //     100
+    //   ).toFixed(0) + "%";
+    cards[2].title = (value?.percentage.toFixed(0) ?? "0") + " %";
     let yearInData = Object.keys(data);
     if (yearInData[1]) {
       let oldYearValue =
