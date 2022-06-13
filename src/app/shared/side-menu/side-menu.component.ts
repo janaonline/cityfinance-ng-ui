@@ -24,6 +24,7 @@ export class SideMenuComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const menus = this.filterOutContents(changes.contents.currentValue);
     this.contents = menus;
+    console.log('contents', this.contents);
   }
 
   @Input("content") contents: IMenus[] = [];

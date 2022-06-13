@@ -27,7 +27,7 @@ export class ELearningModuleComponent implements OnInit {
         "../../../../../assets/new_dashBord_ftr_hdr/shutterstock_546307051/shutterstock_546307051.png",
       code: "first",
     },
-    
+
     {
       label: "Valuation of Properties",
       imgUrl:
@@ -51,7 +51,7 @@ export class ELearningModuleComponent implements OnInit {
   showTableau = false;
   showOtherIframe = false;
   openScorePer(item) {
-    console.log("new item",{item})
+    console.log("new item", { item });
     this.resourcedashboard.setShowCardValue(item);
 
     this.resourcedashboard.showCard.subscribe((res) => {
@@ -69,10 +69,9 @@ export class ELearningModuleComponent implements OnInit {
       this.showTableau = true;
     } else if (item.code == "second") {
       this.showIframe = true;
-    } 
-    // else if (item.code == "fourth") {
-    //   this.showOtherIframe = true;
-    // }
+    } else if (item.code == "third") {
+      this.showOtherIframe = true;
+    }
 
     console.log(item.label);
   }

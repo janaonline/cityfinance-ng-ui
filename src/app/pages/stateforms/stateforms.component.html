@@ -31,47 +31,84 @@
                 </div>
     
                 <div class="row link-div" routerLinkActive="active">
-                    <a [routerLink]="['dashboard']">
-                        
-                            <mat-icon aria-hidden="false">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['dashboard']">         
+                            <mat-icon aria-hidden="false" style="margin-bottom: 11px;">
                                 <img src='../../../assets/stateIconSvg/menu (2).svg ' class="svg-icon">
                             </mat-icon>
-                            <span>Dashboard</span> 
-                        
-                        <!-- <div class="col-sm-1 col-xs-1 text-right">
-                          <mat-icon aria-hidden="false">
-                            <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
-                        </mat-icon>
-                        </div> -->
                     </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a [routerLink]="['dashboard']">
+                            <span>Dashboard</span> 
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+
+                    </div>
+                    
                 </div>
     
                 <div class="row link-div">
-                    <a>
-                            <mat-icon aria-hidden="false">
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a>
+                            <mat-icon aria-hidden="false" style="margin-bottom: 11px;">
                                 <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
                             </mat-icon>
-                            <span>  ULB Management</span> 
                     </a>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8">
+                        <a>
+                         <span>  ULB Management</span> 
+                    </a>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+
+                    </div>
+                    
                 </div>
                 <div>
                     <div class="row link-div-u" routerLinkActive="active">
-                        <a [routerLink]="['edit-ulb-profile']">
+                        <div class="col-sm-2 col-lg-2 col-md-2">
+                            <a [routerLink]="['edit-ulb-profile']">
                                 <mat-icon aria-hidden="false">
                                 <img src="../../../assets/stateform/Icon feather-edit-2.svg">
                                   
                                 </mat-icon>
+                        </a>
+                        </div>
+                        <div class="col-sm-8 col-lg-8 col-md-8">
+                            <a [routerLink]="['edit-ulb-profile']">
+                                
                             <span>Edit ULB Profile</span>
                         </a>
+                        </div>
+                        <div class="col-sm-2 col-lg-2 col-md-2">
+
+                        </div>
+
+                        
                     </div>
                     <div class="row link-div-u" routerLinkActive="active">
-                        <a [routerLink]="['review-ulb-form']">
+                        <div class="col-sm-2 col-lg-2 col-md-2">
+                            <a [routerLink]="['review-ulb-form']">
                                 <mat-icon aria-hidden="false" style="margin-top: 3px;">
                                     <img src="../../../assets/stateform/Icon material-pageview.svg">
                                 </mat-icon>
+    
+                        </a>
+                        </div>
+                        <div class="col-sm-8 col-lg-8 col-md-8">
+                            <a [routerLink]="['review-ulb-form']">
+                                
                                 <span>Review Grant Application</span> 
     
                         </a>
+                        </div>
+                        <div class="col-sm-2 col-lg-2 col-md-2">
+
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row link-div" *ngIf="eligibleForms['gtc']" routerLinkActive="active">

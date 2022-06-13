@@ -87,8 +87,8 @@
                             <div class="pres-h">
                                 Prescription
                             </div>
-                            <div class="pres-sub">
-                                {{prescription}}
+                            <div class="pres-sub" [innerHTML]="prescription" (click)="processLinks($event)">
+                                <!-- {{prescription}} -->
                             </div>
                         </div>
                     </div>

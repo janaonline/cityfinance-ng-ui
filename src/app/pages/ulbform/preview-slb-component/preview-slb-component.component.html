@@ -34,10 +34,10 @@
 
             <tbody class="t-tb-tr tb-th-s">
                 <tr *ngIf="services[0] as service" class="t-tb-tr">
-                    <td style="padding: 1%" class="td-width tb-th-s">
+                    <td class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
-                    <td style="padding: 1%; text-align: center;" class="tb-th-s">
+                    <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <!-- <td>
@@ -109,7 +109,7 @@
                 transform="translate(-113.725 -113.725)" />
             </svg>
                     </td> -->
-                    <td style="padding: 1%; text-align: center" class="tb-th-s">
+                    <td style="text-align: center" class="tb-th-s">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
@@ -120,7 +120,7 @@
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
                     </td>
-                    <td style="padding: 1%; text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                    <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
@@ -140,7 +140,7 @@
                     <td></td>
                     <td></td>
 
-                    <td colspan="5" style="padding-left: 1%" class="tb-th-s">
+                    <td colspan="5" class="tb-th-s">
                         <h5 style="margin-bottom: 0px">Reason for rejection</h5>
                         {{ data?.waterManagement[services[0].key].rejectReason }}
                     </td>
@@ -150,7 +150,7 @@
                     <td style="padding: 1%" class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
-                    <td style="padding: 1%; text-align: center;" class="tb-th-s">
+                    <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <!-- <td>
@@ -223,7 +223,7 @@
             </svg>
           </td> -->
 
-                    <td style="padding: 1%; text-align: center" class="tb-th-s">
+                    <td style="text-align: center" class="tb-th-s">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
@@ -234,7 +234,7 @@
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
                     </td>
-                    <td style="padding: 1%; text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                    <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
@@ -260,10 +260,10 @@
                 </tr>
 
                 <tr *ngIf="services[2] as service" class="t-tb-tr">
-                    <td style="padding: 1%" class="td-width tb-th-s">
+                    <td class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
-                    <td style="padding: 1%; text-align: center;" class="tb-th-s">
+                    <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <!-- <td>
@@ -336,7 +336,7 @@
             </svg>
           </td> -->
 
-                    <td style="padding: 1%; text-align: center" class="tb-th-s">
+                    <td style="text-align: center" class="tb-th-s">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
@@ -347,7 +347,7 @@
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
                     </td>
-                    <td style="padding: 1%; text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                    <td style="text-align: center" class="tb-th-s" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
@@ -373,10 +373,10 @@
                 </tr>
 
                 <tr *ngIf="services[3] as service" class="t-tb-tr">
-                    <td style="padding: 1%" class="td-width tb-th-s">
+                    <td class="td-width tb-th-s">
                         {{ service.name }}
                     </td>
-                    <td style="padding: 1%; text-align: center;" class="tb-th-s">
+                    <td style="text-align: center;" class="tb-th-s">
                         <span class="benchamark-cell">{{ service.benchmark }}</span>
                     </td>
                     <!-- <td>
@@ -449,7 +449,7 @@
             </svg>
           </td> -->
 
-                    <td style="padding: 1%; text-align: center" class="tb-th-s">
+                    <td style=" text-align: center" class="tb-th-s">
                         <span *ngIf="data?.waterManagement[service.key]?.baseline">
               {{ data?.waterManagement[service.key]?.baseline["2021"] }}
             </span>
@@ -460,7 +460,7 @@
               {{ service.key === "waterSuppliedPerDay" ? "LPCD" : "%" }}
             </em>
                     </td>
-                    <td style="padding: 1%; text-align: center" class="tb-th-s" *ngFor="let year of targets">
+                    <td style=" text-align: center" class="tb-th-s" *ngFor="let year of targets">
                         <span *ngIf="data?.waterManagement[service.key]?.target">
               {{ data?.waterManagement[service.key]?.target[year.key] }}
             </span>
