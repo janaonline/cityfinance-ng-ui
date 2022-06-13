@@ -38,7 +38,7 @@
                 <select name="" id="type" formControlName="_id" class="form-control" [ngClass]="{
             'is-invalid':
               formSubmitted && profile.controls.ulb.controls?.ulbType.errors
-          }">
+          }" style="width: 62%;">
           <option *ngFor="let Utype of ulbTypeList" [value]="Utype._id">
             {{ Utype.name }}
           </option>
