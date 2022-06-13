@@ -21,7 +21,7 @@
     
     .sideNav {
         background-color: #F2F2F2;
-        // height: 600px;
+        height: 600px;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -64,7 +64,7 @@
         margin-right: 3px;
         padding-top: 3px;
         padding-bottom: 3px;
-        font-size: 16px;
+        font-size: 14px;
         padding-left: 8px;
         vertical-align: middle;
     }
@@ -131,13 +131,23 @@
     
     .sticky {
         position: fixed;
-        top: 9%;
+        top: 0;
         overflow-x: hidden;
         overflow-y: auto;
         z-index: 10;
-        // height: 69%;
+        height: 69%;
         //  width: 20%;
     }
+    
+    .newSticky {
+        position: fixed;
+        top: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        z-index: 10;
+        height: 400px;
+    }
+    
     .sticky-se {
         position: fixed;
         top: 9%;
@@ -150,4 +160,13 @@
     
     .stickyMain {
         margin-left: 16.6667%;
+    }
+    
+    .icon-a {
+        align-items: center;
+    }
+    
+     ::ng-deep .material-icons[_ngcontent-smm-c383] {
+        font-size: 12px;
+        vertical-align: text-top;
     }
