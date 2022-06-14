@@ -3,53 +3,108 @@ loggedInUserType == USER_TYPE.MoHUA || loggedInUserType == USER_TYPE.PARTNER">
     <div class="row">
         <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c tabs is-centered is-fullwidth" #stickyMenu [ngClass]="{'stiHieght':stiHieght}" style="padding: 0 0; margin-left: 2px;">
             <div class="sideNav" [ngClass]="{'sticky':sticky}">
-                <div class="row" style="background-color: #FFC500; ">
-                    <a [routerLink]="['../fc-home-page']" class="aTag">
-                        <h5 class="pd" style="font-size: 14px;">
-                            <div class="col-sm-9 col-xs-9 t-c" style="padding-right: 3px; margin-bottom: 6px;
-                            font-weight: 500;margin-top: 15px;">
-                                <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg" style="margin-bottom: 2px;margin-right: 11px;"> Approve Claims for 2021-2022
+                <div class="row" style="background-color: #FFC500;margin-left: 0;">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <a [routerLink]="['../fc-home-page']" class="aTag">
+                            <h5 class="pd" style="font-size: 14px;">
+                                <div class="t-c" style="padding-right: 3px; margin-bottom: 6px;
+                                font-weight: 500;margin-top: 15px;">
+                                    <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg" style="margin-bottom: 2px;margin-right: 11px;">
+                                </div>
+                                <!-- <div class="col-sm-1">
+                                </div> -->
+                            </h5>
+                        </a>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        <a [routerLink]="['../fc-home-page']" class="aTag">
+                            <h5 class="pd" style="font-size: 14px;">
+                                <div class="t-c" style="padding-right: 3px; margin-bottom: 6px;
+                                font-weight: 500;margin-top: 15px;">
+                                     Approve Claims for 2021-2022
+                                </div>
+                                <!-- <div class="col-sm-1">
+                                </div> -->
+                            </h5>
+                        </a>
+                    </div>
+                    
+                </div>
+                <div class="row link-div" routerLinkActive="active">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <a [routerLink]="['dashboard']" class="aTag">
+                            <div class="linktext pd">
+                                <img src="../../../assets/ulbform/dh.png" style="margin-right: 11px;" class="svg-gt">
                             </div>
-                            <!-- <div class="col-sm-1">
-                            </div> -->
-                        </h5>
-                    </a>
+                            
+                        </a>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        <a [routerLink]="['dashboard']" class="aTag">
+                            <div class="linktext pd">
+                                Dashboard
+                            </div>
+                            
+                        </a>
+                    </div>
+                    
                 </div>
                 <div class="row link-div" routerLinkActive="active">
-                    <a [routerLink]="['dashboard']" style="" class="aTag">
-                        <div class="col-sm-9 col-xs-9 linktext pd">
-                            <img src="../../../assets/ulbform/dh.png" style="margin-right: 11px;" class="svg-gt"> Dashboard
-                        </div>
-                        <div class="col-sm-1 col-xs-1">
-                        </div>
-                    </a>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <a [routerLink]="['review-state']" class="aTag">
+                            <div class="linktext pd">
+                                <img src="../../../assets//stateform/review.svg" class="svg-gt" style="margin-right: 11px;"> 
+                            </div>
+                            
+                        </a>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        <a [routerLink]="['review-state']" class="aTag">
+                            <div class="linktext pd">
+                                 Review State Forms
+                            </div>
+                            
+                        </a>    
+                    </div>
+                    
                 </div>
                 <div class="row link-div" routerLinkActive="active">
-                    <a [routerLink]="['review-state']" style="" class="aTag">
-                        <div class="col-sm-9 col-xs-9 linktext pd">
-                            <img src="../../../assets//stateform/review.svg" class="svg-gt" style="margin-right: 11px;"> Review State Forms
-                        </div>
-                        <div class="col-sm-1 col-xs-1">
-                        </div>
-                    </a>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <a class="aTag" [routerLink]="['review-ulb']">
+                            <div class="linktext pd">
+                                <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt" style="margin-right: 11px;">
+                            </div>
+                            
+                        </a>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        <a class="aTag" [routerLink]="['review-ulb']">
+                            <div class="linktext pd">
+                                 Review Grant Application
+                            </div>
+                            
+                        </a>
+                    </div>
+                    
                 </div>
                 <div class="row link-div" routerLinkActive="active">
-                    <a class="aTag" [routerLink]="['review-ulb']" style="">
-                        <div class="col-sm-9 col-xs-9 linktext pd" style="width:80%">
-                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt" style="margin-right: 11px;"> Review Grant Application
-                        </div>
-                        <div class="col-sm-1 col-xs-1">
-                        </div>
-                    </a>
-                </div>
-                <div class="row link-div" routerLinkActive="active">
-                    <a [routerLink]="['gt-mohua']" style="" class="aTag">
-                        <div class="col-sm-9 col-xs-9 linktext pd">
-                            <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt" style="margin-right: 11px;"> Grant Transfer
-                        </div>
-                        <div class="col-sm-1 col-xs-1">
-                        </div>
-                    </a>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <a [routerLink]="['gt-mohua']" class="aTag">
+                            <div class="linktext pd">
+                                <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt" style="margin-right: 11px;">
+                            </div>
+                            
+                        </a>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        <a [routerLink]="['gt-mohua']" class="aTag">
+                            <div class="linktext pd">
+                             Grant Transfer
+                            </div>
+                            
+                        </a>    
+                    </div>
+                    
                 </div>
             </div>
         </div>
