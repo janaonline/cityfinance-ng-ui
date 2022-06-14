@@ -9,10 +9,10 @@ if (
   window.location.hostname.includes("localhost") ||
   window.location.hostname.includes("new-cityfinance.dhwaniris.in")
 ) {
-  url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
+   url = "https://newcityfinanceapi.dhwaniris.in/api/v1/";
   // url = "https://democityfinanceapi.dhwaniris.in/api/v1/";
   // url = "http://localhost:8080/api/v1/";
-  
+
   GoogleTagID = "UA-171288029-2";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
