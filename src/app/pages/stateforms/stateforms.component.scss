@@ -20,6 +20,7 @@
 .t-c {
     color: #FFFFFF;
 }
+
 div.active {
     background-color: #FFFFFF;
     .linktext {
@@ -146,13 +147,14 @@ div.active {
     width: 150px;
 }
 
-.stiHieght{
+.stiHieght {
     // position: fixed;
     // height: 19%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
+
 .sticky {
     // position: fixed;
     // top: 19%;
@@ -177,8 +179,11 @@ div.active {
 // .stickyMain {
 //     margin-left: 18%;
 // }
-
 h3 {
     margin-top: 0;
     margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none !important;
 }
