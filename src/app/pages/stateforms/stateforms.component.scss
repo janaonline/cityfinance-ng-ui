@@ -18,7 +18,15 @@ a{
 .pd {
     padding-bottom: 1px;
 }
-
+.colorStyle{
+    color:white;
+}
+.colorStyle :hover{
+    color:black;
+}
+.grantClass :hover{
+    color:black;
+}
 .t-c {
     color: #FFFFFF;
 }
@@ -79,6 +87,7 @@ div.active {
     // height: 36px;
     padding-top: 2%;
     padding-left: 8%;
+    color:white;
 }
 
 .link-div-u {

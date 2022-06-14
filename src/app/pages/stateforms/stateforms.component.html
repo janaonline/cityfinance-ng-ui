@@ -1,6 +1,6 @@
 <div class="container-fluid" style="padding: 0; overflow-x: hidden; overflow-y: hidden;">
     <div class="row">
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" #stickyMenu [ngClass]="{'stiHieght': stiHieght}" style="padding: 0 0; margin-left: 2px;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" #stickyMenu [ngClass]="{'sticky': sticky }" style="padding: 0 0; margin-left: 2px">
             <div class="sideNav" [ngClass]="{'sticky':sticky}" style="
             overflow-x: hidden;">
                 <div class="row" style="background-color: #114551;">
@@ -120,7 +120,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['gtCertificate']">
+                        <a [routerLink]="['gtCertificate']" class="colorStyle">
 
                             <span>
                             Grant Transfer Certificate
@@ -146,52 +146,58 @@
                 </div>
                 <div class="row link-div" *ngIf="eligibleForms['pfms']" routerLinkActive="active">
                     <div class="col-sm-2 col-lg-2 col-md-2">
-
+                        <a [routerLink]="['link-in-pfms']">
+                            <mat-icon aria-hidden="false">
+                                <img src="../../../assets/stateform/lnPfms.svg" class="svg-gl">
+                            </mat-icon>
+                            
+                        </a>
                     </div>
                     <div class="col-sm-8 col-lg-8 col-md-8">
-
+                        <a [routerLink]="['link-in-pfms']">
+                            
+                            <span>
+                                Linking of PFMS Account
+    
+                                 </span>
+    
+                            
+                        </a>
                     </div>
                     <div class="col-sm-2 col-lg-2 col-md-2">
-
+                        <a [routerLink]="['link-in-pfms']">
+                                
+                            <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
+                                <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
+                                    <img src="../../../assets/form-icon/checked.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+                            </div>
+                        </a>
                     </div>
-                    <a [routerLink]="['link-in-pfms']">
-                        <mat-icon aria-hidden="false">
-                            <img src="../../../assets/stateform/lnPfms.svg" class="svg-gl">
-                        </mat-icon>
-                        <span>
-                            Linking of PFMS Account
-
-                             </span>
-
-                        <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                            <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
-                                <img src="../../../assets/form-icon/checked.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
-                        </div>
-                    </a>
+                    
                 </div>
-                <div class="row link-div" *ngIf="eligibleForms['waterRejuvenation']">
+                <div class="row link-div grantClass" *ngIf="eligibleForms['waterRejuvenation']">
                     <!-- <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
                         aria-controls="collapseBasicSer"> -->
                     <div class="col-sm-2 col-lg-2 col-md-2">
-
+                        <mat-icon aria-hidden="false" style="margin-top: 3px;">
+                            <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
+                        </mat-icon>
                     </div>
                     <div class="col-sm-8 col-lg-8 col-md-8">
-
+                        <span>
+                            Million Plus Cities Challenge for UAs
+   
+                           </span>
                     </div>
                     <div class="col-sm-2 col-lg-2 col-md-2">
 
                     </div>
-                    <mat-icon aria-hidden="false" style="margin-top: 3px;">
-                        <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
-                    </mat-icon>
-                    <span>
-                         Million Plus Cities Challenge for UAs
-
-                        </span>
+                    
+                    
                     <!-- </a> -->
                 </div>
                 <!-- <div id="collapseBasicSer" [collapse]="isCollapsedSer"> -->
@@ -335,7 +341,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['grant-allocation']">
+                        <a [routerLink]="['grant-allocation']" class="colorStyle">
 
                             <span>
                             Grant Allocation to ULBs
@@ -372,7 +378,7 @@
                         </a>
                     </div>
                     <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['grant-claims']">
+                        <a [routerLink]="['grant-claims']" class="colorStyle">
 
                             <span>
                                 Submit Claims for 15th FC Grants
