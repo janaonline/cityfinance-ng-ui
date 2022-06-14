@@ -1,9 +1,9 @@
 .card {
-    height: 117px;
-    width: 138px;
+    height: 160px;
+    // width: 146px;
     background-color: #12505A;
     border-radius: 5px;
-    margin-right: 20px;
+    margin-right: 12px;
 }
 
 .gtCard {
@@ -44,9 +44,10 @@
 
 .card-number {
     color: #ffffff;
-    font-size: 20px;
+    font-size: 29px;
     margin-top: 13px;
     font-weight: 430;
+    
 }
 
 .card-text {
@@ -197,7 +198,10 @@
     height: 290px;
     margin-top: 2%;
 }
-
+.card-desc{
+    font-size:16px;
+    margin-top:20px;
+}
 .header {
     border-bottom: 1px solid #0000001A;
     //  line-height: 50px;
@@ -374,6 +378,12 @@ rect {
     //         }
     //     }
 }
+.map-container{
+    min-height: 130vh; 
+    margin-bottom: 1.5%; 
+    position: relative;
+    // margin-top: 1%;
+}
 
 table {
     td,
@@ -485,7 +495,7 @@ table {
 .tableHeadText {
     text-align: center;
     vertical-align: inherit;
-    font-size: small;
+    font-size: 14px;
 }
 
 .Card2 {

@@ -34,7 +34,9 @@
   background: #216278;
   color: white;
 }
-
+a{
+  text-decoration: none;
+}
 :host {
   .accordion {
     border-top-left-radius: 14px;

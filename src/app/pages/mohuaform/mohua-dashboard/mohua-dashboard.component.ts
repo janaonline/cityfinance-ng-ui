@@ -389,7 +389,7 @@ export class MohuaDashboardComponent implements OnInit {
       geoData,
       options: {
         zoom,
-        // minZoom: zoom,
+        minZoom: zoom,
         attributionControl: false,
         doubleClickZoom: false,
         dragging: false,
@@ -457,7 +457,7 @@ export class MohuaDashboardComponent implements OnInit {
       div.style.width = "100%";
       arr.forEach((value) => {
         labels.push(
-          `<span style="display: flex; align-items: center; width: 45%;margin: 1% auto;">
+          `<span style="display: flex; align-items: center; width: 45%;">
           <i class="circle" style="background: ${value.color}; padding:10%; display: inline-block; margin-right: 12%;"> </i> ${value.text}</span>`
         );
       });
