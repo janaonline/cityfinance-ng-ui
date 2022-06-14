@@ -44,11 +44,14 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./utilisation-report.component.html",
   styleUrls: ["./utilisation-report.component.scss"],
 })
-export class UtilisationReportComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class UtilisationReportComponent
+  extends BaseComponent
+  implements OnInit, AfterViewInit
+{
   modalRef: BsModalRef;
 
   utilizationReport: FormGroup;
-  utilizationForm: FormGroup; 
+  utilizationForm: FormGroup;
   submitted = false;
   isSumEqual = false;
   draft = true;
@@ -59,9 +62,9 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
   takeStateAction;
   compDis;
   mohuaActionComp;
-  latLongRegex = '^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
-  id
-  viewActionComp
+  latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
+  id;
+  viewActionComp;
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -83,10 +86,10 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('stid', id)
-        sessionStorage.setItem('row_id', this.id);
+        console.log("stid", id);
+        sessionStorage.setItem("row_id", this.id);
       } else {
-        this.id = sessionStorage.getItem('row_id')
+        this.id = sessionStorage.getItem("row_id");
       }
     });
     let yearId = JSON.parse(localStorage.getItem("Years"));
@@ -100,7 +103,6 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
 
     this.designYear = yearId["2021-22"];
     this.financialYear = yearId["2020-21"];
-
 
     this.initializeUserType();
     this.fetchStateList();
@@ -124,7 +126,7 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
   lastRoleInMasterForm;
   masterFormStatus;
   // editable;
-  saveBtn = "NEXT"
+  saveBtn = "NEXT";
   photoUrl: any = [];
   fd;
   formDataResponce;
@@ -159,8 +161,6 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
         this.utilizationReport.controls.projects.disable();
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
-
-
       }
       if (
         this.finalSubmitUtiStatus == "true" &&
@@ -169,12 +169,11 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
       ) {
         this.isDisabled = true;
         this.utilizationReport.disable();
-      
+
         this.utilizationReport.controls.projects.disable();
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
       }
-   
 
       switch (this.userLoggedInDetails.role) {
         case USER_TYPE.STATE:
@@ -185,7 +184,7 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
           this.isDisabled = true;
           this.utilizationReport.controls.projects.disable();
           this.utilizationReport.controls.categoryWiseData_swm.disable();
-        this.utilizationReport.controls.categoryWiseData_wm.disable();
+          this.utilizationReport.controls.categoryWiseData_wm.disable();
       }
 
       this.getResponse();
@@ -197,7 +196,6 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
   // }
 
   ngOnInit() {
-   
     sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
@@ -207,7 +205,6 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
       // console.log(this.utilizationReport['controls']['categoryWiseData_swm'])
       // console.log(this.utilizationReport['controls']['categoryWiseData_swm']['controls'])
 
-
       // console.log('swm categories', this.swm_categories)
       // console.log('wm categories', this.wm_categories)
       this.categories = this.categories.sort((a, b) =>
@@ -216,7 +213,11 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
     });
 
     let form_data = JSON.parse(sessionStorage.getItem("allStatus"));
-    console.log("form-data and this.utilizationReport", form_data.utilReport, this.utilizationReport);
+    console.log(
+      "form-data and this.utilizationReport",
+      form_data.utilReport,
+      this.utilizationReport
+    );
     let form_status = form_data.utilReport.isSubmit;
     console.log("stat", form_status);
     if (form_status == null) {
@@ -225,75 +226,67 @@ export class UtilisationReportComponent extends BaseComponent implements OnInit,
       this.submitted = true;
       this.isSubmitted = true;
     }
-  this.showActionComp()
+    this.showActionComp();
     //   for state after final action
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
       (disable) => {
         console.log("utilization speaking", disable);
-        this.compDis = 'true';
+        this.compDis = "true";
         if (disable) {
-          localStorage.setItem("stateActionComDis", 'true');
+          localStorage.setItem("stateActionComDis", "true");
         }
       }
     );
     this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
       (disable) => {
         console.log("utilization speaking", disable);
-        this.mohuaActionComp = 'true';
+        this.mohuaActionComp = "true";
         if (disable) {
-          localStorage.setItem("mohuaActionComDis", 'true');
+          localStorage.setItem("mohuaActionComDis", "true");
         }
       }
     );
   }
-showActionComp() {
-  if(this.loggedInUserType == this.userTypes.STATE   &&
-(this.actionTakenByRole == this.userTypes.ULB && !this.isDraft ||
-  this.actionTakenByRole == this.userTypes.STATE && this.isDraft
-  )){
-    this.viewActionComp = true
-  }else if (this.loggedInUserType == this.userTypes.MoHUA && 
-    (
-      this.actionTakenByRole == this.userTypes.STATE && !this.isDraft ||
-  this.actionTakenByRole == this.userTypes.MoHUA && this.isDraft
-
-    )
-    ){
-      this.viewActionComp = true
+  showActionComp() {
+    if (
+      this.loggedInUserType == this.userTypes.STATE &&
+      ((this.actionTakenByRole == this.userTypes.ULB && !this.isDraft) ||
+        (this.actionTakenByRole == this.userTypes.STATE && this.isDraft))
+    ) {
+      this.viewActionComp = true;
+    } else if (
+      this.loggedInUserType == this.userTypes.MoHUA &&
+      ((this.actionTakenByRole == this.userTypes.STATE && !this.isDraft) ||
+        (this.actionTakenByRole == this.userTypes.MoHUA && this.isDraft))
+    ) {
+      this.viewActionComp = true;
+    }
   }
- 
-}
-  ngAfterViewInit() {
-
-  }
-
-  
+  ngAfterViewInit() {}
 
   navigationCheck() {
-   
-      this._router.events.subscribe(async (event: Event) => {
-        console.log("entered into router", this.routerNavigate);
-        if (event instanceof NavigationStart) {
-          const canNavigate = sessionStorage.getItem("canNavigate");
-          console.log(canNavigate);
-          if (event.url === "/" || event.url === "/login") {
-            sessionStorage.setItem("canNavigate", "true");
-            return;
-          }
-          if (canNavigate === "false" && this.routerNavigate === null) {
-            // this.dialogReference.close();
-
-            const currentRoute = this._router.routerState;
-            this._router.navigateByUrl(currentRoute.snapshot.url, {
-              skipLocationChange: true,
-            });
-            this.routerNavigate = event;
-            this.openDialogBox(this.template);
-            return;
-          }
+    this._router.events.subscribe(async (event: Event) => {
+      console.log("entered into router", this.routerNavigate);
+      if (event instanceof NavigationStart) {
+        const canNavigate = sessionStorage.getItem("canNavigate");
+        console.log(canNavigate);
+        if (event.url === "/" || event.url === "/login") {
+          sessionStorage.setItem("canNavigate", "true");
+          return;
         }
-      });
-    
+        if (canNavigate === "false" && this.routerNavigate === null) {
+          // this.dialogReference.close();
+
+          const currentRoute = this._router.routerState;
+          this._router.navigateByUrl(currentRoute.snapshot.url, {
+            skipLocationChange: true,
+          });
+          this.routerNavigate = event;
+          this.openDialogBox(this.template);
+          return;
+        }
+      }
+    });
   }
 
   currentChanges() {
@@ -304,7 +297,7 @@ showActionComp() {
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
       if (change !== oldForm) {
-        this.saveBtn = "SAVE AND NEXT"
+        this.saveBtn = "SAVE AND NEXT";
         sessionStorage.setItem("canNavigate", "false");
       } else {
         sessionStorage.setItem("canNavigate", "true");
@@ -319,11 +312,11 @@ showActionComp() {
       this._ulbformService.allFormsData.next(allFormData);
     }
   }
-  analytics = []
-  swm = []
-  wm = []
-  status=""
-  actionTakenByRole=""
+  analytics = [];
+  swm = [];
+  wm = [];
+  status = "";
+  actionTakenByRole = "";
   public getResponse() {
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.UtiReportService.fetchPosts(
@@ -334,26 +327,28 @@ showActionComp() {
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
-        this.analytics = res['analytics']
-        this.analytics?.forEach(el => {
-          this.categories?.forEach(element => {
-            if (element._id == el['_id']) {
-              el['categoryName'] = element.name
+        this.analytics = res["analytics"];
+        this.analytics?.forEach((el) => {
+          this.categories?.forEach((element) => {
+            if (element._id == el["_id"]) {
+              el["categoryName"] = element.name;
             }
           });
-        })
-        console.log(this.analytics)
-        this.analytics.forEach(el => {
-          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
-            this.swm.push(el)
+        });
+        console.log(this.analytics);
+        this.analytics.forEach((el) => {
+          if (
+            el.categoryName == "Solid Waste Management" ||
+            el.categoryName == "Sanitation"
+          ) {
+            this.swm.push(el);
           } else {
-            this.wm.push(el)
+            this.wm.push(el);
           }
-        })
-        console.log('project', this.swm, this.wm)
+        });
+        console.log("project", this.swm, this.wm);
         this.setcategoryData(res);
         if (!("_id" in res)) {
-
           this.utilizationReport.value["blankForm"] = true;
           console.log(this.utilizationReport, this.wm, this.swm);
           sessionStorage.setItem(
@@ -366,35 +361,37 @@ showActionComp() {
           return;
         }
         this.preFilledData(res);
-        this.actionTakenByRole = res["actionTakenByRole"]
-        this.status = res['status']
+        this.actionTakenByRole = res["actionTakenByRole"];
+        this.status = res["status"];
         const data = {
           designation: res["designation"],
           grantPosition: res["grantPosition"],
           name: res["name"],
-          categoryWiseData_swm: res["categoryWiseData_swm"] ? res["categoryWiseData_swm"] : this.swm,
-          categoryWiseData_wm: res["categoryWiseData_wm"] ? res["categoryWiseData_wm"] : this.wm,
+          categoryWiseData_swm: res["categoryWiseData_swm"]
+            ? res["categoryWiseData_swm"]
+            : this.swm,
+          categoryWiseData_wm: res["categoryWiseData_wm"]
+            ? res["categoryWiseData_wm"]
+            : this.wm,
           projects: res["projects"],
           grantType: res["grantType"],
         };
-
 
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         setTimeout(() => {
           this.currentChanges();
         }, 1000);
 
-        if (res["status"] == "APPROVED" &&
+        if (
+          res["status"] == "APPROVED" &&
           this.lastRoleInMasterForm != this.userTypes.ULB
         ) {
           this.isDisabled = true;
           this.utilizationReport.disable();
           this.utilizationReport.controls.projects.disable();
           this.utilizationReport.controls.categoryWiseData_swm.disable();
-        this.utilizationReport.controls.categoryWiseData_wm.disable();
+          this.utilizationReport.controls.categoryWiseData_wm.disable();
         }
-       
-
       },
       (error) => {
         this.utilizationReport.value["blankForm"] = true;
@@ -423,28 +420,26 @@ showActionComp() {
     //   i++;
     // }
     // }, 500)
-
-
   }
   setcategoryData(res) {
-    if(res?.categoryWiseData_swm){
+    if (res?.categoryWiseData_swm) {
       res.categoryWiseData_swm.forEach((swm_project) => {
-        this.addSwmRow(swm_project, 'swm_category');
-      })
-    }else{
-     this.swm?.forEach((swmData) => {
-        this.addSwmRow(swmData, 'analytics_swm');
-      })
+        this.addSwmRow(swm_project, "swm_category");
+      });
+    } else {
+      this.swm?.forEach((swmData) => {
+        this.addSwmRow(swmData, "analytics_swm");
+      });
     }
 
-    if(res?.categoryWiseData_wm){
+    if (res?.categoryWiseData_wm) {
       res?.categoryWiseData_wm.forEach((wm_project) => {
-        this.addWmRow(wm_project, 'wm_category');
-      })
-    }else{
-     this.wm?.forEach((wmData) => {
-        this.addWmRow(wmData, 'analytics_wm');
-      })
+        this.addWmRow(wm_project, "wm_category");
+      });
+    } else {
+      this.wm?.forEach((wmData) => {
+        this.addWmRow(wmData, "analytics_wm");
+      });
     }
   }
 
@@ -467,11 +462,13 @@ showActionComp() {
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
-    if ((this.finalSubmitUtiStatus == "true") &&
-      (this.masterFormStatus != 'REJECTED')) {
+    if (
+      this.finalSubmitUtiStatus == "true" &&
+      this.masterFormStatus != "REJECTED"
+    ) {
       this.utilizationReport.controls.projects.disable();
       this.utilizationReport.controls.categoryWiseData_swm.disable();
-        this.utilizationReport.controls.categoryWiseData_wm.disable();
+      this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
     if (
       this.ulbFormStaus == "REJECTED" &&
@@ -483,7 +480,7 @@ showActionComp() {
       this.isDisabled = false;
       this.utilizationReport.controls.projects.enable();
       this.utilizationReport.controls.categoryWiseData_swm.enable();
-        this.utilizationReport.controls.categoryWiseData_wm.enable();
+      this.utilizationReport.controls.categoryWiseData_wm.enable();
     }
   }
   addPreFilledSimple(data) {
@@ -591,7 +588,6 @@ showActionComp() {
         //   numberOfProjects: ["", Validators.required],
         //   totalProjectCost: ["", Validators.required],
         // }),
-
       ]),
       categoryWiseData_wm: this.fb.array([
         // this.fb.group({
@@ -601,9 +597,7 @@ showActionComp() {
         //   totalProjectCost: ["", Validators.required],
         // }),
       ]),
-      projects: this.fb.array([
-
-      ]),
+      projects: this.fb.array([]),
       status: [""],
       // isDraft:[],
       name: ["", [Validators.required, Validators.maxLength(50)]],
@@ -641,7 +635,6 @@ showActionComp() {
     return this.utilizationReport.get("categoryWiseData_wm") as FormArray;
   }
   calAmount(setFormControl, event) {
-
     let controlValue =
       +this.utilizationReport.value.grantPosition[setFormControl];
     if (controlValue < 0) {
@@ -652,7 +645,9 @@ showActionComp() {
     }
     if (
       this.projectExp !=
-      (Number(this.utilizationReport.controls.grantPosition.value.expDuringYr)).toFixed(2)
+      Number(
+        this.utilizationReport.controls.grantPosition.value.expDuringYr
+      ).toFixed(2)
     ) {
       this.isSumEqual = false;
     } else {
@@ -694,25 +689,30 @@ showActionComp() {
   }
 
   totalProCost(i) {
-    console.log('uti form', this.utilizationReport);
-    console.log('12222222--', i);
+    console.log("uti form", this.utilizationReport);
+    console.log("12222222--", i);
     //  if((this.utilizationReport.controls.projects.value[0].cost) > 0){
     this.projectCost = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
-      console.log('val...........', this.utilizationReport.controls.projects.value[j].cost)
-      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost) &&
-        (this.utilizationReport.controls.projects.value[j].cost) > 0) {
+      console.log(
+        "val...........",
+        this.utilizationReport.controls.projects.value[j].cost
+      );
+      if (
+        !isNaN(this.utilizationReport.controls.projects.value[j].cost) &&
+        this.utilizationReport.controls.projects.value[j].cost > 0
+      ) {
         this.projectCost =
           this.projectCost +
           +this.utilizationReport.controls.projects.value[j].cost;
-      }
-      else if (isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
-        (this.utilizationReport.controls.projects.value[j].cost) < 0) {
+      } else if (
+        isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
+        this.utilizationReport.controls.projects.value[j].cost < 0
+      ) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "cost"
         ].patchValue("");
-      }
-      else {
+      } else {
         this.projectCost = this.projectCost + 0;
         console.log(this.utilizationReport);
       }
@@ -723,45 +723,43 @@ showActionComp() {
     //    ].patchValue("");
     //  }
   }
-  projectExpTotal: any
+  projectExpTotal: any;
   totalExpCost(i) {
     this.projectExp = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
       //  this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
       // console.log(this.projectExp);
       if (
-        !isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
-        && (this.utilizationReport.controls.projects.value[j].expenditure)
+        !isNaN(this.utilizationReport.controls.projects.value[j].expenditure) &&
+        this.utilizationReport.controls.projects.value[j].expenditure
       ) {
-        let expenditure: any
-        expenditure = Number(this.utilizationReport.controls.projects.value[j].expenditure)
-        this.projectExp =
-          (this.projectExp + expenditure)
+        let expenditure: any;
+        expenditure = Number(
+          this.utilizationReport.controls.projects.value[j].expenditure
+        );
+        this.projectExp = this.projectExp + expenditure;
         // this.projectExp = this.projectExp.toFixed(2)
-        Number(this.projectExp.toF)
+        Number(this.projectExp.toF);
         // this.projectExp = this.projectExp.toFixed(2)
 
-        console.log(typeof this.projectExp)
-        console.log(this.projectExp)
-
-      }
-      else if (
+        console.log(typeof this.projectExp);
+        console.log(this.projectExp);
+      } else if (
         isNaN(this.utilizationReport.controls.projects.value[j].expenditure) ||
-        (this.utilizationReport.controls.projects.value[j].expenditure) < 0
+        this.utilizationReport.controls.projects.value[j].expenditure < 0
       ) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "expenditure"
         ].patchValue("");
-      }
-      else {
+      } else {
         this.projectExp = this.projectExp + 0;
       }
     }
-    this.projectExpTotal = (this.projectExp.toFixed(2))
+    this.projectExpTotal = this.projectExp.toFixed(2);
     if (
-      ((this.projectExpTotal) !=
-        String(this.utilizationReport.controls.grantPosition.value.expDuringYr)
-      )) {
+      this.projectExpTotal !=
+      String(this.utilizationReport.controls.grantPosition.value.expDuringYr)
+    ) {
       this.isSumEqual = false;
     } else {
       this.isSumEqual = false;
@@ -791,10 +789,10 @@ showActionComp() {
       !this.isSumEqual
     ) {
       this.fd.isDraft = false;
-      if(this.submitInDraftMode){
+      if (this.submitInDraftMode) {
         this.fd.isDraft = true;
       }
-    
+
       console.log("if");
       console.log("api data", this.fd);
       this.apiCall(this.fd);
@@ -811,21 +809,19 @@ showActionComp() {
   }
   onNewPre() {
     const dialogRef = this.dialog.open(UtiNewPreComponent, {
-
-      width: '21cm',
-      height: '100%',
-      maxHeight: '90vh',
+      width: "21cm",
+      height: "100%",
+      maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
-
     });
   }
   helpData;
-  clickedBack = false
-  btnDisable = false
+  clickedBack = false;
+  btnDisable = false;
   onPreview() {
     if (
       this.utilizationReport.valid &&
@@ -916,9 +912,9 @@ showActionComp() {
 
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
-      width: '85vw',
-      height: '100%',
-      maxHeight: '90vh',
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
@@ -941,8 +937,14 @@ showActionComp() {
         // ]),
         // capacity: ["", Validators.required],
         location: this.fb.group({
-          lat: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
-          long: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
+          lat: [
+            "",
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
+          long: [
+            "",
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
         }),
         cost: ["", Validators.required],
         expenditure: ["", Validators.required],
@@ -964,8 +966,14 @@ showActionComp() {
         // photos: this.fb.array([]),
         // capacity: [data.capacity, Validators.required],
         location: this.fb.group({
-          lat: [data.location.lat, [Validators.required, Validators.pattern(this.latLongRegex)]],
-          long: [data.location.long, [Validators.required, Validators.pattern(this.latLongRegex)]],
+          lat: [
+            data.location.lat,
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
+          long: [
+            data.location.long,
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
         }),
         cost: [data.cost, Validators.required],
         expenditure: [data.expenditure, Validators.required],
@@ -973,39 +981,37 @@ showActionComp() {
     );
     this.totalProCost(this.tabelRows.length);
     this.totalExpCost(this.tabelRows.length);
-
   }
   addSwmRow(data, type) {
-    if(type == 'swm_category'){
+    if (type == "swm_category") {
       this.tabelRows_SWMcategory.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
           grantUtilised: [data?.grantUtilised, Validators.required],
           numberOfProjects: [data?.numberOfProjects, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        }),
+        })
       );
-    }else {
+    } else {
       this.tabelRows_SWMcategory.push(
         this.fb.group({
           category_name: [data?.categoryName, Validators.required],
           grantUtilised: [data?.amount, Validators.required],
           numberOfProjects: [data?.count, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        }),
+        })
       );
     }
-
   }
   addWmRow(data, type) {
-    if(type == 'wm_category'){
+    if (type == "wm_category") {
       this.tabelRows_WMcategory.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
           grantUtilised: [data?.grantUtilised, Validators.required],
           numberOfProjects: [data?.numberOfProjects, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        }),
+        })
       );
     } else {
       this.tabelRows_WMcategory.push(
@@ -1014,10 +1020,9 @@ showActionComp() {
           grantUtilised: [data?.amount, Validators.required],
           numberOfProjects: [data?.count, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        }),
+        })
       );
     }
-
   }
   setUrlGroup(url) {
     return this.fb.group({
@@ -1065,48 +1070,53 @@ showActionComp() {
     console.log(fd);
     this.UtiReportService.createAndStorePost(fd).subscribe(
       (res) => {
-
-  
-        
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        if(this.submitInDraftMode){
-          swal('Success',"Form Saved as Draft Successfully!",'success');
-        }else{
-          swal('Success',"Form submitted successfully. It is under review by State Government",'success');
-          setTimeout(()=>{
-           window.location.reload()
-          },500)
+        if (this.submitInDraftMode) {
+          swal("Success", "Form Saved as Draft Successfully!", "success");
+        } else {
+          swal(
+            "Success",
+            "Form submitted successfully. It is under review by State Government",
+            "success"
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
         }
       },
       (error) => {
-        swal('Error',"Failed To Save",'error');
+        swal("Error", "Failed To Save", "error");
         this.errMessage = error.message;
         console.log(this.errMessage);
       }
     );
   }
- 
-  submitInDraftMode
+
+  submitInDraftMode;
   clickedSaveAndNext(template1, isDraft) {
-    this.submitInDraftMode = isDraft == '1';
-  
+    this.submitInDraftMode = isDraft == "1";
+
     if (
       this.utilizationReport.valid &&
       this.totalclosingBal >= 0 &&
       !this.isSumEqual
-    ){
-      this.isDraft = false
-    }else{
-      this.isDraft = true
+    ) {
+      this.isDraft = false;
+    } else {
+      this.isDraft = true;
     }
-    if(!this.submitInDraftMode && !this.isDraft){
-      this.openDialogBox(this.finalSubmitAlert)
+    if (!this.submitInDraftMode && !this.isDraft) {
+      this.openDialogBox(this.finalSubmitAlert);
       // this.save(this.data)
-      return
-    } else if(!this.submitInDraftMode && this.isDraft){
-      return swal('Error', 'Form can be Submitted for review only after filling all the necessary details.','error')
+      return;
+    } else if (!this.submitInDraftMode && this.isDraft) {
+      return swal(
+        "Error",
+        "Form can be Submitted for review only after filling all the necessary details.",
+        "error"
+      );
     }
     //case when ulb clicks on save as draft
     if (this.loggedInUserType == USER_TYPE.ULB) {
@@ -1116,13 +1126,16 @@ showActionComp() {
       if (canNavigate === "false") {
         this.saveAndNext(this.template);
       } else {
-        return swal('Success','Data Already Saved', 'success');
+        return swal("Success", "Data Already Saved", "success");
       }
-    } else if(this.loggedInUserType == USER_TYPE.STATE ||this.loggedInUserType == USER_TYPE.MoHUA ){
-this.stateActionSave()
-return
+    } else if (
+      this.loggedInUserType == USER_TYPE.STATE ||
+      this.loggedInUserType == USER_TYPE.MoHUA
+    ) {
+      this.stateActionSave();
+      return;
     }
-    
+
     if (this.ulbId == null) {
       this.saveAndNext(template1);
     } else {
@@ -1132,15 +1145,13 @@ return
           return this._router.navigate(["ulbform/annual_acc"]);
         } else {
           this.stateActionSave();
-        
+
           sessionStorage.setItem("canNavigate", "true");
         }
-
       }
     }
   }
   stateActionSave() {
-
     let stateData;
     stateData = this.utilizationReport.value;
     stateData.financialYear = this.financialYear;
@@ -1149,46 +1160,54 @@ return
     stateData.grantPosition.closingBal = this.totalclosingBal;
     stateData.ulb = this.ulbId;
     stateData.status = this.ulbFormStaus;
-    if(this.submitInDraftMode){
-      stateData.isDraft = true
-    }else{
-      stateData.isDraft = false
-    }
-    if ((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED") {
-      swal('Error','Providing Reason for Rejection is Mandatory for Rejecting a Form','error');
+    if (this.submitInDraftMode) {
+      stateData.isDraft = true;
     } else {
-    
+      stateData.isDraft = false;
+    }
+    if (
+      (this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) &&
+      this.ulbFormStaus == "REJECTED"
+    ) {
+      swal(
+        "Error",
+        "Providing Reason for Rejection is Mandatory for Rejecting a Form",
+        "error"
+      );
+    } else {
       stateData.rejectReason = this.ulbFormRejectR;
 
       this.UtiReportService.stateActionPost(stateData).subscribe(
         (res) => {
-          
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.utilReport.status = stateData.status;
           this._ulbformService.allStatus.next(status);
-          if(this.submitInDraftMode){
-            swal('Success',"Form Saved as Draft Successfully!",'success');
-          }else{
-            swal('Success',"Form submitted successfully. It is under review by Ministry of Housing and Urban Affairs",'success');
-         setTimeout(()=>{
-          window.location.reload()
-         },500)
+          if (this.submitInDraftMode) {
+            swal("Success", "Form Saved as Draft Successfully!", "success");
+          } else {
+            swal(
+              "Success",
+              "Form submitted successfully. It is under review by Ministry of Housing and Urban Affairs",
+              "success"
+            );
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
           }
           // this._router.navigate(["ulbform/annual_acc"]);;
         },
         (error) => {
-          swal('Error',"Failed To Save",'error');
+          swal("Error", "Failed To Save", "error");
           this.errMessage = error.message;
           console.log(this.errMessage);
         }
       );
     }
-
   }
   saveAndNext(template1) {
     let canNavigate = sessionStorage.getItem("canNavigate");
     if (canNavigate === "true" && this.saveBtn === "NEXT") {
-      return this._router.navigate(["ulbform/annual_acc"]);;
+      return this._router.navigate(["ulbform/annual_acc"]);
     } else {
       this.submitted = true;
       console.log(this.utilizationReport);
@@ -1208,11 +1227,11 @@ return
         !this.isSumEqual
       ) {
         this.fd.isDraft = false;
-      if(this.submitInDraftMode){
-        this.fd.isDraft = true;
-      }
+        if (this.submitInDraftMode) {
+          this.fd.isDraft = true;
+        }
         let len = this.tabelRows.length;
-        
+
         console.log("api data", this.fd);
         this.apiCall(this.fd);
         sessionStorage.setItem("canNavigate", "true");
@@ -1247,31 +1266,35 @@ return
   async proceed() {
     await this._matDialog.closeAll();
     let canNavigate = sessionStorage.getItem("canNavigate");
-   if(!this.submitInDraftMode){
-    await this.submitData();
-    sessionStorage.setItem("canNavigate", "true");
-   
-    return;
-   }
-    
-    
+    if (!this.submitInDraftMode) {
+      await this.submitData();
+      sessionStorage.setItem("canNavigate", "true");
+
+      return;
+    }
+
     if (this.routerNavigate && canNavigate === "true") {
       this._router.navigate([this.routerNavigate.url]);
       return;
-    } else if (this.routerNavigate && canNavigate === "false" && !this.actionTaken) {
+    } else if (
+      this.routerNavigate &&
+      canNavigate === "false" &&
+      !this.actionTaken
+    ) {
       await this.submitData();
       this._router.navigate([this.routerNavigate.url]);
       return;
-    } else if (this.routerNavigate && canNavigate === "false" && this.actionTaken) {
-
+    } else if (
+      this.routerNavigate &&
+      canNavigate === "false" &&
+      this.actionTaken
+    ) {
       await this.stateActionSave();
       if (this.backButtonClicked) {
-        return this._router.navigate(["ulbform/grant-tra-certi"])
+        return this._router.navigate(["ulbform/grant-tra-certi"]);
       } else {
         return this._router.navigate([this.routerNavigate.url]);
       }
-
-
     }
     if (this.fromPreview) {
       this.onPreview();

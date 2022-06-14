@@ -45,7 +45,7 @@ export class UlbformComponent implements OnInit {
   annualStatus;
   stActionCheck;
   public screenHeight: any;
-  @ViewChild('stickyMenu') menuElement: ElementRef;
+  @ViewChild("stickyMenu") menuElement: ElementRef;
   constructor(
     private _commonService: CommonService,
     private profileService: ProfileService,
@@ -101,7 +101,6 @@ export class UlbformComponent implements OnInit {
         this.toolTipContentC = "Reviewed";
         this.toolTipContentN = "Not Reviewed";
         break;
-
     }
   }
 
@@ -121,12 +120,12 @@ export class UlbformComponent implements OnInit {
     slbForWaterSupplyAndSanitation: { isSubmit: null, status: null },
     utilReport: { isSubmit: null, status: null },
   };
-  eligibleForms = {}
+  eligibleForms = {};
   async ngOnInit() {
-    const s = this.renderer2.createElement('script');
-    s.type = 'text/javascript';
+    const s = this.renderer2.createElement("script");
+    s.type = "text/javascript";
 
-    s.text = `   
+    s.text = `
       window.JOONBOT_WIDGET_ID = "f846bb00-1359-4196-9ecf-47094ddc04f7";
       window.JB_source = (JSON.parse(localStorage.getItem("userData"))).name;
       var n, o;
@@ -139,10 +138,11 @@ export class UlbformComponent implements OnInit {
     let id = sessionStorage.getItem("ulb_id");
     this.ulbformService.getEligibleULBForm(id).subscribe(
       (res) => {
-        this.eligibleForms = res['data']
-        console.log('oninit eligible forms', this.eligibleForms)
+        this.eligibleForms = res["data"];
+        console.log("oninit eligible forms", this.eligibleForms);
       },
-      (err) => { })
+      (err) => {}
+    );
     this.ulbformService.allFormsData.subscribe((data) => {
       this.allFormsData = data;
       sessionStorage.setItem("allFormsData", JSON.stringify(data));
@@ -156,7 +156,7 @@ export class UlbformComponent implements OnInit {
 
   subscribeStatus() {
     this.ulbformService.allStatus.subscribe((status) => {
-      console.log('subscribe status fired')
+      console.log("subscribe status fired");
       this.checkGreenRedTick(status);
       sessionStorage.setItem("allStatus", JSON.stringify(status));
       console.log("red this", this.allStatus);
@@ -187,19 +187,20 @@ export class UlbformComponent implements OnInit {
         this.userLoggedInDetails.role == this.userTypes.MoHUA
       ) {
         switch (key) {
-
           case "utilReport":
             if (
-              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
-              (eligibleActionForms.includes("Utilization Report") || eligibleActionForms.includes("Utilisation Report"))
+              this.allStatus[key].status != "PENDING" &&
+              this.allStatus[key].status &&
+              (eligibleActionForms.includes("Utilization Report") ||
+                eligibleActionForms.includes("Utilisation Report"))
             ) {
               this.allStatus[key].isSubmit = true;
-            }
-            else this.allStatus[key].isSubmit = false;
+            } else this.allStatus[key].isSubmit = false;
             break;
           case "annualAccounts":
             if (
-              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
+              this.allStatus[key].status != "PENDING" &&
+              this.allStatus[key].status &&
               eligibleActionForms.includes("Annual Acconts")
             )
               this.allStatus[key].isSubmit = true;
@@ -207,13 +208,13 @@ export class UlbformComponent implements OnInit {
             break;
           case "slbForWaterSupplyAndSanitation":
             if (
-              this.allStatus[key].status != "PENDING" && this.allStatus[key].status &&
+              this.allStatus[key].status != "PENDING" &&
+              this.allStatus[key].status &&
               eligibleActionForms.includes("slbs")
             )
               this.allStatus[key].isSubmit = true;
             else this.allStatus[key].isSubmit = false;
             break;
-
         }
       }
     }
@@ -226,7 +227,8 @@ export class UlbformComponent implements OnInit {
         this.lastRoleInMasterForm = res["response"].actionTakenByRole;
         this.ulbformService.allStatus.next(res["response"]["steps"]);
         this.submitted = res["response"]["isSubmit"];
-        this.annualStatus = res["response"]["steps"]['annualAccounts']['status'];
+        this.annualStatus =
+          res["response"]["steps"]["annualAccounts"]["status"];
         localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here............", res["response"]);
         if (res["response"].status != "PENDING") {
@@ -249,7 +251,7 @@ export class UlbformComponent implements OnInit {
           this.stActionCheck = "true";
           console.log("final state action completed.....");
         }
-        let mohuaAction = "false"
+        let mohuaAction = "false";
         if (
           res["response"].actionTakenByRole === this.userTypes.MoHUA &&
           res["response"].isSubmit == true &&
@@ -308,7 +310,11 @@ export class UlbformComponent implements OnInit {
     eligibleActionForms.forEach((element) => {
       for (let key in this.allStatus) {
         console.log("keygbnm", this.allStatus[key]["status"]);
-        if ((element === "Utilisation Report" || element === "Utilisation Report") && key === "utilReport") {
+        if (
+          (element === "Utilisation Report" ||
+            element === "Utilisation Report") &&
+          key === "utilReport"
+        ) {
           if (
             this.allStatus["utilReport"]["isSubmit"] === true &&
             this.allStatus["utilReport"]["status"] != "PENDING"
@@ -334,9 +340,9 @@ export class UlbformComponent implements OnInit {
         ) {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-            true &&
+              true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-            "PENDING"
+              "PENDING"
           ) {
             console.log("2");
             this.finalActionDis = false;
@@ -346,9 +352,9 @@ export class UlbformComponent implements OnInit {
         } else if (element === "Plan water sanitation" && key === "plans") {
           if (
             this.allStatus["slbForWaterSupplyAndSanitation"]["isSubmit"] ===
-            true &&
+              true &&
             this.allStatus["slbForWaterSupplyAndSanitation"]["status"] !=
-            "PENDING"
+              "PENDING"
           ) {
             console.log("3");
             this.currentActionStatus[key] = this.allStatus[key]["status"];
@@ -406,7 +412,7 @@ export class UlbformComponent implements OnInit {
   allFormsData;
   openDialog(template) {
     const dialogRef = this.dialog.open(template);
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   ulbPreview() {
     console.log("hello", this.allFormsData);
@@ -416,7 +422,7 @@ export class UlbformComponent implements OnInit {
       height: "100%",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => { });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   submitted = false;
   finalSubmitClicked(finalSubmitAlert) {
@@ -443,7 +449,7 @@ export class UlbformComponent implements OnInit {
           swal(
             "Forms Successfully Submitted to be Reviewed by State and MoHUA"
           );
-          localStorage.setItem("finalSubmitStatus", 'true');
+          localStorage.setItem("finalSubmitStatus", "true");
           this._router.navigate(["ulbform/ulbform-overview"]);
         },
         (err) => {
@@ -520,7 +526,7 @@ export class UlbformComponent implements OnInit {
   ];
   checkValidationStatusOfAllForms() {
     const eligibleForms = JSON.parse(sessionStorage.getItem("eligibleForms"));
-    console.log('eligible forms........', eligibleForms);
+    console.log("eligible forms........", eligibleForms);
     this.validate = true;
     let requiredStatus = {};
     //checking the status of each form
@@ -529,7 +535,11 @@ export class UlbformComponent implements OnInit {
     }
     eligibleForms.forEach((element) => {
       for (let key in this.allStatus) {
-        if ((element === "Utilization Report" || element === "Utilisation Report") && key === "utilReport") {
+        if (
+          (element === "Utilization Report" ||
+            element === "Utilisation Report") &&
+          key === "utilReport"
+        ) {
           let change = sessionStorage.getItem("canNavigate");
           if (change === "false") {
             this.validate = false;
@@ -558,7 +568,7 @@ export class UlbformComponent implements OnInit {
     });
 
     for (let key in requiredStatus) {
-      console.log(key, requiredStatus[key])
+      console.log(key, requiredStatus[key]);
       if (!requiredStatus[key]) {
         this.validate = false;
       }
@@ -572,15 +582,17 @@ export class UlbformComponent implements OnInit {
   finalStateAction() {
     let actionStatus = "PENDING";
     for (let key in this.currentActionStatus) {
-      console.log(this.currentActionStatus[key])
+      console.log(this.currentActionStatus[key]);
       if (this.currentActionStatus[key] == "REJECTED") {
         console.log("con if", this.currentActionStatus[key]);
         actionStatus = "REJECTED";
         break;
-      } else if (this.currentActionStatus[key] != "APPROVED" && this.currentActionStatus[key] != "REJECTED") {
+      } else if (
+        this.currentActionStatus[key] != "APPROVED" &&
+        this.currentActionStatus[key] != "REJECTED"
+      ) {
         continue;
-      }
-      else {
+      } else {
         actionStatus = "APPROVED";
       }
     }
@@ -595,15 +607,14 @@ export class UlbformComponent implements OnInit {
 
     this.ulbformService.postFinalActionByState(actionBody).subscribe(
       (res) => {
-
         swal("Action Successfully Submitted");
         if (this.loggedInUserType === this.userTypes.MoHUA) {
-          this.ulbformService.disableAllFormsAfterMohuaReview.next(true)
-          console.log('Mohua final action', res);
+          this.ulbformService.disableAllFormsAfterMohuaReview.next(true);
+          console.log("Mohua final action", res);
         }
         if (this.loggedInUserType === this.userTypes.STATE) {
-          this.ulbformService.disableAllFormsAfterStateReview.next(true)
-          console.log('State final action', res);
+          this.ulbformService.disableAllFormsAfterStateReview.next(true);
+          console.log("State final action", res);
         }
 
         this.finalActionDis = true;
@@ -611,7 +622,6 @@ export class UlbformComponent implements OnInit {
         setTimeout(() => {
           location.reload();
         }, 100);
-
       },
       (err) => {
         console.log(err);
@@ -622,18 +632,19 @@ export class UlbformComponent implements OnInit {
   ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
-
-  @HostListener('window:scroll', ['$event'])
+  newSticky = false;
+  @HostListener("window:scroll", ["$event"])
   handleScroll() {
     const windowScroll = window.pageYOffset;
-    console.log('scrolllllll', windowScroll, this.elementPosition);
-    if(windowScroll < this.elementPosition){
+    console.log("scrolllllll", windowScroll, this.elementPosition);
+    if (windowScroll < this.elementPosition) {
       this.sticky = false;
       this.stiHieght = false;
-    }else 
-    if (windowScroll > this.elementPosition) {
+      this.newSticky = false;
+    } else if (windowScroll > this.elementPosition) {
       this.sticky = true;
       this.stiHieght = false;
+      this.newSticky = false;
       // if(windowScroll < 500) {
       //  this.stiHieght = true;
       //   this.sticky = false;
@@ -641,13 +652,16 @@ export class UlbformComponent implements OnInit {
       //   this.sticky = true;
       //   this.stiHieght = false;
       // }
-      if(windowScroll >=1247){
-        this.sticky=false
-        this.stiHieght=true
+
+      if (windowScroll >= 1300) {
+        this.sticky = false;
+        this.stiHieght = true;
+        this.newSticky = true;
       }
     } else {
       this.sticky = true;
       this.stiHieght = false;
+      this.newSticky = false;
     }
   }
 }
