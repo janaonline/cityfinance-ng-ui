@@ -281,7 +281,7 @@ export class AccordionToTableComponent implements OnInit {
   }
 
   private onGettingBondIssuerSuccess(res: IBondIssuer) {
-    console.log('onGettingBondIssuerSuccess', res)
+    console.log("onGettingBondIssuerSuccess", res);
     Object.keys(res).forEach((name) => {
       const capitalizedName = this.capitalizedName(name);
       this.formattedNamesMapping[name] = capitalizedName;
@@ -297,7 +297,7 @@ export class AccordionToTableComponent implements OnInit {
     total: number;
     data: IBondIssureItemResponse["data"];
   }) {
-    console.log('onGettingBondIssuerItemSuccess', datas)
+    console.log("onGettingBondIssuerItemSuccess", datas);
     if (datas.data) {
       this.getFormValue();
     }
@@ -423,7 +423,9 @@ export class AccordionToTableComponent implements OnInit {
         ulbType:
           this.ulbNameMapping[val.ulb]?.type == ""
             ? "NA"
-            : this.ulbNameMapping.hasOwnProperty(val.ulb) ? this.ulbNameMapping[val.ulb]?.type : 'NA',
+            : this.ulbNameMapping.hasOwnProperty(val.ulb)
+            ? this.ulbNameMapping[val.ulb]?.type
+            : "NA",
         year: val.yearOfBondIssued == "" ? "NA" : val.yearOfBondIssued,
         rating: val.CRISIL == "" ? "NA" : val.CRISIL,
         amount: val.amountAccepted == "" ? "NA" : val.amountAccepted,
@@ -512,7 +514,7 @@ export class AccordionToTableComponent implements OnInit {
 
   selectedUlb: any = [];
   private onGettingULBResponseSuccess(response: IULBResponse) {
-    console.log('onGettingULBResponseSuccess', response);
+    console.log("onGettingULBResponseSuccess", response);
     if (this.state) {
       let foundState;
       foundState = response.data.filter(
@@ -657,14 +659,23 @@ export class AccordionToTableComponent implements OnInit {
   ];
 
   tableDataSource = [
+    // {
+    //   municipality: "Ahmadnagar",
+    //   ulbType: "Municipality",
+    //   year: "1997",
+    //   rating: "AA",
+    //   amount: 100,
+    //   couponRate: "14.0",
+    //   _id: "1",
+    // },
     {
-      municipality: "Ahmadnagar",
-      ulbType: "Municipality",
-      year: "1997",
-      rating: "AA",
-      amount: 100,
-      couponRate: "14.0",
-      _id: "1",
+      municipality: "",
+      ulbType: "",
+      year: "",
+      rating: "",
+      amount: "",
+      couponRate: "",
+      _id: "",
     },
   ];
   ulbListLatest: any;
