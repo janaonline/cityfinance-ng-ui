@@ -4,7 +4,7 @@
     background-color: #12505A;
     border-radius: 5px;
     // margin-right: 2%;
-    width: 230px;
+    width: 250px;
 }
 
 .grantBtn {
@@ -30,6 +30,7 @@
 .cards {
     display: flex;
     justify-content: space-around;
+    margin-right:5px;
 }
 
 .card-number {
@@ -171,6 +172,7 @@
     font-size: 18px;
     font-weight: bold;
     margin-top: 4px;
+    display: block;
 }
 
 .bottomPart {
