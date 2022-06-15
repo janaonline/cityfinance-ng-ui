@@ -183,6 +183,13 @@ export const appRouter: Routes = [
         (m) => m.ResourcesDashboardModule
       ),
   },
+  {
+    path: "ulbform2223",
+    loadChildren: () =>
+      import("./newPagesFc/xvfc2223-ulb/xvfc2223-ulb.module").then(
+        (m) => m.Xvfc2223UlbModule
+      ),
+  },
 
   { path: "**", redirectTo: "" },
 ];
