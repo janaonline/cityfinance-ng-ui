@@ -645,23 +645,11 @@ export class UlbformComponent implements OnInit {
       this.sticky = true;
       this.stiHieght = false;
       this.newSticky = false;
-      // if(windowScroll < 500) {
-      //  this.stiHieght = true;
-      //   this.sticky = false;
-      // }else{
-      //   this.sticky = true;
-      //   this.stiHieght = false;
-      // }
-
-      if (windowScroll >= 1300) {
+      if (windowScroll >= 1220) {
         this.sticky = false;
         this.stiHieght = true;
         this.newSticky = true;
       }
-    } else {
-      this.sticky = true;
-      this.stiHieght = false;
-      this.newSticky = false;
     }
   }
 }
