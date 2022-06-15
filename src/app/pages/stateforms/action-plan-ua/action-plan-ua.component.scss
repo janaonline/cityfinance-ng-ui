@@ -11,11 +11,11 @@
     background-color: #059b9a;
     color: #ffffff;
     border-radius: 4px;
-    height: 32px;
-    padding-left: 2%;
-    padding-right: 2%;
+    height: 36px;
+    // padding-left: 2%;
+    // padding-right: 2%;
     width: auto;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 
@@ -23,9 +23,9 @@
     background-color: #059b9a;
     color: #FFFFFF;
     border-radius: 5px;
-    height: 32px;
+    height: 36px;
     padding-left: 2rem;
-    font-size: 12px;
+    font-size: 14px;
     padding-right: 2rem;
 }
 
@@ -34,10 +34,10 @@
     background-color: #cfcfcf;
     color: #ffffff;
     border-radius: 4px;
-    height: 32px;
-    padding-left: 2%;
-    padding-right: 2%;
-    font-size: 12px;
+    height: 36px;
+    // padding-left: 2%;
+    // padding-right: 2%;
+    font-size: 14px;
     font-weight: normal;
 }
 
@@ -65,6 +65,7 @@
     background-color: green;
     color: #FFFFFF;
 }
+
 .anDisable {
     pointer-events: none;
     cursor: not-allowed;

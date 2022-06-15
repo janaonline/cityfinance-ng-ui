@@ -17,14 +17,16 @@
     box-shadow: 1px 1px 1px 1.5px #00000029;
     padding: 6px 10px;
 }
-.cellHeight{
-    height:4rem;
+
+.cellHeight {
+    height: 4rem;
 }
-.label{
-    
+
+.label {
     font-size: 13px;
     font-weight: bold;
 }
+
 .thHeader {
     background-color: #058e91;
     font-family: Roboto;
@@ -84,11 +86,11 @@
     background-color: #059b9a;
     color: #ffffff;
     border-radius: 4px;
-    height: 32px;
-    padding-left: 2%;
-    padding-right: 2%;
-    width: auto;
-    font-size: 12px;
+    height: 36px;
+    // padding-left: 2%;
+    //  padding-right: 2%;
+    // width: auto;
+    font-size: 14px;
     font-weight: normal;
 }
 
@@ -96,21 +98,21 @@
     background-color: #059b9a;
     color: #FFFFFF;
     border-radius: 5px;
-    height: 32px;
+    height: 36px;
     padding-left: 2rem;
-    font-size: 12px;
+    font-size: 14px;
     padding-right: 2rem;
 }
 
 .back {
-    width: auto;
+    //  width: auto;
     background-color: #cfcfcf;
     color: #ffffff;
     border-radius: 4px;
-    height: 32px;
-    padding-left: 2%;
-    padding-right: 2%;
-    font-size: 12px;
+    height: 36px;
+    //  padding-left: 2%;
+    //  padding-right: 2%;
+    font-size: 14px;
     font-weight: normal;
 }
 
