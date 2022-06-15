@@ -698,7 +698,8 @@ export class StateformsComponent implements OnInit, AfterViewInit {
       }
     } else {
       this.sticky = false;
-      //this.stiHieght = false;
+      this.stiHieght = false;
+      this.sticky2 = false;
     }
   }
 
