@@ -37,10 +37,10 @@
 
                         </div>
 
-                        <div class="row" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
+                        <div class="row mt-3" id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding: 1rem 2rem;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
@@ -51,7 +51,7 @@
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
-                                            <ul>
+                                            <ul class="u-l-h">
                                                 <li>
                                                     {{currStatus_nmpc_tied_1st}}
                                                     <!-- Claim Granted - {{claimsData?.nmpc_tied[0].amount}} Cr -->
@@ -69,7 +69,7 @@
                                             padding-left: 15px;">
                                                     Conditions:
                                                 </h4>
-                                                <ul>
+                                                <ul class="u-l-h">
                                                     <li *ngFor="let condition of finalConditions_nmpc_tied_1st let i = index;">
                                                         {{condition}}
                                                     </li>
@@ -92,7 +92,7 @@
                             <div class="col-md-12">
 
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding: 1rem 2rem;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
@@ -103,7 +103,7 @@
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
-                                            <ul>
+                                            <ul class="u-l-h">
                                                 <li>
 
                                                     {{currStatus_nmpc_tied_2nd}}
@@ -124,7 +124,7 @@
                                             padding-left: 15px;" *ngIf="(nmpcTiedPdfUrl_2 == '')">
                                                     Conditions:
                                                 </h4>
-                                                <ul>
+                                                <ul class="u-l-h">
                                                     <li *ngFor="let condition of finalConditions_nmpc_tied_2nd let i = index;">{{condition}}
                                                     </li>
                                                 </ul>
@@ -151,11 +151,11 @@
         </div>
     </div>
     <!-- Claim for Non Million Untied -->
-    <div *ngIf="display?.showQ3" class="row">
+    <div *ngIf="display?.showQ3" class="row mt-2">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col-md-12">
                             <div class="row" style="margin: 0;">
                                 <div class="col-md-10">
@@ -172,7 +172,7 @@
                         <div class="row" id="collapseBasic2" [collapse]="isCollapsed2" [isAnimated]="true" style="padding-left: 30px; margin-right: 15px;">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding: 1rem 2rem;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
@@ -183,7 +183,7 @@
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
-                                            <ul>
+                                            <ul class="u-l-h">
                                                 <li>
                                                     {{currStatus_nmpc_untied_1st}}
                                                     <!-- Claim Granted - INR {{claimsData?.nmpc_untied[0].amount}}Cr. -->
@@ -200,7 +200,7 @@
                                           padding-left: 15px;">
                                                     Conditions:
                                                 </h4>
-                                                <ul>
+                                                <ul class="u-l-h">
                                                     <li *ngFor="let condition of finalConditions_nmpc_untied_1st let i = index;">{{condition}}
                                                     </li>
                                                 </ul>
@@ -222,7 +222,7 @@
                             <div class="col-md-12">
 
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding: 1rem 2rem;">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <label>
@@ -233,7 +233,7 @@
                                             padding-left: 15px;">
                                                 Current Status:
                                             </h4>
-                                            <ul>
+                                            <ul class="u-l-h">
                                                 <li>
 
                                                     {{currStatus_nmpc_untied_2nd}}
@@ -250,7 +250,7 @@
                                           padding-left: 15px;">
                                                     Conditions:
                                                 </h4>
-                                                <ul>
+                                                <ul class="u-l-h">
                                                     <li *ngFor="let condition of finalConditions_nmpc_untied_2nd">{{condition}}
                                                     </li>
                                                 </ul>
@@ -278,7 +278,7 @@
         </div>
     </div>
     <!-- claim for million  -->
-    <div *ngIf="display?.showQ1" class="row">
+    <div *ngIf="display?.showQ1" class="row mt-3">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -302,7 +302,7 @@
                                             padding-left: 15px;">
                                 Current Status:
                             </h4>
-                            <ul>
+                            <ul class="u-l-h">
                                 <li>
 
                                     {{currStatus_mpc}}
@@ -322,7 +322,7 @@
                                             padding-left: 15px;">
                                     Conditions:
                                 </h4>
-                                <ul>
+                                <ul class="u-l-h">
                                     <li *ngFor="let condition of finalConditions_mpc">{{condition}}
 
                                     </li>
@@ -350,7 +350,7 @@
     <!-- question for GTC -->
     <div class="row" style="margin-top: 20px;">
         <div class="col-md-12">
-            <h4>
+            <h4 class="f-l">
                 <a [routerLink]="['../gtCertificate']">Click Here to Submit Grant Transfer Certificate</a>
             </h4>
         </div>
