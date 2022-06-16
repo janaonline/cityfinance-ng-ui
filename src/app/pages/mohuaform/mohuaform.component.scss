@@ -63,6 +63,7 @@ div.active {
 
 .link-div {
     background-color: #114551;
+    margin-left: 0;
 }
 
 .link-div-u {
@@ -129,6 +130,10 @@ div.active {
     position: fixed;
     width: 16.66666667%;
     top: 1px;
+}
+
+.stickyMain {
+    margin-left: 17%;
 }
 
 @media screen and (max-width: 1170px) {
