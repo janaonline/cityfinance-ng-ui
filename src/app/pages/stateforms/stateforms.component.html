@@ -1,313 +1,246 @@
 <div class="container-fluid" style="padding: 0; overflow-x: hidden; overflow-y: hidden;">
     <div class="row">
-        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" #stickyMenu [ngClass]="{'stiHieght': stiHieght}" style="padding: 0 0; margin-left: 2px;">
+        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 m-c sidebar" #stickyMenu [ngClass]="{'sticky': sticky, 'sticky2': sticky2 }" style="">
             <div class="sideNav" [ngClass]="{'sticky':sticky}" style="
             overflow-x: hidden;">
-                <div class="row" style="background-color: #114551;">
-
+                <div class="row" style="background-color: #114551; height: 20px;">
                 </div>
-                <div class="row" style="background-color: #FFC500; ">
-                    <a [routerLink]="['../fc-home-page']">
+                <div class="row" style="background-color: #FFC500;">
+                    <a [routerLink]="['../fc-home-page']" class="aTag">
                         <h5 class="pd" style="font-size: 14px;">
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-3" style="padding-left: 18%;">
-                                    <mat-icon aria-hidden="false" [style.padding-top]="backHeadStyle ? '0px' : '0'"
-                                    [style.padding-bottom]="!(backHeadStyle) ? '0px' : '0'">
-                                    <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
-                                </mat-icon>
+                                <div class="col-sm-1"></div>
+                                <div class="col-lg-1 col-md-1 col-sm-1" style="">
+                                    <mat-icon aria-hidden="false" [style.padding-top]="backHeadStyle ? '0px' : '0'" [style.padding-bottom]="!(backHeadStyle) ? '0px' : '0'">
+                                        <img src="../../../assets/ulbform/Icon ionic-ios-arrow-back.svg">
+                                    </mat-icon>
                                 </div>
-                                <div class="col-lg-9 col-md-9 col-sm-9" style="margin-top: 10px;">
+                                <div class="col-lg-9 col-md-9 col-sm-9 t-c linktext pd" style="font-weight: 600;">
                                     {{backHead}}
-                                    
+
                                 </div>
                             </div>
-                  
-                                <!-- Approve Claims for 2021-2022 -->
+
+                            <!-- Approve Claims for 2021-2022 -->
                             <!-- <div class="col-sm-1">
-    
+
                             </div> -->
                         </h5>
                     </a>
                 </div>
-    
+
                 <div class="row link-div" routerLinkActive="active">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['dashboard']">         
-                            <mat-icon aria-hidden="false" style="margin-bottom: 11px;">
-                                <img src='../../../assets/stateIconSvg/menu (2).svg ' class="svg-icon">
-                            </mat-icon>
-                    </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['dashboard']">
-                            <span>Dashboard</span> 
-                    </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
+                    <a [routerLink]="['dashboard']" class="aTag">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l">
+                                <mat-icon aria-hidden="false" style="">
+                                    <img src='../../../assets/stateIconSvg/menu (2).svg ' class="svg-icon">
+                                </mat-icon>
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext pd">
+                                Dashboard
+                            </div>
+                            <div class="col-sm-2 col-lg-2 col-md-2">
 
-                    </div>
-                    
+                            </div>
+                        </div>
+
+                    </a>
                 </div>
-    
+
                 <div class="row link-div">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a>
-                            <mat-icon aria-hidden="false" style="margin-bottom: 11px;">
-                                <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
-                            </mat-icon>
-                    </a>
+                    <div class="col-sm-2 col-lg-2 col-md-2  m-l">
+                        <mat-icon aria-hidden="false" style="">
+                            <img src="../../../assets/stateform/Icon awesome-handshake.svg" class="svg-gt">
+                        </mat-icon>
                     </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a>
-                         <span>  ULB Management</span> 
-                    </a>
+                    <div class="col-sm-8 col-lg-8 col-md-8 linktext pd" style="">
+                        ULB Management
                     </div>
                     <div class="col-sm-2 col-lg-2 col-md-2">
 
                     </div>
-                    
+
                 </div>
                 <div>
                     <div class="row link-div-u" routerLinkActive="active">
-                        <div class="col-sm-2 col-lg-2 col-md-2">
-                            <a [routerLink]="['edit-ulb-profile']">
-                                <mat-icon aria-hidden="false">
-                                <img src="../../../assets/stateform/Icon feather-edit-2.svg">
-                                  
-                                </mat-icon>
-                        </a>
-                        </div>
-                        <div class="col-sm-8 col-lg-8 col-md-8">
-                            <a [routerLink]="['edit-ulb-profile']">
-                                
-                            <span>Edit ULB Profile</span>
-                        </a>
-                        </div>
-                        <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['edit-ulb-profile']">
+                            <div class="row">
+                                <div class="col-sm-2 col-lg-2 col-md-2 m-l-u">
+                                    <mat-icon aria-hidden="false">
+                                        <img src="../../../assets/stateform/Icon feather-edit-2.svg">
 
-                        </div>
+                                    </mat-icon>
+                                </div>
+                                <div class="col-sm-8 col-lg-8 col-md-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 2px;">
+                                    Edit ULB Profile
+                                </div>
+                                <div class="col-sm-2 col-lg-2 col-md-2">
 
-                        
+                                </div>
+                            </div>
+
+                        </a>
+
                     </div>
                     <div class="row link-div-u" routerLinkActive="active">
-                        <div class="col-sm-2 col-lg-2 col-md-2">
-                            <a [routerLink]="['review-ulb-form']">
-                                <mat-icon aria-hidden="false" style="margin-top: 3px;">
-                                    <img src="../../../assets/stateform/Icon material-pageview.svg">
-                                </mat-icon>
-    
-                        </a>
-                        </div>
-                        <div class="col-sm-8 col-lg-8 col-md-8">
-                            <a [routerLink]="['review-ulb-form']">
-                                
-                                <span>Review Grant Application</span> 
-    
-                        </a>
-                        </div>
-                        <div class="col-sm-2 col-lg-2 col-md-2">
+                        <a [routerLink]="['review-ulb-form']">
+                            <div class="row">
+                                <div class="col-sm-2 col-lg-2 col-md-2 m-l-u">
+                                    <mat-icon aria-hidden="false" style="margin-top: 3px;">
+                                        <img src="../../../assets/stateform/Icon material-pageview.svg">
+                                    </mat-icon>
 
-                        </div>
-                        
+                                </div>
+                                <div class="col-sm-8 col-lg-8 col-md-8 linktext-u pd-u">
+                                    Review Grant Application
+                                </div>
+                                <div class="col-sm-2 col-lg-2 col-md-2">
+
+                                </div>
+                            </div>
+                        </a>
+
                     </div>
                 </div>
+
+
                 <div class="row link-div" *ngIf="eligibleForms['gtc']" routerLinkActive="active">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['gtCertificate']">
-                            <mat-icon aria-hidden="false">
-                                <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
-                            </mat-icon>
-                            
+                    <a [routerLink]="['gtCertificate']">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l">
+                                <mat-icon aria-hidden="false">
+                                    <img src="../../../assets/stateform/certificate (1).svg" class="svg-gt">
+                                </mat-icon>
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext pd">
+                                Grant Transfer Certificate
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1">
+                                <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
+                                    <img src="../../../assets/form-icon/checked.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+                            </div>
+                        </div>
                     </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['gtCertificate']">
-                           
-                            <span>
-                            Grant Transfer Certificate
-    
-                            </span>
-                        
-                           
-                    </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['gtCertificate']">
-                           
-                        
-                            <mat-icon *ngIf="gtc_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
-                                <img src="../../../assets/form-icon/checked.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf="!gtc_greenTick" class="pull-right" aria-hidden="false"
-                                [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
-                    </a>
-                    </div>
-                    
                 </div>
                 <div class="row link-div" *ngIf="eligibleForms['pfms']" routerLinkActive="active">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-
-                    </div>
                     <a [routerLink]="['link-in-pfms']">
-                            <mat-icon aria-hidden="false">
-                                <img src="../../../assets/stateform/lnPfms.svg" class="svg-gl">
-                            </mat-icon>
-                             <span>
-                            Linking of PFMS Account
-    
-                             </span>
-                        
-                        <div class="col-sm-1 col-xs-1" style="margin-left: 1rem;">
-                            <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false"
-                                [tooltip]="tolTemplateC">
-                                <img src="../../../assets/form-icon/checked.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false"
-                                [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l">
+                                <mat-icon aria-hidden="false">
+                                    <img src="../../../assets/stateform/lnPfms.svg" class="svg-gl">
+                                </mat-icon>
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext pd">
+                                Linking of PFMS Account
+                            </div>
+                            <div class="col-sm-1">
+                                <mat-icon *ngIf="pfms_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
+                                    <img src="../../../assets/form-icon/checked.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf="!pfms_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+                            </div>
                         </div>
                     </a>
                 </div>
-                <div class="row link-div" *ngIf="eligibleForms['waterRejuvenation']">
+                <div class="row link-div grantClass" *ngIf="eligibleForms['waterRejuvenation']">
                     <!-- <a (click)="isCollapsedSer = !isCollapsedSer" [attr.aria-expanded]="!isCollapsedSer"
                         aria-controls="collapseBasicSer"> -->
-                        <div class="col-sm-2 col-lg-2 col-md-2">
-
-                        </div>
-                        <div class="col-sm-8 col-lg-8 col-md-8">
-
-                        </div>
-                        <div class="col-sm-2 col-lg-2 col-md-2">
-
-                        </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2 m-l">
                         <mat-icon aria-hidden="false" style="margin-top: 3px;">
                             <img src="../../../assets/stateform/technical-support.svg" class="svg-gt">
                         </mat-icon>
+                    </div>
+                    <div class="col-sm-8 col-lg-8 col-md-8 linktext pd" style="">
                         <span>
-                         Million Plus Cities Challenge for UAs
-    
-                        </span>
+                            Million Plus Cities Challenge for UAs
+                         </span>
+                    </div>
+                    <div class="col-sm-2 col-lg-2 col-md-2">
+
+                    </div>
+
+
                     <!-- </a> -->
                 </div>
                 <!-- <div id="collapseBasicSer" [collapse]="isCollapsedSer"> -->
                 <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['water-supply']">
-                            <mat-icon aria-hidden="false">
-                                <img src="../../../assets/stateform/suplywater.png">
-                            </mat-icon>
-                           
-                    </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['water-supply']">
-                           
-                           <span>
-                            Indicators for Water Supply and Sanitation
-    
-                           </span>
-                        
-                    </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['water-supply']">
-                        
-                        <div class="col-sm-1 col-xs-1 text-right">
-                            <!-- <mat-icon aria-hidden="false">
-                                <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
+                    <a [routerLink]="['water-supply']">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l-u">
+                                <mat-icon aria-hidden="false">
+                                    <img src="../../../assets/stateform/suplywater.png">
+                                </mat-icon>
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext-u pd-u" style="padding-right: 3px;  padding-left: 7px;">
+                                Indicators for Water Supply and Sanitation
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1 text-right">
+                                <!-- <mat-icon aria-hidden="false">
+                            <img src='../../../assets/ulbform/Icon ionic-ios-close-circle.svg'>
                             </mat-icon> -->
-                            <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Submission Requried"
-                                class="pull-right" aria-hidden="false">
-                                <img src="../../../assets/ticks/info_black_24dp.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf="userLoggedInDetails.role != userTypes.STATE" tooltip="No Action Requried"
-                                class="pull-right" aria-hidden="false">
-                                <img src="../../../assets/ticks/info_black_24dp.svg">
-                            </mat-icon>
-    
+                                <mat-icon *ngIf="userLoggedInDetails.role == userTypes.STATE" tooltip="No Submission Requried" class="pull-right" aria-hidden="false">
+                                    <img src="../../../assets/ticks/info_black_24dp.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf="userLoggedInDetails.role != userTypes.STATE" tooltip="No Action Requried" class="pull-right" aria-hidden="false">
+                                    <img src="../../../assets/ticks/info_black_24dp.svg">
+                                </mat-icon>
+                            </div>
                         </div>
                     </a>
-                    </div>
-                    
-                </div>
-                <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['water-rejenuvation']">
-                            <mat-icon aria-hidden="false" style="margin-top: 4px;">
-                                <img src="../../../assets/stateform/water-cycle.svg">
-                            </mat-icon>
-                            
-                    </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['water-rejenuvation']">
-                            
-                            <span>
-                            Projects for Water and Sanitation
-    
-                            </span>
-                        
-                        
-                    </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['water-rejenuvation']">
-                        
-                        
-                            <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
-                                <img src="../../../assets/form-icon/checked.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false"
-                                [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
-                    </a>
-                    </div>
 
-                    
                 </div>
                 <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['action-plan']">
-                            <mat-icon aria-hidden="false" style="margin-top: 4px;">
-                                <img src="../../../assets/stateform/actionPlan.svg" style="filter: invert(1);">
-                            </mat-icon>
-                         
-                        
+                    <a [routerLink]="['water-rejenuvation']">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l-u">
+                                <mat-icon aria-hidden="false" style="margin-top: 4px;">
+                                    <img src="../../../assets/stateform/water-cycle.svg">
+                                </mat-icon>
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 6px;">
+                                Projects for Water and Sanitation
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1">
+                                <mat-icon *ngIf="wr_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
+                                    <img src="../../../assets/form-icon/checked.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf="!wr_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+                            </div>
+                        </div>
                     </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['action-plan']">
-                            
-                            <span>
-                            Action Plan for UA Service Level Indicators
-    
-                            </span>
-                        
+                </div>
+                <div class="row link-div-u" routerLinkActive="active" *ngIf="eligibleForms['waterRejuvenation']">
+                    <a [routerLink]="['action-plan']">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l-u">
+                                <mat-icon aria-hidden="false" style="margin-top: 4px;">
+                                    <img src="../../../assets/stateform/actionPlan.svg" style="filter: invert(1);">
+                                </mat-icon>
+
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext-u pd-u" style="padding-right: 3px; padding-left: 8px;">
+                                Action Plan for UA Service Level Indicators
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1">
+                                <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
+                                    <img src="../../../assets/form-icon/checked.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+                            </div>
+                        </div>
+
                     </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['action-plan']">
-                            
-                            <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
-                                <img src="../../../assets/form-icon/checked.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false"
-                                [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
-                    </a>
-                    </div>
-                    
                 </div>
                 <!-- </div> -->
                 <!-- <div class="row link-div">
@@ -319,7 +252,7 @@
                         </div>
                         <div class="col-sm-9 col-xs-9 linktext pd">
                             Action Plan for UA Service Level Indicators
-    
+
                         </div>
                         <div class="col-sm-1 col-xs-1 text-right">
                             <mat-icon *ngIf=" ap_greenTick" class="pull-right" aria-hidden="false">
@@ -328,81 +261,61 @@
                             <mat-icon *ngIf=" !ap_greenTick " class="pull-right" aria-hidden="false">
                                 <img src="../../../assets/form-icon/cancel.svg">
                             </mat-icon>
-    
+
                         </div>
                     </a>
                 </div> -->
-        
+
                 <div class="row link-div" routerLinkActive="active" *ngIf="eligibleForms['grantAllocation']">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['grant-allocation']">
-                            <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
-                                <img src="../../../assets/stateform/surface1 (2).svg">
-                            </mat-icon>
-                            
+                    <a [routerLink]="['grant-allocation']">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l">
+                                <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
+                                    <img src="../../../assets/stateform/surface1 (2).svg">
+                                </mat-icon>
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext pd">
+                                Grant Allocation to ULBs
+
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1">
+                                <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
+                                    <img src="../../../assets/form-icon/checked.svg">
+                                </mat-icon>
+                                <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+
+                            </div>
+
+                        </div>
+
                     </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['grant-allocation']">
-                            
-                            <span>
-                            Grant Allocation to ULBs
-    
-                            </span>
-                        
-                        
-                    </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['grant-allocation']">
-                            
-                        
-                            <mat-icon *ngIf="ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateC">
-                                <img src="../../../assets/form-icon/checked.svg">
-                            </mat-icon>
-                            <mat-icon *ngIf="!ga_greenTick" class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
-                        
-                    </a>
-                    </div>
-                    
-                    
                 </div>
                 <div class="row link-div" routerLinkActive="active">
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['grant-claims']">
-                            <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
-                                <img src="../../../assets/stateform/surface1 (2).svg">
-                              
-                            </mat-icon>
-                            
-                    </a>
-                    </div>
-                    <div class="col-sm-8 col-lg-8 col-md-8">
-                        <a [routerLink]="['grant-claims']">
-                            
-                            <span>
+                    <a [routerLink]="['grant-claims']">
+                        <div class="row">
+                            <div class="col-sm-2 col-lg-2 col-md-2 m-l">
+                                <mat-icon aria-hidden="false" style="margin-top: 2px;" class="svg-gt">
+                                    <img src="../../../assets/stateform/surface1 (2).svg">
+
+                                </mat-icon>
+
+                            </div>
+                            <div class="col-sm-8 col-lg-8 col-md-8 linktext pd">
                                 Submit Claims for 15th FC Grants
-    
-                            </span>
-                        
-                        
+                            </div>
+                            <div class="col-sm-1 col-lg-1 col-md-1">
+                                <mat-icon class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
+                                    <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon>
+
+                            </div>
+                        </div>
+
                     </a>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2">
-                        <a [routerLink]="['grant-claims']">
-                            
-                            
-                            <mat-icon class="pull-right" aria-hidden="false" [tooltip]="tolTemplateN">
-                                <img src="../../../assets/form-icon/cancel.svg">
-                            </mat-icon>
-                        
-                    </a>
-                    </div>
-                    
                 </div>
-    
+
                 <ng-template #tolTemplateC>{{toolTipContentC}}</ng-template>
                 <ng-template #tolTemplateN>{{toolTipContentN}}</ng-template>
                 <ng-template #finalSubmitAlert>
@@ -415,43 +328,36 @@
                                 </a>
                             </div>
                         </div>
-    
+
                         <p style="margin-top: 8px;">
                             Are you sure you want to proceed further?
-    
+
                         </p>
                         <p>If you Proceed, no changes could be made in any of the Forms.</p>
                         <div>
                             <button type="button" class="btn btn-secondary " (click)="alertClose()">Stay</button>
-                            <button type="button" class="btn btn-success "
-                                style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+                            <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
                                 Final Submit</button>
                         </div>
-    
+
                     </div>
                 </ng-template>
-    
-    
+
+
                 <div class="subBtnDiv text-center" style="margin-bottom: 40px;">
                     <div>
                         <button class="btn subBtn" (click)="statePreview()">Preview and download</button>
-    
+
                     </div>
                     <div>
-                        <div *ngIf="(loggedInUserType === userTypes.STATE)"
-                            matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
-    
-                            <button mat-raised-button class="subBtn"
-                                [disabled]="!validate || submitted || allStatusStateForms['status'] == 'APPROVED'  "
-                                (click)="finalSubmitClicked(finalSubmitAlert)">{{submitted ? "Submitted" :
+                        <div *ngIf="(loggedInUserType === userTypes.STATE)" matTooltip="Must submit all the Forms before Final Submit" [matTooltipDisabled]="validate">
+
+                            <button mat-raised-button class="subBtn" [disabled]="!validate || submitted || allStatusStateForms['status'] == 'APPROVED'  " (click)="finalSubmitClicked(finalSubmitAlert)">{{submitted ? "Submitted" :
                                 allStatusStateForms['status'] ==
                                 'APPROVED' ? "Approval Completed" : "Submit"}}</button>
                         </div>
-                        <div *ngIf="loggedInUserType === userTypes.MoHUA "
-                            matTooltip="Must submit all the Forms Status before Final Submit"
-                            [matTooltipDisabled]="validate">
-                            <button mat-raised-button class="subBtn" [disabled]="!validate || reviewSubmitted"
-                                (click)=" finalMoHUAAction()">
+                        <div *ngIf="loggedInUserType === userTypes.MoHUA " matTooltip="Must submit all the Forms Status before Final Submit" [matTooltipDisabled]="validate">
+                            <button mat-raised-button class="subBtn" [disabled]="!validate || reviewSubmitted" (click)=" finalMoHUAAction()">
                                 {{reviewSubmitted ? "Submitted Final
                                 Review" : "Submit Final Review"}}</button>
                         </div>
@@ -460,8 +366,7 @@
             </div>
         </div>
 
-        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" [ngClass]="{'sticky-Main' : sticky || stiHieght}"
-            style="width: 82%;">
+        <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 main" [ngClass]="{'stickyMain' : (sticky || stiHieght || sticky2)}" style="width: 82%;">
             <div class="row">
                 <div class="col header1">
                     <h3 class="text-center" style="text-align: center;" *ngIf="loggedInUserType !== userTypes.USER;">

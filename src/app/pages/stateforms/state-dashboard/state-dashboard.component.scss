@@ -4,9 +4,10 @@
     background-color: #12505A;
     border-radius: 5px;
     // margin-right: 2%;
-    width: 230px;
+    width: 250px;
 }
-.grantBtn{
+
+.grantBtn {
     margin-left: 16px;
     margin-bottom: 18px;
     width: 60%;
@@ -29,6 +30,7 @@
 .cards {
     display: flex;
     justify-content: space-around;
+    margin-right:5px;
 }
 
 .card-number {
@@ -84,9 +86,9 @@
 }
 
 .btn {
-    margin-left: 16px;
+    // margin-left: 16px;
     margin-bottom: 18px;
-    width: 100px
+    // width: 100px
 }
 
 .firstColumn {
@@ -166,11 +168,11 @@
 }
 
 .textInThirdColumn {
-  
     text-align: center;
     font-size: 18px;
     font-weight: bold;
     margin-top: 4px;
+    display: block;
 }
 
 .bottomPart {

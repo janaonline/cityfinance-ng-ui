@@ -39,6 +39,11 @@ export class NHomeHeaderComponent implements OnInit {
           this.user = value;
         });
       }
+      if (this.isLoggedIn) {
+        this.btnName = "Logout";
+      } else {
+        this.btnName = "Login for 15th FC Grants";
+      }
     });
 
     // if (this.isLoggedIn) {
@@ -47,23 +52,19 @@ export class NHomeHeaderComponent implements OnInit {
     //   });
     // }
 
-    if (this.isLoggedIn) {
-      this.btnName = "Logout";
-    } else {
-      this.btnName = "Login for 15th FC Grants";
-    }
+
   }
   private accessChecker = new AccessChecker();
   ngOnInit(): void {
-    this.authService.loginLogoutCheck.subscribe((res) => {
-      console.log("loginLogoutCheck", res);
-      if (res) {
-        this.btnName = "Logout";
-      }
-      if (!res) {
-        this.btnName = "Login for 15th FC Grants";
-      }
-    });
+    // this.authService.loginLogoutCheck.subscribe((res) => {
+    //   console.log("loginLogoutCheck", res);
+    //   if (res) {
+    //     this.btnName = "Logout";
+    //   }
+    //   if (!res) {
+    //     this.btnName = "Login for 15th FC Grants";
+    //   }
+    // });
 
     let getTextSize = JSON.parse(localStorage.getItem("myLSkey"));
     if (getTextSize) this.setFontSize(getTextSize.currentTextSize);

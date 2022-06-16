@@ -154,7 +154,7 @@ export class StateformsComponent implements OnInit, AfterViewInit {
     const s = this.renderer2.createElement('script');
     s.type = 'text/javascript';
 
-    s.text = `   
+    s.text = `
       window.JOONBOT_WIDGET_ID = "f846bb00-1359-4196-9ecf-47094ddc04f7";
       window.JB_source = (JSON.parse(localStorage.getItem("userData"))).name;
       var n, o;
@@ -682,32 +682,24 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.elementPosition = this.menuElement.nativeElement.offsetTop;
   }
-
+  sticky2 = false;
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset;
     console.log('scrolllllll', windowScroll, this.elementPosition);
-    if(windowScroll < this.elementPosition){
-      this.sticky = false;
-      this.stiHieght = false;
-    }else 
-    if (windowScroll > this.elementPosition) {
+    if (windowScroll >= this.elementPosition) {
       this.sticky = true;
-      this.stiHieght = false;
-      // if(windowScroll < 500) {
-      //  this.stiHieght = true;
-      //   this.sticky = false;
-      // }else{
-      //   this.sticky = true;
-      //   this.stiHieght = false;
-      // }
-      if(windowScroll >= 200){
-        this.sticky=false
-        this.stiHieght=true;
+      if (windowScroll > 978) {
+        this.sticky2 = true;
+        this.sticky = false;
+      } else {
+        this.sticky = true;
+        this.sticky2 = false;
       }
     } else {
-      this.sticky = true;
+      this.sticky = false;
       this.stiHieght = false;
+      this.sticky2 = false;
     }
   }
 
