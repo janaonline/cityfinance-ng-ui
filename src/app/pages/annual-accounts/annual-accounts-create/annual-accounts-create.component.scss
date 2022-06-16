@@ -1,88 +1,93 @@
 @import "../../../../scss/functions";
 @import "../../../../scss/variables";
 @import "../../../../scss/mixins";
-
 .container {
-  width: 95%;
+    width: 95%;
 }
 
 .radio-group {
-  display: flex;
-  flex-direction: row;
-  //   margin: 10px 0;
-  margin-left: 12px;
+    display: flex;
+    flex-direction: row;
+    //   margin: 10px 0;
+    margin-left: 12px;
 }
 
 .radio-button {
-  margin: 3px;
+    margin: 3px;
 }
+
 .instructions-layout {
-  margin-top: 15px;
-  margin-bottom: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .myFile input[type="file"] {
-  display: block;
-  position: absolute;
-  top: -10px;
-  opacity: 0;
-  font-size: $font-size-base*6.25;
-  filter: alpha(opacity=0);
-  cursor: pointer;
-  width: 94px;
-  height: 38px;
-  left: 100px;
+    display: block;
+    position: absolute;
+    top: -10px;
+    opacity: 0;
+    font-size: $font-size-base*6.25;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    width: 94px;
+    height: 38px;
+    left: 100px;
 }
+
 .myFile input[type="file"]:disabled {
-  cursor: not-allowed;
+    cursor: not-allowed;
 }
 
 .myFile:disabled {
-  cursor: not-allowed !important;
+    cursor: not-allowed !important;
 }
 
 .form-control {
-  width: 210px;
+    width: 210px;
 }
 
 .form-group {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .form-field-layout {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .button-layout {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .icon-layout {
-  margin-left: 10px;
-  font-size: $font-size-base*1;
+    margin-left: 10px;
+    font-size: $font-size-base*1;
 }
 
 .spinner-layout {
-  display: flex;
-  span {
-    margin: 3px;
-  }
+    display: flex;
+    span {
+        margin: 3px;
+    }
 }
 
 .tracking-history-table {
-  thead tr th {
-    background: #047474;
-    color: white;
-  }
-  tbody tr:nth-child(even) {
-    background: #dbdbdb;
-  }
+    thead tr th {
+        background: #047474;
+        color: white;
+    }
+    tbody tr:nth-child(even) {
+        background: #dbdbdb;
+    }
 }
 
-.dwn{
-  display: none;
+.dwn {
+    display: none;
 }
 
-.cursor:hover{
-  cursor: pointer;
+.cursor:hover {
+    cursor: pointer;
+}
+
+.st-f {
+    width: 210px
 }

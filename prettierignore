@@ -1,0 +1,13 @@
+.vscode
+node_modules/
+.env
+bin/
+uploads/
+public/
+.idea
+
+tests/results
+
+*.yml
+*.md
+*.txt
