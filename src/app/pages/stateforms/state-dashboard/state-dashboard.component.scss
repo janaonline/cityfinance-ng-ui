@@ -30,7 +30,7 @@
 .cards {
     display: flex;
     justify-content: space-around;
-    margin-right:5px;
+    margin-right: 5px;
 }
 
 .card-number {
@@ -374,4 +374,8 @@ table {
 
 .mat-card-header-text {
     margin: 0;
+}
+
+.r-m-l {
+    margin-left: -20px;
 }

@@ -1,20 +1,21 @@
 <div class="container-fluid " id="gtallocation" #gtallocation>
-    <div class="row">
-        <div class="col-sm-12" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
-            <a *ngIf="!parentData" (click)="close()" style="position: absolute;z-index:3; right: 2%; top: 14%; cursor: pointer;">
+    <div class="row" [ngClass]="{'header-p':!parentData, 'header-u-p' : parentData }">
+        <div class="col-sm-12 text-end">
+            <a *ngIf="!parentData" (click)="close()" style="cursor: pointer;">
                 <mat-icon aria-hidden="false">
                     <img src="../../../../../assets/form-icon/Icon material-close.svg">
                 </mat-icon>
             </a>
-            <!-- <div class="col-sm-12 heading-p">
+        </div>
+        <!-- <div class="col-sm-12 heading-p">
               Grant Allocation to ULBs
           </div> -->
-            <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
-                <span *ngIf="!parentData">Submissions for 15th FC Grants for FY 2021-22</span>
-                <span *ngIf="parentData">Grant Allocation to ULBs</span>
-                <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
-            </div>
+        <div class="col-sm-12" [ngClass]="{'heading-p':!parentData, 'heading-u-p' : parentData }">
+            <span *ngIf="!parentData">Submissions for 15th FC Grants for FY 2021-22</span>
+            <span *ngIf="parentData">Grant Allocation to ULBs</span>
+            <br *ngIf="!parentData"><b class="sub-h" *ngIf="!parentData">{{stateName}}</b>
         </div>
+
     </div>
     <div class="row st-d">
         <div class="col-sm-6 form-status" *ngIf="!parentData">
