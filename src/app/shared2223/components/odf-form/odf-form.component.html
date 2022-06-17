@@ -1,1 +1,93 @@
-<p>odf-form works! dfghj</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+          <h4 class="form-header">
+            Open Defecation Free (ODF)
+          </h4>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+            <button type="button" class="btn btn-pre">PREVIEW</button>
+        </div>
+    </div>
+    <div class="row mt-4 mb-4 question">
+                <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+                    <span class="fontStyle">(A) Open Defecation Free (ODF) Rating ?<span>*</span>
+                    </span>
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+                    <select name="answers" id="odfs" class="selectDropdown form-control">
+                        <option value="odf">ODF</option>
+                        <option value="odf+">ODF+</option>
+                        <option value="odf++">ODF++</option>
+                        <option value="water+">Water+</option>
+                        <option value="nonOdf">Non ODF</option>
+                        <option value="nonOdf+">Non ODF+</option>
+                        <option value="nonOdf++">Non ODF++</option>
+                      </select>
+                </div>
+    </div>
+    <div class="row mt-4 mb-4 question">
+        <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+            <span class="fontStyle">(B) Upload ODF Certificate ?<span>*</span>
+            </span>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+            <div class="image-upload wrapper">
+                <label for="cin1">
+                    <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
+                         >Upload Pdf
+                        <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="">
+                    </a>
+                </label>
+                <input id="cin1" name="cin1" type="file"
+                    (change)="fileChangeEvent($event, 'millionTiedProgress_2021', 'fileName_millionTied_2021')"
+                    accept=".pdf" />
+       
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-lg-4 col-md-4 iconCenter">
+                    <ng-container>
+                        <a href="{{ millionTiedFileUrl }}" target="_blank">
+                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt=""
+                                style="height: 19px;">
+                        </a>
+                        <span style="cursor:not-allowed;">
+                            <a (click)="clearFiles('fileName_millionTied_2021')"
+                                 style="margin-left: 4px;">
+                                <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                            </a>
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="col-sm-6 col-lg-6 col-md-6">
+                    
+                </div>
+                <div class="col-sm-2 col-lg-2 col-md-2">
+                    
+                </div>
+            </div>
+        </div>
+       
+                
+            
+    </div>
+    <div class="row mt-4 mb-4 question">
+        <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+           <span class="fontStyle">(C) Certification Issue Date ?<span>*</span>
+           </span>
+    </div>
+        <div class="col-sm-6 col-lg-6 col-md-6 q-s">
+           <input type="date" class="inputDate form-control">
+        </div>
+    </div>    
+    <div class="row mb-3">
+        <div class="col-sm-6">
+            <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
+                routerLink='/ulbform/overview'>BACK</button>
+        </div>
+        <div class="col-sm-6 rightText">
+            <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
+               >NEXT</button>
+        </div>
+    </div>  
+</div>

@@ -1,0 +1,96 @@
+.container{
+    width:100%;
+    height:auto;
+}
+
+.form-header{
+    font-family: Roboto,Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.btn-pre{
+    background-color: #059b9a;
+    color: #fff;
+    border-radius: 5px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-size: 12px;
+    margin-top:1rem;
+}
+.btnPrevious{
+    background-color: #059b9a;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 12px;
+    width: 100px;
+}
+.btnPrevious:hover{
+    background-color: #ffc500;
+}
+
+.textEnd{
+    text-align:end;
+}
+.rightText{
+    text-align: end;
+}
+.question{
+    width: 100%;
+    // height: 75px;
+    box-shadow: 2px 4px 5px #cecece;
+}
+.iconCenter{
+    text-align: center;
+}
+.fontStyle{
+    font-weight: 500;
+}
+
+.q-s{
+    padding: 2%;
+}
+.image-upload>input {
+    display: none;
+}
+.btnUpload {
+    background-color: #059b9a;
+    margin-left: 1pc;
+    margin-bottom: 1pc;
+    color: white;
+}
+.abDisable {
+    pointer-events: none;
+}
+.anDisable {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.wrapper {
+    cursor: not-allowed;
+   }
+   .btnUpload:hover {
+    background-color: #ffc500;
+}
+
+.btnUpload:active {
+    background-color: #ffc500;
+}
+.selectDropdown{
+    border-radius: 6px;
+    width: 40%;
+    border: 1px solid gray;
+    -webkit-appearance: listbox !important
+}
+.image-upload img {
+    cursor: pointer;
+}
+.inputDate{
+    border-radius: 6px;
+    width: 40%;
+    border: 1px solid gray;
+}
