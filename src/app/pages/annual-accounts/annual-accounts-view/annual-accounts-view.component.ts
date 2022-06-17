@@ -98,6 +98,7 @@ export class AnnualAccountsViewComponent implements OnInit {
   }
 
   openModal(id) {
+    console.log('iddddddddd', id)
     this.filteredData = null;
     this.canOpen = true;
     const data = this.dataSource.find((item) => item._id == id);
