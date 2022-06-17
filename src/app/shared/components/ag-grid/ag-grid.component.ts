@@ -70,7 +70,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       pinned: true,
-      width: 120,
+      width: 130,
       editable: true,
       tooltipField: "Project_Name",
       tooltipComponent: "customTooltip",
@@ -85,7 +85,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["Cost"].value != null ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
-      width: 100,
+      width: 115,
       pinned: true,
       editable: true,
       tooltipField: "Cost",
@@ -217,7 +217,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Estimated Outcome",
-      width: 140,
+      width: 170,
       editable: true,
       tooltipField: "Estimated_Outcome",
       tooltipComponent: "customTooltip",
@@ -432,7 +432,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
-      width: 150,
+      width: 160,
       editable: true,
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
@@ -617,7 +617,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
-      width: 93,
+      width: 103,
       editable: true,
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
@@ -711,7 +711,7 @@ export class AgGridComponent implements OnInit, OnChanges {
   onGridReady(params) {
     params.api.sizeColumnsToFit();
   }
-  
+
   fundValueChanges(e) {
     if (years.includes(e.colDef.field))
       this.checkValidYearSum(e, this.agGrid2.api, "Cost");
@@ -980,7 +980,7 @@ const checkYear2 = (x, param) => {
       }
     }
   }
-  
+
   val += x;
   val =  Number(val.toFixed(3))
   let cost = param.data.Amount.value;
