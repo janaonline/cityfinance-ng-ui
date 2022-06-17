@@ -505,6 +505,7 @@ export class RevenuechartComponent
 
     if (this.chartData.type == "doughnut") {
       let data = [];
+
       this.dounghnuChartLabels.emit(this.chartData.data["labels"]);
     }
     //dom is fully loaded, but maybe waiting on images & css files
