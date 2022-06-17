@@ -96,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 50;
+            axis.max += 80;
           },
         },
       ],
@@ -134,6 +134,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             var data = dataset.data[index];
             console.log("chartOption Data", data);
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            console.log("chartOption Data 1", bar._model.x, bar._model.y);
           });
         });
         console.log("animation", animation);
@@ -435,7 +436,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   calculatePerCapita(data) {
-  
+
     let totalState = data.hasOwnProperty('compData') ? data?.compData.reduce((sum, val) => sum + val.amount, 0): 0;
     let totalUlb = data.ulbData.reduce((sum, val) => sum + val.amount, 0);
     this.CAGR = `Rs ${Math.round(totalState - totalUlb)} ${
