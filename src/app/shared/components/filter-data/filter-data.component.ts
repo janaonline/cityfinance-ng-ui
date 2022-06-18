@@ -917,25 +917,37 @@ console.log('new Data', newData.data.labels);
           },
         ],
       };
+      this.multiChartLabel = [];
       data[key].forEach((value, index) => {
+        
         console.log("valuueuee", value);
         doughnutChartData.datasets[0].backgroundColor.push(
-          pieBackGroundColor[index]
+          value.colour
         );
         doughnutChartData.datasets[0].data.push(
           value.amount == 0 ? "0.1" : value.amount
         );
+
         if (key != "compData")
+        
           this.multiChartLabel.push({
             text: value._id.lineItem,
-            color: pieBackGroundColor[index],
-          });
+            color: value.colour,
+          } );
         console.log("pieBackGroundColor[index]", pieBackGroundColor[index]);
         doughnutChartData.datasets[0].label = value._id.lineItem;
       });
-      doughnutChartData.labels = this.multiChartLabel.map(
-        (value) => value.text
-      );
+      this.multiChartLabel = this.multiChartLabel.reduce(
+        (res, val) => {
+          if (!res.stack.includes(val.text)) {
+            res.unique.push(val);
+            res.stack.push(val.text);
+          }
+          return res;
+        },
+        { stack: [], unique: [] }
+      ).unique;
+      doughnutChartData.labels = this.multiChartLabel
       let config = {
         type: "doughnut",
         data: doughnutChartData,
@@ -971,16 +983,8 @@ console.log('new Data', newData.data.labels);
       console.log("multipleDoughnutCharts", this.multipleDoughnutCharts);
     }
 
-    this.multiChartLabel = this.multiChartLabel.reduce(
-      (res, val) => {
-        if (!res.stack.includes(val.text)) {
-          res.unique.push(val);
-          res.stack.push(val.text);
-        }
-        return res;
-      },
-      { stack: [], unique: [] }
-    ).unique;
+  
+   
     this.multiPie = true;
   }
 
