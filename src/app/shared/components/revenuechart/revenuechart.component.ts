@@ -505,7 +505,6 @@ export class RevenuechartComponent
 
     if (this.chartData.type == "doughnut") {
       let data = [];
-
       this.dounghnuChartLabels.emit(this.chartData.data["labels"]);
     }
     //dom is fully loaded, but maybe waiting on images & css files
@@ -554,7 +553,7 @@ export class RevenuechartComponent
       this.multipleDoughnutCharts?.length > 0
     ) {
       this.multiChartLabel = [];
-
+      debugger
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
