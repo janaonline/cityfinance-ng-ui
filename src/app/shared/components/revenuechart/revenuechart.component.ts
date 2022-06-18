@@ -553,7 +553,7 @@ export class RevenuechartComponent
       this.multipleDoughnutCharts?.length > 0
     ) {
       this.multiChartLabel = [];
-
+      debugger
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
