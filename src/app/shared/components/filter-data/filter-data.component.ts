@@ -764,8 +764,8 @@ console.log('new Data', newData.data.labels);
       this.mySelectedYears[this.mySelectedYears.length - 1]
     }
 
-    (ULB Own Revenue to Revenue expenditure is ${C.toFixed()}% ;
-    State Own Revenue to Revenue expenditure is ${F.toFixed()}% )`;
+    (ULB Own Revenue to Revenue expenditure is ${C.toFixed(2)}% ;
+    State Own Revenue to Revenue expenditure is ${F.toFixed(2)}% )`;
   }
 
   createExpenditureData(data) {
