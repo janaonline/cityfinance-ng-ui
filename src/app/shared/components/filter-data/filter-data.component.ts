@@ -96,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 80;
+            axis.max += 99;
           },
         },
       ],
