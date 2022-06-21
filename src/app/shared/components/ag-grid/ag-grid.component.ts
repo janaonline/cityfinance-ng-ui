@@ -17,7 +17,7 @@ import { CustomizedHeaderComponent } from "./customized-header/customized-header
   styleUrls: ["./ag-grid.component.scss"],
 })
 export class AgGridComponent implements OnInit, OnChanges {
-  constructor() { }
+  constructor() {}
   @ViewChild("agGrid1") agGrid1: AgGridAngular;
   @ViewChild("agGrid2") agGrid2: AgGridAngular;
   @ViewChild("agGrid3") agGrid3: AgGridAngular;
@@ -48,12 +48,14 @@ export class AgGridComponent implements OnInit, OnChanges {
       pinned: true,
       width: 50,
       field: "index",
-      rowDrag: false
+      rowDrag: false,
     },
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Project_Code"].value != null ? params.data["Project_Code"].value : "",
+        params.data["Project_Code"].value != null
+          ? params.data["Project_Code"].value
+          : "",
       headerName: "Project Code",
       pinned: true,
       width: 180,
@@ -66,11 +68,13 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Project_Name"].value != null ? params.data["Project_Name"].value : "",
+        params.data["Project_Name"].value != null
+          ? params.data["Project_Name"].value
+          : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       pinned: true,
-      width: 120,
+      width: 130,
       editable: true,
       tooltipField: "Project_Name",
       tooltipComponent: "customTooltip",
@@ -85,7 +89,7 @@ export class AgGridComponent implements OnInit, OnChanges {
         params.data["Cost"].value != null ? params.data["Cost"].value : "",
       valueSetter: syncValueSetter(number),
       headerName: "Project Cost",
-      width: 100,
+      width: 115,
       pinned: true,
       editable: true,
       tooltipField: "Cost",
@@ -118,7 +122,6 @@ export class AgGridComponent implements OnInit, OnChanges {
         rows: "6",
       },
       suppressMovable: true,
-
     },
     {
       cellRenderer: "customizedCell",
@@ -178,7 +181,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "New project",
           "Replacing of existing infrastructure",
           "Operation and Maintenance Projects",
-          "Others"
+          "Others",
         ],
       },
       suppressMovable: true,
@@ -204,7 +207,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           "New project",
           "Replacing of existing infrastructure",
           "Operation and Maintenance Projects",
-          "Others"
+          "Others",
         ],
       },
       suppressMovable: true,
@@ -217,7 +220,7 @@ export class AgGridComponent implements OnInit, OnChanges {
           : "",
       valueSetter: syncValueSetter(Area),
       headerName: "Estimated Outcome",
-      width: 140,
+      width: 170,
       editable: true,
       tooltipField: "Estimated_Outcome",
       tooltipComponent: "customTooltip",
@@ -231,7 +234,6 @@ export class AgGridComponent implements OnInit, OnChanges {
       },
       suppressMovable: true,
     },
-
   ];
   fund = [
     {
@@ -249,7 +251,9 @@ export class AgGridComponent implements OnInit, OnChanges {
       cellRenderer: "customizedCell",
 
       valueGetter: (params) =>
-        params.data["Project_Code"].value != null ? params.data["Project_Code"].value : "",
+        params.data["Project_Code"].value != null
+          ? params.data["Project_Code"].value
+          : "",
       headerName: "Project Code",
       pinned: true,
       width: 180,
@@ -263,7 +267,9 @@ export class AgGridComponent implements OnInit, OnChanges {
       cellRenderer: "customizedCell",
 
       valueGetter: (params) =>
-        params.data["Project_Name"].value != null ? params.data["Project_Name"].value : "",
+        params.data["Project_Name"].value != null
+          ? params.data["Project_Name"].value
+          : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       width: 120,
@@ -432,7 +438,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
-      width: 150,
+      width: 160,
       editable: true,
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
@@ -457,7 +463,9 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Project_Code"].value != null ? params.data["Project_Code"].value : "",
+        params.data["Project_Code"].value != null
+          ? params.data["Project_Code"].value
+          : "",
       headerName: "Project Code",
       pinned: true,
       width: 180,
@@ -470,7 +478,9 @@ export class AgGridComponent implements OnInit, OnChanges {
     {
       cellRenderer: "customizedCell",
       valueGetter: (params) =>
-        params.data["Project_Name"].value != null ? params.data["Project_Name"].value : "",
+        params.data["Project_Name"].value != null
+          ? params.data["Project_Name"].value
+          : "",
       valueSetter: syncValueSetter(name),
       headerName: "Project Name",
       width: 130,
@@ -617,7 +627,7 @@ export class AgGridComponent implements OnInit, OnChanges {
       valueSetter: syncValueSetter(checkYear2),
       valueParser: "parseFloat(newValue)",
       headerName: "FY 2025-26",
-      width: 93,
+      width: 103,
       editable: true,
       tooltipField: "2025-26",
       tooltipComponent: "customTooltip",
@@ -655,7 +665,6 @@ export class AgGridComponent implements OnInit, OnChanges {
     this.project[5].cellEditorParams.values = this.ulbList;
 
     this.project[7].cellEditorParams.values = this.catList;
-
 
     this.frameworkComponents = {
       customizedCell: CustomizedCellComponent,
@@ -709,9 +718,9 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 
   onGridReady(params) {
-    params.api.sizeColumnsToFit();
+    // params.api.sizeColumnsToFit();
   }
-  
+
   fundValueChanges(e) {
     if (years.includes(e.colDef.field))
       this.checkValidYearSum(e, this.agGrid2.api, "Cost");
@@ -777,8 +786,10 @@ export class AgGridComponent implements OnInit, OnChanges {
       if (this.rowData.yearOutlay[e.rowIndex]["Cost"].value == "") {
         this.rowData.yearOutlay[e.rowIndex]["Funding"].value = 0;
       } else {
-        this.rowData.yearOutlay[e.rowIndex]["Funding"].value =
-          ((e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) * 100).toPrecision(2);
+        this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
+          (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
+          100
+        ).toPrecision(2);
         if (this.rowData.yearOutlay[e.rowIndex]["Funding"].value % 1 != 0) {
           this.rowData.yearOutlay[e.rowIndex]["Funding"].value = (
             (e.value / this.rowData.yearOutlay[e.rowIndex]["Cost"].value) *
@@ -795,7 +806,7 @@ export class AgGridComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges() { }
+  ngOnChanges() {}
 
   addRow() {
     let s = this.agGrid1.api.getDisplayedRowCount();
@@ -835,10 +846,7 @@ export class AgGridComponent implements OnInit, OnChanges {
   }
 }
 
-const fundAutoFill = [
-  "XV_FC",
-  "Other"
-];
+const fundAutoFill = ["XV_FC", "Other"];
 
 const years = ["2021-22", "2022-23", "2023-24", "2024-25", "2025-26"];
 
@@ -847,8 +855,6 @@ const input = {
   name: { value: "", isEmpty: true, lastValidation: true },
   projectExecute: [
     {
-
-
       index: { value: 1, isEmpty: true, lastValidation: true },
       Project_Code: { value: "", isEmpty: true, lastValidation: true },
       Project_Name: { value: "", isEmpty: true, lastValidation: true },
@@ -946,12 +952,12 @@ const checkYear = (x, param) => {
       ) {
         count++;
         val += data[key].value;
-  val =  Number(val.toFixed(3))
+        val = Number(val.toFixed(3));
       }
     }
   }
   val += x;
-  val =  Number(val.toFixed(3))
+  val = Number(val.toFixed(3));
   let cost = param.data.Cost?.value;
   if (count == 4) {
     return cost == val;
@@ -976,13 +982,13 @@ const checkYear2 = (x, param) => {
       ) {
         count++;
         val += data[key].value;
-        val =  Number(val.toFixed(3))
+        val = Number(val.toFixed(3));
       }
     }
   }
-  
+
   val += x;
-  val =  Number(val.toFixed(3))
+  val = Number(val.toFixed(3));
   let cost = param.data.Amount.value;
   if (count == 4) {
     return cost == val;

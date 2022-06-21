@@ -13,7 +13,7 @@
     margin-bottom: 2rem !important;
     background-color: #FFFFFF;
     box-shadow: 2px 4px 5px 4px #cecece;
-    padding: 15px 15px 15px 15px;
+    //  padding: 15px 15px 15px 15px;
     margin: auto;
 }
 
@@ -80,10 +80,20 @@ label {
     padding: 7px 15px;
     text-decoration: none;
 }
+
 .wrapper {
- cursor: not-allowed;
+    cursor: not-allowed;
 }
+
 .disableCls {
     pointer-events: none;
     opacity: .65;
+}
+
+.u-l-h {
+    padding-left: 2rem;
+}
+
+.f-l {
+    font-size: 18px;
 }

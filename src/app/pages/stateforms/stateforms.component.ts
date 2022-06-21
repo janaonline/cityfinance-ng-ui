@@ -404,21 +404,25 @@ export class StateformsComponent implements OnInit, AfterViewInit {
   res;
 
   getStatus() {
-    console.log('Please check user role', this.userLoggedInDetails.role)
-    if (this.userLoggedInDetails.role === USER_TYPE.MoHUA || this.userLoggedInDetails.role === USER_TYPE.ADMIN || this.userLoggedInDetails.role === USER_TYPE.PARTNER) {
+    console.log("Please check user role", this.userLoggedInDetails.role);
+    if (
+      this.userLoggedInDetails.role === USER_TYPE.MoHUA ||
+      this.userLoggedInDetails.role === USER_TYPE.ADMIN ||
+      this.userLoggedInDetails.role === USER_TYPE.PARTNER
+    ) {
       this.id = sessionStorage.getItem("state_id");
     }
 
     this.stateformsService.getStateForm(this.design_year, this.id).subscribe(
       (res) => {
-        console.log(this.userLoggedInDetails.role)
-        console.log(res)
-        console.log('inside res of getStatus')
-        this.lastRoleInMasterForm = res["data"]['actionTakenByRole'];
+        console.log(this.userLoggedInDetails.role);
+        console.log(res);
+        console.log("inside res of getStatus");
+        this.lastRoleInMasterForm = res["data"]["actionTakenByRole"];
 
-        this.stateformsService.allStatusStateForms.next(res['data']);
+        this.stateformsService.allStatusStateForms.next(res["data"]);
         // this.stateformsService.disableAllFormsAfterStateFinalSubmit.next(res['data']["latestFinalResponse"]['role'])
-        this.role = res["data"]["latestFinalResponse"]['role'];
+        this.role = res["data"]["latestFinalResponse"]["role"];
         if (this.role === "STATE") {
           this.submitted = true;
         } else {
@@ -432,15 +436,15 @@ export class StateformsComponent implements OnInit, AfterViewInit {
         //   this.submitted = !this.submitted;
         // localStorage.setItem("finalSubmitStatus", this.submitted.toString());
         console.log("here");
-
       },
       (err) => {
-        this.stateformsService.allStatusStateForms.next(this.allStatusStateForms);
+        this.stateformsService.allStatusStateForms.next(
+          this.allStatusStateForms
+        );
 
         console.log(err);
       }
     );
-
   }
   finalActionDis = false;
   reviewSubmitted = false;

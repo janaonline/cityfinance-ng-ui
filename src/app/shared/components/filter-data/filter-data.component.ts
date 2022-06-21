@@ -96,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 50;
+            axis.max += 99;
           },
         },
       ],
@@ -134,6 +134,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             var data = dataset.data[index];
             console.log("chartOption Data", data);
             ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            console.log("chartOption Data 1", bar._model.x, bar._model.y);
           });
         });
         console.log("animation", animation);
@@ -435,7 +436,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   calculatePerCapita(data) {
-  
+
     let totalState = data.hasOwnProperty('compData') ? data?.compData.reduce((sum, val) => sum + val.amount, 0): 0;
     let totalUlb = data.ulbData.reduce((sum, val) => sum + val.amount, 0);
     this.CAGR = `Rs ${Math.round(totalState - totalUlb)} ${
@@ -757,14 +758,14 @@ console.log('new Data', newData.data.labels);
       if (key == "ulbData") C = (A / B) * 100;
       else F = (A / B) * 100;
     }
-    this.CAGR = `Own Revenue to Revenue expenditure is ${C - F}% ${
+    this.CAGR = `Own Revenue to Revenue expenditure is ${(C - F).toFixed(2)}% ${
       C > F ? "higher" : "lower"
     } than state average between FY'${this.mySelectedYears[0]} and FY'${
       this.mySelectedYears[this.mySelectedYears.length - 1]
     }
 
-    (ULB Own Revenue to Revenue expenditure is ${C}% ;
-    State Own Revenue to Revenue expenditure is ${F}% )`;
+    (ULB Own Revenue to Revenue expenditure is ${C.toFixed(2)}% ;
+    State Own Revenue to Revenue expenditure is ${F.toFixed(2)}% )`;
   }
 
   createExpenditureData(data) {

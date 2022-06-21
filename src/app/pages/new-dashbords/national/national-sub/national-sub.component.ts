@@ -843,7 +843,7 @@ export class NationalSubComponent implements OnInit {
                   labelString: this.yAxesLabel,
                 },
                 afterDataLimits: function (axis) {
-                  axis.max += 20;
+                  axis.max += 99;
                 },
               },
             ],

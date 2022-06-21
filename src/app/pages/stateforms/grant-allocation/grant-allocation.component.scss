@@ -11,7 +11,7 @@ h5 {
     margin-bottom: 4rem;
     background-color: #FFFFFF;
     box-shadow: 2px 4px 5px #cecece;
-    padding: 10px 6px;
+    padding: 18px 12px;
     margin: auto;
     // text-align: center;
 }
@@ -20,17 +20,17 @@ h5 {
     background-color: #059b9a;
     color: #FFFFFF;
     border-radius: 5px;
-    height: 32px;
+    height: 36px;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .btn-a {
     margin-top: 2rem;
     background-color: #CFCFCF;
     width: 72px;
-    height: 30px;
+    //  height: 30px;
 }
 
 .image-upload>input {
@@ -45,20 +45,20 @@ h5 {
     background-color: #059b9a;
     color: #FFFFFF;
     border-radius: 5px;
-    height: 32px;
+    height: 36px;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .btn-back {
     background-color: #CFCFCF;
     color: #FFFFFF;
     border-radius: 5px;
-    height: 32px;
+    height: 36px;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .btn:hover {
@@ -76,10 +76,8 @@ a.anDisable {
 }
 
 .disabled {
-   
     pointer-events: none;
     opacity: 0.7;
- 
     cursor: not-allowed;
 }
 

@@ -8,7 +8,7 @@
 
 <div class="container-fluid" style="margin-right: 22px;">
 
-    <div class="row cards">
+    <div class="row cards r-m-l">
         <div class="col-sm-3 col-lg-3 col-md-3 card">
             <div class="row">
                 <div class="col-sm-8">
@@ -65,12 +65,11 @@
                 <option value="NonMillionPlusULBs">Non Million Plus ULBs</option>
             </select>
         </div>
-         <div class="col-sm-4" [matTooltip]="grantTooltip"
-        [matTooltipDisabled]="eligibleForGrant">
-            <button class="btn btn-primary" style="margin-top:11px; width:100%" [disabled]="!eligibleForGrant" [routerLink]="['/stateform/grant-claims']" >Claim NMPC-Untied State Grant</button>
+        <div class="col-sm-4" [matTooltip]="grantTooltip" [matTooltipDisabled]="eligibleForGrant">
+            <button class="btn btn-primary" style="margin-top:11px; width:100%" [disabled]="!eligibleForGrant" [routerLink]="['/stateform/grant-claims']">Claim NMPC-Untied State Grant</button>
         </div>
 
-  </div>
+    </div>
     <div class="row statusArea">
         <div class="col-sm-4 firstColumn">
             <div class="row" style="font-size: 23px;
@@ -79,19 +78,14 @@
                 Overall ULB Form Status
             </div>
 
-            <div class="row mainDonutChart"
-                style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;"
-                *ngIf="!noDataFound_Overall">
+            <div class="row mainDonutChart" style="width:100%; height:380px; align-items:center; margin-left: 0; margin-right: 0;" *ngIf="!noDataFound_Overall">
                 <canvas id="myChart"></canvas>
             </div>
             <div style="text-align:center; margin-top:8%">
                 <button class="btn btn-primary" (click)="openDialog()">VIEW LIST</button>
             </div>
-            <div class="row mainDonutChart" *ngIf="noDataFound_Overall"
-                style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
-                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16"
-                    [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true'
-                    [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
+            <div class="row mainDonutChart" *ngIf="noDataFound_Overall" style="height:190px; width:100%; text-align:center;margin-top:3%; margin-left: 2%; ">
+                <circle-progress [percent]="100" [titleColor]="'#ffffff'" [radius]="100" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [showUnits]='false'>
                 </circle-progress>
             </div>
 
@@ -111,10 +105,13 @@
                     <div class="row textInThirdColumn" style="
     margin-bottom:3px; border-bottom: 1px solid #0000001A;justify-content: center;">
                         ULB Annual Accounts Status
-                        <a (click)="openDialogAnnual()" style="margin-left: 5px">
-                            <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
-                        </a>
-                        <div style="color:rgb(143, 150, 157); font-size: 12px; font-weight: normal; text-align: center;"> Based on Overall form Status</div>  
+                        <span>
+                            <a (click)="openDialogAnnual()" style="margin-left: 5px">
+                                <img src="../../../../assets/stateform/clipboard (1).png" width="20px" height="20px">
+                            </a>
+                        </span>
+                        <div style="color:rgb(143, 150, 157); font-size: 12px; font-weight: normal; text-align: center;"> Based on Overall form Status
+                        </div>
                     </div>
                     <div class="row gauge" style="position: relative !important;">
                         <div style="margin-top:7px;text-align: center; font-weight: 450; font-size: 16px;">
@@ -137,13 +134,13 @@
                             </div>
                             <div style="position: relative;
 
-            font-size: 33px;
+            font-size: 32px;
             font-weight: bold;
 
             bottom: 94px;
             width: 100%;
             text-align: center;
-            margin-left: 13px;">
+            margin-left: 21px;">
                                 {{values.annualAcc_provisional}}<small>%</small>
                                 <div style="font-size: 18px;
                 margin-left: -14px;">Completed
@@ -180,13 +177,13 @@
                             </div>
                             <div style="position: relative;
 
-            font-size: 33px;
+            font-size: 32px;
             font-weight: bold;
 
             bottom: 94px;
             width: 100%;
             text-align: center;
-            margin-left: 13px;">
+            margin-left: 21px;">
                                 {{values.annualAcc_audited}}<small>%</small>
                                 <div style="font-size: 18px;
                 margin-left: -14px;">Completed
@@ -224,31 +221,26 @@
 
     </div> -->
                     <div class="row formDonutCharts">
-                        <div class="textInThirdColumn"
-                            style="margin-bottom:3px;height: 73px;border-bottom: 1px solid #0000001A; margin-bottom:5rem;justify-content: center;">
+                        <div class="textInThirdColumn" style="margin-bottom:3px;height: 46px;border-bottom: 1px solid #0000001A; margin-bottom:5rem;justify-content: center;">
                             ULB Utilisation Report Status
-                            <br>
                             <span style="margin-left: 30px;">
                                 <a (click)="openDialogUtil()">
                                     <img src="../../../../assets/stateform/clipboard (1).png" width="22px"
                                         height="22px">
                                 </a>
                             </span>
-                            <div style="color:rgb(143, 150, 157); font-size: 12px; font-weight: normal; text-align: center;"> Based on Overall form Status</div>  
+                            <div style="color:rgb(143, 150, 157); font-size: 12px; font-weight: normal; text-align: center;">
+                                Based on Overall form Status</div>
                         </div>
                         <div class="row" style="width: 100%;
                         align-items: center;
                         height: 364px;
-                        padding: 0%;"
-                            *ngIf="!noDataFound_util">
+                        padding: 0%;" *ngIf="!noDataFound_util">
                             <canvas id="utilReport"></canvas>
                         </div>
-                        <div class="row smallDonuts" *ngIf="noDataFound_util"
-                            style="text-align:right; margin-top: -7%;">
-                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16"
-                                [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300"
-                                [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13"
-                                [titleFontWeight]="550" [showUnits]='false'>
+                        <div class="row smallDonuts" *ngIf="noDataFound_util" style="text-align:right; margin-top: -7%;">
+                            <circle-progress [percent]="100" [radius]="67" [outerStrokeWidth]="16" [outerStrokeColor]="'#f2f2f2'" [animation]="true" [animationDuration]="300" [showTitle]='true' [title]="'No Data Found'" [showSubtitle]='false' [titleFontSize]="13" [titleFontWeight]="550"
+                                [showUnits]='false'>
                             </circle-progress>
                         </div>
 
@@ -415,8 +407,7 @@
     <div class="row bottomPart" style="margin-top: 4%;">
         <div class="col-sm-6" style="border-right:1px solid #0000001A ;">
             <div class="row">
-                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City
-                    Challenge Fund</div>
+                <div class="col-sm-8 textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Million Plus City Challenge Fund</div>
 
                 <div class=" col-sm-4" style="border-bottom: 1px solid #0000001A; border-right:1px solid #0000001A;">
 
@@ -445,8 +436,7 @@
                 font-size: 30px;
                 margin-top: 12%;">
                     Not Applicable</div>
-                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
-                    *ngIf="!noDataFound_millionSLB && isMillionPlusState ">
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_millionSLB && isMillionPlusState ">
                     <canvas id="mpcf"></canvas>
 
                 </div>
@@ -455,9 +445,7 @@
         <div class="col-sm-6">
             <div class="row">
 
-                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions
-                    for
-                    Non-Million ULBs
+                <div class="textInThirdColumn" style="border-bottom: 1px solid #0000001A;"> Performance Conditions for Non-Million ULBs
                     <span style="margin-left: 16%;">
                         <a (click)="openDialogNonMillion()">
                             <img src="../../../../assets/stateform/clipboard (1).png" width="22px" height="22px"
@@ -477,8 +465,7 @@
                 <div *ngIf="noDataFound_nonMillionSLB" style="text-align: center;
                 font-size: 30px;
                 margin-top: 12%;">No Data Found</div>
-                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; "
-                    *ngIf="!noDataFound_nonMillionSLB">
+                <div style="width:90%; height:183px; align-items:center; margin-top: 1%; " *ngIf="!noDataFound_nonMillionSLB">
                     <canvas id="nmpcf"></canvas>
 
                 </div>
@@ -503,14 +490,10 @@
 
                     <div class="col-sm-5" style="margin-top:15px; display:flex;justify-content: space-evenly;">
 
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
-                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}"
-                            src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
+                        <img [ngStyle]="{'opacity': rejuvenationPlans ? 1 : 0.5}" src="../../../../assets/stateform/nature.svg">
 
 
                     </div>

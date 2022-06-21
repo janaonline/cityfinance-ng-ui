@@ -850,7 +850,7 @@ export class OwnRevenueDashboardComponent implements OnInit {
                       beginAtZero: true,
                     },
                     afterDataLimits: function (axis) {
-                      axis.max += 20;
+                      axis.max += 99;
                     },
                   },
                 ],
