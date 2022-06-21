@@ -28,6 +28,16 @@
     font-size: 12px;
     width: 100px;
 }
+.btnDraft{
+    background-color: #059b9a;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 7%;
+}
+.previousText{
+    text-align: end;
+}
 .submitClass{
     text-align: end;
 }
@@ -43,8 +53,9 @@
 }
 .btnClass{
     border: 1px solid gray;
-    height: 35px;
+    height: 31px;
     background-color: aliceblue;
+    font-size: 14px;
 }
 .btn2 {
     background-color: #059b9a;

@@ -87,13 +87,14 @@
        </span>
 </div>
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-       <input type="date" class="inputDate form-control" formControlName="certDate" min="2021-01-01">
+       <input type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
     </div>
 </div>    
 <div class="row">
     <div class="col-sm-6 col-lg-6 col-md-6">
     </div>
-    <div class="col-sm-6 col-lg-6 col-md-6">
+    <div class="col-sm-6 col-lg-6 col-md-6 previousText">
+        <button type="submit" class="btn btnDraft">Save as Draft</button>
         <button type="submit" [disabled]="!profileForm.valid" class="btn btnClass">Submit</button>
     </div>
 </div>
@@ -101,11 +102,11 @@
     <div class="row mb-3 mt-4">
         <div class="col-sm-6">
             <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
-                routerLink='/ulbform/overview'>BACK</button>
+                routerLink='/ulbform/overview'><- Previous</button>
         </div>
         <div class="col-sm-6 rightText">
             <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
-               >NEXT</button>
+               >Next -></button>
         </div>
     </div>      
 </div>

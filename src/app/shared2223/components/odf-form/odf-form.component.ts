@@ -10,9 +10,14 @@ import { SweetAlert } from "sweetalert/typings/core";
   styleUrls: ['./odf-form.component.scss']
 })
 export class OdfFormComponent implements OnInit {
-
+  date = new Date();
+  now;
   constructor(private dataEntryService: DataEntryService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) { 
+      this.date.setDate( this.date.getDate() );
+      this.date.setFullYear( this.date.getFullYear() - 1 );
+      this.now = new Date(this.date).toISOString().slice(0, 10);
+    }
 
   ratings=[
   {
