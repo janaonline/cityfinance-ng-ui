@@ -46,11 +46,15 @@ export class StateDashboardComponent extends BaseComponent implements OnInit {
       const { id } = val;
       if (id) {
         this.id = id;
-        console.log('state dashboard', id)
-        sessionStorage.setItem('state_id', id);
+        console.log("state d", id);
+        sessionStorage.setItem("state_id", id);
       }
     });
-
+  //  console.log("state d id", this.id);
+    if (!this.id) {
+      this.id = sessionStorage.getItem("state_id");
+    }
+ //   console.log("state d id2", this.id);
   }
   id
   states = null;
@@ -70,7 +74,7 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
   // if((secondInstallment['percentage'] >= secondInstallment['cutoff']) && secondInstallment['gtcSubmitted']){
   //   this.eligibleForGrant = true
   // }
- 
+
 })
 
     this.stateDashboardService.closeDialog.subscribe((form) => {
@@ -79,7 +83,7 @@ this.stateDashboardService.getEligibilityNMPC(this.id).subscribe(res=>{
     })
     this.onLoad();
     window.onload = () => {
-    
+
       this.updateCharts();
       this.selectedUA();
     };
@@ -717,8 +721,8 @@ if(this.maindonughtChart){
 
   updateCharts() {
     this.mainDonughtChart();
-    
-    
+
+
     this.gaugeChart1();
     this.gaugeChart2();
     this.constChart();
@@ -727,11 +731,11 @@ if(this.maindonughtChart){
     this.utilReportDonughtChart();
     this.pieChartNonMillion();
     this.pieChartMillion();
-    
-    
+
+
 
      // this.pfmsDonughtChart();
-  
+
     // this.slbDonughtChart();
 
   }
