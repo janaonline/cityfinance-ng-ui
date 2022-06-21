@@ -553,7 +553,7 @@ export class RevenuechartComponent
       this.multipleDoughnutCharts?.length > 0
     ) {
       this.multiChartLabel = [];
-
+      debugger
       for (let index = 0; index < this.multipleDoughnutCharts.length; index++) {
         const element = this.multipleDoughnutCharts[index];
         id = element?.id + index;
@@ -2200,7 +2200,7 @@ export class RevenuechartComponent
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 50;
+            axis.max += 80;
           },
         },
       ],
@@ -2223,23 +2223,23 @@ export class RevenuechartComponent
       onComplete: function (animation) {
         var chartInstance = this.chart,
           ctx = chartInstance.ctx;
-        ctx.fillStyle = "#6E7281";
-        ctx.font = Chart.helpers.fontString(
-          Chart.defaults.global.defaultFontSize,
-          Chart.defaults.global.defaultFontStyle,
-          Chart.defaults.global.defaultFontFamily
-        );
-        ctx.textAlign = "center";
-        ctx.textBaseline = "bottom";
-        this.data.datasets.forEach(function (dataset, i) {
-          var meta = chartInstance.controller.getDatasetMeta(i);
-          if (meta.type == "line") return true;
-          meta.data.forEach(function (bar, index) {
-            var data = dataset.data[index];
-            console.log("chartOption Data", data);
-            ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+          ctx.fillStyle = "#6E7281";
+          ctx.font = Chart.helpers.fontString(
+            Chart.defaults.global.defaultFontSize,
+            Chart.defaults.global.defaultFontStyle,
+            Chart.defaults.global.defaultFontFamily
+          );
+          ctx.textAlign = "center";
+          ctx.textBaseline = "bottom";
+          this.data.datasets.forEach(function (dataset, i) {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            if (meta.type == "line") return true;
+            meta.data.forEach(function (bar, index) {
+              var data = dataset.data[index];
+              console.log("chartOption Data", data);
+              ctx.fillText("₹ " + data, bar._model.x, bar._model.y - 5);
+            });
           });
-        });
         console.log("animation", animation);
       },
     },

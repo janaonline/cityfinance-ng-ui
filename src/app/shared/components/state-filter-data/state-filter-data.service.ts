@@ -53,7 +53,7 @@ export class StateFilterDataService {
             },
           },
           afterDataLimits: function (axis) {
-            axis.max += 5;
+            axis.max += 10;
           },
         },
       ],
@@ -72,7 +72,7 @@ export class StateFilterDataService {
           // currentValue = currentValue > 0 ? (currentValue / 10000000).toFixed(2) : 0;
           // return new Intl.NumberFormat("en-IN").format(currentValue);
           // return currentValue;
-          return `₹ ${currentValue} Cr.`
+          return `₹ ${currentValue} Cr.`;
         },
       },
     },
@@ -137,7 +137,7 @@ export class StateFilterDataService {
             },
           },
           afterDataLimits: function (axis) {
-            axis.max += 5;
+            axis.max += 10;
           },
         },
       ],
@@ -156,7 +156,7 @@ export class StateFilterDataService {
           console.log("currentValue", currentValue);
           // return new Intl.NumberFormat("en-IN").format(currentValue);
           // return currentValue;
-          return `₹ ${currentValue} Lakh`
+          return `₹ ${currentValue} Lakh`;
         },
       },
     },
@@ -319,7 +319,7 @@ export class StateFilterDataService {
             },
           },
           afterDataLimits: function (axis) {
-            axis.max += 5;
+            axis.max += 10;
           },
         },
       ],
