@@ -22,31 +22,38 @@ export class OdfFormComponent implements OnInit {
   ratings=[
   {
    value:'odf',
-   name:'ODF'
+   name:'ODF',
+   id:'dasdasdsada23423432'
   },
   {
     value:'odf+',
-    name:'ODF+'
+    name:'ODF+',
+    id:'dasdasdsada23423432'
    },
    {
     value:'odf++',
-    name:'ODF++'
+    name:'ODF++',
+    id:'dasdasdsada23423432'
    },
    {
     value:'water+',
-    name:'Water+'
+    name:'Water+',
+    id:'dasdasdsada23423432'
    },
    {
     value:'nonOdf',
-    name:'Non ODF'
+    name:'Non ODF',
+    id:'dasdasdsada23423432'
    },
    {
     value:'nonOdf+',
-    name:'Non ODF+'
+    name:'Non ODF+',
+    id:'dasdasdsada23423432'
    },
    {
     value:'nonOdf++',
-    name:'Non ODF++'
+    name:'Non ODF++',
+    id:'dasdasdsada23423432'
    }]
    odfUrl=''   
    change=''
@@ -68,21 +75,55 @@ export class OdfFormComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-
+  year;
+  yearValue;
   profileForm = this.fb.group({
-    rating: ['odf', Validators.required],
+    rating: ['', Validators.required],
     cert: ['', Validators.required],
-    certDate: ['', Validators.required]
+    certDate: ['', Validators.required],
+    ulb:'dasdas',
+    year: '',
+    status:'PENDING',
+    isDraft:false,
+    isGfc:false
   });
-
+  ulbId;
+  ulb;
+  ngOnInit(): void {
+    this.year = JSON.parse(localStorage.getItem("Years"));
+    this.ulbId = JSON.parse(localStorage.getItem("userData"));
+    for(var i in this.year){
+     if(i == '2022-23'){
+     this.yearValue = this.year[i];
+     this.profileForm.patchValue({
+       year: this.yearValue
+     })
+     }
+    }
+   this.ulb = this.ulbId?.ulb
+   this.profileForm.patchValue({
+    ulb: this.ulb
+  })
+  }
+  errorMessege:any=''
   onSubmit() {
     console.warn(this.profileForm.value);
   }
+ 
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
   }
   fileChangeEvent(event, progessType, fileName) {
+    if(event.target.files[0].size >= 5000000){
+     this.errorMessege='File size should be less than 5mb.'
+     this.profileForm.controls.cert.reset();
+     const error =  setTimeout(()=>{
+      this.showIcon =false 
+      this.errorMessege=''
+     },4000);
+     return ;
+    }
     this.odfFileName = fileName;
     if(this.odfFileName){
       this.showIcon =true      
@@ -137,11 +178,9 @@ apiData={}
     return new Promise((resolve, reject) => {
       this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
         (s3Response) => {
-          const fileAlias = s3Response["data"][0]["file_alias"];
-          console.log(fileAlias)
+          let fileAlias = s3Response["data"][0]["file_alias"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
           const s3URL = s3Response["data"][0].url;
-          console.log(s3URL)
           this.uploadFileToS3(
             file,
             s3URL,
@@ -163,6 +202,7 @@ apiData={}
       );
     })
   }
+  subscription:any;
   private uploadFileToS3(
     file: File,
     s3URL: string,
@@ -170,17 +210,15 @@ apiData={}
     fileIndex: number,
     progressType: string = ''
   ) {
-    console.log(file);
-    this.dataEntryService
+    this.subscription =  this.dataEntryService
       .uploadFileToS3(file, s3URL)
       .subscribe(
         (res) => {
-          console.log(res)
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
-            console.log(fileAlias)
             if (progressType == 'odfProgress') {
               this.odfUrl = fileAlias;
+              this.profileForm.patchValue({cert:fileAlias});
             } 
             
           }
@@ -190,8 +228,4 @@ apiData={}
         }
       );
   }
-  ngOnInit(): void {
-  }
- 
-  
 }
