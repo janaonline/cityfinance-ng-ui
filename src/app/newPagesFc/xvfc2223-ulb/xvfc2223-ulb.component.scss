@@ -13,7 +13,8 @@
     font-weight: 600;
 }
 
-.link-div:hover {
+.link-div:hover,
+.link-div.active {
     background-color: #FFFFFF;
     .linktext {
         margin-top: 8px;

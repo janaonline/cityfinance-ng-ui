@@ -10,8 +10,8 @@ export class NewCommonService {
 
   getULBLeftMenu() {
     return this.http.get(
-      // `${environment.api.url}?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
-      `https://democityfinanceapi.dhwaniris.in/api/v1?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
+      `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
+      // `https://democityfinanceapi.dhwaniris.in/api/v1?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
     );
   }
 }
