@@ -51,6 +51,7 @@ export class OdfFormComponent implements OnInit {
    odfUrl=''   
    change=''
    odfFileName=''
+   odfProgress;
    showIcon:boolean=false;
    filesToUpload: Array<File> = [];
    filesAlreadyInProcess: number[] = [];
@@ -169,7 +170,6 @@ apiData={}
     fileIndex: number,
     progressType: string = ''
   ) {
-    debugger
     console.log(file);
     this.dataEntryService
       .uploadFileToS3(file, s3URL)

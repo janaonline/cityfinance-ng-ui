@@ -10,8 +10,6 @@ if (window.location.hostname.includes("new-cityfinance.dhwaniris.in")) {
   GoogleTagID = "UA-171288029-2";
 } else if (window.location.hostname.includes("staging")) {
   url = "https://staging.cityfinance.in/api/v1/";
-} else if (window.location.hostname.includes("new-cityfinance.dhwaniris.in")) {
-  url = " https://newcityfinanceapi.dhwaniris.in/api/v1/";
 } else if (
   window.location.hostname.includes("demo") ||
   window.location.hostname.includes("localhost")

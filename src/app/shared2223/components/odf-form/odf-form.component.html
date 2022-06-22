@@ -43,6 +43,7 @@
                           </label>
                         <input formControlName="cert" id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -80,10 +81,15 @@
         </div> -->
     </div> 
     <div class="row" *ngIf="showIcon">
-        <div class="col-sm-6 col-md-6 col-lg-6 filePadding mb-3">
+        <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
             {{odfFileName}}
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 filePadding">
+        <div class="col-sm-4 col-md-4 col-sm-4">
+            <div class="progress-bar" *ngIf="odfProgress" role="progressbar" attr.aria-valuenow="{{ odfProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: odfProgress + '%' }">
+                {{ odfProgress }}%
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 filePadding textClass">
             <a href="{{ odfUrl }}" target="_blank">
                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
             </a>
