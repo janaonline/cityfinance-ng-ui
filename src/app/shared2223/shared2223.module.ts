@@ -5,8 +5,9 @@ import { GfcFormComponent } from "./components/gfc-form/gfc-form.component";
 import { FooterBtnComponent } from "./components/footer-btn/footer-btn.component";
 import { MatIconModule } from "@angular/material/icon";
 import { ReactiveFormsModule } from "@angular/forms";
+import { CommonFileUploadComponent } from './components/common-file-upload/common-file-upload.component';
 @NgModule({
-  declarations: [OdfFormComponent, GfcFormComponent, FooterBtnComponent],
+  declarations: [OdfFormComponent, GfcFormComponent, FooterBtnComponent, CommonFileUploadComponent],
   imports: [CommonModule, MatIconModule, ReactiveFormsModule],
   exports: [OdfFormComponent],
 })
