@@ -96,7 +96,7 @@ export class FilterDataComponent implements OnInit, OnChanges, AfterViewInit {
             beginAtZero: true,
           },
           afterDataLimits: function (axis) {
-            axis.max += 80;
+            axis.max += 99;
           },
         },
       ],
@@ -758,14 +758,14 @@ console.log('new Data', newData.data.labels);
       if (key == "ulbData") C = (A / B) * 100;
       else F = (A / B) * 100;
     }
-    this.CAGR = `Own Revenue to Revenue expenditure is ${C - F}% ${
+    this.CAGR = `Own Revenue to Revenue expenditure is ${(C - F).toFixed(2)}% ${
       C > F ? "higher" : "lower"
     } than state average between FY'${this.mySelectedYears[0]} and FY'${
       this.mySelectedYears[this.mySelectedYears.length - 1]
     }
 
-    (ULB Own Revenue to Revenue expenditure is ${C}% ;
-    State Own Revenue to Revenue expenditure is ${F}% )`;
+    (ULB Own Revenue to Revenue expenditure is ${C.toFixed(2)}% ;
+    State Own Revenue to Revenue expenditure is ${F.toFixed(2)}% )`;
   }
 
   createExpenditureData(data) {
