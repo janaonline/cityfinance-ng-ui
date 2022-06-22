@@ -48,18 +48,10 @@ export class OdfFormComponent implements OnInit {
     value:'nonOdf++',
     name:'Non ODF++'
    }]
-   flag = 0;
-   stateActionA = '';
-   stateActionB = '';
-   stateActionC = '';
-   rejectReasonA = null;
-   rejectReasonB = null;
-   millionTiedFileUrl = '';
-   nonMillionTiedFileUrl = '';
+   odfUrl=''   
    change=''
-   submitted = false;
-   millionTiedProgress_2021;
-   millionTiedFileUrl_2021 = '';
+   odfFileName=''
+   showIcon:boolean=false;
    filesToUpload: Array<File> = [];
    filesAlreadyInProcess: number[] = [];
    fileProcessingTracker: {
@@ -75,11 +67,6 @@ export class OdfFormComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  clickedCrossB = false
-  clickedCrossA = false
-  fileName_millionTied = '';
-  millionTiedProgress;
-  fileName_millionTied_2021 = '';
 
   profileForm = this.fb.group({
     rating: ['odf', Validators.required],
@@ -95,37 +82,22 @@ export class OdfFormComponent implements OnInit {
     this.change = "true";
   }
   fileChangeEvent(event, progessType, fileName) {
-    console.log(event)
-    console.log(progessType)
-    console.log(fileName)
-
-    this.submitted = false;
-    this.resetFileTracker();
+    this.odfFileName = fileName;
+    if(this.odfFileName){
+      this.showIcon =true      
+    }else{
+      this.showIcon =false      
+    }
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
     this.upload(progessType, fileName);
   }
-  
-  clearFiles(fileName) {
-    sessionStorage.setItem("changeInGTC", "true")
-    this.change = "true"
-    if (fileName == 'fileName_millionTied') {
-      this.clickedCrossB = true
-      this.millionTiedProgress = '';
-      this.fileName_millionTied = '';
-      this.millionTiedFileUrl = ''
-    }else if(fileName == 'fileName_millionTied_2021'){
-      this.clickedCrossA = true
-      this.millionTiedProgress_2021 = '';
-      this.fileName_millionTied_2021 = '';
-      this.millionTiedFileUrl_2021 = ''
-    }
-  }
-  resetFileTracker() {
-    this.filesToUpload = [];
-    this.filesAlreadyInProcess = [];
-    this.fileProcessingTracker = {};
-    this.fileUploadTracker = {};
+  clearFile(){
+    this.showIcon =false 
+    this.odfFileName=''
+    this.profileForm.patchValue({
+      cert:''
+    })
   }
 
   filterInvalidFilesForUpload(filesSelected: File[]) {
@@ -160,8 +132,6 @@ apiData={}
     }
   }
 
-  stateActionA_2021 = '';
-  rejectReasonA_2021 = null;
   uploadFile(file: File, fileIndex: number, progessType, fileName) {
     return new Promise((resolve, reject) => {
       this.dataEntryService.getURLForFileUpload(file.name, file.type).subscribe(
@@ -178,17 +148,7 @@ apiData={}
             fileIndex,
             progessType
           );
-          resolve("success")
-          console.log('file url', fileAlias)
-          console.log(file.name)
-          console.log(file.type)
-          if (fileName === 'fileName_millionTied') {
-            this.stateActionA = 'PENDING';
-            this.rejectReasonA = null
-          } else if (fileName === 'fileName_millionTied_2021') {
-            this.stateActionA_2021 = 'PENDING';
-            this.rejectReasonA_2021 = null
-          }
+          resolve("success")  
         },
         (err) => {
           if (!this.fileUploadTracker[fileIndex]) {
@@ -209,8 +169,8 @@ apiData={}
     fileIndex: number,
     progressType: string = ''
   ) {
-    console.log(file)
-    console.log(s3URL)
+    debugger
+    console.log(file);
     this.dataEntryService
       .uploadFileToS3(file, s3URL)
       .subscribe(
@@ -219,13 +179,9 @@ apiData={}
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
             console.log(fileAlias)
-            if (progressType == 'millionTiedProgress') {
-              this.millionTiedFileUrl = fileAlias;
-            } else if (progressType == 'nonMillionTiedProgress') {
-              this.nonMillionTiedFileUrl = fileAlias;
-            }  else if (progressType == 'millionTiedProgress_2021') {     
-              this.millionTiedFileUrl_2021 = fileAlias;
-            }
+            if (progressType == 'odfProgress') {
+              this.odfUrl = fileAlias;
+            } 
             
           }
         },
