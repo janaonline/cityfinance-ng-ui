@@ -4,6 +4,7 @@ import { FormBuilder, FormControl ,FormGroup, Validators,} from '@angular/forms'
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
+import { NewCommonService } from '../../services/new-common.service';
 @Component({
   selector: 'app-odf-form',
   templateUrl: './odf-form.component.html',
@@ -12,52 +13,19 @@ import { SweetAlert } from "sweetalert/typings/core";
 export class OdfFormComponent implements OnInit {
   date = new Date();
   now;
+  noRating: boolean;
   constructor(private dataEntryService: DataEntryService,
-    private fb: FormBuilder) { 
+    private formBuilder: FormBuilder,private commonService :NewCommonService) { 
       this.date.setDate( this.date.getDate() );
       this.date.setFullYear( this.date.getFullYear() - 1 );
       this.now = new Date(this.date).toISOString().slice(0, 10);
     }
 
-  ratings=[
-  {
-   value:'odf',
-   name:'ODF',
-   id:'dasdasdsada23423432'
-  },
-  {
-    value:'odf+',
-    name:'ODF+',
-    id:'dasdasdsada23423432'
-   },
-   {
-    value:'odf++',
-    name:'ODF++',
-    id:'dasdasdsada23423432'
-   },
-   {
-    value:'water+',
-    name:'Water+',
-    id:'dasdasdsada23423432'
-   },
-   {
-    value:'nonOdf',
-    name:'Non ODF',
-    id:'dasdasdsada23423432'
-   },
-   {
-    value:'nonOdf+',
-    name:'Non ODF+',
-    id:'dasdasdsada23423432'
-   },
-   {
-    value:'nonOdf++',
-    name:'Non ODF++',
-    id:'dasdasdsada23423432'
-   }]
+   uploadDeclaration:boolean=false
+   uploadCertificate:boolean=true
    odfUrl=''   
    change=''
-   odfFileName=''
+   odfFileName;
    odfProgress;
    showIcon:boolean=false;
    filesToUpload: Array<File> = [];
@@ -76,20 +44,29 @@ export class OdfFormComponent implements OnInit {
     };
   } = {};
   year;
+  ratings;
   yearValue;
-  profileForm = this.fb.group({
-    rating: ['', Validators.required],
-    cert: ['', Validators.required],
-    certDate: ['', Validators.required],
-    ulb:'dasdas',
-    year: '',
-    status:'PENDING',
-    isDraft:false,
-    isGfc:false
-  });
+  draft = true;
   ulbId;
   ulb;
+  errorMessege:any='';
+  dropdownValues:any;
+  profileForm: FormGroup;
+  submitted = false;
+  body;
   ngOnInit(): void {
+    
+    this.profileForm = this.formBuilder.group({
+      rating: ['', Validators.required],
+      cert: ['', Validators.required],
+      certDate: ['', Validators.required],
+      ulb:'',
+      year: '',
+      status:'PENDING',
+      isDraft: this.draft,
+      isGfc:false
+    });
+
     this.year = JSON.parse(localStorage.getItem("Years"));
     this.ulbId = JSON.parse(localStorage.getItem("userData"));
     for(var i in this.year){
@@ -104,12 +81,49 @@ export class OdfFormComponent implements OnInit {
    this.profileForm.patchValue({
     ulb: this.ulb
   })
-  }
-  errorMessege:any=''
-  onSubmit() {
-    console.warn(this.profileForm.value);
+  this.commonService.getOdfRatings().subscribe((res:any)=>{
+   console.log(res)
+   this.ratings=res.data
+   this.dropdownValues = res.data.map(a=>a.name)
+   console.log(this.dropdownValues)
+  })
   }
  
+  get f() { return this.profileForm.controls; }
+
+  onSubmit(type) {
+    this.submitted = true;
+    console.log(this.profileForm)
+      this.draft = false; 
+      this.profileForm.patchValue({
+        isDraft: this.draft
+      })
+
+    if (this.profileForm.invalid) {
+      return;
+     }
+    
+    console.warn(this.profileForm.value);
+    this.body = this.profileForm.value
+  }
+  onDraft(){
+    console.log(this.profileForm.value);
+  }
+  onChange(item){
+    if(item == '1: 62b2e4c79a6c781a28150d73'){
+      this.uploadDeclaration = true
+      this.uploadCertificate=false;
+      this.noRating = true;
+      this.profileForm.get('certDate').clearValidators();
+      this.profileForm.get('certDate').updateValueAndValidity();
+    }else{
+      this.uploadDeclaration = false
+      this.uploadCertificate = true
+      this.noRating = false;
+      this.profileForm.get('certDate').setValidators([Validators.required]);
+
+    }
+  }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
@@ -124,7 +138,7 @@ export class OdfFormComponent implements OnInit {
      },4000);
      return ;
     }
-    this.odfFileName = fileName;
+    this.odfFileName = event.target.files[0].name;
     if(this.odfFileName){
       this.showIcon =true      
     }else{
@@ -132,7 +146,7 @@ export class OdfFormComponent implements OnInit {
     }
     const filesSelected = <Array<File>>event.target["files"];
     this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
-    this.upload(progessType, fileName);
+    this.upload(progessType, this.odfFileName);
   }
   clearFile(){
     this.showIcon =false 

@@ -2,29 +2,35 @@
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
           <h4 class="form-header">
-            Open Defecation Free (ODF)
+            Open Defecation Free (ODF) {{noRating}}
           </h4>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
             <button type="button" class="btn btn-pre">PREVIEW</button>
         </div>
     </div>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <!-- (ngSubmit)="onSubmit()" -->
+    <form [formGroup]="profileForm"  class="formShadow">
         <div class="row mt-4 mb-4 question">
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
                 <span class="fontStyle">(A) Open Defecation Free (ODF) Rating ?<sup>*</sup>
                 </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                  <select formControlName="rating" class="selectDropdown form-control">
+                  <select [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
                     <option value="" selected disabled>Select Rating</option>
-                    <option *ngFor="let item of ratings" [ngValue]="item.id">{{ item.name }}</option>
+                    <option *ngFor="let item of ratings" [ngValue]="item._id">{{ item.name }}</option>
                   </select>
+                  <div *ngIf="submitted && f.rating.errors" class="invalid-feedback">
+                    <div *ngIf="f.rating.errors.required">Rating is required</div>
+                </div>
             </div>
         </div>
         <div class="row mt-4 mb-4 question">
          <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-            <span class="fontStyle">(B) Upload ODF Certificate ?<sup>*</sup>
+            <span class="fontStyle" *ngIf="uploadCertificate">(B) Upload ODF Certificate ?<sup>*</sup>
+            </span>
+            <span class="fontStyle" *ngIf="uploadDeclaration">(B) Upload Declaration ?<sup>*</sup>
             </span>
         </div>
         <div class="col-sm-6 col-lg-6 col-md-6 q-s">
@@ -106,21 +112,24 @@
     </div>     
 </div>
 
-<div class="row mt-4 mb-4 question">
+<div class="row mt-4 mb-4 question" *ngIf="uploadCertificate">
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
        <span class="fontStyle">(C) Certification Issue Date ?<sup>*</sup>
        </span>
 </div>
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-       <input type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
+       <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
+       <div *ngIf="submitted && f.certDate.errors" class="invalid-feedback">
+        <div *ngIf="f.certDate.errors.required">Date is required</div>
+    </div>
     </div>
 </div>    
 <div class="row">
-    <div class="col-sm-6 col-lg-6 col-md-6">
+    <div class="col-sm-6">
     </div>
     <div class="col-sm-6 col-lg-6 col-md-6 previousText">
-        <button type="submit" class="btn btnDraft">Save as Draft</button>
-        <button type="submit" [disabled]="!profileForm.valid" class="btn btnClass">Submit</button>
+        <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
+        <button type="submit" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
     </div>
 </div>
     </form>

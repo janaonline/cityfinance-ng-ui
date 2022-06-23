@@ -14,4 +14,10 @@ export class NewCommonService {
       // `https://democityfinanceapi.dhwaniris.in/api/v1?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
     );
   }
+  
+  getOdfRatings(){
+    return this.http.get(
+      `${environment.api.url}ratings`
+    )
+  }
 }
