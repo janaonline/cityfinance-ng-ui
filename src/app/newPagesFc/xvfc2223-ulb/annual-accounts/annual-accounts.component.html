@@ -39,16 +39,37 @@
                     </div>
                     <div class="col-sm-4">
                         <div id="checkboxes">
-                            <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data.unAudited.submit_annual_accounts" (change)="answer('q1',true)" />
+                            <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.unAudited?.submit_annual_accounts" (change)="answer('q1', true)" />
                             <label class="btn btn-y" for="btnUnaudit">
                              Yes
                             </label>
-                            <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data.unAudited.submit_annual_accounts == false" (change)="answer('q1',false)" />
+                            <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data?.unAudited?.submit_annual_accounts == false" (change)="answer('q1', false)" />
                             <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnaudit2">
                               No
                             </label>
                         </div>
-                        <span class="text-danger" *ngIf="answerError.unAudited.submit_annual_accounts">Select Yes or No</span>
+                        <span class="text-danger" *ngIf="answerError?.unAudited?.submit_annual_accounts">Select Yes or No</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" style="padding-left: 2.5rem; margin-bottom: 1.5rem;">
+                        <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                            <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                        </mat-icon> - PDFs are mandatory and Excels are Optional.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
+                        <div *ngFor="let item of unAuditQues; let quesIndex=index">
+                            <ng-container>
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type">
+                                </app-common-file-upload>
+                            </ng-container>
+                            <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
+                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
+                                {{pdfError}}</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,18 +90,40 @@
                     </div>
                     <div class="col-sm-4">
                         <div id="checkboxes">
-                            <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data.unAudited.submit_annual_accounts" (change)="answer('q1',true)" />
+                            <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.audited?.submit_annual_accounts" (change)="answer('q1',true)" />
                             <label class="btn btn-y" for="btnUnaudit">
                            Yes
                           </label>
-                            <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data.unAudited.submit_annual_accounts == false" (change)="answer('q1',false)" />
+                            <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data?.audited?.submit_annual_accounts == false" (change)="answer('q1',false)" />
                             <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnaudit2">
                             No
                           </label>
                         </div>
-                        <span class="text-danger" *ngIf="answerError.unAudited.submit_annual_accounts">Select Yes or No</span>
+                        <span class="text-danger" *ngIf="answerError?.audited?.submit_annual_accounts">Select Yes or No</span>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12" style="padding-left: 2.5rem; margin-top: .5rem; margin-bottom: 1.5rem;">
+                        <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
+                            <img src="../../../../assets/ulbform/info_black_24dp.svg">
+                        </mat-icon> - PDFs are mandatory and Excels are Optional.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
+                        <div *ngFor="let item of auditQues; let quesIndex=index">
+                            <ng-container>
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type">
+                                </app-common-file-upload>
+                            </ng-container>
+                            <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
+                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
+                              {{pdfError}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 

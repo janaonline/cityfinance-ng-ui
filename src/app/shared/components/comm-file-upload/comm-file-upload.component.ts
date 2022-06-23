@@ -4,8 +4,8 @@ import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.servic
 import { HttpEventType, JsonpClientBackend } from "@angular/common/http";
 import { UserUtility } from "src/app/util/user/user";
 import { USER_TYPE } from "src/app/models/user/userType";
-import { SweetAlert } from "sweetalert/typings/core";
 import { UlbformService } from "src/app/pages/ulbform/ulbform.service";
+import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
 
 
