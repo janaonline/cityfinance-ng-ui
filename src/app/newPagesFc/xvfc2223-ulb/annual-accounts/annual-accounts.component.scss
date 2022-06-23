@@ -1,0 +1,72 @@
+.header2 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 20px;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+.header1 {
+    font-family: Roboto, Medium;
+    color: #373737;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-left: .70%;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.secDiv {
+    background-color: #124A55;
+}
+
+.square {
+    width: 100%;
+    height: 30px;
+    background-color: #DBDBDB;
+}
+
+#checkboxes input[type=radio] {
+    display: none;
+}
+
+#checkboxes input[type=radio]:checked+.square {
+    background-color: #124A55;
+    color: white;
+}
+
+#checkboxes input[type=radio]:checked+.btn {
+    background-color: #ffc500;
+    color: white;
+}
+
+#checkboxes2 input[type=radio] {
+    display: none;
+}
+
+#checkboxes2 input[type=radio]:checked+.square {
+    background-color: #124A55;
+    color: white;
+}
+
+#checkboxes2 input[type=radio]:checked+.btn {
+    background-color: #ffc500;
+    color: white;
+}
+
+#checkboxes input[type=radio]:checked+.cross {
+    background-color: #fde184;
+    color: white;
+}
+
+#checkboxes2 input[type=radio]:checked+.cross {
+    background-color: #fde184;
+    color: white;
+}
+
+.btn-y,
+.btn-n {
+    // width: 72px;
+    background-color: #CFCFCF;
+    padding: .3rem 1rem;
+}
