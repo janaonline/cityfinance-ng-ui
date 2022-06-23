@@ -158,8 +158,8 @@ export class DynamicSubLearningComponent implements OnInit {
        which the property tax will increase and the criteria that will be used for deciding extent of
         increase. Ideally, for ease of administration, property tax should be increased periodically,
         to reflect latest guidance values published by the State, and consequent re-assessments.
-        <br> A <a href="../../../../../assets/excelfile/Property_tax_modelling_odisha.xlsx" target="_blank"> simulation of revision of values and rationalising property tax </a>periodically, shows potential to 
-        increase revenues - to meet with expenses towards creation of infrastructure to sustain urban developmen`,
+        <br> A <a href="../../../../../assets/excelfile/Property_tax_modelling_odisha.xlsx" target="_blank"> simulation of revision of values and rationalising property tax </a>periodically, shows potential to
+        increase revenues - to meet with expenses towards creation of infrastructure to sustain urban development.`,
       ],
       imgArr: [
         {
