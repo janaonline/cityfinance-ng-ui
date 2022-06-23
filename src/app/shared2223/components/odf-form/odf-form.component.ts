@@ -116,7 +116,7 @@ export class OdfFormComponent implements OnInit {
   }
   fileChangeEvent(event, progessType, fileName) {
     if(event.target.files[0].size >= 5000000){
-     this.errorMessege='File size should be less than 5mb.'
+     this.errorMessege='File size should be less than 5Mb.'
      this.profileForm.controls.cert.reset();
      const error =  setTimeout(()=>{
       this.showIcon =false 
