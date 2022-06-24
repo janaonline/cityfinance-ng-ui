@@ -136,11 +136,13 @@ export class Xvfc2223UlbComponent implements OnInit {
   // };
   leftMenu: any;
   constructor(private newCommonService: NewCommonService) {
-    this.getSideBar();
+ //  this.getSideBar();
   }
 
   ngOnInit(): void {
     console.log("left responces..", this.leftMenu);
+    this.leftMenu = JSON.parse(localStorage.getItem('leftMenuRes'));
+    console.log("left responces..1", this.leftMenu);
   }
   getSideBar() {
     this.newCommonService.getULBLeftMenu().subscribe((res: any) => {
