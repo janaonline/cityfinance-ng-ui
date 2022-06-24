@@ -21,12 +21,14 @@
     font-size: 12px;
     margin-top:1rem;
 }
+.fileName{
+    padding-left: 51%;
+}
 .btnPrevious{
     background-color: #059b9a;
     color: #fff;
     border-radius: 5px;
     font-size: 12px;
-    width: 100px;
 }
 .btnDraft{
     background-color: #059b9a;
@@ -60,10 +62,13 @@
     color:white;
 }
 .errorMessege{
-    color: red;
+    color: #dc3545;
+    font-size: smaller;
 }
 .filePadding{
     padding-left: 23px;
+    font-style: italic;
+    width: auto;
 }
 .textClass{
     text-align: center;
@@ -121,10 +126,8 @@
     cursor: not-allowed;
     opacity: 0.5;
 }
-.wrapper {
-    cursor: not-allowed;
-   }
-   .btnUpload:hover {
+
+.btnUpload:hover {
     background-color: #ffc500;
 }
 
@@ -169,7 +172,15 @@
 .btnUpload:active {
     background-color: #ffc500;
 }
-
+.errorText{
+    margin-top: 3%;
+}
+.customDate{
+    width: max-content;
+    color: #dc3545;
+    font-size: 15px;
+    margin-top: -26px;
+}
 .card-body {
     padding: 5px 8px;
     height: auto;
@@ -242,9 +253,6 @@
     font-size: 12px;
 }
 
-.wrapper {
-    cursor: not-allowed;
-}
 
 .pr-btn {
     background-color: #059b9a;

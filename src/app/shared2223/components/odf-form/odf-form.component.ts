@@ -1,6 +1,7 @@
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl ,FormGroup, Validators,} from '@angular/forms';
+import { debug } from 'console';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
@@ -43,7 +44,7 @@ export class OdfFormComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
-  year;
+  design_year;
   ratings;
   yearValue;
   draft = true;
@@ -54,6 +55,7 @@ export class OdfFormComponent implements OnInit {
   profileForm: FormGroup;
   submitted = false;
   body;
+  isGfc;
   ngOnInit(): void {
     
     this.profileForm = this.formBuilder.group({
@@ -61,19 +63,20 @@ export class OdfFormComponent implements OnInit {
       cert: ['', Validators.required],
       certDate: ['', Validators.required],
       ulb:'',
-      year: '',
+      design_year: '',
       status:'PENDING',
       isDraft: this.draft,
       isGfc:false
     });
-
-    this.year = JSON.parse(localStorage.getItem("Years"));
+    this.isGfc=this.profileForm.value.isGfc
+    console.log(this.isGfc)
+    this.design_year = JSON.parse(localStorage.getItem("Years"));
     this.ulbId = JSON.parse(localStorage.getItem("userData"));
-    for(var i in this.year){
+    for(var i in this.design_year){
      if(i == '2022-23'){
-     this.yearValue = this.year[i];
+     this.yearValue = this.design_year[i];
      this.profileForm.patchValue({
-       year: this.yearValue
+      design_year: this.yearValue
      })
      }
     }
@@ -82,10 +85,8 @@ export class OdfFormComponent implements OnInit {
     ulb: this.ulb
   })
   this.commonService.getOdfRatings().subscribe((res:any)=>{
-   console.log(res)
    this.ratings=res.data
    this.dropdownValues = res.data.map(a=>a.name)
-   console.log(this.dropdownValues)
   })
   }
  
@@ -93,7 +94,6 @@ export class OdfFormComponent implements OnInit {
 
   onSubmit(type) {
     this.submitted = true;
-    console.log(this.profileForm)
       this.draft = false; 
       this.profileForm.patchValue({
         isDraft: this.draft
@@ -104,10 +104,24 @@ export class OdfFormComponent implements OnInit {
      }
     
     console.warn(this.profileForm.value);
-    this.body = this.profileForm.value
+    this.body = this.profileForm.value;
+    this.commonService.odfSubmitForm(this.body).subscribe((res:any)=>{
+      console.log('success!!!!!!!!!!!!!',res)
+    })
+    const params = new HttpParams({
+      fromString: `ulb=${this.ulb}&design_year=${this.design_year}&isGfc=${this.isGfc}`
+    });
+    this.commonService.getOdfFormData(params).subscribe((res)=>{
+      console.log(res)
+    })
+
   }
   onDraft(){
-    console.log(this.profileForm.value);
+      console.log(this.profileForm.value);
+      this.body = this.profileForm.value;
+      this.commonService.odfSubmitForm(this.body).subscribe((res:any)=>{
+        console.log('successDraftttt!!!!!!!!!!!!!',res)
+      })
   }
   onChange(item){
     if(item == '1: 62b2e4c79a6c781a28150d73'){
@@ -121,7 +135,6 @@ export class OdfFormComponent implements OnInit {
       this.uploadCertificate = true
       this.noRating = false;
       this.profileForm.get('certDate').setValidators([Validators.required]);
-
     }
   }
   uploadButtonClicked(formName) {

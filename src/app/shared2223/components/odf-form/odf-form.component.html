@@ -2,14 +2,13 @@
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
           <h4 class="form-header">
-            Open Defecation Free (ODF) {{noRating}}
+            Open Defecation Free (ODF)
           </h4>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
             <button type="button" class="btn btn-pre">PREVIEW</button>
         </div>
     </div>
-    <!-- (ngSubmit)="onSubmit()" -->
     <form [formGroup]="profileForm"  class="formShadow">
         <div class="row mt-4 mb-4 question">
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
@@ -21,8 +20,10 @@
                     <option value="" selected disabled>Select Rating</option>
                     <option *ngFor="let item of ratings" [ngValue]="item._id">{{ item.name }}</option>
                   </select>
-                  <div *ngIf="submitted && f.rating.errors" class="invalid-feedback">
-                    <div *ngIf="f.rating.errors.required">Rating is required</div>
+                <div>
+                    <div *ngIf="submitted && f.rating.errors" class="invalid-feedback">
+                        <div *ngIf="f.rating.errors.required">Rating is required</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,9 +38,8 @@
          <div class="row">   
             <div class="col-lg-5 col-md-5 col-sm-5">
                 <div class="row">
-                    <div  class="col-lg-4 col-md-4 col-sm-4 image-upload wrapper" style="padding: 0;">
+                    <div  class="col-lg-4 col-md-4 col-sm-4 image-upload">
                         <label for="cin1">
-                        <!-- upload button -->
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
                           >Upload
                           Pdf
@@ -50,54 +50,26 @@
                           <p class="errorMessege">{{errorMessege}}</p>
                           </label>
                         <input  id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
-                    </div>
-                    
+                        <div>
+                            <div *ngIf="submitted && f.cert.errors" class="customDate">
+                                <div *ngIf="f.cert.errors.required">File is required</div>
+                            </div>
+                        </div>  
+                    </div>          
                 </div>
             </div>
         </div>
-        <!-- <span style="color: red;" *ngIf="millionTiedFileUrl_2021 == '' && submitted">
-                  Please upload file*
-        </span>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="row">
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <label for="" class="f-url" style="margin-right: 3px; font-weight: normal;" *ngIf="fileName_millionTied_2021">{{fileName_millionTied_2021}}</label>
-                    </div>
-                   
-                    <div class="col-sm-6 col-lg-6 col-md-6 ml-2" style="width: 50%;">
-                        <div class="progress-bar" *ngIf="millionTiedProgress_2021" role="progressbar" attr.aria-valuenow="{{ millionTiedProgress_2021 }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: millionTiedProgress_2021 + '%' }">
-                            {{ millionTiedProgress_2021 }}%
-                        </div>
-                    </div>
-                    <div class="col-sm-2 col-lg-2 col-md-2" style="width: auto;">
-                        <ng-container>
-                            <a href="{{ millionTiedFileUrl_2021 }}" target="_blank">
-                                <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
-                            </a>
-                            <span style="cursor:not-allowed;">
-                            <a (click)="clearFiles('fileName_millionTied_2021')"
-                              style="margin-left: 4px;">
-                              <img src="../../../../assets/form-icon/close-red-icon.png" alt=""
-                              style="height: 13px;">
-                            </a>
-                            </span>
-                        </ng-container>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div> 
-    <div class="row" *ngIf="showIcon">
+    <div class="row fileName" *ngIf="showIcon">
         <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
             {{odfFileName}}
         </div>
-        <div class="col-sm-4 col-md-4 col-sm-4">
+        <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="progress-bar" *ngIf="odfProgress" role="progressbar" attr.aria-valuenow="{{ odfProgress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: odfProgress + '%' }">
                 {{ odfProgress }}%
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 filePadding textClass">
+        <div class="col-sm-4 col-md-4 col-lg-4 filePadding">
             <a href="{{ odfUrl }}" target="_blank">
                 <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
             </a>
@@ -116,12 +88,15 @@
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
        <span class="fontStyle">(C) Certification Issue Date ?<sup>*</sup>
        </span>
-</div>
+    </div>
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
        <input [ngClass]="{ 'is-invalid': submitted && f.certDate.errors }" type="date" class="inputDate form-control" [min]="now" formControlName="certDate" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]">
-       <div *ngIf="submitted && f.certDate.errors" class="invalid-feedback">
-        <div *ngIf="f.certDate.errors.required">Date is required</div>
-    </div>
+       <div>
+           <div *ngIf="submitted && f.certDate.errors" class="invalid-feedback">
+              <div *ngIf="f.certDate.errors.required">Date is required
+              </div>
+           </div>
+       </div>
     </div>
 </div>    
 <div class="row">
@@ -136,11 +111,11 @@
     <div class="row mb-3 mt-4">
         <div class="col-sm-6">
             <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
-                routerLink='/ulbform/overview'><- Previous</button>
+                routerLink='/ulbform/overview'><- Previous Form</button>
         </div>
         <div class="col-sm-6 rightText">
             <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
-               >Next -></button>
+               >Next Form -></button>
         </div>
     </div>      
 </div>
