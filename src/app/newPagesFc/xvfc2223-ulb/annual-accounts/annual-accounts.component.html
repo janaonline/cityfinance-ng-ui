@@ -37,7 +37,7 @@
                           <b>(A) Do you wish to submit Provisional Accounts for {{dateShow}} ?<span style="color: red;">*</span></b>
                         </span>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="" [ngClass]="data?.unAudited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
                         <div id="checkboxes">
                             <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.unAudited?.submit_annual_accounts" (change)="answer('q1', true)" />
                             <label class="btn btn-y" for="btnUnaudit">
@@ -51,7 +51,7 @@
                         <span class="text-danger" *ngIf="answerError?.unAudited?.submit_annual_accounts">Select Yes or No</span>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
                     <div class="col-sm-12" style="padding-left: 2.5rem; margin-bottom: 1.5rem;">
                         <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
                             <img src="../../../../assets/ulbform/info_black_24dp.svg">
@@ -72,6 +72,110 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" *ngIf="data.unAudited.submit_annual_accounts">
+                    <div class="row mt-3 mb-3">
+                        <div class="col-sm-8">
+
+                            <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
+                                ?</b>
+                        </span>
+                        </div>
+                        <div [ngClass]="data?.unAudited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
+                            <div id="checkboxes2">
+                                <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="data.unAudited.submit_standardized_data" (change)="answer('q2',true)" />
+                                <label class="btn btn-y" for="btnUnauditB">
+                                Yes
+                            </label>
+                                <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="data.unAudited.submit_standardized_data == false" (change)="answer('q2',false)" id="btnUnauditB2" />
+                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2">
+                                No
+                            </label>
+                            </div>
+                            <span class="text-danger" *ngIf="answerError?.unAudited?.submit_standardized_data">Select Yes or
+                            No</span>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="data.unAudited.submit_standardized_data">
+                        <div class="col-sm-12 ms-3" style="">
+                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                                  Download Template
+                              </a>
+                            <button (click)="ques21.click()" class="btn btn-primary ms-3">Upload EXCEL
+                                  <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+                                      data-height="16"></span>
+                              </button>
+                            <input #ques21 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unAudited')" type="file" accept=".xls, .xlsx" #file>
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+                                <div class="row">
+                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
+                                              {{uploadErrors.unAudited.standardized_data.error}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row allupload">
+                            <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-4 col-md-4">
+                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.unAudited.standardized_data?.excel?.name">
+                                              {{data.unAudited.standardized_data?.excel?.name}}</label>
+                                    </div>
+                                    <div *ngIf="uploadErrors.unAudited.standardized_data.progress" class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
+                                        <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
+                                            {{ uploadErrors.unAudited.standardized_data.progress }}%
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
+                                        <ng-container>
+                                            <div *ngIf="data.unAudited.standardized_data?.excel?.url">
+                                                <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
+                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                                </a>
+                                                <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
+                                                    <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                                </a>
+                                            </div>
+
+                                            <div *ngIf="uploadErrors.unAudited.standardized_data.error">
+                                                <a>
+                                                    <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                                </a>
+                                                <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
+                                                    <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                                </a>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ms-3">
+                                <span class="text-primary">
+                                      <b>Self declaration by the Executive officer/Municipal
+                                          Commissioner of the ULB on the standardised financial statements uploaded
+                                          above.</b><br>
+                                      I hereby confirm that I have verified the information uploaded in
+                                      standardized template and it is true and correct.
+                                      It is confirmed that this information can be made available for public consumption on
+                                      the CityFinance portal.
+                                  </span>
+                            </div>
+                            <div class="col-sm-12 ms-3">
+                                <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled && data.unAudited.submit_annual_accounts && provisionDisable" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
+                                <label style="margin-left: 1ch;" for="agree"> I Agree</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -88,21 +192,21 @@
                         <b>(A) Do you wish to submit Audited Accounts for {{dateShow}} ?<span style="color: red;">*</span></b>
                         </span>
                     </div>
-                    <div class="col-sm-4">
-                        <div id="checkboxes">
-                            <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.audited?.submit_annual_accounts" (change)="answer('q1',true)" />
-                            <label class="btn btn-y" for="btnUnaudit">
-                           Yes
-                          </label>
-                            <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data?.audited?.submit_annual_accounts == false" (change)="answer('q1',false)" />
-                            <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnaudit2">
+                    <div class="" [ngClass]="data?.audited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
+                        <div id="checkboxes2">
+                            <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
+                            <label class="btn btn-y" for="btnAudit">
+                            Yes
+                        </label>
+                            <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1',false,true)" />
+                            <label class="btn btn-n" style="margin-left: 1rem;" for="btnAudit2">
                             No
-                          </label>
+                        </label>
                         </div>
                         <span class="text-danger" *ngIf="answerError?.audited?.submit_annual_accounts">Select Yes or No</span>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
                     <div class="col-sm-12" style="padding-left: 2.5rem; margin-top: .5rem; margin-bottom: 1.5rem;">
                         <mat-icon aria-hidden="false" style="width: 16px;height: 16px;">
                             <img src="../../../../assets/ulbform/info_black_24dp.svg">

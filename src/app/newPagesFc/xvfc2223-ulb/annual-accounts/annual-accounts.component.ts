@@ -185,7 +185,7 @@ export class AnnualAccountsComponent implements OnInit {
         declaration: null,
       },
       audit_status: "Audited",
-      submit_annual_accounts: true,
+      submit_annual_accounts: null,
       submit_standardized_data: null,
       year: this.Years["2020-21"],
     },

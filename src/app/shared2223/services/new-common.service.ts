@@ -8,10 +8,10 @@ import { environment } from "./../../../environments/environment";
 export class NewCommonService {
   constructor(private http: HttpClient, private snackbar: MatSnackBar) {}
 
-  getULBLeftMenu() {
+  getULBLeftMenu(ulbId, role, isUA) {
     return this.http.get(
-      `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
-      // `https://democityfinanceapi.dhwaniris.in/api/v1?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
+      // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
+      `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=${isUA}`
     );
   }
 }
