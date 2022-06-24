@@ -21,19 +21,19 @@ export class AnnualAccountsComponent implements OnInit {
   unAuditQues = [
     { name: "Balance Sheet", error: false, data: null, type: "file" },
     {
-      name: "Please enter total amount of Assets (INR in lakhs)",
+      name: "Please enter total amount of Assets",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of Fixed Assets (INR in lakhs)",
+      name: "Please enter total amount of Fixed Assets",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of State Grants received (INR in lakhs)",
+      name: "Please enter total amount of State Grants received",
       error: false,
       data: null,
       type: "input",
@@ -185,7 +185,7 @@ export class AnnualAccountsComponent implements OnInit {
         declaration: null,
       },
       audit_status: "Audited",
-      submit_annual_accounts: true,
+      submit_annual_accounts: null,
       submit_standardized_data: null,
       year: this.Years["2020-21"],
     },

@@ -133,7 +133,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
-      this.getSideBar();
+      this.getSideBar(res["user"]);
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
 
@@ -305,8 +305,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   passwordUser(user) {
     this.commonService.setUser(false, user);
   }
-  getSideBar() {
-    this.newCommonService.getULBLeftMenu().subscribe((res: any) => {
+  getSideBar(userData) {
+    let ulbId = userData?.ulb;
+    let role = userData?.role
+    let isUA = false;
+    if(userData?.isUA == 'Yes'){
+      isUA = true;
+    }else {
+      isUA = false;
+    }
+    this.newCommonService.getULBLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
       console.log("left responces..", res);
       localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
       //  this.leftMenu = res;
