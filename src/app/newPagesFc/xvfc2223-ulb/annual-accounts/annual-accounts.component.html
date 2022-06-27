@@ -1,4 +1,4 @@
-<div class="row header mt-3">
+<div class="row ms-0 me-0 header mt-3">
     <div class="col-sm-8 col-lg-8 col-md-8 header2">
         <span>Annual Accounts</span>
     </div>
@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-primary" style="margin-top: 1rem;" id="prevBtn">PREVIEW</button>
     </div>
 </div>
-<div class="row" id="checkboxes">
+<div class="row ms-0 me-0" id="checkboxes">
     <div class="col-sm-6">
         <input type="radio" name="rGroup" value="1" id="r1" (change)="changeAudit('Unaudited')" [checked]="true" />
         <label class="square header1 text-center" for="r1">
@@ -27,7 +27,7 @@
     </div>
 
 </div>
-<div class="row" *ngIf="audit_status == 'Unaudited'">
+<div class="row m-0" *ngIf="audit_status == 'Unaudited'">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
@@ -62,7 +62,7 @@
                     <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
                         <div *ngFor="let item of unAuditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type">
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)">
                                 </app-common-file-upload>
                             </ng-container>
                             <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
@@ -107,9 +107,9 @@
                               </button>
                             <input #ques21 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'unAudited')" type="file" accept=".xls, .xlsx" #file>
                         </div>
-                        <div class="row allupload">
+                        <div class="row">
                             <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
-                                <div class="row">
+                                <div class="row ms-2">
                                     <div class="col-sm-6 col-lg-6 col-md-6">
                                         <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.unAudited.standardized_data.error">
                                               {{uploadErrors.unAudited.standardized_data.error}}</label>
@@ -117,42 +117,38 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row allupload">
-                            <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
-                                <div class="row">
-                                    <div class="col-sm-4 col-lg-4 col-md-4">
-                                        <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.unAudited.standardized_data?.excel?.name">
+                        <div class="row allupload ms-2 mt-3 mb-3">
+                            <div class="col-sm-5 col-lg-5 col-md-5">
+                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.unAudited.standardized_data?.excel?.name">
                                               {{data.unAudited.standardized_data?.excel?.name}}</label>
-                                    </div>
-                                    <div *ngIf="uploadErrors.unAudited.standardized_data.progress" class="col-sm-6 col-lg-6 col-md-6" style="padding: 0;">
-                                        <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
-                                            {{ uploadErrors.unAudited.standardized_data.progress }}%
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-2 col-lg-2 col-md-2" style="padding: 0;">
-                                        <ng-container>
-                                            <div *ngIf="data.unAudited.standardized_data?.excel?.url">
-                                                <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
-                                                    <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
-
-                                                </a>
-                                                <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
-                                                    <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
-                                                </a>
-                                            </div>
-
-                                            <div *ngIf="uploadErrors.unAudited.standardized_data.error">
-                                                <a>
-                                                    <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
-                                                </a>
-                                                <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
-                                                    <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
-                                                </a>
-                                            </div>
-                                        </ng-container>
-                                    </div>
+                            </div>
+                            <div *ngIf="uploadErrors.unAudited.standardized_data.progress" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
+                                <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.unAudited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.unAudited.standardized_data.progress + '%' }">
+                                    {{ uploadErrors.unAudited.standardized_data.progress }}%
                                 </div>
+                            </div>
+
+                            <div class="col-sm-2 col-lg-2 col-md-2" style="">
+                                <ng-container>
+                                    <div *ngIf="data.unAudited.standardized_data?.excel?.url">
+                                        <a href="{{ data.unAudited.standardized_data?.excel?.url }}" target="_blank">
+                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                        </a>
+                                        <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
+                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                        </a>
+                                    </div>
+
+                                    <div *ngIf="uploadErrors.unAudited.standardized_data.error">
+                                        <a>
+                                            <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                        </a>
+                                        <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.unAudited.standardized_data.file,'unAudited')" style="margin-left: 3px;">
+                                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                        </a>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
 
@@ -182,7 +178,7 @@
     </div>
 
 </div>
-<div class="row" *ngIf="audit_status == 'Audited'">
+<div class="row m-0" *ngIf="audit_status == 'Audited'">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
@@ -217,7 +213,7 @@
                     <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
                         <div *ngFor="let item of auditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type">
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)">
                                 </app-common-file-upload>
                             </ng-container>
                             <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
@@ -227,10 +223,126 @@
                         </div>
                     </div>
                 </div>
+                <div class="row" *ngIf="data.audited.submit_annual_accounts">
+                    <div class="row mt-3 mb-3">
+                        <div class="col-sm-8">
+
+                            <span class="quesIn"><b>(B) Do you wish to submit financials in Standardized Format for {{dateShow}}
+                              ?</b>
+                      </span>
+                        </div>
+                        <div [ngClass]="data?.audited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
+                            <div id="checkboxes2">
+                                <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
+                                <label class="btn btn-y" for="btnUnauditB">
+                              Yes
+                          </label>
+                                <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',true,true)" id="btnUnauditB2" />
+                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2">
+                              No
+                          </label>
+                            </div>
+                            <span class="text-danger" *ngIf="answerError?.audited?.submit_standardized_data">Select Yes or
+                          No</span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3" *ngIf="data.audited.submit_standardized_data">
+                        <div class="col-sm-12 ms-3" style="">
+                            <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
+                                Download Template
+                            </a>
+                            <button (click)="ques2.click()" class="btn btn-primary ms-3">Upload EXCEL
+                                <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
+                                    data-height="16"></span>
+                            </button>
+                            <input #ques2 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'audited')" type="file" accept=".xls, .xlsx" #file>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 5px; ">
+                                <div class="row ms-2">
+                                    <div class="col-sm-6 col-lg-6 col-md-6">
+                                        <label class='text-danger' style="margin-right: 5px; font-weight: normal;" *ngIf="uploadErrors.audited.standardized_data.error">
+                                            {{uploadErrors.audited.standardized_data.error}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row allupload ms-2 mt-3 mb-3">
+                            <div class="col-sm-5 col-lg-5 col-md-5">
+                                <label for="" style="margin-right: 5px; font-weight: normal;" *ngIf="data.audited.standardized_data?.excel?.name">
+                                            {{data.audited.standardized_data?.excel?.name}}</label>
+                            </div>
+                            <div *ngIf="uploadErrors.audited.standardized_data.progress" class="col-sm-4 col-lg-4 col-md-4" style="padding: 0;">
+                                <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ uploadErrors.audited.standardized_data.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: uploadErrors.audited.standardized_data.progress + '%' }">
+                                    {{ uploadErrors.audited.standardized_data.progress }}%
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2 col-lg-2 col-md-2" style="">
+                                <ng-container>
+                                    <div *ngIf="data.audited.standardized_data?.excel?.url">
+                                        <a href="{{ data.audited.standardized_data?.excel?.url }}" target="_blank">
+                                            <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
+
+                                        </a>
+                                        <a [ngClass]="{cross: isDisabled && data.audited.submit_annual_accounts && provisionDisable}" (click)="clearFile('audited')" style="margin-left: 3px;">
+                                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
+                                        </a>
+                                    </div>
+
+                                    <div *ngIf="uploadErrors.audited.standardized_data.error">
+                                        <a>
+                                            <img src="../../../../assets/form-icon/warning.png" alt="" style="margin-left: 1px; height: 19px;">
+                                        </a>
+                                        <a [ngClass]="{cross: isDisabled && data.audited.submit_annual_accounts && provisionDisable}" (click)="fileChangeEvent(uploadErrors.audited.standardized_data.file,'audited')" style="margin-left: 3px;">
+                                            <img src="../../../../assets/form-icon/refresh.png" alt="" style="height: 13px;">
+                                        </a>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 ms-3">
+                                <span class="text-primary">
+                                <b>Self declaration by the Executive officer/Municipal
+                                  Commissioner of the ULB on the standardised financial statements uploaded
+                                  above.</b><br>
+                              I hereby confirm that I have verified the information uploaded in
+                              standardized template and it is true and correct.
+                              It is confirmed that this information can be made available for public consumption on
+                              the CityFinance portal.
+                                </span>
+                            </div>
+                            <div class="col-sm-12 ms-3">
+                                <input type="checkbox" id="agree" [checked]="data.audited.standardized_data.declaration" [disabled]="isDisabled && data.audited.submit_annual_accounts && provisionDisable" (change)="declareCheck(data.audited.standardized_data)" name="agree" value=true>
+                                <label style="margin-left: 1ch;" for="agree"> I Agree</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
         </div>
 
     </div>
 
+</div>
+<!-- <div class="row ms-0 me-0 mt-3">
+    <div class="col-sm-12 text-end">
+        <button class="btn btn-primary">Save As Draft</button>
+        <button class="btn btn-primary ms-3">Submit</button>
+    </div>
+</div> -->
+<div class="row ms-0 me-0 mt-4 mb-3">
+    <div class="col-sm-6">
+        <button class="btn btn-c-back"><- Previous</button>
+    </div>
+    <div class="col-sm-6 text-end">
+        <button class="btn btn-primary" (click)="formSave('draft')">Save As Draft</button>
+        <button class="btn btn-primary ms-3" (click)="formSave('save')">Submit</button>
+        <button class="btn btn-c-next ms-3">Next -></button>
+    </div>
 </div>

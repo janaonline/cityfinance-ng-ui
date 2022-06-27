@@ -1,8 +1,10 @@
 import { HttpEventType } from "@angular/common/http";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
+import { ToWords } from "to-words";
 import { SweetAlert } from "sweetalert/typings/core";
 const swal: SweetAlert = require("sweetalert");
+const toWords = new ToWords();
 @Component({
   selector: "app-common-file-upload",
   templateUrl: "./common-file-upload.component.html",
@@ -10,12 +12,15 @@ const swal: SweetAlert = require("sweetalert");
 })
 export class CommonFileUploadComponent implements OnInit {
   constructor(private dataEntryService: DataEntryService) {}
+  converter = require("number-to-words");
   @Input() quesName;
   @Input() quesType;
   @Input() isDisabled;
   @Input() dataFromParent;
   @Output()
   getFileUploadResult = new EventEmitter();
+  @Output()
+  fillAmount = new EventEmitter();
   showPdf = true;
   showExcel = true;
   data = {
@@ -30,9 +35,19 @@ export class CommonFileUploadComponent implements OnInit {
     //status: this.stateAction,
     // rejectReason: this.rejectReason,
   };
-  amount;
+  @Input() amountObj;
+  amount1Type;
+  amount2Type;
   ngOnInit(): void {}
 
+  amountKeyUp() {
+    //  this.amount1Type = this.converter.toWords(this.amountObj?.value);
+    this.amount2Type = toWords.convert(this.amountObj?.value, {
+      currency: true,
+      doNotAddOnly: true,
+    });
+    this.fillAmount.emit(this.amountObj);
+  }
   async fileChangeEvent(event, fileType) {
     console.log(fileType);
     let files;

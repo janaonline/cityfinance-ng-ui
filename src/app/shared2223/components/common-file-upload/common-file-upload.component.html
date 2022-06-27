@@ -1,12 +1,14 @@
 <div class="row mb-3">
-    <div class="col-sm-5 q-n" style="width: 48%;">
+    <div class="col-sm-5 q-n" style="width: 46%;">
         {{quesName}}
     </div>
-    <div class="col-sm-4" style="width: 27%;">
+    <div class="col-sm-4" style="width: 29%;">
         <div class="" *ngIf="quesType == 'input'">
-            <input type="number" class="form-control" [(ngModel)]="amount" [ngModelOptions]="{standalone: true}">
+            <input type="number" class="form-control" (keyup)="amountKeyUp()" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}">
             <div class="mt-2">
-                <span>{{amount | numberToWordINR}}</span>
+                <!-- <span>{{amountObj.value | numberToWordINR}}</span> -->
+                <!-- <span>{{amount1Type}}</span> -->
+                <span>{{amount2Type}}</span>
             </div>
         </div>
         <div class="" *ngIf="quesType == 'file'">
