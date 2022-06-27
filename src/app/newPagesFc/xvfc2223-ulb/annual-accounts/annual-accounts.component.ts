@@ -39,7 +39,7 @@ export class AnnualAccountsComponent implements OnInit {
       type: "input",
     },
     {
-      name: "Please enter total amount of Central Grants received (INR in lakhs)",
+      name: "Please enter total amount of Central Grants received",
       error: false,
       data: null,
       type: "input",
@@ -47,13 +47,13 @@ export class AnnualAccountsComponent implements OnInit {
     { name: "Balance Sheet Schedule", error: false, data: null, type: "file" },
     { name: "Income Expenditure", error: false, data: null, type: "file" },
     {
-      name: "Please enter total amount of Revenue (INR in lakhs)",
+      name: "Please enter total amount of Revenue",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of Expenses (INR in lakhs)",
+      name: "Please enter total amount of Expenses",
       error: false,
       data: null,
       type: "input",
@@ -69,25 +69,25 @@ export class AnnualAccountsComponent implements OnInit {
   auditQues = [
     { name: "Balance Sheet", error: false, data: null, type: "file" },
     {
-      name: "Please enter total amount of Assets (INR in lakhs)",
+      name: "Please enter total amount of Assets",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of Fixed Assets (INR in lakhs)",
+      name: "Please enter total amount of Fixed Assets",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of State Grants received (INR in lakhs)",
+      name: "Please enter total amount of State Grants received",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of Central Grants received (INR in lakhs)",
+      name: "Please enter total amount of Central Grants received",
       error: false,
       data: null,
       type: "input",
@@ -95,13 +95,13 @@ export class AnnualAccountsComponent implements OnInit {
     { name: "Balance Sheet Schedule", error: false, data: null, type: "file" },
     { name: "Income Expenditure", error: false, data: null, type: "file" },
     {
-      name: "Please enter total amount of Revenue (INR in lakhs)",
+      name: "Please enter total amount of Revenue",
       error: false,
       data: null,
       type: "input",
     },
     {
-      name: "Please enter total amount of Expenses (INR in lakhs)",
+      name: "Please enter total amount of Expenses",
       error: false,
       data: null,
       type: "input",
