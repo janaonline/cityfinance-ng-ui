@@ -141,17 +141,22 @@ export class OdfFormComponent implements OnInit {
 
       })
   }
-  clickedPreview(template) {
-    this.onPreview();
-  }
-  onPreview() {
+  preview() {
+    console.log('odfFileName', this.odfFileName)
+    let preData ={
+      formData: this.profileForm.value,
+      fileName: this.odfFileName
+    }
+    console.log('preData', preData)
     const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
-      data: this.profileForm.value,
-      height: "95%",
+      data:  preData,
       width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
       panelClass: "no-padding-dialog",
     });
-    dialogRef.afterClosed().subscribe((result) => "");
+    dialogRef.afterClosed().subscribe((result) => {
+    });
   }
   onChange(item){
     if(item == '1: 62b2e4c79a6c781a28150d73'){
