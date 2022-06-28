@@ -56,6 +56,7 @@ export class OdfFormComponent implements OnInit {
   submitted = false;
   body;
   isGfc;
+  isDisabled = false
   ngOnInit(): void {
     
     this.profileForm = this.formBuilder.group({
@@ -88,39 +89,53 @@ export class OdfFormComponent implements OnInit {
    this.ratings=res.data
    this.dropdownValues = res.data.map(a=>a.name)
   })
+  const params = {
+    ulb:this.ulb,
+    design_year:this.yearValue,
+    isGfc:false
+  }
+  this.commonService.getOdfFormData(params).subscribe((res:any)=>{
+    console.log(res)
+    if(res?.data.isDraft == false){
+      console.log(res?.data.isDraft)
+      this.isDisabled=true
+      // this.profileForm.disabled
+      this.profileForm.controls['cert'].disable();
+      this.profileForm.controls['certDate'].disable();
+      this.profileForm.controls['rating'].disable();
+
+    }
+  })
   }
  
   get f() { return this.profileForm.controls; }
+  
+  disableSubmitForm:boolean
 
   onSubmit(type) {
     this.submitted = true;
-      this.draft = false; 
+      this.draft = false;    
       this.profileForm.patchValue({
         isDraft: this.draft
       })
-
     if (this.profileForm.invalid) {
       return;
      }
-    
     console.warn(this.profileForm.value);
     this.body = this.profileForm.value;
     this.commonService.odfSubmitForm(this.body).subscribe((res:any)=>{
       console.log('success!!!!!!!!!!!!!',res)
+      this.isDisabled = true;
+      swal('Saved', 'Data saved successfully', 'success')
     })
-    const params = new HttpParams({
-      fromString: `ulb=${this.ulb}&design_year=${this.design_year}&isGfc=${this.isGfc}`
-    });
-    this.commonService.getOdfFormData(params).subscribe((res)=>{
-      console.log(res)
-    })
-
   }
   onDraft(){
       console.log(this.profileForm.value);
       this.body = this.profileForm.value;
       this.commonService.odfSubmitForm(this.body).subscribe((res:any)=>{
         console.log('successDraftttt!!!!!!!!!!!!!',res)
+        swal('Saved', 'Data saved as draft successfully', 'success')
+
       })
   }
   onChange(item){

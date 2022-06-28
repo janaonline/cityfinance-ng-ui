@@ -26,7 +26,7 @@ export class NewCommonService {
     )
   }
   getOdfFormData(params){
-    return this.http.get(`${environment.api.url}gfc-odf-form-collection${params}`)
+    return this.http.get(`${environment.api.url}gfc-odf-form-collection?ulb=${params.ulb}&design_year=${params.design_year}&isGfc=${params.isGfc}`)
   }
   getAnnualData(params) {
     return this.http.get(

@@ -16,7 +16,7 @@
                 </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                  <select [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
+                  <select [disabled]="isDisabled" [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
                     <option value="" selected disabled>Select Rating</option>
                     <option *ngFor="let item of ratings" [ngValue]="item._id">{{ item.name }}</option>
                   </select>
