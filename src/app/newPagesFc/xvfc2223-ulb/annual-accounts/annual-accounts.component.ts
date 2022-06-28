@@ -874,8 +874,15 @@ export class AnnualAccountsComponent implements OnInit {
     }
   }
   preview() {
+    let data = {
+      unAudit: this.unAuditQues,
+      audit: this.auditQues,
+      body: this.data,
+      // unAuditFullData : this.data.unAudited,
+      // auditFullData : this.data.audited,
+    };
     const dialogRef = this.dialog.open(AnnualPreviewComponent, {
-      data: {},
+      data: data,
       width: "85vw",
       height: "100%",
       maxHeight: "90vh",
