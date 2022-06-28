@@ -758,14 +758,14 @@ console.log('new Data', newData.data.labels);
       if (key == "ulbData") C = (A / B) * 100;
       else F = (A / B) * 100;
     }
-    this.CAGR = `Own Revenue to Revenue expenditure is ${(C - F).toFixed(2)}% ${
+    this.CAGR = `Own Revenue to Revenue expenditure is ${(C - F).toFixed(0)}% ${
       C > F ? "higher" : "lower"
     } than state average between FY'${this.mySelectedYears[0]} and FY'${
       this.mySelectedYears[this.mySelectedYears.length - 1]
     }
 
-    (ULB Own Revenue to Revenue expenditure is ${C.toFixed(2)}% ;
-    State Own Revenue to Revenue expenditure is ${F.toFixed(2)}% )`;
+    (ULB Own Revenue to Revenue expenditure is ${C.toFixed(0)}% ;
+    State Own Revenue to Revenue expenditure is ${F.toFixed(0)}% )`;
   }
 
   createExpenditureData(data) {
