@@ -1,1 +1,29 @@
-<p>annual-preview works!</p>
+<div class="container-fluid">
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+              Submissions for 15th FC grant for FY 2022-23
+        </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status" style="">
+                <b>Form Current Status:</b>
+            </p>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button id="donwloadButton" style="" class="btn btn-primary">Download as PDF</button>
+        </div>
+
+
+    </div>
+</div>
