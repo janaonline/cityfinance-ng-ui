@@ -8,3 +8,7 @@
     background-color: #059b9a;
     color: #FFFFFF;
 }
+
+::ng-deep .ag-header-row:last-child {
+    width: 350px;
+}
