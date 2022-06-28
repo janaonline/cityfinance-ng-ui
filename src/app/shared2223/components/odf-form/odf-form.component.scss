@@ -21,12 +21,14 @@
     font-size: 12px;
     margin-top:1rem;
 }
+.fileName{
+    padding-left: 51%;
+}
 .btnPrevious{
     background-color: #059b9a;
     color: #fff;
     border-radius: 5px;
     font-size: 12px;
-    width: 100px;
 }
 .btnDraft{
     background-color: #059b9a;
@@ -34,6 +36,7 @@
     border-radius: 5px;
     font-size: 12px;
     margin-right: 7%;
+    width: 20%;
 }
 .previousText{
     text-align: end;
@@ -54,8 +57,21 @@
 .btnClass{
     border: 1px solid gray;
     height: 31px;
-    background-color: aliceblue;
+    background-color: #059b9a;
     font-size: 14px;
+    color:white;
+}
+.errorMessege{
+    color: #dc3545;
+    font-size: smaller;
+}
+.filePadding{
+    padding-left: 23px;
+    font-style: italic;
+    width: auto;
+}
+.textClass{
+    text-align: center;
 }
 .btn2 {
     background-color: #059b9a;
@@ -74,10 +90,14 @@
 .rightText{
     text-align: end;
 }
+.formShadow{
+    box-shadow: 2px 4px 5px 4px #cecece;
+    padding: 2%;
+}
 .question{
     width: 100%;
     // height: 75px;
-    box-shadow: 2px 4px 5px #cecece;
+    // box-shadow: 2px 4px 5px #cecece;
 }
 .iconCenter{
     text-align: center;
@@ -106,10 +126,8 @@
     cursor: not-allowed;
     opacity: 0.5;
 }
-.wrapper {
-    cursor: not-allowed;
-   }
-   .btnUpload:hover {
+
+.btnUpload:hover {
     background-color: #ffc500;
 }
 
@@ -154,7 +172,15 @@
 .btnUpload:active {
     background-color: #ffc500;
 }
-
+.errorText{
+    margin-top: 3%;
+}
+.customDate{
+    width: max-content;
+    color: #dc3545;
+    font-size: 15px;
+    margin-top: -26px;
+}
 .card-body {
     padding: 5px 8px;
     height: auto;
@@ -227,9 +253,6 @@
     font-size: 12px;
 }
 
-.wrapper {
-    cursor: not-allowed;
-}
 
 .pr-btn {
     background-color: #059b9a;
@@ -281,7 +304,6 @@
 
 .btn:hover {
     background-color: #ffc500;
-    font-weight: bold;
 }
 
 .r-w-f {

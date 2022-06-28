@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { environment } from "./../../../environments/environment";
 @Injectable({
   providedIn: "root",
@@ -13,6 +13,20 @@ export class NewCommonService {
       // `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&isUa=false`
       `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&_id=${ulbId}`
     );
+  }
+  getOdfRatings(){
+    return this.http.get(
+      `${environment.api.url}ratings`
+    )
+  }
+
+  odfSubmitForm(body:any){
+    return this.http.post(
+      `${environment.api.url}gfc-odf-form-collection`,body
+    )
+  }
+  getOdfFormData(params){
+    return this.http.get(`${environment.api.url}gfc-odf-form-collection?ulb=${params.ulb}&design_year=${params.design_year}&isGfc=${params.isGfc}`)
   }
   getAnnualData(params) {
     return this.http.get(
