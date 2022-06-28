@@ -6,6 +6,9 @@ import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.servic
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { NewCommonService } from '../../services/new-common.service';
+import { OdfFormPreviewComponent } from './odf-form-preview/odf-form-preview.component';
+import { MatDialog } from "@angular/material/dialog";
+
 @Component({
   selector: 'app-odf-form',
   templateUrl: './odf-form.component.html',
@@ -16,7 +19,7 @@ export class OdfFormComponent implements OnInit {
   now;
   noRating: boolean;
   constructor(private dataEntryService: DataEntryService,
-    private formBuilder: FormBuilder,private commonService :NewCommonService) { 
+    private formBuilder: FormBuilder,private commonService :NewCommonService,public dialog: MatDialog,) { 
       this.date.setDate( this.date.getDate() );
       this.date.setFullYear( this.date.getFullYear() - 1 );
       this.now = new Date(this.date).toISOString().slice(0, 10);
@@ -97,7 +100,7 @@ export class OdfFormComponent implements OnInit {
   this.commonService.getOdfFormData(params).subscribe((res:any)=>{
     console.log(res)
     if(res?.data.isDraft == false){
-      console.log(res?.data.isDraft)
+      console.log(res?.data?.isDraft)
       this.isDisabled=true
       // this.profileForm.disabled
       this.profileForm.controls['cert'].disable();
@@ -137,6 +140,18 @@ export class OdfFormComponent implements OnInit {
         swal('Saved', 'Data saved as draft successfully', 'success')
 
       })
+  }
+  clickedPreview(template) {
+    this.onPreview();
+  }
+  onPreview() {
+    const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
+      data: this.profileForm.value,
+      height: "95%",
+      width: "85vw",
+      panelClass: "no-padding-dialog",
+    });
+    dialogRef.afterClosed().subscribe((result) => "");
   }
   onChange(item){
     if(item == '1: 62b2e4c79a6c781a28150d73'){

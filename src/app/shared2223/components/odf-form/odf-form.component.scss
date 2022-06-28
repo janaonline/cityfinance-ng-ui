@@ -21,22 +21,32 @@
     font-size: 12px;
     margin-top:1rem;
 }
-.fileName{
-    padding-left: 51%;
-}
+
 .btnPrevious{
     background-color: #059b9a;
     color: #fff;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 16px;
 }
 .btnDraft{
     background-color: #059b9a;
     color: #fff;
     border-radius: 5px;
-    font-size: 12px;
-    margin-right: 7%;
-    width: 20%;
+    font-size: 16px;
+    width: -webkit-fill-available;
+}
+.btn-c-back{
+    background-color: #CFCFCF;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+}
+.btn-c-next{
+    background-color: #114551;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    color: #fff;
 }
 .previousText{
     text-align: end;
@@ -66,9 +76,8 @@
     font-size: smaller;
 }
 .filePadding{
-    padding-left: 23px;
+    // padding-left: 23px;
     font-style: italic;
-    width: auto;
 }
 .textClass{
     text-align: center;
@@ -106,9 +115,6 @@
     font-weight: 500;
 }
 
-.q-s{
-    padding: 2%;
-}
 .image-upload>input {
     display: none;
 }
@@ -117,6 +123,10 @@
     margin-left: 1pc;
     margin-bottom: 1pc;
     color: white;
+    font-size: 12px;
+}
+.marginClass{
+    margin-top: 4%;
 }
 .abDisable {
     pointer-events: none;

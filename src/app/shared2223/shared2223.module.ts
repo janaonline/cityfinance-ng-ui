@@ -8,6 +8,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CommonFileUploadComponent } from "./components/common-file-upload/common-file-upload.component";
 import { NumberToWordINRPipe } from "./pipes/number-to-word-inr.pipe";
+import { OdfFormPreviewComponent } from './components/odf-form/odf-form-preview/odf-form-preview.component';
 @NgModule({
   declarations: [
     OdfFormComponent,
@@ -15,6 +16,7 @@ import { NumberToWordINRPipe } from "./pipes/number-to-word-inr.pipe";
     FooterBtnComponent,
     CommonFileUploadComponent,
     NumberToWordINRPipe,
+    OdfFormPreviewComponent,
   ],
   imports: [CommonModule, MatIconModule, ReactiveFormsModule, FormsModule],
   exports: [OdfFormComponent, CommonFileUploadComponent],

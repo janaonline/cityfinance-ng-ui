@@ -6,7 +6,7 @@
           </h4>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
-            <button type="button" class="btn btn-pre">PREVIEW</button>
+            <button type="button" class="btn btn-primary" id="prevBtn" (click)="clickedPreview(templateAnnual)">Preview</button>
         </div>
     </div>
     <form [formGroup]="profileForm"  class="formShadow">
@@ -16,7 +16,7 @@
                 </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                  <select [disabled]="isDisabled" [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
+                  <select [ngClass]="{ 'is-invalid': submitted && f.rating.errors }" formControlName="rating" class="selectDropdown form-control" (change)="onChange($event.target.value)">
                     <option value="" selected disabled>Select Rating</option>
                     <option *ngFor="let item of ratings" [ngValue]="item._id">{{ item.name }}</option>
                   </select>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-4 mb-4 question">
+        <div class="row mb-4 question marginClass">
          <div class="col-sm-6 col-lg-6 col-md-6 q-s">
             <span class="fontStyle" *ngIf="uploadCertificate">(B) Upload ODF Certificate ?<sup>*</sup>
             </span>
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div> 
-    <div class="row fileName" *ngIf="showIcon">
+    <div class="row" *ngIf="showIcon">
         <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
             {{odfFileName}}
         </div>
@@ -82,7 +82,7 @@
         </span>
         </div>
     </div>     
-</div>
+        </div>
 
 <div class="row mt-4 mb-4 question" *ngIf="uploadCertificate">
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
@@ -99,23 +99,34 @@
        </div>
     </div>
 </div>    
-<div class="row">
+<!-- <div class="row">
     <div class="col-sm-6">
     </div>
     <div class="col-sm-6 col-lg-6 col-md-6 previousText">
-        <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
-        <button type="submit" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
     </div>
-</div>
+</div> -->
     </form>
     <div class="row mb-3 mt-4">
-        <div class="col-sm-6">
-            <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
+        <div class="col-sm-7 col-md-7 col-lg-7">
+            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
                 routerLink='/ulbform/overview'><- Previous Form</button>
         </div>
-        <div class="col-sm-6 rightText">
-            <button type="button" class="btn btnPrevious" routerLinkActive="router-link-active"
-               >Next Form -></button>
+        <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <button type="button" class="btn btnDraft" (click)="onDraft()">Save as Draft</button>
+
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <button type="submit" (click)="onSubmit('submit')" class="btn btnDraft">Submit</button>
+                    
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active"
+                    >Next Form -></button>        
+                </div>
+            </div>
+            
         </div>
     </div>      
 </div>
