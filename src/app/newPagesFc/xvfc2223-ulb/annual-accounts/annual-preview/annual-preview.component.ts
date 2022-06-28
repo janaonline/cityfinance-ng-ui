@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { USER_TYPE } from "src/app/models/user/userType";
 @Component({
   selector: "app-annual-preview",
@@ -6,7 +7,7 @@ import { USER_TYPE } from "src/app/models/user/userType";
   styleUrls: ["./annual-preview.component.scss"],
 })
 export class AnnualPreviewComponent implements OnInit {
-  constructor() {}
+  constructor(private _matDialog: MatDialog) {}
   @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateAnnual") template;
   showLoader;
@@ -21,5 +22,7 @@ export class AnnualPreviewComponent implements OnInit {
     }
     this.stateName = userData["stateName"];
   }
-  closeMat() {}
+  closeMat() {
+    this._matDialog.closeAll();
+  }
 }
