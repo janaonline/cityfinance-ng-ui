@@ -525,114 +525,6 @@ export class AnnualAccountsComponent implements OnInit {
         el["amount"]["value"] = proviDataUn[key];
       }
     });
-    // for (const key in res.unAudited.provisional_data) {
-    //   // this.unAuditQues[index].data = res.unAudited.provisional_data[key];
-    //   switch (key) {
-    //     case "bal_sheet":
-    //       this.data.unAudited.provisional_data.bal_sheet =
-    //         res.unAudited.provisional_data.bal_sheet;
-    //       break;
-    //     case "bal_sheet_schedules":
-    //       this.data.unAudited.provisional_data.bal_sheet_schedules =
-    //         res.unAudited.provisional_data.bal_sheet_schedules;
-    //       break;
-    //     case "inc_exp":
-    //       this.data.unAudited.provisional_data.inc_exp =
-    //         res.unAudited.provisional_data.inc_exp;
-    //       break;
-    //     case "inc_exp_schedules":
-    //       this.data.unAudited.provisional_data.inc_exp_schedules =
-    //         res.unAudited.provisional_data.inc_exp_schedules;
-    //       break;
-    //     case "cash_flow":
-    //       this.data.unAudited.provisional_data.cash_flow =
-    //         res.unAudited.provisional_data.cash_flow;
-    //       break;
-    //     case "assets":
-    //       this.data.unAudited.provisional_data.assets =
-    //         res.unAudited.provisional_data.assets;
-    //       break;
-    //     case "f_assets":
-    //       this.data.unAudited.provisional_data.f_assets =
-    //         res.unAudited.provisional_data.f_assets;
-    //       break;
-    //     case "c_grant":
-    //       this.data.unAudited.provisional_data.c_grant =
-    //         res.unAudited.provisional_data.c_grant;
-    //       break;
-    //     case "expense":
-    //       this.data.unAudited.provisional_data.expense =
-    //         res.unAudited?.provisional_data.expense;
-    //       break;
-    //     case "s_grant":
-    //       this.data.unAudited.provisional_data.s_grant =
-    //         res.unAudited.provisional_data.s_grant;
-    //       break;
-    //     case "revenue":
-    //       this.data.unAudited.provisional_data.revenue =
-    //         res.unAudited.provisional_data.revenue;
-    //       break;
-    //   }
-    //   index++;
-    // }
-    // for action status
-    // index = 0;
-    // for (const key in res.unAudited.provisional_data) {
-    //   this.unAuditAct[index] = res.unAudited.provisional_data[key];
-    //   // console.log('ssssssssss', res.unAudited.provisional_data[key]);
-
-    //   index++;
-    // }
-    // index = 0;
-    // for (const key in res.audited.provisional_data) {
-    //  this.AuditAct[index] = res.audited.provisional_data[key];
-
-    //   index++;
-    // }
-
-    // if (this.data["status"] != "N/A") {
-    //   this.anFormStaus = this.data["status"] ? this.data["status"] : "PENDING";
-
-    //   if (this.data["actionTakenByRole"] == USER_TYPE.STATE) {
-    //     if (
-    //       ((this.data?.status == "REJECTED" &&
-    //         this.masterFormStatus != "REJECTED") ||
-    //         (this.data?.status == "APPROVED" &&
-    //           this.masterFormStatus != "APPROVED")) &&
-    //       this.lastRoleInMasterForm == USER_TYPE.ULB
-    //     ) {
-    //       this.anFormStaus = "PENDING";
-    //     }
-    //   }
-    //   if (this.data["actionTakenByRole"] == USER_TYPE.MoHUA) {
-    //     this.anFormStaus = "APPROVED";
-    //     if (
-    //       ((this.data?.status == "REJECTED" &&
-    //         this.masterFormStatus != "REJECTED") ||
-    //         (this.data?.status == "APPROVED" &&
-    //           this.masterFormStatus != "APPROVED")) &&
-    //       this.lastRoleInMasterForm == USER_TYPE.STATE
-    //     ) {
-    //       this.ulbFormStatusMoHUA = "PENDING";
-    //     }
-    //   }
-
-    //   if (
-    //     this.lastRoleInMasterForm === USER_TYPE.MoHUA &&
-    //     this.finalSubmitUtiStatus == "true"
-    //   ) {
-    //     this.ulbFormStatusMoHUA = this.data["status"];
-    //     this.anFormStaus = this.data["status"];
-    //   }
-    //   if (
-    //     this.lastRoleInMasterForm === USER_TYPE.STATE &&
-    //     this.finalSubmitUtiStatus == "true" &&
-    //     this.anFormStaus == "APPROVED"
-    //   ) {
-    //     this.ulbFormStatusMoHUA = "PENDING";
-    //   }
-    // }
-    // this.checkForm();
     console.log("data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
@@ -851,10 +743,28 @@ export class AnnualAccountsComponent implements OnInit {
     console.log("anual acc form", this.data);
     if (type === "draft") {
       this.data.isDraft = true;
+      this.postAnnualForm();
     } else {
       this.data.isDraft = false;
+      this.checkValidation();
     }
-    this.postAnnualForm();
+  }
+  checkValidation() {
+    // autited
+    if (this.data.audited.submit_annual_accounts == true) {
+    } else if (this.data.audited.submit_annual_accounts == false) {
+    } else {
+    }
+    // unAudited
+    if (this.data.unAudited.submit_annual_accounts) {
+      for (const key in this.data.unAudited.provisional_data) {
+        if (this.data.unAudited.provisional_data[key].pdf == "") {
+          // this.data.unAudited.provisional_data[key].
+        }
+      }
+    } else if (this.data.unAudited.submit_annual_accounts == false) {
+    } else {
+    }
   }
   postAnnualForm() {
     this.newCommonService.postAnnualData(this.data).subscribe(
