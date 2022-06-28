@@ -21,6 +21,8 @@ export class CommonFileUploadComponent implements OnInit {
   getFileUploadResult = new EventEmitter();
   @Output()
   fillAmount = new EventEmitter();
+  @Input()
+  delFileType;
   showPdf = true;
   showExcel = true;
   data = {
@@ -38,7 +40,22 @@ export class CommonFileUploadComponent implements OnInit {
   @Input() amountObj;
   amount1Type;
   amount2Type;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.dataFromParent) {
+      this.data = this.dataFromParent;
+      //  this.stateAction = this.data?.status;
+      //  this.rejectReason = this.data?.rejectReason;
+    }
+  }
+  ngOnChanges() {
+    if (this.delFileType) {
+      this.clearFile(this.delFileType);
+    }
+    if (this.dataFromParent) {
+      this.data = this.dataFromParent;
+      console.log("changes..........", this.dataFromParent);
+    }
+  }
 
   amountKeyUp() {
     //  this.amount1Type = this.converter.toWords(this.amountObj?.value);
@@ -117,5 +134,14 @@ export class CommonFileUploadComponent implements OnInit {
         this.data[fileType].error = true;
       }
     );
+  }
+  clearFile(fileType) {
+    if (this.isDisabled) {
+      return;
+    }
+    for (const key in this.data[fileType]) {
+      this.data[fileType][key] = null;
+    }
+    this.getFileUploadResult.emit(this.data);
   }
 }

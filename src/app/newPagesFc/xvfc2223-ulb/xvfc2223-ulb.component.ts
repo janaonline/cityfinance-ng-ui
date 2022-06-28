@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { IUserLoggedInDetails } from "src/app/models/login/userLoggedInDetails";
+import { IState } from "src/app/models/state/state";
+import { USER_TYPE } from "src/app/models/user/userType";
+import { CommonService } from "src/app/shared/services/common.service";
+import { ProfileService } from "src/app/users/profile/service/profile.service";
+import { UserUtility } from "src/app/util/user/user";
 import { NewCommonService } from "../../shared2223/services/new-common.service";
 @Component({
   selector: "app-xvfc2223-ulb",
@@ -135,11 +141,21 @@ export class Xvfc2223UlbComponent implements OnInit {
   //   },
   // };
   leftMenu: any;
-  constructor(private newCommonService: NewCommonService) {
-    //  this.getSideBar();
+  constructor(
+    private newCommonService: NewCommonService,
+    private profileService: ProfileService,
+    private _commonService: CommonService
+  ) {
+    this.initializeUserType();
+    this.fetchStateList();
+    this.initializeLoggedInUserDataFetch();
     console.log("left responces..", this.leftMenu);
     this.leftMenu = JSON.parse(localStorage.getItem("leftMenuRes"));
   }
+  states: { [staeId: string]: IState };
+  userLoggedInDetails: IUserLoggedInDetails;
+  loggedInUserType: USER_TYPE;
+  userTypes = USER_TYPE;
 
   ngOnInit(): void {
     console.log("left responces..1", this.leftMenu);
@@ -150,4 +166,20 @@ export class Xvfc2223UlbComponent implements OnInit {
   //     this.leftMenu = res;
   //   });
   // }
+  private initializeUserType() {
+    this.loggedInUserType = this.profileService.getLoggedInUserType();
+    // console.log(this._router.url);
+  }
+  private initializeLoggedInUserDataFetch() {
+    UserUtility.getUserLoggedInData().subscribe((data) => {
+      this.userLoggedInDetails = data;
+      console.log("hi", data);
+    });
+  }
+  private fetchStateList() {
+    this._commonService.fetchStateList().subscribe((res) => {
+      this.states = {};
+      res.forEach((state) => (this.states[state._id] = state));
+    });
+  }
 }

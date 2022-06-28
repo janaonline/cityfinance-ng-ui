@@ -1,11 +1,15 @@
 import { HttpEventType } from "@angular/common/http";
 import { Component, HostBinding, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/annual-accounts.service";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { UserUtility } from "src/app/util/user/user";
-
+import { SweetAlert } from "sweetalert/typings/core";
+import { AnnualPreviewComponent } from "./annual-preview/annual-preview.component";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-accounts",
   templateUrl: "./annual-accounts.component.html",
@@ -15,7 +19,9 @@ export class AnnualAccountsComponent implements OnInit {
   constructor(
     private dataEntryService: DataEntryService,
     private annualAccountsService: AnnualAccountsService,
-    //  public dialog: MatDialog, //  public _ulbformService: UlbformService, //  public _router: Router,
+    public dialog: MatDialog,
+    //  public _ulbformService: UlbformService,
+    public _router: Router,
     private newCommonService: NewCommonService
   ) {
     this.loggedInUserType = this.loggedInUserDetails.role;
@@ -28,12 +34,19 @@ export class AnnualAccountsComponent implements OnInit {
   USER_TYPE = USER_TYPE;
   loggedInUserType;
   unAuditQues = [
-    { name: "Balance Sheet", error: false, data: null, type: "file" },
+    {
+      name: "Balance Sheet",
+      error: false,
+      data: null,
+      type: "file",
+      key: "bal_sheet",
+    },
     {
       name: "Please enter total amount of Assets",
       error: false,
       data: null,
       type: "input",
+      key: "assets",
       amount: {
         key: "assets",
         value: "",
@@ -45,6 +58,7 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "f_assets",
       amount: {
         key: "f_assets",
         value: "",
@@ -56,6 +70,7 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "s_grant",
       amount: {
         key: "s_grant",
         value: "",
@@ -67,19 +82,33 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "c_grant",
       amount: {
         key: "c_grant",
         value: "",
         error: false,
       },
     },
-    { name: "Balance Sheet Schedule", error: false, data: null, type: "file" },
-    { name: "Income Expenditure", error: false, data: null, type: "file" },
+    {
+      name: "Balance Sheet Schedule",
+      error: false,
+      data: null,
+      type: "file",
+      key: "bal_sheet_schedules",
+    },
+    {
+      name: "Income Expenditure",
+      error: false,
+      data: null,
+      type: "file",
+      key: "inc_exp",
+    },
     {
       name: "Please enter total amount of Revenue",
       error: false,
       data: null,
       type: "input",
+      key: "revenue",
       amount: {
         key: "revenue",
         value: "",
@@ -91,6 +120,7 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "expense",
       amount: {
         key: "expense",
         value: "",
@@ -102,16 +132,30 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "file",
+      key: "inc_exp_schedules",
     },
-    { name: "Cash flow Statement", error: false, data: null, type: "file" },
+    {
+      name: "Cash flow Statement",
+      error: false,
+      data: null,
+      type: "file",
+      key: "cash_flow",
+    },
   ];
   auditQues = [
-    { name: "Balance Sheet", error: false, data: null, type: "file" },
+    {
+      name: "Balance Sheet",
+      error: false,
+      data: null,
+      type: "file",
+      key: "bal_sheet",
+    },
     {
       name: "Please enter total amount of Assets",
       error: false,
       data: null,
       type: "input",
+      key: "assets",
       amount: {
         key: "assets",
         value: "",
@@ -123,6 +167,7 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "f_assets",
       amount: {
         key: "f_assets",
         value: "",
@@ -134,6 +179,7 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "s_grant",
       amount: {
         key: "s_grant",
         value: "",
@@ -145,19 +191,33 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "c_grant",
       amount: {
         key: "c_grant",
         value: "",
         error: false,
       },
     },
-    { name: "Balance Sheet Schedule", error: false, data: null, type: "file" },
-    { name: "Income Expenditure", error: false, data: null, type: "file" },
+    {
+      name: "Balance Sheet Schedule",
+      error: false,
+      data: null,
+      type: "file",
+      key: "bal_sheet_schedules",
+    },
+    {
+      name: "Income Expenditure",
+      error: false,
+      data: null,
+      type: "file",
+      key: "inc_exp",
+    },
     {
       name: "Please enter total amount of Revenue",
       error: false,
       data: null,
       type: "input",
+      key: "revenue",
       amount: {
         key: "revenue",
         value: "",
@@ -169,6 +229,7 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "input",
+      key: "expense",
       amount: {
         key: "expense",
         value: "",
@@ -180,9 +241,22 @@ export class AnnualAccountsComponent implements OnInit {
       error: false,
       data: null,
       type: "file",
+      key: "inc_exp_schedules",
     },
-    { name: "Cash flow Statement", error: false, data: null, type: "file" },
-    { name: "Auditor Report", error: false, data: null, type: "file" },
+    {
+      name: "Cash flow Statement",
+      error: false,
+      data: null,
+      type: "file",
+      key: "cash_flow",
+    },
+    {
+      name: "Auditor Report",
+      error: false,
+      data: null,
+      type: "file",
+      key: "auditor_report",
+    },
   ];
   data = {
     ulb: this.userData.ulb,
@@ -432,16 +506,75 @@ export class AnnualAccountsComponent implements OnInit {
     console.log("annnualREs", this.data["status"]);
 
     sessionStorage.setItem("annualAccounts", JSON.stringify(toStoreResponse));
-    debugger;
-    for (const key in res.audited.provisional_data) {
-      this.auditQues[index].data = res.audited.provisional_data[key];
-      index++;
-    }
-    index = 0;
-    for (const key in res.unAudited.provisional_data) {
-      this.unAuditQues[index].data = res.unAudited.provisional_data[key];
-      index++;
-    }
+    let proviDataAu = res?.audited?.provisional_data;
+    this.auditQues.forEach((el) => {
+      let key = el?.key;
+      if (key && el.type == "file") {
+        el["data"] = proviDataAu[key];
+      } else if (key && el.type == "input") {
+        el["amount"]["value"] = proviDataAu[key];
+      }
+    });
+
+    let proviDataUn = res?.unAudited?.provisional_data;
+    this.unAuditQues.forEach((el) => {
+      let key = el?.key;
+      if (key && el.type == "file") {
+        el["data"] = proviDataUn[key];
+      } else if (key && el.type == "input") {
+        el["amount"]["value"] = proviDataUn[key];
+      }
+    });
+    // for (const key in res.unAudited.provisional_data) {
+    //   // this.unAuditQues[index].data = res.unAudited.provisional_data[key];
+    //   switch (key) {
+    //     case "bal_sheet":
+    //       this.data.unAudited.provisional_data.bal_sheet =
+    //         res.unAudited.provisional_data.bal_sheet;
+    //       break;
+    //     case "bal_sheet_schedules":
+    //       this.data.unAudited.provisional_data.bal_sheet_schedules =
+    //         res.unAudited.provisional_data.bal_sheet_schedules;
+    //       break;
+    //     case "inc_exp":
+    //       this.data.unAudited.provisional_data.inc_exp =
+    //         res.unAudited.provisional_data.inc_exp;
+    //       break;
+    //     case "inc_exp_schedules":
+    //       this.data.unAudited.provisional_data.inc_exp_schedules =
+    //         res.unAudited.provisional_data.inc_exp_schedules;
+    //       break;
+    //     case "cash_flow":
+    //       this.data.unAudited.provisional_data.cash_flow =
+    //         res.unAudited.provisional_data.cash_flow;
+    //       break;
+    //     case "assets":
+    //       this.data.unAudited.provisional_data.assets =
+    //         res.unAudited.provisional_data.assets;
+    //       break;
+    //     case "f_assets":
+    //       this.data.unAudited.provisional_data.f_assets =
+    //         res.unAudited.provisional_data.f_assets;
+    //       break;
+    //     case "c_grant":
+    //       this.data.unAudited.provisional_data.c_grant =
+    //         res.unAudited.provisional_data.c_grant;
+    //       break;
+    //     case "expense":
+    //       this.data.unAudited.provisional_data.expense =
+    //         res.unAudited?.provisional_data.expense;
+    //       break;
+    //     case "s_grant":
+    //       this.data.unAudited.provisional_data.s_grant =
+    //         res.unAudited.provisional_data.s_grant;
+    //       break;
+    //     case "revenue":
+    //       this.data.unAudited.provisional_data.revenue =
+    //         res.unAudited.provisional_data.revenue;
+    //       break;
+    //   }
+    //   index++;
+    // }
     // for action status
     // index = 0;
     // for (const key in res.unAudited.provisional_data) {
@@ -500,6 +633,7 @@ export class AnnualAccountsComponent implements OnInit {
     //   }
     // }
     // this.checkForm();
+    console.log("data", this.auditQues, this.unAuditQues);
   }
   changeAudit(audit) {
     this.audit_status = audit;
@@ -592,12 +726,7 @@ export class AnnualAccountsComponent implements OnInit {
       case "Auditor Report":
         this.data[fileType].provisional_data.auditor_report = newData;
         break;
-      case "Please enter total amount of Assets":
-        this.data[fileType].provisional_data.bal_sheet = newData;
-        break;
-      case "A":
-        this.data[fileType].provisional_data.bal_sheet = newData;
-        break;
+
       //
     }
     //  this.checkDiff();
@@ -729,9 +858,11 @@ export class AnnualAccountsComponent implements OnInit {
   }
   postAnnualForm() {
     this.newCommonService.postAnnualData(this.data).subscribe(
-      (res) => {},
+      (res) => {
+        swal("Saved", "Data saved as draft successfully", "success");
+      },
       (error) => {
-        alert(error);
+        swal("Error", "Somthing went wrong.", "error");
         console.log("post error", error);
       }
     );
@@ -741,5 +872,19 @@ export class AnnualAccountsComponent implements OnInit {
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = e?.value;
     }
+  }
+  preview() {
+    const dialogRef = this.dialog.open(AnnualPreviewComponent, {
+      data: {},
+      width: "85vw",
+      height: "100%",
+      maxHeight: "90vh",
+      panelClass: "no-padding-dialog",
+    });
+    // this.hidden = false;
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log(`Dialog result: ${result}`);
+      //   this.hidden = true;
+    });
   }
 }

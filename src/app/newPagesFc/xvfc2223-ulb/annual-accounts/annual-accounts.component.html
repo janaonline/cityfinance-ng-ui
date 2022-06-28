@@ -1,9 +1,9 @@
-<div class="row ms-0 me-0 header mt-3">
+<div class="row ms-0 me-0 header mt-2">
     <div class="col-sm-8 col-lg-8 col-md-8 header2">
         <span>Annual Accounts</span>
     </div>
     <div class="col-sm-4 col-lg-4 col-md-4  text-end">
-        <button type="button" class="btn btn-primary" style="margin-top: 1rem;" id="prevBtn">PREVIEW</button>
+        <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn" (click)="preview()">PREVIEW</button>
     </div>
 </div>
 <div class="row ms-0 me-0" id="checkboxes">
@@ -213,7 +213,7 @@
                     <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
                         <div *ngFor="let item of auditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)">
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)">
                                 </app-common-file-upload>
                             </ng-container>
                             <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
@@ -233,12 +233,12 @@
                         </div>
                         <div [ngClass]="data?.audited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
                             <div id="checkboxes2">
-                                <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
-                                <label class="btn btn-y" for="btnUnauditB">
+                                <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
+                                <label class="btn btn-y" for="btnAuditB">
                               Yes
                           </label>
-                                <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',true,true)" id="btnUnauditB2" />
-                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2">
+                                <input type="radio" name="btnYesNoAudit2" value="2" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',false,true)" id="btnAuditB2" />
+                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnAuditB2">
                               No
                           </label>
                             </div>

@@ -8,6 +8,7 @@ import { OdfComponent } from "./odf/odf.component";
 import { Shared2223Module } from "src/app/shared2223/shared2223.module";
 import { AnnualAccountsComponent } from "./annual-accounts/annual-accounts.component";
 import { GfcComponent } from "./gfc/gfc.component";
+import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { GfcComponent } from "./gfc/gfc.component";
     OdfComponent,
     AnnualAccountsComponent,
     GfcComponent,
+    AnnualPreviewComponent,
   ],
   imports: [
     CommonModule,

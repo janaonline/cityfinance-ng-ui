@@ -32,10 +32,10 @@
 <div class="row" *ngIf="(quesType == 'file') && (data.excel?.name || data.pdf?.name)">
     <div class="col-sm-9">
         <div class="row allupload mb-3" *ngIf="showPdf">
-
             <div class="col-sm-5">
                 <label for="" class="pdf-n" style="" *ngIf="data.pdf?.name">
-                      {{data.pdf?.name}}</label>
+                      {{data.pdf?.name}}
+                </label>
             </div>
             <div class="col-sm-4 ms-3" *ngIf="data.pdf?.progress" style="padding: 0;">
                 <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.pdf?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.pdf?.progress + '%' }">
@@ -69,7 +69,8 @@
         <div class="row allupload mb-3" *ngIf="showExcel">
             <div class="col-sm-5">
                 <label for="" class="pdf-n" style="" *ngIf="data.excel?.name">
-                      {{data.excel?.name}}</label>
+                      {{data.excel?.name}}
+                </label>
             </div>
             <div class="col-sm-4 ms-3" *ngIf="data.excel?.progress" style="padding: 0;">
                 <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{ data.excel?.progress }}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: data.excel?.progress + '%' }">
