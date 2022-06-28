@@ -4,11 +4,12 @@
     </div>
     <div class="col-sm-4" style="width: 29%;">
         <div class="" *ngIf="quesType == 'input'">
-            <input type="number" class="form-control" (keyup)="amountKeyUp()" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}">
+            <input type="number" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp()" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}">
             <div class="mt-2">
                 <!-- <span>{{amountObj.value | numberToWordINR}}</span> -->
                 <!-- <span>{{amount1Type}}</span> -->
                 <span>{{amount2Type}}</span>
+                <span *ngIf="amountObj.error" class="err-text">Only 15 digits with 2 decimal points number are allowed.</span>
             </div>
         </div>
         <div class="" *ngIf="quesType == 'file'">

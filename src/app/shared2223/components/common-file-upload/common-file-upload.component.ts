@@ -40,11 +40,15 @@ export class CommonFileUploadComponent implements OnInit {
   @Input() amountObj;
   amount1Type;
   amount2Type;
+  maxNumber = "999999999999999.99";
   ngOnInit(): void {
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
       //  this.stateAction = this.data?.status;
       //  this.rejectReason = this.data?.rejectReason;
+    }
+    if (this.amountObj && this.amountObj?.value != "") {
+      this.amountKeyUp();
     }
   }
   ngOnChanges() {
@@ -59,10 +63,19 @@ export class CommonFileUploadComponent implements OnInit {
 
   amountKeyUp() {
     //  this.amount1Type = this.converter.toWords(this.amountObj?.value);
-    this.amount2Type = toWords.convert(this.amountObj?.value, {
-      currency: true,
-      doNotAddOnly: true,
-    });
+    if (this.amountObj.value && this.amountObj.value != "") {
+      if (this.amountObj.value < 999999999999999.99) {
+        this.amount2Type = toWords.convert(Number(this.amountObj?.value), {
+          currency: true,
+          doNotAddOnly: true,
+        });
+        this.amountObj.error = false;
+      } else if (this.amountObj.value > 999999999999999.99) {
+        this.amountObj.error = true;
+      }
+    } else {
+      this.amount2Type = "";
+    }
     this.fillAmount.emit(this.amountObj);
   }
   async fileChangeEvent(event, fileType) {
