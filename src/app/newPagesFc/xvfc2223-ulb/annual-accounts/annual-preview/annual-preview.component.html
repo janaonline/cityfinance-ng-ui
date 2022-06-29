@@ -57,13 +57,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row q-a-r" *ngFor="let unAuditItem of preData?.unAudit">
-                            <div class="col-sm-5 ques">
-                                {{unAuditItem?.name}}
+                        <div class="row q-a-r" *ngFor="let unAuditItem of preData?.unAudit let i = index;">
+                            <div class="col-sm-5 ques">{{unAuditItem?.name}}
+                                <!-- <span *ngIf="(unAuditItem?.type == 'file')" style="font-weight: 500;">{{i +1}}.</span> -->
                             </div>
                             <div class="col-sm-7 ans">
                                 <div class="i-t" *ngIf="(unAuditItem?.type == 'input')">
-                                    {{unAuditItem?.amount?.value}}
+                                    {{unAuditItem?.amount?.value | currency:'INR'}}
                                 </div>
                                 <div class="f-t" *ngIf="(unAuditItem?.type == 'file')">
                                     <div class="f" *ngIf="unAuditItem?.data">
@@ -166,7 +166,7 @@
                             </div>
                             <div class="col-sm-7 ans">
                                 <div class="i-t" *ngIf="(auditItem?.type == 'input')">
-                                    {{auditItem?.amount?.value}}
+                                    {{auditItem?.amount?.value | currency:'INR'}}
                                 </div>
                                 <div class="f-t" *ngIf="(auditItem?.type == 'file')">
                                     <div class="f" *ngIf="auditItem?.data">

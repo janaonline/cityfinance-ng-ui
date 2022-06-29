@@ -1,10 +1,10 @@
 <div class="row mb-3">
     <div class="col-sm-5 q-n" style="width: 46%;">
-        {{quesName}}
+        {{quesName}}<span class="text-danger">*</span>
     </div>
     <div class="col-sm-4" style="width: 29%;">
         <div class="" *ngIf="quesType == 'input'">
-            <input type="number" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp()" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}">
+            <input type="number" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}">
             <div class="mt-2">
                 <!-- <span>{{amountObj.value | numberToWordINR}}</span> -->
                 <!-- <span>{{amount1Type}}</span> -->
@@ -13,17 +13,25 @@
             </div>
         </div>
         <div class="" *ngIf="quesType == 'file'">
-            <button *ngIf="showPdf" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
+            <button *ngIf="showPdf" [disabled]="isDisabled" (click)="bs_pdf1.click()" class="btn btn-primary">Upload PDF
               <sup><span class="wh-s">*</span></sup>
                <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt="" style="margin-left: 4px;">
            </button>
             <input #bs_pdf1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'pdf')" type="file" accept=".pdf" #file>
-            <button *ngIf="showExcel" (click)="bs_excel1.click()" [ngClass]="{linkinpfms: FromLinkinPfms}" class="btn btn-primary ms-2">Upload
+            <button *ngIf="showExcel" [disabled]="isDisabled" (click)="bs_excel1.click()" class="btn btn-primary ms-2">Upload
                    EXCEL
                  <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                    data-height="16"></span>
              </button>
             <input #bs_excel1 style="display: none;" onclick="this.value=null;" (change)="fileChangeEvent($event,'excel')" type="file" accept=".xls, .xlsx" #file>
+        </div>
+        <div *ngIf="itemError" class="" style="">
+            <label *ngIf="quesType == 'file'" class='text-danger' style="margin-right: 5px;">
+             {{pdfError}}
+           </label>
+            <label *ngIf="quesType == 'input'" class='text-danger' style="margin-right: 5px;">
+            {{inputNumberError}}
+          </label>
         </div>
     </div>
     <div class="col-sm-3" style="width: 25%">

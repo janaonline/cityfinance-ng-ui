@@ -38,17 +38,17 @@
                         </span>
                     </div>
                     <div class="" [ngClass]="data?.unAudited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
-                        <div id="checkboxes">
+                        <div id="checkboxes" [ngClass]="{'disable-btn-cur' : isDisabled }">
                             <input type="radio" name="btnYesNoUnaudit" value="1" id="btnUnaudit" [checked]="data?.unAudited?.submit_annual_accounts" (change)="answer('q1', true)" />
-                            <label class="btn btn-y" for="btnUnaudit">
+                            <label class="btn btn-y" [ngClass]="{'disable-btn' : isDisabled }" for="btnUnaudit">
                              Yes
                             </label>
                             <input type="radio" name="btnYesNoUnaudit" value="2" id="btnUnaudit2" [checked]="data?.unAudited?.submit_annual_accounts == false" (change)="answer('q1', false)" />
-                            <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnaudit2">
+                            <label class="btn btn-n" [ngClass]="{'disable-btn' : isDisabled }" style="margin-left: 1rem;" for="btnUnaudit2">
                               No
                             </label>
                         </div>
-                        <span class="text-danger" *ngIf="answerError?.unAudited?.submit_annual_accounts">Select Yes or No</span>
+                        <span class="text-danger y-n-err" *ngIf="answerError?.unAudited?.submit_annual_accounts">Please select Yes or No</span>
                     </div>
                 </div>
                 <div class="row" *ngIf="data?.unAudited?.submit_annual_accounts">
@@ -62,13 +62,18 @@
                     <div class="q-div" *ngIf="data?.unAudited?.submit_annual_accounts">
                         <div *ngFor="let item of unAuditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)">
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'unAudited', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'unAudited', item.name, item.type)"
+                                    [isDisabled]="isDisabled">
                                 </app-common-file-upload>
                             </ng-container>
-                            <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
-                                <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
-                                {{pdfError}}</label>
-                            </div>
+                            <!-- <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4 mb-3" style="">
+                                <label *ngIf="item?.type == 'file'" class='text-danger' style="margin-right: 5px;">
+                                   {{pdfError}}
+                                 </label>
+                                <label *ngIf="item?.type == 'input'" class='text-danger' style="margin-right: 5px;">
+                                  {{inputNumberError}}
+                                </label>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -81,13 +86,13 @@
                         </span>
                         </div>
                         <div [ngClass]="data?.unAudited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
-                            <div id="checkboxes2">
+                            <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : isDisabled }">
                                 <input type="radio" name="btnYesNoUnaudit2" value="1" id="btnUnauditB" [checked]="data.unAudited.submit_standardized_data" (change)="answer('q2',true)" />
-                                <label class="btn btn-y" for="btnUnauditB">
+                                <label class="btn btn-y" for="btnUnauditB" [ngClass]="{'disable-btn' : isDisabled }">
                                 Yes
                             </label>
                                 <input type="radio" name="btnYesNoUnaudit2" value="2" [checked]="data.unAudited.submit_standardized_data == false" (change)="answer('q2',false)" id="btnUnauditB2" />
-                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2">
+                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnUnauditB2" [ngClass]="{'disable-btn' : isDisabled }">
                                 No
                             </label>
                             </div>
@@ -101,7 +106,7 @@
                             <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
                                   Download Template
                               </a>
-                            <button (click)="ques21.click()" class="btn btn-primary ms-3">Upload EXCEL
+                            <button (click)="ques21.click()" [disabled]="isDisabled" class="btn btn-primary ms-3">Upload EXCEL
                                   <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                       data-height="16"></span>
                               </button>
@@ -135,7 +140,7 @@
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
+                                        <a [ngClass]="{cross: isDisabled && data.unAudited.submit_annual_accounts && provisionDisable,'p-none': isDisabled}" (click)="clearFile('unAudited')" style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                         </a>
                                     </div>
@@ -165,7 +170,7 @@
                                   </span>
                             </div>
                             <div class="col-sm-12 ms-3">
-                                <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled && data.unAudited.submit_annual_accounts && provisionDisable" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
+                                <input type="checkbox" id="agree" [checked]="data.unAudited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.unAudited.standardized_data)" name="agree" value=true>
                                 <label style="margin-left: 1ch;" for="agree"> I Agree</label>
                             </div>
                         </div>
@@ -189,17 +194,17 @@
                         </span>
                     </div>
                     <div class="" [ngClass]="data?.audited?.submit_annual_accounts ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'">
-                        <div id="checkboxes2">
+                        <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : isDisabled }">
                             <input type="radio" name="btnYesNoAudit" value="1" id="btnAudit" [checked]="data.audited.submit_annual_accounts" (change)="answer('q1',true,true)" />
-                            <label class="btn btn-y" for="btnAudit">
+                            <label class="btn btn-y" [disabled]="isDisabled" [ngClass]="{'disable-btn' : isDisabled }" for="btnAudit">
                             Yes
                         </label>
                             <input type="radio" name="btnYesNoAudit" value="2" id="btnAudit2" [checked]="data.audited.submit_annual_accounts == false" (change)="answer('q1',false,true)" />
-                            <label class="btn btn-n" style="margin-left: 1rem;" for="btnAudit2">
+                            <label class="btn btn-n" style="margin-left: 1rem;" [ngClass]="{'disable-btn' : isDisabled }" for="btnAudit2">
                             No
                         </label>
                         </div>
-                        <span class="text-danger" *ngIf="answerError?.audited?.submit_annual_accounts">Select Yes or No</span>
+                        <span class="text-danger y-n-err" *ngIf="answerError?.audited?.submit_annual_accounts">Select Yes or No</span>
                     </div>
                 </div>
                 <div class="row" *ngIf="data?.audited?.submit_annual_accounts">
@@ -213,13 +218,14 @@
                     <div class="q-div" *ngIf="data?.audited?.submit_annual_accounts">
                         <div *ngFor="let item of auditQues; let quesIndex=index">
                             <ng-container>
-                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)">
+                                <app-common-file-upload [dataFromParent]="item.data" (getFileUploadResult)="getUploadFileData($event, 'auditQues', item.name, quesIndex)" [quesName]="item?.name" [quesType]="item?.type" [amountObj]="item?.amount" [itemError]="item?.error" (fillAmount)="getAmountFromCommon($event, 'audited', item.name, item.type)"
+                                    [isDisabled]="isDisabled">
                                 </app-common-file-upload>
                             </ng-container>
-                            <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4" style="padding-left: 2pc;">
+                            <!-- <div *ngIf="item.error" class="col-sm-4 col-lg-4 col-md-4 mb-3" style="">
                                 <label class='text-danger' style="margin-right: 5px; font-weight: normal;">
                               {{pdfError}}</label>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -232,13 +238,13 @@
                       </span>
                         </div>
                         <div [ngClass]="data?.audited?.submit_standardized_data ? 'col-sm-4' : 'col-sm-12 mt-3 ms-4'" style="margin-bottom: .5rem;">
-                            <div id="checkboxes2">
+                            <div id="checkboxes2" [ngClass]="{'disable-btn-cur' : isDisabled }">
                                 <input type="radio" name="btnYesNoAudit2" value="1" id="btnAuditB" [checked]="data.audited.submit_standardized_data" (change)="answer('q2',true,true)" />
-                                <label class="btn btn-y" for="btnAuditB">
+                                <label class="btn btn-y" for="btnAuditB" [ngClass]="{'disable-btn' : isDisabled }">
                               Yes
                           </label>
                                 <input type="radio" name="btnYesNoAudit2" value="2" [checked]="data.audited.submit_standardized_data == false" (change)="answer('q2',false,true)" id="btnAuditB2" />
-                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnAuditB2">
+                                <label class="btn btn-n" style="margin-left: 1rem;" for="btnAuditB2" [ngClass]="{'disable-btn' : isDisabled }">
                               No
                           </label>
                             </div>
@@ -252,7 +258,7 @@
                             <a class="btn btn-primary" href="https://democityfinanceapi.dhwaniris.in/assets/files/Standardized%20Data_Format.xlsx" target="_blank">
                                 Download Template
                             </a>
-                            <button (click)="ques2.click()" class="btn btn-primary ms-3">Upload EXCEL
+                            <button (click)="ques2.click()" class="btn btn-primary ms-3" [disabled]="isDisabled">Upload EXCEL
                                 <span class="iconify xls" data-icon="mdi-file-excel" data-inline="false" data-width="23"
                                     data-height="16"></span>
                             </button>
@@ -286,7 +292,7 @@
                                             <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="" style="margin-left: 1px; height: 19px;">
 
                                         </a>
-                                        <a [ngClass]="{cross: isDisabled && data.audited.submit_annual_accounts && provisionDisable}" (click)="clearFile('audited')" style="margin-left: 3px;">
+                                        <a [ngClass]="{cross: isDisabled && data.audited.submit_annual_accounts && provisionDisable, 'p-none' : isDisabled}" (click)="clearFile('audited')" style="margin-left: 3px;">
                                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="" style="height: 13px;">
                                         </a>
                                     </div>
@@ -316,7 +322,7 @@
                                 </span>
                             </div>
                             <div class="col-sm-12 ms-3">
-                                <input type="checkbox" id="agree" [checked]="data.audited.standardized_data.declaration" [disabled]="isDisabled && data.audited.submit_annual_accounts && provisionDisable" (change)="declareCheck(data.audited.standardized_data)" name="agree" value=true>
+                                <input type="checkbox" id="agree" [checked]="data.audited.standardized_data.declaration" [disabled]="isDisabled" (change)="declareCheck(data.audited.standardized_data)" name="agree" value=true>
                                 <label style="margin-left: 1ch;" for="agree"> I Agree</label>
                             </div>
                         </div>
@@ -338,11 +344,11 @@
 </div> -->
 <div class="row ms-0 me-0 mt-4 mb-3">
     <div class="col-sm-6">
-        <button class="btn btn-c-back"><- Previous</button>
+        <button class="btn btn-c-back"><- Previous Form</button>
     </div>
     <div class="col-sm-6 text-end">
-        <button class="btn btn-primary" (click)="formSave('draft')">Save As Draft</button>
-        <button class="btn btn-primary ms-3" (click)="formSave('save')">Submit</button>
-        <button class="btn btn-c-next ms-3">Next -></button>
+        <button class="btn btn-primary" [disabled]="isDisabled" (click)="formSave('draft')">Save As Draft</button>
+        <button class="btn btn-primary ms-3" [disabled]="isDisabled" (click)="formSave('save')">Submit</button>
+        <button class="btn btn-c-next ms-3">Next Form -></button>
     </div>
 </div>

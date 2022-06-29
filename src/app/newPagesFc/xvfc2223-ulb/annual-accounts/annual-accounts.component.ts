@@ -26,6 +26,8 @@ export class AnnualAccountsComponent implements OnInit {
   ) {
     this.loggedInUserType = this.loggedInUserDetails.role;
   }
+  errorMsg =
+    "Some fields or files are blank or not uploaded. Please fill or uploaded all mandatory fields and files to submit the form.";
   dateShow: string = "2021-22";
   Years = JSON.parse(localStorage.getItem("Years"));
   userData = JSON.parse(localStorage.getItem("userData"));
@@ -251,7 +253,7 @@ export class AnnualAccountsComponent implements OnInit {
       key: "cash_flow",
     },
     {
-      name: "Auditor Report",
+      name: "Auditors Report",
       error: false,
       data: null,
       type: "file",
@@ -430,6 +432,7 @@ export class AnnualAccountsComponent implements OnInit {
   auditedDisable = true;
   @HostBinding("")
   pdfError = "PDF Not Uploaded!";
+  inputNumberError = "Fields can not be blank!";
   uploadErrors = {
     audited: {
       standardized_data: {
@@ -447,6 +450,7 @@ export class AnnualAccountsComponent implements OnInit {
     },
   };
   ulbId = "";
+  isDisabled = false;
   ngOnInit(): void {
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.onLoad();
@@ -455,7 +459,6 @@ export class AnnualAccountsComponent implements OnInit {
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     let ulbId = this.userData.ulb;
-
     // if (ulbId != null || this.finalSubmitUtiStatus == "true") {
     //   this.isDisabled = true;
     //   this.provisionDisable = true
@@ -469,6 +472,13 @@ export class AnnualAccountsComponent implements OnInit {
       .subscribe(
         async (res) => {
           this.dataPopulate(res);
+          let resObj: any = res;
+          console.log("resss", resObj);
+          if (resObj?.isDraft == false) {
+            this.isDisabled = true;
+          } else {
+            this.isDisabled = false;
+          }
           // this.actionCheck = res['status'];
           // console.log("annual res---------------", res, this.actionCheck);
         },
@@ -743,33 +753,178 @@ export class AnnualAccountsComponent implements OnInit {
     console.log("anual acc form", this.data);
     if (type === "draft") {
       this.data.isDraft = true;
-      this.postAnnualForm();
+      this.postAnnualFormDraft();
     } else {
       this.data.isDraft = false;
       this.checkValidation();
     }
   }
+  annualError = false;
   checkValidation() {
     // autited
-    if (this.data.audited.submit_annual_accounts == true) {
+    if (this.data.audited.submit_annual_accounts) {
+      for (const key in this.data.audited.provisional_data) {
+        console.log(
+          typeof this.data?.audited?.provisional_data[key] == "object"
+        );
+        let obj = this.data?.unAudited?.provisional_data[key];
+        let objLength = 0;
+        if (obj != null && obj != "" && obj != undefined) {
+          let objKeysE = Object.keys(obj);
+          objLength = objKeysE?.length;
+          console.log(objKeysE);
+        }
+        if (
+          objLength > 0 &&
+          (this.data?.audited?.provisional_data[key]?.pdf?.name == "" ||
+            this.data?.audited?.provisional_data[key]?.pdf?.name == null)
+        ) {
+          //this.data.unAudited.provisional_data[key].
+          this.auditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "file") {
+              el.error = true;
+            }
+          });
+          this.annualError = true;
+        } else if (
+          (this.data?.audited?.provisional_data[key] == "" ||
+            this.data?.audited?.provisional_data[key] == null) &&
+          objLength == 0
+        ) {
+          this.auditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "input") {
+              el.error = true;
+            }
+          });
+          this.annualError = true;
+        } else {
+          this.annualError = false;
+        }
+        this.answerError.audited.submit_annual_accounts = false;
+      }
     } else if (this.data.audited.submit_annual_accounts == false) {
+      this.unAuditQues.forEach((el) => {
+        el.error = false;
+      });
+      this.answerError.audited.submit_annual_accounts = false;
     } else {
+      this.auditQues.forEach((el) => {
+        el.error = false;
+      });
+      this.annualError = true;
+      this.answerError.audited.submit_annual_accounts = true;
     }
     // unAudited
     if (this.data.unAudited.submit_annual_accounts) {
       for (const key in this.data.unAudited.provisional_data) {
-        if (this.data.unAudited.provisional_data[key].pdf == "") {
-          // this.data.unAudited.provisional_data[key].
+        console.log(this.data?.unAudited?.provisional_data[key]);
+
+        let obj = this.data?.unAudited?.provisional_data[key];
+        let objLength = 0;
+        if (obj != null && obj != "" && obj != undefined) {
+          let objKeysE = Object.keys(obj);
+          objLength = objKeysE?.length;
+          console.log(objKeysE);
         }
+
+        if (
+          objLength > 0 &&
+          (this.data?.unAudited?.provisional_data[key]?.pdf?.name == "" ||
+            this.data?.unAudited?.provisional_data[key]?.pdf?.name == null)
+        ) {
+          //this.data.unAudited.provisional_data[key].
+          this.unAuditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "file") {
+              el.error = true;
+            }
+          });
+          this.annualError = true;
+        } else if (
+          objLength == 0 &&
+          (this.data?.unAudited?.provisional_data[key] == "" ||
+            this.data?.unAudited?.provisional_data[key] == null)
+        ) {
+          this.unAuditQues.forEach((el) => {
+            if (key == el?.key && el?.type == "input") {
+              el.error = true;
+            }
+          });
+          this.annualError = true;
+        } else {
+          this.annualError = false;
+        }
+        this.answerError.unAudited.submit_annual_accounts = false;
       }
     } else if (this.data.unAudited.submit_annual_accounts == false) {
+      this.unAuditQues.forEach((el) => {
+        el.error = false;
+      });
+      this.answerError.unAudited.submit_annual_accounts = false;
     } else {
+      this.unAuditQues.forEach((el) => {
+        el.error = false;
+      });
+      this.annualError = true;
+      this.answerError.unAudited.submit_annual_accounts = true;
+    }
+    console.log(this.unAuditQues);
+
+    if (this.annualError) {
+      swal("Error", `${this.errorMsg}`, "error");
+    } else {
+      this.validFormSubmit();
     }
   }
-  postAnnualForm() {
+  validFormSubmit() {
+    swal(
+      "Alert",
+      ` Are you sure you want to submit this form? Once submitted,
+        you will not be able to make any changes. Alternatively, you can save as draft for now and submit it later.`,
+      "warning",
+      {
+        buttons: {
+          Submit: {
+            text: "Submit",
+            value: "submit",
+          },
+          Draft: {
+            text: "Save as Draft",
+            value: "draft",
+          },
+          Cancel: {
+            text: "Cancel",
+            value: "cancel",
+          },
+        },
+      }
+    ).then((value) => {
+      switch (value) {
+        case "submit":
+          this.postApiForSubmit();
+          break;
+        case "draft":
+          this.postAnnualFormDraft();
+          break;
+        case "cancel":
+          break;
+      }
+    });
+  }
+  postAnnualFormDraft() {
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
         swal("Saved", "Data saved as draft successfully", "success");
+      },
+      (error) => {
+        swal("Error", "Somthing went wrong.", "error");
+        console.log("post error", error);
+      }
+    );
+  }
+  postApiForSubmit() {
+    this.newCommonService.postAnnualData(this.data).subscribe(
+      (res) => {
+        swal("Saved", "Data saved successfully", "success");
       },
       (error) => {
         swal("Error", "Somthing went wrong.", "error");

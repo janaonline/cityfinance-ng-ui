@@ -38,17 +38,29 @@ export class CommonFileUploadComponent implements OnInit {
     // rejectReason: this.rejectReason,
   };
   @Input() amountObj;
+  @Input() itemError;
+
   amount1Type;
   amount2Type;
   maxNumber = "999999999999999.99";
+  pdfError = "Pdf not uploaded!";
+  inputNumberError = "Fields can not be blank!";
   ngOnInit(): void {
+    if (this.quesName == "Auditors Report") {
+      this.showExcel = false;
+    } else {
+      this.showExcel = true;
+    }
     if (this.dataFromParent) {
       this.data = this.dataFromParent;
       //  this.stateAction = this.data?.status;
       //  this.rejectReason = this.data?.rejectReason;
     }
-    if (this.amountObj && this.amountObj?.value != "") {
-      this.amountKeyUp();
+    if (
+      this.quesType == "input" &&
+      (this.amountObj?.value != "" || this.amountObj?.value != null)
+    ) {
+      this.amountKeyUp("onLoad");
     }
   }
   ngOnChanges() {
@@ -61,7 +73,7 @@ export class CommonFileUploadComponent implements OnInit {
     }
   }
 
-  amountKeyUp() {
+  amountKeyUp(type) {
     //  this.amount1Type = this.converter.toWords(this.amountObj?.value);
     if (this.amountObj.value && this.amountObj.value != "") {
       if (this.amountObj.value < 999999999999999.99) {
@@ -69,12 +81,15 @@ export class CommonFileUploadComponent implements OnInit {
           currency: true,
           doNotAddOnly: true,
         });
-        this.amountObj.error = false;
+        this.itemError = false;
+        if (type == "click") this.amountObj.error = false;
       } else if (this.amountObj.value > 999999999999999.99) {
         this.amountObj.error = true;
+        if (type == "click") this.itemError = false;
       }
     } else {
       this.amount2Type = "";
+      if (type == "click") this.itemError = true;
     }
     this.fillAmount.emit(this.amountObj);
   }
