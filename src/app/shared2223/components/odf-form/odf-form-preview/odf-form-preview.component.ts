@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild,Inject,TemplateRef } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild, Inject, TemplateRef } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { USER_TYPE } from "src/app/models/user/userType";
-import {MAT_DIALOG_DATA,MatDialogConfig} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
 //import { defaultDailogConfiuration } from '../../../questionnaires/state/configs/common.config';
@@ -16,21 +16,22 @@ export class OdfFormPreviewComponent implements OnInit {
 
   constructor(private _questionnaireService: QuestionnaireService,
     private _matDialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data:any,
-    private commonService :NewCommonService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private commonService: NewCommonService) { }
   @ViewChild("gtcpre") _html: ElementRef;
   // @ViewChild("annualPreview") _html: ElementRef;
   @ViewChild("templateAnnual") template;
   showLoader;
   ulbName = "";
   stateName = "";
-  certDate:any;
-  fileUrl:any;
+  certDate: any;
+  fileUrl: any;
   ratings;
   dropdownValues;
-  ratingId:any;
-  ratingName:any;
-  fileName:any;
+  ratingId: any;
+  ratingName: any;
+  fileName: any;
+  isGfcOpen: boolean = true
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -103,26 +104,38 @@ export class OdfFormPreviewComponent implements OnInit {
 
     </style>`
   ngOnInit(): void {
-    this.certDate=this.data.formData.certDate
-    this.fileUrl=this.data.formData.cert
-    this.ratingId = this.data.formData.rating
-    this.fileName = this.data.fileName
     let userData = JSON.parse(localStorage.getItem("userData"));
+    console.log(this.data)
+    this.certDate = this.data.formData.certDate;
+    this.fileUrl = this.data.formData.cert;
+    this.ratingId = this.data.formData.rating;
+    this.fileName = this.data.fileName;
     if (userData.role !== USER_TYPE.ULB) {
       this.ulbName = sessionStorage.getItem("ulbName");
     } else {
       this.ulbName = userData["name"];
     }
     this.stateName = userData["stateName"];
-
-    this.commonService.getOdfRatings().subscribe((res:any)=>{
-      this.ratings=res.data
-      let name = this.ratings.find(res=>res._id.toString() == this.ratingId)
-      this.ratingName = name.name
-     })
+    this.isGfcOpen = this.data.isGfcOpen
+    if (this.isGfcOpen) {
+      this.commonService.getGfcFormData('gfc').subscribe((res: any) => {
+        this.ratings = res.data
+        let selectedGFCRating = this.ratings.find(res => res._id.toString() == this.ratingId);
+        this.ratingName = selectedGFCRating?.name
+      });     
+    } else {
+      this.commonService.getOdfRatings().subscribe((res: any) => {
+        this.ratings = res.data
+        console.log(this.ratings, 'ratingId', this.ratingId)
+        let selectedODF = this.ratings.find(res => res._id.toString() == this.ratingId);
+        console.log('nAMW', selectedODF);
+        this.ratingName = selectedODF?.name
+      });
+    }
+     
   }
   clickedDownloadAsPDF() {
-      this.downloadAsPDF();
+    this.downloadAsPDF();
   }
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;

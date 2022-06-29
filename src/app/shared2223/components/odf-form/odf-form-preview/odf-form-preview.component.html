@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 form-h text-center">
-            Annual Accounts
+            {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}}
         </div>
     </div>
     <div class="row">
@@ -36,22 +36,22 @@
                     <!-- main content -->
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
-                            <span>(A) Open Defecation Free (ODF) Rating
+                            <span>(A) {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating?
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{ratingName}}
+                            {{ratingName ? ratingName : 'N/A'}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
-                            <span class="fontStyle">(B) Upload ODF Certificate
+                            <span class="fontStyle">(B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?
                             </span>
                             <!-- <span class="fontStyle">(B) Upload Declaration
                             </span> -->
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            <a href="{{fileUrl}}" target="_blank">{{fileName}}</a>
+                            <a href="{{fileUrl}}" target="_blank">{{fileName ? fileName : 'N/A'}}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -60,7 +60,7 @@
                             </span>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
-                            {{certDate}}
+                            {{certDate ? certDate : 'N/A'}}
                         </div>
                     </div>
                 </div>

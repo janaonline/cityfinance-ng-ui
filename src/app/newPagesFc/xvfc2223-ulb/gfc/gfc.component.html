@@ -1,9 +1,1 @@
-<input type="text" (keyup)="keyUpN($event.target.value, '1')" (ngModel)="amount">
-<br>
-<span>{{amount2}}</span>
-
-<div class="mt-3">
-    <input type="text" (keyup)="keyUpN($event.target.value, '2')" (ngModel)="amount2">
-    <br>
-    <span>{{amount}}</span>
-</div>
+<app-odf-form [isGfcOpen]="isGFC"></app-odf-form>

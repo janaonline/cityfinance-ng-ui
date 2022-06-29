@@ -1,5 +1,5 @@
 import { HttpEventType, HttpParams } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl ,FormGroup, Validators,} from '@angular/forms';
 import { debug } from 'console';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
@@ -18,6 +18,7 @@ export class OdfFormComponent implements OnInit {
   date = new Date();
   now;
   noRating: boolean;
+  @Input() isGfcOpen: boolean = false;
   constructor(private dataEntryService: DataEntryService,
     private formBuilder: FormBuilder,private commonService :NewCommonService,public dialog: MatDialog,) { 
       this.date.setDate( this.date.getDate() );
@@ -64,13 +65,16 @@ export class OdfFormComponent implements OnInit {
     
     this.profileForm = this.formBuilder.group({
       rating: ['', Validators.required],
-      cert: ['', Validators.required],
+      cert: this.formBuilder.group ({
+        url:['',Validators.required],
+        name:['',Validators.required],
+      }),
       certDate: ['', Validators.required],
       ulb:'',
       design_year: '',
       status:'PENDING',
       isDraft: this.draft,
-      isGfc:false
+      isGfc: this.isGfcOpen
     });
     this.isGfc=this.profileForm.value.isGfc
     console.log(this.isGfc)
@@ -91,11 +95,19 @@ export class OdfFormComponent implements OnInit {
   this.commonService.getOdfRatings().subscribe((res:any)=>{
    this.ratings=res.data
    this.dropdownValues = res.data.map(a=>a.name)
+   if(this.isGfc == true){
+    this.commonService.getGfcFormData('gfc').subscribe((res:any)=>{
+      console.log(res)
+      this.ratings=res.data
+      this.dropdownValues = res.data.map(a=>a.name)
+      console.log(this.ratings)
+     })
+  }
   })
   const params = {
     ulb:this.ulb,
     design_year:this.yearValue,
-    isGfc:false
+    isGfc:this.isGfc
   }
   this.commonService.getOdfFormData(params).subscribe((res:any)=>{
     console.log(res)
@@ -128,8 +140,14 @@ export class OdfFormComponent implements OnInit {
     this.body = this.profileForm.value;
     this.commonService.odfSubmitForm(this.body).subscribe((res:any)=>{
       console.log('success!!!!!!!!!!!!!',res)
-      this.isDisabled = true;
-      swal('Saved', 'Data saved successfully', 'success')
+      if (res && res.success) {
+        this.isDisabled = true;
+        swal('Saved', 'Data saved successfully', 'success')
+      } else {
+        swal('Error', res?.message ? res?.message : 'Error', 'error')
+      }
+    }, error => {
+      console.error('err', error);
     })
   }
   onDraft(){
@@ -145,7 +163,8 @@ export class OdfFormComponent implements OnInit {
     console.log('odfFileName', this.odfFileName)
     let preData ={
       formData: this.profileForm.value,
-      fileName: this.odfFileName
+      fileName: this.odfFileName,
+      isGfcOpen: this.isGfcOpen
     }
     console.log('preData', preData)
     const dialogRef = this.dialog.open(OdfFormPreviewComponent, {
@@ -159,8 +178,9 @@ export class OdfFormComponent implements OnInit {
     });
   }
   onChange(item){
-    if(item == '1: 62b2e4c79a6c781a28150d73'){
-      this.uploadDeclaration = true
+    console.log(item)
+    if(item == '1: 62b2e4c79a6c781a28150d73' || item == '11: 62b2e4969a6c781a28150d71'){
+      this.uploadDeclaration = true;
       this.uploadCertificate=false;
       this.noRating = true;
       this.profileForm.get('certDate').clearValidators();
@@ -280,7 +300,12 @@ apiData={}
             this[progressType] = 100;
             if (progressType == 'odfProgress') {
               this.odfUrl = fileAlias;
-              this.profileForm.patchValue({cert:fileAlias});
+              this.profileForm.get('cert').patchValue({url:fileAlias,
+                name:file.name})
+              // this.profileForm.get('cert').patchValue({name:file.name})
+              
+              console.log(file)
+              console.log(s3URL)
             } 
             
           }

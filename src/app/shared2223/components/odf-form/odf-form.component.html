@@ -2,17 +2,19 @@
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6">
           <h4 class="form-header">
-            Open Defecation Free (ODF)
+            {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}}
           </h4>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
             <button type="button" class="btn btn-primary" id="prevBtn" (click)="preview()">Preview</button>
         </div>
     </div>
-    <form [formGroup]="profileForm"  class="formShadow">
+    <form [formGroup]="profileForm" class="formShadow"
+    [ngClass]="{'disabled-form': isDisabled}">
         <div class="row mt-4 mb-4 question">
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-                <span class="fontStyle">(A) Open Defecation Free (ODF) Rating ?<sup>*</sup>
+                <span class="fontStyle">
+                    (A){{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating?<sup>*</sup>
                 </span>
             </div>
             <div class="col-sm-6 col-lg-6 col-md-6 q-s">
@@ -29,7 +31,8 @@
         </div>
         <div class="row mb-4 question marginClass">
          <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-            <span class="fontStyle" *ngIf="uploadCertificate">(B) Upload ODF Certificate ?<sup>*</sup>
+            <span class="fontStyle" *ngIf="uploadCertificate">
+                (B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?<sup>*</sup>
             </span>
             <span class="fontStyle" *ngIf="uploadDeclaration">(B) Upload Declaration ?<sup>*</sup>
             </span>
@@ -86,7 +89,7 @@
 
 <div class="row mt-4 mb-4 question" *ngIf="uploadCertificate">
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
-       <span class="fontStyle">(C) Certification Issue Date ?<sup>*</sup>
+       <span class="fontStyle">(C) Certification Issue Date?<sup>*</sup>
        </span>
     </div>
     <div class="col-sm-6 col-lg-6 col-md-6 q-s">
