@@ -17,6 +17,7 @@ if (
 } else if (window.location.hostname.includes("new-cityfinance.dhwaniris.in")) {
   url = " https://newcityfinanceapi.dhwaniris.in/api/v1/";
 } else {
+  
   url = "https://cityfinance.in/api/v1/";
   GoogleTagID = "UA-171288029-1";
 }
