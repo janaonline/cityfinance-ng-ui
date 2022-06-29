@@ -9,7 +9,8 @@ import { Shared2223Module } from "src/app/shared2223/shared2223.module";
 import { AnnualAccountsComponent } from "./annual-accounts/annual-accounts.component";
 import { GfcComponent } from "./gfc/gfc.component";
 import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
-
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -24,6 +25,8 @@ import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-
     Shared2223Module,
     MatIconModule,
     FormsModule,
+    MatTooltipModule,
+    TooltipModule.forRoot(),
   ],
 })
 export class Xvfc2223UlbModule {}
