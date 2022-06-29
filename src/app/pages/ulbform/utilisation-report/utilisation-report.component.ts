@@ -9,7 +9,7 @@ import {
   Validators,
   FormBuilder,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+
 import { IUserLoggedInDetails } from "../../../models/login/userLoggedInDetails";
 import { USER_TYPE } from "../../../models/user/userType";
 import { UserUtility } from "../../../util/user/user";
@@ -18,7 +18,6 @@ import { IState } from "../../../models/state/state";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { UtiReportService } from "./uti-report.service";
 import { CommonService } from "src/app/shared/services/common.service";
-import { BaseComponent } from "src/app/util/BaseComponent/base_component";
 import { Router, Event } from "@angular/router";
 import { state } from "@angular/animations";
 import { PreviewUtiFormComponent } from "./preview-uti-form/preview-uti-form.component";
@@ -34,9 +33,6 @@ import { UlbformService } from "../ulbform.service";
 import { NavigationStart } from "@angular/router";
 import { SweetAlert } from "sweetalert/typings/core";
 import { UtiNewPreComponent } from "./uti-new-pre/uti-new-pre.component";
-import { Renderer2, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common'
-
 const swal: SweetAlert = require("sweetalert");
 
 @Component({
@@ -44,10 +40,7 @@ const swal: SweetAlert = require("sweetalert");
   templateUrl: "./utilisation-report.component.html",
   styleUrls: ["./utilisation-report.component.scss"],
 })
-export class UtilisationReportComponent
-  extends BaseComponent
-  implements OnInit, AfterViewInit
-{
+export class UtilisationReportComponent implements OnInit, AfterViewInit {
   modalRef: BsModalRef;
 
   utilizationReport: FormGroup;
@@ -62,9 +55,7 @@ export class UtilisationReportComponent
   takeStateAction;
   compDis;
   mohuaActionComp;
-  latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
-  id;
-  viewActionComp;
+  latLongRegex = '^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}'
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -73,25 +64,11 @@ export class UtilisationReportComponent
     private _commonService: CommonService,
     private profileService: ProfileService,
     private _router: Router,
-    private activatedRoute: ActivatedRoute,
     private UtiReportService: UtiReportService,
     private dataEntryService: DataEntryService,
     private modalService: BsModalService,
-    private _ulbformService: UlbformService,
-    private renderer2: Renderer2,
-    @Inject(DOCUMENT) private _document
+    private _ulbformService: UlbformService
   ) {
-    super();
-    this.activatedRoute.params.subscribe((val) => {
-      const { id } = val;
-      if (id) {
-        this.id = id;
-        console.log("stid", id);
-        sessionStorage.setItem("row_id", this.id);
-      } else {
-        this.id = sessionStorage.getItem("row_id");
-      }
-    });
     let yearId = JSON.parse(localStorage.getItem("Years"));
     this.finalSubmitUtiStatus = localStorage.getItem("finalSubmitStatus");
     this.takeStateAction = localStorage.getItem("takeStateAction");
@@ -103,6 +80,7 @@ export class UtilisationReportComponent
 
     this.designYear = yearId["2021-22"];
     this.financialYear = yearId["2020-21"];
+
 
     this.initializeUserType();
     this.fetchStateList();
@@ -116,7 +94,6 @@ export class UtilisationReportComponent
   // }];
   @ViewChild("templateUtil") template;
   @ViewChild("template1") template1;
-  @ViewChild("finalSubmitAlert") finalSubmitAlert;
   routerNavigate = null;
   totalclosingBal: Number = 0;
   projectCost = 0;
@@ -126,7 +103,7 @@ export class UtilisationReportComponent
   lastRoleInMasterForm;
   masterFormStatus;
   // editable;
-  saveBtn = "NEXT";
+  saveBtn = "NEXT"
   photoUrl: any = [];
   fd;
   formDataResponce;
@@ -161,6 +138,8 @@ export class UtilisationReportComponent
         this.utilizationReport.controls.projects.disable();
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
+
+
       }
       if (
         this.finalSubmitUtiStatus == "true" &&
@@ -169,7 +148,6 @@ export class UtilisationReportComponent
       ) {
         this.isDisabled = true;
         this.utilizationReport.disable();
-
         this.utilizationReport.controls.projects.disable();
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
@@ -184,7 +162,7 @@ export class UtilisationReportComponent
           this.isDisabled = true;
           this.utilizationReport.controls.projects.disable();
           this.utilizationReport.controls.categoryWiseData_swm.disable();
-          this.utilizationReport.controls.categoryWiseData_wm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
       }
 
       this.getResponse();
@@ -196,6 +174,7 @@ export class UtilisationReportComponent
   // }
 
   ngOnInit() {
+    this.clickedSave = false;
     sessionStorage.setItem("canNavigate", "true");
     this.UtiReportService.getCategory().subscribe((resdata) => {
       this.categories = resdata;
@@ -205,6 +184,7 @@ export class UtilisationReportComponent
       // console.log(this.utilizationReport['controls']['categoryWiseData_swm'])
       // console.log(this.utilizationReport['controls']['categoryWiseData_swm']['controls'])
 
+
       // console.log('swm categories', this.swm_categories)
       // console.log('wm categories', this.wm_categories)
       this.categories = this.categories.sort((a, b) =>
@@ -213,11 +193,7 @@ export class UtilisationReportComponent
     });
 
     let form_data = JSON.parse(sessionStorage.getItem("allStatus"));
-    console.log(
-      "form-data and this.utilizationReport",
-      form_data.utilReport,
-      this.utilizationReport
-    );
+    console.log("form-data and this.utilizationReport", form_data.utilReport, this.utilizationReport);
     let form_status = form_data.utilReport.isSubmit;
     console.log("stat", form_status);
     if (form_status == null) {
@@ -226,67 +202,56 @@ export class UtilisationReportComponent
       this.submitted = true;
       this.isSubmitted = true;
     }
-    this.showActionComp();
     //   for state after final action
     this._ulbformService.disableAllFormsAfterStateReview.subscribe(
       (disable) => {
         console.log("utilization speaking", disable);
-        this.compDis = "true";
+        this.compDis = 'true';
         if (disable) {
-          localStorage.setItem("stateActionComDis", "true");
+          localStorage.setItem("stateActionComDis", 'true');
         }
       }
     );
     this._ulbformService.disableAllFormsAfterMohuaReview.subscribe(
       (disable) => {
         console.log("utilization speaking", disable);
-        this.mohuaActionComp = "true";
+        this.mohuaActionComp = 'true';
         if (disable) {
-          localStorage.setItem("mohuaActionComDis", "true");
+          localStorage.setItem("mohuaActionComDis", 'true');
         }
       }
     );
   }
-  showActionComp() {
-    if (
-      this.loggedInUserType == this.userTypes.STATE &&
-      ((this.actionTakenByRole == this.userTypes.ULB && !this.isDraft) ||
-        (this.actionTakenByRole == this.userTypes.STATE && this.isDraft))
-    ) {
-      this.viewActionComp = true;
-    } else if (
-      this.loggedInUserType == this.userTypes.MoHUA &&
-      ((this.actionTakenByRole == this.userTypes.STATE && !this.isDraft) ||
-        (this.actionTakenByRole == this.userTypes.MoHUA && this.isDraft))
-    ) {
-      this.viewActionComp = true;
-    }
+
+  ngAfterViewInit() {
+
   }
-  ngAfterViewInit() {}
 
   navigationCheck() {
-    this._router.events.subscribe(async (event: Event) => {
-      console.log("entered into router", this.routerNavigate);
-      if (event instanceof NavigationStart) {
-        const canNavigate = sessionStorage.getItem("canNavigate");
-        console.log(canNavigate);
-        if (event.url === "/" || event.url === "/login") {
-          sessionStorage.setItem("canNavigate", "true");
-          return;
-        }
-        if (canNavigate === "false" && this.routerNavigate === null) {
-          // this.dialogReference.close();
+    if (!this.clickedSave) {
+      this._router.events.subscribe(async (event: Event) => {
+        console.log("entered into router", this.routerNavigate);
+        if (event instanceof NavigationStart) {
+          const canNavigate = sessionStorage.getItem("canNavigate");
+          console.log(canNavigate);
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("canNavigate", "true");
+            return;
+          }
+          if (canNavigate === "false" && this.routerNavigate === null) {
+            // this.dialogReference.close();
 
-          const currentRoute = this._router.routerState;
-          this._router.navigateByUrl(currentRoute.snapshot.url, {
-            skipLocationChange: true,
-          });
-          this.routerNavigate = event;
-          this.openDialogBox(this.template);
-          return;
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.openDialogBox(this.template);
+            return;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   currentChanges() {
@@ -297,7 +262,7 @@ export class UtilisationReportComponent
       const oldForm = sessionStorage.getItem("utilReport");
       const change = JSON.stringify(formChange);
       if (change !== oldForm) {
-        this.saveBtn = "SAVE AND NEXT";
+        this.saveBtn = "SAVE AND NEXT"
         sessionStorage.setItem("canNavigate", "false");
       } else {
         sessionStorage.setItem("canNavigate", "true");
@@ -312,11 +277,9 @@ export class UtilisationReportComponent
       this._ulbformService.allFormsData.next(allFormData);
     }
   }
-  analytics = [];
-  swm = [];
-  wm = [];
-  status = "";
-  actionTakenByRole = "";
+  analytics = []
+  swm = []
+  wm = []
   public getResponse() {
     this.ulbId = sessionStorage.getItem("ulb_id");
     this.UtiReportService.fetchPosts(
@@ -327,28 +290,26 @@ export class UtilisationReportComponent
       (res) => {
         //  this.formDataResponce = res;
         console.log(res);
-        this.analytics = res["analytics"];
-        this.analytics?.forEach((el) => {
-          this.categories?.forEach((element) => {
-            if (element._id == el["_id"]) {
-              el["categoryName"] = element.name;
+        this.analytics = res['analytics']
+        this.analytics?.forEach(el => {
+          this.categories?.forEach(element => {
+            if (element._id == el['_id']) {
+              el['categoryName'] = element.name
             }
           });
-        });
-        console.log(this.analytics);
-        this.analytics.forEach((el) => {
-          if (
-            el.categoryName == "Solid Waste Management" ||
-            el.categoryName == "Sanitation"
-          ) {
-            this.swm.push(el);
+        })
+        console.log(this.analytics)
+        this.analytics.forEach(el => {
+          if (el.categoryName == 'Solid Waste Management' || el.categoryName == 'Sanitation') {
+            this.swm.push(el)
           } else {
-            this.wm.push(el);
+            this.wm.push(el)
           }
-        });
-        console.log("project", this.swm, this.wm);
+        })
+        console.log('project', this.swm, this.wm)
         this.setcategoryData(res);
         if (!("_id" in res)) {
+
           this.utilizationReport.value["blankForm"] = true;
           console.log(this.utilizationReport, this.wm, this.swm);
           sessionStorage.setItem(
@@ -361,37 +322,32 @@ export class UtilisationReportComponent
           return;
         }
         this.preFilledData(res);
-        this.actionTakenByRole = res["actionTakenByRole"];
-        this.status = res["status"];
         const data = {
           designation: res["designation"],
           grantPosition: res["grantPosition"],
           name: res["name"],
-          categoryWiseData_swm: res["categoryWiseData_swm"]
-            ? res["categoryWiseData_swm"]
-            : this.swm,
-          categoryWiseData_wm: res["categoryWiseData_wm"]
-            ? res["categoryWiseData_wm"]
-            : this.wm,
+          categoryWiseData_swm: res["categoryWiseData_swm"] ? res["categoryWiseData_swm"] : this.swm,
+          categoryWiseData_wm: res["categoryWiseData_wm"] ? res["categoryWiseData_wm"] : this.wm,
           projects: res["projects"],
           grantType: res["grantType"],
         };
+
 
         sessionStorage.setItem("utilReport", JSON.stringify(data));
         setTimeout(() => {
           this.currentChanges();
         }, 1000);
 
-        if (
-          res["status"] == "APPROVED" &&
+        if (res["status"] == "APPROVED" &&
           this.lastRoleInMasterForm != this.userTypes.ULB
         ) {
           this.isDisabled = true;
           this.utilizationReport.disable();
           this.utilizationReport.controls.projects.disable();
           this.utilizationReport.controls.categoryWiseData_swm.disable();
-          this.utilizationReport.controls.categoryWiseData_wm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
         }
+
       },
       (error) => {
         this.utilizationReport.value["blankForm"] = true;
@@ -420,26 +376,28 @@ export class UtilisationReportComponent
     //   i++;
     // }
     // }, 500)
+
+
   }
   setcategoryData(res) {
-    if (res?.categoryWiseData_swm) {
+    if(res?.categoryWiseData_swm){
       res.categoryWiseData_swm.forEach((swm_project) => {
-        this.addSwmRow(swm_project, "swm_category");
-      });
-    } else {
-      this.swm?.forEach((swmData) => {
-        this.addSwmRow(swmData, "analytics_swm");
-      });
+        this.addSwmRow(swm_project, 'swm_category');
+      })
+    }else{
+     this.swm?.forEach((swmData) => {
+        this.addSwmRow(swmData, 'analytics_swm');
+      })
     }
 
-    if (res?.categoryWiseData_wm) {
+    if(res?.categoryWiseData_wm){
       res?.categoryWiseData_wm.forEach((wm_project) => {
-        this.addWmRow(wm_project, "wm_category");
-      });
-    } else {
-      this.wm?.forEach((wmData) => {
-        this.addWmRow(wmData, "analytics_wm");
-      });
+        this.addWmRow(wm_project, 'wm_category');
+      })
+    }else{
+     this.wm?.forEach((wmData) => {
+        this.addWmRow(wmData, 'analytics_wm');
+      })
     }
   }
 
@@ -462,13 +420,11 @@ export class UtilisationReportComponent
         this.utilizationReport.controls.categoryWiseData_swm.disable();
         this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
-    if (
-      this.finalSubmitUtiStatus == "true" &&
-      this.masterFormStatus != "REJECTED"
-    ) {
+    if ((this.finalSubmitUtiStatus == "true") &&
+      (this.masterFormStatus != 'REJECTED')) {
       this.utilizationReport.controls.projects.disable();
       this.utilizationReport.controls.categoryWiseData_swm.disable();
-      this.utilizationReport.controls.categoryWiseData_wm.disable();
+        this.utilizationReport.controls.categoryWiseData_wm.disable();
     }
     if (
       this.ulbFormStaus == "REJECTED" &&
@@ -480,7 +436,7 @@ export class UtilisationReportComponent
       this.isDisabled = false;
       this.utilizationReport.controls.projects.enable();
       this.utilizationReport.controls.categoryWiseData_swm.enable();
-      this.utilizationReport.controls.categoryWiseData_wm.enable();
+        this.utilizationReport.controls.categoryWiseData_wm.enable();
     }
   }
   addPreFilledSimple(data) {
@@ -588,6 +544,7 @@ export class UtilisationReportComponent
         //   numberOfProjects: ["", Validators.required],
         //   totalProjectCost: ["", Validators.required],
         // }),
+
       ]),
       categoryWiseData_wm: this.fb.array([
         // this.fb.group({
@@ -597,9 +554,10 @@ export class UtilisationReportComponent
         //   totalProjectCost: ["", Validators.required],
         // }),
       ]),
-      projects: this.fb.array([]),
+      projects: this.fb.array([
+
+      ]),
       status: [""],
-      // isDraft:[],
       name: ["", [Validators.required, Validators.maxLength(50)]],
       designation: ["", [Validators.required, Validators.maxLength(50)]],
     });
@@ -635,6 +593,7 @@ export class UtilisationReportComponent
     return this.utilizationReport.get("categoryWiseData_wm") as FormArray;
   }
   calAmount(setFormControl, event) {
+
     let controlValue =
       +this.utilizationReport.value.grantPosition[setFormControl];
     if (controlValue < 0) {
@@ -645,9 +604,7 @@ export class UtilisationReportComponent
     }
     if (
       this.projectExp !=
-      Number(
-        this.utilizationReport.controls.grantPosition.value.expDuringYr
-      ).toFixed(2)
+      (Number(this.utilizationReport.controls.grantPosition.value.expDuringYr)).toFixed(2)
     ) {
       this.isSumEqual = false;
     } else {
@@ -689,30 +646,25 @@ export class UtilisationReportComponent
   }
 
   totalProCost(i) {
-    console.log("uti form", this.utilizationReport);
-    console.log("12222222--", i);
+    console.log('uti form', this.utilizationReport);
+    console.log('12222222--', i);
     //  if((this.utilizationReport.controls.projects.value[0].cost) > 0){
     this.projectCost = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
-      console.log(
-        "val...........",
-        this.utilizationReport.controls.projects.value[j].cost
-      );
-      if (
-        !isNaN(this.utilizationReport.controls.projects.value[j].cost) &&
-        this.utilizationReport.controls.projects.value[j].cost > 0
-      ) {
+      console.log('val...........', this.utilizationReport.controls.projects.value[j].cost)
+      if (!isNaN(this.utilizationReport.controls.projects.value[j].cost) &&
+        (this.utilizationReport.controls.projects.value[j].cost) > 0) {
         this.projectCost =
           this.projectCost +
           +this.utilizationReport.controls.projects.value[j].cost;
-      } else if (
-        isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
-        this.utilizationReport.controls.projects.value[j].cost < 0
-      ) {
+      }
+      else if (isNaN(this.utilizationReport.controls.projects.value[j].cost) ||
+        (this.utilizationReport.controls.projects.value[j].cost) < 0) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "cost"
         ].patchValue("");
-      } else {
+      }
+      else {
         this.projectCost = this.projectCost + 0;
         console.log(this.utilizationReport);
       }
@@ -723,43 +675,45 @@ export class UtilisationReportComponent
     //    ].patchValue("");
     //  }
   }
-  projectExpTotal: any;
+  projectExpTotal: any
   totalExpCost(i) {
     this.projectExp = 0;
     for (let j = 0; j < this.tabelRows.length; j++) {
       //  this.projectExp = this.projectExp + Number(this.utilizationReport.controls.projects.value[j].expenditure);
       // console.log(this.projectExp);
       if (
-        !isNaN(this.utilizationReport.controls.projects.value[j].expenditure) &&
-        this.utilizationReport.controls.projects.value[j].expenditure
+        !isNaN(this.utilizationReport.controls.projects.value[j].expenditure)
+        && (this.utilizationReport.controls.projects.value[j].expenditure)
       ) {
-        let expenditure: any;
-        expenditure = Number(
-          this.utilizationReport.controls.projects.value[j].expenditure
-        );
-        this.projectExp = this.projectExp + expenditure;
+        let expenditure: any
+        expenditure = Number(this.utilizationReport.controls.projects.value[j].expenditure)
+        this.projectExp =
+          (this.projectExp + expenditure)
         // this.projectExp = this.projectExp.toFixed(2)
-        Number(this.projectExp.toF);
+        Number(this.projectExp.toF)
         // this.projectExp = this.projectExp.toFixed(2)
 
-        console.log(typeof this.projectExp);
-        console.log(this.projectExp);
-      } else if (
+        console.log(typeof this.projectExp)
+        console.log(this.projectExp)
+
+      }
+      else if (
         isNaN(this.utilizationReport.controls.projects.value[j].expenditure) ||
-        this.utilizationReport.controls.projects.value[j].expenditure < 0
+        (this.utilizationReport.controls.projects.value[j].expenditure) < 0
       ) {
         this.utilizationReport.controls.projects["controls"][j]["controls"][
           "expenditure"
         ].patchValue("");
-      } else {
+      }
+      else {
         this.projectExp = this.projectExp + 0;
       }
     }
-    this.projectExpTotal = this.projectExp.toFixed(2);
+    this.projectExpTotal = (this.projectExp.toFixed(2))
     if (
-      this.projectExpTotal !=
-      String(this.utilizationReport.controls.grantPosition.value.expDuringYr)
-    ) {
+      ((this.projectExpTotal) !=
+        String(this.utilizationReport.controls.grantPosition.value.expDuringYr)
+      )) {
       this.isSumEqual = false;
     } else {
       this.isSumEqual = false;
@@ -780,6 +734,16 @@ export class UtilisationReportComponent
     this.fd.ulb = user_data.ulb;
     console.log(this.fd);
     let len = this.tabelRows.length;
+    // for (let i = 0; i < len; i++) {
+    //   const control = this.tabelRows.controls[i]["controls"]["photos"];
+    //   console.log("prk", control.length);
+    //   if (control.length == 0) {
+    //     this.fd.isDraft = true;
+    //     i = len;
+    //   } else {
+    //     this.fd.isDraft = false;
+    //   }
+    // }
 
     if (fromChange) return;
 
@@ -788,11 +752,7 @@ export class UtilisationReportComponent
       this.totalclosingBal >= 0 &&
       !this.isSumEqual
     ) {
-      this.fd.isDraft = false;
-      if (this.submitInDraftMode) {
-        this.fd.isDraft = true;
-      }
-
+      // this.fd.isDraft = false;
       console.log("if");
       console.log("api data", this.fd);
       this.apiCall(this.fd);
@@ -809,19 +769,19 @@ export class UtilisationReportComponent
   }
   onNewPre() {
     const dialogRef = this.dialog.open(UtiNewPreComponent, {
-      width: "21cm",
-      height: "100%",
-      maxHeight: "90vh",
+
+      width: '21cm',
+      height: '100%',
+      maxHeight: '90vh',
       panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
+
     });
   }
   helpData;
-  clickedBack = false;
-  btnDisable = false;
   onPreview() {
     if (
       this.utilizationReport.valid &&
@@ -912,9 +872,9 @@ export class UtilisationReportComponent
 
     const dialogRef = this.dialog.open(PreviewUtiFormComponent, {
       data: formdata,
-      width: "85vw",
-      height: "100%",
-      maxHeight: "90vh",
+      width: '85vw',
+      height: '100%',
+      maxHeight: '90vh',
       panelClass: "no-padding-dialog",
     });
     // this.hidden = false;
@@ -937,14 +897,8 @@ export class UtilisationReportComponent
         // ]),
         // capacity: ["", Validators.required],
         location: this.fb.group({
-          lat: [
-            "",
-            [Validators.required, Validators.pattern(this.latLongRegex)],
-          ],
-          long: [
-            "",
-            [Validators.required, Validators.pattern(this.latLongRegex)],
-          ],
+          lat: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
+          long: ["", [Validators.required, Validators.pattern(this.latLongRegex)]],
         }),
         cost: ["", Validators.required],
         expenditure: ["", Validators.required],
@@ -966,14 +920,8 @@ export class UtilisationReportComponent
         // photos: this.fb.array([]),
         // capacity: [data.capacity, Validators.required],
         location: this.fb.group({
-          lat: [
-            data.location.lat,
-            [Validators.required, Validators.pattern(this.latLongRegex)],
-          ],
-          long: [
-            data.location.long,
-            [Validators.required, Validators.pattern(this.latLongRegex)],
-          ],
+          lat: [data.location.lat, [Validators.required, Validators.pattern(this.latLongRegex)]],
+          long: [data.location.long, [Validators.required, Validators.pattern(this.latLongRegex)]],
         }),
         cost: [data.cost, Validators.required],
         expenditure: [data.expenditure, Validators.required],
@@ -981,37 +929,39 @@ export class UtilisationReportComponent
     );
     this.totalProCost(this.tabelRows.length);
     this.totalExpCost(this.tabelRows.length);
+
   }
   addSwmRow(data, type) {
-    if (type == "swm_category") {
+    if(type == 'swm_category'){
       this.tabelRows_SWMcategory.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
           grantUtilised: [data?.grantUtilised, Validators.required],
           numberOfProjects: [data?.numberOfProjects, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        })
+        }),
       );
-    } else {
+    }else {
       this.tabelRows_SWMcategory.push(
         this.fb.group({
           category_name: [data?.categoryName, Validators.required],
           grantUtilised: [data?.amount, Validators.required],
           numberOfProjects: [data?.count, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        })
+        }),
       );
     }
+
   }
   addWmRow(data, type) {
-    if (type == "wm_category") {
+    if(type == 'wm_category'){
       this.tabelRows_WMcategory.push(
         this.fb.group({
           category_name: [data?.category_name, Validators.required],
           grantUtilised: [data?.grantUtilised, Validators.required],
           numberOfProjects: [data?.numberOfProjects, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        })
+        }),
       );
     } else {
       this.tabelRows_WMcategory.push(
@@ -1020,9 +970,10 @@ export class UtilisationReportComponent
           grantUtilised: [data?.amount, Validators.required],
           numberOfProjects: [data?.count, Validators.required],
           totalProjectCost: [data?.totalProjectCost, Validators.required],
-        })
+        }),
       );
     }
+
   }
   setUrlGroup(url) {
     return this.fb.group({
@@ -1070,72 +1021,22 @@ export class UtilisationReportComponent
     console.log(fd);
     this.UtiReportService.createAndStorePost(fd).subscribe(
       (res) => {
+        swal("Record submitted successfully!");
         const status = JSON.parse(sessionStorage.getItem("allStatus"));
         status.utilReport.isSubmit = res["isCompleted"];
         this._ulbformService.allStatus.next(status);
-        if (this.submitInDraftMode) {
-          swal("Success", "Form Saved as Draft Successfully!", "success");
-        } else {
-          swal(
-            "Success",
-            "Form submitted successfully. It is under review by State Government",
-            "success"
-          );
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
-        }
       },
       (error) => {
-        swal("Error", "Failed To Save", "error");
+        swal("An error occured!");
         this.errMessage = error.message;
         console.log(this.errMessage);
       }
     );
   }
-
-  submitInDraftMode;
-  clickedSaveAndNext(template1, isDraft) {
-    this.submitInDraftMode = isDraft == "1";
-
-    if (
-      this.utilizationReport.valid &&
-      this.totalclosingBal >= 0 &&
-      !this.isSumEqual
-    ) {
-      this.isDraft = false;
-    } else {
-      this.isDraft = true;
-    }
-    if (!this.submitInDraftMode && !this.isDraft) {
-      this.openDialogBox(this.finalSubmitAlert);
-      // this.save(this.data)
-      return;
-    } else if (!this.submitInDraftMode && this.isDraft) {
-      return swal(
-        "Error",
-        "Form can be Submitted for review only after filling all the necessary details.",
-        "error"
-      );
-    }
-    //case when ulb clicks on save as draft
-    if (this.loggedInUserType == USER_TYPE.ULB) {
-      // console.log(JSON.stringify(this.data));
-
-      let canNavigate = sessionStorage.getItem("canNavigate");
-      if (canNavigate === "false") {
-        this.saveAndNext(this.template);
-      } else {
-        return swal("Success", "Data Already Saved", "success");
-      }
-    } else if (
-      this.loggedInUserType == USER_TYPE.STATE ||
-      this.loggedInUserType == USER_TYPE.MoHUA
-    ) {
-      this.stateActionSave();
-      return;
-    }
-
+  clickedSave = false;
+  clickedSaveAndNext(template1) {
+    this.clickedSave = true;
+    sessionStorage.setItem("canNavigate", "true");
     if (this.ulbId == null) {
       this.saveAndNext(template1);
     } else {
@@ -1145,13 +1046,15 @@ export class UtilisationReportComponent
           return this._router.navigate(["ulbform/annual_acc"]);
         } else {
           this.stateActionSave();
-
+          this._router.navigate(["ulbform/annual_acc"]);
           sessionStorage.setItem("canNavigate", "true");
         }
+
       }
     }
   }
   stateActionSave() {
+
     let stateData;
     stateData = this.utilizationReport.value;
     stateData.financialYear = this.financialYear;
@@ -1160,54 +1063,40 @@ export class UtilisationReportComponent
     stateData.grantPosition.closingBal = this.totalclosingBal;
     stateData.ulb = this.ulbId;
     stateData.status = this.ulbFormStaus;
-    if (this.submitInDraftMode) {
-      stateData.isDraft = true;
+    if ((this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) && this.ulbFormStaus == "REJECTED") {
+      swal('Providing Reason for Rejection is Mandatory for Rejecting a Form');
     } else {
-      stateData.isDraft = false;
-    }
-    if (
-      (this.ulbFormRejectR == null || this.ulbFormRejectR == undefined) &&
-      this.ulbFormStaus == "REJECTED"
-    ) {
-      swal(
-        "Error",
-        "Providing Reason for Rejection is Mandatory for Rejecting a Form",
-        "error"
-      );
-    } else {
+      if (
+        this.ulbFormStaus == "APPROVED" ||
+        (this.ulbFormStaus == "REJECTED" && this.ulbFormRejectR != null)
+      ) {
+        stateData.isDraft = false;
+      } else {
+        stateData.isDraft = true;
+      }
       stateData.rejectReason = this.ulbFormRejectR;
 
       this.UtiReportService.stateActionPost(stateData).subscribe(
         (res) => {
+          swal("Record submitted successfully!");
           const status = JSON.parse(sessionStorage.getItem("allStatus"));
           status.utilReport.status = stateData.status;
           this._ulbformService.allStatus.next(status);
-          if (this.submitInDraftMode) {
-            swal("Success", "Form Saved as Draft Successfully!", "success");
-          } else {
-            swal(
-              "Success",
-              "Form submitted successfully. It is under review by Ministry of Housing and Urban Affairs",
-              "success"
-            );
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
-          }
           // this._router.navigate(["ulbform/annual_acc"]);;
         },
         (error) => {
-          swal("Error", "Failed To Save", "error");
+          swal("An error occured!");
           this.errMessage = error.message;
           console.log(this.errMessage);
         }
       );
     }
+
   }
   saveAndNext(template1) {
     let canNavigate = sessionStorage.getItem("canNavigate");
     if (canNavigate === "true" && this.saveBtn === "NEXT") {
-      return this._router.navigate(["ulbform/annual_acc"]);
+      return this._router.navigate(["ulbform/annual_acc"]);;
     } else {
       this.submitted = true;
       console.log(this.utilizationReport);
@@ -1226,12 +1115,20 @@ export class UtilisationReportComponent
         this.totalclosingBal >= 0 &&
         !this.isSumEqual
       ) {
+        console.log("entered valid form");
         this.fd.isDraft = false;
-        if (this.submitInDraftMode) {
-          this.fd.isDraft = true;
-        }
+        console.log(this.fd);
         let len = this.tabelRows.length;
-
+        // for (let i = 0; i < len; i++) {
+        //   const control = this.tabelRows.controls[i]["controls"]["photos"];
+        //   console.log("prk", control.length);
+        //   if (control.length == 0) {
+        //     this.fd.isDraft = true;
+        //     i = len;
+        //   } else {
+        //     this.fd.isDraft = false;
+        //   }
+        // }
         console.log("api data", this.fd);
         this.apiCall(this.fd);
         sessionStorage.setItem("canNavigate", "true");
@@ -1266,35 +1163,29 @@ export class UtilisationReportComponent
   async proceed() {
     await this._matDialog.closeAll();
     let canNavigate = sessionStorage.getItem("canNavigate");
-    if (!this.submitInDraftMode) {
+    if (this.clickedSave) {
       await this.submitData();
       sessionStorage.setItem("canNavigate", "true");
-
+      this._router.navigate(["ulbform/annual_acc"]);
       return;
     }
-
     if (this.routerNavigate && canNavigate === "true") {
       this._router.navigate([this.routerNavigate.url]);
       return;
-    } else if (
-      this.routerNavigate &&
-      canNavigate === "false" &&
-      !this.actionTaken
-    ) {
+    } else if (this.routerNavigate && canNavigate === "false" && !this.actionTaken) {
       await this.submitData();
       this._router.navigate([this.routerNavigate.url]);
       return;
-    } else if (
-      this.routerNavigate &&
-      canNavigate === "false" &&
-      this.actionTaken
-    ) {
+    } else if (this.routerNavigate && canNavigate === "false" && this.actionTaken) {
+
       await this.stateActionSave();
       if (this.backButtonClicked) {
-        return this._router.navigate(["ulbform/grant-tra-certi"]);
+        return this._router.navigate(["ulbform/grant-tra-certi"])
       } else {
         return this._router.navigate([this.routerNavigate.url]);
       }
+
+
     }
     if (this.fromPreview) {
       this.onPreview();
@@ -1545,10 +1436,10 @@ export class UtilisationReportComponent
   openDialog(index): void {
     // console.log(this.tabelRows.value[index].location);
     if (
-      this.tabelRows.value[index]?.location?.lat !== "" &&
-      this.tabelRows.value[index]?.location?.long !== ""
+      this.tabelRows.value[index].location.lat !== "" &&
+      this.tabelRows.value[index].location.long !== ""
     ) {
-      this.UtiReportService.setLocation(this.tabelRows.value[index]?.location);
+      this.UtiReportService.setLocation(this.tabelRows.value[index].location);
     }
     const dialogRef = this.dialog.open(MapDialogComponent, {
       width: "auto",

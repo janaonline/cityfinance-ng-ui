@@ -1148,8 +1148,9 @@ export class RevenuechartComponent
           this.scatterData.data.datasets.forEach((el) => {
             let obj = { x: 0, y: 0 };
             if (el.label == "Town Panchayat") {
-              obj = { x: 0, y: 0 };
+             console.log('fffffff',tp_data)
               tp_data.forEach((el2, index) => {
+                obj = { x: 0, y: 0 };
                 obj.x = el2.population;
                 obj.y = stateServiceLabel ? Math.round(el2.value) : el2.amount;
                 el["labels"].push(el2.ulbName);
@@ -1201,6 +1202,7 @@ export class RevenuechartComponent
               });
             }
           });
+          
           console.log(this.scatterData);
           // this.generateRandomId("scatterChartId123");
           this.scatterData = { ...this.scatterData };

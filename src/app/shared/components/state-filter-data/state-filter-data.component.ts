@@ -707,7 +707,7 @@ export class StateFilterDataComponent extends BaseComponent implements OnInit {
                     this.stateServiceLabel ? Math.round(el2.value) : el2.amount
                   );
                   el.data.push(obj);
-                  // obj = { x: 0, y: 0 };
+                  obj = { x: 0, y: 0 };
                 });
               } else if (el.label == "Municipal Corporation") {
                 mCorporation.forEach((el2, index) => {
