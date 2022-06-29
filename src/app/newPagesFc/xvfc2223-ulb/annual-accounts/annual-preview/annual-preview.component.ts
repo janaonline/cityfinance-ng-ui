@@ -55,17 +55,7 @@ text-align: center;
     background-color: #EBF5F5;
 }
 
-.qus-h-an {
-    margin-bottom: .5rem;
-    margin-top: 1rem;
-    font-size: 10px;
-}
 
-.ans-h-an {
-    margin-bottom: .5rem;
-    margin-top: .5rem;
-    font-size: 10px;
-}
 .dec-h {
   font-weight: 600 !important;
   margin-bottom: 0 !important;
@@ -80,42 +70,20 @@ text-align: center;
   display: inline-block;
   font-size: 12px !important;
 }
-.f-r {
-  margin-left: 30px;
-}
-.ans-h-an{
-  margin-left : .5rem !important;
-}
-.ans-h-na{
-  margin-left : 1rem !important;
-  margin-bottom: .5rem;
-  margin-top: .5rem;
-  font-size: 10px !important;
-}
+
 .hi{
   display:none
 }
-.qus-h-an-ex {
-  margin-bottom: .5rem;
-  margin-top: .5rem;
-  font-size: 10px;
-  margin-left : .5rem !important;
-}
-.ans-h-an-b {
-    margin-bottom: .5rem;
-    margin-top: .5rem;
-    margin-left : 1rem !important;
-    font-size: 10px;
-}
+
 .form-status {
   font-size: 10px;
   margin-top: 10px;
 }
 .optionalText{
   padding-left: 2.5rem;
-          margin-top: .5rem;
-          margin-bottom: 1.5rem;
-          font-size:7px;
+  margin-top: .5rem;
+  margin-bottom: 1.5rem;
+  font-size:7px;
 }
 
   </style>`;
