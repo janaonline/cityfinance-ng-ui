@@ -9,6 +9,7 @@ import { timer, Subscription } from "rxjs";
 import { Pipe, PipeTransform } from "@angular/core";
 import { environment } from "./../../../environments/environment";
 import { CommonService } from "src/app/shared/services/common.service";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 
 @Component({
   selector: "app-login",
@@ -50,33 +51,34 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public loginError: string;
   public emailVerificationMessage: string;
-  otpVerificationMessage:boolean = false
+  otpVerificationMessage: boolean = false;
   public reCaptcha = {
     show: false,
     siteKey: environment.reCaptcha.siteKey,
     userGeneratedKey: null,
   };
   public hide = true;
-  directLogin = false
+  directLogin = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private newCommonService: NewCommonService
   ) {
     if (this.authService.loggedIn()) {
       this.router.navigate(["/home"]);
       return;
     }
     this.activatedRoute.queryParams.subscribe((param) => {
-      if(param.user && param.user == 'USER' ){
-       this.directLogin = true
+      if (param.user && param.user == "USER") {
+        this.directLogin = true;
       }
       if (param.message) {
-        this.otpVerificationMessage = true
+        this.otpVerificationMessage = true;
         setTimeout(() => {
-          this.otpVerificationMessage = false
+          this.otpVerificationMessage = false;
         }, 3000);
         this.emailVerificationMessage = param.message;
       }
@@ -117,8 +119,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       this.authService.signin(body).subscribe(
         (res) => this.onSuccessfullLogin(res),
-        (error) =>{
-          this.onLoginError(error)
+        (error) => {
+          this.onLoginError(error);
         }
       );
     } else {
@@ -131,7 +133,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (res && res["token"]) {
       localStorage.setItem("id_token", JSON.stringify(res["token"]));
       localStorage.setItem("Years", JSON.stringify(res["allYears"]));
-
+      this.getSideBar(res["user"]);
       const userUtil = new UserUtility();
       userUtil.updateUserDataInRealTime(res["user"]);
 
@@ -208,9 +210,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     sessionStorage.removeItem("postLoginNavigation");
   }
   onSelectingUserType(value) {
-if(this.directLogin){
-  value = 'USER'
-}
+    if (this.directLogin) {
+      value = "USER";
+    }
     this.selectedUserType = value;
     this.loginSet = this.loginDetails.find(
       (item) => item.role == this.selectedUserType
@@ -221,7 +223,7 @@ if(this.directLogin){
           Validators.required,
           Validators.pattern("^\\d+\\.{0,1}\\d*$"),
           Validators.minLength(6),
-          Validators.maxLength(6)
+          Validators.maxLength(6),
         ]);
       default:
         this.loginForm.controls["email"].setValidators([
@@ -274,7 +276,7 @@ if(this.directLogin){
     }
 
     if (form?.controls.email.value === "") {
-      this.loginError = null
+      this.loginError = null;
       this.noCodeError = true;
       setTimeout(() => {
         this.noCodeError = false;
@@ -302,6 +304,21 @@ if(this.directLogin){
 
   passwordUser(user) {
     this.commonService.setUser(false, user);
+  }
+  getSideBar(userData) {
+    let ulbId = userData?.ulb;
+    let role = userData?.role
+    let isUA = false;
+    if(userData?.isUA == 'Yes'){
+      isUA = true;
+    }else {
+      isUA = false;
+    }
+    this.newCommonService.getULBLeftMenu(ulbId, role, isUA).subscribe((res: any) => {
+      console.log("left responces..", res);
+      localStorage.setItem("leftMenuRes", JSON.stringify(res?.data));
+      //  this.leftMenu = res;
+    });
   }
 }
 

@@ -1,0 +1,254 @@
+<div class="container-fluid" #annualPreview id="annualPreview">
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+              Submissions for 15th FC grant for FY 2022-23
+        </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status" style="">
+                <b>Form Current Status:</b>
+            </p>
+        </div>
+        <div class="col-sm-6 text-end hi">
+            <button id="donwloadButton" style="" class="btn btn-primary" (click)="annualDownload()">Download as PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            Annual Accounts
+        </div>
+        <div class="col-sm-12 ot-text">
+            <mat-icon aria-hidden="false" style="width: 16px; height: 16px;">
+                <img src="../../../../assets/ulbform/info_black_24dp.svg">
+            </mat-icon> - PDFs are mandatory and Excels are Optional.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- main content -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- main content unAudit -->
+                    <div class="f-l">
+                        Provisional Accounts for 2022-23
+                    </div>
+                    <div class="item-c">
+                        <div class="row c-he">
+                            <div class="col-sm-8 h-h">
+                                (A) Do you wish to submit Provisional Accounts for 2021-22 ?
+                            </div>
+                            <div class="col-sm-4 h-h">
+                                <div class="a-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == true || preData?.body?.unAudited?.submit_annual_accounts == false">
+                                    {{preData?.body?.unAudited?.submit_annual_accounts ? 'Yes' : 'No'}}
+                                </div>
+                                <div class="n-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == null">
+                                    N/A
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row q-a-r" *ngFor="let unAuditItem of preData?.unAudit let i = index;">
+                            <div class="col-sm-5 ques">{{unAuditItem?.name}}
+                                <!-- <span *ngIf="(unAuditItem?.type == 'file')" style="font-weight: 500;">{{i +1}}.</span> -->
+                            </div>
+                            <div class="col-sm-7 ans">
+                                <div class="i-t" *ngIf="(unAuditItem?.type == 'input')">
+                                    {{unAuditItem?.amount?.value | currency:'INR'}}
+                                </div>
+                                <div class="f-t" *ngIf="(unAuditItem?.type == 'file')">
+                                    <div class="f" *ngIf="unAuditItem?.data">
+                                        <div class="pdf" *ngIf="unAuditItem?.data?.pdf?.name">
+                                            <span style="font-weight: 500;">Pdf-</span>
+                                            <span class="ms-2">
+                                             <a href="{{unAuditItem?.data?.pdf?.url}}" target="_blank">{{unAuditItem?.data?.pdf?.name}}</a>
+                                            </span>
+                                        </div>
+                                        <div class="excel" *ngIf="unAuditItem?.data?.excel?.name">
+                                            <span style="font-weight: 500;">Excel-</span>
+                                            <span class="ms-2">
+                                              <a href="{{unAuditItem?.data?.excel?.url}}" target="_blank">{{unAuditItem?.data?.excel?.name}}</a>
+                                           </span>
+                                        </div>
+                                    </div>
+                                    <div class="n-f" *ngIf="(!unAuditItem?.data?.pdf?.name && !unAuditItem?.data?.excel?.name)">
+                                        N/A
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row c-he mt-3 mb-3">
+                            <div class="col-sm-8 h-h">
+                                (B) Do you wish to submit financials in Standardized Format for 2021-22 ?
+                            </div>
+                            <div class="col-sm-4 h-h">
+                                <div class="a-y" *ngIf="preData?.body?.unAudited?.submit_standardized_data == true || preData?.body?.unAudited?.submit_standardized_data == false">
+                                    {{preData?.body?.unAudited?.submit_standardized_data ? 'Yes' : 'No'}}
+                                </div>
+                                <div class="n-y" *ngIf="preData?.body?.unAudited?.submit_standardized_data == null">
+                                    N/A
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-8">
+                                Uploaded Excel
+                            </div>
+                            <div class="col-sm-4 ans">
+                                <div class="f-t">
+                                    <div class="f" *ngIf="preData?.body?.unAudited?.standardized_data">
+                                        <div class="excel" *ngIf="preData?.body?.unAudited?.standardized_data?.excel?.name">
+                                            <span class="">
+                                             <a href="{{preData?.body?.unAudited?.standardized_data?.excel?.url}}" target="_blank">
+                                              {{preData?.body?.unAudited?.standardized_data?.excel?.name}}
+                                             </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="n-f" *ngIf="(!preData?.body?.unAudited?.standardized_data?.excel?.name)">
+                                        N/A
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8 qus-h-an">
+                                <label class="dec-h" style="font-weight: 600;">
+                                  Self declaration by the Executive officer/Municipal
+                                  Commissioner of the ULB on the standardised financial statements uploaded above.
+                              </label> <br>
+                                <span> I hereby confirm that I have verified the information uploaded in standardized
+                                  template and it is true and correct. It is confirmed that this information can be made
+                                  available for public
+                                  consumption on the CityFinance portal.</span>
+                            </div>
+                            <div class="col-sm-4" style="">
+                                <span class="ans-h-an" *ngIf="preData?.body.unAudited?.standardized_data?.declaration == true">Agreed</span>
+
+                                <span class="ans-h-an" *ngIf="preData?.body.unAudited?.standardized_data?.declaration == false">Not
+                                  Agreed
+                              </span>
+                                <span class="ans-h-na" *ngIf="preData?.body.unAudited?.standardized_data?.declaration == undefined">N/A</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- main content Audit -->
+                    <div class="f-l mt-3">
+                        Audited Accounts for 2020-21
+                    </div>
+                    <div class="item-c">
+                        <div class="row c-he">
+                            <div class="col-sm-8 h-h">
+                                (A) Do you wish to submit Audited Accounts for 2020-21 ?
+                            </div>
+                            <div class="col-sm-4 h-h">
+                                <div class="a-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == true || preData?.body?.unAudited?.submit_annual_accounts == false">
+                                    {{preData?.body?.unAudited?.submit_annual_accounts ? 'Yes' : 'No'}}
+                                </div>
+                                <div class="n-y" *ngIf="preData?.body?.unAudited?.submit_annual_accounts == null">
+                                    N/A
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row q-a-r" *ngFor="let auditItem of preData?.audit">
+                            <div class="col-sm-5 ques">
+                                {{auditItem?.name}}
+                            </div>
+                            <div class="col-sm-7 ans">
+                                <div class="i-t" *ngIf="(auditItem?.type == 'input')">
+                                    {{auditItem?.amount?.value | currency:'INR'}}
+                                </div>
+                                <div class="f-t" *ngIf="(auditItem?.type == 'file')">
+                                    <div class="f" *ngIf="auditItem?.data">
+                                        <div class="pdf" *ngIf="auditItem?.data?.pdf?.name">
+                                            <span style="font-weight: 500;">Pdf-</span>
+                                            <span class="ms-2">
+                                              <a href="{{auditItem?.data?.pdf?.url}}" target="_blank">{{auditItem?.data?.pdf?.name}}
+                                             </a>
+                                            </span>
+                                        </div>
+                                        <div class="excel" *ngIf="auditItem?.data?.excel?.name">
+                                            <span style="font-weight: 500;">Excel-</span>
+                                            <span class="ms-2">
+                                              <a href="{{auditItem?.data?.excel?.url}}" target="_blank">
+                                              {{auditItem?.data?.excel?.name}}
+                                             </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="n-f" *ngIf="(!auditItem?.data?.pdf?.name && !auditItem?.data?.excel?.name)">
+                                        N/A
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row c-he mt-3 mb-3">
+                            <div class="col-sm-8 h-h">
+                                (B) Do you wish to submit financials in Standardized Format for 2020-21 ?
+                            </div>
+                            <div class="col-sm-4 h-h">
+                                <div class="a-y" *ngIf="preData?.body?.audited?.submit_standardized_data == true || preData?.body?.audited?.submit_standardized_data == false">
+                                    {{preData?.body?.audited?.submit_standardized_data ? 'Yes' : 'No'}}
+                                </div>
+                                <div class="n-y" *ngIf="preData?.body?.audited?.submit_standardized_data == null">
+                                    N/A
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-8">
+                                Uploaded Excel
+                            </div>
+                            <div class="col-sm-4 ans">
+                                <div class="f-t">
+                                    <div class="f" *ngIf="preData?.body?.audited?.standardized_data">
+                                        <div class="excel" *ngIf="preData?.body?.audited?.standardized_data?.excel?.name">
+                                            <span class="">
+                                             <a href="{{preData?.body?.audited?.standardized_data?.excel?.url}}" target="_blank">
+                                              {{preData?.body?.audited?.standardized_data?.excel?.name}}
+                                             </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="n-f" *ngIf="(!preData?.body?.audited?.standardized_data?.excel?.name)">
+                                        N/A
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8 qus-h-an">
+                                <label class="dec-h" style="font-weight: 600;">
+                            Self declaration by the Executive officer/Municipal
+                            Commissioner of the ULB on the standardised financial statements uploaded above.
+                        </label> <br>
+                                <span> I hereby confirm that I have verified the information uploaded in standardized
+                            template and it is true and correct. It is confirmed that this information can be made
+                            available for public
+                            consumption on the CityFinance portal.</span>
+                            </div>
+                            <div class="col-sm-4" style="">
+                                <span class="ans-h-an" *ngIf="preData?.body.audited?.standardized_data?.declaration == true">Agreed</span>
+
+                                <span class="ans-h-an" *ngIf="preData?.body.audited?.standardized_data?.declaration == false">Not
+                            Agreed
+                        </span>
+                                <span class="ans-h-na" *ngIf="preData?.body.audited?.standardized_data?.declaration == undefined">N/A</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
