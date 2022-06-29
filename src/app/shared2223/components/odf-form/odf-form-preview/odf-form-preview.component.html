@@ -1,0 +1,70 @@
+<div class="container-fluid" id="gtcpre" #gtcpre>
+    <div class="row header-p">
+        <div class="col-sm-12 text-end">
+            <a (click)="closeMat()" class="pull-right">
+                <img src="../../../../../assets/form-icon/Icon material-close.svg">
+            </a>
+        </div>
+        <div class="col-sm-12 text-center heading-p">
+            <span style="display: block;">
+              Submissions for 15th FC grant for FY 2022-23
+        </span>
+
+            <b class="sub-h">{{ulbName}}, {{stateName}}</b>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-sm-6">
+            <p class="form-status">
+                <b>Form Current Status:</b>
+            </p>
+        </div>
+        <div class="col-sm-6 text-end">
+            <button id="donwloadButton" class="btn btn-primary" (click)="clickedDownloadAsPDF()">Download as PDF</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form-h text-center">
+            {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- main content -->
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span>(A) {{isGfcOpen ? 'Garbage Free City (GFC)' : 'Open Defecation Free (ODF)'}} Rating?
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            {{ratingName ? ratingName : 'N/A'}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span class="fontStyle">(B) Upload {{isGfcOpen ? 'GFC' : 'ODF'}} Certificate?
+                            </span>
+                            <!-- <span class="fontStyle">(B) Upload Declaration
+                            </span> -->
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            <a href="{{fileUrl}}" target="_blank">{{fileName ? fileName : 'N/A'}}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass">
+                            <span>(C) Certification Issue Date
+                            </span>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 questionClass opacityClass">
+                            {{certDate ? certDate : 'N/A'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

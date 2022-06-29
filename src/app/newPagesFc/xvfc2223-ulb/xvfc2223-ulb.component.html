@@ -37,11 +37,15 @@
                                 {{sideItem?.name}}
                             </div>
                             <div class="col-sm-1 col-lg-1 col-md-1">
-                                <mat-icon class="pull-right" aria-hidden="false">
+                                <!-- <mat-icon class="pull-right" aria-hidden="false">
                                     <img src="../../../assets/form-icon/checked.svg">
-                                </mat-icon>
-                                <mat-icon class="pull-right" aria-hidden="false">
+                                </mat-icon> -->
+
+                                <!-- <mat-icon class="pull-right" aria-hidden="false">
                                     <img src="../../../assets/form-icon/cancel.svg">
+                                </mat-icon> -->
+                                <mat-icon class="pull-right" aria-hidden="false" [tooltip]="sideItem?.tooltip">
+                                    <img src="{{sideItem?.tick}}">
                                 </mat-icon>
 
                             </div>

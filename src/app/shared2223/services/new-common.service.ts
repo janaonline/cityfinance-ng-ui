@@ -25,6 +25,9 @@ export class NewCommonService {
       body
     );
   }
+  getGfcFormData(param) {
+    return this.http.get(`${environment.api.url}ratings?formName=${param}`);
+  }
   getOdfFormData(params) {
     return this.http.get(
       `${environment.api.url}gfc-odf-form-collection?ulb=${params.ulb}&design_year=${params.design_year}&isGfc=${params.isGfc}`
