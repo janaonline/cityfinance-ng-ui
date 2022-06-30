@@ -93,20 +93,7 @@ export class OdfFormComponent implements OnInit {
     this.profileForm.patchValue({
       ulb: this.ulb
     })
-    if (this.isGfc == true) {
-      this.commonService.getGfcFormData('gfc').subscribe((res: any) => {
-        console.log(res)
-        this.previewData = res
-        this.ratings = res.data
-        this.dropdownValues = res.data.map(a => a.name)
-        console.log(this.ratings)
-      })
-    } else {
-      this.commonService.getOdfRatings().subscribe((res: any) => {
-        this.ratings = res.data
-        this.dropdownValues = res.data.map(a => a.name)
-      })
-    }
+    this.fetchData();
 
     const params = {
       ulb: this.ulb,
@@ -131,7 +118,22 @@ export class OdfFormComponent implements OnInit {
   get f() { return this.profileForm.controls; }
 
   disableSubmitForm: boolean
-
+  fetchData(){
+    if (this.isGfc == true) {
+      this.commonService.getGfcFormData('gfc').subscribe((res: any) => {
+        console.log(res)
+        this.previewData = res;
+        this.ratings = res.data;
+        this.dropdownValues = res.data.map(a => a.name);
+        console.log(this.ratings)
+      })
+    } else {
+      this.commonService.getOdfRatings().subscribe((res: any) => {
+        this.ratings = res.data;
+        this.dropdownValues = res.data.map(a => a.name);
+      })
+    }
+  }
   onSubmit(type) {
     this.submitted = true;
     this.draft = false;
@@ -160,6 +162,7 @@ export class OdfFormComponent implements OnInit {
     this.body = this.profileForm.value;
     this.commonService.odfSubmitForm(this.body).subscribe((res: any) => {
       console.log('successDraftttt!!!!!!!!!!!!!', res)
+      this.fetchData();
       swal('Saved', 'Data saved as draft successfully', 'success')
 
     })

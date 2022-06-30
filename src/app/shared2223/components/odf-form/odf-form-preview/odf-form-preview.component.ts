@@ -110,11 +110,11 @@ export class OdfFormPreviewComponent implements OnInit {
     // this.certDate = this.data.formData.certDate;
     // this.fileUrl = this.data.formData.cert;
     // this.ratingId = this.data.formData.rating;
-    this.fileName = this.data?.previewData?.data?.cert?.name;
-    this.certDate = this.data?.previewData?.data?.certDate;
-    this.ratingId = this.data?.previewData?.data?.rating;
+    this.fileName = this.data?.formData?.cert?.name;
+    this.certDate = this.data?.formData?.certDate;
+    this.ratingId = this.data?.formData?.rating;
     console.log(this.fileName)
-    this.previewData = this.data.previewData;
+    this.previewData = this.data.formData;
     console.log(this.previewData)
     if (userData.role !== USER_TYPE.ULB) {
       this.ulbName = sessionStorage.getItem("ulbName");
@@ -128,6 +128,7 @@ export class OdfFormPreviewComponent implements OnInit {
         this.ratings = res.data
         let selectedGFCRating = this.ratings.find(res => res._id.toString() == this.ratingId);
         this.ratingName = selectedGFCRating?.name
+        console.log(this.ratingName)
       });     
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {

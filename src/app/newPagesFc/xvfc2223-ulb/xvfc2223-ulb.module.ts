@@ -11,6 +11,7 @@ import { GfcComponent } from "./gfc/gfc.component";
 import { AnnualPreviewComponent } from './annual-accounts/annual-preview/annual-preview.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { PfmsComponent } from './pfms/pfms.component';
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -18,6 +19,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     AnnualAccountsComponent,
     GfcComponent,
     AnnualPreviewComponent,
+    PfmsComponent,
   ],
   imports: [
     CommonModule,
