@@ -116,13 +116,13 @@
             Filter by
           </h5>
         </a>
-        <div class="col-md-12 d-flex justify-content-between pt-2 fl-form">
-          <div class="d-flex flex-wrap ms-3">
-            <div class="mr-1 mb-2">
+        <div class="col-md-12 d-flex pt-2 fl-form">
+          <div class="d-flex flex-wrap">
+            <div class="col-md-2 me-1">
               <select
                 formControlName="stateId"
                 (change)="filterData('state', '')"
-                class="form-select filter"
+                class="form-select filter w-100"
               >
                 <option selected>State Name</option>
                 <option
@@ -134,10 +134,10 @@
               </select>
             </div>
 
-            <div class="mr-1 mb-2">
+            <div class="col-md-2 mx-1">
               <input
                 type="text"
-                class="filter searchField"
+                class="filter searchField w-100"
                 placeholder="ULB"
                 matInput
                 formControlName="ulb"
@@ -155,11 +155,11 @@
                 </a>
               </mat-autocomplete>
             </div>
-            <div class="mr-1 mb-2">
+            <div class="col-md-2 mx-1">
               <select
                 formControlName="ulbType"
                 (change)="filterData('ulbType', '')"
-                class="form-select filter"
+                class="form-select filter w-100"
               >
                 <option selected>ULB Type</option>
                 <option
@@ -170,11 +170,11 @@
                 </option>
               </select>
             </div>
-            <div class="mr-1 mb-2">
+            <div class="col-md-2 mx-1">
               <select
                 (change)="filterData('popCat', '')"
                 formControlName="populationCategory"
-                class="form-select filter"
+                class="form-select filter w-100"
               >
                 <!-- <option selected>ULB Population Category</option> -->
                 <option
@@ -185,11 +185,11 @@
                 </option>
               </select>
             </div>
-            <div class="mr-1 mb-2">
+            <div class="col-md-2 mx-1">
               <select
                 (change)="filterData('year', '')"
                 formControlName="financialYear"
-                class="form-select filter"
+                class="form-select filter w-100"
               >
                 <option>Year</option>
                 <option *ngFor="let year of yearList" [value]="year">
@@ -197,10 +197,10 @@
                 </option>
               </select>
             </div>
-            <div class="mr-1 mb-2">
+            <div class="col-md-1 ms-1">
               <button
                 (click)="clearFilter()"
-                class="btn btn-outline-secondary btn-sm btn-os btn-clear-filters filter clear-btn"
+                class="btn btn-outline-secondary btn-xs btn-os btn-clear-filters filter clear-btn px-0 py-1"
               >
                 Clear All
                 <img
@@ -339,7 +339,7 @@
         <div class="col-md-10">
           <div class="row mx-0">
             <div
-              class="col-md-6 col-sm-12"
+              class="col-md-6 col-sm-12 p-0"
               [ngClass]="{ 'col-lg-3': ownTab, 'col-lg-4': proTab }"
               *ngFor="let cardItem of cardData"
             >

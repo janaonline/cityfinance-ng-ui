@@ -581,7 +581,7 @@ export class CommonService {
     return this.http.post(`${environment.api.url}recentSearchKeyword`, data);
   }
   getRecentSearchValue() {
-    return this.http.get(`${environment.api.url}recentSearchKeyword?limit=3`);
+    return this.http.get(`${environment.api.url}recentSearchKeyword?limit=2`);
   }
 
   getChartDataByIndicator(body) {
