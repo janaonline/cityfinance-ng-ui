@@ -1,8 +1,11 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AnnualAccountsComponent } from "./annual-accounts/annual-accounts.component";
+import { DetailedUtilizationReportComponent } from "./detailed-utilization-report/detailed-utilization-report.component";
 import { GfcComponent } from "./gfc/gfc.component";
+import { Gtc2223Component } from "./gtc2223/gtc2223.component";
 import { OdfComponent } from "./odf/odf.component";
+import { Slbs2223Component } from "./slbs2223/slbs2223.component";
 import { Xvfc2223UlbComponent } from "./xvfc2223-ulb.component";
 
 const routes: Routes = [
@@ -22,6 +25,18 @@ const routes: Routes = [
       {
         path: "annual_acc",
         component: AnnualAccountsComponent,
+      },
+      {
+        path: "DUR",
+        component: DetailedUtilizationReportComponent,
+      },
+      {
+        path: "slbs",
+        component: Slbs2223Component,
+      },
+      {
+        path: "gtc",
+        component: Gtc2223Component,
       },
     ],
   },
