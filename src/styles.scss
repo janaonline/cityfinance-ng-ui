@@ -213,15 +213,15 @@ body {
 // * {
 //   overflow: visible !important;
 // }
-body {
+html {
     // overflow-y: auto;
     // min-height: 100vh;
     font-family: 'Archivo', sans-serif;
     &.sm {
-        font-size: .6em;
+        font-size: $font-size-base*.8;
     }
     &.lg {
-        font-size: 1.1em;
+        font-size: $font-size-base*1.3;
     }
 }
 
