@@ -24,7 +24,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row mb-2">
+                        <!-- <div class="row mb-2">
                             <div class="col-sm-6">
                                 <label class="i-label" for="">
                                   Year of 15th FC Module Design
@@ -33,7 +33,7 @@
                             <div class="col-sm-6">
                                 <input class="form-control" disabled type="text" value="2022-23">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <label class="i-label" for="">
@@ -65,7 +65,7 @@
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <span class="sec-h">
-                                  15th FC Tied Grant Status for the Financial Year 2021-22<sup class="text-danger">*</sup>
+                                  15th FC Tied Grant Status for the Financial Year 2021-22<sup class="text-danger astr">*</sup>
                               </span>
                             </div>
                         </div>
@@ -76,7 +76,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control" disabled type="text" value="551">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99" value="551">
+
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -86,7 +90,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control" type="number" min="0" max="9999.99">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99">
+
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -96,7 +104,11 @@
                                 </label>
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control" type="number" min="0" max="9999.99">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99">
+
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -106,7 +118,11 @@
                               </label>
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control" type="number" min="0" max="9999.99">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99">
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,7 +136,7 @@
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <span class="sec-h">
-                                 Component Wise Utilisation of Tied grants as on 31st March 2022<sup class="text-danger">*</sup>
+                                 Component Wise Utilisation of Tied grants as on 31st March 2022<sup class="text-danger astr">*</sup>
                                  <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                  </span>
@@ -170,7 +186,24 @@
                                                     </td>
 
                                                 </tr>
+                                                <tr>
+                                                    <td colspan="2" style="font-weight: 500">
+                                                        Total
+                                                    </td>
+                                                    <td>99</td>
+                                                    <td>9999</td>
+                                                    <td>555</td>
+                                                </tr>
                                             </tbody>
+                                            <!-- <tfoot>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        Total
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot> -->
                                         </table>
                                     </div>
 
@@ -221,6 +254,14 @@
                                                     </td>
 
                                                 </tr>
+                                                <tr>
+                                                    <td colspan="2" style="font-weight: 500">
+                                                        Total
+                                                    </td>
+                                                    <td>99</td>
+                                                    <td>9999</td>
+                                                    <td>555</td>
+                                                </tr>
                                             </tbody>
 
                                         </table>
@@ -257,8 +298,24 @@
 
                                         <tbody>
                                             <tr>
+                                                <td>1.</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" style="font-weight: 500">
+                                                    Total
+                                                </td>
+                                                <td>99</td>
+                                                <td>9999</td>
+                                                <td></td>
                                             </tr>
                                         </tbody>
+
                                         <tbody>
                                             <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
                                             <tr>
@@ -277,6 +334,43 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="i-label" for="">
+                                  Name<sup class="text-danger astr">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="i-label" for="">
+                                    Designation<sup class="text-danger astr">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="row mb-2 mt-3">
+                            <div class="col-sm-12 form-check">
+                                <input type="checkbox" class="form-check-input" id="agreeDec" name="agree" value=''>
+                                <label class="form-check-label" for="agreeDec">
+                                  Certified that above information has been extracted from the relevent records being maintained with the ULB and is true to to best of my knowledge and belief.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row mt-4 mb-3">
             <div class="col-sm-6">
                 <button class="btn btn-c-back"><- Previous Form</button>
@@ -287,5 +381,6 @@
                 <button class="btn btn-c-next ms-3">Next Form -></button>
             </div>
         </div>
+
     </form>
 </div>

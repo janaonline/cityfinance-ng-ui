@@ -84,7 +84,7 @@ export class NHomeHeaderComponent implements OnInit {
   setFontSize(size) {
     console.log('setFontSize', size)
     // this.size= size;
-    let elem = document.body;
+    let elem = document.documentElement;
 
     this.textSize.forEach((item) => elem.classList.remove(item));
     elem.classList.add(size);
