@@ -230,7 +230,15 @@
 .image-upload img {
     cursor: pointer;
 }
-
+::ng-deep .mat-tooltip {
+    /* your own custom styles here */ 
+    /* e.g. */
+    color: yellow;
+}
+.customTooltipClass{
+    background: black;
+    color:white;
+}
 .saveBtn {
     width: auto;
     height: 36px;
