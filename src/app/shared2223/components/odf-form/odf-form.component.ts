@@ -188,7 +188,7 @@ export class OdfFormComponent implements OnInit {
   }
   onChange(item) {
     console.log(item)
-    if (item == '1: 62b2e4c79a6c781a28150d73' || item == '11: 62b2e4969a6c781a28150d71') {
+    if (item == '1: 62b2e4c79a6c781a28150d73' || item == '6: 62b2e4969a6c781a28150d71') {
       this.uploadDeclaration = true;
       this.uploadCertificate = false;
       this.noRating = true;
