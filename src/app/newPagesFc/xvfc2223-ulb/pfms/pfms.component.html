@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="row mt-3 mb-3 question">
+        <div class="row mt-3 mb-3 question d-none">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
                   (A) Year of 15th FC Module Design
@@ -22,7 +22,7 @@
                 </span>
             </div>
         </div>
-        <div class="row mt-3 mb-3 question">
+        <div class="row mt-3 mb-3 question d-none">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
                     (B) ULB
@@ -37,20 +37,20 @@
         <div class="row mt-3 mb-3 question">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                   (C) Do you wish to submit Details for PFMS Account ?
+                   (A) Do you wish to submit Details for PFMS Account ?
                 </span>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                      <button class="btn" (click)="clickYes()">Yes</button>
-                      <button class="btn ms-3" (click)="clickNo()">No</button>
+                      <button class="customButtonClass" (click)="clickYes()" [ngClass]="{'activeClass': activeClass }">Yes</button>
+                      <button class="customButtonClass ms-3" (click)="clickNo()">No</button>
                 </span>
             </div>
         </div>
         <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                   (D) Has the ULB linked its bank account with PFMS?
+                   (B) Has the ULB linked its bank account with PFMS?
                    <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC." matTooltipPosition="above">
                     <img src="../../../../assets/ticks/info_black_18dp.svg">
                    </span>
@@ -58,27 +58,27 @@
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                    <button class="btn" (click)="linkedYes()">Yes</button>
-                    <button class="btn ms-3" (click)="linkedNo()">No</button>
+                    <button class="customButtonClass" (click)="linkedYes()" [ngClass]="{'activeClassBottom': activeClassBottom }">Yes</button>
+                    <button class="customButtonClass ms-3" (click)="linkedNo()">No</button>
                 </span>
             </div>
         </div>
         <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                   (E) PFMS Account Number
+                   (C) PFMS Account Number
                 </span>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                   <input type="text" class="form-control">
+                   <input type="text" class="form-control customWidth">
                 </span>
             </div>
         </div>
         <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                   (F) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy, etc
+                   (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy, etc
                 </span>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
@@ -98,7 +98,7 @@
         <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
             <div class="col-md-6 col-lg-6 col-sm-6">
                 <span class="fontStyle">
-                   (G) Upload any other transaction doc from PFMS
+                   (E) Upload any other transaction doc from PFMS
                 </span>
             </div>
             <div class="col-md-6 col-lg-6 col-sm-6 image-upload">         

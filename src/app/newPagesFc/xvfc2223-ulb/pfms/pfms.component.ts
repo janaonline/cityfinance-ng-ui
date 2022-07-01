@@ -10,10 +10,10 @@ import { HttpEventType, HttpParams } from '@angular/common/http';
   styleUrls: ['./pfms.component.scss']
 })
 export class PfmsComponent implements OnInit {
-  ulbData:any;
-  ulbName:any;
-  design_year:any;
-  yearValue:any;
+  ulbData: any;
+  ulbName: any;
+  design_year: any;
+  yearValue: any;
   constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
     this.ulbName = this.ulbData?.name
@@ -24,7 +24,7 @@ export class PfmsComponent implements OnInit {
         console.log(this.yearValue)
       }
     }
-   }
+  }
   profileForm: FormGroup
   change = ''
   errorMessege: any = '';
@@ -33,7 +33,7 @@ export class PfmsComponent implements OnInit {
   odfProgress;
   odfUrl = ''
   showOtherQuestions: boolean = false;
-  linkedToggle:boolean = false;
+  linkedToggle: boolean = false;
   filesToUpload: Array<File> = [];
   filesAlreadyInProcess: number[] = [];
   fileProcessingTracker: {
@@ -64,17 +64,27 @@ export class PfmsComponent implements OnInit {
       // isGfc: this.isGfcOpen
     });
   }
+
+  activeClass: boolean = false
+  activeClassBottom: boolean = false
   clickYes() {
     this.showOtherQuestions = true
+    this.activeClass = true
+    this.linkedToggle = false
+    this.activeClassBottom = false
   }
   clickNo() {
     this.showOtherQuestions = false
+    this.activeClass = false
   }
-  linkedYes(){
-     this.linkedToggle = true
+  linkedYes() {
+    this.linkedToggle = true
+    this.activeClass = true
+    this.activeClassBottom = true
   }
-  linkedNo(){
-this.linkedToggle = false    
+  linkedNo() {
+    this.linkedToggle = false
+    this.activeClassBottom = false
   }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
