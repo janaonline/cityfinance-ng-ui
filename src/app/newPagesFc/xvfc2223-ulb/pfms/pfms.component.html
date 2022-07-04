@@ -1,5 +1,5 @@
 <div class="container">
-    <form [formGroup]="registerForm">
+    <form [formGroup]="registerForm" [ngClass]="{'disabled-form': isDisabled}">
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <h4 class="form-header">
@@ -45,12 +45,12 @@
                     <span class="fontStyle d-flex">
                         <label (click)="clickYes()" [ngClass]="{'activeClass': activeClass }"
                             class="customLabel form-control">
-                            <input type="radio" value="Yes" formControlName="linkPFMS">
+                            <input type="radio" value="yes" formControlName="linkPFMS">
                             <span>Yes</span>
                         </label>
                         <label (click)="clickNo()" class="customLabel ms-3 form-control"
                             [ngClass]="{'activeClassNo': activeClassNo }">
-                            <input type="radio" value="No" formControlName="linkPFMS">
+                            <input type="radio" value="no" formControlName="linkPFMS">
                             <span>No</span>
                         </label>
 
@@ -111,7 +111,7 @@
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
                     <input id="cin1" name="cin1" type="file"
-                        (change)="fileChangeEvent($event, 'pfmsLinkProgress', 'pfmsFileName')" accept=".pdf" />
+                        (change)="fileChangeEvent($event, 'pfmsLinkProgress')" accept=".pdf" />
                 </div>
             </div>
             <div class="row" *ngIf="showIcon">
@@ -130,7 +130,7 @@
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span style="cursor:not-allowed;">
-                        <a (click)="clearFile()" style="margin-left: 4px;">
+                        <a (click)="clearFile('cert')" style="margin-left: 4px;">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
                     </span>
@@ -143,7 +143,7 @@
                     </span>
                 </div>
                 <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                    <label for="cin1">
+                    <label for="cin2">
                         <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
                             Pdf
                             <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
@@ -151,11 +151,11 @@
                         </a>
                         <p class="errorMessege">{{errorMessege}}</p>
                     </label>
-                    <input id="cin1" name="cin1" type="file"
-                        (change)="fileChangeEvent($event, 'otherProgress', 'otherFileName')" accept=".pdf" />
+                    <input id="cin2" name="cin2" type="file"
+                        (change)="fileChangeEvent($event, 'otherProgress')" accept=".pdf" />
                 </div>
             </div>
-            <!-- <div class="row" *ngIf="showIconOtherDoc">
+            <div class="row" *ngIf="showIconOtherDoc">
                 <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
                     {{otherFileName}}
                 </div>
@@ -171,12 +171,12 @@
                         <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
                     </a>
                     <span style="cursor:not-allowed;">
-                        <a (click)="clearFile()" style="margin-left: 4px;">
+                        <a (click)="clearFile('otherDocs')" style="margin-left: 4px;">
                             <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
                         </a>
                     </span>
                 </div>
-            </div> -->
+            </div>
         </div>
         <div class="row mb-3 mt-4">
             <div class="col-sm-7 col-md-7 col-lg-7">

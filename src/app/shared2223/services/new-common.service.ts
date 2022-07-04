@@ -25,6 +25,12 @@ export class NewCommonService {
       body
     );
   }
+  pfmsSubmitForm(body:any){
+    return this.http.post(
+      `${environment.api.url}link-pfms`,
+      body
+    );
+  }
   getGfcFormData(param) {
     return this.http.get(`${environment.api.url}ratings?formName=${param}`);
   }
