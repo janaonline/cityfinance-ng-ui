@@ -28,11 +28,7 @@ const routes: Routes = [
         component: AnnualAccountsComponent,
       },
       {
-        path: "pfms_acc",
-        component: PfmsComponent,
-      },
-      {
-        path: "DUR",
+        path: "utilisation-report",
         component: DetailedUtilizationReportComponent,
       },
       {
@@ -40,7 +36,11 @@ const routes: Routes = [
         component: Slbs2223Component,
       },
       {
-        path: "gtc",
+        path: "grant-tra-certi",
+        component: Gtc2223Component,
+      },
+      {
+        path: "pfms_acc",
         component: Gtc2223Component,
       },
     ],
