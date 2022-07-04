@@ -5,6 +5,7 @@ import { DetailedUtilizationReportComponent } from "./detailed-utilization-repor
 import { GfcComponent } from "./gfc/gfc.component";
 import { Gtc2223Component } from "./gtc2223/gtc2223.component";
 import { OdfComponent } from "./odf/odf.component";
+import { PfmsComponent } from "./pfms/pfms.component";
 import { Slbs2223Component } from "./slbs2223/slbs2223.component";
 import { Xvfc2223UlbComponent } from "./xvfc2223-ulb.component";
 

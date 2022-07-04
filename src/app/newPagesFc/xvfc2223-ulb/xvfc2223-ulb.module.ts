@@ -14,6 +14,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { DetailedUtilizationReportComponent } from "./detailed-utilization-report/detailed-utilization-report.component";
 import { Slbs2223Component } from "./slbs2223/slbs2223.component";
 import { Gtc2223Component } from "./gtc2223/gtc2223.component";
+import { PfmsComponent } from "./pfms/pfms.component";
 @NgModule({
   declarations: [
     Xvfc2223UlbComponent,
@@ -24,6 +25,7 @@ import { Gtc2223Component } from "./gtc2223/gtc2223.component";
     DetailedUtilizationReportComponent,
     Slbs2223Component,
     Gtc2223Component,
+    PfmsComponent
   ],
   imports: [
     CommonModule,
