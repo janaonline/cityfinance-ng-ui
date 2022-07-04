@@ -1,141 +1,204 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-            <h4 class="form-header">
-                Linking of PFMS Account
-            </h4>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
-            <button type="button" class="btn btn-primary" id="prevBtn">Preview</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="row mt-3 mb-3 question d-none">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                  (A) Year of 15th FC Module Design
-                </span>
+    <form [formGroup]="registerForm">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h4 class="form-header">
+                    Linking of PFMS Account
+                </h4>
             </div>
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                  <input type="text" disabled class="form-control" placeholder="{{yearValue}}">
-                </span>
+            <div class="col-sm-6 col-md-6 col-lg-6 textEnd">
+                <button type="button" class="btn btn-primary" id="prevBtn">Preview</button>
             </div>
         </div>
-        <div class="row mt-3 mb-3 question d-none">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                    (B) ULB
-                </span>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                    <input type="text" disabled class="form-control" placeholder="{{ulbName}}">
-                </span>
-            </div>
-        </div>
-        <div class="row mt-3 mb-3 question">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                   (A) Do you wish to submit Details for PFMS Account ?
-                </span>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                      <button class="customButtonClass" (click)="clickYes()" [ngClass]="{'activeClass': activeClass }">Yes</button>
-                      <button class="customButtonClass ms-3" (click)="clickNo()">No</button>
-                </span>
-            </div>
-        </div>
-        <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                   (B) Has the ULB linked its bank account with PFMS?
-                   <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC." matTooltipPosition="above">
-                    <img src="../../../../assets/ticks/info_black_18dp.svg">
-                   </span>
-                </span>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                    <button class="customButtonClass" (click)="linkedYes()" [ngClass]="{'activeClassBottom': activeClassBottom }">Yes</button>
-                    <button class="customButtonClass ms-3" (click)="linkedNo()">No</button>
-                </span>
-            </div>
-        </div>
-        <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                   (C) PFMS Account Number
-                </span>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                   <input type="text" class="form-control customWidth">
-                </span>
-            </div>
-        </div>
-        <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                   (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy, etc
-                </span>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
-                             <label for="cin1">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                          >Upload
-                          Pdf
-                          <img
-                            src="../../../../assets/form-icon/upload-pdf-icon.png"
-                            alt="" style="margin-left: 4px;">
-                          </a>
-                          <p class="errorMessege">{{errorMessege}}</p>
-                          </label>
-                        <input  id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />
-            </div>
-        </div>
-        <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
-            <div class="col-md-6 col-lg-6 col-sm-6">
-                <span class="fontStyle">
-                   (E) Upload any other transaction doc from PFMS
-                </span>
-            </div>
-            <div class="col-md-6 col-lg-6 col-sm-6 image-upload">         
-                    <label for="cin1">
-                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')"
-                          >Upload
-                          Pdf
-                          <img
-                            src="../../../../assets/form-icon/upload-pdf-icon.png"
-                            alt="" style="margin-left: 4px;">
-                          </a>
-                          <p class="errorMessege">{{errorMessege}}</p>
-                          </label>
-                        <input  id="cin1" name="cin1" type="file" (change)="fileChangeEvent($event, 'odfProgress', 'odfFileName')" accept=".pdf" />   
-            </div>
-        </div>
-    </div>
-    <div class="row mb-3 mt-4">
-        <div class="col-sm-7 col-md-7 col-lg-7">
-            <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
-                routerLink='/ulbform/overview'>
-                <- Previous Form</button>
-        </div>
-        <div class="col-sm-5 col-md-5 col-lg-5 rightText">
-            <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="button" class="btn btnDraft">Save as Draft</button>
+        <div class="card">
+            <div class="row mt-3 mb-3 question d-none">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (A) Year of 15th FC Module Design
+                    </span>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="submit" class="btn btnDraft">Submit</button>
-                </div>
-                <div class="col-sm-4 col-md-4 col-lg-4">
-                    <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active">Next Form
-                        -></button>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input type="text" disabled class="form-control" placeholder="{{yearValue}}">
+                    </span>
                 </div>
             </div>
+            <div class="row mt-3 mb-3 question d-none">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (B) ULB
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input type="text" disabled class="form-control" placeholder="{{ulbName}}">
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (A) Do you wish to submit Details for PFMS Account ?
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle d-flex">
+                        <label (click)="clickYes()" [ngClass]="{'activeClass': activeClass }"
+                            class="customLabel form-control">
+                            <input type="radio" value="Yes" formControlName="linkPFMS">
+                            <span>Yes</span>
+                        </label>
+                        <label (click)="clickNo()" class="customLabel ms-3 form-control"
+                            [ngClass]="{'activeClassNo': activeClassNo }">
+                            <input type="radio" value="No" formControlName="linkPFMS">
+                            <span>No</span>
+                        </label>
 
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (B) Has the ULB linked its bank account with PFMS?
+                        <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The account should be for 15th FC."
+                            matTooltipPosition="above">
+                            <img src="../../../../assets/ticks/info_black_18dp.svg">
+                        </span>
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle d-flex">
+                        <label (click)="linkedYes()" [ngClass]="{'activeClassBottom': activeClassBottom }"
+                            class="customLabel form-control">
+                            <input type="radio" value="Yes" formControlName="isUlbLinkedWithPFMS">
+                            <span>Yes</span>
+                        </label>
+                        <label (click)="linkedNo()" class="customLabel form-control ms-3"
+                            [ngClass]="{'activeClassNoBottom': activeClassNoBottom }">
+                            <input type="radio" value="No" formControlName="isUlbLinkedWithPFMS">
+                            <span>No</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (C) PFMS Account Number
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        <input type="text" class="form-control customWidth" formControlName="PFMSAccountNumber">
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (D) Upload proof of account linkage with PFMS such as Bank account details, Bank statement copy,
+                        etc
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="cin1">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                            Pdf
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessege}}</p>
+                    </label>
+                    <input id="cin1" name="cin1" type="file"
+                        (change)="fileChangeEvent($event, 'pfmsLinkProgress', 'pfmsFileName')" accept=".pdf" />
+                </div>
+            </div>
+            <div class="row" *ngIf="showIcon">
+                <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
+                    {{pfmsFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="progress-bar" *ngIf="pfmsLinkProgress" role="progressbar"
+                        attr.aria-valuenow="{{ pfmsLinkProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: pfmsLinkProgress + '%' }">
+                        {{ pfmsLinkProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 filePadding">
+                    <a href="{{ odfUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span style="cursor:not-allowed;">
+                        <a (click)="clearFile()" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-3 mb-3 question" *ngIf="showOtherQuestions && linkedToggle">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <span class="fontStyle">
+                        (E) Upload any other transaction doc from PFMS
+                    </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 image-upload">
+                    <label for="cin1">
+                        <a class="btn btnUpload" (click)="uploadButtonClicked('A')">Upload
+                            Pdf
+                            <img src="../../../../assets/form-icon/upload-pdf-icon.png" alt=""
+                                style="margin-left: 4px;">
+                        </a>
+                        <p class="errorMessege">{{errorMessege}}</p>
+                    </label>
+                    <input id="cin1" name="cin1" type="file"
+                        (change)="fileChangeEvent($event, 'otherProgress', 'otherFileName')" accept=".pdf" />
+                </div>
+            </div>
+            <!-- <div class="row" *ngIf="showIconOtherDoc">
+                <div class="col-sm-4 col-md-4 col-lg-4 filePadding mb-3">
+                    {{otherFileName}}
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <div class="progress-bar" *ngIf="otherProgress" role="progressbar"
+                        attr.aria-valuenow="{{ otherProgress }}" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ width: otherProgress + '%' }">
+                        {{ otherProgress }}%
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 filePadding">
+                    <a href="{{ odfUrl }}" target="_blank">
+                        <img src="../../../../assets/form-icon/download-pdf-icon.png" alt="">
+                    </a>
+                    <span style="cursor:not-allowed;">
+                        <a (click)="clearFile()" style="margin-left: 4px;">
+                            <img src="../../../../assets/form-icon/close-red-icon.png" alt="">
+                        </a>
+                    </span>
+                </div>
+            </div> -->
         </div>
-    </div>
+        <div class="row mb-3 mt-4">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <button type="button" class="btn btn-c-back" routerLinkActive="router-link-active"
+                    routerLink='/ulbform/overview'>
+                    <- Previous Form</button>
+            </div>
+            <div class="col-sm-5 col-md-5 col-lg-5 rightText">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btnDraft" (click)="saveDraft()">Save as Draft</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="submit" class="btn btnDraft" (click)="onSubmit()">Submit</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-c-next" routerLinkActive="router-link-active">Next Form
+                            -></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
 </div>
