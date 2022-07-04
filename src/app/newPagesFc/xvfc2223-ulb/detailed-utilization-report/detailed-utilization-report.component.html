@@ -1,0 +1,385 @@
+<div class="container-fluid">
+    <div class="row header mt-2">
+        <div class="col-sm-8 col-lg-8 col-md-8 header2">
+            <span>Detailed Utilization Report</span>
+        </div>
+        <div class="col-sm-4 col-lg-4 col-md-4  text-end">
+            <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn">PREVIEW</button>
+        </div>
+    </div>
+    <form [formGroup]="utilizationReportForm">
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="i-l">
+                Detailed Utilisation report in respect of 15th finance commission tied grants for year
+               </span>
+                <span>
+                <select class="form-select d-sel" disabled style="" name="" id="">
+                  <option value="606aaf854dff55e6c075d219">2021-22</option>
+                 </select>
+               </span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label class="i-label" for="">
+                                  Year of 15th FC Module Design
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" disabled type="text" value="2022-23">
+                            </div>
+                        </div> -->
+                        <div class="row mb-2">
+                            <div class="col-sm-7">
+                                <label class="i-label" for="">
+                                  Name of MPC/UA/NMPC
+                                </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <input class="form-control" disabled type="text" [value]="ulbName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <label class="i-label" for="">
+                                  Type of Grant
+                                </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <input class="form-control" disabled type="text" [value]="grantType">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="sec-h">
+                                  15th FC Tied Grant Status for the Financial Year 2021-22<sup class="text-danger astr">*</sup>
+                              </span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-8">
+                                <label class="i-label" for="">
+                                  i. Unutilised Tied Grants from previous installment (in lakhs)
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99" value="551">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-8">
+                                <label class="i-label" for="">
+                                  ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (in lakhs)
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-8">
+                                <label class="i-label" for="">
+                                  iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (in lakhs)
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">₹</span>
+                                    <input class="form-control" type="number" min="0" max="9999.99">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label class="i-label color-in" for="">
+                                Closing balance at the end of year (in lakhs)( i + ii - iii )
+                              </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-text color-in" id="basic-addon1">₹</span>
+                                    <input class="form-control color-in" type="number" value="85455" min="0" max="9999.99">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="sec-h">
+                                 Component Wise Utilisation of Tied grants as on 31st March 2022<sup class="text-danger astr">*</sup>
+                                 <span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Information regarding utilization of the tied grants during the year, i.e. on 31st March 2021 has to be filled." matTooltipPosition="above" >
+                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                 </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-body" style="margin-bottom: 20px;">
+                                    <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
+                                    <div class="table-responsive">
+                                        <table class="table custom-position tableStriped">
+                                            <thead>
+                                                <tr class="thHeader">
+                                                    <th scope="col">S.No</th>
+                                                    <th scope="col">Sector</th>
+                                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                            matTooltipPosition="above">
+                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                 </span> </th>
+                                                    <th scope="col">Number of Projects Undertaken</th>
+                                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                                            matTooltipPosition="above">
+                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                 </span> </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                                <tr>
+                                                    <td class="t-i">
+                                                        <span>1</span>
+                                                    </td>
+                                                    <td>
+                                                        <input class="t-i" disabled="true">
+                                                    </td>
+                                                    <td class="pos-td">
+                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+
+                                                    </td>
+                                                    <td>
+                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                    </td>
+                                                    <td>
+                                                        <input class="t-i form-control " appTwoDigitDecimaNumber>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="font-weight: 500">
+                                                        Total
+                                                    </td>
+                                                    <td>99</td>
+                                                    <td>9999</td>
+                                                    <td>555</td>
+                                                </tr>
+                                            </tbody>
+                                            <!-- <tfoot>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        Total
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot> -->
+                                        </table>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="hr"></div>
+                                <!-- solid waste management Table -->
+                                <div class="card-body" style="margin-bottom: 20px;">
+                                    <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
+                                    <div class="table-responsive">
+                                        <table class="table custom-position tableStriped">
+                                            <thead>
+                                                <tr class="thHeader">
+                                                    <th scope="col">S.No</th>
+                                                    <th width="20%" scope="col">Sector</th>
+                                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                            matTooltipPosition="above">
+                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                 </span> </th>
+                                                    <th scope="col">Number of Projects Undertaken</th>
+                                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                                            matTooltipPosition="above">
+                                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                 </span> </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                                <tr>
+                                                    <td class="t-i">
+                                                        <span>1</span>
+                                                    </td>
+                                                    <td>
+                                                        <input style="width:20rem;cursor:not-allowed" class="t-i" disabled="true">
+                                                    </td>
+                                                    <td class="pos-td">
+                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+
+                                                    </td>
+                                                    <td>
+                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                    </td>
+                                                    <td>
+                                                        <input class="t-i form-control " appTwoDigitDecimaNumber>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="font-weight: 500">
+                                                        Total
+                                                    </td>
+                                                    <td>99</td>
+                                                    <td>9999</td>
+                                                    <td>555</td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="hr"></div>
+                                <!-- project Details Table -->
+                                <div class="table-responsive mt-2">
+                                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2022." matTooltipPosition="above">
+                                  <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                 </span> </p>
+                                    <table class="table custom-position tableStriped">
+                                        <thead>
+                                            <tr class="thHeader">
+                                                <th scope="col">S.No</th>
+                                                <th scope="col">Name of the Project</th>
+                                                <th width="20%" scope="col">Sector</th>
+                                                <th scope="col">Co-ordinates<br>Latitude and Longitude</th>
+                                                <th scope="col">Total Project Cost<br> (INR in lakhs)
+                                                    <div matTooltip="The total project cost is as per the DPR." matTooltipPosition="above" [matTooltipClass]="{'tool-tip' : true}">
+                                                        <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                                    </div>
+                                                </th>
+                                                <th scope="col">Amount of 15<sup>th</sup> FC Grants in Total Project Cost<br>(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="This is the outlay from 15th FC grant out of the total project cost. For Ex: If project total cost is 100 Cr, out of which 80 Cr is sourced from AMRUT 2.0, rest 20 Cr is sourced from 15th FC tied grants, then 20 Cr should be entered here. Please do not enter the expenditure incurred."
+                                                        matTooltipPosition="above">
+                                              <img src="../../../../assets/ticks/info_black_18dp.svg">
+                                             </span>
+                                                </th>
+                                                <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>1.</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" style="font-weight: 500">
+                                                    Total
+                                                </td>
+                                                <td>99</td>
+                                                <td>9999</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+
+                                        <tbody>
+                                            <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                        <tbody>
+                                            <tr class="">
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-7">
+                                <label class="i-label" for="">
+                                  Name<sup class="text-danger astr">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-7">
+                                <label class="i-label" for="">
+                                    Designation<sup class="text-danger astr">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="row mb-2 mt-3">
+                            <div class="col-sm-12 form-check">
+                                <input type="checkbox" class="form-check-input" id="agreeDec" name="agree" value=''>
+                                <label class="form-check-label" for="agreeDec">
+                                  Certified that above information has been extracted from the relevent records being maintained with the ULB and is true to to best of my knowledge and belief.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4 mb-3">
+            <div class="col-sm-6">
+                <button class="btn btn-c-back"><- Previous Form</button>
+            </div>
+            <div class="col-sm-6 text-end">
+                <button class="btn btn-primary" (click)="postUtiReport()">Save As Draft</button>
+                <button class="btn btn-primary ms-3" (click)="postUtiReport()">Submit</button>
+                <button class="btn btn-c-next ms-3">Next Form -></button>
+            </div>
+        </div>
+
+    </form>
+</div>

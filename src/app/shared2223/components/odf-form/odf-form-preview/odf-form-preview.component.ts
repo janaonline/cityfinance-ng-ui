@@ -31,7 +31,8 @@ export class OdfFormPreviewComponent implements OnInit {
   ratingId: any;
   ratingName: any;
   fileName: any;
-  isGfcOpen: boolean = true
+  isGfcOpen: boolean = true;
+  previewData:any
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -106,10 +107,15 @@ export class OdfFormPreviewComponent implements OnInit {
   ngOnInit(): void {
     let userData = JSON.parse(localStorage.getItem("userData"));
     console.log(this.data)
-    this.certDate = this.data.formData.certDate;
-    this.fileUrl = this.data.formData.cert;
-    this.ratingId = this.data.formData.rating;
-    this.fileName = this.data.fileName;
+    // this.certDate = this.data.formData.certDate;
+    // this.fileUrl = this.data.formData.cert;
+    // this.ratingId = this.data.formData.rating;
+    this.fileName = this.data?.formData?.cert?.name;
+    this.certDate = this.data?.formData?.certDate;
+    this.ratingId = this.data?.formData?.rating;
+    console.log(this.fileName)
+    this.previewData = this.data.formData;
+    console.log(this.previewData)
     if (userData.role !== USER_TYPE.ULB) {
       this.ulbName = sessionStorage.getItem("ulbName");
     } else {
@@ -122,6 +128,7 @@ export class OdfFormPreviewComponent implements OnInit {
         this.ratings = res.data
         let selectedGFCRating = this.ratings.find(res => res._id.toString() == this.ratingId);
         this.ratingName = selectedGFCRating?.name
+        console.log(this.ratingName)
       });     
     } else {
       this.commonService.getOdfRatings().subscribe((res: any) => {
