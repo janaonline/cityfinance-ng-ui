@@ -244,6 +244,8 @@ export class FileUploadComponent implements OnInit {
     var mimeType = files[0].hasOwnProperty('type') ? files[0].type : files[0].mimeType ? files[0].mimeType : files[0].mime;
     if (mimeType.match(/image\/*/)) {
       return true;
+    } else {
+      return false;
     }
   }
 

@@ -2114,7 +2114,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async setDocuments(imgObject: any, question: any, event: any) {
     console.log('setDocuments', imgObject);
-    console.log('setDocuments question', question);
+    console.log('setDocuments question', question); 
     // this.isImageUploading = true;
     try {
       let response = await this.commonService.uploadTos3(
@@ -2122,7 +2122,8 @@ export class AppComponent implements OnInit, OnDestroy {
         imgObject[0].type,
         imgObject[0].file[0].size,
         event,
-        true
+        true,
+        question?.headerOptions
       );
       console.log('file upload parent response', response);
       if (response && response['success']) {
