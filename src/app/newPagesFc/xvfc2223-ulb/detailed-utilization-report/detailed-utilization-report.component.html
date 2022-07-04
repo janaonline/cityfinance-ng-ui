@@ -7,7 +7,7 @@
             <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn">PREVIEW</button>
         </div>
     </div>
-    <form [formGroup]="durForm">
+    <form [formGroup]="utilizationReportForm">
         <div class="row">
             <div class="col-sm-12">
                 <span class="i-l">
@@ -70,12 +70,12 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                                 <label class="i-label" for="">
-                                  i. Unutilised Tied Grants from previous installment (lakhs)
+                                  i. Unutilised Tied Grants from previous installment (in lakhs)
                                 </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
                                     <input class="form-control" type="number" min="0" max="9999.99" value="551">
@@ -84,12 +84,12 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                                 <label class="i-label" for="">
-                                  ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (lakhs)
+                                  ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (in lakhs)
                                 </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
                                     <input class="form-control" type="number" min="0" max="9999.99">
@@ -98,12 +98,12 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                                 <label class="i-label" for="">
-                                  iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (lakhs)
+                                  iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (in lakhs)
                                 </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
                                     <input class="form-control" type="number" min="0" max="9999.99">
@@ -112,15 +112,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <label class="i-label" for="">
-                                Closing balance at the end of year (lakhs)( i + ii - iii )
+                            <div class="col-sm-8">
+                                <label class="i-label color-in" for="">
+                                Closing balance at the end of year (in lakhs)( i + ii - iii )
                               </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99">
+                                    <span class="input-group-text color-in" id="basic-addon1">₹</span>
+                                    <input class="form-control color-in" type="number" value="85455" min="0" max="9999.99">
 
                                 </div>
                             </div>
@@ -153,12 +153,12 @@
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
                                                     <th scope="col">Sector</th>
-                                                    <th scope="col">Total Tied Grant Utilised on WM(lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                                  </span> </th>
                                                     <th scope="col">Number of Projects Undertaken</th>
-                                                    <th scope="col">Total Project Cost Involved(lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                                  </span> </th>
@@ -221,7 +221,7 @@
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
                                                     <th width="20%" scope="col">Sector</th>
-                                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                                  </span> </th>
@@ -270,7 +270,7 @@
                                 <div class="hr"></div>
                                 <!-- project Details Table -->
                                 <div class="table-responsive mt-2">
-                                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2021." matTooltipPosition="above">
+                                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2022." matTooltipPosition="above">
                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                  </span> </p>
                                     <table class="table custom-position tableStriped">
@@ -291,7 +291,6 @@
                                              </span>
                                                 </th>
                                                 <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
-
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -340,22 +339,22 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <label class="i-label" for="">
                                   Name<sup class="text-danger astr">*</sup>
                                 </label>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <input class="form-control" type="text">
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <label class="i-label" for="">
                                     Designation<sup class="text-danger astr">*</sup>
                                 </label>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <input class="form-control" type="text">
                             </div>
                         </div>
@@ -376,8 +375,8 @@
                 <button class="btn btn-c-back"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
-                <button class="btn btn-primary">Save As Draft</button>
-                <button class="btn btn-primary ms-3">Submit</button>
+                <button class="btn btn-primary" (click)="postUtiReport()">Save As Draft</button>
+                <button class="btn btn-primary ms-3" (click)="postUtiReport()">Submit</button>
                 <button class="btn btn-c-next ms-3">Next Form -></button>
             </div>
         </div>
