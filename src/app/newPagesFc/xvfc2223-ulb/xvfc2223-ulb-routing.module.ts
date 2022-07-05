@@ -41,7 +41,7 @@ const routes: Routes = [
       },
       {
         path: "pfms_acc",
-        component: Gtc2223Component,
+        component: PfmsComponent,
       },
     ],
   },

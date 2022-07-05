@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataEntryService } from 'src/app/dashboard/data-entry/data-entry.service';
 const swal: SweetAlert = require("sweetalert");
 import { SweetAlert } from "sweetalert/typings/core";
 import { HttpEventType, HttpParams } from '@angular/common/http';
+import { NewCommonService } from 'src/app/shared2223/services/new-common.service';
 @Component({
   selector: 'app-pfms',
   templateUrl: './pfms.component.html',
@@ -14,23 +15,30 @@ export class PfmsComponent implements OnInit {
   ulbName: any;
   design_year: any;
   yearValue: any;
-  constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService) {
+  body;
+  registerForm: FormGroup;
+  submitted = false;
+  ulbId: any;
+  designYearId: any;
+  constructor(private formBuilder: FormBuilder, private dataEntryService: DataEntryService,private commonService: NewCommonService) {
     this.ulbData = JSON.parse(localStorage.getItem("userData"));
+    console.log(this.ulbData)
+    this.ulbId = this.ulbData.ulb
     this.ulbName = this.ulbData?.name
     this.design_year = JSON.parse(localStorage.getItem("Years"));
     for (var i in this.design_year) {
       if (i == '2022-23') {
         this.yearValue = i;
-        console.log(this.yearValue)
+        this.designYearId = this.design_year[i]
+        console.log(this.designYearId)
       }
     }
   }
-  profileForm: FormGroup
   change = ''
   errorMessege: any = '';
   showIcon: boolean = false;
-  odfFileName;
-  odfProgress;
+  pfmsFileName;
+  pfmsLinkProgress;
   odfUrl = ''
   showOtherQuestions: boolean = false;
   linkedToggle: boolean = false;
@@ -49,72 +57,149 @@ export class PfmsComponent implements OnInit {
       status: "in-process" | "FAILED" | "completed";
     };
   } = {};
+
+  activeClass: boolean = false;
+  activeClassBottom: boolean = false;
+  showIconOtherDoc:boolean=false;
+  otherProgress;
+  activeClassNo: boolean = false;
+  activeClassNoBottom: boolean = false;
+  otherFileName:any;
+  subscription: any;
+  isDisabled:boolean = false;
   ngOnInit(): void {
-    this.profileForm = this.formBuilder.group({
-      // rating: ['', Validators.required],
-      // cert: this.formBuilder.group({
-      //   url: ['', Validators.required],
-      //   name: ['', Validators.required],
-      // }),
-      // certDate: ['', Validators.required],
-      // ulb: '',
-      // design_year: '',
-      // status: 'PENDING',
-      // isDraft: this.draft,
-      // isGfc: this.isGfcOpen
+
+    this.registerForm = this.formBuilder.group({
+      linkPFMS: [''],
+      isUlbLinkedWithPFMS: 'no',
+      PFMSAccountNumber: [''],
+      ulb: this.ulbId,
+      design_year: this.designYearId,
+      cert: this.formBuilder.group({
+        url: [''],
+        name: [''],
+      }),
+      otherDocs: this.formBuilder.group({
+        url: [''],
+        name: [''],
+      }),
+      isDraft: false,
+      status:"PENDING",
+      rejectReason:'',
+      responseFile:''
     });
   }
 
-  activeClass: boolean = false
-  activeClassBottom: boolean = false
+  // convenience getter for easy access to form fields
+  get f() { return this.registerForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+    
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+    this.body = this.registerForm.value
+    this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
+      console.log('success!!!!!!!!!!!!!', res)
+      if (res && res.success) {
+        this.isDisabled = true
+        swal('Saved', 'Data saved successfully', 'success')
+      } else {
+        swal('Error', res?.message ? res?.message : 'Error', 'error')
+      }
+    }, error => {
+      console.error('err', error);
+    })
+    // display form values on success
+    console.log(this.registerForm.value)
+  }
+
+  saveDraft() {
+    this.registerForm.patchValue({
+      isDraft: true
+    })
+    this.body = this.registerForm.value
+    this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
+      console.log('success!!!!!!!!!!!!!', res)
+      if (res && res.success) {
+        swal('Saved as draft', 'Data saved as draft successfully', 'success')
+      } else {
+        swal('Error', res?.message ? res?.message : 'Error', 'error')
+      }
+    }, error => {
+      console.error('err', error);
+    })
+  }
+ 
   clickYes() {
     this.showOtherQuestions = true
     this.activeClass = true
     this.linkedToggle = false
     this.activeClassBottom = false
+    this.activeClassNo = false
   }
   clickNo() {
     this.showOtherQuestions = false
     this.activeClass = false
+    this.activeClassNo = true
   }
   linkedYes() {
     this.linkedToggle = true
     this.activeClass = true
     this.activeClassBottom = true
+    this.activeClassNoBottom = false
   }
   linkedNo() {
     this.linkedToggle = false
     this.activeClassBottom = false
+    this.activeClassNoBottom = true
   }
   uploadButtonClicked(formName) {
     sessionStorage.setItem("changeInGTC", "true")
     this.change = "true";
   }
-  fileChangeEvent(event, progessType, fileName) {
-    if (event.target.files[0].size >= 5000000) {
-      this.errorMessege = 'File size should be less than 5Mb.'
-      this.profileForm.controls.cert.reset();
-      const error = setTimeout(() => {
-        this.showIcon = false
-        this.errorMessege = ''
-      }, 4000);
-      return;
-    }
-    this.odfFileName = event.target.files[0].name;
-    if (this.odfFileName) {
-      this.showIcon = true
-    } else {
-      this.showIcon = false
-    }
-    const filesSelected = <Array<File>>event.target["files"];
-    this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
-    this.upload(progessType, this.odfFileName);
+  
+  fileChangeEvent(event, progessType) {
+    console.log(progessType)
+      if (event.target.files[0].size >= 5000000) {
+        this.errorMessege = 'File size should be less than 5Mb.'
+        this.registerForm.controls.cert.reset();
+        const error = setTimeout(() => {
+          this.showIcon = false
+          this.errorMessege = ''
+        }, 4000);
+        return;
+      }
+      const fileName = event.target.files[0].name;
+      if(progessType == 'otherProgress'){
+        this.otherFileName = event.target.files[0].name;
+        this.showIconOtherDoc = true;
+      }
+      
+      if (progessType == 'pfmsLinkProgress') {
+        this.pfmsFileName = event.target.files[0].name;
+        this.showIcon = true;
+      }
+      const filesSelected = <Array<File>>event.target["files"];
+      this.filesToUpload.push(...this.filterInvalidFilesForUpload(filesSelected));
+      this.upload(progessType, fileName);
+    
   }
-  clearFile() {
-    this.showIcon = false
-    this.odfFileName = ''
-    this.profileForm.patchValue({
-      cert: ''
+  clearFile(type: string = '') {
+    
+    if(type =='cert') {
+      this.showIcon = false;
+      this.pfmsFileName = ''
+    } else{
+      this.showIconOtherDoc = false;
+      this.otherFileName = ''
+    }
+   
+    this.registerForm.patchValue({
+      // cert: '',
+      [type]: ''
     })
   }
 
@@ -156,6 +241,9 @@ export class PfmsComponent implements OnInit {
         (s3Response) => {
           let fileAlias = s3Response["data"][0]["file_alias"];
           this[progessType] = Math.floor(Math.random() * 90) + 10;
+          if(progessType == 'otherProgress'){
+            this[progessType] = Math.floor(Math.random() * 90) + 10;
+          }
           const s3URL = s3Response["data"][0].url;
           this.uploadFileToS3(
             file,
@@ -178,7 +266,7 @@ export class PfmsComponent implements OnInit {
       );
     })
   }
-  subscription: any;
+ 
   private uploadFileToS3(
     file: File,
     s3URL: string,
@@ -192,9 +280,20 @@ export class PfmsComponent implements OnInit {
         (res) => {
           if (res.type === HttpEventType.Response) {
             this[progressType] = 100;
-            if (progressType == 'odfProgress') {
+            if (progressType == 'pfmsLinkProgress') {
               this.odfUrl = fileAlias;
-              this.profileForm.get('cert').patchValue({
+              this.registerForm.get('cert').patchValue({
+                url: fileAlias,
+                name: file.name
+              })
+              // this.profileForm.get('cert').patchValue({name:file.name})
+
+              console.log(file)
+              console.log(s3URL)
+            }
+            if (progressType == 'otherProgress') {
+              this.odfUrl = fileAlias;
+              this.registerForm.get('otherDocs').patchValue({
                 url: fileAlias,
                 name: file.name
               })

@@ -1,7 +1,7 @@
 import { HttpEventType } from "@angular/common/http";
-import { Component, HostBinding, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Router } from "@angular/router";
+import { Component, HostBinding, OnInit, ViewChild } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { NavigationStart, Router } from "@angular/router";
 import { DataEntryService } from "src/app/dashboard/data-entry/data-entry.service";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/annual-accounts.service";
@@ -24,6 +24,7 @@ export class AnnualAccountsComponent implements OnInit {
     public _router: Router,
     private newCommonService: NewCommonService
   ) {
+    this.navigationCheck();
     this.loggedInUserType = this.loggedInUserDetails.role;
   }
   errorMsg =
@@ -451,11 +452,90 @@ export class AnnualAccountsComponent implements OnInit {
   };
   ulbId = "";
   isDisabled = false;
+  clickedSave;
+  routerNavigate = null;
+  response;
+  alertError = "Are you sure you want to proceed further?";
+  dialogRef;
+  modalRef;
+  @ViewChild("templateAnnual") template;
+  @ViewChild("template1") template1;
+  compName = "AnnualAccount";
   ngOnInit(): void {
     this.ulbId = sessionStorage.getItem("ulb_id");
+    sessionStorage.setItem("changeInAnnualAcc", "false");
+    this.clickedSave = false;
     this.onLoad();
   }
 
+  navigationCheck() {
+    if (!this.clickedSave) {
+      this._router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.alertError = "Are you sure you want to proceed further?";
+          const changeInAnnual = sessionStorage.getItem("changeInAnnualAcc");
+          if (event.url === "/" || event.url === "/login") {
+            sessionStorage.setItem("changeInAnnualAcc", "false");
+            return;
+          }
+          if (changeInAnnual === "true" && this.routerNavigate === null) {
+            const currentRoute = this._router.routerState;
+            this._router.navigateByUrl(currentRoute.snapshot.url, {
+              skipLocationChange: true,
+            });
+            this.routerNavigate = event;
+            this.dialog.closeAll();
+            this.openDialog(this.template);
+          }
+        }
+      });
+    }
+  }
+  openDialog(template) {
+    if (template == undefined) return;
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this.dialog.open(template, dialogConfig);
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        if (this.routerNavigate) {
+          this.routerNavigate = null;
+        }
+      }
+    });
+  }
+  async stay() {
+    // await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      this.routerNavigate = null;
+    }
+  }
+  async proceed() {
+    await this.dialogRef.close(true);
+    this.dialog.closeAll();
+    if (this.routerNavigate) {
+      await this.formSave("draft");
+      this._router.navigate([this.routerNavigate.url]);
+      return;
+    }
+    // if (this.routerNavigate && !this.clickedBack) {
+    //  await this.saveStateActionData();
+    //   sessionStorage.setItem("changeInAnnual", "false");
+    //   this._router.navigate([this.routerNavigate.url]);
+    //   return;
+    // }
+    // if (this.clickedBack && this.actionTaken) {
+    //   await this.saveStateActionData();
+    //   sessionStorage.setItem("changeInAnnual", "false");
+    //   this._router.navigate(['/ulbform/utilisation-report']);
+    //   return;
+    // }
+    await this.formSave("draft");
+    return this._router.navigate(["ulbform2223/slbs"]);
+  }
+  alertClose() {
+    this.stay();
+  }
   onLoad() {
     // let ulbId = sessionStorage.getItem("ulb_id");
     let ulbId = this.userData.ulb;
@@ -578,6 +658,7 @@ export class AnnualAccountsComponent implements OnInit {
         }
         break;
     }
+    //  sessionStorage.setItem("changeInAnnualAcc", "true");
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
@@ -913,9 +994,13 @@ export class AnnualAccountsComponent implements OnInit {
   postAnnualFormDraft() {
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
+        this.clickedSave = false;
+        sessionStorage.setItem("changeInAnnualAcc", "false");
         swal("Saved", "Data saved as draft successfully", "success");
       },
       (error) => {
+        this.clickedSave = false;
+        sessionStorage.setItem("changeInAnnualAcc", "false");
         swal("Error", "Somthing went wrong.", "error");
         console.log("post error", error);
       }
@@ -924,9 +1009,13 @@ export class AnnualAccountsComponent implements OnInit {
   postApiForSubmit() {
     this.newCommonService.postAnnualData(this.data).subscribe(
       (res) => {
+        this.clickedSave = false;
+        sessionStorage.setItem("changeInAnnualAcc", "false");
         swal("Saved", "Data saved successfully", "success");
       },
       (error) => {
+        this.clickedSave = false;
+        sessionStorage.setItem("changeInAnnualAcc", "false");
         swal("Error", "Somthing went wrong.", "error");
         console.log("post error", error);
       }
@@ -937,6 +1026,7 @@ export class AnnualAccountsComponent implements OnInit {
     if (qusType == "input") {
       this.data[fileType].provisional_data[e?.key] = e?.value;
     }
+    //  sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   preview() {
     let data = {
