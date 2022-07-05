@@ -4,7 +4,7 @@
 }
 
 .btn-primary {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .btn-check:focus+.btn-primary,
@@ -30,7 +30,8 @@
 }
 
 .form-control {
-    width: 96%;
+    // width: 96%;
+    height: auto;
 }
 
 .cross {
