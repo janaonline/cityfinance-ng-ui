@@ -106,10 +106,11 @@ export class BasicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loaderService.showLoader()
     this.reportService.getNewReportRequest().subscribe((reportCriteria) => {
       this.initializeCurrencyConversion(reportCriteria);
       this.initializeForm(reportCriteria);
-      this.loaderService.showLoader();
+      
       console.log("got criteria", reportCriteria);
 
       this.reportReq = reportCriteria;
@@ -145,6 +146,7 @@ export class BasicComponent implements OnInit, OnDestroy {
       console.log('selectedConversionType', selectedConversionType);
       this.onSelectingConversionType(selectedConversionType);
     });
+    this.loaderService.stopLoader()
   }
 
   /**
