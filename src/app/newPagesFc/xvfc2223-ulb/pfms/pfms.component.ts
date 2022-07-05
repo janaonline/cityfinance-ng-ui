@@ -68,10 +68,10 @@ export class PfmsComponent implements OnInit {
   subscription: any;
   isDisabled:boolean = false;
   ngOnInit(): void {
-
+    
     this.registerForm = this.formBuilder.group({
-      linkPFMS: [''],
-      isUlbLinkedWithPFMS: 'no',
+      linkPFMS: ['', Validators.required],
+      isUlbLinkedWithPFMS: [''],
       PFMSAccountNumber: [''],
       ulb: this.ulbId,
       design_year: this.designYearId,
@@ -83,16 +83,27 @@ export class PfmsComponent implements OnInit {
         url: [''],
         name: [''],
       }),
-      isDraft: false,
+      isDraft: '',
       status:"PENDING",
       rejectReason:'',
       responseFile:''
     });
+    this.accValueChange();
+    this.getSubmittedFormData();
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
+  
+  getSubmittedFormData(){
+    const params ={ulb: this.ulbId,
+    design_year: this.designYearId,
+    }
+    this.commonService.submittedFormData(params).subscribe((res: any) => {
+      console.log(res)
+    })
+  }
   onSubmit() {
     this.submitted = true;
     
@@ -100,11 +111,15 @@ export class PfmsComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    this.registerForm.patchValue({
+      isDraft: false
+    })
     this.body = this.registerForm.value
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
-      if (res && res.success) {
+      if (res && res.status) {
         this.isDisabled = true
+        console.log('success!!!!!!!!!!!!!', res)
         swal('Saved', 'Data saved successfully', 'success')
       } else {
         swal('Error', res?.message ? res?.message : 'Error', 'error')
@@ -123,7 +138,7 @@ export class PfmsComponent implements OnInit {
     this.body = this.registerForm.value
     this.commonService.pfmsSubmitForm(this.body).subscribe((res: any) => {
       console.log('success!!!!!!!!!!!!!', res)
-      if (res && res.success) {
+      if (res && res.status) {
         swal('Saved as draft', 'Data saved as draft successfully', 'success')
       } else {
         swal('Error', res?.message ? res?.message : 'Error', 'error')
@@ -309,5 +324,21 @@ export class PfmsComponent implements OnInit {
           this.fileUploadTracker[fileIndex].status = "FAILED";
         }
       );
+  }
+  accValueChange(){
+    console.log('aaaaaaa', this.registerForm);
+    
+    this.registerForm.controls['isUlbLinkedWithPFMS'].valueChanges.subscribe(
+      (selectedValue) => {
+        console.log(selectedValue);
+      console.log(this.registerForm.get('isUlbLinkedWithPFMS').value);  
+      // if(this.registerForm.get('isUlbLinkedWithPFMS').value == 'Yes'){
+      //   this.registerForm.controls['PFMSAccountNumber'].setValidators([Validators.required])
+      //   this.registerForm.controls['PFMSAccountNumber'].updateValueAndValidity()
+      //   this.registerForm.controls.cert['controls'].name.setValidators([Validators.required])
+      //   this.registerForm.controls.cert['controls'].name.updateValueAndValidity()
+      // }   
+      }
+  );
   }
 }
