@@ -10,6 +10,10 @@
   position: absolute;
 }
 
+.my-tooltip {
+  white-space: pre-line;
+}
+
 .stateMap {
   border-radius: inherit;
   position: absolute;
