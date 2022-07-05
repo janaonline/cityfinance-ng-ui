@@ -106,6 +106,7 @@ export class DashboardMapSectionComponent
     totalMunicipalBonds?: number;
     totalULB?: number;
     coveredUlbCount?: number;
+    ulbDataCount?:any;
     loading: boolean;
   } = { loading: true };
   previousStateLayer: ILeafletStateClickEvent["sourceTarget"] | L.Layer = null;
@@ -570,7 +571,9 @@ export class DashboardMapSectionComponent
       console.log('stateList', this.stateList)
     });
   }
-
+highestYear;
+highestDataAvailability;
+dataAvailTooltip='';
   private fetchDataForVisualization(stateId?: string) {
     this.dataForVisualization.loading = true;
     this._commonService.fetchDataForHomepageMap(stateId).subscribe((res) => {
@@ -580,7 +583,13 @@ export class DashboardMapSectionComponent
         this.stateselected ? this.stateselected.name : ""
       );
       this.dataForVisualization = { ...res, loading: false };
-      this._ngZone.runOutsideAngular(() => {
+
+this.highestYear = this.dataForVisualization.ulbDataCount[0].year
+this.highestDataAvailability = ((this.dataForVisualization.ulbDataCount[0].ulbs / this.dataForVisualization.totalULB )*100).toFixed(0)
+this.dataForVisualization.ulbDataCount.forEach(element => {
+  this.dataAvailTooltip = this.dataAvailTooltip + `${element.year} : ${element.ulbs} \n `
+});   
+this._ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           this.animateValues(1);
         });
