@@ -21,7 +21,7 @@
             </p>
         </div>
         <div class="col-sm-6 text-end hi">
-            <button id="donwloadButton" style="" class="btn btn-primary" (click)="annualDownload()">Download as PDF</button>
+            <button id="donwloadButton" style="" class="btn btn-primary" (click)="annualDownload(templateAnnual)">Download as PDF</button>
         </div>
     </div>
     <div class="row">
@@ -252,3 +252,27 @@
         </div>
     </div>
 </div>
+<ng-template #templateAnnual>
+    <div class="modal-body text-center alert">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left" style="color: red;"> <i>Alert!</i> </h4>
+            <div class="text-right">
+                <a (click)="alertClose()">
+                    <img src="../../../../assets/form-icon/close-red-icon.png">
+                </a>
+            </div>
+        </div>
+
+        <p style="margin-top: 8px;">
+            Are you sure you want to proceed further?
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <button type="button" class="btn btn-secondary " (click)="stay()">Stay</button>
+                <button type="button" class="btn btn-success " style="margin-left: 6px; width: auto; background-color: #5cb85c" (click)="proceed()">
+              Save & Proceed</button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

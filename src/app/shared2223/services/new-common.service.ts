@@ -15,6 +15,11 @@ export class NewCommonService {
       `${environment.api.url}menu?role=ULB&year=606aafb14dff55e6c075d3ae&_id=${ulbId}`
     );
   }
+  submittedFormData(params) {
+    return this.http.get(
+      `${environment.api.url}link-pfms?ulb=${params.ulb}&design_year=${params.design_year}`
+    );
+  }
   getOdfRatings() {
     return this.http.get(`${environment.api.url}ratings`);
   }
