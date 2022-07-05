@@ -118,6 +118,16 @@ text-align: center;
       this.ulbName = userData["name"];
     }
     this.stateName = userData["stateName"];
+    if (this.preData?.body["isDraft"]) {
+      this.formStatusCheck = this.statusArray[3];
+    } else if (this.preData?.body["isDraft"] == false) {
+      this.formStatusCheck = this.statusArray[1];
+    } else if (
+      this.preData?.body["isDraft"] == null ||
+      this.preData?.body["isDraft"] == undefined
+    ) {
+      this.formStatusCheck = this.statusArray[0];
+    }
   }
   closeMat() {
     this._matDialog.closeAll();

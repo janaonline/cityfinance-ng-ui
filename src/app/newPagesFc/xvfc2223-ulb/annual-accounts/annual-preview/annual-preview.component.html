@@ -17,7 +17,7 @@
     <div class="row" style="margin-top: 1rem;">
         <div class="col-sm-6">
             <p class="form-status" style="">
-                <b>Form Current Status:</b>
+                <b>Form Current Status:</b>&nbsp; {{formStatusCheck}}
             </p>
         </div>
         <div class="col-sm-6 text-end hi">
@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-sm-7 ans">
                                 <div class="i-t" *ngIf="(unAuditItem?.type == 'input')">
-                                    {{unAuditItem?.amount?.value | currency:'INR'}}
+                                    {{unAuditItem?.amount?.value | currency:'INR' : 'symbol':'0.0'}}
                                 </div>
                                 <div class="f-t" *ngIf="(unAuditItem?.type == 'file')">
                                     <div class="f" *ngIf="unAuditItem?.data">
@@ -166,7 +166,7 @@
                             </div>
                             <div class="col-sm-7 ans">
                                 <div class="i-t" *ngIf="(auditItem?.type == 'input')">
-                                    {{auditItem?.amount?.value | currency:'INR'}}
+                                    {{auditItem?.amount?.value | currency:'INR' : 'symbol':'0.0'}}
                                 </div>
                                 <div class="f-t" *ngIf="(auditItem?.type == 'file')">
                                     <div class="f" *ngIf="auditItem?.data">
