@@ -2,14 +2,24 @@ import {
   Component,
   ElementRef,
   Inject,
+  Input,
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogConfig,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { USER_TYPE } from "src/app/models/user/userType";
 import { QuestionnaireService } from "src/app/pages/questionnaires/service/questionnaire.service";
 import { defaultDailogConfiuration } from "src/app/pages/questionnaires/ulb/configs/common.config";
+import { AnnualAccountsService } from "src/app/pages/ulbform/annual-accounts/annual-accounts.service";
 import { DialogComponent } from "src/app/shared/components/dialog/dialog.component";
+import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { SweetAlert } from "sweetalert/typings/core";
+const swal: SweetAlert = require("sweetalert");
 @Component({
   selector: "app-annual-preview",
   templateUrl: "./annual-preview.component.html",
@@ -19,6 +29,9 @@ export class AnnualPreviewComponent implements OnInit {
   constructor(
     private _matDialog: MatDialog,
     private _questionnaireService: QuestionnaireService,
+    private annualAccountsService: AnnualAccountsService,
+    public _router: Router,
+    private newCommonService: NewCommonService,
     @Inject(MAT_DIALOG_DATA) public preData: any
   ) {}
   @ViewChild("annualPreview") _html: ElementRef;
@@ -26,6 +39,14 @@ export class AnnualPreviewComponent implements OnInit {
   showLoader;
   ulbName = "";
   stateName = "";
+  @Input()
+  changeFromOutSide: any;
+  fromParent = true;
+  dialogRef;
+  download;
+  previewStatus;
+  totalStatus;
+  subParentForModal;
   styleForPDF = `<style>
   .header-p {
     background-color: #047474;
@@ -101,8 +122,18 @@ text-align: center;
   closeMat() {
     this._matDialog.closeAll();
   }
-  annualDownload() {
-    this.downloadAsPDF();
+  annualDownload(template) {
+    this.download = true;
+    let changeHappen = sessionStorage.getItem("changeInAnnualAcc");
+    if (changeHappen === "true") {
+      this.openDialog(template);
+    } else {
+      this.downloadAsPDF();
+    }
+  }
+  openDialog(template) {
+    const dialogConfig = new MatDialogConfig();
+    this.dialogRef = this._matDialog.open(template, dialogConfig);
   }
   downloadAsPDF() {
     const elementToAddPDFInString = this._html.nativeElement.outerHTML;
@@ -137,5 +168,83 @@ text-align: center;
     a.download = filename;
     a.click();
     return url;
+  }
+  async proceed(uploadedFiles) {
+    this.dialogRef.close();
+    this._matDialog.closeAll();
+    await this.submit();
+    sessionStorage.setItem("changeInAnnualAcc", "false");
+    await this.downloadAsPDF();
+    //  if (this.changeFromOutSide)
+    // this._ulbformService.initiateDownload.next(true);
+    //  else await this.downloadAsPDF();
+  }
+
+  async submit() {
+    return new Promise((resolve, rej) => {
+      this.newCommonService.postAnnualData(this.preData?.body).subscribe(
+        (res) => {
+          sessionStorage.setItem("changeInAnnualAcc", "false");
+          console.log(res);
+          const status = JSON.parse(sessionStorage.getItem("allStatus"));
+          // status.annualAccounts.isSubmit = res["isCompleted"];
+          // this._ulbformService.allStatus.next(status);
+          swal("Saved", "Data saved as draft successfully", "success");
+          resolve("sucess");
+        },
+        (err) => {
+          swal("Error", "Failed To Save", "error");
+          resolve(err);
+        }
+      );
+    });
+  }
+
+  alertClose() {
+    this.stay();
+  }
+
+  stay() {
+    this.dialogRef.close();
+  }
+
+  formStatusCheck = "";
+  statusArray = [
+    "Not Started",
+    "Under Review By State",
+    "Completed",
+    "In Progress",
+  ];
+
+  previewStatuSet() {
+    console.log(this.preData?.body);
+    let allFormsData = JSON.parse(sessionStorage.getItem("allFormsData"));
+    if (allFormsData["annualAccountData"].length > 0) {
+      let change = sessionStorage.getItem("changeInAnnualAcc");
+      if (change == "true") {
+        if (this.preData["isDraft"]) {
+          this.formStatusCheck = this.statusArray[3];
+        } else if (!this.preData?.body["isDraft"]) {
+          this.formStatusCheck = this.statusArray[2];
+        }
+      } else if (change == "false") {
+        if (this.preData?.body["isDraft"]) {
+          this.formStatusCheck = this.statusArray[3];
+        } else if (this.preData?.body["isDraft"]) {
+          this.formStatusCheck = this.statusArray[2];
+        }
+      }
+    } else {
+      let change = sessionStorage.getItem("changeInAnnualAcc");
+      if (change == "true") {
+        if (this.preData?.body["isDraft"]) {
+          this.formStatusCheck = this.statusArray[3];
+        } else if (!this.preData?.body["isDraft"]) {
+          this.formStatusCheck = this.statusArray[2];
+        }
+      } else if (change == "false") {
+        this.formStatusCheck = this.statusArray[0];
+      }
+    }
   }
 }

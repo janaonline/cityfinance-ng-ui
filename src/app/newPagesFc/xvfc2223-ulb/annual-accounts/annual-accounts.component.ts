@@ -658,7 +658,7 @@ export class AnnualAccountsComponent implements OnInit {
         }
         break;
     }
-    //  sessionStorage.setItem("changeInAnnualAcc", "true");
+     sessionStorage.setItem("changeInAnnualAcc", "true");
     // this.checkDiff();
   }
   getUploadFileData(e, fileType, quesName, index) {
