@@ -61,7 +61,7 @@
         <div class="row mt-3">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" formGroupName="grantPosition">
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <span class="sec-h">
@@ -78,7 +78,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99" value="551">
+                                    <input class="form-control" type="number" min="0" max="9999.99" disabled formControlName="unUtilizedPrevYr">
 
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99">
+                                    <input class="form-control" type="number" min="0" max="9999.99" formControlName="receivedDuringYr">
 
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99">
+                                    <input class="form-control" type="number" min="0" max="9999.99" formControlName="expDuringYr">
 
                                 </div>
                             </div>
@@ -120,8 +120,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text color-in" id="basic-addon1">₹</span>
-                                    <input class="form-control color-in" type="number" value="85455" min="0" max="9999.99">
-
+                                    <input class="form-control color-in" type="number" value="85455" disabled min="0" max="9999.99" formControlName="closingBal">
                                 </div>
                             </div>
                         </div>
@@ -148,7 +147,7 @@
                                 <div class="card-body" style="margin-bottom: 20px;">
                                     <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
                                     <div class="table-responsive">
-                                        <table class="table custom-position tableStriped">
+                                        <table class="table custom-position tableStriped" formArrayName="categoryWiseData_wm">
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
@@ -167,22 +166,22 @@
                                             </thead>
                                             <tbody>
                                                 <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                                <tr>
+                                                <tr *ngFor="let wmItem of tabelRows_WMcategory.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm">
                                                     <td class="t-i">
-                                                        <span>1</span>
+                                                        <span>{{rowIndex_wm+1}}</span>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i" disabled="true">
+                                                        <input class="t-i" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
 
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control " appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control" formControlName="totalProjectCost" appTwoDigitDecimaNumber>
                                                     </td>
 
                                                 </tr>
@@ -206,17 +205,13 @@
                                             </tfoot> -->
                                         </table>
                                     </div>
-
-
-
-
                                 </div>
                                 <div class="hr"></div>
                                 <!-- solid waste management Table -->
                                 <div class="card-body" style="margin-bottom: 20px;">
                                     <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
                                     <div class="table-responsive">
-                                        <table class="table custom-position tableStriped">
+                                        <table class="table custom-position tableStriped" formArrayName="categoryWiseData_swm">
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
@@ -235,22 +230,22 @@
                                             </thead>
                                             <tbody>
                                                 <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                                <tr>
+                                                <tr *ngFor="let swmItem of tabelRows_SWMcategory.controls; let rowIndex_swm=index" [formGroupName]="rowIndex_swm">
                                                     <td class="t-i">
                                                         <span>1</span>
                                                     </td>
                                                     <td>
-                                                        <input style="width:20rem;cursor:not-allowed" class="t-i" disabled="true">
+                                                        <input formControlName="category_name" class="t-i" disabled="true" value="{{swmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
 
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control " appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control" formControlName="totalProjectCost" appTwoDigitDecimaNumber>
                                                     </td>
 
                                                 </tr>
@@ -345,7 +340,7 @@
                                 </label>
                             </div>
                             <div class="col-sm-5">
-                                <input class="form-control" type="text">
+                                <input class="form-control" type="text" formControlName="name">
                             </div>
                         </div>
                         <div class="row mb-2">
@@ -355,7 +350,7 @@
                                 </label>
                             </div>
                             <div class="col-sm-5">
-                                <input class="form-control" type="text">
+                                <input class="form-control" type="text" formControlName="designation">
                             </div>
                         </div>
                         <div class="row mb-2 mt-3">

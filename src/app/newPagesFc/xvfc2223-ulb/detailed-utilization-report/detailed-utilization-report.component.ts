@@ -1,6 +1,13 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+  FormArray,
+} from "@angular/forms";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
+import { UtiReportService } from "../../../../app/pages/ulbform/utilisation-report/uti-report.service";
 @Component({
   selector: "app-detailed-utilization-report",
   templateUrl: "./detailed-utilization-report.component.html",
@@ -9,11 +16,16 @@ import { NewCommonService } from "src/app/shared2223/services/new-common.service
 export class DetailedUtilizationReportComponent implements OnInit {
   constructor(
     private newCommonService: NewCommonService,
-    private fb: FormBuilder) {}
+    private fb: FormBuilder,
+    private UtiReportService: UtiReportService
+  ) {
+    this.initializeReport();
+  }
   durForm;
   ulbName = "Nimbahera Municipality";
   grantType = "Tied";
-  utilizationReportForm : FormGroup;
+  utilizationReportForm: FormGroup;
+  latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
   postBody = {
     grantPosition: {
       unUtilizedPrevYr: 0,
@@ -71,17 +83,29 @@ export class DetailedUtilizationReportComponent implements OnInit {
     grantType: "Tied",
     ulb: "5dd24728437ba31f7eb42e89",
   };
+  wm_categories;
+  swm_categories;
+  categories;
+  analytics = [];
+  swm = [];
+  wm = [];
   ngOnInit(): void {
     this.onLoad();
   }
 
   onLoad() {
+    this.UtiReportService.getCategory().subscribe((resdata) => {
+      this.categories = resdata;
+      this.categories = this.categories.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    });
     this.getUtiReport();
   }
   public initializeReport() {
     let stName = sessionStorage.getItem("stateName");
     let ulName = sessionStorage.getItem("ulbName");
-  //  console.log("12345", this.userLoggedInDetails.role);
+    //  console.log("12345", this.userLoggedInDetails.role);
     // if (this.userLoggedInDetails.role == "ULB") {
     //   this.utilizationForm = this.fb.group({
     //     stateName: new FormControl(
@@ -116,7 +140,6 @@ export class DetailedUtilizationReportComponent implements OnInit {
         //   numberOfProjects: ["", Validators.required],
         //   totalProjectCost: ["", Validators.required],
         // }),
-
       ]),
       categoryWiseData_wm: this.fb.array([
         // this.fb.group({
@@ -126,9 +149,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
         //   totalProjectCost: ["", Validators.required],
         // }),
       ]),
-      projects: this.fb.array([
-
-      ]),
+      projects: this.fb.array([]),
       status: [""],
       name: ["", [Validators.required, Validators.maxLength(50)]],
       designation: ["", [Validators.required, Validators.maxLength(50)]],
@@ -138,11 +159,40 @@ export class DetailedUtilizationReportComponent implements OnInit {
   get utiReportFormControl() {
     return this.utilizationReportForm.controls;
   }
+  get tabelRows() {
+    return this.utilizationReportForm.get("projects") as FormArray;
+  }
+  get tabelRows_SWMcategory() {
+    return this.utilizationReportForm.get("categoryWiseData_swm") as FormArray;
+  }
+  get tabelRows_WMcategory() {
+    return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
+  }
   getUtiReport() {
     let ulbId = "5dd24729437ba31f7eb42f1b";
     this.newCommonService.getUtiData(ulbId).subscribe(
-      (res) => {
+      (res: any) => {
         console.log("uti report", res);
+        this.analytics = res["analytics"];
+        // this.analytics?.forEach((el) => {
+        //   this.categories?.forEach((element) => {
+        //     if (element._id == el["_id"]) {
+        //       el["categoryName"] = element.name;
+        //     }
+        //   });
+        // });
+        // console.log(this.analytics);
+        // this.analytics.forEach((el) => {
+        //   if (
+        //     el.categoryName == "Solid Waste Management" ||
+        //     el.categoryName == "Sanitation"
+        //   ) {
+        //     this.swm.push(el);
+        //   } else {
+        //     this.wm.push(el);
+        //   }
+        // });
+        this.setcategoryData(res?.data);
       },
       (error) => {
         console.log("error", error);
@@ -158,5 +208,145 @@ export class DetailedUtilizationReportComponent implements OnInit {
         console.log("error", error);
       }
     );
+  }
+  patchSimpleValue(data) {
+    this.utilizationReportForm.patchValue({
+      name: data?.name,
+      designation: data?.designation,
+      grantPosition: {
+        unUtilizedPrevYr: data?.grantPosition?.unUtilizedPrevYr,
+        receivedDuringYr: data?.grantPosition?.receivedDuringYr,
+        expDuringYr: data?.grantPosition?.expDuringYr,
+        closingBal: data?.grantPosition?.closingBal,
+      },
+      status: data?.status,
+    });
+  }
+  setcategoryData(res) {
+    console.log("select", res);
+    this.patchSimpleValue(res);
+    if (res?.categoryWiseData_swm) {
+      res.categoryWiseData_swm.forEach((swm_project) => {
+        this.addSwmRow(swm_project, "swm_category");
+      });
+    } else {
+      this.swm?.forEach((swmData) => {
+        this.addSwmRow(swmData, "analytics_swm");
+      });
+    }
+
+    if (res?.categoryWiseData_wm) {
+      res?.categoryWiseData_wm.forEach((wm_project) => {
+        this.addWmRow(wm_project, "wm_category");
+      });
+    } else {
+      this.wm?.forEach((wmData) => {
+        this.addWmRow(wmData, "analytics_wm");
+      });
+    }
+    console.log("select 11", res);
+  }
+  addRow() {
+    this.tabelRows.push(
+      this.fb.group({
+        category: [null, Validators.required],
+        name: ["", [Validators.required, Validators.maxLength(200)]],
+        // description: ["", [Validators.required, Validators.maxLength(200)]],
+        // photos: this.fb.array([
+        //   // this.fb.group({
+        //   //   url: ['']
+        //   // })
+        // ]),
+        // capacity: ["", Validators.required],
+        location: this.fb.group({
+          lat: [
+            "",
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
+          long: [
+            "",
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
+        }),
+        cost: ["", Validators.required],
+        expenditure: ["", Validators.required],
+        // engineerName: ["", [Validators.required, Validators.pattern("^[a-zA-Z]{1,}(?: [a-zA-Z]+)?(?: [a-zA-Z]+)?$")]],
+        // engineerContact: ["", [Validators.required, Validators.pattern("[0-9 ]{10}")]]
+      })
+    );
+  }
+  addPreFilledRow(data) {
+    this.tabelRows.push(
+      this.fb.group({
+        category: [data.category, Validators.required],
+        name: [data.name, [Validators.required, Validators.maxLength(200)]],
+        // description: [
+        //   data.description,
+        //   [Validators.required, Validators.maxLength(200)],
+        // ],
+
+        // photos: this.fb.array([]),
+        // capacity: [data.capacity, Validators.required],
+        location: this.fb.group({
+          lat: [
+            data.location.lat,
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
+          long: [
+            data.location.long,
+            [Validators.required, Validators.pattern(this.latLongRegex)],
+          ],
+        }),
+        cost: [data.cost, Validators.required],
+        expenditure: [data.expenditure, Validators.required],
+      })
+    );
+    // this.totalProCost(this.tabelRows.length);
+    // this.totalExpCost(this.tabelRows.length);
+  }
+  addSwmRow(data, type) {
+    if (type == "swm_category") {
+      this.tabelRows_SWMcategory.push(
+        this.fb.group({
+          category_name: [data?.category_name, Validators.required],
+          grantUtilised: [data?.grantUtilised, Validators.required],
+          numberOfProjects: [data?.numberOfProjects, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        })
+      );
+    } else {
+      this.tabelRows_SWMcategory.push(
+        this.fb.group({
+          category_name: [data?.categoryName, Validators.required],
+          grantUtilised: [data?.amount, Validators.required],
+          numberOfProjects: [data?.count, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        })
+      );
+    }
+  }
+
+  addWmRow(data, type) {
+    console.log("ddd", this.utilizationReportForm, this.tabelRows_WMcategory);
+
+    if (type == "wm_category") {
+      this.tabelRows_WMcategory.push(
+        this.fb.group({
+          category_name: [data?.category_name, Validators.required],
+          grantUtilised: [data?.grantUtilised, Validators.required],
+          numberOfProjects: [data?.numberOfProjects, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        })
+      );
+    } else {
+      this.tabelRows_WMcategory.push(
+        this.fb.group({
+          category_name: [data?.categoryName, Validators.required],
+          grantUtilised: [data?.amount, Validators.required],
+          numberOfProjects: [data?.count, Validators.required],
+          totalProjectCost: [data?.totalProjectCost, Validators.required],
+        })
+      );
+    }
   }
 }
