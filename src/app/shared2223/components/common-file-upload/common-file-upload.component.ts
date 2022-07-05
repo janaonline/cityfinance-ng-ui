@@ -39,7 +39,7 @@ export class CommonFileUploadComponent implements OnInit {
   };
   @Input() amountObj;
   @Input() itemError;
-
+  @Input() compName;
   amount1Type;
   amount2Type;
   maxNumber = "999999999999999.99";
@@ -92,6 +92,8 @@ export class CommonFileUploadComponent implements OnInit {
       if (type == "click") this.itemError = true;
     }
     this.fillAmount.emit(this.amountObj);
+    if (this.compName == "AnnualAccount" && type == "click")
+      sessionStorage.setItem("changeInAnnualAcc", "true");
   }
   async fileChangeEvent(event, fileType) {
     console.log(fileType);
@@ -153,7 +155,8 @@ export class CommonFileUploadComponent implements OnInit {
           this.data[fileType].progress = 100;
           this.data[fileType].file = file;
           this.data[fileType].url = fileAlias;
-
+          if (this.compName == "AnnualAccount")
+            sessionStorage.setItem("changeInAnnualAcc", "true");
           this.getFileUploadResult.emit(this.data);
         }
       },

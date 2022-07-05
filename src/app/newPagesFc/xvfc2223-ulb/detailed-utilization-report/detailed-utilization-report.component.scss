@@ -26,6 +26,7 @@
 .from-select {
     height: auto;
     font-size: 14px !important;
+    padding: 6px 12px;
 }
 
 .i-label {
@@ -34,7 +35,7 @@
     // margin-top: 7px;
     // margin-left: 6px;
     border-radius: 0.5rem;
-    padding: 4px 12px;
+    padding: 8px 12px;
     background-color: #DBDBDB;
 }
 
@@ -89,4 +90,17 @@ th {
 
 sup {
     top: -0.2em !important;
+}
+
+.input-group-text {
+    padding: 6px 12px;
+}
+
+.row {
+    align-items: center;
+}
+
+.color-in {
+    background-color: #26A1A1;
+    color: #ffff;
 }

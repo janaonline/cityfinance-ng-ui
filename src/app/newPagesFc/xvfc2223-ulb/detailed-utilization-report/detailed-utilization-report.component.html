@@ -7,7 +7,7 @@
             <button type="button" class="btn btn-primary" style="margin-top: .2rem;" id="prevBtn">PREVIEW</button>
         </div>
     </div>
-    <form [formGroup]="durForm">
+    <form [formGroup]="utilizationReportForm">
         <div class="row">
             <div class="col-sm-12">
                 <span class="i-l">
@@ -61,7 +61,7 @@
         <div class="row mt-3">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" formGroupName="grantPosition">
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <span class="sec-h">
@@ -70,58 +70,57 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                                 <label class="i-label" for="">
-                                  i. Unutilised Tied Grants from previous installment (lakhs)
+                                  i. Unutilised Tied Grants from previous installment (in lakhs)
                                 </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99" value="551">
+                                    <input class="form-control" type="number" min="0" max="9999.99" disabled formControlName="unUtilizedPrevYr">
 
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                                 <label class="i-label" for="">
-                                  ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (lakhs)
+                                  ii. 15th F.C. Tied grant received for the year (1st & 2nd installment taken together) (in lakhs)
                                 </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99">
+                                    <input class="form-control" type="number" min="0" max="9999.99" formControlName="receivedDuringYr">
 
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-7">
+                            <div class="col-sm-8">
                                 <label class="i-label" for="">
-                                  iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (lakhs)
+                                  iii. Expenditure incurred during the year i.e. as on 31st March 2022 from Tied grant (in lakhs)
                                 </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99">
+                                    <input class="form-control" type="number" min="0" max="9999.99" formControlName="expDuringYr">
 
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <label class="i-label" for="">
-                                Closing balance at the end of year (lakhs)( i + ii - iii )
+                            <div class="col-sm-8">
+                                <label class="i-label color-in" for="">
+                                Closing balance at the end of year (in lakhs)( i + ii - iii )
                               </label>
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99">
-
+                                    <span class="input-group-text color-in" id="basic-addon1">₹</span>
+                                    <input class="form-control color-in" type="number" value="85455" disabled min="0" max="9999.99" formControlName="closingBal">
                                 </div>
                             </div>
                         </div>
@@ -148,17 +147,17 @@
                                 <div class="card-body" style="margin-bottom: 20px;">
                                     <p style="margin-left: 5px; font-weight: 500;">Water Management (WM)</p>
                                     <div class="table-responsive">
-                                        <table class="table custom-position tableStriped">
+                                        <table class="table custom-position tableStriped" formArrayName="categoryWiseData_wm">
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
                                                     <th scope="col">Sector</th>
-                                                    <th scope="col">Total Tied Grant Utilised on WM(lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                    <th scope="col">Total Tied Grant Utilised on WM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                                  </span> </th>
                                                     <th scope="col">Number of Projects Undertaken</th>
-                                                    <th scope="col">Total Project Cost Involved(lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
+                                                    <th scope="col">Total Project Cost Involved(INR in lakhs)<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="The total project cost for all project combined, as per DPR, to be mentioned. For Ex: if there are two projects, one for 100 Cr and another for 50 Cr, then combined cost i.e. 150 Cr will be entered in the total project cost."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                                  </span> </th>
@@ -167,22 +166,22 @@
                                             </thead>
                                             <tbody>
                                                 <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                                <tr>
+                                                <tr *ngFor="let wmItem of tabelRows_WMcategory.controls; let rowIndex_wm=index" [formGroupName]="rowIndex_wm">
                                                     <td class="t-i">
-                                                        <span>1</span>
+                                                        <span>{{rowIndex_wm+1}}</span>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i" disabled="true">
+                                                        <input class="t-i" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
 
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control " appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control" formControlName="totalProjectCost" appTwoDigitDecimaNumber>
                                                     </td>
 
                                                 </tr>
@@ -206,22 +205,18 @@
                                             </tfoot> -->
                                         </table>
                                     </div>
-
-
-
-
                                 </div>
                                 <div class="hr"></div>
                                 <!-- solid waste management Table -->
                                 <div class="card-body" style="margin-bottom: 20px;">
                                     <p style="margin-left: 5px; font-weight: 500;">Solid Waste Management (SWM)</p>
                                     <div class="table-responsive">
-                                        <table class="table custom-position tableStriped">
+                                        <table class="table custom-position tableStriped" formArrayName="categoryWiseData_swm">
                                             <thead>
                                                 <tr class="thHeader">
                                                     <th scope="col">S.No</th>
                                                     <th width="20%" scope="col">Sector</th>
-                                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2021. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
+                                                    <th scope="col">Total Tied Grant Utilised on SWM(INR in lakhs) As of 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="Total 15th FC tied grant utilized during the year as on 31st March 2022. The outlay of the tied grant in the total project cost may be different. Only the amount spent out of the envisioned XV FC tied grant has to be filled."
                                                             matTooltipPosition="above">
                                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                                  </span> </th>
@@ -235,22 +230,22 @@
                                             </thead>
                                             <tbody>
                                                 <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
-                                                <tr>
+                                                <tr *ngFor="let swmItem of tabelRows_SWMcategory.controls; let rowIndex_swm=index" [formGroupName]="rowIndex_swm">
                                                     <td class="t-i">
                                                         <span>1</span>
                                                     </td>
                                                     <td>
-                                                        <input style="width:20rem;cursor:not-allowed" class="t-i" disabled="true">
+                                                        <input formControlName="category_name" class="t-i" disabled="true" value="{{swmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
 
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control inputfield" appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control " appTwoDigitDecimaNumber>
+                                                        <input class="t-i form-control" formControlName="totalProjectCost" appTwoDigitDecimaNumber>
                                                     </td>
 
                                                 </tr>
@@ -270,7 +265,7 @@
                                 <div class="hr"></div>
                                 <!-- project Details Table -->
                                 <div class="table-responsive mt-2">
-                                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2021<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2021." matTooltipPosition="above">
+                                    <p style="margin-left: 5px; font-weight: 500;">Project Details as on 31st March 2022<span [matTooltipClass]="{'tool-tip' : true}" matTooltip="In the below table, the project details have to be filled in by the ULBs as on 31st March 2022." matTooltipPosition="above">
                                   <img src="../../../../assets/ticks/info_black_18dp.svg">
                                  </span> </p>
                                     <table class="table custom-position tableStriped">
@@ -291,7 +286,6 @@
                                              </span>
                                                 </th>
                                                 <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
-
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -340,23 +334,23 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row mb-2">
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <label class="i-label" for="">
                                   Name<sup class="text-danger astr">*</sup>
                                 </label>
                             </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" type="text">
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" formControlName="name">
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <label class="i-label" for="">
                                     Designation<sup class="text-danger astr">*</sup>
                                 </label>
                             </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" type="text">
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" formControlName="designation">
                             </div>
                         </div>
                         <div class="row mb-2 mt-3">
@@ -376,8 +370,8 @@
                 <button class="btn btn-c-back"><- Previous Form</button>
             </div>
             <div class="col-sm-6 text-end">
-                <button class="btn btn-primary">Save As Draft</button>
-                <button class="btn btn-primary ms-3">Submit</button>
+                <button class="btn btn-primary" (click)="postUtiReport()">Save As Draft</button>
+                <button class="btn btn-primary ms-3" (click)="postUtiReport()">Submit</button>
                 <button class="btn btn-c-next ms-3">Next Form -></button>
             </div>
         </div>

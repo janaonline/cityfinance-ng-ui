@@ -53,4 +53,11 @@ export class NewCommonService {
   postAnnualData(body) {
     return this.http.post(`${environment.api.url}annual-accounts/create`, body);
   }
+  postUtiData(body) {
+    return this.http.post(`${environment.api.url}utilization-report`, body);
+  }
+  getUtiData(ulbId) {
+    return this.http.get(`${environment.api.url}utilReport?ulb=${ulbId}&design_year=606aafb14dff55e6c075d3ae`)
+    
+  }
 }
