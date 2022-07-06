@@ -5,10 +5,13 @@
     <div class="col-sm-4" style="width: 29%;">
         <div class="" *ngIf="quesType == 'input'">
             <!-- <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">@</span>
+            <span class="input-group-text" id="basic-addon1">₹</span>
             <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
           </div> -->
-            <input type="number" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">₹</span>
+                <input type="text" [disabled]="isDisabled" class="form-control" [ngClass]="{'err-i' : amountObj.error}" (keyup)="amountKeyUp('click')" [(ngModel)]="amountObj.value" [ngModelOptions]="{standalone: true}" aria-describedby="basic-addon1" appFiftTwoDigitNumber>
+            </div>
             <div class="mt-2">
                 <!-- <span>{{amountObj.value | numberToWordINR}}</span> -->
                 <!-- <span>{{amount1Type}}</span> -->

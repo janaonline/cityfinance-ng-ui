@@ -78,7 +78,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99" disabled formControlName="unUtilizedPrevYr">
+                                    <input class="form-control" type="text" disabled formControlName="unUtilizedPrevYr" appNTwoDigitDecimaNumber>
 
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99" formControlName="receivedDuringYr">
+                                    <input class="form-control" type="text" formControlName="receivedDuringYr" appNTwoDigitDecimaNumber>
 
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">₹</span>
-                                    <input class="form-control" type="number" min="0" max="9999.99" formControlName="expDuringYr">
+                                    <input class="form-control" type="text" min="0" max="9999.99" formControlName="expDuringYr" appNTwoDigitDecimaNumber>
 
                                 </div>
                             </div>
@@ -120,7 +120,8 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-text color-in" id="basic-addon1">₹</span>
-                                    <input class="form-control color-in" type="number" value="85455" disabled min="0" max="9999.99" formControlName="closingBal">
+                                    <!-- <label for="i-label color-in form-control">{{closingBal}}</label> -->
+                                    <input class="form-control color-in" type="text" [value]="closingBal" disabled formControlName="closingBal">
                                 </div>
                             </div>
                         </div>
@@ -171,27 +172,27 @@
                                                         <span>{{rowIndex_wm+1}}</span>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
+                                                        <input class="t-i ct-l" disabled="true" formControlName="category_name" value="{{wmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" appNTwoDigitDecimaNumber>
 
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control inputfield" formControlName="numberOfProjects" appNTwoDigitDecimaNumber>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control" formControlName="totalProjectCost" appTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
                                                     </td>
 
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" style="font-weight: 500">
+                                                    <td colspan="2" style="" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td>99</td>
-                                                    <td>9999</td>
-                                                    <td>555</td>
+                                                    <td class="t-n">{{wmTotalTiedGrantUti}}</td>
+                                                    <td class="t-n">{{wmTotalProjectCost}}</td>
+                                                    <td class="t-n">{{wmTotalProjectNum}}</td>
                                                 </tr>
                                             </tbody>
                                             <!-- <tfoot>
@@ -235,27 +236,27 @@
                                                         <span>1</span>
                                                     </td>
                                                     <td>
-                                                        <input formControlName="category_name" class="t-i" disabled="true" value="{{swmItem.controls.category_name.value}}">
+                                                        <input formControlName="category_name" class="t-i ct-l" disabled="true" value="{{swmItem.controls.category_name.value}}">
                                                     </td>
                                                     <td class="pos-td">
-                                                        <input class="t-i form-control inputfield" formControlName="grantUtilised" appTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control inputfield" formControlName="grantUtilised" appNTwoDigitDecimaNumber>
 
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control inputfield" formControlName="numberOfProjects" appTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control inputfield" formControlName="numberOfProjects" appNTwoDigitDecimaNumber>
                                                     </td>
                                                     <td>
-                                                        <input class="t-i form-control" formControlName="totalProjectCost" appTwoDigitDecimaNumber>
+                                                        <input type="text" class="t-i form-control" formControlName="totalProjectCost" appNTwoDigitDecimaNumber>
                                                     </td>
 
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2" style="font-weight: 500">
+                                                    <td colspan="2" style="" class="t-n">
                                                         Total
                                                     </td>
-                                                    <td>99</td>
-                                                    <td>9999</td>
-                                                    <td>555</td>
+                                                    <td class="t-n">{{swmTotalTiedGrantUti}}</td>
+                                                    <td class="t-n">{{swmTotalProjectCost}}</td>
+                                                    <td class="t-n">{{swmTotalProjectNum}}</td>
                                                 </tr>
                                             </tbody>
 
@@ -286,40 +287,95 @@
                                              </span>
                                                 </th>
                                                 <th scope="col">% of 15<sup>th</sup> FC Grants in Total Project Cost<br></th>
-                                                <th scope="col"></th>
+                                                <th scope="col" style="width: 3%"></th>
                                             </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length == 0">
                                             <tr>
-                                                <td>1.</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>--</td>
+                                                <td>--</td>
+                                                <td>--</td>
+                                                <td>--</td>
+                                                <td>--</td>
+                                                <td>--</td>
+                                                <td>--</td>
+                                                <td>--</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" style="font-weight: 500">
+                                                <td colspan="4" style="" class="t-n">
                                                     Total
                                                 </td>
-                                                <td>99</td>
-                                                <td>9999</td>
+                                                <td class="t-n">0</td>
+                                                <td class="t-n">0.00</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                        </tbody>
+                                        <tbody *ngIf="utilizationReportForm['controls']['projects']['controls'].length > 0" formArrayName="projects">
+                                            <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                            <tr *ngFor="let projectRow of tabelRows.controls; let projectIndex=index" [formGroupName]="projectIndex" style="">
+                                                <td>{{projectIndex+1}}.</td>
+                                                <td>
+                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" placeholder="Max 200 Characters" formControlName="name" style="" required>
+                                                </td>
+                                                <td>
+                                                    <select class="t-i form-select" *ngIf="categories" [disabled]="isDisabled" formControlName="category">
+                                                      <!-- <option value="" [selected]="true">
+                                                        Select sector
+                                                      </option> -->
+                                                      <option *ngFor="let item of categories; let j=index;" [value]="item._id">
+                                                      {{item.name}}
+                                                    </option>
+                                                   </select>
+                                                </td>
+                                                <td formGroupName="location">
+                                                    <input type="text" class="t-i lt form-control" formControlName="lat" [disabled]="isDisabled" appNSixDigitDecimaNumber>
+
+                                                    <input type="text" class="t-i lt form-control" formControlName="long" [disabled]="isDisabled" appNSixDigitDecimaNumber>
+                                                    <a (click)="openDialog(projectIndex)" [ngClass]="{'anDisable': isDisabled }">
+                                                        <mat-icon aria-hidden="false" style="width: 10%; margin-left: 1%">
+                                                            <img src="../../../../assets/form-icon/GOOGLE_MAPS_LOGO_JPG.png">
+                                                        </mat-icon>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" formControlName="cost" appNTwoDigitDecimaNumber>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="t-i form-control" [disabled]="isDisabled" formControlName="expenditure" appNTwoDigitDecimaNumber>
+                                                </td>
+                                                <td>
+                                                    <input class="t-i form-control" [disabled]="true" value="{{((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) >=0? ((projectRow.value.expenditure/projectRow.value.cost)*100).toFixed(2) : 0 }}%" (mouseout)="errorDisplayExp=false">
+                                                </td>
+                                                <td>
+                                                    <a [ngClass]="{'anDisable': isDisabled }" (click)="deleteRow(projectIndex)" [disabled]="isDisabled">
+                                                        <mat-icon aria-hidden="false">
+                                                            <img src="../../../../assets/form-icon/Icon material-delete.svg">
+                                                        </mat-icon>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" style="" class="t-n">
+                                                    Total
+                                                </td>
+                                                <td class="t-n">{{totalProjectCost}}</td>
+                                                <td class="t-n">{{totatlProjectExp}}</td>
+                                                <td></td>
                                                 <td></td>
                                             </tr>
                                         </tbody>
-
-                                        <tbody>
-                                            <!-- *ngFor="let dynamic of dynamic_td; let i = index;"   utilizationTable -->
+                                        <tfoot>
                                             <tr>
+                                                <td colspan="8" class="text-end">
+                                                    <button class="btn btn-add" (click)="addRow()">
+                                                      + Add
+                                                    </button>
+                                                </td>
                                             </tr>
-                                        </tbody>
-                                        <tbody>
-                                            <tr class="">
-
-                                            </tr>
-                                        </tbody>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

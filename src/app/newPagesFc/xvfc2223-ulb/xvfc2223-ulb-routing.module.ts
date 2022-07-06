@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { Ulb2223Guard } from "src/app/shared2223/commom-gaurds/ulb2223.guard";
 import { AnnualAccountsComponent } from "./annual-accounts/annual-accounts.component";
 import { DetailedUtilizationReportComponent } from "./detailed-utilization-report/detailed-utilization-report.component";
 import { GfcComponent } from "./gfc/gfc.component";
@@ -13,7 +14,7 @@ const routes: Routes = [
   {
     path: "",
     component: Xvfc2223UlbComponent,
-    // canActivate: [UlbGaurdGuard],
+    canActivate: [Ulb2223Guard],
     children: [
       {
         path: "odf",

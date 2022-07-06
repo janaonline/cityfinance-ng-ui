@@ -6,6 +6,8 @@ import {
   FormBuilder,
   FormArray,
 } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { MapDialogComponent } from "src/app/shared/components/map-dialog/map-dialog.component";
 import { NewCommonService } from "src/app/shared2223/services/new-common.service";
 import { UtiReportService } from "../../../../app/pages/ulbform/utilisation-report/uti-report.service";
 @Component({
@@ -17,12 +19,14 @@ export class DetailedUtilizationReportComponent implements OnInit {
   constructor(
     private newCommonService: NewCommonService,
     private fb: FormBuilder,
-    private UtiReportService: UtiReportService
+    private UtiReportService: UtiReportService,
+    private dialog: MatDialog
   ) {
     this.initializeReport();
   }
   durForm;
-  ulbName = "Nimbahera Municipality";
+  ulbName = "";
+  userData;
   grantType = "Tied";
   utilizationReportForm: FormGroup;
   latLongRegex = "^-?([0-9]?[0-9]|[0-9]0)\\.{1}\\d{1,6}";
@@ -90,6 +94,12 @@ export class DetailedUtilizationReportComponent implements OnInit {
   swm = [];
   wm = [];
   ngOnInit(): void {
+    this.userData = JSON.parse(localStorage.getItem("userData"))
+      ? JSON.parse(localStorage.getItem("userData"))
+      : localStorage.getItem("userData")
+      ? localStorage.getItem("userData")
+      : "";
+    this.ulbName = this.userData?.name;
     this.onLoad();
   }
 
@@ -101,6 +111,11 @@ export class DetailedUtilizationReportComponent implements OnInit {
       );
     });
     this.getUtiReport();
+    this.formValueChangeSubs();
+    this.grantPosValueChangeSubs();
+    this.wmPosValueChangeSubs();
+    this.swmPosValueChangeSubs();
+    this.pojectPosValueChangeSubs();
   }
   public initializeReport() {
     let stName = sessionStorage.getItem("stateName");
@@ -169,7 +184,7 @@ export class DetailedUtilizationReportComponent implements OnInit {
     return this.utilizationReportForm.get("categoryWiseData_wm") as FormArray;
   }
   getUtiReport() {
-    let ulbId = "5dd24729437ba31f7eb42f1b";
+    let ulbId = this.userData?.ulb;
     this.newCommonService.getUtiData(ulbId).subscribe(
       (res: any) => {
         console.log("uti report", res);
@@ -349,4 +364,96 @@ export class DetailedUtilizationReportComponent implements OnInit {
       );
     }
   }
+  setLocation;
+  openDialog(index): void {
+    // console.log(this.tabelRows.value[index].location);
+    if (
+      this.tabelRows.value[index].location.lat !== "" &&
+      this.tabelRows.value[index].location.long !== ""
+    ) {
+      this.UtiReportService.setLocation(this.tabelRows.value[index].location);
+    }
+    const dialogRef = this.dialog.open(MapDialogComponent, {
+      width: "auto",
+      height: "auto",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.setLocation = result;
+      if (this.setLocation !== null) {
+        this.tabelRows.controls[index][
+          "controls"
+        ].location.controls.lat.patchValue(this.setLocation.lat);
+        this.tabelRows.controls[index][
+          "controls"
+        ].location.controls.long.patchValue(this.setLocation.long);
+      }
+    });
+  }
+  deleteRow(i) {
+    this.tabelRows.removeAt(i);
+    // this.totalProCost(i);
+    // this.totalExpCost(i);
+  }
+  wmTotalTiedGrantUti;
+  wmTotalProjectCost;
+  wmTotalProjectNum;
+  swmTotalTiedGrantUti;
+  swmTotalProjectCost;
+  swmTotalProjectNum;
+  closingBal;
+  totalProjectCost = 0;
+  totatlProjectExp = 0;
+  formValueChangeSubs() {
+    this.utilizationReportForm?.valueChanges.subscribe((el)=>{
+      console.log('changes', el);
+    })
+  }
+  grantPosValueChangeSubs() {
+    this.utilizationReportForm?.controls?.grantPosition?.valueChanges.subscribe((el)=>{
+      console.log('changes grants', el);
+      this.closingBal = Number(el?.unUtilizedPrevYr) + Number(el?.receivedDuringYr) - Number(el?.expDuringYr);
+    })
+  }
+  wmPosValueChangeSubs(){
+    this.utilizationReportForm?.controls?.categoryWiseData_wm?.valueChanges.subscribe((el)=>{
+      console.log('changes wm', el);
+      this.wmTotalTiedGrantUti = 0;
+      this.wmTotalProjectCost = 0;
+      this.wmTotalProjectNum = 0;
+      el?.forEach((item)=>{
+        this.wmTotalTiedGrantUti = Number(this.wmTotalTiedGrantUti) + Number(item?.grantUtilised);
+        this.wmTotalProjectCost = Number(this.wmTotalProjectCost) + Number(item?.numberOfProjects);
+        this.wmTotalProjectNum = Number(this.wmTotalProjectNum) + Number(item?.totalProjectCost);
+
+      })
+    })
+  }
+  swmPosValueChangeSubs(){
+    this.utilizationReportForm?.controls?.categoryWiseData_swm?.valueChanges.subscribe((el)=>{
+      console.log('changes swm', el);
+      this.swmTotalTiedGrantUti = 0;
+      this.swmTotalProjectCost = 0;
+      this.swmTotalProjectNum = 0;
+      el?.forEach((item)=>{
+        this.swmTotalTiedGrantUti = Number(this.swmTotalTiedGrantUti) + Number(item?.grantUtilised);
+        this.swmTotalProjectCost = Number(this.swmTotalProjectCost) + Number(item?.numberOfProjects);
+        this.swmTotalProjectNum = Number(this.swmTotalProjectNum) + Number(item?.totalProjectCost);
+      })
+    })
+  }
+  pojectPosValueChangeSubs() {
+    this.utilizationReportForm?.controls?.projects?.valueChanges.subscribe((el)=>{
+      console.log('changes grants', el);
+      this.totalProjectCost = 0;
+      this.totatlProjectExp = 0;
+      el?.forEach((item)=>{
+        this.totalProjectCost = Number(this.totalProjectCost) + Number(item?.cost);
+        this.totatlProjectExp = Number(this.totatlProjectExp) + Number(item?.expenditure);
+
+
+      })
+    })
+  }
+
 }

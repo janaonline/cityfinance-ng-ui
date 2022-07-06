@@ -103,4 +103,31 @@ sup {
 .color-in {
     background-color: #26A1A1;
     color: #ffff;
+    pointer-events: none;
+}
+
+.btn-add {
+    background-color: green;
+    color: #fff;
+    font-size: 12px;
+}
+
+.lt {
+    width: 43%;
+    display: inline-flex;
+}
+
+td {
+    .form-control {
+        text-align: center;
+    }
+}
+
+.ct-l {
+    border-radius: 4px;
+    padding: 4px 12px;
+}
+
+.t-n {
+    font-weight: 600;
 }
